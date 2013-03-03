@@ -67,6 +67,7 @@
         Dim objTreeNode As TreeNode
         Dim intCount As Integer
         Dim objOList_Classes As New List(Of clsOntologyItem)
+        Dim oList_ObjAtt As New List(Of clsObjectAtt)
         Dim objOItem_Result As clsOntologyItem
 
         objOList_Classes.Add(New clsOntologyItem(objOItem_Object.GUID_Parent, objLocalConfig.Globals.Type_Class))
@@ -81,9 +82,11 @@
                                   Order By Name
 
         For Each objO_AttributeType In objOL_AttributeTree
-            objOItem_Result = objDBLevel_Count.get_Data_ObjectAtt(objOItem_Object, New clsOntologyItem(objO_AttributeType.ID_AttributeType, objLocalConfig.Globals.Type_AttributeType), False, False, True)
+            oList_ObjAtt.Clear()
+            oList_ObjAtt.Add(New clsObjectAtt(Nothing, objOItem_Object.GUID, Nothing, objO_AttributeType.ID_AttributeType, Nothing))
+            objOItem_Result = objDBLevel_Count.get_Data_ObjectAtt(oList_ObjAtt, False, False, True)
             intCount = objOItem_Result.Count
-            
+
             objTreeNode = objTreeNode_Atttributes.Nodes.Add(objO_AttributeType.ID_AttributeType, objO_AttributeType.Name & " (" & objO_AttributeType.Min & "/" & intCount & "/" & objO_AttributeType.Max & ")")
 
             objTreeNode.ForeColor = Color.Green

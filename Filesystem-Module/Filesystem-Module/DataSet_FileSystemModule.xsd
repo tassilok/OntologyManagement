@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet_FileSystemModule" targetNamespace="http://tempuri.org/DataSet_FileSystemModule.xsd" xmlns:mstns="http://tempuri.org/DataSet_FileSystemModule.xsd" xmlns="http://tempuri.org/DataSet_FileSystemModule.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet_FileSystemModule" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet_FileSystemModule" msprop:Generator_UserDSName="DataSet_FileSystemModule">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="otbl_Files" msprop:Generator_TableClassName="otbl_FilesDataTable" msprop:Generator_TableVarName="tableotbl_Files" msprop:Generator_TablePropName="otbl_Files" msprop:Generator_RowDeletingName="otbl_FilesRowDeleting" msprop:Generator_UserTableName="otbl_Files" msprop:Generator_RowChangingName="otbl_FilesRowChanging" msprop:Generator_RowEvHandlerName="otbl_FilesRowChangeEventHandler" msprop:Generator_RowDeletedName="otbl_FilesRowDeleted" msprop:Generator_RowEvArgName="otbl_FilesRowChangeEvent" msprop:Generator_RowChangedName="otbl_FilesRowChanged" msprop:Generator_RowClassName="otbl_FilesRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="GUID_File" msprop:Generator_ColumnVarNameInTable="columnGUID_File" msprop:Generator_ColumnPropNameInRow="GUID_File" msprop:Generator_ColumnPropNameInTable="GUID_FileColumn" msprop:Generator_UserColumnName="GUID_File" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_File" msprop:Generator_ColumnVarNameInTable="columnName_File" msprop:Generator_ColumnPropNameInRow="Name_File" msprop:Generator_ColumnPropNameInTable="Name_FileColumn" msprop:Generator_UserColumnName="Name_File" type="xs:string" minOccurs="0" />
+              <xs:element name="isBlob" msprop:Generator_ColumnVarNameInTable="columnisBlob" msprop:Generator_ColumnPropNameInRow="isBlob" msprop:Generator_ColumnPropNameInTable="isBlobColumn" msprop:Generator_UserColumnName="isBlob" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

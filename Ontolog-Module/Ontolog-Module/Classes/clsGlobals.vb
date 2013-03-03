@@ -621,7 +621,7 @@ Public Class clsGlobals
     End Sub
 
     Private Sub set_DataTypes()
-        objOItem_DType_Bool = New clsOntologyItem("dd858f27d5e14363-a5c33e561e432333", "Bool", cstrType_DataType)
+        objOItem_DType_Bool = New clsOntologyItem("dd858f27d5e14363a5c33e561e432333", "Bool", cstrType_DataType)
         objOItem_DType_DateTime = New clsOntologyItem("905fda81788f4e3d83293e55ae984b9e", "Datetime", cstrType_DataType)
         objOItem_DType_Int = New clsOntologyItem("3a4f5b7bda754980933efbc33cc51439", "Int", cstrType_DataType)
         objOItem_DType_Real = New clsOntologyItem("a1244d0e187f46ee85742fc334077b7d", "Real", cstrType_DataType)

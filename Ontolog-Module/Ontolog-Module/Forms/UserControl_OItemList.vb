@@ -178,6 +178,7 @@
         Dim oList_Items As New List(Of clsOntologyItem)
         Dim oList_Other As New List(Of clsOntologyItem)
         Dim oList_RelType As New List(Of clsOntologyItem)
+        Dim oList_ObjAtt As New List(Of clsObjectAtt)
 
         If Not objOItem_Parent Is Nothing Then
             If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
@@ -222,7 +223,8 @@
 
                     Case objLocalConfig.Globals.Type_AttributeType
 
-                        objDBLevel.get_Data_ObjectAtt(objOItem_Object, objOItem_Other, True, False)
+                        oList_ObjAtt.Add(New clsObjectAtt(Nothing, objOItem_Object.GUID, Nothing, objOItem_Other.GUID, Nothing))
+                        objDBLevel.get_Data_ObjectAtt(oList_ObjAtt, True, False)
 
                     Case Else
                         oList_Other.Add(objOItem_Other)

@@ -91,6 +91,7 @@
               <xs:element name="Name_Object" msprop:Generator_ColumnVarNameInTable="columnName_Object" msprop:Generator_ColumnPropNameInRow="Name_Object" msprop:Generator_ColumnPropNameInTable="Name_ObjectColumn" msprop:Generator_UserColumnName="Name_Object" type="xs:string" minOccurs="0" />
               <xs:element name="ID_Object_Parent" msprop:Generator_ColumnVarNameInTable="columnID_Object_Parent" msprop:Generator_ColumnPropNameInRow="ID_Object_Parent" msprop:Generator_ColumnPropNameInTable="ID_Object_ParentColumn" msprop:Generator_UserColumnName="ID_Object_Parent" type="xs:string" minOccurs="0" />
               <xs:element name="ID_Class_Object" msprop:Generator_ColumnVarNameInTable="columnID_Class_Object" msprop:Generator_ColumnPropNameInRow="ID_Class_Object" msprop:Generator_ColumnPropNameInTable="ID_Class_ObjectColumn" msprop:Generator_UserColumnName="ID_Class_Object" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_Object_Parent" msprop:Generator_ColumnVarNameInTable="columnName_Object_Parent" msprop:Generator_ColumnPropNameInRow="Name_Object_Parent" msprop:Generator_ColumnPropNameInTable="Name_Object_ParentColumn" msprop:Generator_UserColumnName="Name_Object_Parent" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

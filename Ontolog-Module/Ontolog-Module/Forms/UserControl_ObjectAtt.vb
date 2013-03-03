@@ -45,8 +45,15 @@
     End Sub
 
     Private Sub get_Data()
-        objDBLevel_ObjAtt.get_Data_ObjectAtt(objOItem_Object, _
-                                             objOItem_AttributeType, True, _
+        Dim oList_ObjAtt As New List(Of clsObjectAtt)
+
+        If Not objOItem_AttributeType Is Nothing Then
+            oList_ObjAtt.Add(New clsObjectAtt(Nothing, objOItem_Object.GUID, Nothing, objOItem_AttributeType.GUID, Nothing))
+        Else
+            oList_ObjAtt.Add(New clsObjectAtt(Nothing, objOItem_Object.GUID, Nothing, Nothing, Nothing))
+        End If
+
+        objDBLevel_ObjAtt.get_Data_ObjectAtt(oList_ObjAtt, True, _
                                              False)
         boolDataDone = True
     End Sub

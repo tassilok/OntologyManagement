@@ -157,6 +157,7 @@
         Dim objOItem_AttributeType As clsOntologyItem
         Dim objOItem_ObjAtt As clsObjectAtt
         Dim oList_AttributeTypes As New List(Of clsOntologyItem)
+        Dim oList_ObjAtt As New List(Of clsObjectAtt)
         Dim oListDataTypes As New List(Of clsOntologyItem)
         Dim objTextWriter As IO.TextWriter
         Dim strPath As String
@@ -204,7 +205,8 @@
             strPath = "%Temp%\" & Guid.NewGuid().ToString & ".xml"
             strPath = Environment.ExpandEnvironmentVariables(strPath)
 
-            objDBlevel_ObjAtt.get_Data_ObjectAtt(Nothing, objOItem_AttributeType, False, False)
+            oList_ObjAtt.Add(New clsObjectAtt(Nothing, Nothing, Nothing, objOItem_AttributeType.GUID, Nothing))
+            objDBlevel_ObjAtt.get_Data_ObjectAtt(oList_ObjAtt, False, False)
 
 
             i = 0
