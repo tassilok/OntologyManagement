@@ -17,6 +17,10 @@
     Private intRowID As Integer
     Private strOntology As String
 
+    Private strRowName_ID As String
+    Private strRowName_Name As String
+    Private strRowName_ID_Parent As String
+
     Private Sub editObject(ByVal strType As String, ByVal objOItem_Direction As clsOntologyItem) Handles objUserControl_OItem_List.edit_Object
         objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig, _
                                                objUserControl_OItem_List.DataGridviewRows, _
@@ -88,7 +92,14 @@
     End Sub
 
 
-    Public Sub New(ByVal OList_Objecst As List(Of clsObjectRel), ByVal Ontology As String, ByVal oItem_Direction As clsOntologyItem, ByVal RowID As Integer, ByVal Globals As clsGlobals)
+    Public Sub New(ByVal OList_Objecst As List(Of clsObjectRel), _
+                   ByVal Ontology As String, _
+                   ByVal oItem_Direction As clsOntologyItem, _
+                   ByVal RowID As Integer, _
+                   ByVal Globals As clsGlobals, _
+                   Optional ByVal RowName_ID As String = Nothing, _
+                   Optional ByVal RowName_Name As String = Nothing, _
+                   Optional ByVal RowName_ID_Parent As String = Nothing)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
@@ -102,11 +113,22 @@
         intRowID = RowID
         strOntology = Ontology
 
+        strRowName_ID = RowName_ID
+        strRowName_Name = RowName_Name
+        strRowName_ID_Parent = RowName_ID_Parent
+
         set_DBConnection()
         initialize()
     End Sub
 
-    Public Sub New(ByVal OList_Objecst As List(Of clsOntologyItem), ByVal Ontology As String, ByVal oItem_Direction As clsOntologyItem, ByVal RowID As Integer, ByVal Globals As clsGlobals)
+    Public Sub New(ByVal OList_Objecst As List(Of clsOntologyItem), _
+                   ByVal Ontology As String, _
+                   ByVal oItem_Direction As clsOntologyItem, _
+                   ByVal RowID As Integer, _
+                   ByVal Globals As clsGlobals, _
+                   Optional ByVal RowName_ID As String = Nothing, _
+                   Optional ByVal RowName_Name As String = Nothing, _
+                   Optional ByVal RowName_ID_Parent As String = Nothing)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
@@ -120,11 +142,22 @@
         intRowID = RowID
         strOntology = Ontology
 
+        strRowName_ID = RowName_ID
+        strRowName_Name = RowName_Name
+        strRowName_ID_Parent = RowName_ID_Parent
+
         set_DBConnection()
         initialize()
     End Sub
 
-    Public Sub New(ByVal DataGridviewRowCollection As DataGridViewRowCollection, ByVal Ontology As String, ByVal oItem_Direction As clsOntologyItem, ByVal RowID As Integer, ByVal Globals As clsGlobals)
+    Public Sub New(ByVal DataGridviewRowCollection As DataGridViewRowCollection, _
+                   ByVal Ontology As String, _
+                   ByVal oItem_Direction As clsOntologyItem, _
+                   ByVal RowID As Integer, _
+                   ByVal Globals As clsGlobals, _
+                   Optional ByVal RowName_ID As String = Nothing, _
+                   Optional ByVal RowName_Name As String = Nothing, _
+                   Optional ByVal RowName_ID_Parent As String = Nothing)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
@@ -138,6 +171,10 @@
         intRowID = RowID
         strOntology = Ontology
 
+        strRowName_ID = RowName_ID
+        strRowName_Name = RowName_Name
+        strRowName_ID_Parent = RowName_ID_Parent
+
         set_DBConnection()
         initialize()
     End Sub
@@ -145,6 +182,8 @@
     Private Sub initialize()
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
+
+
 
         If Not objOList_Objects Is Nothing Then
             objOItem_Object = objOList_Objects(intRowID)
@@ -161,22 +200,61 @@
 
             objOItem_Object = New clsOntologyItem
             If strOntology = objLocalConfig.Globals.Type_Other Then
+                
                 If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
-                    objOItem_Object.GUID = objDRV_Selected.Item("ID_Other")
-                    objOItem_Object.Name = objDRV_Selected.Item("Name_Other")
-                    objOItem_Object.GUID_Parent = objDRV_Selected.Item("ID_Parent_Other")
+
+                    If strRowName_ID = Nothing Then
+                        strRowName_ID = "ID_Other"
+                    End If
+
+                    If strRowName_Name = Nothing Then
+                        strRowName_Name = "Name_Other"
+                    End If
+
+                    If strRowName_ID_Parent = Nothing Then
+                        strRowName_ID_Parent = "ID_Parent_Other"
+                    End If
+
+                    objOItem_Object.GUID = objDRV_Selected.Item(strRowName_ID)
+                    objOItem_Object.Name = objDRV_Selected.Item(strRowName_Name)
+                    objOItem_Object.GUID_Parent = objDRV_Selected.Item(strRowName_ID_Parent)
                     objOItem_Object.Type = objLocalConfig.Globals.Type_Object
                 Else
-                    objOItem_Object.GUID = objDRV_Selected.Item("ID_Object")
-                    objOItem_Object.Name = objDRV_Selected.Item("Name_Object")
-                    objOItem_Object.GUID_Parent = objDRV_Selected.Item("ID_Parent_Object")
+
+                    If strRowName_ID = Nothing Then
+                        strRowName_ID = "ID_Object"
+                    End If
+
+                    If strRowName_Name = Nothing Then
+                        strRowName_Name = "Name_Object"
+                    End If
+
+                    If strRowName_ID_Parent = Nothing Then
+                        strRowName_ID_Parent = "ID_Parent_Object"
+                    End If
+
+                    objOItem_Object.GUID = objDRV_Selected.Item(strRowName_ID)
+                    objOItem_Object.Name = objDRV_Selected.Item(strRowName_Name)
+                    objOItem_Object.GUID_Parent = objDRV_Selected.Item(strRowName_ID_Parent)
                     objOItem_Object.Type = objLocalConfig.Globals.Type_Object
-                    
+
                 End If
             Else
-                objOItem_Object.GUID = objDRV_Selected.Item("ID_Item")
-                objOItem_Object.Name = objDRV_Selected.Item("Name")
-                objOItem_Object.GUID_Parent = objDRV_Selected.Item("ID_Parent")
+                If strRowName_ID = Nothing Then
+                    strRowName_ID = "ID_Item"
+                End If
+
+                If strRowName_Name = Nothing Then
+                    strRowName_Name = "Name"
+                End If
+
+                If strRowName_ID_Parent = Nothing Then
+                    strRowName_ID_Parent = "ID_Parent"
+                End If
+
+                objOItem_Object.GUID = objDRV_Selected.Item(strRowName_ID)
+                objOItem_Object.Name = objDRV_Selected.Item(strRowName_Name)
+                objOItem_Object.GUID_Parent = objDRV_Selected.Item(strRowName_ID_Parent)
                 objOItem_Object.Type = objLocalConfig.Globals.Type_Object
             End If
             

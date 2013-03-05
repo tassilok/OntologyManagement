@@ -17,7 +17,8 @@
             <xs:sequence>
               <xs:element name="GUID_File" msprop:Generator_ColumnVarNameInTable="columnGUID_File" msprop:Generator_ColumnPropNameInRow="GUID_File" msprop:Generator_ColumnPropNameInTable="GUID_FileColumn" msprop:Generator_UserColumnName="GUID_File" type="xs:string" minOccurs="0" />
               <xs:element name="Name_File" msprop:Generator_ColumnVarNameInTable="columnName_File" msprop:Generator_ColumnPropNameInRow="Name_File" msprop:Generator_ColumnPropNameInTable="Name_FileColumn" msprop:Generator_UserColumnName="Name_File" type="xs:string" minOccurs="0" />
-              <xs:element name="isBlob" msprop:Generator_ColumnVarNameInTable="columnisBlob" msprop:Generator_ColumnPropNameInRow="isBlob" msprop:Generator_ColumnPropNameInTable="isBlobColumn" msprop:Generator_UserColumnName="isBlob" type="xs:string" minOccurs="0" />
+              <xs:element name="isBlob" msprop:Generator_ColumnVarNameInTable="columnisBlob" msprop:Generator_ColumnPropNameInRow="isBlob" msprop:Generator_ColumnPropNameInTable="isBlobColumn" msprop:Generator_UserColumnName="isBlob" type="xs:boolean" minOccurs="0" />
+              <xs:element name="Class_File" msprop:Generator_ColumnVarNameInTable="columnClass_File" msprop:Generator_ColumnPropNameInRow="Class_File" msprop:Generator_ColumnPropNameInTable="Class_FileColumn" msprop:Generator_UserColumnName="Class_File" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

@@ -167,11 +167,13 @@ Public Class clsDataWork
                     If objFile.objBlobs.Val_Bit = False Then
                         otblT_Files.Rows.Add(objFile.ID_File, _
                                          objFile.Name_File, _
-                                         False)
+                                         False, _
+                                         objLocalConfig.OItem_Type_File.GUID)
                     Else
                         otblT_Files.Rows.Add(objFile.ID_File, _
                                          objFile.Name_File, _
-                                         True)
+                                         True, _
+                                         objLocalConfig.OItem_Type_File.GUID)
                     End If
                 End If
 
@@ -208,16 +210,19 @@ Public Class clsDataWork
                 If objFile.objBlobs Is Nothing Then
                     otblT_Files.Rows.Add(objFile.ID_File, _
                                          objFile.Name_File, _
-                                         False)
+                                         False, _
+                                         objLocalConfig.OItem_Type_File.GUID)
                 Else
                     If objFile.objBlobs.Val_Bit = False Then
                         otblT_Files.Rows.Add(objFile.ID_File, _
                                          objFile.Name_File, _
-                                         False)
+                                         False, _
+                                         objLocalConfig.OItem_Type_File.GUID)
                     Else
                         otblT_Files.Rows.Add(objFile.ID_File, _
                                          objFile.Name_File, _
-                                         True)
+                                         True, _
+                                         objLocalConfig.OItem_Type_File.GUID)
                     End If
                 End If
 

@@ -17,6 +17,8 @@ Public Class frm_FilesystemModule
 
     Private objTreeNode_ParentLessFiles As TreeNode
 
+    Private objFrm_ObjectEdit As frm_ObjectEdit
+
     Public Sub New()
 
         ' Dieser Aufruf ist für den Designer erforderlich.
@@ -204,5 +206,46 @@ Public Class frm_FilesystemModule
 
             End Select
         End If
+    End Sub
+
+    Private Sub TreeView_Folder_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeView_Folder.MouseDoubleClick
+        Dim objTreeNode As TreeNode
+        Dim objOItem_FileSystemObject As clsOntologyItem = Nothing
+        Dim oList_FSO As New List(Of clsOntologyItem)
+
+        objTreeNode = TreeView_Folder.SelectedNode
+        If Not objTreeNode Is Nothing Then
+
+            Select Case objTreeNode.ImageIndex
+                Case cint_ImageID_Drive
+                    objOItem_FileSystemObject = New clsOntologyItem(objTreeNode.Name, objTreeNode.Text, objLocalConfig.OItem_Type_Drive.GUID, objLocalConfig.Globals.Type_Object)
+                Case cint_ImageID_Folder_Closed
+                    objOItem_FileSystemObject = New clsOntologyItem(objTreeNode.Name, objTreeNode.Text, objLocalConfig.OItem_type_Folder.GUID, objLocalConfig.Globals.Type_Object)
+                Case cint_ImageID_Server
+                    objOItem_FileSystemObject = New clsOntologyItem(objTreeNode.Name, objTreeNode.Text, objLocalConfig.OItem_Type_Server.GUID, objLocalConfig.Globals.Type_Object)
+            End Select
+
+            If Not objOItem_FileSystemObject Is Nothing Then
+                oList_FSO.Add(objOItem_FileSystemObject)
+                objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, oList_FSO, 0, objLocalConfig.Globals.Type_Object, Nothing)
+                objFrm_ObjectEdit.ShowDialog(Me)
+
+            End If
+
+        End If
+    End Sub
+
+    Private Sub DataGridView_Files_RowHeaderMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellMouseEventArgs) Handles DataGridView_Files.RowHeaderMouseDoubleClick
+
+        objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
+                                               DataGridView_Files.Rows, _
+                                               e.RowIndex, _
+                                               objLocalConfig.Globals.Type_Object, _
+                                               Nothing, _
+                                               "GUID_File", _
+                                               "Name_File", _
+                                               "Class_File")
+        objFrm_ObjectEdit.ShowDialog(Me)
+
     End Sub
 End Class

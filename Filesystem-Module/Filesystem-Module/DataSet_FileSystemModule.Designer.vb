@@ -289,6 +289,8 @@ Partial Public Class DataSet_FileSystemModule
         
         Private columnisBlob As Global.System.Data.DataColumn
         
+        Private columnClass_File As Global.System.Data.DataColumn
+        
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub New()
@@ -349,6 +351,14 @@ Partial Public Class DataSet_FileSystemModule
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Class_FileColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnClass_File
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Browsable(false)>  _
         Public ReadOnly Property Count() As Integer
@@ -385,9 +395,9 @@ Partial Public Class DataSet_FileSystemModule
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function Addotbl_FilesRow(ByVal GUID_File As String, ByVal Name_File As String, ByVal isBlob As String) As otbl_FilesRow
+        Public Overloads Function Addotbl_FilesRow(ByVal GUID_File As String, ByVal Name_File As String, ByVal isBlob As Boolean, ByVal Class_File As String) As otbl_FilesRow
             Dim rowotbl_FilesRow As otbl_FilesRow = CType(Me.NewRow,otbl_FilesRow)
-            Dim columnValuesArray() As Object = New Object() {GUID_File, Name_File, isBlob}
+            Dim columnValuesArray() As Object = New Object() {GUID_File, Name_File, isBlob, Class_File}
             rowotbl_FilesRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowotbl_FilesRow)
             Return rowotbl_FilesRow
@@ -413,6 +423,7 @@ Partial Public Class DataSet_FileSystemModule
             Me.columnGUID_File = MyBase.Columns("GUID_File")
             Me.columnName_File = MyBase.Columns("Name_File")
             Me.columnisBlob = MyBase.Columns("isBlob")
+            Me.columnClass_File = MyBase.Columns("Class_File")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -422,8 +433,10 @@ Partial Public Class DataSet_FileSystemModule
             MyBase.Columns.Add(Me.columnGUID_File)
             Me.columnName_File = New Global.System.Data.DataColumn("Name_File", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnName_File)
-            Me.columnisBlob = New Global.System.Data.DataColumn("isBlob", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            Me.columnisBlob = New Global.System.Data.DataColumn("isBlob", GetType(Boolean), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnisBlob)
+            Me.columnClass_File = New Global.System.Data.DataColumn("Class_File", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnClass_File)
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -600,16 +613,31 @@ Partial Public Class DataSet_FileSystemModule
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property isBlob() As String
+        Public Property isBlob() As Boolean
             Get
                 Try 
-                    Return CType(Me(Me.tableotbl_Files.isBlobColumn),String)
+                    Return CType(Me(Me.tableotbl_Files.isBlobColumn),Boolean)
                 Catch e As Global.System.InvalidCastException
                     Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte isBlob in Tabelle otbl_Files ist DBNull.", e)
                 End Try
             End Get
             Set
                 Me(Me.tableotbl_Files.isBlobColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Class_File() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableotbl_Files.Class_FileColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte Class_File in Tabelle otbl_Files ist DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableotbl_Files.Class_FileColumn) = value
             End Set
         End Property
         
@@ -647,6 +675,18 @@ Partial Public Class DataSet_FileSystemModule
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub SetisBlobNull()
             Me(Me.tableotbl_Files.isBlobColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsClass_FileNull() As Boolean
+            Return Me.IsNull(Me.tableotbl_Files.Class_FileColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetClass_FileNull()
+            Me(Me.tableotbl_Files.Class_FileColumn) = Global.System.Convert.DBNull
         End Sub
     End Class
     
