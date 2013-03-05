@@ -107,7 +107,7 @@ Public Class clsFileWork
                         objOItem_Server.GUID_Parent = objLocalConfig.OItem_Type_Server.GUID
                         objOItem_Server.Type = objLocalConfig.Globals.Type_Object
 
-                        strPath = strSeperator & strSeperator & objOItem_Server.Name & strPath
+                        strPath = strSeperator & strSeperator & objOItem_Server.Name & strSeperator & strPath
                     Else
                         oList_Objets.Clear()
                         oList_Objets.Add(New clsOntologyItem(objOItem_Share.GUID, objLocalConfig.Globals.Type_Object))

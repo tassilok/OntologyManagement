@@ -12,6 +12,7 @@ Public Class frm_FilesystemModule
     Private objFileWork As clsFileWork
 
     Private objDataWork As clsDataWork
+    Private objTransaction_Files As clsTransaction_Files
 
     Private objTreeNode As TreeNode
 
@@ -34,6 +35,7 @@ Public Class frm_FilesystemModule
     Private Sub set_DBConnection()
         objDataWork = New clsDataWork(objLocalConfig)
         objFileWork = New clsFileWork(objLocalConfig)
+        objTransaction_Files = New clsTransaction_Files(objLocalConfig)
     End Sub
 
     Private Sub load_Server_With_Drives_And_Shares(ByVal objTreeNode_Root As TreeNode)
@@ -72,10 +74,12 @@ Public Class frm_FilesystemModule
             End If
 
             DataGridView_Files.Columns(0).Visible = False
+            DataGridView_Files.Columns(3).Visible = False
         Else
             BindingSource_Files.DataSource = objDataWork.get_Files(Nothing, ToolStripTextBox_Search.Text)
             DataGridView_Files.DataSource = BindingSource_Files
             DataGridView_Files.Columns(0).Visible = False
+            DataGridView_Files.Columns(3).Visible = False
         End If
 
         ToolStripLabel_Count.Text = DataGridView_Files.RowCount
@@ -122,31 +126,17 @@ Public Class frm_FilesystemModule
     End Sub
 
     Private Sub ToolStripTextBox_Search_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripTextBox_Search.TextChanged
-        If ToolStripTextBox_Search.Text <> "" Then
-
-            ToolStripButton_Search.Enabled = True
-            ToolStripButton_ClearSearch.Enabled = False
-
-        Else
-            clear_Search()
-        End If
+        Timer_Search.Stop()
+        Timer_Search.Start()
     End Sub
 
     Private Sub clear_Search()
-        ToolStripButton_Search.Enabled = False
-        ToolStripButton_ClearSearch.Enabled = False
-        TreeView_Folder.Enabled = True
 
         get_Files()
     End Sub
 
-    Private Sub ToolStripButton_Search_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Search.Click
-        If ToolStripTextBox_Search.Text <> "" Then
-            TreeView_Folder.Enabled = False
-            get_Files()
-        Else
-            clear_Search()
-        End If
+    Private Sub ToolStripButton_Search_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
     End Sub
 
 
@@ -166,6 +156,8 @@ Public Class frm_FilesystemModule
     Private Sub NewToolStripMenuItem_Tree_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewToolStripMenuItem_Tree.Click
         Dim objTreeNode As TreeNode
         Dim strPath As String
+        Dim strPath_Selected As String
+        Dim strAPath() As String
         Dim objOItem_FileSystemObject As New clsOntologyItem
 
         objTreeNode = TreeView_Folder.SelectedNode
@@ -175,20 +167,18 @@ Public Class frm_FilesystemModule
                 Case cint_ImageID_Server
                     strPath = IO.Path.DirectorySeparatorChar & IO.Path.DirectorySeparatorChar & objTreeNode.Text
 
-                    If IO.Directory.Exists(strPath) Then
-
-                    Else
+                    If IO.Directory.Exists(strPath) = False Then
                         MsgBox("Der Pfad existiert nicht!", MsgBoxStyle.Information)
+                        strPath = ""
                     End If
                 Case cint_ImageID_Drive
                     strPath = objTreeNode.Text
                     If Not strPath.Contains(":") Then
                         strPath = strPath & ":\"
                     End If
-                    If IO.Directory.Exists(strPath) Then
-
-                    Else
+                    If IO.Directory.Exists(strPath) = False Then
                         MsgBox("Der Pfad existiert nicht!", MsgBoxStyle.Information)
+                        strPath = ""
                     End If
 
                 Case cint_ImageID_Folder_Closed
@@ -198,13 +188,32 @@ Public Class frm_FilesystemModule
                     objOItem_FileSystemObject.Type = objLocalConfig.Globals.Type_Object
 
                     strPath = objFileWork.get_Path_FileSystemObject(objOItem_FileSystemObject, False)
-                    If IO.Directory.Exists(strPath) Then
-
-                    Else
+                    If IO.Directory.Exists(strPath) = False Then
                         MsgBox("Der Pfad existiert nicht!", MsgBoxStyle.Information)
+                        strPath = ""
                     End If
-
+                Case Else
+                    strPath = ""
             End Select
+
+            If strPath <> "" Then
+                FolderBrowserDialog_Download.RootFolder = strPath
+                If FolderBrowserDialog_Download.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
+                    strPath_Selected = FolderBrowserDialog_Folders.SelectedPath
+                    If strPath_Selected.ToLower.Contains(strPath.ToLower) Then
+                        strPath_Selected = strPath_Selected.Substring(strPath.Length)
+                        If strPath_Selected.StartsWith(IO.Path.DirectorySeparatorChar) And strPath_Selected.Length > 2 Then
+                            strPath_Selected = strPath_Selected.Substring(1)
+                            strAPath = strPath_Selected.Split(IO.Path.DirectorySeparatorChar)
+                            For Each strPath_Selected In strAPath
+
+                            Next
+                        End If
+                    Else
+                        MsgBox("Bitte nur Unterverzeichnisse im angegebenen Pfad auswählen!", MsgBoxStyle.Information)
+                    End If
+                End If
+            End If
         End If
     End Sub
 
@@ -247,5 +256,155 @@ Public Class frm_FilesystemModule
                                                "Class_File")
         objFrm_ObjectEdit.ShowDialog(Me)
 
+    End Sub
+
+    Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Search.Tick
+        Timer_Search.Stop()
+        If ToolStripTextBox_Search.Text <> "" Then
+            get_Files()
+        Else
+            clear_Search()
+        End If
+    End Sub
+
+ 
+    Private Sub ContextMenuStrip_DataGrid_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_DataGrid.Opening
+        Dim objTreeNode As TreeNode
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+
+        Dim boolCreateBlob As Boolean
+        Dim boolDownloadBlob As Boolean
+
+        NewToolStripMenuItem_DataGrid.Enabled = False
+        CreateBlobToolStripMenuItem.Enabled = False
+        OpenToolStripMenuItem.Enabled = False
+        DownloadToolStripMenuItem.Enabled = False
+        XputBackToFSToolStripMenuItem.Enabled = False
+        GetMetaToolStripMenuItem.Enabled = False
+        objTreeNode = TreeView_Folder.SelectedNode
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = cint_ImageID_Folder_Closed Or _
+                objTreeNode.ImageIndex = cint_ImageID_Drive Then
+                NewToolStripMenuItem_DataGrid.Enabled = True
+
+            End If
+        End If
+        If DataGridView_Files.SelectedRows.Count > 0 Then
+            boolCreateBlob = False
+            boolDownloadBlob = False
+
+            For Each objDGVR_Selected In DataGridView_Files.SelectedRows
+                objDRV_Selected = objDGVR_Selected.DataBoundItem
+                Try
+                    If Not IsDBNull(objDRV_Selected.Item("isBlob")) Then
+                        If objDRV_Selected.Item("isBlob") = False Then
+                            boolCreateBlob = True
+                        Else
+                            boolDownloadBlob = True
+                        End If
+                    Else
+                        boolCreateBlob = True
+                    End If
+                Catch ex As Exception
+                    Exit For
+                End Try
+
+
+
+            Next
+            If boolCreateBlob = True Then
+                CreateBlobToolStripMenuItem.Enabled = True
+            End If
+
+            If boolDownloadBlob = True Then
+                XputBackToFSToolStripMenuItem.Enabled = True
+                DownloadToolStripMenuItem.Enabled = True
+                GetMetaToolStripMenuItem.Enabled = True
+            End If
+
+            If DataGridView_Files.SelectedRows.Count = 1 Then
+                OpenToolStripMenuItem.Enabled = True
+            End If
+        End If
+    End Sub
+
+    Private Sub NewToolStripMenuItem_DataGrid_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewToolStripMenuItem_DataGrid.Click
+
+        Dim objOItem_FileSystemObject As New clsOntologyItem
+        Dim objOList_Files As New List(Of clsOntologyItem)
+        Dim objOList_FilesToCreate As List(Of clsOntologyItem)
+        Dim objOitem_Result As clsOntologyItem
+        Dim objOList_FilesRef As New List(Of clsObjectRel)
+        Dim objOItem_File As clsOntologyItem
+
+        Dim strPath As String
+        Dim strFilePath As String
+        Dim intToDo As Integer
+        Dim intDone As Integer
+
+        If Not objTreeNode Is Nothing Then
+            Select Case objTreeNode.ImageIndex
+                Case cint_ImageID_Drive, cint_ImageID_Folder_Closed
+                    objOItem_FileSystemObject.GUID = objTreeNode.Name
+                    objOItem_FileSystemObject.Name = objTreeNode.Text
+                    If objTreeNode.ImageIndex = cint_ImageID_Drive Then
+                        objOItem_FileSystemObject.GUID_Parent = objLocalConfig.OItem_Type_Drive.GUID
+                    Else
+                        objOItem_FileSystemObject.GUID_Parent = objLocalConfig.OItem_type_Folder.GUID
+                    End If
+                    objOItem_FileSystemObject.Type = objLocalConfig.Globals.Type_Object
+
+                    objOItem_FileSystemObject.Additional1 = objFileWork.get_Path_FileSystemObject(objOItem_FileSystemObject, False)
+
+                    If IO.Directory.Exists(objOItem_FileSystemObject.Additional1) Then
+                        OpenFileDialog_Files.InitialDirectory = objOItem_FileSystemObject.Additional1
+                        If OpenFileDialog_Files.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
+                            intToDo = OpenFileDialog_Files.FileNames.Count
+                            intDone = 0
+                            For Each strFilePath In OpenFileDialog_Files.FileNames
+                                strPath = IO.Path.GetDirectoryName(strFilePath)
+                                If objOItem_FileSystemObject.Additional1.ToLower = strPath.ToLower Then
+                                    objOList_Files.Add(New clsOntologyItem(Nothing, IO.Path.GetFileName(strFilePath), objLocalConfig.OItem_Type_File.GUID, objLocalConfig.Globals.Type_Object))
+
+
+                                End If
+
+                            Next
+
+                            If objOList_Files.Count > 0 Then
+
+                                objOList_FilesToCreate = objDataWork.File_NotExist(objOItem_FileSystemObject, objOList_Files)
+                                If objOList_FilesToCreate.Count > 0 Then
+                                    objOitem_Result = objTransaction_Files.save_001_Files(objOList_FilesToCreate)
+                                    If objOitem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+
+                                        If objOList_FilesToCreate.Count > 0 Then
+                                            objOitem_Result = objTransaction_Files.save_002_File_To_Folder(objOItem_FileSystemObject, objOList_FilesToCreate)
+                                            If objOitem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                get_Files()
+
+                                            Else
+                                                objTransaction_Files.del_001_Files()
+
+                                            End If
+                                        End If
+                                    Else
+                                        MsgBox("Die Dateien konnten nicht erzeugt werden!", MsgBoxStyle.Exclamation)
+                                    End If
+                                End If
+
+                            End If
+                        End If
+
+                    Else
+                        MsgBox("Das Verzeichnis """ & objOItem_FileSystemObject.Additional1 & """ scheint nicht zu existieren!", MsgBoxStyle.Information)
+                    End If
+
+                Case Else
+                    MsgBox("Bitte nur Ordner oder Laufwerk auswählen!")
+            End Select
+        End If
     End Sub
 End Class

@@ -138,18 +138,20 @@
     Private Sub DeleteToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteToolStripMenuItem.Click
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
-        Dim oList_Relation As New List(Of clsOntologyItem)
+        Dim oList_Relation As New List(Of clsObjectRel)
         Dim objOItem_Result As clsOntologyItem
 
         For Each objDGVR_Selected In DataGridView_Relations.SelectedRows
             objDRV_Selected = objDGVR_Selected.DataBoundItem
 
-            oList_Relation.Add(New clsOntologyItem(objDRV_Selected.Item("ID_Object"), _
-                                                   objDRV_Selected.Item("ID_RelationType"), _
-                                                   objDRV_Selected.Item("ID_Other"), _
-                                                   0, _
-                                                   objLocalConfig.Globals.Type_ObjectRel))
-
+            oList_Relation.Add(New clsObjectRel(objDRV_Selected.Item("ID_Object"), _
+                                                Nothing, _
+                                                objDRV_Selected.Item("ID_Other"), _
+                                                Nothing, _
+                                                objDRV_Selected.Item("ID_RelationType"), _
+                                                objDRV_Selected.Item("Ontology"), _
+                                                objLocalConfig.Globals.Direction_LeftRight.GUID, _
+                                                Nothing))
 
         Next
 
