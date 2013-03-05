@@ -409,4 +409,65 @@ Public Class clsDataWork
         Return oList_Result
     End Function
 
+    Public Function Folder_NotExist(ByVal oItem_FileSystemItem As clsOntologyItem, _
+                                    ByVal oItem_NewFolder As clsOntologyItem) As clsOntologyItem
+
+        Dim oList_Objects As New List(Of clsOntologyItem)
+        Dim oList_Others As New List(Of clsOntologyItem)
+        Dim oList_RelType As New List(Of clsOntologyItem)
+        Dim objOItem_Result As New clsOntologyItem
+        Dim boolResult As Boolean
+
+        objOItem_Result.GUID = oItem_NewFolder.GUID
+        objOItem_Result.Name = oItem_NewFolder.Name
+        objOItem_Result.GUID_Parent = oItem_NewFolder.GUID_Parent
+
+        If oItem_FileSystemItem.GUID_Parent = objLocalConfig.OItem_Type_Server.GUID Then
+            oList_Objects.Add(oItem_FileSystemItem)
+            oList_Others.Add(oItem_NewFolder)
+            oList_RelType.Add(objLocalConfig.OItem_RelationType_Fileshare)
+        Else
+            oList_Objects.Add(oItem_NewFolder)
+            oList_Others.Add(oItem_FileSystemItem)
+            oList_RelType.Add(objLocalConfig.OItem_RelationType_isSubordinated)
+        End If
+
+
+        objDBLevel_Folder.get_Data_ObjectRel(oList_Objects, _
+                                             oList_Others, _
+                                             oList_RelType, _
+                                             boolIDs:=False)
+
+
+        If oItem_FileSystemItem.GUID_Parent = objLocalConfig.OItem_Type_Server.GUID Then
+            Dim OList = From objRel In objDBLevel_Folder.OList_ObjectRel
+                        Where objRel.Name_Other.ToLower.Contains(oItem_NewFolder.Name)
+
+            If OList.Count = 0 Then
+                boolResult = True
+            Else
+                objOItem_Result.GUID = OList(0).ID_Other
+                objOItem_Result.Name = OList(0).Name_Other
+                boolResult = False
+            End If
+        Else
+            Dim OList = From objRel In objDBLevel_Folder.OList_ObjectRel
+                        Where objRel.Name_Object.ToLower.Contains(oItem_NewFolder.Name)
+
+            If OList.Count = 0 Then
+                boolResult = True
+            Else
+                objOItem_Result.GUID = OList(0).ID_Object
+                objOItem_Result.Name = OList(0).Name_Object
+                boolResult = False
+            End If
+        End If
+
+
+
+
+
+        Return objOItem_Result
+    End Function
+
 End Class

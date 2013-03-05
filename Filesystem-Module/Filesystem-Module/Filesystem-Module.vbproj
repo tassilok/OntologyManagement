@@ -78,6 +78,7 @@
     <Compile Include="clsFileWork.vb" />
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsTransaction_Files.vb" />
+    <Compile Include="clsTransaction_Folders.vb" />
     <Compile Include="DataSet_FileSystemModule.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

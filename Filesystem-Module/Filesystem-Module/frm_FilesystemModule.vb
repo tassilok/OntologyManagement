@@ -13,7 +13,9 @@ Public Class frm_FilesystemModule
 
     Private objDataWork As clsDataWork
     Private objTransaction_Files As clsTransaction_Files
+    Private objTransaction_Folders As clsTransaction_Folders
 
+    Private objTreeNode_Root As TreeNode
     Private objTreeNode As TreeNode
 
     Private objTreeNode_ParentLessFiles As TreeNode
@@ -36,6 +38,7 @@ Public Class frm_FilesystemModule
         objDataWork = New clsDataWork(objLocalConfig)
         objFileWork = New clsFileWork(objLocalConfig)
         objTransaction_Files = New clsTransaction_Files(objLocalConfig)
+        objTransaction_Folders = New clsTransaction_Folders(objLocalConfig)
     End Sub
 
     Private Sub load_Server_With_Drives_And_Shares(ByVal objTreeNode_Root As TreeNode)
@@ -86,7 +89,7 @@ Public Class frm_FilesystemModule
     End Sub
 
     Private Sub initialize()
-        Dim objTreeNode_Root As TreeNode
+
         TreeView_Folder.Nodes.Clear()
         objTreeNode_Root = TreeView_Folder.Nodes.Add(objLocalConfig.OItem_Type_Filesystem_Management.GUID.ToString, objLocalConfig.OItem_Type_Filesystem_Management.Name, cint_ImageID_Root, cint_ImageID_Root)
         objTreeNode_ParentLessFiles = objTreeNode_Root.Nodes.Add(objLocalConfig.OItem_Type_File.GUID.ToString, " " & objLocalConfig.OItem_Type_File.Name & " (All)", cint_ImageID_ParentLessFiles, cint_ImageID_ParentLessFiles)
@@ -159,12 +162,20 @@ Public Class frm_FilesystemModule
         Dim strPath_Selected As String
         Dim strAPath() As String
         Dim objOItem_FileSystemObject As New clsOntologyItem
+        Dim objOItem_NewFolder As New clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
 
         objTreeNode = TreeView_Folder.SelectedNode
 
         If Not objTreeNode Is Nothing Then
+
             Select Case objTreeNode.ImageIndex
                 Case cint_ImageID_Server
+                    objOItem_FileSystemObject.GUID = objTreeNode.Name
+                    objOItem_FileSystemObject.Name = objTreeNode.Text
+                    objOItem_FileSystemObject.GUID_Parent = objLocalConfig.OItem_Type_Server.GUID
+                    objOItem_FileSystemObject.Type = objLocalConfig.Globals.Type_Object
+
                     strPath = IO.Path.DirectorySeparatorChar & IO.Path.DirectorySeparatorChar & objTreeNode.Text
 
                     If IO.Directory.Exists(strPath) = False Then
@@ -172,6 +183,11 @@ Public Class frm_FilesystemModule
                         strPath = ""
                     End If
                 Case cint_ImageID_Drive
+                    objOItem_FileSystemObject.GUID = objTreeNode.Name
+                    objOItem_FileSystemObject.Name = objTreeNode.Text
+                    objOItem_FileSystemObject.GUID_Parent = objLocalConfig.OItem_Type_Drive.GUID
+                    objOItem_FileSystemObject.Type = objLocalConfig.Globals.Type_Object
+
                     strPath = objTreeNode.Text
                     If Not strPath.Contains(":") Then
                         strPath = strPath & ":\"
@@ -197,18 +213,51 @@ Public Class frm_FilesystemModule
             End Select
 
             If strPath <> "" Then
-                FolderBrowserDialog_Download.RootFolder = strPath
-                If FolderBrowserDialog_Download.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
+                FolderBrowserDialog_Folders.SelectedPath = strPath
+                If FolderBrowserDialog_Folders.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
                     strPath_Selected = FolderBrowserDialog_Folders.SelectedPath
                     If strPath_Selected.ToLower.Contains(strPath.ToLower) Then
                         strPath_Selected = strPath_Selected.Substring(strPath.Length)
                         If strPath_Selected.StartsWith(IO.Path.DirectorySeparatorChar) And strPath_Selected.Length > 2 Then
                             strPath_Selected = strPath_Selected.Substring(1)
-                            strAPath = strPath_Selected.Split(IO.Path.DirectorySeparatorChar)
-                            For Each strPath_Selected In strAPath
 
-                            Next
                         End If
+
+                        strAPath = strPath_Selected.Split(IO.Path.DirectorySeparatorChar)
+
+                        For Each strPath_Selected In strAPath
+                            objOItem_NewFolder.GUID = ""
+                            objOItem_NewFolder.Name = strPath_Selected
+                            objOItem_NewFolder.GUID_Parent = objLocalConfig.OItem_type_Folder.GUID
+                            objOItem_NewFolder.Type = objLocalConfig.Globals.Type_Object
+                            objOItem_NewFolder = objDataWork.Folder_NotExist(objOItem_FileSystemObject, objOItem_NewFolder)
+                            If objOItem_NewFolder.GUID = "" Then
+                                objOItem_NewFolder.GUID = Guid.NewGuid.ToString.Replace("-", "")
+                                objOItem_Result = objTransaction_Folders.save_001_Folder(objOItem_NewFolder)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objOItem_Result = objTransaction_Folders.save_002_Folder_To_Parent(objOItem_FileSystemObject)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        objTreeNode_Root.Nodes.Clear()
+
+                                        objOItem_FileSystemObject.GUID = objOItem_NewFolder.GUID
+                                        objOItem_FileSystemObject.Name = objOItem_NewFolder.Name
+                                        objOItem_FileSystemObject.GUID_Parent = objLocalConfig.OItem_type_Folder.GUID
+                                    Else
+                                        MsgBox("Das Verzeichnis konnte nicht registriert werden!", MsgBoxStyle.Information)
+                                        Exit For
+                                    End If
+
+                                Else
+                                    MsgBox("Das Verzeichnis konnte nicht registriert werden!", MsgBoxStyle.Information)
+                                    Exit For
+                                End If
+                            Else
+                                objOItem_FileSystemObject.GUID = objOItem_NewFolder.GUID
+                                objOItem_FileSystemObject.Name = objOItem_NewFolder.Name
+                                objOItem_FileSystemObject.GUID_Parent = objLocalConfig.OItem_type_Folder.GUID
+                            End If
+                        Next
+                        load_Server_With_Drives_And_Shares(objTreeNode_Root)
                     Else
                         MsgBox("Bitte nur Unterverzeichnisse im angegebenen Pfad auswählen!", MsgBoxStyle.Information)
                     End If
