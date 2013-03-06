@@ -1226,7 +1226,7 @@ Public Class clsDBLevel
     End Sub
 
 
-    Private Sub create_BoolQuery_ObjectAtt(ByVal OList_ObjectAtt As List(Of clsObjectAtt), Optional ByVal boolClear As Boolean = True)
+    Private Sub create_BoolQuery_ObjectAtt(ByVal OList_ObjectAtt As List(Of clsObjectAtt), Optional ByVal boolClear As Boolean = True, Optional ByVal doJoin As Boolean = False)
         Dim strQuery As String
 
         If boolClear = True Then
@@ -1425,6 +1425,31 @@ Public Class clsDBLevel
                 End If
             Next
         End If
+
+        If doJoin = True Then
+            If Not objOntologyList_Objects1 Is Nothing Then
+                strQuery = ""
+                If objOntologyList_Objects1.Count < 1000 Then
+                    Dim objL = From strID In objOntologyList_Objects1
+
+
+                    For Each obj In objL
+                        If strQuery <> "" Then
+                            strQuery = strQuery & "\ OR \"
+
+                        End If
+
+                        strQuery = strQuery & obj.GUID
+
+                        If strQuery <> "" Then
+                            objBoolQuery.Add(New WildcardQuery(New Term(objLocalConfig.Globals.Field_ID_Object, strQuery)), BooleanClause.Occur.MUST)
+
+                        End If
+                    Next
+                End If
+            End If
+        End If
+        
 
         If objBoolQuery.ToString = "" Then
             strQuery = "*"
@@ -2031,10 +2056,11 @@ Public Class clsDBLevel
                                        Optional ByVal boolTable As Boolean = False, _
                                        Optional ByVal boolIDs As Boolean = True, _
                                        Optional ByVal doCount As Boolean = False, _
-                                       Optional ByVal doJoin As Boolean = True) As clsOntologyItem
+                                       Optional ByVal doJoin As Boolean = False) As clsOntologyItem
 
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
+        Dim objListHits As New List(Of ElasticSearch.Client.Domain.Hits)
         Dim objHit As ElasticSearch.Client.Domain.Hits
         Dim objOList_AttributeTypes As New List(Of clsOntologyItem)
         Dim objOList_Classes As New List(Of clsOntologyItem)
@@ -2060,7 +2086,9 @@ Public Class clsDBLevel
         objOItem_Result = objLocalConfig.Globals.LState_Success
         objOItem_Result.Count = 0
 
-        create_BoolQuery_ObjectAtt(oList_ObjectAtt)
+
+
+        create_BoolQuery_ObjectAtt(oList_ObjectAtt, doJoin)
 
         intCount = intPackageLength
         intPos = 0
@@ -2073,99 +2101,103 @@ Public Class clsDBLevel
 
                 For Each objHit In objList
 
+                    If boolIDs = False Then
+                        objListHits.Add(objHit)
+                    Else
+                        Select Case objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString
+                            Case objLocalConfig.Globals.DType_Bool.GUID
+                                strVal_Named = objHit.Source(objLocalConfig.Globals.Field_Val_Bool).ToString
 
-                    Select Case objHit.Source(objLocalConfig.Globals.Field_ID_DataType).ToString
-                        Case objLocalConfig.Globals.DType_Bool.GUID
-                            strVal_Named = objHit.Source(objLocalConfig.Globals.Field_Val_Bool).ToString
+                                objOntologyList_ObjAtt_ID.Add(New clsObjectAtt(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString, _
+                                                                       strVal_Named, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_Val_Bool),
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_DataType)))
+                            Case objLocalConfig.Globals.DType_DateTime.GUID
+                                strVal_Named = objHit.Source(objLocalConfig.Globals.Field_Val_Datetime).ToString
 
-                            objOntologyList_ObjAtt_ID.Add(New clsObjectAtt(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString, _
-                                                                   strVal_Named, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_Val_Bool),
-                                                                   Nothing, _
-                                                                   Nothing, _
-                                                                   Nothing, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_DataType)))
-                        Case objLocalConfig.Globals.DType_DateTime.GUID
-                            strVal_Named = objHit.Source(objLocalConfig.Globals.Field_Val_Datetime).ToString
+                                objOntologyList_ObjAtt_ID.Add(New clsObjectAtt(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString, _
+                                                                       strVal_Named, _
+                                                                       Nothing,
+                                                                       objHit.Source(objLocalConfig.Globals.Field_Val_Datetime), _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_DataType)))
+                            Case objLocalConfig.Globals.DType_Int.GUID
+                                strVal_Named = objHit.Source(objLocalConfig.Globals.Field_Val_Int).ToString
 
-                            objOntologyList_ObjAtt_ID.Add(New clsObjectAtt(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString, _
-                                                                   strVal_Named, _
-                                                                   Nothing,
-                                                                   objHit.Source(objLocalConfig.Globals.Field_Val_Datetime), _
-                                                                   Nothing, _
-                                                                   Nothing, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_DataType)))
-                        Case objLocalConfig.Globals.DType_Int.GUID
-                            strVal_Named = objHit.Source(objLocalConfig.Globals.Field_Val_Int).ToString
+                                objOntologyList_ObjAtt_ID.Add(New clsObjectAtt(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString, _
+                                                                       strVal_Named, _
+                                                                       Nothing,
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_Val_Int), _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_DataType)))
+                            Case objLocalConfig.Globals.DType_Real.GUID
+                                strVal_Named = objHit.Source(objLocalConfig.Globals.Field_Val_Real).ToString
 
-                            objOntologyList_ObjAtt_ID.Add(New clsObjectAtt(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString, _
-                                                                   strVal_Named, _
-                                                                   Nothing,
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_Val_Int), _
-                                                                   Nothing, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_DataType)))
-                        Case objLocalConfig.Globals.DType_Real.GUID
-                            strVal_Named = objHit.Source(objLocalConfig.Globals.Field_Val_Real).ToString
+                                objOntologyList_ObjAtt_ID.Add(New clsObjectAtt(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString, _
+                                                                       strVal_Named, _
+                                                                       Nothing,
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_Val_Real), _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_DataType)))
+                            Case objLocalConfig.Globals.DType_String.GUID
+                                strVal_Named = objHit.Source(objLocalConfig.Globals.Field_Val_String).ToString
 
-                            objOntologyList_ObjAtt_ID.Add(New clsObjectAtt(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString, _
-                                                                   strVal_Named, _
-                                                                   Nothing,
-                                                                   Nothing, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_Val_Real), _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_DataType)))
-                        Case objLocalConfig.Globals.DType_String.GUID
-                            strVal_Named = objHit.Source(objLocalConfig.Globals.Field_Val_String).ToString
+                                objOntologyList_ObjAtt_ID.Add(New clsObjectAtt(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString, _
+                                                                       strVal_Named, _
+                                                                       Nothing,
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_Val_String), _
+                                                                       objHit.Source(objLocalConfig.Globals.Field_ID_DataType)))
+                        End Select
+                    End If
 
-                            objOntologyList_ObjAtt_ID.Add(New clsObjectAtt(objHit.Source(objLocalConfig.Globals.Field_ID_Attribute).ToString, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_Object).ToString, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_OrderID).ToString, _
-                                                                   strVal_Named, _
-                                                                   Nothing,
-                                                                   Nothing, _
-                                                                   Nothing, _
-                                                                   Nothing, _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_Val_String), _
-                                                                   objHit.Source(objLocalConfig.Globals.Field_ID_DataType)))
-                    End Select
 
 
 
@@ -2188,8 +2220,21 @@ Public Class clsDBLevel
 
         If doCount = False Then
             If boolIDs = False Then
-                Dim oList_AttType = From objAtt In objOntologyList_ObjAtt_ID
-                                Group By objAtt.ID_AttributeType Into Group
+                If doJoin = False Then
+                    Dim oList_Objects = From objObj In objListHits
+                                    Group By ID_Class = objObj.Source(objLocalConfig.Globals.Field_ID_Class).ToString Into Group
+
+                    For Each oItem_Objects In oList_Objects
+                        objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, oItem_Objects.ID_Class, objLocalConfig.Globals.Type_Object))
+                    Next
+
+                    If objOList_Objects.Count > 0 Then
+                        get_Data_Objects(objOList_Objects)
+                    End If
+                End If
+
+                Dim oList_AttType = From objAtt In objListHits
+                                Group By ID_AttributeType = objAtt.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString Into Group
 
                 For Each oItem_AttType In oList_AttType
                     objOList_AttributeTypes.Add(New clsOntologyItem(oItem_AttType.ID_AttributeType, objLocalConfig.Globals.Type_AttributeType))
@@ -2200,8 +2245,8 @@ Public Class clsDBLevel
                 End If
 
 
-                Dim oList_Classes = From objClass In objOntologyList_ObjAtt_ID
-                                    Group By objClass.ID_Class Into Group
+                Dim oList_Classes = From objClass In objListHits
+                                    Group By ID_Class = objClass.Source(objLocalConfig.Globals.Field_ID_Class).ToString Into Group
 
                 For Each oItem_Class In oList_Classes
                     objOList_Classes.Add(New clsOntologyItem(oItem_Class.ID_Class, objLocalConfig.Globals.Type_Class))
@@ -2213,18 +2258,7 @@ Public Class clsDBLevel
                 End If
 
 
-                If doJoin = False Then
-                    Dim oList_Objects = From objObj In objOntologyList_ObjAtt_ID
-                                    Group By objObj.ID_Class Into Group
 
-                    For Each oItem_Objects In oList_Objects
-                        objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, oItem_Objects.ID_Class, objLocalConfig.Globals.Type_Object))
-                    Next
-
-                    If objOList_Objects.Count > 0 Then
-                        get_Data_Objects(objOList_Objects)
-                    End If
-                End If
 
 
                 Dim oList_DataType = From objDataType In objOntologyList_AttributTypes
@@ -2240,12 +2274,12 @@ Public Class clsDBLevel
                 End If
 
 
-                Dim oListRel = From objRel In objOntologyList_ObjAtt_ID
-                               Join objAttType In objOntologyList_AttributTypes On objRel.ID_AttributeType Equals objAttType.GUID
-                               Join objClass In objOntologyList_Classes1 On objRel.ID_Class Equals objClass.GUID
-                               Join objObj In objOntologyList_Objects1 On objRel.ID_Object Equals objObj.GUID
+                Dim oListRel = From objRel In objListHits
+                               Join objAttType In objOntologyList_AttributTypes On objRel.Source(objLocalConfig.Globals.Field_ID_AttributeType).ToString Equals objAttType.GUID
+                               Join objClass In objOntologyList_Classes1 On objRel.Source(objLocalConfig.Globals.Field_ID_Class).ToString Equals objClass.GUID
+                               Join objObj In objOntologyList_Objects1 On objRel.Source(objLocalConfig.Globals.Field_ID_Object).ToString Equals objObj.GUID
                                Join objDataType In objOntologyList_DataTypes On objAttType.GUID_Parent Equals objDataType.GUID
-                               Group By objRel.ID_Attribute _
+                               Group By ID_Attribute = objAttType.GUID _
                                 , ID_AttributeType = objAttType.GUID _
                                 , Name_AttributeType = objAttType.Name _
                                 , ID_Class = objClass.GUID _
@@ -2254,13 +2288,7 @@ Public Class clsDBLevel
                                 , Name_Object = objObj.Name _
                                 , ID_DataType = objDataType.GUID _
                                 , Name_DataType = objDataType.Name _
-                                , objRel.OrderID _
-                                , Val_Bool = objRel.Val_Bit _
-                                , Val_Date = objRel.Val_Date _
-                                , Val_Double = objRel.Val_Double _
-                                , Val_Int = objRel.Val_lng _
-                                , Val_String = objRel.Val_String _
-                                , Val_Named = objRel.val_Named Into Group
+                                , objRel.Source Into Group
 
                 oList_AttType = Nothing
 
@@ -2275,9 +2303,9 @@ Public Class clsDBLevel
                                                  objORels.Name_Class, _
                                                  objORels.ID_AttributeType, _
                                                  objORels.Name_AttributeType, _
-                                                 objORels.OrderID, _
-                                                 objORels.Val_Named, _
-                                                 objORels.Val_Bool, _
+                                                 objORels.Source(objLocalConfig.Globals.Field_OrderID), _
+                                                 objORels.Source(objLocalConfig.Globals.Field_Val_Name), _
+                                                 objORels.Source(objLocalConfig.Globals.Field_Val_Bool), _
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing, _
@@ -2291,10 +2319,10 @@ Public Class clsDBLevel
                                                  objORels.Name_Class, _
                                                  objORels.ID_AttributeType, _
                                                  objORels.Name_AttributeType, _
-                                                 objORels.OrderID, _
-                                                 objORels.Val_Named, _
+                                                 objORels.Source(objLocalConfig.Globals.Field_OrderID), _
+                                                 objORels.Source(objLocalConfig.Globals.Field_Val_Name), _
                                                  Nothing, _
-                                                 objORels.Val_Date, _
+                                                 objORels.Source(objLocalConfig.Globals.Field_Val_Datetime), _
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing, _
@@ -2307,11 +2335,11 @@ Public Class clsDBLevel
                                                  objORels.Name_Class, _
                                                  objORels.ID_AttributeType, _
                                                  objORels.Name_AttributeType, _
-                                                 objORels.OrderID, _
-                                                 objORels.Val_Named, _
+                                                 objORels.Source(objLocalConfig.Globals.Field_OrderID), _
+                                                 objORels.Source(objLocalConfig.Globals.Field_Val_Name), _
                                                  Nothing, _
                                                  Nothing, _
-                                                 objORels.Val_Int, _
+                                                 objORels.Source(objLocalConfig.Globals.Field_Val_Int), _
                                                  Nothing, _
                                                  Nothing, _
                                                  objLocalConfig.Globals.DType_Int.GUID))
@@ -2323,12 +2351,12 @@ Public Class clsDBLevel
                                                  objORels.Name_Class, _
                                                  objORels.ID_AttributeType, _
                                                  objORels.Name_AttributeType, _
-                                                 objORels.OrderID, _
-                                                 objORels.Val_Named, _
+                                                 objORels.Source(objLocalConfig.Globals.Field_OrderID), _
+                                                 objORels.Source(objLocalConfig.Globals.Field_Val_Name), _
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing, _
-                                                 objORels.Val_Double, _
+                                                 objORels.Source(objLocalConfig.Globals.Field_Val_Real), _
                                                  Nothing, _
                                                  objLocalConfig.Globals.DType_Real.GUID))
                             Case objLocalConfig.Globals.DType_String.GUID
@@ -2339,13 +2367,13 @@ Public Class clsDBLevel
                                                  objORels.Name_Class, _
                                                  objORels.ID_AttributeType, _
                                                  objORels.Name_AttributeType, _
-                                                 objORels.OrderID, _
-                                                 objORels.Val_Named, _
+                                                 objORels.Source(objLocalConfig.Globals.Field_OrderID), _
+                                                 objORels.Source(objLocalConfig.Globals.Field_Val_Name), _
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing, _
-                                                 objORels.Val_String, _
+                                                 objORels.Source(objLocalConfig.Globals.Field_Val_String), _
                                                  objLocalConfig.Globals.DType_String.GUID))
                         End Select
                     Else
@@ -2358,9 +2386,9 @@ Public Class clsDBLevel
                                                      objORels.Name_AttributeType, _
                                                      objORels.ID_Class, _
                                                      objORels.Name_Class, _
-                                                     objORels.OrderID, _
-                                                     objORels.Val_Named, _
-                                                     objORels.Val_Bool, _
+                                                     objORels.Source(objLocalConfig.Globals.Field_OrderID), _
+                                                     objORels.Source(objLocalConfig.Globals.Field_Val_Name), _
+                                                     objORels.Source(objLocalConfig.Globals.Field_Val_Bool), _
                                                      Nothing, _
                                                      Nothing, _
                                                      Nothing, _
@@ -2375,12 +2403,12 @@ Public Class clsDBLevel
                                                      objORels.Name_AttributeType, _
                                                      objORels.ID_Class, _
                                                      objORels.Name_Class, _
-                                                     objORels.OrderID, _
-                                                     objORels.Val_Named, _
+                                                     objORels.Source(objLocalConfig.Globals.Field_OrderID), _
+                                                     objORels.Source(objLocalConfig.Globals.Field_Val_Name), _
                                                      Nothing, _
                                                      Nothing, _
                                                      Nothing, _
-                                                     objORels.Val_Date, _
+                                                      objORels.Source(objLocalConfig.Globals.Field_Val_Datetime), _
                                                      Nothing, _
                                                      objORels.ID_DataType, _
                                                      objORels.Name_DataType)
@@ -2392,10 +2420,10 @@ Public Class clsDBLevel
                                                      objORels.Name_AttributeType, _
                                                      objORels.ID_Class, _
                                                      objORels.Name_Class, _
-                                                     objORels.OrderID, _
-                                                     objORels.Val_Named, _
+                                                     objORels.Source(objLocalConfig.Globals.Field_OrderID), _
+                                                     objORels.Source(objLocalConfig.Globals.Field_Val_Name), _
                                                      Nothing, _
-                                                     objORels.Val_Int, _
+                                                      objORels.Source(objLocalConfig.Globals.Field_Val_Int), _
                                                      Nothing, _
                                                      Nothing, _
                                                      Nothing, _
@@ -2409,11 +2437,11 @@ Public Class clsDBLevel
                                                      objORels.Name_AttributeType, _
                                                      objORels.ID_Class, _
                                                      objORels.Name_Class, _
-                                                     objORels.OrderID, _
-                                                     objORels.Val_Named, _
+                                                     objORels.Source(objLocalConfig.Globals.Field_OrderID), _
+                                                     objORels.Source(objLocalConfig.Globals.Field_Val_Name), _
                                                      Nothing, _
                                                      Nothing, _
-                                                     objORels.Val_Double, _
+                                                      objORels.Source(objLocalConfig.Globals.Field_Val_Real), _
                                                      Nothing, _
                                                      Nothing, _
                                                      objORels.ID_DataType, _
@@ -2426,13 +2454,13 @@ Public Class clsDBLevel
                                                      objORels.Name_AttributeType, _
                                                      objORels.ID_Class, _
                                                      objORels.Name_Class, _
-                                                     objORels.OrderID, _
-                                                     objORels.Val_Named, _
+                                                     objORels.Source(objLocalConfig.Globals.Field_OrderID), _
+                                                     objORels.Source(objLocalConfig.Globals.Field_Val_Name), _
                                                      Nothing, _
                                                      Nothing, _
                                                      Nothing, _
                                                      Nothing, _
-                                                     objORels.Val_String, _
+                                                      objORels.Source(objLocalConfig.Globals.Field_Val_String), _
                                                      objORels.ID_DataType, _
                                                      objORels.Name_DataType)
                         End Select
