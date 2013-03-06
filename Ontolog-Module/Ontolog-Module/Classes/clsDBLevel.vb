@@ -316,6 +316,9 @@ Public Class clsDBLevel
     Public Function del_Objects(ByVal List_Objects As List(Of clsOntologyItem)) As String()
         Dim objDBLevel_LeftRight As clsDBLevel
         Dim objDBLeveL_RightLeft As clsDBLevel
+        Dim oList_ObjecRel_LR As New List(Of clsObjectRel)
+        Dim oList_ObjecRel_RL As New List(Of clsObjectRel)
+        Dim objOItem_Object As clsOntologyItem
         Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
         Dim objOItem_Result As clsOntologyItem
         Dim i As Integer
@@ -325,7 +328,41 @@ Public Class clsDBLevel
         objDBLevel_LeftRight = New clsDBLevel(objLocalConfig)
         objDBLeveL_RightLeft = New clsDBLevel(objLocalConfig)
 
-        objDBLevel_LeftRight.get_Data_ObjectRel(List_Objects, Nothing, Nothing)
+        For Each objOItem_Object In List_Objects
+            oList_ObjecRel_LR.Add(New clsObjectRel(objOItem_Object.GUID, _
+                                                objOItem_Object.Name, _
+                                                objOItem_Object.GUID_Parent, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing))
+
+            oList_ObjecRel_RL.Add(New clsObjectRel(Nothing, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing, _
+                                                objOItem_Object.GUID, _
+                                                objOItem_Object.Name, _
+                                                objOItem_Object.GUID_Parent, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing))
+        Next
+
+
+
+        objDBLevel_LeftRight.get_Data_ObjectRel(oList_ObjecRel_LR)
 
         Dim objLeftRight = From objDel In List_Objects
                            Group Join objRel In objDBLevel_LeftRight.OList_ObjectRel_ID On objDel.GUID Equals objRel.ID_Object Into RightTableResult = Group
@@ -335,7 +372,7 @@ Public Class clsDBLevel
 
 
 
-        objDBLeveL_RightLeft.get_Data_ObjectRel(Nothing, List_Objects, Nothing)
+        objDBLeveL_RightLeft.get_Data_ObjectRel(oList_ObjecRel_RL)
 
         Dim objRightLeft = From objDel In List_Objects
                           Group Join objRel In objDBLeveL_RightLeft.OList_ObjectRel_ID On objDel.GUID Equals objRel.ID_Other Into RightTableResult = Group
@@ -379,9 +416,7 @@ Public Class clsDBLevel
         Dim objOItem_Result As clsOntologyItem
         Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
         Dim objOItem_ClRel As clsClassRel
-        Dim oList_OB_Left As New List(Of clsOntologyItem)
-        Dim oList_OB_Right As New List(Of clsOntologyItem)
-        Dim oList_RelType As New List(Of clsOntologyItem)
+        Dim oList_ObjRel As New List(Of clsObjectRel)
         Dim strKeys() As String = Nothing
         Dim l As Long
 
@@ -391,22 +426,49 @@ Public Class clsDBLevel
 
         l = 0
         For Each objOItem_ClRel In oList_ClRel
-            oList_OB_Left.Clear()
-            oList_OB_Left.Add(New clsOntologyItem(Nothing, Nothing, objOItem_ClRel.ID_Class_Left, objLocalConfig.Globals.Type_Object))
+            oList_ObjRel.Clear()
 
-            oList_RelType.Clear()
-            oList_RelType.Add(New clsOntologyItem(objOItem_ClRel.ID_RelationType, objLocalConfig.Globals.Type_RelationType))
             If Not objOItem_ClRel.ID_Class_Right Is Nothing Then
-                oList_OB_Right.Clear()
-                oList_OB_Right.Add(New clsOntologyItem(Nothing, Nothing, objOItem_ClRel.ID_Class_Right, objLocalConfig.Globals.Type_Object))
-                get_Data_ObjectRel(oList_OB_Left, oList_OB_Right, oList_RelType, False, True)
+                oList_ObjRel.Clear()
+                oList_ObjRel.Add(New clsObjectRel(Nothing, _
+                                                  Nothing, _
+                                                  objOItem_ClRel.ID_Class_Left, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  objOItem_ClRel.ID_Class_Right, _
+                                                  Nothing, _
+                                                  objOItem_ClRel.ID_RelationType, _
+                                                  Nothing, _
+                                                  objLocalConfig.Globals.Type_Object, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing))
+
+                
+                get_Data_ObjectRel(oList_ObjRel, False, True)
                 If objOntologyList_ObjectRel_ID.Count = 0 Then
                     ReDim Preserve strKeys(l)
                     strKeys(l) = objOItem_ClRel.ID_Class_Left & objOItem_ClRel.ID_Class_Right & objOItem_ClRel.ID_RelationType
                     l = l + 1
                 End If
             Else
-                get_Data_ObjectRel(oList_OB_Left, Nothing, oList_RelType, False, True)
+                oList_ObjRel.Clear()
+                oList_ObjRel.Add(New clsObjectRel(Nothing, _
+                                                  Nothing, _
+                                                  objOItem_ClRel.ID_Class_Left, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  objOItem_ClRel.ID_RelationType, _
+                                                  Nothing, _
+                                                  objLocalConfig.Globals.Type_Object, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing))
+                get_Data_ObjectRel(oList_ObjRel, False, True)
                 Dim objL1 = From objO In objOntologyList_ObjectRel_ID
                             Where Not objO.Ontology = objLocalConfig.Globals.Type_Object
                 If objL1.Count = 0 Then
@@ -1457,7 +1519,7 @@ Public Class clsDBLevel
 
         End If
     End Sub
-    Private Sub create_BoolQuery_ObjectRel(ByVal OList_Object As List(Of clsOntologyItem), ByVal OList_Other As List(Of clsOntologyItem), ByVal oList_RelationType As List(Of clsOntologyItem), Optional ByVal boolClear As Boolean = True)
+    Private Sub create_BoolQuery_ObjectRel(ByVal oList_ObjectRel As List(Of clsObjectRel), Optional ByVal boolClear As Boolean = True)
         Dim strQuery As String
 
         If boolClear = True Then
@@ -1465,140 +1527,134 @@ Public Class clsDBLevel
         End If
 
 
-        If Not OList_Object Is Nothing Then
-            If OList_Object.Count > 0 Then
-                If Not OList_Object(0) Is Nothing Then
-                    Dim objLQuery_ID = From at As clsOntologyItem In OList_Object Group By at.GUID Into Group
+        If Not oList_ObjectRel Is Nothing Then
+            If oList_ObjectRel.Count > 0 Then
+                
 
-                    strQuery = ""
+                Dim objLQuery_ID = From objObj In oList_ObjectRel
+                                   Where Not objObj Is Nothing
+                                   Group By objObj.ID_Object Into Group
 
-                    For Each objQuery_ID In objLQuery_ID
-                        If objQuery_ID.GUID <> "" Then
-                            If strQuery <> "" Then
-                                strQuery = strQuery & "\ OR\ "
-                            End If
-                            strQuery = strQuery & objQuery_ID.GUID
-                        End If
+                strQuery = ""
 
-                    Next
-
-                    If strQuery <> "" Then
-                        objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Object, strQuery)), BooleanClause.Occur.MUST)
-
-                    End If
-
-                    Dim objLQuery_ID_Parent = From at As clsOntologyItem In OList_Object Group By at.GUID_Parent Into Group
-
-                    If strQuery = "" Then
-                        strQuery = ""
-
-                        For Each objQuery_ID_Parent In objLQuery_ID_Parent
-                            If strQuery <> "" Then
-                                strQuery = strQuery & "\ OR\ "
-                            End If
-                            strQuery = strQuery & objQuery_ID_Parent.GUID_Parent
-                        Next
-
-                        If strQuery <> "" Then
-                            objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Parent_Object, strQuery)), BooleanClause.Occur.MUST)
-
-                        End If
-                    End If
-
-                End If
-
-
-            End If
-        End If
-
-        If Not OList_Other Is Nothing Then
-            If OList_Other.Count > 0 Then
-                If Not OList_Other(0) Is Nothing Then
-                    Dim objLQuery_ID = From at As clsOntologyItem In OList_Other
-                                   Group By at.GUID Into Group
-
-                    strQuery = ""
-
-                    For Each objQuery_ID In objLQuery_ID
-                        If objQuery_ID.GUID <> "" Then
-                            If strQuery <> "" Then
-                                strQuery = strQuery & "\ OR\ "
-                            End If
-                            strQuery = strQuery & objQuery_ID.GUID
-                        End If
-                        
-                    Next
-
-                    If strQuery <> "" Then
-                        objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Other, strQuery)), BooleanClause.Occur.MUST)
-
-                    End If
-
-                    Dim objLQuery_ID_Parent = From at As clsOntologyItem In OList_Other Group By at.GUID_Parent Into Group
-
-                    If strQuery = "" Then
-                        strQuery = ""
-
-                        For Each objQuery_ID_Parent In objLQuery_ID_Parent
-                            If strQuery <> "" Then
-                                strQuery = strQuery & "\ OR\ "
-                            End If
-                            strQuery = strQuery & objQuery_ID_Parent.GUID_Parent
-                        Next
-
-                        If strQuery <> "" Then
-                            objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Parent_Other, strQuery)), BooleanClause.Occur.MUST)
-
-                        End If
-
-
-                        Dim objLQuery_Ontology = From at As clsOntologyItem In OList_Other Group By at.Type, at.Mark Into Group
-
-                        strQuery = ""
-
-                        For Each objQuery_Ontology In objLQuery_Ontology
-                            If strQuery <> "" Then
-                                strQuery = strQuery & "\ OR\ "
-                            End If
-
-
-                            strQuery = strQuery & objQuery_Ontology.Type
-
-                        Next
-
-                        If strQuery <> "" Then
-                            objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_Ontology, strQuery)), BooleanClause.Occur.MUST)
-
-                        End If
-                    End If
-
-
-                End If
-
-            End If
-        End If
-
-        If Not oList_RelationType Is Nothing Then
-            If oList_RelationType.Count > 0 Then
-                If Not oList_RelationType(0) Is Nothing Then
-                    Dim objLQuery_ID = From at As clsOntologyItem In oList_RelationType Group By at.GUID Into Group
-
-                    strQuery = ""
-
-                    For Each objQuery_ID In objLQuery_ID
+                For Each objQuery_ID In objLQuery_ID
+                    If objQuery_ID.ID_Object <> "" Then
                         If strQuery <> "" Then
                             strQuery = strQuery & "\ OR\ "
                         End If
-                        strQuery = strQuery & objQuery_ID.GUID
+                        strQuery = strQuery & objQuery_ID.ID_Object
+                    End If
+
+                Next
+
+                If strQuery <> "" Then
+                    objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Object, strQuery)), BooleanClause.Occur.MUST)
+
+                End If
+
+                Dim objLQuery_ID_Parent = From objParent In oList_ObjectRel
+                                          Where Not objParent Is Nothing
+                                          Group By objParent.ID_Parent_Object Into Group
+
+                If strQuery = "" Then
+                    strQuery = ""
+
+                    For Each objQuery_ID_Parent In objLQuery_ID_Parent
+                        If strQuery <> "" Then
+                            strQuery = strQuery & "\ OR\ "
+                        End If
+                        strQuery = strQuery & objQuery_ID_Parent.ID_Parent_Object
+                    Next
+
+                    If strQuery <> "" Then
+                        objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Parent_Object, strQuery)), BooleanClause.Occur.MUST)
+
+                    End If
+                End If
+
+                strQuery = ""
+
+                Dim objLQuery_ID_Other = From objOth In oList_ObjectRel
+                                         Where Not objOth Is Nothing
+                                         Group By objOth.ID_Other Into Group
+
+                strQuery = ""
+
+                For Each objQuery_ID In objLQuery_ID_Other
+                    If objQuery_ID.ID_Other <> "" Then
+                        If strQuery <> "" Then
+                            strQuery = strQuery & "\ OR\ "
+                        End If
+                        strQuery = strQuery & objQuery_ID.ID_Other
+                    End If
+
+                Next
+
+                If strQuery <> "" Then
+                    objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Other, strQuery)), BooleanClause.Occur.MUST)
+
+                End If
+
+                Dim objLQuery_ID_Parent_Other = From objOthPar In oList_ObjectRel
+                                                Where Not objOthPar Is Nothing
+                                                Group By objOthPar.ID_Parent_Other Into Group
+
+                If strQuery = "" Then
+                    strQuery = ""
+
+                    For Each objQuery_ID_Parent In objLQuery_ID_Parent_Other
+                        If strQuery <> "" Then
+                            strQuery = strQuery & "\ OR\ "
+                        End If
+                        strQuery = strQuery & objQuery_ID_Parent.ID_Parent_Other
+                    Next
+
+                    If strQuery <> "" Then
+                        objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Parent_Other, strQuery)), BooleanClause.Occur.MUST)
+
+                    End If
+
+
+                    Dim objLQuery_Ontology = From objOnt In oList_ObjectRel
+                                             Where Not objOnt Is Nothing
+                                             Group By objOnt.Ontology Into Group
+
+                    strQuery = ""
+
+                    For Each objQuery_Ontology In objLQuery_Ontology
+                        If strQuery <> "" Then
+                            strQuery = strQuery & "\ OR\ "
+                        End If
+
+
+                        strQuery = strQuery & objQuery_Ontology.Ontology
+
+                    Next
+
+                    If strQuery <> "" Then
+                        objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_Ontology, strQuery)), BooleanClause.Occur.MUST)
+
+                    End If
+
+                    Dim objLQuery_ID_RelType = From objRelType In oList_ObjectRel
+                                               Where Not objRelType Is Nothing
+                                               Group By objRelType.ID_RelationType Into Group
+
+                    strQuery = ""
+
+                    For Each objQuery_ID In objLQuery_ID_RelType
+                        If strQuery <> "" Then
+                            strQuery = strQuery & "\ OR\ "
+                        End If
+                        strQuery = strQuery & objQuery_ID.ID_RelationType
                     Next
 
                     If strQuery <> "" Then
                         objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_RelationType, strQuery)), BooleanClause.Occur.MUST)
 
                     End If
+
                 End If
-
-
 
             End If
         End If
@@ -2478,9 +2534,7 @@ Public Class clsDBLevel
         Return objOItem_Result
     End Function
 
-    Public Function get_Data_ObjectRel(ByVal oList_Object As List(Of clsOntologyItem), _
-                                       ByVal oList_Other As List(Of clsOntologyItem), _
-                                       ByVal oList_RelType As List(Of clsOntologyItem), _
+    Public Function get_Data_ObjectRel(ByVal oList_ObjectRel As List(Of clsObjectRel), _
                                        Optional ByVal boolTable As Boolean = False, _
                                        Optional ByVal boolIDs As Boolean = True, _
                                        Optional ByVal doCount As Boolean = False, _
@@ -2494,7 +2548,10 @@ Public Class clsDBLevel
         Dim objHit As ElasticSearch.Client.Domain.Hits
         Dim objOItem_Result As clsOntologyItem = objLocalConfig.Globals.LState_Success
 
+        Dim oList_Object As New List(Of clsOntologyItem)
         Dim oList_Class As New List(Of clsOntologyItem)
+        Dim oList_RelType As New List(Of clsOntologyItem)
+
 
         Dim oList_Rel_Object As New List(Of clsOntologyItem)
         Dim oList_Rel_ObjectCls As New List(Of clsOntologyItem)
@@ -2525,7 +2582,7 @@ Public Class clsDBLevel
         objOItem_Result = objLocalConfig.Globals.LState_Success
         objOItem_Result.Count = 0
 
-        create_BoolQuery_ObjectRel(oList_Object, oList_Other, oList_RelType)
+        create_BoolQuery_ObjectRel(oList_ObjectRel)
 
         intCount = intPackageLength
         intPos = 0
@@ -2597,7 +2654,7 @@ Public Class clsDBLevel
 
                         Next
                     End If
-                    
+
 
 
                     If oList_Object.Count > 0 Then
@@ -2657,7 +2714,7 @@ Public Class clsDBLevel
                             End Select
                         Next
                     End If
-                    
+
 
                     If OList_AttributeTypes.Count > 0 Then
                         objDBLevel.get_Data_AttributeType(OList_AttributeTypes)
@@ -2990,9 +3047,9 @@ Public Class clsDBLevel
 
                         Next
                     End If
-                    
 
-                    
+
+
                 End If
             End If
 

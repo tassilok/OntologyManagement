@@ -22,9 +22,7 @@ Public Class clsFileWork
     Public Function get_Path_FileSystemObject(ByVal objOItem_FileSystemObject As clsOntologyItem, Optional ByVal boolBlobPath As Boolean = True) As String
         Dim strPath As String = ""
 
-        Dim oList_Objets As New List(Of clsOntologyItem)
-        Dim oList_Other As New List(Of clsOntologyItem)
-        Dim oList_RelType As New List(Of clsOntologyItem)
+        Dim oList_ObjRel As New List(Of clsObjectRel)
         Dim oList_ObjAtt As New List(Of clsObjectAtt)
 
         Dim objOitem_Folder As New clsOntologyItem
@@ -39,13 +37,24 @@ Public Class clsFileWork
                 objOItem_Server = objOItem_FileSystemObject
 
             Case objLocalConfig.OItem_Type_Drive.GUID
-                oList_Objets.Add(New clsOntologyItem(objOItem_FileSystemObject.GUID, objLocalConfig.Globals.Type_Object))
-                oList_RelType.Add(New clsOntologyItem(objLocalConfig.OItem_RelationType_isSubordinated.GUID, objLocalConfig.Globals.Type_RelationType))
-                oList_Other.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Type_Server.GUID, objLocalConfig.Globals.Type_Object))
+                oList_ObjRel.Clear()
+                oList_ObjRel.Add(New clsObjectRel(objOItem_FileSystemObject.GUID, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  objLocalConfig.OItem_Type_Server.GUID, _
+                                                  Nothing, _
+                                                  objLocalConfig.OItem_RelationType_isSubordinated.GUID, _
+                                                  Nothing, _
+                                                  objLocalConfig.Globals.Type_Object, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing))
 
-                objDBLevel_FSO.get_Data_ObjectRel(oList_Objets, _
-                                                  oList_RelType, _
-                                                  oList_Other, _
+                
+                objDBLevel_FSO.get_Data_ObjectRel(oList_ObjRel, _
                                                   False, _
                                                   False)
 
@@ -85,18 +94,25 @@ Public Class clsFileWork
                 End If
 
                 If objOItem_Share.GUID <> "" Then
-                    oList_Objets.Clear()
-                    oList_Objets.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Type_Server.GUID, objLocalConfig.Globals.Type_Object))
+                    oList_ObjRel.Clear()
+                    oList_ObjRel.Add(New clsObjectRel(Nothing, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_Type_Server.GUID, _
+                                                      Nothing, _
+                                                      objOItem_Share.GUID, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_RelationType_Fileshare.GUID, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing))
 
-                    oList_Other.Clear()
-                    oList_Other.Add(New clsOntologyItem(objOItem_Share.GUID, objLocalConfig.Globals.Type_Object))
 
-                    oList_RelType.Clear()
-                    oList_RelType.Add(New clsOntologyItem(objLocalConfig.OItem_RelationType_Fileshare.GUID, objLocalConfig.Globals.Type_RelationType))
 
-                    objDBLevel_Server.get_Data_ObjectRel(oList_Objets, _
-                                                         oList_Other, _
-                                                         oList_RelType, _
+                    objDBLevel_Server.get_Data_ObjectRel(oList_ObjRel, _
                                                          False, _
                                                          False)
 
@@ -109,19 +125,26 @@ Public Class clsFileWork
 
                         strPath = strSeperator & strSeperator & objOItem_Server.Name & strSeperator & strPath
                     Else
-                        oList_Objets.Clear()
-                        oList_Objets.Add(New clsOntologyItem(objOItem_Share.GUID, objLocalConfig.Globals.Type_Object))
+                        oList_ObjRel.Clear()
+                        oList_ObjRel.Add(New clsObjectRel(objOItem_Share.GUID, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          objLocalConfig.OItem_Type_Drive.GUID, _
+                                                          Nothing, _
+                                                          objLocalConfig.OItem_RelationType_isSubordinated.GUID, _
+                                                          Nothing, _
+                                                          objLocalConfig.Globals.Type_Object, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          Nothing))
 
 
-                        oList_Other.Clear()
-                        oList_Other.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Type_Drive.GUID, objLocalConfig.Globals.Type_Object))
 
-                        oList_RelType.Clear()
-                        oList_RelType.Add(New clsOntologyItem(objLocalConfig.OItem_RelationType_isSubordinated.GUID, objLocalConfig.Globals.Type_RelationType))
 
-                        objDBLevel_Drive.get_Data_ObjectRel(oList_Objets, _
-                                                         oList_Other, _
-                                                         oList_RelType, _
+                        objDBLevel_Drive.get_Data_ObjectRel(oList_ObjRel, _
                                                          False, _
                                                          False)
 
@@ -161,13 +184,27 @@ Public Class clsFileWork
                 End If
 
                 If boolBlob = False Then
-                    oList_Objets.Add(New clsOntologyItem(objOItem_FileSystemObject.GUID, objLocalConfig.Globals.Type_Object))
-                    oList_RelType.Add(New clsOntologyItem(objLocalConfig.OItem_RelationType_isSubordinated.GUID, objLocalConfig.Globals.Type_RelationType))
-                    oList_Other.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_type_Folder.GUID, objLocalConfig.Globals.Type_Object))
+                    oList_ObjRel.Clear()
+                    oList_ObjRel.Add(New clsObjectRel(objOItem_FileSystemObject.GUID, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_type_Folder.GUID, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_RelationType_isSubordinated.GUID, _
+                                                      Nothing, _
+                                                      objLocalConfig.Globals.Type_Object, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing))
 
-                    objDBLevel_Folder.get_Data_ObjectRel(oList_Objets, _
-                                                         oList_Other, _
-                                                         oList_RelType, _
+
+
+
+
+                    objDBLevel_Folder.get_Data_ObjectRel(oList_ObjRel, _
                                                          False, _
                                                          False)
                     strPath = objOItem_FileSystemObject.Name
@@ -195,18 +232,23 @@ Public Class clsFileWork
                         End If
 
                         If objOItem_Share.GUID <> "" Then
-                            oList_Objets.Clear()
-                            oList_Objets.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Type_Server.GUID, objLocalConfig.Globals.Type_Object))
+                            oList_ObjRel.Clear()
+                            oList_ObjRel.Add(New clsObjectRel(Nothing, _
+                                             Nothing, _
+                                             objLocalConfig.OItem_Type_Server.GUID, _
+                                             Nothing, _
+                                             objOItem_Share.GUID, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             objLocalConfig.OItem_RelationType_Fileshare.GUID, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing))
 
-                            oList_Other.Clear()
-                            oList_Other.Add(New clsOntologyItem(objOItem_Share.GUID, objLocalConfig.Globals.Type_Object))
-
-                            oList_RelType.Clear()
-                            oList_RelType.Add(New clsOntologyItem(objLocalConfig.OItem_RelationType_Fileshare.GUID, objLocalConfig.Globals.Type_RelationType))
-
-                            objDBLevel_Server.get_Data_ObjectRel(oList_Objets, _
-                                                                 oList_Other, _
-                                                                 oList_RelType, _
+                            objDBLevel_Server.get_Data_ObjectRel(oList_ObjRel, _
                                                                  False, _
                                                                  False)
 
@@ -219,19 +261,23 @@ Public Class clsFileWork
 
                                 strPath = strSeperator & strSeperator & objOItem_Server.Name & strPath
                             Else
-                                oList_Objets.Clear()
-                                oList_Objets.Add(New clsOntologyItem(objOItem_Share.GUID, objLocalConfig.Globals.Type_Object))
+                                oList_ObjRel.Clear()
+                                oList_ObjRel.Add(New clsObjectRel(objOItem_Share.GUID, _
+                                                                  Nothing, _
+                                                                  Nothing, _
+                                                                  Nothing, _
+                                                                  Nothing, _
+                                                                  Nothing, _
+                                                                  objLocalConfig.OItem_Type_Drive.GUID, _
+                                                                  Nothing, _
+                                                                  objLocalConfig.OItem_RelationType_isSubordinated.GUID, _
+                                                                  Nothing, _
+                                                                  objLocalConfig.Globals.Type_Object, _
+                                                                  Nothing, _
+                                                                  Nothing, _
+                                                                  Nothing))
 
-
-                                oList_Other.Clear()
-                                oList_Other.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Type_Drive.GUID, objLocalConfig.Globals.Type_Object))
-
-                                oList_RelType.Clear()
-                                oList_RelType.Add(New clsOntologyItem(objLocalConfig.OItem_RelationType_isSubordinated.GUID, objLocalConfig.Globals.Type_RelationType))
-
-                                objDBLevel_Drive.get_Data_ObjectRel(oList_Objets, _
-                                                                 oList_Other, _
-                                                                 oList_RelType, _
+                                objDBLevel_Drive.get_Data_ObjectRel(oList_ObjRel, _
                                                                  False, _
                                                                  False)
 

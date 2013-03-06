@@ -19,6 +19,7 @@ Public Class clsLocalConfig
     'Attributes
     Private objOItem_Attribute_Blob As New clsOntologyItem
     Private objOItem_Attribute_Datetimestamp__Create_ As New clsOntologyItem
+    Private objOItem_Attribute_Hash As New clsOntologyItem
 
     'RelationTypes
     Private objOItem_RelationType_Fileshare As New clsOntologyItem
@@ -31,6 +32,7 @@ Public Class clsLocalConfig
     Private objOItem_RelationType_belongsTo As New clsOntologyItem
     Private objOItem_RelationType_located_in As New clsOntologyItem
     Private objOItem_RelationType_is_checkout_by As New clsOntologyItem
+    Private objOItem_RelationType_belongingSource As New clsOntologyItem
 
     'Token
     Private objOItem_Token_Active_Server_State As New clsOntologyItem
@@ -63,6 +65,12 @@ Public Class clsLocalConfig
     Public ReadOnly Property OItem_Attribute_Datetimestamp__Create_() As clsOntologyItem
         Get
             Return objOItem_Attribute_Datetimestamp__Create_
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Attribute_Hash() As clsOntologyItem
+        Get
+            Return objOItem_Attribute_Hash
         End Get
     End Property
 
@@ -241,6 +249,24 @@ Public Class clsLocalConfig
         get_Config_RelationTypes()
         get_Config_Classes()
         get_Config_Objects()
+
+        get_BaseConfig()
+    End Sub
+
+    Private Sub get_BaseConfig()
+        Dim oList_ObjectRel As New List(Of clsObjectRel)
+
+        oList_ObjectRel.Add(New clsObjectRel(Nothing, _
+                                             OItem_Type_Module.GUID, _
+                                             cstr_ID_Class_SoftwareDevelopment, _
+                                             Nothing, _
+                                             OItem_RelationType_offered_by.GUID, _
+                                             objGlobals.Type_Object, _
+                                             objGlobals.Direction_RightLeft.GUID, _
+                                             Nothing))
+
+        objDBLevel_Config1.get()
+
     End Sub
 
     Private Sub get_Config_AttributeTypes()
@@ -266,6 +292,19 @@ Public Class clsLocalConfig
             objOItem_Attribute_Datetimestamp__Create_.Name = objADSC(0).Name_Other
             objOItem_Attribute_Datetimestamp__Create_.GUID_Parent = objADSC(0).ID_Parent_Other
             objOItem_Attribute_Datetimestamp__Create_.Type = objGlobals.Type_AttributeType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objHASH = From obj In objDBLevel_Config2.OList_ObjectRel
+                            Where obj.Name_Object = "Attribute_Hash" And obj.Ontology = objGlobals.Type_AttributeType
+
+        If objHASH.Count > 0 Then
+            objOItem_Attribute_Hash = New clsOntologyItem
+            objOItem_Attribute_Hash.GUID = objHASH(0).ID_Other
+            objOItem_Attribute_Hash.Name = objHASH(0).Name_Other
+            objOItem_Attribute_Hash.GUID_Parent = objHASH(0).ID_Parent_Other
+            objOItem_Attribute_Hash.Type = objGlobals.Type_AttributeType
         Else
             Err.Raise(1, "config err")
         End If
@@ -390,6 +429,18 @@ Public Class clsLocalConfig
             objOItem_RelationType_is_checkout_by.GUID = objCI(0).ID_Other
             objOItem_RelationType_is_checkout_by.Name = objCI(0).Name_Other
             objOItem_RelationType_is_checkout_by.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objBS = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "RelationType_belonging_Source" And obj.Ontology = objGlobals.Type_RelationType
+
+        If objBS.Count > 0 Then
+            objOItem_RelationType_belongingSource = New clsOntologyItem
+            objOItem_RelationType_belongingSource.GUID = objBS(0).ID_Other
+            objOItem_RelationType_belongingSource.Name = objBS(0).Name_Other
+            objOItem_RelationType_belongingSource.Type = objGlobals.Type_RelationType
         Else
             Err.Raise(1, "config err")
         End If
@@ -610,7 +661,10 @@ Public Class clsLocalConfig
         Else
             Err.Raise(1, "config err")
         End If
+
+
     End Sub
+
 
     Private Sub get_Data_DevelopmentConfig()
         Dim objOItem_ObjecRel As clsObjectRel
@@ -663,7 +717,7 @@ Public Class clsLocalConfig
                                                               objGlobals.Type_Object))
 
 
-                    
+
 
                 Next
 

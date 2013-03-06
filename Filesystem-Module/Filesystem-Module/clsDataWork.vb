@@ -4,9 +4,7 @@ Public Class clsDataWork
 
     Private otblT_Files As New DataSet_FileSystemModule.otbl_FilesDataTable
 
-    Private oList_Object As New List(Of clsOntologyItem)
-    Private oList_Other As New List(Of clsOntologyItem)
-    Private oList_RelType As New List(Of clsOntologyItem)
+    Private oList_ObjRel As New List(Of clsObjectRel)
 
     Private objDBLevel_ServerState As clsDBLevel
     Private objDBLevel_ServerType As clsDBLevel
@@ -14,6 +12,7 @@ Public Class clsDataWork
     Private objDBLevel_Folder As clsDBLevel
     Private objDBLevel_FolderTree As clsDBLevel
     Private objDBLevel_Files As clsDBLevel
+    Private objDBLevel_Hash As clsDBLevel
 
     Protected Overrides Sub Finalize()
         MyBase.Finalize()
@@ -36,24 +35,50 @@ Public Class clsDataWork
         objDBLevel_FolderTree = New clsDBLevel(objLocalConfig.Globals)
 
         objDBLevel_Files = New clsDBLevel(objLocalConfig.Globals)
+
+        objDBLevel_Hash = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 
     Public Sub get_Servers(ByVal objTreeNode As TreeNode, ByVal intID_Server As Integer)
-        oList_Object.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Type_Server.GUID, objLocalConfig.Globals.Type_Object))
-        oList_Other.Add(New clsOntologyItem(objLocalConfig.OItem_Token_Active_Server_State.GUID, objLocalConfig.Globals.Type_Object))
-        oList_RelType.Add(objLocalConfig.OItem_RelationType_isInState)
-        objDBLevel_ServerState.get_Data_ObjectRel(oList_Object, _
-                                                  oList_Other, _
-                                                  oList_RelType, _
+        Dim oList_ObjRel As New List(Of clsObjectRel)
+
+        oList_ObjRel.Add(New clsObjectRel(Nothing, _
+                                          Nothing, _
+                                          objLocalConfig.OItem_Type_Server.GUID, _
+                                          Nothing, _
+                                          Nothing, _
+                                          Nothing, _
+                                          objLocalConfig.OItem_Type_Server_State.GUID, _
+                                          Nothing, _
+                                          objLocalConfig.OItem_RelationType_isInState.GUID, _
+                                          Nothing, _
+                                          objLocalConfig.Globals.Type_Object, _
+                                          Nothing, _
+                                          Nothing, _
+                                          Nothing))
+
+
+        objDBLevel_ServerState.get_Data_ObjectRel(oList_ObjRel, _
                                                   boolIDs:=False)
 
-        oList_Object.Clear()
-        oList_Other.Clear()
-        oList_RelType.Clear()
-        oList_Other.Add(New clsOntologyItem(objLocalConfig.OItem_Token_Fileserver_Server_Type.GUID, objLocalConfig.Globals.Type_Object))
-        objDBLevel_ServerType.get_Data_ObjectRel(oList_Object, _
-                                                  oList_Other, _
-                                                  oList_RelType)
+        oList_ObjRel.Clear()
+
+        oList_ObjRel.Add(New clsObjectRel(Nothing, _
+                                          Nothing, _
+                                          objLocalConfig.OItem_Type_Server.GUID, _
+                                          Nothing, _
+                                          Nothing, _
+                                          Nothing, _
+                                          objLocalConfig.OItem_Type_Server_Type.GUID, _
+                                          Nothing, _
+                                          objLocalConfig.OItem_RelationType_is_of_Type.GUID, _
+                                          Nothing, _
+                                          objLocalConfig.Globals.Type_Object, _
+                                          Nothing, _
+                                          Nothing, _
+                                          Nothing))
+
+        objDBLevel_ServerType.get_Data_ObjectRel(oList_ObjRel)
 
         Dim objServerList = From objState In objDBLevel_ServerState.OList_ObjectRel
                             Join objType In objDBLevel_ServerType.OList_ObjectRel_ID On objState.ID_Object Equals objType.ID_Object
@@ -74,28 +99,44 @@ Public Class clsDataWork
         Dim objTreeNode_Folder As TreeNode
         Dim objOItem_ObjRel As clsObjectRel
 
-        oList_RelType.Clear()
-        oList_RelType.Add(New clsOntologyItem(ID_RelationType, objLocalConfig.Globals.Type_RelationType))
+        oList_ObjRel.Clear()
         If ID_RelationType = objLocalConfig.OItem_RelationType_isSubordinated.GUID Then
-            oList_Object.Clear()
-            oList_Object.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_type_Folder.GUID, objLocalConfig.Globals.Type_Object))
-
-            oList_Other.Clear()
-            oList_Other.Add(New clsOntologyItem(objTreeNode.Name, objLocalConfig.Globals.Type_Object))
-
+           
+            oList_ObjRel.Add(New clsObjectRel(Nothing, _
+                                              Nothing, _
+                                              objLocalConfig.OItem_type_Folder.GUID, _
+                                              Nothing, _
+                                              objTreeNode.Name, _
+                                              Nothing, _
+                                              Nothing, _
+                                              Nothing, _
+                                              ID_RelationType, _
+                                              Nothing, _
+                                              objLocalConfig.Globals.Type_Object, _
+                                              Nothing, _
+                                              Nothing, _
+                                              Nothing))
            
         Else
-            oList_Other.Clear()
-            oList_Other.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_type_Folder.GUID, objLocalConfig.Globals.Type_Object))
-
-            oList_Object.Clear()
-            oList_Object.Add(New clsOntologyItem(objTreeNode.Name, objLocalConfig.Globals.Type_Object))
+            
+            oList_ObjRel.Add(New clsObjectRel(objTreeNode.Name, _
+                                              Nothing, _
+                                              Nothing, _
+                                              Nothing, _
+                                              Nothing, _
+                                              Nothing, _
+                                              objLocalConfig.OItem_type_Folder.GUID, _
+                                              Nothing, _
+                                              ID_RelationType, _
+                                              Nothing, _
+                                              objLocalConfig.Globals.Type_Object, _
+                                              Nothing, _
+                                              Nothing, _
+                                              Nothing))
         End If
         
 
-        objDBLevel_Folder.get_Data_ObjectRel(oList_Object, _
-                                             oList_Other, _
-                                             oList_RelType, _
+        objDBLevel_Folder.get_Data_ObjectRel(oList_ObjRel, _
                                              boolIDs:=False)
 
         objDBLevel_FolderTree.get_Data_Objects_Tree(objLocalConfig.OItem_type_Folder, _
@@ -126,8 +167,7 @@ Public Class clsDataWork
 
     Public Function get_Files(Optional ByVal objTreeNode As TreeNode = Nothing, Optional ByVal strFilter As String = "") As DataSet_FileSystemModule.otbl_FilesDataTable
         Dim oList_Objects As New List(Of clsOntologyItem)
-        Dim oList_Others As New List(Of clsOntologyItem)
-        Dim oList_RelType As New List(Of clsOntologyItem)
+        Dim oList_ObjRel As New List(Of clsObjectRel)
         Dim oList_ObjAtt As New List(Of clsObjectAtt)
 
         Dim objOItem_Object As New clsOntologyItem
@@ -139,7 +179,7 @@ Public Class clsDataWork
         objOItem_Object.Type = objLocalConfig.Globals.Type_Object
 
        
-
+        oList_ObjRel.Clear()
 
         If objTreeNode Is Nothing Then
 
@@ -207,36 +247,69 @@ Public Class clsDataWork
 
             Next
         Else
-            oList_Others.Add(New clsOntologyItem(objTreeNode.Name, objLocalConfig.Globals.Type_Object))
-
-
 
             If strFilter <> "" Then
                 If objLocalConfig.Globals.is_GUID(strFilter) = True Then
-                    oList_Objects.Add(New clsOntologyItem(strFilter, Nothing, objLocalConfig.OItem_Type_File.GUID, objLocalConfig.Globals.Type_Object))
+                    oList_ObjRel.Add(New clsObjectRel(strFilter, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      objTreeNode.Name, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_RelationType_isSubordinated.GUID, _
+                                                      Nothing, _
+                                                      objLocalConfig.Globals.Type_Object, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing))
+
+
                 Else
-                    oList_Objects.Add(New clsOntologyItem(Nothing, strFilter, objLocalConfig.OItem_Type_File.GUID, objLocalConfig.Globals.Type_Object))
+                    oList_ObjRel.Add(New clsObjectRel(Nothing, _
+                                                      strFilter, _
+                                                      objLocalConfig.OItem_Type_File.GUID, _
+                                                      Nothing, _
+                                                      objTreeNode.Name, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_RelationType_isSubordinated.GUID, _
+                                                      Nothing, _
+                                                      objLocalConfig.Globals.Type_Object, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing))
+
                 End If
             Else
-                oList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Type_File.GUID, objLocalConfig.Globals.Type_Object))
+                oList_ObjRel.Add(New clsObjectRel(Nothing, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_Type_File.GUID, _
+                                                      Nothing, _
+                                                      objTreeNode.Name, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_RelationType_isSubordinated.GUID, _
+                                                      Nothing, _
+                                                      objLocalConfig.Globals.Type_Object, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing))
             End If
-            
 
-            
-
-            oList_RelType.Add(objLocalConfig.OItem_RelationType_isSubordinated)
 
             objDBLevel_Files.get_Data_Objects(oList_Objects)
 
-            objDBLevel_Files.get_Data_ObjectRel(oList_Objects, _
-                                                oList_Others, _
-                                                oList_RelType, _
+            objDBLevel_Files.get_Data_ObjectRel(oList_ObjRel, _
                                                 boolIDs:=False, _
                                                 doJoin_Left:=True)
 
             If objLocalConfig.Globals.is_GUID(strFilter) = True Then
                 oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
-                                         strfilter, _
+                                         strFilter, _
                                          Nothing, _
                                          objOItem_Object.GUID_Parent, _
                                          Nothing, _
@@ -267,7 +340,7 @@ Public Class clsDataWork
                                          Nothing, _
                                          Nothing))
             End If
-            
+
 
             objDBLevel_Files.get_Data_ObjectAtt(oList_ObjAtt, _
                                         boolIDs:=False, _
@@ -350,21 +423,24 @@ Public Class clsDataWork
         Dim objOItem_ObjRel As clsObjectRel
         Dim objTreeNode_Drive As TreeNode
 
-        oList_Object.Clear()
-        oList_Object.Add(New clsOntologyItem(Nothing, _
-                                             Nothing, _
-                                             objLocalConfig.OItem_Type_Drive.GUID, _
-                                             objLocalConfig.Globals.Type_Object))
+        oList_ObjRel.Clear()
 
-        oList_Other.Clear()
-        oList_Other.Add(New clsOntologyItem(objTreeNode.Name, objLocalConfig.Globals.Type_Object))
+        oList_ObjRel.Add(New clsObjectRel(Nothing, _
+                                          Nothing, _
+                                          objLocalConfig.OItem_Type_Drive.GUID, _
+                                          Nothing, _
+                                          objTreeNode.Name, _
+                                          Nothing, _
+                                          Nothing, _
+                                          Nothing, _
+                                          objLocalConfig.OItem_RelationType_isSubordinated.GUID, _
+                                          Nothing, _
+                                          objLocalConfig.Globals.Type_Object, _
+                                          Nothing, _
+                                          Nothing, _
+                                          Nothing))
 
-        oList_RelType.Clear()
-        oList_RelType.Add(New clsOntologyItem(objLocalConfig.OItem_RelationType_isSubordinated.GUID, objLocalConfig.Globals.Type_RelationType))
-
-        objDBLevel_Drive.get_Data_ObjectRel(oList_Object, _
-                                            oList_Other, _
-                                            oList_RelType, _
+        objDBLevel_Drive.get_Data_ObjectRel(oList_ObjRel, _
                                             boolIDs:=False)
 
         For Each objOItem_ObjRel In objDBLevel_Drive.OList_ObjectRel
@@ -382,18 +458,28 @@ Public Class clsDataWork
     End Sub
 
     Public Function File_NotExist(ByVal oItem_Folder As clsOntologyItem, ByVal oList_Files As List(Of clsOntologyItem)) As List(Of clsOntologyItem)
-        Dim oList_Folders As New List(Of clsOntologyItem)
-        Dim oList_RelType As New List(Of clsOntologyItem)
-        Dim oList_Files2 As New List(Of clsOntologyItem)
+
+        Dim oList_ObjRel As New List(Of clsObjectRel)
         Dim oList_Result As New List(Of clsOntologyItem)
 
-        oList_Folders.Add(oItem_Folder)
-        oList_RelType.Add(objLocalConfig.OItem_RelationType_isSubordinated)
-        oList_Files2.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Type_File.GUID, objLocalConfig.Globals.Type_Object))
+        
+        oList_ObjRel.Add(New clsObjectRel(Nothing, _
+                                          Nothing, _
+                                          objLocalConfig.OItem_Type_File.GUID, _
+                                          Nothing, _
+                                          oItem_Folder.GUID, _
+                                          oItem_Folder.Name, _
+                                          oItem_Folder.GUID_Parent, _
+                                          Nothing, _
+                                          objLocalConfig.OItem_RelationType_isSubordinated.GUID, _
+                                          Nothing, _
+                                          objLocalConfig.Globals.Type_Object, _
+                                          Nothing, _
+                                          Nothing, _
+                                          Nothing))
 
-        objDBLevel_Files.get_Data_ObjectRel(oList_Files2, _
-                                            oList_Folders, _
-                                            oList_RelType, _
+
+        objDBLevel_Files.get_Data_ObjectRel(oList_ObjRel, _
                                             boolIDs:=False)
 
         Dim objL = From objFile In oList_Files
@@ -412,9 +498,8 @@ Public Class clsDataWork
     Public Function Folder_NotExist(ByVal oItem_FileSystemItem As clsOntologyItem, _
                                     ByVal oItem_NewFolder As clsOntologyItem) As clsOntologyItem
 
-        Dim oList_Objects As New List(Of clsOntologyItem)
-        Dim oList_Others As New List(Of clsOntologyItem)
-        Dim oList_RelType As New List(Of clsOntologyItem)
+        Dim oList_ObjRel As New List(Of clsObjectRel)
+        
         Dim objOItem_Result As New clsOntologyItem
         Dim boolResult As Boolean
 
@@ -423,19 +508,43 @@ Public Class clsDataWork
         objOItem_Result.GUID_Parent = oItem_NewFolder.GUID_Parent
 
         If oItem_FileSystemItem.GUID_Parent = objLocalConfig.OItem_Type_Server.GUID Then
-            oList_Objects.Add(oItem_FileSystemItem)
-            oList_Others.Add(oItem_NewFolder)
-            oList_RelType.Add(objLocalConfig.OItem_RelationType_Fileshare)
+            oList_ObjRel.Add(New clsObjectRel(oItem_FileSystemItem.GUID, _
+                                              oItem_FileSystemItem.Name, _
+                                              oItem_FileSystemItem.GUID_Parent, _
+                                              Nothing, _
+                                              oItem_NewFolder.GUID, _
+                                              oItem_NewFolder.Name, _
+                                              oItem_NewFolder.GUID_Parent, _
+                                              Nothing, _
+                                              objLocalConfig.OItem_RelationType_Fileshare.GUID, _
+                                              Nothing, _
+                                              objLocalConfig.Globals.Type_Object, _
+                                              Nothing, _
+                                              Nothing, _
+                                              Nothing))
+
         Else
-            oList_Objects.Add(oItem_NewFolder)
-            oList_Others.Add(oItem_FileSystemItem)
-            oList_RelType.Add(objLocalConfig.OItem_RelationType_isSubordinated)
+
+            oList_ObjRel.Add(New clsObjectRel(oItem_NewFolder.GUID, _
+                                              oItem_NewFolder.Name, _
+                                              oItem_NewFolder.GUID_Parent, _
+                                              Nothing, _
+                                              oItem_FileSystemItem.GUID, _
+                                              oItem_FileSystemItem.Name, _
+                                              oItem_FileSystemItem.GUID_Parent, _
+                                              Nothing, _
+                                              objLocalConfig.OItem_RelationType_isSubordinated.GUID, _
+                                              Nothing, _
+                                              objLocalConfig.Globals.Type_Object, _
+                                              Nothing, _
+                                              Nothing, _
+                                              Nothing))
+
+            
         End If
 
 
-        objDBLevel_Folder.get_Data_ObjectRel(oList_Objects, _
-                                             oList_Others, _
-                                             oList_RelType, _
+        objDBLevel_Folder.get_Data_ObjectRel(oList_ObjRel, _
                                              boolIDs:=False)
 
 
@@ -468,6 +577,43 @@ Public Class clsDataWork
 
 
         Return objOItem_Result
+    End Function
+
+    Public Function search_Hash(ByVal strHash As String) As clsOntologyItem
+        Dim oItem_Result As clsOntologyItem
+        Dim oList_ObjAtt As New List(Of clsObjectAtt)
+
+        oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
+                                          Nothing, _
+                                          Nothing, _
+                                          Nothing, _
+                                          Nothing, _
+                                          objLocalConfig.OItem_Attribute_Hash.GUID, _
+                                          Nothing, _
+                                          Nothing, _
+                                          Nothing, _
+                                          Nothing, _
+                                          Nothing, _
+                                          Nothing, _
+                                          Nothing, _
+                                          strHash, _
+                                          Nothing))
+
+        objDBLevel_Hash.get_Data_ObjectAtt(oList_ObjAtt, _
+                                           boolIDs:=False)
+
+        If objDBLevel_Hash.OList_ObjectAtt.Count > 0 Then
+            oItem_Result = New clsOntologyItem(objDBLevel_Hash.OList_ObjectAtt(0).ID_Object, _
+                                               objDBLevel_Hash.OList_ObjectAtt(0).Name_Object, _
+                                               objLocalConfig.OItem_Type_File.GUID, _
+                                               objLocalConfig.Globals.Type_Object)
+
+        Else
+            oItem_Result = Nothing
+        End If
+
+
+        Return oItem_Result
     End Function
 
 End Class
