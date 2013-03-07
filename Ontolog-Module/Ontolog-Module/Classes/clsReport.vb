@@ -34,11 +34,10 @@
 
     Public Sub sync_SQLDB_Relations(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing)
         Dim objClassRel As clsClassRel
-        Dim objOList_Objects_Left As New List(Of clsOntologyItem)
-        Dim objOList_Objects_Right As New List(Of clsOntologyItem)
-        Dim objOList_RelTypes As New List(Of clsOntologyItem)
         Dim objOList_Class_Left As New List(Of clsOntologyItem)
         Dim objOList_Class_Right As New List(Of clsOntologyItem)
+        Dim objOList_ObjecRel As New List(Of clsObjectRel)
+        Dim objOList_RelTypes As New List(Of clsOntologyItem)
         Dim objOItem_ORel As clsObjectRel
         Dim objTextWriter As IO.TextWriter
         Dim strPath As String
@@ -55,14 +54,27 @@
         objDBLevel_ClassRel.get_Data_ClassRel(OList_Classes, Nothing, False, False, False)
 
         For Each objClassRel In objDBLevel_ClassRel.OList_ClassRel_ID
-            objOList_Objects_Left.Clear()
-            objOList_Objects_Right.Clear()
-            objOList_RelTypes.Clear()
-            objOList_Objects_Left.Add(New clsOntologyItem(Nothing, Nothing, objClassRel.ID_Class_Left, objLocalConfig.Globals.Type_Object))
-            objOList_Objects_Right.Add(New clsOntologyItem(Nothing, Nothing, objClassRel.ID_Class_Right, objLocalConfig.Globals.Type_Object))
-            objOList_RelTypes.Add(New clsOntologyItem(objClassRel.ID_RelationType, objLocalConfig.Globals.Type_RelationType))
 
-            objDBLevel_ObjectRel.get_Data_ObjectRel(objOList_Objects_Left, objOList_Objects_Right, objOList_RelTypes, False, False)
+            objOList_ObjecRel.Clear()
+            objOList_ObjecRel.Add(New clsObjectRel(Nothing, _
+                                                   Nothing, _
+                                                   objClassRel.ID_Class_Left, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   objClassRel.ID_Class_Right, _
+                                                   Nothing, _
+                                                   objClassRel.ID_RelationType, _
+                                                   Nothing, _
+                                                   objLocalConfig.Globals.Type_Object, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing))
+
+
+
+            
+            objDBLevel_ObjectRel.get_Data_ObjectRel(objOList_ObjecRel, False, False)
 
             strPath = "%Temp%\" & Guid.NewGuid().ToString & ".xml"
             strPath = Environment.ExpandEnvironmentVariables(strPath)
@@ -118,6 +130,7 @@
                     i = j
                 End While
             Else
+
                 objOList_Class_Left.Clear()
                 objOList_Class_Right.Clear()
                 objOList_RelTypes.Clear()

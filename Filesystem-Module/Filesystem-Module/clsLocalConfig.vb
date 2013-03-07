@@ -265,7 +265,8 @@ Public Class clsLocalConfig
                                              objGlobals.Direction_RightLeft.GUID, _
                                              Nothing))
 
-        objDBLevel_Config1.get()
+        objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel, _
+                                              boolIDs:=False)
 
     End Sub
 
@@ -722,22 +723,32 @@ Public Class clsLocalConfig
                                           False, _
                                           objGlobals.Direction_LeftRight.Name, _
                                           True)
-
+            oList_ObjectRel.Clear()
             If objDBLevel_Config1.OList_ObjectRel.Count > 0 Then
                 For Each objOItem_ObjecRel In objDBLevel_Config1.OList_ObjectRel
                     oList_ConfigItems.Add(New clsOntologyItem(objOItem_ObjecRel.ID_Other, _
                                                               objGlobals.Type_Object))
 
+                    oList_ObjectRel.Add(New clsObjectRel(objOItem_ObjecRel.ID_Other, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         cstr_ID_RelType_belongsTo, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         objGlobals.Direction_LeftRight.GUID, _
+                                                         objGlobals.Direction_LeftRight.Name, _
+                                                         Nothing))
 
 
 
                 Next
 
-                oList_RelType_belongsTo.Add(New clsOntologyItem(cstr_ID_RelType_belongsTo, objGlobals.Type_RelationType))
-
-                objDBLevel_Config2.get_Data_ObjectRel(oList_ConfigItems, _
-                                                         Nothing, _
-                                                         oList_RelType_belongsTo, _
+                objDBLevel_Config2.get_Data_ObjectRel(oList_ObjectRel, _
                                                          False, _
                                                          False, _
                                                          False, _

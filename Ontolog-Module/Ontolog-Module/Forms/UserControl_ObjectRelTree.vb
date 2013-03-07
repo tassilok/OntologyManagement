@@ -109,6 +109,7 @@
     Private Sub fill_Forward()
         Dim objTreeNode As TreeNode
         Dim objOList_Classes As New List(Of clsOntologyItem)
+        Dim objOList_ObjRel As New List(Of clsObjectRel)
         Dim objOList_Obj_Right As New List(Of clsOntologyItem)
         Dim objOList_RelationType As New List(Of clsOntologyItem)
         Dim objOList_Objects As New List(Of clsOntologyItem)
@@ -121,18 +122,27 @@
 
         objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_LeftRight, False, False, False, False)
 
-        objOList_Objects.Add(objOItem_Object)
+
 
         For Each objItem In objDBLevel_Class_LeftRight.OList_ClassRel
-            objOList_Obj_Right.Clear()
-            objOList_Obj_Right.Add(New clsOntologyItem(Nothing, Nothing, objItem.ID_Class_Right, objLocalConfig.Globals.Type_Object))
-            objOList_RelationType.Clear()
-            objOList_RelationType.Add(New clsOntologyItem(objItem.ID_RelationType, objLocalConfig.Globals.Type_RelationType))
+            objOList_ObjRel.Clear()
+            objOList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, _
+                                                 objOItem_Object.Name, _
+                                                 objOItem_Object.GUID_Parent, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 objItem.ID_Class_Right, _
+                                                 Nothing, _
+                                                 objItem.ID_RelationType, _
+                                                 Nothing, _
+                                                 objLocalConfig.Globals.Type_Object, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing))
 
 
-            objOItem_Result = objDBLevel_Count.get_Data_ObjectRel(objOList_Objects, _
-                                                objOList_Obj_Right, _
-                                                objOList_RelationType, _
+            objOItem_Result = objDBLevel_Count.get_Data_ObjectRel(objOList_ObjRel, _
                                                 False, _
                                                 False, _
                                                 True)
@@ -164,6 +174,7 @@
         Dim objOList_Obj_Left As New List(Of clsOntologyItem)
         Dim objOList_RelationType As New List(Of clsOntologyItem)
         Dim objOList_Objects As New List(Of clsOntologyItem)
+        Dim objOList_ObjRel As New List(Of clsObjectRel)
 
         Dim objOItem_Result As clsOntologyItem
         Dim objOItem As clsClassRel
@@ -173,17 +184,27 @@
 
         objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_RightLeft, False, False, False, False)
 
-        objOList_Objects.Add(objOItem_Object)
 
         For Each objItem In objDBLevel_Class_LeftRight.OList_ClassRel
-            objOList_Obj_Left.Clear()
-            objOList_Obj_Left.Add(New clsOntologyItem(Nothing, Nothing, objItem.ID_Class_Left, objLocalConfig.Globals.Type_Object))
-            objOList_RelationType.Clear()
-            objOList_RelationType.Add(New clsOntologyItem(objItem.ID_RelationType, objLocalConfig.Globals.Type_RelationType))
+            objOList_ObjRel.Clear()
+            objOList_ObjRel.Add(New clsObjectRel(Nothing, _
+                                                 Nothing, _
+                                                 objItem.ID_Class_Left, _
+                                                 Nothing, _
+                                                 objOItem_Object.GUID, _
+                                                 objOItem_Object.Name, _
+                                                 objOItem_Object.GUID_Parent, _
+                                                 Nothing, _
+                                                 objItem.ID_RelationType, _
+                                                 Nothing, _
+                                                 objLocalConfig.Globals.Type_Object, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing))
 
-            objOItem_Result = objDBLevel_Count.get_Data_ObjectRel(objOList_Obj_Left, _
-                                                objOList_Objects, _
-                                                objOList_RelationType, _
+
+            
+            objOItem_Result = objDBLevel_Count.get_Data_ObjectRel(objOList_ObjRel, _
                                                 False, _
                                                 False, _
                                                 True)
@@ -214,6 +235,7 @@
         Dim objOList_OR_Node As New List(Of clsOntologyItem)
         Dim lngCount As Long
         Dim objOList_Classes As New List(Of clsOntologyItem)
+        Dim objOList_ObjRel As New List(Of clsObjectRel)
         Dim oList_Param1 As List(Of clsOntologyItem)
         Dim oList_Param2 As List(Of clsOntologyItem)
         Dim objOItem_Result As clsOntologyItem
@@ -227,12 +249,26 @@
         objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_LeftRight, False, False, True)
 
 
-        oList_Param1 = New List(Of clsOntologyItem)
-        oList_Param1.Add(objOItem_Object)
-        oList_Param2 = New List(Of clsOntologyItem)
-        oList_Param2.Add(New clsOntologyItem(Nothing, objLocalConfig.Globals.Type_AttributeType))
+        
+        objOList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, _
+                            objOItem_Object.Name, _
+                            objOItem_Object.GUID_Parent, _
+                            Nothing, _
+                            Nothing, _
+                            Nothing, _
+                            Nothing, _
+                            Nothing, _
+                            Nothing, _
+                            Nothing, _
+                            objLocalConfig.Globals.Type_AttributeType, _
+                            Nothing, _
+                            Nothing, _
+                            Nothing))
 
-        objOItem_Result = objDBLevel_ObjectRel.get_Data_ObjectRel(oList_Param1, oList_Param2, Nothing, False, False, True)
+
+
+
+        objOItem_Result = objDBLevel_ObjectRel.get_Data_ObjectRel(objOList_ObjRel, False, False, True)
 
         '' Attributes
         

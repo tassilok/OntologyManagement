@@ -2144,7 +2144,7 @@ Public Class clsDBLevel
 
 
 
-        create_BoolQuery_ObjectAtt(oList_ObjectAtt, doJoin)
+        create_BoolQuery_ObjectAtt(oList_ObjectAtt, True, doJoin)
 
         intCount = intPackageLength
         intPos = 0

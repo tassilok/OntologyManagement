@@ -95,9 +95,44 @@
     End Sub
 
     Private Sub get_Data()
+        Dim objOList_ObjRel1 As New List(Of clsObjectRel)
+        Dim objOList_ObjRel2 As New List(Of clsObjectRel)
+        Dim objOItem_Object As clsOntologyItem
 
-        objDBLevel_ObjRel.get_Data_ObjectRel(objOList_Object, Nothing, Nothing, True, False, False, objLocalConfig.Globals.Direction_LeftRight.Name)
-        objDBLevel_ObjRel.get_Data_ObjectRel(Nothing, objOList_Object, Nothing, True, False, False, objLocalConfig.Globals.Direction_RightLeft.Name, False)
+        For Each objOItem_Object In objOList_Object
+            objOList_ObjRel1.Add(New clsObjectRel(objOItem_Object.GUID, _
+                                                  objOItem_Object.Name, _
+                                                  objOItem_Object.GUID_Parent, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing))
+
+            objOList_ObjRel2.Add(New clsObjectRel(Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  objOItem_Object.GUID, _
+                                                  objOItem_Object.Name, _
+                                                  objOItem_Object.GUID_Parent, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing))
+        Next
+
+        objDBLevel_ObjRel.get_Data_ObjectRel(objOList_ObjRel1, True, False, False, objLocalConfig.Globals.Direction_LeftRight.Name)
+        objDBLevel_ObjRel.get_Data_ObjectRel(objOList_ObjRel2, True, False, False, objLocalConfig.Globals.Direction_RightLeft.Name, False)
         boolDataDone = True
 
     End Sub

@@ -176,9 +176,9 @@
 
     Private Sub get_Data()
         Dim oList_Items As New List(Of clsOntologyItem)
-        Dim oList_Other As New List(Of clsOntologyItem)
-        Dim oList_RelType As New List(Of clsOntologyItem)
+        Dim oList_ObjRel As New List(Of clsObjectRel)
         Dim oList_ObjAtt As New List(Of clsObjectAtt)
+        Dim objOItem_Item As clsOntologyItem
 
         If Not objOItem_Parent Is Nothing Then
             If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
@@ -227,16 +227,46 @@
                         objDBLevel.get_Data_ObjectAtt(oList_ObjAtt, True, False)
 
                     Case Else
-                        oList_Other.Add(objOItem_Other)
-                        oList_RelType.Add(objOItem_RelationType)
 
-                        oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
-                        objDBLevel.get_Data_ObjectRel(oList_Items, oList_Other, oList_RelType, True, False)
+                        oList_ObjRel.Add(New clsObjectRel(strGUID_Filter, _
+                                                          strName_Filter, _
+                                                          strGUID_Class, _
+                                                          Nothing, _
+                                                          objOItem_Other.GUID, _
+                                                          objOItem_Other.Name, _
+                                                          objOItem_Other.GUID_Parent, _
+                                                          Nothing, _
+                                                          objOItem_RelationType.GUID, _
+                                                          Nothing, _
+                                                          objLocalConfig.Globals.Type_Object, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          Nothing))
+
+
+                        objDBLevel.get_Data_ObjectRel(oList_ObjRel, True, False)
                 End Select
             Else
-                oList_RelType.Add(objOItem_RelationType)
-                oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
-                objDBLevel.get_Data_ObjectRel(oList_Items, Nothing, oList_RelType, True, False)
+                For Each objOItem_Item In oList_Items
+                    oList_ObjRel.Add(New clsObjectRel(objOItem_Item.GUID, _
+                                                      objOItem_Item.Name, _
+                                                      objOItem_Item.GUID_Parent, _
+                                                      Nothing, _
+                                                      strGUID_Filter, _
+                                                      strName_Filter, _
+                                                      strGUID_Class, _
+                                                      Nothing, _
+                                                      objOItem_RelationType.GUID, _
+                                                      Nothing, _
+                                                      objLocalConfig.Globals.Type_Object, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing))
+
+
+                Next
+                
+                objDBLevel.get_Data_ObjectRel(oList_ObjRel, True, False)
             End If
             
 

@@ -22,9 +22,6 @@
         Dim objOList_ObjRel2 As New List(Of clsObjectRel)
         Dim objOList_ObjRel3 As New List(Of clsObjectRel)
         Dim objOList_ObjRel4 As New List(Of clsObjectRel)
-        Dim oList_Param1 As List(Of clsOntologyItem)
-        Dim oList_Param2 As List(Of clsOntologyItem)
-        Dim oList_Param3 As List(Of clsOntologyItem)
 
 
         objOList_ObjRel.Add(New clsObjectRel(OItem_Ontology.GUID, _
@@ -154,27 +151,11 @@
 
         objDBLevel_Attributes.get_Data_ObjectRel(objOList_ObjRel, False, False)
 
-        
         objDBLevel_Classes.get_Data_ObjectRel(objOList_ObjRel3, False, False)
 
-        oList_Param2 = New List(Of clsOntologyItem)
-        oList_Param2.Add(New clsOntologyItem(Nothing, objLocalConfig.Globals.Type_Object))
-        oList_Param3 = New List(Of clsOntologyItem)
-        oList_Param3.Add(objLocalConfig.Globals.RelationType_belongingObject)
+        objDBLevel_Objects.get_Data_ObjectRel(objOList_ObjRel4, False, False)
 
-        objDBLevel_Objects.get_Data_ObjectRel(objDBLevel.OList_Objects, _
-                                        oList_Param2, _
-                                        oList_Param3, False, False)
-
-
-        oList_Param2 = New List(Of clsOntologyItem)
-        oList_Param2.Add(New clsOntologyItem(Nothing, objLocalConfig.Globals.Type_RelationType))
-        oList_Param3 = New List(Of clsOntologyItem)
-        oList_Param3.Add(objLocalConfig.Globals.RelationType_belongingRelationType)
-
-        objDBLevel_RelTypes.get_Data_ObjectRel(objDBLevel.OList_Objects, _
-                                        oList_Param2, _
-                                        oList_Param3, False, False)
+        objDBLevel_RelTypes.get_Data_ObjectRel(objOList_ObjRel2, False, False)
 
 
         Return objOItem_Result

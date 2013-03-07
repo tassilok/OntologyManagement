@@ -46,7 +46,7 @@ Public Class clsDataWork
                                           Nothing, _
                                           objLocalConfig.OItem_Type_Server.GUID, _
                                           Nothing, _
-                                          Nothing, _
+                                          objLocalConfig.OItem_Token_Active_Server_State.GUID, _
                                           Nothing, _
                                           objLocalConfig.OItem_Type_Server_State.GUID, _
                                           Nothing, _
@@ -67,7 +67,7 @@ Public Class clsDataWork
                                           Nothing, _
                                           objLocalConfig.OItem_Type_Server.GUID, _
                                           Nothing, _
-                                          Nothing, _
+                                          objLocalConfig.OItem_Token_Fileserver_Server_Type.GUID, _
                                           Nothing, _
                                           objLocalConfig.OItem_Type_Server_Type.GUID, _
                                           Nothing, _
@@ -301,11 +301,9 @@ Public Class clsDataWork
             End If
 
 
-            objDBLevel_Files.get_Data_Objects(oList_Objects)
 
             objDBLevel_Files.get_Data_ObjectRel(oList_ObjRel, _
-                                                boolIDs:=False, _
-                                                doJoin_Left:=True)
+                                                boolIDs:=False)
 
             If objLocalConfig.Globals.is_GUID(strFilter) = True Then
                 oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
