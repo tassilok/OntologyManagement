@@ -668,25 +668,31 @@ Public Class clsLocalConfig
 
     Private Sub get_Data_DevelopmentConfig()
         Dim objOItem_ObjecRel As clsObjectRel
-        Dim oList_SoftwareDevelop As New List(Of clsOntologyItem)
-        Dim oList_DevelopmentConfig As New List(Of clsOntologyItem)
+        Dim oList_ObjectRel As New List(Of clsObjectRel)
         Dim oList_ConfigItems As New List(Of clsOntologyItem)
-        Dim oList_RelType_needs As New List(Of clsOntologyItem)
+
         Dim oList_RelType_contains As New List(Of clsOntologyItem)
         Dim oList_RelType_belongsTo As New List(Of clsOntologyItem)
 
         Dim oList_ConfigItem As New List(Of clsOntologyItem)
 
-        oList_SoftwareDevelop.Add(New clsOntologyItem(cstr_ID_SoftwareDevelopment, _
-                                                      objGlobals.Type_Object))
 
-        oList_DevelopmentConfig.Add(New clsOntologyItem(Nothing, Nothing, cstr_ID_Class_DevelopmentConfig, objGlobals.Type_Object))
-
-        oList_RelType_needs.Add(New clsOntologyItem(cstr_ID_RelType_needs, objGlobals.Type_RelationType))
-
-        objDBLevel_Config1.get_Data_ObjectRel(oList_SoftwareDevelop, _
-                                      oList_DevelopmentConfig, _
-                                      oList_RelType_needs)
+        oList_ObjectRel.Add(New clsObjectRel(cstr_ID_SoftwareDevelopment, _
+                                            Nothing, _
+                                            Nothing, _
+                                            Nothing, _
+                                            Nothing, _
+                                            Nothing, _
+                                            cstr_ID_Class_DevelopmentConfig, _
+                                            Nothing, _
+                                            cstr_ID_RelType_needs, _
+                                            Nothing, _
+                                            objGlobals.Type_Object, _
+                                            Nothing, _
+                                            Nothing, _
+                                            Nothing))
+        
+        objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel)
 
         If objDBLevel_Config1.OList_ObjectRel_ID.Count > 0 Then
             objOItem_DevConfig.GUID = objDBLevel_Config1.OList_ObjectRel_ID(0).ID_Other
@@ -694,17 +700,23 @@ Public Class clsLocalConfig
             objOItem_DevConfig.GUID_Parent = objDBLevel_Config1.OList_ObjectRel_ID(0).ID_Parent_Other
             objOItem_DevConfig.Type = objDBLevel_Config1.OList_ObjectRel_ID(0).Ontology
 
-            oList_DevelopmentConfig.Clear()
+            oList_ObjectRel.Clear()
+            oList_ObjectRel.Add(New clsObjectRel(objOItem_DevConfig.GUID, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 cstr_ID_Class_ConfigItem, _
+                                                 Nothing, _
+                                                 cstr_ID_RelType_contains, _
+                                                 Nothing, _
+                                                 objGlobals.Type_Object, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing))
 
-            oList_DevelopmentConfig.Add(New clsOntologyItem(objOItem_DevConfig.GUID, objGlobals.Type_Object))
-
-            oList_ConfigItem.Add(New clsOntologyItem(Nothing, Nothing, cstr_ID_Class_ConfigItem, objGlobals.Type_Object))
-
-            oList_RelType_contains.Add(New clsOntologyItem(cstr_ID_RelType_contains, objGlobals.Type_RelationType))
-
-            objDBLevel_Config1.get_Data_ObjectRel(oList_DevelopmentConfig, _
-                                          oList_ConfigItem, _
-                                          oList_RelType_contains, _
+            objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel, _
                                           False, _
                                           False, _
                                           False, _
