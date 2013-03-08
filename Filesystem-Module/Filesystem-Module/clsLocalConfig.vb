@@ -257,17 +257,53 @@ Public Class clsLocalConfig
         Dim oList_ObjectRel As New List(Of clsObjectRel)
 
         oList_ObjectRel.Add(New clsObjectRel(Nothing, _
+                                             Nothing, _
                                              OItem_Type_Module.GUID, _
-                                             cstr_ID_Class_SoftwareDevelopment, _
+                                             Nothing, _
+                                             cstr_ID_SoftwareDevelopment, _
+                                             Nothing, _
+                                             Nothing, _
                                              Nothing, _
                                              OItem_RelationType_offered_by.GUID, _
+                                             Nothing, _
                                              objGlobals.Type_Object, _
                                              objGlobals.Direction_RightLeft.GUID, _
+                                             Nothing, _
                                              Nothing))
 
-        objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel, _
-                                              boolIDs:=False)
+        objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel)
 
+        If objDBLevel_Config1.OList_ObjectRel_ID.Count > 0 Then
+            oList_ObjectRel.Clear()
+            oList_ObjectRel.Add(New clsObjectRel(Nothing, _
+                                                 Nothing, _
+                                                 objOItem_Type_BlobDirWatcher.GUID, _
+                                                 Nothing, _
+                                                 objDBLevel_Config1.OList_ObjectRel_ID(0).ID_Object, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 objOItem_RelationType_belongsTo.GUID, _
+                                                 Nothing, _
+                                                 objGlobals.Type_Object, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing))
+
+            objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel, _
+                                                  boolIDs:=False)
+
+            If objDBLevel_Config1.OList_ObjectRel.Count > 0 Then
+                objOItem_BaseConfig = New clsOntologyItem(objDBLevel_Config1.OList_ObjectRel(0).ID_Object, _
+                                                       objDBLevel_Config1.OList_ObjectRel(0).Name_Object, _
+                                                       objDBLevel_Config1.OList_ObjectRel(0).ID_Parent_Object)
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+        Else
+            Err.Raise(1, "Config not set")
+
+        End If
     End Sub
 
     Private Sub get_Config_AttributeTypes()
