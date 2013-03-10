@@ -2727,7 +2727,8 @@ Public Class clsDBLevel
                     End If
 
                     If oList_Rel_Object.Count > 0 Then
-                        objDBLevel.get_Data_Objects(oList_Rel_Object)
+                        objDBLevel.get_Data_Objects(oList_Rel_Object, _
+                                                    List2:=True)
                         objDBLevel.get_Data_Classes(oList_Rel_ObjectCls, False, True)
                     End If
 
@@ -2743,7 +2744,7 @@ Public Class clsDBLevel
                                 Join objRelTypes In objOntologyList_RelationTypes On objRelTypes.GUID Equals objRel.ID_RelationType
                                 Group Join objRelAtts In objDBLevel.objOntologyList_AttributTypes On objRelAtts.GUID Equals objRel.ID_Other Into Right_Attributes = Group
                                 Group Join objRelClasses In objDBLevel.objOntologyList_Classes1 On objRelClasses.GUID Equals objRel.ID_Other Into Right_Classes = Group
-                                Group Join objRelObjs In objDBLevel.objOntologyList_Objects1 On objRelObjs.GUID Equals objRel.ID_Other Into Right_Objects = Group
+                                Group Join objRelObjs In objDBLevel.objOntologyList_Objects2 On objRelObjs.GUID Equals objRel.ID_Other Into Right_Objects = Group
                                 Group Join objRelObjsCls In objDBLevel.objOntologyList_Classes2 On objRelObjsCls.GUID Equals objRel.ID_Parent_Other Into Right_ObjectClasses = Group
                                 Group Join objRelRels In objDBLevel.objOntologyList_RelationTypes On objRelRels.GUID Equals objRel.ID_Other Into Right_Rels = Group
                                 From oRightAtts In Right_Attributes.DefaultIfEmpty, _
@@ -3164,14 +3165,13 @@ Public Class clsDBLevel
         objOntologyList_Objects1.Clear()
         otblT_Objects.Clear()
 
-        objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objOItem_Class_Par.GUID, objLocalConfig.Globals.Type_Class))
-        objOList_Others.Add(New clsOntologyItem(Nothing, Nothing, objOitem_Class_Child.GUID, objLocalConfig.Globals.Type_Class))
+        objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objOItem_Class_Par.GUID, objLocalConfig.Globals.Type_Object))
+        objOList_Others.Add(New clsOntologyItem(Nothing, Nothing, objOitem_Class_Child.GUID, objLocalConfig.Globals.Type_Object))
         objOList_RelationTypes.Add(objOItem_RelationType)
 
-        objDBLevel_Obj1 = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Obj2 = New clsDBLevel(objLocalConfig.Globals)
 
-        objDBLevel_Obj1.get_Data_Objects(objOList_Objects)
+        get_Data_Objects(objOList_Objects)
         objDBLevel_Obj2.get_Data_Objects(objOList_Others)
 
 
@@ -3190,7 +3190,7 @@ Public Class clsDBLevel
 
 
                 Dim objList_Items = From obj In objList
-                                    Join objLeft In objDBLevel_Obj1.objOntologyList_Objects1 On obj.Source(objLocalConfig.Globals.Field_ID_Object).ToString Equals objLeft.GUID
+                                    Join objLeft In objOntologyList_Objects1 On obj.Source(objLocalConfig.Globals.Field_ID_Object).ToString Equals objLeft.GUID
                                     Join objRight In objDBLevel_Obj2.objOntologyList_Objects1 On obj.Source(objLocalConfig.Globals.Field_ID_Other).ToString Equals objRight.GUID
                                     Join objRel In objOList_RelationTypes On obj.Source(objLocalConfig.Globals.Field_ID_RelationType).ToString Equals objRel.GUID
                                     Select ID_Object = objRight.GUID, Name_Object = objRight.Name, ID_Parent = objRight.GUID_Parent, ID_Object_Parent = objLeft.GUID, Name_Object_Parent = objLeft.Name
@@ -3231,7 +3231,9 @@ Public Class clsDBLevel
     Public Function get_Data_Objects(Optional ByVal oList_Objects As List(Of clsOntologyItem) = Nothing, _
                                      Optional ByVal boolTable As Boolean = False, _
                                      Optional ByVal doCount As Boolean = False, _
-                                     Optional ByVal List2 As Boolean = False) As clsOntologyItem
+                                     Optional ByVal List2 As Boolean = False, _
+                                     Optional ByVal ClearObj1 As Boolean = True, _
+                                     Optional ByVal ClearObj2 As Boolean = True) As clsOntologyItem
 
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
@@ -3243,8 +3245,14 @@ Public Class clsDBLevel
 
         objElConn.Flush()
         otblT_Objects.Clear()
-        objOntologyList_Objects1.Clear()
-        objOntologyList_Objects2.Clear()
+        If ClearObj1 = True Then
+            objOntologyList_Objects1.Clear()
+        End If
+
+        If ClearObj2 = True Then
+            objOntologyList_Objects2.Clear()
+        End If
+
 
         create_BoolQuery_Simple(oList_Objects, objLocalConfig.Globals.Type_Object)
 
@@ -3274,7 +3282,7 @@ Public Class clsDBLevel
                                                                     objHit.Source(objLocalConfig.Globals.Field_ID_Class).ToString, _
                                                                     objLocalConfig.Globals.Type_Object))
                         End If
-                        
+
                     Else
                         otblT_Objects.Rows.Add(objHit.Id.ToString, _
                                                                     objHit.Source(objLocalConfig.Globals.Field_Name_Item).ToString, _

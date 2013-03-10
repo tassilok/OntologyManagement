@@ -8,17 +8,17 @@ Imports System.Runtime.InteropServices
 
 ' Die Werte der Assemblyattribute überprüfen
 
-<Assembly: AssemblyTitle("Ontolog-Module")> 
+<Assembly: AssemblyTitle("Report-Module")> 
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("Ontolog-Module")> 
+<Assembly: AssemblyProduct("Report-Module")> 
 <Assembly: AssemblyCopyright("Copyright ©  2013")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
 
 'Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
-<Assembly: Guid("5d3a456f-987b-4d01-b659-dda0b6988691")> 
+<Assembly: Guid("828f623c-cd67-4fd0-a9ab-8c08b2c5f2ea")> 
 
 ' Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
 '
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' übernehmen, indem Sie "*" eingeben:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("0.3.0.0")> 
-<Assembly: AssemblyFileVersion("0.3.0.0")> 
+<Assembly: AssemblyVersion("0.0.1.0")> 
+<Assembly: AssemblyFileVersion("0.0.1.0")> 
