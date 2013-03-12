@@ -17,7 +17,6 @@ Public Class clsLocalConfig
     Private objDBLevel_Config2 As clsDBLevel
 
     'Attributes
-    Private OItem_Attribute_is_Null As New clsOntologyItem
     Private objOItem_Attribute_Standard As New clsOntologyItem
     Private objOItem_Attribute_ASC As New clsOntologyItem
     Private objOItem_Attribute_invisible As New clsOntologyItem
@@ -41,6 +40,9 @@ Public Class clsLocalConfig
     Private objOItem_RelationType_Table_Config As New clsOntologyItem
     Private objOItem_RelationType_Row_Config As New clsOntologyItem
     Private objOItem_RelationType_Cell_Config As New clsOntologyItem
+    Private objOItem_RelationType_belonging_Resources As New clsOntologyItem
+    Private objOItem_RelationType_belonging_Source As New clsOntologyItem
+    Private objOItem_RelationType_belonging As New clsOntologyItem
 
     
     'Token
@@ -62,7 +64,15 @@ Public Class clsLocalConfig
     Private objOItem_Object_Variable_COLCOUNT As New clsOntologyItem
     Private objOItem_Object_Variable_DATETIME_TZ As New clsOntologyItem
     Private objOItem_Object_Field_Type_DateTime As New clsOntologyItem
-    
+    Private objOItem_Object_Report_Type_ElasticView As New clsOntologyItem
+    Private objOItem_Object_Ontology_Relation_Rule_Right_Outer_Join As New clsOntologyItem
+    Private objOItem_Object_Ontology_Relation_Rule_Relation_Break As New clsOntologyItem
+    Private objOItem_Object_Ontology_Relation_Rule_Parent_Types As New clsOntologyItem
+    Private objOItem_Object_Ontology_Relation_Rule_Only_Item As New clsOntologyItem
+    Private objOItem_Object_Ontology_Relation_Rule_Name_of_Type_Parse As New clsOntologyItem
+    Private objOItem_Object_Ontology_Relation_Rule_Left_Outer_Join As New clsOntologyItem
+    Private objOItem_Object_Ontology_Relation_Rule_Inner_Join As New clsOntologyItem
+    Private objOItem_Object_Ontology_Relation_Rule_Child_Token As New clsOntologyItem
 
     'Types
     Private objOItem_Class_Database As New clsOntologyItem
@@ -89,6 +99,13 @@ Public Class clsLocalConfig
     Private objOItem_Class_XML As New clsOntologyItem
     Private objOItem_Class_User As New clsOntologyItem
     Private objOItem_Class_DataTypes__Ms_SQL_ As New clsOntologyItem
+    Private objOItem_Class_Indexes__Elastic_Search_ As New clsOntologyItem
+    Private objOItem_Class_Server_Port As New clsOntologyItem
+    Private objOItem_Class_Port As New clsOntologyItem
+    Private objOItem_Class_Ontology_Join As New clsOntologyItem
+    Private objOItem_Class_Ontology_Item As New clsOntologyItem
+
+
     
     'Attributes
     Public ReadOnly Property OItem_Attribute_ASC() As clsOntologyItem
@@ -206,6 +223,25 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property OItem_RelationType_belonging_Source() As clsOntologyItem
+        Get
+            Return objOItem_RelationType_belonging_Source
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_RelationType_belonging_Resources() As clsOntologyItem
+        Get
+            Return objOItem_RelationType_belonging_Resources
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_RelationType_belonging() As clsOntologyItem
+        Get
+            Return objOItem_RelationType_belonging
+        End Get
+    End Property
+
+
     'Token
     Public ReadOnly Property OItem_Object_Field_Type_DateTime() As clsOntologyItem
         Get
@@ -308,6 +344,61 @@ Public Class clsLocalConfig
             Return objOItem_Object_Variable_ROWCOUNT
         End Get
     End Property
+
+    Public ReadOnly Property OItem_Object_Report_Type_ElasticView() As clsOntologyItem
+        Get
+            Return objOItem_Object_Report_Type_ElasticView
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Object_Ontology_Relation_Rule_Right_Outer_Join() As clsOntologyItem
+        Get
+            Return objOItem_Object_Ontology_Relation_Rule_Right_Outer_Join
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Token_Ontology_Relation_Rule_Relation_Break() As clsOntologyItem
+        Get
+            Return objOItem_Object_Ontology_Relation_Rule_Relation_Break
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Object_Ontology_Relation_Rule_Parent_Types() As clsOntologyItem
+        Get
+            Return objOItem_Object_Ontology_Relation_Rule_Parent_Types
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Object_Ontology_Relation_Rule_Only_Item() As clsOntologyItem
+        Get
+            Return objOItem_Object_Ontology_Relation_Rule_Only_Item
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Object_Ontology_Relation_Rule_Name_of_Type_Parse() As clsOntologyItem
+        Get
+            Return objOItem_Object_Ontology_Relation_Rule_Name_of_Type_Parse
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Object_Ontology_Relation_Rule_Left_Outer_Join() As clsOntologyItem
+        Get
+            Return objOItem_Object_Ontology_Relation_Rule_Left_Outer_Join
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Object_Ontology_Relation_Rule_Inner_Join() As clsOntologyItem
+        Get
+            Return objOItem_Object_Ontology_Relation_Rule_Inner_Join
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Object_Ontology_Relation_Rule_Child_Token() As clsOntologyItem
+        Get
+            Return objOItem_Object_Ontology_Relation_Rule_Child_Token
+        End Get
+    End Property
+
 
     'Types
     Public ReadOnly Property OItem_Class_Comparison_Operators() As clsOntologyItem
@@ -450,6 +541,36 @@ Public Class clsLocalConfig
     Public ReadOnly Property OItem_Class_XML_Config() As clsOntologyItem
         Get
             Return objOItem_Class_XML_Config
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Class_Port() As clsOntologyItem
+        Get
+            Return objOItem_Class_Port
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Class_Server_Port() As clsOntologyItem
+        Get
+            Return objOItem_Class_Server_Port
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Class_Indexes__Elastic_Search_() As clsOntologyItem
+        Get
+            Return objOItem_Class_Indexes__Elastic_Search_
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Class_Ontology_Join() As clsOntologyItem
+        Get
+            Return objOItem_Class_Ontology_Join
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Class_Ontology_Item() As clsOntologyItem
+        Get
+            Return objOItem_Class_Ontology_Item
         End Get
     End Property
 
@@ -727,6 +848,41 @@ Public Class clsLocalConfig
             Err.Raise(1, "config err")
         End If
 
+        Dim objBS = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "RelationType_belonging_Source" And obj.Ontology = objGlobals.Type_RelationType
+
+        If objBS.Count > 0 Then
+            objOItem_RelationType_belonging_Source = New clsOntologyItem
+            objOItem_RelationType_belonging_Source.GUID = objBS(0).ID_Other
+            objOItem_RelationType_belonging_Source.Name = objBS(0).Name_Other
+            objOItem_RelationType_belonging_Source.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objBRS = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "RelationType_belonging_Resources" And obj.Ontology = objGlobals.Type_RelationType
+
+        If objBRS.Count > 0 Then
+            objOItem_RelationType_belonging_Resources = New clsOntologyItem
+            objOItem_RelationType_belonging_Resources.GUID = objBRS(0).ID_Other
+            objOItem_RelationType_belonging_Resources.Name = objBRS(0).Name_Other
+            objOItem_RelationType_belonging_Resources.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objBel = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "RelationType_belonging" And obj.Ontology = objGlobals.Type_RelationType
+
+        If objBel.Count > 0 Then
+            objOItem_RelationType_belonging = New clsOntologyItem
+            objOItem_RelationType_belonging.GUID = objBel(0).ID_Other
+            objOItem_RelationType_belonging.Name = objBel(0).Name_Other
+            objOItem_RelationType_belonging.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
     End Sub
 
     Private Sub get_Config_Classes()
@@ -1046,8 +1202,70 @@ Public Class clsLocalConfig
             Err.Raise(1, "config err")
         End If
 
-        
+        Dim objIES = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "Type_Indexes__Elastic_Search_" And obj.Ontology = objGlobals.Type_Class
 
+        If objIES.Count > 0 Then
+            objOItem_Class_Indexes__Elastic_Search_ = New clsOntologyItem
+            objOItem_Class_Indexes__Elastic_Search_.GUID = objIES(0).ID_Other
+            objOItem_Class_Indexes__Elastic_Search_.Name = objIES(0).Name_Other
+            objOItem_Class_Indexes__Elastic_Search_.GUID_Parent = objIES(0).ID_Parent_Other
+            objOItem_Class_Indexes__Elastic_Search_.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objSERVP = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "Type_Server_Port" And obj.Ontology = objGlobals.Type_Class
+
+        If objSERVP.Count > 0 Then
+            objOItem_Class_Server_Port = New clsOntologyItem
+            objOItem_Class_Server_Port.GUID = objSERVP(0).ID_Other
+            objOItem_Class_Server_Port.Name = objSERVP(0).Name_Other
+            objOItem_Class_Server_Port.GUID_Parent = objSERVP(0).ID_Parent_Other
+            objOItem_Class_Server_Port.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objPORT = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "Type_Port" And obj.Ontology = objGlobals.Type_Class
+
+        If objPORT.Count > 0 Then
+            objOItem_Class_Port = New clsOntologyItem
+            objOItem_Class_Port.GUID = objPORT(0).ID_Other
+            objOItem_Class_Port.Name = objPORT(0).Name_Other
+            objOItem_Class_Port.GUID_Parent = objPORT(0).ID_Parent_Other
+            objOItem_Class_Port.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOJ = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "Type_Ontology_Join" And obj.Ontology = objGlobals.Type_Class
+
+        If objOJ.Count > 0 Then
+            objOItem_Class_Ontology_Join = New clsOntologyItem
+            objOItem_Class_Ontology_Join.GUID = objOJ(0).ID_Other
+            objOItem_Class_Ontology_Join.Name = objOJ(0).Name_Other
+            objOItem_Class_Ontology_Join.GUID_Parent = objOJ(0).ID_Parent_Other
+            objOItem_Class_Ontology_Join.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOI = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "Type_Ontology_Item" And obj.Ontology = objGlobals.Type_Class
+
+        If objOI.Count > 0 Then
+            objOItem_Class_Ontology_Item = New clsOntologyItem
+            objOItem_Class_Ontology_Item.GUID = objOI(0).ID_Other
+            objOItem_Class_Ontology_Item.Name = objOI(0).Name_Other
+            objOItem_Class_Ontology_Item.GUID_Parent = objOI(0).ID_Parent_Other
+            objOItem_Class_Ontology_Item.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
     End Sub
 
     Private Sub get_Config_Objects()
@@ -1287,6 +1505,127 @@ Public Class clsLocalConfig
             Err.Raise(1, "config err")
         End If
 
+
+
+        Dim objESV = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "Token_Report_Type_ElasticView" And obj.Ontology = objGlobals.Type_Object
+
+        If objESV.Count > 0 Then
+            objOItem_Object_Report_Type_ElasticView = New clsOntologyItem
+            objOItem_Object_Report_Type_ElasticView.GUID = objESV(0).ID_Other
+            objOItem_Object_Report_Type_ElasticView.Name = objESV(0).Name_Other
+            objOItem_Object_Report_Type_ElasticView.GUID_Parent = objESV(0).ID_Parent_Other
+            objOItem_Object_Report_Type_ElasticView.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objROJ = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "Token_Ontology_Relation_Rule_Right_Outer_Join" And obj.Ontology = objGlobals.Type_Object
+
+        If objROJ.Count > 0 Then
+            objOItem_Object_Ontology_Relation_Rule_Right_Outer_Join = New clsOntologyItem
+            objOItem_Object_Ontology_Relation_Rule_Right_Outer_Join.GUID = objROJ(0).ID_Other
+            objOItem_Object_Ontology_Relation_Rule_Right_Outer_Join.Name = objROJ(0).Name_Other
+            objOItem_Object_Ontology_Relation_Rule_Right_Outer_Join.GUID_Parent = objROJ(0).ID_Parent_Other
+            objOItem_Object_Ontology_Relation_Rule_Right_Outer_Join.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objRELB = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "Token_Ontology_Relation_Rule_Relation_Break'" And obj.Ontology = objGlobals.Type_Object
+
+        If objRELB.Count > 0 Then
+            objOItem_Object_Ontology_Relation_Rule_Right_Outer_Join = New clsOntologyItem
+            objOItem_Object_Ontology_Relation_Rule_Right_Outer_Join.GUID = objRELB(0).ID_Other
+            objOItem_Object_Ontology_Relation_Rule_Right_Outer_Join.Name = objRELB(0).Name_Other
+            objOItem_Object_Ontology_Relation_Rule_Right_Outer_Join.GUID_Parent = objRELB(0).ID_Parent_Other
+            objOItem_Object_Ontology_Relation_Rule_Right_Outer_Join.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objRPT = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "Token_Ontology_Relation_Rule_Parent_Types'" And obj.Ontology = objGlobals.Type_Object
+
+        If objRPT.Count > 0 Then
+            objOItem_Object_Ontology_Relation_Rule_Parent_Types = New clsOntologyItem
+            objOItem_Object_Ontology_Relation_Rule_Parent_Types.GUID = objRPT(0).ID_Other
+            objOItem_Object_Ontology_Relation_Rule_Parent_Types.Name = objRPT(0).Name_Other
+            objOItem_Object_Ontology_Relation_Rule_Parent_Types.GUID_Parent = objRPT(0).ID_Parent_Other
+            objOItem_Object_Ontology_Relation_Rule_Parent_Types.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objROI = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "Token_Ontology_Relation_Rule_Only_Item" And obj.Ontology = objGlobals.Type_Object
+
+        If objROI.Count > 0 Then
+            objOItem_Object_Ontology_Relation_Rule_Only_Item = New clsOntologyItem
+            objOItem_Object_Ontology_Relation_Rule_Only_Item.GUID = objROI(0).ID_Other
+            objOItem_Object_Ontology_Relation_Rule_Only_Item.Name = objROI(0).Name_Other
+            objOItem_Object_Ontology_Relation_Rule_Only_Item.GUID_Parent = objROI(0).ID_Parent_Other
+            objOItem_Object_Ontology_Relation_Rule_Only_Item.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+
+        Dim objNoTP = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "Token_Ontology_Relation_Rule_Name_of_Type_Parse" And obj.Ontology = objGlobals.Type_Object
+
+        If objNoTP.Count > 0 Then
+            objOItem_Object_Ontology_Relation_Rule_Name_of_Type_Parse = New clsOntologyItem
+            objOItem_Object_Ontology_Relation_Rule_Name_of_Type_Parse.GUID = objNoTP(0).ID_Other
+            objOItem_Object_Ontology_Relation_Rule_Name_of_Type_Parse.Name = objNoTP(0).Name_Other
+            objOItem_Object_Ontology_Relation_Rule_Name_of_Type_Parse.GUID_Parent = objNoTP(0).ID_Parent_Other
+            objOItem_Object_Ontology_Relation_Rule_Name_of_Type_Parse.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+
+        Dim objLOJ = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "Token_Ontology_Relation_Rule_Left_Outer_Join" And obj.Ontology = objGlobals.Type_Object
+
+        If objLOJ.Count > 0 Then
+            objOItem_Object_Ontology_Relation_Rule_Left_Outer_Join = New clsOntologyItem
+            objOItem_Object_Ontology_Relation_Rule_Left_Outer_Join.GUID = objLOJ(0).ID_Other
+            objOItem_Object_Ontology_Relation_Rule_Left_Outer_Join.Name = objLOJ(0).Name_Other
+            objOItem_Object_Ontology_Relation_Rule_Left_Outer_Join.GUID_Parent = objLOJ(0).ID_Parent_Other
+            objOItem_Object_Ontology_Relation_Rule_Left_Outer_Join.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objIJ = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "Token_Ontology_Relation_Rule_Inner_Join" And obj.Ontology = objGlobals.Type_Object
+
+        If objIJ.Count > 0 Then
+            objOItem_Object_Ontology_Relation_Rule_Inner_Join = New clsOntologyItem
+            objOItem_Object_Ontology_Relation_Rule_Inner_Join.GUID = objIJ(0).ID_Other
+            objOItem_Object_Ontology_Relation_Rule_Inner_Join.Name = objIJ(0).Name_Other
+            objOItem_Object_Ontology_Relation_Rule_Inner_Join.GUID_Parent = objIJ(0).ID_Parent_Other
+            objOItem_Object_Ontology_Relation_Rule_Inner_Join.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+
+        Dim objCT = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "Token_Ontology_Relation_Rule_Child_Token" And obj.Ontology = objGlobals.Type_Object
+
+        If objCT.Count > 0 Then
+            objOItem_Object_Ontology_Relation_Rule_Child_Token = New clsOntologyItem
+            objOItem_Object_Ontology_Relation_Rule_Child_Token.GUID = objCT(0).ID_Other
+            objOItem_Object_Ontology_Relation_Rule_Child_Token.Name = objCT(0).Name_Other
+            objOItem_Object_Ontology_Relation_Rule_Child_Token.GUID_Parent = objCT(0).ID_Parent_Other
+            objOItem_Object_Ontology_Relation_Rule_Child_Token.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
     End Sub
 
 

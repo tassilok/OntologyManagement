@@ -18,6 +18,7 @@ Public Class clsDataWork_ReportFields
     Private objDBLevel_Attributes As clsDBLevel
 
     Private objOItem_Report As clsOntologyItem
+    Private objOItem_ReportType As clsOntologyItem
 
     Private objLReportFields As New List(Of clsReportField)
 
@@ -58,11 +59,71 @@ Public Class clsDataWork_ReportFields
     Public Sub initiaize_ReportFields(ByVal OItem_Report As clsOntologyItem)
         boolData_ReportFields = False
         objOItem_Report = OItem_Report
-        objThread_Data_ReportFields = New Threading.Thread(AddressOf get_Data_ReportFields)
-        objThread_Data_ReportFields.Start()
+
+        objOItem_ReportType = Report_Type()
+
+        If Not objOItem_ReportType Is Nothing Then
+            Select Case objOItem_ReportType.GUID
+                Case objLocalConfig.OItem_Object_Report_Type_View.GUID, objLocalConfig.OItem_Object_Report_Type_Token_Report.GUID
+                    objThread_Data_ReportFields = New Threading.Thread(AddressOf get_Data_ReportFields_MSSQL)
+                    objThread_Data_ReportFields.Start()
+                Case objLocalConfig.OItem_Object_Report_Type_ElasticView.GUID
+                    objThread_Data_ReportFields = New Threading.Thread(AddressOf get_Data_ReportFields_ES)
+                    objThread_Data_ReportFields.Start()
+            End Select
+        End If
+
+    End Sub
+    Private Sub get_Data_ReportFields_ES()
+
     End Sub
 
-    Private Sub get_Data_ReportFields()
+    Private Sub get_Data_Ontolgies()
+
+    End Sub
+
+    Private Function Report_Type() As clsOntologyItem
+
+        Dim objOItem_ReportType As New clsOntologyItem
+
+        Dim oLIst_ORel_ReportType As New List(Of clsObjectRel)
+
+        oLIst_ORel_ReportType.Add(New clsObjectRel(objOItem_Report.GUID, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   objLocalConfig.OItem_Class_Report_Type.GUID, _
+                                                   Nothing, _
+                                                   objLocalConfig.OItem_RelationType_is_of_Type.GUID, _
+                                                   Nothing, _
+                                                   objLocalConfig.Globals.Type_Object, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing))
+
+        objDBLevel_Report.get_Data_ObjectRel(oLIst_ORel_ReportType, _
+                                             boolIDs:=False)
+
+        If objDBLevel_Report.OList_ObjectRel Is Nothing Then
+            objOItem_ReportType = Nothing
+        Else
+            If objDBLevel_Report.OList_ObjectRel.Count > 0 Then
+                objOItem_ReportType.GUID = objDBLevel_Report.OList_ObjectRel(0).ID_Other
+                objOItem_ReportType.Name = objDBLevel_Report.OList_ObjectRel(0).Name_Other
+                objOItem_ReportType.GUID_Parent = objDBLevel_Report.OList_ObjectRel(0).ID_Other
+                objOItem_ReportType.Type = objLocalConfig.Globals.Type_Object
+            Else
+                objOItem_ReportType = Nothing
+            End If
+
+        End If
+
+        Return objOItem_ReportType
+    End Function
+
+    Private Sub get_Data_ReportFields_MSSQL()
         Dim objOList_Objects As New List(Of clsOntologyItem)
         Dim objOList_ObjRel_Reports As New List(Of clsObjectRel)
         Dim objOList_ObjRel_ReportToView As New List(Of clsObjectRel)

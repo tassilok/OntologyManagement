@@ -40,7 +40,7 @@ Public Class clsDataWork_ReportTree
 
         For Each objNode In oItems_No_Parent
             objTreeNode_Sub = objTreeNode_Root.Nodes.Add(objNode.Guid, _
-                                                    objNode.Name, 0, 0)
+                                                    objNode.Name, intImageID_Report, intImageID_Report)
 
             getL_SubNodes(objTreeNode_Sub, intImageID_Report)
         Next
