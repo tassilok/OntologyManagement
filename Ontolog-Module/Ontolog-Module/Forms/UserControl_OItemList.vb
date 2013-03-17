@@ -125,6 +125,8 @@
                 strType = objOItem_Parent.Type
             End If
 
+
+
         Else
 
             strType = objLocalConfig.Globals.Type_Other
@@ -169,9 +171,30 @@
         ToolStripTextBox_Filter.Text = ""
         ToolStripTextBox_Filter.ReadOnly = False
 
+        get_RowName_GUID()
         configure_TabPages()
 
         boolProgChange = False
+    End Sub
+
+    Private Sub get_RowName_GUID()
+        Select Case strType
+            Case objLocalConfig.Globals.Type_AttributeType
+                strRowName_GUID = "ID_Item"
+            Case objLocalConfig.Globals.Type_Class
+                strRowName_GUID = "ID_Item"
+            Case objLocalConfig.Globals.Type_Object
+                strRowName_GUID = "ID_Item"
+            Case objLocalConfig.Globals.Type_RelationType
+                strRowName_GUID = "ID_Item"
+            Case objLocalConfig.Globals.Type_Other
+                Select Case objOItem_Direction.GUID
+                    Case objLocalConfig.Globals.Direction_LeftRight.GUID
+                        strRowName_GUID = "ID_Other"
+                    Case objLocalConfig.Globals.Direction_RightLeft.GUID
+                        strRowName_GUID = "ID_Object"
+                End Select
+        End Select
     End Sub
 
     Private Sub get_Data()

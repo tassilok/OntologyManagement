@@ -121,14 +121,13 @@
     <Compile Include="Classes\clsGlobals.vb" />
     <Compile Include="Classes\clsObjectAtt.vb" />
     <Compile Include="Classes\clsObjectRel.vb" />
-    <Compile Include="Classes\clsOntologies.vb" />
+    <Compile Include="Classes\clsOntologyWork.vb" />
     <Compile Include="Classes\clsOntologyItem.vb" />
     <Compile Include="Classes\clsObjectTree.vb" />
     <Compile Include="Classes\clsReport.vb" />
     <Compile Include="Classes\clsTransaction_AttributeTypes.vb" />
     <Compile Include="Classes\clsTransaction_Objects.vb" />
     <Compile Include="Classes\clsTransaction_RelationTypes.vb" />
-    <Compile Include="clsReportField.vb" />
     <Compile Include="DataSet_Config.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

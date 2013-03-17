@@ -977,13 +977,13 @@ Partial Class frmMain
         '
         Me.ReportsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SyncToolStripMenuItem})
         Me.ReportsToolStripMenuItem.Name = "ReportsToolStripMenuItem"
-        Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
+        Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ReportsToolStripMenuItem.Text = "x_Reports"
         '
         'SyncToolStripMenuItem
         '
         Me.SyncToolStripMenuItem.Name = "SyncToolStripMenuItem"
-        Me.SyncToolStripMenuItem.Size = New System.Drawing.Size(109, 22)
+        Me.SyncToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.SyncToolStripMenuItem.Text = "x_Sync"
         '
         'ContextMenuStrip_TokAtt

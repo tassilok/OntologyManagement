@@ -108,7 +108,7 @@
 
     Private Sub fill_Forward()
         Dim objTreeNode As TreeNode
-        Dim objOList_Classes As New List(Of clsOntologyItem)
+        Dim objOList_ClassRel As New List(Of clsClassRel)
         Dim objOList_ObjRel As New List(Of clsObjectRel)
         Dim objOList_Obj_Right As New List(Of clsOntologyItem)
         Dim objOList_RelationType As New List(Of clsOntologyItem)
@@ -118,9 +118,9 @@
         Dim objOItem As clsClassRel
         Dim intCount As Integer
 
-        objOList_Classes.Add(New clsOntologyItem(objOItem_Object.GUID_Parent, objLocalConfig.Globals.Type_Class))
+        objOList_ClassRel.Add(New clsClassRel(objOItem_Object.GUID_Parent, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing))
 
-        objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_LeftRight, False, False, False, False)
+        objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_ClassRel, False, False, False, False)
 
 
 
@@ -170,7 +170,7 @@
 
     Private Sub fill_Backward()
         Dim objTreeNode As TreeNode
-        Dim objOList_Classes As New List(Of clsOntologyItem)
+        Dim objOList_ClassRel As New List(Of clsClassRel)
         Dim objOList_Obj_Left As New List(Of clsOntologyItem)
         Dim objOList_RelationType As New List(Of clsOntologyItem)
         Dim objOList_Objects As New List(Of clsOntologyItem)
@@ -180,9 +180,9 @@
         Dim objOItem As clsClassRel
         Dim intCount As Integer
 
-        objOList_Classes.Add(New clsOntologyItem(objOItem_Object.GUID_Parent, objLocalConfig.Globals.Type_Class))
+        objOList_ClassRel.Add(New clsClassRel(Nothing, objOItem_Object.GUID_Parent, Nothing, Nothing, Nothing, Nothing, Nothing))
 
-        objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_RightLeft, False, False, False, False)
+        objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_ClassRel, False, False, False, False)
 
 
         For Each objItem In objDBLevel_Class_LeftRight.OList_ClassRel
@@ -234,19 +234,19 @@
         Dim objTreeNode As TreeNode
         Dim objOList_OR_Node As New List(Of clsOntologyItem)
         Dim lngCount As Long
-        Dim objOList_Classes As New List(Of clsOntologyItem)
+        Dim objOList_ClassRel As New List(Of clsClassRel)
         Dim objOList_ObjRel As New List(Of clsObjectRel)
         Dim oList_Param1 As List(Of clsOntologyItem)
         Dim oList_Param2 As List(Of clsOntologyItem)
         Dim objOItem_Result As clsOntologyItem
         Dim objOR_Node As clsClassRel
 
-        objOList_Classes.Add(New clsOntologyItem(objOItem_Object.GUID_Parent, objLocalConfig.Globals.Type_Class))
+        objOList_ClassRel.Add(New clsClassRel(objOItem_Object.GUID_Parent, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing))
 
 
 
 
-        objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_LeftRight, False, False, True)
+        objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_ClassRel, False, False, True)
 
 
         

@@ -243,24 +243,27 @@
 
     Private Sub get_ClassRel(ByVal objOItem_Class As clsOntologyItem)
 
-        Dim objOList_Classes As New List(Of clsOntologyItem)
+        Dim objOList_ClassRel As New List(Of clsClassRel)
         Dim objDBLevel_LeftRight As New clsDBLevel(objLocalConfig)
         Dim objDBLevel_RightLeft As New clsDBLevel(objLocalConfig)
 
 
-        objOList_Classes.Add(objOItem_Class)
+        objOList_ClassRel.Add(New clsClassRel(objOItem_Class.GUID, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing))
 
         objOList_Classes_Left.Clear()
         objOList_Classes_Right.Clear()
         objOList_RelationTypes_Left.Clear()
         objOList_RelationTypes_Right.Clear()
 
-        objDBLevel_LeftRight.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_LeftRight, True, False)
+        objDBLevel_LeftRight.get_Data_ClassRel(objOList_ClassRel, True, False)
         objOList_Classes_Right = objDBLevel_LeftRight.OList_Classes
         objOList_RelationTypes_Right = objDBLevel_LeftRight.OList_RelationTypes
         objOList_ClassRel_LeftRight = objDBLevel_LeftRight.OList_ClassRel_ID
 
-        objDBLevel_RightLeft.get_Data_ClassRel(objOList_Classes, objLocalConfig.Globals.Direction_RightLeft, True, False)
+        objOList_ClassRel.Clear()
+        objOList_ClassRel.Add(New clsClassRel(Nothing, objOItem_Class.GUID, Nothing, Nothing, Nothing, Nothing, Nothing))
+
+        objDBLevel_RightLeft.get_Data_ClassRel(objOList_ClassRel, True, False)
         objOList_Classes_Left = objDBLevel_RightLeft.OList_Classes
         objOList_RelationTypes_Left = objDBLevel_RightLeft.OList_RelationTypes
         objOList_ClassRel_RightLeft = objDBLevel_RightLeft.OList_ClassRel_ID

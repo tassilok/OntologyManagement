@@ -1534,7 +1534,7 @@ Public Class clsLocalConfig
         End If
 
         Dim objRELB = From obj In objDBLevel_Config2.OList_ObjectRel
-                    Where obj.Name_Object = "Token_Ontology_Relation_Rule_Relation_Break'" And obj.Ontology = objGlobals.Type_Object
+                    Where obj.Name_Object = "Token_Ontology_Relation_Rule_Relation_Break" And obj.Ontology = objGlobals.Type_Object
 
         If objRELB.Count > 0 Then
             objOItem_Object_Ontology_Relation_Rule_Right_Outer_Join = New clsOntologyItem
@@ -1547,7 +1547,7 @@ Public Class clsLocalConfig
         End If
 
         Dim objRPT = From obj In objDBLevel_Config2.OList_ObjectRel
-                    Where obj.Name_Object = "Token_Ontology_Relation_Rule_Parent_Types'" And obj.Ontology = objGlobals.Type_Object
+                    Where obj.Name_Object = "Token_Ontology_Relation_Rule_Parent_Types" And obj.Ontology = objGlobals.Type_Object
 
         If objRPT.Count > 0 Then
             objOItem_Object_Ontology_Relation_Rule_Parent_Types = New clsOntologyItem

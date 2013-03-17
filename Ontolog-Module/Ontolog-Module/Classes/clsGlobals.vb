@@ -75,6 +75,7 @@ Public Class clsGlobals
     Private objOItem_Class_Ontologies As clsOntologyItem
     Private objOItem_Class_OntologyItems As clsOntologyItem
     Private objOItem_Class_OntologyRelationRule As clsOntologyItem
+    Private objOItem_Class_OntologyJoin As clsOntologyItem
 
 
     Private objOItem_RelationType_Contains As clsOntologyItem
@@ -82,6 +83,7 @@ Public Class clsGlobals
     Private objOItem_RelationType_belongingRelationType As clsOntologyItem
     Private objOItem_RelationType_belongingClass As clsOntologyItem
     Private objOItem_RelationType_belongingObject As clsOntologyItem
+    Private objOItem_RelationType_belonging As clsOntologyItem
 
 
     Private strRegEx_GUID As String
@@ -130,6 +132,12 @@ Public Class clsGlobals
         End Get
     End Property
 
+    Public ReadOnly Property Class_OntologyJoin As clsOntologyItem
+        Get
+            Return objOItem_Class_OntologyJoin
+        End Get
+    End Property
+
     Private Sub set_Classes()
         objOItem_Class_Root = New clsOntologyItem("49fdcd27e1054770941d7485dcad08c1", "Root", "dbbfc1a00c2e483684340a7b7a8b4b52")
         objOItem_Class_System = New clsOntologyItem("665dd88b792e4256a27a68ee1e10ece6", "System", objOItem_Class_Root.GUID, cstrType_Class)
@@ -138,6 +146,7 @@ Public Class clsGlobals
         objOItem_Class_Ontologies = New clsOntologyItem("eb411e2ff93d4a5ebbbac0b5d7ec0197", "Ontologies", objOItem_Class_System.GUID, cstrType_Class)
         objOItem_Class_OntologyItems = New clsOntologyItem("d3f72a683f6146a48ff381db05997dc8", "Ontology-Items", objOItem_Class_Ontologies.GUID, cstrType_Class)
         objOItem_Class_OntologyRelationRule = New clsOntologyItem("925f489dec8d4130a418fcb022a4c731", "Ontology-Relation-Rule", objOItem_Class_Ontologies.GUID, cstrType_Class)
+        objOItem_Class_OntologyJoin = New clsOntologyItem("aab30dd04faf4386896016218132b110", "Ontology-Join", objOItem_Class_Ontologies.GUID, cstrType_Class)
 
 
     End Sub
@@ -148,6 +157,7 @@ Public Class clsGlobals
         objOItem_RelationType_belongingClass = New clsOntologyItem("f2b54f82ada5460eafe5551d55629f14", "belonging Class", cstrType_RelationType)
         objOItem_RelationType_belongingRelationType = New clsOntologyItem("4417582dbd6347fbab18770a611917fe", "belonging RelationType", cstrType_RelationType)
         objOItem_RelationType_belongingObject = New clsOntologyItem("f68a9438fb8b418d8e0bd9aefc9ecdf3", "belonging Object", cstrType_RelationType)
+        objOItem_RelationType_belonging = New clsOntologyItem("796712399c8f493cb5e749700f9543f4", "belonging", cstrType_RelationType)
     End Sub
 
     Public Function get_ConnectionStr(ByVal strServer As String, ByVal strInstance As String, ByVal strDatabase As String) As String
@@ -188,6 +198,12 @@ Public Class clsGlobals
     Public ReadOnly Property RelationType_belongingRelationType As clsOntologyItem
         Get
             Return objOItem_RelationType_belongingRelationType
+        End Get
+    End Property
+
+    Public ReadOnly Property RelationType_belonging As clsOntologyItem
+        Get
+            Return objOItem_RelationType_belonging
         End Get
     End Property
 

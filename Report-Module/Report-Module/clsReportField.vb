@@ -21,6 +21,16 @@
     Private strName_Lead As String
     Private strID_TypeField As String
     Private strName_TypeField As String
+    Private intOrderID As Integer
+
+    Public Property OrderID As Integer
+        Get
+            Return intOrderID
+        End Get
+        Set(ByVal value As Integer)
+            intOrderID = value
+        End Set
+    End Property
 
     Public Property ID_Report As String
         Get
@@ -210,8 +220,10 @@
                    ByVal ID_Server As String, ByVal Name_Server As String, ByVal ID_FieldType As String, _
                    ByVal Name_FieldType As String, ByVal ID_FieldFormat As String, ByVal Name_FieldFormat As String, _
                    ByVal ID_Lead As String, ByVal Name_Lead As String, ByVal ID_TypeField As String, _
-                   ByVal Name_TypeField As String)
+                   ByVal Name_TypeField As String, ByVal OrderID As Integer)
 
+
+        intOrderID = OrderID
         strID_Col = ID_Col
         strID_Database = ID_Database
         strID_DBOnServer = ID_DBOnServer

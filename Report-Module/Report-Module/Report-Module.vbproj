@@ -73,9 +73,12 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsDataWork_ReportTree.vb" />
+    <Compile Include="clsDataWork_Report.vb" />
     <Compile Include="clsDataWork_ReportFields.vb" />
+    <Compile Include="clsDataWork_ReportTree.vb" />
     <Compile Include="clsLocalConfig.vb" />
+    <Compile Include="clsReportField.vb" />
+    <Compile Include="clsReports.vb" />
     <Compile Include="clsUserData_Report.vb" />
     <Compile Include="frmReportModule.vb">
       <SubType>Form</SubType>

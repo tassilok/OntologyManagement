@@ -20,6 +20,8 @@ Public Class clsDataWork_ReportFields
     Private objOItem_Report As clsOntologyItem
     Private objOItem_ReportType As clsOntologyItem
 
+    Private objDataWork_Report As clsDataWork_Report
+
     Private objLReportFields As New List(Of clsReportField)
 
     Private boolData_ReportFields As Boolean
@@ -54,13 +56,15 @@ Public Class clsDataWork_ReportFields
         objDBLevel_FieldFormats = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_LeadFields = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_TypeFields = New clsDBLevel(objLocalConfig.Globals)
+
+        objDataWork_Report = New clsDataWork_Report(objLocalConfig)
     End Sub
 
     Public Sub initiaize_ReportFields(ByVal OItem_Report As clsOntologyItem)
         boolData_ReportFields = False
         objOItem_Report = OItem_Report
 
-        objOItem_ReportType = Report_Type()
+        objOItem_ReportType = objDataWork_Report.Report_Type(objOItem_Report)
 
         If Not objOItem_ReportType Is Nothing Then
             Select Case objOItem_ReportType.GUID
@@ -70,58 +74,20 @@ Public Class clsDataWork_ReportFields
                 Case objLocalConfig.OItem_Object_Report_Type_ElasticView.GUID
                     objThread_Data_ReportFields = New Threading.Thread(AddressOf get_Data_ReportFields_ES)
                     objThread_Data_ReportFields.Start()
+                Case Else
+                    boolData_ReportFields = True
             End Select
+        Else
+            boolData_ReportFields = True
         End If
 
     End Sub
     Private Sub get_Data_ReportFields_ES()
 
+        boolData_ReportFields = True
     End Sub
 
-    Private Sub get_Data_Ontolgies()
-
-    End Sub
-
-    Private Function Report_Type() As clsOntologyItem
-
-        Dim objOItem_ReportType As New clsOntologyItem
-
-        Dim oLIst_ORel_ReportType As New List(Of clsObjectRel)
-
-        oLIst_ORel_ReportType.Add(New clsObjectRel(objOItem_Report.GUID, _
-                                                   Nothing, _
-                                                   Nothing, _
-                                                   Nothing, _
-                                                   Nothing, _
-                                                   Nothing, _
-                                                   objLocalConfig.OItem_Class_Report_Type.GUID, _
-                                                   Nothing, _
-                                                   objLocalConfig.OItem_RelationType_is_of_Type.GUID, _
-                                                   Nothing, _
-                                                   objLocalConfig.Globals.Type_Object, _
-                                                   Nothing, _
-                                                   Nothing, _
-                                                   Nothing))
-
-        objDBLevel_Report.get_Data_ObjectRel(oLIst_ORel_ReportType, _
-                                             boolIDs:=False)
-
-        If objDBLevel_Report.OList_ObjectRel Is Nothing Then
-            objOItem_ReportType = Nothing
-        Else
-            If objDBLevel_Report.OList_ObjectRel.Count > 0 Then
-                objOItem_ReportType.GUID = objDBLevel_Report.OList_ObjectRel(0).ID_Other
-                objOItem_ReportType.Name = objDBLevel_Report.OList_ObjectRel(0).Name_Other
-                objOItem_ReportType.GUID_Parent = objDBLevel_Report.OList_ObjectRel(0).ID_Other
-                objOItem_ReportType.Type = objLocalConfig.Globals.Type_Object
-            Else
-                objOItem_ReportType = Nothing
-            End If
-
-        End If
-
-        Return objOItem_ReportType
-    End Function
+    
 
     Private Sub get_Data_ReportFields_MSSQL()
         Dim objOList_Objects As New List(Of clsOntologyItem)
@@ -523,9 +489,9 @@ Public Class clsDataWork_ReportFields
         objLReportFields.Clear()
         For Each objReportView In objLReportFieldstmp
             If objReportView.objVis Is Nothing Then
-                boolVisible = False
+                boolVisible = True
             Else
-                boolVisible = objReportView.objVis.Val_Bit
+                boolVisible = Not objReportView.objVis.Val_Bit
             End If
 
             If objReportView.objLeaded Is Nothing Then
@@ -574,7 +540,8 @@ Public Class clsDataWork_ReportFields
                                         strID_Lead, _
                                         strName_Lead, _
                                         strID_Lead, _
-                                        strName_Lead))
+                                        strName_Lead, _
+                                        objReportView.objFields.OrderID))
         Next
 
         'objLReportFields = From objFields In objDBLevel_Report.OList_ObjectRel

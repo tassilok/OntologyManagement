@@ -32,7 +32,7 @@
         sync_SQLDB_Relations()
     End Sub
 
-    Public Sub sync_SQLDB_Relations(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing)
+    Public Sub sync_SQLDB_Relations(Optional ByVal OList_ClassRel As List(Of clsClassRel) = Nothing)
         Dim objClassRel As clsClassRel
         Dim objOList_Class_Left As New List(Of clsOntologyItem)
         Dim objOList_Class_Right As New List(Of clsOntologyItem)
@@ -51,7 +51,7 @@
 
         initializeA_Tables.GetData(objLocalConfig.Globals.Type_ObjectRel)
 
-        objDBLevel_ClassRel.get_Data_ClassRel(OList_Classes, Nothing, False, False, False)
+        objDBLevel_ClassRel.get_Data_ClassRel(OList_ClassRel, False, False, False)
 
         For Each objClassRel In objDBLevel_ClassRel.OList_ClassRel_ID
 
@@ -73,7 +73,7 @@
 
 
 
-            
+
             objDBLevel_ObjectRel.get_Data_ObjectRel(objOList_ObjecRel, False, False)
 
             strPath = "%Temp%\" & Guid.NewGuid().ToString & ".xml"
@@ -165,10 +165,11 @@
         finalizeA_Tables.GetData(objLocalConfig.Globals.Type_ObjectRel)
     End Sub
 
-    Public Sub sync_SQLDB_Attributes(Optional ByVal OList_AttTypes As List(Of clsOntologyItem) = Nothing)
+    Public Sub sync_SQLDB_Attributes(Optional ByVal objOItem_Class As clsOntologyItem = Nothing, Optional ByVal objOItem_AttType As clsOntologyItem = Nothing)
         Dim objOItem_Object As clsOntologyItem
         Dim objOItem_AttributeType As clsOntologyItem
         Dim objOItem_ObjAtt As clsObjectAtt
+        Dim oList_AttTypes As New List(Of clsOntologyItem)
         Dim oList_AttributeTypes As New List(Of clsOntologyItem)
         Dim oList_ObjAtt As New List(Of clsObjectAtt)
         Dim oListDataTypes As New List(Of clsOntologyItem)
@@ -180,6 +181,8 @@
         Dim i As Long
         Dim j As Long
 
+
+        oList_AttTypes.Add(objOItem_AttType)
 
         initializeA_Tables.GetData(objLocalConfig.Globals.Type_Attribute)
 
@@ -213,12 +216,12 @@
             oListDataTypes.Add(New clsOntologyItem(objOItem_AttributeType.GUID_Parent, objLocalConfig.Globals.Type_DataType))
             objDBLevel_DataType.get_Data_DataTyps(oListDataTypes, False)
 
-            initializeA_Table.GetData("attT_" & objOItem_AttributeType.Name)
+            initializeA_Table.GetData("attT_" & objOItem_Class.Name & "_" & objOItem_AttributeType.Name)
 
             strPath = "%Temp%\" & Guid.NewGuid().ToString & ".xml"
             strPath = Environment.ExpandEnvironmentVariables(strPath)
 
-            oList_ObjAtt.Add(New clsObjectAtt(Nothing, Nothing, Nothing, objOItem_AttributeType.GUID, Nothing))
+            oList_ObjAtt.Add(New clsObjectAtt(Nothing, Nothing, objOItem_Class.GUID, objOItem_AttributeType.GUID, Nothing))
             objDBlevel_ObjAtt.get_Data_ObjectAtt(oList_ObjAtt, False, False)
 
 
@@ -271,15 +274,15 @@
                     objTextWriter.WriteLine(strLine)
                     objTextWriter.Close()
 
-                    createA_Table_attT.GetData(objLocalConfig.Globals.Type_Attribute, objOItem_AttributeType.Name, strType, strLength, True, strPath)
+                    createA_Table_attT.GetData(objLocalConfig.Globals.Type_AttributeType, objOItem_Class.Name, objOItem_AttributeType.Name, strType, strLength, True, strPath)
 
                     i = j
                 End While
             Else
-                createA_Table_attT.GetData(objLocalConfig.Globals.Type_Attribute, objOItem_AttributeType.Name, strType, strLength, False, strPath)
+                createA_Table_attT.GetData(objLocalConfig.Globals.Type_Attribute, objOItem_Class.Name, objOItem_AttributeType.Name, strType, strLength, False, strPath)
             End If
 
-            finalizeA_Table.GetData("attT_" & objOItem_AttributeType.Name)
+            finalizeA_Table.GetData("attT_" & objOItem_Class.Name & "_" & objOItem_AttributeType.Name)
         Next
 
 

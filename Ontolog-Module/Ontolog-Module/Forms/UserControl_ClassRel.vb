@@ -36,19 +36,29 @@
     End Sub
 
     Private Sub get_Data_ClassRelations()
-        Dim oList_Classes As New List(Of clsOntologyItem)
+        Dim oList_ClassRel As New List(Of clsClassRel)
 
 
         DataGridView_Relations.DataSource = Nothing
         BindingSource_Relations.DataSource = Nothing
 
-        oList_Classes.Clear()
-        oList_Classes.Add(objOItem_Class)
+
+
+
+
 
         If boolObjectReference = False Then
-            objDBLevel.get_Data_ClassRel(oList_Classes, objDirection, False, True)
+            If objDirection.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                oList_ClassRel.Add(New clsClassRel(objOItem_Class.GUID, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing))
+            Else
+                oList_ClassRel.Add(New clsClassRel(Nothing, objOItem_Class.GUID, Nothing, Nothing, Nothing, Nothing, Nothing))
+            End If
+
+            objDBLevel.get_Data_ClassRel(oList_ClassRel, False, True)
         Else
-            objDBLevel.get_Data_ClassRel(oList_Classes, objLocalConfig.Globals.Direction_LeftRight, False, True, True)
+            oList_ClassRel.Clear()
+            oList_ClassRel.Add(New clsClassRel(objOItem_Class.GUID, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing))
+            objDBLevel.get_Data_ClassRel(oList_ClassRel, False, True, True)
         End If
 
 
