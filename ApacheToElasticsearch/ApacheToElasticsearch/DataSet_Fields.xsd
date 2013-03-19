@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet_Fields" targetNamespace="http://tempuri.org/DataSet_Fields.xsd" xmlns:mstns="http://tempuri.org/DataSet_Fields.xsd" xmlns="http://tempuri.org/DataSet_Fields.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet_Fields" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet_Fields" msprop:Generator_UserDSName="DataSet_Fields">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtbl_Fields" msprop:Generator_TableClassName="dtbl_FieldsDataTable" msprop:Generator_TableVarName="tabledtbl_Fields" msprop:Generator_TablePropName="dtbl_Fields" msprop:Generator_RowDeletingName="dtbl_FieldsRowDeleting" msprop:Generator_UserTableName="dtbl_Fields" msprop:Generator_RowChangingName="dtbl_FieldsRowChanging" msprop:Generator_RowEvHandlerName="dtbl_FieldsRowChangeEventHandler" msprop:Generator_RowDeletedName="dtbl_FieldsRowDeleted" msprop:Generator_RowEvArgName="dtbl_FieldsRowChangeEvent" msprop:Generator_RowChangedName="dtbl_FieldsRowChanged" msprop:Generator_RowClassName="dtbl_FieldsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Field_Name" msprop:Generator_ColumnVarNameInTable="columnField_Name" msprop:Generator_ColumnPropNameInRow="Field_Name" msprop:Generator_ColumnPropNameInTable="Field_NameColumn" msprop:Generator_UserColumnName="Field_Name" type="xs:string" minOccurs="0" />
+              <xs:element name="Regex_Pre" msprop:Generator_ColumnVarNameInTable="columnRegex_Pre" msprop:Generator_ColumnPropNameInRow="Regex_Pre" msprop:Generator_ColumnPropNameInTable="Regex_PreColumn" msprop:Generator_UserColumnName="Regex_Pre" type="xs:string" minOccurs="0" />
+              <xs:element name="Regex" msprop:Generator_ColumnVarNameInTable="columnRegex" msprop:Generator_ColumnPropNameInRow="Regex" msprop:Generator_ColumnPropNameInTable="RegexColumn" msprop:Generator_UserColumnName="Regex" type="xs:string" minOccurs="0" />
+              <xs:element name="Regex_Post" msprop:Generator_ColumnVarNameInTable="columnRegex_Post" msprop:Generator_ColumnPropNameInRow="Regex_Post" msprop:Generator_ColumnPropNameInTable="Regex_PostColumn" msprop:Generator_UserColumnName="Regex_Post" type="xs:string" minOccurs="0" />
+              <xs:element name="DataType" msprop:Generator_ColumnVarNameInTable="columnDataType" msprop:Generator_ColumnPropNameInRow="DataType" msprop:Generator_ColumnPropNameInTable="DataTypeColumn" msprop:Generator_UserColumnName="DataType" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="dtbl_Mutate" msprop:Generator_TableClassName="dtbl_MutateDataTable" msprop:Generator_TableVarName="tabledtbl_Mutate" msprop:Generator_TablePropName="dtbl_Mutate" msprop:Generator_RowDeletingName="dtbl_MutateRowDeleting" msprop:Generator_UserTableName="dtbl_Mutate" msprop:Generator_RowChangingName="dtbl_MutateRowChanging" msprop:Generator_RowEvHandlerName="dtbl_MutateRowChangeEventHandler" msprop:Generator_RowDeletedName="dtbl_MutateRowDeleted" msprop:Generator_RowEvArgName="dtbl_MutateRowChangeEvent" msprop:Generator_RowChangedName="dtbl_MutateRowChanged" msprop:Generator_RowClassName="dtbl_MutateRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Field_Name" msprop:Generator_ColumnVarNameInTable="columnField_Name" msprop:Generator_ColumnPropNameInRow="Field_Name" msprop:Generator_ColumnPropNameInTable="Field_NameColumn" msprop:Generator_UserColumnName="Field_Name" type="xs:string" minOccurs="0" />
+              <xs:element name="replace_exist" msprop:Generator_ColumnVarNameInTable="columnreplace_exist" msprop:Generator_ColumnPropNameInRow="replace_exist" msprop:Generator_ColumnPropNameInTable="replace_existColumn" msprop:Generator_UserColumnName="replace_exist" type="xs:string" minOccurs="0" />
+              <xs:element name="replace_regex" msprop:Generator_ColumnVarNameInTable="columnreplace_regex" msprop:Generator_ColumnPropNameInRow="replace_regex" msprop:Generator_ColumnPropNameInTable="replace_regexColumn" msprop:Generator_UserColumnName="replace_regex" type="xs:string" minOccurs="0" />
+              <xs:element name="replace" msprop:Generator_ColumnVarNameInTable="columnreplace" msprop:Generator_ColumnPropNameInRow="replace" msprop:Generator_ColumnPropNameInTable="replaceColumn" msprop:Generator_UserColumnName="replace" type="xs:string" minOccurs="0" />
+              <xs:element name="DataType" msprop:Generator_ColumnVarNameInTable="columnDataType" msprop:Generator_ColumnPropNameInRow="DataType" msprop:Generator_ColumnPropNameInTable="DataTypeColumn" msprop:Generator_UserColumnName="DataType" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="dtbl_Replace" msprop:Generator_TableClassName="dtbl_ReplaceDataTable" msprop:Generator_TableVarName="tabledtbl_Replace" msprop:Generator_TablePropName="dtbl_Replace" msprop:Generator_RowDeletingName="dtbl_ReplaceRowDeleting" msprop:Generator_UserTableName="dtbl_Replace" msprop:Generator_RowChangingName="dtbl_ReplaceRowChanging" msprop:Generator_RowEvHandlerName="dtbl_ReplaceRowChangeEventHandler" msprop:Generator_RowDeletedName="dtbl_ReplaceRowDeleted" msprop:Generator_RowEvArgName="dtbl_ReplaceRowChangeEvent" msprop:Generator_RowChangedName="dtbl_ReplaceRowChanged" msprop:Generator_RowClassName="dtbl_ReplaceRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Field_Name" msprop:Generator_ColumnVarNameInTable="columnField_Name" msprop:Generator_ColumnPropNameInRow="Field_Name" msprop:Generator_ColumnPropNameInTable="Field_NameColumn" msprop:Generator_UserColumnName="Field_Name" type="xs:string" minOccurs="0" />
+              <xs:element name="replace_regex" msprop:Generator_ColumnVarNameInTable="columnreplace_regex" msprop:Generator_ColumnPropNameInRow="replace_regex" msprop:Generator_ColumnPropNameInTable="replace_regexColumn" msprop:Generator_UserColumnName="replace_regex" type="xs:string" minOccurs="0" />
+              <xs:element name="replace" msprop:Generator_ColumnVarNameInTable="columnreplace" msprop:Generator_ColumnPropNameInRow="replace" msprop:Generator_ColumnPropNameInTable="replaceColumn" msprop:Generator_UserColumnName="replace" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="dtbl_Concate" msprop:Generator_TableClassName="dtbl_ConcateDataTable" msprop:Generator_TableVarName="tabledtbl_Concate" msprop:Generator_TablePropName="dtbl_Concate" msprop:Generator_RowDeletingName="dtbl_ConcateRowDeleting" msprop:Generator_UserTableName="dtbl_Concate" msprop:Generator_RowChangingName="dtbl_ConcateRowChanging" msprop:Generator_RowEvHandlerName="dtbl_ConcateRowChangeEventHandler" msprop:Generator_RowDeletedName="dtbl_ConcateRowDeleted" msprop:Generator_RowEvArgName="dtbl_ConcateRowChangeEvent" msprop:Generator_RowChangedName="dtbl_ConcateRowChanged" msprop:Generator_RowClassName="dtbl_ConcateRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Field_Name" msprop:Generator_ColumnVarNameInTable="columnField_Name" msprop:Generator_ColumnPropNameInRow="Field_Name" msprop:Generator_ColumnPropNameInTable="Field_NameColumn" msprop:Generator_UserColumnName="Field_Name" type="xs:string" minOccurs="0" />
+              <xs:element name="Field_Name1" msprop:Generator_ColumnVarNameInTable="columnField_Name1" msprop:Generator_ColumnPropNameInRow="Field_Name1" msprop:Generator_ColumnPropNameInTable="Field_Name1Column" msprop:Generator_UserColumnName="Field_Name1" type="xs:string" minOccurs="0" />
+              <xs:element name="Field_Name2" msprop:Generator_ColumnVarNameInTable="columnField_Name2" msprop:Generator_ColumnPropNameInRow="Field_Name2" msprop:Generator_ColumnPropNameInTable="Field_Name2Column" msprop:Generator_UserColumnName="Field_Name2" type="xs:string" minOccurs="0" />
+              <xs:element name="Field_Seperator" msprop:Generator_ColumnVarNameInTable="columnField_Seperator" msprop:Generator_ColumnPropNameInRow="Field_Seperator" msprop:Generator_ColumnPropNameInTable="Field_SeperatorColumn" msprop:Generator_UserColumnName="Field_Seperator" type="xs:string" minOccurs="0" />
+              <xs:element name="DataType" msprop:Generator_ColumnVarNameInTable="columnDataType" msprop:Generator_ColumnPropNameInRow="DataType" msprop:Generator_ColumnPropNameInTable="DataTypeColumn" msprop:Generator_UserColumnName="DataType" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="dtbl_Meta" msprop:Generator_TableClassName="dtbl_MetaDataTable" msprop:Generator_TableVarName="tabledtbl_Meta" msprop:Generator_TablePropName="dtbl_Meta" msprop:Generator_RowDeletingName="dtbl_MetaRowDeleting" msprop:Generator_UserTableName="dtbl_Meta" msprop:Generator_RowChangingName="dtbl_MetaRowChanging" msprop:Generator_RowEvHandlerName="dtbl_MetaRowChangeEventHandler" msprop:Generator_RowDeletedName="dtbl_MetaRowDeleted" msprop:Generator_RowEvArgName="dtbl_MetaRowChangeEvent" msprop:Generator_RowChangedName="dtbl_MetaRowChanged" msprop:Generator_RowClassName="dtbl_MetaRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Field_Name" msprop:Generator_ColumnVarNameInTable="columnField_Name" msprop:Generator_ColumnPropNameInRow="Field_Name" msprop:Generator_ColumnPropNameInTable="Field_NameColumn" msprop:Generator_UserColumnName="Field_Name" type="xs:string" minOccurs="0" />
+              <xs:element name="Add" msprop:Generator_ColumnVarNameInTable="columnAdd" msprop:Generator_ColumnPropNameInRow="Add" msprop:Generator_ColumnPropNameInTable="AddColumn" msprop:Generator_UserColumnName="Add" type="xs:boolean" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

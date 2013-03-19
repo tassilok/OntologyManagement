@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DocumentElement>
+  <dtbl_Meta>
+    <Field_Name>Line</Field_Name>
+    <Add>True</Add>
+  </dtbl_Meta>
+  <dtbl_Meta>
+    <Field_Name>Message</Field_Name>
+    <Add>True</Add>
+  </dtbl_Meta>
+  <dtbl_Meta>
+    <Field_Name>Last_change</Field_Name>
+    <Add>True</Add>
+  </dtbl_Meta>
+  <dtbl_Meta>
+    <Field_Name>Host</Field_Name>
+    <Add>True</Add>
+  </dtbl_Meta>
+  <dtbl_Meta>
+    <Field_Name>File</Field_Name>
+    <Add>True</Add>
+  </dtbl_Meta>
+</DocumentElement>

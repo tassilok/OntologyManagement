@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<DocumentElement>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Index</ConfigItem_Name>
+    <ConfigItem_Value>reports</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Index_Meta</ConfigItem_Name>
+    <ConfigItem_Value>reports_meta</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Port</ConfigItem_Name>
+    <ConfigItem_Value>9500</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>server</ConfigItem_Name>
+    <ConfigItem_Value>h3d-kolltass-01</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>type</ConfigItem_Name>
+    <ConfigItem_Value>apache</ConfigItem_Value>
+  </dtbl_BaseConfig>
+</DocumentElement>

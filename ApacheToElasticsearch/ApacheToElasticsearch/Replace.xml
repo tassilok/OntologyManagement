@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DocumentElement>
+  <dtbl_Replace>
+    <Field_Name>TIMESTAMP</Field_Name>
+    <replace_regex><replace_regex></replace_regex>
+    <replace></replace><![CDATA[\[]]></replace_regex>
+    <replace></replace>
+</dtbl_Replace>
+  <dtbl_Replace>
+    <Field_Name>TIMESTAMP</Field_Name>
+    <replace_regex><![CDATA[\]]]></replace_regex>
+    <replace></replace>
+  </dtbl_Replace>
+</DocumentElement>

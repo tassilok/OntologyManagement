@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<DocumentElement>
+  <dtbl_Fields>
+    <Field_Name>EX_CGET</Field_Name>
+    <Regex_Pre>GET|HEAD|PUT|DELETE|PROPFIND</Regex_Pre>
+    <Regex>\s/cget|\s\S+/cget</Regex>
+    <Regex_Post></Regex_Post>
+    <DataType>string</DataType>
+  </dtbl_Fields>
+  <dtbl_Fields>
+    <Field_Name>EX_CSET</Field_Name>
+    <Regex_Pre><![CDATA[GET|HEAD|PUT|DELETE|PROPFIND]]></Regex_Pre>
+    <Regex><![CDATA[\s/cset|\s\S+/cset]]></Regex>
+    <Regex_Post><![CDATA[]]></Regex_Post>
+    <DataType>string</DataType>
+  </dtbl_Fields>
+  <dtbl_Fields>
+    <Field_Name>EX_CSET_AID</Field_Name>
+    <Regex_Pre><![CDATA[\s/cset\S*\.php|\s\S+/cset\S*\.php\?e?x?-?aid=]]></Regex_Pre>
+    <Regex><![CDATA[\d*]]></Regex>
+    <Regex_Post><![CDATA[]]></Regex_Post>
+    <DataType>long</DataType>
+  </dtbl_Fields>
+  <dtbl_Fields>
+    <Field_Name>EX_CSET_CID</Field_Name>
+    <Regex_Pre><![CDATA[\s/cset\S*\.php|\s\S+/cset\S*\.php\?e?x?-?aid=\d*&e?x?-?cid=]]></Regex_Pre>
+    <Regex><![CDATA[\d*]]></Regex>
+    <Regex_Post><![CDATA[]]></Regex_Post>
+    <DataType>long</DataType>
+  </dtbl_Fields>
+  <dtbl_Fields>
+    <Field_Name>DATE</Field_Name>
+    <Regex_Pre><![CDATA[]]></Regex_Pre>
+    <Regex><![CDATA[\[(\d\d)\/(...)\/(\d{4})]]></Regex>
+    <Regex_Post><![CDATA[:(\d\d):(\d\d):(\d\d) ([+-]\d{4})\]]]></Regex_Post>
+    <DataType>string</DataType>
+  </dtbl_Fields>
+  <dtbl_Fields>
+    <Field_Name>TIME</Field_Name>
+    <Regex_Pre><![CDATA[\[(\d\d)\/(...)\/(\d{4}):]]></Regex_Pre>
+    <Regex><![CDATA[(\d\d):(\d\d):(\d\d)]]></Regex>
+    <Regex_Post><![CDATA[ ([+-]\d{4})\]]]></Regex_Post>
+    <DataType>string</DataType>
+  </dtbl_Fields>
+  <dtbl_Fields>
+    <Field_Name>TIMEZONE</Field_Name>
+    <Regex_Pre><![CDATA[\[(\d\d)\/(...)\/(\d{4}):(\d\d):(\d\d):(\d\d) ]]></Regex_Pre>
+    <Regex><![CDATA[([+-]\d{4})\]]]></Regex>
+    <Regex_Post></Regex_Post>
+    <DataType>string</DataType>
+  </dtbl_Fields>
+</DocumentElement>
