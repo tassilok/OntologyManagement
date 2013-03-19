@@ -10,4 +10,14 @@
     <replace_exist>True</replace_exist>
     <DataType>boolean</DataType>
   </dtbl_Mutate>
+  <dtbl_Mutate>
+    <Field_Name>EX_CSET_AID_EXIST</Field_Name>
+    <replace_exist>True</replace_exist>
+    <DataType>boolean</DataType>
+  </dtbl_Mutate>
+  <dtbl_Mutate>
+    <Field_Name>EX_CSET_CID_EXIST</Field_Name>
+    <replace_exist>True</replace_exist>
+    <DataType>boolean</DataType>
+  </dtbl_Mutate>
 </DocumentElement>
