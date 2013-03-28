@@ -305,39 +305,60 @@ Public Class clsDataWork
             objDBLevel_Files.get_Data_ObjectRel(oList_ObjRel, _
                                                 boolIDs:=False)
 
-            If objLocalConfig.Globals.is_GUID(strFilter) = True Then
-                oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
-                                         strFilter, _
-                                         Nothing, _
-                                         objOItem_Object.GUID_Parent, _
-                                         Nothing, _
-                                         objLocalConfig.OItem_Attribute_Blob.GUID, _
-                                         Nothing, _
-                                         Nothing, _
-                                         Nothing, _
-                                         True, _
-                                         Nothing, _
-                                         Nothing, _
-                                         Nothing, _
-                                         Nothing, _
-                                         Nothing))
+            If strFilter <> "" Then
+                If objLocalConfig.Globals.is_GUID(strFilter) = True Then
+                    oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
+                                             strFilter, _
+                                             Nothing, _
+                                             objOItem_Object.GUID_Parent, _
+                                             Nothing, _
+                                             objLocalConfig.OItem_Attribute_Blob.GUID, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             True, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing))
+                Else
+                    oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
+                                             Nothing, _
+                                             strFilter, _
+                                             objOItem_Object.GUID_Parent, _
+                                             Nothing, _
+                                             objLocalConfig.OItem_Attribute_Blob.GUID, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             True, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing))
+
+                End If
             Else
                 oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
-                                         Nothing, _
-                                         strFilter, _
-                                         objOItem_Object.GUID_Parent, _
-                                         Nothing, _
-                                         objLocalConfig.OItem_Attribute_Blob.GUID, _
-                                         Nothing, _
-                                         Nothing, _
-                                         Nothing, _
-                                         True, _
-                                         Nothing, _
-                                         Nothing, _
-                                         Nothing, _
-                                         Nothing, _
-                                         Nothing))
+                                                             Nothing, _
+                                                             Nothing, _
+                                                             objOItem_Object.GUID_Parent, _
+                                                             Nothing, _
+                                                             objLocalConfig.OItem_Attribute_Blob.GUID, _
+                                                             Nothing, _
+                                                             Nothing, _
+                                                             Nothing, _
+                                                             True, _
+                                                             Nothing, _
+                                                             Nothing, _
+                                                             Nothing, _
+                                                             Nothing, _
+                                                             Nothing))
+
             End If
+            
 
 
             objDBLevel_Files.get_Data_ObjectAtt(oList_ObjAtt, _
@@ -348,7 +369,7 @@ Public Class clsDataWork
             objOItem_Object.Type = objLocalConfig.Globals.Type_Object
 
             Dim objL = From objFile In objDBLevel_Files.OList_ObjectRel
-                   Group Join objBlob In objDBLevel_Files.OList_ObjectAtt_ID On objBlob.ID_Object Equals objFile.ID_Object Into RightTableResult = Group
+                   Group Join objBlob In objDBLevel_Files.OList_ObjectAtt On objBlob.ID_Object Equals objFile.ID_Object Into RightTableResult = Group
                    From objBlobs In RightTableResult.DefaultIfEmpty
                    Select ID_File = objFile.ID_Object, _
                           Name_File = objFile.Name_Object, _

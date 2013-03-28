@@ -327,7 +327,14 @@
 
     End Sub
 
-    Private Sub clear_Relation()
+    Public Sub clear_Relation()
+        Try
+            objThread_List.Abort()
+            Timer_Filter.Stop()
+            Timer_List.Stop()
+        Catch ex As Exception
+
+        End Try
         objOItem_Other = Nothing
         objOItem_RelationType = Nothing
         objOItem_Direction = Nothing
@@ -335,6 +342,22 @@
         strName_Filter = Nothing
         ToolStripButton_Relate.Checked = False
         ToolStripButton_Relate.Enabled = False
+        ToolStripTextBox_Filter.ReadOnly = True
+        ToolStripTextBox_Filter.Clear()
+        ToolStripTextBox_Filter.ReadOnly = False
+
+        DataGridView_Items.DataSource = Nothing
+
+    End Sub
+
+    Public Sub New(ByVal Globals As clsGlobals)
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+        objLocalConfig = New clsLocalConfig(Globals)
+        set_DBConnection()
     End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)

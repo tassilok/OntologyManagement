@@ -242,15 +242,27 @@
             
         Else
             If boolSecure = True Then
-                If Not TextBox_Name.Text = TextBox_Repeat.Text Then
-                    MsgBox("Die Passwörter stimmen nicht überein!", MsgBoxStyle.Exclamation)
-                    boolClose = False
+                If TextBox_Repeat.Visible = True Then
+                    If Not TextBox_Name.Text = TextBox_Repeat.Text Then
+                        MsgBox("Die Passwörter stimmen nicht überein!", MsgBoxStyle.Exclamation)
+                        boolClose = False
+                    End If
+                    If strValue1 = "" And strValue2 = "" Then
+                        boolClose = False
+                    End If
+                Else
+                    If strValue1 = "" Then
+                        boolClose = False
+                    End If
+                End If
+
+            Else
+                If strValue1 = "" Then
+                    boolEmpty = True
                 End If
             End If
 
-            If strValue1 = "" Then
-                boolEmpty = True
-            End If
+            
         End If
         
         If boolClose = True Then

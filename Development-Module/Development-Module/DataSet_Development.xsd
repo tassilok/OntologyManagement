@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet_Development" targetNamespace="http://tempuri.org/DataSet_Development.xsd" xmlns:mstns="http://tempuri.org/DataSet_Development.xsd" xmlns="http://tempuri.org/DataSet_Development.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet_Development" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet_Development" msprop:Generator_UserDSName="DataSet_Development">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtbl_OntologyItems" msprop:Generator_TableClassName="dtbl_OntologyItemsDataTable" msprop:Generator_TableVarName="tabledtbl_OntologyItems" msprop:Generator_TablePropName="dtbl_OntologyItems" msprop:Generator_RowDeletingName="dtbl_OntologyItemsRowDeleting" msprop:Generator_UserTableName="dtbl_OntologyItems" msprop:Generator_RowChangingName="dtbl_OntologyItemsRowChanging" msprop:Generator_RowEvHandlerName="dtbl_OntologyItemsRowChangeEventHandler" msprop:Generator_RowDeletedName="dtbl_OntologyItemsRowDeleted" msprop:Generator_RowEvArgName="dtbl_OntologyItemsRowChangeEvent" msprop:Generator_RowChangedName="dtbl_OntologyItemsRowChanged" msprop:Generator_RowClassName="dtbl_OntologyItemsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_ConfigItem" msprop:Generator_ColumnVarNameInTable="columnID_ConfigItem" msprop:Generator_ColumnPropNameInRow="ID_ConfigItem" msprop:Generator_ColumnPropNameInTable="ID_ConfigItemColumn" msprop:Generator_UserColumnName="ID_ConfigItem" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_ConfigItem" msprop:Generator_ColumnVarNameInTable="columnName_ConfigItem" msprop:Generator_ColumnPropNameInRow="Name_ConfigItem" msprop:Generator_ColumnPropNameInTable="Name_ConfigItemColumn" msprop:Generator_UserColumnName="Name_ConfigItem" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_OntologyItem" msprop:Generator_ColumnVarNameInTable="columnID_OntologyItem" msprop:Generator_ColumnPropNameInRow="ID_OntologyItem" msprop:Generator_ColumnPropNameInTable="ID_OntologyItemColumn" msprop:Generator_UserColumnName="ID_OntologyItem" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_OntologyItem" msprop:Generator_ColumnVarNameInTable="columnName_OntologyItem" msprop:Generator_ColumnPropNameInRow="Name_OntologyItem" msprop:Generator_ColumnPropNameInTable="Name_OntologyItemColumn" msprop:Generator_UserColumnName="Name_OntologyItem" type="xs:string" minOccurs="0" />
+              <xs:element name="Ontology" msprop:Generator_ColumnVarNameInTable="columnOntology" msprop:Generator_ColumnPropNameInRow="Ontology" msprop:Generator_ColumnPropNameInTable="OntologyColumn" msprop:Generator_UserColumnName="Ontology" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_Export_Mode" msprop:Generator_ColumnVarNameInTable="columnID_Export_Mode" msprop:Generator_ColumnPropNameInRow="ID_Export_Mode" msprop:Generator_ColumnPropNameInTable="ID_Export_ModeColumn" msprop:Generator_UserColumnName="ID_Export_Mode" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_Export_Mode" msprop:Generator_ColumnVarNameInTable="columnName_Export_Mode" msprop:Generator_ColumnPropNameInRow="Name_Export_Mode" msprop:Generator_ColumnPropNameInTable="Name_Export_ModeColumn" msprop:Generator_UserColumnName="Name_Export_Mode" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

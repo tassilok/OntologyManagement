@@ -9,6 +9,9 @@ Public Class frm_FilesystemModule
 
     Private objLocalConfig As clsLocalConfig
 
+
+    Private objBlobConnection As clsBlobConnection
+
     Private objFileWork As clsFileWork
 
     Private objDataWork As clsDataWork
@@ -39,6 +42,7 @@ Public Class frm_FilesystemModule
         objFileWork = New clsFileWork(objLocalConfig)
         objTransaction_Files = New clsTransaction_Files(objLocalConfig)
         objTransaction_Folders = New clsTransaction_Folders(objLocalConfig)
+        objBlobConnection = New clsBlobConnection(objLocalConfig)
     End Sub
 
     Private Sub load_Server_With_Drives_And_Shares(ByVal objTreeNode_Root As TreeNode)
@@ -454,6 +458,115 @@ Public Class frm_FilesystemModule
                 Case Else
                     MsgBox("Bitte nur Ordner oder Laufwerk auswählen!")
             End Select
+        End If
+    End Sub
+
+    Private Sub DownloadToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DownloadToolStripMenuItem.Click
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim objOItem_File As New clsOntologyItem
+        Dim objOItem_Result As New clsOntologyItem
+        Dim intToDo As Integer
+        Dim intDone As Integer
+        Dim intExists As Integer
+        Dim strPath As String
+
+        intToDo = DataGridView_Files.SelectedRows.Count
+        intDone = 0
+        intExists = 0
+
+        If objBlobConnection.BlobActive = True Then
+            If FolderBrowserDialog_Download.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
+                strPath = FolderBrowserDialog_Download.SelectedPath
+
+                For Each objDGVR_Selected In DataGridView_Files.SelectedRows
+                    objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+                    If Not IsDBNull(objDRV_Selected.Item("isBlob")) Then
+                        If objDRV_Selected.Item("isBlob") = True Then
+                            Try
+                                objOItem_File.GUID = objDRV_Selected.Item("GUID_File")
+                                If GUIDAsNameToolStripMenuItem.Checked = True Then
+                                    objOItem_File.Name = objDRV_Selected.Item("GUID_File").ToString.Replace("-", "")
+                                Else
+                                    objOItem_File.Name = objDRV_Selected.Item("Name_File")
+                                End If
+
+                                objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
+                                objOItem_File.Type = objLocalConfig.Globals.Type_Object
+
+                                objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_File, strPath & IO.Path.DirectorySeparatorChar & objOItem_File.Name)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    intDone = intDone + 1
+                                ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
+                                    intExists = intExists + 1
+                                End If
+                            Catch ex As Exception
+
+                            End Try
+                        End If
+                    End If
+                Next
+
+                If intDone < intToDo Then
+                    MsgBox("Es konnten leider nur " & intDone & " von " & intToDo & " Dateien gespeichert werden. " & intExists & " Dateien existierten bereits.", MsgBoxStyle.Information)
+                Else
+                    MsgBox("Alle Dateien wurden gespeichert.", MsgBoxStyle.Information)
+                End If
+            End If
+        Else
+            MsgBox("Die Dateiverwaltung ist nicht aktiv!", MsgBoxStyle.Critical)
+        End If
+        
+    End Sub
+
+    Private Sub CreateBlobToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CreateBlobToolStripMenuItem.Click
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim objOItem_File As New clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+
+        Dim intCount_ToDo As Integer
+        Dim intCount_Done As Integer
+
+
+        intCount_ToDo = DataGridView_Files.SelectedRows.Count
+        intCount_Done = 0
+
+        For Each objDGVR_Selected In DataGridView_Files.SelectedRows
+            objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+            objOItem_File.GUID = objDRV_Selected.Item("GUID_File")
+            objOItem_File.Name = objDRV_Selected.Item("Name_File")
+            objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
+            objOItem_File.Type = objLocalConfig.Globals.Type_Object
+
+            objOItem_File.Additional1 = objFileWork.get_Path_FileSystemObject(objOItem_File)
+
+            If objFileWork.is_File_Blob(objOItem_File) = False Then
+                objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_File, objOItem_File.Additional1)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    intCount_Done = intCount_Done + 1
+                End If
+            Else
+                intCount_Done = intCount_Done + 1
+            End If
+        Next
+
+        If intCount_ToDo - intCount_Done > 0 Then
+            MsgBox("Es konnten nur " & intCount_Done & " von " & intCount_ToDo & " Dateien in die Datenbank integriert werden!", MsgBoxStyle.Exclamation)
+        End If
+    End Sub
+
+    Private Sub HashesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HashesToolStripMenuItem.Click
+        Dim objOItem_Result As clsOntologyItem
+        objOItem_Result = objBlobConnection.compute_Hashes()
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objOItem_Result.Val > 0 Then
+                MsgBox("Für " & objOItem_Result.Val & " Dateien konnte der Hashwert nicht erzeugt werden!", MsgBoxStyle.Exclamation)
+            End If
+        Else
+            MsgBox("Beim Erzeugen der Hashes ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
         End If
     End Sub
 End Class

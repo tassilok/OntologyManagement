@@ -26,6 +26,17 @@
     Private lngVal As Long
     Private lngCount As Long
 
+    Public ReadOnly Property NewGUID As String
+        Get
+            Dim strGUID As String
+
+            strGUID = System.Guid.NewGuid.ToString.Replace("-", "")
+
+            Return strGUID
+
+        End Get
+    End Property
+
 
     Public Property Count As Long
         Get

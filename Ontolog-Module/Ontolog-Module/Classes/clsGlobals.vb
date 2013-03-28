@@ -11,6 +11,7 @@ Public Class clsGlobals
     Private cstrField_ID_RelationType As String = "ID_RelationType"
     Private cstrField_Name_RelationType As String = "Name_RelationType"
     Private cstrField_Name_Object As String = "Name_Object"
+    Private cstrField_Name_Other As String = "Name_Other"
     Private cstrField_Name_AttributeType As String = "AttributeType"
     Private cstrField_Name_Item As String = "Name_Item"
     Private cstrField_ID_DataType As String = "ID_DataType"
@@ -43,7 +44,6 @@ Public Class clsGlobals
     Private cstrType_ObjectAtt = "ObjectAttribute"
     Private cstrType_RelationType = "RelationType"
     Private cstrType_AttributeType = "AttributeType"
-    Private cstrType_Attribute = "Attribute"
     Private cstrType_Other = "Other"
     Private cstrType_Other_AttType = "Other_AttType"
     Private cstrType_Other_RelType = "Other_RelType"
@@ -263,12 +263,6 @@ Public Class clsGlobals
         End Get
     End Property
 
-    Public ReadOnly Property Type_Attribute As String
-        Get
-            Return cstrType_Attribute
-        End Get
-    End Property
-
     Public ReadOnly Property Type_Class As String
         Get
             Return cstrType_Class
@@ -461,6 +455,12 @@ Public Class clsGlobals
     Public ReadOnly Property Field_Name_Object As String
         Get
             Return cstrField_Name_Object
+        End Get
+    End Property
+
+    Public ReadOnly Property Field_Name_Other As String
+        Get
+            Return cstrField_Name_Other
         End Get
     End Property
 

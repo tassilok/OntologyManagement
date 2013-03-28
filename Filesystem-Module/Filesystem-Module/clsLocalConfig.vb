@@ -134,6 +134,12 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property OItem_RelationType_belonging_source() As clsOntologyItem
+        Get
+            Return objOItem_RelationType_belongingSource
+        End Get
+    End Property
+
     'Token
     Public ReadOnly Property OItem_Token_Active_Server_State() As clsOntologyItem
         Get

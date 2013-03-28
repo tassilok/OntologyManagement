@@ -76,6 +76,7 @@ Partial Class frm_FilesystemModule
         Me.CreateBlobToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.XputBackToFSToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DownloadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GUIDAsNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GetMetaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
@@ -90,6 +91,7 @@ Partial Class frm_FilesystemModule
         Me.Timer_Search = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog_Files = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog_Folders = New System.Windows.Forms.FolderBrowserDialog()
+        Me.HashesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -235,7 +237,7 @@ Partial Class frm_FilesystemModule
         '
         'RefreshToolStripMenuItem
         '
-        Me.RefreshToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MetaToolStripMenuItem})
+        Me.RefreshToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MetaToolStripMenuItem, Me.HashesToolStripMenuItem})
         Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
         Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
         Me.RefreshToolStripMenuItem.Text = "x_Refresh"
@@ -336,7 +338,7 @@ Partial Class frm_FilesystemModule
         '
         Me.ContextMenuStrip_Tree.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem_Tree, Me.Open_Tree_ToolStripMenuItem1, Me.ApplyToolStripMenuItem, Me.ModuleActionsToolStripMenuItem_Tree})
         Me.ContextMenuStrip_Tree.Name = "ContextMenuStrip_Tree"
-        Me.ContextMenuStrip_Tree.Size = New System.Drawing.Size(162, 114)
+        Me.ContextMenuStrip_Tree.Size = New System.Drawing.Size(162, 92)
         '
         'NewToolStripMenuItem_Tree
         '
@@ -450,32 +452,32 @@ Partial Class frm_FilesystemModule
         '
         Me.ContextMenuStrip_DataGrid.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem_DataGrid, Me.OpenToolStripMenuItem, Me.ApplyFilesToolStripMenuItem, Me.ModuleActionsToolStripMenuItem, Me.EditToolStripMenuItem, Me.BlobsToolStripMenuItem})
         Me.ContextMenuStrip_DataGrid.Name = "ContextMenuStrip_DataGrid"
-        Me.ContextMenuStrip_DataGrid.Size = New System.Drawing.Size(171, 136)
+        Me.ContextMenuStrip_DataGrid.Size = New System.Drawing.Size(160, 136)
         '
         'NewToolStripMenuItem_DataGrid
         '
         Me.NewToolStripMenuItem_DataGrid.Name = "NewToolStripMenuItem_DataGrid"
-        Me.NewToolStripMenuItem_DataGrid.Size = New System.Drawing.Size(170, 22)
+        Me.NewToolStripMenuItem_DataGrid.Size = New System.Drawing.Size(159, 22)
         Me.NewToolStripMenuItem_DataGrid.Text = "x_New"
         '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.Enabled = False
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
         Me.OpenToolStripMenuItem.Text = "x_Open"
         '
         'ApplyFilesToolStripMenuItem
         '
         Me.ApplyFilesToolStripMenuItem.Name = "ApplyFilesToolStripMenuItem"
-        Me.ApplyFilesToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
+        Me.ApplyFilesToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
         Me.ApplyFilesToolStripMenuItem.Text = "x_Apply"
         '
         'ModuleActionsToolStripMenuItem
         '
         Me.ModuleActionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_ModuleActions})
         Me.ModuleActionsToolStripMenuItem.Name = "ModuleActionsToolStripMenuItem"
-        Me.ModuleActionsToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
+        Me.ModuleActionsToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
         Me.ModuleActionsToolStripMenuItem.Text = "x_Module-Actions"
         '
         'ToolStripComboBox_ModuleActions
@@ -487,7 +489,7 @@ Partial Class frm_FilesystemModule
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyPathToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
         Me.EditToolStripMenuItem.Text = "x_Edit"
         '
         'CopyPathToolStripMenuItem
@@ -500,7 +502,7 @@ Partial Class frm_FilesystemModule
         '
         Me.BlobsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateBlobToolStripMenuItem, Me.XputBackToFSToolStripMenuItem, Me.DownloadToolStripMenuItem, Me.GetMetaToolStripMenuItem})
         Me.BlobsToolStripMenuItem.Name = "BlobsToolStripMenuItem"
-        Me.BlobsToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
+        Me.BlobsToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
         Me.BlobsToolStripMenuItem.Text = "x_Blobs"
         '
         'CreateBlobToolStripMenuItem
@@ -517,9 +519,17 @@ Partial Class frm_FilesystemModule
         '
         'DownloadToolStripMenuItem
         '
+        Me.DownloadToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GUIDAsNameToolStripMenuItem})
         Me.DownloadToolStripMenuItem.Name = "DownloadToolStripMenuItem"
         Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
         Me.DownloadToolStripMenuItem.Text = "x_Download"
+        '
+        'GUIDAsNameToolStripMenuItem
+        '
+        Me.GUIDAsNameToolStripMenuItem.CheckOnClick = True
+        Me.GUIDAsNameToolStripMenuItem.Name = "GUIDAsNameToolStripMenuItem"
+        Me.GUIDAsNameToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
+        Me.GUIDAsNameToolStripMenuItem.Text = "x_GUID as Name"
         '
         'GetMetaToolStripMenuItem
         '
@@ -592,6 +602,12 @@ Partial Class frm_FilesystemModule
         '
         Me.OpenFileDialog_Files.FileName = "OpenFileDialog1"
         Me.OpenFileDialog_Files.Multiselect = True
+        '
+        'HashesToolStripMenuItem
+        '
+        Me.HashesToolStripMenuItem.Name = "HashesToolStripMenuItem"
+        Me.HashesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.HashesToolStripMenuItem.Text = "x_Hashes"
         '
         'frm_FilesystemModule
         '
@@ -704,5 +720,7 @@ Partial Class frm_FilesystemModule
     Friend WithEvents Timer_Search As System.Windows.Forms.Timer
     Friend WithEvents OpenFileDialog_Files As System.Windows.Forms.OpenFileDialog
     Friend WithEvents FolderBrowserDialog_Folders As System.Windows.Forms.FolderBrowserDialog
+    Friend WithEvents GUIDAsNameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents HashesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

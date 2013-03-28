@@ -19,6 +19,28 @@ Public Class clsFileWork
     Private boolBlob As Boolean
     Private strSeperator As String
 
+    Public Function is_File_Blob(ByVal objOItem_File As clsOntologyItem) As Boolean
+        Dim boolResult As Boolean
+        Dim objLBlob As New List(Of clsObjectAtt)
+
+        objLBlob.Add(New clsObjectAtt(Nothing, _
+                                      objOItem_File.GUID, _
+                                      Nothing, _
+                                      objLocalConfig.OItem_Attribute_Blob.GUID, _
+                                      Nothing))
+
+        objDBLevel_Blob.get_Data_ObjectAtt(objLBlob, _
+                                           boolIDs:=False)
+
+        If objDBLevel_Blob.OList_ObjectAtt.Count > 0 Then
+            boolResult = objDBLevel_Blob.OList_ObjectAtt(0).Val_Bit
+        Else
+            boolResult = False
+        End If
+
+        Return boolResult
+    End Function
+
     Public Function get_Path_FileSystemObject(ByVal objOItem_FileSystemObject As clsOntologyItem, Optional ByVal boolBlobPath As Boolean = True) As String
         Dim strPath As String = ""
 
@@ -53,7 +75,7 @@ Public Class clsFileWork
                                                   Nothing, _
                                                   Nothing))
 
-                
+
                 objDBLevel_FSO.get_Data_ObjectRel(oList_ObjRel, _
                                                   False, _
                                                   False)
@@ -259,7 +281,7 @@ Public Class clsFileWork
                                 objOItem_Server.GUID_Parent = objLocalConfig.OItem_Type_Server.GUID
                                 objOItem_Server.Type = objLocalConfig.Globals.Type_Object
 
-                                strPath = strSeperator & strSeperator & objOItem_Server.Name & strPath
+                                strPath = strSeperator & strSeperator & objOItem_Server.Name & IO.Path.DirectorySeparatorChar & strPath
                             Else
                                 oList_ObjRel.Clear()
                                 oList_ObjRel.Add(New clsObjectRel(objOItem_Share.GUID, _
@@ -295,7 +317,7 @@ Public Class clsFileWork
 
                     End If
                 End If
-      
+
 
 
         End Select
@@ -348,6 +370,11 @@ Public Class clsFileWork
         objLocalConfig = LocalConfig
 
         set_DBConnection()
+        initialize()
+    End Sub
+
+    Private Sub initialize()
+
     End Sub
 
     Private Sub set_DBConnection()

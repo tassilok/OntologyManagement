@@ -184,7 +184,7 @@
 
         oList_AttTypes.Add(objOItem_AttType)
 
-        initializeA_Tables.GetData(objLocalConfig.Globals.Type_Attribute)
+        initializeA_Tables.GetData(objLocalConfig.Globals.Type_ObjectAtt)
 
         objDBLevel_AttributeTypes.get_Data_AttributeType(OList_AttTypes, False)
 
@@ -279,14 +279,14 @@
                     i = j
                 End While
             Else
-                createA_Table_attT.GetData(objLocalConfig.Globals.Type_Attribute, objOItem_Class.Name, objOItem_AttributeType.Name, strType, strLength, False, strPath)
+                createA_Table_attT.GetData(objLocalConfig.Globals.Type_ObjectAtt, objOItem_Class.Name, objOItem_AttributeType.Name, strType, strLength, False, strPath)
             End If
 
             finalizeA_Table.GetData("attT_" & objOItem_Class.Name & "_" & objOItem_AttributeType.Name)
         Next
 
 
-        finalizeA_Tables.GetData(objLocalConfig.Globals.Type_Attribute)
+        finalizeA_Tables.GetData(objLocalConfig.Globals.Type_ObjectAtt)
 
     End Sub
 
