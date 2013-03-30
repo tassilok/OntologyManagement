@@ -151,7 +151,7 @@ Public Class clsBlobConnection
 
         End If
 
-        objOItem_Result.Val = lngToDo - lngDone
+        objOItem_Result.Val_Long = lngToDo - lngDone
 
         Return objOItem_Result
     End Function

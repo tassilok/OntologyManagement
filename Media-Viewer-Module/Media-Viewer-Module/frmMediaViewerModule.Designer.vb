@@ -25,27 +25,27 @@ Partial Class frmMediaViewerModule
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMediaViewerModule))
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripComboBox_MediaType = New System.Windows.Forms.ToolStripComboBox()
         Me.ToolStripLabel_MediaType = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripComboBox_MediaType = New System.Windows.Forms.ToolStripComboBox()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSplitButton_OrderType = New System.Windows.Forms.ToolStripSplitButton()
         Me.SemanticToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ChronoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ChronosemanticToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NamedSemanticToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripButton_OpenGrid = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_GetMetadata = New System.Windows.Forms.ToolStripButton()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        Me.ToolStrip2.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.SuspendLayout()
+        Me.ToolStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -79,14 +79,15 @@ Partial Class frmMediaViewerModule
         Me.ToolStrip1.Size = New System.Drawing.Size(59, 25)
         Me.ToolStrip1.TabIndex = 0
         '
-        'ToolStripButton_Close
+        'SplitContainer1
         '
-        Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
-        Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
-        Me.ToolStripButton_Close.Size = New System.Drawing.Size(49, 22)
-        Me.ToolStripButton_Close.Text = "x_Close"
+        Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Size = New System.Drawing.Size(858, 319)
+        Me.SplitContainer1.SplitterDistance = 286
+        Me.SplitContainer1.TabIndex = 0
         '
         'ToolStrip2
         '
@@ -97,16 +98,30 @@ Partial Class frmMediaViewerModule
         Me.ToolStrip2.Size = New System.Drawing.Size(598, 25)
         Me.ToolStrip2.TabIndex = 0
         '
-        'ToolStripComboBox_MediaType
-        '
-        Me.ToolStripComboBox_MediaType.Name = "ToolStripComboBox_MediaType"
-        Me.ToolStripComboBox_MediaType.Size = New System.Drawing.Size(250, 25)
-        '
         'ToolStripLabel_MediaType
         '
         Me.ToolStripLabel_MediaType.Name = "ToolStripLabel_MediaType"
         Me.ToolStripLabel_MediaType.Size = New System.Drawing.Size(79, 22)
         Me.ToolStripLabel_MediaType.Text = "x_Media-Type:"
+        '
+        'ToolStripComboBox_MediaType
+        '
+        Me.ToolStripComboBox_MediaType.Name = "ToolStripComboBox_MediaType"
+        Me.ToolStripComboBox_MediaType.Size = New System.Drawing.Size(250, 25)
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripButton_Close
+        '
+        Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
+        Me.ToolStripButton_Close.Size = New System.Drawing.Size(49, 22)
+        Me.ToolStripButton_Close.Text = "x_Close"
         '
         'ToolStripSplitButton_OrderType
         '
@@ -157,11 +172,6 @@ Partial Class frmMediaViewerModule
         Me.ToolStripButton_OpenGrid.Size = New System.Drawing.Size(71, 22)
         Me.ToolStripButton_OpenGrid.Text = "x_Open Grid"
         '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
         'ToolStripButton_GetMetadata
         '
         Me.ToolStripButton_GetMetadata.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
@@ -170,16 +180,6 @@ Partial Class frmMediaViewerModule
         Me.ToolStripButton_GetMetadata.Name = "ToolStripButton_GetMetadata"
         Me.ToolStripButton_GetMetadata.Size = New System.Drawing.Size(89, 22)
         Me.ToolStripButton_GetMetadata.Text = "x_Get Metadata"
-        '
-        'SplitContainer1
-        '
-        Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Size = New System.Drawing.Size(858, 319)
-        Me.SplitContainer1.SplitterDistance = 286
-        Me.SplitContainer1.TabIndex = 0
         '
         'frmMediaViewerModule
         '
@@ -198,10 +198,10 @@ Partial Class frmMediaViewerModule
         Me.ToolStripContainer1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        Me.ToolStrip2.ResumeLayout(False)
-        Me.ToolStrip2.PerformLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
+        Me.ToolStrip2.ResumeLayout(False)
+        Me.ToolStrip2.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub

@@ -25,6 +25,8 @@ Public Class clsLocalConfig
     Private objOItem_type_Logstate As New clsOntologyItem
     Private objOItem_type_User As New clsOntologyItem
 
+    Private objOItem_User As clsOntologyItem
+
 
     Public ReadOnly Property OItem_Attribute_DateTimeStamp() As clsOntologyItem
         Get
@@ -81,6 +83,14 @@ Public Class clsLocalConfig
     End Property
 
 
+    Public Property OItem_User As clsOntologyItem
+        Get
+            Return objOItem_User
+        End Get
+        Set(ByVal value As clsOntologyItem)
+            objOItem_User = value
+        End Set
+    End Property
 
     Private Sub get_Data_DevelopmentConfig()
         Dim objOItem_ObjecRel As clsObjectRel

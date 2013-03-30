@@ -22,7 +22,7 @@
               <xs:element name="ID_File" msprop:Generator_ColumnVarNameInTable="columnID_File" msprop:Generator_ColumnPropNameInRow="ID_File" msprop:Generator_ColumnPropNameInTable="ID_FileColumn" msprop:Generator_UserColumnName="ID_File" type="xs:string" minOccurs="0" />
               <xs:element name="Name_File" msprop:Generator_ColumnVarNameInTable="columnName_File" msprop:Generator_ColumnPropNameInRow="Name_File" msprop:Generator_ColumnPropNameInTable="Name_FileColumn" msprop:Generator_UserColumnName="Name_File" type="xs:string" minOccurs="0" />
               <xs:element name="Random" msprop:Generator_ColumnVarNameInTable="columnRandom" msprop:Generator_ColumnPropNameInRow="Random" msprop:Generator_ColumnPropNameInTable="RandomColumn" msprop:Generator_UserColumnName="Random" type="xs:string" minOccurs="0" />
-              <xs:element name="Count_Bookmarks" msprop:Generator_ColumnVarNameInTable="columnCount_Bookmarks" msprop:Generator_ColumnPropNameInRow="Count_Bookmarks" msprop:Generator_ColumnPropNameInTable="Count_BookmarksColumn" msprop:Generator_UserColumnName="Count_Bookmarks" type="xs:string" minOccurs="0" />
+              <xs:element name="Count_Bookmarks" msprop:Generator_ColumnVarNameInTable="columnCount_Bookmarks" msprop:Generator_ColumnPropNameInRow="Count_Bookmarks" msprop:Generator_ColumnPropNameInTable="Count_BookmarksColumn" msprop:Generator_UserColumnName="Count_Bookmarks" type="xs:long" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

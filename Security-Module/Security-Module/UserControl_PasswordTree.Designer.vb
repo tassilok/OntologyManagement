@@ -28,10 +28,10 @@ Partial Class UserControl_PasswordTree
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_CountLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
+        Me.TreeView_RelatedItems = New System.Windows.Forms.TreeView()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Mark = New System.Windows.Forms.ToolStripTextBox()
-        Me.TreeView_RelatedItems = New System.Windows.Forms.TreeView()
         Me.ImageList_Passwords = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -84,6 +84,17 @@ Partial Class UserControl_PasswordTree
         Me.ToolStripLabel_Count.Size = New System.Drawing.Size(13, 22)
         Me.ToolStripLabel_Count.Text = "0"
         '
+        'TreeView_RelatedItems
+        '
+        Me.TreeView_RelatedItems.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TreeView_RelatedItems.ImageIndex = 0
+        Me.TreeView_RelatedItems.ImageList = Me.ImageList_Passwords
+        Me.TreeView_RelatedItems.Location = New System.Drawing.Point(0, 0)
+        Me.TreeView_RelatedItems.Name = "TreeView_RelatedItems"
+        Me.TreeView_RelatedItems.SelectedImageIndex = 0
+        Me.TreeView_RelatedItems.Size = New System.Drawing.Size(434, 401)
+        Me.TreeView_RelatedItems.TabIndex = 0
+        '
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
@@ -103,14 +114,6 @@ Partial Class UserControl_PasswordTree
         '
         Me.ToolStripTextBox_Mark.Name = "ToolStripTextBox_Mark"
         Me.ToolStripTextBox_Mark.Size = New System.Drawing.Size(200, 25)
-        '
-        'TreeView_RelatedItems
-        '
-        Me.TreeView_RelatedItems.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TreeView_RelatedItems.Location = New System.Drawing.Point(0, 0)
-        Me.TreeView_RelatedItems.Name = "TreeView_RelatedItems"
-        Me.TreeView_RelatedItems.Size = New System.Drawing.Size(434, 401)
-        Me.TreeView_RelatedItems.TabIndex = 0
         '
         'ImageList_Passwords
         '

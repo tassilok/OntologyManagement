@@ -41,6 +41,7 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripButton_Bookmarks = New System.Windows.Forms.ToolStripButton()
         Me.BindingSource_MediaItems = New System.Windows.Forms.BindingSource(Me.components)
         Me.Timer_MediaItems = New System.Windows.Forms.Timer(Me.components)
+        Me.ToolStripButton_PlayList = New System.Windows.Forms.ToolStripButton()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -64,8 +65,8 @@ Partial Class UserControl_MediaItemList
         'SplitContainer1.Panel1
         '
         Me.SplitContainer1.Panel1.Controls.Add(Me.ToolStripContainer1)
-        Me.SplitContainer1.Size = New System.Drawing.Size(561, 476)
-        Me.SplitContainer1.SplitterDistance = 260
+        Me.SplitContainer1.Size = New System.Drawing.Size(766, 476)
+        Me.SplitContainer1.SplitterDistance = 355
         Me.SplitContainer1.TabIndex = 0
         '
         'ToolStripContainer1
@@ -78,11 +79,11 @@ Partial Class UserControl_MediaItemList
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.DataGridView_MediaItems)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(256, 422)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(351, 422)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(256, 472)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(351, 472)
         Me.ToolStripContainer1.TabIndex = 0
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
@@ -130,16 +131,16 @@ Partial Class UserControl_MediaItemList
         Me.DataGridView_MediaItems.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_MediaItems.Name = "DataGridView_MediaItems"
         Me.DataGridView_MediaItems.ReadOnly = True
-        Me.DataGridView_MediaItems.Size = New System.Drawing.Size(256, 422)
+        Me.DataGridView_MediaItems.Size = New System.Drawing.Size(351, 422)
         Me.DataGridView_MediaItems.TabIndex = 0
         '
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Remove, Me.ToolStripSeparator1, Me.ToolStripButton_Meta, Me.ToolStripSeparator3, Me.ToolStripButton_Bookmarks})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Remove, Me.ToolStripSeparator1, Me.ToolStripButton_Meta, Me.ToolStripSeparator3, Me.ToolStripButton_Bookmarks, Me.ToolStripButton_PlayList})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(249, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(303, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Add
@@ -192,13 +193,23 @@ Partial Class UserControl_MediaItemList
         '
         Me.Timer_MediaItems.Interval = 300
         '
+        'ToolStripButton_PlayList
+        '
+        Me.ToolStripButton_PlayList.CheckOnClick = True
+        Me.ToolStripButton_PlayList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_PlayList.Image = Global.Media_Viewer_Module.My.Resources.Resources._next
+        Me.ToolStripButton_PlayList.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_PlayList.Name = "ToolStripButton_PlayList"
+        Me.ToolStripButton_PlayList.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_PlayList.Text = "ToolStripButton1"
+        '
         'UserControl_MediaItemList
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "UserControl_MediaItemList"
-        Me.Size = New System.Drawing.Size(561, 476)
+        Me.Size = New System.Drawing.Size(766, 476)
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
@@ -235,5 +246,6 @@ Partial Class UserControl_MediaItemList
     Friend WithEvents Timer_MediaItems As System.Windows.Forms.Timer
     Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripButton_Bookmarks As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripButton_PlayList As System.Windows.Forms.ToolStripButton
 
 End Class

@@ -903,7 +903,7 @@ Public Class clsDBLevel
                 objBulkObjects = Nothing
                 objOItem_Result = objLocalConfig.Globals.LState_Success
                 objOItem_Result.Max1 = oList_ObjectRel.Count
-                objOItem_Result.Val = l
+                objOItem_Result.Val_Long = l
 
             Catch ex As Exception
                 objOItem_Result = objLocalConfig.Globals.LState_Error
@@ -3260,7 +3260,11 @@ Public Class clsDBLevel
         While intCount > 0
 
             intCount = 0
-            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Object, objBoolQuery.ToString, intPos, intPackageLength)
+            objSearchResult = objElConn.Search(objLocalConfig.Globals.Index, _
+                                               objLocalConfig.Globals.Type_Object, _
+                                               objBoolQuery.ToString, _
+                                               intPos, _
+                                               intPackageLength)
             If doCount = False Then
                 objList = objSearchResult.GetHits.Hits
 

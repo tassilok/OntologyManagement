@@ -20,6 +20,26 @@ Public Class clsSecurityWork
 
     End Sub
 
+    Public Function encode_Password(ByVal strPassword As String) As String
+        Dim strPassword_Encoded As String = Nothing
+        If boolUser_Initialized = True Then
+            strPassword_Encoded = objSecurity.encode_String(strPassword, strMasterPassword_decoded)
+        End If
+
+
+        Return strPassword_Encoded
+    End Function
+
+    Public Function decode_Password(ByVal strPassword_Encoded As String) As String
+        Dim strPassword_Decoded As String = Nothing
+        If boolUser_Initialized = True Then
+            strPassword_Decoded = objSecurity.decode_String(strPassword_Encoded, strMasterPassword_decoded)
+        End If
+
+
+        Return strPassword_Decoded
+    End Function
+
     Public Function initialize_User(ByVal objOItem_User As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objOLMasterPassword As New List(Of clsObjectAtt)

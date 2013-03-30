@@ -25,14 +25,12 @@ Partial Class UserControl_LogEntry
         Me.components = New System.ComponentModel.Container()
         Me.Label_Relations = New System.Windows.Forms.Label()
         Me.Panel_Relations = New System.Windows.Forms.Panel()
-        Me.Timer_Caption = New System.Windows.Forms.Timer(Me.components)
         Me.Button_FromTimestamp = New System.Windows.Forms.Button()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripProgressBar_Data = New System.Windows.Forms.ToolStripProgressBar()
         Me.ComboBox_User = New System.Windows.Forms.ComboBox()
         Me.Timer_Data = New System.Windows.Forms.Timer(Me.components)
         Me.Label_User = New System.Windows.Forms.Label()
-        Me.Timer_Message = New System.Windows.Forms.Timer(Me.components)
         Me.ComboBox_Logstate = New System.Windows.Forms.ComboBox()
         Me.Label_Logstate = New System.Windows.Forms.Label()
         Me.TextBox_Message = New System.Windows.Forms.TextBox()
@@ -63,10 +61,6 @@ Partial Class UserControl_LogEntry
         Me.Panel_Relations.Size = New System.Drawing.Size(438, 100)
         Me.Panel_Relations.TabIndex = 28
         '
-        'Timer_Caption
-        '
-        Me.Timer_Caption.Interval = 300
-        '
         'Button_FromTimestamp
         '
         Me.Button_FromTimestamp.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -89,7 +83,6 @@ Partial Class UserControl_LogEntry
         '
         'ToolStripProgressBar_Data
         '
-        Me.ToolStripProgressBar_Data.Maximum = 5
         Me.ToolStripProgressBar_Data.Name = "ToolStripProgressBar_Data"
         Me.ToolStripProgressBar_Data.Size = New System.Drawing.Size(200, 22)
         '
@@ -116,10 +109,6 @@ Partial Class UserControl_LogEntry
         Me.Label_User.Size = New System.Drawing.Size(43, 13)
         Me.Label_User.TabIndex = 24
         Me.Label_User.Text = "x_User:"
-        '
-        'Timer_Message
-        '
-        Me.Timer_Message.Interval = 300
         '
         'ComboBox_Logstate
         '
@@ -230,14 +219,12 @@ Partial Class UserControl_LogEntry
     End Sub
     Friend WithEvents Label_Relations As System.Windows.Forms.Label
     Friend WithEvents Panel_Relations As System.Windows.Forms.Panel
-    Friend WithEvents Timer_Caption As System.Windows.Forms.Timer
     Friend WithEvents Button_FromTimestamp As System.Windows.Forms.Button
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripProgressBar_Data As System.Windows.Forms.ToolStripProgressBar
     Friend WithEvents ComboBox_User As System.Windows.Forms.ComboBox
     Friend WithEvents Timer_Data As System.Windows.Forms.Timer
     Friend WithEvents Label_User As System.Windows.Forms.Label
-    Friend WithEvents Timer_Message As System.Windows.Forms.Timer
     Friend WithEvents ComboBox_Logstate As System.Windows.Forms.ComboBox
     Friend WithEvents Label_Logstate As System.Windows.Forms.Label
     Friend WithEvents TextBox_Message As System.Windows.Forms.TextBox

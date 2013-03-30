@@ -29,6 +29,7 @@ Public Class clsLocalConfig
     Private objGlobals As clsGlobals
 
     Private objOItem_DevConfig As New clsOntologyItem
+    Private objOItem_User As clsOntologyItem
 
     Private objDBLevel_Config1 As clsDBLevel
     Private objDBLevel_Config2 As clsDBLevel
@@ -793,6 +794,14 @@ Public Class clsLocalConfig
     End Property
 
 
+    Public Property OItem_User As clsOntologyItem
+        Get
+            Return objOItem_User
+        End Get
+        Set(ByVal value As clsOntologyItem)
+            objOItem_User = value
+        End Set
+    End Property
 
     Private Sub get_Data_DevelopmentConfig()
         Dim objOItem_ObjecRel As clsObjectRel

@@ -97,6 +97,12 @@
       <DependentUpon>frmMediaViewerModule.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmSingleViewer.Designer.vb">
+      <DependentUpon>frmSingleViewer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmSingleViewer.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -152,6 +158,9 @@
   <ItemGroup>
     <EmbeddedResource Include="frmMediaViewerModule.resx">
       <DependentUpon>frmMediaViewerModule.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSingleViewer.resx">
+      <DependentUpon>frmSingleViewer.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -217,9 +226,17 @@
       <Project>{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}</Project>
       <Name>Filesystem-Module</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Log-Module\Log-Module\Log-Module.vbproj">
+      <Project>{666536BD-FD4A-4BDF-A5BC-572E07D4E27A}</Project>
+      <Name>Log-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3F2F6722-C36B-420D-AFE7-B21C19457208}</Project>
       <Name>Ontolog-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Security-Module\Security-Module\Security-Module.vbproj">
+      <Project>{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}</Project>
+      <Name>Security-Module</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +244,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\bb_fforward_.png" />
     <None Include="Resources\pulsante_02_architetto_f_01_gray.png" />
     <None Include="Resources\pulsante_02_architetto_f_01.png" />
     <None Include="Resources\pulsante_02_architetto_f_01 last.png" />

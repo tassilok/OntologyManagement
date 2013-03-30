@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports Security_Module
 Public Class frmMediaViewerModule
     Private objLocalConfig As clsLocalConfig
 
@@ -6,8 +7,77 @@ Public Class frmMediaViewerModule
     Private WithEvents objUserControl_ImageList As UserControl_ImageList
     Private WithEvents objUserControl_MediaItemList As UserControl_MediaItemList
 
+    Private objFrmAuthenticate As frmAuthenticate
+    Private WithEvents objFrmSingleViewer As frmSingleViewer
+
+    Private objOItem_MediaType As clsOntologyItem
+    Private objOItem_Open As clsOntologyItem
+
+    Private Sub Media_First() Handles objFrmSingleViewer.Media_First
+        Select Case objOItem_MediaType.GUID
+            Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+
+            Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                objUserControl_ImageList.Media_First()
+            Case objLocalConfig.OItem_Type_Media_Item.GUID
+
+        End Select
+    End Sub
+
+    Private Sub Media_Previous() Handles objFrmSingleViewer.Media_Previous
+        Select Case objOItem_MediaType.GUID
+            Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+
+            Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                objUserControl_ImageList.Media_Previous()
+            Case objLocalConfig.OItem_Type_Media_Item.GUID
+
+        End Select
+    End Sub
+
+    Private Sub Media_Next() Handles objFrmSingleViewer.Media_Next
+        Select Case objOItem_MediaType.GUID
+            Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+
+            Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                objUserControl_ImageList.Media_Next()
+            Case objLocalConfig.OItem_Type_Media_Item.GUID
+
+        End Select
+    End Sub
+
+    Private Sub Media_Last() Handles objFrmSingleViewer.Media_Last
+        Select Case objOItem_MediaType.GUID
+            Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+
+            Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                objUserControl_ImageList.Media_Last()
+            Case objLocalConfig.OItem_Type_Media_Item.GUID
+
+        End Select
+    End Sub
+
+    Private Sub selected_Image(ByVal OItem_Image As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date) Handles objUserControl_ImageList.selected_Image
+        'objUserControl_ImageViewer.initialize_Image(OItem_Image, OItem_File, dateCreated)
+
+        If objFrmSingleViewer Is Nothing Then
+            objFrmSingleViewer = New frmSingleViewer(objLocalConfig, objLocalConfig.OItem_Type_Images__Graphic_)
+            objFrmSingleViewer.Show()
+        ElseIf objFrmSingleViewer.Visible = False And _
+                Not objFrmSingleViewer.OItem_MediaType.GUID = objLocalConfig.OItem_Type_Images__Graphic_.GUID Then
+
+            objFrmSingleViewer.Dispose()
+            objFrmSingleViewer = Nothing
+            objFrmSingleViewer = New frmSingleViewer(objLocalConfig, objLocalConfig.OItem_Type_Images__Graphic_)
+            objFrmSingleViewer.Show()
+        End If
+
+        objFrmSingleViewer.initialize_Image(OItem_Image, OItem_File, dateCreated)
+        objFrmSingleViewer.isPossible_Next = objUserControl_ImageList.isPossible_Next
+        objFrmSingleViewer.isPossible_Previous = objUserControl_ImageList.isPossible_Previous
+    End Sub
+
     Private Sub selected_Node(ByVal objOItem_Ref As clsOntologyItem) Handles objUserControl_RefTree.selected_Item
-        Dim objOItem_MediaType As clsOntologyItem
         objOItem_MediaType = ToolStripComboBox_MediaType.SelectedItem
 
         If Not objOItem_MediaType Is Nothing Then
@@ -36,24 +106,34 @@ Public Class frmMediaViewerModule
     End Sub
 
     Private Sub initialize()
-        objUserControl_RefTree = New UserControl_RefTree(objLocalConfig)
-        objUserControl_RefTree.Dock = DockStyle.Fill
-        SplitContainer1.Panel1.Controls.Add(objUserControl_RefTree)
+        objOItem_Open = objLocalConfig.Globals.LState_Nothing
+        objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
+        objFrmAuthenticate.ShowDialog(Me)
+        If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
+            objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User
+            objOItem_Open = objLocalConfig.Globals.LState_Success
 
-        ToolStripComboBox_MediaType.ComboBox.DisplayMember = "Name"
-        ToolStripComboBox_MediaType.ComboBox.ValueMember = "GUID"
+            objUserControl_RefTree = New UserControl_RefTree(objLocalConfig)
+            objUserControl_RefTree.Dock = DockStyle.Fill
+            SplitContainer1.Panel1.Controls.Add(objUserControl_RefTree)
 
-        ToolStripComboBox_MediaType.Items.Add(objLocalConfig.OItem_Type_Images__Graphic_)
-        ToolStripComboBox_MediaType.Items.Add(objLocalConfig.OItem_Type_PDF_Documents)
-        ToolStripComboBox_MediaType.Items.Add(objLocalConfig.OItem_Type_Media_Item)
+            ToolStripComboBox_MediaType.ComboBox.DisplayMember = "Name"
+            ToolStripComboBox_MediaType.ComboBox.ValueMember = "GUID"
 
-        objUserControl_ImageList = New UserControl_ImageList(objLocalConfig)
-        objUserControl_ImageList.Dock = DockStyle.Fill
+            ToolStripComboBox_MediaType.Items.Add(objLocalConfig.OItem_Type_Images__Graphic_)
+            ToolStripComboBox_MediaType.Items.Add(objLocalConfig.OItem_Type_PDF_Documents)
+            ToolStripComboBox_MediaType.Items.Add(objLocalConfig.OItem_Type_Media_Item)
 
-        objUserControl_MediaItemList = New UserControl_MediaItemList(objLocalConfig)
-        objUserControl_MediaItemList.Dock = DockStyle.Fill
+            objUserControl_ImageList = New UserControl_ImageList(objLocalConfig)
+            objUserControl_ImageList.Dock = DockStyle.Fill
+            
+            objUserControl_MediaItemList = New UserControl_MediaItemList(objLocalConfig)
+            objUserControl_MediaItemList.Dock = DockStyle.Fill
+        End If
 
         
+
+
     End Sub
 
     Private Sub set_DBConnection()
@@ -80,5 +160,11 @@ Public Class frmMediaViewerModule
             End Select
         End If
 
+    End Sub
+
+    Private Sub frmMediaViewerModule_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Not objOItem_Open.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Me.Close()
+        End If
     End Sub
 End Class

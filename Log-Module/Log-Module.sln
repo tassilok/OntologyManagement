@@ -5,6 +5,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Log-Module", "Log-Module\Lo
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Ontolog-Module", "..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj", "{3F2F6722-C36B-420D-AFE7-B21C19457208}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Security-Module", "..\Security-Module\Security-Module\Security-Module.vbproj", "{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -19,6 +21,10 @@ Global
 		{3F2F6722-C36B-420D-AFE7-B21C19457208}.Debug|x86.Build.0 = Debug|x86
 		{3F2F6722-C36B-420D-AFE7-B21C19457208}.Release|x86.ActiveCfg = Release|x86
 		{3F2F6722-C36B-420D-AFE7-B21C19457208}.Release|x86.Build.0 = Release|x86
+		{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}.Debug|x86.ActiveCfg = Debug|x86
+		{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}.Debug|x86.Build.0 = Debug|x86
+		{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}.Release|x86.ActiveCfg = Release|x86
+		{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

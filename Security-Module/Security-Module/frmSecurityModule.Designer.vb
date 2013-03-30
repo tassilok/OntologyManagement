@@ -45,11 +45,11 @@ Partial Class frmSecurityModule
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(580, 408)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(877, 479)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(580, 458)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(877, 529)
         Me.ToolStripContainer1.TabIndex = 0
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
@@ -59,7 +59,7 @@ Partial Class frmSecurityModule
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(59, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(90, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Close
@@ -77,15 +77,15 @@ Partial Class frmSecurityModule
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Size = New System.Drawing.Size(580, 408)
-        Me.SplitContainer1.SplitterDistance = 193
+        Me.SplitContainer1.Size = New System.Drawing.Size(877, 479)
+        Me.SplitContainer1.SplitterDistance = 291
         Me.SplitContainer1.TabIndex = 0
         '
         'frmSecurityModule
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(580, 458)
+        Me.ClientSize = New System.Drawing.Size(877, 529)
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "frmSecurityModule"
         Me.Text = "x_Security-Module"

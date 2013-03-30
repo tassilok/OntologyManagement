@@ -7,6 +7,10 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Ontolog-Module", "..\Ontolo
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Filesystem-Module", "..\Filesystem-Module\Filesystem-Module\Filesystem-Module.vbproj", "{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Log-Module", "..\Log-Module\Log-Module\Log-Module.vbproj", "{666536BD-FD4A-4BDF-A5BC-572E07D4E27A}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Security-Module", "..\Security-Module\Security-Module\Security-Module.vbproj", "{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -25,6 +29,14 @@ Global
 		{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}.Debug|x86.Build.0 = Debug|x86
 		{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}.Release|x86.ActiveCfg = Release|x86
 		{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}.Release|x86.Build.0 = Release|x86
+		{666536BD-FD4A-4BDF-A5BC-572E07D4E27A}.Debug|x86.ActiveCfg = Debug|x86
+		{666536BD-FD4A-4BDF-A5BC-572E07D4E27A}.Debug|x86.Build.0 = Debug|x86
+		{666536BD-FD4A-4BDF-A5BC-572E07D4E27A}.Release|x86.ActiveCfg = Release|x86
+		{666536BD-FD4A-4BDF-A5BC-572E07D4E27A}.Release|x86.Build.0 = Release|x86
+		{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}.Debug|x86.ActiveCfg = Debug|x86
+		{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}.Debug|x86.Build.0 = Debug|x86
+		{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}.Release|x86.ActiveCfg = Release|x86
+		{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

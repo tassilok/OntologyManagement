@@ -845,7 +845,7 @@
 
                         If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             MsgBox("Beim Speichern ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
-                        ElseIf objOItem_Result.Max1 > objOItem_Result.Val Then
+                        ElseIf objOItem_Result.Max1 > objOItem_Result.Val_Long Then
                             MsgBox("Es konnten nicht alle Beziehungen erzeugt werden!", MsgBoxStyle.Information)
 
                         End If

@@ -4,14 +4,111 @@ Public Class UserControl_ImageList
     Private objDataWork_Images As clsDataWork_Images
     Private dtblT_Images As New DataSet_Images.dtbl_ImagesDataTable
 
-    Private objUserControl_ImageViewer As UserControl_ImageViewer
+    'Private objUserControl_ImageViewer As UserControl_ImageViewer
 
     Private objOItem_Ref As clsOntologyItem
 
+    Public Event selected_Image(ByVal OItem_Image As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date)
+
+    Public Function Media_First() As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objDGVR_Selected As DataGridViewRow
+
+        BindingSource_Images.Position = 0
+        DataGridView_Images.ClearSelection()
+        objDGVR_Selected = DataGridView_Images.Rows(BindingSource_Images.Position)
+        objDGVR_Selected.Selected = True
+
+        objOItem_Result = objLocalConfig.Globals.LState_Success
+
+        Return objOItem_Result
+    End Function
+
+    Public Function Media_Previous() As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objDGVR_Selected As DataGridViewRow
+
+        If BindingSource_Images.Position > 0 Then
+            BindingSource_Images.Position = BindingSource_Images.Position - 1
+            DataGridView_Images.ClearSelection()
+            objDGVR_Selected = DataGridView_Images.Rows(BindingSource_Images.Position)
+            objDGVR_Selected.Selected = True
+            objOItem_Result = objLocalConfig.Globals.LState_Success
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Error
+        End If
+
+
+
+        Return objOItem_Result
+    End Function
+
+    Public Function Media_Next() As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objDGVR_Selected As DataGridViewRow
+
+        If BindingSource_Images.Position < BindingSource_Images.Count - 1 Then
+            BindingSource_Images.Position = BindingSource_Images.Position + 1
+            DataGridView_Images.ClearSelection()
+            objDGVR_Selected = DataGridView_Images.Rows(BindingSource_Images.Position)
+            objDGVR_Selected.Selected = True
+            objOItem_Result = objLocalConfig.Globals.LState_Success
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Error
+        End If
+
+
+
+        Return objOItem_Result
+    End Function
+
+    Public Function Media_Last() As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objDGVR_Selected As DataGridViewRow
+
+        If Not BindingSource_Images.Position = BindingSource_Images.Count - 1 Then
+            BindingSource_Images.Position = BindingSource_Images.Count - 1
+            DataGridView_Images.ClearSelection()
+            objDGVR_Selected = DataGridView_Images.Rows(BindingSource_Images.Position)
+            objDGVR_Selected.Selected = True
+            objOItem_Result = objLocalConfig.Globals.LState_Success
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Error
+        End If
+
+
+
+        Return objOItem_Result
+    End Function
+
+    
+    Public ReadOnly Property isPossible_Previous As Boolean
+        Get
+            If BindingSource_Images.Position > 0 Then
+                Return True
+            Else
+                Return False
+
+            End If
+        End Get
+    End Property
+
+    Public ReadOnly Property isPossible_Next As Boolean
+        Get
+            If BindingSource_Images.Position < BindingSource_Images.Count Then
+                Return True
+            Else
+                Return False
+
+            End If
+        End Get
+    End Property
+
+    
     Private Sub initialize()
-        objUserControl_ImageViewer = New UserControl_ImageViewer(objLocalConfig)
-        objUserControl_ImageViewer.Dock = DockStyle.Fill
-        SplitContainer1.Panel2.Controls.Add(objUserControl_ImageViewer)
+        'objUserControl_ImageViewer = New UserControl_ImageViewer(objLocalConfig)
+        'objUserControl_ImageViewer.Dock = DockStyle.Fill
+        'SplitContainer1.Panel2.Controls.Add(objUserControl_ImageViewer)
 
     End Sub
 
@@ -95,9 +192,14 @@ Public Class UserControl_ImageList
             End If
 
 
+            RaiseEvent selected_Image(objOItem_Image, objOItem_File, dateCreated)
 
-            objUserControl_ImageViewer.initialize_Image(objOItem_Image, objOItem_File, dateCreated)
+            'objUserControl_ImageViewer.initialize_Image(objOItem_Image, objOItem_File, dateCreated)
 
         End If
+    End Sub
+
+    Private Sub ToolStripButton_Paste_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Open.Click
+
     End Sub
 End Class

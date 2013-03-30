@@ -24,6 +24,11 @@
     Private intMax As Long
     Private intMax2 As Long
     Private lngVal As Long
+    Private boolVal As Boolean
+    Private dateVal As DateTime
+    Private dblVal As Double
+    Private strVal As String
+
     Private lngCount As Long
 
     Public ReadOnly Property NewGUID As String
@@ -46,12 +51,39 @@
             lngCount = value
         End Set
     End Property
-    Public Property Val As Long
+    Public Property Val_Bool As Boolean
+        Get
+            Return boolVal
+        End Get
+        Set(ByVal value As Boolean)
+            boolVal = value
+        End Set
+    End Property
+
+    Public Property Val_Date As Date
+        Get
+            Return dateVal
+        End Get
+        Set(ByVal value As Date)
+            dateVal = value
+        End Set
+    End Property
+
+    Public Property Val_Long As Long
         Get
             Return lngVal
         End Get
         Set(ByVal value As Long)
             lngVal = value
+        End Set
+    End Property
+
+    Public Property Val_String As String
+        Get
+            Return strVal
+        End Get
+        Set(ByVal value As String)
+            strVal = value
         End Set
     End Property
 

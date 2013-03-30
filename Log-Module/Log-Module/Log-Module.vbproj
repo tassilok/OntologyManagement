@@ -140,6 +140,10 @@
       <Project>{3F2F6722-C36B-420D-AFE7-B21C19457208}</Project>
       <Name>Ontolog-Module</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Security-Module\Security-Module\Security-Module.vbproj">
+      <Project>{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}</Project>
+      <Name>Security-Module</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\Config_ont.xml">

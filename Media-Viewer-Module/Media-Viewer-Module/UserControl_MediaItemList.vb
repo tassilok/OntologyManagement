@@ -4,9 +4,24 @@ Public Class UserControl_MediaItemList
     Private objDataWork_MediaItem As clsDataWork_MediaItem
     Private dtblT_MediaItems As New DataSet_MediaItems.dtbl_MediaItemsDataTable
 
-    Private objUserControl_MediaPlayer As UserControl_MediaPlayer
+    Private WithEvents objUserControl_MediaPlayer As UserControl_MediaPlayer
 
     Private objOItem_Ref As clsOntologyItem
+    Private boolPlay As Boolean
+
+    Private Sub stopped_MediaItem() Handles objUserControl_MediaPlayer.stopped
+        Dim objDGVR_Selected As DataGridViewRow
+        If BindingSource_MediaItems.Position < BindingSource_MediaItems.List.Count Then
+            BindingSource_MediaItems.Position = BindingSource_MediaItems.Position + 1
+            boolPlay = True
+            DataGridView_MediaItems.ClearSelection()
+            objDGVR_Selected = DataGridView_MediaItems.Rows(BindingSource_MediaItems.Position)
+            objDGVR_Selected.Selected = True
+
+        Else
+            ToolStripButton_PlayList.Checked = False
+        End If
+    End Sub
 
     Private Sub initialize()
         objDataWork_MediaItem = New clsDataWork_MediaItem(objLocalConfig)
@@ -53,6 +68,10 @@ Public Class UserControl_MediaItemList
     End Sub
 
     Private Sub DataGridView_MediaItems_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles DataGridView_MediaItems.SelectionChanged
+        selected_DGVR()
+    End Sub
+
+    Private Sub selected_DGVR()
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
         Dim objOItem_File As clsOntologyItem
@@ -66,7 +85,7 @@ Public Class UserControl_MediaItemList
             objOItem_MediaItem = New clsOntologyItem
             objOItem_MediaItem.GUID = objDRV_Selected.Item("ID_MediaItem")
             objOItem_MediaItem.Name = objDRV_Selected.Item("ID_MediaItem")
-            objOItem_MediaItem.GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID
+            objOItem_MediaItem.GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID
             objOItem_MediaItem.Type = objLocalConfig.Globals.Type_Object
 
             objOItem_File = New clsOntologyItem
@@ -80,7 +99,12 @@ Public Class UserControl_MediaItemList
             End If
 
             objUserControl_MediaPlayer.initialize_MediaItem(objOItem_MediaItem, objOItem_File, dateCreated)
-
+            If boolPlay = True Then
+                objUserControl_MediaPlayer.play_MediaItem()
+                boolPlay = False
+            End If
+        Else
+            objUserControl_MediaPlayer.initialize_MediaItem(Nothing, Nothing, Nothing)
         End If
     End Sub
 
@@ -96,5 +120,13 @@ Public Class UserControl_MediaItemList
 
             ToolStripProgressBar_MediaItem.Value = 50
         End If
+    End Sub
+
+    Private Sub ToolStripButton_PlayList_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripButton_PlayList.CheckStateChanged
+        objUserControl_MediaPlayer.Playlist = ToolStripButton_PlayList.Checked
+    End Sub
+
+    Private Sub ToolStripButton_PlayList_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_PlayList.Click
+
     End Sub
 End Class

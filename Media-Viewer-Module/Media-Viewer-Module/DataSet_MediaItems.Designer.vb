@@ -435,7 +435,7 @@ Partial Public Class DataSet_MediaItems
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function Adddtbl_MediaItemsRow(ByVal OrderID As Long, ByVal ID_MediaItem As String, ByVal Name_MediaItem As String, ByVal created As Date, ByVal ID_File As String, ByVal Name_File As String, ByVal Random As String, ByVal Count_Bookmarks As String) As dtbl_MediaItemsRow
+        Public Overloads Function Adddtbl_MediaItemsRow(ByVal OrderID As Long, ByVal ID_MediaItem As String, ByVal Name_MediaItem As String, ByVal created As Date, ByVal ID_File As String, ByVal Name_File As String, ByVal Random As String, ByVal Count_Bookmarks As Long) As dtbl_MediaItemsRow
             Dim rowdtbl_MediaItemsRow As dtbl_MediaItemsRow = CType(Me.NewRow,dtbl_MediaItemsRow)
             Dim columnValuesArray() As Object = New Object() {OrderID, ID_MediaItem, Name_MediaItem, created, ID_File, Name_File, Random, Count_Bookmarks}
             rowdtbl_MediaItemsRow.ItemArray = columnValuesArray
@@ -487,7 +487,7 @@ Partial Public Class DataSet_MediaItems
             MyBase.Columns.Add(Me.columnName_File)
             Me.columnRandom = New Global.System.Data.DataColumn("Random", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnRandom)
-            Me.columnCount_Bookmarks = New Global.System.Data.DataColumn("Count_Bookmarks", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            Me.columnCount_Bookmarks = New Global.System.Data.DataColumn("Count_Bookmarks", GetType(Long), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnCount_Bookmarks)
         End Sub
         
@@ -740,10 +740,10 @@ Partial Public Class DataSet_MediaItems
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property Count_Bookmarks() As String
+        Public Property Count_Bookmarks() As Long
             Get
                 Try 
-                    Return CType(Me(Me.tabledtbl_MediaItems.Count_BookmarksColumn),String)
+                    Return CType(Me(Me.tabledtbl_MediaItems.Count_BookmarksColumn),Long)
                 Catch e As Global.System.InvalidCastException
                     Throw New Global.System.Data.StrongTypingException("Der Wert für Spalte Count_Bookmarks in Tabelle dtbl_MediaItems ist DBNull.", e)
                 End Try

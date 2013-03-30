@@ -19,6 +19,8 @@ Public Class clsLocalConfig
     Private objGlobals As clsGlobals
 
     Private objOItem_DevConfig As New clsOntologyItem
+    Private objOItem_BaseConfig As New clsOntologyItem
+    Private objOItem_User As clsOntologyItem
 
     Private objDBLevel_Config1 As clsDBLevel
     Private objDBLevel_Config2 As clsDBLevel
@@ -186,7 +188,74 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property OItem_BaseConfig As clsOntologyItem
+        Get
+            Return objOItem_BaseConfig
+        End Get
+    End Property
 
+    Public Property OItem_User As clsOntologyItem
+        Get
+            Return objOItem_User
+        End Get
+        Set(ByVal value As clsOntologyItem)
+            objOItem_User = value
+        End Set
+    End Property
+
+
+    Private Sub get_BaseConfig()
+        Dim oList_ObjectRel As New List(Of clsObjectRel)
+
+        oList_ObjectRel.Add(New clsObjectRel(Nothing, _
+                                             Nothing, _
+                                             objOItem_Type_Module.GUID, _
+                                             Nothing, _
+                                             cstr_ID_SoftwareDevelopment, _
+                                             Nothing, _
+                                             Nothing, _
+                                             Nothing, _
+                                             objOItem_RelationType_offered_by.GUID, _
+                                             Nothing, _
+                                             objGlobals.Type_Object, _
+                                             objGlobals.Direction_RightLeft.GUID, _
+                                             Nothing, _
+                                             Nothing))
+
+        objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel)
+
+        If objDBLevel_Config1.OList_ObjectRel_ID.Count > 0 Then
+            oList_ObjectRel.Clear()
+            oList_ObjectRel.Add(New clsObjectRel(Nothing, _
+                                                 Nothing, _
+                                                 OItem_Type_Security_Module.GUID, _
+                                                 Nothing, _
+                                                 objDBLevel_Config1.OList_ObjectRel_ID(0).ID_Object, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 objOItem_RelationType_belongsTo.GUID, _
+                                                 Nothing, _
+                                                 objGlobals.Type_Object, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing))
+
+            objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel, _
+                                                  boolIDs:=False)
+
+            If objDBLevel_Config1.OList_ObjectRel.Count > 0 Then
+                objOItem_BaseConfig = New clsOntologyItem(objDBLevel_Config1.OList_ObjectRel(0).ID_Object, _
+                                                       objDBLevel_Config1.OList_ObjectRel(0).Name_Object, _
+                                                       objDBLevel_Config1.OList_ObjectRel(0).ID_Parent_Object)
+            Else
+                Err.Raise(1, "Config not set")
+            End If
+        Else
+            Err.Raise(1, "Config not set")
+
+        End If
+    End Sub
 
     Private Sub get_Data_DevelopmentConfig()
         Dim objOItem_ObjecRel As clsObjectRel
@@ -297,6 +366,7 @@ Public Class clsLocalConfig
 
         get_Data_DevelopmentConfig()
         get_Config()
+        get_BaseConfig()
     End Sub
 
     Private Sub set_DBConnection()

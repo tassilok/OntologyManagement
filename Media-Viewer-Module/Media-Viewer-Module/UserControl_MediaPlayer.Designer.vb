@@ -153,6 +153,9 @@ Partial Class UserControl_MediaPlayer
         '
         Me.Timer_MediaItem.Interval = 300
         '
+        'Timer_Position
+        '
+        '
         'Timer_Play
         '
         Me.Timer_Play.Interval = 200

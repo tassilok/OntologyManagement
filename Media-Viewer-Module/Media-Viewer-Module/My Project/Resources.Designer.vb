@@ -95,6 +95,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property bb_fforward_() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("bb_fforward_", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property enki_grey_plus_sign() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("enki_grey_plus_sign", resourceCulture)

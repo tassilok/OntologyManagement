@@ -562,8 +562,8 @@ Public Class frm_FilesystemModule
         Dim objOItem_Result As clsOntologyItem
         objOItem_Result = objBlobConnection.compute_Hashes()
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            If objOItem_Result.Val > 0 Then
-                MsgBox("Für " & objOItem_Result.Val & " Dateien konnte der Hashwert nicht erzeugt werden!", MsgBoxStyle.Exclamation)
+            If objOItem_Result.Val_Long > 0 Then
+                MsgBox("Für " & objOItem_Result.Val_Long & " Dateien konnte der Hashwert nicht erzeugt werden!", MsgBoxStyle.Exclamation)
             End If
         Else
             MsgBox("Beim Erzeugen der Hashes ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)

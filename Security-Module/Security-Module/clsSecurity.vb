@@ -4,6 +4,7 @@ Imports System.Text
 
 Public Class clsSecurity
 
+
     Public Function encode_String(ByVal strPassword As String, ByVal strKey As String) As String
         Dim rd As New RijndaelManaged
         Dim md5 As New MD5CryptoServiceProvider

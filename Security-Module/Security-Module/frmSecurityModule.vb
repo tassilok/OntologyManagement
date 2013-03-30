@@ -3,10 +3,15 @@ Public Class frmSecurityModule
     Private objLocalConfig As clsLocalConfig
 
     Private objFrmAuthenticate As frmAuthenticate
+    Private WithEvents objUserControl_PasswordTree As UserControl_PasswordTree
+    Private objUserControl_Password As UserControl_Password
+
     Private objSecurityWork As clsSecurityWork
     Private boolOpen As Boolean
 
-    Private objOItem_MasterUser As clsOntologyItem
+    Private Sub selected_Node(ByVal TreeNode_Selected As TreeNode) Handles objUserControl_PasswordTree.selected_Node
+        objUserControl_Password.fill_Password(TreeNode_Selected)
+    End Sub
 
     Public Sub New()
 
@@ -26,21 +31,29 @@ Public Class frmSecurityModule
     Private Sub initialize()
         Dim objOItem_Result As clsOntologyItem
         boolOpen = False
+        objUserControl_PasswordTree = New UserControl_PasswordTree(objLocalConfig)
+        objUserControl_PasswordTree.Dock = DockStyle.Fill
+        SplitContainer1.Panel1.Controls.Add(objUserControl_PasswordTree)
+
+        objUserControl_Password = New UserControl_Password(objLocalConfig, objSecurityWork)
+        objUserControl_Password.Dock = DockStyle.Fill
+        SplitContainer1.Panel2.Controls.Add(objUserControl_Password)
+
         objFrmAuthenticate = New frmAuthenticate(objLocalConfig, True, False, frmAuthenticate.ERelateMode.NoRelate)
         objFrmAuthenticate.ShowDialog(Me)
         If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
-            objOItem_MasterUser = objFrmAuthenticate.OItem_User
-            objOItem_Result = objSecurityWork.initialize_User(objOItem_MasterUser)
+            objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User
+            objOItem_Result = objSecurityWork.initialize_User(objLocalConfig.OItem_User)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                 boolOpen = True
             ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                 MsgBox("Geben Sie das Passwort bitte nochmals ein! (noch 2 Versuche)", MsgBoxStyle.Information)
-                objOItem_Result = objSecurityWork.initialize_User(objOItem_MasterUser)
+                objOItem_Result = objSecurityWork.initialize_User(objLocalConfig.OItem_User)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     boolOpen = True
                 ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                     MsgBox("Geben Sie das Passwort bitte nochmals ein! (noch 1 Versuch)", MsgBoxStyle.Information)
-                    objOItem_Result = objSecurityWork.initialize_User(objOItem_MasterUser)
+                    objOItem_Result = objSecurityWork.initialize_User(objLocalConfig.OItem_User)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                         boolOpen = True
                     Else
@@ -54,10 +67,23 @@ Public Class frmSecurityModule
         End If
     End Sub
 
+    Private Sub refresh_PasswordTree()
+        objUserControl_PasswordTree.initialize()
+
+
+    End Sub
+
     Private Sub frmSecurityModule_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         
         If boolOpen = False Then
             Me.Close()
+        Else
+            refresh_PasswordTree()
+
         End If
+    End Sub
+
+    Private Sub ToolStripButton_Close_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Close.Click
+        Me.Close()
     End Sub
 End Class
