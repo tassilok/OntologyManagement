@@ -6,6 +6,7 @@ Public Class frmMediaViewerModule
     Private WithEvents objUserControl_RefTree As UserControl_RefTree
     Private WithEvents objUserControl_ImageList As UserControl_ImageList
     Private WithEvents objUserControl_MediaItemList As UserControl_MediaItemList
+    Private WithEvents objUserControl_PDF As UserControl_PDFList
 
     Private objFrmAuthenticate As frmAuthenticate
     Private WithEvents objFrmSingleViewer As frmSingleViewer
@@ -16,45 +17,65 @@ Public Class frmMediaViewerModule
     Private Sub Media_First() Handles objFrmSingleViewer.Media_First
         Select Case objOItem_MediaType.GUID
             Case objLocalConfig.OItem_Type_PDF_Documents.GUID
-
+                objUserControl_PDF.Media_First
             Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
                 objUserControl_ImageList.Media_First()
             Case objLocalConfig.OItem_Type_Media_Item.GUID
-
+                objUserControl_MediaItemList.Media_First()
         End Select
     End Sub
 
     Private Sub Media_Previous() Handles objFrmSingleViewer.Media_Previous
         Select Case objOItem_MediaType.GUID
             Case objLocalConfig.OItem_Type_PDF_Documents.GUID
-
+                objUserControl_PDF.Media_Previous()
             Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
                 objUserControl_ImageList.Media_Previous()
             Case objLocalConfig.OItem_Type_Media_Item.GUID
-
+                objUserControl_MediaItemList.Media_Previous()
         End Select
     End Sub
 
     Private Sub Media_Next() Handles objFrmSingleViewer.Media_Next
         Select Case objOItem_MediaType.GUID
             Case objLocalConfig.OItem_Type_PDF_Documents.GUID
-
+                objUserControl_PDF.Media_Next()
             Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
                 objUserControl_ImageList.Media_Next()
             Case objLocalConfig.OItem_Type_Media_Item.GUID
-
+                objUserControl_MediaItemList.Media_Next()
         End Select
     End Sub
 
     Private Sub Media_Last() Handles objFrmSingleViewer.Media_Last
         Select Case objOItem_MediaType.GUID
             Case objLocalConfig.OItem_Type_PDF_Documents.GUID
-
+                objUserControl_PDF.Media_Last()
             Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
                 objUserControl_ImageList.Media_Last()
             Case objLocalConfig.OItem_Type_Media_Item.GUID
-
+                objUserControl_MediaItemList.Media_Last()
         End Select
+    End Sub
+
+    Private Sub selected_PDF(ByVal OItem_PDF As clsOntologyItem, ByVal OItem_File As clsOntologyItem) Handles objUserControl_PDF.selected_PDF
+        'objUserControl_ImageViewer.initialize_Image(OItem_Image, OItem_File, dateCreated)
+
+        If objFrmSingleViewer Is Nothing Then
+            objFrmSingleViewer = New frmSingleViewer(objLocalConfig, objLocalConfig.OItem_Type_PDF_Documents)
+            objFrmSingleViewer.Show()
+        ElseIf objFrmSingleViewer.Visible = False Or _
+                Not objFrmSingleViewer.OItem_MediaType.GUID = objLocalConfig.OItem_Type_PDF_Documents.GUID Then
+
+            objFrmSingleViewer.Dispose()
+            objFrmSingleViewer = Nothing
+            objFrmSingleViewer = New frmSingleViewer(objLocalConfig, objLocalConfig.OItem_Type_PDF_Documents)
+            objFrmSingleViewer.Show()
+        End If
+
+        objFrmSingleViewer.initialize_PDF(OItem_PDF, OItem_File)
+        objFrmSingleViewer.isPossible_Next = objUserControl_PDF.isPossible_Next
+        objFrmSingleViewer.isPossible_Previous = objUserControl_PDF.isPossible_Previous
     End Sub
 
     Private Sub selected_Image(ByVal OItem_Image As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date) Handles objUserControl_ImageList.selected_Image
@@ -63,7 +84,7 @@ Public Class frmMediaViewerModule
         If objFrmSingleViewer Is Nothing Then
             objFrmSingleViewer = New frmSingleViewer(objLocalConfig, objLocalConfig.OItem_Type_Images__Graphic_)
             objFrmSingleViewer.Show()
-        ElseIf objFrmSingleViewer.Visible = False And _
+        ElseIf objFrmSingleViewer.Visible = False Or _
                 Not objFrmSingleViewer.OItem_MediaType.GUID = objLocalConfig.OItem_Type_Images__Graphic_.GUID Then
 
             objFrmSingleViewer.Dispose()
@@ -77,6 +98,24 @@ Public Class frmMediaViewerModule
         objFrmSingleViewer.isPossible_Previous = objUserControl_ImageList.isPossible_Previous
     End Sub
 
+    Private Sub selected_MediaItem(ByVal OItem_MediaItem As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date) Handles objUserControl_MediaItemList.selected_MediaItem
+        If objFrmSingleViewer Is Nothing Then
+            objFrmSingleViewer = New frmSingleViewer(objLocalConfig, objLocalConfig.OItem_Type_Media_Item)
+            objFrmSingleViewer.Show()
+        ElseIf objFrmSingleViewer.Visible = False Or _
+                Not objFrmSingleViewer.OItem_MediaType.GUID = objLocalConfig.OItem_Type_Media_Item.GUID Then
+
+            objFrmSingleViewer.Dispose()
+            objFrmSingleViewer = Nothing
+            objFrmSingleViewer = New frmSingleViewer(objLocalConfig, objLocalConfig.OItem_Type_Media_Item)
+            objFrmSingleViewer.Show()
+        End If
+
+        objFrmSingleViewer.initialize_MediaItem(OItem_MediaItem, OItem_File, dateCreated)
+        objFrmSingleViewer.isPossible_Next = objUserControl_MediaItemList.isPossible_Next
+        objFrmSingleViewer.isPossible_Previous = objUserControl_MediaItemList.isPossible_Previous
+    End Sub
+
     Private Sub selected_Node(ByVal objOItem_Ref As clsOntologyItem) Handles objUserControl_RefTree.selected_Item
         objOItem_MediaType = ToolStripComboBox_MediaType.SelectedItem
 
@@ -87,7 +126,7 @@ Public Class frmMediaViewerModule
                 Case objLocalConfig.OItem_Type_Media_Item.GUID
                     objUserControl_MediaItemList.initialize_MediaItems(objOItem_Ref)
                 Case objLocalConfig.OItem_Type_PDF_Documents.GUID
-
+                    objUserControl_PDF.initialize_PDF(objOItem_Ref)
             End Select
         End If
 
@@ -129,6 +168,9 @@ Public Class frmMediaViewerModule
             
             objUserControl_MediaItemList = New UserControl_MediaItemList(objLocalConfig)
             objUserControl_MediaItemList.Dock = DockStyle.Fill
+
+            objUserControl_PDF = New UserControl_PDFList(objLocalConfig)
+            objUserControl_PDF.Dock = DockStyle.Fill
         End If
 
         
@@ -156,7 +198,7 @@ Public Class frmMediaViewerModule
                     SplitContainer1.Panel2.Controls.Add(objUserControl_MediaItemList)
                     objUserControl_ImageList.initialize_Images(Nothing)
                 Case objLocalConfig.OItem_Type_PDF_Documents.GUID
-
+                    SplitContainer1.Panel2.Controls.Add(objUserControl_PDF)
             End Select
         End If
 

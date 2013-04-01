@@ -98,6 +98,7 @@ Public Class clsDataWork_Images
                          Join objFile In objDBLevel_Files.OList_ObjectRel_ID On objFile.ID_Object Equals objImg.ID_Object
                          Group Join objDate In objDBLevel_CreationDate.OList_ObjectAtt On objDate.ID_Object Equals objImg.ID_Object Into objDates = Group
                          From objDate In objDates.DefaultIfEmpty
+                         Order By objImg.OrderID
 
         For Each objImage In objLImages
             If objImage.objDate Is Nothing Then

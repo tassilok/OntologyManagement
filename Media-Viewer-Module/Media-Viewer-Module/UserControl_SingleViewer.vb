@@ -1,5 +1,5 @@
 ﻿Imports Ontolog_Module
-Public Class frmSingleViewer
+Public Class UserControl_SingleViewer
     Private objLocalConfig As clsLocalConfig
 
     Private objOItem_MediaType As clsOntologyItem
@@ -12,8 +12,6 @@ Public Class frmSingleViewer
     Public Event Media_Previous()
     Public Event Media_Next()
     Public Event Media_Last()
-
-
 
     Public ReadOnly Property OItem_MediaType As clsOntologyItem
         Get

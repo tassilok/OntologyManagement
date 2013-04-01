@@ -87,7 +87,8 @@ Public Class clsDataWork_MediaItem
                                                   Nothing, _
                                                   Nothing))
 
-        objDBLevel_Files.get_Data_ObjectRel(objOL_MediaItems_To_File)
+        objDBLevel_Files.get_Data_ObjectRel(objOL_MediaItems_To_File, _
+                                            boolIDs:=False)
 
         objOL_Bookmarks_To_MediaItems.Add(New clsObjectRel(Nothing, _
                                                            Nothing, _
@@ -117,7 +118,7 @@ Public Class clsDataWork_MediaItem
         objDBLevel_Created.get_Data_ObjectAtt(objOL_CreationDate)
 
         Dim objLMediaItems = From objMediaItem In objDBLevel_MediaItems.OList_ObjectRel
-                             Join objFile In objDBLevel_Files.OList_ObjectRel_ID On objFile.ID_Object Equals objMediaItem.ID_Object
+                             Join objFile In objDBLevel_Files.OList_ObjectRel On objFile.ID_Object Equals objMediaItem.ID_Object
                              Group Join objAttrib In objDBLevel_Created.OList_ObjectAtt On objAttrib.ID_Object Equals objFile.ID_Other Into objAttribs = Group
                              From objAttrib In objAttribs.DefaultIfEmpty
                              Group Join objBookmark In objDBLevel_BookMarks.OList_ObjectRel_ID On objBookmark.ID_Other Equals objMediaItem.ID_Object Into Count_Bookmarks = Count()
@@ -130,7 +131,7 @@ Public Class clsDataWork_MediaItem
                                           objMediaItem.objMediaItem.Name_Object, _
                                           Nothing, _
                                           objMediaItem.objFile.ID_Other, _
-                                          Nothing, _
+                                          objMediaItem.objFile.Name_Other, _
                                           objRandom.Next(), _
                                           objMediaItem.Count_Bookmarks)
 
@@ -140,7 +141,7 @@ Public Class clsDataWork_MediaItem
                                           objMediaItem.objMediaItem.Name_Object, _
                                           objMediaItem.objAttrib.Val_Date, _
                                           objMediaItem.objFile.ID_Other, _
-                                          Nothing, _
+                                          objMediaItem.objFile.Name_Other, _
                                           objRandom.Next(), _
                                           objMediaItem.Count_Bookmarks)
             End If

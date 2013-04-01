@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet_PDF" targetNamespace="http://tempuri.org/DataSet_PDF.xsd" xmlns:mstns="http://tempuri.org/DataSet_PDF.xsd" xmlns="http://tempuri.org/DataSet_PDF.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet_PDF" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet_PDF" msprop:Generator_UserDSName="DataSet_PDF">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtbl_PDFList" msprop:Generator_TableClassName="dtbl_PDFListDataTable" msprop:Generator_TableVarName="tabledtbl_PDFList" msprop:Generator_TablePropName="dtbl_PDFList" msprop:Generator_RowDeletingName="dtbl_PDFListRowDeleting" msprop:Generator_UserTableName="dtbl_PDFList" msprop:Generator_RowChangingName="dtbl_PDFListRowChanging" msprop:Generator_RowEvHandlerName="dtbl_PDFListRowChangeEventHandler" msprop:Generator_RowDeletedName="dtbl_PDFListRowDeleted" msprop:Generator_RowEvArgName="dtbl_PDFListRowChangeEvent" msprop:Generator_RowChangedName="dtbl_PDFListRowChanged" msprop:Generator_RowClassName="dtbl_PDFListRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="OrderID" msprop:Generator_ColumnVarNameInTable="columnOrderID" msprop:Generator_ColumnPropNameInRow="OrderID" msprop:Generator_ColumnPropNameInTable="OrderIDColumn" msprop:Generator_UserColumnName="OrderID" type="xs:long" minOccurs="0" />
+              <xs:element name="ID_PDFDoc" msprop:Generator_ColumnVarNameInTable="columnID_PDFDoc" msprop:Generator_ColumnPropNameInRow="ID_PDFDoc" msprop:Generator_ColumnPropNameInTable="ID_PDFDocColumn" msprop:Generator_UserColumnName="ID_PDFDoc" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_PDFDoc" msprop:Generator_ColumnVarNameInTable="columnName_PDFDoc" msprop:Generator_ColumnPropNameInRow="Name_PDFDoc" msprop:Generator_ColumnPropNameInTable="Name_PDFDocColumn" msprop:Generator_UserColumnName="Name_PDFDoc" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_File" msprop:Generator_ColumnVarNameInTable="columnID_File" msprop:Generator_ColumnPropNameInRow="ID_File" msprop:Generator_ColumnPropNameInTable="ID_FileColumn" msprop:Generator_UserColumnName="ID_File" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_File" msprop:Generator_ColumnVarNameInTable="columnName_File" msprop:Generator_ColumnPropNameInRow="Name_File" msprop:Generator_ColumnPropNameInTable="Name_FileColumn" msprop:Generator_UserColumnName="Name_File" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

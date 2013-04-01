@@ -67,6 +67,10 @@ Public Class UserControl_MediaPlayer
             End If
             strPath = "%temp%\" & objOItem_File.GUID
             strPath = Environment.ExpandEnvironmentVariables(strPath)
+            If objOItem_File.Name.Contains(".") Then
+                strPath = strPath & objOItem_File.Name.Substring(objOItem_File.Name.LastIndexOf("."), Len(objOItem_File.Name) - objOItem_File.Name.LastIndexOf("."))
+
+            End If
 
             objOItem_Result = objLocalConfig.Globals.LState_Success
             If IO.File.Exists(strPath) Then
@@ -81,7 +85,7 @@ Public Class UserControl_MediaPlayer
 
             If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                 AxWindowsMediaPlayer_MediaItem.URL = ""
-                ToolStripButton_Open.Enabled = True
+                open_MediaItem()
             Else
                 MsgBox("Das Mediaitem konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
             End If
@@ -95,6 +99,11 @@ Public Class UserControl_MediaPlayer
 
         objOItem_File.Additional1 = strPath
         objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_File, objOItem_File.Additional1)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            AxWindowsMediaPlayer_MediaItem.URL = objOItem_File.Additional1
+        Else
+            MsgBox("Das MediaItem kann nicht geöffnet werden!", MsgBoxStyle.Exclamation)
+        End If
     End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
@@ -119,24 +128,29 @@ Public Class UserControl_MediaPlayer
     End Sub
 
     Private Sub Timer_MediaItem_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_MediaItem.Tick
-        If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
-            Timer_MediaItem.Stop()
-            ToolStripProgressBar_MediaItem.Value = 0
+        'If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+        '    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Update.GUID Then
+        '        Timer_MediaItem.Stop()
+        '        ToolStripProgressBar_MediaItem.Value = 0
 
-            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+        '        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
 
-                AxWindowsMediaPlayer_MediaItem.URL = ""
-                AxWindowsMediaPlayer_MediaItem.URL = objOItem_File.Additional1
-                AxWindowsMediaPlayer_MediaItem.Ctlcontrols.play()
+        '            AxWindowsMediaPlayer_MediaItem.URL = ""
+        '            AxWindowsMediaPlayer_MediaItem.URL = objOItem_File.Additional1
+        '            AxWindowsMediaPlayer_MediaItem.Ctlcontrols.play()
 
 
-            Else
-                MsgBox("Das Medium konnte nicht geladen werden!", MsgBoxStyle.Exclamation)
-            End If
+        '        Else
+        '            MsgBox("Das Medium konnte nicht geladen werden!", MsgBoxStyle.Exclamation)
+        '        End If
+        '    End If
+        '    objOItem_Result = objLocalConfig.Globals.LState_Update
 
-        Else
-            ToolStripProgressBar_MediaItem.Value = 50
-        End If
+
+
+        'Else
+        '    ToolStripProgressBar_MediaItem.Value = 50
+        'End If
     End Sub
     Private Sub set_StateChange()
         Dim objOItem_BookMark As clsOntologyItem

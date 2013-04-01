@@ -4,31 +4,120 @@ Public Class UserControl_MediaItemList
     Private objDataWork_MediaItem As clsDataWork_MediaItem
     Private dtblT_MediaItems As New DataSet_MediaItems.dtbl_MediaItemsDataTable
 
-    Private WithEvents objUserControl_MediaPlayer As UserControl_MediaPlayer
 
     Private objOItem_Ref As clsOntologyItem
-    Private boolPlay As Boolean
 
-    Private Sub stopped_MediaItem() Handles objUserControl_MediaPlayer.stopped
+    Public Event selected_MediaItem(ByVal OItem_MediaItem As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal Created As Date)
+
+    Public ReadOnly Property isPossible_Previous As Boolean
+        Get
+            If BindingSource_MediaItems.Position > 0 Then
+                Return True
+            Else
+                Return False
+
+            End If
+        End Get
+    End Property
+
+    Public ReadOnly Property isPossible_Next As Boolean
+        Get
+            If BindingSource_MediaItems.Position < BindingSource_MediaItems.Count Then
+                Return True
+            Else
+                Return False
+
+            End If
+        End Get
+    End Property
+
+    'Private Sub stopped_MediaItem() Handles objUserControl_MediaPlayer.stopped
+    '    Dim objDGVR_Selected As DataGridViewRow
+    '    If BindingSource_MediaItems.Position < BindingSource_MediaItems.List.Count Then
+    '        BindingSource_MediaItems.Position = BindingSource_MediaItems.Position + 1
+    '        boolPlay = True
+    '        DataGridView_MediaItems.ClearSelection()
+    '        objDGVR_Selected = DataGridView_MediaItems.Rows(BindingSource_MediaItems.Position)
+    '        objDGVR_Selected.Selected = True
+
+    '    Else
+    '        ToolStripButton_PlayList.Checked = False
+    '    End If
+    'End Sub
+
+    Public Function Media_First() As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
         Dim objDGVR_Selected As DataGridViewRow
-        If BindingSource_MediaItems.Position < BindingSource_MediaItems.List.Count Then
-            BindingSource_MediaItems.Position = BindingSource_MediaItems.Position + 1
-            boolPlay = True
+
+        BindingSource_MediaItems.Position = 0
+        DataGridView_MediaItems.ClearSelection()
+        objDGVR_Selected = DataGridView_MediaItems.Rows(BindingSource_MediaItems.Position)
+        objDGVR_Selected.Selected = True
+
+        objOItem_Result = objLocalConfig.Globals.LState_Success
+
+        Return objOItem_Result
+    End Function
+
+    Public Function Media_Previous() As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objDGVR_Selected As DataGridViewRow
+
+        If BindingSource_MediaItems.Position > 0 Then
+            BindingSource_MediaItems.Position = BindingSource_MediaItems.Position - 1
             DataGridView_MediaItems.ClearSelection()
             objDGVR_Selected = DataGridView_MediaItems.Rows(BindingSource_MediaItems.Position)
             objDGVR_Selected.Selected = True
-
+            objOItem_Result = objLocalConfig.Globals.LState_Success
         Else
-            ToolStripButton_PlayList.Checked = False
+            objOItem_Result = objLocalConfig.Globals.LState_Error
         End If
-    End Sub
+
+
+
+        Return objOItem_Result
+    End Function
+
+    Public Function Media_Next() As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objDGVR_Selected As DataGridViewRow
+
+        If BindingSource_MediaItems.Position < BindingSource_MediaItems.Count - 1 Then
+            BindingSource_MediaItems.Position = BindingSource_MediaItems.Position + 1
+            DataGridView_MediaItems.ClearSelection()
+            objDGVR_Selected = DataGridView_MediaItems.Rows(BindingSource_MediaItems.Position)
+            objDGVR_Selected.Selected = True
+            objOItem_Result = objLocalConfig.Globals.LState_Success
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Error
+        End If
+
+
+
+        Return objOItem_Result
+    End Function
+
+    Public Function Media_Last() As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objDGVR_Selected As DataGridViewRow
+
+        If Not BindingSource_MediaItems.Position = BindingSource_MediaItems.Count - 1 Then
+            BindingSource_MediaItems.Position = BindingSource_MediaItems.Count - 1
+            DataGridView_MediaItems.ClearSelection()
+            objDGVR_Selected = DataGridView_MediaItems.Rows(BindingSource_MediaItems.Position)
+            objDGVR_Selected.Selected = True
+            objOItem_Result = objLocalConfig.Globals.LState_Success
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Error
+        End If
+
+
+
+        Return objOItem_Result
+    End Function
 
     Private Sub initialize()
         objDataWork_MediaItem = New clsDataWork_MediaItem(objLocalConfig)
-
-        objUserControl_MediaPlayer = New UserControl_MediaPlayer(objLocalConfig)
-        objUserControl_MediaPlayer.Dock = DockStyle.Fill
-        SplitContainer1.Panel2.Controls.Add(objUserControl_MediaPlayer)
 
     End Sub
 
@@ -68,10 +157,6 @@ Public Class UserControl_MediaItemList
     End Sub
 
     Private Sub DataGridView_MediaItems_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles DataGridView_MediaItems.SelectionChanged
-        selected_DGVR()
-    End Sub
-
-    Private Sub selected_DGVR()
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
         Dim objOItem_File As clsOntologyItem
@@ -84,12 +169,13 @@ Public Class UserControl_MediaItemList
 
             objOItem_MediaItem = New clsOntologyItem
             objOItem_MediaItem.GUID = objDRV_Selected.Item("ID_MediaItem")
-            objOItem_MediaItem.Name = objDRV_Selected.Item("ID_MediaItem")
+            objOItem_MediaItem.Name = objDRV_Selected.Item("Name_MediaItem")
             objOItem_MediaItem.GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID
             objOItem_MediaItem.Type = objLocalConfig.Globals.Type_Object
 
             objOItem_File = New clsOntologyItem
             objOItem_File.GUID = objDRV_Selected.Item("ID_File")
+            objOItem_File.Name = objDRV_Selected.Item("Name_File")
             objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
             objOItem_File.Type = objLocalConfig.Globals.Type_Object
             If Not IsDBNull(objDRV_Selected.Item("created")) Then
@@ -98,23 +184,16 @@ Public Class UserControl_MediaItemList
                 dateCreated = Nothing
             End If
 
-            objUserControl_MediaPlayer.initialize_MediaItem(objOItem_MediaItem, objOItem_File, dateCreated)
-            If boolPlay = True Then
-                objUserControl_MediaPlayer.play_MediaItem()
-                boolPlay = False
-            End If
-        Else
-            objUserControl_MediaPlayer.initialize_MediaItem(Nothing, Nothing, Nothing)
+            RaiseEvent selected_MediaItem(objOItem_MediaItem, objOItem_File, dateCreated)
+            'objUserControl_MediaPlayer.initialize_MediaItem(objOItem_MediaItem, objOItem_File, dateCreated)
         End If
     End Sub
 
+    
     Private Sub Timer_MediaItems_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_MediaItems.Tick
         If objDataWork_MediaItem.Loaded = True Then
             Timer_MediaItems.Stop()
             ToolStripProgressBar_MediaItem.Value = 0
-            'dtblT_Images = objDataWork_Images.dtbl_Images
-            'BindingSource_Images.DataSource = dtblT_Images
-            'DataGridView_Images.DataSource = BindingSource_Images
             ToolStripLabel_Count.Text = DataGridView_MediaItems.RowCount
         Else
 
@@ -122,11 +201,5 @@ Public Class UserControl_MediaItemList
         End If
     End Sub
 
-    Private Sub ToolStripButton_PlayList_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripButton_PlayList.CheckStateChanged
-        objUserControl_MediaPlayer.Playlist = ToolStripButton_PlayList.Checked
-    End Sub
-
-    Private Sub ToolStripButton_PlayList_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_PlayList.Click
-
-    End Sub
+   
 End Class
