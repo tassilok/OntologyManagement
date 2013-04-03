@@ -32,7 +32,7 @@ Public Class clsDataWork_Transaction
     Private objDBLevel_Contractee As clsDBLevel
     Private objDBLevel_Contractor As clsDBLevel
 
-    
+    Private objOItem_FinancialTransaction As clsOntologyItem
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
@@ -41,6 +41,8 @@ Public Class clsDataWork_Transaction
     End Sub
 
     Public Sub get_Data_TransactionDetail(ByVal OItem_Transaction As clsOntologyItem)
+
+        objOItem_FinancialTransaction = OItem_Transaction
 
         objOItem_Result_Currency = objLocalConfig.Globals.LState_Nothing
         objOItem_Result_Gross = objLocalConfig.Globals.LState_Nothing
@@ -145,6 +147,19 @@ Public Class clsDataWork_Transaction
     End Sub
 
     Public Sub get_Data_Currency()
+        Dim objOList_Currency As New List(Of clsObjectRel)
+
+        objOList_Currency.Add(New clsObjectRel(objOItem_FinancialTransaction.GUID, _
+                                               Nothing, _
+                                               Nothing, _
+                                               objLocalConfig.OItem_Class_Currencies.GUID, _
+                                               objLocalConfig.OItem_RelationType_belonging_Currency.GUID, _
+                                               objLocalConfig.Globals.Type_Object, _
+                                               Nothing, _
+                                               Nothing))
+
+
+
         objOItem_Result_Currency = objLocalConfig.Globals.LState_Nothing
     End Sub
 

@@ -156,6 +156,18 @@ Public Class UserControl_MediaItemList
 
     End Sub
 
+    Private Sub Timer_MediaItems_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_MediaItems.Tick
+        If objDataWork_MediaItem.Loaded = True Then
+            Timer_MediaItems.Stop()
+            ToolStripProgressBar_MediaItem.Value = 0
+            ToolStripLabel_Count.Text = DataGridView_MediaItems.RowCount
+        Else
+
+            ToolStripProgressBar_MediaItem.Value = 50
+        End If
+    End Sub
+
+   
     Private Sub DataGridView_MediaItems_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles DataGridView_MediaItems.SelectionChanged
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
@@ -185,21 +197,6 @@ Public Class UserControl_MediaItemList
             End If
 
             RaiseEvent selected_MediaItem(objOItem_MediaItem, objOItem_File, dateCreated)
-            'objUserControl_MediaPlayer.initialize_MediaItem(objOItem_MediaItem, objOItem_File, dateCreated)
         End If
     End Sub
-
-    
-    Private Sub Timer_MediaItems_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_MediaItems.Tick
-        If objDataWork_MediaItem.Loaded = True Then
-            Timer_MediaItems.Stop()
-            ToolStripProgressBar_MediaItem.Value = 0
-            ToolStripLabel_Count.Text = DataGridView_MediaItems.RowCount
-        Else
-
-            ToolStripProgressBar_MediaItem.Value = 50
-        End If
-    End Sub
-
-   
 End Class

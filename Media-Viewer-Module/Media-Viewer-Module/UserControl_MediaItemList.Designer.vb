@@ -32,7 +32,6 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripProgressBar_MediaItem = New System.Windows.Forms.ToolStripProgressBar()
-        Me.DataGridView_MediaItems = New System.Windows.Forms.DataGridView()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Add = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Remove = New System.Windows.Forms.ToolStripButton()
@@ -40,14 +39,15 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripButton_Meta = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_Bookmarks = New System.Windows.Forms.ToolStripButton()
+        Me.DataGridView_MediaItems = New System.Windows.Forms.DataGridView()
         CType(Me.BindingSource_MediaItems, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip2.SuspendLayout()
-        CType(Me.DataGridView_MediaItems, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStrip1.SuspendLayout()
+        CType(Me.DataGridView_MediaItems, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Timer_MediaItems
@@ -107,18 +107,6 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripProgressBar_MediaItem.Name = "ToolStripProgressBar_MediaItem"
         Me.ToolStripProgressBar_MediaItem.Size = New System.Drawing.Size(100, 22)
         '
-        'DataGridView_MediaItems
-        '
-        Me.DataGridView_MediaItems.AllowUserToAddRows = False
-        Me.DataGridView_MediaItems.AllowUserToDeleteRows = False
-        Me.DataGridView_MediaItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView_MediaItems.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView_MediaItems.Location = New System.Drawing.Point(0, 0)
-        Me.DataGridView_MediaItems.Name = "DataGridView_MediaItems"
-        Me.DataGridView_MediaItems.ReadOnly = True
-        Me.DataGridView_MediaItems.Size = New System.Drawing.Size(766, 426)
-        Me.DataGridView_MediaItems.TabIndex = 0
-        '
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
@@ -174,6 +162,18 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripButton_Bookmarks.Size = New System.Drawing.Size(114, 22)
         Me.ToolStripButton_Bookmarks.Text = "x_Bookmarks/Ranges"
         '
+        'DataGridView_MediaItems
+        '
+        Me.DataGridView_MediaItems.AllowUserToAddRows = False
+        Me.DataGridView_MediaItems.AllowUserToDeleteRows = False
+        Me.DataGridView_MediaItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView_MediaItems.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView_MediaItems.Location = New System.Drawing.Point(0, 0)
+        Me.DataGridView_MediaItems.Name = "DataGridView_MediaItems"
+        Me.DataGridView_MediaItems.ReadOnly = True
+        Me.DataGridView_MediaItems.Size = New System.Drawing.Size(766, 426)
+        Me.DataGridView_MediaItems.TabIndex = 0
+        '
         'UserControl_MediaItemList
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -191,9 +191,9 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripContainer1.PerformLayout()
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
-        CType(Me.DataGridView_MediaItems, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
+        CType(Me.DataGridView_MediaItems, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -205,7 +205,6 @@ Partial Class UserControl_MediaItemList
     Friend WithEvents ToolStripLabel_Count As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripProgressBar_MediaItem As System.Windows.Forms.ToolStripProgressBar
-    Friend WithEvents DataGridView_MediaItems As System.Windows.Forms.DataGridView
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripButton_Add As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripButton_Remove As System.Windows.Forms.ToolStripButton
@@ -213,5 +212,6 @@ Partial Class UserControl_MediaItemList
     Friend WithEvents ToolStripButton_Meta As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripButton_Bookmarks As System.Windows.Forms.ToolStripButton
+    Friend WithEvents DataGridView_MediaItems As System.Windows.Forms.DataGridView
 
 End Class

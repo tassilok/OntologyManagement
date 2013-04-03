@@ -11,6 +11,18 @@ Public Class clsDataWork_BaseConfig
     Private objDBLevel_Unit As clsDBLevel
     Private objDBLevel_SearchTemplates As clsDBLevel
 
+    Public ReadOnly Property OL_SearchTemplates As List(Of clsObjectRel)
+        Get
+            Return objDBLevel_SearchTemplates.OList_ObjectRel
+        End Get
+    End Property
+
+    Public ReadOnly Property OL_Partner As List(Of clsObjectRel)
+        Get
+            Return objDBLevel_Partners.OList_ObjectRel
+        End Get
+    End Property
+
     Public Function get_Data_BaseConfig() As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objOLGross As New List(Of clsObjectAtt)

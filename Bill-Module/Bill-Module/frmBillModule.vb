@@ -2,7 +2,7 @@
 Public Class frmBillModule
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_BaseConfig As clsDataWork_BaseConfig
-    Private objUserControl_BillTree As UserControl_BillTree
+    Private WithEvents objUserControl_BillTree As UserControl_BillTree
     Private objOItem_Open As clsOntologyItem
 
     Public Sub New()

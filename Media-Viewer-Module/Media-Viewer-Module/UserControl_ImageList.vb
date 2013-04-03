@@ -199,7 +199,4 @@ Public Class UserControl_ImageList
         End If
     End Sub
 
-    Private Sub ToolStripButton_Paste_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Open.Click
-
-    End Sub
 End Class
