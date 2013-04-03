@@ -71,6 +71,20 @@
     <DataType>long</DataType>
   </dtbl_Fields>
   <dtbl_Fields>
+    <Field_Name>EX_CSET_CLICK</Field_Name>
+    <Regex_Pre><![CDATA[]]></Regex_Pre>
+    <Regex><![CDATA[\s/cset\.php|\s\S+/cset\.php]]></Regex>
+    <Regex_Post><![CDATA[]]></Regex_Post>
+    <DataType>string</DataType>
+  </dtbl_Fields>
+  <dtbl_Fields>
+    <Field_Name>EX_CSET_VIEW</Field_Name>
+    <Regex_Pre><![CDATA[]]></Regex_Pre>
+    <Regex><![CDATA[\s/cset_v\.php|\s\S+/cset_v\.php]]></Regex>
+    <Regex_Post><![CDATA[]]></Regex_Post>
+    <DataType>string</DataType>
+  </dtbl_Fields>
+  <dtbl_Fields>
     <Field_Name>DATE</Field_Name>
     <Regex_Pre><![CDATA[]]></Regex_Pre>
     <Regex><![CDATA[\[(\d\d)\/(...)\/(\d{4})]]></Regex>
