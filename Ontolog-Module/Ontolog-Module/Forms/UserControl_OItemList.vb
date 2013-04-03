@@ -393,13 +393,13 @@
             objDGVR = DataGridView_Items.SelectedRows(0)
             objDRV = objDGVR.DataBoundItem
             ToolStripTextBox_GUID.Text = objDRV.Item(strRowName_GUID).ToString
-            If boolProgChange = False Then
-                RaiseEvent Selection_Changed()
-            End If
+            
         Else
             ToolStripTextBox_GUID.Clear()
         End If
-        
+        If boolProgChange = False Then
+            RaiseEvent Selection_Changed()
+        End If
     End Sub
 
     Private Sub ToolStripTextBox_Filter_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripTextBox_Filter.TextChanged
