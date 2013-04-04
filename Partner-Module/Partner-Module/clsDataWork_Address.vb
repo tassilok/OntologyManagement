@@ -248,13 +248,32 @@ Public Class clsDataWork_Address
         objOItem_Result_Zusatz = objDBLevel_Zusatz.get_Data_ObjectAtt(objOList_Zusatz, _
                                                                       boolIDs:=False)
 
+        If objDBLevel_Zusatz.OList_ObjectAtt.Count > 0 Then
+            objOItem_Zusatz = New clsObjectAtt(objDBLevel_Zusatz.OList_ObjectAtt(0).ID_Attribute, _
+                                               objDBLevel_Zusatz.OList_ObjectAtt(0).ID_Object, _
+                                               objDBLevel_Zusatz.OList_ObjectAtt(0).Name_Object, _
+                                               objDBLevel_Zusatz.OList_ObjectAtt(0).ID_Class, _
+                                               objDBLevel_Zusatz.OList_ObjectAtt(0).Name_Class, _
+                                               objDBLevel_Zusatz.OList_ObjectAtt(0).ID_AttributeType, _
+                                               objDBLevel_Zusatz.OList_ObjectAtt(0).Name_AttributeType, _
+                                               objDBLevel_Zusatz.OList_ObjectAtt(0).OrderID, _
+                                               objDBLevel_Zusatz.OList_ObjectAtt(0).Val_String, _
+                                               Nothing, _
+                                               Nothing, _
+                                               Nothing, _
+                                               Nothing, _
+                                               objDBLevel_Zusatz.OList_ObjectAtt(0).Val_String, _
+                                               objLocalConfig.Globals.DType_String.GUID)
+        Else
+            objOItem_Zusatz = Nothing
+        End If
     End Sub
 
     Public Sub get_Data_PLZOrtLand()
         Dim objOList_PLZ As New List(Of clsObjectRel)
         Dim objOList_Ort As New List(Of clsObjectRel)
         Dim objOList_Land As New List(Of clsObjectRel)
-
+        Dim objOItem_Result As clsOntologyItem
 
         objOItem_Result_PLZOrtLand = objLocalConfig.Globals.LState_Nothing
 
@@ -267,9 +286,9 @@ Public Class clsDataWork_Address
                                           Nothing, _
                                           Nothing))
 
-        objOItem_Result_PLZOrtLand = objDBLevel_PLZ.get_Data_ObjectRel(objOList_PLZ, _
+        objOItem_Result = objDBLevel_PLZ.get_Data_ObjectRel(objOList_PLZ, _
                                                                        boolIDs:=False)
-        If objOItem_Result_PLZOrtLand.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             objOList_Ort.Add(New clsObjectRel(objOItem_Address.GUID, _
                                               Nothing, _
                                               Nothing, _
@@ -279,10 +298,10 @@ Public Class clsDataWork_Address
                                               Nothing, _
                                               Nothing))
 
-            objOItem_Result_PLZOrtLand = objDBLevel_Ort.get_Data_ObjectRel(objOList_Ort, _
+            objOItem_Result = objDBLevel_Ort.get_Data_ObjectRel(objOList_Ort, _
                                                                            boolIDs:=False)
 
-            If objOItem_Result_PLZOrtLand.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                 If objDBLevel_Ort.OList_ObjectRel.Count > 0 Then
                     objOItem_Ort = New clsOntologyItem(objDBLevel_Ort.OList_ObjectRel(0).ID_Other, _
                                                        objDBLevel_Ort.OList_ObjectRel(0).Name_Other, _
@@ -298,10 +317,10 @@ Public Class clsDataWork_Address
                                                        Nothing, _
                                                        Nothing))
 
-                    objOItem_Result_PLZOrtLand = objDBLevel_Land.get_Data_ObjectRel(objOList_Land, _
+                    objOItem_Result = objDBLevel_Land.get_Data_ObjectRel(objOList_Land, _
                                                                                     boolIDs:=False)
 
-                    If objOItem_Result_PLZOrtLand.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                         If objDBLevel_PLZ.OList_ObjectRel.Count > 0 Then
                             objOItem_PLZ = New clsOntologyItem(objDBLevel_PLZ.OList_ObjectRel(0).ID_Other, _
                                                                objDBLevel_PLZ.OList_ObjectRel(0).Name_Other, _
@@ -312,19 +331,28 @@ Public Class clsDataWork_Address
                         End If
 
                         If objDBLevel_Land.OList_ObjectRel.Count > 0 Then
-                            objOItem_Land = New clsOntologyItem(objDBLevel_PLZ.OList_ObjectRel(0).ID_Other, _
-                                                               objDBLevel_PLZ.OList_ObjectRel(0).Name_Other, _
-                                                               objDBLevel_PLZ.OList_ObjectRel(0).ID_Parent_Other, _
+                            objOItem_Land = New clsOntologyItem(objDBLevel_Land.OList_ObjectRel(0).ID_Other, _
+                                                               objDBLevel_Land.OList_ObjectRel(0).Name_Other, _
+                                                               objDBLevel_Land.OList_ObjectRel(0).ID_Parent_Other, _
                                                                objLocalConfig.Globals.Type_Object)
+
+
                         Else
                             objOList_Land = Nothing
                         End If
+                        objOItem_Result_PLZOrtLand = objLocalConfig.Globals.LState_Success
+                    Else
+                        objOItem_Result_PLZOrtLand = objLocalConfig.Globals.LState_Error
                     End If
-                        
+
                 Else
                     objOItem_Result_PLZOrtLand = objLocalConfig.Globals.LState_Error
                 End If
+            Else
+                objOItem_Result_PLZOrtLand = objLocalConfig.Globals.LState_Error
             End If
+        Else
+            objOItem_Result_PLZOrtLand = objLocalConfig.Globals.LState_Error
         End If
 
     End Sub

@@ -63,6 +63,31 @@ Public Class UserControl_Address
             End If
         End If
 
+
+        If objDataWork_Address.Result_Zusatz.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDataWork_Address.Zusatz Is Nothing Then
+                TextBox_Zusatz.Text = ""
+            Else
+                TextBox_Zusatz.Text = objDataWork_Address.Zusatz.Val_String
+            End If
+
+            TextBox_Zusatz.ReadOnly = False
+        ElseIf objDataWork_Address.Result_Zusatz.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            clear_Controls()
+        ElseIf objDataWork_Address.Result_Zusatz.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+            boolStop = False
+        End If
+
+        If objDataWork_Address.Result_PLZOrtLand.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            
+            TextBox_PLZOrtLand.Text = objDataWork_Address.PLZOrtLand
+
+        ElseIf objDataWork_Address.Result_PLZOrtLand.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            clear_Controls()
+        ElseIf objDataWork_Address.Result_PLZOrtLand.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+            boolStop = False
+        End If
+
         If boolStop = True Then
             Timer_Address.Stop()
             ToolStripProgressBar_Address.Value = 0
