@@ -508,7 +508,7 @@ Public Class clsDBLevel
         Dim lngToDo As Long
         Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
 
-        create_BoolQuery_ObjectAtt(OList_ObjectAtt, True, False)
+        create_BoolQuery_ObjectAtt(oList_ObjectAtts, True, False)
 
         objElConn.Flush()
         objOItem_Result = objLocalConfig.Globals.LState_Nothing

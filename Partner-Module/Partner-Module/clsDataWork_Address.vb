@@ -7,22 +7,26 @@ Public Class clsDataWork_Address
     Private objDBLevel_Address As clsDBLevel
     Private objDBLevel_Strasse As clsDBLevel
     Private objDBLevel_Zusatz As clsDBLevel
+    Private objDBLevel_Postfach As clsDBLevel
     Private objDBLevel_PLZ As clsDBLevel
     Private objDBLevel_Ort As clsDBLevel
     Private objDBLevel_Land As clsDBLevel
 
     Private objThread_Strasse As Threading.Thread
     Private objThread_Zusatz As Threading.Thread
+    Private objThread_Postfach As Threading.Thread
     Private objThread_PLZOrtLand As Threading.Thread
 
     Private objOItem_Result_Address As clsOntologyItem
     Private objOItem_Result_Strasse As clsOntologyItem
     Private objOItem_Result_Zusatz As clsOntologyItem
+    Private objOItem_Result_Postfach As clsOntologyItem
     Private objOItem_Result_PLZOrtLand As clsOntologyItem
 
     Private objOItem_Address As clsOntologyItem
     Private objOItem_Strasse As clsObjectAtt
     Private objOItem_Zusatz As clsObjectAtt
+    Private objOItem_Postfach As clsObjectAtt
     Private objOItem_PLZ As clsOntologyItem
     Private objOItem_Ort As clsOntologyItem
     Private objOItem_Land As clsOntologyItem
@@ -38,6 +42,12 @@ Public Class clsDataWork_Address
     Public ReadOnly Property Result_Zusatz As clsOntologyItem
         Get
             Return objOItem_Result_Zusatz
+        End Get
+    End Property
+
+    Public ReadOnly Property Result_Postfach As clsOntologyItem
+        Get
+            Return objOItem_Result_Postfach
         End Get
     End Property
 
@@ -62,6 +72,12 @@ Public Class clsDataWork_Address
     Public ReadOnly Property Zusatz As clsObjectAtt
         Get
             Return objOItem_Zusatz
+        End Get
+    End Property
+
+    Public ReadOnly Property Postfach As clsObjectAtt
+        Get
+            Return objOItem_Postfach
         End Get
     End Property
 
@@ -135,15 +151,23 @@ Public Class clsDataWork_Address
 
         End Try
 
+        Try
+            objThread_Postfach.Abort()
+        Catch ex As Exception
+
+        End Try
+
         objOItem_Result_PLZOrtLand = objLocalConfig.Globals.LState_Nothing
         objOItem_Result_Strasse = objLocalConfig.Globals.LState_Nothing
         objOItem_Result_Zusatz = objLocalConfig.Globals.LState_Nothing
+        objOItem_Result_Postfach = objLocalConfig.Globals.LState_Nothing
 
         objOItem_PLZ = Nothing
         objOItem_Ort = Nothing
         objOItem_Land = Nothing
         objOItem_Strasse = Nothing
         objOItem_Zusatz = Nothing
+        objOItem_Postfach = Nothing
 
         objOList_Address.Add(New clsObjectRel(objOItem_Partner.GUID, _
                                               Nothing, _
@@ -174,6 +198,8 @@ Public Class clsDataWork_Address
                         objThread_Strasse.Start()
                         objThread_Zusatz = New Threading.Thread(AddressOf get_Data_Zusatz)
                         objThread_Zusatz.Start()
+                        objThread_Postfach = New Threading.Thread(AddressOf get_Data_Postfach)
+                        objThread_Postfach.Start()
                     Else
                         objTransaction_Address.del_001_Address()
                         objOItem_Result_Address = objLocalConfig.Globals.LState_Error
@@ -194,6 +220,8 @@ Public Class clsDataWork_Address
                 objThread_Strasse.Start()
                 objThread_Zusatz = New Threading.Thread(AddressOf get_Data_Zusatz)
                 objThread_Zusatz.Start()
+                objThread_Postfach = New Threading.Thread(AddressOf get_Data_Postfach)
+                objThread_Postfach.Start()
             End If
             
         End If
@@ -202,6 +230,7 @@ Public Class clsDataWork_Address
     End Sub
 
     Public Sub get_Data_Strasse()
+        Dim objOItem_Result As clsOntologyItem
         Dim objOList_Strasse As New List(Of clsObjectAtt)
         objOItem_Result_Strasse = objLocalConfig.Globals.LState_Nothing
 
@@ -211,31 +240,38 @@ Public Class clsDataWork_Address
                                               objLocalConfig.OItem_Attribute_Straße.GUID, _
                                               Nothing))
 
-        objOItem_Result_Strasse = objDBLevel_Strasse.get_Data_ObjectAtt(objOList_Strasse, _
+        objOItem_Result = objDBLevel_Strasse.get_Data_ObjectAtt(objOList_Strasse, _
                                                                         boolIDs:=False)
 
-        If objDBLevel_Strasse.OList_ObjectAtt.Count > 0 Then
-            objOItem_Strasse = New clsObjectAtt(objDBLevel_Strasse.OList_ObjectAtt(0).ID_Attribute, _
-                                                objDBLevel_Strasse.OList_ObjectAtt(0).ID_Object, _
-                                                objDBLevel_Strasse.OList_ObjectAtt(0).Name_Object, _
-                                                objDBLevel_Strasse.OList_ObjectAtt(0).ID_Class, _
-                                                objDBLevel_Strasse.OList_ObjectAtt(0).Name_Class, _
-                                                objDBLevel_Strasse.OList_ObjectAtt(0).ID_AttributeType, _
-                                                objDBLevel_Strasse.OList_ObjectAtt(0).Name_AttributeType, _
-                                                objDBLevel_Strasse.OList_ObjectAtt(0).OrderID, _
-                                                objDBLevel_Strasse.OList_ObjectAtt(0).Val_String, _
-                                                Nothing, _
-                                                Nothing, _
-                                                Nothing, _
-                                                Nothing, _
-                                                objDBLevel_Strasse.OList_ObjectAtt(0).Val_String, _
-                                                objLocalConfig.Globals.DType_String.GUID)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_Strasse.OList_ObjectAtt.Count > 0 Then
+                objOItem_Strasse = New clsObjectAtt(objDBLevel_Strasse.OList_ObjectAtt(0).ID_Attribute, _
+                                                    objDBLevel_Strasse.OList_ObjectAtt(0).ID_Object, _
+                                                    objDBLevel_Strasse.OList_ObjectAtt(0).Name_Object, _
+                                                    objDBLevel_Strasse.OList_ObjectAtt(0).ID_Class, _
+                                                    objDBLevel_Strasse.OList_ObjectAtt(0).Name_Class, _
+                                                    objDBLevel_Strasse.OList_ObjectAtt(0).ID_AttributeType, _
+                                                    objDBLevel_Strasse.OList_ObjectAtt(0).Name_AttributeType, _
+                                                    objDBLevel_Strasse.OList_ObjectAtt(0).OrderID, _
+                                                    objDBLevel_Strasse.OList_ObjectAtt(0).Val_String, _
+                                                    Nothing, _
+                                                    Nothing, _
+                                                    Nothing, _
+                                                    Nothing, _
+                                                    objDBLevel_Strasse.OList_ObjectAtt(0).Val_String, _
+                                                    objLocalConfig.Globals.DType_String.GUID)
+            Else
+                objOItem_Strasse = Nothing
+            End If
+            objOItem_Result_Strasse = objLocalConfig.Globals.LState_Success
         Else
-            objOItem_Strasse = Nothing
+            objOItem_Result_Strasse = objLocalConfig.Globals.LState_Error
         End If
+        
     End Sub
 
     Public Sub get_Data_Zusatz()
+        Dim objOItem_Result As clsOntologyItem
         Dim objOList_Zusatz As New List(Of clsObjectAtt)
         objOItem_Result_Zusatz = objLocalConfig.Globals.LState_Nothing
 
@@ -245,28 +281,75 @@ Public Class clsDataWork_Address
                                              objLocalConfig.OItem_Attribute_Zusatz.GUID, _
                                              Nothing))
 
-        objOItem_Result_Zusatz = objDBLevel_Zusatz.get_Data_ObjectAtt(objOList_Zusatz, _
+        objOItem_Result = objDBLevel_Zusatz.get_Data_ObjectAtt(objOList_Zusatz, _
                                                                       boolIDs:=False)
 
-        If objDBLevel_Zusatz.OList_ObjectAtt.Count > 0 Then
-            objOItem_Zusatz = New clsObjectAtt(objDBLevel_Zusatz.OList_ObjectAtt(0).ID_Attribute, _
-                                               objDBLevel_Zusatz.OList_ObjectAtt(0).ID_Object, _
-                                               objDBLevel_Zusatz.OList_ObjectAtt(0).Name_Object, _
-                                               objDBLevel_Zusatz.OList_ObjectAtt(0).ID_Class, _
-                                               objDBLevel_Zusatz.OList_ObjectAtt(0).Name_Class, _
-                                               objDBLevel_Zusatz.OList_ObjectAtt(0).ID_AttributeType, _
-                                               objDBLevel_Zusatz.OList_ObjectAtt(0).Name_AttributeType, _
-                                               objDBLevel_Zusatz.OList_ObjectAtt(0).OrderID, _
-                                               objDBLevel_Zusatz.OList_ObjectAtt(0).Val_String, _
-                                               Nothing, _
-                                               Nothing, _
-                                               Nothing, _
-                                               Nothing, _
-                                               objDBLevel_Zusatz.OList_ObjectAtt(0).Val_String, _
-                                               objLocalConfig.Globals.DType_String.GUID)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_Zusatz.OList_ObjectAtt.Count > 0 Then
+                objOItem_Zusatz = New clsObjectAtt(objDBLevel_Zusatz.OList_ObjectAtt(0).ID_Attribute, _
+                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).ID_Object, _
+                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).Name_Object, _
+                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).ID_Class, _
+                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).Name_Class, _
+                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).ID_AttributeType, _
+                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).Name_AttributeType, _
+                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).OrderID, _
+                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).Val_String, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).Val_String, _
+                                                   objLocalConfig.Globals.DType_String.GUID)
+            Else
+                objOItem_Zusatz = Nothing
+            End If
+            objOItem_Result_Zusatz = objLocalConfig.Globals.LState_Success
         Else
-            objOItem_Zusatz = Nothing
+            objOItem_Result_Zusatz = objLocalConfig.Globals.LState_Error
         End If
+        
+    End Sub
+
+    Public Sub get_Data_Postfach()
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOList_Postfach As New List(Of clsObjectAtt)
+        objOItem_Result_Postfach = objLocalConfig.Globals.LState_Nothing
+
+        objOList_Postfach.Add(New clsObjectAtt(Nothing, _
+                                             objOItem_Address.GUID, _
+                                             Nothing, _
+                                             objLocalConfig.OItem_Attribute_Postfach.GUID, _
+                                             Nothing))
+
+        objOItem_Result = objDBLevel_Postfach.get_Data_ObjectAtt(objOList_Postfach, _
+                                                                      boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_Postfach.OList_ObjectAtt.Count > 0 Then
+                objOItem_Postfach = New clsObjectAtt(objDBLevel_Postfach.OList_ObjectAtt(0).ID_Attribute, _
+                                                   objDBLevel_Postfach.OList_ObjectAtt(0).ID_Object, _
+                                                   objDBLevel_Postfach.OList_ObjectAtt(0).Name_Object, _
+                                                   objDBLevel_Postfach.OList_ObjectAtt(0).ID_Class, _
+                                                   objDBLevel_Postfach.OList_ObjectAtt(0).Name_Class, _
+                                                   objDBLevel_Postfach.OList_ObjectAtt(0).ID_AttributeType, _
+                                                   objDBLevel_Postfach.OList_ObjectAtt(0).Name_AttributeType, _
+                                                   objDBLevel_Postfach.OList_ObjectAtt(0).OrderID, _
+                                                   objDBLevel_Postfach.OList_ObjectAtt(0).Val_String, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   objDBLevel_Postfach.OList_ObjectAtt(0).Val_String, _
+                                                   objLocalConfig.Globals.DType_String.GUID)
+            Else
+                objOItem_Postfach = Nothing
+            End If
+            objOItem_Result_Postfach = objLocalConfig.Globals.LState_Success
+        Else
+            objOItem_Result_Postfach = objLocalConfig.Globals.LState_Error
+        End If
+        
     End Sub
 
     Public Sub get_Data_PLZOrtLand()
@@ -345,9 +428,9 @@ Public Class clsDataWork_Address
                         objOItem_Result_PLZOrtLand = objLocalConfig.Globals.LState_Error
                     End If
 
-                Else
-                    objOItem_Result_PLZOrtLand = objLocalConfig.Globals.LState_Error
+
                 End If
+                objOItem_Result_PLZOrtLand = objLocalConfig.Globals.LState_Success
             Else
                 objOItem_Result_PLZOrtLand = objLocalConfig.Globals.LState_Error
             End If
@@ -369,6 +452,7 @@ Public Class clsDataWork_Address
         objDBLevel_Land = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Strasse = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Zusatz = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Postfach = New clsDBLevel(objLocalConfig.Globals)
 
         objTransaction_Address = New clsTransaction_Address(objLocalConfig)
     End Sub

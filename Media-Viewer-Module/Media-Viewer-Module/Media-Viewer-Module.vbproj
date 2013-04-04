@@ -50,6 +50,16 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Log-Module, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\Log-Module\Log-Module\bin\Debug\Log-Module.exe</HintPath>
+    </Reference>
+    <Reference Include="Security-Module, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\Security-Module\Security-Module\bin\Debug\Security-Module.exe</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -264,17 +274,9 @@
       <Project>{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}</Project>
       <Name>Filesystem-Module</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Log-Module\Log-Module\Log-Module.vbproj">
-      <Project>{666536BD-FD4A-4BDF-A5BC-572E07D4E27A}</Project>
-      <Name>Log-Module</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3F2F6722-C36B-420D-AFE7-B21C19457208}</Project>
       <Name>Ontolog-Module</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Security-Module\Security-Module\Security-Module.vbproj">
-      <Project>{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}</Project>
-      <Name>Security-Module</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

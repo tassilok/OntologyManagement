@@ -36,13 +36,14 @@ Partial Class UserControl_Address
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Apply = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripProgressBar_Address = New System.Windows.Forms.ToolStripProgressBar()
         Me.TextBox_PLZOrtLand = New System.Windows.Forms.TextBox()
         Me.TextBox_Zusatz = New System.Windows.Forms.TextBox()
         Me.Label_Zusatz = New System.Windows.Forms.Label()
         Me.TextBox_Strasse = New System.Windows.Forms.TextBox()
         Me.Timer_Address = New System.Windows.Forms.Timer(Me.components)
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripProgressBar_Address = New System.Windows.Forms.ToolStripProgressBar()
+        Me.Timer_Zusatz = New System.Windows.Forms.Timer(Me.components)
         Me.ToolStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -104,13 +105,13 @@ Partial Class UserControl_Address
         'ToolStripLabel_Partner
         '
         Me.ToolStripLabel_Partner.Name = "ToolStripLabel_Partner"
-        Me.ToolStripLabel_Partner.Size = New System.Drawing.Size(11, 22)
+        Me.ToolStripLabel_Partner.Size = New System.Drawing.Size(12, 22)
         Me.ToolStripLabel_Partner.Text = "-"
         '
         'ToolStripLabel_CountAddresses_lbl
         '
         Me.ToolStripLabel_CountAddresses_lbl.Name = "ToolStripLabel_CountAddresses_lbl"
-        Me.ToolStripLabel_CountAddresses_lbl.Size = New System.Drawing.Size(67, 22)
+        Me.ToolStripLabel_CountAddresses_lbl.Size = New System.Drawing.Size(66, 22)
         Me.ToolStripLabel_CountAddresses_lbl.Text = "x_Adresses:"
         '
         'Button_addPLZOrtLand
@@ -144,8 +145,18 @@ Partial Class UserControl_Address
         Me.ToolStripButton_Apply.Image = CType(resources.GetObject("ToolStripButton_Apply.Image"), System.Drawing.Image)
         Me.ToolStripButton_Apply.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Apply.Name = "ToolStripButton_Apply"
-        Me.ToolStripButton_Apply.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripButton_Apply.Size = New System.Drawing.Size(52, 22)
         Me.ToolStripButton_Apply.Text = "x_Apply"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripProgressBar_Address
+        '
+        Me.ToolStripProgressBar_Address.Name = "ToolStripProgressBar_Address"
+        Me.ToolStripProgressBar_Address.Size = New System.Drawing.Size(100, 22)
         '
         'TextBox_PLZOrtLand
         '
@@ -191,15 +202,9 @@ Partial Class UserControl_Address
         '
         Me.Timer_Address.Interval = 300
         '
-        'ToolStripSeparator2
+        'Timer_Zusatz
         '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripProgressBar_Address
-        '
-        Me.ToolStripProgressBar_Address.Name = "ToolStripProgressBar_Address"
-        Me.ToolStripProgressBar_Address.Size = New System.Drawing.Size(100, 22)
+        Me.Timer_Zusatz.Interval = 300
         '
         'UserControl_Address
         '
@@ -243,5 +248,6 @@ Partial Class UserControl_Address
     Friend WithEvents Timer_Address As System.Windows.Forms.Timer
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripProgressBar_Address As System.Windows.Forms.ToolStripProgressBar
+    Friend WithEvents Timer_Zusatz As System.Windows.Forms.Timer
 
 End Class
