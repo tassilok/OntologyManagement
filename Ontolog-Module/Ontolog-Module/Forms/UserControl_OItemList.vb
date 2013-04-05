@@ -124,6 +124,18 @@
         clear_Relation()
         strGUID_Class = Nothing
 
+        strGUID_Filter = ""
+        strName_Filter = ""
+        ToolStripTextBox_Filter.ReadOnly = True
+        ToolStripTextBox_Filter.Text = ""
+        ToolStripButton_Filter.Checked = False
+        ToolStripTextBox_Filter.ReadOnly = False
+        BindingSource_Attribute.RemoveFilter()
+        BindingSource_RelationType.RemoveFilter()
+        BindingSource_Token.RemoveFilter()
+        BindingSource_TokenToken.RemoveFilter()
+        BindingSource_Type.RemoveFilter()
+
         If OItem_Direction Is Nothing Then
             If Not oItem_Object Is Nothing Then
                 If oItem_Object.GUID <> "" Then
