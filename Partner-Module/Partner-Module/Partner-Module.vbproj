@@ -83,6 +83,12 @@
       <DependentUpon>frmPartnerModule.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmPLZOrtLand.Designer.vb">
+      <DependentUpon>frmPLZOrtLand.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmPLZOrtLand.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -126,6 +132,9 @@
   <ItemGroup>
     <EmbeddedResource Include="frmPartnerModule.resx">
       <DependentUpon>frmPartnerModule.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPLZOrtLand.resx">
+      <DependentUpon>frmPLZOrtLand.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

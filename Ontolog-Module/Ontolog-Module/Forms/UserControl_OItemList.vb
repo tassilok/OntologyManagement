@@ -6,6 +6,8 @@
     Private objDBLevel As clsDBLevel
 
     Private objFrm_Main As frmMain
+    Private objFrm_ObjectEdit As frm_ObjectEdit
+    Private objFrm_AttributeTypeEdit As frm_AttributeTypeEdit
 
     Private objTransaction_Objects As clsTransaction_Objects
     Private objTransaction_RelationTypes As clsTransaction_RelationTypes
@@ -22,6 +24,8 @@
     Private boolProgChange As Boolean
 
     Private strRowName_GUID As String
+    Private strRowName_Name As String
+    Private strRowName_ParentGUID As String
     Private strGUID_Class As String
 
     Private objOItem_Direction As clsOntologyItem
@@ -47,6 +51,8 @@
 
     Private strType As String
 
+    Private strFilter_Extern As String
+
     Private Event selected_ListItem()
 
     Public Event Selection_Changed()
@@ -54,6 +60,23 @@
 
     Public Event applied_Items()
 
+    Public ReadOnly Property RowName_GUID As String
+        Get
+            Return strRowName_GUID
+        End Get
+    End Property
+
+    Public ReadOnly Property RowName_Name As String
+        Get
+            Return strRowName_Name
+        End Get
+    End Property
+
+    Public ReadOnly Property RowName_GUIDParent As String
+        Get
+            Return strRowName_ParentGUID
+        End Get
+    End Property
 
     Public ReadOnly Property OList_Simple As List(Of clsOntologyItem)
         Get
@@ -171,28 +194,40 @@
         ToolStripTextBox_Filter.Text = ""
         ToolStripTextBox_Filter.ReadOnly = False
 
-        get_RowName_GUID()
+        get_RowNames()
         configure_TabPages()
 
         boolProgChange = False
     End Sub
 
-    Private Sub get_RowName_GUID()
+    Private Sub get_RowNames()
         Select Case strType
             Case objLocalConfig.Globals.Type_AttributeType
                 strRowName_GUID = "ID_Item"
+                strRowName_Name = "Name"
+                strRowName_ParentGUID = "ID_Parent"
             Case objLocalConfig.Globals.Type_Class
                 strRowName_GUID = "ID_Item"
+                strRowName_Name = "Name"
+                strRowName_ParentGUID = "ID_Parent"
             Case objLocalConfig.Globals.Type_Object
                 strRowName_GUID = "ID_Item"
+                strRowName_Name = "Name"
+                strRowName_ParentGUID = "ID_Parent"
             Case objLocalConfig.Globals.Type_RelationType
                 strRowName_GUID = "ID_Item"
+                strRowName_Name = "Name"
+                strRowName_ParentGUID = ""
             Case objLocalConfig.Globals.Type_Other
                 Select Case objOItem_Direction.GUID
                     Case objLocalConfig.Globals.Direction_LeftRight.GUID
                         strRowName_GUID = "ID_Other"
+                        strRowName_Name = "Name_Other"
+                        strRowName_ParentGUID = "ID_Parent_Other"
                     Case objLocalConfig.Globals.Direction_RightLeft.GUID
                         strRowName_GUID = "ID_Object"
+                        strRowName_Name = "Name_Object"
+                        strRowName_ParentGUID = "ID_Parent_Object"
                 End Select
         End Select
     End Sub
@@ -379,9 +414,68 @@
 
     Private Sub DataGridView_Items_RowHeaderMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellMouseEventArgs) Handles DataGridView_Items.RowHeaderMouseDoubleClick
 
-        intRowID = e.RowIndex
-        RaiseEvent edit_Object(strType, objOItem_Direction)
 
+
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim objOItem_Selected As New clsOntologyItem
+        Dim objOLObjects As New List(Of clsOntologyItem)
+        Dim strOntology As String
+
+        objDGVR_Selected = DataGridView_Items.Rows(e.RowIndex)
+        objDRV_Selected = objDGVR_Selected.DataBoundItem
+        objOItem_Selected.GUID = objDRV_Selected.Item(strRowName_GUID)
+        objOItem_Selected.Name = objDRV_Selected.Item(strRowName_Name)
+        If strRowName_ParentGUID <> "" Then
+            objOItem_Selected.GUID_Parent = objDRV_Selected.Item(strRowName_ParentGUID)
+        End If
+
+        
+        Select Case strType
+            Case objLocalConfig.Globals.Type_AttributeType
+                objFrm_AttributeTypeEdit = New frm_AttributeTypeEdit(objLocalConfig, objOItem_Selected)
+                objFrm_AttributeTypeEdit.ShowDialog(Me)
+                MsgBox("Implement: AttributeTye-Edit")
+            Case objLocalConfig.Globals.Type_Class
+                MsgBox("Implement: Class-Edit")
+            Case objLocalConfig.Globals.Type_RelationType
+                MsgBox("Implement: RelationType-Edit")
+            Case objLocalConfig.Globals.Type_Object
+                objOLObjects.Add(objOItem_Selected)
+                objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
+                                                       objOLObjects, _
+                                                       0, _
+                                                       objLocalConfig.Globals.Type_Object, _
+                                                       Nothing)
+                objFrm_ObjectEdit.ShowDialog(Me)
+                If objFrm_ObjectEdit.DialogResult = DialogResult.OK Then
+
+                End If
+            Case objLocalConfig.Globals.Type_Other
+                strOntology = objDRV_Selected.Item("Ontology")
+                Select Case strOntology
+                    Case objLocalConfig.Globals.Type_AttributeType
+                        objFrm_AttributeTypeEdit = New frm_AttributeTypeEdit(objLocalConfig, objOItem_Selected)
+                        objFrm_AttributeTypeEdit.ShowDialog(Me)
+                        MsgBox("Implement: AttributeTye-Edit")
+                    Case objLocalConfig.Globals.Type_Class
+                        MsgBox("Implement: Class-Edit")
+                    Case objLocalConfig.Globals.Type_RelationType
+                        MsgBox("Implement: RelationType-Edit")
+                    Case objLocalConfig.Globals.Type_Object
+                        objOLObjects.Add(objOItem_Selected)
+                        objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
+                                                               objOLObjects, _
+                                                               0, _
+                                                               objLocalConfig.Globals.Type_Object, _
+                                                               Nothing)
+                        objFrm_ObjectEdit.ShowDialog(Me)
+                        If objFrm_ObjectEdit.DialogResult = DialogResult.OK Then
+
+                        End If
+                    Case objLocalConfig.Globals.Type_Other
+                End Select
+        End Select
     End Sub
 
     Private Sub DataGridView_Items_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles DataGridView_Items.SelectionChanged
@@ -403,7 +497,7 @@
     End Sub
 
     Private Sub ToolStripTextBox_Filter_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripTextBox_Filter.TextChanged
-        If boolProgChange = False Then
+        If ToolStripTextBox_Filter.ReadOnly = False Then
             Timer_Filter.Stop()
             ToolStripButton_Filter.Checked = True
             Timer_Filter.Start()
@@ -415,28 +509,95 @@
         Filter_List()
     End Sub
 
+    Public Sub Filter_Items(ByVal strFilter As String)
+        strFilter_Extern = strFilter
+        ToolStripTextBox_Filter.Text = strFilter
+        
+    End Sub
+
     Private Sub Filter_List()
+        strGUID_Filter = ""
+        strName_Filter = ""
+        BindingSource_Attribute.RemoveFilter()
+        BindingSource_RelationType.RemoveFilter()
+        BindingSource_Token.RemoveFilter()
+        BindingSource_TokenToken.RemoveFilter()
+        BindingSource_Type.RemoveFilter()
+
+
         If ToolStripButton_Filter.Checked = True Then
             strName_Filter = ToolStripTextBox_Filter.Text
             If objLocalConfig.Globals.is_GUID(strName_Filter) Then
                 strGUID_Filter = strName_Filter
                 strName_Filter = ""
             End If
-        Else
-            strGUID_Filter = ""
-            strName_Filter = ""
-
-
         End If
-        configure_TabPages()
+
+        If strFilter_Extern = "" Then
+            configure_TabPages()
+        Else
+
+            Select Case strType
+                Case objLocalConfig.Globals.Type_AttributeType
+                    If strGUID_Filter <> "" Then
+                        BindingSource_Attribute.Filter = "[" & strRowName_GUID & "]='" & strGUID_Filter & "'"
+                    ElseIf strName_Filter <> "" Then
+                        BindingSource_Attribute.Filter = "[" & strRowName_Name & "]='" & strName_Filter & "'"
+                    Else
+                        BindingSource_Attribute.RemoveFilter()
+                    End If
+                Case objLocalConfig.Globals.Type_Class
+                    If strGUID_Filter <> "" Then
+                        BindingSource_Type.Filter = "[" & strRowName_GUID & "]='" & strGUID_Filter & "'"
+                    ElseIf strName_Filter <> "" Then
+                        BindingSource_Type.Filter = "[" & strRowName_Name & "]='" & strName_Filter & "'"
+                    Else
+                        BindingSource_Type.RemoveFilter()
+                    End If
+                Case objLocalConfig.Globals.Type_RelationType
+                    If strGUID_Filter <> "" Then
+                        BindingSource_RelationType.Filter = "[" & strRowName_GUID & "]='" & strGUID_Filter & "'"
+                    ElseIf strName_Filter <> "" Then
+                        BindingSource_RelationType.Filter = "[" & strRowName_Name & "]='" & strName_Filter & "'"
+                    Else
+                        BindingSource_RelationType.RemoveFilter()
+                    End If
+                Case objLocalConfig.Globals.Type_Object
+                    If strGUID_Filter <> "" Then
+                        BindingSource_Token.Filter = "[" & strRowName_GUID & "]='" & strGUID_Filter & "'"
+                    ElseIf strName_Filter <> "" Then
+                        BindingSource_Token.Filter = "[" & strRowName_Name & "]='" & strName_Filter & "'"
+                    Else
+                        BindingSource_Token.RemoveFilter()
+                    End If
+                Case objLocalConfig.Globals.Type_Other
+                    If strGUID_Filter <> "" Then
+                        BindingSource_TokenToken.Filter = "[" & strRowName_GUID & "]='" & strGUID_Filter & "'"
+                    ElseIf strName_Filter <> "" Then
+                        BindingSource_TokenToken.Filter = "[" & strRowName_Name & "]='" & strName_Filter & "'"
+                    Else
+                        BindingSource_TokenToken.RemoveFilter()
+                    End If
+            End Select
+        End If
+
+
     End Sub
 
     Private Sub ToolStripButton_Filter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Filter.Click
         If ToolStripButton_Filter.Checked = True Then
             ToolStripButton_Filter.Checked = False
+            ToolStripTextBox_Filter.ReadOnly = True
             ToolStripTextBox_Filter.Text = ""
+            ToolStripTextBox_Filter.ReadOnly = False
+            Filter_List()
         Else
             ToolStripButton_Filter.Checked = True
+            If strFilter_Extern <> "" Then
+                ToolStripTextBox_Filter.ReadOnly = True
+                ToolStripTextBox_Filter.Text = strFilter_Extern
+                ToolStripTextBox_Filter.ReadOnly = False
+            End If
             Filter_List()
         End If
 

@@ -79,6 +79,12 @@
       <DependentUpon>frmPowershellExecutor.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmSearchOutput.Designer.vb">
+      <DependentUpon>frmSearchOutput.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmSearchOutput.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -98,6 +104,9 @@
   <ItemGroup>
     <EmbeddedResource Include="frmPowershellExecutor.resx">
       <DependentUpon>frmPowershellExecutor.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSearchOutput.resx">
+      <DependentUpon>frmSearchOutput.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

@@ -119,22 +119,18 @@ Public Class clsTransaction_Address
 
         If objOItem_Result_Read.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             Dim objLZusatz_Not = From obj In objDBLevel_Address.OList_ObjectAtt
-                                 Where obj.Val_String.ToLower = strZusatz.ToLower
+                                 Where obj.Val_String.ToLower <> strZusatz.ToLower
 
             Dim objLZusatz_Val = From obj In objDBLevel_Address.OList_ObjectAtt
-                                 Where obj.Val_String.ToLower <> strZusatz.ToLower
+                                 Where obj.Val_String.ToLower = strZusatz.ToLower
 
             If objLZusatz_Val.Count > 0 Then
                 objOItem_Result = objLocalConfig.Globals.LState_Success
             End If
 
-            For Each objZusatz_Not In objLZusatz_Not
-                objOL_Zusatz_Del.Add(objZusatz_Not)
-            Next
-
             objOItem_Result_Del = objLocalConfig.Globals.LState_Success
-            If objOL_Zusatz_Del.Count > 0 Then
-                objOItem_Result_Del = objDBLevel_Address.del_ObjectAtt(objOL_Zusatz_Del)
+            If objLZusatz_Not.Count > 0 Then
+                objOItem_Result_Del = del_003_Address__Zusatz(objOItem_Address)
                 If objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                     objOItem_Result = objLocalConfig.Globals.LState_Error
                 End If
@@ -144,6 +140,7 @@ Public Class clsTransaction_Address
         End If
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+            objOL_Zusatz.Clear()
             objOL_Zusatz.Add(New clsObjectAtt(Nothing, _
                                           objOItem_Address.GUID, _
                                           Nothing, _
@@ -211,22 +208,18 @@ Public Class clsTransaction_Address
 
         If objOItem_Result_Read.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             Dim objLStrasse_Not = From obj In objDBLevel_Address.OList_ObjectAtt
-                                 Where obj.Val_String.ToLower = strStrasse.ToLower
+                                 Where obj.Val_String.ToLower <> strStrasse.ToLower
 
             Dim objLStrasse_Val = From obj In objDBLevel_Address.OList_ObjectAtt
-                                 Where obj.Val_String.ToLower <> strStrasse.ToLower
+                                 Where obj.Val_String.ToLower = strStrasse.ToLower
 
             If objLStrasse_Val.Count > 0 Then
                 objOItem_Result = objLocalConfig.Globals.LState_Success
             End If
 
-            For Each objStrasse_Not In objLStrasse_Not
-                objOL_Strasse_Del.Add(objStrasse_Not)
-            Next
-
             objOItem_Result_Del = objLocalConfig.Globals.LState_Success
-            If objOL_Strasse_Del.Count > 0 Then
-                objOItem_Result_Del = objDBLevel_Address.del_ObjectAtt(objOL_Strasse_Del)
+            If objLStrasse_Not.Count > 0 Then
+                objOItem_Result_Del = del_004_Address__Strasse(objOItem_Address)
                 If objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                     objOItem_Result = objLocalConfig.Globals.LState_Error
                 End If
@@ -236,6 +229,7 @@ Public Class clsTransaction_Address
         End If
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+            objOL_Strasse.Clear()
             objOL_Strasse.Add(New clsObjectAtt(Nothing, _
                                           objOItem_Address.GUID, _
                                           Nothing, _
@@ -258,6 +252,8 @@ Public Class clsTransaction_Address
 
         Return objOItem_Result
     End Function
+
+
 
     Public Function del_004_Address__Strasse(Optional ByVal OItem_Address As clsOntologyItem = Nothing) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
@@ -303,22 +299,18 @@ Public Class clsTransaction_Address
 
         If objOItem_Result_Read.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             Dim objLPostfach_Not = From obj In objDBLevel_Address.OList_ObjectAtt
-                                 Where obj.Val_String.ToLower = strPostfach.ToLower
+                                 Where obj.Val_String.ToLower <> strPostfach.ToLower
 
             Dim objLPostfach_Val = From obj In objDBLevel_Address.OList_ObjectAtt
-                                 Where obj.Val_String.ToLower <> strPostfach.ToLower
+                                 Where obj.Val_String.ToLower = strPostfach.ToLower
 
             If objLPostfach_Val.Count > 0 Then
                 objOItem_Result = objLocalConfig.Globals.LState_Success
             End If
 
-            For Each objPostfach_Not In objLPostfach_Not
-                objOL_Postfach_Del.Add(objPostfach_Not)
-            Next
-
             objOItem_Result_Del = objLocalConfig.Globals.LState_Success
-            If objOL_Postfach_Del.Count > 0 Then
-                objOItem_Result_Del = objDBLevel_Address.del_ObjectAtt(objOL_Postfach_Del)
+            If objLPostfach_Not.Count > 0 Then
+                objOItem_Result_Del = del_005_Address__Postfach()
                 If objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                     objOItem_Result = objLocalConfig.Globals.LState_Error
                 End If
@@ -328,6 +320,7 @@ Public Class clsTransaction_Address
         End If
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+            objOL_Postfach.Clear()
             objOL_Postfach.Add(New clsObjectAtt(Nothing, _
                                           objOItem_Address.GUID, _
                                           Nothing, _

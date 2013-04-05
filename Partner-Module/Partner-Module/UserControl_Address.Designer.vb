@@ -28,7 +28,6 @@ Partial Class UserControl_Address
         Me.Label_Strasse = New System.Windows.Forms.Label()
         Me.Button_DelPLZOrtLand = New System.Windows.Forms.Button()
         Me.ImageList_UserControl = New System.Windows.Forms.ImageList(Me.components)
-        Me.MaskedTextBox_Postfach = New System.Windows.Forms.MaskedTextBox()
         Me.Label_PlzOrtLand = New System.Windows.Forms.Label()
         Me.ToolStripLabel_Partner = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_CountAddresses_lbl = New System.Windows.Forms.ToolStripLabel()
@@ -44,6 +43,9 @@ Partial Class UserControl_Address
         Me.TextBox_Strasse = New System.Windows.Forms.TextBox()
         Me.Timer_Address = New System.Windows.Forms.Timer(Me.components)
         Me.Timer_Zusatz = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_Strasse = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_Postfach = New System.Windows.Forms.Timer(Me.components)
+        Me.TextBox_Postfach = New System.Windows.Forms.TextBox()
         Me.ToolStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -81,17 +83,6 @@ Partial Class UserControl_Address
         Me.ImageList_UserControl.ImageStream = CType(resources.GetObject("ImageList_UserControl.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ImageList_UserControl.TransparentColor = System.Drawing.Color.Transparent
         Me.ImageList_UserControl.Images.SetKeyName(0, "tasto_8_architetto_franc_01.png")
-        '
-        'MaskedTextBox_Postfach
-        '
-        Me.MaskedTextBox_Postfach.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.MaskedTextBox_Postfach.Location = New System.Drawing.Point(127, 86)
-        Me.MaskedTextBox_Postfach.Mask = "00 00 00 00 00"
-        Me.MaskedTextBox_Postfach.Name = "MaskedTextBox_Postfach"
-        Me.MaskedTextBox_Postfach.ReadOnly = True
-        Me.MaskedTextBox_Postfach.Size = New System.Drawing.Size(377, 20)
-        Me.MaskedTextBox_Postfach.TabIndex = 25
         '
         'Label_PlzOrtLand
         '
@@ -206,14 +197,31 @@ Partial Class UserControl_Address
         '
         Me.Timer_Zusatz.Interval = 300
         '
+        'Timer_Strasse
+        '
+        Me.Timer_Strasse.Interval = 300
+        '
+        'Timer_Postfach
+        '
+        '
+        'TextBox_Postfach
+        '
+        Me.TextBox_Postfach.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_Postfach.Location = New System.Drawing.Point(127, 86)
+        Me.TextBox_Postfach.Name = "TextBox_Postfach"
+        Me.TextBox_Postfach.ReadOnly = True
+        Me.TextBox_Postfach.Size = New System.Drawing.Size(377, 20)
+        Me.TextBox_Postfach.TabIndex = 27
+        '
         'UserControl_Address
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.TextBox_Postfach)
         Me.Controls.Add(Me.Label_Postfach)
         Me.Controls.Add(Me.Label_Strasse)
         Me.Controls.Add(Me.Button_DelPLZOrtLand)
-        Me.Controls.Add(Me.MaskedTextBox_Postfach)
         Me.Controls.Add(Me.Label_PlzOrtLand)
         Me.Controls.Add(Me.Button_addPLZOrtLand)
         Me.Controls.Add(Me.ToolStrip1)
@@ -233,7 +241,6 @@ Partial Class UserControl_Address
     Friend WithEvents Label_Strasse As System.Windows.Forms.Label
     Friend WithEvents Button_DelPLZOrtLand As System.Windows.Forms.Button
     Friend WithEvents ImageList_UserControl As System.Windows.Forms.ImageList
-    Friend WithEvents MaskedTextBox_Postfach As System.Windows.Forms.MaskedTextBox
     Friend WithEvents Label_PlzOrtLand As System.Windows.Forms.Label
     Friend WithEvents ToolStripLabel_Partner As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripLabel_CountAddresses_lbl As System.Windows.Forms.ToolStripLabel
@@ -249,5 +256,8 @@ Partial Class UserControl_Address
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripProgressBar_Address As System.Windows.Forms.ToolStripProgressBar
     Friend WithEvents Timer_Zusatz As System.Windows.Forms.Timer
+    Friend WithEvents Timer_Strasse As System.Windows.Forms.Timer
+    Friend WithEvents Timer_Postfach As System.Windows.Forms.Timer
+    Friend WithEvents TextBox_Postfach As System.Windows.Forms.TextBox
 
 End Class

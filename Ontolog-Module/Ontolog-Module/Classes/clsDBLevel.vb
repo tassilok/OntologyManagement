@@ -516,6 +516,7 @@ Public Class clsDBLevel
         lngToDo = oList_ObjectAtts.Count
 
         objOPResult = objElConn.DeleteByQueryString(objLocalConfig.Globals.Index, _
+                                                    objLocalConfig.Globals.Type_ObjectAtt, _
                                       objBoolQuery.ToString)
 
         If objOPResult.Success = True Then

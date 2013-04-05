@@ -25,22 +25,22 @@ Partial Class frmPowershellExecutor
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPowershellExecutor))
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.ToolStripContainer2 = New System.Windows.Forms.ToolStripContainer()
-        Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.TextBox_Script = New System.Windows.Forms.TextBox()
-        Me.ToolStripContainer3 = New System.Windows.Forms.ToolStripContainer()
-        Me.ToolStrip3 = New System.Windows.Forms.ToolStrip()
-        Me.TextBox_Output = New System.Windows.Forms.TextBox()
-        Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Paste = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Exec = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripContainer3 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip4 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Executable = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel_ScriptExt = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_ScriptExt = New System.Windows.Forms.ToolStripTextBox()
+        Me.TextBox_Output = New System.Windows.Forms.TextBox()
+        Me.ToolStrip3 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -87,6 +87,15 @@ Partial Class frmPowershellExecutor
         Me.ToolStrip1.Size = New System.Drawing.Size(52, 25)
         Me.ToolStrip1.TabIndex = 0
         '
+        'ToolStripButton_Close
+        '
+        Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
+        Me.ToolStripButton_Close.Size = New System.Drawing.Size(40, 22)
+        Me.ToolStripButton_Close.Text = "Close"
+        '
         'SplitContainer1
         '
         Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
@@ -127,6 +136,15 @@ Partial Class frmPowershellExecutor
         Me.ToolStripContainer2.Text = "ToolStripContainer2"
         Me.ToolStripContainer2.TopToolStripPanelVisible = False
         '
+        'TextBox_Script
+        '
+        Me.TextBox_Script.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TextBox_Script.Location = New System.Drawing.Point(0, 0)
+        Me.TextBox_Script.Multiline = True
+        Me.TextBox_Script.Name = "TextBox_Script"
+        Me.TextBox_Script.Size = New System.Drawing.Size(664, 116)
+        Me.TextBox_Script.TabIndex = 0
+        '
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
@@ -136,14 +154,23 @@ Partial Class frmPowershellExecutor
         Me.ToolStrip2.Size = New System.Drawing.Size(24, 57)
         Me.ToolStrip2.TabIndex = 0
         '
-        'TextBox_Script
+        'ToolStripButton_Paste
         '
-        Me.TextBox_Script.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TextBox_Script.Location = New System.Drawing.Point(0, 0)
-        Me.TextBox_Script.Multiline = True
-        Me.TextBox_Script.Name = "TextBox_Script"
-        Me.TextBox_Script.Size = New System.Drawing.Size(664, 116)
-        Me.TextBox_Script.TabIndex = 0
+        Me.ToolStripButton_Paste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Paste.Image = Global.PowerShell_Executor.My.Resources.Resources.PasteHS
+        Me.ToolStripButton_Paste.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Paste.Name = "ToolStripButton_Paste"
+        Me.ToolStripButton_Paste.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButton_Paste.Text = "ToolStripButton1"
+        '
+        'ToolStripButton_Exec
+        '
+        Me.ToolStripButton_Exec.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Exec.Image = Global.PowerShell_Executor.My.Resources.Resources.pulsante_02_architetto_f_01
+        Me.ToolStripButton_Exec.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Exec.Name = "ToolStripButton_Exec"
+        Me.ToolStripButton_Exec.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButton_Exec.Text = "ToolStripButton1"
         '
         'ToolStripContainer3
         '
@@ -168,52 +195,6 @@ Partial Class frmPowershellExecutor
         Me.ToolStripContainer3.TabIndex = 0
         Me.ToolStripContainer3.Text = "ToolStripContainer3"
         Me.ToolStripContainer3.TopToolStripPanelVisible = False
-        '
-        'ToolStrip3
-        '
-        Me.ToolStrip3.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip3.Location = New System.Drawing.Point(0, 3)
-        Me.ToolStrip3.Name = "ToolStrip3"
-        Me.ToolStrip3.Size = New System.Drawing.Size(26, 111)
-        Me.ToolStrip3.TabIndex = 0
-        '
-        'TextBox_Output
-        '
-        Me.TextBox_Output.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TextBox_Output.Location = New System.Drawing.Point(0, 0)
-        Me.TextBox_Output.Multiline = True
-        Me.TextBox_Output.Name = "TextBox_Output"
-        Me.TextBox_Output.ReadOnly = True
-        Me.TextBox_Output.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.TextBox_Output.Size = New System.Drawing.Size(662, 248)
-        Me.TextBox_Output.TabIndex = 0
-        '
-        'ToolStripButton_Close
-        '
-        Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
-        Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
-        Me.ToolStripButton_Close.Size = New System.Drawing.Size(40, 22)
-        Me.ToolStripButton_Close.Text = "Close"
-        '
-        'ToolStripButton_Paste
-        '
-        Me.ToolStripButton_Paste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Paste.Image = Global.PowerShell_Executor.My.Resources.Resources.PasteHS
-        Me.ToolStripButton_Paste.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Paste.Name = "ToolStripButton_Paste"
-        Me.ToolStripButton_Paste.Size = New System.Drawing.Size(22, 20)
-        Me.ToolStripButton_Paste.Text = "ToolStripButton1"
-        '
-        'ToolStripButton_Exec
-        '
-        Me.ToolStripButton_Exec.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Exec.Image = Global.PowerShell_Executor.My.Resources.Resources.pulsante_02_architetto_f_01
-        Me.ToolStripButton_Exec.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Exec.Name = "ToolStripButton_Exec"
-        Me.ToolStripButton_Exec.Size = New System.Drawing.Size(22, 20)
-        Me.ToolStripButton_Exec.Text = "ToolStripButton1"
         '
         'ToolStrip4
         '
@@ -252,6 +233,25 @@ Partial Class frmPowershellExecutor
         Me.ToolStripTextBox_ScriptExt.Name = "ToolStripTextBox_ScriptExt"
         Me.ToolStripTextBox_ScriptExt.Size = New System.Drawing.Size(150, 25)
         Me.ToolStripTextBox_ScriptExt.Text = "ps1"
+        '
+        'TextBox_Output
+        '
+        Me.TextBox_Output.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TextBox_Output.Location = New System.Drawing.Point(0, 0)
+        Me.TextBox_Output.Multiline = True
+        Me.TextBox_Output.Name = "TextBox_Output"
+        Me.TextBox_Output.ReadOnly = True
+        Me.TextBox_Output.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.TextBox_Output.Size = New System.Drawing.Size(662, 248)
+        Me.TextBox_Output.TabIndex = 0
+        '
+        'ToolStrip3
+        '
+        Me.ToolStrip3.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolStrip3.Location = New System.Drawing.Point(0, 3)
+        Me.ToolStrip3.Name = "ToolStrip3"
+        Me.ToolStrip3.Size = New System.Drawing.Size(26, 111)
+        Me.ToolStrip3.TabIndex = 0
         '
         'frmPowershellExecutor
         '

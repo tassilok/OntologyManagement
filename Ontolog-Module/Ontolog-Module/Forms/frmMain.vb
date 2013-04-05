@@ -143,39 +143,7 @@
         End If
         
     End Sub
-
-    Private Sub editAttributeType(ByVal strType As String, ByVal objOItem_Direction As clsOntologyItem) Handles objUserControl_OAttributeList.edit_Object
-
-        Dim objDGVR_Selected As DataGridViewRow
-        Dim objDRV_Selected As DataRowView
-        Dim objOItem_Selected As New clsOntologyItem
-
-
-        objDGVR_Selected = objUserControl_OAttributeList.DataGridViewRowCollection_Selected(0)
-        objDRV_Selected = objDGVR_Selected.DataBoundItem
-        objOItem_Selected.GUID = objDRV_Selected.Item("ID_Item")
-        objOItem_Selected.Name = objDRV_Selected.Item("Name")
-        objOItem_Selected.GUID_Parent = objDRV_Selected.Item("ID_Parent")
-        objFrm_AttributeTypeEdit = New frm_AttributeTypeEdit(objLocalConfig, objOItem_Selected)
-        objFrm_AttributeTypeEdit.ShowDialog(Me)
-
-
-    End Sub
-    Private Sub editObject(ByVal strType As String, ByVal objOItem_Direction As clsOntologyItem) Handles objUserControl_OObjectList.edit_Object
-
-
-        objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig, _
-                                        objUserControl_OObjectList.DataGridviewRows, _
-                                        objUserControl_OObjectList.RowID, _
-                                        strType, _
-                                        objOItem_Direction)
-        objFrm_ObjectEdit.ShowDialog(Me)
-        If objFrm_ObjectEdit.DialogResult = Windows.Forms.DialogResult.OK Then
-
-        End If
-
-
-    End Sub
+   
 
     Private Sub selectedClass(ByVal OItem_Class As clsOntologyItem) Handles objUserControl_TypeTree.selected_Class
         objOItem_Class = OItem_Class
