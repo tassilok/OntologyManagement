@@ -29,7 +29,6 @@ Public Class clsTransaction_Address
     Public Function del_001_Address(Optional ByVal OItem_Address As clsOntologyItem = Nothing) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objOList_Address As New List(Of clsOntologyItem)
-        Dim strIDs() As String
 
         If Not OItem_Address Is Nothing Then
             objOItem_Address = OItem_Address
@@ -37,9 +36,10 @@ Public Class clsTransaction_Address
 
         objOList_Address.Add(objOItem_Address)
 
-        strIDs = objDBLevel_Address.del_Objects(objOList_Address)
+        objOItem_Result = objDBLevel_Address.del_Objects(objOList_Address)
 
-        If strIDs.Count = 1 Then
+
+        If objOItem_Result.Val_Long = 0 Then
             objOItem_Result = objLocalConfig.Globals.LState_Success
         Else
             objOItem_Result = objLocalConfig.Globals.LState_Error
@@ -362,6 +362,212 @@ Public Class clsTransaction_Address
 
         Return objOItem_Result
     End Function
+
+    Public Function save_006_Address_To_PLZ(ByVal OItem_PLZ As clsOntologyItem, Optional ByVal OItem_Address As clsOntologyItem = Nothing) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_Result_Del As clsOntologyItem
+        Dim objOList_Address_To_Plz_Search As New List(Of clsObjectRel)
+        Dim objOList_Address_To_Plz_Del As New List(Of clsObjectRel)
+
+        If Not OItem_Address Is Nothing Then
+            objOItem_Address = OItem_Address
+        End If
+
+        objOL_PLZ.Clear()
+
+        objOL_PLZ.Add(New clsObjectRel(objOItem_Address.GUID, _
+                                       objOItem_Address.Name, _
+                                       objOItem_Address.GUID_Parent, _
+                                       Nothing, _
+                                       OItem_PLZ.GUID, _
+                                       OItem_PLZ.Name, _
+                                       OItem_PLZ.GUID_Parent, _
+                                       Nothing, _
+                                       objLocalConfig.OItem_RelationType_located_in.GUID, _
+                                       objLocalConfig.OItem_RelationType_located_in.Name, _
+                                       objLocalConfig.Globals.Type_Object, _
+                                       Nothing, _
+                                       Nothing, _
+                                       1))
+
+        
+
+        objOList_Address_To_Plz_Search.Add(New clsObjectRel(Nothing, _
+                                                            objLocalConfig.OItem_Class_Address.GUID, _
+                                                            Nothing, _
+                                                            objLocalConfig.OItem_Class_Postleitzahl.GUID, _
+                                                            objLocalConfig.OItem_RelationType_located_in.GUID, _
+                                                            objLocalConfig.Globals.Type_Object, _
+                                                            Nothing, _
+                                                            Nothing))
+
+        objOItem_Result = objLocalConfig.Globals.LState_Nothing
+        objOItem_Result_Del = objLocalConfig.Globals.LState_Success
+
+        objDBLevel_Address.get_Data_ObjectRel(objOList_Address_To_Plz_Search)
+
+        If objDBLevel_Address.OList_ObjectRel_ID.Count > 0 Then
+            Dim objLAdrPlz = From objORel In objDBLevel_Address.OList_ObjectRel_ID
+                             Where objORel.ID_Other = objOL_PLZ(0).ID_Other
+
+            Dim objLAdrPlz_Not = From objORel In objDBLevel_Address.OList_ObjectRel_ID
+                                 Where objORel.ID_Other <> objOL_PLZ(0).ID_Other
+
+            If objLAdrPlz.Count > 0 Then
+                objOItem_Result = objLocalConfig.Globals.LState_Success
+            End If
+
+            If objLAdrPlz_Not.Count > 0 Then
+                objOList_Address_To_Plz_Del.Add(New clsObjectRel(objOItem_Address.GUID, _
+                                                                 Nothing, _
+                                                                 Nothing, _
+                                                                 objLocalConfig.OItem_Class_Postleitzahl.GUID, _
+                                                                 objLocalConfig.OItem_RelationType_located_in.GUID, _
+                                                                 objLocalConfig.Globals.Type_Object, _
+                                                                 Nothing, _
+                                                                 Nothing))
+
+                objOItem_Result_Del = del_006_Address_To_PLZ(objOItem_Address)
+
+            End If
+        End If
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Nothing.GUID And _
+            objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+            objOItem_Result = objDBLevel_Address.save_ObjRel(objOL_PLZ)
+
+
+        End If
+
+        Return objOItem_Result
+    End Function
+
+    Public Function del_006_Address_To_PLZ(Optional ByVal OItem_Address As clsOntologyItem = Nothing) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOList_Address_To_Plz_Del As New List(Of clsObjectRel)
+
+        If Not OItem_Address Is Nothing Then
+            objOItem_Address = OItem_Address
+        End If
+
+        objOList_Address_To_Plz_Del.Add(New clsObjectRel(objOItem_Address.GUID, _
+                                                                 Nothing, _
+                                                                 Nothing, _
+                                                                 objLocalConfig.OItem_Class_Postleitzahl.GUID, _
+                                                                 objLocalConfig.OItem_RelationType_located_in.GUID, _
+                                                                 objLocalConfig.Globals.Type_Object, _
+                                                                 Nothing, _
+                                                                 Nothing))
+
+        objOItem_Result = objDBLevel_Address.del_ObjectRel(objOList_Address_To_Plz_Del)
+
+        Return objOItem_Result
+    End Function
+
+    Public Function save_007_Address_To_Ort(ByVal OItem_Ort As clsOntologyItem, Optional ByVal OItem_Address As clsOntologyItem = Nothing) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_Result_Del As clsOntologyItem
+        Dim objOList_Address_To_Ort_Search As New List(Of clsObjectRel)
+        Dim objOList_Address_To_Ort_Del As New List(Of clsObjectRel)
+
+        If Not OItem_Address Is Nothing Then
+            objOItem_Address = OItem_Address
+        End If
+
+        objOL_Ort.Clear()
+
+        objOL_Ort.Add(New clsObjectRel(objOItem_Address.GUID, _
+                                       objOItem_Address.Name, _
+                                       objOItem_Address.GUID_Parent, _
+                                       Nothing, _
+                                       OItem_Ort.GUID, _
+                                       OItem_Ort.Name, _
+                                       OItem_Ort.GUID_Parent, _
+                                       Nothing, _
+                                       objLocalConfig.OItem_RelationType_located_in.GUID, _
+                                       objLocalConfig.OItem_RelationType_located_in.Name, _
+                                       objLocalConfig.Globals.Type_Object, _
+                                       Nothing, _
+                                       Nothing, _
+                                       1))
+
+
+
+        objOList_Address_To_Ort_Search.Add(New clsObjectRel(Nothing, _
+                                                            objLocalConfig.OItem_Class_Address.GUID, _
+                                                            Nothing, _
+                                                            objLocalConfig.OItem_Class_Postleitzahl.GUID, _
+                                                            objLocalConfig.OItem_RelationType_located_in.GUID, _
+                                                            objLocalConfig.Globals.Type_Object, _
+                                                            Nothing, _
+                                                            Nothing))
+
+        objOItem_Result = objLocalConfig.Globals.LState_Nothing
+        objOItem_Result_Del = objLocalConfig.Globals.LState_Success
+
+        objDBLevel_Address.get_Data_ObjectRel(objOList_Address_To_Ort_Search)
+
+        If objDBLevel_Address.OList_ObjectRel_ID.Count > 0 Then
+            Dim objLAdrOrt = From objORel In objDBLevel_Address.OList_ObjectRel_ID
+                             Where objORel.ID_Other = objOL_Ort(0).ID_Other
+
+            Dim objLAdrOrt_Not = From objORel In objDBLevel_Address.OList_ObjectRel_ID
+                                 Where objORel.ID_Other <> objOL_Ort(0).ID_Other
+
+            If objLAdrOrt.Count > 0 Then
+                objOItem_Result = objLocalConfig.Globals.LState_Success
+            End If
+
+            If objLAdrOrt_Not.Count > 0 Then
+                objOList_Address_To_Ort_Del.Add(New clsObjectRel(objOItem_Address.GUID, _
+                                                                 Nothing, _
+                                                                 Nothing, _
+                                                                 objLocalConfig.OItem_Class_Postleitzahl.GUID, _
+                                                                 objLocalConfig.OItem_RelationType_located_in.GUID, _
+                                                                 objLocalConfig.Globals.Type_Object, _
+                                                                 Nothing, _
+                                                                 Nothing))
+
+                objOItem_Result_Del = del_007_Address_To_Ort(objOItem_Address)
+
+            End If
+        End If
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Nothing.GUID And _
+            objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+            objOItem_Result = objDBLevel_Address.save_ObjRel(objOL_Ort)
+
+
+        End If
+
+        Return objOItem_Result
+    End Function
+
+    Public Function del_007_Address_To_Ort(Optional ByVal OItem_Address As clsOntologyItem = Nothing) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOList_Address_To_Ort_Del As New List(Of clsObjectRel)
+
+        
+        If Not OItem_Address Is Nothing Then
+            objOItem_Address = OItem_Address
+        End If
+
+        objOList_Address_To_Ort_Del.Add(New clsObjectRel(objOItem_Address.GUID, _
+                                                                 Nothing, _
+                                                                 Nothing, _
+                                                                 objLocalConfig.OItem_Class_Ort.GUID, _
+                                                                 objLocalConfig.OItem_RelationType_located_in.GUID, _
+                                                                 objLocalConfig.Globals.Type_Object, _
+                                                                 Nothing, _
+                                                                 Nothing))
+
+        objOItem_Result = objDBLevel_Address.del_ObjectRel(objOList_Address_To_Ort_Del)
+
+        Return objOItem_Result
+    End Function
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
         set_DBConnection()

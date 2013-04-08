@@ -1040,7 +1040,7 @@
         Dim objDRV_Selected As DataRowView
         Dim oList_Simple As New List(Of clsOntologyItem)
         Dim oList_ORel As New List(Of clsObjectRel)
-        Dim strIDs() As String
+        Dim objOItem_Result As clsOntologyItem
 
         For Each objDGVR_Selected In DataGridView_Items.SelectedRows
             objDRV_Selected = objDGVR_Selected.DataBoundItem
@@ -1059,19 +1059,10 @@
 
                 If Not oList_Simple Is Nothing Then
                     If oList_Simple.Count > 0 Then
-                        strIDs = objDBLevel.del_Objects(oList_Simple)
+                        objOItem_Result = objDBLevel.del_Objects(oList_Simple)
 
-                        If Not strIDs Is Nothing Then
-                            Dim objLDel = From objObj In oList_Simple
-                                      Group Join strID In strIDs On objObj.GUID Equals strID Into RightTableResult = Group
-                                      From strID In RightTableResult.DefaultIfEmpty
-                                      Where strID Is Nothing
-
-                            If objLDel.Count > 0 Then
-                                MsgBox("Es konnten nur " & oList_Simple.Count - objLDel.Count & " von " & oList_Simple.Count & " Objekte gelöscht werden!")
-                            End If
-                        Else
-                            MsgBox("Kein Objekt kann gelöscht werden!", MsgBoxStyle.Exclamation)
+                        If objOItem_Result.Val_Long > 0 Then
+                            MsgBox(objOItem_Result.Val_Long & " Items konnten nicht gelöscht werden!", MsgBoxStyle.Exclamation)
                         End If
                         
 

@@ -27,13 +27,15 @@ Partial Class frmPLZOrtLand
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Apply = New System.Windows.Forms.ToolStripButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.Panel_PLZ = New System.Windows.Forms.Panel()
-        Me.Panel_Ort = New System.Windows.Forms.Panel()
-        Me.Panel_Land = New System.Windows.Forms.Panel()
         Me.Label_PLZ = New System.Windows.Forms.Label()
+        Me.Panel_PLZ = New System.Windows.Forms.Panel()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Label_Ort = New System.Windows.Forms.Label()
+        Me.Panel_Ort = New System.Windows.Forms.Panel()
         Me.Label_Land = New System.Windows.Forms.Label()
+        Me.Panel_Land = New System.Windows.Forms.Panel()
+        Me.ToolStripButton_Clear = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -69,10 +71,10 @@ Partial Class frmPLZOrtLand
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Apply})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Apply, Me.ToolStripSeparator1, Me.ToolStripButton_Clear})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(64, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(145, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Apply
@@ -82,7 +84,7 @@ Partial Class frmPLZOrtLand
         Me.ToolStripButton_Apply.Image = CType(resources.GetObject("ToolStripButton_Apply.Image"), System.Drawing.Image)
         Me.ToolStripButton_Apply.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Apply.Name = "ToolStripButton_Apply"
-        Me.ToolStripButton_Apply.Size = New System.Drawing.Size(52, 22)
+        Me.ToolStripButton_Apply.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Apply.Text = "x_Apply"
         '
         'SplitContainer1
@@ -105,6 +107,25 @@ Partial Class frmPLZOrtLand
         Me.SplitContainer1.SplitterDistance = 233
         Me.SplitContainer1.TabIndex = 0
         '
+        'Label_PLZ
+        '
+        Me.Label_PLZ.AutoSize = True
+        Me.Label_PLZ.Location = New System.Drawing.Point(3, 3)
+        Me.Label_PLZ.Name = "Label_PLZ"
+        Me.Label_PLZ.Size = New System.Drawing.Size(41, 13)
+        Me.Label_PLZ.TabIndex = 1
+        Me.Label_PLZ.Text = "x_PLZ:"
+        '
+        'Panel_PLZ
+        '
+        Me.Panel_PLZ.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Panel_PLZ.Location = New System.Drawing.Point(3, 19)
+        Me.Panel_PLZ.Name = "Panel_PLZ"
+        Me.Panel_PLZ.Size = New System.Drawing.Size(794, 207)
+        Me.Panel_PLZ.TabIndex = 0
+        '
         'SplitContainer2
         '
         Me.SplitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
@@ -126,15 +147,14 @@ Partial Class frmPLZOrtLand
         Me.SplitContainer2.SplitterDistance = 216
         Me.SplitContainer2.TabIndex = 0
         '
-        'Panel_PLZ
+        'Label_Ort
         '
-        Me.Panel_PLZ.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Panel_PLZ.Location = New System.Drawing.Point(3, 19)
-        Me.Panel_PLZ.Name = "Panel_PLZ"
-        Me.Panel_PLZ.Size = New System.Drawing.Size(794, 207)
-        Me.Panel_PLZ.TabIndex = 0
+        Me.Label_Ort.AutoSize = True
+        Me.Label_Ort.Location = New System.Drawing.Point(5, 3)
+        Me.Label_Ort.Name = "Label_Ort"
+        Me.Label_Ort.Size = New System.Drawing.Size(35, 13)
+        Me.Label_Ort.TabIndex = 2
+        Me.Label_Ort.Text = "x_Ort:"
         '
         'Panel_Ort
         '
@@ -146,6 +166,15 @@ Partial Class frmPLZOrtLand
         Me.Panel_Ort.Size = New System.Drawing.Size(794, 191)
         Me.Panel_Ort.TabIndex = 1
         '
+        'Label_Land
+        '
+        Me.Label_Land.AutoSize = True
+        Me.Label_Land.Location = New System.Drawing.Point(5, 4)
+        Me.Label_Land.Name = "Label_Land"
+        Me.Label_Land.Size = New System.Drawing.Size(45, 13)
+        Me.Label_Land.TabIndex = 4
+        Me.Label_Land.Text = "x_Land:"
+        '
         'Panel_Land
         '
         Me.Panel_Land.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -156,32 +185,20 @@ Partial Class frmPLZOrtLand
         Me.Panel_Land.Size = New System.Drawing.Size(794, 140)
         Me.Panel_Land.TabIndex = 3
         '
-        'Label_PLZ
+        'ToolStripButton_Clear
         '
-        Me.Label_PLZ.AutoSize = True
-        Me.Label_PLZ.Location = New System.Drawing.Point(3, 3)
-        Me.Label_PLZ.Name = "Label_PLZ"
-        Me.Label_PLZ.Size = New System.Drawing.Size(41, 13)
-        Me.Label_PLZ.TabIndex = 1
-        Me.Label_PLZ.Text = "x_PLZ:"
+        Me.ToolStripButton_Clear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Clear.Enabled = False
+        Me.ToolStripButton_Clear.Image = CType(resources.GetObject("ToolStripButton_Clear.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Clear.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Clear.Name = "ToolStripButton_Clear"
+        Me.ToolStripButton_Clear.Size = New System.Drawing.Size(48, 22)
+        Me.ToolStripButton_Clear.Text = "x_Clear"
         '
-        'Label_Ort
+        'ToolStripSeparator1
         '
-        Me.Label_Ort.AutoSize = True
-        Me.Label_Ort.Location = New System.Drawing.Point(5, 3)
-        Me.Label_Ort.Name = "Label_Ort"
-        Me.Label_Ort.Size = New System.Drawing.Size(35, 13)
-        Me.Label_Ort.TabIndex = 2
-        Me.Label_Ort.Text = "x_Ort:"
-        '
-        'Label_Land
-        '
-        Me.Label_Land.AutoSize = True
-        Me.Label_Land.Location = New System.Drawing.Point(5, 4)
-        Me.Label_Land.Name = "Label_Land"
-        Me.Label_Land.Size = New System.Drawing.Size(45, 13)
-        Me.Label_Land.TabIndex = 4
-        Me.Label_Land.Text = "x_Land:"
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
         '
         'frmPLZOrtLand
         '
@@ -223,4 +240,6 @@ Partial Class frmPLZOrtLand
     Friend WithEvents Panel_Ort As System.Windows.Forms.Panel
     Friend WithEvents Label_Land As System.Windows.Forms.Label
     Friend WithEvents Panel_Land As System.Windows.Forms.Panel
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripButton_Clear As System.Windows.Forms.ToolStripButton
 End Class

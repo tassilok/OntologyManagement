@@ -96,13 +96,13 @@ Partial Class UserControl_Address
         'ToolStripLabel_Partner
         '
         Me.ToolStripLabel_Partner.Name = "ToolStripLabel_Partner"
-        Me.ToolStripLabel_Partner.Size = New System.Drawing.Size(12, 22)
+        Me.ToolStripLabel_Partner.Size = New System.Drawing.Size(11, 22)
         Me.ToolStripLabel_Partner.Text = "-"
         '
         'ToolStripLabel_CountAddresses_lbl
         '
         Me.ToolStripLabel_CountAddresses_lbl.Name = "ToolStripLabel_CountAddresses_lbl"
-        Me.ToolStripLabel_CountAddresses_lbl.Size = New System.Drawing.Size(66, 22)
+        Me.ToolStripLabel_CountAddresses_lbl.Size = New System.Drawing.Size(67, 22)
         Me.ToolStripLabel_CountAddresses_lbl.Text = "x_Adresses:"
         '
         'Button_addPLZOrtLand
@@ -136,7 +136,7 @@ Partial Class UserControl_Address
         Me.ToolStripButton_Apply.Image = CType(resources.GetObject("ToolStripButton_Apply.Image"), System.Drawing.Image)
         Me.ToolStripButton_Apply.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Apply.Name = "ToolStripButton_Apply"
-        Me.ToolStripButton_Apply.Size = New System.Drawing.Size(52, 22)
+        Me.ToolStripButton_Apply.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Apply.Text = "x_Apply"
         '
         'ToolStripSeparator2
@@ -153,7 +153,7 @@ Partial Class UserControl_Address
         '
         Me.TextBox_PLZOrtLand.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_PLZOrtLand.Location = New System.Drawing.Point(125, 112)
+        Me.TextBox_PLZOrtLand.Location = New System.Drawing.Point(127, 112)
         Me.TextBox_PLZOrtLand.Multiline = True
         Me.TextBox_PLZOrtLand.Name = "TextBox_PLZOrtLand"
         Me.TextBox_PLZOrtLand.ReadOnly = True

@@ -12,6 +12,18 @@ Public Class frmPLZOrtLand
 
     Private objDataWork_Address As clsDataWork_Address
 
+    Public ReadOnly Property OItem_PLZ As clsOntologyItem
+        Get
+            Return objOItem_PLZ
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Ort As clsOntologyItem
+        Get
+            Return objOItem_Ort
+        End Get
+    End Property
+
     Private Sub selected_PLZ() Handles objUserControl_PLZ.Selection_Changed
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
@@ -25,6 +37,8 @@ Public Class frmPLZOrtLand
 
             initialize_Ort(objOItem_PLZ)
         End If
+
+        configure_ApplyClear()
     End Sub
 
     Private Sub selected_Ort() Handles objUserControl_Ort.Selection_Changed
@@ -40,6 +54,8 @@ Public Class frmPLZOrtLand
             initialize_PLZ(objOItem_Ort)
             initialize_Land(objOItem_Ort)
         End If
+
+        configure_ApplyClear()
     End Sub
 
     Private Sub selected_Land() Handles objUserControl_Land.Selection_Changed
@@ -54,11 +70,48 @@ Public Class frmPLZOrtLand
 
             initialize_Ort(Nothing, objOItem_Land)
         End If
+
+        configure_ApplyClear()
     End Sub
 
-    Private Sub configure_Apply()
-        If Not objOItem_Ort Is Nothing Then
+    Private Sub configure_ApplyClear()
+        Dim boolClear = False
 
+        If Not objOItem_Ort Is Nothing _
+            And Not objOItem_PLZ Is Nothing Then
+
+            ToolStripButton_Apply.Enabled = True
+        Else
+            ToolStripButton_Apply.Enabled = False
+        End If
+
+        If Not objOItem_PLZ Is Nothing Then
+            If Not objDataWork_Address.PLZ Is Nothing Then
+                If objOItem_PLZ.GUID <> objDataWork_Address.PLZ.GUID Then
+                    boolClear = True
+                End If
+            Else
+                boolClear = True
+            End If
+
+        End If
+
+        If Not objOItem_Ort Is Nothing Then
+            If Not objDataWork_Address.Ort Is Nothing Then
+                If objOItem_Ort.GUID <> objDataWork_Address.Ort.GUID Then
+                    boolClear = True
+                End If
+            Else
+                boolClear = True
+            End If
+            
+        End If
+
+
+        If boolClear = True Then
+            ToolStripButton_Clear.Enabled = True
+        Else
+            ToolStripButton_Clear.Enabled = False
         End If
     End Sub
 
@@ -75,6 +128,10 @@ Public Class frmPLZOrtLand
     End Sub
 
     Private Sub initialize()
+
+        objOItem_Land = Nothing
+        objOItem_Ort = Nothing
+        objOItem_PLZ = Nothing
 
 
         objUserControl_PLZ = New UserControl_OItemList(objLocalConfig.Globals)
@@ -109,56 +166,76 @@ Public Class frmPLZOrtLand
 
     Private Sub initialize_PLZ(Optional ByVal oItem_Filter_Ort As clsOntologyItem = Nothing)
 
-        If oItem_Filter_Ort Is Nothing Then
-            objUserControl_PLZ.initialize(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Postleitzahl.GUID, objLocalConfig.Globals.Type_Object))
-        Else
-            objUserControl_PLZ.initialize(Nothing, _
-                                          oItem_Filter_Ort, _
-                                          objLocalConfig.Globals.Direction_RightLeft, _
-                                          New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Postleitzahl.GUID, objLocalConfig.Globals.Type_Object), _
-                                          objLocalConfig.OItem_RelationType_located_in)
+        If objOItem_PLZ Is Nothing Then
+            If oItem_Filter_Ort Is Nothing Then
+                objUserControl_PLZ.initialize(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Postleitzahl.GUID, objLocalConfig.Globals.Type_Object))
+            Else
+                objUserControl_PLZ.initialize(Nothing, _
+                                              oItem_Filter_Ort, _
+                                              objLocalConfig.Globals.Direction_RightLeft, _
+                                              New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Postleitzahl.GUID, objLocalConfig.Globals.Type_Object), _
+                                              objLocalConfig.OItem_RelationType_located_in)
+            End If
         End If
+
 
     End Sub
 
     Private Sub initialize_Ort(Optional ByVal oItem_Filter_PLZ As clsOntologyItem = Nothing, Optional ByVal oItem_Filter_Land As clsOntologyItem = Nothing)
-        If oItem_Filter_PLZ Is Nothing _
+        If objOItem_Ort Is Nothing Then
+            If oItem_Filter_PLZ Is Nothing _
             And oItem_Filter_Land Is Nothing Then
-            objUserControl_Ort.initialize(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Ort.GUID, objLocalConfig.Globals.Type_Object))
-        Else
-            If Not oItem_Filter_PLZ Is Nothing Then
-                objUserControl_Ort.initialize(Nothing, _
-                                          oItem_Filter_PLZ, _
-                                          objLocalConfig.Globals.Direction_LeftRight, _
-                                          New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Ort.GUID, objLocalConfig.Globals.Type_Object), _
-                                          objLocalConfig.OItem_RelationType_located_in)
-            ElseIf Not oItem_Filter_Land Is Nothing Then
-                objUserControl_Ort.initialize(Nothing, _
-                                          New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Ort.GUID, objLocalConfig.Globals.Type_Object), _
-                                          objLocalConfig.Globals.Direction_RightLeft, _
-                                          oItem_Filter_Land, _
-                                          objLocalConfig.OItem_RelationType_located_in)
+                objUserControl_Ort.initialize(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Ort.GUID, objLocalConfig.Globals.Type_Object))
+            Else
+                If Not oItem_Filter_PLZ Is Nothing Then
+                    objUserControl_Ort.initialize(Nothing, _
+                                              oItem_Filter_PLZ, _
+                                              objLocalConfig.Globals.Direction_LeftRight, _
+                                              New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Ort.GUID, objLocalConfig.Globals.Type_Object), _
+                                              objLocalConfig.OItem_RelationType_located_in)
+                ElseIf Not oItem_Filter_Land Is Nothing Then
+                    objUserControl_Ort.initialize(Nothing, _
+                                              oItem_Filter_Land, _
+                                              objLocalConfig.Globals.Direction_RightLeft, _
+                                              New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Ort.GUID, objLocalConfig.Globals.Type_Object), _
+                                              objLocalConfig.OItem_RelationType_located_in)
+                End If
+
             End If
-            
         End If
+
 
 
     End Sub
 
     Private Sub initialize_Land(Optional ByVal oItem_Filter_Ort As clsOntologyItem = Nothing)
-        If oItem_Filter_Ort Is Nothing Then
+        If objOItem_Land Is Nothing Then
+            If oItem_Filter_Ort Is Nothing Then
 
-            objUserControl_Land.initialize(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Land.GUID, objLocalConfig.Globals.Type_Object))
+                objUserControl_Land.initialize(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Land.GUID, objLocalConfig.Globals.Type_Object))
 
-        Else
-            If Not oItem_Filter_Ort Is Nothing Then
-                objUserControl_Land.initialize(Nothing, _
-                                          New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Land.GUID, objLocalConfig.Globals.Type_Object), _
-                                          objLocalConfig.Globals.Direction_RightLeft, _
-                                          oItem_Filter_Ort, _
-                                          objLocalConfig.OItem_RelationType_located_in)
+            Else
+                If Not oItem_Filter_Ort Is Nothing Then
+                    objUserControl_Land.initialize(Nothing, _
+                                              oItem_Filter_Ort, _
+                                              objLocalConfig.Globals.Direction_LeftRight, _
+                                              New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Land.GUID, objLocalConfig.Globals.Type_Object), _
+                                              objLocalConfig.OItem_RelationType_located_in)
+                End If
             End If
         End If
 
+
+    End Sub
+
+    Private Sub ToolStripButton_Clear_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Clear.Click
+        initialize_Land()
+        initialize_Ort()
+        initialize_PLZ()
+    End Sub
+
+    Private Sub ToolStripButton_Apply_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Apply.Click
+        Me.DialogResult = Windows.Forms.DialogResult.OK
+        Me.Close()
     End Sub
 End Class

@@ -5,6 +5,10 @@ Public Class UserControl_BillTree
     Private WithEvents objDataWork_BillTree As clsDataWork_BillTree
     Public Event Error_UserControl(ByVal intID, ByVal strMessage)
     Private objTreeNode_Root As TreeNode
+    Private objOItem_FinancialTransaction As clsOntologyItem
+
+    Public Event selected_FinancialTransactions(ByVal OItem_FinancialTransaction)
+
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal DataWork_BaseConfig As clsDataWork_BaseConfig)
 
@@ -33,5 +37,27 @@ Public Class UserControl_BillTree
 
     Private Sub set_DBConnection()
         objDataWork_BillTree = New clsDataWork_BillTree(objLocalConfig, objDataWork_BaseConfig)
+    End Sub
+
+    Private Sub TreeView_Transactions_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_Transactions.AfterSelect
+        Dim objTreeNode As TreeNode
+
+        objTreeNode = TreeView_Transactions.SelectedNode
+
+        objOItem_FinancialTransaction = Nothing
+
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = objLocalConfig.ImageID_Bill Then
+                objOItem_FinancialTransaction = New clsOntologyItem
+                objOItem_FinancialTransaction.GUID = objTreeNode.Name
+                objOItem_FinancialTransaction.Name = objTreeNode.Text
+                objOItem_FinancialTransaction.GUID_Parent = objLocalConfig.OItem_Class_Financial_Transaction.GUID
+                objOItem_FinancialTransaction.Type = objLocalConfig.Globals.Type_Object
+
+
+            End If
+        End If
+
+        RaiseEvent selected_FinancialTransactions(objOItem_FinancialTransaction)
     End Sub
 End Class

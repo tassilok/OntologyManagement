@@ -33,7 +33,6 @@ Public Class clsTransaction_Bookmarks
     Public Function del_001_Bookmark(Optional ByVal OItem_Bookmark As clsOntologyItem = Nothing) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objOLBookmarks As New List(Of clsOntologyItem)
-        Dim strIDs() As String
 
         If Not OItem_Bookmark Is Nothing Then
             objOItem_Bookmark = OItem_Bookmark
@@ -41,14 +40,14 @@ Public Class clsTransaction_Bookmarks
 
         objOLBookmarks.Add(objOItem_Bookmark)
 
-        strIDs = objDBLevel_Bookmarks.del_Objects(objOLBookmarks)
+        objOItem_Result = objDBLevel_Bookmarks.del_Objects(objOLBookmarks)
 
-        If strIDs.Count = 1 Then
-            objOItem_Result = objLocalConfig.Globals.LState_Success
-        Else
+        If objOItem_Result.Val_Long > 0 Then
             objOItem_Result = objLocalConfig.Globals.LState_Error
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Success
         End If
-        
+
         Return objOItem_Result
     End Function
 

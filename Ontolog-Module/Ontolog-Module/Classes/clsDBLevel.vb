@@ -313,16 +313,15 @@ Public Class clsDBLevel
 
         Return objOItem_Result
     End Function
-    Public Function del_Objects(ByVal List_Objects As List(Of clsOntologyItem)) As String()
+    Public Function del_Objects(ByVal List_Objects As List(Of clsOntologyItem)) As clsOntologyItem
         Dim objDBLevel_LeftRight As clsDBLevel
         Dim objDBLeveL_RightLeft As clsDBLevel
         Dim oList_ObjecRel_LR As New List(Of clsObjectRel)
         Dim oList_ObjecRel_RL As New List(Of clsObjectRel)
-        Dim objOItem_Object As clsOntologyItem
+        Dim objOL_Objects_Del As New List(Of clsOntologyItem)
         Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
         Dim objOItem_Result As clsOntologyItem
-        Dim i As Integer
-        Dim strAIDs() As String = Nothing
+
 
         objElConn.Flush()
         objDBLevel_LeftRight = New clsDBLevel(objLocalConfig)
@@ -386,30 +385,25 @@ Public Class clsDBLevel
                          Join objRelRightLeft In objRightLeft On objDel.GUID Equals objRelRightLeft.objDel.GUID
 
 
-        For i = 0 To objLDelable.Count - 1
-            ReDim Preserve strAIDs(i)
-            strAIDs(i) = objLDelable(i).objDel.GUID
-
-        Next
-
-        objOItem_Result = objLocalConfig.Globals.LState_Success
-        If Not strAIDs Is Nothing Then
-            If strAIDs.Count > 0 Then
-                Try
-                    objOPResult = objElConn.Delete(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_Object, strAIDs)
-                    objOItem_Result = objLocalConfig.Globals.LState_Success
-                Catch ex As Exception
-                    objOItem_Result = objLocalConfig.Globals.LState_Error
-                End Try
+        If objLDelable.Count < List_Objects.Count Then
+            For Each objDel In objLDelable
+                objOL_Objects_Del.Add(objDel.objDel)
+            Next
+            If objOL_Objects_Del.Count > 0 Then
+                objOItem_Result = objDBLevel_LeftRight.del_Objects(objOL_Objects_Del)
+                objOItem_Result.Val_Long = List_Objects.Count - objOL_Objects_Del.Count
+            Else
+                objOItem_Result = objLocalConfig.Globals.LState_Success
+                objOItem_Result.Val_Long = List_Objects.Count - objOL_Objects_Del.Count
             End If
+        Else
+            objOItem_Result = objDBLevel_LeftRight.del_Objects(List_Objects)
+            objOItem_Result.Val_Long = 0
         End If
 
 
-        If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            strAIDs = Nothing
-        End If
 
-        Return strAIDs
+        Return objOItem_Result
     End Function
 
     Public Function del_ClassRel(ByVal oList_ClRel As List(Of clsClassRel)) As String()
@@ -528,38 +522,24 @@ Public Class clsDBLevel
         Return objOItem_Result
     End Function
     Public Function del_ObjectRel(ByVal oList_ObjecRels As List(Of clsObjectRel)) As clsOntologyItem
-        Dim objItem As clsObjectRel
         Dim objOItem_Result As clsOntologyItem
-        Dim strAObjectKeys() As String = Nothing
 
-        Dim l As Long = 0
-        Dim lngDone As Long = 0
-        Dim lngToDo As Long
         Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
         objElConn.Flush()
-        objOItem_Result = objLocalConfig.Globals.LState_Nothing
 
-        lngToDo = oList_ObjecRels.Count
-
-        For Each objItem In oList_ObjecRels
-            ReDim Preserve strAObjectKeys(l)
-
-            strAObjectKeys(l) = objItem.ID_Object & objItem.ID_Other & objItem.ID_RelationType
-            
-            l = l + 1
-        Next
-
-        If Not strAObjectKeys Is Nothing Then
-            If strAObjectKeys.Count > 0 Then
-                Try
-                    objOPResult = objElConn.Delete(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectRel, strAObjectKeys)
-                    objOItem_Result = objLocalConfig.Globals.LState_Success
-                Catch ex As Exception
-                    objOItem_Result = objLocalConfig.Globals.LState_Error
-                End Try
+        create_BoolQuery_ObjectRel(oList_ObjecRels)
+        
+        Try
+            objOPResult = objElConn.DeleteByQueryString(objLocalConfig.Globals.Index, objLocalConfig.Globals.Type_ObjectRel, objBoolQuery.ToString)
+            If objOPResult.Success = True Then
+                objOItem_Result = objLocalConfig.Globals.LState_Success
+            Else
+                objOItem_Result = objLocalConfig.Globals.LState_Error
             End If
-        End If
-
+        Catch ex As Exception
+            objOItem_Result = objLocalConfig.Globals.LState_Error
+        End Try
+        
         Return (objOItem_Result)
     End Function
     Public Function save_RelationType(ByVal oItem_RelationType As clsOntologyItem) As clsOntologyItem
@@ -1598,7 +1578,6 @@ Public Class clsDBLevel
                                                 Where Not objOthPar Is Nothing
                                                 Group By objOthPar.ID_Parent_Other Into Group
 
-                If strQuery = "" Then
                     strQuery = ""
 
                     For Each objQuery_ID_Parent In objLQuery_ID_Parent_Other
@@ -1613,6 +1592,25 @@ Public Class clsDBLevel
 
                     End If
 
+
+                    Dim objLQuery_RelType = From objRelTyp In oList_ObjectRel
+                                                  Where Not objRelTyp Is Nothing
+                                                  Group By objRelTyp.ID_RelationType Into Group
+
+                    strQuery = ""
+                    For Each objQuery_RelType In objLQuery_RelType
+                        If strQuery <> "" Then
+                            strQuery = strQuery & "\ OR\ "
+                        End If
+
+
+                        strQuery = strQuery & objQuery_RelType.ID_RelationType
+                    Next
+
+                    If strQuery <> "" Then
+                        objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_RelationType, strQuery)), BooleanClause.Occur.MUST)
+
+                    End If
 
                     Dim objLQuery_Ontology = From objOnt In oList_ObjectRel
                                              Where Not objOnt Is Nothing
@@ -1635,28 +1633,11 @@ Public Class clsDBLevel
 
                     End If
 
-                    Dim objLQuery_ID_RelType = From objRelType In oList_ObjectRel
-                                               Where Not objRelType Is Nothing
-                                               Group By objRelType.ID_RelationType Into Group
-
-                    strQuery = ""
-
-                    For Each objQuery_ID In objLQuery_ID_RelType
-                        If strQuery <> "" Then
-                            strQuery = strQuery & "\ OR\ "
-                        End If
-                        strQuery = strQuery & objQuery_ID.ID_RelationType
-                    Next
-
-                    If strQuery <> "" Then
-                        objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_RelationType, strQuery)), BooleanClause.Occur.MUST)
-
-                    End If
 
                 End If
 
             End If
-        End If
+
 
         If objBoolQuery.ToString = "" Then
             strQuery = "*"

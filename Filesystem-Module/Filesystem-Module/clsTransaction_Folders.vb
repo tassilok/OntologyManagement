@@ -20,7 +20,6 @@ Public Class clsTransaction_Folders
     End Function
 
     Public Function del_001_Folders(Optional ByVal oItem_Folder As clsOntologyItem = Nothing) As clsOntologyItem
-        Dim strKeys() As String
         Dim objOItem_Result As clsOntologyItem
         Dim oList_Folders As New List(Of clsOntologyItem)
 
@@ -29,9 +28,9 @@ Public Class clsTransaction_Folders
         End If
 
         oList_Folders.Add(oItem_Folder)
-        strKeys = objDBLevel_Folder.del_Objects(oList_Folders)
+        objOItem_Result = objDBLevel_Folder.del_Objects(oList_Folders)
 
-        If strKeys.Count = oList_Folders.Count Then
+        If objOItem_Result.Val_Long = 0 Then
             objOItem_Result = objLocalConfig.Globals.LState_Success
         Else
             objOItem_Result = objLocalConfig.Globals.LState_Error

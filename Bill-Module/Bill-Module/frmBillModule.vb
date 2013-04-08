@@ -3,7 +3,15 @@ Public Class frmBillModule
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_BaseConfig As clsDataWork_BaseConfig
     Private WithEvents objUserControl_BillTree As UserControl_BillTree
+    Private WithEvents objUserControl_TransactionDetail As UserControl_TransactionDetail
     Private objOItem_Open As clsOntologyItem
+    Private objOItem_FinancialTransaction As clsOntologyItem
+
+    Private Sub selected_FinancialTransaction(ByVal OItem_FinancialTransaction As clsOntologyItem) Handles objUserControl_BillTree.selected_FinancialTransactions
+        objOItem_FinancialTransaction = OItem_FinancialTransaction
+
+        configure_TabPages()
+    End Sub
 
     Public Sub New()
 
@@ -24,7 +32,21 @@ Public Class frmBillModule
             objUserControl_BillTree.Dock = DockStyle.Fill
             SplitContainer1.Panel1.Controls.Add(objUserControl_BillTree)
 
+            objUserControl_TransactionDetail = New UserControl_TransactionDetail(objLocalConfig, objDataWork_BaseConfig)
+            objUserControl_TransactionDetail.Dock = DockStyle.Fill
+            TabPage_TransactionDetails.Controls.Add(objUserControl_TransactionDetail)
+
+            configure_TabPages()
         End If
+    End Sub
+
+    Private Sub configure_TabPages()
+        Select Case TabControl1.SelectedTab.Name
+            Case TabPage_TransactionDetails.Name
+                objUserControl_TransactionDetail.initialize(objOItem_FinancialTransaction)
+            Case TabPage_Documents.Name
+
+        End Select
     End Sub
 
     Private Sub set_DBConnection()

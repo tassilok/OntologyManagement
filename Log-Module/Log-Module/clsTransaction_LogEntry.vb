@@ -23,7 +23,6 @@ Public Class clsTransaction_LogEntry
     End Function
 
     Public Function del_001_LogEntry(Optional ByVal OItem_LogEntry As clsOntologyItem = Nothing) As clsOntologyItem
-        Dim strIDs() As String
         Dim objOItem_Result As clsOntologyItem
         Dim objOList_LogEntries As New List(Of clsOntologyItem)
 
@@ -33,9 +32,9 @@ Public Class clsTransaction_LogEntry
 
         objOList_LogEntries.Add(objOItem_LogEntry)
 
-        strIDs = objDBLevel_LogEntry.del_Objects(objOList_LogEntries)
+        objOItem_Result = objDBLevel_LogEntry.del_Objects(objOList_LogEntries)
 
-        If strIDs.Count = 1 Then
+        If objOItem_Result.Val_Long = 0 Then
             objOItem_Result = objLocalConfig.Globals.LState_Success
         Else
             objOItem_Result = objLocalConfig.Globals.LState_Error

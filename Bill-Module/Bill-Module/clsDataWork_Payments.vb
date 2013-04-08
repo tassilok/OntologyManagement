@@ -46,7 +46,7 @@ Public Class clsDataWork_Payments
 
         End Try
 
-        objThread_Payments = New Threading.Thread(AddressOf get_Data_Payments)
+        objThread_Payments = New Threading.Thread(AddressOf get_Data_Payments_Thread)
         objThread_Payments.Start()
 
 
@@ -65,10 +65,10 @@ Public Class clsDataWork_Payments
         Dim objOLBankTransaction_To_Konto As New List(Of clsObjectRel)
         Dim objOLBankKonto_To_Bank As New List(Of clsObjectRel)
     
-        objOLTransaction_To_Payments.Add(New clsObjectRel(Nothing, _
-                                                          objLocalConfig.OItem_Class_Payment.GUID, _
-                                                          objOItem_Transaction.GUID, _
+        objOLTransaction_To_Payments.Add(New clsObjectRel(objOItem_Transaction.GUID, _
                                                           Nothing, _
+                                                          Nothing, _
+                                                          objLocalConfig.OItem_Class_Payment.GUID, _
                                                           objLocalConfig.OItem_RelationType_belonging_Payment.GUID, _
                                                           objLocalConfig.Globals.Type_Object, _
                                                           Nothing, _
@@ -132,7 +132,7 @@ Public Class clsDataWork_Payments
                                                    objLocalConfig.OItem_Attribute_Beg_nstigter_Zahlungspflichtiger.GUID, _
                                                    Nothing))
 
-        objDBLevel_BankTransaction_Betrag.get_Data_ObjectAtt(objOLBankTransaction__BegZahl, _
+        objDBLevel_BankTransaction_BegZahl.get_Data_ObjectAtt(objOLBankTransaction__BegZahl, _
                                                        boolIDs:=False)
 
         objOLBankTransaction__Betrag.Add(New clsObjectAtt(Nothing, _
@@ -170,11 +170,11 @@ Public Class clsDataWork_Payments
 
 
         Dim objLPaymentPre = From objPayment In objDBLevel_Payments.OList_ObjectRel_ID
-                          Join objAmount In objDBLevel_Payments_Amount.OList_ObjectAtt On objPayment.ID_Object Equals objAmount.ID_Object
-                          Join objTransactionDate In objDBLevel_Payments_TransactionDate.OList_ObjectAtt On objPayment.ID_Object Equals objTransactionDate.ID_Object
-                          Join objPart In objDBLevel_Payments_Part.OList_ObjectAtt On objPayment.ID_Object Equals objPart.ID_Object
-                          Select ID_Transaction = objPayment.ID_Other, _
-                                 ID_Payment = objPayment.ID_Object, _
+                          Join objAmount In objDBLevel_Payments_Amount.OList_ObjectAtt On objPayment.ID_Other Equals objAmount.ID_Object
+                          Join objTransactionDate In objDBLevel_Payments_TransactionDate.OList_ObjectAtt On objPayment.ID_Other Equals objTransactionDate.ID_Object
+                          Join objPart In objDBLevel_Payments_Part.OList_ObjectAtt On objPayment.ID_Other Equals objPart.ID_Object
+                          Select ID_Transaction = objPayment.ID_Object, _
+                                 ID_Payment = objPayment.ID_Other, _
                                  ID_Attribute_Amount = objAmount.ID_Attribute, _
                                  Val_Amount = objAmount.Val_Double, _
                                  ID_Attribute_TransactionDate = objTransactionDate.ID_Attribute, _
@@ -183,14 +183,14 @@ Public Class clsDataWork_Payments
                                  Val_Part = objPart.Val_Double
 
         Dim objLBankKonto = From objBankKonto In objDBLevel_Payments_Transaction_Sparkasse.OList_ObjectRel
-                            Join objValuta In objDBLevel_BankTransaction_Valutadatum.OList_ObjectAtt On objValuta.ID_Object Equals objBankKonto.ID_Other
-                            Join objBegZah In objDBLevel_BankTransaction_BegZahl.OList_ObjectAtt On objBegZah.ID_Object Equals objBankKonto.ID_Other
-                            Join objBetrag In objDBLevel_BankTransaction_Betrag.OList_ObjectAtt On objBetrag.ID_Object Equals objBankKonto.ID_Other
-                            Join objGegenKonto In objDBLevel_BankTransaction_GegenKonto.OList_ObjectRel On objGegenKonto.ID_Object Equals objBankKonto.ID_Other
+                            Join objValuta In objDBLevel_BankTransaction_Valutadatum.OList_ObjectAtt On objValuta.ID_Object Equals objBankKonto.ID_Object
+                            Join objBegZah In objDBLevel_BankTransaction_BegZahl.OList_ObjectAtt On objBegZah.ID_Object Equals objBankKonto.ID_Object
+                            Join objBetrag In objDBLevel_BankTransaction_Betrag.OList_ObjectAtt On objBetrag.ID_Object Equals objBankKonto.ID_Object
+                            Join objGegenKonto In objDBLevel_BankTransaction_GegenKonto.OList_ObjectRel On objGegenKonto.ID_Object Equals objBankKonto.ID_Object
                             Join objGegenBank In objDBLevel_GegenKonto_Bank.OList_ObjectRel On objGegenBank.ID_Object Equals objGegenKonto.ID_Other
-                            Select ID_Payment = objBankKonto.ID_Object, _
-                                   ID_BankTransaction = objBankKonto.ID_Other, _
-                                   Name_BankTransaction = objBankKonto.Name_Other, _
+                            Select ID_Payment = objBankKonto.ID_Other, _
+                                   ID_BankTransaction = objBankKonto.ID_Object, _
+                                   Name_BankTransaction = objBankKonto.Name_Object, _
                                    ID_Attribute_Valutadatum = objValuta.ID_Attribute, _
                                    Val_Valutadatum = objValuta.Val_Date, _
                                    ID_Attribute_BegZahl = objBegZah.ID_Attribute, _

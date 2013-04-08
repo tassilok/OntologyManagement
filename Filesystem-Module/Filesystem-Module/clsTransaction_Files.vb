@@ -20,16 +20,15 @@ Public Class clsTransaction_Files
     End Function
 
     Public Function del_001_Files(Optional ByVal oList_Files As List(Of clsOntologyItem) = Nothing) As clsOntologyItem
-        Dim strKeys() As String
         Dim objOItem_Result As clsOntologyItem
 
         If Not oList_Files Is Nothing Then
             Me.oList_Files = oList_Files
         End If
 
-        strKeys = objDBLevel_Files.del_Objects(oList_Files)
+        objOItem_Result = objDBLevel_Files.del_Objects(oList_Files)
 
-        If strKeys.Count = oList_Files.Count Then
+        If objOItem_Result.Val_Long = 0 Then
             objOItem_Result = objLocalConfig.Globals.LState_Success
         Else
             objOItem_Result = objLocalConfig.Globals.LState_Error

@@ -112,6 +112,12 @@
     <Compile Include="UserControl_BillTree.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControl_RelatedFinTran.Designer.vb">
+      <DependentUpon>UserControl_RelatedFinTran.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_RelatedFinTran.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl_TransactionDetail.Designer.vb">
       <DependentUpon>UserControl_TransactionDetail.vb</DependentUpon>
     </Compile>
@@ -131,6 +137,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_BillTree.resx">
       <DependentUpon>UserControl_BillTree.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_RelatedFinTran.resx">
+      <DependentUpon>UserControl_RelatedFinTran.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_TransactionDetail.resx">
       <DependentUpon>UserControl_TransactionDetail.vb</DependentUpon>

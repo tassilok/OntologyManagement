@@ -266,10 +266,44 @@ Public Class UserControl_Address
     End Sub
 
     Private Sub Button_addPLZOrtLand_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_addPLZOrtLand.Click
+        Dim objOItem_Ort As clsOntologyItem
+        Dim objOItem_PLZ As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+
         objFrm_PLZOrtLand = New frmPLZOrtLand(objLocalConfig, objDataWork_Address)
         objFrm_PLZOrtLand.ShowDialog(Me)
         If objFrm_PLZOrtLand.DialogResult = DialogResult.OK Then
+            objOItem_Ort = objFrm_PLZOrtLand.OItem_Ort
+            objOItem_PLZ = objFrm_PLZOrtLand.OItem_PLZ
+            objOItem_Result = objTransaction_Address.save_006_Address_To_PLZ(objOItem_PLZ, objDataWork_Address.Address)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                objOItem_Result = objTransaction_Address.save_006_Address_To_PLZ(objOItem_Ort, objDataWork_Address.Address)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    initialize_Address(objOItem_Partner)
+                Else
+                    MsgBox("Die Ort konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                End If
+            Else
+                MsgBox("Die Postleitzahl konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+            End If
+        End If
+    End Sub
 
+    Private Sub Button_DelPLZOrtLand_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_DelPLZOrtLand.Click
+        Dim objOItem_Result_PLZ As clsOntologyItem
+        Dim objOItem_Result_Ort As clsOntologyItem
+        If MsgBox("Sollen Postleizahl und Ort wirklich gelöscht werden?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            objOItem_Result_Ort = objTransaction_Address.del_007_Address_To_Ort(objDataWork_Address.Address)
+            objOItem_Result_PLZ = objTransaction_Address.del_006_Address_To_PLZ(objDataWork_Address.Address)
+            If Not objOItem_Result_PLZ.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                MsgBox("Die Postleitzahl konnte nicht gelöscht werden!", MsgBoxStyle.Exclamation)
+            Else
+                If Not objOItem_Result_Ort.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    MsgBox("Der Ort konnte nicht gelöscht werden!", MsgBoxStyle.Exclamation)
+                End If
+            End If
+
+            initialize_Address(objOItem_Partner)
         End If
     End Sub
 End Class

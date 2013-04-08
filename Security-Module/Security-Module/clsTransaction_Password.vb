@@ -27,7 +27,6 @@ Public Class clsTransaction_Password
     Public Function del_001_Password(Optional ByVal OItem_Password As clsOntologyItem = Nothing) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objOList_Object As New List(Of clsOntologyItem)
-        Dim strIDs() As String
 
         objOItem_Password = OItem_Password
 
@@ -36,9 +35,9 @@ Public Class clsTransaction_Password
                                                 objOItem_Password.GUID_Parent, _
                                                 objLocalConfig.Globals.Type_Object))
 
-        strIDs = objDBLevel_Password.del_Objects(objOList_Object)
+        objOItem_Result = objDBLevel_Password.del_Objects(objOList_Object)
 
-        If strIDs.Count = 1 Then
+        If objOItem_Result.Val_Long = 0 Then
             objOItem_Result = objLocalConfig.Globals.LState_Success
         Else
             objOItem_Result = objLocalConfig.Globals.LState_Error
