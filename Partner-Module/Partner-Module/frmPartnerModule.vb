@@ -39,7 +39,7 @@ Public Class frmPartnerModule
             Case TabPage_AvailabilityData.Name
 
             Case TabPage_CommunicationData.Name
-
+                objUserControl_ComData.initialize(objOItem_Partner)
             Case TabPage_PersonalData.Name
 
         End Select

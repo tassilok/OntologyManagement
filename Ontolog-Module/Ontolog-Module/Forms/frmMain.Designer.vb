@@ -990,13 +990,13 @@ Partial Class frmMain
         '
         Me.ContextMenuStrip_TokAtt.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditToolStripMenuItem1, Me.RelateToolStripMenuItem1, Me.DeleteToolStripMenuItem1})
         Me.ContextMenuStrip_TokAtt.Name = "ContextMenuStrip_TokAtt"
-        Me.ContextMenuStrip_TokAtt.Size = New System.Drawing.Size(105, 70)
+        Me.ContextMenuStrip_TokAtt.Size = New System.Drawing.Size(107, 70)
         '
         'EditToolStripMenuItem1
         '
         Me.EditToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyValToolStripMenuItem})
         Me.EditToolStripMenuItem1.Name = "EditToolStripMenuItem1"
-        Me.EditToolStripMenuItem1.Size = New System.Drawing.Size(104, 22)
+        Me.EditToolStripMenuItem1.Size = New System.Drawing.Size(106, 22)
         Me.EditToolStripMenuItem1.Text = "Edit"
         '
         'CopyValToolStripMenuItem
@@ -1008,26 +1008,26 @@ Partial Class frmMain
         'RelateToolStripMenuItem1
         '
         Me.RelateToolStripMenuItem1.Name = "RelateToolStripMenuItem1"
-        Me.RelateToolStripMenuItem1.Size = New System.Drawing.Size(104, 22)
+        Me.RelateToolStripMenuItem1.Size = New System.Drawing.Size(106, 22)
         Me.RelateToolStripMenuItem1.Text = "relate"
         '
         'DeleteToolStripMenuItem1
         '
         Me.DeleteToolStripMenuItem1.Name = "DeleteToolStripMenuItem1"
-        Me.DeleteToolStripMenuItem1.Size = New System.Drawing.Size(104, 22)
+        Me.DeleteToolStripMenuItem1.Size = New System.Drawing.Size(106, 22)
         Me.DeleteToolStripMenuItem1.Text = "delete"
         '
         'ContextMenuStrip_TokRel
         '
         Me.ContextMenuStrip_TokRel.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditToolStripMenuItem, Me.FilterToolStripMenuItem, Me.RelateToolStripMenuItem, Me.DeleteToolStripMenuItem})
         Me.ContextMenuStrip_TokRel.Name = "ContextMenuStrip_TokRel"
-        Me.ContextMenuStrip_TokRel.Size = New System.Drawing.Size(106, 92)
+        Me.ContextMenuStrip_TokRel.Size = New System.Drawing.Size(107, 92)
         '
         'EditToolStripMenuItem
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SetOrderIDToolStripMenuItem, Me.SetRelationTypeToolStripMenuItem, Me.ModuleEditToolStripMenuItem, Me.ModuleMenuToolStripMenuItem, Me.CopyValToolStripMenuItem1})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
         Me.EditToolStripMenuItem.Text = "Edit"
         '
         'SetOrderIDToolStripMenuItem
@@ -1076,7 +1076,7 @@ Partial Class frmMain
         '
         Me.FilterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EqualToolStripMenuItem, Me.DifferentToolStripMenuItem, Me.ContainsToolStripMenuItem, Me.GreaterToolStripMenuItem, Me.LessThanToolStripMenuItem, Me.ClearFilterToolStripMenuItem})
         Me.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem"
-        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
+        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
         Me.FilterToolStripMenuItem.Text = "Filter"
         '
         'EqualToolStripMenuItem
@@ -1124,13 +1124,13 @@ Partial Class frmMain
         'RelateToolStripMenuItem
         '
         Me.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem"
-        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
+        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
         Me.RelateToolStripMenuItem.Text = "Relate"
         '
         'DeleteToolStripMenuItem
         '
         Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
         Me.DeleteToolStripMenuItem.Text = "delete"
         '
         'Timer_TokenAttribute

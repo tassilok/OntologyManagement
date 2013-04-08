@@ -26,6 +26,8 @@ Partial Class frmPLZOrtLand
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Apply = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripButton_Clear = New System.Windows.Forms.ToolStripButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Label_PLZ = New System.Windows.Forms.Label()
         Me.Panel_PLZ = New System.Windows.Forms.Panel()
@@ -34,8 +36,6 @@ Partial Class frmPLZOrtLand
         Me.Panel_Ort = New System.Windows.Forms.Panel()
         Me.Label_Land = New System.Windows.Forms.Label()
         Me.Panel_Land = New System.Windows.Forms.Panel()
-        Me.ToolStripButton_Clear = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -74,7 +74,7 @@ Partial Class frmPLZOrtLand
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Apply, Me.ToolStripSeparator1, Me.ToolStripButton_Clear})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(145, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(118, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Apply
@@ -84,8 +84,23 @@ Partial Class frmPLZOrtLand
         Me.ToolStripButton_Apply.Image = CType(resources.GetObject("ToolStripButton_Apply.Image"), System.Drawing.Image)
         Me.ToolStripButton_Apply.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Apply.Name = "ToolStripButton_Apply"
-        Me.ToolStripButton_Apply.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripButton_Apply.Size = New System.Drawing.Size(52, 22)
         Me.ToolStripButton_Apply.Text = "x_Apply"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripButton_Clear
+        '
+        Me.ToolStripButton_Clear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Clear.Enabled = False
+        Me.ToolStripButton_Clear.Image = CType(resources.GetObject("ToolStripButton_Clear.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Clear.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Clear.Name = "ToolStripButton_Clear"
+        Me.ToolStripButton_Clear.Size = New System.Drawing.Size(48, 22)
+        Me.ToolStripButton_Clear.Text = "x_Clear"
         '
         'SplitContainer1
         '
@@ -184,21 +199,6 @@ Partial Class frmPLZOrtLand
         Me.Panel_Land.Name = "Panel_Land"
         Me.Panel_Land.Size = New System.Drawing.Size(794, 140)
         Me.Panel_Land.TabIndex = 3
-        '
-        'ToolStripButton_Clear
-        '
-        Me.ToolStripButton_Clear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Clear.Enabled = False
-        Me.ToolStripButton_Clear.Image = CType(resources.GetObject("ToolStripButton_Clear.Image"), System.Drawing.Image)
-        Me.ToolStripButton_Clear.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Clear.Name = "ToolStripButton_Clear"
-        Me.ToolStripButton_Clear.Size = New System.Drawing.Size(48, 22)
-        Me.ToolStripButton_Clear.Text = "x_Clear"
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
         '
         'frmPLZOrtLand
         '
