@@ -28,7 +28,7 @@ Public Class clsDataWork_CommunicationData
                                                                           boolIDs:=False)
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            If objDBLevel_CommunicationData.OList_ObjectRel_ID.Count = 0 Then
+            If objDBLevel_CommunicationData.OList_ObjectRel.Count = 0 Then
                 objOItem_CommunicationData = New clsOntologyItem(Guid.NewGuid.ToString.Replace("-", ""), _
                                                                  objOItem_Partner.Name, _
                                                                  objLocalConfig.OItem_Class_Kommunikationsangaben.GUID, _
@@ -38,7 +38,7 @@ Public Class clsDataWork_CommunicationData
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     objOItem_Result = objTransaction_ComData.save_002_Kommunikationsangaben_To_Partner(objOItem_Partner)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                        objTransaction_ComData.del_001_Kommunikationsangaben()
+                        objTransaction_ComData.del_001_Kommunikationsangaben(objOItem_CommunicationData)
                         objOItem_CommunicationData = Nothing
                     End If
                 Else

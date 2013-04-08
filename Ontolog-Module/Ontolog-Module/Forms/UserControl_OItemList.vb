@@ -59,6 +59,8 @@
     Public Event edit_Object(ByVal strType As String, ByVal oItem_Direction As clsOntologyItem)
 
     Public Event applied_Items()
+    Public Event counted_Items(ByVal intCount As Integer)
+
 
     Public ReadOnly Property RowName_GUID As String
         Get
@@ -720,7 +722,7 @@
                         End If
                 End Select
 
-
+                RaiseEvent counted_Items(DataGridView_Items.RowCount)
                 ToolStripLabel_Count.Text = DataGridView_Items.RowCount
 
             End If

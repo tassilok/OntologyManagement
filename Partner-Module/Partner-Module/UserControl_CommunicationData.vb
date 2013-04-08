@@ -4,12 +4,12 @@ Public Class UserControl_CommunicationData
     Private Const cstr_TabPage_TelFax As String = "x_Tel(@NR_1@)/x_Fax(@NR_2@)"
     Private Const cstr_TabPage_Web As String = "x_eMail(@NR_1@)/x_Web(@NR_2@)/x_Service(@NR_3@)"
 
-    Private objUserControl_Tel As UserControl_OItemList
-    Private objUserControl_Fax As UserControl_OItemList
+    Private WithEvents objUserControl_Tel As UserControl_OItemList
+    Private WithEvents objUserControl_Fax As UserControl_OItemList
 
-    Private objUserControl_Email As UserControl_OItemList
-    Private objUserControl_Web As UserControl_OItemList
-    Private objUserControl_Service As UserControl_OItemList
+    Private WithEvents objUserControl_Email As UserControl_OItemList
+    Private WithEvents objUserControl_Web As UserControl_OItemList
+    Private WithEvents objUserControl_Service As UserControl_OItemList
 
     Private objLocalConfig As clsLocalConfig
 
@@ -24,6 +24,33 @@ Public Class UserControl_CommunicationData
     Private intCount_Web As Integer
     Private intCount_Service As Integer
 
+    Private Sub counted_Tel(ByVal intCount As Integer) Handles objUserControl_Tel.counted_Items
+        intCount_Tel = intCount
+        configure_TabCaptions()
+    End Sub
+
+    Private Sub counted_Fax(ByVal intCount As Integer) Handles objUserControl_Fax.counted_Items
+        intCount_Fax = intCount
+        configure_TabCaptions()
+
+    End Sub
+
+    Private Sub counted_eMail(ByVal intCount As Integer) Handles objUserControl_Email.counted_Items
+        intCount_eMail = intCount
+        configure_TabCaptions()
+
+    End Sub
+
+    Private Sub counted_Web(ByVal intCount As Integer) Handles objUserControl_Web.counted_Items
+        intCount_Web = intCount
+        configure_TabCaptions()
+
+    End Sub
+
+    Private Sub counted_Service(ByVal intCount As Integer) Handles objUserControl_Service.counted_Items
+        intCount_Service = intCount
+        configure_TabCaptions()
+    End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
 
@@ -53,6 +80,13 @@ Public Class UserControl_CommunicationData
         objUserControl_Web.clear_Relation()
         objUserControl_Web.Enabled = False
         objOItem_Partner = OItem_Partner
+
+        intCount_eMail = 0
+        intCount_Fax = 0
+        intCount_Service = 0
+        intCount_Tel = 0
+        intCount_Web = 0
+
         If Not objOItem_Partner Is Nothing Then
 
             objOItem_Kommunikationsangaben = objDataWork_CommunicationData.get_Data_CommunicationData(objOItem_Partner)
@@ -60,9 +94,32 @@ Public Class UserControl_CommunicationData
             objUserControl_Tel.initialize(Nothing, _
                                           objOItem_Kommunikationsangaben, _
                                           objLocalConfig.Globals.Direction_LeftRight, _
-                                          objLocalConfig.OItem_Class_Telefonnummer, _
+                                          New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Telefonnummer.GUID, objLocalConfig.Globals.Type_Object), _
                                           objLocalConfig.OItem_RelationType_Tel)
 
+            objUserControl_Fax.initialize(Nothing, _
+                                          objOItem_Kommunikationsangaben, _
+                                          objLocalConfig.Globals.Direction_LeftRight, _
+                                          New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Telefonnummer.GUID, objLocalConfig.Globals.Type_Object), _
+                                          objLocalConfig.OItem_RelationType_Fax)
+
+            objUserControl_Email.initialize(Nothing, _
+                                          objOItem_Kommunikationsangaben, _
+                                          objLocalConfig.Globals.Direction_LeftRight, _
+                                          New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_eMail_Address.GUID, objLocalConfig.Globals.Type_Object), _
+                                          objLocalConfig.OItem_RelationType_contains)
+
+            objUserControl_Web.initialize(Nothing, _
+                                          objOItem_Kommunikationsangaben, _
+                                          objLocalConfig.Globals.Direction_LeftRight, _
+                                          New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Url.GUID, objLocalConfig.Globals.Type_Object), _
+                                          objLocalConfig.OItem_RelationType_contains)
+
+            objUserControl_Service.initialize(Nothing, _
+                                          objOItem_Kommunikationsangaben, _
+                                          objLocalConfig.Globals.Direction_LeftRight, _
+                                          New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Web_Service.GUID, objLocalConfig.Globals.Type_Object), _
+                                          objLocalConfig.OItem_RelationType_contains)
 
             objUserControl_Email.Enabled = True
             objUserControl_Fax.Enabled = True
@@ -74,6 +131,7 @@ Public Class UserControl_CommunicationData
 
         End If
 
+        configure_TabCaptions()
     End Sub
 
 
