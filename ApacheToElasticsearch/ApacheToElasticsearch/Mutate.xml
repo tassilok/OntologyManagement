@@ -21,6 +21,16 @@
     <DataType>boolean</DataType>
   </dtbl_Mutate>
   <dtbl_Mutate>
+    <Field_Name>EX_CGET_FID_EXIST</Field_Name>
+    <replace_exist>True</replace_exist>
+    <DataType>boolean</DataType>
+  </dtbl_Mutate>
+  <dtbl_Mutate>
+    <Field_Name>EX_CGET_KID_EXIST</Field_Name>
+    <replace_exist>True</replace_exist>
+    <DataType>boolean</DataType>
+  </dtbl_Mutate>
+  <dtbl_Mutate>
     <Field_Name>EX_CSET_CLICK</Field_Name>
     <replace_exist>True</replace_exist>
     <DataType>boolean</DataType>

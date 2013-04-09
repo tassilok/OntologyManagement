@@ -44,7 +44,7 @@
   </dtbl_Fields>
   <dtbl_Fields>
     <Field_Name>EX_CGET_FID</Field_Name>
-    <Regex_Pre><![CDATA[\s/cget|\s\S+/cget/\?e?x?-?fid=]]></Regex_Pre>
+    <Regex_Pre><![CDATA[\s/cget/\?e?x?-?fid=|\s\S+/cget/\?e?x?-?fid=]]></Regex_Pre>
     <Regex><![CDATA[\d*]]></Regex>
     <Regex_Post><![CDATA[]]></Regex_Post>
     <DataType>long</DataType>
@@ -52,7 +52,7 @@
   <dtbl_Fields>
     <Field_Name>EX_CGET_KID_EXIST</Field_Name>
     <Regex_Pre><![CDATA[]]></Regex_Pre>
-    <Regex><![CDATA[\s/cget|\s\S+/cget/\?e?x?-?kid=]]></Regex>
+    <Regex><![CDATA[\s/cget/\?e?x?-?kid=|\s\S+/cget/\?e?x?-?kid=]]></Regex>
     <Regex_Post><![CDATA[]]></Regex_Post>
     <DataType>string</DataType>
   </dtbl_Fields>
@@ -81,6 +81,13 @@
     <Field_Name>EX_CSET_VIEW</Field_Name>
     <Regex_Pre><![CDATA[]]></Regex_Pre>
     <Regex><![CDATA[\s/cset_v\.php|\s\S+/cset_v\.php]]></Regex>
+    <Regex_Post><![CDATA[]]></Regex_Post>
+    <DataType>string</DataType>
+  </dtbl_Fields>
+  <dtbl_Fields>
+    <Field_Name>EX_CGET_ORDERID</Field_Name>
+    <Regex_Pre><![CDATA[\&orderid=]]></Regex_Pre>
+    <Regex><![CDATA[\w+]]></Regex>
     <Regex_Post><![CDATA[]]></Regex_Post>
     <DataType>string</DataType>
   </dtbl_Fields>

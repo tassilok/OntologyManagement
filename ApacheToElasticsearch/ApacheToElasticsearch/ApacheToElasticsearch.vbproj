@@ -187,6 +187,7 @@
     </Content>
     <Content Include="Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Fields.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

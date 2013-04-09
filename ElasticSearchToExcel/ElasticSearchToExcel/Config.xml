@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<DocumentElement>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Index</ConfigItem_Name>
+    <ConfigItem_Value>explido_access_log</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Port</ConfigItem_Name>
+    <ConfigItem_Value>9500</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>server</ConfigItem_Name>
+    <ConfigItem_Value>192.168.30.93</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>type</ConfigItem_Name>
+    <ConfigItem_Value>explido</ConfigItem_Value>
+  </dtbl_BaseConfig>
+</DocumentElement>
