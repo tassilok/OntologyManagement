@@ -65,6 +65,17 @@ Public Class UserControl_ImageViewer
         initialize()
     End Sub
 
+    Public Sub New(ByVal Globals As clsGlobals)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = New clsLocalConfig(Globals)
+        set_DBConnection()
+        initialize()
+    End Sub
+
     Public Function AutoSizeImage(ByVal oBitmap As Image, _
           ByVal maxWidth As Integer, _
           ByVal maxHeight As Integer, _

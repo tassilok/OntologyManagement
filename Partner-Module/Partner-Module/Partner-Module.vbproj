@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="clsDataWork_Address.vb" />
     <Compile Include="clsDataWork_CommunicationData.vb" />
+    <Compile Include="clsDataWork_PersonalData.vb" />
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsTransaction_Address.vb" />
     <Compile Include="clsTransaction_CommunicationData.vb" />

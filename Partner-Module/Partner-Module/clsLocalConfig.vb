@@ -15,6 +15,9 @@ Public Class clsLocalConfig
     Private objDBLevel_Config1 As clsDBLevel
     Private objDBLevel_Config2 As clsDBLevel
 
+    Private objDBLevel_FamilienStand As clsDBLevel
+    Private objDBLevel_Geschlecht As clsDBLevel
+
     'Attributes
     Private objOItem_attribute_dbPostfix As New clsOntologyItem
     Private objOItem_Attribute_eTin As New clsOntologyItem
@@ -377,6 +380,19 @@ Public Class clsLocalConfig
     End Property
 
 
+    Public ReadOnly Property OList_Familienstand As List(Of clsOntologyItem)
+        Get
+            objDBLevel_FamilienStand.OList_Objects.Sort(Function(LS1 As clsOntologyItem, LS2 As clsOntologyItem) LS1.Name.CompareTo(LS2.Name))
+            Return objDBLevel_FamilienStand.OList_Objects
+        End Get
+    End Property
+
+    Public ReadOnly Property OList_Geschlecht As List(Of clsOntologyItem)
+        Get
+            objDBLevel_Geschlecht.OList_Objects.Sort(Function(LS1 As clsOntologyItem, LS2 As clsOntologyItem) LS1.Name.CompareTo(LS2.Name))
+            Return objDBLevel_Geschlecht.OList_Objects
+        End Get
+    End Property
 
     Private Sub get_Data_DevelopmentConfig()
         Dim objOItem_ObjecRel As clsObjectRel
@@ -474,7 +490,41 @@ Public Class clsLocalConfig
         End If
 
     End Sub
+    Private Sub get_ComboData()
+        Dim objOL_Familienstand As New List(Of clsOntologyItem)
+        Dim objOL_Geschlecht As New List(Of clsOntologyItem)
+        Dim objOItem_Result As clsOntologyItem
 
+        objOL_Familienstand.Add(New clsOntologyItem(Nothing, _
+                                                    Nothing, _
+                                                    objOItem_Class_Familienstand.GUID, _
+                                                    objGlobals.Type_Object))
+
+        objOL_Geschlecht.Add(New clsOntologyItem(Nothing, _
+                                                 Nothing, _
+                                                 objOItem_Class_Geschlecht.GUID, _
+                                                 objGlobals.Type_Object))
+
+        objOItem_Result = objDBLevel_FamilienStand.get_Data_Objects(objOL_Familienstand)
+        If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+            If objDBLevel_FamilienStand.OList_Objects.Count > 0 Then
+                objOItem_Result = objDBLevel_Geschlecht.get_Data_Objects(objOL_Geschlecht)
+                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                    If objDBLevel_Geschlecht.OList_Objects.Count = 0 Then
+                        Err.Raise(1, "Config-Error")
+                    End If
+                Else
+
+                    Err.Raise(1, "Critical-Error")
+                End If
+            Else
+                Err.Raise(1, "Config-Error")
+            End If
+
+        Else
+            Err.Raise(1, "Critical-Error!")
+        End If
+    End Sub
     Public ReadOnly Property Globals() As clsGlobals
         Get
             Return objGlobals
@@ -492,6 +542,8 @@ Public Class clsLocalConfig
     Private Sub set_DBConnection()
         objDBLevel_Config1 = New clsDBLevel(objGlobals)
         objDBLevel_Config2 = New clsDBLevel(objGlobals)
+        objDBLevel_FamilienStand = New clsDBLevel(objGlobals)
+        objDBLevel_Geschlecht = New clsDBLevel(objGlobals)
     End Sub
 
     Private Sub get_Config()
@@ -499,7 +551,7 @@ Public Class clsLocalConfig
         get_Config_RelationTypes()
         get_Config_Classes()
         get_Config_Objects()
-
+        get_ComboData()
     End Sub
 
     Private Sub get_Config_AttributeTypes()
