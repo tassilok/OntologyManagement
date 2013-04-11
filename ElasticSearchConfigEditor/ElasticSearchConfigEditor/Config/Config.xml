@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<config>
+  <configitems>
+    <configitem_name>Index</configitem_name>
+    <configitem_value>explido_access_log_meta</configitem_value>
+  </configitems>
+  <configitems>
+    <configitem_name>Port</configitem_name>
+    <configitem_value>9500</configitem_value>
+  </configitems>
+  <configitems>
+    <configitem_name>Server</configitem_name>
+    <configitem_value>192.168.30.93</configitem_value>
+  </configitems>
+</config>
