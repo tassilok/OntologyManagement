@@ -107,7 +107,7 @@ Partial Class UserControl_TransactionDetail
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripProgressBar_Detail})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(193, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(162, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripProgressBar_Detail

@@ -5,11 +5,15 @@ Public Class UserControl_TransactionDetail
     Private objUserControl_RelatedItems As UserControl_OItemList
     Private objUserControl_RelatedFinTran As UserControl_RelatedFinTran
 
+    Private objDLG_Attribute_DateTime As dlg_Attribute_DateTime
+
     Private objOItem_FinancialTransaction As clsOntologyItem
 
     Private objDataWork_BaseConfig As clsDataWork_BaseConfig
     Private objDataWork_Transaction As clsDataWork_Transaction
     Private objDAtaWork_Payments As clsDataWork_Payments
+
+    Private objTransaction_FinancialTransaction As clsTransaction_FinancialTransaction
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal DataWork_BaseConfig As clsDataWork_BaseConfig)
 
@@ -51,6 +55,12 @@ Public Class UserControl_TransactionDetail
         If Not objOItem_FinancialTransaction Is Nothing Then
             objDataWork_Transaction.get_Data_TransactionDetail(objOItem_FinancialTransaction)
             objDAtaWork_Payments.get_Data_Payments(objOItem_FinancialTransaction)
+            objUserControl_RelatedItems.initialize(Nothing, _
+                                                   objOItem_FinancialTransaction, _
+                                                   objLocalConfig.Globals.Direction_LeftRight, _
+                                                   Nothing, _
+                                                   objLocalConfig.OItem_RelationType_belonging_Sem_Item, _
+                                                   True)
             Timer_Data.Start()
         End If
     End Sub
@@ -98,6 +108,8 @@ Public Class UserControl_TransactionDetail
     Private Sub set_DBConnection()
         objDataWork_Transaction = New clsDataWork_Transaction(objLocalConfig)
         objDAtaWork_Payments = New clsDataWork_Payments(objLocalConfig)
+
+        objTransaction_FinancialTransaction = New clsTransaction_FinancialTransaction(objLocalConfig)
     End Sub
 
     Private Sub Timer_Data_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Data.Tick
@@ -255,7 +267,7 @@ Public Class UserControl_TransactionDetail
                         TextBox_sum.Text = ""
 
                     End If
-
+                    get_Rest()
                     TextBox_sum.ReadOnly = False
                 End If
             Else
@@ -368,7 +380,7 @@ Public Class UserControl_TransactionDetail
                     DataGridView_Payment.Columns(16).Visible = False
                     DataGridView_Payment.Columns(18).Visible = False
 
-
+                    get_Rest()
                 End If
             Else
                 boolStop = False
@@ -391,6 +403,59 @@ Public Class UserControl_TransactionDetail
                 Timer_Data.Stop()
                 MsgBox("Die Daten können nicht ausgelesen werden!", MsgBoxStyle.Exclamation)
 
+            End If
+        End If
+    End Sub
+
+    Private Sub get_Rest()
+        Dim dblRest As Double
+        TextBox_Rest.Text = ""
+        If objDAtaWork_Payments.OItem_Result_Payment.GUID = objLocalConfig.Globals.LState_Success.GUID And _
+            objDataWork_Transaction.OItem_Result_Sum.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+            If objDataWork_Transaction.Sum.Count > 0 Then
+                dblRest = objDataWork_Transaction.Sum(0).Val_Double
+            Else
+                dblRest = 0
+            End If
+
+            dblRest = dblRest - objDAtaWork_Payments.Payments_Sum
+
+            TextBox_Rest.Text = dblRest
+        End If
+    End Sub
+
+    Private Sub Button_Date_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Date.Click
+        Dim objOL_TransactionDate As List(Of clsObjectAtt)
+        Dim objOItem_Result As clsOntologyItem
+        Dim dateVal As Date
+
+        objOL_TransactionDate = objDataWork_Transaction.TransactionDate
+
+        If Not objOL_TransactionDate Is Nothing Then
+            If objOL_TransactionDate.Count > 0 Then
+                dateVal = objOL_TransactionDate(0).Val_Date
+            Else
+                dateVal = Now
+            End If
+        Else
+            dateVal = Now
+        End If
+
+        objDLG_Attribute_DateTime = New dlg_Attribute_DateTime("Attribute", _
+                                                               objLocalConfig.Globals, _
+                                                               dateVal)
+        objDLG_Attribute_DateTime.ShowDialog(Me)
+        If objDLG_Attribute_DateTime.DialogResult = DialogResult.OK Then
+            dateVal = objDLG_Attribute_DateTime.Value
+
+            objOItem_Result = objTransaction_FinancialTransaction.save_002_FinancialTransaction__TransactionDate(dateVal, _
+                                                                                                                 objOItem_FinancialTransaction)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                TextBox_Date.Text = dateVal
+            Else
+                MsgBox("Beim Speichern des Datums ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+                initialize(objOItem_FinancialTransaction)
             End If
         End If
     End Sub

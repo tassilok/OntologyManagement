@@ -33,7 +33,10 @@ Public Class dlg_Attribute_DateTime
         strCaption = Caption
         objLocalConfig = New clsLocalConfig(Globals)
         If Value = Nothing Then
-            Value = Now
+
+            dateValue = Now
+        Else
+            dateValue = Value
         End If
 
         initialize()
@@ -48,7 +51,9 @@ Public Class dlg_Attribute_DateTime
         strCaption = Caption
         objLocalConfig = LocalConfig
         If Value = Nothing Then
-            Value = Now
+            dateValue = Now
+        Else
+            dateValue = Value
         End If
 
         initialize()
@@ -58,6 +63,7 @@ Public Class dlg_Attribute_DateTime
         Me.Text = strCaption
         objUserControl_Attribute_DateTime = New UserControl_Attribute_DateTime()
         objUserControl_Attribute_DateTime.Dock = DockStyle.Fill
+        objUserControl_Attribute_DateTime.Value = dateValue
         Panel_Attribute.Controls.Add(objUserControl_Attribute_DateTime)
     End Sub
 End Class

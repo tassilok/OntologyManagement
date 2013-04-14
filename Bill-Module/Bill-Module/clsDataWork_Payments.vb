@@ -21,6 +21,14 @@ Public Class clsDataWork_Payments
 
     Private objOItem_Transaction As clsOntologyItem
 
+    Private dblSum As Double
+
+    Public ReadOnly Property Payments_Sum As Double
+        Get
+            Return dblSum
+        End Get
+    End Property
+
     Public ReadOnly Property DataTable_Payment As DataSet_BillModule.dtbl_PaymentsDataTable
         Get
             Return dtblT_Payments
@@ -33,9 +41,11 @@ Public Class clsDataWork_Payments
         End Get
     End Property
 
+        
     Public Sub get_Data_Payments(ByVal OItem_Transaction As clsOntologyItem)
         objOItem_Transaction = OItem_Transaction
 
+        dblSum = 0
         objOItem_Result_Payments = objLocalConfig.Globals.LState_Nothing
 
         dtblT_Payments.Clear()
@@ -64,7 +74,7 @@ Public Class clsDataWork_Payments
         Dim objOLBankTransaction__Betrag As New List(Of clsObjectAtt)
         Dim objOLBankTransaction_To_Konto As New List(Of clsObjectRel)
         Dim objOLBankKonto_To_Bank As New List(Of clsObjectRel)
-    
+
         objOLTransaction_To_Payments.Add(New clsObjectRel(objOItem_Transaction.GUID, _
                                                           Nothing, _
                                                           Nothing, _
@@ -201,7 +211,12 @@ Public Class clsDataWork_Payments
                                    Name_Gegenkonto = objGegenKonto.Name_Other, _
                                    ID_Bank = objGegenBank.ID_Other, _
                                    Name_Bank = objGegenBank.Name_Other
+
         
+
+
+        dblSum = (From obj In objLPaymentPre
+                  Select obj.Val_Amount).Sum()
 
         Dim objLPayment = From objPayment In objLPaymentPre
                           Join objBankKonto In objLBankKonto On objPayment.ID_Payment Equals objBankKonto.ID_Payment

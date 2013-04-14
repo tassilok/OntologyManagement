@@ -79,6 +79,7 @@
     <Compile Include="clsDataWork_BaseConfig.vb" />
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsDataWork_Payments.vb" />
+    <Compile Include="clsTransaction_FinancialTransaction.vb" />
     <Compile Include="DataSet_BillModule.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

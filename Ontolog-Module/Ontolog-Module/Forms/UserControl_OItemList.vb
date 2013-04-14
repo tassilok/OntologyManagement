@@ -319,26 +319,42 @@
                         objDBLevel.get_Data_ObjectRel(oList_ObjRel, True, False)
                 End Select
             Else
-                For Each objOItem_Item In oList_Items
-                    oList_ObjRel.Add(New clsObjectRel(objOItem_Item.GUID, _
-                                                      objOItem_Item.Name, _
-                                                      objOItem_Item.GUID_Parent, _
-                                                      Nothing, _
-                                                      strGUID_Filter, _
+
+                'For Each objOItem_Item In oList_Items
+                '    oList_ObjRel.Add(New clsObjectRel(objOItem_Item.GUID, _
+                '                                      objOItem_Item.Name, _
+                '                                      objOItem_Item.GUID_Parent, _
+                '                                      Nothing, _
+                '                                      strGUID_Filter, _
+                '                                      strName_Filter, _
+                '                                      strGUID_Class, _
+                '                                      Nothing, _
+                '                                      objOItem_RelationType.GUID, _
+                '                                      Nothing, _
+                '                                      objLocalConfig.Globals.Type_Object, _
+                '                                      Nothing, _
+                '                                      Nothing, _
+                '                                      Nothing))
+
+
+                'Next
+                oList_ObjRel.Add(New clsObjectRel(strGUID_Filter, _
                                                       strName_Filter, _
                                                       strGUID_Class, _
                                                       Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
                                                       objOItem_RelationType.GUID, _
                                                       Nothing, _
-                                                      objLocalConfig.Globals.Type_Object, _
                                                       Nothing, _
+                                                      objLocalConfig.Globals.Direction_LeftRight.GUID, _
                                                       Nothing, _
                                                       Nothing))
-
-
-                Next
-                
                 objDBLevel.get_Data_ObjectRel(oList_ObjRel, True, False)
+
+
             End If
             
 
