@@ -79,6 +79,7 @@
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsTransaction_Address.vb" />
     <Compile Include="clsTransaction_CommunicationData.vb" />
+    <Compile Include="clsTransaction_PersonalData.vb" />
     <Compile Include="frmPartnerModule.vb">
       <SubType>Form</SubType>
     </Compile>

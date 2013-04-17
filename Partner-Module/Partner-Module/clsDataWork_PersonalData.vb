@@ -26,6 +26,7 @@ Public Class clsDataWork_PersonalData
     Private objThread_Steuernummer As Threading.Thread
     Private objThread_Image As Threading.Thread
 
+    Private objDBLevel_PersonalData As clsDBLevel
     Private objDBLevel_Vorname As clsDBLevel
     Private objDBLevel_Nachname As clsDBLevel
     Private objDBLevel_Geschlecht As clsDBLevel
@@ -38,7 +39,12 @@ Public Class clsDataWork_PersonalData
     Private objDBLevel_Steuernummer As clsDBLevel
     Private objDBLevel_Image As clsDBLevel
 
-    Public Sub get_Data_personal()
+    Private objOItem_Partner As clsOntologyItem
+    Private objOItem_PersonalData As clsOntologyItem
+
+    Public Sub get_Data_personal(ByVal OItem_Partner As clsOntologyItem)
+
+        Dim objOItem_Result As clsOntologyItem
 
         objOItem_Result_Vorname = objLocalConfig.Globals.LState_Nothing
         objOItem_Result_Nachname = objLocalConfig.Globals.LState_Nothing
@@ -121,9 +127,54 @@ Public Class clsDataWork_PersonalData
         End Try
 
         objThread_eTin = New Threading.Thread(AddressOf get_eTin)
-        objThread_Familienstand = New Threading.Thread(AddressOf get_eTin)
-        objThread_Geburtsdatum = New Threading.Thread(AddressOf get_eTin)
+        objThread_Familienstand = New Threading.Thread(AddressOf get_Familienstand)
+        objThread_Geburtsdatum = New Threading.Thread(AddressOf get_Geburtsdatum)
+        objThread_Geschlecht = New Threading.Thread(AddressOf get_Geschlecht)
+        objThread_Image = New Threading.Thread(AddressOf get_Image)
+        objThread_iNr = New Threading.Thread(AddressOf get_INr)
+        objThread_Nachname = New Threading.Thread(AddressOf get_Nachname)
+        objThread_Sozialversicherungsnummer = New Threading.Thread(AddressOf get_Sozialversicherungsnummer)
+        objThread_Steuernummer = New Threading.Thread(AddressOf get_Steuernummer)
+        objThread_Todesdatum = New Threading.Thread(AddressOf get_Todesdatum)
+        objThread_Vorname = New Threading.Thread(AddressOf get_Vorname)
+
+        objOItem_Partner = OItem_Partner
+
+        If Not objOItem_Partner Is Nothing Then
+            objOItem_Result = get_PersonalData()
+
+        End If
     End Sub
+
+    Private Function get_PersonalData() As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOList_PeronslData As New List(Of clsObjectRel)
+
+        objOList_PeronslData.Add(New clsObjectRel(Nothing, _
+                                                  objLocalConfig.OItem_Class_nat_rliche_Person.GUID, _
+                                                  objOItem_Partner.GUID, _
+                                                  Nothing, _
+                                                  objLocalConfig.OItem_RelationType_belongsTo.GUID, _
+                                                  objLocalConfig.Globals.Type_Object, _
+                                                  Nothing, _
+                                                  Nothing))
+
+        objOItem_Result = objDBLevel_PersonalData.get_Data_ObjectRel(objOList_PeronslData, _
+                                                                     boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_PersonalData.OList_ObjectRel.Count > 0 Then
+            Else
+
+            End If
+            objOItem_PersonalData = New clsOntologyItem(objDBLevel_PersonalData.olist
+
+        Else
+            objOItem_PersonalData = Nothing
+        End If
+
+        Return objOItem_Result
+    End Function
 
     Private Sub get_eTin()
         objOItem_Result_eTin = objLocalConfig.Globals.LState_Nothing
@@ -178,6 +229,7 @@ Public Class clsDataWork_PersonalData
     End Sub
 
     Private Sub set_DBConnection()
+        objDBLevel_PersonalData = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_eTin = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Familienstand = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Geburtsdatum = New clsDBLevel(objLocalConfig.Globals)
