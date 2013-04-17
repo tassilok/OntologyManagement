@@ -38,7 +38,7 @@ Public Class clsDataWork_PersonalData
     Private objDBLevel_Steuernummer As clsDBLevel
     Private objDBLevel_Image As clsDBLevel
 
-    Public Sub initialize_personal()
+    Public Sub get_Data_personal()
 
         objOItem_Result_Vorname = objLocalConfig.Globals.LState_Nothing
         objOItem_Result_Nachname = objLocalConfig.Globals.LState_Nothing
@@ -64,7 +64,7 @@ Public Class clsDataWork_PersonalData
 
         End Try
 
-        
+
         Try
             objThread_Geburtsdatum.Abort()
         Catch ex As Exception
@@ -77,7 +77,7 @@ Public Class clsDataWork_PersonalData
 
         End Try
 
-        
+
         Try
             objThread_Image.Abort()
         Catch ex As Exception
@@ -126,7 +126,49 @@ Public Class clsDataWork_PersonalData
     End Sub
 
     Private Sub get_eTin()
+        objOItem_Result_eTin = objLocalConfig.Globals.LState_Nothing
 
+
+    End Sub
+
+    Private Sub get_Familienstand()
+        objOItem_Result_Familienstand = objLocalConfig.Globals.LState_Nothing
+    End Sub
+
+    Private Sub get_Geburtsdatum()
+        objOItem_Result_Geburtsdatum = objLocalConfig.Globals.LState_Nothing
+    End Sub
+
+    Private Sub get_Geschlecht()
+        objOItem_Result_Geschlecht = objLocalConfig.Globals.LState_Nothing
+    End Sub
+
+    Private Sub get_Image()
+        objOItem_Result_Image = objLocalConfig.Globals.LState_Nothing
+    End Sub
+
+    Private Sub get_INr()
+        objOItem_Result_iNr = objLocalConfig.Globals.LState_Nothing
+    End Sub
+
+    Private Sub get_Nachname()
+        objOItem_Result_Nachname = objLocalConfig.Globals.LState_Nothing
+    End Sub
+
+    Private Sub get_Sozialversicherungsnummer()
+        objOItem_Result_Sozialversicherungsnummer = objLocalConfig.Globals.LState_Nothing
+    End Sub
+
+    Private Sub get_Steuernummer()
+        objOItem_Result_Steuernummer = objLocalConfig.Globals.LState_Nothing
+    End Sub
+
+    Private Sub get_Todesdatum()
+        objOItem_Result_Todesdatum = objLocalConfig.Globals.LState_Nothing
+    End Sub
+
+    Private Sub get_Vorname()
+        objOItem_Result_Vorname = objLocalConfig.Globals.LState_Nothing
     End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)

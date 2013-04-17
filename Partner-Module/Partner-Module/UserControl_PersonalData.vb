@@ -4,6 +4,8 @@ Public Class UserControl_PersonalData
     Private objLocalConfig As clsLocalConfig
     Private objUserControl_ImageViewer As UserControl_ImageViewer
 
+    Private boolPC_Vorname As Boolean
+
     Private Sub initialize()
         ComboBox_Familienstand.DataSource = objLocalConfig.OList_Familienstand
         ComboBox_Familienstand.ValueMember = "GUID"
@@ -28,5 +30,15 @@ Public Class UserControl_PersonalData
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = LocalConfig
         initialize()
+    End Sub
+
+    Private Sub Timer_Vorname_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Vorname.Tick
+
+    End Sub
+
+    Private Sub TextBox_Vorname_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBox_Vorname.TextChanged
+        If boolPC_Vorname = False Then
+            Timer_Vorname.Start()
+        End If
     End Sub
 End Class
