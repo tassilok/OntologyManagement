@@ -7,6 +7,8 @@ Public Class UserControl_MediaItemList
 
     Private objOItem_Ref As clsOntologyItem
 
+    Private boolSelect_First As Boolean
+
     Public Event selected_MediaItem(ByVal OItem_MediaItem As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal Created As Date)
 
     Public ReadOnly Property isPossible_Previous As Boolean
@@ -121,22 +123,28 @@ Public Class UserControl_MediaItemList
 
     End Sub
 
-    Public Sub initialize_MediaItems(ByVal OItem_Ref As clsOntologyItem)
-        objOItem_Ref = OItem_Ref
+    Public Sub clear_List()
         dtblT_MediaItems.Clear()
 
         DataGridView_MediaItems.DataSource = Nothing
         BindingSource_MediaItems.DataSource = Nothing
 
+
+        ToolStripButton_Add.Enabled = False
+        ToolStripButton_Bookmarks.Enabled = False
+        ToolStripButton_Meta.Enabled = False
+        ToolStripButton_Remove.Enabled = False
+    End Sub
+
+    Public Sub initialize_MediaItems(ByVal OItem_Ref As clsOntologyItem, Optional ByVal select_First As Boolean = False)
+        objOItem_Ref = OItem_Ref
+        clear_List()
+        boolSelect_First = select_First
+
         If Not objOItem_Ref Is Nothing Then
             Timer_MediaItems.Stop()
             objDataWork_MediaItem.get_MediaItems(objOItem_Ref)
-            dtblT_MediaItems = objDataWork_MediaItem.dtbl_MediaItems
-            BindingSource_MediaItems.DataSource = dtblT_MediaItems
-            DataGridView_MediaItems.DataSource = BindingSource_MediaItems
-            DataGridView_MediaItems.Columns(1).Visible = False
-            DataGridView_MediaItems.Columns(4).Visible = False
-            DataGridView_MediaItems.Columns(5).Visible = False
+
             Timer_MediaItems.Start()
         End If
     End Sub
@@ -157,8 +165,21 @@ Public Class UserControl_MediaItemList
     End Sub
 
     Private Sub Timer_MediaItems_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_MediaItems.Tick
+        Dim objDGVR_Selected As DataGridViewRow
         If objDataWork_MediaItem.Loaded = True Then
             Timer_MediaItems.Stop()
+            dtblT_MediaItems = objDataWork_MediaItem.dtbl_MediaItems
+            BindingSource_MediaItems.DataSource = dtblT_MediaItems
+            DataGridView_MediaItems.DataSource = BindingSource_MediaItems
+            DataGridView_MediaItems.Columns(1).Visible = False
+            DataGridView_MediaItems.Columns(4).Visible = False
+            DataGridView_MediaItems.Columns(5).Visible = False
+            If boolSelect_First = True Then
+                If DataGridView_MediaItems.Rows.Count > 0 Then
+                    objDGVR_Selected = DataGridView_MediaItems.Rows(0)
+                    objDGVR_Selected.Selected = True
+                End If
+            End If
             ToolStripProgressBar_MediaItem.Value = 0
             ToolStripLabel_Count.Text = DataGridView_MediaItems.RowCount
         Else

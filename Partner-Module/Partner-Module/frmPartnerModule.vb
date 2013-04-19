@@ -25,6 +25,7 @@ Public Class frmPartnerModule
                                                    objDRV_Selected.Item("ID_Parent"), _
                                                    objLocalConfig.Globals.Type_Object)
 
+
         Else
             objOItem_Partner = Nothing
         End If
@@ -41,7 +42,7 @@ Public Class frmPartnerModule
             Case TabPage_CommunicationData.Name
                 objUserControl_ComData.initialize(objOItem_Partner)
             Case TabPage_PersonalData.Name
-
+                objUserControl_PersonalData.initialize_PersonalData(objOItem_Partner)
         End Select
     End Sub
 

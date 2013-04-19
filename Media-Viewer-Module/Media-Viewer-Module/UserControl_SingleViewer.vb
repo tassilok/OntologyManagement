@@ -33,6 +33,18 @@ Public Class UserControl_SingleViewer
         End Set
     End Property
 
+    Public Sub clear_Media()
+        If Not objUserControl_ImageViewer Is Nothing Then
+            objUserControl_ImageViewer.clear_Image()
+        End If
+        If Not objUserControl_MediaPlayer Is Nothing Then
+            objUserControl_MediaPlayer.clear_Media()
+        End If
+        If Not objUserControl_PDFViewer Is Nothing Then
+            objUserControl_PDFViewer.clear_PDF()
+        End If
+    End Sub
+
     Public Sub initialize_PDF(ByVal OItem_PDF As clsOntologyItem, ByVal OItem_File As clsOntologyItem)
         objUserControl_PDFViewer.initialize_PDF(OItem_PDF, OItem_File)
 
@@ -55,6 +67,18 @@ Public Class UserControl_SingleViewer
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = LocalConfig
+        objOItem_MediaType = OItem_MediaType
+        set_DBConnection()
+        initialize()
+    End Sub
+
+    Public Sub New(ByVal Globals As clsGlobals, ByVal OItem_MediaType As clsOntologyItem)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = New clsLocalConfig(Globals)
         objOItem_MediaType = OItem_MediaType
         set_DBConnection()
         initialize()

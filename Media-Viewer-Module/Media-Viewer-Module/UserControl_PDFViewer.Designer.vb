@@ -27,12 +27,12 @@ Partial Class UserControl_PDFViewer
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_NameLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Name = New System.Windows.Forms.ToolStripLabel()
-        Me.AxFoxitReaderOCX_PDF = New AxFOXITREADEROCXLib.AxFoxitReaderOCX()
+        Me.AxFoxitCtl_Main = New AxFOXITREADERLib.AxFoxitCtl()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        CType(Me.AxFoxitReaderOCX_PDF, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.AxFoxitCtl_Main, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -44,8 +44,8 @@ Partial Class UserControl_PDFViewer
         '
         'ToolStripContainer1.ContentPanel
         '
-        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.AxFoxitReaderOCX_PDF)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(511, 453)
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.AxFoxitCtl_Main)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(511, 428)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
@@ -59,30 +59,30 @@ Partial Class UserControl_PDFViewer
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_NameLBL, Me.ToolStripLabel_Name})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(71, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(76, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_NameLBL
         '
         Me.ToolStripLabel_NameLBL.Name = "ToolStripLabel_NameLBL"
-        Me.ToolStripLabel_NameLBL.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripLabel_NameLBL.Size = New System.Drawing.Size(52, 22)
         Me.ToolStripLabel_NameLBL.Text = "x_Name:"
         '
         'ToolStripLabel_Name
         '
         Me.ToolStripLabel_Name.Name = "ToolStripLabel_Name"
-        Me.ToolStripLabel_Name.Size = New System.Drawing.Size(11, 22)
+        Me.ToolStripLabel_Name.Size = New System.Drawing.Size(12, 22)
         Me.ToolStripLabel_Name.Text = "-"
         '
-        'AxFoxitReaderOCX_PDF
+        'AxFoxitCtl_Main
         '
-        Me.AxFoxitReaderOCX_PDF.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.AxFoxitReaderOCX_PDF.Enabled = True
-        Me.AxFoxitReaderOCX_PDF.Location = New System.Drawing.Point(0, 0)
-        Me.AxFoxitReaderOCX_PDF.Name = "AxFoxitReaderOCX_PDF"
-        Me.AxFoxitReaderOCX_PDF.OcxState = CType(resources.GetObject("AxFoxitReaderOCX_PDF.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.AxFoxitReaderOCX_PDF.Size = New System.Drawing.Size(511, 453)
-        Me.AxFoxitReaderOCX_PDF.TabIndex = 1
+        Me.AxFoxitCtl_Main.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.AxFoxitCtl_Main.Enabled = True
+        Me.AxFoxitCtl_Main.Location = New System.Drawing.Point(0, 0)
+        Me.AxFoxitCtl_Main.Name = "AxFoxitCtl_Main"
+        Me.AxFoxitCtl_Main.OcxState = CType(resources.GetObject("AxFoxitCtl_Main.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.AxFoxitCtl_Main.Size = New System.Drawing.Size(511, 428)
+        Me.AxFoxitCtl_Main.TabIndex = 0
         '
         'UserControl_PDFViewer
         '
@@ -98,7 +98,7 @@ Partial Class UserControl_PDFViewer
         Me.ToolStripContainer1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        CType(Me.AxFoxitReaderOCX_PDF, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.AxFoxitCtl_Main, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -106,6 +106,6 @@ Partial Class UserControl_PDFViewer
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripLabel_NameLBL As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripLabel_Name As System.Windows.Forms.ToolStripLabel
-    Friend WithEvents AxFoxitReaderOCX_PDF As AxFOXITREADEROCXLib.AxFoxitReaderOCX
+    Friend WithEvents AxFoxitCtl_Main As AxFOXITREADERLib.AxFoxitCtl
 
 End Class

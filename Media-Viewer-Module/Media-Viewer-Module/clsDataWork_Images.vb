@@ -126,6 +126,11 @@ Public Class clsDataWork_Images
         set_DBConnection()
     End Sub
 
+    Public Sub New(ByVal Globals As clsGlobals)
+        objLocalConfig = New clsLocalConfig(Globals)
+        set_DBConnection()
+    End Sub
+
     Private Sub set_DBConnection()
         objDBLevel_Images = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Files = New clsDBLevel(objLocalConfig.Globals)

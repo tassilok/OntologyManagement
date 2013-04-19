@@ -1283,16 +1283,17 @@ Public Class clsDBLevel
             For Each objQuery_ID In objLQuery_ID
                 If objQuery_ID.ID_Attribute <> "" Then
                     If strQuery <> "" Then
-                        strQuery = strQuery & "\ OR \"
+                        strQuery = strQuery & "\ OR\ "
                     End If
                     strQuery = strQuery & objQuery_ID.ID_Attribute
                 End If
 
-                If strQuery <> "" Then
-                    objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Attribute, strQuery)), BooleanClause.Occur.MUST)
-
-                End If
+                
             Next
+            If strQuery <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Attribute, strQuery)), BooleanClause.Occur.MUST)
+
+            End If
 
             Dim objQuery_ID_Attributetyp = From obj In OList_ObjectAtt
                                            Group By obj.ID_AttributeType Into Group
@@ -1302,17 +1303,18 @@ Public Class clsDBLevel
             For Each objQuery_ID In objQuery_ID_Attributetyp
                 If objQuery_ID.ID_AttributeType <> "" Then
                     If strQuery <> "" Then
-                        strQuery = strQuery & "\ OR \"
+                        strQuery = strQuery & "\ OR\ "
                     End If
                     strQuery = strQuery & objQuery_ID.ID_AttributeType
                 End If
 
-                If strQuery <> "" Then
-                    objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_AttributeType, strQuery)), BooleanClause.Occur.MUST)
-
-                End If
+               
             Next
 
+            If strQuery <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_AttributeType, strQuery)), BooleanClause.Occur.MUST)
+
+            End If
 
             Dim objQuery_ID_Object = From obj In OList_ObjectAtt
                                            Group By obj.ID_Object Into Group
@@ -1322,16 +1324,18 @@ Public Class clsDBLevel
             For Each objQuery_ID In objQuery_ID_Object
                 If objQuery_ID.ID_Object <> "" Then
                     If strQuery <> "" Then
-                        strQuery = strQuery & "\ OR \"
+                        strQuery = strQuery & "\ OR\ "
                     End If
                     strQuery = strQuery & objQuery_ID.ID_Object
                 End If
 
-                If strQuery <> "" Then
-                    objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Object, strQuery)), BooleanClause.Occur.MUST)
-
-                End If
+                
             Next
+
+            If strQuery <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Object, strQuery)), BooleanClause.Occur.MUST)
+
+            End If
 
             Dim objQuery_ID_Class = From obj In OList_ObjectAtt
                                            Group By obj.ID_Class Into Group
@@ -1341,16 +1345,18 @@ Public Class clsDBLevel
             For Each objQuery_ID In objQuery_ID_Class
                 If objQuery_ID.ID_Class <> "" Then
                     If strQuery <> "" Then
-                        strQuery = strQuery & "\ OR \"
+                        strQuery = strQuery & "\ OR\ "
                     End If
                     strQuery = strQuery & objQuery_ID.ID_Class
                 End If
 
-                If strQuery <> "" Then
-                    objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Class, strQuery)), BooleanClause.Occur.MUST)
-
-                End If
+                
             Next
+
+            If strQuery <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_Class, strQuery)), BooleanClause.Occur.MUST)
+
+            End If
 
             Dim objQuery_ID_DataType = From obj In OList_ObjectAtt
                                            Group By obj.ID_DataType Into Group
@@ -1360,16 +1366,18 @@ Public Class clsDBLevel
             For Each objQuery_ID In objQuery_ID_DataType
                 If objQuery_ID.ID_DataType <> "" Then
                     If strQuery <> "" Then
-                        strQuery = strQuery & "\ OR \"
+                        strQuery = strQuery & "\ OR\ "
                     End If
                     strQuery = strQuery & objQuery_ID.ID_DataType
                 End If
 
-                If strQuery <> "" Then
-                    objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_DataType, strQuery)), BooleanClause.Occur.MUST)
-
-                End If
+                
             Next
+
+            If strQuery <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_ID_DataType, strQuery)), BooleanClause.Occur.MUST)
+
+            End If
 
             Dim objLQuery_Val_Bit = From obj In OList_ObjectAtt
                                            Group By obj.Val_Bit Into Group
@@ -1379,16 +1387,18 @@ Public Class clsDBLevel
             For Each objQuery_Val_Bit In objLQuery_Val_Bit
                 If Not objQuery_Val_Bit.Val_Bit = Nothing Then
                     If strQuery <> "" Then
-                        strQuery = strQuery & "\ OR \"
+                        strQuery = strQuery & "\ OR\ "
                     End If
                     strQuery = strQuery & objQuery_Val_Bit.Val_Bit
                 End If
 
-                If strQuery <> "" Then
-                    objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_Val_Bool, strQuery)), BooleanClause.Occur.MUST)
-
-                End If
+                
             Next
+
+            If strQuery <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_Val_Bool, strQuery)), BooleanClause.Occur.MUST)
+
+            End If
 
             Dim objLQuery_Val_Date = From obj In OList_ObjectAtt
                                            Group By obj.Val_Date Into Group
@@ -1398,16 +1408,18 @@ Public Class clsDBLevel
             For Each objQuery_Val_Date In objLQuery_Val_Date
                 If Not objQuery_Val_Date.Val_Date = Nothing Then
                     If strQuery <> "" Then
-                        strQuery = strQuery & "\ OR \"
+                        strQuery = strQuery & "\ OR\ "
                     End If
                     strQuery = strQuery & objQuery_Val_Date.Val_Date
                 End If
 
-                If strQuery <> "" Then
-                    objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_Val_Datetime, strQuery)), BooleanClause.Occur.MUST)
-
-                End If
+                
             Next
+
+            If strQuery <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_Val_Datetime, strQuery)), BooleanClause.Occur.MUST)
+
+            End If
 
             Dim objLQuery_Val_dbl = From obj In OList_ObjectAtt
                                            Group By obj.Val_Double Into Group
@@ -1417,16 +1429,18 @@ Public Class clsDBLevel
             For Each objQuery_Val_dbl In objLQuery_Val_dbl
                 If Not objQuery_Val_dbl.Val_Double = Nothing Then
                     If strQuery <> "" Then
-                        strQuery = strQuery & "\ OR \"
+                        strQuery = strQuery & "\ OR\ "
                     End If
                     strQuery = strQuery & objQuery_Val_dbl.Val_Double
                 End If
 
-                If strQuery <> "" Then
-                    objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_Val_Real, strQuery)), BooleanClause.Occur.MUST)
-
-                End If
+                
             Next
+
+            If strQuery <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_Val_Real, strQuery)), BooleanClause.Occur.MUST)
+
+            End If
 
             Dim objLQuery_Val_lng = From obj In OList_ObjectAtt
                                            Group By obj.Val_lng Into Group
@@ -1436,16 +1450,18 @@ Public Class clsDBLevel
             For Each objQuery_Val_lng In objLQuery_Val_lng
                 If Not objQuery_Val_lng.Val_lng = Nothing Then
                     If strQuery <> "" Then
-                        strQuery = strQuery & "\ OR \"
+                        strQuery = strQuery & "\ OR\ "
                     End If
                     strQuery = strQuery & objQuery_Val_lng.Val_lng
                 End If
 
-                If strQuery <> "" Then
-                    objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_Val_Int, strQuery)), BooleanClause.Occur.MUST)
-
-                End If
+                
             Next
+
+            If strQuery <> "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objLocalConfig.Globals.Field_Val_Int, strQuery)), BooleanClause.Occur.MUST)
+
+            End If
 
             Dim objLQuery_Val_str = From obj In OList_ObjectAtt
                                            Group By obj.Val_String Into Group
@@ -1455,16 +1471,18 @@ Public Class clsDBLevel
             For Each objQuery_Val_str In objLQuery_Val_str
                 If Not objQuery_Val_str.Val_String = Nothing Then
                     If strQuery <> "" Then
-                        strQuery = strQuery & "\ OR \"
+                        strQuery = strQuery & "\ OR\ "
                     End If
                     strQuery = strQuery & "*" & objQuery_Val_str.Val_String & "*"
                 End If
 
-                If strQuery <> "" Then
-                    objBoolQuery.Add(New WildcardQuery(New Term(objLocalConfig.Globals.Field_Val_String, strQuery)), BooleanClause.Occur.MUST)
-
-                End If
+                
             Next
+
+            If strQuery <> "" Then
+                objBoolQuery.Add(New WildcardQuery(New Term(objLocalConfig.Globals.Field_Val_String, strQuery)), BooleanClause.Occur.MUST)
+
+            End If
         End If
 
         If doJoin = True Then
@@ -1476,7 +1494,7 @@ Public Class clsDBLevel
 
                     For Each obj In objL
                         If strQuery <> "" Then
-                            strQuery = strQuery & "\ OR \"
+                            strQuery = strQuery & "\ OR\ "
 
                         End If
 

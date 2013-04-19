@@ -10,6 +10,8 @@ Public Class UserControl_PDFList
 
     Private dtblT_PDFList As New DataSet_PDF.dtbl_PDFListDataTable
 
+    Private boolSelect_First As Boolean
+
     Public Event selected_PDF(ByVal OItem_PDF As clsOntologyItem, ByVal OItem_File As clsOntologyItem)
 
     Public ReadOnly Property isPossible_Previous As Boolean
@@ -109,22 +111,27 @@ Public Class UserControl_PDFList
         objDataWork_PDF = New clsDataWork_PDF(objLocalConfig)
     End Sub
 
-    Public Sub initialize_PDF(ByVal OItem_Ref As clsOntologyItem)
-        objOItem_Ref = OItem_Ref
+    Public Sub clear_List()
         dtblT_PDFList.Clear()
 
         DataGridView_PDFList.DataSource = Nothing
         BindingSource_PDFList.DataSource = Nothing
 
+
+        ToolStripButton_Add.Enabled = False
+        ToolStripButton_Remove.Enabled = False
+    End Sub
+
+    Public Sub initialize_PDF(ByVal OItem_Ref As clsOntologyItem, Optional ByVal select_First As Boolean = False)
+        objOItem_Ref = OItem_Ref
+        clear_List()
+
+        boolSelect_First = select_First
+
         If Not objOItem_Ref Is Nothing Then
             Timer_PDF.Stop()
             objDataWork_PDF.get_PDF(objOItem_Ref)
-            dtblT_PDFList = objDataWork_PDF.dtbl_PDFList
-            BindingSource_PDFList.DataSource = dtblT_PDFList
-            DataGridView_PDFList.DataSource = BindingSource_PDFList
-            DataGridView_PDFList.Columns(1).Visible = False
-            DataGridView_PDFList.Columns(3).Visible = False
-            DataGridView_PDFList.Columns(4).Visible = False
+
             Timer_PDF.Start()
         End If
     End Sub
@@ -166,8 +173,24 @@ Public Class UserControl_PDFList
     End Sub
 
     Private Sub Timer_PDF_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_PDF.Tick
+        Dim objDGVR_Selected As DataGridViewRow
+
         If objDataWork_PDF.Loaded = True Then
             Timer_PDF.Stop()
+            dtblT_PDFList = objDataWork_PDF.dtbl_PDFList
+            BindingSource_PDFList.DataSource = dtblT_PDFList
+            DataGridView_PDFList.DataSource = BindingSource_PDFList
+            DataGridView_PDFList.Columns(1).Visible = False
+            DataGridView_PDFList.Columns(3).Visible = False
+            DataGridView_PDFList.Columns(4).Visible = False
+
+            If boolSelect_First = True Then
+                If DataGridView_PDFList.Rows.Count > 0 Then
+                    objDGVR_Selected = DataGridView_PDFList.Rows(0)
+                    objDGVR_Selected.Selected = True
+                End If
+            End If
+
             ToolStripProgressBar_PDF.Value = 0
             ToolStripLabel_Count.Text = DataGridView_PDFList.RowCount
         Else

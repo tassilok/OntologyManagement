@@ -7,6 +7,7 @@ Public Class UserControl_ImageList
     'Private objUserControl_ImageViewer As UserControl_ImageViewer
 
     Private objOItem_Ref As clsOntologyItem
+    Private boolSelect_First As Boolean
 
     Public Event selected_Image(ByVal OItem_Image As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date)
 
@@ -112,22 +113,27 @@ Public Class UserControl_ImageList
 
     End Sub
 
-    Public Sub initialize_Images(ByVal OItem_Ref As clsOntologyItem)
-        objOItem_Ref = OItem_Ref
+    Public Sub clear_List()
         dtblT_Images.Clear()
 
         DataGridView_Images.DataSource = Nothing
         BindingSource_Images.DataSource = Nothing
 
+        ToolStripButton_Meta.Enabled = False
+        ToolStripButton_Open.Enabled = False
+        ToolStripButton_Relate.Enabled = False
+        ToolStripButton_Remove.Enabled = False
+    End Sub
+
+    Public Sub initialize_Images(ByVal OItem_Ref As clsOntologyItem, Optional ByVal select_First As Boolean = False)
+        clear_List()
+        objOItem_Ref = OItem_Ref
+
+        boolSelect_First = select_First
         If Not objOItem_Ref Is Nothing Then
             Timer_Images.Stop()
             objDataWork_Images.get_Images(objOItem_Ref)
-            dtblT_Images = objDataWork_Images.dtbl_Images
-            BindingSource_Images.DataSource = dtblT_Images
-            DataGridView_Images.DataSource = BindingSource_Images
-            DataGridView_Images.Columns(1).Visible = False
-            DataGridView_Images.Columns(4).Visible = False
-            DataGridView_Images.Columns(5).Visible = False
+
             Timer_Images.Start()
         End If
     End Sub
@@ -143,20 +149,42 @@ Public Class UserControl_ImageList
         initialize()
     End Sub
 
+    Public Sub New(ByVal Globals As clsGlobals)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = New clsLocalConfig(Globals)
+        set_DBConnection()
+        initialize()
+    End Sub
+
     Private Sub set_DBConnection()
         objDataWork_Images = New clsDataWork_Images(objLocalConfig)
 
     End Sub
 
     Private Sub Timer_Images_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Images.Tick
-
+        Dim objDGVR_Selected As DataGridViewRow
 
         If objDataWork_Images.Loaded = True Then
             Timer_Images.Stop()
             ToolStripProgressBar_Images.Value = 0
-            'dtblT_Images = objDataWork_Images.dtbl_Images
-            'BindingSource_Images.DataSource = dtblT_Images
-            'DataGridView_Images.DataSource = BindingSource_Images
+            dtblT_Images = objDataWork_Images.dtbl_Images
+            BindingSource_Images.DataSource = dtblT_Images
+            DataGridView_Images.DataSource = BindingSource_Images
+            DataGridView_Images.Columns(1).Visible = False
+            DataGridView_Images.Columns(4).Visible = False
+            DataGridView_Images.Columns(5).Visible = False
+
+            If boolSelect_First = True Then
+                If DataGridView_Images.Rows.Count > 0 Then
+                    objDGVR_Selected = DataGridView_Images.Rows(0)
+                    objDGVR_Selected.Selected = True
+                End If
+            End If
+            
             ToolStripLabel_Count.Text = DataGridView_Images.RowCount
         Else
 
@@ -199,4 +227,5 @@ Public Class UserControl_ImageList
         End If
     End Sub
 
+    
 End Class

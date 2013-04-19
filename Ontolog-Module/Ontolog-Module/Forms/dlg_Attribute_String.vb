@@ -64,6 +64,8 @@ Public Class dlg_Attribute_String
     Private Sub initialize()
         Me.Text = strCaption
         objUserControl_Attribute_String = New UserControl_Attribute_String()
+        objUserControl_Attribute_String.Dock = DockStyle.Fill
+        Panel_Val.Controls.Add(objUserControl_Attribute_String)
         objUserControl_Attribute_String.Value = strValue
     End Sub
 End Class

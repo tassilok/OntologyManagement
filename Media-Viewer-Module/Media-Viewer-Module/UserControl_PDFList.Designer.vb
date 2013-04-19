@@ -27,14 +27,14 @@ Partial Class UserControl_PDFList
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_CountLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripProgressBar_PDF = New System.Windows.Forms.ToolStripProgressBar()
         Me.DataGridView_PDFList = New System.Windows.Forms.DataGridView()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Add = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Remove = New System.Windows.Forms.ToolStripButton()
         Me.BindingSource_PDFList = New System.Windows.Forms.BindingSource(Me.components)
         Me.Timer_PDF = New System.Windows.Forms.Timer(Me.components)
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripProgressBar_PDF = New System.Windows.Forms.ToolStripProgressBar()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -73,13 +73,13 @@ Partial Class UserControl_PDFList
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLBL, Me.ToolStripLabel_Count, Me.ToolStripSeparator1, Me.ToolStripProgressBar_PDF})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(214, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(186, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_CountLBL
         '
         Me.ToolStripLabel_CountLBL.Name = "ToolStripLabel_CountLBL"
-        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(52, 22)
+        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(53, 22)
         Me.ToolStripLabel_CountLBL.Text = "x_Count:"
         '
         'ToolStripLabel_Count
@@ -87,6 +87,16 @@ Partial Class UserControl_PDFList
         Me.ToolStripLabel_Count.Name = "ToolStripLabel_Count"
         Me.ToolStripLabel_Count.Size = New System.Drawing.Size(13, 22)
         Me.ToolStripLabel_Count.Text = "0"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripProgressBar_PDF
+        '
+        Me.ToolStripProgressBar_PDF.Name = "ToolStripProgressBar_PDF"
+        Me.ToolStripProgressBar_PDF.Size = New System.Drawing.Size(100, 22)
         '
         'DataGridView_PDFList
         '
@@ -106,7 +116,7 @@ Partial Class UserControl_PDFList
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Remove})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(56, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(58, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripButton_Add
@@ -130,16 +140,6 @@ Partial Class UserControl_PDFList
         'Timer_PDF
         '
         Me.Timer_PDF.Interval = 300
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripProgressBar_PDF
-        '
-        Me.ToolStripProgressBar_PDF.Name = "ToolStripProgressBar_PDF"
-        Me.ToolStripProgressBar_PDF.Size = New System.Drawing.Size(100, 22)
         '
         'UserControl_PDFList
         '

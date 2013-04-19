@@ -14,9 +14,12 @@ Public Class UserControl_ImageViewer
     Private objImage As Image
     Private boolImageFinished As Boolean
 
-    Public Sub initialize_Image(ByVal OItem_Image As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreate As Date)
-        objOItem_File = OItem_File
-        objOItem_Image = OItem_Image
+    Public Sub clear_Image()
+        
+        objImage = Nothing
+       
+        objOItem_File = Nothing
+        objOItem_File = Nothing
 
         ToolStripButton_Copy.Enabled = False
         ToolStripButton_Paste.Enabled = False
@@ -26,6 +29,16 @@ Public Class UserControl_ImageViewer
         ToolStripMenuItem_Original.Enabled = False
         ToolStripMenuItem_Stretch.Enabled = False
         ToolStripMenuItem_Zoom.Enabled = False
+
+        ToolStripLabel_CreationDate.Text = "-"
+    End Sub
+
+    Public Sub initialize_Image(ByVal OItem_Image As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreate As Date)
+        clear_Image()
+
+        objOItem_File = OItem_File
+        objOItem_Image = OItem_Image
+
 
         Try
             objThread_ShowImage.Abort()
@@ -128,17 +141,21 @@ Public Class UserControl_ImageViewer
 
     Private Sub configure_Zoom_Image()
 
-        If ToolStripMenuItem_Stretch.Checked = True Then
+        If PictureBox_Image.ClientRectangle.Width > 0 And PictureBox_Image.ClientRectangle.Height > 0 Then
+            If ToolStripMenuItem_Stretch.Checked = True Then
 
-            PictureBox_Image.Image = AutoSizeImage(objImage, PictureBox_Image.ClientRectangle.Width, PictureBox_Image.ClientRectangle.Height, True)
-            PictureBox_Image.SizeMode = PictureBoxSizeMode.StretchImage
-        ElseIf ToolStripMenuItem_Original.Checked = True Then
-            PictureBox_Image.Image = AutoSizeImage(objImage, objImage.Width, objImage.Height)
-            PictureBox_Image.SizeMode = PictureBoxSizeMode.Normal
-        ElseIf ToolStripMenuItem_Zoom.Checked = True Then
-            PictureBox_Image.Image = AutoSizeImage(objImage, PictureBox_Image.ClientRectangle.Width, PictureBox_Image.ClientRectangle.Height, False)
-            PictureBox_Image.SizeMode = PictureBoxSizeMode.AutoSize
+                PictureBox_Image.Image = AutoSizeImage(objImage, PictureBox_Image.ClientRectangle.Width, PictureBox_Image.ClientRectangle.Height, True)
+                PictureBox_Image.SizeMode = PictureBoxSizeMode.StretchImage
+            ElseIf ToolStripMenuItem_Original.Checked = True Then
+                PictureBox_Image.Image = AutoSizeImage(objImage, objImage.Width, objImage.Height)
+                PictureBox_Image.SizeMode = PictureBoxSizeMode.Normal
+            ElseIf ToolStripMenuItem_Zoom.Checked = True Then
+                PictureBox_Image.Image = AutoSizeImage(objImage, PictureBox_Image.ClientRectangle.Width, PictureBox_Image.ClientRectangle.Height, False)
+                PictureBox_Image.SizeMode = PictureBoxSizeMode.AutoSize
+            End If
         End If
+        
+        PictureBox_Image.Refresh()
     End Sub
 
     Private Sub set_DBConnection()
@@ -164,6 +181,7 @@ Public Class UserControl_ImageViewer
             Timer_Image.Stop()
             If Not objStream Is Nothing Then
                 objImage = New Bitmap(objStream)
+                objStream.Close()
                 PictureBox_Image.Image = objImage
                 configure_Zoom_Image()
                 PictureBox_Image.Visible = True
@@ -187,9 +205,8 @@ Public Class UserControl_ImageViewer
     End Sub
 
     Private Sub PictureBox_Image_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles PictureBox_Image.Paint
-        If Not objImage Is Nothing Then
-            configure_Zoom_Image()
-        End If
+
+        
     End Sub
 
     Private Sub ToolStripButton_Copy_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Copy.Click
@@ -197,5 +214,11 @@ Public Class UserControl_ImageViewer
 
         objImage = PictureBox_Image.Image
         Clipboard.SetDataObject(objImage)
+    End Sub
+
+    Private Sub PictureBox_Image_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles PictureBox_Image.Resize
+        If Not objImage Is Nothing Then
+            configure_Zoom_Image()
+        End If
     End Sub
 End Class

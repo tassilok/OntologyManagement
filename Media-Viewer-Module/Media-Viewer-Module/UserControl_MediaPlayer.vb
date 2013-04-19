@@ -42,19 +42,25 @@ Public Class UserControl_MediaPlayer
         End Get
     End Property
 
-    Public Sub initialize_MediaItem(ByVal OItem_MediaItem As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreate As Date)
-        objOItem_File = OItem_File
-        objOItem_MediaItem = OItem_MediaItem
-
+    Public Sub clear_Media()
         ToolStripButton_Open.Enabled = False
         ToolStripButton_Bookmarks.Enabled = False
 
         ToolStripProgressBar_MediaItem.Value = 0
+
         Try
             objThread_MediaItem.Abort()
         Catch ex As Exception
 
         End Try
+    End Sub
+
+    Public Sub initialize_MediaItem(ByVal OItem_MediaItem As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreate As Date)
+        objOItem_File = OItem_File
+        objOItem_MediaItem = OItem_MediaItem
+
+        clear_Media()
+        
 
 
 

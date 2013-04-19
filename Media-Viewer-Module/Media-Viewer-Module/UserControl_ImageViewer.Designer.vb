@@ -40,17 +40,17 @@ Partial Class UserControl_ImageViewer
         Me.ToolStripProgressBar_Image = New System.Windows.Forms.ToolStripProgressBar()
         Me.PictureBox_Image = New System.Windows.Forms.PictureBox()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButton_Copy = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Paste = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripButton_Replace = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripSplitButton_Scale = New System.Windows.Forms.ToolStripSplitButton()
         Me.ToolStripMenuItem_Stretch = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem_Original = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem_Zoom = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripButton_Edit = New System.Windows.Forms.ToolStripButton()
         Me.Timer_Image = New System.Windows.Forms.Timer(Me.components)
-        Me.ToolStripButton_Copy = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Paste = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Replace = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -90,13 +90,13 @@ Partial Class UserControl_ImageViewer
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_SizeLBL, Me.ToolStripLabel_SizeX, Me.ToolStripLabel_SizeSeperator, Me.ToolStripLabel_SizeY, Me.ToolStripSeparator1, Me.ToolStripLabel_NameLBL, Me.ToolStripLabel_Name, Me.ToolStripSeparator2, Me.ToolStripLabel_CreationDateLBL, Me.ToolStripLabel_CreationDate, Me.ToolStripSeparator3, Me.ToolStripProgressBar_Image})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(372, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(380, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_SizeLBL
         '
         Me.ToolStripLabel_SizeLBL.Name = "ToolStripLabel_SizeLBL"
-        Me.ToolStripLabel_SizeLBL.Size = New System.Drawing.Size(42, 22)
+        Me.ToolStripLabel_SizeLBL.Size = New System.Drawing.Size(40, 22)
         Me.ToolStripLabel_SizeLBL.Text = "x_Size:"
         '
         'ToolStripLabel_SizeX
@@ -108,7 +108,7 @@ Partial Class UserControl_ImageViewer
         'ToolStripLabel_SizeSeperator
         '
         Me.ToolStripLabel_SizeSeperator.Name = "ToolStripLabel_SizeSeperator"
-        Me.ToolStripLabel_SizeSeperator.Size = New System.Drawing.Size(11, 22)
+        Me.ToolStripLabel_SizeSeperator.Size = New System.Drawing.Size(12, 22)
         Me.ToolStripLabel_SizeSeperator.Text = "/"
         '
         'ToolStripLabel_SizeY
@@ -125,13 +125,13 @@ Partial Class UserControl_ImageViewer
         'ToolStripLabel_NameLBL
         '
         Me.ToolStripLabel_NameLBL.Name = "ToolStripLabel_NameLBL"
-        Me.ToolStripLabel_NameLBL.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripLabel_NameLBL.Size = New System.Drawing.Size(52, 22)
         Me.ToolStripLabel_NameLBL.Text = "x_Name:"
         '
         'ToolStripLabel_Name
         '
         Me.ToolStripLabel_Name.Name = "ToolStripLabel_Name"
-        Me.ToolStripLabel_Name.Size = New System.Drawing.Size(11, 22)
+        Me.ToolStripLabel_Name.Size = New System.Drawing.Size(12, 22)
         Me.ToolStripLabel_Name.Text = "-"
         '
         'ToolStripSeparator2
@@ -142,13 +142,13 @@ Partial Class UserControl_ImageViewer
         'ToolStripLabel_CreationDateLBL
         '
         Me.ToolStripLabel_CreationDateLBL.Name = "ToolStripLabel_CreationDateLBL"
-        Me.ToolStripLabel_CreationDateLBL.Size = New System.Drawing.Size(91, 22)
+        Me.ToolStripLabel_CreationDateLBL.Size = New System.Drawing.Size(94, 22)
         Me.ToolStripLabel_CreationDateLBL.Text = "x_Creation-Date:"
         '
         'ToolStripLabel_CreationDate
         '
         Me.ToolStripLabel_CreationDate.Name = "ToolStripLabel_CreationDate"
-        Me.ToolStripLabel_CreationDate.Size = New System.Drawing.Size(11, 22)
+        Me.ToolStripLabel_CreationDate.Size = New System.Drawing.Size(12, 22)
         Me.ToolStripLabel_CreationDate.Text = "-"
         '
         'ToolStripSeparator3
@@ -169,6 +169,7 @@ Partial Class UserControl_ImageViewer
         Me.PictureBox_Image.Size = New System.Drawing.Size(489, 415)
         Me.PictureBox_Image.TabIndex = 0
         Me.PictureBox_Image.TabStop = False
+        Me.PictureBox_Image.WaitOnLoad = True
         '
         'ToolStrip2
         '
@@ -176,51 +177,8 @@ Partial Class UserControl_ImageViewer
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Copy, Me.ToolStripButton_Paste, Me.ToolStripSeparator6, Me.ToolStripButton_Replace, Me.ToolStripSeparator5, Me.ToolStripSplitButton_Scale, Me.ToolStripButton_Edit})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(230, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(233, 25)
         Me.ToolStrip2.TabIndex = 0
-        '
-        'ToolStripSplitButton_Scale
-        '
-        Me.ToolStripSplitButton_Scale.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripSplitButton_Scale.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem_Stretch, Me.ToolStripMenuItem_Original, Me.ToolStripMenuItem_Zoom})
-        Me.ToolStripSplitButton_Scale.Image = CType(resources.GetObject("ToolStripSplitButton_Scale.Image"), System.Drawing.Image)
-        Me.ToolStripSplitButton_Scale.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripSplitButton_Scale.Name = "ToolStripSplitButton_Scale"
-        Me.ToolStripSplitButton_Scale.Size = New System.Drawing.Size(60, 22)
-        Me.ToolStripSplitButton_Scale.Text = "x_Scale"
-        '
-        'ToolStripMenuItem_Stretch
-        '
-        Me.ToolStripMenuItem_Stretch.Name = "ToolStripMenuItem_Stretch"
-        Me.ToolStripMenuItem_Stretch.Size = New System.Drawing.Size(122, 22)
-        Me.ToolStripMenuItem_Stretch.Text = "x_Stretch"
-        '
-        'ToolStripMenuItem_Original
-        '
-        Me.ToolStripMenuItem_Original.Name = "ToolStripMenuItem_Original"
-        Me.ToolStripMenuItem_Original.Size = New System.Drawing.Size(122, 22)
-        Me.ToolStripMenuItem_Original.Text = "x_Original"
-        '
-        'ToolStripMenuItem_Zoom
-        '
-        Me.ToolStripMenuItem_Zoom.Checked = True
-        Me.ToolStripMenuItem_Zoom.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ToolStripMenuItem_Zoom.Name = "ToolStripMenuItem_Zoom"
-        Me.ToolStripMenuItem_Zoom.Size = New System.Drawing.Size(122, 22)
-        Me.ToolStripMenuItem_Zoom.Text = "x_Zoom"
-        '
-        'ToolStripButton_Edit
-        '
-        Me.ToolStripButton_Edit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Edit.Image = CType(resources.GetObject("ToolStripButton_Edit.Image"), System.Drawing.Image)
-        Me.ToolStripButton_Edit.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Edit.Name = "ToolStripButton_Edit"
-        Me.ToolStripButton_Edit.Size = New System.Drawing.Size(41, 22)
-        Me.ToolStripButton_Edit.Text = "x_Edit"
-        '
-        'Timer_Image
-        '
-        Me.Timer_Image.Interval = 300
         '
         'ToolStripButton_Copy
         '
@@ -241,6 +199,11 @@ Partial Class UserControl_ImageViewer
         Me.ToolStripButton_Paste.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_Paste.Text = "ToolStripButton1"
         '
+        'ToolStripSeparator6
+        '
+        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
+        Me.ToolStripSeparator6.Size = New System.Drawing.Size(6, 25)
+        '
         'ToolStripButton_Replace
         '
         Me.ToolStripButton_Replace.CheckOnClick = True
@@ -248,7 +211,7 @@ Partial Class UserControl_ImageViewer
         Me.ToolStripButton_Replace.Image = CType(resources.GetObject("ToolStripButton_Replace.Image"), System.Drawing.Image)
         Me.ToolStripButton_Replace.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Replace.Name = "ToolStripButton_Replace"
-        Me.ToolStripButton_Replace.Size = New System.Drawing.Size(61, 22)
+        Me.ToolStripButton_Replace.Size = New System.Drawing.Size(62, 22)
         Me.ToolStripButton_Replace.Text = "x_Replace"
         '
         'ToolStripSeparator5
@@ -256,10 +219,48 @@ Partial Class UserControl_ImageViewer
         Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
         Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 25)
         '
-        'ToolStripSeparator6
+        'ToolStripSplitButton_Scale
         '
-        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
-        Me.ToolStripSeparator6.Size = New System.Drawing.Size(6, 25)
+        Me.ToolStripSplitButton_Scale.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripSplitButton_Scale.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem_Stretch, Me.ToolStripMenuItem_Original, Me.ToolStripMenuItem_Zoom})
+        Me.ToolStripSplitButton_Scale.Image = CType(resources.GetObject("ToolStripSplitButton_Scale.Image"), System.Drawing.Image)
+        Me.ToolStripSplitButton_Scale.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripSplitButton_Scale.Name = "ToolStripSplitButton_Scale"
+        Me.ToolStripSplitButton_Scale.Size = New System.Drawing.Size(60, 22)
+        Me.ToolStripSplitButton_Scale.Text = "x_Scale"
+        '
+        'ToolStripMenuItem_Stretch
+        '
+        Me.ToolStripMenuItem_Stretch.Name = "ToolStripMenuItem_Stretch"
+        Me.ToolStripMenuItem_Stretch.Size = New System.Drawing.Size(126, 22)
+        Me.ToolStripMenuItem_Stretch.Text = "x_Stretch"
+        '
+        'ToolStripMenuItem_Original
+        '
+        Me.ToolStripMenuItem_Original.Name = "ToolStripMenuItem_Original"
+        Me.ToolStripMenuItem_Original.Size = New System.Drawing.Size(126, 22)
+        Me.ToolStripMenuItem_Original.Text = "x_Original"
+        '
+        'ToolStripMenuItem_Zoom
+        '
+        Me.ToolStripMenuItem_Zoom.Checked = True
+        Me.ToolStripMenuItem_Zoom.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ToolStripMenuItem_Zoom.Name = "ToolStripMenuItem_Zoom"
+        Me.ToolStripMenuItem_Zoom.Size = New System.Drawing.Size(126, 22)
+        Me.ToolStripMenuItem_Zoom.Text = "x_Zoom"
+        '
+        'ToolStripButton_Edit
+        '
+        Me.ToolStripButton_Edit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Edit.Image = CType(resources.GetObject("ToolStripButton_Edit.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Edit.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Edit.Name = "ToolStripButton_Edit"
+        Me.ToolStripButton_Edit.Size = New System.Drawing.Size(41, 22)
+        Me.ToolStripButton_Edit.Text = "x_Edit"
+        '
+        'Timer_Image
+        '
+        Me.Timer_Image.Interval = 300
         '
         'UserControl_ImageViewer
         '

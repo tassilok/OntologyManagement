@@ -25,18 +25,18 @@ Partial Class frmMediaViewerModule
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMediaViewerModule))
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_MediaType = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripComboBox_MediaType = New System.Windows.Forms.ToolStripComboBox()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSplitButton_OrderType = New System.Windows.Forms.ToolStripSplitButton()
         Me.SemanticToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ChronoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ChronosemanticToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NamedSemanticToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripButton_OpenGrid = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_GetMetadata = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -76,8 +76,17 @@ Partial Class frmMediaViewerModule
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(59, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(62, 25)
         Me.ToolStrip1.TabIndex = 0
+        '
+        'ToolStripButton_Close
+        '
+        Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
+        Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripButton_Close.Text = "x_Close"
         '
         'SplitContainer1
         '
@@ -95,33 +104,19 @@ Partial Class frmMediaViewerModule
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_MediaType, Me.ToolStripComboBox_MediaType, Me.ToolStripSplitButton_OrderType, Me.ToolStripButton_OpenGrid, Me.ToolStripSeparator1, Me.ToolStripButton_GetMetadata})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(598, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(615, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripLabel_MediaType
         '
         Me.ToolStripLabel_MediaType.Name = "ToolStripLabel_MediaType"
-        Me.ToolStripLabel_MediaType.Size = New System.Drawing.Size(79, 22)
+        Me.ToolStripLabel_MediaType.Size = New System.Drawing.Size(84, 22)
         Me.ToolStripLabel_MediaType.Text = "x_Media-Type:"
         '
         'ToolStripComboBox_MediaType
         '
         Me.ToolStripComboBox_MediaType.Name = "ToolStripComboBox_MediaType"
         Me.ToolStripComboBox_MediaType.Size = New System.Drawing.Size(250, 25)
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripButton_Close
-        '
-        Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
-        Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
-        Me.ToolStripButton_Close.Size = New System.Drawing.Size(49, 22)
-        Me.ToolStripButton_Close.Text = "x_Close"
         '
         'ToolStripSplitButton_OrderType
         '
@@ -130,7 +125,7 @@ Partial Class frmMediaViewerModule
         Me.ToolStripSplitButton_OrderType.Image = CType(resources.GetObject("ToolStripSplitButton_OrderType.Image"), System.Drawing.Image)
         Me.ToolStripSplitButton_OrderType.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripSplitButton_OrderType.Name = "ToolStripSplitButton_OrderType"
-        Me.ToolStripSplitButton_OrderType.Size = New System.Drawing.Size(91, 22)
+        Me.ToolStripSplitButton_OrderType.Size = New System.Drawing.Size(94, 22)
         Me.ToolStripSplitButton_OrderType.Text = "x_Order-Type"
         '
         'SemanticToolStripMenuItem
@@ -139,28 +134,28 @@ Partial Class frmMediaViewerModule
         Me.SemanticToolStripMenuItem.CheckOnClick = True
         Me.SemanticToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.SemanticToolStripMenuItem.Name = "SemanticToolStripMenuItem"
-        Me.SemanticToolStripMenuItem.Size = New System.Drawing.Size(165, 22)
+        Me.SemanticToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.SemanticToolStripMenuItem.Text = "x_semantic"
         '
         'ChronoToolStripMenuItem
         '
         Me.ChronoToolStripMenuItem.CheckOnClick = True
         Me.ChronoToolStripMenuItem.Name = "ChronoToolStripMenuItem"
-        Me.ChronoToolStripMenuItem.Size = New System.Drawing.Size(165, 22)
+        Me.ChronoToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.ChronoToolStripMenuItem.Text = "x_chrono"
         '
         'ChronosemanticToolStripMenuItem
         '
         Me.ChronosemanticToolStripMenuItem.CheckOnClick = True
         Me.ChronosemanticToolStripMenuItem.Name = "ChronosemanticToolStripMenuItem"
-        Me.ChronosemanticToolStripMenuItem.Size = New System.Drawing.Size(165, 22)
+        Me.ChronosemanticToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.ChronosemanticToolStripMenuItem.Text = "x_chrono-semantic"
         '
         'NamedSemanticToolStripMenuItem
         '
         Me.NamedSemanticToolStripMenuItem.CheckOnClick = True
         Me.NamedSemanticToolStripMenuItem.Name = "NamedSemanticToolStripMenuItem"
-        Me.NamedSemanticToolStripMenuItem.Size = New System.Drawing.Size(165, 22)
+        Me.NamedSemanticToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.NamedSemanticToolStripMenuItem.Text = "x_named semantic"
         '
         'ToolStripButton_OpenGrid
@@ -169,8 +164,13 @@ Partial Class frmMediaViewerModule
         Me.ToolStripButton_OpenGrid.Image = CType(resources.GetObject("ToolStripButton_OpenGrid.Image"), System.Drawing.Image)
         Me.ToolStripButton_OpenGrid.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_OpenGrid.Name = "ToolStripButton_OpenGrid"
-        Me.ToolStripButton_OpenGrid.Size = New System.Drawing.Size(71, 22)
+        Me.ToolStripButton_OpenGrid.Size = New System.Drawing.Size(75, 22)
         Me.ToolStripButton_OpenGrid.Text = "x_Open Grid"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
         '
         'ToolStripButton_GetMetadata
         '
@@ -178,7 +178,7 @@ Partial Class frmMediaViewerModule
         Me.ToolStripButton_GetMetadata.Image = CType(resources.GetObject("ToolStripButton_GetMetadata.Image"), System.Drawing.Image)
         Me.ToolStripButton_GetMetadata.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_GetMetadata.Name = "ToolStripButton_GetMetadata"
-        Me.ToolStripButton_GetMetadata.Size = New System.Drawing.Size(89, 22)
+        Me.ToolStripButton_GetMetadata.Size = New System.Drawing.Size(92, 22)
         Me.ToolStripButton_GetMetadata.Text = "x_Get Metadata"
         '
         'frmMediaViewerModule

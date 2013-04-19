@@ -35,12 +35,12 @@ Partial Class UserControl_ImageList
         Me.ToolStripLabel_CountLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripProgressBar_Images = New System.Windows.Forms.ToolStripProgressBar()
-        Me.DataGridView_Images = New System.Windows.Forms.DataGridView()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Open = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Remove = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Relate = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Meta = New System.Windows.Forms.ToolStripButton()
+        Me.DataGridView_Images = New System.Windows.Forms.DataGridView()
         Me.ContextMenuStrip_Relate.SuspendLayout()
         CType(Me.BindingSource_Images, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
@@ -48,8 +48,8 @@ Partial Class UserControl_ImageList
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        CType(Me.DataGridView_Images, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStrip2.SuspendLayout()
+        CType(Me.DataGridView_Images, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ContextMenuStrip_Relate
@@ -111,13 +111,13 @@ Partial Class UserControl_ImageList
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLBL, Me.ToolStripLabel_Count, Me.ToolStripProgressBar_Images})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(177, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(180, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_CountLBL
         '
         Me.ToolStripLabel_CountLBL.Name = "ToolStripLabel_CountLBL"
-        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(52, 22)
+        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(53, 22)
         Me.ToolStripLabel_CountLBL.Text = "x_Count:"
         '
         'ToolStripLabel_Count
@@ -131,26 +131,13 @@ Partial Class UserControl_ImageList
         Me.ToolStripProgressBar_Images.Name = "ToolStripProgressBar_Images"
         Me.ToolStripProgressBar_Images.Size = New System.Drawing.Size(100, 22)
         '
-        'DataGridView_Images
-        '
-        Me.DataGridView_Images.AllowUserToAddRows = False
-        Me.DataGridView_Images.AllowUserToDeleteRows = False
-        Me.DataGridView_Images.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView_Images.ContextMenuStrip = Me.ContextMenuStrip_Relate
-        Me.DataGridView_Images.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView_Images.Location = New System.Drawing.Point(0, 0)
-        Me.DataGridView_Images.Name = "DataGridView_Images"
-        Me.DataGridView_Images.ReadOnly = True
-        Me.DataGridView_Images.Size = New System.Drawing.Size(637, 417)
-        Me.DataGridView_Images.TabIndex = 0
-        '
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Open, Me.ToolStripButton_Remove, Me.ToolStripButton_Relate, Me.ToolStripButton_Meta})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(198, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(202, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripButton_Open
@@ -177,7 +164,7 @@ Partial Class UserControl_ImageList
         Me.ToolStripButton_Relate.Image = CType(resources.GetObject("ToolStripButton_Relate.Image"), System.Drawing.Image)
         Me.ToolStripButton_Relate.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Relate.Name = "ToolStripButton_Relate"
-        Me.ToolStripButton_Relate.Size = New System.Drawing.Size(54, 22)
+        Me.ToolStripButton_Relate.Size = New System.Drawing.Size(53, 22)
         Me.ToolStripButton_Relate.Text = "x_Relate"
         '
         'ToolStripButton_Meta
@@ -186,8 +173,21 @@ Partial Class UserControl_ImageList
         Me.ToolStripButton_Meta.Image = CType(resources.GetObject("ToolStripButton_Meta.Image"), System.Drawing.Image)
         Me.ToolStripButton_Meta.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Meta.Name = "ToolStripButton_Meta"
-        Me.ToolStripButton_Meta.Size = New System.Drawing.Size(88, 22)
+        Me.ToolStripButton_Meta.Size = New System.Drawing.Size(91, 22)
         Me.ToolStripButton_Meta.Text = "x_get Metadata"
+        '
+        'DataGridView_Images
+        '
+        Me.DataGridView_Images.AllowUserToAddRows = False
+        Me.DataGridView_Images.AllowUserToDeleteRows = False
+        Me.DataGridView_Images.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView_Images.ContextMenuStrip = Me.ContextMenuStrip_Relate
+        Me.DataGridView_Images.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView_Images.Location = New System.Drawing.Point(0, 0)
+        Me.DataGridView_Images.Name = "DataGridView_Images"
+        Me.DataGridView_Images.ReadOnly = True
+        Me.DataGridView_Images.Size = New System.Drawing.Size(637, 417)
+        Me.DataGridView_Images.TabIndex = 0
         '
         'UserControl_ImageList
         '
@@ -207,9 +207,9 @@ Partial Class UserControl_ImageList
         Me.ToolStripContainer1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        CType(Me.DataGridView_Images, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
+        CType(Me.DataGridView_Images, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -224,11 +224,11 @@ Partial Class UserControl_ImageList
     Friend WithEvents ToolStripLabel_CountLBL As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripLabel_Count As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripProgressBar_Images As System.Windows.Forms.ToolStripProgressBar
-    Friend WithEvents DataGridView_Images As System.Windows.Forms.DataGridView
     Friend WithEvents ToolStrip2 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripButton_Open As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripButton_Remove As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripButton_Relate As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripButton_Meta As System.Windows.Forms.ToolStripButton
+    Friend WithEvents DataGridView_Images As System.Windows.Forms.DataGridView
 
 End Class

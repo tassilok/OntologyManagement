@@ -28,11 +28,8 @@ Partial Class UserControl_PersonalData
         Me.Timer_Nachname = New System.Windows.Forms.Timer(Me.components)
         Me.Label_Photo = New System.Windows.Forms.Label()
         Me.Timer_Geburtsdatum = New System.Windows.Forms.Timer(Me.components)
-        Me.Button_AddImageNew = New System.Windows.Forms.Button()
         Me.Timer_Vorname = New System.Windows.Forms.Timer(Me.components)
-        Me.Button_DelPhoto = New System.Windows.Forms.Button()
-        Me.Button_AddImageExisting = New System.Windows.Forms.Button()
-        Me.Panel_Foto = New System.Windows.Forms.Panel()
+        Me.Panel_ImageList = New System.Windows.Forms.Panel()
         Me.Button_Del_Todesdatum = New System.Windows.Forms.Button()
         Me.MaskedTextBox_Todesdatum = New System.Windows.Forms.MaskedTextBox()
         Me.Button_Todesdatum = New System.Windows.Forms.Button()
@@ -68,6 +65,7 @@ Partial Class UserControl_PersonalData
         Me.TextBox_Vorname = New System.Windows.Forms.TextBox()
         Me.Timer_Data = New System.Windows.Forms.Timer(Me.components)
         Me.Label_Vorname = New System.Windows.Forms.Label()
+        Me.Panel_ImageView = New System.Windows.Forms.Panel()
         Me.ToolStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -95,52 +93,25 @@ Partial Class UserControl_PersonalData
         '
         Me.Timer_Geburtsdatum.Interval = 300
         '
-        'Button_AddImageNew
-        '
-        Me.Button_AddImageNew.ImageIndex = 1
-        Me.Button_AddImageNew.ImageList = Me.ImageList_Main
-        Me.Button_AddImageNew.Location = New System.Drawing.Point(288, 270)
-        Me.Button_AddImageNew.Name = "Button_AddImageNew"
-        Me.Button_AddImageNew.Size = New System.Drawing.Size(29, 23)
-        Me.Button_AddImageNew.TabIndex = 75
-        Me.Button_AddImageNew.UseVisualStyleBackColor = True
-        '
         'Timer_Vorname
         '
         Me.Timer_Vorname.Interval = 300
         '
-        'Button_DelPhoto
+        'Panel_ImageList
         '
-        Me.Button_DelPhoto.ImageIndex = 0
-        Me.Button_DelPhoto.ImageList = Me.ImageList_Main
-        Me.Button_DelPhoto.Location = New System.Drawing.Point(323, 270)
-        Me.Button_DelPhoto.Name = "Button_DelPhoto"
-        Me.Button_DelPhoto.Size = New System.Drawing.Size(29, 23)
-        Me.Button_DelPhoto.TabIndex = 74
-        Me.Button_DelPhoto.UseVisualStyleBackColor = True
-        '
-        'Button_AddImageExisting
-        '
-        Me.Button_AddImageExisting.Location = New System.Drawing.Point(288, 299)
-        Me.Button_AddImageExisting.Name = "Button_AddImageExisting"
-        Me.Button_AddImageExisting.Size = New System.Drawing.Size(29, 23)
-        Me.Button_AddImageExisting.TabIndex = 73
-        Me.Button_AddImageExisting.Text = "..."
-        Me.Button_AddImageExisting.UseVisualStyleBackColor = True
-        '
-        'Panel_Foto
-        '
-        Me.Panel_Foto.Location = New System.Drawing.Point(165, 270)
-        Me.Panel_Foto.Name = "Panel_Foto"
-        Me.Panel_Foto.Size = New System.Drawing.Size(117, 167)
-        Me.Panel_Foto.TabIndex = 72
+        Me.Panel_ImageList.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Panel_ImageList.Location = New System.Drawing.Point(165, 270)
+        Me.Panel_ImageList.Name = "Panel_ImageList"
+        Me.Panel_ImageList.Size = New System.Drawing.Size(193, 180)
+        Me.Panel_ImageList.TabIndex = 72
         '
         'Button_Del_Todesdatum
         '
         Me.Button_Del_Todesdatum.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button_Del_Todesdatum.ImageIndex = 0
         Me.Button_Del_Todesdatum.ImageList = Me.ImageList_Main
-        Me.Button_Del_Todesdatum.Location = New System.Drawing.Point(452, 138)
+        Me.Button_Del_Todesdatum.Location = New System.Drawing.Point(477, 138)
         Me.Button_Del_Todesdatum.Name = "Button_Del_Todesdatum"
         Me.Button_Del_Todesdatum.Size = New System.Drawing.Size(29, 23)
         Me.Button_Del_Todesdatum.TabIndex = 71
@@ -154,14 +125,14 @@ Partial Class UserControl_PersonalData
         Me.MaskedTextBox_Todesdatum.Mask = "00/00/0000"
         Me.MaskedTextBox_Todesdatum.Name = "MaskedTextBox_Todesdatum"
         Me.MaskedTextBox_Todesdatum.ReadOnly = True
-        Me.MaskedTextBox_Todesdatum.Size = New System.Drawing.Size(251, 20)
+        Me.MaskedTextBox_Todesdatum.Size = New System.Drawing.Size(276, 20)
         Me.MaskedTextBox_Todesdatum.TabIndex = 70
         Me.MaskedTextBox_Todesdatum.ValidatingType = GetType(Date)
         '
         'Button_Todesdatum
         '
         Me.Button_Todesdatum.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_Todesdatum.Location = New System.Drawing.Point(422, 138)
+        Me.Button_Todesdatum.Location = New System.Drawing.Point(447, 138)
         Me.Button_Todesdatum.Name = "Button_Todesdatum"
         Me.Button_Todesdatum.Size = New System.Drawing.Size(29, 23)
         Me.Button_Todesdatum.TabIndex = 69
@@ -182,7 +153,7 @@ Partial Class UserControl_PersonalData
         Me.Button_Del_Steuernummer.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button_Del_Steuernummer.ImageIndex = 0
         Me.Button_Del_Steuernummer.ImageList = Me.ImageList_Main
-        Me.Button_Del_Steuernummer.Location = New System.Drawing.Point(452, 241)
+        Me.Button_Del_Steuernummer.Location = New System.Drawing.Point(477, 241)
         Me.Button_Del_Steuernummer.Name = "Button_Del_Steuernummer"
         Me.Button_Del_Steuernummer.Size = New System.Drawing.Size(29, 23)
         Me.Button_Del_Steuernummer.TabIndex = 67
@@ -193,7 +164,7 @@ Partial Class UserControl_PersonalData
         Me.Button_Del_INr.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button_Del_INr.ImageIndex = 0
         Me.Button_Del_INr.ImageList = Me.ImageList_Main
-        Me.Button_Del_INr.Location = New System.Drawing.Point(452, 215)
+        Me.Button_Del_INr.Location = New System.Drawing.Point(477, 215)
         Me.Button_Del_INr.Name = "Button_Del_INr"
         Me.Button_Del_INr.Size = New System.Drawing.Size(29, 23)
         Me.Button_Del_INr.TabIndex = 66
@@ -204,7 +175,7 @@ Partial Class UserControl_PersonalData
         Me.Button_Del_eTin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button_Del_eTin.ImageIndex = 0
         Me.Button_Del_eTin.ImageList = Me.ImageList_Main
-        Me.Button_Del_eTin.Location = New System.Drawing.Point(452, 190)
+        Me.Button_Del_eTin.Location = New System.Drawing.Point(477, 190)
         Me.Button_Del_eTin.Name = "Button_Del_eTin"
         Me.Button_Del_eTin.Size = New System.Drawing.Size(29, 23)
         Me.Button_Del_eTin.TabIndex = 65
@@ -215,7 +186,7 @@ Partial Class UserControl_PersonalData
         Me.Button_Del_Sozialversicherungsnummer.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button_Del_Sozialversicherungsnummer.ImageIndex = 0
         Me.Button_Del_Sozialversicherungsnummer.ImageList = Me.ImageList_Main
-        Me.Button_Del_Sozialversicherungsnummer.Location = New System.Drawing.Point(452, 163)
+        Me.Button_Del_Sozialversicherungsnummer.Location = New System.Drawing.Point(477, 163)
         Me.Button_Del_Sozialversicherungsnummer.Name = "Button_Del_Sozialversicherungsnummer"
         Me.Button_Del_Sozialversicherungsnummer.Size = New System.Drawing.Size(29, 23)
         Me.Button_Del_Sozialversicherungsnummer.TabIndex = 64
@@ -226,7 +197,7 @@ Partial Class UserControl_PersonalData
         Me.Button_Del_Geburtsdatum.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button_Del_Geburtsdatum.ImageIndex = 0
         Me.Button_Del_Geburtsdatum.ImageList = Me.ImageList_Main
-        Me.Button_Del_Geburtsdatum.Location = New System.Drawing.Point(452, 112)
+        Me.Button_Del_Geburtsdatum.Location = New System.Drawing.Point(477, 112)
         Me.Button_Del_Geburtsdatum.Name = "Button_Del_Geburtsdatum"
         Me.Button_Del_Geburtsdatum.Size = New System.Drawing.Size(29, 23)
         Me.Button_Del_Geburtsdatum.TabIndex = 63
@@ -235,7 +206,7 @@ Partial Class UserControl_PersonalData
         'Button_Steuernummer
         '
         Me.Button_Steuernummer.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_Steuernummer.Location = New System.Drawing.Point(422, 241)
+        Me.Button_Steuernummer.Location = New System.Drawing.Point(447, 241)
         Me.Button_Steuernummer.Name = "Button_Steuernummer"
         Me.Button_Steuernummer.Size = New System.Drawing.Size(29, 23)
         Me.Button_Steuernummer.TabIndex = 62
@@ -245,7 +216,7 @@ Partial Class UserControl_PersonalData
         'Button_INr
         '
         Me.Button_INr.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_INr.Location = New System.Drawing.Point(422, 215)
+        Me.Button_INr.Location = New System.Drawing.Point(447, 215)
         Me.Button_INr.Name = "Button_INr"
         Me.Button_INr.Size = New System.Drawing.Size(29, 23)
         Me.Button_INr.TabIndex = 61
@@ -255,7 +226,7 @@ Partial Class UserControl_PersonalData
         'Button_eTin
         '
         Me.Button_eTin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_eTin.Location = New System.Drawing.Point(422, 190)
+        Me.Button_eTin.Location = New System.Drawing.Point(447, 190)
         Me.Button_eTin.Name = "Button_eTin"
         Me.Button_eTin.Size = New System.Drawing.Size(29, 23)
         Me.Button_eTin.TabIndex = 60
@@ -265,7 +236,7 @@ Partial Class UserControl_PersonalData
         'Button_Sozialversicherungsnummer
         '
         Me.Button_Sozialversicherungsnummer.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_Sozialversicherungsnummer.Location = New System.Drawing.Point(422, 163)
+        Me.Button_Sozialversicherungsnummer.Location = New System.Drawing.Point(447, 163)
         Me.Button_Sozialversicherungsnummer.Name = "Button_Sozialversicherungsnummer"
         Me.Button_Sozialversicherungsnummer.Size = New System.Drawing.Size(29, 23)
         Me.Button_Sozialversicherungsnummer.TabIndex = 59
@@ -279,7 +250,7 @@ Partial Class UserControl_PersonalData
         Me.TextBox_Steuernummer.Location = New System.Drawing.Point(165, 244)
         Me.TextBox_Steuernummer.Name = "TextBox_Steuernummer"
         Me.TextBox_Steuernummer.ReadOnly = True
-        Me.TextBox_Steuernummer.Size = New System.Drawing.Size(251, 20)
+        Me.TextBox_Steuernummer.Size = New System.Drawing.Size(276, 20)
         Me.TextBox_Steuernummer.TabIndex = 58
         '
         'Label_Steuernummer
@@ -298,7 +269,7 @@ Partial Class UserControl_PersonalData
         Me.TextBox_Identifikationsnummer.Location = New System.Drawing.Point(165, 218)
         Me.TextBox_Identifikationsnummer.Name = "TextBox_Identifikationsnummer"
         Me.TextBox_Identifikationsnummer.ReadOnly = True
-        Me.TextBox_Identifikationsnummer.Size = New System.Drawing.Size(251, 20)
+        Me.TextBox_Identifikationsnummer.Size = New System.Drawing.Size(276, 20)
         Me.TextBox_Identifikationsnummer.TabIndex = 56
         '
         'Label_Identifikationsnummer
@@ -314,15 +285,14 @@ Partial Class UserControl_PersonalData
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripProgressBar_Data})
-        Me.ToolStrip1.Location = New System.Drawing.Point(0, 441)
+        Me.ToolStrip1.Location = New System.Drawing.Point(0, 454)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(486, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(511, 25)
         Me.ToolStrip1.TabIndex = 54
         Me.ToolStrip1.Text = "ToolStrip1"
         '
         'ToolStripProgressBar_Data
         '
-        Me.ToolStripProgressBar_Data.Maximum = 10
         Me.ToolStripProgressBar_Data.Name = "ToolStripProgressBar_Data"
         Me.ToolStripProgressBar_Data.Size = New System.Drawing.Size(200, 22)
         Me.ToolStripProgressBar_Data.Step = 1
@@ -334,7 +304,7 @@ Partial Class UserControl_PersonalData
         Me.TextBox_eTin.Location = New System.Drawing.Point(165, 193)
         Me.TextBox_eTin.Name = "TextBox_eTin"
         Me.TextBox_eTin.ReadOnly = True
-        Me.TextBox_eTin.Size = New System.Drawing.Size(251, 20)
+        Me.TextBox_eTin.Size = New System.Drawing.Size(276, 20)
         Me.TextBox_eTin.TabIndex = 53
         '
         'Label_eTin
@@ -353,7 +323,7 @@ Partial Class UserControl_PersonalData
         Me.TextBox_Sozialversicherungsnummer.Location = New System.Drawing.Point(165, 166)
         Me.TextBox_Sozialversicherungsnummer.Name = "TextBox_Sozialversicherungsnummer"
         Me.TextBox_Sozialversicherungsnummer.ReadOnly = True
-        Me.TextBox_Sozialversicherungsnummer.Size = New System.Drawing.Size(251, 20)
+        Me.TextBox_Sozialversicherungsnummer.Size = New System.Drawing.Size(276, 20)
         Me.TextBox_Sozialversicherungsnummer.TabIndex = 51
         '
         'Label_Sozialversicherungsnummer
@@ -373,14 +343,14 @@ Partial Class UserControl_PersonalData
         Me.MaskedTextBox_Geburtsdatum.Mask = "00/00/0000"
         Me.MaskedTextBox_Geburtsdatum.Name = "MaskedTextBox_Geburtsdatum"
         Me.MaskedTextBox_Geburtsdatum.ReadOnly = True
-        Me.MaskedTextBox_Geburtsdatum.Size = New System.Drawing.Size(251, 20)
+        Me.MaskedTextBox_Geburtsdatum.Size = New System.Drawing.Size(276, 20)
         Me.MaskedTextBox_Geburtsdatum.TabIndex = 49
         Me.MaskedTextBox_Geburtsdatum.ValidatingType = GetType(Date)
         '
         'Button_Geburtsdatum
         '
         Me.Button_Geburtsdatum.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_Geburtsdatum.Location = New System.Drawing.Point(422, 112)
+        Me.Button_Geburtsdatum.Location = New System.Drawing.Point(447, 112)
         Me.Button_Geburtsdatum.Name = "Button_Geburtsdatum"
         Me.Button_Geburtsdatum.Size = New System.Drawing.Size(29, 23)
         Me.Button_Geburtsdatum.TabIndex = 48
@@ -403,7 +373,7 @@ Partial Class UserControl_PersonalData
         Me.ComboBox_Familienstand.FormattingEnabled = True
         Me.ComboBox_Familienstand.Location = New System.Drawing.Point(165, 85)
         Me.ComboBox_Familienstand.Name = "ComboBox_Familienstand"
-        Me.ComboBox_Familienstand.Size = New System.Drawing.Size(318, 21)
+        Me.ComboBox_Familienstand.Size = New System.Drawing.Size(343, 21)
         Me.ComboBox_Familienstand.TabIndex = 46
         '
         'Label_Familienstand
@@ -421,7 +391,7 @@ Partial Class UserControl_PersonalData
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_Nachname.Location = New System.Drawing.Point(165, 31)
         Me.TextBox_Nachname.Name = "TextBox_Nachname"
-        Me.TextBox_Nachname.Size = New System.Drawing.Size(318, 20)
+        Me.TextBox_Nachname.Size = New System.Drawing.Size(343, 20)
         Me.TextBox_Nachname.TabIndex = 44
         '
         'Label_Geschlecht
@@ -449,7 +419,7 @@ Partial Class UserControl_PersonalData
         Me.ComboBox_Geschlecht.FormattingEnabled = True
         Me.ComboBox_Geschlecht.Location = New System.Drawing.Point(165, 58)
         Me.ComboBox_Geschlecht.Name = "ComboBox_Geschlecht"
-        Me.ComboBox_Geschlecht.Size = New System.Drawing.Size(318, 21)
+        Me.ComboBox_Geschlecht.Size = New System.Drawing.Size(343, 21)
         Me.ComboBox_Geschlecht.TabIndex = 41
         '
         'TextBox_Vorname
@@ -458,7 +428,7 @@ Partial Class UserControl_PersonalData
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_Vorname.Location = New System.Drawing.Point(165, 4)
         Me.TextBox_Vorname.Name = "TextBox_Vorname"
-        Me.TextBox_Vorname.Size = New System.Drawing.Size(318, 20)
+        Me.TextBox_Vorname.Size = New System.Drawing.Size(343, 20)
         Me.TextBox_Vorname.TabIndex = 40
         '
         'Timer_Data
@@ -474,15 +444,23 @@ Partial Class UserControl_PersonalData
         Me.Label_Vorname.TabIndex = 39
         Me.Label_Vorname.Text = "x_Vorname:"
         '
+        'Panel_ImageView
+        '
+        Me.Panel_ImageView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Panel_ImageView.Location = New System.Drawing.Point(364, 270)
+        Me.Panel_ImageView.Name = "Panel_ImageView"
+        Me.Panel_ImageView.Size = New System.Drawing.Size(142, 180)
+        Me.Panel_ImageView.TabIndex = 77
+        '
         'UserControl_PersonalData
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.Panel_ImageView)
         Me.Controls.Add(Me.Label_Photo)
-        Me.Controls.Add(Me.Button_AddImageNew)
-        Me.Controls.Add(Me.Button_DelPhoto)
-        Me.Controls.Add(Me.Button_AddImageExisting)
-        Me.Controls.Add(Me.Panel_Foto)
+        Me.Controls.Add(Me.Panel_ImageList)
         Me.Controls.Add(Me.Button_Del_Todesdatum)
         Me.Controls.Add(Me.MaskedTextBox_Todesdatum)
         Me.Controls.Add(Me.Button_Todesdatum)
@@ -517,7 +495,7 @@ Partial Class UserControl_PersonalData
         Me.Controls.Add(Me.TextBox_Vorname)
         Me.Controls.Add(Me.Label_Vorname)
         Me.Name = "UserControl_PersonalData"
-        Me.Size = New System.Drawing.Size(486, 466)
+        Me.Size = New System.Drawing.Size(511, 479)
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
         Me.ResumeLayout(False)
@@ -528,11 +506,8 @@ Partial Class UserControl_PersonalData
     Friend WithEvents Timer_Nachname As System.Windows.Forms.Timer
     Friend WithEvents Label_Photo As System.Windows.Forms.Label
     Friend WithEvents Timer_Geburtsdatum As System.Windows.Forms.Timer
-    Friend WithEvents Button_AddImageNew As System.Windows.Forms.Button
     Friend WithEvents Timer_Vorname As System.Windows.Forms.Timer
-    Friend WithEvents Button_DelPhoto As System.Windows.Forms.Button
-    Friend WithEvents Button_AddImageExisting As System.Windows.Forms.Button
-    Friend WithEvents Panel_Foto As System.Windows.Forms.Panel
+    Friend WithEvents Panel_ImageList As System.Windows.Forms.Panel
     Friend WithEvents Button_Del_Todesdatum As System.Windows.Forms.Button
     Friend WithEvents MaskedTextBox_Todesdatum As System.Windows.Forms.MaskedTextBox
     Friend WithEvents Button_Todesdatum As System.Windows.Forms.Button
@@ -568,5 +543,6 @@ Partial Class UserControl_PersonalData
     Friend WithEvents TextBox_Vorname As System.Windows.Forms.TextBox
     Friend WithEvents Timer_Data As System.Windows.Forms.Timer
     Friend WithEvents Label_Vorname As System.Windows.Forms.Label
+    Friend WithEvents Panel_ImageView As System.Windows.Forms.Panel
 
 End Class

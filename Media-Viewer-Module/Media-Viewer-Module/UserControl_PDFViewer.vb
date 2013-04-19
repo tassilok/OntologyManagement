@@ -8,10 +8,17 @@ Public Class UserControl_PDFViewer
 
     Private objBlobConnection As clsBlobConnection
 
+    Public Sub clear_PDF()
+        ToolStripLabel_Name.Text = "-"
+        AxFoxitCtl_Main.OpenFile("")
+    End Sub
+
     Public Sub initialize_PDF(ByVal OItem_PDF As clsOntologyItem, ByVal OItem_File As clsOntologyItem)
         Dim objOItem_Result As clsOntologyItem
         objOItem_PDF = OItem_PDF
         objOItem_File = OItem_File
+
+        clear_PDF()
 
         If Not objOItem_PDF Is Nothing Then
             ToolStripLabel_Name.Text = objOItem_PDF.Name
@@ -40,7 +47,7 @@ Public Class UserControl_PDFViewer
 
 
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                AxFoxitReaderOCX_PDF.OpenFile(strPath)
+                AxFoxitCtl_Main.OpenFile(strPath)
             Else
                 MsgBox("Das PDF konnte nicht geladen werden!", MsgBoxStyle.Exclamation)
             End If
