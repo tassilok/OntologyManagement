@@ -59,7 +59,7 @@
         objUserControl_ClassRel_Backward = New UserControl_ClassRel(objLocalConfig, objOItem_Class, objLocalConfig.Globals.Direction_RightLeft, False)
         objUserControl_ClassRel_OR = New UserControl_ClassRel(objLocalConfig, objOItem_Class, objLocalConfig.Globals.Direction_LeftRight, True)
 
-        objDBLevel = New clsDBLevel(objLocalConfig)
+        objDBLevel = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 
     Private Sub ToolStripTextBox_Name_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripTextBox_Name.TextChanged

@@ -299,16 +299,16 @@
 
 
     Private Sub set_DBConnection()
-        objDBLevel_ClassAtt = New clsDBLevel(objLocalConfig)
-        objDBLevel_Class_LeftRight = New clsDBLevel(objLocalConfig)
-        objDBLevel_Class_RightLeft = New clsDBLevel(objLocalConfig)
-        objDBLevel_AttributeType = New clsDBLevel(objLocalConfig)
-        objDBLevel_RelationType = New clsDBLevel(objLocalConfig)
-        objDBLevel_RelType = New clsDBLevel(objLocalConfig)
-        objDBLevel_Classes = New clsDBLevel(objLocalConfig)
-        objDBLevel_Count = New clsDBLevel(objLocalConfig)
-        objDBLevel_ObjectRel = New clsDBLevel(objLocalConfig)
-        objDBLevel_DataType = New clsDBLevel(objLocalConfig)
+        objDBLevel_ClassAtt = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Class_LeftRight = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Class_RightLeft = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_AttributeType = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_RelationType = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_RelType = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Classes = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Count = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_ObjectRel = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_DataType = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 
     Private Sub TreeView_ObjectRels_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_ObjectRels.AfterSelect

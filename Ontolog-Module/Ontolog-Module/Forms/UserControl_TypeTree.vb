@@ -129,7 +129,7 @@
     End Sub
 
     Private Sub set_DBConnection()
-        objDBLevel = New clsDBLevel(objLocalConfig)
+        objDBLevel = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 
     Private Sub TreeView_Types_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_Types.AfterSelect

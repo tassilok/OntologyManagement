@@ -723,7 +723,8 @@ Public Class clsLocalConfig
             If objDBLevel_Config1.OList_ObjectRel.Count > 0 Then
                 objOItem_BaseConfig = New clsOntologyItem(objDBLevel_Config1.OList_ObjectRel(0).ID_Object, _
                                                        objDBLevel_Config1.OList_ObjectRel(0).Name_Object, _
-                                                       objDBLevel_Config1.OList_ObjectRel(0).ID_Parent_Object)
+                                                       objDBLevel_Config1.OList_ObjectRel(0).ID_Parent_Object, _
+                                                       objGlobals.Type_Object)
             Else
                 Err.Raise(1, "Config not set")
             End If

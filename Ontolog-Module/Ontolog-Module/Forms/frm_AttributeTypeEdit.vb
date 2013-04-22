@@ -76,7 +76,7 @@
 
 
     Private Sub set_DBConnection()
-        objDBLevel = New clsDBLevel(objLocalConfig)
+        objDBLevel = New clsDBLevel(objLocalConfig.Globals)
 
     End Sub
 

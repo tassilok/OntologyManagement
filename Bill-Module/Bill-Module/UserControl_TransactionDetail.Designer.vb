@@ -107,7 +107,7 @@ Partial Class UserControl_TransactionDetail
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripProgressBar_Detail})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(162, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(164, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripProgressBar_Detail
@@ -316,41 +316,41 @@ Partial Class UserControl_TransactionDetail
         '
         Me.NewPaymentToolStripMenuItem.Enabled = False
         Me.NewPaymentToolStripMenuItem.Name = "NewPaymentToolStripMenuItem"
-        Me.NewPaymentToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.NewPaymentToolStripMenuItem.Size = New System.Drawing.Size(211, 22)
         Me.NewPaymentToolStripMenuItem.Text = "x_New"
         '
         'ContextMenuStrip_Payment
         '
         Me.ContextMenuStrip_Payment.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewPaymentToolStripMenuItem, Me.ChangePaymentToolStripMenuItem, Me.RemovePaymentToolStripMenuItem1, Me.CalculatePercentToolStripMenuItem, Me.ApplyBankTransactionToolStripMenuItem})
         Me.ContextMenuStrip_Payment.Name = "ContextMenuStrip_Payment"
-        Me.ContextMenuStrip_Payment.Size = New System.Drawing.Size(200, 114)
+        Me.ContextMenuStrip_Payment.Size = New System.Drawing.Size(212, 114)
         '
         'ChangePaymentToolStripMenuItem
         '
         Me.ChangePaymentToolStripMenuItem.Enabled = False
         Me.ChangePaymentToolStripMenuItem.Name = "ChangePaymentToolStripMenuItem"
-        Me.ChangePaymentToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.ChangePaymentToolStripMenuItem.Size = New System.Drawing.Size(211, 22)
         Me.ChangePaymentToolStripMenuItem.Text = "x_Change"
         '
         'RemovePaymentToolStripMenuItem1
         '
         Me.RemovePaymentToolStripMenuItem1.Enabled = False
         Me.RemovePaymentToolStripMenuItem1.Name = "RemovePaymentToolStripMenuItem1"
-        Me.RemovePaymentToolStripMenuItem1.Size = New System.Drawing.Size(199, 22)
+        Me.RemovePaymentToolStripMenuItem1.Size = New System.Drawing.Size(211, 22)
         Me.RemovePaymentToolStripMenuItem1.Text = "x_Remove"
         '
         'CalculatePercentToolStripMenuItem
         '
         Me.CalculatePercentToolStripMenuItem.Enabled = False
         Me.CalculatePercentToolStripMenuItem.Name = "CalculatePercentToolStripMenuItem"
-        Me.CalculatePercentToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.CalculatePercentToolStripMenuItem.Size = New System.Drawing.Size(211, 22)
         Me.CalculatePercentToolStripMenuItem.Text = "x_Calculate Percent"
         '
         'ApplyBankTransactionToolStripMenuItem
         '
         Me.ApplyBankTransactionToolStripMenuItem.Enabled = False
         Me.ApplyBankTransactionToolStripMenuItem.Name = "ApplyBankTransactionToolStripMenuItem"
-        Me.ApplyBankTransactionToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.ApplyBankTransactionToolStripMenuItem.Size = New System.Drawing.Size(211, 22)
         Me.ApplyBankTransactionToolStripMenuItem.Text = "x_Apply Bank-Transaction"
         '
         'TextBox_Contractor

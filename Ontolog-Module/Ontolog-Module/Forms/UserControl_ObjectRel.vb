@@ -138,7 +138,7 @@
     End Sub
 
     Private Sub set_DBConnection()
-        objDBLevel_ObjRel = New clsDBLevel(objLocalConfig)
+        objDBLevel_ObjRel = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 
     Private Sub Timer_TokenRelation_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_TokenRelation.Tick

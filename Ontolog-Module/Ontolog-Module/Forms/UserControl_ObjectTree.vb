@@ -77,7 +77,7 @@
         Dim objTreeNode As New TreeNode
         Dim objOItem As clsObjectTree
         Dim oList_Class As New List(Of clsOntologyItem)
-        objDBLevel = New clsDBLevel(objLocalConfig)
+        objDBLevel = New clsDBLevel(objLocalConfig.Globals)
 
         If boolTopDown = True Then
             oList_Class.Add(New clsOntologyItem(Nothing, Nothing, objOItem_Parent.GUID, objLocalConfig.Globals.Field_ID_Object))

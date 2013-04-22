@@ -459,4 +459,38 @@ Public Class UserControl_TransactionDetail
             End If
         End If
     End Sub
+
+    Private Sub TextBox_TransactionID_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBox_TransactionID.TextChanged
+        Timer_TransactionID.Stop()
+        If TextBox_TransactionID.ReadOnly = False Then
+            Timer_TransactionID.Start()
+        End If
+
+    End Sub
+
+    Private Sub Timer_TransactionID_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_TransactionID.Tick
+        Dim strTransactionID As String
+        Dim objOItem_Result As clsOntologyItem
+        Timer_TransactionID.Stop()
+
+        If TextBox_TransactionID.Text = "" Then
+            strTransactionID = ""
+
+            objOItem_Result = objTransaction_FinancialTransaction.del_003_FinancialTransaction__TransactionID(objOItem_FinancialTransaction)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Das Transaktionsdatum kann nicht geändert werden!", MsgBoxStyle.Exclamation)
+                initialize(objOItem_FinancialTransaction)
+            End If
+        Else
+            strTransactionID = TextBox_TransactionID.Text
+
+            objOItem_Result = objTransaction_FinancialTransaction.save_003_FinancialTransaction__TransactionID(strTransactionID, objOItem_FinancialTransaction)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Das Transaktionsdatum kann nicht geändert werden!", MsgBoxStyle.Exclamation)
+                initialize(objOItem_FinancialTransaction)
+            End If
+
+        End If
+    End Sub
 End Class

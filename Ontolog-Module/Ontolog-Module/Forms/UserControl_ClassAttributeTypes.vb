@@ -43,7 +43,7 @@
     End Sub
 
     Private Sub set_DBConnection()
-        objDBLevel = New clsDBLevel(objLocalConfig)
+        objDBLevel = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 
     Private Sub ToolStripButton_Add_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Add.Click

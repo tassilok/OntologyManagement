@@ -59,7 +59,7 @@
     End Sub
 
     Private Sub set_DBConnection()
-        objDBLevel_ObjAtt = New clsDBLevel(objLocalConfig)
+        objDBLevel_ObjAtt = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 
     Private Sub Timer_ObjectAtt_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_ObjectAtt.Tick

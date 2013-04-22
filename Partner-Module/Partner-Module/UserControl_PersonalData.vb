@@ -16,6 +16,9 @@ Public Class UserControl_PersonalData
     Private objOItem_iNr As clsOntologyItem
     Private objOItem_SteuerNr As clsOntologyItem
 
+    Private objDLG_Attribute_DateTime As dlg_Attribute_DateTime
+    Private objFrm_OntologyModule As frmMain
+
     Private Sub image_MoveFirst() Handles objUserControl_SingleViewer.Media_First
         objUserControl_ImageList.Media_First()
     End Sub
@@ -101,7 +104,7 @@ Public Class UserControl_PersonalData
         TextBox_Sozialversicherungsnummer.Text = ""
         TextBox_Steuernummer.Text = ""
         TextBox_Identifikationsnummer.Text = ""
-
+        TextBox_eTin.Text = ""
 
         ComboBox_Familienstand.SelectedItem = Nothing
         ComboBox_Geschlecht.SelectedItem = Nothing
@@ -158,7 +161,11 @@ Public Class UserControl_PersonalData
 
         If Not objOItem_PersonalData Is Nothing Then
             If Not TextBox_Vorname.Text = "" Then
-
+                objOItem_Result = objTransaction_PersonalData.save_003_PersonalData__Vorname(TextBox_Vorname.Text, objOItem_PersonalData)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Der Vorname kann nicht geändert werden!", MsgBoxStyle.Exclamation)
+                    initialize_PersonalData(objOItem_Partner)
+                End If
             Else
                 objOItem_Result = objTransaction_PersonalData.del_003_PersonalData__Vorname(objOItem_PersonalData)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
@@ -210,13 +217,15 @@ Public Class UserControl_PersonalData
                                                                          objLocalConfig.Globals.Type_Object)
 
                 TextBox_Sozialversicherungsnummer.Text = objOItem_Sozialversicherungsnummer.Name
+
+                Button_Del_Sozialversicherungsnummer.Enabled = True
             Else
                 objOItem_Sozialversicherungsnummer = Nothing
                 TextBox_Sozialversicherungsnummer.Text = ""
             End If
 
             Button_Sozialversicherungsnummer.Enabled = True
-            Button_Del_Sozialversicherungsnummer.Enabled = True
+
 
 
             Dim objLeTin = From obj In objDataWork_PersonalData.OList_Ref
@@ -229,13 +238,15 @@ Public Class UserControl_PersonalData
                                                                          objLocalConfig.Globals.Type_Object)
 
                 TextBox_eTin.Text = objOItem_eTin.Name
+
+                Button_Del_eTin.Enabled = True
             Else
                 objOItem_eTin = Nothing
                 TextBox_eTin.Text = ""
             End If
 
             Button_eTin.Enabled = True
-            Button_Del_eTin.Enabled = True
+
 
             Dim objLiNr = From obj In objDataWork_PersonalData.OList_Ref
                                                 Where obj.ID_Parent_Other = objLocalConfig.OItem_Class_Identifkationsnummer__IdNr_.GUID
@@ -247,13 +258,15 @@ Public Class UserControl_PersonalData
                                                                          objLocalConfig.Globals.Type_Object)
 
                 TextBox_Identifikationsnummer.Text = objOItem_iNr.Name
+
+                Button_Del_INr.Enabled = True
             Else
                 objOItem_iNr = Nothing
                 TextBox_Identifikationsnummer.Text = ""
             End If
 
             Button_INr.Enabled = True
-            Button_Del_INr.Enabled = True
+
 
             Dim objLStNr = From obj In objDataWork_PersonalData.OList_Ref
                                                 Where obj.ID_Parent_Other = objLocalConfig.OItem_Class_Steuernummer.GUID
@@ -265,13 +278,15 @@ Public Class UserControl_PersonalData
                                                                          objLocalConfig.Globals.Type_Object)
 
                 TextBox_Steuernummer.Text = objOItem_SteuerNr.Name
+
+                Button_Del_Steuernummer.Enabled = True
             Else
                 objOItem_SteuerNr = Nothing
                 TextBox_Identifikationsnummer.Text = ""
             End If
 
             Button_Steuernummer.Enabled = True
-            Button_Del_Steuernummer.Enabled = True
+
         Else
 
             boolStop = False
@@ -312,13 +327,15 @@ Public Class UserControl_PersonalData
                 MaskedTextBox_Geburtsdatum.ReadOnly = True
                 MaskedTextBox_Geburtsdatum.Text = objLGeburtsdatum(0).Val_Date
                 MaskedTextBox_Geburtsdatum.ReadOnly = False
+
+                Button_Del_Geburtsdatum.Enabled = True
             Else
                 MaskedTextBox_Geburtsdatum.ReadOnly = True
                 MaskedTextBox_Geburtsdatum.Text = ""
                 MaskedTextBox_Geburtsdatum.ReadOnly = False
             End If
 
-            Button_Del_Geburtsdatum.Enabled = True
+
             Button_Geburtsdatum.Enabled = True
 
             Dim objLTodesdatum = From obj In objDataWork_PersonalData.OList_Att
@@ -328,13 +345,15 @@ Public Class UserControl_PersonalData
                 MaskedTextBox_Todesdatum.ReadOnly = True
                 MaskedTextBox_Todesdatum.Text = objLTodesdatum(0).Val_Date
                 MaskedTextBox_Todesdatum.ReadOnly = False
+
+                Button_Del_Todesdatum.Enabled = True
             Else
                 MaskedTextBox_Todesdatum.ReadOnly = True
                 MaskedTextBox_Todesdatum.Text = ""
                 MaskedTextBox_Todesdatum.ReadOnly = False
             End If
 
-            Button_Del_Todesdatum.Enabled = True
+
             Button_Todesdatum.Enabled = True
 
         Else
@@ -356,7 +375,11 @@ Public Class UserControl_PersonalData
 
         If Not objOItem_PersonalData Is Nothing Then
             If Not TextBox_Nachname.Text = "" Then
-
+                objOItem_Result = objTransaction_PersonalData.save_004_PersonalData__Nachname(TextBox_Nachname.Text, objOItem_PersonalData)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Der Nachname kann nicht geändert werden!", MsgBoxStyle.Exclamation)
+                    initialize_PersonalData(objOItem_Partner)
+                End If
             Else
                 objOItem_Result = objTransaction_PersonalData.del_004_PersonalData__Nachname(objOItem_PersonalData)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
@@ -371,6 +394,311 @@ Public Class UserControl_PersonalData
         Timer_Nachname.Stop()
         If TextBox_Nachname.ReadOnly = False Then
             Timer_Nachname.Start()
+        End If
+    End Sub
+
+    Private Sub ComboBox_Familienstand_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ComboBox_Familienstand.SelectedIndexChanged
+        Dim objOItem_Result As clsOntologyItem
+        If ComboBox_Familienstand.Enabled = True Then
+            objOItem_Result = objTransaction_PersonalData.save_005_PersonalData_To_Familienstand(ComboBox_Familienstand.SelectedItem, _
+                                                                                                 objOItem_PersonalData)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Der Familienstand kann nicht geändert werden!", MsgBoxStyle.Exclamation)
+                initialize_PersonalData(objOItem_Partner)
+            End If
+        End If
+    End Sub
+
+    Private Sub ComboBox_Geschlecht_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ComboBox_Geschlecht.SelectedIndexChanged
+        Dim objOItem_Result As clsOntologyItem
+        If ComboBox_Geschlecht.Enabled = True Then
+            objOItem_Result = objTransaction_PersonalData.save_006_PersonalData_To_Geschlecht(ComboBox_Geschlecht.SelectedItem, _
+                                                                                                 objOItem_PersonalData)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Der Familienstand kann nicht geändert werden!", MsgBoxStyle.Exclamation)
+                initialize_PersonalData(objOItem_Partner)
+            End If
+        End If
+    End Sub
+
+    Private Sub Button_Del_Geburtsdatum_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Del_Geburtsdatum.Click
+        Dim objOItem_Result As clsOntologyItem
+
+        objOItem_Result = objTransaction_PersonalData.del_007_PersonalData__Geburtsdatum(objOItem_PersonalData)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            MsgBox("Das Geburtsdatum konnte nicht gelöscht werden!", MsgBoxStyle.Exclamation)
+            initialize_PersonalData(objOItem_Partner)
+        Else
+            MaskedTextBox_Geburtsdatum.Text = ""
+        End If
+    End Sub
+
+    Private Sub Button_Geburtsdatum_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Geburtsdatum.Click
+        Dim objOItem_Result As clsOntologyItem
+        Dim dateVal As Date
+
+        Dim objLGeburtsdatum = From obj In objDataWork_PersonalData.OList_Att
+                               Where obj.ID_AttributeType = objLocalConfig.OItem_Attribute_Geburtsdatum.GUID
+
+        If objLGeburtsdatum.Count > 0 Then
+            objDLG_Attribute_DateTime = New dlg_Attribute_DateTime(objLocalConfig.OItem_Attribute_Geburtsdatum.Name, _
+                                                                   objLocalConfig.Globals, _
+                                                                   objLGeburtsdatum(0).Val_Date)
+
+
+
+
+        Else
+            objDLG_Attribute_DateTime = New dlg_Attribute_DateTime(objLocalConfig.OItem_Attribute_Geburtsdatum.Name, _
+                                                                   objLocalConfig.Globals, _
+                                                                   Now)
+        End If
+
+        objDLG_Attribute_DateTime.ShowDialog(Me)
+        If objDLG_Attribute_DateTime.DialogResult = DialogResult.OK Then
+            dateVal = objDLG_Attribute_DateTime.Value
+
+            objOItem_Result = objTransaction_PersonalData.save_007_PersonalData__Geburtsdatum(dateVal, _
+                                                                                              objOItem_PersonalData)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Das Geburtsdatum konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                initialize_PersonalData(objOItem_Partner)
+            Else
+                MaskedTextBox_Geburtsdatum.Text = dateVal
+            End If
+        End If
+
+    End Sub
+
+    Private Sub Button_Todesdatum_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Todesdatum.Click
+        Dim objOItem_Result As clsOntologyItem
+        Dim dateVal As Date
+
+        Dim objLTodesdatum = From obj In objDataWork_PersonalData.OList_Att
+                               Where obj.ID_AttributeType = objLocalConfig.OItem_Attribute_Todesdatum.GUID
+
+        If objLTodesdatum.Count > 0 Then
+            objDLG_Attribute_DateTime = New dlg_Attribute_DateTime(objLocalConfig.OItem_Attribute_Todesdatum.Name, _
+                                                                   objLocalConfig.Globals, _
+                                                                   objLTodesdatum(0).Val_Date)
+
+
+
+
+        Else
+            objDLG_Attribute_DateTime = New dlg_Attribute_DateTime(objLocalConfig.OItem_Attribute_Todesdatum.Name, _
+                                                                   objLocalConfig.Globals, _
+                                                                   Now)
+        End If
+
+        objDLG_Attribute_DateTime.ShowDialog(Me)
+        If objDLG_Attribute_DateTime.DialogResult = DialogResult.OK Then
+            dateVal = objDLG_Attribute_DateTime.Value
+
+            objOItem_Result = objTransaction_PersonalData.save_008_PersonalData__Todesdatum(dateVal, _
+                                                                                              objOItem_PersonalData)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Das Todesdatum konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                initialize_PersonalData(objOItem_Partner)
+            Else
+                MaskedTextBox_Todesdatum.Text = dateVal
+            End If
+        End If
+
+    End Sub
+
+    Private Sub Button_Del_Todesdatum_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Del_Todesdatum.Click
+        Dim objOItem_Result As clsOntologyItem
+
+        objOItem_Result = objTransaction_PersonalData.del_008_PersonalData__Todesdatum(objOItem_PersonalData)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            MsgBox("Das Todesdatum konnte nicht gelöscht werden!", MsgBoxStyle.Exclamation)
+            initialize_PersonalData(objOItem_Partner)
+        Else
+            MaskedTextBox_Todesdatum.Text = ""
+        End If
+    End Sub
+
+    Private Sub Button_Del_Sozialversicherungsnummer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Del_Sozialversicherungsnummer.Click
+        Dim objOItem_Result As clsOntologyItem
+
+        objOItem_Result = objTransaction_PersonalData.del_009_PersonalData_To_Sozialversicherungsnummer(objOItem_PersonalData)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            MsgBox("Die Sozialversicherungsnummer kann nicht gelöscht werden", MsgBoxStyle.Exclamation)
+            initialize_PersonalData(objOItem_Partner)
+        Else
+            TextBox_Sozialversicherungsnummer.Text = ""
+        End If
+    End Sub
+
+    Private Sub Button_Sozialversicherungsnummer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Sozialversicherungsnummer.Click
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_Sozialversicherungsnummer As clsOntologyItem
+
+        objFrm_OntologyModule = New frmMain(objLocalConfig.Globals, _
+                                            objLocalConfig.Globals.Type_Class, _
+                                            objLocalConfig.OItem_Class_Sozialversicherungsnummer)
+
+        objFrm_OntologyModule.ShowDialog(Me)
+
+        If objFrm_OntologyModule.DialogResult = DialogResult.OK Then
+            If objFrm_OntologyModule.Type_Applied = objLocalConfig.Globals.Type_Object Then
+                If objFrm_OntologyModule.OList_Simple.Count = 1 Then
+                    objOItem_Sozialversicherungsnummer = objFrm_OntologyModule.OList_Simple(0)
+                    objOItem_Result = objTransaction_PersonalData.save_009_PersonalData_To_Sozialversicherungsnummer(objOItem_Sozialversicherungsnummer, _
+                                                                                                                     objOItem_PersonalData)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        MsgBox("Die Sozialversicherungsnumer konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                        initialize_PersonalData(objOItem_Partner)
+                    Else
+                        TextBox_Sozialversicherungsnummer.Text = objOItem_Sozialversicherungsnummer.Name
+                    End If
+                Else
+                    MsgBox("Bitte eine Sozialversicherungsnummer auswählen!", MsgBoxStyle.Exclamation)
+                End If
+            Else
+                MsgBox("Bitte eine Sozialversicherungsnummer auswählen!", MsgBoxStyle.Exclamation)
+            End If
+        End If
+
+    End Sub
+
+    Private Sub Button_Del_eTin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Del_eTin.Click
+        Dim objOItem_Result As clsOntologyItem
+
+        objOItem_Result = objTransaction_PersonalData.del_010_PersonalData_To_eTin(objOItem_PersonalData)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            MsgBox("Die eTin kann nicht gelöscht werden", MsgBoxStyle.Exclamation)
+            initialize_PersonalData(objOItem_Partner)
+        Else
+            TextBox_eTin.Text = ""
+        End If
+    End Sub
+
+    Private Sub Button_eTin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_eTin.Click
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_eTin As clsOntologyItem
+
+        objFrm_OntologyModule = New frmMain(objLocalConfig.Globals, _
+                                            objLocalConfig.Globals.Type_Class, _
+                                            objLocalConfig.OItem_Class_eTin)
+
+        objFrm_OntologyModule.ShowDialog(Me)
+
+        If objFrm_OntologyModule.DialogResult = DialogResult.OK Then
+            If objFrm_OntologyModule.Type_Applied = objLocalConfig.Globals.Type_Object Then
+                If objFrm_OntologyModule.OList_Simple.Count = 1 Then
+                    objOItem_eTin = objFrm_OntologyModule.OList_Simple(0)
+                    objOItem_Result = objTransaction_PersonalData.save_010_PersonalData_To_eTin(objOItem_eTin, _
+                                                                                                objOItem_PersonalData)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        MsgBox("Die Sozialversicherungsnumer konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                        initialize_PersonalData(objOItem_Partner)
+                    Else
+                        TextBox_eTin.Text = objOItem_eTin.Name
+                    End If
+                Else
+                    MsgBox("Bitte eine eTin auswählen!", MsgBoxStyle.Exclamation)
+                End If
+            Else
+                MsgBox("Bitte eine eTin auswählen!", MsgBoxStyle.Exclamation)
+            End If
+        End If
+    End Sub
+
+    Private Sub Button_INr_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_INr.Click
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_INr As clsOntologyItem
+
+        objFrm_OntologyModule = New frmMain(objLocalConfig.Globals, _
+                                            objLocalConfig.Globals.Type_Class, _
+                                            objLocalConfig.OItem_Class_Identifkationsnummer__IdNr_)
+
+        objFrm_OntologyModule.ShowDialog(Me)
+
+        If objFrm_OntologyModule.DialogResult = DialogResult.OK Then
+            If objFrm_OntologyModule.Type_Applied = objLocalConfig.Globals.Type_Object Then
+                If objFrm_OntologyModule.OList_Simple.Count = 1 Then
+                    objOItem_INr = objFrm_OntologyModule.OList_Simple(0)
+                    objOItem_Result = objTransaction_PersonalData.save_011_PersonalData_To_Identifikationsnummer(objOItem_INr, _
+                                                                                                objOItem_PersonalData)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        MsgBox("Die INr konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                        initialize_PersonalData(objOItem_Partner)
+                    Else
+                        TextBox_Identifikationsnummer.Text = objOItem_INr.Name
+                    End If
+                Else
+                    MsgBox("Bitte eine INr auswählen!", MsgBoxStyle.Exclamation)
+                End If
+            Else
+                MsgBox("Bitte eine INr auswählen!", MsgBoxStyle.Exclamation)
+            End If
+        End If
+    End Sub
+
+    Private Sub Button_Del_INr_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Del_INr.Click
+        Dim objOItem_Result As clsOntologyItem
+
+        objOItem_Result = objTransaction_PersonalData.del_011_PersonalData_To_Identifikationsnummer(objOItem_PersonalData)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            MsgBox("Die INr kann nicht gelöscht werden", MsgBoxStyle.Exclamation)
+            initialize_PersonalData(objOItem_Partner)
+        Else
+            TextBox_Identifikationsnummer.Text = ""
+        End If
+    End Sub
+
+    Private Sub Button_Del_Steuernummer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Del_Steuernummer.Click
+        Dim objOItem_Result As clsOntologyItem
+
+        objOItem_Result = objTransaction_PersonalData.del_012_PersonalData_To_Steuernummer(objOItem_PersonalData)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            MsgBox("Die Steuernummer kann nicht gelöscht werden", MsgBoxStyle.Exclamation)
+            initialize_PersonalData(objOItem_Partner)
+        Else
+            TextBox_Steuernummer.Text = ""
+        End If
+    End Sub
+
+    Private Sub Button_Steuernummer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Steuernummer.Click
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_SteuerNr As clsOntologyItem
+
+        objFrm_OntologyModule = New frmMain(objLocalConfig.Globals, _
+                                            objLocalConfig.Globals.Type_Class, _
+                                            objLocalConfig.OItem_Class_Steuernummer)
+
+        objFrm_OntologyModule.ShowDialog(Me)
+
+        If objFrm_OntologyModule.DialogResult = DialogResult.OK Then
+            If objFrm_OntologyModule.Type_Applied = objLocalConfig.Globals.Type_Object Then
+                If objFrm_OntologyModule.OList_Simple.Count = 1 Then
+                    objOItem_SteuerNr = objFrm_OntologyModule.OList_Simple(0)
+                    objOItem_Result = objTransaction_PersonalData.save_012_PersonalData_To_Steuernummer(objOItem_SteuerNr, _
+                                                                                                objOItem_PersonalData)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        MsgBox("Die Steuernummer konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                        initialize_PersonalData(objOItem_Partner)
+                    Else
+                        TextBox_Steuernummer.Text = objOItem_SteuerNr.Name
+                    End If
+                Else
+                    MsgBox("Bitte eine Steuernummer auswählen!", MsgBoxStyle.Exclamation)
+                End If
+            Else
+                MsgBox("Bitte eine Steuernummer auswählen!", MsgBoxStyle.Exclamation)
+            End If
         End If
     End Sub
 End Class

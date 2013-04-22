@@ -4,10 +4,12 @@
     Private otblT_Objects As New DataSet_Config.otbl_ObjectsDataTable
 
     Private objDBLevel As clsDBLevel
+    Private objOntologyClipboard As clsOntologyClipboard
 
     Private objFrm_Main As frmMain
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFrm_AttributeTypeEdit As frm_AttributeTypeEdit
+    Private objFrm_Clipboard As frmClipboard
 
     Private objTransaction_Objects As clsTransaction_Objects
     Private objTransaction_RelationTypes As clsTransaction_RelationTypes
@@ -436,10 +438,11 @@
     End Sub
 
     Private Sub set_DBConnection()
-        objDBLevel = New clsDBLevel(objLocalConfig)
+        objDBLevel = New clsDBLevel(objLocalConfig.Globals)
         objTransaction_Objects = New clsTransaction_Objects(objLocalConfig, Me)
         objTransaction_AttributeTypes = New clsTransaction_AttributeTypes(objLocalConfig, Me)
         objTransaction_RelationTypes = New clsTransaction_RelationTypes(objLocalConfig, Me)
+        objOntologyClipboard = New clsOntologyClipboard(objLocalConfig)
     End Sub
 
     Private Sub DataGridView_Items_RowHeaderMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellMouseEventArgs) Handles DataGridView_Items.RowHeaderMouseDoubleClick
@@ -758,6 +761,7 @@
         Dim oList_AttType As New List(Of clsOntologyItem)
         Dim oList_ObjAtt As New List(Of clsObjectAtt)
         Dim oItem_Obj As clsOntologyItem
+        Dim objOItem_ClipBoardEntry As clsOntologyItem
         Dim boolAdd As Boolean
 
         Dim boolValue As Boolean
@@ -766,6 +770,8 @@
         Dim dblValue As Double
         Dim strValue As String
         Dim strVal_Named As String
+
+        Dim boolOpenMain As Boolean
 
         If Not objOItem_Parent Is Nothing Then
             Select Case objOItem_Parent.Type
@@ -988,14 +994,25 @@
                 Case objLocalConfig.Globals.Type_Other
                     Select Case objOItem_Other.Type
                         Case objLocalConfig.Globals.Type_Object
+
+
+
                             If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                                objOItem_ClipBoardEntry = New clsOntologyItem(Nothing, Nothing, objOItem_Other.GUID_Parent)
                                 objOItem_Class.GUID = objOItem_Other.GUID_Parent
                                 objOItem_Class.Type = objLocalConfig.Globals.Type_Class
                             Else
+                                objOItem_ClipBoardEntry = New clsOntologyItem(Nothing, Nothing, strGUID_Class)
                                 objOItem_Class.GUID = strGUID_Class
                                 objOItem_Class.Type = objLocalConfig.Globals.Type_Class
                             End If
-                            
+
+                            boolOpenMain = True
+
+                            objFrm_Clipboard = New frmClipboard(objLocalConfig, objOItem_ClipBoardEntry)
+                            If objFrm_Clipboard.containedByClipboard() = True Then
+                                objFrm_Clipboard.ShowDialog(Me)
+                            End If
 
                             objFrm_Main = New frmMain(objLocalConfig, objLocalConfig.Globals.Type_Class, objOItem_Class)
                             objFrm_Main.ShowDialog(Me)
@@ -1169,10 +1186,11 @@
             End If
             If DataGridView_Items.SelectedRows.Count = 1 Then
                 ToolStripComboBox_ModuleEdit.Enabled = True
-                ToClipboardToolStripMenuItem.Enabled = True
+
 
 
             End If
+            ToClipboardToolStripMenuItem.Enabled = True
         End If
         
 
@@ -1230,6 +1248,76 @@
                 End If
             Next
         End If
+    End Sub
+
+    Private Sub ToClipboardToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToClipboardToolStripMenuItem.Click
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim objOItem_ToClipboard As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+
+        For Each objDGVR_Selected In DataGridView_Items.SelectedRows
+            objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+            If Not objOItem_Parent Is Nothing Then
+                Select Case objOItem_Parent.Type
+                    Case objLocalConfig.Globals.Type_Object
+                        objOItem_ToClipboard = New clsOntologyItem(objDRV_Selected.Item(strRowName_GUID), _
+                                                                   objDRV_Selected.Item(strRowName_Name), _
+                                                                   objDRV_Selected.Item(strRowName_ParentGUID), _
+                                                                   objLocalConfig.Globals.Type_Object)
+
+                        objOItem_Result = objOntologyClipboard.addToClipboard(objOItem_ToClipboard, False)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                            MsgBox("Das Item kann nicht ins Clipboard geschrieben werden!", MsgBoxStyle.Exclamation)
+
+                        End If
+
+                    Case objLocalConfig.Globals.Type_RelationType
+                        objOItem_ToClipboard = New clsOntologyItem(objDRV_Selected.Item(strRowName_GUID), _
+                                                                   objDRV_Selected.Item(strRowName_Name), _
+                                                                   objLocalConfig.Globals.Type_Object)
+
+                        objOItem_Result = objOntologyClipboard.addToClipboard(objOItem_ToClipboard, False)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                            MsgBox("Das Item kann nicht ins Clipboard geschrieben werden!", MsgBoxStyle.Exclamation)
+
+                        End If
+                    Case objLocalConfig.Globals.Type_AttributeType
+                        objOItem_ToClipboard = New clsOntologyItem(objDRV_Selected.Item(strRowName_GUID), _
+                                                                   objDRV_Selected.Item(strRowName_Name), _
+                                                                   objDRV_Selected.Item(strRowName_ParentGUID), _
+                                                                   objLocalConfig.Globals.Type_Object)
+
+                        objOItem_Result = objOntologyClipboard.addToClipboard(objOItem_ToClipboard, False)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                            MsgBox("Das Item kann nicht ins Clipboard geschrieben werden!", MsgBoxStyle.Exclamation)
+
+                        End If
+                End Select
+
+
+            Else
+
+                Select Case strType
+                    Case objLocalConfig.Globals.Type_Object
+
+
+                    Case objLocalConfig.Globals.Type_RelationType
+
+
+
+                    Case objLocalConfig.Globals.Type_AttributeType
+
+
+
+                    Case objLocalConfig.Globals.Type_Other
+
+
+                End Select
+
+            End If
+        Next
     End Sub
 End Class
 

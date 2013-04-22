@@ -212,8 +212,8 @@
     Private Sub get_ClassRel(ByVal objOItem_Class As clsOntologyItem)
 
         Dim objOList_ClassRel As New List(Of clsClassRel)
-        Dim objDBLevel_LeftRight As New clsDBLevel(objLocalConfig)
-        Dim objDBLevel_RightLeft As New clsDBLevel(objLocalConfig)
+        Dim objDBLevel_LeftRight As New clsDBLevel(objLocalConfig.Globals)
+        Dim objDBLevel_RightLeft As New clsDBLevel(objLocalConfig.Globals)
 
 
         objOList_ClassRel.Add(New clsClassRel(objOItem_Class.GUID, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing))
@@ -263,7 +263,7 @@
         Me.objOItem_Entry = OItem_Entry
         boolApplyable = True
         set_DBConnection()
-        initialize()
+
     End Sub
 
     Public Sub New(ByVal Globals As clsGlobals, Optional ByVal Type_Entry As String = Nothing, Optional ByVal OItem_Entry As clsOntologyItem = Nothing)
@@ -277,7 +277,7 @@
         Me.objOItem_Entry = OItem_Entry
         boolApplyable = True
         set_DBConnection()
-        initialize()
+
     End Sub
 
     Private Sub initialize()
@@ -391,7 +391,7 @@
     End Sub
 
     Private Sub set_DBConnection()
-        objDBLevel_ObjectRel = New clsDBLevel(objLocalConfig)
+        objDBLevel_ObjectRel = New clsDBLevel(objLocalConfig.Globals)
         objReport = New clsReport(objLocalConfig)
     End Sub
 
@@ -432,5 +432,9 @@
     Private Sub ToolStripButton_TokenType_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripButton_TokenType.Click
 
         configure_Areas()
+    End Sub
+
+    Private Sub frmMain_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        initialize()
     End Sub
 End Class

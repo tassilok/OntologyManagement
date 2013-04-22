@@ -480,14 +480,14 @@
     End Sub
 
     Private Sub set_DBConnection()
-        objDBLevel = New clsDBLevel(objLocalConfig)
-        objDBLevel_Attributes = New clsDBLevel(objLocalConfig)
-        objDBLevel_RelTypes = New clsDBLevel(objLocalConfig)
-        objDBLevel_Classes = New clsDBLevel(objLocalConfig)
-        objDBLevel_Objects = New clsDBLevel(objLocalConfig)
-        objDBLevel_Joins = New clsDBLevel(objLocalConfig)
-        objDBLevel_OItems = New clsDBLevel(objLocalConfig)
-        objDBLevel_ORule = New clsDBLevel(objLocalConfig)
-        objDBLevel_Joins_OItems = New clsDBLevel(objLocalConfig)
+        objDBLevel = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Attributes = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_RelTypes = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Classes = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Objects = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Joins = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_OItems = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_ORule = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Joins_OItems = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class
