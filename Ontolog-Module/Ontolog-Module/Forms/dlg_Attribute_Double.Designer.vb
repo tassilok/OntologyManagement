@@ -29,7 +29,7 @@ Partial Class dlg_Attribute_Double
         Me.TextBox_Term = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ToolStripStatusLabel_DB = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Panel_Value = New System.Windows.Forms.Panel()
         Me.CheckBox_more = New System.Windows.Forms.CheckBox()
         Me.NumericUpDown_ItemCount = New System.Windows.Forms.NumericUpDown()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
@@ -110,12 +110,12 @@ Partial Class dlg_Attribute_Double
         Me.ToolStripStatusLabel_DB.Size = New System.Drawing.Size(35, 19)
         Me.ToolStripStatusLabel_DB.Text = "DB_f"
         '
-        'Panel1
+        'Panel_Value
         '
-        Me.Panel1.Location = New System.Drawing.Point(23, 5)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(282, 59)
-        Me.Panel1.TabIndex = 21
+        Me.Panel_Value.Location = New System.Drawing.Point(23, 5)
+        Me.Panel_Value.Name = "Panel_Value"
+        Me.Panel_Value.Size = New System.Drawing.Size(282, 59)
+        Me.Panel_Value.TabIndex = 21
         '
         'CheckBox_more
         '
@@ -160,7 +160,7 @@ Partial Class dlg_Attribute_Double
         Me.Controls.Add(Me.Button_Calc)
         Me.Controls.Add(Me.TextBox_Term)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.Panel1)
+        Me.Controls.Add(Me.Panel_Value)
         Me.Controls.Add(Me.CheckBox_more)
         Me.Controls.Add(Me.NumericUpDown_ItemCount)
         Me.Controls.Add(Me.StatusStrip1)
@@ -187,7 +187,7 @@ Partial Class dlg_Attribute_Double
     Friend WithEvents TextBox_Term As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents ToolStripStatusLabel_DB As System.Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents Panel_Value As System.Windows.Forms.Panel
     Friend WithEvents CheckBox_more As System.Windows.Forms.CheckBox
     Friend WithEvents NumericUpDown_ItemCount As System.Windows.Forms.NumericUpDown
     Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip

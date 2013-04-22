@@ -32,10 +32,10 @@ Public Class UserControl_Attribute_Double
         Dim iIx As Integer
 
         iIx = 0
-        objRegEx_Part = New Regex("(.*\)")
+        objRegEx_Part = New Regex("\(.*\)")
         objMatchCollection_Parts = objRegEx_Part.Matches(TextBox_Value.Text)
 
-        objRegEx_Math = New Regex("[+-*/]")
+        objRegEx_Math = New Regex("[+|-|\*|/]")
         objMatchCollection_Math = objRegEx_Math.Matches(TextBox_Value.Text)
 
         objRegEx_Number = New Regex("^-*[0-9,\.]+$")

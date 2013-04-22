@@ -60,6 +60,8 @@ Public Class dlg_Attribute_Double
     Private Sub initialize()
         Me.Text = strCaption
         objUserControl_Attribute_Double = New UserControl_Attribute_Double
+        objUserControl_Attribute_Double.Dock = DockStyle.Fill
+        Panel_Value.Controls.Add(objUserControl_Attribute_Double)
         objUserControl_Attribute_Double.Value = dblValue
 
 

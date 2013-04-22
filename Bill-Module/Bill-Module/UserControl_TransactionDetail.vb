@@ -6,6 +6,7 @@ Public Class UserControl_TransactionDetail
     Private objUserControl_RelatedFinTran As UserControl_RelatedFinTran
 
     Private objDLG_Attribute_DateTime As dlg_Attribute_DateTime
+    Private objDLG_Attribute_Double As dlg_Attribute_Double
 
     Private objOItem_FinancialTransaction As clsOntologyItem
 
@@ -100,6 +101,7 @@ Public Class UserControl_TransactionDetail
         ComboBox_unit.Enabled = False
 
         ContextMenuStrip_Payment.Enabled = False
+        CheckBox_Gross.Enabled = False
 
         set_Combo_Standard()
 
@@ -492,5 +494,111 @@ Public Class UserControl_TransactionDetail
             End If
 
         End If
+    End Sub
+
+    Private Sub TextBox_sum_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TextBox_sum.MouseDoubleClick
+        Dim dblSum As Double
+
+
+        If Double.TryParse(TextBox_sum.Text, dblSum) = False Then
+            dblSum = 0
+        End If
+        objDLG_Attribute_Double = New dlg_Attribute_Double(objLocalConfig.OItem_Attribute_Amount.Name, _
+                                                           objLocalConfig.Globals, dblSum)
+
+        objDLG_Attribute_Double.ShowDialog(Me)
+        If objDLG_Attribute_Double.DialogResult = DialogResult.OK Then
+            dblSum = objDLG_Attribute_Double.Value
+            TextBox_sum.Text = dblSum
+        End If
+    End Sub
+
+    Private Sub TextBox_sum_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TextBox_sum.TextChanged
+        Dim objOItem_Result As clsOntologyItem
+        Dim dblSum As Double
+
+        If TextBox_sum.ReadOnly = False Then
+            If TextBox_sum.Text = "" Then
+                objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum(objOItem_FinancialTransaction)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Die Summe kann nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+                    initialize(objOItem_FinancialTransaction)
+
+                Else
+                    objDataWork_Transaction.get_Data_Sum()
+                    get_Rest()
+                End If
+            Else
+                If Double.TryParse(TextBox_sum.Text, dblSum) = False Then
+                    dblSum = 0
+                End If
+
+                objOItem_Result = objTransaction_FinancialTransaction.save_004_FinnacialTransaction__Sum(dblSum, objOItem_FinancialTransaction)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Die Summe kann nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+                    initialize(objOItem_FinancialTransaction)
+                Else
+                    objDataWork_Transaction.get_Data_Sum()
+                    get_Rest()
+                End If
+            End If
+            
+        End If
+    End Sub
+
+    Private Sub Timer_Sum_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Sum.Tick
+
+    End Sub
+
+    Private Sub ComboBox_currency_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles ComboBox_currency.MouseDoubleClick
+
+    End Sub
+
+    Private Sub ComboBox_currency_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ComboBox_currency.SelectedIndexChanged
+        Dim objOItem_Result As clsOntologyItem
+
+        If ComboBox_currency.Enabled = True Then
+            objOItem_Result = objTransaction_FinancialTransaction.save_005_FinancialTransaction_To_Currency(ComboBox_currency.SelectedItem, _
+                                                                                                        objOItem_FinancialTransaction)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Die Währung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                initialize(objOItem_FinancialTransaction)
+            End If
+        End If
+
+        
+    End Sub
+
+    Private Sub ComboBox_currency_TextUpdate(ByVal sender As Object, ByVal e As System.EventArgs) Handles ComboBox_currency.TextUpdate
+
+    End Sub
+
+    Private Sub CheckBox_Gross_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles CheckBox_Gross.CheckStateChanged
+        Dim objOItem_Result As clsOntologyItem
+        If CheckBox_Gross.Enabled = True Then
+            objOItem_Result = objTransaction_FinancialTransaction.save_006_FinancialTransaction__gross(CheckBox_Gross.Checked, _
+                                                                                                       objOItem_FinancialTransaction)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Brutto/Netto kann nicht geändert werden!", MsgBoxStyle.Exclamation)
+                initialize(objOItem_FinancialTransaction)
+            End If
+        End If
+    End Sub
+
+    Private Sub ComboBox_TaxRate_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBox_TaxRate.SelectedIndexChanged
+        Dim objOItem_Result As clsOntologyItem
+
+        If ComboBox_TaxRate.Enabled = True Then
+            objOItem_Result = objTransaction_FinancialTransaction.save_007_FinancialTransaction_To_TaxRate(ComboBox_TaxRate.SelectedItem, _
+                                                                                                           objOItem_FinancialTransaction)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Die Steuerrate kann nicht geändert werden!", MsgBoxStyle.Exclamation)
+                initialize(objOItem_FinancialTransaction)
+            End If
+        End If
+
+
     End Sub
 End Class
