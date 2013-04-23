@@ -240,6 +240,7 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config()
+        get_Data_DevelopmentConfig()
         get_Config_AttributeTypes()
         get_Config_RelationTypes()
         get_Config_Classes()
