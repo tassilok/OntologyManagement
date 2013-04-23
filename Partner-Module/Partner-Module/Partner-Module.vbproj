@@ -114,6 +114,12 @@
     <Compile Include="UserControl_Address.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControl_Availability.Designer.vb">
+      <DependentUpon>UserControl_Availability.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_Availability.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl_AvailabilityData.Designer.vb">
       <DependentUpon>UserControl_AvailabilityData.vb</DependentUpon>
     </Compile>
@@ -148,6 +154,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_Address.resx">
       <DependentUpon>UserControl_Address.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_Availability.resx">
+      <DependentUpon>UserControl_Availability.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_AvailabilityData.resx">
       <DependentUpon>UserControl_AvailabilityData.vb</DependentUpon>
