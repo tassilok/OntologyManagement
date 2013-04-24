@@ -112,6 +112,23 @@ Public Class clsTransaction_Amount
         Return objOItem_Result
     End Function
 
+    Public Function save_001_Amount(ByVal OItem_Amount As clsOntologyItem, Optional ByVal dblAmount As Double = Nothing, Optional ByVal OItem_Unit As clsOntologyItem = Nothing) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objLAmount As New List(Of clsOntologyItem)
+
+
+        ' Get the dbl-amount and the unit
+        objOItem_Amount = OItem_Amount
+        objLAmount.Add(objOItem_Amount)
+        asdf()
+
+
+        objOItem_Result = objDBLevel_Amount.save_Objects(objLAmount)
+
+
+        Return objOItem_Result
+    End Function
+
     Public Function save_002_Amount__Amount(ByVal dblAmount As Double, Optional ByVal OItem_Amount As clsOntologyItem = Nothing) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objOItem_Result_Search As clsOntologyItem
@@ -192,11 +209,11 @@ Public Class clsTransaction_Amount
                                                 objLocalConfig.OItem_Attribute_Menge.GUID, _
                                                 Nothing, _
                                                 1, _
-                                                objOAItem_Amount.Val_Double.ToString, _
+                                                dblAmount.ToString, _
                                                 Nothing, _
                                                 Nothing, _
                                                 Nothing, _
-                                                objOAItem_Amount.Val_Double, _
+                                                dblAmount, _
                                                 Nothing, _
                                                 objLocalConfig.Globals.DType_Real.GUID)
 
