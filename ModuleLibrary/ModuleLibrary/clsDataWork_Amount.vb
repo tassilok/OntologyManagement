@@ -8,11 +8,19 @@ Public Class clsDataWork_Amount
 
     Private objOItem_Amount As clsOntologyItem
     Private objOItem_Unit As clsOntologyItem
-
-    Private objLiAmount As New List(Of clsAmount)
     Private dblAmount As Double
 
+    Public ReadOnly Property Amount_Rels As List(Of clsObjectRel)
+        Get
+            Return objDBLevel_Amount_Rel.OList_ObjectRel
+        End Get
+    End Property
 
+    Public ReadOnly Property Amount_Atts As List(Of clsObjectAtt)
+        Get
+            Return objDBLevel_Amount_Att.OList_ObjectAtt
+        End Get
+    End Property
 
     Public Function get_Data_Units() As List(Of clsOntologyItem)
         Dim objLUnits As New List(Of clsOntologyItem)
@@ -152,7 +160,7 @@ Public Class clsDataWork_Amount
         Return objOItem_Result
     End Function
 
-    Public Function get_Amounts(Optional ByVal OItem_Amount As clsOntologyItem = Nothing, Optional ByVal dblAmount As Double = Nothing, Optional ByVal OItem_Unit As clsOntologyItem = Nothing) As List(Of clsAmount)
+    Public Function get_Data_Amounts(Optional ByVal OItem_Amount As clsOntologyItem = Nothing, Optional ByVal dblAmount As Double = Nothing, Optional ByVal OItem_Unit As clsOntologyItem = Nothing) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
 
         objOItem_Amount = OItem_Amount
@@ -163,33 +171,9 @@ Public Class clsDataWork_Amount
         objOItem_Result = load_Atts()
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             objOItem_Result = load_Rels()
-            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                objLiAmount.Clear()
-                Dim objLAmount = From objRel In objDBLevel_Amount_Rel.OList_ObjectRel
-                                 Join objAtt In objDBLevel_Amount_Att.OList_ObjectAtt On objRel.ID_Object Equals objAtt.ID_Object
-                                 Select ID_Amount = objRel.ID_Object _
-                                        , Name_Amount = objRel.Name_Object _
-                                        , ID_Attribute_Amount = objAtt.ID_Attribute _
-                                        , Amount = objAtt.Val_Double _
-                                        , ID_Unit = objRel.ID_Other _
-                                        , Name_Unit = objRel.Name_Other
-                For Each objAmount In objLAmount
-                    objLiAmount.Add(New clsAmount(objAmount.ID_Amount, _
-                                                  objAmount.Name_Amount, _
-                                                  objAmount.ID_Unit, _
-                                                  objAmount.Name_Unit, _
-                                                  objAmount.ID_Attribute_Amount, _
-                                                  objAmount.Amount))
-                Next
-
-            Else
-                objLiAmount = Nothing
-            End If
-        Else
-            objLiAmount = Nothing
         End If
 
-        Return objLiAmount
+        Return objOItem_Result
     End Function
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
