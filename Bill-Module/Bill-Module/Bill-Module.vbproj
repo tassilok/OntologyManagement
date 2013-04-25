@@ -179,6 +179,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ModuleLibrary\ModuleLibrary\ModuleLibrary.vbproj">
+      <Project>{28FDA320-130A-4B64-8199-B6A3F7F6D56A}</Project>
+      <Name>ModuleLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3F2F6722-C36B-420D-AFE7-B21C19457208}</Project>
       <Name>Ontolog-Module</Name>

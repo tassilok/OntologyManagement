@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports ModuleLibrary
 Public Class UserControl_TransactionDetail
     Private objLocalConfig As clsLocalConfig
 
@@ -10,11 +11,14 @@ Public Class UserControl_TransactionDetail
 
     Private objOItem_FinancialTransaction As clsOntologyItem
 
+
     Private objDataWork_BaseConfig As clsDataWork_BaseConfig
     Private objDataWork_Transaction As clsDataWork_Transaction
     Private objDAtaWork_Payments As clsDataWork_Payments
+    Private strAmount As String
 
     Private objTransaction_FinancialTransaction As clsTransaction_FinancialTransaction
+    Private objTransaction_Amount As clsTransaction_Amount
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal DataWork_BaseConfig As clsDataWork_BaseConfig)
 
@@ -112,6 +116,7 @@ Public Class UserControl_TransactionDetail
         objDAtaWork_Payments = New clsDataWork_Payments(objLocalConfig)
 
         objTransaction_FinancialTransaction = New clsTransaction_FinancialTransaction(objLocalConfig)
+        objTransaction_Amount = New clsTransaction_Amount(objLocalConfig.Globals)
     End Sub
 
     Private Sub Timer_Data_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Data.Tick
@@ -600,5 +605,47 @@ Public Class UserControl_TransactionDetail
         End If
 
 
+    End Sub
+
+    Private Sub save_Amount()
+        Dim dblAmount As Double
+        Dim objOItem_Unit As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+
+        If Double.TryParse(TextBox_Amount.Text, dblAmount) = True Then
+            objOItem_Unit = ComboBox_unit.SelectedItem
+            If Not objOItem_Unit Is Nothing Then
+                objOItem_Result = objTransaction_Amount.save_001_Amount(dblAmount, objOItem_Unit)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Die Menge konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                    initialize(objOItem_FinancialTransaction)
+                End If
+            End If
+        End If
+    End Sub
+
+   
+    Private Sub TextBox_Amount_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBox_Amount.TextChanged
+        Dim dblAmount As Double
+        Timer_Menge.Stop()
+        If TextBox_Amount.ReadOnly = False Then
+            If TextBox_Amount.Text <> strAmount Then
+                If Double.TryParse(TextBox_Amount.Text, dblAmount) Then
+                    strAmount = TextBox_Amount.Text
+                    Timer_Menge.Start()
+                Else
+                    TextBox_Amount.ReadOnly = True
+                    TextBox_Amount.Text = strAmount
+                    TextBox_Amount.ReadOnly = False
+                End If
+            End If
+        End If
+    End Sub
+
+
+    Private Sub Timer_Menge_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Menge.Tick
+        Timer_Menge.Stop()
+
+        save_Amount()
     End Sub
 End Class

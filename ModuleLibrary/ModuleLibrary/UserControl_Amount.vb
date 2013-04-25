@@ -153,7 +153,7 @@ Public Class UserControl_Amount
                     initialize_Amount(objOItem_Amount)
                 End If
             Else
-
+                objOItem_Result = objTransaction_Amount.save_003_Amount_To_Unit(ComboBox_Unit.SelectedItem, objOItem_Amount)
             End If
         End If
         

@@ -6,6 +6,7 @@
     <Regex>\s/cget|\s\S+/cget</Regex>
     <Regex_Post></Regex_Post>
     <DataType>string</DataType>
+    <posfound>0</posfound>
   </dtbl_Fields>
   <dtbl_Fields>
     <Field_Name>EX_CSET</Field_Name>
@@ -13,6 +14,7 @@
     <Regex><![CDATA[\s/cset|\s\S+/cset]]></Regex>
     <Regex_Post><![CDATA[]]></Regex_Post>
     <DataType>string</DataType>
+    <posfound>0</posfound>
   </dtbl_Fields>
   <dtbl_Fields>
     <Field_Name>EX_CSET_AID_EXIST</Field_Name>
@@ -20,6 +22,7 @@
     <Regex><![CDATA[\s/cset\S*\.php\?e?x?-?aid=|\s\S+/cset\S*\.php\?e?x?-?aid=]]></Regex>
     <Regex_Post><![CDATA[]]></Regex_Post>
     <DataType>string</DataType>
+    <posfound>0</posfound>
   </dtbl_Fields>
   <dtbl_Fields>
     <Field_Name>EX_CSET_AID</Field_Name>
@@ -27,6 +30,7 @@
     <Regex><![CDATA[\d*]]></Regex>
     <Regex_Post><![CDATA[]]></Regex_Post>
     <DataType>long</DataType>
+    <posfound>0</posfound>
   </dtbl_Fields>
   <dtbl_Fields>
     <Field_Name>EX_CSET_CID_EXIST</Field_Name>
@@ -34,6 +38,7 @@
     <Regex><![CDATA[\s/cset\S*\.php\?e?x?-?aid=\d*&e?x?-?cid=|\s\S+/cset\S*\.php\?e?x?-?aid=\d*&e?x?-?cid=]]></Regex>
     <Regex_Post><![CDATA[]]></Regex_Post>
     <DataType>string</DataType>
+    <posfound>0</posfound>
   </dtbl_Fields>
   <dtbl_Fields>
     <Field_Name>EX_CGET_FID_EXIST</Field_Name>
@@ -41,6 +46,7 @@
     <Regex><![CDATA[\s/cget|\s\S+/cget/\?e?x?-?fid=]]></Regex>
     <Regex_Post><![CDATA[]]></Regex_Post>
     <DataType>string</DataType>
+    <posfound>0</posfound>
   </dtbl_Fields>
   <dtbl_Fields>
     <Field_Name>EX_CGET_FID</Field_Name>
@@ -48,6 +54,7 @@
     <Regex><![CDATA[\d*]]></Regex>
     <Regex_Post><![CDATA[]]></Regex_Post>
     <DataType>long</DataType>
+    <posfound>0</posfound>
   </dtbl_Fields>
   <dtbl_Fields>
     <Field_Name>EX_CGET_KID_EXIST</Field_Name>
@@ -55,6 +62,7 @@
     <Regex><![CDATA[\s/cget/\?e?x?-?kid=|\s\S+/cget/\?e?x?-?kid=]]></Regex>
     <Regex_Post><![CDATA[]]></Regex_Post>
     <DataType>string</DataType>
+    <posfound>0</posfound>
   </dtbl_Fields>
   <dtbl_Fields>
     <Field_Name>EX_CGET_KID</Field_Name>
@@ -62,6 +70,7 @@
     <Regex><![CDATA[\d*]]></Regex>
     <Regex_Post><![CDATA[]]></Regex_Post>
     <DataType>long</DataType>
+    <posfound>0</posfound>
   </dtbl_Fields>
   <dtbl_Fields>
     <Field_Name>EX_CSET_CID</Field_Name>
@@ -69,6 +78,7 @@
     <Regex><![CDATA[\d*]]></Regex>
     <Regex_Post><![CDATA[]]></Regex_Post>
     <DataType>long</DataType>
+    <posfound>0</posfound>
   </dtbl_Fields>
   <dtbl_Fields>
     <Field_Name>EX_CSET_CLICK</Field_Name>
@@ -76,6 +86,7 @@
     <Regex><![CDATA[\s/cset\.php|\s\S+/cset\.php]]></Regex>
     <Regex_Post><![CDATA[]]></Regex_Post>
     <DataType>string</DataType>
+    <posfound>0</posfound>
   </dtbl_Fields>
   <dtbl_Fields>
     <Field_Name>EX_CSET_VIEW</Field_Name>
@@ -83,6 +94,7 @@
     <Regex><![CDATA[\s/cset_v\.php|\s\S+/cset_v\.php]]></Regex>
     <Regex_Post><![CDATA[]]></Regex_Post>
     <DataType>string</DataType>
+    <posfound>0</posfound>
   </dtbl_Fields>
   <dtbl_Fields>
     <Field_Name>EX_CGET_ORDERID</Field_Name>
@@ -90,6 +102,7 @@
     <Regex><![CDATA[\w+]]></Regex>
     <Regex_Post><![CDATA[]]></Regex_Post>
     <DataType>string</DataType>
+    <posfound>0</posfound>
   </dtbl_Fields>
   <dtbl_Fields>
     <Field_Name>DATE</Field_Name>
@@ -97,6 +110,7 @@
     <Regex><![CDATA[\[(\d\d)\/(...)\/(\d{4})]]></Regex>
     <Regex_Post><![CDATA[:(\d\d):(\d\d):(\d\d) ([+-]\d{4})\]]]></Regex_Post>
     <DataType>string</DataType>
+    <posfound>0</posfound>
   </dtbl_Fields>
   <dtbl_Fields>
     <Field_Name>TIME</Field_Name>
@@ -104,12 +118,22 @@
     <Regex><![CDATA[(\d\d):(\d\d):(\d\d)]]></Regex>
     <Regex_Post><![CDATA[ ([+-]\d{4})\]]]></Regex_Post>
     <DataType>string</DataType>
+    <posfound>0</posfound>
   </dtbl_Fields>
   <dtbl_Fields>
     <Field_Name>TIMEZONE</Field_Name>
     <Regex_Pre><![CDATA[\[(\d\d)\/(...)\/(\d{4}):(\d\d):(\d\d):(\d\d) ]]></Regex_Pre>
     <Regex><![CDATA[([+-]\d{4})\]]]></Regex>
-    <Regex_Post></Regex_Post>
+    <Regex_Post><![CDATA[]]></Regex_Post>
     <DataType>string</DataType>
+    <posfound>0</posfound>
+  </dtbl_Fields>
+  <dtbl_Fields>
+    <Field_Name>AGENT</Field_Name>
+    <Regex_Pre><![CDATA[]]></Regex_Pre>
+    <Regex><![CDATA[".*"]]></Regex>
+    <Regex_Post><![CDATA[]]></Regex_Post>
+    <DataType>string</DataType>
+    <posfound>-1</posfound>
   </dtbl_Fields>
 </DocumentElement>

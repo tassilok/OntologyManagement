@@ -114,16 +114,99 @@ Public Class clsTransaction_Amount
 
     Public Function save_001_Amount(ByVal OItem_Amount As clsOntologyItem, Optional ByVal dblAmount As Double = Nothing, Optional ByVal OItem_Unit As clsOntologyItem = Nothing) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
+        Dim objLAmount__Amount_Search As New List(Of clsObjectAtt)
+        Dim objLAmount_To_Unit_Search As New List(Of clsObjectRel)
         Dim objLAmount As New List(Of clsOntologyItem)
-
+        Dim strName_New As String
 
         ' Get the dbl-amount and the unit
         objOItem_Amount = OItem_Amount
         objLAmount.Add(objOItem_Amount)
-        asdf()
 
+        objOItem_Result = objLocalConfig.Globals.LState_Success
 
-        objOItem_Result = objDBLevel_Amount.save_Objects(objLAmount)
+        If dblAmount = Nothing Then
+            objLAmount__Amount_Search.Add(New clsObjectAtt(Nothing, _
+                                                           objOItem_Amount.GUID, _
+                                                           Nothing, _
+                                                           objLocalConfig.OItem_Attribute_Menge.GUID, _
+                                                           Nothing))
+
+            objOItem_Result = objDBLevel_Amount.get_Data_ObjectAtt(objLAmount__Amount_Search, _
+                                                                   boolIDs:=False)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                If objDBLevel_Amount.OList_ObjectAtt.Count > 0 Then
+                    objOAItem_Amount = New clsObjectAtt(objDBLevel_Amount.OList_ObjectAtt(0).ID_Attribute, _
+                                                        objDBLevel_Amount.OList_ObjectAtt(0).ID_Object, _
+                                                        Nothing, _
+                                                        objDBLevel_Amount.OList_ObjectAtt(0).ID_Class, _
+                                                        Nothing, _
+                                                        objDBLevel_Amount.OList_ObjectAtt(0).ID_AttributeType, _
+                                                        Nothing, _
+                                                        objDBLevel_Amount.OList_ObjectAtt(0).OrderID, _
+                                                        objDBLevel_Amount.OList_ObjectAtt(0).val_Named, _
+                                                        Nothing, _
+                                                        Nothing, _
+                                                        Nothing, _
+                                                        objDBLevel_Amount.OList_ObjectAtt(0).Val_Double, _
+                                                        Nothing, _
+                                                        objLocalConfig.Globals.DType_Real.GUID)
+
+                    dblAmount = objDBLevel_Amount.OList_ObjectAtt(0).Val_Double
+                End If
+            End If
+        End If
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If OItem_Unit Is Nothing Then
+                objLAmount_To_Unit_Search.Add(New clsObjectRel(objOItem_Amount.GUID, _
+                                                               Nothing, _
+                                                               Nothing, _
+                                                               objLocalConfig.OItem_Type_Einheit.GUID, _
+                                                               objLocalConfig.OItem_RelationType_is_of_Type.GUID, _
+                                                               objLocalConfig.Globals.Type_Object, _
+                                                               Nothing, _
+                                                               Nothing))
+                objOItem_Result = objDBLevel_Amount.get_Data_ObjectRel(objLAmount_To_Unit_Search, _
+                                                                       boolIDs:=False)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objDBLevel_Amount.OList_ObjectRel.Count > 0 Then
+                        objOItem_Unit = New clsOntologyItem
+                        objOItem_Unit.GUID = objDBLevel_Amount.OList_ObjectRel(0).ID_Other
+                        objOItem_Unit.Name = objDBLevel_Amount.OList_ObjectRel(0).Name_Other
+                        objOItem_Unit.GUID_Parent = objDBLevel_Amount.OList_ObjectRel(0).ID_Parent_Other
+                        objOItem_Unit.Type = objDBLevel_Amount.OList_ObjectRel(0).Ontology
+                    End If
+                End If
+            End If
+        End If
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            strName_New = "New Amount"
+
+            If Not objOAItem_Amount Is Nothing Then
+                strName_New = objOAItem_Amount.Val_Double.ToString
+            End If
+
+            If Not objOItem_Unit Is Nothing Then
+                If strName_New = "New Amount" Then
+                    strName_New = objOItem_Unit.Name
+                Else
+
+                    strName_New = strName_New & " " & objOItem_Unit.Name
+                End If
+            End If
+
+            If strName_New <> objOItem_Amount.Name Then
+                objOItem_Amount.Name = strName_New
+                objLAmount.Clear()
+                objLAmount.Add(objOItem_Amount)
+                objOItem_Result = objDBLevel_Amount.save_Objects(objLAmount)
+            End If
+
+        End If
+        
 
 
         Return objOItem_Result
@@ -221,6 +304,9 @@ Public Class clsTransaction_Amount
             objLAmount__Amount.Add(objOAItem_Amount)
             objOItem_Result = objDBLevel_Amount.save_ObjAtt(objLAmount__Amount)
 
+        End If
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            save_001_Amount(objOItem_Amount, dblAmount)
         End If
 
         Return objOItem_Result
@@ -325,6 +411,9 @@ Public Class clsTransaction_Amount
             objOItem_Result = objDBLevel_Amount.save_ObjRel(objLAmount_To_Unit)
         End If
 
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            save_001_Amount(objOItem_Amount, OItem_Unit:=objOItem_Unit)
+        End If
         Return objOItem_Result
     End Function
 

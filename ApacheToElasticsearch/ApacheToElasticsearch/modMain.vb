@@ -25,6 +25,10 @@ Module modMain
     Private strEL_Index As String
     Private strEL_Index_Meta As String
     Private strEL_Type As String
+    Private strCreated As String
+    Private strMode As String
+
+    Private dateCreated As Date
 
 
     Sub Main(ByVal args() As String)
@@ -43,7 +47,7 @@ Module modMain
 
     End Sub
 
-    Private Function get_LastLine(ByVal strPath_File As String) As Long
+    Private Function get_LastLine(ByVal strPath_File As String, ByVal strDateCreated As String) As Long
         Dim lngLine As Long = -1
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
@@ -67,7 +71,7 @@ Module modMain
         Catch ex As Exception
             lngLine = -1
         End Try
-        
+
         Return lngLine
     End Function
 
@@ -81,6 +85,10 @@ Module modMain
                 Select Case strAArg(0).ToLower
                     Case "file"
                         strPathFile = strAArg(1)
+                    Case "created"
+                        strCreated = strAArg(1)
+                    Case "mode"
+                        strMode = strAArg(1)
                 End Select
             End If
         Next
@@ -93,7 +101,7 @@ Module modMain
             get_BaseConfig()
             initialize_Client()
             get_Fields()
-            lngLine = get_LastLine(strPathFile)
+            lngLine = get_LastLine(strPathFile, strCreated)
 
             read_lines()
         Else
@@ -102,6 +110,32 @@ Module modMain
 
 
 
+    End Sub
+
+    Private Sub parse_Documents(ByVal strPath_File As String, ByVal strDateCreated As String)
+        Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
+        Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
+        Dim objHit As ElasticSearch.Client.Domain.Hits
+        Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
+        Dim strMessage As String
+        Dim intDocID As Integer = 0
+
+        objBoolQuery.Add(New TermQuery(New Term("Host", strHost)), BooleanClause.Occur.MUST)
+        objBoolQuery.Add(New TermQuery(New Term("File", """" & strPath_File & """")), BooleanClause.Occur.MUST)
+        objSearchResult = objElConn.Search(strEL_Index, strEL_Type, objBoolQuery.ToString, intDocID, intPackageLenght)
+
+        Try
+            objSearchResult = objElConn.Search(strEL_Index, strEL_Type, objBoolQuery.ToString, intDocID, intPackageLenght)
+            objList = objSearchResult.GetHits.Hits
+
+            For Each objHit In objList
+                strMessage = objHit.Source("Message").ToString
+
+            Next
+
+        Catch ex As Exception
+            lngLine = -1
+        End Try
     End Sub
 
     Private Sub get_Fields()

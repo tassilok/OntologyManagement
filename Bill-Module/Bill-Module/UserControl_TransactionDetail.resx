@@ -121,21 +121,21 @@
     <value>17, 17</value>
   </metadata>
   <metadata name="Timer_Data.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 54</value>
+    <value>256, 17</value>
   </metadata>
   <metadata name="Timer_Menge.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>126, 54</value>
+    <value>369, 17</value>
   </metadata>
   <metadata name="Timer_Sum.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>245, 54</value>
+    <value>495, 17</value>
   </metadata>
   <metadata name="BindingSource_Payments.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>353, 54</value>
+    <value>607, 17</value>
   </metadata>
   <metadata name="Timer_TransactionID.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>530, 54</value>
+    <value>795, 17</value>
   </metadata>
   <metadata name="ContextMenuStrip_Payment.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>686, 54</value>
+    <value>957, 17</value>
   </metadata>
 </root>
