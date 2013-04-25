@@ -4,8 +4,11 @@ Public Class UserControl_BillTree
     Private objDataWork_BaseConfig As clsDataWork_BaseConfig
     Private WithEvents objDataWork_BillTree As clsDataWork_BillTree
     Public Event Error_UserControl(ByVal intID, ByVal strMessage)
+    Public Event new_Transaction()
     Private objTreeNode_Root As TreeNode
     Private objOItem_FinancialTransaction As clsOntologyItem
+
+
 
     Public Event selected_FinancialTransactions(ByVal OItem_FinancialTransaction)
 
@@ -59,5 +62,43 @@ Public Class UserControl_BillTree
         End If
 
         RaiseEvent selected_FinancialTransactions(objOItem_FinancialTransaction)
+    End Sub
+
+    Private Sub ContextMenuStrip_FinancialTransaction_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_FinancialTransaction.Opening
+        Dim objTreeNode As TreeNode
+
+        objTreeNode = TreeView_Transactions.SelectedNode
+
+        NewTransactionToolStripMenuItem.Enabled = False
+        RemoveTransactionToolStripMenuItem.Enabled = False
+        NewFromBankToolStripMenuItem.Enabled = False
+        NewFromParentToolStripMenuItem.Enabled = False
+        RemoveFromTreeToolStripMenuItem.Enabled = False
+        DetailsToBillsToolStripMenuItem.Enabled = False
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = objLocalConfig.ImageID_Einnahmen Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Ausgaben Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Bill Then
+                NewTransactionToolStripMenuItem.Enabled = True
+                NewFromBankToolStripMenuItem.Enabled = True
+                If objTreeNode.ImageIndex = objLocalConfig.ImageID_Ausgaben Or _
+                    objTreeNode.ImageIndex = objLocalConfig.ImageID_Einnahmen Then
+                    DetailsToBillsToolStripMenuItem.Enabled = True
+                End If
+            End If
+
+            If objTreeNode.ImageIndex = objLocalConfig.ImageID_Bill Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Position Then
+                If objTreeNode.ImageIndex = objLocalConfig.ImageID_Bill Then
+                    NewFromParentToolStripMenuItem.Enabled = True
+                    RemoveFromTreeToolStripMenuItem.Enabled = True
+                End If
+                RemoveTransactionToolStripMenuItem.Enabled = True
+            End If
+        End If
+    End Sub
+
+    Private Sub NewTransactionToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewTransactionToolStripMenuItem.Click
+        RaiseEvent new_Transaction()
     End Sub
 End Class

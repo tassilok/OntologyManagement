@@ -7,6 +7,8 @@ Public Class frmBillModule
     Private objOItem_Open As clsOntologyItem
     Private objOItem_FinancialTransaction As clsOntologyItem
 
+    Private 
+
     Private Sub selected_FinancialTransaction(ByVal OItem_FinancialTransaction As clsOntologyItem) Handles objUserControl_BillTree.selected_FinancialTransactions
         objOItem_FinancialTransaction = OItem_FinancialTransaction
 
