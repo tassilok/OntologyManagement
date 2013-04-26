@@ -150,6 +150,7 @@ Module modMain
         Dim strRegEx As String = ""
         Dim strRegEx_Post As String = ""
         Dim strDataType As String = ""
+        Dim strPosFound As Integer = 0
 
         Dim strReplace_Exist As String = ""
 
@@ -167,6 +168,7 @@ Module modMain
         objXMLDom.Load("Fields.xml")
         objXMLNodeList = objXMLDom.GetElementsByTagName("dtbl_Fields")
         For Each objXMLElement In objXMLNodeList
+            intPos = 0
             For Each objXMLChild In objXMLElement.ChildNodes
                 Select Case objXMLChild.Name.ToLower
                     Case "field_name"
@@ -179,6 +181,8 @@ Module modMain
                         strRegEx_Post = objXMLChild.InnerText
                     Case "datatype"
                         strDataType = objXMLChild.InnerText
+                    Case "posfound"
+                        Integer.TryParse(objXMLChild.InnerText, intPos)
 
                 End Select
             Next
@@ -190,9 +194,10 @@ Module modMain
                                          strRegEx_Pre, _
                                          strRegEx, _
                                          strRegEx_Post, _
-                                         strDataType))
+                                         strDataType, _
+                                         intPos))
             End If
-            
+
         Next
 
         strField_Name = ""
@@ -450,6 +455,7 @@ Module modMain
         Dim objRegEx_Pre As Regex = Nothing
         Dim objRegEx_Post As Regex = Nothing
         Dim objRegEx_Mutate As Regex = Nothing
+        Dim objMatchColl As MatchCollection
         Dim boolVal As Boolean
         Dim strVal As String
         Dim dblVal As Double
@@ -499,8 +505,19 @@ Module modMain
                     If Not objField.RegEx Is Nothing Then
                         If objField.RegEx <> "" Then
                             objRegEx = New Regex(objField.RegEx)
-                            intIndex = objRegEx.Match(strLine).Index
-                            intLength = objRegEx.Match(strLine).Length
+                            If objField.posfound = 0 Then
+                                intIndex = objRegEx.Match(strLine).Index
+                                intLength = objRegEx.Match(strLine).Length
+                            ElseIf objField.posfound = -1 Then
+                                objMatchColl = objRegEx.Matches(strLine)
+                                If objMatchColl.Count > 0 Then
+                                    intIndex = objMatchColl(objMatchColl.Count - 1).Index
+                                    intLength = objMatchColl(objMatchColl.Count - 1).Length
+                                Else
+                                    intLength = 0
+                                End If
+                            End If
+                            
 
                             If intLength = 0 Then
                                 boolParse = False

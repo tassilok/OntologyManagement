@@ -3,7 +3,7 @@ Imports ElasticSearch
 Imports Lucene.Net.Search
 Imports Lucene.Net.Index
 
-Public Class clsElasticSearchToExcel
+Public Class clsElasticSearchStatistics
     Private intPackageLength As Integer
     Private objElConn As ElasticSearch.Client.ElasticSearchClient
     Private objBulkObjects() As ElasticSearch.Client.Domain.BulkObject
@@ -17,13 +17,27 @@ Public Class clsElasticSearchToExcel
     Private intCol As Integer
     Private boolHeader As Boolean
 
+    Private objIndexStat As New clsIndexStat
+    Private objStoreStat As New clsStoreStat
 
     Public Event counted_Search(ByVal lngCount As Long)
+
+    Public ReadOnly Property IndexStat As clsIndexStat
+        Get
+            Return objIndexStat
+        End Get
+    End Property
+
+    Public ReadOnly Property StoreStat As clsStoreStat
+        Get
+            Return objStoreStat
+        End Get
+    End Property
 
     Private Sub initialize_Client()
 
         objElConn = New ElasticSearch.Client.ElasticSearchClient(objConfig.Server, objConfig.Port, Client.Config.TransportType.Thrift, False)
-        
+
 
     End Sub
 
@@ -87,6 +101,30 @@ Public Class clsElasticSearchToExcel
     End Function
 
 
+    Public Function del_By_Query(ByVal objDict As Dictionary(Of String, Object), ByVal boolLike As Boolean) As Boolean
+        Dim boolResult As Boolean = True
+        Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
+        Dim objSearchResult As ElasticSearch.Client.Domain.OperateResult
+        Dim strQuery As String = ""
+
+        initialize_Client()
+
+        For Each objKeyValue As KeyValuePair(Of String, Object) In objDict
+            If boolLike = True Then
+                objBoolQuery.Add(New WildcardQuery(New Term(objKeyValue.Key, "*" & objKeyValue.Value.ToString & "*")), BooleanClause.Occur.MUST)
+
+            Else
+                objBoolQuery.Add(New TermQuery(New Term(objKeyValue.Key, "*" & objKeyValue.Value.ToString & "*")), BooleanClause.Occur.MUST)
+            End If
+        Next
+
+        objSearchResult = objElConn.DeleteByQueryString(objConfig.Index, objConfig.Type, objBoolQuery.ToString)
+
+        boolResult = objSearchResult.Success
+
+        Return boolResult
+    End Function
+
     Public Function QueryToExcel(ByVal strQuery As String, ByVal boolCount As Boolean) As Boolean
         Dim boolResult As Boolean = True
 
@@ -106,9 +144,32 @@ Public Class clsElasticSearchToExcel
             fill_QueryResults(strQuery, boolCount)
         End If
 
-        
+
 
         Return boolResult
+    End Function
+
+    Public Function get_EL_State() As Boolean
+        Dim objClusterStatus As ElasticSearch.Client.Admin.ClusterIndexStatus
+        Dim boolResult As Boolean
+
+        initialize_Client()
+
+        objClusterStatus = objElConn.Status(objConfig.Index)
+
+        If objClusterStatus.Success = True Then
+            Double.TryParse(objClusterStatus.IndexStatus(objConfig.Index).StoreStatus.SizeInBytes, objStoreStat.Size)
+            objIndexStat.NumDocs = objClusterStatus.IndexStatus(objConfig.Index).DocStatus.NumDocs
+            boolResult = True
+        Else
+            objStoreStat.Size = 0
+            objIndexStat.NumDocs = 0
+            boolResult = False
+        End If
+        
+        Return boolResult
+
+
     End Function
 
     Public Sub New()

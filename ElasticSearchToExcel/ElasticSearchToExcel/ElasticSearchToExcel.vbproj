@@ -99,12 +99,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsConfig.vb" />
-    <Compile Include="clsElasticSearchToExcel.vb" />
+    <Compile Include="clsElasticSearchStatistics.vb" />
+    <Compile Include="clsIndexStat.vb" />
+    <Compile Include="clsStoreStat.vb" />
+    <Compile Include="DataSet_Measure.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet_Measure.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSet_Measure.vb">
+      <DependentUpon>DataSet_Measure.xsd</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmMain.Designer.vb">
       <DependentUpon>frmMain.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTurnover.Designer.vb">
+      <DependentUpon>frmTurnover.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmTurnover.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -127,6 +143,9 @@
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmTurnover.resx">
+      <DependentUpon>frmTurnover.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -138,6 +157,18 @@
     <None Include="app.config" />
     <None Include="Config\ElasticSearch.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DataSet_Measure.xsc">
+      <DependentUpon>DataSet_Measure.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet_Measure.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet_Measure.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="DataSet_Measure.xss">
+      <DependentUpon>DataSet_Measure.xsd</DependentUpon>
     </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>

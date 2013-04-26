@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet_Measure" targetNamespace="http://tempuri.org/DataSet_Measure.xsd" xmlns:mstns="http://tempuri.org/DataSet_Measure.xsd" xmlns="http://tempuri.org/DataSet_Measure.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet_Measure" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet_Measure" msprop:Generator_UserDSName="DataSet_Measure">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Turnover" msprop:Generator_TableClassName="TurnoverDataTable" msprop:Generator_TableVarName="tableTurnover" msprop:Generator_TablePropName="Turnover" msprop:Generator_RowDeletingName="TurnoverRowDeleting" msprop:Generator_UserTableName="Turnover" msprop:Generator_RowChangingName="TurnoverRowChanging" msprop:Generator_RowEvHandlerName="TurnoverRowChangeEventHandler" msprop:Generator_RowDeletedName="TurnoverRowDeleted" msprop:Generator_RowEvArgName="TurnoverRowChangeEvent" msprop:Generator_RowChangedName="TurnoverRowChanged" msprop:Generator_RowClassName="TurnoverRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" />
+              <xs:element name="Start" msprop:Generator_ColumnVarNameInTable="columnStart" msprop:Generator_ColumnPropNameInRow="Start" msprop:Generator_ColumnPropNameInTable="StartColumn" msprop:Generator_UserColumnName="Start" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="End" msprop:Generator_ColumnVarNameInTable="columnEnd" msprop:Generator_ColumnPropNameInRow="_End" msprop:Generator_ColumnPropNameInTable="EndColumn" msprop:Generator_UserColumnName="End" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Durance_sec" msprop:Generator_ColumnVarNameInTable="columnDurance_sec" msprop:Generator_ColumnPropNameInRow="Durance_sec" msprop:Generator_ColumnPropNameInTable="Durance_secColumn" msprop:Generator_UserColumnName="Durance_sec" type="xs:string" minOccurs="0" />
+              <xs:element name="Durance_ms" msprop:Generator_ColumnVarNameInTable="columnDurance_ms" msprop:Generator_ColumnPropNameInRow="Durance_ms" msprop:Generator_ColumnPropNameInTable="Durance_msColumn" msprop:Generator_UserColumnName="Durance_ms" type="xs:string" minOccurs="0" />
+              <xs:element name="Volume_Start" msprop:Generator_ColumnVarNameInTable="columnVolume_Start" msprop:Generator_ColumnPropNameInRow="Volume_Start" msprop:Generator_ColumnPropNameInTable="Volume_StartColumn" msprop:Generator_UserColumnName="Volume_Start" type="xs:long" minOccurs="0" />
+              <xs:element name="Size_Start_Byte" msprop:Generator_ColumnVarNameInTable="columnSize_Start_Byte" msprop:Generator_ColumnPropNameInRow="Size_Start_Byte" msprop:Generator_ColumnPropNameInTable="Size_Start_ByteColumn" msprop:Generator_UserColumnName="Size_Start_Byte" type="xs:double" minOccurs="0" />
+              <xs:element name="Volume_End" msprop:Generator_ColumnVarNameInTable="columnVolume_End" msprop:Generator_ColumnPropNameInRow="Volume_End" msprop:Generator_ColumnPropNameInTable="Volume_EndColumn" msprop:Generator_UserColumnName="Volume_End" type="xs:long" minOccurs="0" />
+              <xs:element name="Size_End_Byte" msprop:Generator_ColumnVarNameInTable="columnSize_End_Byte" msprop:Generator_ColumnPropNameInRow="Size_End_Byte" msprop:Generator_ColumnPropNameInTable="Size_End_ByteColumn" msprop:Generator_UserColumnName="Size_End_Byte" type="xs:string" minOccurs="0" />
+              <xs:element name="Volume_per_sec" msprop:Generator_ColumnVarNameInTable="columnVolume_per_sec" msprop:Generator_ColumnPropNameInRow="Volume_per_sec" msprop:Generator_ColumnPropNameInTable="Volume_per_secColumn" msprop:Generator_UserColumnName="Volume_per_sec" type="xs:string" minOccurs="0" />
+              <xs:element name="Size_Per_Volume" msprop:Generator_ColumnVarNameInTable="columnSize_Per_Volume" msprop:Generator_ColumnPropNameInRow="Size_Per_Volume" msprop:Generator_ColumnPropNameInTable="Size_Per_VolumeColumn" msprop:Generator_UserColumnName="Size_Per_Volume" type="xs:double" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Turnover" />
+      <xs:field xpath="mstns:ID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

@@ -3,7 +3,9 @@
     Private strRegex_Pre As String
     Private strRegex As String
     Private strRegex_Post As String
-    Private strDataType
+    Private strDataType As String
+    Private intPos As Integer
+
 
     Public Property Field As String
         Get
@@ -51,11 +53,21 @@
         End Set
     End Property
 
-    Public Sub New(ByVal Field As String, ByVal RegEx_Pre As String, ByVal RegEx As String, ByVal RegEx_Post As String, ByVal DataType As String)
+    Public Property posfound As Integer
+        Get
+            Return intPos
+        End Get
+        Set(ByVal value As Integer)
+            intPos = value
+        End Set
+    End Property
+
+    Public Sub New(ByVal Field As String, ByVal RegEx_Pre As String, ByVal RegEx As String, ByVal RegEx_Post As String, ByVal DataType As String, ByVal PosFound As Integer)
         strField = Field
         strRegex_Pre = RegEx_Pre
         strRegex_Post = RegEx_Post
         strRegex = RegEx
         strDataType = DataType
+        intPos = PosFound
     End Sub
 End Class
