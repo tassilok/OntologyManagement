@@ -50,6 +50,7 @@ Partial Class frmTurnover
         Me.SizePerVolumeDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TurnoverBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.DataSet_Measure = New ElasticSearchToExcel.DataSet_Measure()
+        Me.CheckBox_Restart = New System.Windows.Forms.CheckBox()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -69,6 +70,7 @@ Partial Class frmTurnover
         '
         'ToolStripContainer1.ContentPanel
         '
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.CheckBox_Restart)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Label_Durance)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Button_Stop)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Button_Start)
@@ -89,7 +91,7 @@ Partial Class frmTurnover
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close})
-        Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
+        Me.ToolStrip1.Location = New System.Drawing.Point(5, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(52, 25)
         Me.ToolStrip1.TabIndex = 0
@@ -105,8 +107,9 @@ Partial Class frmTurnover
         '
         'Label_Durance
         '
+        Me.Label_Durance.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label_Durance.AutoSize = True
-        Me.Label_Durance.Location = New System.Drawing.Point(658, 9)
+        Me.Label_Durance.Location = New System.Drawing.Point(922, 10)
         Me.Label_Durance.Name = "Label_Durance"
         Me.Label_Durance.Size = New System.Drawing.Size(10, 13)
         Me.Label_Durance.TabIndex = 7
@@ -155,7 +158,7 @@ Partial Class frmTurnover
         Me.DataGridView_Turnover.Location = New System.Drawing.Point(15, 59)
         Me.DataGridView_Turnover.Name = "DataGridView_Turnover"
         Me.DataGridView_Turnover.ReadOnly = True
-        Me.DataGridView_Turnover.Size = New System.Drawing.Size(1149, 408)
+        Me.DataGridView_Turnover.Size = New System.Drawing.Size(1149, 402)
         Me.DataGridView_Turnover.TabIndex = 3
         '
         'ComboBox_Unit
@@ -281,6 +284,16 @@ Partial Class frmTurnover
         Me.DataSet_Measure.DataSetName = "DataSet_Measure"
         Me.DataSet_Measure.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
+        'CheckBox_Restart
+        '
+        Me.CheckBox_Restart.AutoSize = True
+        Me.CheckBox_Restart.Location = New System.Drawing.Point(1008, 35)
+        Me.CheckBox_Restart.Name = "CheckBox_Restart"
+        Me.CheckBox_Restart.Size = New System.Drawing.Size(81, 17)
+        Me.CheckBox_Restart.TabIndex = 8
+        Me.CheckBox_Restart.Text = "Restart"
+        Me.CheckBox_Restart.UseVisualStyleBackColor = True
+        '
         'frmTurnover
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -330,4 +343,5 @@ Partial Class frmTurnover
     Friend WithEvents SizePerVolumeDataGridViewTextBoxColumn As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents TurnoverBindingSource As System.Windows.Forms.BindingSource
     Friend WithEvents DataSet_Measure As ElasticSearchToExcel.DataSet_Measure
+    Friend WithEvents CheckBox_Restart As System.Windows.Forms.CheckBox
 End Class

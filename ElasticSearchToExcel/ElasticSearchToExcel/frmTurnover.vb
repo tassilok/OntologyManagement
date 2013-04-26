@@ -19,6 +19,11 @@
     End Sub
 
     Private Sub Button_Start_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Start.Click
+        
+        start_Measure()
+    End Sub
+
+    Private Sub start_Measure()
         Dim lngMs As Long
         Dim objDR_Turnover As DataRow
         Dim objDRs_Turnover As DataRow
@@ -50,7 +55,7 @@
                 Else
                     MsgBox("State of Cluster can not be retrieved!", MsgBoxStyle.Information)
                 End If
-                
+
 
             Else
                 MsgBox("No valid interval", MsgBoxStyle.Information)
@@ -58,7 +63,6 @@
         Else
             MsgBox("Choose a time-unit, please!", MsgBoxStyle.Information)
         End If
-
     End Sub
 
     Private Sub Timer_Measure_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Measure.Tick
@@ -82,6 +86,9 @@
                     objDRs_Line(0)("Volume_Per_Sec") = (objDRs_Line(0)("Volume_End") - objDRs_Line(0)("Volume_Start")) / objDRs_Line(0)("Durance_Sec")
                     objDRs_Line(0)("Size_Per_Volume") = objDRs_Line(0)("Size_End_Byte") / objDRs_Line(0)("Volume_End")
                     DataGridView_Turnover.Refresh()
+                    If CheckBox_Restart.Checked = True Then
+                        start_Measure()
+                    End If
                 End If
 
             End If
