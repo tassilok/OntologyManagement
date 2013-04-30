@@ -8,6 +8,7 @@ Public Class UserControl_BillTree
     Private objTreeNode_Root As TreeNode
     Private objOItem_FinancialTransaction As clsOntologyItem
 
+    Private objFrm_ObjectEdit As frm_ObjectEdit
 
 
     Public Event selected_FinancialTransactions(ByVal OItem_FinancialTransaction)
@@ -100,5 +101,53 @@ Public Class UserControl_BillTree
 
     Private Sub NewTransactionToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewTransactionToolStripMenuItem.Click
         RaiseEvent new_Transaction()
+    End Sub
+
+    Private Sub TreeView_Transactions_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TreeView_Transactions.KeyDown
+        Select Case e.KeyCode
+            Case Keys.F5
+                initialize()
+        End Select
+    End Sub
+
+    Private Sub TreeView_Transactions_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeView_Transactions.MouseDoubleClick
+        Dim objTreeNode As TreeNode
+        Dim objOL_Objects As New List(Of clsOntologyItem)
+
+        objTreeNode = TreeView_Transactions.SelectedNode
+        If Not objTreeNode Is Nothing Then
+
+            Select Case objTreeNode.ImageIndex
+                Case objLocalConfig.ImageID_Mandant
+                    objOL_Objects.Add(New clsOntologyItem(objTreeNode.Name, _
+                                                          objTreeNode.Text, _
+                                                          objLocalConfig.OItem_Class_Partner.GUID, _
+                                                          objLocalConfig.Globals.Type_Object))
+
+                    objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
+                                                           objOL_Objects, _
+                                                           0, _
+                                                           objLocalConfig.Globals.Type_Object, _
+                                                           Nothing)
+
+                    objFrm_ObjectEdit.ShowDialog(Me)
+                Case objLocalConfig.ImageID_Bill
+                    objOL_Objects.Add(New clsOntologyItem(objTreeNode.Name, _
+                                                          objTreeNode.Text, _
+                                                          objLocalConfig.OItem_Class_Financial_Transaction.GUID, _
+                                                          objLocalConfig.Globals.Type_Object))
+
+                    objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
+                                                           objOL_Objects, _
+                                                           0, _
+                                                           objLocalConfig.Globals.Type_Object, _
+                                                           Nothing)
+
+                    objFrm_ObjectEdit.ShowDialog(Me)
+            End Select
+
+
+
+        End If
     End Sub
 End Class

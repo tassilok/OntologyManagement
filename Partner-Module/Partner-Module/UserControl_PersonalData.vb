@@ -130,7 +130,7 @@ Public Class UserControl_PersonalData
         objUserControl_ImageList.Dock = DockStyle.Fill
         Panel_ImageList.Controls.Add(objUserControl_ImageList)
 
-        objUserControl_SingleViewer = New UserControl_SingleViewer(objLocalConfig.Globals, objLocalConfig.OItem_Class_Images__Graphic_)
+        objUserControl_SingleViewer = New UserControl_SingleViewer(objLocalConfig.Globals, UserControl_SingleViewer.MediaType.Image)
         objUserControl_SingleViewer.Dock = DockStyle.Fill
         Panel_ImageView.Controls.Add(objUserControl_SingleViewer)
 

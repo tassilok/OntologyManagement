@@ -6,11 +6,11 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B59F5B2F-28EF-439F-BC00-B0DDD07381D0}</ProjectGuid>
+    <ProjectGuid>{E561F46E-D579-4C7D-8692-A0351E0F7069}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>Bill_Module.My.MyApplication</StartupObject>
-    <RootNamespace>Bill_Module</RootNamespace>
-    <AssemblyName>Bill-Module</AssemblyName>
+    <StartupObject>Process_Module.My.MyApplication</StartupObject>
+    <RootNamespace>Process_Module</RootNamespace>
+    <AssemblyName>Process-Module</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -24,7 +24,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>Bill-Module.xml</DocumentationFile>
+    <DocumentationFile>Process-Module.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -34,7 +34,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>Bill-Module.xml</DocumentationFile>
+    <DocumentationFile>Process-Module.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -54,7 +54,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -74,25 +73,11 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsDataWork_BillTree.vb" />
-    <Compile Include="clsDataWork_Documents.vb" />
-    <Compile Include="clsDataWork_Transaction.vb" />
-    <Compile Include="clsDataWork_BaseConfig.vb" />
-    <Compile Include="clsDocument.vb" />
-    <Compile Include="clsLocalConfig.vb" />
-    <Compile Include="clsDataWork_Payments.vb" />
-    <Compile Include="clsTransaction_Documents.vb" />
-    <Compile Include="clsTransaction_FinancialTransaction.vb" />
-    <Compile Include="DataSet_BillModule.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet_BillModule.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="frmBillModule.vb">
+    <Compile Include="frmProcessModule.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmBillModule.Designer.vb">
-      <DependentUpon>frmBillModule.vb</DependentUpon>
+    <Compile Include="frmProcessModule.Designer.vb">
+      <DependentUpon>frmProcessModule.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -110,34 +95,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="UserControl_BillTree.Designer.vb">
-      <DependentUpon>UserControl_BillTree.vb</DependentUpon>
+    <Compile Include="UserControl_Process.Designer.vb">
+      <DependentUpon>UserControl_Process.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_BillTree.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControl_Documents.Designer.vb">
-      <DependentUpon>UserControl_Documents.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControl_Documents.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControl_RelatedFinTran.Designer.vb">
-      <DependentUpon>UserControl_RelatedFinTran.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControl_RelatedFinTran.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControl_TransactionDetail.Designer.vb">
-      <DependentUpon>UserControl_TransactionDetail.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControl_TransactionDetail.vb">
+    <Compile Include="UserControl_Process.vb">
       <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="frmBillModule.resx">
-      <DependentUpon>frmBillModule.vb</DependentUpon>
+    <EmbeddedResource Include="frmProcessModule.resx">
+      <DependentUpon>frmProcessModule.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -145,34 +112,14 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_BillTree.resx">
-      <DependentUpon>UserControl_BillTree.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_Documents.resx">
-      <DependentUpon>UserControl_Documents.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_RelatedFinTran.resx">
-      <DependentUpon>UserControl_RelatedFinTran.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_TransactionDetail.resx">
-      <DependentUpon>UserControl_TransactionDetail.vb</DependentUpon>
+    <EmbeddedResource Include="UserControl_Process.resx">
+      <DependentUpon>UserControl_Process.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Config\ElasticSearch.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="DataSet_BillModule.xsc">
-      <DependentUpon>DataSet_BillModule.xsd</DependentUpon>
-    </None>
-    <None Include="DataSet_BillModule.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet_BillModule.Designer.vb</LastGenOutput>
-    </None>
-    <None Include="DataSet_BillModule.xss">
-      <DependentUpon>DataSet_BillModule.xsd</DependentUpon>
     </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
@@ -189,32 +136,6 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\pulsante_02_architetto_f_01.png" />
-    <None Include="Resources\pulsante_02_architetto_f_01 last.png" />
-    <None Include="Resources\pulsante_01_architetto_f_01.png" />
-    <None Include="Resources\pulsante_01_architetto_f_01 first.png" />
-    <None Include="Resources\newdocumenths.png" />
-    <None Include="Resources\arrow-up-blue_benji_park_01.png" />
-    <None Include="Resources\tasto_8_architetto_franc_01.png" />
-    <None Include="Resources\arrow-down-purple_benji__01.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Media-Viewer-Module\Media-Viewer-Module\Media-Viewer-Module.vbproj">
-      <Project>{E5546C53-BE08-44E1-B136-D172C3F2FE3E}</Project>
-      <Name>Media-Viewer-Module</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ModuleLibrary\ModuleLibrary\ModuleLibrary.vbproj">
-      <Project>{28FDA320-130A-4B64-8199-B6A3F7F6D56A}</Project>
-      <Name>ModuleLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
-      <Project>{3F2F6722-C36B-420D-AFE7-B21C19457208}</Project>
-      <Name>Ontolog-Module</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Partner-Module\Partner-Module\Partner-Module.vbproj">
-      <Project>{D42C6737-EF33-40D6-8253-173099F93885}</Project>
-      <Name>Partner-Module</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

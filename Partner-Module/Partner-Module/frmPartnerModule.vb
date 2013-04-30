@@ -11,6 +11,38 @@ Public Class frmPartnerModule
 
     Private objOItem_Partner As clsOntologyItem
 
+    Private oItemList_Partner As New List(Of clsOntologyItem)
+
+    Public WriteOnly Property applyable As Boolean
+        Set(ByVal value As Boolean)
+            objUserControl_PartnerList.Applyable = value
+        End Set
+    End Property
+
+    Public ReadOnly Property OList_Partner As List(Of clsOntologyItem)
+        Get
+            Return oItemList_Partner
+        End Get
+    End Property
+
+    Private Sub applied_Partner() Handles objUserControl_PartnerList.applied_Items
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+
+        For Each objDGVR_Selected In objUserControl_PartnerList.DataGridViewRowCollection_Selected
+            objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+            oItemList_Partner.Add(New clsOntologyItem(objDRV_Selected.Item("ID_Item"), _
+                                                  objDRV_Selected.Item("Name"), _
+                                                  objDRV_Selected.Item("ID_Parent"), _
+                                                  objLocalConfig.Globals.Type_Object))
+
+        Next
+
+        Me.DialogResult = Windows.Forms.DialogResult.OK
+        Me.Close()
+    End Sub
+
     Private Sub selected_Partner() Handles objUserControl_PartnerList.Selection_Changed
 
         Dim objDGVR_Selected As DataGridViewRow
@@ -57,6 +89,18 @@ Public Class frmPartnerModule
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
+
+        set_DBConnection()
+        initialize()
+    End Sub
+
+    Public Sub New(ByVal Globals As clsGlobals)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = New clsLocalConfig(Globals)
 
         set_DBConnection()
         initialize()

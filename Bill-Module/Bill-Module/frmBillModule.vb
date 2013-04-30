@@ -4,10 +4,19 @@ Public Class frmBillModule
     Private objDataWork_BaseConfig As clsDataWork_BaseConfig
     Private WithEvents objUserControl_BillTree As UserControl_BillTree
     Private WithEvents objUserControl_TransactionDetail As UserControl_TransactionDetail
+    Private WithEvents objUserControl_Documents As UserControl_Documents
+    Private objFrm_Name As frm_Name
     Private objOItem_Open As clsOntologyItem
     Private objOItem_FinancialTransaction As clsOntologyItem
 
-    Private 
+    Private Sub new_Transaction() Handles objUserControl_BillTree.new_Transaction
+        objFrm_Name = New frm_Name("New Transacon", _
+                                   objLocalConfig.Globals)
+        objFrm_Name.ShowDialog(Me)
+        If objFrm_Name.DialogResult = Windows.Forms.DialogResult.OK Then
+
+        End If
+    End Sub
 
     Private Sub selected_FinancialTransaction(ByVal OItem_FinancialTransaction As clsOntologyItem) Handles objUserControl_BillTree.selected_FinancialTransactions
         objOItem_FinancialTransaction = OItem_FinancialTransaction
@@ -38,6 +47,10 @@ Public Class frmBillModule
             objUserControl_TransactionDetail.Dock = DockStyle.Fill
             TabPage_TransactionDetails.Controls.Add(objUserControl_TransactionDetail)
 
+            objUserControl_Documents = New UserControl_Documents(objLocalConfig)
+            objUserControl_Documents.Dock = DockStyle.Fill
+            TabPage_Documents.Controls.Add(objUserControl_Documents)
+
             configure_TabPages()
         End If
     End Sub
@@ -47,7 +60,7 @@ Public Class frmBillModule
             Case TabPage_TransactionDetails.Name
                 objUserControl_TransactionDetail.initialize(objOItem_FinancialTransaction)
             Case TabPage_Documents.Name
-
+                objUserControl_Documents.initialize_Documents(objOItem_FinancialTransaction)
         End Select
     End Sub
 
@@ -64,5 +77,9 @@ Public Class frmBillModule
             MsgBox("Die Konfiguration konnte nicht geladen werden!", MsgBoxStyle.Exclamation)
             Me.Close()
         End If
+    End Sub
+
+    Private Sub TabControl1_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TabControl1.SelectedIndexChanged
+        configure_TabPages()
     End Sub
 End Class

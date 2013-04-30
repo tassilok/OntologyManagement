@@ -64,6 +64,16 @@ Public Class UserControl_PDFViewer
         set_DBConnection()
     End Sub
 
+    Public Sub New(ByVal Globals As clsGlobals)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = New clsLocalConfig(Globals)
+        set_DBConnection()
+    End Sub
+
     Private Sub set_DBConnection()
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
     End Sub

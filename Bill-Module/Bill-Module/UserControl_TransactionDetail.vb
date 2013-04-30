@@ -1,5 +1,6 @@
 ﻿Imports Ontolog_Module
 Imports ModuleLibrary
+Imports Partner_Module
 Public Class UserControl_TransactionDetail
     Private objLocalConfig As clsLocalConfig
 
@@ -19,6 +20,8 @@ Public Class UserControl_TransactionDetail
 
     Private objTransaction_FinancialTransaction As clsTransaction_FinancialTransaction
     Private objTransaction_Amount As clsTransaction_Amount
+
+    Private objFrmPartnerModule As frmPartnerModule
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal DataWork_BaseConfig As clsDataWork_BaseConfig)
 
@@ -647,5 +650,53 @@ Public Class UserControl_TransactionDetail
         Timer_Menge.Stop()
 
         save_Amount()
+    End Sub
+
+    Private Sub Button_Contractor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Contractor.Click
+        Dim objOItem_Partner As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        objFrmPartnerModule = New frmPartnerModule(objLocalConfig.Globals)
+        objFrmPartnerModule.applyable = True
+        objFrmPartnerModule.ShowDialog(Me)
+
+        If objFrmPartnerModule.DialogResult = DialogResult.OK Then
+            If objFrmPartnerModule.OList_Partner.Count = 1 Then
+                objOItem_Partner = objFrmPartnerModule.OList_Partner(0)
+
+                objOItem_Result = objTransaction_FinancialTransaction.save_008_FinancialTransaction_To_Partner(objOItem_Partner, _
+                                                                                             objLocalConfig.OItem_RelationType_belonging_Contractor, _
+                                                                                             objOItem_FinancialTransaction)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    TextBox_Contractor.Text = objOItem_Partner.Name
+                End If
+            Else
+                MsgBox("Bitte nur einen Partner auswählen!", MsgBoxStyle.Information)
+            End If
+        End If
+
+    End Sub
+
+    Private Sub Button_Contractee_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Contractee.Click
+        Dim objOItem_Partner As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        objFrmPartnerModule = New frmPartnerModule(objLocalConfig.Globals)
+        objFrmPartnerModule.applyable = True
+        objFrmPartnerModule.ShowDialog(Me)
+        If objFrmPartnerModule.DialogResult = DialogResult.OK Then
+            If objFrmPartnerModule.OList_Partner.Count = 1 Then
+                objOItem_Partner = objFrmPartnerModule.OList_Partner(0)
+
+                objOItem_Result = objTransaction_FinancialTransaction.save_008_FinancialTransaction_To_Partner(objOItem_Partner, _
+                                                                                             objLocalConfig.OItem_RelationType_belonging_Contractee, _
+                                                                                             objOItem_FinancialTransaction)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    TextBox_Contractee.Text = objOItem_Partner.Name
+                End If
+            Else
+                MsgBox("Bitte nur einen Partner auswählen!", MsgBoxStyle.Information)
+            End If
+        End If
     End Sub
 End Class

@@ -7,6 +7,10 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Ontolog-Module", "..\Ontolo
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ModuleLibrary", "..\ModuleLibrary\ModuleLibrary\ModuleLibrary.vbproj", "{28FDA320-130A-4B64-8199-B6A3F7F6D56A}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Partner-Module", "..\Partner-Module\Partner-Module\Partner-Module.vbproj", "{D42C6737-EF33-40D6-8253-173099F93885}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Media-Viewer-Module", "..\Media-Viewer-Module\Media-Viewer-Module\Media-Viewer-Module.vbproj", "{E5546C53-BE08-44E1-B136-D172C3F2FE3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -25,6 +29,14 @@ Global
 		{28FDA320-130A-4B64-8199-B6A3F7F6D56A}.Debug|x86.Build.0 = Debug|x86
 		{28FDA320-130A-4B64-8199-B6A3F7F6D56A}.Release|x86.ActiveCfg = Release|x86
 		{28FDA320-130A-4B64-8199-B6A3F7F6D56A}.Release|x86.Build.0 = Release|x86
+		{D42C6737-EF33-40D6-8253-173099F93885}.Debug|x86.ActiveCfg = Debug|x86
+		{D42C6737-EF33-40D6-8253-173099F93885}.Debug|x86.Build.0 = Debug|x86
+		{D42C6737-EF33-40D6-8253-173099F93885}.Release|x86.ActiveCfg = Release|x86
+		{D42C6737-EF33-40D6-8253-173099F93885}.Release|x86.Build.0 = Release|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Debug|x86.ActiveCfg = Debug|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Debug|x86.Build.0 = Debug|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Release|x86.ActiveCfg = Release|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

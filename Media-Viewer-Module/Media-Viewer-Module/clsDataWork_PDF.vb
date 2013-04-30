@@ -94,6 +94,13 @@ Public Class clsDataWork_PDF
         set_DBConnection()
     End Sub
 
+    Public Sub New(ByVal Globals As clsGlobals)
+        objLocalConfig = New clsLocalConfig(Globals)
+
+        set_DBConnection()
+    End Sub
+
+
     Private Sub initialize()
 
     End Sub
