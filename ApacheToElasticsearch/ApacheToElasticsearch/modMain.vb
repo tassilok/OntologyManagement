@@ -27,12 +27,12 @@ Module modMain
     Private strEL_Type As String
     Private strCreated As String
     Private strMode As String
+    Private strPort_Listen As String
 
     Private dateCreated As Date
 
 
     Sub Main(ByVal args() As String)
-        parse_Params(args)
         initialize()
     End Sub
 
@@ -74,25 +74,6 @@ Module modMain
 
         Return lngLine
     End Function
-
-
-    Private Sub parse_Params(ByVal args() As String)
-        Dim strArg As String
-        Dim strAArg() As String
-        For Each strArg In args
-            If strArg.Contains("=") Then
-                strAArg = strArg.Split("=")
-                Select Case strAArg(0).ToLower
-                    Case "file"
-                        strPathFile = strAArg(1)
-                    Case "created"
-                        strCreated = strAArg(1)
-                    Case "mode"
-                        strMode = strAArg(1)
-                End Select
-            End If
-        Next
-    End Sub
 
     Private Sub initialize()
 
@@ -677,6 +658,19 @@ Module modMain
                 boolResult = False
             End If
 
+            objDRs_Config = dtblT_BaseConfig.Select("ConfigItem_Name='file'")
+            If objDRs_Config.Count > 0 Then
+                strPathFile = objDRs_Config(0).Item("ConfigItem_Value")
+            Else
+                boolResult = False
+            End If
+
+            objDRs_Config = dtblT_BaseConfig.Select("ConfigItem_Name='port_listen'")
+            If objDRs_Config.Count > 0 Then
+                strPort_Listen = objDRs_Config(0).Item("ConfigItem_Value")
+            Else
+                boolResult = False
+            End If
         Else
             boolResult = False
         End If

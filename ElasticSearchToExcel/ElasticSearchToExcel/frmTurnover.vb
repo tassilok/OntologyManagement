@@ -30,6 +30,8 @@
 
         If Not ComboBox_Unit.SelectedItem Is Nothing Then
             Select Case ComboBox_Unit.Text
+                Case "sec"
+                    lngMs = NumericUpDown_Interval.Value * 1000
                 Case "min"
                     lngMs = NumericUpDown_Interval.Value * 60 * 1000
                 Case "hour"
@@ -158,6 +160,24 @@
                 MsgBox("No Filename defined!", MsgBoxStyle.Information)
                 CheckBox_AutoSave.Checked = False
             End If
+        End If
+    End Sub
+
+    Private Sub ContextMenuStrip_Measure_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Measure.Opening
+        DeleteToolStripMenuItem.Enabled = False
+        If DataGridView_Turnover.SelectedRows.Count > 0 Then
+            DeleteToolStripMenuItem.Enabled = True
+        End If
+    End Sub
+
+    Private Sub DeleteToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteToolStripMenuItem.Click
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        If MsgBox("Do you want to delete the selected lines?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            For Each objDGVR_Selected In DataGridView_Turnover.SelectedRows
+                objDRV_Selected = objDGVR_Selected.DataBoundItem
+                objDRV_Selected.Delete()
+            Next
         End If
     End Sub
 End Class

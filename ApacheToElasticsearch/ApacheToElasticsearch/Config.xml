@@ -21,6 +21,14 @@
     <ConfigItem_Value>apache</ConfigItem_Value>
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
+    <ConfigItem_Name>no_parse</ConfigItem_Name>
+    <ConfigItem_Value>1</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>file</ConfigItem_Name>
+    <ConfigItem_Value></ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
     <ConfigItem_Name>port_listen</ConfigItem_Name>
     <ConfigItem_Value>55055</ConfigItem_Value>
   </dtbl_BaseConfig>

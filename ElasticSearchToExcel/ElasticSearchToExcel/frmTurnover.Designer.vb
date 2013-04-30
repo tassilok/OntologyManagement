@@ -24,12 +24,12 @@ Partial Class frmTurnover
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmTurnover))
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
@@ -44,15 +44,6 @@ Partial Class frmTurnover
         Me.Button_Start = New System.Windows.Forms.Button()
         Me.Label_Turnover = New System.Windows.Forms.Label()
         Me.DataGridView_Turnover = New System.Windows.Forms.DataGridView()
-        Me.TurnoverBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.DataSet_Measure = New ElasticSearchToExcel.DataSet_Measure()
-        Me.ComboBox_Unit = New System.Windows.Forms.ComboBox()
-        Me.NumericUpDown_Interval = New System.Windows.Forms.NumericUpDown()
-        Me.Label_Intervall = New System.Windows.Forms.Label()
-        Me.Timer_Measure = New System.Windows.Forms.Timer(Me.components)
-        Me.Timer_Durance = New System.Windows.Forms.Timer(Me.components)
-        Me.SaveFileDialog_Measure = New System.Windows.Forms.SaveFileDialog()
-        Me.OpenFileDialog_Measure = New System.Windows.Forms.OpenFileDialog()
         Me.IDDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.StartDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.EndDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -64,6 +55,17 @@ Partial Class frmTurnover
         Me.SizeEndByteDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.VolumepersecDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SizePerVolumeDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TurnoverBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.DataSet_Measure = New ElasticSearchToExcel.DataSet_Measure()
+        Me.ComboBox_Unit = New System.Windows.Forms.ComboBox()
+        Me.NumericUpDown_Interval = New System.Windows.Forms.NumericUpDown()
+        Me.Label_Intervall = New System.Windows.Forms.Label()
+        Me.Timer_Measure = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_Durance = New System.Windows.Forms.Timer(Me.components)
+        Me.SaveFileDialog_Measure = New System.Windows.Forms.SaveFileDialog()
+        Me.OpenFileDialog_Measure = New System.Windows.Forms.OpenFileDialog()
+        Me.ContextMenuStrip_Measure = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -72,6 +74,7 @@ Partial Class frmTurnover
         CType(Me.TurnoverBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataSet_Measure, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown_Interval, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ContextMenuStrip_Measure.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -222,12 +225,104 @@ Partial Class frmTurnover
         Me.DataGridView_Turnover.AutoGenerateColumns = False
         Me.DataGridView_Turnover.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView_Turnover.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.IDDataGridViewTextBoxColumn, Me.StartDataGridViewTextBoxColumn, Me.EndDataGridViewTextBoxColumn, Me.DurancesecDataGridViewTextBoxColumn, Me.DurancemsDataGridViewTextBoxColumn, Me.VolumeStartDataGridViewTextBoxColumn, Me.SizeStartByteDataGridViewTextBoxColumn, Me.VolumeEndDataGridViewTextBoxColumn, Me.SizeEndByteDataGridViewTextBoxColumn, Me.VolumepersecDataGridViewTextBoxColumn, Me.SizePerVolumeDataGridViewTextBoxColumn})
+        Me.DataGridView_Turnover.ContextMenuStrip = Me.ContextMenuStrip_Measure
         Me.DataGridView_Turnover.DataSource = Me.TurnoverBindingSource
         Me.DataGridView_Turnover.Location = New System.Drawing.Point(15, 59)
         Me.DataGridView_Turnover.Name = "DataGridView_Turnover"
         Me.DataGridView_Turnover.ReadOnly = True
         Me.DataGridView_Turnover.Size = New System.Drawing.Size(1149, 402)
         Me.DataGridView_Turnover.TabIndex = 3
+        '
+        'IDDataGridViewTextBoxColumn
+        '
+        Me.IDDataGridViewTextBoxColumn.DataPropertyName = "ID"
+        Me.IDDataGridViewTextBoxColumn.HeaderText = "ID"
+        Me.IDDataGridViewTextBoxColumn.Name = "IDDataGridViewTextBoxColumn"
+        Me.IDDataGridViewTextBoxColumn.ReadOnly = True
+        '
+        'StartDataGridViewTextBoxColumn
+        '
+        Me.StartDataGridViewTextBoxColumn.DataPropertyName = "Start"
+        Me.StartDataGridViewTextBoxColumn.HeaderText = "Start"
+        Me.StartDataGridViewTextBoxColumn.Name = "StartDataGridViewTextBoxColumn"
+        Me.StartDataGridViewTextBoxColumn.ReadOnly = True
+        '
+        'EndDataGridViewTextBoxColumn
+        '
+        Me.EndDataGridViewTextBoxColumn.DataPropertyName = "End"
+        Me.EndDataGridViewTextBoxColumn.HeaderText = "End"
+        Me.EndDataGridViewTextBoxColumn.Name = "EndDataGridViewTextBoxColumn"
+        Me.EndDataGridViewTextBoxColumn.ReadOnly = True
+        '
+        'DurancesecDataGridViewTextBoxColumn
+        '
+        Me.DurancesecDataGridViewTextBoxColumn.DataPropertyName = "Durance_sec"
+        Me.DurancesecDataGridViewTextBoxColumn.HeaderText = "Durance_sec"
+        Me.DurancesecDataGridViewTextBoxColumn.Name = "DurancesecDataGridViewTextBoxColumn"
+        Me.DurancesecDataGridViewTextBoxColumn.ReadOnly = True
+        '
+        'DurancemsDataGridViewTextBoxColumn
+        '
+        Me.DurancemsDataGridViewTextBoxColumn.DataPropertyName = "Durance_ms"
+        Me.DurancemsDataGridViewTextBoxColumn.HeaderText = "Durance_ms"
+        Me.DurancemsDataGridViewTextBoxColumn.Name = "DurancemsDataGridViewTextBoxColumn"
+        Me.DurancemsDataGridViewTextBoxColumn.ReadOnly = True
+        '
+        'VolumeStartDataGridViewTextBoxColumn
+        '
+        Me.VolumeStartDataGridViewTextBoxColumn.DataPropertyName = "Volume_Start"
+        DataGridViewCellStyle7.Format = "N0"
+        DataGridViewCellStyle7.NullValue = Nothing
+        Me.VolumeStartDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle7
+        Me.VolumeStartDataGridViewTextBoxColumn.HeaderText = "Volume_Start"
+        Me.VolumeStartDataGridViewTextBoxColumn.Name = "VolumeStartDataGridViewTextBoxColumn"
+        Me.VolumeStartDataGridViewTextBoxColumn.ReadOnly = True
+        '
+        'SizeStartByteDataGridViewTextBoxColumn
+        '
+        Me.SizeStartByteDataGridViewTextBoxColumn.DataPropertyName = "Size_Start_Byte"
+        DataGridViewCellStyle8.Format = "N0"
+        DataGridViewCellStyle8.NullValue = Nothing
+        Me.SizeStartByteDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle8
+        Me.SizeStartByteDataGridViewTextBoxColumn.HeaderText = "Size_Start_Byte"
+        Me.SizeStartByteDataGridViewTextBoxColumn.Name = "SizeStartByteDataGridViewTextBoxColumn"
+        Me.SizeStartByteDataGridViewTextBoxColumn.ReadOnly = True
+        '
+        'VolumeEndDataGridViewTextBoxColumn
+        '
+        Me.VolumeEndDataGridViewTextBoxColumn.DataPropertyName = "Volume_End"
+        DataGridViewCellStyle9.Format = "N0"
+        Me.VolumeEndDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle9
+        Me.VolumeEndDataGridViewTextBoxColumn.HeaderText = "Volume_End"
+        Me.VolumeEndDataGridViewTextBoxColumn.Name = "VolumeEndDataGridViewTextBoxColumn"
+        Me.VolumeEndDataGridViewTextBoxColumn.ReadOnly = True
+        '
+        'SizeEndByteDataGridViewTextBoxColumn
+        '
+        Me.SizeEndByteDataGridViewTextBoxColumn.DataPropertyName = "Size_End_Byte"
+        DataGridViewCellStyle10.Format = "N0"
+        Me.SizeEndByteDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle10
+        Me.SizeEndByteDataGridViewTextBoxColumn.HeaderText = "Size_End_Byte"
+        Me.SizeEndByteDataGridViewTextBoxColumn.Name = "SizeEndByteDataGridViewTextBoxColumn"
+        Me.SizeEndByteDataGridViewTextBoxColumn.ReadOnly = True
+        '
+        'VolumepersecDataGridViewTextBoxColumn
+        '
+        Me.VolumepersecDataGridViewTextBoxColumn.DataPropertyName = "Volume_per_sec"
+        DataGridViewCellStyle11.Format = "N0"
+        Me.VolumepersecDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle11
+        Me.VolumepersecDataGridViewTextBoxColumn.HeaderText = "Volume_per_sec"
+        Me.VolumepersecDataGridViewTextBoxColumn.Name = "VolumepersecDataGridViewTextBoxColumn"
+        Me.VolumepersecDataGridViewTextBoxColumn.ReadOnly = True
+        '
+        'SizePerVolumeDataGridViewTextBoxColumn
+        '
+        Me.SizePerVolumeDataGridViewTextBoxColumn.DataPropertyName = "Size_Per_Volume"
+        DataGridViewCellStyle12.Format = "N2"
+        Me.SizePerVolumeDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle12
+        Me.SizePerVolumeDataGridViewTextBoxColumn.HeaderText = "Size_Per_Volume"
+        Me.SizePerVolumeDataGridViewTextBoxColumn.Name = "SizePerVolumeDataGridViewTextBoxColumn"
+        Me.SizePerVolumeDataGridViewTextBoxColumn.ReadOnly = True
         '
         'TurnoverBindingSource
         '
@@ -242,7 +337,7 @@ Partial Class frmTurnover
         'ComboBox_Unit
         '
         Me.ComboBox_Unit.FormattingEnabled = True
-        Me.ComboBox_Unit.Items.AddRange(New Object() {"min", "hour"})
+        Me.ComboBox_Unit.Items.AddRange(New Object() {"sec", "min", "hour"})
         Me.ComboBox_Unit.Location = New System.Drawing.Point(127, 7)
         Me.ComboBox_Unit.Name = "ComboBox_Unit"
         Me.ComboBox_Unit.Size = New System.Drawing.Size(48, 21)
@@ -284,96 +379,17 @@ Partial Class frmTurnover
         '
         Me.OpenFileDialog_Measure.FileName = "OpenFileDialog1"
         '
-        'IDDataGridViewTextBoxColumn
+        'ContextMenuStrip_Measure
         '
-        Me.IDDataGridViewTextBoxColumn.DataPropertyName = "ID"
-        Me.IDDataGridViewTextBoxColumn.HeaderText = "ID"
-        Me.IDDataGridViewTextBoxColumn.Name = "IDDataGridViewTextBoxColumn"
-        Me.IDDataGridViewTextBoxColumn.ReadOnly = True
+        Me.ContextMenuStrip_Measure.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DeleteToolStripMenuItem})
+        Me.ContextMenuStrip_Measure.Name = "ContextMenuStrip_Measure"
+        Me.ContextMenuStrip_Measure.Size = New System.Drawing.Size(153, 48)
         '
-        'StartDataGridViewTextBoxColumn
+        'DeleteToolStripMenuItem
         '
-        Me.StartDataGridViewTextBoxColumn.DataPropertyName = "Start"
-        Me.StartDataGridViewTextBoxColumn.HeaderText = "Start"
-        Me.StartDataGridViewTextBoxColumn.Name = "StartDataGridViewTextBoxColumn"
-        Me.StartDataGridViewTextBoxColumn.ReadOnly = True
-        '
-        'EndDataGridViewTextBoxColumn
-        '
-        Me.EndDataGridViewTextBoxColumn.DataPropertyName = "End"
-        Me.EndDataGridViewTextBoxColumn.HeaderText = "End"
-        Me.EndDataGridViewTextBoxColumn.Name = "EndDataGridViewTextBoxColumn"
-        Me.EndDataGridViewTextBoxColumn.ReadOnly = True
-        '
-        'DurancesecDataGridViewTextBoxColumn
-        '
-        Me.DurancesecDataGridViewTextBoxColumn.DataPropertyName = "Durance_sec"
-        Me.DurancesecDataGridViewTextBoxColumn.HeaderText = "Durance_sec"
-        Me.DurancesecDataGridViewTextBoxColumn.Name = "DurancesecDataGridViewTextBoxColumn"
-        Me.DurancesecDataGridViewTextBoxColumn.ReadOnly = True
-        '
-        'DurancemsDataGridViewTextBoxColumn
-        '
-        Me.DurancemsDataGridViewTextBoxColumn.DataPropertyName = "Durance_ms"
-        Me.DurancemsDataGridViewTextBoxColumn.HeaderText = "Durance_ms"
-        Me.DurancemsDataGridViewTextBoxColumn.Name = "DurancemsDataGridViewTextBoxColumn"
-        Me.DurancemsDataGridViewTextBoxColumn.ReadOnly = True
-        '
-        'VolumeStartDataGridViewTextBoxColumn
-        '
-        Me.VolumeStartDataGridViewTextBoxColumn.DataPropertyName = "Volume_Start"
-        DataGridViewCellStyle1.Format = "N0"
-        DataGridViewCellStyle1.NullValue = Nothing
-        Me.VolumeStartDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle1
-        Me.VolumeStartDataGridViewTextBoxColumn.HeaderText = "Volume_Start"
-        Me.VolumeStartDataGridViewTextBoxColumn.Name = "VolumeStartDataGridViewTextBoxColumn"
-        Me.VolumeStartDataGridViewTextBoxColumn.ReadOnly = True
-        '
-        'SizeStartByteDataGridViewTextBoxColumn
-        '
-        Me.SizeStartByteDataGridViewTextBoxColumn.DataPropertyName = "Size_Start_Byte"
-        DataGridViewCellStyle2.Format = "N0"
-        DataGridViewCellStyle2.NullValue = Nothing
-        Me.SizeStartByteDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle2
-        Me.SizeStartByteDataGridViewTextBoxColumn.HeaderText = "Size_Start_Byte"
-        Me.SizeStartByteDataGridViewTextBoxColumn.Name = "SizeStartByteDataGridViewTextBoxColumn"
-        Me.SizeStartByteDataGridViewTextBoxColumn.ReadOnly = True
-        '
-        'VolumeEndDataGridViewTextBoxColumn
-        '
-        Me.VolumeEndDataGridViewTextBoxColumn.DataPropertyName = "Volume_End"
-        DataGridViewCellStyle3.Format = "N0"
-        Me.VolumeEndDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle3
-        Me.VolumeEndDataGridViewTextBoxColumn.HeaderText = "Volume_End"
-        Me.VolumeEndDataGridViewTextBoxColumn.Name = "VolumeEndDataGridViewTextBoxColumn"
-        Me.VolumeEndDataGridViewTextBoxColumn.ReadOnly = True
-        '
-        'SizeEndByteDataGridViewTextBoxColumn
-        '
-        Me.SizeEndByteDataGridViewTextBoxColumn.DataPropertyName = "Size_End_Byte"
-        DataGridViewCellStyle4.Format = "N0"
-        Me.SizeEndByteDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle4
-        Me.SizeEndByteDataGridViewTextBoxColumn.HeaderText = "Size_End_Byte"
-        Me.SizeEndByteDataGridViewTextBoxColumn.Name = "SizeEndByteDataGridViewTextBoxColumn"
-        Me.SizeEndByteDataGridViewTextBoxColumn.ReadOnly = True
-        '
-        'VolumepersecDataGridViewTextBoxColumn
-        '
-        Me.VolumepersecDataGridViewTextBoxColumn.DataPropertyName = "Volume_per_sec"
-        DataGridViewCellStyle5.Format = "N0"
-        Me.VolumepersecDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle5
-        Me.VolumepersecDataGridViewTextBoxColumn.HeaderText = "Volume_per_sec"
-        Me.VolumepersecDataGridViewTextBoxColumn.Name = "VolumepersecDataGridViewTextBoxColumn"
-        Me.VolumepersecDataGridViewTextBoxColumn.ReadOnly = True
-        '
-        'SizePerVolumeDataGridViewTextBoxColumn
-        '
-        Me.SizePerVolumeDataGridViewTextBoxColumn.DataPropertyName = "Size_Per_Volume"
-        DataGridViewCellStyle6.Format = "N2"
-        Me.SizePerVolumeDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle6
-        Me.SizePerVolumeDataGridViewTextBoxColumn.HeaderText = "Size_Per_Volume"
-        Me.SizePerVolumeDataGridViewTextBoxColumn.Name = "SizePerVolumeDataGridViewTextBoxColumn"
-        Me.SizePerVolumeDataGridViewTextBoxColumn.ReadOnly = True
+        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DeleteToolStripMenuItem.Text = "Delete"
         '
         'frmTurnover
         '
@@ -395,6 +411,7 @@ Partial Class frmTurnover
         CType(Me.TurnoverBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DataSet_Measure, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown_Interval, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContextMenuStrip_Measure.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -432,4 +449,6 @@ Partial Class frmTurnover
     Friend WithEvents SizeEndByteDataGridViewTextBoxColumn As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents VolumepersecDataGridViewTextBoxColumn As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents SizePerVolumeDataGridViewTextBoxColumn As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents ContextMenuStrip_Measure As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents DeleteToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class
