@@ -50,6 +50,7 @@
 
                     DataSet_Measure.Turnover.Rows.Add(objDR_Turnover)
                     Button_Start.Enabled = False
+                    ToolStripButton_Open.Enabled = False
                     Timer_Measure.Start()
                     Timer_Durance.Start()
                 Else
@@ -86,6 +87,14 @@
                     objDRs_Line(0)("Volume_Per_Sec") = (objDRs_Line(0)("Volume_End") - objDRs_Line(0)("Volume_Start")) / objDRs_Line(0)("Durance_Sec")
                     objDRs_Line(0)("Size_Per_Volume") = objDRs_Line(0)("Size_End_Byte") / objDRs_Line(0)("Volume_End")
                     DataGridView_Turnover.Refresh()
+                    ToolStripButton_Open.Enabled = True
+                    If CheckBox_AutoSave.Checked = True Then
+                        Try
+                            DataSet_Measure.Turnover.WriteXml(TextBox_AutoSaveFile.Text)
+                        Catch ex As Exception
+                            MsgBox("The File cannot be saved!", MsgBoxStyle.Exclamation)
+                        End Try
+                    End If
                     If CheckBox_Restart.Checked = True Then
                         start_Measure()
                     End If
@@ -99,5 +108,56 @@
     Private Sub Timer_Durance_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Durance.Tick
         Label_Durance.Text = (Now - dateStart).ToString
 
+    End Sub
+
+    Private Sub ToolStripButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton1.Click
+        Dim strFile As String
+        If SaveFileDialog_Measure.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
+            strFile = SaveFileDialog_Measure.FileName
+            DataSet_Measure.Turnover.WriteXml(strFile)
+        End If
+
+    End Sub
+
+    Private Sub ToolStripButton_Open_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Open.Click
+        Dim strFile As String
+        If OpenFileDialog_Measure.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
+            strFile = OpenFileDialog_Measure.FileName
+            Try
+                DataSet_Measure.ReadXml(strFile)
+            Catch ex As Exception
+                MsgBox("The file cannot be found!", MsgBoxStyle.Information)
+            End Try
+
+
+        End If
+    End Sub
+
+
+    Private Sub Button_AutoSaveFile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_AutoSaveFile.Click
+        If SaveFileDialog_Measure.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
+            TextBox_AutoSaveFile.Text = SaveFileDialog_Measure.FileName
+        End If
+    End Sub
+
+    Private Sub TextBox_AutoSaveFile_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TextBox_AutoSaveFile.TextChanged
+        If IO.File.Exists(TextBox_AutoSaveFile.Text) Then
+            CheckBox_AutoSave.Checked = True
+        Else
+            MsgBox("The file cannot be found!", MsgBoxStyle.Information)
+        End If
+    End Sub
+
+    Private Sub CheckBox_AutoSave_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox_AutoSave.CheckedChanged
+        
+    End Sub
+
+    Private Sub CheckBox_AutoSave_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles CheckBox_AutoSave.CheckStateChanged
+        If CheckBox_AutoSave.Checked = True Then
+            If TextBox_AutoSaveFile.Text = "" Then
+                MsgBox("No Filename defined!", MsgBoxStyle.Information)
+                CheckBox_AutoSave.Checked = False
+            End If
+        End If
     End Sub
 End Class

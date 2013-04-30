@@ -24,19 +24,35 @@ Partial Class frmTurnover
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmTurnover))
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Open = New System.Windows.Forms.ToolStripButton()
+        Me.Button_AutoSaveFile = New System.Windows.Forms.Button()
+        Me.TextBox_AutoSaveFile = New System.Windows.Forms.TextBox()
+        Me.CheckBox_AutoSave = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_Restart = New System.Windows.Forms.CheckBox()
         Me.Label_Durance = New System.Windows.Forms.Label()
         Me.Button_Stop = New System.Windows.Forms.Button()
         Me.Button_Start = New System.Windows.Forms.Button()
         Me.Label_Turnover = New System.Windows.Forms.Label()
         Me.DataGridView_Turnover = New System.Windows.Forms.DataGridView()
+        Me.TurnoverBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.DataSet_Measure = New ElasticSearchToExcel.DataSet_Measure()
         Me.ComboBox_Unit = New System.Windows.Forms.ComboBox()
         Me.NumericUpDown_Interval = New System.Windows.Forms.NumericUpDown()
         Me.Label_Intervall = New System.Windows.Forms.Label()
         Me.Timer_Measure = New System.Windows.Forms.Timer(Me.components)
         Me.Timer_Durance = New System.Windows.Forms.Timer(Me.components)
+        Me.SaveFileDialog_Measure = New System.Windows.Forms.SaveFileDialog()
+        Me.OpenFileDialog_Measure = New System.Windows.Forms.OpenFileDialog()
         Me.IDDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.StartDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.EndDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -48,17 +64,14 @@ Partial Class frmTurnover
         Me.SizeEndByteDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.VolumepersecDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SizePerVolumeDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TurnoverBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.DataSet_Measure = New ElasticSearchToExcel.DataSet_Measure()
-        Me.CheckBox_Restart = New System.Windows.Forms.CheckBox()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         CType(Me.DataGridView_Turnover, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NumericUpDown_Interval, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TurnoverBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataSet_Measure, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NumericUpDown_Interval, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -70,6 +83,9 @@ Partial Class frmTurnover
         '
         'ToolStripContainer1.ContentPanel
         '
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Button_AutoSaveFile)
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.TextBox_AutoSaveFile)
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.CheckBox_AutoSave)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.CheckBox_Restart)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Label_Durance)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Button_Stop)
@@ -90,10 +106,10 @@ Partial Class frmTurnover
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close, Me.ToolStripButton1, Me.ToolStripButton_Open})
         Me.ToolStrip1.Location = New System.Drawing.Point(5, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(52, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(98, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Close
@@ -105,11 +121,65 @@ Partial Class frmTurnover
         Me.ToolStripButton_Close.Size = New System.Drawing.Size(40, 22)
         Me.ToolStripButton_Close.Text = "Close"
         '
+        'ToolStripButton1
+        '
+        Me.ToolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton1.Image = Global.ElasticSearchToExcel.My.Resources.Resources.disk
+        Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton1.Name = "ToolStripButton1"
+        Me.ToolStripButton1.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton1.Text = "Save"
+        '
+        'ToolStripButton_Open
+        '
+        Me.ToolStripButton_Open.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Open.Image = Global.ElasticSearchToExcel.My.Resources.Resources.folder_brick
+        Me.ToolStripButton_Open.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Open.Name = "ToolStripButton_Open"
+        Me.ToolStripButton_Open.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_Open.Text = "ToolStripButton2"
+        '
+        'Button_AutoSaveFile
+        '
+        Me.Button_AutoSaveFile.Location = New System.Drawing.Point(649, 34)
+        Me.Button_AutoSaveFile.Name = "Button_AutoSaveFile"
+        Me.Button_AutoSaveFile.Size = New System.Drawing.Size(29, 23)
+        Me.Button_AutoSaveFile.TabIndex = 11
+        Me.Button_AutoSaveFile.Text = "..."
+        Me.Button_AutoSaveFile.UseVisualStyleBackColor = True
+        '
+        'TextBox_AutoSaveFile
+        '
+        Me.TextBox_AutoSaveFile.Location = New System.Drawing.Point(333, 34)
+        Me.TextBox_AutoSaveFile.Name = "TextBox_AutoSaveFile"
+        Me.TextBox_AutoSaveFile.ReadOnly = True
+        Me.TextBox_AutoSaveFile.Size = New System.Drawing.Size(310, 20)
+        Me.TextBox_AutoSaveFile.TabIndex = 10
+        '
+        'CheckBox_AutoSave
+        '
+        Me.CheckBox_AutoSave.AutoSize = True
+        Me.CheckBox_AutoSave.Location = New System.Drawing.Point(262, 36)
+        Me.CheckBox_AutoSave.Name = "CheckBox_AutoSave"
+        Me.CheckBox_AutoSave.Size = New System.Drawing.Size(74, 17)
+        Me.CheckBox_AutoSave.TabIndex = 9
+        Me.CheckBox_AutoSave.Text = "Autosave:"
+        Me.CheckBox_AutoSave.UseVisualStyleBackColor = True
+        '
+        'CheckBox_Restart
+        '
+        Me.CheckBox_Restart.AutoSize = True
+        Me.CheckBox_Restart.Location = New System.Drawing.Point(181, 36)
+        Me.CheckBox_Restart.Name = "CheckBox_Restart"
+        Me.CheckBox_Restart.Size = New System.Drawing.Size(60, 17)
+        Me.CheckBox_Restart.TabIndex = 8
+        Me.CheckBox_Restart.Text = "Restart"
+        Me.CheckBox_Restart.UseVisualStyleBackColor = True
+        '
         'Label_Durance
         '
-        Me.Label_Durance.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label_Durance.AutoSize = True
-        Me.Label_Durance.Location = New System.Drawing.Point(922, 10)
+        Me.Label_Durance.Location = New System.Drawing.Point(343, 12)
         Me.Label_Durance.Name = "Label_Durance"
         Me.Label_Durance.Size = New System.Drawing.Size(10, 13)
         Me.Label_Durance.TabIndex = 7
@@ -117,8 +187,7 @@ Partial Class frmTurnover
         '
         'Button_Stop
         '
-        Me.Button_Stop.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_Stop.Location = New System.Drawing.Point(1089, 5)
+        Me.Button_Stop.Location = New System.Drawing.Point(262, 7)
         Me.Button_Stop.Name = "Button_Stop"
         Me.Button_Stop.Size = New System.Drawing.Size(75, 23)
         Me.Button_Stop.TabIndex = 6
@@ -127,8 +196,7 @@ Partial Class frmTurnover
         '
         'Button_Start
         '
-        Me.Button_Start.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_Start.Location = New System.Drawing.Point(1008, 5)
+        Me.Button_Start.Location = New System.Drawing.Point(181, 7)
         Me.Button_Start.Name = "Button_Start"
         Me.Button_Start.Size = New System.Drawing.Size(75, 23)
         Me.Button_Start.TabIndex = 5
@@ -160,6 +228,16 @@ Partial Class frmTurnover
         Me.DataGridView_Turnover.ReadOnly = True
         Me.DataGridView_Turnover.Size = New System.Drawing.Size(1149, 402)
         Me.DataGridView_Turnover.TabIndex = 3
+        '
+        'TurnoverBindingSource
+        '
+        Me.TurnoverBindingSource.DataMember = "Turnover"
+        Me.TurnoverBindingSource.DataSource = Me.DataSet_Measure
+        '
+        'DataSet_Measure
+        '
+        Me.DataSet_Measure.DataSetName = "DataSet_Measure"
+        Me.DataSet_Measure.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
         'ComboBox_Unit
         '
@@ -196,6 +274,15 @@ Partial Class frmTurnover
         'Timer_Durance
         '
         Me.Timer_Durance.Interval = 500
+        '
+        'SaveFileDialog_Measure
+        '
+        Me.SaveFileDialog_Measure.FileName = "ES_Index_measure.xml"
+        Me.SaveFileDialog_Measure.Filter = "Xml Files (*.xml)|*.xml"
+        '
+        'OpenFileDialog_Measure
+        '
+        Me.OpenFileDialog_Measure.FileName = "OpenFileDialog1"
         '
         'IDDataGridViewTextBoxColumn
         '
@@ -235,6 +322,9 @@ Partial Class frmTurnover
         'VolumeStartDataGridViewTextBoxColumn
         '
         Me.VolumeStartDataGridViewTextBoxColumn.DataPropertyName = "Volume_Start"
+        DataGridViewCellStyle1.Format = "N0"
+        DataGridViewCellStyle1.NullValue = Nothing
+        Me.VolumeStartDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle1
         Me.VolumeStartDataGridViewTextBoxColumn.HeaderText = "Volume_Start"
         Me.VolumeStartDataGridViewTextBoxColumn.Name = "VolumeStartDataGridViewTextBoxColumn"
         Me.VolumeStartDataGridViewTextBoxColumn.ReadOnly = True
@@ -242,6 +332,9 @@ Partial Class frmTurnover
         'SizeStartByteDataGridViewTextBoxColumn
         '
         Me.SizeStartByteDataGridViewTextBoxColumn.DataPropertyName = "Size_Start_Byte"
+        DataGridViewCellStyle2.Format = "N0"
+        DataGridViewCellStyle2.NullValue = Nothing
+        Me.SizeStartByteDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle2
         Me.SizeStartByteDataGridViewTextBoxColumn.HeaderText = "Size_Start_Byte"
         Me.SizeStartByteDataGridViewTextBoxColumn.Name = "SizeStartByteDataGridViewTextBoxColumn"
         Me.SizeStartByteDataGridViewTextBoxColumn.ReadOnly = True
@@ -249,6 +342,8 @@ Partial Class frmTurnover
         'VolumeEndDataGridViewTextBoxColumn
         '
         Me.VolumeEndDataGridViewTextBoxColumn.DataPropertyName = "Volume_End"
+        DataGridViewCellStyle3.Format = "N0"
+        Me.VolumeEndDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle3
         Me.VolumeEndDataGridViewTextBoxColumn.HeaderText = "Volume_End"
         Me.VolumeEndDataGridViewTextBoxColumn.Name = "VolumeEndDataGridViewTextBoxColumn"
         Me.VolumeEndDataGridViewTextBoxColumn.ReadOnly = True
@@ -256,6 +351,8 @@ Partial Class frmTurnover
         'SizeEndByteDataGridViewTextBoxColumn
         '
         Me.SizeEndByteDataGridViewTextBoxColumn.DataPropertyName = "Size_End_Byte"
+        DataGridViewCellStyle4.Format = "N0"
+        Me.SizeEndByteDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle4
         Me.SizeEndByteDataGridViewTextBoxColumn.HeaderText = "Size_End_Byte"
         Me.SizeEndByteDataGridViewTextBoxColumn.Name = "SizeEndByteDataGridViewTextBoxColumn"
         Me.SizeEndByteDataGridViewTextBoxColumn.ReadOnly = True
@@ -263,6 +360,8 @@ Partial Class frmTurnover
         'VolumepersecDataGridViewTextBoxColumn
         '
         Me.VolumepersecDataGridViewTextBoxColumn.DataPropertyName = "Volume_per_sec"
+        DataGridViewCellStyle5.Format = "N0"
+        Me.VolumepersecDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle5
         Me.VolumepersecDataGridViewTextBoxColumn.HeaderText = "Volume_per_sec"
         Me.VolumepersecDataGridViewTextBoxColumn.Name = "VolumepersecDataGridViewTextBoxColumn"
         Me.VolumepersecDataGridViewTextBoxColumn.ReadOnly = True
@@ -270,29 +369,11 @@ Partial Class frmTurnover
         'SizePerVolumeDataGridViewTextBoxColumn
         '
         Me.SizePerVolumeDataGridViewTextBoxColumn.DataPropertyName = "Size_Per_Volume"
+        DataGridViewCellStyle6.Format = "N2"
+        Me.SizePerVolumeDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle6
         Me.SizePerVolumeDataGridViewTextBoxColumn.HeaderText = "Size_Per_Volume"
         Me.SizePerVolumeDataGridViewTextBoxColumn.Name = "SizePerVolumeDataGridViewTextBoxColumn"
         Me.SizePerVolumeDataGridViewTextBoxColumn.ReadOnly = True
-        '
-        'TurnoverBindingSource
-        '
-        Me.TurnoverBindingSource.DataMember = "Turnover"
-        Me.TurnoverBindingSource.DataSource = Me.DataSet_Measure
-        '
-        'DataSet_Measure
-        '
-        Me.DataSet_Measure.DataSetName = "DataSet_Measure"
-        Me.DataSet_Measure.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
-        '
-        'CheckBox_Restart
-        '
-        Me.CheckBox_Restart.AutoSize = True
-        Me.CheckBox_Restart.Location = New System.Drawing.Point(1008, 35)
-        Me.CheckBox_Restart.Name = "CheckBox_Restart"
-        Me.CheckBox_Restart.Size = New System.Drawing.Size(81, 17)
-        Me.CheckBox_Restart.TabIndex = 8
-        Me.CheckBox_Restart.Text = "Restart"
-        Me.CheckBox_Restart.UseVisualStyleBackColor = True
         '
         'frmTurnover
         '
@@ -311,9 +392,9 @@ Partial Class frmTurnover
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
         CType(Me.DataGridView_Turnover, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NumericUpDown_Interval, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TurnoverBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DataSet_Measure, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown_Interval, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -330,6 +411,16 @@ Partial Class frmTurnover
     Friend WithEvents Label_Turnover As System.Windows.Forms.Label
     Friend WithEvents DataGridView_Turnover As System.Windows.Forms.DataGridView
     Friend WithEvents Label_Durance As System.Windows.Forms.Label
+    Friend WithEvents TurnoverBindingSource As System.Windows.Forms.BindingSource
+    Friend WithEvents DataSet_Measure As ElasticSearchToExcel.DataSet_Measure
+    Friend WithEvents CheckBox_Restart As System.Windows.Forms.CheckBox
+    Friend WithEvents ToolStripButton1 As System.Windows.Forms.ToolStripButton
+    Friend WithEvents SaveFileDialog_Measure As System.Windows.Forms.SaveFileDialog
+    Friend WithEvents ToolStripButton_Open As System.Windows.Forms.ToolStripButton
+    Friend WithEvents OpenFileDialog_Measure As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents Button_AutoSaveFile As System.Windows.Forms.Button
+    Friend WithEvents TextBox_AutoSaveFile As System.Windows.Forms.TextBox
+    Friend WithEvents CheckBox_AutoSave As System.Windows.Forms.CheckBox
     Friend WithEvents IDDataGridViewTextBoxColumn As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents StartDataGridViewTextBoxColumn As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents EndDataGridViewTextBoxColumn As System.Windows.Forms.DataGridViewTextBoxColumn
@@ -341,7 +432,4 @@ Partial Class frmTurnover
     Friend WithEvents SizeEndByteDataGridViewTextBoxColumn As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents VolumepersecDataGridViewTextBoxColumn As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents SizePerVolumeDataGridViewTextBoxColumn As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents TurnoverBindingSource As System.Windows.Forms.BindingSource
-    Friend WithEvents DataSet_Measure As ElasticSearchToExcel.DataSet_Measure
-    Friend WithEvents CheckBox_Restart As System.Windows.Forms.CheckBox
 End Class

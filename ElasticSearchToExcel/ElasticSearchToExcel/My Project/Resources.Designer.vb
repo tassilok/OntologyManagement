@@ -59,5 +59,19 @@ Namespace My.Resources
                 resourceCulture = value
             End Set
         End Property
+        
+        Friend ReadOnly Property disk() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("disk", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property folder_brick() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("folder_brick", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
     End Module
 End Namespace
