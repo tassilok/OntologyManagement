@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DocumentElement>
+  <dtbl_Concate>
+    <Field_Name>TIMESTAMP</Field_Name>
+    <Field_Name1>DATE</Field_Name1>
+    <Field_Name2>TIME</Field_Name2>
+    <Field_Seperator><![CDATA[ ]]></Field_Seperator>
+    <DataType>datetime</DataType>
+  </dtbl_Concate>
+</DocumentElement>
