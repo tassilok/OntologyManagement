@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DocumentElement>
-    <dtbl_Meta>
+   <dtbl_Meta>
+    <Field_Name>message</Field_Name>
+    <Add>False</Add>
+   </dtbl_Meta>
+   <dtbl_Meta>
     <Field_Name>Last_change</Field_Name>
     <Add>True</Add>
   </dtbl_Meta>

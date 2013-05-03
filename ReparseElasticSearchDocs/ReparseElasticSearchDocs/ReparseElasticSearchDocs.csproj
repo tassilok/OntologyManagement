@@ -72,9 +72,11 @@
     <Compile Include="Classes\clsConfig.cs" />
     <Compile Include="Classes\clsDataTypes.cs" />
     <Compile Include="Classes\clsField.cs" />
+    <Compile Include="Classes\clsInit.cs" />
     <Compile Include="Classes\clsLocalConfig.cs" />
     <Compile Include="Classes\clsMeta.cs" />
     <Compile Include="Classes\clsMutate.cs" />
+    <Compile Include="Classes\clsOrderField.cs" />
     <Compile Include="Classes\clsReparse.cs" />
     <Compile Include="Classes\clsReplace.cs" />
     <Compile Include="Forms\frmMain.cs">
@@ -120,6 +122,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\Fields.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\Init.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\Meta.xml">

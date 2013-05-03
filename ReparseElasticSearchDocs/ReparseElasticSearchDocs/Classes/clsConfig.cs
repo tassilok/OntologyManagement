@@ -7,29 +7,42 @@ namespace ReparseElasticSearchDocs.Classes
 {
     class clsConfig
     {
-        private string strIndex;
+        private string strIndexSrc;
+        private string strIndexDst;
         private string strIndexMeta;
-        private int intPort;
-        private string strServer;
+        private int intPortSrc = 0;
+        private int intPortDst = 0;
+        private string strServerSrc;
+        private string strServerDst;
         private string strType;
-
+        
         public clsConfig()
         {
         }
 
-        public clsConfig(string Index, string IndexMeta, int Port, string Server, string Type)
+        public clsConfig(string IndexSrc, string IndexDst, string IndexMeta, int PortSrc, int PortDst, string ServerSrc, string ServerDst, string Type)
         {
-            strIndex = Index;
+            strIndexSrc = IndexSrc;
+            strIndexDst = IndexDst;
             strIndexMeta = IndexMeta;
-            intPort = Port;
-            strServer = Server;
+            intPortSrc = PortSrc;
+            intPortDst = PortDst;
+            strServerSrc = ServerSrc;
+            strServerDst = ServerDst;
             strType = Type;
+            
         }
 
-        public string Index
+        public string IndexSrc
         {
-            get { return strIndex; }
-            set { strIndex = value; }
+            get { return strIndexSrc; }
+            set { strIndexSrc = value; }
+        }
+
+        public string IndexDst
+        {
+            get { return strIndexDst; }
+            set { strIndexDst = value; }
         }
 
         public string IndexMeta
@@ -38,16 +51,28 @@ namespace ReparseElasticSearchDocs.Classes
             set { strIndexMeta = value; }
         }
 
-        public int Port
+        public int PortSrc
         {
-            get { return intPort; }
-            set { intPort = value; }
+            get { return intPortSrc; }
+            set { intPortSrc = value; }
         }
 
-        public string Server
+        public int PortDst
         {
-            get { return strServer; }
-            set { strServer = value; }
+            get { return intPortDst; }
+            set { intPortDst = value; }
+        }
+
+        public string ServerSrc
+        {
+            get { return strServerSrc; }
+            set { strServerSrc = value; }
+        }
+
+        public string ServerDst
+        {
+            get { return strServerDst; }
+            set { strServerDst = value; }
         }
 
         public string Type
@@ -55,5 +80,6 @@ namespace ReparseElasticSearchDocs.Classes
             get { return strType; }
             set { strType = value; }
         }
+
     }
 }

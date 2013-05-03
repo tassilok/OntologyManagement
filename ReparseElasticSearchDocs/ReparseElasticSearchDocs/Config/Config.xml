@@ -1,10 +1,13 @@
 ﻿<?xml version="1.0" standalone="yes"?>
 <DocumentElement>
   <dtbl_BaseConfig>
-    <index>explido_access_log</index>
+    <indexsrc>explido_access_log</indexsrc>
+    <serversrc>192.168.30.93</serversrc>
+    <portsrc>9500</portsrc>
+    <indexdst>explido_access_tst</indexdst>
+    <serverdst>192.168.30.93</serverdst>
+    <portdst>9500</portdst>
     <index_meta>explido_access_log_meta</index_meta>
-    <port>9500</port>
-    <server>192.168.30.93</server>
     <type>explido</type>
   </dtbl_BaseConfig>
 </DocumentElement>

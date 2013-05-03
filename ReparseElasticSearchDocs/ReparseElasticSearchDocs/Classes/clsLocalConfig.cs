@@ -11,6 +11,7 @@ namespace ReparseElasticSearchDocs.Classes
 
         private clsConfig objBaseConfig = new clsConfig();
         private clsMeta objMeta = new clsMeta();
+        private clsInit objInit = new clsInit();
         private List<clsConcate> objLConcates = new List<clsConcate> { };
         private List<clsField> objLFields = new List<clsField> { };
         private List<clsMutate> objLMutates = new List<clsMutate> { };
@@ -21,6 +22,11 @@ namespace ReparseElasticSearchDocs.Classes
             get { return objBaseConfig; }
         }
 
+        public clsInit Init
+        {
+            get { return objInit; }
+        }
+
         public clsMeta Meta
         {
             get { return objMeta; }
@@ -29,6 +35,21 @@ namespace ReparseElasticSearchDocs.Classes
         public List<clsField> Fields
         {
             get { return objLFields; }
+        }
+
+        public List<clsReplace> Replaces
+        {
+            get { return objLReplaces; }
+        }
+
+        public List<clsMutate> Mutates
+        {
+            get { return objLMutates; }
+        }
+
+        public List<clsConcate> Concates
+        {
+            get { return objLConcates; }
         }
 
         private clsDataTypes objDataTypes = new clsDataTypes();
@@ -191,6 +212,9 @@ namespace ReparseElasticSearchDocs.Classes
                                     {
                                         case "last_change":
                                             objMeta.LastChange = boolAdd;
+                                            break;
+                                        case "message":
+                                            objMeta.Message = boolAdd;
                                             break;
                                     }
                                 }
@@ -388,12 +412,86 @@ namespace ReparseElasticSearchDocs.Classes
             
         }
 
+        private void getInit()
+        {
+            XmlDocument objXML;
+            XmlNodeList objXMLVersion;
+            XmlNodeList objXMLOrders;
+            clsOrderField objOrderField;
+
+            long lngVersion;
+            Boolean boolASC;
+
+            objInit = null;
+            objXML = new XmlDocument();
+            objXML.Load(AppDomain.CurrentDomain.BaseDirectory + "\\Config\\Init.xml");
+            objXMLVersion = objXML.GetElementsByTagName("version_field");
+            if (objXMLVersion.Count>0)
+            {
+                objInit = new clsInit();
+                objInit.VersionField = objXMLVersion[0].InnerText;
+                objXMLVersion = objXML.GetElementsByTagName("version_field");
+
+                objXMLVersion = objXML.GetElementsByTagName("version");
+
+                if (objXMLVersion.Count>0)
+                {
+                    if (long.TryParse(objXMLVersion[0].InnerText, out lngVersion))
+                    {
+                        objInit.Version = lngVersion;
+                        objXMLOrders = objXML.GetElementsByTagName("order_fields");
+
+                        objOrderField = null;
+                        if (objXMLOrders.Count > 0)
+                        {
+                            foreach (XmlNode objXMLOrder in objXMLOrders[0].ChildNodes)
+                            {
+                                switch (objXMLOrder.Name)
+                                {
+                                    case "order_field":
+                                        objOrderField = new clsOrderField();
+                                        objOrderField.Field = objXMLOrder.InnerText;
+                                        break;
+
+
+                                    case "order_asc":
+                                        if (objOrderField != null)
+                                        {
+                                            if (Boolean.TryParse(objXMLOrder.InnerText, out boolASC))
+                                            {
+                                                objOrderField.ASC = boolASC;
+                                                objInit.addOrderField(objOrderField.Field, objOrderField.ASC);
+                                            }
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+                        
+                    }
+                    else
+                    {
+                        objInit = null;
+                    }
+                    
+                }
+                else
+                {
+                    objInit = null;
+                }
+            }
+            
+
+            
+        }
+
         private void getBaseConfig()
         {
             XmlDocument objXML;
             XmlNodeList objXMLConfigs;
             int intPort;
             
+
             objXML = new XmlDocument();
             objXML.Load(AppDomain.CurrentDomain.BaseDirectory + "\\Config\\Config.xml");
             objXMLConfigs = objXML.GetElementsByTagName("dtbl_BaseConfig");
@@ -404,18 +502,22 @@ namespace ReparseElasticSearchDocs.Classes
                 {
                     switch (objXMLFieldAttribute.Name.ToLower())
                     {
-                        case "index":
-                            objBaseConfig.Index = objXMLFieldAttribute.InnerText;
+                        case "indexsrc":
+                            objBaseConfig.IndexSrc = objXMLFieldAttribute.InnerText;
+                            break;
+
+                        case "indexdst":
+                            objBaseConfig.IndexDst = objXMLFieldAttribute.InnerText;
                             break;
 
                         case "index_meta":
                             objBaseConfig.IndexMeta = objXMLFieldAttribute.InnerText;
                             break;
 
-                        case "port":
+                        case "portsrc":
                             if (int.TryParse(objXMLFieldAttribute.InnerText,out intPort))
                             {
-                                objBaseConfig.Port = intPort;
+                                objBaseConfig.PortSrc = intPort;
                             }
                             else
                             {
@@ -424,12 +526,32 @@ namespace ReparseElasticSearchDocs.Classes
                             
                             break;
 
-                        case "server":
+                        case "portdst":
+                            if (int.TryParse(objXMLFieldAttribute.InnerText, out intPort))
+                            {
+                                objBaseConfig.PortDst = intPort;
+                            }
+                            else
+                            {
+                                objBaseConfig = null;
+                            }
+
+                            break;
+
+                        case "serversrc":
                             if (objBaseConfig != null)
                             {
-                                objBaseConfig.Server = objXMLFieldAttribute.InnerText;
+                                objBaseConfig.ServerSrc = objXMLFieldAttribute.InnerText;
                             }
                             break;
+
+                        case "serverdst":
+                            if (objBaseConfig != null)
+                            {
+                                objBaseConfig.ServerDst = objXMLFieldAttribute.InnerText;
+                            }
+                            break;
+
                         case "type":
                             if (objBaseConfig != null)
                             {
@@ -438,17 +560,20 @@ namespace ReparseElasticSearchDocs.Classes
                             break;
 
                         
-
                     }
                 }
             }
             if (objBaseConfig != null)
             {
-                if (objBaseConfig.Index == ""
+                if (objBaseConfig.IndexSrc == ""
+                    || objBaseConfig.IndexDst == ""
                     || objBaseConfig.IndexMeta == ""
-                    || objBaseConfig.Port == 0
-                    || objBaseConfig.Server == ""
+                    || objBaseConfig.PortSrc == 0
+                    || objBaseConfig.PortDst == 0
+                    || objBaseConfig.ServerSrc == ""
+                    || objBaseConfig.ServerDst == ""
                     || objBaseConfig.Type == "")
+
                 {
                     objBaseConfig = null;
 
@@ -464,6 +589,7 @@ namespace ReparseElasticSearchDocs.Classes
             getConcates();
             getMutates();
             getReplaces();
+            getInit();
         }
 
     }

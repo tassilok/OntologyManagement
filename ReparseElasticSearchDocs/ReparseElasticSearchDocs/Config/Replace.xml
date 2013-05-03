@@ -1,12 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DocumentElement>
   <dtbl_Replace>
-    <Field_Name>TIMESTAMP</Field_Name>
+    <Field_Name>date</Field_Name>
     <regex><![CDATA[\[]]></regex>
     <replace><![CDATA[]]></replace>
 </dtbl_Replace>
   <dtbl_Replace>
-    <Field_Name>TIMESTAMP</Field_Name>
+    <Field_Name>date</Field_Name>
+    <regex><![CDATA[\]]]></regex>
+    <replace><![CDATA[]]></replace>
+  </dtbl_Replace>
+  <dtbl_Replace>
+    <Field_Name>timezone</Field_Name>
     <regex><![CDATA[\]]]></regex>
     <replace><![CDATA[]]></replace>
   </dtbl_Replace>
