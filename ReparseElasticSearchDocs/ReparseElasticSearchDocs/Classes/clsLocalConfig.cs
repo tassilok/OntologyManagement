@@ -490,7 +490,7 @@ namespace ReparseElasticSearchDocs.Classes
             XmlDocument objXML;
             XmlNodeList objXMLConfigs;
             int intPort;
-            
+            int intPackageLength;
 
             objXML = new XmlDocument();
             objXML.Load(AppDomain.CurrentDomain.BaseDirectory + "\\Config\\Config.xml");
@@ -556,6 +556,21 @@ namespace ReparseElasticSearchDocs.Classes
                             if (objBaseConfig != null)
                             {
                                 objBaseConfig.Type = objXMLFieldAttribute.InnerText;
+                            }
+                            break;
+
+                        case "package_length":
+                            if (objBaseConfig != null)
+                            {
+                                if (int.TryParse(objXMLFieldAttribute.InnerText, out intPackageLength))
+                                {
+                                    objBaseConfig.PackageLength = intPackageLength;
+                                }
+                                else
+                                {
+                                    objBaseConfig = null;
+                                }
+                                
                             }
                             break;
 

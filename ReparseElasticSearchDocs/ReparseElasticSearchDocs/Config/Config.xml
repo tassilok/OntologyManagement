@@ -9,5 +9,6 @@
     <portdst>9500</portdst>
     <index_meta>explido_access_log_meta</index_meta>
     <type>explido</type>
+    <package_length>2000</package_length>
   </dtbl_BaseConfig>
 </DocumentElement>

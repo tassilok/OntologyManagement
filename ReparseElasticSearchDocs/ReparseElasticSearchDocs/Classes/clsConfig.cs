@@ -15,12 +15,13 @@ namespace ReparseElasticSearchDocs.Classes
         private string strServerSrc;
         private string strServerDst;
         private string strType;
+        private int intPackageLength;
         
         public clsConfig()
         {
         }
 
-        public clsConfig(string IndexSrc, string IndexDst, string IndexMeta, int PortSrc, int PortDst, string ServerSrc, string ServerDst, string Type)
+        public clsConfig(string IndexSrc, string IndexDst, string IndexMeta, int PortSrc, int PortDst, string ServerSrc, string ServerDst, string Type, int PackageLength)
         {
             strIndexSrc = IndexSrc;
             strIndexDst = IndexDst;
@@ -30,6 +31,7 @@ namespace ReparseElasticSearchDocs.Classes
             strServerSrc = ServerSrc;
             strServerDst = ServerDst;
             strType = Type;
+            intPackageLength = PackageLength;
             
         }
 
@@ -79,6 +81,12 @@ namespace ReparseElasticSearchDocs.Classes
         {
             get { return strType; }
             set { strType = value; }
+        }
+
+        public int PackageLength
+        {
+            get { return intPackageLength; }
+            set { intPackageLength = value; }
         }
 
     }

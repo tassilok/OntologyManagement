@@ -19,8 +19,10 @@ namespace ReparseElasticSearchDocs.Classes
     {
         private clsLocalConfig objLocalConfig;
 
-        private int intPackageLength = 5000;
-        private int intPos = 0;
+        private int intStart_THR2;
+        private int intStart_THR3;
+        private int intStart_THR4;
+        private int intStart_THR5;
 
         private Thread objThread1;
         private Thread objThread2;
@@ -31,6 +33,10 @@ namespace ReparseElasticSearchDocs.Classes
         public clsReparse(clsLocalConfig LocalConfig)
         {
             objLocalConfig = LocalConfig;
+            intStart_THR2 = 1 + objLocalConfig.BaseConfig.PackageLength;
+            intStart_THR3 = intStart_THR2 + objLocalConfig.BaseConfig.PackageLength;
+            intStart_THR4 = intStart_THR3 + objLocalConfig.BaseConfig.PackageLength;
+            intStart_THR5 = intStart_THR4 + objLocalConfig.BaseConfig.PackageLength;
         }
         
         public string Replace(string strFieldValue, string strField)
@@ -95,30 +101,30 @@ namespace ReparseElasticSearchDocs.Classes
 
         public void reparse_T1()
         {
-            reparse(0, 5000);
+            reparse(0, objLocalConfig.BaseConfig.PackageLength,true);
         }
 
         public void reparse_T2()
         {
-            reparse(5001, 10000);
+            reparse(intStart_THR2, objLocalConfig.BaseConfig.PackageLength);
         }
 
         public void reparse_T3()
         {
-            reparse(10001, 15000);
+            reparse(intStart_THR3, objLocalConfig.BaseConfig.PackageLength);
         }
 
         public void reparse_T4()
         {
-            reparse(15001, 20000);
+            reparse(intStart_THR4, objLocalConfig.BaseConfig.PackageLength);
         }
 
         public void reparse_T5()
         {
-            reparse(20001, 25000);
+            reparse(intStart_THR5, objLocalConfig.BaseConfig.PackageLength);
         }
 
-        public void reparse(int intStart, int intLength)
+        public void reparse(int intStart, int intLength, Boolean boolFlush = false)
         {
             Dictionary<string, object> objDict_Src = new Dictionary<string, object> { };
             Dictionary<string, object> objDict_Dst = new Dictionary<string, object> { };
@@ -159,6 +165,11 @@ namespace ReparseElasticSearchDocs.Classes
                 
                 string strID;
 
+                if (boolFlush == true)
+                {
+                    objElConnSrc.Flush();
+                    objElConnDst.Flush();
+                }
 
                 objSearchResult = objElConnSrc.Search(objLocalConfig.BaseConfig.IndexSrc, objLocalConfig.BaseConfig.Type, objBoolQuery.ToString(), strOrder, intStart, intLength);
                 objHitList = objSearchResult.GetHits().Hits;
