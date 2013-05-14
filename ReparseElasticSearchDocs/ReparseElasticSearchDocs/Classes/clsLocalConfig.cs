@@ -491,6 +491,8 @@ namespace ReparseElasticSearchDocs.Classes
             XmlNodeList objXMLConfigs;
             int intPort;
             int intPackageLength;
+            int intThreadCount;
+            Boolean boolExternalRun;
 
             objXML = new XmlDocument();
             objXML.Load(AppDomain.CurrentDomain.BaseDirectory + "\\Config\\Config.xml");
@@ -573,7 +575,34 @@ namespace ReparseElasticSearchDocs.Classes
                                 
                             }
                             break;
-
+                        case "thread_count":
+                            if (objBaseConfig != null)
+                            {
+                                if (int.TryParse(objXMLFieldAttribute.InnerText, out intThreadCount))
+                                {
+                                    objBaseConfig.ThreadCount = intThreadCount;
+                                }
+                                else
+                                {
+                                    objBaseConfig = null;
+                                }
+                                
+                            }
+                            break;
+                        case "external_run":
+                            if (objBaseConfig != null)
+                            {
+                                if (Boolean.TryParse(objXMLFieldAttribute.InnerText, out boolExternalRun))
+                                {
+                                    objBaseConfig.ExternalRun = boolExternalRun;
+                                }
+                                else
+                                {
+                                    objBaseConfig = null;
+                                }
+                                
+                            }
+                            break;
                         
                     }
                 }

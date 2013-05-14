@@ -20,6 +20,7 @@ namespace ReparseElasticSearchDocs
 
             objReparse = new clsReparse(objLocalConfig);
             objReparse.initialize_Reparse();
+            
         }
     }
 }

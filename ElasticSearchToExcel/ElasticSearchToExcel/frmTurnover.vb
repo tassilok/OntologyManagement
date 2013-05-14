@@ -1,11 +1,15 @@
 ﻿Public Class frmTurnover
 
     Private intID As Integer
-    Private objELStatistics As New clsElasticSearchStatistics()
+    Private objConfig As clsConfig
+    Private objELStatistics As clsElasticSearchStatistics
     Private dateStart As Date
 
     Private Sub initialize()
+        objELStatistics = New clsElasticSearchStatistics(objConfig)
         intID = 1
+        ToolStripLabel_Server.Text = objConfig.Server
+        ToolStripLabel_Index.Text = objConfig.Index
     End Sub
 
     Public Sub New()
@@ -14,6 +18,18 @@
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
+        objConfig = New clsConfig
+        initialize()
+
+    End Sub
+
+    Public Sub New(ByVal Config As clsConfig)
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+        objConfig = Config
         initialize()
 
     End Sub

@@ -1,5 +1,6 @@
 ﻿Public Class frmMain
-    Private WithEvents objElasticSearchToExcel As New clsElasticSearchStatistics
+    Private objConfig As New clsConfig
+    Private WithEvents objElasticSearchToExcel As clsElasticSearchStatistics
     Private frmTurnover As frmTurnover
 
     Private Sub counted_Search(ByVal lngCount) Handles objElasticSearchToExcel.counted_Search
@@ -17,7 +18,7 @@
         objElasticSearchToExcel.QueryToExcel(strQuery, False)
     End Sub
 
-    
+
     Public Sub New()
 
         ' This call is required by the designer.
@@ -25,6 +26,10 @@
 
         ' Add any initialization after the InitializeComponent() call.
 
+    End Sub
+
+    Private Sub initialize()
+        objElasticSearchToExcel = New clsElasticSearchStatistics(objConfig)
     End Sub
 
     Private Sub Button_Count_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Count.Click
@@ -57,7 +62,7 @@
     End Sub
 
     Private Sub TurnoverMeasureToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TurnoverMeasureToolStripMenuItem.Click
-        frmTurnover = New frmTurnover()
+        frmTurnover = New frmTurnover(objConfig)
         frmTurnover.ShowDialog(Me)
     End Sub
 

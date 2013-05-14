@@ -30,6 +30,17 @@ namespace ReparseElasticSearchDocs.Classes
         private Thread objThread4;
         private Thread objThread5;
 
+        private ElasticSearchClient objElConnSrc1;
+        private ElasticSearchClient objElConnDst1;
+        private ElasticSearchClient objElConnSrc2;
+        private ElasticSearchClient objElConnDst2;
+        private ElasticSearchClient objElConnSrc3;
+        private ElasticSearchClient objElConnDst3;
+        private ElasticSearchClient objElConnSrc4;
+        private ElasticSearchClient objElConnDst4;
+        private ElasticSearchClient objElConnSrc5;
+        private ElasticSearchClient objElConnDst5;
+
         public clsReparse(clsLocalConfig LocalConfig)
         {
             objLocalConfig = LocalConfig;
@@ -73,66 +84,105 @@ namespace ReparseElasticSearchDocs.Classes
 
         public void initialize_Reparse()
         {
+            objElConnSrc1 = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerSrc, objLocalConfig.BaseConfig.PortSrc, TransportType.Thrift, false);
+            objElConnDst1 = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerDst, objLocalConfig.BaseConfig.PortDst, TransportType.Thrift, false);
+            objElConnSrc2 = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerSrc, objLocalConfig.BaseConfig.PortSrc, TransportType.Thrift, false);
+            objElConnDst2 = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerDst, objLocalConfig.BaseConfig.PortDst, TransportType.Thrift, false);
+            objElConnSrc3 = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerSrc, objLocalConfig.BaseConfig.PortSrc, TransportType.Thrift, false);
+            objElConnDst3 = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerDst, objLocalConfig.BaseConfig.PortDst, TransportType.Thrift, false);
+            objElConnSrc4 = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerSrc, objLocalConfig.BaseConfig.PortSrc, TransportType.Thrift, false);
+            objElConnDst4 = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerDst, objLocalConfig.BaseConfig.PortDst, TransportType.Thrift, false);
+            objElConnSrc5 = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerSrc, objLocalConfig.BaseConfig.PortSrc, TransportType.Thrift, false);
+            objElConnDst5 = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerDst, objLocalConfig.BaseConfig.PortDst, TransportType.Thrift, false);
+
             while (true)
             {
-                objThread1 = new Thread(new ThreadStart(reparse_T1));
-                objThread1.Start();
-                objThread2 = new Thread(new ThreadStart(reparse_T2));
-                objThread2.Start();
-                objThread3 = new Thread(new ThreadStart(reparse_T3));
-                objThread3.Start();
-                objThread4 = new Thread(new ThreadStart(reparse_T4));
-                objThread4.Start();
-                objThread5 = new Thread(new ThreadStart(reparse_T5));
-                objThread5.Start();
 
-                while (objThread1.ThreadState == ThreadState.Running
-                       || objThread2.ThreadState == ThreadState.Running
-                       || objThread3.ThreadState == ThreadState.Running
-                       || objThread4.ThreadState == ThreadState.Running
-                       || objThread5.ThreadState == ThreadState.Running)
+
+                
+                objThread1 = null;
+                objThread2 = null;
+                objThread3 = null;
+                objThread4 = null;
+                objThread5 = null;
+
+                objThread1 = new Thread(new ThreadStart(reparse_T1));
+                objThread2 = new Thread(new ThreadStart(reparse_T2));
+                objThread3 = new Thread(new ThreadStart(reparse_T3));
+                objThread4 = new Thread(new ThreadStart(reparse_T4));
+                objThread5 = new Thread(new ThreadStart(reparse_T5));
+                objThread1.Start();
+                if (objLocalConfig.BaseConfig.ThreadCount > 1)
+                {
+                   
+                    objThread2.Start();
+                }
+                if (objLocalConfig.BaseConfig.ThreadCount > 2)
+                {
+                    
+                    objThread3.Start();
+                }
+                if (objLocalConfig.BaseConfig.ThreadCount > 3)
+                {
+                    
+                    objThread4.Start();
+                }
+                if (objLocalConfig.BaseConfig.ThreadCount > 4)
+                {
+                    
+                    objThread5.Start();
+                }
+                
+                while ((objThread1.ThreadState != ThreadState.Unstarted && objThread1.ThreadState != ThreadState.Stopped)
+                    || (objThread2.ThreadState != ThreadState.Unstarted && objThread2.ThreadState != ThreadState.Stopped)
+                    || (objThread3.ThreadState != ThreadState.Unstarted && objThread3.ThreadState != ThreadState.Stopped)
+                    || (objThread4.ThreadState != ThreadState.Unstarted && objThread4.ThreadState != ThreadState.Stopped)
+                    || (objThread5.ThreadState != ThreadState.Unstarted && objThread5.ThreadState != ThreadState.Stopped))
                 {
 
                 }
 
-
+                if (objLocalConfig.BaseConfig.ExternalRun == true)
+                {
+                    break;
+                }
             }
+            
         }
 
         public void reparse_T1()
         {
-            reparse(0, objLocalConfig.BaseConfig.PackageLength,true);
+            reparse(0, objLocalConfig.BaseConfig.PackageLength,1);
         }
 
         public void reparse_T2()
         {
-            reparse(intStart_THR2, objLocalConfig.BaseConfig.PackageLength);
+            reparse(intStart_THR2, objLocalConfig.BaseConfig.PackageLength, 2);
         }
 
         public void reparse_T3()
         {
-            reparse(intStart_THR3, objLocalConfig.BaseConfig.PackageLength);
+            reparse(intStart_THR3, objLocalConfig.BaseConfig.PackageLength, 3);
         }
 
         public void reparse_T4()
         {
-            reparse(intStart_THR4, objLocalConfig.BaseConfig.PackageLength);
+            reparse(intStart_THR4, objLocalConfig.BaseConfig.PackageLength, 4);
         }
 
         public void reparse_T5()
         {
-            reparse(intStart_THR5, objLocalConfig.BaseConfig.PackageLength);
+            reparse(intStart_THR5, objLocalConfig.BaseConfig.PackageLength, 5);
         }
 
-        public void reparse(int intStart, int intLength, Boolean boolFlush = false)
+        public void reparse(int intStart, int intLength, int idThread, Boolean boolFlush = false)
         {
             Dictionary<string, object> objDict_Src = new Dictionary<string, object> { };
             Dictionary<string, object> objDict_Dst = new Dictionary<string, object> { };
             List<BulkObject> objBulkObjects_Src = new List<BulkObject> { };
             List<BulkObject> objBulkObjects_Dst = new List<BulkObject> { };
 
-            ElasticSearchClient objElConnSrc;
-            ElasticSearchClient objElConnDst;
+            
 
             BooleanQuery objBoolQuery = new BooleanQuery();
             SearchResult objSearchResult;
@@ -160,19 +210,34 @@ namespace ReparseElasticSearchDocs.Classes
 
             try
             {
-                objElConnSrc = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerSrc, objLocalConfig.BaseConfig.PortSrc, TransportType.Thrift, false);
-                objElConnDst = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerDst, objLocalConfig.BaseConfig.PortDst, TransportType.Thrift, false);
+                
                 
                 string strID;
 
-                if (boolFlush == true)
+                switch (idThread)
                 {
-                    objElConnSrc.Flush();
-                    objElConnDst.Flush();
-                }
+                    case 1:
+                        objSearchResult = objElConnSrc1.Search(objLocalConfig.BaseConfig.IndexSrc, objLocalConfig.BaseConfig.Type, objBoolQuery.ToString(), strOrder, intStart, intLength);
+                        break;
 
-                objSearchResult = objElConnSrc.Search(objLocalConfig.BaseConfig.IndexSrc, objLocalConfig.BaseConfig.Type, objBoolQuery.ToString(), strOrder, intStart, intLength);
+                    case 2:
+                        objSearchResult = objElConnSrc2.Search(objLocalConfig.BaseConfig.IndexSrc, objLocalConfig.BaseConfig.Type, objBoolQuery.ToString(), strOrder, intStart, intLength);
+                        break;
+
+                    case 3:
+                        objSearchResult = objElConnSrc3.Search(objLocalConfig.BaseConfig.IndexSrc, objLocalConfig.BaseConfig.Type, objBoolQuery.ToString(), strOrder, intStart, intLength);
+                        break;
+
+                    case 4:
+                        objSearchResult = objElConnSrc4.Search(objLocalConfig.BaseConfig.IndexSrc, objLocalConfig.BaseConfig.Type, objBoolQuery.ToString(), strOrder, intStart, intLength);
+                        break;
+                    default:
+                        objSearchResult = objElConnSrc1.Search(objLocalConfig.BaseConfig.IndexSrc, objLocalConfig.BaseConfig.Type, objBoolQuery.ToString(), strOrder, intStart, intLength);
+                        break;
+                }
+                
                 objHitList = objSearchResult.GetHits().Hits;
+                
                 foreach (ElasticSearch.Client.Domain.Hits objHit in objHitList)
                 {
 
@@ -219,6 +284,7 @@ namespace ReparseElasticSearchDocs.Classes
 
                         if (objDict_Dst.Count > 0)
                         {
+
                             objBulkObjects_Dst.Add(new BulkObject(objLocalConfig.BaseConfig.IndexDst, objLocalConfig.BaseConfig.Type, strID, objDict_Dst));
                             objBulkObjects_Src.Add(new BulkObject(objLocalConfig.BaseConfig.IndexSrc, objLocalConfig.BaseConfig.Type, strID, objDict_Src));
 
@@ -226,12 +292,66 @@ namespace ReparseElasticSearchDocs.Classes
 
                     }
                 }
-
+                switch (idThread)
+                {
+                    case 1:
+                        objElConnDst1.Bulk(objBulkObjects_Dst);
+                        objElConnDst1.Refresh(objLocalConfig.BaseConfig.IndexDst);
+                        objElConnSrc1.Bulk(objBulkObjects_Src);
+                        objElConnSrc1.Refresh(objLocalConfig.BaseConfig.IndexSrc);
+                        if (boolFlush == true)
+                        {
+                            objElConnDst1.Flush(objLocalConfig.BaseConfig.IndexDst);
+                            objElConnSrc1.Flush(objLocalConfig.BaseConfig.IndexSrc);
+                        }
+                        break;
+                    case 2:
+                        objElConnDst2.Bulk(objBulkObjects_Dst);
+                        objElConnDst2.Refresh(objLocalConfig.BaseConfig.IndexDst);
+                        objElConnSrc2.Bulk(objBulkObjects_Src);
+                        objElConnSrc2.Refresh(objLocalConfig.BaseConfig.IndexSrc);
+                        if (boolFlush == true)
+                        {
+                            objElConnDst2.Flush(objLocalConfig.BaseConfig.IndexDst);
+                            objElConnSrc2.Flush(objLocalConfig.BaseConfig.IndexSrc);
+                        }
+                        break;
+                    case 3:
+                        objElConnDst3.Bulk(objBulkObjects_Dst);
+                        objElConnDst3.Refresh(objLocalConfig.BaseConfig.IndexDst);
+                        objElConnSrc3.Bulk(objBulkObjects_Src);
+                        objElConnSrc3.Refresh(objLocalConfig.BaseConfig.IndexSrc);
+                        if (boolFlush == true)
+                        {
+                            objElConnDst3.Flush(objLocalConfig.BaseConfig.IndexDst);
+                            objElConnSrc3.Flush(objLocalConfig.BaseConfig.IndexSrc);
+                        }
+                        break;
+                    case 4:
+                        objElConnDst4.Bulk(objBulkObjects_Dst);
+                        objElConnDst4.Refresh(objLocalConfig.BaseConfig.IndexDst);
+                        objElConnSrc4.Bulk(objBulkObjects_Src);
+                        objElConnSrc4.Refresh(objLocalConfig.BaseConfig.IndexSrc);
+                        if (boolFlush == true)
+                        {
+                            objElConnDst4.Flush(objLocalConfig.BaseConfig.IndexDst);
+                            objElConnSrc4.Flush(objLocalConfig.BaseConfig.IndexSrc);
+                        }
+                        break;
+                    case 5:
+                        objElConnDst5.Bulk(objBulkObjects_Dst);
+                        objElConnDst5.Refresh(objLocalConfig.BaseConfig.IndexDst);
+                        objElConnSrc5.Bulk(objBulkObjects_Src);
+                        objElConnSrc5.Refresh(objLocalConfig.BaseConfig.IndexSrc);
+                        if (boolFlush == true)
+                        {
+                            objElConnDst5.Flush(objLocalConfig.BaseConfig.IndexDst);
+                            objElConnSrc5.Flush(objLocalConfig.BaseConfig.IndexSrc);
+                        }
+                        break;
+                }
                 
-                objElConnDst.Bulk(objBulkObjects_Dst);
-                objElConnDst.Refresh(objLocalConfig.BaseConfig.IndexDst);
-                objElConnSrc.Bulk(objBulkObjects_Src);
-                objElConnSrc.Refresh(objLocalConfig.BaseConfig.IndexSrc);
+
                 objBulkObjects_Dst.Clear();
                 objBulkObjects_Src.Clear();
 
@@ -468,6 +588,9 @@ namespace ReparseElasticSearchDocs.Classes
                 }
             }
         }
+        
     }
+
+    
 }
 

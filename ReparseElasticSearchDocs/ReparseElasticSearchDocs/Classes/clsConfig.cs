@@ -16,12 +16,14 @@ namespace ReparseElasticSearchDocs.Classes
         private string strServerDst;
         private string strType;
         private int intPackageLength;
+        private int intThreadCount;
+        private Boolean boolExternalRun;
         
         public clsConfig()
         {
         }
 
-        public clsConfig(string IndexSrc, string IndexDst, string IndexMeta, int PortSrc, int PortDst, string ServerSrc, string ServerDst, string Type, int PackageLength)
+        public clsConfig(string IndexSrc, string IndexDst, string IndexMeta, int PortSrc, int PortDst, string ServerSrc, string ServerDst, string Type, int PackageLength, int ThreadCount, Boolean ExternalRun)
         {
             strIndexSrc = IndexSrc;
             strIndexDst = IndexDst;
@@ -32,6 +34,8 @@ namespace ReparseElasticSearchDocs.Classes
             strServerDst = ServerDst;
             strType = Type;
             intPackageLength = PackageLength;
+            intThreadCount = ThreadCount;
+            boolExternalRun = ExternalRun;
             
         }
 
@@ -87,6 +91,18 @@ namespace ReparseElasticSearchDocs.Classes
         {
             get { return intPackageLength; }
             set { intPackageLength = value; }
+        }
+
+        public int ThreadCount
+        {
+            get { return intThreadCount; }
+            set { intThreadCount = value; }
+        }
+        
+        public Boolean ExternalRun
+        {
+            get { return boolExternalRun; }
+            set { boolExternalRun = value; }
         }
 
     }

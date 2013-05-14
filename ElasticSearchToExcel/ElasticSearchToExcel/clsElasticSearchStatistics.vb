@@ -10,7 +10,7 @@ Public Class clsElasticSearchStatistics
     Private objExcel As Excel.Application
     Private objExcelBook As Excel.Workbook
     Private objExcelSheet As Excel.Worksheet
-    Private objConfig As New clsConfig
+    Private objConfig As clsConfig
     Private lngCount As Long
     Private intPos As Integer
     Private lngRow As Long
@@ -153,8 +153,6 @@ Public Class clsElasticSearchStatistics
         Dim objClusterStatus As ElasticSearch.Client.Admin.ClusterIndexStatus
         Dim boolResult As Boolean
 
-        initialize_Client()
-
         objClusterStatus = objElConn.Status(objConfig.Index)
 
         If objClusterStatus.Success = True Then
@@ -172,8 +170,9 @@ Public Class clsElasticSearchStatistics
 
     End Function
 
-    Public Sub New()
+    Public Sub New(ByVal objConfig As clsConfig)
         intPackageLength = 20000
-
+        Me.objConfig = objConfig
+        initialize_Client()
     End Sub
 End Class
