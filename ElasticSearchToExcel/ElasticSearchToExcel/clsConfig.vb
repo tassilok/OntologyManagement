@@ -69,7 +69,9 @@ Public Class clsConfig
         End Get
     End Property
 
-    Public ReadOnly Property Index As String
+    
+    Public Property Index As String
+
         Get
             Dim objLItem = From obj In objDict
                              Where obj.Key.ToLower = "index"
@@ -80,6 +82,9 @@ Public Class clsConfig
                 Return Nothing
             End If
         End Get
+        Set(ByVal value As String)
+            objDict("Index") = value
+        End Set
     End Property
 
     Public ReadOnly Property Type As String

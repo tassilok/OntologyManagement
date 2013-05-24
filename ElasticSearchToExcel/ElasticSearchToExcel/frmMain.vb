@@ -1,6 +1,7 @@
 ﻿Public Class frmMain
     Private objConfig As New clsConfig
     Private WithEvents objElasticSearchToExcel As clsElasticSearchStatistics
+    Private objFrmDeleteIndex As frmDeleteIndex
     Private frmTurnover As frmTurnover
 
     Private Sub counted_Search(ByVal lngCount) Handles objElasticSearchToExcel.counted_Search
@@ -25,11 +26,23 @@
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-
+        initialize()
     End Sub
 
     Private Sub initialize()
         objElasticSearchToExcel = New clsElasticSearchStatistics(objConfig)
+        'temp_OP()
+    End Sub
+
+    Private Sub temp_OP()
+        Dim strID As String
+        Dim objDict As New Dictionary(Of String, Object)
+
+        strID = "518a3241119e4e4fa5aa6c82113cb46e"
+
+        objDict.Add("Last", "2013-04-03T23:59:59.000Z")
+
+        objElasticSearchToExcel.change_By_Id(strID, objDict, "explido_access_tst_meta", "explido_Meta")
     End Sub
 
     Private Sub Button_Count_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Count.Click
@@ -78,5 +91,37 @@
             objDict.Add(strKey, strValue)
             objElasticSearchToExcel.del_By_Query(objDict, True)
         End If
+    End Sub
+
+    Private Sub TestDeleterangeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TestDeleterangeToolStripMenuItem.Click
+        Dim strField As String
+        Dim strStart As String
+        Dim strEnd As String
+        Dim dateStart As Date
+        Dim dateEnd As Date
+
+        strField = InputBox("Which field?")
+        strStart = InputBox("Range-Start", DefaultResponse:=Now.ToString)
+        strEnd = InputBox("Range-End", DefaultResponse:=Now.ToString)
+
+        If strField <> "" Then
+            If Date.TryParse(strStart, dateStart) Then
+                If Date.TryParse(strEnd, dateEnd) Then
+                    objElasticSearchToExcel.del_By_DateRange(strField, dateStart, dateEnd)
+                Else
+                    MsgBox("Bitte gültige Werte eingeben!", MsgBoxStyle.Information)
+                End If
+            Else
+                MsgBox("Bitte gültige Werte eingeben!", MsgBoxStyle.Information)
+            End If
+        Else
+            MsgBox("Bitte gültige Werte eingeben!", MsgBoxStyle.Information)
+        End If
+
+    End Sub
+
+    Private Sub DeleteIndexToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteIndexToolStripMenuItem.Click
+        objFrmDeleteIndex = New frmDeleteIndex(objConfig)
+        objFrmDeleteIndex.ShowDialog(Me)
     End Sub
 End Class

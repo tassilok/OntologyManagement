@@ -125,6 +125,12 @@
     <Compile Include="DataSet_Measure.vb">
       <DependentUpon>DataSet_Measure.xsd</DependentUpon>
     </Compile>
+    <Compile Include="frmDeleteIndex.Designer.vb">
+      <DependentUpon>frmDeleteIndex.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmDeleteIndex.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmMain.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +161,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmDeleteIndex.resx">
+      <DependentUpon>frmDeleteIndex.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>
     </EmbeddedResource>

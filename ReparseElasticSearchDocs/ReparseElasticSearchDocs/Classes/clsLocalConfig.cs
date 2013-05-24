@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Text.RegularExpressions;
 
 namespace ReparseElasticSearchDocs.Classes
 {
     class clsLocalConfig
     {
+
+        private const string cstrUnit_Sec = "s";
+        private const string cstrUnit_Min = "m";
+        private const string cstrUnit_Hour = "h";
 
         private clsConfig objBaseConfig = new clsConfig();
         private clsMeta objMeta = new clsMeta();
@@ -16,10 +21,16 @@ namespace ReparseElasticSearchDocs.Classes
         private List<clsField> objLFields = new List<clsField> { };
         private List<clsMutate> objLMutates = new List<clsMutate> { };
         private List<clsReplace> objLReplaces = new List<clsReplace> { };
+        private clsNetwork objNetwork = new clsNetwork();
 
         public clsConfig BaseConfig
         {
             get { return objBaseConfig; }
+        }
+
+        public clsNetwork Network
+        {
+            get { return objNetwork; }
         }
 
         public clsInit Init
@@ -416,22 +427,42 @@ namespace ReparseElasticSearchDocs.Classes
         {
             XmlDocument objXML;
             XmlNodeList objXMLVersion;
+            XmlNodeList objXMLInterval;
             XmlNodeList objXMLOrders;
+            XmlNodeList objXMLFirstListEntry;
+            XmlNodeList objXMLEntryField;
+            XmlNodeList objXMLExcludePostfixes;
             clsOrderField objOrderField;
+            Regex objRegEx_Interval;
+            Match objMatch_Interval;
+            int ixStart;
+            int intLength;
 
             long lngVersion;
             Boolean boolASC;
+            string strIntervalField;
+            string strRegEx_Interval="\\d*";
+            int intInterval;
+            string strUnit;
+            TimeSpan objInterval;
+            DateTime dateFirstEntry;
+            DateTime dateLastEntry;
 
-            objInit = null;
+            objInit = new clsInit();
             objXML = new XmlDocument();
             objXML.Load(AppDomain.CurrentDomain.BaseDirectory + "\\Config\\Init.xml");
+            objXMLExcludePostfixes = objXML.GetElementsByTagName("exclude_postfix");
+            foreach (XmlNode objXMLExcludePostfix in objXMLExcludePostfixes)
+            {
+                objInit.addExcludePostfixes(objXMLExcludePostfix.InnerText);
+            }
+
             objXMLVersion = objXML.GetElementsByTagName("version_field");
             if (objXMLVersion.Count>0)
             {
-                objInit = new clsInit();
+                
                 objInit.VersionField = objXMLVersion[0].InnerText;
-                objXMLVersion = objXML.GetElementsByTagName("version_field");
-
+               
                 objXMLVersion = objXML.GetElementsByTagName("version");
 
                 if (objXMLVersion.Count>0)
@@ -439,49 +470,117 @@ namespace ReparseElasticSearchDocs.Classes
                     if (long.TryParse(objXMLVersion[0].InnerText, out lngVersion))
                     {
                         objInit.Version = lngVersion;
-                        objXMLOrders = objXML.GetElementsByTagName("order_fields");
-
-                        objOrderField = null;
-                        if (objXMLOrders.Count > 0)
-                        {
-                            foreach (XmlNode objXMLOrder in objXMLOrders[0].ChildNodes)
-                            {
-                                switch (objXMLOrder.Name)
-                                {
-                                    case "order_field":
-                                        objOrderField = new clsOrderField();
-                                        objOrderField.Field = objXMLOrder.InnerText;
-                                        break;
-
-
-                                    case "order_asc":
-                                        if (objOrderField != null)
-                                        {
-                                            if (Boolean.TryParse(objXMLOrder.InnerText, out boolASC))
-                                            {
-                                                objOrderField.ASC = boolASC;
-                                                objInit.addOrderField(objOrderField.Field, objOrderField.ASC);
-                                            }
-                                        }
-                                        break;
-                                }
-                            }
-                        }
                         
-                    }
-                    else
-                    {
-                        objInit = null;
+                        
                     }
                     
                 }
-                else
+                
+            }
+
+
+            objXMLInterval = objXML.GetElementsByTagName("field_interval");
+            if (objXMLInterval.Count > 0)
+            {
+                strIntervalField = objXMLInterval[0].InnerText;
+                if (strIntervalField != "")
                 {
-                    objInit = null;
+                    objXMLInterval = objXML.GetElementsByTagName("interval");
+
+                    if (objXMLInterval.Count > 0)
+                    {
+                        objRegEx_Interval = new Regex(strRegEx_Interval);
+                        objMatch_Interval = objRegEx_Interval.Match(objXMLInterval[0].InnerText);
+                        if (objMatch_Interval.Success)
+                        {
+                            ixStart = objMatch_Interval.Index;
+                            intLength = objMatch_Interval.Length;
+                            intInterval = int.Parse(objXMLInterval[0].InnerText.Substring(ixStart, intLength));
+                            strUnit = objXMLInterval[0].InnerText.Substring(ixStart + intLength);
+
+                            switch (strUnit.ToLower())
+                            {
+                                case cstrUnit_Sec:
+
+                                    objInterval = new TimeSpan(0, 0, intInterval);
+                                    objInit.IntervalField = strIntervalField;
+                                    objInit.Interval = objInterval;
+                                    break;
+                                case cstrUnit_Min:
+                                    objInterval = new TimeSpan(0, intInterval, 0);
+                                    objInit.IntervalField = strIntervalField;
+                                    objInit.Interval = objInterval;
+                                    break;
+                                case cstrUnit_Hour:
+                                    objInterval = new TimeSpan(intInterval, 0, 0);
+                                    objInit.IntervalField = strIntervalField;
+                                    objInit.Interval = objInterval;
+                                    break;
+                                default:
+
+                                    break;
+                            }
+
+                        }
+
+                    }
+                }
+
+                
+            }
+
+            objXMLEntryField = objXML.GetElementsByTagName("field_entry");
+            if (objXMLEntryField.Count > 0)
+            {
+                objInit.EntryField = objXMLEntryField[0].InnerText;
+                objXMLFirstListEntry = objXML.GetElementsByTagName("first_entry");
+                if (objXMLFirstListEntry.Count > 0)
+                {
+                    if (DateTime.TryParse(objXMLFirstListEntry[0].InnerText, out dateFirstEntry))
+                    {
+                        objInit.FirstEntry = dateFirstEntry;
+                    }
+                }
+
+                objXMLFirstListEntry = objXML.GetElementsByTagName("last_entry");
+                if (objXMLFirstListEntry.Count > 0)
+                {
+                    if (DateTime.TryParse(objXMLFirstListEntry[0].InnerText, out dateLastEntry))
+                    {
+                        objInit.LastEntry = dateLastEntry;
+                    }
                 }
             }
             
 
+            objXMLOrders = objXML.GetElementsByTagName("order_fields");
+
+            objOrderField = null;
+            if (objXMLOrders.Count > 0)
+            {
+                foreach (XmlNode objXMLOrder in objXMLOrders[0].ChildNodes)
+                {
+                    switch (objXMLOrder.Name)
+                    {
+                        case "order_field":
+                            objOrderField = new clsOrderField();
+                            objOrderField.Field = objXMLOrder.InnerText;
+                            break;
+
+
+                        case "order_asc":
+                            if (objOrderField != null)
+                            {
+                                if (Boolean.TryParse(objXMLOrder.InnerText, out boolASC))
+                                {
+                                    objOrderField.ASC = boolASC;
+                                    objInit.addOrderField(objOrderField.Field, objOrderField.ASC);
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
             
         }
 
@@ -512,10 +611,7 @@ namespace ReparseElasticSearchDocs.Classes
                             objBaseConfig.IndexDst = objXMLFieldAttribute.InnerText;
                             break;
 
-                        case "index_meta":
-                            objBaseConfig.IndexMeta = objXMLFieldAttribute.InnerText;
-                            break;
-
+                        
                         case "portsrc":
                             if (int.TryParse(objXMLFieldAttribute.InnerText,out intPort))
                             {
@@ -611,7 +707,6 @@ namespace ReparseElasticSearchDocs.Classes
             {
                 if (objBaseConfig.IndexSrc == ""
                     || objBaseConfig.IndexDst == ""
-                    || objBaseConfig.IndexMeta == ""
                     || objBaseConfig.PortSrc == 0
                     || objBaseConfig.PortDst == 0
                     || objBaseConfig.ServerSrc == ""
@@ -625,6 +720,25 @@ namespace ReparseElasticSearchDocs.Classes
             }
         }
 
+        private void getNetwork()
+        {
+            XmlDocument objXML;
+            XmlNodeList objXMLNetworks;
+            int intPort;
+
+            objXML = new XmlDocument();
+            objXML.Load(AppDomain.CurrentDomain.BaseDirectory + "\\Config\\Network.xml");
+            objXMLNetworks = objXML.GetElementsByTagName("port_listen");
+
+            foreach (XmlElement objXMLNetwork in objXMLNetworks)
+            {
+                if (int.TryParse(objXMLNetwork.InnerText, out intPort))
+                {
+                    objNetwork.addPort(intPort);
+                }
+            }
+        }
+
         public clsLocalConfig()
         {
             getBaseConfig();
@@ -634,6 +748,7 @@ namespace ReparseElasticSearchDocs.Classes
             getMutates();
             getReplaces();
             getInit();
+            getNetwork();
         }
 
     }

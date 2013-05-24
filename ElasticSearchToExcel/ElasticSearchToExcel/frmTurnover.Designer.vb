@@ -24,17 +24,22 @@ Partial Class frmTurnover
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmTurnover))
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle19 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle20 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle21 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle22 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle23 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle24 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Open = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel_ServerLBL = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel_Server = New System.Windows.Forms.ToolStripLabel()
+        Me.ComboBox_Indexes = New System.Windows.Forms.ComboBox()
+        Me.CheckBox_AllIndexes = New System.Windows.Forms.CheckBox()
         Me.Button_AutoSaveFile = New System.Windows.Forms.Button()
         Me.TextBox_AutoSaveFile = New System.Windows.Forms.TextBox()
         Me.CheckBox_AutoSave = New System.Windows.Forms.CheckBox()
@@ -66,12 +71,6 @@ Partial Class frmTurnover
         Me.Timer_Durance = New System.Windows.Forms.Timer(Me.components)
         Me.SaveFileDialog_Measure = New System.Windows.Forms.SaveFileDialog()
         Me.OpenFileDialog_Measure = New System.Windows.Forms.OpenFileDialog()
-        Me.ToolStripLabel_IndexLBL = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripLabel_ServerLBL = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel_Server = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel_Index = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -92,6 +91,8 @@ Partial Class frmTurnover
         '
         'ToolStripContainer1.ContentPanel
         '
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.ComboBox_Indexes)
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.CheckBox_AllIndexes)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Button_AutoSaveFile)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.TextBox_AutoSaveFile)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.CheckBox_AutoSave)
@@ -115,10 +116,10 @@ Partial Class frmTurnover
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close, Me.ToolStripButton1, Me.ToolStripButton_Open, Me.ToolStripSeparator1, Me.ToolStripLabel_ServerLBL, Me.ToolStripLabel_Server, Me.ToolStripSeparator2, Me.ToolStripLabel_IndexLBL, Me.ToolStripLabel_Index})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close, Me.ToolStripButton1, Me.ToolStripButton_Open, Me.ToolStripSeparator1, Me.ToolStripLabel_ServerLBL, Me.ToolStripLabel_Server})
         Me.ToolStrip1.Location = New System.Drawing.Point(5, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(214, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(158, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Close
@@ -133,7 +134,7 @@ Partial Class frmTurnover
         'ToolStripButton1
         '
         Me.ToolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton1.Image = Global.ElasticSearchToExcel.My.Resources.Resources.disk
+        Me.ToolStripButton1.Image = CType(resources.GetObject("ToolStripButton1.Image"), System.Drawing.Image)
         Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton1.Name = "ToolStripButton1"
         Me.ToolStripButton1.Size = New System.Drawing.Size(23, 22)
@@ -142,11 +143,50 @@ Partial Class frmTurnover
         'ToolStripButton_Open
         '
         Me.ToolStripButton_Open.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Open.Image = Global.ElasticSearchToExcel.My.Resources.Resources.folder_brick
+        Me.ToolStripButton_Open.Image = CType(resources.GetObject("ToolStripButton_Open.Image"), System.Drawing.Image)
         Me.ToolStripButton_Open.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Open.Name = "ToolStripButton_Open"
         Me.ToolStripButton_Open.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_Open.Text = "ToolStripButton2"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripLabel_ServerLBL
+        '
+        Me.ToolStripLabel_ServerLBL.Name = "ToolStripLabel_ServerLBL"
+        Me.ToolStripLabel_ServerLBL.Size = New System.Drawing.Size(42, 22)
+        Me.ToolStripLabel_ServerLBL.Text = "Server:"
+        '
+        'ToolStripLabel_Server
+        '
+        Me.ToolStripLabel_Server.Name = "ToolStripLabel_Server"
+        Me.ToolStripLabel_Server.Size = New System.Drawing.Size(12, 22)
+        Me.ToolStripLabel_Server.Text = "-"
+        '
+        'ComboBox_Indexes
+        '
+        Me.ComboBox_Indexes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox_Indexes.Enabled = False
+        Me.ComboBox_Indexes.FormattingEnabled = True
+        Me.ComboBox_Indexes.Location = New System.Drawing.Point(780, 33)
+        Me.ComboBox_Indexes.Name = "ComboBox_Indexes"
+        Me.ComboBox_Indexes.Size = New System.Drawing.Size(287, 21)
+        Me.ComboBox_Indexes.TabIndex = 13
+        '
+        'CheckBox_AllIndexes
+        '
+        Me.CheckBox_AllIndexes.AutoSize = True
+        Me.CheckBox_AllIndexes.Checked = True
+        Me.CheckBox_AllIndexes.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox_AllIndexes.Location = New System.Drawing.Point(696, 36)
+        Me.CheckBox_AllIndexes.Name = "CheckBox_AllIndexes"
+        Me.CheckBox_AllIndexes.Size = New System.Drawing.Size(77, 17)
+        Me.CheckBox_AllIndexes.TabIndex = 12
+        Me.CheckBox_AllIndexes.Text = "All Indexes"
+        Me.CheckBox_AllIndexes.UseVisualStyleBackColor = True
         '
         'Button_AutoSaveFile
         '
@@ -277,9 +317,9 @@ Partial Class frmTurnover
         'VolumeStartDataGridViewTextBoxColumn
         '
         Me.VolumeStartDataGridViewTextBoxColumn.DataPropertyName = "Volume_Start"
-        DataGridViewCellStyle1.Format = "N0"
-        DataGridViewCellStyle1.NullValue = Nothing
-        Me.VolumeStartDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle19.Format = "N0"
+        DataGridViewCellStyle19.NullValue = Nothing
+        Me.VolumeStartDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle19
         Me.VolumeStartDataGridViewTextBoxColumn.HeaderText = "Volume_Start"
         Me.VolumeStartDataGridViewTextBoxColumn.Name = "VolumeStartDataGridViewTextBoxColumn"
         Me.VolumeStartDataGridViewTextBoxColumn.ReadOnly = True
@@ -287,9 +327,9 @@ Partial Class frmTurnover
         'SizeStartByteDataGridViewTextBoxColumn
         '
         Me.SizeStartByteDataGridViewTextBoxColumn.DataPropertyName = "Size_Start_Byte"
-        DataGridViewCellStyle2.Format = "N0"
-        DataGridViewCellStyle2.NullValue = Nothing
-        Me.SizeStartByteDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle20.Format = "N0"
+        DataGridViewCellStyle20.NullValue = Nothing
+        Me.SizeStartByteDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle20
         Me.SizeStartByteDataGridViewTextBoxColumn.HeaderText = "Size_Start_Byte"
         Me.SizeStartByteDataGridViewTextBoxColumn.Name = "SizeStartByteDataGridViewTextBoxColumn"
         Me.SizeStartByteDataGridViewTextBoxColumn.ReadOnly = True
@@ -297,8 +337,8 @@ Partial Class frmTurnover
         'VolumeEndDataGridViewTextBoxColumn
         '
         Me.VolumeEndDataGridViewTextBoxColumn.DataPropertyName = "Volume_End"
-        DataGridViewCellStyle3.Format = "N0"
-        Me.VolumeEndDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle21.Format = "N0"
+        Me.VolumeEndDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle21
         Me.VolumeEndDataGridViewTextBoxColumn.HeaderText = "Volume_End"
         Me.VolumeEndDataGridViewTextBoxColumn.Name = "VolumeEndDataGridViewTextBoxColumn"
         Me.VolumeEndDataGridViewTextBoxColumn.ReadOnly = True
@@ -306,8 +346,8 @@ Partial Class frmTurnover
         'SizeEndByteDataGridViewTextBoxColumn
         '
         Me.SizeEndByteDataGridViewTextBoxColumn.DataPropertyName = "Size_End_Byte"
-        DataGridViewCellStyle4.Format = "N0"
-        Me.SizeEndByteDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle22.Format = "N0"
+        Me.SizeEndByteDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle22
         Me.SizeEndByteDataGridViewTextBoxColumn.HeaderText = "Size_End_Byte"
         Me.SizeEndByteDataGridViewTextBoxColumn.Name = "SizeEndByteDataGridViewTextBoxColumn"
         Me.SizeEndByteDataGridViewTextBoxColumn.ReadOnly = True
@@ -315,8 +355,8 @@ Partial Class frmTurnover
         'VolumepersecDataGridViewTextBoxColumn
         '
         Me.VolumepersecDataGridViewTextBoxColumn.DataPropertyName = "Volume_per_sec"
-        DataGridViewCellStyle5.Format = "N0"
-        Me.VolumepersecDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle23.Format = "N0"
+        Me.VolumepersecDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle23
         Me.VolumepersecDataGridViewTextBoxColumn.HeaderText = "Volume_per_sec"
         Me.VolumepersecDataGridViewTextBoxColumn.Name = "VolumepersecDataGridViewTextBoxColumn"
         Me.VolumepersecDataGridViewTextBoxColumn.ReadOnly = True
@@ -324,8 +364,8 @@ Partial Class frmTurnover
         'SizePerVolumeDataGridViewTextBoxColumn
         '
         Me.SizePerVolumeDataGridViewTextBoxColumn.DataPropertyName = "Size_Per_Volume"
-        DataGridViewCellStyle6.Format = "N2"
-        Me.SizePerVolumeDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle24.Format = "N2"
+        Me.SizePerVolumeDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle24
         Me.SizePerVolumeDataGridViewTextBoxColumn.HeaderText = "Size_Per_Volume"
         Me.SizePerVolumeDataGridViewTextBoxColumn.Name = "SizePerVolumeDataGridViewTextBoxColumn"
         Me.SizePerVolumeDataGridViewTextBoxColumn.ReadOnly = True
@@ -397,40 +437,6 @@ Partial Class frmTurnover
         '
         Me.OpenFileDialog_Measure.FileName = "OpenFileDialog1"
         '
-        'ToolStripLabel_IndexLBL
-        '
-        Me.ToolStripLabel_IndexLBL.Name = "ToolStripLabel_IndexLBL"
-        Me.ToolStripLabel_IndexLBL.Size = New System.Drawing.Size(38, 22)
-        Me.ToolStripLabel_IndexLBL.Text = "Index:"
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripLabel_ServerLBL
-        '
-        Me.ToolStripLabel_ServerLBL.Name = "ToolStripLabel_ServerLBL"
-        Me.ToolStripLabel_ServerLBL.Size = New System.Drawing.Size(42, 22)
-        Me.ToolStripLabel_ServerLBL.Text = "Server:"
-        '
-        'ToolStripLabel_Server
-        '
-        Me.ToolStripLabel_Server.Name = "ToolStripLabel_Server"
-        Me.ToolStripLabel_Server.Size = New System.Drawing.Size(12, 22)
-        Me.ToolStripLabel_Server.Text = "-"
-        '
-        'ToolStripLabel_Index
-        '
-        Me.ToolStripLabel_Index.Name = "ToolStripLabel_Index"
-        Me.ToolStripLabel_Index.Size = New System.Drawing.Size(12, 22)
-        Me.ToolStripLabel_Index.Text = "-"
-        '
         'frmTurnover
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -492,9 +498,8 @@ Partial Class frmTurnover
     Friend WithEvents ContextMenuStrip_Measure As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents DeleteToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ToolStripLabel_IndexLBL As System.Windows.Forms.ToolStripLabel
-    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripLabel_ServerLBL As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripLabel_Server As System.Windows.Forms.ToolStripLabel
-    Friend WithEvents ToolStripLabel_Index As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents CheckBox_AllIndexes As System.Windows.Forms.CheckBox
+    Friend WithEvents ComboBox_Indexes As System.Windows.Forms.ComboBox
 End Class

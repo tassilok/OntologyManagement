@@ -12,6 +12,7 @@
       <order_field>@timestamp</order_field>
       <order_asc>True</order_asc>
     </order_fields>
-    <exclude_postfix></exclude_postfix>
+    <exclude_postfix>-20130401</exclude_postfix>
+    <exclude_postfix>-20130331</exclude_postfix>
   </dtbl_Init>
 </DocumentElement>

@@ -9,12 +9,13 @@ namespace ReparseElasticSearchDocs.Classes
     {
         private string strIndexSrc;
         private string strIndexDst;
-        private string strIndexMeta;
+        private string strIndexDstMeta;
         private int intPortSrc = 0;
         private int intPortDst = 0;
         private string strServerSrc;
         private string strServerDst;
         private string strType;
+        private string strTypeMeta;
         private int intPackageLength;
         private int intThreadCount;
         private Boolean boolExternalRun;
@@ -23,16 +24,16 @@ namespace ReparseElasticSearchDocs.Classes
         {
         }
 
-        public clsConfig(string IndexSrc, string IndexDst, string IndexMeta, int PortSrc, int PortDst, string ServerSrc, string ServerDst, string Type, int PackageLength, int ThreadCount, Boolean ExternalRun)
+        public clsConfig(string IndexSrc, string IndexDst, int PortSrc, int PortDst, string ServerSrc, string ServerDst, string Type, int PackageLength, int ThreadCount, Boolean ExternalRun)
         {
             strIndexSrc = IndexSrc;
             strIndexDst = IndexDst;
-            strIndexMeta = IndexMeta;
             intPortSrc = PortSrc;
             intPortDst = PortDst;
             strServerSrc = ServerSrc;
             strServerDst = ServerDst;
             strType = Type;
+            strTypeMeta = strType + "_Meta";
             intPackageLength = PackageLength;
             intThreadCount = ThreadCount;
             boolExternalRun = ExternalRun;
@@ -48,13 +49,16 @@ namespace ReparseElasticSearchDocs.Classes
         public string IndexDst
         {
             get { return strIndexDst; }
-            set { strIndexDst = value; }
+            set 
+            { 
+                strIndexDst = value;
+                strIndexDstMeta = strIndexDst + "_Meta";
+            }
         }
 
-        public string IndexMeta
+        public string IndexDst_Meta
         {
-            get { return strIndexMeta; }
-            set { strIndexMeta = value; }
+            get { return strIndexDstMeta; }
         }
 
         public int PortSrc
@@ -84,7 +88,16 @@ namespace ReparseElasticSearchDocs.Classes
         public string Type
         {
             get { return strType; }
-            set { strType = value; }
+            set 
+            { 
+                strType = value;
+                strTypeMeta = strType + "_Meta";
+            }
+        }
+
+        public string TypeMeta
+        {
+            get { return strTypeMeta; }
         }
 
         public int PackageLength
@@ -103,6 +116,14 @@ namespace ReparseElasticSearchDocs.Classes
         {
             get { return boolExternalRun; }
             set { boolExternalRun = value; }
+        }
+
+        public string ID_LastEntry
+        {
+            get
+            {
+                return "518a3241119e4e4fa5aa6c82113cb46e";
+            }
         }
 
     }

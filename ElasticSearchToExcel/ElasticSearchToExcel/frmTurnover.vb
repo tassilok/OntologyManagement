@@ -2,6 +2,7 @@
 
     Private intID As Integer
     Private objConfig As clsConfig
+    Private strIndex As String
     Private objELStatistics As clsElasticSearchStatistics
     Private dateStart As Date
 
@@ -9,7 +10,17 @@
         objELStatistics = New clsElasticSearchStatistics(objConfig)
         intID = 1
         ToolStripLabel_Server.Text = objConfig.Server
-        ToolStripLabel_Index.Text = objConfig.Index
+        fill_IxCombo()
+    End Sub
+
+    Private Sub fill_IxCombo()
+        Dim strIndex As String
+
+        ComboBox_Indexes.Items.Clear()
+
+        For Each strIndex In objELStatistics.indexes
+            ComboBox_Indexes.Items.Add(strIndex)
+        Next
     End Sub
 
     Public Sub New()
@@ -43,6 +54,19 @@
         Dim lngMs As Long
         Dim objDR_Turnover As DataRow
         Dim objDRs_Turnover As DataRow
+        Dim strIndex As String
+
+        CheckBox_AllIndexes.Enabled = False
+        ComboBox_Indexes.Enabled = False
+
+        If CheckBox_AllIndexes.Checked = True Then
+            strIndex = Nothing
+        Else
+            strIndex = ComboBox_Indexes.Text
+            If strIndex = "" Then
+                strIndex = Nothing
+            End If
+        End If
 
         If Not ComboBox_Unit.SelectedItem Is Nothing Then
             Select Case ComboBox_Unit.Text
@@ -57,7 +81,7 @@
             End Select
 
             If lngMs > 0 Then
-                If objELStatistics.get_EL_State() = True Then
+                If objELStatistics.get_EL_State(strIndex) = True Then
                     Timer_Measure.Interval = lngMs
                     objDR_Turnover = DataSet_Measure.Turnover.NewRow()
                     intID = objDR_Turnover("ID")
@@ -88,13 +112,25 @@
         Dim objDRs_Line() As DataRow
         Dim lngSec As Long
         Dim lngMs As Long
+        Dim strIndex As String
         Timer_Measure.Stop()
         Timer_Durance.Stop()
+
+        If CheckBox_AllIndexes.Checked = True Then
+            strIndex = Nothing
+        Else
+            strIndex = ComboBox_Indexes.Text
+            If strIndex = "" Then
+                strIndex = Nothing
+            End If
+        End If
+        CheckBox_AllIndexes.Enabled = True
+        ComboBox_Indexes.Enabled = Not CheckBox_AllIndexes.Checked
 
         If intID > 0 Then
             objDRs_Line = DataSet_Measure.Turnover.Select("ID=" & intID)
             If objDRs_Line.Count > 0 Then
-                If objELStatistics.get_EL_State() = True Then
+                If objELStatistics.get_EL_State(strIndex) = True Then
                     objDRs_Line(0)("End") = Now
                     objDRs_Line(0)("Volume_End") = objELStatistics.IndexStat.NumDocs
                     objDRs_Line(0)("Size_End_Byte") = objELStatistics.StoreStat.Size
@@ -194,6 +230,27 @@
                 objDRV_Selected = objDGVR_Selected.DataBoundItem
                 objDRV_Selected.Delete()
             Next
+        End If
+    End Sub
+
+    Private Sub IndexToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+    End Sub
+
+    
+    
+    Private Sub ToolStripTextBox_Index_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+    End Sub
+
+    
+
+
+    Private Sub CheckBox_AllIndexes_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox_AllIndexes.CheckedChanged
+        If CheckBox_AllIndexes.Checked = True Then
+            ComboBox_Indexes.Enabled = False
+        Else
+            ComboBox_Indexes.Enabled = True
         End If
     End Sub
 End Class

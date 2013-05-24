@@ -76,7 +76,10 @@
     <Compile Include="Classes\clsLocalConfig.cs" />
     <Compile Include="Classes\clsMeta.cs" />
     <Compile Include="Classes\clsMutate.cs" />
+    <Compile Include="Classes\clsNetParser.cs" />
+    <Compile Include="Classes\clsNetwork.cs" />
     <Compile Include="Classes\clsOrderField.cs" />
+    <Compile Include="Classes\clsParser.cs" />
     <Compile Include="Classes\clsReparse.cs" />
     <Compile Include="Classes\clsReplace.cs" />
     <Compile Include="Forms\frmMain.cs">
@@ -123,8 +126,17 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Config\Network.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\Copy of Init.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Config\Fields.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Config\Init.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -132,6 +144,7 @@
     </Content>
     <Content Include="Config\Meta.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Config\Mutate.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

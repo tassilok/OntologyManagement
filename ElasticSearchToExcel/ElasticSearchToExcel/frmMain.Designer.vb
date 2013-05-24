@@ -25,7 +25,6 @@ Partial Class frmMain
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
         Me.Button_Query = New System.Windows.Forms.Button()
         Me.Label_Count = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -36,6 +35,9 @@ Partial Class frmMain
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.TurnoverMeasureToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TestDeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TestDeleterangeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DeleteIndexToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -77,15 +79,6 @@ Partial Class frmMain
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(52, 25)
         Me.ToolStrip1.TabIndex = 0
-        '
-        'ToolStripButton_Close
-        '
-        Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
-        Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
-        Me.ToolStripButton_Close.Size = New System.Drawing.Size(40, 22)
-        Me.ToolStripButton_Close.Text = "Close"
         '
         'Button_Query
         '
@@ -155,7 +148,7 @@ Partial Class frmMain
         '
         'ToolStripMenuItem1
         '
-        Me.ToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TurnoverMeasureToolStripMenuItem, Me.TestDeleteToolStripMenuItem})
+        Me.ToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TurnoverMeasureToolStripMenuItem, Me.TestDeleteToolStripMenuItem, Me.TestDeleterangeToolStripMenuItem, Me.DeleteIndexToolStripMenuItem})
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
         Me.ToolStripMenuItem1.Size = New System.Drawing.Size(48, 20)
         Me.ToolStripMenuItem1.Text = "Tools"
@@ -163,14 +156,35 @@ Partial Class frmMain
         'TurnoverMeasureToolStripMenuItem
         '
         Me.TurnoverMeasureToolStripMenuItem.Name = "TurnoverMeasureToolStripMenuItem"
-        Me.TurnoverMeasureToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.TurnoverMeasureToolStripMenuItem.Size = New System.Drawing.Size(190, 22)
         Me.TurnoverMeasureToolStripMenuItem.Text = "turnover measure"
         '
         'TestDeleteToolStripMenuItem
         '
         Me.TestDeleteToolStripMenuItem.Name = "TestDeleteToolStripMenuItem"
-        Me.TestDeleteToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
-        Me.TestDeleteToolStripMenuItem.Text = "test delete"
+        Me.TestDeleteToolStripMenuItem.Size = New System.Drawing.Size(190, 22)
+        Me.TestDeleteToolStripMenuItem.Text = "test delete (key/value)"
+        '
+        'TestDeleterangeToolStripMenuItem
+        '
+        Me.TestDeleterangeToolStripMenuItem.Name = "TestDeleterangeToolStripMenuItem"
+        Me.TestDeleterangeToolStripMenuItem.Size = New System.Drawing.Size(190, 22)
+        Me.TestDeleterangeToolStripMenuItem.Text = "test delete (range)"
+        '
+        'DeleteIndexToolStripMenuItem
+        '
+        Me.DeleteIndexToolStripMenuItem.Name = "DeleteIndexToolStripMenuItem"
+        Me.DeleteIndexToolStripMenuItem.Size = New System.Drawing.Size(190, 22)
+        Me.DeleteIndexToolStripMenuItem.Text = "delete index"
+        '
+        'ToolStripButton_Close
+        '
+        Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
+        Me.ToolStripButton_Close.Size = New System.Drawing.Size(40, 22)
+        Me.ToolStripButton_Close.Text = "Close"
         '
         'frmMain
         '
@@ -211,5 +225,7 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TurnoverMeasureToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TestDeleteToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TestDeleterangeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DeleteIndexToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

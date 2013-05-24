@@ -7,7 +7,6 @@
     <indexdst>explido_access_tst</indexdst>
     <serverdst>192.168.30.93</serverdst>
     <portdst>9500</portdst>
-    <index_meta>explido_access_tst_meta</index_meta>
     <type>explido</type>
     <package_length>10000</package_length>
     <thread_count>5</thread_count>
