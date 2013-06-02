@@ -5,6 +5,7 @@ Public Class clsTransaction_FinancialTransaction
     Private objDBLevel_FinancialTransaction As clsDBLevel
 
     Private objOItem_FinancialTransaction As clsOntologyItem
+    Private objOItem_FinancialTransaction_Parent As clsOntologyItem
 
     Private objOAItem_TransactionDate As clsObjectAtt
 
@@ -756,6 +757,110 @@ Public Class clsTransaction_FinancialTransaction
                                                                           Nothing))
 
         objOItem_Result = objDBLevel_FinancialTransaction.del_ObjectRel(objOList_FinancialTransaction_To_Partner_Del)
+
+        Return objOItem_Result
+    End Function
+
+    Public Function save_009_FinancialTransaction_To_FinancialTransaction(ByVal OItem_FinancialTransaction_Parent As clsOntologyItem, Optional ByVal OItem_FinancialTransaction As clsOntologyItem = Nothing) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_Result_Del As clsOntologyItem
+        Dim objOItem_Result_Search As clsOntologyItem
+        Dim objOList_FinancialTransaction As New List(Of clsObjectRel)
+        Dim objOList_FinancialTransaction_Search As New List(Of clsObjectRel)
+        Dim objOList_FinancialTransaction_Del As New List(Of clsObjectRel)
+
+        objOItem_FinancialTransaction_Parent = objOItem_FinancialTransaction_Parent
+        If Not OItem_FinancialTransaction Is Nothing Then
+            objOItem_FinancialTransaction = OItem_FinancialTransaction
+        End If
+
+        objOList_FinancialTransaction_Search.Add(New clsObjectRel(Nothing, _
+                                                                  objLocalConfig.OItem_Class_Financial_Transaction.GUID, _
+                                                                  objOItem_FinancialTransaction.GUID, _
+                                                                  Nothing, _
+                                                                  objLocalConfig.OItem_RelationType_contains.GUID, _
+                                                                  objLocalConfig.Globals.Type_Object, _
+                                                                  Nothing, _
+                                                                  Nothing))
+
+        objOItem_Result_Search = objDBLevel_FinancialTransaction.get_Data_ObjectRel(objOList_FinancialTransaction_Search)
+
+        objOItem_Result = objLocalConfig.Globals.LState_Nothing
+
+        If objOItem_Result_Search.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim objLDel = From obj In objDBLevel_FinancialTransaction.OList_ObjectRel_ID
+                          Where Not obj.ID_Object = objOItem_FinancialTransaction_Parent.GUID
+
+            Dim objLExist = From obj In objDBLevel_FinancialTransaction.OList_ObjectRel_ID
+                            Where obj.ID_Object = objOItem_FinancialTransaction_Parent.GUID
+
+
+            objOItem_Result_Del = objLocalConfig.Globals.LState_Success
+
+            If objLDel.Count > 0 Then
+                For Each objDel In objLDel
+                    objOList_FinancialTransaction_Del.Add(New clsObjectRel(objDel.ID_Object, _
+                                                                           Nothing, _
+                                                                           objDel.ID_Other, _
+                                                                           Nothing, _
+                                                                           objLocalConfig.OItem_RelationType_contains.GUID, _
+                                                                           objLocalConfig.Globals.Type_Object, _
+                                                                           Nothing, _
+                                                                           Nothing))
+
+                Next
+
+                objOItem_Result_Del = objDBLevel_FinancialTransaction.del_ObjectRel(objOList_FinancialTransaction_Del)
+
+
+            End If
+
+            If objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                If objLExist.Count > 0 Then
+                    objOItem_Result = objLocalConfig.Globals.LState_Success
+                End If
+            Else
+                objOItem_Result = objOItem_Result_Del
+            End If
+
+        End If
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+            objOList_FinancialTransaction.Add(New clsObjectRel(objOItem_FinancialTransaction_Parent.GUID, _
+                                                               objOItem_FinancialTransaction_Parent.GUID_Parent, _
+                                                               objOItem_FinancialTransaction.GUID, _
+                                                               objOItem_FinancialTransaction.GUID_Parent, _
+                                                               objLocalConfig.OItem_RelationType_contains.GUID, _
+                                                               objLocalConfig.Globals.Type_Object, _
+                                                               Nothing, _
+                                                               1))
+
+            objOItem_Result = objDBLevel_FinancialTransaction.save_ObjRel(objOList_FinancialTransaction)
+
+        End If
+
+        Return objOItem_Result
+    End Function
+
+    Public Function del_009_FinancialTransaction_To_FinancialTransaction(Optional ByVal OItem_FinancialTransaction As clsOntologyItem = Nothing) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOList_FinancialTransactions_Del As New List(Of clsObjectRel)
+
+        If Not OItem_FinancialTransaction Is Nothing Then
+            objOItem_FinancialTransaction = OItem_FinancialTransaction
+        End If
+
+        objOList_FinancialTransactions_Del.Add(New clsObjectRel(Nothing, _
+                                                                objLocalConfig.OItem_Class_Financial_Transaction.GUID, _
+                                                                objOItem_FinancialTransaction.GUID, _
+                                                                Nothing, _
+                                                                objLocalConfig.OItem_RelationType_contains.GUID, _
+                                                                objLocalConfig.Globals.Type_Object, _
+                                                                Nothing, _
+                                                                Nothing))
+
+        objOItem_Result = objDBLevel_FinancialTransaction.del_ObjectRel(objOList_FinancialTransactions_Del)
+
 
         Return objOItem_Result
     End Function

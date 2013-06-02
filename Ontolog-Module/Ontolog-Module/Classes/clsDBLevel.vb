@@ -321,7 +321,7 @@ Public Class clsDBLevel
         Dim objOL_Objects_Del As New List(Of clsOntologyItem)
         Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
         Dim objOItem_Result As clsOntologyItem
-
+        Dim strKeys() As String
 
         objElConn.Flush()
         objDBLevel_LeftRight = New clsDBLevel(objGlobals)
@@ -397,7 +397,18 @@ Public Class clsDBLevel
                 objOItem_Result.Val_Long = List_Objects.Count - objOL_Objects_Del.Count
             End If
         Else
-            objOItem_Result = objDBLevel_LeftRight.del_Objects(List_Objects)
+            For i As Integer = 0 To List_Objects.Count - 1
+                ReDim Preserve strKeys(i)
+                strKeys(i) = List_Objects(i).GUID
+
+            Next
+            Try
+                objOPResult = objElConn.Delete(objGlobals.Index, objGlobals.Type_ClassRel, strKeys)
+                objOItem_Result = objGlobals.LState_Success
+            Catch ex As Exception
+                objOItem_Result = objGlobals.LState_Error
+            End Try
+            'objOItem_Result = objDBLevel_LeftRight.del_Objects(List_Objects)
             objOItem_Result.Val_Long = 0
         End If
 
@@ -1549,25 +1560,27 @@ Public Class clsDBLevel
 
                 End If
 
+
+
                 Dim objLQuery_ID_Parent = From objParent In oList_ObjectRel
                                           Where Not objParent Is Nothing
                                           Group By objParent.ID_Parent_Object Into Group
 
-                If strQuery = "" Then
-                    strQuery = ""
 
-                    For Each objQuery_ID_Parent In objLQuery_ID_Parent
-                        If strQuery <> "" Then
-                            strQuery = strQuery & "\ OR\ "
-                        End If
-                        strQuery = strQuery & objQuery_ID_Parent.ID_Parent_Object
-                    Next
+                strQuery = ""
 
+                For Each objQuery_ID_Parent In objLQuery_ID_Parent
                     If strQuery <> "" Then
-                        objBoolQuery.Add(New TermQuery(New Term(objGlobals.Field_ID_Parent_Object, strQuery)), BooleanClause.Occur.MUST)
-
+                        strQuery = strQuery & "\ OR\ "
                     End If
+                    strQuery = strQuery & objQuery_ID_Parent.ID_Parent_Object
+                Next
+
+                If strQuery <> "" Then
+                    objBoolQuery.Add(New TermQuery(New Term(objGlobals.Field_ID_Parent_Object, strQuery)), BooleanClause.Occur.MUST)
+
                 End If
+
 
                 strQuery = ""
 

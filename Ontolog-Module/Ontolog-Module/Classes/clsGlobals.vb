@@ -114,6 +114,12 @@ Public Class clsGlobals
 
     Private GUID_Session As String
 
+    Public ReadOnly Property NewGUID As String
+        Get
+            Return Guid.NewGuid.ToString.Replace("-", "")
+        End Get
+    End Property
+
     Public ReadOnly Property Class_Ontologies As clsOntologyItem
         Get
             Return objOItem_Class_Ontologies

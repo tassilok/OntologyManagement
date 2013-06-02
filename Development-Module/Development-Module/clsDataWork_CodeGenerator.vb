@@ -82,11 +82,19 @@ Public Class clsDataWork_CodeGenerator
                                     strList_Initialization_RelationType = ""
 
                                     If objDGV.SelectedRows.Count > 0 Then
-                                        For Each objDGVR_Selected In objDGV.Rows
-                                            objDRV_Selected = objDGVR_Selected.DataBoundItem
-                                            get_XML_ConfigItem(objDRV_Selected)
+                                        If objDGV.SelectedRows.Count = 0 Then
+                                            For Each objDGVR_Selected In objDGV.Rows
+                                                objDRV_Selected = objDGVR_Selected.DataBoundItem
+                                                get_XML_ConfigItem(objDRV_Selected)
 
-                                        Next
+                                            Next
+                                        Else
+                                            For Each objDGVR_Selected In objDGV.SelectedRows
+                                                objDRV_Selected = objDGVR_Selected.DataBoundItem
+                                                get_XML_ConfigItem(objDRV_Selected)
+                                            Next
+                                        End If
+                                        
                                     Else
                                         For Each objDGVR_Selected In objDGV.Rows
                                             objDRV_Selected = objDGVR_Selected.DataBoundItem

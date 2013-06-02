@@ -29,12 +29,6 @@ Partial Class UserControl_BillTree
         Me.ToolStripLabel_CountLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.TreeView_Transactions = New System.Windows.Forms.TreeView()
-        Me.ImageList_main = New System.Windows.Forms.ImageList(Me.components)
-        Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripComboBox_SearchTemplates = New System.Windows.Forms.ToolStripComboBox()
-        Me.ToolStripTextBox_Search = New System.Windows.Forms.ToolStripTextBox()
-        Me.ToolStripButton_SemItem = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Filter = New System.Windows.Forms.ToolStripButton()
         Me.ContextMenuStrip_FinancialTransaction = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.NewTransactionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewFromBankToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -43,13 +37,19 @@ Partial Class UserControl_BillTree
         Me.RemoveFromTreeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DetailsToBillsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ApplyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ImageList_main = New System.Windows.Forms.ImageList(Me.components)
+        Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripComboBox_SearchTemplates = New System.Windows.Forms.ToolStripComboBox()
+        Me.ToolStripTextBox_Search = New System.Windows.Forms.ToolStripTextBox()
+        Me.ToolStripButton_SemItem = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Filter = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripContainer2.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer2.ContentPanel.SuspendLayout()
         Me.ToolStripContainer2.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer2.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        Me.ToolStrip2.SuspendLayout()
         Me.ContextMenuStrip_FinancialTransaction.SuspendLayout()
+        Me.ToolStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer2
@@ -107,59 +107,6 @@ Partial Class UserControl_BillTree
         Me.TreeView_Transactions.Size = New System.Drawing.Size(609, 413)
         Me.TreeView_Transactions.TabIndex = 1
         '
-        'ImageList_main
-        '
-        Me.ImageList_main.ImageStream = CType(resources.GetObject("ImageList_main.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.ImageList_main.TransparentColor = System.Drawing.Color.Transparent
-        Me.ImageList_main.Images.SetKeyName(0, "calcolatrice_architetto__01.png")
-        Me.ImageList_main.Images.SetKeyName(1, "simple_calculator_01.png")
-        Me.ImageList_main.Images.SetKeyName(2, "cross_hand_drawn_linda_k_02.png")
-        Me.ImageList_main.Images.SetKeyName(3, "smiley114.png")
-        Me.ImageList_main.Images.SetKeyName(4, "people_juliane_krug_04c.png")
-        Me.ImageList_main.Images.SetKeyName(5, "arrow-left-red_benji_par_01.png")
-        Me.ImageList_main.Images.SetKeyName(6, "arrow-right-green_benji__01.png")
-        Me.ImageList_main.Images.SetKeyName(7, "bb_home_.png")
-        Me.ImageList_main.Images.SetKeyName(8, "calcolatrice_architetto__01 Selected.png")
-        '
-        'ToolStrip2
-        '
-        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_SearchTemplates, Me.ToolStripTextBox_Search, Me.ToolStripButton_SemItem, Me.ToolStripButton_Filter})
-        Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
-        Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(407, 25)
-        Me.ToolStrip2.TabIndex = 0
-        '
-        'ToolStripComboBox_SearchTemplates
-        '
-        Me.ToolStripComboBox_SearchTemplates.Name = "ToolStripComboBox_SearchTemplates"
-        Me.ToolStripComboBox_SearchTemplates.Size = New System.Drawing.Size(121, 25)
-        '
-        'ToolStripTextBox_Search
-        '
-        Me.ToolStripTextBox_Search.Name = "ToolStripTextBox_Search"
-        Me.ToolStripTextBox_Search.Size = New System.Drawing.Size(200, 25)
-        '
-        'ToolStripButton_SemItem
-        '
-        Me.ToolStripButton_SemItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_SemItem.Image = CType(resources.GetObject("ToolStripButton_SemItem.Image"), System.Drawing.Image)
-        Me.ToolStripButton_SemItem.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_SemItem.Name = "ToolStripButton_SemItem"
-        Me.ToolStripButton_SemItem.Size = New System.Drawing.Size(23, 22)
-        Me.ToolStripButton_SemItem.Text = "..."
-        '
-        'ToolStripButton_Filter
-        '
-        Me.ToolStripButton_Filter.Checked = True
-        Me.ToolStripButton_Filter.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ToolStripButton_Filter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Filter.Image = CType(resources.GetObject("ToolStripButton_Filter.Image"), System.Drawing.Image)
-        Me.ToolStripButton_Filter.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Filter.Name = "ToolStripButton_Filter"
-        Me.ToolStripButton_Filter.Size = New System.Drawing.Size(47, 22)
-        Me.ToolStripButton_Filter.Text = "x_Filter"
-        '
         'ContextMenuStrip_FinancialTransaction
         '
         Me.ContextMenuStrip_FinancialTransaction.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewTransactionToolStripMenuItem, Me.NewFromBankToolStripMenuItem, Me.NewFromParentToolStripMenuItem, Me.RemoveTransactionToolStripMenuItem, Me.RemoveFromTreeToolStripMenuItem, Me.DetailsToBillsToolStripMenuItem, Me.ApplyToolStripMenuItem})
@@ -216,6 +163,59 @@ Partial Class UserControl_BillTree
         Me.ApplyToolStripMenuItem.Text = "x_Apply"
         Me.ApplyToolStripMenuItem.Visible = False
         '
+        'ImageList_main
+        '
+        Me.ImageList_main.ImageStream = CType(resources.GetObject("ImageList_main.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageList_main.TransparentColor = System.Drawing.Color.Transparent
+        Me.ImageList_main.Images.SetKeyName(0, "calcolatrice_architetto__01.png")
+        Me.ImageList_main.Images.SetKeyName(1, "simple_calculator_01.png")
+        Me.ImageList_main.Images.SetKeyName(2, "cross_hand_drawn_linda_k_02.png")
+        Me.ImageList_main.Images.SetKeyName(3, "smiley114.png")
+        Me.ImageList_main.Images.SetKeyName(4, "people_juliane_krug_04c.png")
+        Me.ImageList_main.Images.SetKeyName(5, "arrow-left-red_benji_par_01.png")
+        Me.ImageList_main.Images.SetKeyName(6, "arrow-right-green_benji__01.png")
+        Me.ImageList_main.Images.SetKeyName(7, "bb_home_.png")
+        Me.ImageList_main.Images.SetKeyName(8, "calcolatrice_architetto__01 Selected.png")
+        '
+        'ToolStrip2
+        '
+        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_SearchTemplates, Me.ToolStripTextBox_Search, Me.ToolStripButton_SemItem, Me.ToolStripButton_Filter})
+        Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
+        Me.ToolStrip2.Name = "ToolStrip2"
+        Me.ToolStrip2.Size = New System.Drawing.Size(407, 25)
+        Me.ToolStrip2.TabIndex = 0
+        '
+        'ToolStripComboBox_SearchTemplates
+        '
+        Me.ToolStripComboBox_SearchTemplates.Name = "ToolStripComboBox_SearchTemplates"
+        Me.ToolStripComboBox_SearchTemplates.Size = New System.Drawing.Size(121, 25)
+        '
+        'ToolStripTextBox_Search
+        '
+        Me.ToolStripTextBox_Search.Name = "ToolStripTextBox_Search"
+        Me.ToolStripTextBox_Search.Size = New System.Drawing.Size(200, 25)
+        '
+        'ToolStripButton_SemItem
+        '
+        Me.ToolStripButton_SemItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_SemItem.Image = CType(resources.GetObject("ToolStripButton_SemItem.Image"), System.Drawing.Image)
+        Me.ToolStripButton_SemItem.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_SemItem.Name = "ToolStripButton_SemItem"
+        Me.ToolStripButton_SemItem.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_SemItem.Text = "..."
+        '
+        'ToolStripButton_Filter
+        '
+        Me.ToolStripButton_Filter.Checked = True
+        Me.ToolStripButton_Filter.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ToolStripButton_Filter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Filter.Image = CType(resources.GetObject("ToolStripButton_Filter.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Filter.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Filter.Name = "ToolStripButton_Filter"
+        Me.ToolStripButton_Filter.Size = New System.Drawing.Size(47, 22)
+        Me.ToolStripButton_Filter.Text = "x_Filter"
+        '
         'UserControl_BillTree
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -232,9 +232,9 @@ Partial Class UserControl_BillTree
         Me.ToolStripContainer2.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
+        Me.ContextMenuStrip_FinancialTransaction.ResumeLayout(False)
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
-        Me.ContextMenuStrip_FinancialTransaction.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub

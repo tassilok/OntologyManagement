@@ -41,6 +41,13 @@ Public Class clsLocalConfig
     Private objOItem_RelationType_was_finished_with As New clsOntologyItem
     Private objOItem_RelationType_works_with As New clsOntologyItem
     Private objOItem_RelationType_zugeh_rige_Mandanten As New clsOntologyItem
+    Private objOItem_RelationType_contains As New clsOntologyItem
+    Private objOItem_RelationType_is As New clsOntologyItem
+    Private objOItem_RelationType_belonging_Type As New clsOntologyItem
+    Private objOItem_RelationType_belonging_Token As New clsOntologyItem
+    Private objOItem_RelationType_belonging_RelationType As New clsOntologyItem
+    Private objOItem_RelationType_belonging_Attribute As New clsOntologyItem
+
 
     'Objects
     Private objOItem_Token_Logstate_Config_Error As New clsOntologyItem
@@ -63,6 +70,10 @@ Public Class clsLocalConfig
     Private objOItem_Type_Payment As New clsOntologyItem
     Private objOItem_Type_Text_Qualifier As New clsOntologyItem
     Private objOItem_Type_Text_Seperators As New clsOntologyItem
+    Private objOItem_Type_Report_Field As New clsOntologyItem
+    Private objOItem_Type_Ontology_Join As New clsOntologyItem
+    Private objOItem_Type_Ontology_Item As New clsOntologyItem
+    Private objOItem_Type_Partner As New clsOntologyItem
 
 
     'Attributes
@@ -205,6 +216,43 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property OItem_RelationType_contains() As clsOntologyItem
+        Get
+            Return objOItem_RelationType_contains
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_RelationType_is() As clsOntologyItem
+        Get
+            Return objOItem_RelationType_is
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_RelationType_belonging_Type() As clsOntologyItem
+        Get
+            Return objOItem_RelationType_belonging_Type
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_RelationType_belonging_Token() As clsOntologyItem
+        Get
+            Return objOItem_RelationType_belonging_Token
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_RelationType_belonging_RelationType() As clsOntologyItem
+        Get
+            Return objOItem_RelationType_belonging_RelationType
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_RelationType_belonging_Attribute() As clsOntologyItem
+        Get
+            Return objOItem_RelationType_belonging_Attribute
+        End Get
+    End Property
+
+
     'Objects
     Public ReadOnly Property OItem_Token_Logstate_Config_Error() As clsOntologyItem
         Get
@@ -315,6 +363,29 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property OItem_Type_Report_Field() As clsOntologyItem
+        Get
+            Return objOItem_Type_Report_Field
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Type_Ontology_Join() As clsOntologyItem
+        Get
+            Return objOItem_Type_Ontology_Join
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Type_Ontology_Item() As clsOntologyItem
+        Get
+            Return objOItem_Type_Ontology_Item
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Type_Partner() As clsOntologyItem
+        Get
+            Return objOItem_Type_Partner
+        End Get
+    End Property
 
 
     Private Sub get_Data_DevelopmentConfig()
@@ -734,6 +805,78 @@ Public Class clsLocalConfig
             Err.Raise(1, "config err")
         End If
 
+        Dim objOList_relationtype_contains = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object.ToLower = "relationtype_contains" And obj.Ontology = objGlobals.Type_RelationType
+
+        If objOList_relationtype_contains.Count > 0 Then
+            objOItem_RelationType_contains = New clsOntologyItem
+            objOItem_RelationType_contains.GUID = objOList_relationtype_contains(0).ID_Other
+            objOItem_RelationType_contains.Name = objOList_relationtype_contains(0).Name_Other
+            objOItem_RelationType_contains.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_relationtype_is = From obj In objDBLevel_Config2.OList_ObjectRel
+                  Where obj.Name_Object.ToLower = "relationtype_is" And obj.Ontology = objGlobals.Type_RelationType
+
+        If objOList_relationtype_is.Count > 0 Then
+            objOItem_RelationType_is = New clsOntologyItem
+            objOItem_RelationType_is.GUID = objOList_relationtype_is(0).ID_Other
+            objOItem_RelationType_is.Name = objOList_relationtype_is(0).Name_Other
+            objOItem_RelationType_is.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_relationtype_belonging_type = From obj In objDBLevel_Config2.OList_ObjectRel
+                            Where obj.Name_Object.ToLower = "relationtype_belonging_type" And obj.Ontology = objGlobals.Type_RelationType
+
+        If objOList_relationtype_belonging_type.Count > 0 Then
+            objOItem_RelationType_belonging_Type = New clsOntologyItem
+            objOItem_RelationType_belonging_Type.GUID = objOList_relationtype_belonging_type(0).ID_Other
+            objOItem_RelationType_belonging_Type.Name = objOList_relationtype_belonging_type(0).Name_Other
+            objOItem_RelationType_belonging_Type.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_relationtype_belonging_token = From obj In objDBLevel_Config2.OList_ObjectRel
+                            Where obj.Name_Object.ToLower = "relationtype_belonging_token" And obj.Ontology = objGlobals.Type_RelationType
+
+        If objOList_relationtype_belonging_token.Count > 0 Then
+            objOItem_RelationType_belonging_Token = New clsOntologyItem
+            objOItem_RelationType_belonging_Token.GUID = objOList_relationtype_belonging_token(0).ID_Other
+            objOItem_RelationType_belonging_Token.Name = objOList_relationtype_belonging_token(0).Name_Other
+            objOItem_RelationType_belonging_Token.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_relationtype_belonging_relationtype = From obj In objDBLevel_Config2.OList_ObjectRel
+                            Where obj.Name_Object.ToLower = "relationtype_belonging_relationtype" And obj.Ontology = objGlobals.Type_RelationType
+
+        If objOList_relationtype_belonging_relationtype.Count > 0 Then
+            objOItem_RelationType_belonging_RelationType = New clsOntologyItem
+            objOItem_RelationType_belonging_RelationType.GUID = objOList_relationtype_belonging_relationtype(0).ID_Other
+            objOItem_RelationType_belonging_RelationType.Name = objOList_relationtype_belonging_relationtype(0).Name_Other
+            objOItem_RelationType_belonging_RelationType.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_relationtype_belonging_attribute = From obj In objDBLevel_Config2.OList_ObjectRel
+                            Where obj.Name_Object.ToLower = "relationtype_belonging_attribute" And obj.Ontology = objGlobals.Type_RelationType
+
+        If objOList_relationtype_belonging_attribute.Count > 0 Then
+            objOItem_RelationType_belonging_Attribute = New clsOntologyItem
+            objOItem_RelationType_belonging_Attribute.GUID = objOList_relationtype_belonging_attribute(0).ID_Other
+            objOItem_RelationType_belonging_Attribute.Name = objOList_relationtype_belonging_attribute(0).Name_Other
+            objOItem_RelationType_belonging_Attribute.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
     End Sub
 
     Private Sub get_Config_Objects()
@@ -754,15 +897,29 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Classes()
+
+        Dim objOList_type_partner = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object.ToLower = "type_partner" And obj.Ontology = objGlobals.Type_Class
+
+        If objOList_type_partner.Count > 0 Then
+            objOItem_Type_Partner = New clsOntologyItem
+            objOItem_Type_Partner.GUID = objOList_type_partner(0).ID_Other
+            objOItem_Type_Partner.Name = objOList_type_partner(0).Name_Other
+            objOItem_Type_Partner.GUID_Parent = objOList_type_partner(0).ID_Parent_Other
+            objOItem_Type_Partner.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_type_alternate_currency_name = From obj In objDBLevel_Config2.OList_ObjectRel
                           Where obj.Name_Object.ToLower = "type_alternate_currency_name" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_alternate_currency_name.Count > 0 Then
-            objOItem_type_alternate_currency_name = New clsOntologyItem
-            objOItem_type_alternate_currency_name.GUID = objOList_type_alternate_currency_name(0).ID_Other
-            objOItem_type_alternate_currency_name.Name = objOList_type_alternate_currency_name(0).Name_Other
-            objOItem_type_alternate_currency_name.GUID_Parent = objOList_type_alternate_currency_name(0).ID_Parent_Other
-            objOItem_type_alternate_currency_name.Type = objGlobals.Type_Class
+            objOItem_Type_Alternate_Currency_Name = New clsOntologyItem
+            objOItem_Type_Alternate_Currency_Name.GUID = objOList_type_alternate_currency_name(0).ID_Other
+            objOItem_Type_Alternate_Currency_Name.Name = objOList_type_alternate_currency_name(0).Name_Other
+            objOItem_Type_Alternate_Currency_Name.GUID_Parent = objOList_type_alternate_currency_name(0).ID_Parent_Other
+            objOItem_Type_Alternate_Currency_Name.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -771,11 +928,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_bank_transaction_module" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_bank_transaction_module.Count > 0 Then
-            objOItem_type_bank_transaction_module = New clsOntologyItem
-            objOItem_type_bank_transaction_module.GUID = objOList_type_bank_transaction_module(0).ID_Other
-            objOItem_type_bank_transaction_module.Name = objOList_type_bank_transaction_module(0).Name_Other
-            objOItem_type_bank_transaction_module.GUID_Parent = objOList_type_bank_transaction_module(0).ID_Parent_Other
-            objOItem_type_bank_transaction_module.Type = objGlobals.Type_Class
+            objOItem_Type_Bank_Transaction_Module = New clsOntologyItem
+            objOItem_Type_Bank_Transaction_Module.GUID = objOList_type_bank_transaction_module(0).ID_Other
+            objOItem_Type_Bank_Transaction_Module.Name = objOList_type_bank_transaction_module(0).Name_Other
+            objOItem_Type_Bank_Transaction_Module.GUID_Parent = objOList_type_bank_transaction_module(0).ID_Parent_Other
+            objOItem_Type_Bank_Transaction_Module.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -784,11 +941,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_bank_transaktionen__sparkasse_" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_bank_transaktionen__sparkasse_.Count > 0 Then
-            objOItem_type_bank_transaktionen__sparkasse_ = New clsOntologyItem
-            objOItem_type_bank_transaktionen__sparkasse_.GUID = objOList_type_bank_transaktionen__sparkasse_(0).ID_Other
-            objOItem_type_bank_transaktionen__sparkasse_.Name = objOList_type_bank_transaktionen__sparkasse_(0).Name_Other
-            objOItem_type_bank_transaktionen__sparkasse_.GUID_Parent = objOList_type_bank_transaktionen__sparkasse_(0).ID_Parent_Other
-            objOItem_type_bank_transaktionen__sparkasse_.Type = objGlobals.Type_Class
+            objOItem_Type_Bank_Transaktionen__Sparkasse_ = New clsOntologyItem
+            objOItem_Type_Bank_Transaktionen__Sparkasse_.GUID = objOList_type_bank_transaktionen__sparkasse_(0).ID_Other
+            objOItem_Type_Bank_Transaktionen__Sparkasse_.Name = objOList_type_bank_transaktionen__sparkasse_(0).Name_Other
+            objOItem_Type_Bank_Transaktionen__Sparkasse_.GUID_Parent = objOList_type_bank_transaktionen__sparkasse_(0).ID_Parent_Other
+            objOItem_Type_Bank_Transaktionen__Sparkasse_.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -797,11 +954,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_bank_transaktionen__sparkasse____archiv" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_bank_transaktionen__sparkasse____archiv.Count > 0 Then
-            objOItem_type_bank_transaktionen__sparkasse____archiv = New clsOntologyItem
-            objOItem_type_bank_transaktionen__sparkasse____archiv.GUID = objOList_type_bank_transaktionen__sparkasse____archiv(0).ID_Other
-            objOItem_type_bank_transaktionen__sparkasse____archiv.Name = objOList_type_bank_transaktionen__sparkasse____archiv(0).Name_Other
-            objOItem_type_bank_transaktionen__sparkasse____archiv.GUID_Parent = objOList_type_bank_transaktionen__sparkasse____archiv(0).ID_Parent_Other
-            objOItem_type_bank_transaktionen__sparkasse____archiv.Type = objGlobals.Type_Class
+            objOItem_Type_Bank_Transaktionen__Sparkasse____Archiv = New clsOntologyItem
+            objOItem_Type_Bank_Transaktionen__Sparkasse____Archiv.GUID = objOList_type_bank_transaktionen__sparkasse____archiv(0).ID_Other
+            objOItem_Type_Bank_Transaktionen__Sparkasse____Archiv.Name = objOList_type_bank_transaktionen__sparkasse____archiv(0).Name_Other
+            objOItem_Type_Bank_Transaktionen__Sparkasse____Archiv.GUID_Parent = objOList_type_bank_transaktionen__sparkasse____archiv(0).ID_Parent_Other
+            objOItem_Type_Bank_Transaktionen__Sparkasse____Archiv.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -810,11 +967,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_bankleitzahl" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_bankleitzahl.Count > 0 Then
-            objOItem_type_bankleitzahl = New clsOntologyItem
-            objOItem_type_bankleitzahl.GUID = objOList_type_bankleitzahl(0).ID_Other
-            objOItem_type_bankleitzahl.Name = objOList_type_bankleitzahl(0).Name_Other
-            objOItem_type_bankleitzahl.GUID_Parent = objOList_type_bankleitzahl(0).ID_Parent_Other
-            objOItem_type_bankleitzahl.Type = objGlobals.Type_Class
+            objOItem_Type_Bankleitzahl = New clsOntologyItem
+            objOItem_Type_Bankleitzahl.GUID = objOList_type_bankleitzahl(0).ID_Other
+            objOItem_Type_Bankleitzahl.Name = objOList_type_bankleitzahl(0).Name_Other
+            objOItem_Type_Bankleitzahl.GUID_Parent = objOList_type_bankleitzahl(0).ID_Parent_Other
+            objOItem_Type_Bankleitzahl.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -823,11 +980,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_currencies" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_currencies.Count > 0 Then
-            objOItem_type_currencies = New clsOntologyItem
-            objOItem_type_currencies.GUID = objOList_type_currencies(0).ID_Other
-            objOItem_type_currencies.Name = objOList_type_currencies(0).Name_Other
-            objOItem_type_currencies.GUID_Parent = objOList_type_currencies(0).ID_Parent_Other
-            objOItem_type_currencies.Type = objGlobals.Type_Class
+            objOItem_Type_Currencies = New clsOntologyItem
+            objOItem_Type_Currencies.GUID = objOList_type_currencies(0).ID_Other
+            objOItem_Type_Currencies.Name = objOList_type_currencies(0).Name_Other
+            objOItem_Type_Currencies.GUID_Parent = objOList_type_currencies(0).ID_Parent_Other
+            objOItem_Type_Currencies.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -836,11 +993,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_file" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_file.Count > 0 Then
-            objOItem_type_file = New clsOntologyItem
-            objOItem_type_file.GUID = objOList_type_file(0).ID_Other
-            objOItem_type_file.Name = objOList_type_file(0).Name_Other
-            objOItem_type_file.GUID_Parent = objOList_type_file(0).ID_Parent_Other
-            objOItem_type_file.Type = objGlobals.Type_Class
+            objOItem_Type_File = New clsOntologyItem
+            objOItem_Type_File.GUID = objOList_type_file(0).ID_Other
+            objOItem_Type_File.Name = objOList_type_file(0).Name_Other
+            objOItem_Type_File.GUID_Parent = objOList_type_file(0).ID_Parent_Other
+            objOItem_Type_File.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -849,11 +1006,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_financial_transaction___archive" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_financial_transaction___archive.Count > 0 Then
-            objOItem_type_financial_transaction___archive = New clsOntologyItem
-            objOItem_type_financial_transaction___archive.GUID = objOList_type_financial_transaction___archive(0).ID_Other
-            objOItem_type_financial_transaction___archive.Name = objOList_type_financial_transaction___archive(0).Name_Other
-            objOItem_type_financial_transaction___archive.GUID_Parent = objOList_type_financial_transaction___archive(0).ID_Parent_Other
-            objOItem_type_financial_transaction___archive.Type = objGlobals.Type_Class
+            objOItem_Type_Financial_Transaction___Archive = New clsOntologyItem
+            objOItem_Type_Financial_Transaction___Archive.GUID = objOList_type_financial_transaction___archive(0).ID_Other
+            objOItem_Type_Financial_Transaction___Archive.Name = objOList_type_financial_transaction___archive(0).Name_Other
+            objOItem_Type_Financial_Transaction___Archive.GUID_Parent = objOList_type_financial_transaction___archive(0).ID_Parent_Other
+            objOItem_Type_Financial_Transaction___Archive.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -862,11 +1019,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_import_settings" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_import_settings.Count > 0 Then
-            objOItem_type_import_settings = New clsOntologyItem
-            objOItem_type_import_settings.GUID = objOList_type_import_settings(0).ID_Other
-            objOItem_type_import_settings.Name = objOList_type_import_settings(0).Name_Other
-            objOItem_type_import_settings.GUID_Parent = objOList_type_import_settings(0).ID_Parent_Other
-            objOItem_type_import_settings.Type = objGlobals.Type_Class
+            objOItem_Type_Import_Settings = New clsOntologyItem
+            objOItem_Type_Import_Settings.GUID = objOList_type_import_settings(0).ID_Other
+            objOItem_Type_Import_Settings.Name = objOList_type_import_settings(0).Name_Other
+            objOItem_Type_Import_Settings.GUID_Parent = objOList_type_import_settings(0).ID_Parent_Other
+            objOItem_Type_Import_Settings.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -875,11 +1032,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_imports" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_imports.Count > 0 Then
-            objOItem_type_imports = New clsOntologyItem
-            objOItem_type_imports.GUID = objOList_type_imports(0).ID_Other
-            objOItem_type_imports.Name = objOList_type_imports(0).Name_Other
-            objOItem_type_imports.GUID_Parent = objOList_type_imports(0).ID_Parent_Other
-            objOItem_type_imports.Type = objGlobals.Type_Class
+            objOItem_Type_Imports = New clsOntologyItem
+            objOItem_Type_Imports.GUID = objOList_type_imports(0).ID_Other
+            objOItem_Type_Imports.Name = objOList_type_imports(0).Name_Other
+            objOItem_Type_Imports.GUID_Parent = objOList_type_imports(0).ID_Parent_Other
+            objOItem_Type_Imports.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -888,11 +1045,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_kontodaten" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_kontodaten.Count > 0 Then
-            objOItem_type_kontodaten = New clsOntologyItem
-            objOItem_type_kontodaten.GUID = objOList_type_kontodaten(0).ID_Other
-            objOItem_type_kontodaten.Name = objOList_type_kontodaten(0).Name_Other
-            objOItem_type_kontodaten.GUID_Parent = objOList_type_kontodaten(0).ID_Parent_Other
-            objOItem_type_kontodaten.Type = objGlobals.Type_Class
+            objOItem_Type_Kontodaten = New clsOntologyItem
+            objOItem_Type_Kontodaten.GUID = objOList_type_kontodaten(0).ID_Other
+            objOItem_Type_Kontodaten.Name = objOList_type_kontodaten(0).Name_Other
+            objOItem_Type_Kontodaten.GUID_Parent = objOList_type_kontodaten(0).ID_Parent_Other
+            objOItem_Type_Kontodaten.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -901,11 +1058,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_kontonummer" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_kontonummer.Count > 0 Then
-            objOItem_type_kontonummer = New clsOntologyItem
-            objOItem_type_kontonummer.GUID = objOList_type_kontonummer(0).ID_Other
-            objOItem_type_kontonummer.Name = objOList_type_kontonummer(0).Name_Other
-            objOItem_type_kontonummer.GUID_Parent = objOList_type_kontonummer(0).ID_Parent_Other
-            objOItem_type_kontonummer.Type = objGlobals.Type_Class
+            objOItem_Type_Kontonummer = New clsOntologyItem
+            objOItem_Type_Kontonummer.GUID = objOList_type_kontonummer(0).ID_Other
+            objOItem_Type_Kontonummer.Name = objOList_type_kontonummer(0).Name_Other
+            objOItem_Type_Kontonummer.GUID_Parent = objOList_type_kontonummer(0).ID_Parent_Other
+            objOItem_Type_Kontonummer.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -914,11 +1071,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_logentry" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_logentry.Count > 0 Then
-            objOItem_type_logentry = New clsOntologyItem
-            objOItem_type_logentry.GUID = objOList_type_logentry(0).ID_Other
-            objOItem_type_logentry.Name = objOList_type_logentry(0).Name_Other
-            objOItem_type_logentry.GUID_Parent = objOList_type_logentry(0).ID_Parent_Other
-            objOItem_type_logentry.Type = objGlobals.Type_Class
+            objOItem_Type_LogEntry = New clsOntologyItem
+            objOItem_Type_LogEntry.GUID = objOList_type_logentry(0).ID_Other
+            objOItem_Type_LogEntry.Name = objOList_type_logentry(0).Name_Other
+            objOItem_Type_LogEntry.GUID_Parent = objOList_type_logentry(0).ID_Parent_Other
+            objOItem_Type_LogEntry.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -927,11 +1084,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_module" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_module.Count > 0 Then
-            objOItem_type_module = New clsOntologyItem
-            objOItem_type_module.GUID = objOList_type_module(0).ID_Other
-            objOItem_type_module.Name = objOList_type_module(0).Name_Other
-            objOItem_type_module.GUID_Parent = objOList_type_module(0).ID_Parent_Other
-            objOItem_type_module.Type = objGlobals.Type_Class
+            objOItem_Type_Module = New clsOntologyItem
+            objOItem_Type_Module.GUID = objOList_type_module(0).ID_Other
+            objOItem_Type_Module.Name = objOList_type_module(0).Name_Other
+            objOItem_Type_Module.GUID_Parent = objOList_type_module(0).ID_Parent_Other
+            objOItem_Type_Module.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -940,11 +1097,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_payment" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_payment.Count > 0 Then
-            objOItem_type_payment = New clsOntologyItem
-            objOItem_type_payment.GUID = objOList_type_payment(0).ID_Other
-            objOItem_type_payment.Name = objOList_type_payment(0).Name_Other
-            objOItem_type_payment.GUID_Parent = objOList_type_payment(0).ID_Parent_Other
-            objOItem_type_payment.Type = objGlobals.Type_Class
+            objOItem_Type_Payment = New clsOntologyItem
+            objOItem_Type_Payment.GUID = objOList_type_payment(0).ID_Other
+            objOItem_Type_Payment.Name = objOList_type_payment(0).Name_Other
+            objOItem_Type_Payment.GUID_Parent = objOList_type_payment(0).ID_Parent_Other
+            objOItem_Type_Payment.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -953,11 +1110,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_text_qualifier" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_text_qualifier.Count > 0 Then
-            objOItem_type_text_qualifier = New clsOntologyItem
-            objOItem_type_text_qualifier.GUID = objOList_type_text_qualifier(0).ID_Other
-            objOItem_type_text_qualifier.Name = objOList_type_text_qualifier(0).Name_Other
-            objOItem_type_text_qualifier.GUID_Parent = objOList_type_text_qualifier(0).ID_Parent_Other
-            objOItem_type_text_qualifier.Type = objGlobals.Type_Class
+            objOItem_Type_Text_Qualifier = New clsOntologyItem
+            objOItem_Type_Text_Qualifier.GUID = objOList_type_text_qualifier(0).ID_Other
+            objOItem_Type_Text_Qualifier.Name = objOList_type_text_qualifier(0).Name_Other
+            objOItem_Type_Text_Qualifier.GUID_Parent = objOList_type_text_qualifier(0).ID_Parent_Other
+            objOItem_Type_Text_Qualifier.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -966,15 +1123,53 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_text_seperators" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_text_seperators.Count > 0 Then
-            objOItem_type_text_seperators = New clsOntologyItem
-            objOItem_type_text_seperators.GUID = objOList_type_text_seperators(0).ID_Other
-            objOItem_type_text_seperators.Name = objOList_type_text_seperators(0).Name_Other
-            objOItem_type_text_seperators.GUID_Parent = objOList_type_text_seperators(0).ID_Parent_Other
-            objOItem_type_text_seperators.Type = objGlobals.Type_Class
+            objOItem_Type_Text_Seperators = New clsOntologyItem
+            objOItem_Type_Text_Seperators.GUID = objOList_type_text_seperators(0).ID_Other
+            objOItem_Type_Text_Seperators.Name = objOList_type_text_seperators(0).Name_Other
+            objOItem_Type_Text_Seperators.GUID_Parent = objOList_type_text_seperators(0).ID_Parent_Other
+            objOItem_Type_Text_Seperators.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
 
+        Dim objOList_type_report_field = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object.ToLower = "type_report_field" And obj.Ontology = objGlobals.Type_Class
+
+        If objOList_type_report_field.Count > 0 Then
+            objOItem_Type_Report_Field = New clsOntologyItem
+            objOItem_Type_Report_Field.GUID = objOList_type_report_field(0).ID_Other
+            objOItem_Type_Report_Field.Name = objOList_type_report_field(0).Name_Other
+            objOItem_Type_Report_Field.GUID_Parent = objOList_type_report_field(0).ID_Parent_Other
+            objOItem_Type_Report_Field.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_type_ontology_join = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object.ToLower = "type_ontology_join" And obj.Ontology = objGlobals.Type_Class
+
+        If objOList_type_ontology_join.Count > 0 Then
+            objOItem_Type_Ontology_Join = New clsOntologyItem
+            objOItem_Type_Ontology_Join.GUID = objOList_type_ontology_join(0).ID_Other
+            objOItem_Type_Ontology_Join.Name = objOList_type_ontology_join(0).Name_Other
+            objOItem_Type_Ontology_Join.GUID_Parent = objOList_type_ontology_join(0).ID_Parent_Other
+            objOItem_Type_Ontology_Join.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_type_ontology_item = From obj In objDBLevel_Config2.OList_ObjectRel
+                            Where obj.Name_Object.ToLower = "type_ontology_item" And obj.Ontology = objGlobals.Type_Class
+
+        If objOList_type_ontology_item.Count > 0 Then
+            objOItem_Type_Ontology_Item = New clsOntologyItem
+            objOItem_Type_Ontology_Item.GUID = objOList_type_ontology_item(0).ID_Other
+            objOItem_Type_Ontology_Item.Name = objOList_type_ontology_item(0).Name_Other
+            objOItem_Type_Ontology_Item.GUID_Parent = objOList_type_ontology_item(0).ID_Parent_Other
+            objOItem_Type_Ontology_Item.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
 
     End Sub
 End Class
