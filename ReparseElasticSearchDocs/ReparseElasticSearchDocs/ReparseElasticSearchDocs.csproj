@@ -72,6 +72,7 @@
     <Compile Include="Classes\clsConfig.cs" />
     <Compile Include="Classes\clsDataTypes.cs" />
     <Compile Include="Classes\clsField.cs" />
+    <Compile Include="Classes\clsIndex.cs" />
     <Compile Include="Classes\clsInit.cs" />
     <Compile Include="Classes\clsLocalConfig.cs" />
     <Compile Include="Classes\clsMeta.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Classes\clsParser.cs" />
     <Compile Include="Classes\clsReparse.cs" />
     <Compile Include="Classes\clsReplace.cs" />
+    <Compile Include="Classes\StateObject.cs" />
     <Compile Include="Forms\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +127,10 @@
     <Content Include="Config\Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Config\Index.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\Network.xml">
       <SubType>Designer</SubType>

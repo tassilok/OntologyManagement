@@ -2,9 +2,9 @@
 <DocumentElement>
   <dtbl_Network>
     <port_listen>55055</port_listen>
-    <port_listen>55056</port_listen>
-    <port_listen>55057</port_listen>
-    <port_listen>55058</port_listen>
-    <port_listen>55059</port_listen>
+    <port_listen></port_listen>
+    <port_listen></port_listen>
+    <port_listen></port_listen>
+    <port_listen></port_listen>
   </dtbl_Network>
 </DocumentElement>

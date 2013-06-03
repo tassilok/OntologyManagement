@@ -22,6 +22,7 @@ namespace ReparseElasticSearchDocs.Classes
         private List<clsMutate> objLMutates = new List<clsMutate> { };
         private List<clsReplace> objLReplaces = new List<clsReplace> { };
         private clsNetwork objNetwork = new clsNetwork();
+        private clsIndex objIndex = new clsIndex();
 
         public clsConfig BaseConfig
         {
@@ -61,6 +62,11 @@ namespace ReparseElasticSearchDocs.Classes
         public List<clsConcate> Concates
         {
             get { return objLConcates; }
+        }
+
+        public clsIndex Index
+        {
+            get { return objIndex; }
         }
 
         private clsDataTypes objDataTypes = new clsDataTypes();
@@ -739,6 +745,49 @@ namespace ReparseElasticSearchDocs.Classes
             }
         }
 
+        private void getIndex()
+        {
+            XmlDocument objXML;
+            XmlNodeList objXMLPostfixes;
+            string strField_Postfix="";
+            string strFormat_Postfix="";
+            string strSeperator_Postfix="";
+
+            objXML = new XmlDocument();
+            objXML.Load(AppDomain.CurrentDomain.BaseDirectory + "\\Config\\Index.xml");
+            objXMLPostfixes = objXML.GetElementsByTagName("postfixes");
+
+            if (objXMLPostfixes.Count > 0)
+            {
+                foreach (XmlNode objXMLPostfix in objXMLPostfixes[0].ChildNodes)
+                {
+                    switch (objXMLPostfix.Name.ToLower())
+                    {
+                        case "field_name":
+                            strField_Postfix = objXMLPostfix.InnerText;
+
+                            break;
+                        case "format":
+                            strFormat_Postfix = objXMLPostfix.InnerText;
+
+                            break;
+
+                        case "seperator":
+                            strSeperator_Postfix = objXMLPostfix.InnerText;
+                            if (strField_Postfix != "" && strFormat_Postfix != "" && strSeperator_Postfix != "")
+                            {
+                                objIndex.Field = strField_Postfix;
+                                objIndex.Format = strFormat_Postfix;
+                                objIndex.Seperator = strSeperator_Postfix;
+
+                            }
+                            break;
+                    }
+                }
+            }
+            
+        }
+
         public clsLocalConfig()
         {
             getBaseConfig();
@@ -749,6 +798,7 @@ namespace ReparseElasticSearchDocs.Classes
             getReplaces();
             getInit();
             getNetwork();
+            getIndex();
         }
 
     }

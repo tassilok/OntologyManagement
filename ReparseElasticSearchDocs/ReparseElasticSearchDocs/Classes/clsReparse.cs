@@ -45,6 +45,19 @@ namespace ReparseElasticSearchDocs.Classes
         private ElasticSearchClient objElConnSrc5;
         private ElasticSearchClient objElConnDst5;
 
+        List<BulkObject> objBulkObjects_Dst1 = new List<BulkObject> { };
+        List<BulkObject> objBulkObjects_Dst2 = new List<BulkObject> { };
+        List<BulkObject> objBulkObjects_Dst3 = new List<BulkObject> { };
+        List<BulkObject> objBulkObjects_Dst4 = new List<BulkObject> { };
+        List<BulkObject> objBulkObjects_Dst5 = new List<BulkObject> { };
+
+        private int intPort1;
+        private int intPort2;
+        private int intPort3;
+        private int intPort4;
+        private int intPort5;
+
+
         private DateTime[] dateARanges;
         private string strIndex_SRC;
         private string strIndex_DST;
@@ -58,7 +71,40 @@ namespace ReparseElasticSearchDocs.Classes
             intStart_THR4 = intStart_THR3 + objLocalConfig.BaseConfig.PackageLength;
             intStart_THR5 = intStart_THR4 + objLocalConfig.BaseConfig.PackageLength;
         }
-        
+
+
+        public void initialize_Reparse_NET()
+        {
+            objElConnDst1 = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerDst, objLocalConfig.BaseConfig.PortDst, TransportType.Thrift, false);
+            objElConnDst2 = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerDst, objLocalConfig.BaseConfig.PortDst, TransportType.Thrift, false);
+            objElConnDst3 = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerDst, objLocalConfig.BaseConfig.PortDst, TransportType.Thrift, false);
+            objElConnDst4 = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerDst, objLocalConfig.BaseConfig.PortDst, TransportType.Thrift, false);
+            objElConnDst5 = new ElasticSearchClient(objLocalConfig.BaseConfig.ServerDst, objLocalConfig.BaseConfig.PortDst, TransportType.Thrift, false);
+
+            objBulkObjects_Dst1.Clear();
+            objBulkObjects_Dst2.Clear();
+            objBulkObjects_Dst3.Clear();
+            objBulkObjects_Dst4.Clear();
+            objBulkObjects_Dst5.Clear();
+
+            intPort1 = objLocalConfig.Network.Ports[0];
+            if (objLocalConfig.Network.Ports.Count > 1)
+            {
+                intPort2 = objLocalConfig.Network.Ports[1];
+                if (objLocalConfig.Network.Ports.Count > 2)
+                {
+                    intPort3 = objLocalConfig.Network.Ports[2];
+                    if (objLocalConfig.Network.Ports.Count > 3)
+                    {
+                        intPort4 = objLocalConfig.Network.Ports[3];
+                        if (objLocalConfig.Network.Ports.Count > 4)
+                        {
+                            intPort5 = objLocalConfig.Network.Ports[4];
+                        }
+                    }
+                }
+            }
+        }
 
         public void initialize_Reparse_ES()
         {
@@ -551,37 +597,179 @@ namespace ReparseElasticSearchDocs.Classes
             
         }
 
-        private void reparse_NET(Boolean boolFlush = false)
+        public void finalize_Net(int intPort)
         {
+            if (intPort == intPort1)
+            {
+                if (objBulkObjects_Dst1.Count > 0)
+                {
+
+                    bulkToES(objElConnDst1, objBulkObjects_Dst1, null);
+                    objBulkObjects_Dst1.Clear();
+                }
+            }
+            else if (intPort == intPort2)
+            {
+                
+                if (objBulkObjects_Dst2.Count > 0)
+                {
+
+                    bulkToES(objElConnDst2, objBulkObjects_Dst2, null);
+                    objBulkObjects_Dst2.Clear();
+                }
+            }
+            else if (intPort == intPort3)
+            {
+                
+                if (objBulkObjects_Dst3.Count > 0)
+                {
+
+                    bulkToES(objElConnDst3, objBulkObjects_Dst3, null);
+                    objBulkObjects_Dst3.Clear();
+                }
+            }
+            else if (intPort == intPort4)
+            {
+                
+                if (objBulkObjects_Dst4.Count >= 0)
+                {
+
+                    bulkToES(objElConnDst4, objBulkObjects_Dst4, null);
+                    objBulkObjects_Dst4.Clear();
+                }
+            }
+            else if (intPort == intPort5)
+            {
+                
+                if (objBulkObjects_Dst5.Count >= 0)
+                {
+
+                    bulkToES(objElConnDst5, objBulkObjects_Dst5, null);
+                    objBulkObjects_Dst5.Clear();
+                }
+            }
+        }
+
+        public void reparse_NET(string strLine, int intPort, Boolean boolFlush = false )
+        {
+
+            if (intPort == intPort1)
+            {
+                prepareBulkObjects(strLine, Guid.NewGuid().ToString().Replace("-", ""), null, null, objBulkObjects_Dst1, true);
+                if (objBulkObjects_Dst1.Count >= objLocalConfig.BaseConfig.PackageLength)
+                {
+
+                    bulkToES(objElConnDst1, objBulkObjects_Dst1, null);
+                    objBulkObjects_Dst1.Clear();
+                }
+            }
+            else if (intPort == intPort2)
+            {
+                prepareBulkObjects(strLine, Guid.NewGuid().ToString().Replace("-", ""), null, null, objBulkObjects_Dst2, true);
+                if (objBulkObjects_Dst2.Count >= objLocalConfig.BaseConfig.PackageLength)
+                {
+
+                    bulkToES(objElConnDst2, objBulkObjects_Dst2, null);
+                    objBulkObjects_Dst2.Clear();
+                }
+            }
+            else if (intPort == intPort3)
+            {
+                prepareBulkObjects(strLine, Guid.NewGuid().ToString().Replace("-", ""), null, null, objBulkObjects_Dst3, true);
+                if (objBulkObjects_Dst3.Count >= objLocalConfig.BaseConfig.PackageLength)
+                {
+
+                    bulkToES(objElConnDst3, objBulkObjects_Dst3, null);
+                    objBulkObjects_Dst3.Clear();
+                }
+            }
+            else if (intPort == intPort4)
+            {
+                prepareBulkObjects(strLine, Guid.NewGuid().ToString().Replace("-", ""), null, null, objBulkObjects_Dst4, true);
+                if (objBulkObjects_Dst4.Count >= objLocalConfig.BaseConfig.PackageLength)
+                {
+
+                    bulkToES(objElConnDst4, objBulkObjects_Dst4, null);
+                    objBulkObjects_Dst4.Clear();
+                }
+            }
+            else if (intPort == intPort5)
+            {
+                prepareBulkObjects(strLine, Guid.NewGuid().ToString().Replace("-", ""), null, null, objBulkObjects_Dst5, true);
+                if (objBulkObjects_Dst5.Count >= objLocalConfig.BaseConfig.PackageLength)
+                {
+
+                    bulkToES(objElConnDst5, objBulkObjects_Dst5, null);
+                    objBulkObjects_Dst5.Clear();
+                }
+            }
 
         }
 
-        private Boolean prepareBulkObjects(string strLine, string strID, Dictionary<string, object> objDict_Source, List<BulkObject> objBulkObjects_SRC, List<BulkObject> objBulkObjects_DST)
+        private string DSTIndex(Dictionary<string, object> objDict)
+        {
+            string strIndex;
+            string strPostfix = "";
+
+            strIndex = objLocalConfig.BaseConfig.IndexDst;
+
+            if (objLocalConfig.Index.Field != "")
+            {
+                if (objDict.ContainsKey(objLocalConfig.Index.Field.ToLower()))
+                {
+
+
+                    if (objLocalConfig.Index.Format != "")
+                    {
+                        strPostfix = string.Format("{0:" + objLocalConfig.Index.Format + "}", objDict[objLocalConfig.Index.Field.ToLower()]);
+
+                    }
+                    else
+                    {
+                        strPostfix = objDict[objLocalConfig.Index.Field].ToString();
+                    }
+                    strPostfix = objLocalConfig.Index.Seperator + strPostfix;
+                }
+                
+            }
+
+            strIndex += strPostfix;
+
+            return strIndex;
+        }
+
+        private Boolean prepareBulkObjects(string strLine, string strID, Dictionary<string, object> objDict_Source, List<BulkObject> objBulkObjects_SRC, List<BulkObject> objBulkObjects_DST,Boolean createIndex = false)
         {
             Boolean boolResult = true;
             Boolean boolAddVersion=true;
+            string strIndex;
             Dictionary<string, object> objDict_Dst;
             Dictionary<string, object> objDict_Src = new Dictionary<string, object> { };
 
             objDict_Dst = objParser.parse_Line(strLine);
 
-            foreach (var objDictEntry in objDict_Source)
+            if (objDict_Source != null)
             {
-                if (objDictEntry.Key == objLocalConfig.Init.VersionField)
+                foreach (var objDictEntry in objDict_Source)
                 {
-                    objDict_Src.Add(objDictEntry.Key, objLocalConfig.Init.Version);
-                    boolAddVersion = false;
+                    if (objDictEntry.Key == objLocalConfig.Init.VersionField)
+                    {
+                        objDict_Src.Add(objDictEntry.Key, objLocalConfig.Init.Version);
+                        boolAddVersion = false;
+                    }
+                    else
+                    {
+                        objDict_Src.Add(objDictEntry.Key, objDictEntry.Value);
+                    }
                 }
-                else
+
+                if (boolAddVersion == true)
                 {
-                    objDict_Src.Add(objDictEntry.Key, objDictEntry.Value);
+                    objDict_Src.Add(objLocalConfig.Init.VersionField, objLocalConfig.Init.Version);
                 }
             }
 
-            if (boolAddVersion == true)
-            {
-                objDict_Src.Add(objLocalConfig.Init.VersionField, objLocalConfig.Init.Version);
-            }
+            
 
 
             if (objLocalConfig.Meta.LastChange == true)
@@ -594,17 +782,29 @@ namespace ReparseElasticSearchDocs.Classes
                 objDict_Dst.Add("message", strLine);
             }
 
-
+            if (createIndex == true)
+            {
+                strIndex = DSTIndex(objDict_Dst);
+            }
+            else
+            {
+                strIndex = strIndex_DST;
+            }
+            
 
             if (objDict_Dst.Count > 0)
             {
 
-                objBulkObjects_DST.Add(new BulkObject(strIndex_DST, objLocalConfig.BaseConfig.Type, strID, objDict_Dst));
-                objBulkObjects_SRC.Add(new BulkObject(strIndex_SRC, objLocalConfig.BaseConfig.Type, strID, objDict_Src));
+                objBulkObjects_DST.Add(new BulkObject(strIndex, objLocalConfig.BaseConfig.Type, strID, objDict_Dst));
+                if (objDict_Source != null)
+                {
+                    objBulkObjects_SRC.Add(new BulkObject(strIndex_SRC, objLocalConfig.BaseConfig.Type, strID, objDict_Src));
+                }
+                
 
             }
 
-            
+
 
             return boolResult;
         }

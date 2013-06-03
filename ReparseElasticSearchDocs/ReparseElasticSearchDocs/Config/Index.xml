@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DocumentElement>
+  <dtbl_Concate>
+    <postfixes>
+      <Field_Name>TIMESTAMP</Field_Name>
+      <format>yyyyMMdd</format>
+      <seperator>-</seperator>
+    </postfixes>
+  </dtbl_Concate>
+</DocumentElement>

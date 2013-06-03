@@ -2,7 +2,7 @@
 <DocumentElement>
    <dtbl_Meta>
     <Field_Name>message</Field_Name>
-    <Add>False</Add>
+    <Add>True</Add>
    </dtbl_Meta>
    <dtbl_Meta>
     <Field_Name>Last_change</Field_Name>
