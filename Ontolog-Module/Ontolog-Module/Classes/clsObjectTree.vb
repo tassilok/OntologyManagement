@@ -4,6 +4,8 @@
     Private strID_Parent As String
     Private strID_Object_Parent As String
     Private strName_Object_Parent As String
+    Private lngOrderID As Long
+    Private lngLevel As Long
 
     Public Property ID_Object As String
         Get
@@ -50,12 +52,22 @@
         End Set
     End Property
 
+    Public Property OrderID As Long
+        Get
+            Return lngOrderID
+        End Get
+        Set(value As Long)
+            lngOrderID = value
+        End Set
+    End Property
 
-    Public Sub New(ByVal ID_Object As String, ByVal Name_Object As String, ByVal ID_Parent As String, ByVal ID_Object_Parent As String, ByVal Name_Object_Parent As String)
+
+    Public Sub New(ByVal ID_Object As String, ByVal Name_Object As String, ByVal ID_Parent As String, ByVal ID_Object_Parent As String, ByVal Name_Object_Parent As String, OrderID As Long)
         strID_Object = ID_Object
         strName_Object = Name_Object
         strID_Parent = ID_Parent
         strID_Object_Parent = ID_Object_Parent
         strName_Object_Parent = Name_Object_Parent
+        lngOrderID = OrderID
     End Sub
 End Class

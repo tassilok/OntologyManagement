@@ -32,6 +32,11 @@ Partial Class UserControl_SingleViewer
         Me.ToolStripButton_Playlist = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripTextBox_Sec = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripLabel_secLBL = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel_CountLBL = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripTextBox_Curr = New System.Windows.Forms.ToolStripTextBox()
+        Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
@@ -57,10 +62,10 @@ Partial Class UserControl_SingleViewer
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_First, Me.ToolStripButton_Previous, Me.ToolStripButton_Next, Me.ToolStripButton_Last, Me.ToolStripSeparator1, Me.ToolStripButton_Playlist, Me.ToolStripTextBox_Sec, Me.ToolStripLabel_secLBL})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_First, Me.ToolStripButton_Previous, Me.ToolStripButton_Next, Me.ToolStripButton_Last, Me.ToolStripSeparator2, Me.ToolStripLabel_CountLBL, Me.ToolStripTextBox_Curr, Me.ToolStripLabel1, Me.ToolStripLabel_Count, Me.ToolStripSeparator1, Me.ToolStripButton_Playlist, Me.ToolStripTextBox_Sec, Me.ToolStripLabel_secLBL})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(177, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(283, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_First
@@ -129,8 +134,37 @@ Partial Class UserControl_SingleViewer
         'ToolStripLabel_secLBL
         '
         Me.ToolStripLabel_secLBL.Name = "ToolStripLabel_secLBL"
-        Me.ToolStripLabel_secLBL.Size = New System.Drawing.Size(24, 22)
+        Me.ToolStripLabel_secLBL.Size = New System.Drawing.Size(22, 22)
         Me.ToolStripLabel_secLBL.Text = "x_s"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripLabel_CountLBL
+        '
+        Me.ToolStripLabel_CountLBL.Name = "ToolStripLabel_CountLBL"
+        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(53, 22)
+        Me.ToolStripLabel_CountLBL.Text = "x_Count:"
+        '
+        'ToolStripTextBox_Curr
+        '
+        Me.ToolStripTextBox_Curr.Name = "ToolStripTextBox_Curr"
+        Me.ToolStripTextBox_Curr.ReadOnly = True
+        Me.ToolStripTextBox_Curr.Size = New System.Drawing.Size(20, 25)
+        '
+        'ToolStripLabel1
+        '
+        Me.ToolStripLabel1.Name = "ToolStripLabel1"
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(12, 22)
+        Me.ToolStripLabel1.Text = "/"
+        '
+        'ToolStripLabel_Count
+        '
+        Me.ToolStripLabel_Count.Name = "ToolStripLabel_Count"
+        Me.ToolStripLabel_Count.Size = New System.Drawing.Size(13, 22)
+        Me.ToolStripLabel_Count.Text = "0"
         '
         'UserControl_SingleViewer
         '
@@ -158,5 +192,10 @@ Partial Class UserControl_SingleViewer
     Friend WithEvents ToolStripButton_Playlist As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripTextBox_Sec As System.Windows.Forms.ToolStripTextBox
     Friend WithEvents ToolStripLabel_secLBL As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripLabel_CountLBL As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripTextBox_Curr As System.Windows.Forms.ToolStripTextBox
+    Friend WithEvents ToolStripLabel1 As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripLabel_Count As System.Windows.Forms.ToolStripLabel
 
 End Class

@@ -20,8 +20,10 @@ Public Class UserControl_TransactionDetail
 
     Private objTransaction_FinancialTransaction As clsTransaction_FinancialTransaction
     Private objTransaction_Amount As clsTransaction_Amount
+    Private objTransaction_Payment As clsTransaction_Payment
 
     Private objFrmPartnerModule As frmPartnerModule
+    Private objFrmObjectEdit As frm_ObjectEdit
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal DataWork_BaseConfig As clsDataWork_BaseConfig)
 
@@ -120,6 +122,7 @@ Public Class UserControl_TransactionDetail
 
         objTransaction_FinancialTransaction = New clsTransaction_FinancialTransaction(objLocalConfig)
         objTransaction_Amount = New clsTransaction_Amount(objLocalConfig.Globals)
+        objTransaction_Payment = New clsTransaction_Payment(objLocalConfig)
     End Sub
 
     Private Sub Timer_Data_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Data.Tick
@@ -381,14 +384,16 @@ Public Class UserControl_TransactionDetail
                     DataGridView_Payment.Columns(0).Visible = False
                     DataGridView_Payment.Columns(1).Visible = False
                     DataGridView_Payment.Columns(2).Visible = False
-                    DataGridView_Payment.Columns(4).Visible = False
-                    DataGridView_Payment.Columns(6).Visible = False
-                    DataGridView_Payment.Columns(8).Visible = False
+                    DataGridView_Payment.Columns(3).Visible = False
+                    DataGridView_Payment.Columns(5).Visible = False
+                    DataGridView_Payment.Columns(7).Visible = False
+                    DataGridView_Payment.Columns(9).Visible = False
                     DataGridView_Payment.Columns(10).Visible = False
-                    DataGridView_Payment.Columns(12).Visible = False
-                    DataGridView_Payment.Columns(14).Visible = False
-                    DataGridView_Payment.Columns(16).Visible = False
-                    DataGridView_Payment.Columns(18).Visible = False
+                    DataGridView_Payment.Columns(11).Visible = False
+                    DataGridView_Payment.Columns(13).Visible = False
+                    DataGridView_Payment.Columns(15).Visible = False
+                    DataGridView_Payment.Columns(17).Visible = False
+                    DataGridView_Payment.Columns(19).Visible = False
 
                     get_Rest()
                 End If
@@ -429,7 +434,7 @@ Public Class UserControl_TransactionDetail
                 dblRest = 0
             End If
 
-            dblRest = dblRest - objDAtaWork_Payments.Payments_Sum
+            dblRest = dblRest - objDAtaWork_Payments.Payments_SumPart
 
             TextBox_Rest.Text = dblRest
         End If
@@ -698,5 +703,192 @@ Public Class UserControl_TransactionDetail
                 MsgBox("Bitte nur einen Partner auswählen!", MsgBoxStyle.Information)
             End If
         End If
+    End Sub
+
+    Private Sub DataGridView_Payment_RowHeaderMouseDoubleClick(sender As Object, e As System.Windows.Forms.DataGridViewCellMouseEventArgs) Handles DataGridView_Payment.RowHeaderMouseDoubleClick
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim objOList_Payment As New List(Of clsOntologyItem)
+
+        objDGVR_Selected = DataGridView_Payment.Rows(e.RowIndex)
+        objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+        objOList_Payment.Add(New clsOntologyItem(objDRV_Selected.Item("ID_Payment"), _
+                                               objDRV_Selected.Item("Name_Payment"), _
+                                               objLocalConfig.OItem_Class_Payment.GUID, _
+                                               objLocalConfig.Globals.Type_Object))
+
+        objFrmObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
+                                              objOList_Payment, _
+                                              0, _
+                                              objLocalConfig.Globals.Type_Object, _
+                                              Nothing)
+
+        objFrmObjectEdit.ShowDialog(Me)
+    End Sub
+
+    Private Sub ContextMenuStrip_Payment_Opening(sender As System.Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Payment.Opening
+        NewPaymentToolStripMenuItem.Enabled = False
+        ChangePaymentToolStripMenuItem.Enabled = False
+        RemovePaymentToolStripMenuItem1.Enabled = False
+        CalculatePercentToolStripMenuItem.Enabled = False
+        ApplyBankTransactionToolStripMenuItem.Enabled = False
+
+
+        If Not objOItem_FinancialTransaction Is Nothing Then
+            NewPaymentToolStripMenuItem.Enabled = True
+            If DataGridView_Payment.SelectedRows.Count = 1 Then
+                RemovePaymentToolStripMenuItem1.Enabled = True
+                ChangePaymentToolStripMenuItem.Enabled = True
+                CalculatePercentToolStripMenuItem.Enabled = True
+            End If
+        End If
+    End Sub
+
+    Private Sub NewPaymentToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles NewPaymentToolStripMenuItem.Click
+        Dim dblRest As Double
+        Dim dateTransactionDate As Date
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_Payment As clsOntologyItem
+
+
+
+        If Double.TryParse(TextBox_Rest.Text, dblRest) And Date.TryParse(TextBox_Date.Text, dateTransactionDate) Then
+            If dblRest > 0 Then
+                objOItem_Payment = New clsOntologyItem(objLocalConfig.Globals.NewGUID, _
+                                                       dblRest.ToString, _
+                                                       objLocalConfig.OItem_Class_Payment.GUID, _
+                                                       objLocalConfig.Globals.Type_Object)
+
+                objOItem_Result = objTransaction_Payment.save_001_Payment(objOItem_Payment)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objOItem_Result = objTransaction_Payment.save_002_Payment__Amount(dblRest)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objOItem_Result = objTransaction_Payment.save_003_Payment__Part(100)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objOItem_Result = objTransaction_Payment.save_004_Payment__TransactionDate(dateTransactionDate)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objOItem_Result = objTransaction_Payment.save_005_FinancialTransaction_To_Payment(objOItem_FinancialTransaction)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    get_Payments()
+                                Else
+                                    objOItem_Result = objTransaction_Payment.del_004_Payment__TransactionDate
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        objOItem_Result = objTransaction_Payment.del_003_Payment__Part
+                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                            objOItem_Result = objTransaction_Payment.del_002_Payment__Amount
+                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                objTransaction_Payment.del_001_Payment()
+                                            End If
+                                        End If
+                                    End If
+
+                                End If
+                            Else
+                                objOItem_Result = objTransaction_Payment.del_003_Payment__Part
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objOItem_Result = objTransaction_Payment.del_002_Payment__Amount
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        objTransaction_Payment.del_001_Payment()
+                                    End If
+                                End If
+
+
+                                MsgBox("Die Zahlung konnte nicht erzeugt werden!", MsgBoxStyle.Information)
+                            End If
+                        Else
+                            objOItem_Result = objTransaction_Payment.del_002_Payment__Amount
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objTransaction_Payment.del_001_Payment()
+                            End If
+
+                            MsgBox("Die Zahlung konnte nicht erzeugt werden!", MsgBoxStyle.Information)
+                        End If
+                    Else
+                        objTransaction_Payment.del_001_Payment()
+                        MsgBox("Die Zahlung konnte nicht erzeugt werden!", MsgBoxStyle.Information)
+
+                    End If
+                Else
+                    MsgBox("Die Zahlung konnte nicht erzeugt werden!", MsgBoxStyle.Information)
+                End If
+            Else
+                MsgBox("Es ist keine Zahlung mehr möglich, weil kein Betrag mehr übrig ist oder kein Transaktionsdatum definiert ist!", MsgBoxStyle.Information)
+            End If
+        Else
+            MsgBox("Es konnte nicht ermittelt werden, ob Zahlungen noch möglich sind!", MsgBoxStyle.Exclamation)
+        End If
+    End Sub
+
+    Private Sub get_Payments()
+        objDAtaWork_Payments.DataTable_Payment.Clear()
+
+        objDAtaWork_Payments.get_Data_Payments(objOItem_FinancialTransaction)
+        While (Not objDAtaWork_Payments.OItem_Result_Payment.GUID = objLocalConfig.Globals.LState_Success.GUID)
+
+        End While
+        BindingSource_Payments.DataSource = objDAtaWork_Payments.DataTable_Payment
+        DataGridView_Payment.DataSource = BindingSource_Payments
+        DataGridView_Payment.Columns(0).Visible = False
+        DataGridView_Payment.Columns(1).Visible = False
+        DataGridView_Payment.Columns(2).Visible = False
+        DataGridView_Payment.Columns(3).Visible = False
+        DataGridView_Payment.Columns(5).Visible = False
+        DataGridView_Payment.Columns(7).Visible = False
+        DataGridView_Payment.Columns(9).Visible = False
+        DataGridView_Payment.Columns(10).Visible = False
+        DataGridView_Payment.Columns(11).Visible = False
+        DataGridView_Payment.Columns(13).Visible = False
+        DataGridView_Payment.Columns(15).Visible = False
+        DataGridView_Payment.Columns(17).Visible = False
+        DataGridView_Payment.Columns(19).Visible = False
+
+        get_Rest()
+    End Sub
+
+    Private Sub CalculatePercentToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles CalculatePercentToolStripMenuItem.Click
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim dblSum As Double
+        Dim dblTransaction As Double
+        Dim dblPart As Double
+        Dim objOItem_Payment As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+
+        If Double.TryParse(TextBox_sum.Text, dblSum) Then
+            objDGVR_Selected = DataGridView_Payment.SelectedRows(0)
+            objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+            If Not IsDBNull(objDRV_Selected.Item("Val_Amount")) Then
+                dblTransaction = objDRV_Selected.Item("Val_Amount")
+                dblPart = 100 / dblTransaction * dblSum
+
+                objOItem_Payment = New clsOntologyItem(objDRV_Selected.Item("ID_Payment"), _
+                                                       objDRV_Selected.Item("Name_Payment"), _
+                                                       objLocalConfig.OItem_Class_Payment.GUID, _
+                                                       objLocalConfig.Globals.Type_Object)
+
+                objOItem_Result = objTransaction_Payment.save_003_Payment__Part(dblPart, objOItem_Payment)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    get_Payments()
+                Else
+                    MsgBox("Der Anteil konnte nicht ermittelt werden!", MsgBoxStyle.Information)
+                End If
+
+            Else
+                MsgBox("Der Betrag der Transaktion konnte nicht ermittelt werden!", MsgBoxStyle.Information)
+            End If
+        Else
+            MsgBox("Der Betrag konnte nicht ermittelt werden!", MsgBoxStyle.Information)
+        End If
+
+        
+
+
+    End Sub
+
+    Private Sub RemovePaymentToolStripMenuItem1_Click(sender As System.Object, e As System.EventArgs) Handles RemovePaymentToolStripMenuItem1.Click
+
     End Sub
 End Class

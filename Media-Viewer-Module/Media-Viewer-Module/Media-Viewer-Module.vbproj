@@ -86,7 +86,6 @@
   <ItemGroup>
     <Compile Include="clsDataWork_Images.vb" />
     <Compile Include="clsDataWork_MediaItem.vb" />
-    <Compile Include="clsDataWork_MediaViewerModule.vb" />
     <Compile Include="clsDataWork_PDF.vb" />
     <Compile Include="clsDataWork_RefTree.vb" />
     <Compile Include="clsLocalConfig.vb" />

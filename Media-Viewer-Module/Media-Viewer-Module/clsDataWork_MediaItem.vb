@@ -157,6 +157,13 @@ Public Class clsDataWork_MediaItem
         initialize()
     End Sub
 
+    Public Sub New(ByVal Globals As clsGlobals)
+        objLocalConfig = New clsLocalConfig(Globals)
+
+        set_DBConnection()
+        initialize()
+    End Sub
+
     Private Sub initialize()
         
     End Sub

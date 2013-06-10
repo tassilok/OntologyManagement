@@ -2,6 +2,7 @@
 Public Class frmBillModule
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_BaseConfig As clsDataWork_BaseConfig
+    Private objTransaction_FinancialTransaction As clsTransaction_FinancialTransaction
     Private WithEvents objUserControl_BillTree As UserControl_BillTree
     Private WithEvents objUserControl_TransactionDetail As UserControl_TransactionDetail
     Private WithEvents objUserControl_Documents As UserControl_Documents
@@ -9,12 +10,140 @@ Public Class frmBillModule
     Private objOItem_Open As clsOntologyItem
     Private objOItem_FinancialTransaction As clsOntologyItem
 
-    Private Sub new_Transaction() Handles objUserControl_BillTree.new_Transaction
+    Private Sub new_Transaction(OItem_Partner As clsOntologyItem, boolContractee As Boolean, OItem_FinancialTransaction_Parent As clsOntologyItem) Handles objUserControl_BillTree.new_Transaction
+        Dim objOItem_FinancialTransaction As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_RelationType As clsOntologyItem
+        Dim objOItem_Currency As clsOntologyItem
+        Dim objOItem_TaxRate As clsOntologyItem
+
         objFrm_Name = New frm_Name("New Transacon", _
                                    objLocalConfig.Globals)
         objFrm_Name.ShowDialog(Me)
         If objFrm_Name.DialogResult = Windows.Forms.DialogResult.OK Then
+            objOItem_FinancialTransaction = New clsOntologyItem(objLocalConfig.Globals.NewGUID, _
+                                                                objFrm_Name.Value1, _
+                                                                objLocalConfig.OItem_Class_Financial_Transaction.GUID, _
+                                                                objLocalConfig.Globals.Type_Object)
 
+            objOItem_Result = objTransaction_FinancialTransaction.save_001_FinancialTransaction(objOItem_FinancialTransaction)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                objOItem_Result = objTransaction_FinancialTransaction.save_002_FinancialTransaction__TransactionDate(Now)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+                    objOItem_Currency = New clsOntologyItem(objDataWork_BaseConfig.OL_Currency(0).ID_Other, _
+                                                            objDataWork_BaseConfig.OL_Currency(0).Name_Other, _
+                                                            objLocalConfig.OItem_Class_Currencies.GUID, _
+                                                            objLocalConfig.Globals.Type_Object)
+
+                    objOItem_Result = objTransaction_FinancialTransaction.save_005_FinancialTransaction_To_Currency(objOItem_Currency)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objOItem_Result = objTransaction_FinancialTransaction.save_006_FinancialTransaction__gross(True)
+
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objOItem_TaxRate = New clsOntologyItem(objDataWork_BaseConfig.OL_TaxRate(0).ID_Other, _
+                                                                   objDataWork_BaseConfig.OL_TaxRate(0).Name_Other, _
+                                                                   objLocalConfig.OItem_Class_Tax_Rates.GUID, _
+                                                                   objLocalConfig.Globals.Type_Object)
+
+                            objOItem_Result = objTransaction_FinancialTransaction.save_007_FinancialTransaction_To_TaxRate(objOItem_TaxRate)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                If boolContractee = True Then
+                                    objOItem_RelationType = objLocalConfig.OItem_RelationType_belonging_Contractee
+                                Else
+                                    objOItem_RelationType = objLocalConfig.OItem_RelationType_belonging_Contractor
+                                End If
+                                objOItem_Result = objTransaction_FinancialTransaction.save_008_FinancialTransaction_To_Partner(OItem_Partner, _
+                                                                                                                               objOItem_RelationType)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    If Not OItem_FinancialTransaction_Parent Is Nothing Then
+                                        objOItem_Result = objTransaction_FinancialTransaction.save_009_FinancialTransaction_To_FinancialTransaction(OItem_FinancialTransaction_Parent)
+                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+
+                                            objOItem_Result = objTransaction_FinancialTransaction.del_008_FinancialTransaction_To_Partner
+                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate
+                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                    objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
+                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                        objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
+                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                            objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
+                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                objTransaction_FinancialTransaction.del_001_FinancialTransaction()
+                                                            End If
+                                                        End If
+                                                    End If
+                                                End If
+                                            End If
+                                            objOItem_Result = objLocalConfig.Globals.LState_Error
+                                        End If
+                                    End If
+
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        objUserControl_BillTree.create_SubNode(objOItem_FinancialTransaction)
+                                    End If
+                                Else
+                                    objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
+                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                            objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
+                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
+                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                    objTransaction_FinancialTransaction.del_001_FinancialTransaction()
+                                                End If
+                                            End If
+                                        End If
+                                    End If
+
+                                End If
+                            Else
+                                objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
+                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                            objTransaction_FinancialTransaction.del_001_FinancialTransaction()
+                                        End If
+                                    End If
+                                End If
+
+                            End If
+
+
+                        Else
+                            objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTransaction_FinancialTransaction.del_001_FinancialTransaction()
+                                End If
+                            End If
+
+
+                            MsgBox("Die Transaktion konnte nicht erzeugt werden!", MsgBoxStyle.Exclamation)
+                        End If
+
+                    Else
+                        objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objTransaction_FinancialTransaction.del_001_FinancialTransaction()
+                        End If
+
+                        MsgBox("Die Transaktion konnte nicht erzeugt werden!", MsgBoxStyle.Exclamation)
+                    End If
+
+
+                Else
+                    objTransaction_FinancialTransaction.del_001_FinancialTransaction()
+                    MsgBox("Die Transaktion konnte nicht erzeugt werden!", MsgBoxStyle.Exclamation)
+                End If
+            Else
+                MsgBox("Die Transaktion konnte nicht erzeugt werden!", MsgBoxStyle.Exclamation)
+            End If
         End If
     End Sub
 
@@ -66,6 +195,7 @@ Public Class frmBillModule
 
     Private Sub set_DBConnection()
         objDataWork_BaseConfig = New clsDataWork_BaseConfig(objLocalConfig)
+        objTransaction_FinancialTransaction = New clsTransaction_FinancialTransaction(objLocalConfig)
     End Sub
 
     Private Sub ToolStripButton_Close_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Close.Click

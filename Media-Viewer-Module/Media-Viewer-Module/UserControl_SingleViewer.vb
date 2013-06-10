@@ -26,6 +26,11 @@ Public Class UserControl_SingleViewer
         
     End Enum
 
+    Public Sub set_Count(lngCurr As Long, lngCount As Long)
+        ToolStripTextBox_Curr.Text = lngCurr
+        ToolStripLabel_Count.Text = lngCount
+    End Sub
+
     Public ReadOnly Property OItem_MediaType As clsOntologyItem
         Get
             Return objOItem_MediaType
@@ -60,7 +65,8 @@ Public Class UserControl_SingleViewer
 
     Public Sub initialize_PDF(ByVal OItem_PDF As clsOntologyItem, ByVal OItem_File As clsOntologyItem)
         objUserControl_PDFViewer.initialize_PDF(OItem_PDF, OItem_File)
-
+        ToolStripTextBox_Curr.Text = 0
+        ToolStripLabel_Count.Text = 0
     End Sub
 
     Public Sub initialize_PDF(ByVal objDR_Media As DataRow)
@@ -80,12 +86,14 @@ Public Class UserControl_SingleViewer
         objOItem_File.Type = objLocalConfig.Globals.Type_Object
 
         objUserControl_PDFViewer.initialize_PDF(objOItem_PDF, objOItem_File)
-
+        ToolStripTextBox_Curr.Text = 0
+        ToolStripLabel_Count.Text = 0
     End Sub
 
     Public Sub initialize_Image(ByVal OItem_Image As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date)
         objUserControl_ImageViewer.initialize_Image(OItem_Image, OItem_File, dateCreated)
-
+        ToolStripTextBox_Curr.Text = 0
+        ToolStripLabel_Count.Text = 0
     End Sub
 
     Public Sub initialize_Image(ByVal objDR_Media As DataRow)
@@ -110,12 +118,14 @@ Public Class UserControl_SingleViewer
         End If
 
         objUserControl_ImageViewer.initialize_Image(objOItem_Image, objOItem_File, dateCreated)
-
+        ToolStripTextBox_Curr.Text = 0
+        ToolStripLabel_Count.Text = 0
     End Sub
 
     Public Sub initialize_MediaItem(ByVal OItem_MediaItem As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date)
         objUserControl_MediaPlayer.initialize_MediaItem(OItem_MediaItem, OItem_File, dateCreated)
-
+        ToolStripTextBox_Curr.Text = 0
+        ToolStripLabel_Count.Text = 0
     End Sub
 
     Public Sub initialize_MediaItem(ByVal objDR_Media As DataRow)
@@ -141,7 +151,8 @@ Public Class UserControl_SingleViewer
         End If
 
         objUserControl_MediaPlayer.initialize_MediaItem(objOItem_MediaItem, objOItem_File, dateCreated)
-
+        ToolStripTextBox_Curr.Text = 0
+        ToolStripLabel_Count.Text = 0
     End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal OItem_MediaType As clsOntologyItem)

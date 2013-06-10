@@ -3201,7 +3201,12 @@ Public Class clsDBLevel
                                     Join objLeft In objOntologyList_Objects1 On obj.Source(objGlobals.Field_ID_Object).ToString Equals objLeft.GUID
                                     Join objRight In objDBLevel_Obj2.objOntologyList_Objects1 On obj.Source(objGlobals.Field_ID_Other).ToString Equals objRight.GUID
                                     Join objRel In objOList_RelationTypes On obj.Source(objGlobals.Field_ID_RelationType).ToString Equals objRel.GUID
-                                    Select ID_Object = objRight.GUID, Name_Object = objRight.Name, ID_Parent = objRight.GUID_Parent, ID_Object_Parent = objLeft.GUID, Name_Object_Parent = objLeft.Name
+                                    Select ID_Object = objRight.GUID _
+                                          , Name_Object = objRight.Name _
+                                          , ID_Parent = objRight.GUID_Parent _
+                                          , ID_Object_Parent = objLeft.GUID _
+                                          , Name_Object_Parent = objLeft.Name _
+                                          , OrderID = obj.Source("OrderID")
 
                 For Each objList_Item In objList_Items
                     If boolTable = False Then
@@ -3209,13 +3214,15 @@ Public Class clsDBLevel
                                                                          objList_Item.Name_Object, _
                                                                          objList_Item.ID_Parent, _
                                                                          objList_Item.ID_Object_Parent, _
-                                                                         objList_Item.Name_Object_Parent))
+                                                                         objList_Item.Name_Object_Parent, _
+                                                                         objList_Item.OrderID))
                     Else
                         otblT_ObjectTree.Rows.Add(objList_Item.ID_Object, _
                                                   objList_Item.Name_Object, _
                                                   objList_Item.ID_Object_Parent, _
                                                   objList_Item.ID_Parent, _
-                                                  objList_Item.Name_Object_Parent)
+                                                  objList_Item.Name_Object_Parent, _
+                                                  objList_Item.OrderID)
 
 
                     End If

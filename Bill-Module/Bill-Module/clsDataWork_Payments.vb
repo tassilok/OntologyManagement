@@ -22,10 +22,17 @@ Public Class clsDataWork_Payments
     Private objOItem_Transaction As clsOntologyItem
 
     Private dblSum As Double
+    Private dblSumPart As Double
 
     Public ReadOnly Property Payments_Sum As Double
         Get
             Return dblSum
+        End Get
+    End Property
+
+    Public ReadOnly Property Payments_SumPart As Double
+        Get
+            Return dblSumPart
         End Get
     End Property
 
@@ -84,7 +91,8 @@ Public Class clsDataWork_Payments
                                                           Nothing, _
                                                           Nothing))
 
-        objDBLevel_Payments.get_Data_ObjectRel(objOLTransaction_To_Payments)
+        objDBLevel_Payments.get_Data_ObjectRel(objOLTransaction_To_Payments, _
+                                               boolIDs:=False)
 
         objOLPayment__Amount.Add(New clsObjectAtt(Nothing, _
                                                   Nothing, _
@@ -179,12 +187,13 @@ Public Class clsDataWork_Payments
                                                       boolIDs:=False)
 
 
-        Dim objLPaymentPre = From objPayment In objDBLevel_Payments.OList_ObjectRel_ID
+        Dim objLPaymentPre = From objPayment In objDBLevel_Payments.OList_ObjectRel
                           Join objAmount In objDBLevel_Payments_Amount.OList_ObjectAtt On objPayment.ID_Other Equals objAmount.ID_Object
                           Join objTransactionDate In objDBLevel_Payments_TransactionDate.OList_ObjectAtt On objPayment.ID_Other Equals objTransactionDate.ID_Object
                           Join objPart In objDBLevel_Payments_Part.OList_ObjectAtt On objPayment.ID_Other Equals objPart.ID_Object
                           Select ID_Transaction = objPayment.ID_Object, _
                                  ID_Payment = objPayment.ID_Other, _
+                                 Name_Payment = objPayment.Name_Other, _
                                  ID_Attribute_Amount = objAmount.ID_Attribute, _
                                  Val_Amount = objAmount.Val_Double, _
                                  ID_Attribute_TransactionDate = objTransactionDate.ID_Attribute, _
@@ -218,12 +227,28 @@ Public Class clsDataWork_Payments
         dblSum = (From obj In objLPaymentPre
                   Select obj.Val_Amount).Sum()
 
+        dblSumPart = (From obj In objLPaymentPre
+                      Select obj.Val_Amount / 100 * obj.Val_Part).Sum()
+
         Dim objLPayment = From objPayment In objLPaymentPre
-                          Join objBankKonto In objLBankKonto On objPayment.ID_Payment Equals objBankKonto.ID_Payment
+                          Group Join objBankKonto In objLBankKonto On objPayment.ID_Payment Equals objBankKonto.ID_Payment Into objBankKontos = Group
+                          From objBankKonto In objBankKontos.DefaultIfEmpty
 
         For Each objPayment In objLPayment
-            dtblT_Payments.Rows.Add(objPayment.objPayment.ID_Transaction, _
+            If objPayment.objBankKonto Is Nothing Then
+                dtblT_Payments.Rows.Add(objPayment.objPayment.ID_Transaction, _
                                     objPayment.objPayment.ID_Payment, _
+                                    objPayment.objPayment.Name_Payment, _
+                                    objPayment.objPayment.ID_Attribute_Amount, _
+                                    objPayment.objPayment.Val_Amount, _
+                                    objPayment.objPayment.ID_Attribute_TransactionDate, _
+                                    objPayment.objPayment.Val_TransactionDate, _
+                                    objPayment.objPayment.ID_Attribute_Part, _
+                                    objPayment.objPayment.Val_Part)
+            Else
+                dtblT_Payments.Rows.Add(objPayment.objPayment.ID_Transaction, _
+                                    objPayment.objPayment.ID_Payment, _
+                                    objPayment.objPayment.Name_Payment, _
                                     objPayment.objPayment.ID_Attribute_Amount, _
                                     objPayment.objPayment.Val_Amount, _
                                     objPayment.objPayment.ID_Attribute_TransactionDate, _
@@ -242,6 +267,8 @@ Public Class clsDataWork_Payments
                                     objPayment.objBankKonto.Name_Gegenkonto, _
                                     objPayment.objBankKonto.ID_Bank, _
                                     objPayment.objBankKonto.Name_Bank)
+            End If
+            
 
         Next
 

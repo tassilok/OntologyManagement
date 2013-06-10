@@ -27,15 +27,21 @@
         Dim objOItem_Result As clsOntologyItem
 
         objOItem_Result = objOntologyClipboard.containedByClipboard(objOItem_Item)
-        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            If objOItem_Result.Count > 0 Then
-                boolResult = True
-            Else
-                boolResult = False
-            End If
+        If objOItem_Result Is Nothing Then
+            boolResult = False
         Else
-            Err.Raise(1, "Das Clipboard kann nicht geöffnet werden!")
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                If objOItem_Result.Count > 0 Then
+                    boolResult = True
+                Else
+                    boolResult = False
+                End If
+            Else
+                Err.Raise(1, "Das Clipboard kann nicht geöffnet werden!")
+            End If
         End If
+        
 
 
         Return boolResult

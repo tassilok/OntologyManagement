@@ -23,9 +23,9 @@ Partial Class UserControl_TransactionDetail
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripProgressBar_Detail = New System.Windows.Forms.ToolStripProgressBar()
@@ -118,8 +118,8 @@ Partial Class UserControl_TransactionDetail
         'SplitContainer1
         '
         Me.SplitContainer1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.SplitContainer1.Location = New System.Drawing.Point(18, 289)
         Me.SplitContainer1.Name = "SplitContainer1"
@@ -141,8 +141,8 @@ Partial Class UserControl_TransactionDetail
         'Panel_SemItems
         '
         Me.Panel_SemItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_SemItems.Location = New System.Drawing.Point(116, 4)
         Me.Panel_SemItems.Name = "Panel_SemItems"
         Me.Panel_SemItems.Size = New System.Drawing.Size(338, 109)
@@ -160,8 +160,8 @@ Partial Class UserControl_TransactionDetail
         'Panel_Offset
         '
         Me.Panel_Offset.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_Offset.Location = New System.Drawing.Point(116, 3)
         Me.Panel_Offset.Name = "Panel_Offset"
         Me.Panel_Offset.Size = New System.Drawing.Size(338, 106)
@@ -188,7 +188,7 @@ Partial Class UserControl_TransactionDetail
         'TextBox_TransactionID
         '
         Me.TextBox_TransactionID.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_TransactionID.Location = New System.Drawing.Point(133, 46)
         Me.TextBox_TransactionID.Name = "TextBox_TransactionID"
         Me.TextBox_TransactionID.ReadOnly = True
@@ -231,7 +231,7 @@ Partial Class UserControl_TransactionDetail
         'TextBox_Date
         '
         Me.TextBox_Date.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_Date.Location = New System.Drawing.Point(133, 19)
         Me.TextBox_Date.Name = "TextBox_Date"
         Me.TextBox_Date.ReadOnly = True
@@ -250,7 +250,7 @@ Partial Class UserControl_TransactionDetail
         'TextBox_Rest
         '
         Me.TextBox_Rest.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_Rest.Location = New System.Drawing.Point(133, 173)
         Me.TextBox_Rest.Name = "TextBox_Rest"
         Me.TextBox_Rest.ReadOnly = True
@@ -323,7 +323,7 @@ Partial Class UserControl_TransactionDetail
         '
         Me.ContextMenuStrip_Payment.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewPaymentToolStripMenuItem, Me.ChangePaymentToolStripMenuItem, Me.RemovePaymentToolStripMenuItem1, Me.CalculatePercentToolStripMenuItem, Me.ApplyBankTransactionToolStripMenuItem})
         Me.ContextMenuStrip_Payment.Name = "ContextMenuStrip_Payment"
-        Me.ContextMenuStrip_Payment.Size = New System.Drawing.Size(212, 114)
+        Me.ContextMenuStrip_Payment.Size = New System.Drawing.Size(212, 136)
         '
         'ChangePaymentToolStripMenuItem
         '
@@ -356,7 +356,7 @@ Partial Class UserControl_TransactionDetail
         'TextBox_Contractor
         '
         Me.TextBox_Contractor.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_Contractor.Location = New System.Drawing.Point(133, 227)
         Me.TextBox_Contractor.Name = "TextBox_Contractor"
         Me.TextBox_Contractor.ReadOnly = True
@@ -366,7 +366,7 @@ Partial Class UserControl_TransactionDetail
         'TextBox_Contractee
         '
         Me.TextBox_Contractee.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_Contractee.Location = New System.Drawing.Point(133, 254)
         Me.TextBox_Contractee.Name = "TextBox_Contractee"
         Me.TextBox_Contractee.ReadOnly = True
@@ -395,7 +395,7 @@ Partial Class UserControl_TransactionDetail
         'TextBox_Amount
         '
         Me.TextBox_Amount.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_Amount.Location = New System.Drawing.Point(133, 200)
         Me.TextBox_Amount.Name = "TextBox_Amount"
         Me.TextBox_Amount.ReadOnly = True
@@ -428,7 +428,7 @@ Partial Class UserControl_TransactionDetail
         'TextBox_sum
         '
         Me.TextBox_sum.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_sum.Location = New System.Drawing.Point(133, 146)
         Me.TextBox_sum.Name = "TextBox_sum"
         Me.TextBox_sum.ReadOnly = True
@@ -459,36 +459,36 @@ Partial Class UserControl_TransactionDetail
         Me.DataGridView_Payment.AllowUserToAddRows = False
         Me.DataGridView_Payment.AllowUserToDeleteRows = False
         Me.DataGridView_Payment.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView_Payment.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView_Payment.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DataGridView_Payment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView_Payment.ContextMenuStrip = Me.ContextMenuStrip_Payment
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.DataGridView_Payment.DefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.DataGridView_Payment.DefaultCellStyle = DataGridViewCellStyle2
         Me.DataGridView_Payment.Location = New System.Drawing.Point(133, 74)
         Me.DataGridView_Payment.Name = "DataGridView_Payment"
         Me.DataGridView_Payment.ReadOnly = True
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView_Payment.RowHeadersDefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView_Payment.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
         Me.DataGridView_Payment.Size = New System.Drawing.Size(347, 68)
         Me.DataGridView_Payment.TabIndex = 32
         '
