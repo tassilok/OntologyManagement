@@ -89,6 +89,8 @@ Public Class UserControl_References
         Else
             LogItemToolStripMenuItem.Visible = True
         End If
+        TreeView_Refs.Nodes.Clear()
+
         objTreeNode_Refs = TreeView_Refs.Nodes.Add(objLocalConfig.OItem_RelationType_belonging_Sem_Item.GUID.ToString, objLocalConfig.OItem_RelationType_belonging_Sem_Item.Name, objLocalConfig.ImageID_Refs, objLocalConfig.ImageID_Refs)
         objTreeNode_NeedsPar = TreeView_Refs.Nodes.Add(objLocalConfig.OItem_RelationType_needs.GUID.ToString, objLocalConfig.OItem_RelationType_needs.Name, objLocalConfig.ImageID_NeedsPar, objLocalConfig.ImageID_NeedsPar)
         objTreeNode_NeedsChildPar = TreeView_Refs.Nodes.Add(objLocalConfig.OItem_RelationType_needs_Child.ToString, objLocalConfig.OItem_RelationType_needs_Child.Name, objLocalConfig.ImageID_NeedsChildPar, objLocalConfig.ImageID_NeedsChildPar)
@@ -126,6 +128,8 @@ Public Class UserControl_References
         boolUsers = False
         boolUtils = False
         boolVariables = False
+
+
 
         objDataWork_References_Process.get_Data(objOItem_Process)
         If Not objOItem_ProcessLog Is Nothing Then

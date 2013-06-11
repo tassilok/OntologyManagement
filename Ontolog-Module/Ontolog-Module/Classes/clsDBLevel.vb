@@ -3207,6 +3207,7 @@ Public Class clsDBLevel
                                           , ID_Object_Parent = objLeft.GUID _
                                           , Name_Object_Parent = objLeft.Name _
                                           , OrderID = obj.Source("OrderID")
+                                    Order By ID_Object_Parent, OrderID, Name_Object
 
                 For Each objList_Item In objList_Items
                     If boolTable = False Then

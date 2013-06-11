@@ -491,7 +491,7 @@ Public Class UserControl_Process
                                             objOLTreeItem.Clear()
                                             Exit While
                                         Else
-                                            l = l + objOLTreeItem.Count - lCount
+                                            l = l + objOLTreeItem.Count - (lCount - 1)
                                             lCount = objOLTreeItem.Count
                                         End If
 

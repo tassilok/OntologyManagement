@@ -99,8 +99,8 @@ Public Class clsDataWork_Process
             objOItem_Result = objDBLevel_Process_Sub.get_Data_Objects_Tree(objLocalConfig.OItem_Type_Process, _
                                                                             objLocalConfig.OItem_Type_Process, _
                                                                             objLocalConfig.OItem_RelationType_superordinate)
-            objDBLevel_Process_Sub.OList_ObjectTree.Sort(Function(U1 As clsObjectTree, U2 As clsObjectTree) U1.Name_Object.CompareTo(U2.Name_Object))
-            objDBLevel_Process_Sub.OList_ObjectTree.Sort(Function(U1 As clsObjectTree, U2 As clsObjectTree) U1.OrderID.CompareTo(U2.OrderID))
+
+            'objDBLevel_Process_Sub.OList_ObjectTree.Sort(Function(U1 As clsObjectTree, U2 As clsObjectTree) U1.OrderID.CompareTo(U2.OrderID))
             lngCnt = objDBLevel_Process_Sub.OList_ObjectTree.Count
             objOItem_Result_ProcessTree = objOItem_Result
         Else
