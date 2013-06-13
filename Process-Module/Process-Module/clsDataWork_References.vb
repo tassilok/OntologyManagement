@@ -17,15 +17,39 @@ Public Class clsDataWork_References
 
     Private objFileWork As clsFileWork
 
+    Private objLRefTypes As New List(Of clsRefToNode)
+
+    Public ReadOnly Property OItem_ProcessRef As clsOntologyItem
+        Get
+            Return objOItem_ProcessReference
+        End Get
+    End Property
+
+    Public ReadOnly Property LRefTypes As List(Of clsRefToNode)
+        Get
+            Return objLRefTypes
+        End Get
+    End Property
+
     Public ReadOnly Property OItem_Result_ProcessRef As clsOntologyItem
         Get
             Return objOItem_Result_References
         End Get
     End Property
 
-    Public Sub fill_Ref(TreeNode As TreeNode, OItem_RelationType As clsOntologyItem, Optional OItem_Ref As clsOntologyItem = Nothing, Optional Type As String = Nothing)
+    Public ReadOnly Property OList_References As List(Of clsObjectRel)
+        Get
+            Return objDBLevel_ProcessRef.OList_ObjectRel
+        End Get
+    End Property
+
+    Public Sub fill_Ref(OItem_RelationType As clsOntologyItem, Optional OItem_Ref As clsOntologyItem = Nothing, Optional Type As String = Nothing)
         Dim objOItem_File As clsOntologyItem
         Dim objOItem_Folder As clsOntologyItem
+        Dim objOItem_Ref As clsOntologyItem
+        Dim objTreeNode As TreeNode
+        Dim objTreeNodes() As TreeNode
+        Dim intImageID As Integer
         If Not OItem_Ref Is Nothing Then
             Select Case OItem_Ref.GUID
                 Case objLocalConfig.OItem_Type_File.GUID
@@ -35,19 +59,33 @@ Public Class clsDataWork_References
                                    Select obj
                                    Order By obj.OrderID, obj.Name_Other
 
-                    For Each objRef In objLRefs
-                        objOItem_File = New clsOntologyItem(objRef.ID_Other, _
-                                                            objRef.Name_Other, _
-                                                            objLocalConfig.OItem_Type_File.GUID, _
-                                                            objLocalConfig.Globals.Type_Object)
+                    Dim objLRefT = From obj In objLRefTypes
+                                  Where obj.OItem_RefType.GUID = objLocalConfig.OItem_Type_File.GUID _
+                                  And obj.OItem_Rel_RefType.GUID = objLocalConfig.OItem_RelationType_needs.GUID
 
-                        objOItem_File.Name = objFileWork.get_Path_FileSystemObject(objOItem_File, True)
+                    If objLRefT.Count > 0 Then
+                        objTreeNode = objLRefT(0).TreeNode_RefType
+                        intImageID = objLRefT(0).ImageID
 
-                        TreeNode.Nodes.Add(objOItem_File.GUID, _
-                                           objOItem_File.Name, _
-                                           objLocalConfig.ImageID_File, _
-                                           objLocalConfig.ImageID_File)
-                    Next
+                        For Each objRef In objLRefs
+
+                            objOItem_File = New clsOntologyItem(objRef.ID_Other, _
+                                                                objRef.Name_Other, _
+                                                                objLocalConfig.OItem_Type_File.GUID, _
+                                                                objLocalConfig.Globals.Type_Object)
+
+                            objOItem_File.Name = objFileWork.get_Path_FileSystemObject(objOItem_File, True)
+
+
+
+                            objTreeNode.Nodes.Add(objOItem_File.GUID, _
+                                               objOItem_File.Name, _
+                                               intImageID, _
+                                               intImageID)
+                        Next
+                    End If
+
+                    
                 Case objLocalConfig.OItem_type_Folder.GUID
                     Dim objLRefs = From obj In objDBLevel_ProcessRef.OList_ObjectRel
                                    Where obj.ID_Parent_Other = OItem_Ref.GUID _
@@ -55,19 +93,30 @@ Public Class clsDataWork_References
                                    Select obj
                                    Order By obj.OrderID, obj.Name_Other
 
-                    For Each objRef In objLRefs
-                        objOItem_Folder = New clsOntologyItem(objRef.ID_Other, _
-                                                            objRef.Name_Other, _
-                                                            objLocalConfig.OItem_type_Folder.GUID, _
-                                                            objLocalConfig.Globals.Type_Object)
+                    Dim objLRefT = From obj In objLRefTypes
+                                  Where obj.OItem_RefType.GUID = objLocalConfig.OItem_type_Folder.GUID _
+                                  And obj.OItem_Rel_RefType.GUID = objLocalConfig.OItem_RelationType_needs.GUID
 
-                        objOItem_Folder.Name = objFileWork.get_Path_FileSystemObject(objOItem_Folder, False)
+                    If objLRefT.Count > 0 Then
+                        objTreeNode = objLRefT(0).TreeNode_RefType
+                        intImageID = objLRefT(0).ImageID
 
-                        TreeNode.Nodes.Add(objOItem_Folder.GUID, _
-                                           objOItem_Folder.Name, _
-                                           objLocalConfig.ImageID_File, _
-                                           objLocalConfig.ImageID_File)
-                    Next
+                        For Each objRef In objLRefs
+                            objOItem_Folder = New clsOntologyItem(objRef.ID_Other, _
+                                                                objRef.Name_Other, _
+                                                                objLocalConfig.OItem_type_Folder.GUID, _
+                                                                objLocalConfig.Globals.Type_Object)
+
+                            objOItem_Folder.Name = objFileWork.get_Path_FileSystemObject(objOItem_Folder, False)
+
+                            objTreeNode.Nodes.Add(objOItem_Folder.GUID, _
+                                               objOItem_Folder.Name, _
+                                               intImageID, _
+                                               intImageID)
+                        Next
+                    End If
+
+                    
                 Case Else
                     Dim objLRefs = From obj In objDBLevel_ProcessRef.OList_ObjectRel
                                    Where obj.ID_Parent_Other = OItem_Ref.GUID _
@@ -75,12 +124,35 @@ Public Class clsDataWork_References
                                    Select obj
                                    Order By obj.OrderID, obj.Name_Other
 
-                    For Each objRef In objLRefs
-                        TreeNode.Nodes.Add(objRef.ID_Other, _
-                                           objRef.Name_Other, _
-                                           objLocalConfig.ImageID_Application, _
-                                           objLocalConfig.ImageID_Application)
-                    Next
+                    Dim objLRefT = From obj In objLRefTypes
+                                  Where obj.OItem_RefType.GUID = OItem_Ref.GUID _
+                                  And obj.OItem_Rel_RefType.GUID = OItem_RelationType.GUID
+
+                    If objLRefT.Count > 0 Then
+                        objTreeNode = objLRefT(0).TreeNode_RefType
+                        intImageID = objLRefT(0).ImageID
+                        For Each objRef In objLRefs
+                            If Not IsDBNull(objRef.ID_Parent_Other) Then
+                                objOItem_Ref = New clsOntologyItem(objRef.ID_Other, _
+                                                               objRef.Name_Other, _
+                                                               objRef.ID_Parent_Other, _
+                                                               objRef.Ontology)
+                            Else
+                                objOItem_Ref = New clsOntologyItem(objRef.ID_Other, _
+                                                               objRef.Name_Other, _
+                                                               Nothing, _
+                                                               objRef.Ontology)
+                            End If
+
+
+                            objTreeNode.Nodes.Add(objRef.ID_Other, _
+                                               objRef.Name_Other, _
+                                               intImageID, _
+                                               intImageID)
+                        Next
+                    End If
+
+                    
             End Select
 
         Else
@@ -91,24 +163,97 @@ Public Class clsDataWork_References
                                    Select obj
                                    Order By obj.OrderID, obj.Name_Other
 
-                For Each objRef In objLRefs
-                    TreeNode.Nodes.Add(objRef.ID_Other, _
-                                       objRef.Name_Other, _
-                                       objLocalConfig.ImageID_Application, _
-                                       objLocalConfig.ImageID_Application)
-                Next
-            Else
-                Dim objLRefs = From obj In objDBLevel_ProcessRef.OList_ObjectRel
-                                   Where obj.ID_RelationType = OItem_RelationType.GUID
-                                   Select obj
-                                   Order By obj.OrderID, obj.Name_Other
+                
+                
+                    For Each objRef In objLRefs
 
+                    If objRef.ID_Parent_Other Is Nothing Then
+                        Dim objLRefT = From obj In objLRefTypes
+                                  Where obj.OItem_RefType.GUID Is objLocalConfig.OItem_Type_Process.GUID _
+                                  And obj.OItem_Rel_RefType.GUID = objRef.ID_RelationType
+                        objTreeNode = objLRefT(0).TreeNode_RefType
+                        intImageID = objLRefT(0).ImageID
+                    Else
+                        Dim objLRefT = From obj In objLRefTypes
+                                  Where obj.OItem_RefType.GUID = objRef.ID_Parent_Other _
+                                  And obj.OItem_Rel_RefType.GUID = objRef.ID_RelationType
+                        objTreeNode = objLRefT(0).TreeNode_RefType
+                        intImageID = objLRefT(0).ImageID
+                    End If
+                    
+
+                        If Not IsDBNull(objRef.ID_Parent_Other) Then
+                            objOItem_Ref = New clsOntologyItem(objRef.ID_Other, _
+                                                           objRef.Name_Other, _
+                                                           objRef.ID_Parent_Other, _
+                                                           Type)
+                        Else
+                            objOItem_Ref = New clsOntologyItem(objRef.ID_Other, _
+                                                           objRef.Name_Other, _
+                                                           Nothing, _
+                                                           Type)
+                        End If
+
+
+
+                        objTreeNode.Nodes.Add(objRef.ID_Other, _
+                                           objRef.Name_Other, _
+                                           intImageID, _
+                                           intImageID)
+                    Next
+
+
+                Else
+                    Dim objLRefs = From obj In objDBLevel_ProcessRef.OList_ObjectRel
+                                       Where obj.ID_RelationType = OItem_RelationType.GUID
+                                       Select obj
+                                       Order By obj.OrderID, obj.Name_Other
+
+
+
+                    
+                    
                 For Each objRef In objLRefs
-                    TreeNode.Nodes.Add(objRef.ID_Other, _
-                                       objRef.Name_Other, _
-                                       objLocalConfig.ImageID_Application, _
-                                       objLocalConfig.ImageID_Application)
+                    If objRef.ID_Parent_Other Is Nothing Then
+                        Dim objLRefT = From obj In objLRefTypes
+                                  Where obj.OItem_RefType.GUID Is objLocalConfig.OItem_Type_Process.GUID _
+                                  And obj.OItem_Rel_RefType.GUID = objRef.ID_RelationType
+                        objTreeNode = objLRefT(0).TreeNode_RefType
+                        intImageID = objLRefT(0).ImageID
+                    Else
+                        Dim objLRefT = From obj In objLRefTypes
+                                  Where obj.OItem_RefType.GUID = objRef.ID_Parent_Other _
+                                  And obj.OItem_Rel_RefType.GUID = objRef.ID_RelationType
+                        objTreeNode = objLRefT(0).TreeNode_RefType
+                        intImageID = objLRefT(0).ImageID
+                    End If
+                    
+                    If Not IsDBNull(objRef.ID_Parent_Other) Then
+                    
+                        objOItem_Ref = New clsOntologyItem(objRef.ID_Other, _
+                                                       objRef.Name_Other, _
+                                                       objRef.ID_Parent_Other, _
+                                                       objRef.Ontology)
+                    Else
+                        objOItem_Ref = New clsOntologyItem(objRef.ID_Other, _
+                                                       objRef.Name_Other, _
+                                                       Nothing, _
+                                                       objRef.Ontology)
+                    End If
+
+                    objTreeNodes = objTreeNode.Nodes.Find(objRef.ID_Other, False)
+                    If objTreeNodes.Count = 0 Then
+                        objTreeNode.Nodes.Add(objRef.ID_Other, _
+                                   objRef.Name_Other, _
+                                   intImageID, _
+                                   intImageID)
+                    End If
+
+
+
                 Next
+
+
             End If
 
 
@@ -116,8 +261,6 @@ Public Class clsDataWork_References
         End If
 
     End Sub
-
-    
 
     Public Function get_Data(OItem_ProcessOrLog As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
@@ -130,9 +273,13 @@ Public Class clsDataWork_References
             objOItem_Result = get_ProcessReference()
 
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-
-                objThread_ProcessRef = New Threading.Thread(AddressOf get_Data_ProcessReferences)
-                objThread_ProcessRef.Start()
+                If Not objOItem_ProcessReference Is Nothing Then
+                    objThread_ProcessRef = New Threading.Thread(AddressOf get_Data_ProcessReferences)
+                    objThread_ProcessRef.Start()
+                Else
+                    objOItem_Result_References = objLocalConfig.Globals.LState_Success
+                End If
+                
             End If
         Else
             objOItem_Result_References = objLocalConfig.Globals.LState_Success
@@ -187,7 +334,7 @@ Public Class clsDataWork_References
 
 
             Else
-                objOItem_Result = objLocalConfig.Globals.LState_Error
+                objOItem_Result = objLocalConfig.Globals.LState_Success
             End If
         End If
 
@@ -196,9 +343,32 @@ Public Class clsDataWork_References
         Return objOItem_Result
     End Function
 
+    Public Sub add_Ref(OItem_Type_Ref As clsOntologyItem, _
+                       OItem_RelType_Ref As clsOntologyItem, _
+                       TreeNode_Ref As TreeNode, _
+                       ImageID As Integer)
+
+        objLRefTypes.Add(New clsRefToNode(OItem_Type_Ref, _
+                                          OItem_RelType_Ref, _
+                                          TreeNode_Ref, _
+                                          ImageID))
+
+
+    End Sub
+
+    Public Sub clear_Refs()
+        objLRefTypes.Clear()
+    End Sub
+
     Public Sub New(LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
         set_DBConnection()
+        initialize()
+    End Sub
+
+    Private Sub initialize()
+        objLRefTypes.Clear()
+
     End Sub
 
     Private Sub set_DBConnection()

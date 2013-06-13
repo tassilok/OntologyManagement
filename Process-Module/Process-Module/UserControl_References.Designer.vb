@@ -27,6 +27,7 @@ Partial Class UserControl_References
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripProgressBar_Refs = New System.Windows.Forms.ToolStripProgressBar()
+        Me.TreeView_Refs = New System.Windows.Forms.TreeView()
         Me.ContextMenuStrip_References = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ProcessItemToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -37,7 +38,6 @@ Partial Class UserControl_References
         Me.CopyGUIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImageList_Reference = New System.Windows.Forms.ImageList(Me.components)
         Me.Timer_References = New System.Windows.Forms.Timer(Me.components)
-        Me.TreeView_Refs = New System.Windows.Forms.TreeView()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -55,7 +55,7 @@ Partial Class UserControl_References
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.TreeView_Refs)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(497, 435)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(497, 410)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
@@ -77,17 +77,29 @@ Partial Class UserControl_References
         Me.ToolStripProgressBar_Refs.Name = "ToolStripProgressBar_Refs"
         Me.ToolStripProgressBar_Refs.Size = New System.Drawing.Size(100, 22)
         '
+        'TreeView_Refs
+        '
+        Me.TreeView_Refs.ContextMenuStrip = Me.ContextMenuStrip_References
+        Me.TreeView_Refs.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TreeView_Refs.ImageIndex = 0
+        Me.TreeView_Refs.ImageList = Me.ImageList_Reference
+        Me.TreeView_Refs.Location = New System.Drawing.Point(0, 0)
+        Me.TreeView_Refs.Name = "TreeView_Refs"
+        Me.TreeView_Refs.SelectedImageIndex = 0
+        Me.TreeView_Refs.Size = New System.Drawing.Size(497, 410)
+        Me.TreeView_Refs.TabIndex = 0
+        '
         'ContextMenuStrip_References
         '
         Me.ContextMenuStrip_References.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.RemoveToolStripMenuItem, Me.EditToolStripMenuItem})
         Me.ContextMenuStrip_References.Name = "ContextMenuStrip_References"
-        Me.ContextMenuStrip_References.Size = New System.Drawing.Size(128, 70)
+        Me.ContextMenuStrip_References.Size = New System.Drawing.Size(153, 92)
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProcessItemToolStripMenuItem, Me.LogItemToolStripMenuItem})
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.NewToolStripMenuItem.Text = "x_New"
         '
         'ProcessItemToolStripMenuItem
@@ -106,14 +118,14 @@ Partial Class UserControl_References
         'RemoveToolStripMenuItem
         '
         Me.RemoveToolStripMenuItem.Name = "RemoveToolStripMenuItem"
-        Me.RemoveToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.RemoveToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.RemoveToolStripMenuItem.Text = "x_Remove"
         '
         'EditToolStripMenuItem
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.CopyGUIDToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.EditToolStripMenuItem.Text = "Edit"
         '
         'CopyNameToolStripMenuItem
@@ -199,19 +211,7 @@ Partial Class UserControl_References
         '
         'Timer_References
         '
-        Me.Timer_References.Interval = 300
-        '
-        'TreeView_Refs
-        '
-        Me.TreeView_Refs.ContextMenuStrip = Me.ContextMenuStrip_References
-        Me.TreeView_Refs.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TreeView_Refs.ImageIndex = 0
-        Me.TreeView_Refs.ImageList = Me.ImageList_Reference
-        Me.TreeView_Refs.Location = New System.Drawing.Point(0, 0)
-        Me.TreeView_Refs.Name = "TreeView_Refs"
-        Me.TreeView_Refs.SelectedImageIndex = 0
-        Me.TreeView_Refs.Size = New System.Drawing.Size(497, 435)
-        Me.TreeView_Refs.TabIndex = 0
+        Me.Timer_References.Interval = 200
         '
         'UserControl_References
         '
