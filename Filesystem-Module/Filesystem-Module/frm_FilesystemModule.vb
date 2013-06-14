@@ -25,6 +25,25 @@ Public Class frm_FilesystemModule
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
 
+    Private objOLFiles As New List(Of clsOntologyItem)
+    Private objOItem_FileSystemObject As clsOntologyItem
+    Private objOItem_Class_Applied As clsOntologyItem
+
+
+    Public ReadOnly Property OItem_Class_Applied As clsOntologyItem
+        Get
+            Return objOItem_Class_Applied
+        End Get
+    End Property
+
+    Public ReadOnly Property OList_Files As List(Of clsOntologyItem)
+        Get
+            Return objOLFiles
+        End Get
+    End Property
+
+
+
     Public Sub New()
 
         ' Dieser Aufruf ist für den Designer erforderlich.
@@ -32,6 +51,18 @@ Public Class frm_FilesystemModule
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
+
+        set_DBConnection()
+        initialize()
+    End Sub
+
+    Public Sub New(Globals As clsGlobals)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = New clsLocalConfig(Globals)
 
         set_DBConnection()
         initialize()
@@ -569,4 +600,25 @@ Public Class frm_FilesystemModule
             MsgBox("Beim Erzeugen der Hashes ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
         End If
     End Sub
+
+    Private Sub ApplyFilesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ApplyFilesToolStripMenuItem.Click
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        If DataGridView_Files.SelectedRows.Count > 0 Then
+            objOItem_Class_Applied = objLocalConfig.OItem_Type_File
+
+            For Each objDGVR_Selected In DataGridView_Files.SelectedRows
+                objDRV_Selected = objDGVR_Selected.DataBoundItem
+                objOLFiles.Add(New clsOntologyItem(objDRV_Selected.Item("GUID_File"), _
+                                                   objDRV_Selected.Item("Name_File"), _
+                                                   objLocalConfig.OItem_Type_File.GUID, _
+                                                   objLocalConfig.Globals.Type_Object))
+            Next
+
+            DialogResult = DialogResult.OK
+            Me.Close()
+        End If
+    End Sub
+
+
 End Class

@@ -43,7 +43,7 @@ Public Class clsDataWork_References
         End Get
     End Property
 
-    Public Sub fill_Ref(OItem_RelationType As clsOntologyItem, Optional OItem_Ref As clsOntologyItem = Nothing, Optional Type As String = Nothing)
+   Public Sub fill_Ref(OItem_RelationType As clsOntologyItem, Optional OItem_Ref As clsOntologyItem = Nothing, Optional Type As String = Nothing)
         Dim objOItem_File As clsOntologyItem
         Dim objOItem_Folder As clsOntologyItem
         Dim objOItem_Ref As clsOntologyItem
@@ -218,14 +218,27 @@ Public Class clsDataWork_References
                         Dim objLRefT = From obj In objLRefTypes
                                   Where obj.OItem_RefType.GUID Is objLocalConfig.OItem_Type_Process.GUID _
                                   And obj.OItem_Rel_RefType.GUID = objRef.ID_RelationType
+
                         objTreeNode = objLRefT(0).TreeNode_RefType
                         intImageID = objLRefT(0).ImageID
                     Else
                         Dim objLRefT = From obj In objLRefTypes
                                   Where obj.OItem_RefType.GUID = objRef.ID_Parent_Other _
                                   And obj.OItem_Rel_RefType.GUID = objRef.ID_RelationType
-                        objTreeNode = objLRefT(0).TreeNode_RefType
-                        intImageID = objLRefT(0).ImageID
+                        If objLRefT.Count > 0 Then
+                            objTreeNode = objLRefT(0).TreeNode_RefType
+                            intImageID = objLRefT(0).ImageID
+                        Else
+                            Dim objLRefT1 = From obj In objLRefTypes
+                                  Where obj.OItem_RefType.GUID = objLocalConfig.OItem_Type_Process.GUID _
+                                  And obj.OItem_Rel_RefType.GUID = objRef.ID_RelationType
+
+                            If objLRefT1.Count > 0 Then
+                                objTreeNode = objLRefT1(0).TreeNode_RefType
+                                intImageID = objLRefT1(0).ImageID
+                            End If
+                        End If
+                        
                     End If
                     
                     If Not IsDBNull(objRef.ID_Parent_Other) Then
@@ -334,6 +347,7 @@ Public Class clsDataWork_References
 
 
             Else
+                objOItem_ProcessReference = Nothing
                 objOItem_Result = objLocalConfig.Globals.LState_Success
             End If
         End If
@@ -358,6 +372,10 @@ Public Class clsDataWork_References
 
     Public Sub clear_Refs()
         objLRefTypes.Clear()
+    End Sub
+
+    Public Sub clear_ProcessReferences()
+        objDBLevel_ProcessRef.OList_ObjectRel.Clear()
     End Sub
 
     Public Sub New(LocalConfig As clsLocalConfig)

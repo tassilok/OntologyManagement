@@ -113,7 +113,6 @@ Partial Class UserControl_References
         Me.LogItemToolStripMenuItem.Name = "LogItemToolStripMenuItem"
         Me.LogItemToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
         Me.LogItemToolStripMenuItem.Text = "x_Log-Item"
-        Me.LogItemToolStripMenuItem.Visible = False
         '
         'RemoveToolStripMenuItem
         '

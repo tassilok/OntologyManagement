@@ -9,6 +9,7 @@ Public Class UserControl_References
     Private objFrm_FilesystemModule As frm_FilesystemModule
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFileWork As clsFileWork
+    Private objFrmMain As frmMain
     Private objTransaction_References As clsTransaction_References
     Private objDataWork_References_Process As clsDataWork_References
     Private objDataWork_References_ProcessLog As clsDataWork_References
@@ -174,7 +175,7 @@ Public Class UserControl_References
         boolVariables = False
 
 
-
+        objDataWork_References_Process.clear_ProcessReferences()
         objDataWork_References_Process.get_Data(objOItem_Process)
         If Not objOItem_ProcessLog Is Nothing Then
             objDataWork_References_ProcessLog.get_Data(objOItem_ProcessLog)
@@ -255,12 +256,16 @@ Public Class UserControl_References
         If objTreeNode.ImageIndex >= objLocalConfig.ImageID_Refs And objTreeNode.ImageIndex <= objLocalConfig.ImageID_Materials Then
             NewToolStripMenuItem.Enabled = True
             ProcessItemToolStripMenuItem.Enabled = True
-            LogItemToolStripMenuItem.Enabled = True
+            If Not objOItem_ProcessLog Is Nothing Then
+                LogItemToolStripMenuItem.Enabled = True
+            End If
         ElseIf (objTreeNode.ImageIndex >= objLocalConfig.ImageID_Ref And objTreeNode.ImageIndex <= objLocalConfig.ImageID_Material) Or (objTreeNode.ImageIndex >= objLocalConfig.ImageID_Log_Ref And objTreeNode.ImageIndex <= objLocalConfig.ImageID_Log_Material) Then
             RemoveToolStripMenuItem.Enabled = True
             CopyNameToolStripMenuItem.Enabled = True
             CopyGUIDToolStripMenuItem.Enabled = True
         End If
+
+        
     End Sub
 
     Private Sub CopyNameToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles CopyNameToolStripMenuItem.Click
@@ -298,7 +303,7 @@ Public Class UserControl_References
 
             
 
-            objOItem_ProcessRef = get_ProcessReference()
+            objOItem_ProcessRef = get_ProcessReferenceByTreeNode()
             If Not objOItem_ProcessRef Is Nothing Then
                 If objTreeNode.ImageIndex >= objLocalConfig.ImageID_Ref And objTreeNode.ImageIndex <= objLocalConfig.ImageID_Material Then
                     
@@ -357,8 +362,41 @@ Public Class UserControl_References
 
         End If
     End Sub
+    Private Function get_ProcessReference(OItem_ProcessOrLog As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_ProcessRef As clsOntologyItem = Nothing
+        Dim objOItem_Result As clsOntologyItem
 
-    Private Function get_ProcessReference() As clsOntologyItem
+        If OItem_ProcessOrLog.GUID_Parent = objLocalConfig.OItem_Type_Process.GUID Then
+            objOItem_ProcessRef = objDataWork_References_Process.OItem_ProcessRef
+
+        Else
+            objOItem_ProcessRef = objDataWork_References_ProcessLog.OItem_ProcessRef
+        End If
+
+        If objOItem_ProcessRef Is Nothing Then
+            objOItem_ProcessRef = New clsOntologyItem(objLocalConfig.Globals.NewGUID, _
+                                                      objOItem_Process.Name, _
+                                                      objLocalConfig.OItem_Type_Process_References.GUID, _
+                                                      objLocalConfig.Globals.Type_Object)
+
+            objOItem_Result = objTransaction_References.save_001_ProcessReference(objOItem_ProcessRef)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                objOItem_Result = objTransaction_References.save_002_ProcessOrLog_To_ProcessReference(OItem_ProcessOrLog, _
+                                                                                                      objOItem_ProcessRef)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+
+
+                    objTransaction_References.del_001_ProcessReference()
+                    objOItem_ProcessRef = Nothing
+                End If
+            End If
+        Else
+            objOItem_ProcessRef = objDataWork_References_Process.OItem_ProcessRef
+        End If
+
+        Return objOItem_ProcessRef
+    End Function
+    Private Function get_ProcessReferenceByTreeNode() As clsOntologyItem
         Dim objTreeNode As TreeNode
         Dim objOItem_ProcessRef As clsOntologyItem = Nothing
         Dim objOItem_Result As clsOntologyItem
@@ -414,4 +452,174 @@ Public Class UserControl_References
 
         Return objOItem_ProcessRef
     End Function
+
+    Private Sub ProcessItemToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ProcessItemToolStripMenuItem.Click
+        Dim objTreeNode As TreeNode
+        Dim objOItem_ProcessReference As clsOntologyItem
+        Dim objOList_Objects As List(Of clsOntologyItem)
+        Dim objOItem_Result As clsOntologyItem
+        Dim intToDo As Integer
+        Dim intDone As Integer
+
+        objTreeNode = TreeView_Refs.SelectedNode
+
+        If Not objTreeNode Is Nothing Then
+            objOItem_ProcessReference = get_ProcessReference(objOItem_Process)
+            If Not objOItem_ProcessReference Is Nothing Then
+                Select Case objTreeNode.ImageIndex
+                    Case objLocalConfig.ImageID_Applications
+                        objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Application)
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = objLocalConfig.ImageID_Application
+
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    intDone = intDone + 1
+                                End If
+                            Next
+
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " " & objLocalConfig.OItem_Type_Application.Name & " referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
+                        
+                    Case objLocalConfig.ImageID_Attributes
+
+                    Case objLocalConfig.ImageID_Belongings
+
+                    Case objLocalConfig.ImageID_Classes
+
+                    Case objLocalConfig.ImageID_Documents
+
+                    Case objLocalConfig.ImageID_Files
+                        objFrm_FilesystemModule = New frm_FilesystemModule(objLocalConfig.Globals)
+                        objFrm_FilesystemModule.ShowDialog(Me)
+                        If objFrm_FilesystemModule.DialogResult = DialogResult.OK Then
+                            
+
+                            If objFrm_FilesystemModule.OItem_Class_Applied.GUID = objLocalConfig.OItem_Type_File.GUID Then
+                                Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = objLocalConfig.ImageID_File
+
+                                intDone = 0
+                                intToDo = objFrm_FilesystemModule.OList_Files.Count
+                                For Each objOItem_Object As clsOntologyItem In objFrm_FilesystemModule.OList_Files
+                                    objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        intDone = intDone + 1
+                                    End If
+                                Next
+
+                                If intDone < intToDo Then
+                                    MsgBox("Es konnten nur " & intDone & " von " & intToDo & " " & objLocalConfig.OItem_Type_Application.Name & " referenziert werden!", MsgBoxStyle.Information)
+                                End If
+                            Else
+                                MsgBox("Bitte nur Dateien auswählen!", MsgBoxStyle.Information)
+                            End If
+                        End If
+                        If Not objOList_Objects Is Nothing Then
+                            
+
+
+                        End If
+                    Case objLocalConfig.ImageID_Folders
+
+                    Case objLocalConfig.ImageID_Groups
+
+                    Case objLocalConfig.ImageID_Manuals
+
+                    Case objLocalConfig.ImageID_Materials
+
+                    Case objLocalConfig.ImageID_Medias
+
+                    Case objLocalConfig.ImageID_NeedsPar
+
+                    Case objLocalConfig.ImageID_NeedsChildPar
+
+                    Case objLocalConfig.ImageID_Objects
+
+                    Case objLocalConfig.ImageID_Refs
+
+                    Case objLocalConfig.ImageID_RelationTypes
+
+                    Case objLocalConfig.ImageID_Responsibilities
+
+                    Case objLocalConfig.ImageID_Roles
+
+                    Case objLocalConfig.ImageID_Users
+
+                    Case objLocalConfig.ImageID_Utils
+
+                    Case objLocalConfig.ImageID_Variables
+
+                End Select
+            Else
+                MsgBox("Die Prozessreferenz kann nicht erstellt werden!", MsgBoxStyle.Exclamation)
+            End If
+            
+        End If
+    End Sub
+
+    Private Function getObjectItemList(OItem_Class_Objects As clsOntologyItem) As List(Of clsOntologyItem)
+        Dim objOList_Objects As List(Of clsOntologyItem) = Nothing
+
+        objFrmMain = New frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class, OItem_Class_Objects)
+        objFrmMain.ShowDialog(Me)
+        If objFrmMain.DialogResult = DialogResult.OK Then
+            If objFrmMain.Type_Applied = objLocalConfig.Globals.Type_Object Then
+                If objFrmMain.OList_Simple.Count > 0 Then
+                    Dim objLNotCorrect = From obj In objFrmMain.OList_Simple
+                                         Where Not obj.GUID_Parent = OItem_Class_Objects.GUID
+
+                    If objLNotCorrect.Count = 0 Then
+                        objOList_Objects = objFrmMain.OList_Simple
+                    Else
+                        MsgBox("Wählen Sie bitte Objekte der Klasse " & OItem_Class_Objects.Name)
+                    End If
+                End If
+            Else
+                MsgBox("Wählen Sie bitte Objekte der Klasse " & OItem_Class_Objects.Name)
+            End If
+        End If
+
+        Return objOList_Objects
+    End Function
+
+    Private Sub TreeView_Refs_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles TreeView_Refs.MouseDoubleClick
+        Dim objTreeNode_Sel As TreeNode
+        Dim objOItem_ProcessReference As clsOntologyItem = Nothing
+        Dim objOList_ProcessReferences As New List(Of clsOntologyItem)
+
+        objTreeNode_Sel = TreeView_Refs.SelectedNode
+
+        If Not objTreeNode_Sel Is Nothing Then
+            If objTreeNode_Sel.ImageIndex >= objLocalConfig.ImageID_Refs And objTreeNode_Sel.ImageIndex <= objLocalConfig.ImageID_Materials Then
+                If My.Computer.Keyboard.CtrlKeyDown = False Then
+                    objOItem_ProcessReference = get_ProcessReference(objOItem_Process)
+                Else
+                    If Not objOItem_ProcessLog Is Nothing Then
+                        objOItem_ProcessReference = get_ProcessReference(objOItem_ProcessLog)
+                    Else
+                        MsgBox("Es existiert noch keine Prozess-Referenz!", MsgBoxStyle.Information)
+                    End If
+
+                End If
+                If Not objOItem_ProcessReference Is Nothing Then
+                    objOList_ProcessReferences.Add(objOItem_ProcessReference)
+                    objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList_ProcessReferences, 0, objLocalConfig.Globals.Type_Object, Nothing)
+                    objFrm_ObjectEdit.ShowDialog(Me)
+                Else
+                    MsgBox("Es konnte nicht ermittelt werden, ob Prozessreferenzen existieren!", MsgBoxStyle.Information)
+                End If
+
+
+            Else
+
+            End If
+        End If
+    End Sub
 End Class

@@ -160,7 +160,7 @@ Public Class clsTransaction_References
         
 
 
-        If Not objOItem_Reference.GUID_Parent Is Nothing Then
+        If objOItem_Reference.GUID_Parent Is Nothing Then
             objOList_LastID.Add(New clsObjectRel(objOItem_ProcessReference.GUID, _
                                              Nothing, _
                                              Nothing, _
@@ -181,6 +181,7 @@ Public Class clsTransaction_References
             Else
                 intOrderID = 1
             End If
+
 
             objOList_ProcessReference_To_Reference.Add(New clsObjectRel(objOItem_ProcessReference.GUID, _
                                                                     objOItem_ProcessReference.GUID_Parent, _
