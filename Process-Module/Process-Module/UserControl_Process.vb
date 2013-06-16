@@ -19,6 +19,9 @@ Public Class UserControl_Process
 
     Private objDataWork_MediaItems As clsDataWork_MediaItem
     Private WithEvents objUserControl_MediaItems As UserControl_SingleViewer
+    Private objFrm_Name As frm_Name
+
+    Private objTransaction_Process As clsTransaction_Process
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objOItem_Node_Sel As clsOntologyItem
@@ -263,6 +266,8 @@ Public Class UserControl_Process
         objDataWork_Images = New clsDataWork_Images(objLocalConfig.Globals)
         objDataWork_PDF = New clsDataWork_PDF(objLocalConfig.Globals)
         objDataWork_MediaItems = New clsDataWork_MediaItem(objLocalConfig.Globals)
+
+        objTransaction_Process = New clsTransaction_Process(objLocalConfig)
     End Sub
 
 
@@ -556,31 +561,374 @@ Public Class UserControl_Process
 
         End If
     End Sub
+    Private Sub DragDropVerarbeiten()
+        Dim sourceNode As TreeNode = TryCast(_dragEventArgs.Data.GetData(GetType(TreeNode)), TreeNode)
 
+        Dim p As Point = TreeView_Process.PointToClient(New Point(_dragEventArgs.X, _dragEventArgs.Y))
+        Dim targetNode As TreeNode = TreeView_Process.GetNodeAt(p)
+        Dim objNodes() As TreeNode
+        Dim objTreeNodes() As TreeNode
+        Dim objNode_Parent_Source As TreeNode
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_Source As New clsOntologyItem
+        Dim objOItem_Target As New clsOntologyItem
+        Dim objOItem_Source_Parent As New clsOntologyItem
+        Dim objDRC_Process As DataRowCollection
+        Dim objDR_Process As DataRow
+        Dim lngOrderID As Long
+        Dim lngOrderID_Old As Long
+
+        If Not targetNode Is Nothing And Not sourceNode Is Nothing And Not sourceNode.ImageIndex = objLocalConfig.ImageID_Root Then
+            objOItem_Source.GUID = sourceNode.Name
+            objOItem_Source.Name = sourceNode.Text
+            objOItem_Source.GUID_Parent = objLocalConfig.OItem_Type_Process.GUID
+            objOItem_Source.Type = objLocalConfig.Globals.Type_Object
+
+
+            Select Case targetNode.ImageIndex
+                Case objLocalConfig.ImageID_Process
+                    objOItem_Target.GUID = targetNode.Name
+                    objOItem_Target.Name = targetNode.Text
+                    objOItem_Target.GUID_Parent = objLocalConfig.OItem_Type_Process.GUID
+                    objOItem_Target.Type = objLocalConfig.Globals.Type_Object
+
+                    objNodes = sourceNode.Nodes.Find(targetNode.Name, True)
+                    If objNodes.Count = 0 Then
+                        objNode_Parent_Source = sourceNode.Parent
+                        objOItem_Result = objLocalConfig.Globals.LState_Success
+                        If objNode_Parent_Source.ImageIndex = objLocalConfig.ImageID_Root Then
+                            objOItem_Result = objLocalConfig.Globals.LState_Success
+                            If _dragdropCopy = False Then
+                                objOItem_Result = objTransaction_Process.del_002_Process__Public(objOItem_Source)
+
+                            End If
+
+                        Else
+                            objOItem_Source_Parent.GUID = objNode_Parent_Source.Name
+                            objOItem_Source_Parent.Name = objNode_Parent_Source.Text
+                            objOItem_Source_Parent.GUID_Parent = objLocalConfig.OItem_Type_Process.GUID
+                            objOItem_Source_Parent.Type = objLocalConfig.Globals.Type_Object
+                            If _dragdropCopy = False Then
+                                objOItem_Result = objTransaction_Process.del_003_ParentProcess_To_Process(objOItem_Source_Parent, objOItem_Source)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    lngOrderID_Old = objOItem_Result.Level
+                                End If
+
+                            End If
+
+
+                        End If
+
+                        If Not objNode_Parent_Source.Name = targetNode.Name Then
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                lngOrderID = objDataWork_Process.get_Next_OrderID(objOItem_Target)
+                                objOItem_Result = objTransaction_Process.save_003_ParentProcess_To_Process(objOItem_Target, lngOrderID, objOItem_Source)
+
+                                targetNode.Nodes.Clear()
+
+                                objOItem_Result = objDataWork_Process.add_SubNodes_Of_Process_L11(targetNode)
+
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+
+                                    If _dragdropCopy = False Then
+                                        sourceNode.Remove()
+                                    End If
+                                Else
+                                    If _dragdropCopy = True Then
+                                        MsgBox("Der Prozess konnte nicht kopiert werden!", MsgBoxStyle.Exclamation)
+                                    Else
+                                        If objNode_Parent_Source.ImageIndex = objLocalConfig.ImageID_Root Then
+                                            objTransaction_Process.save_002_Process__Public(True, objOItem_Source)
+                                        Else
+
+                                            objTransaction_Process.save_003_ParentProcess_To_Process(objOItem_Source_Parent, lngOrderID_Old, objOItem_Source)
+
+                                        End If
+                                        MsgBox("Der Prozess konnte nicht verschoben werden!", MsgBoxStyle.Exclamation)
+                                    End If
+                                    fill_Tree()
+
+                                End If
+                            Else
+                                If _dragdropCopy = True Then
+                                    MsgBox("Der Prozess konnte nicht kopiert werden!", MsgBoxStyle.Exclamation)
+                                Else
+                                    MsgBox("Der Prozess konnte nicht verschoben werden!", MsgBoxStyle.Exclamation)
+                                End If
+                                fill_Tree()
+                            End If
+                        End If
+
+
+
+                    Else
+                        MsgBox("Sie können einen übergeordneten Ast nicht einem untergeordneten unterordnen!", MsgBoxStyle.Exclamation)
+                    End If
+                Case objLocalConfig.ImageID_Root
+                    objNode_Parent_Source = sourceNode.Parent
+                    If Not objNode_Parent_Source.ImageIndex = objLocalConfig.ImageID_Root Then
+                        objOItem_Source_Parent.GUID = objNode_Parent_Source.Name
+                        objOItem_Source_Parent.Name = objNode_Parent_Source.Text
+                        objOItem_Source_Parent.GUID_Parent = objLocalConfig.OItem_Type_Process.GUID
+                        objOItem_Source_Parent.Type = objLocalConfig.Globals.Type_Object
+
+                        objOItem_Result = objLocalConfig.Globals.LState_Success
+                        If _dragdropCopy = False Then
+                            objOItem_Result = objTransaction_Process.del_003_ParentProcess_To_Process(objOItem_Source_Parent, objOItem_Source)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                MsgBox("Der Prozess kann nicht verschoben werden!", MsgBoxStyle.Exclamation)
+                            End If
+
+                        End If
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objOItem_Result = objTransaction_Process.save_002_Process__Public(True, objOItem_Source)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                targetNode.Nodes.Clear()
+
+                                objOItem_Result = objDataWork_Process.add_SubNodes_Of_Process_L11(targetNode)
+
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    If _dragdropCopy = False Then
+                                        sourceNode.Remove()
+                                    End If
+                                Else
+                                    MsgBox("Der Prozess kann nicht kopiert werden!", MsgBoxStyle.Exclamation)
+                                End If
+
+                                
+                            Else
+                                If _dragdropCopy = True Then
+                                    MsgBox("Der Prozess kann nicht kopiert werden!", MsgBoxStyle.Exclamation)
+                                Else
+                                    MsgBox("Der Prozess kann nicht verschoben werden!", MsgBoxStyle.Exclamation)
+                                End If
+
+                            End If
+                        End If
+                    End If
+            End Select
+        End If
+    End Sub
+
+    
     Private Sub TreeView_Process_AfterSelect(sender As Object, e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_Process.AfterSelect
         objOItem_ProcessForRef = Nothing
         objOItem_ProcessLog = Nothing
-        objOItem_Node_Sel = New clsOntologyItem(e.Node.Name, _
+
+        If Not e.Node.Parent Is Nothing Then
+            objOItem_Node_Sel = New clsOntologyItem(e.Node.Name, _
                                                 e.Node.Text, _
                                                 e.Node.Parent.Name, _
                                                 objLocalConfig.Globals.Type_Object)
 
-        If e.Node.ImageIndex = objLocalConfig.ImageID_Process Then
-            objOItem_ProcessForRef = New clsOntologyItem(e.Node.Name, _
-                                                         e.Node.Text, _
-                                                         objLocalConfig.OItem_Type_Process.GUID, _
-                                                         objLocalConfig.Globals.Type_Object)
+            If e.Node.ImageIndex = objLocalConfig.ImageID_Process Then
+                objOItem_ProcessForRef = New clsOntologyItem(e.Node.Name, _
+                                                             e.Node.Text, _
+                                                             objLocalConfig.OItem_Type_Process.GUID, _
+                                                             objLocalConfig.Globals.Type_Object)
 
+            End If
         End If
+        
 
         configureTabPages()
     End Sub
 
+    Private Sub TreeView_Process_DragDrop(sender As Object, e As System.Windows.Forms.DragEventArgs) Handles TreeView_Process.DragDrop
+
+        _dragEventArgs = e
+
+        ' Behandlung von Verschieben oder Kopieren:
+        If _mouseButton = MouseButtons.Right Then
+            'Kontext-Menü!!!
+        Else
+            _dragdropCopy = (e.Effect = DragDropEffects.Copy)
+            DragDropVerarbeiten()
+        End If
+    End Sub
+
+    Private Sub TreeView_Process_DragEnter(sender As Object, e As System.Windows.Forms.DragEventArgs) Handles TreeView_Process.DragEnter
+        If e.Data.GetDataPresent(GetType(TreeNode)) Then
+            ' Strg-Taste gedrück? Prüfung über Bitmaske:
+            If (e.KeyState And 8) = 8 Then
+                e.Effect = DragDropEffects.Copy
+            Else
+                ' nur linke Maustaste
+                e.Effect = DragDropEffects.Move
+            End If
+        Else
+            e.Effect = DragDropEffects.None
+        End If
+    End Sub
+
+    Private Sub TreeView_Process_ItemDrag(sender As Object, e As System.Windows.Forms.ItemDragEventArgs) Handles TreeView_Process.ItemDrag
+        Dim sourceNode As TreeNode = DirectCast(e.Item, TreeNode)
+
+        _mouseButton = e.Button
+
+        ' DragDrop beginnen:
+        DoDragDrop(sourceNode, DragDropEffects.Move Or DragDropEffects.Copy)
+    End Sub
+
     Private Sub TreeView_Process_KeyDown(sender As Object, e As System.Windows.Forms.KeyEventArgs) Handles TreeView_Process.KeyDown
+        Dim objTreeNode As TreeNode
         Select Case e.KeyCode
             Case Keys.F5
                 fill_Tree()
+            Case Keys.Up
+                objTreeNode = TreeView_Process.SelectedNode
+                If Not objTreeNode Is Nothing Then
+                    If e.Control = True Then
+                        change_Index(objTreeNode, True)
+                    End If
+                End If
+
+
+            Case Keys.Down
+
+                objTreeNode = TreeView_Process.SelectedNode
+                If Not objTreeNode Is Nothing Then
+                    If e.Control = True Then
+                        change_Index(objTreeNode, False)
+                    End If
+                End If
         End Select
+    End Sub
+
+    Private Function get_OrderID_ProcessNeighbour(OItem_Process_Parent As clsOntologyItem, OItem_Process As clsOntologyItem, boolPrevious As Boolean) As List(Of clsOntologyItem)
+        Dim objOItem_Proc_New As clsOntologyItem
+        Dim objOItem_Proc_Old As clsOntologyItem
+        Dim objOLProc As New List(Of clsOntologyItem)
+        Dim objOLProcesses As List(Of clsObjectRel)
+
+        objOLProcesses = objDataWork_Process.get_SubProcesses_L1(OItem_Process_Parent)
+
+        If objOLProcesses.Count > 0 Then
+            Dim objLProc = From obj In objOLProcesses
+                           Where obj.ID_Other = OItem_Process.GUID
+
+            If objLProc.Count > 0 Then
+                If boolPrevious = True Then
+                    Dim objLProcNeighbour = From obj In objOLProcesses
+                                        Where obj.OrderID < objLProc(0).OrderID
+                                        Order By obj.OrderID Descending, obj.Name_Other
+
+                    If objLProcNeighbour.Count > 0 Then
+                        objOItem_Proc_New = New clsOntologyItem(OItem_Process.GUID, _
+                                                          OItem_Process.Name, _
+                                                          OItem_Process.GUID_Parent, _
+                                                          objLocalConfig.Globals.Type_Object)
+
+                        objOItem_Proc_New.Level = objLProc(0).OrderID
+
+                        objOItem_Proc_Old = New clsOntologyItem(objLProcNeighbour(0).ID_Other, _
+                                                                objLProcNeighbour(0).Name_Other, _
+                                                                objLProcNeighbour(0).ID_Parent_Other, _
+                                                                objLocalConfig.Globals.Type_Object)
+
+                        objOItem_Proc_Old.Level = objLProcNeighbour(0).OrderID
+
+
+                        objOLProc.Add(objOItem_Proc_New)
+                        objOLProc.Add(objOItem_Proc_Old)
+                    
+                    End If
+                Else
+                    Dim objLProcNeighbour = From obj In objOLProcesses
+                                        Where obj.OrderID > objLProc(0).OrderID
+                                        Order By obj.OrderID Ascending, obj.Name_Other
+
+                    If objLProcNeighbour.Count > 0 Then
+                        objOItem_Proc_New = New clsOntologyItem(OItem_Process.GUID, _
+                                                          OItem_Process.Name, _
+                                                          OItem_Process.GUID_Parent, _
+                                                          objLocalConfig.Globals.Type_Object)
+
+                        objOItem_Proc_New.Level = objLProc(0).OrderID
+
+                        objOItem_Proc_Old = New clsOntologyItem(objLProcNeighbour(0).ID_Other, _
+                                                                objLProcNeighbour(0).Name_Other, _
+                                                                objLProcNeighbour(0).ID_Parent_Other, _
+                                                                objLocalConfig.Globals.Type_Object)
+
+                        objOItem_Proc_Old.Level = objLProcNeighbour(0).OrderID
+
+                        objOLProc.Add(objOItem_Proc_New)
+                        objOLProc.Add(objOItem_Proc_Old)
+                    End If
+
+                End If
+
+            End If
+
+        End If
+
+
+        Return objOLProc
+    End Function
+
+    Private Sub change_Index(ByVal objTreeNode As TreeNode, ByVal boolUp As Boolean)
+        Dim objDRC_Process As DataRowCollection
+        Dim objDR_Process As DataRow
+        Dim objTreeNode_Parent As TreeNode
+        Dim objOItem_Process_Parent As New clsOntologyItem
+        Dim objOItem_Process_Child As New clsOntologyItem
+        Dim objOItem_Process_Child_Old As New clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objTreeNodes() As TreeNode
+        Dim objOLProcesses As List(Of clsOntologyItem)
+
+        objTreeNode_Parent = objTreeNode.Parent
+        If Not objTreeNode_Parent Is Nothing Then
+            If Not objTreeNode_Parent.ImageIndex = objLocalConfig.ImageID_Root Then
+                objOItem_Process_Parent.GUID = objTreeNode_Parent.Name
+                objOItem_Process_Parent.Name = objTreeNode_Parent.Text
+                objOItem_Process_Parent.GUID_Parent = objLocalConfig.OItem_Type_Process.GUID
+                objOItem_Process_Parent.Type = objLocalConfig.Globals.Type_Object
+
+                objOItem_Process_Child.GUID = objTreeNode.Name
+                objOItem_Process_Child.Name = objTreeNode.Text
+                objOItem_Process_Child.GUID_Parent = objLocalConfig.OItem_Type_Process.GUID
+                objOItem_Process_Child.Type = objLocalConfig.Globals.Type_Object
+
+                objOLProcesses = get_OrderID_ProcessNeighbour(objOItem_Process_Parent, objOItem_Process_Child, boolUp)
+                If objOLProcesses.Count = 2 Then
+
+
+                    objOItem_Result = objTransaction_Process.save_003_ParentProcess_To_Process(objOItem_Process_Parent, _
+                                                                                          objOLProcesses(1).Level, _
+                                                                                          objOItem_Process_Child)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objOItem_Process_Child_Old = objOLProcesses(1)
+                        
+                        objOItem_Result = objTransaction_Process.save_003_ParentProcess_To_Process(objOItem_Process_Parent, _
+                                                                                              objOLProcesses(0).Level, _
+                                                                                              objOItem_Process_Child_Old)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objTreeNode_Parent.Nodes.Clear()
+
+                            objOItem_Result = objDataWork_Process.add_SubNodes_Of_Process_L11(objTreeNode_Parent)
+
+                            objTreeNodes = objTreeNode_Parent.Nodes.Find(objTreeNode.Name, False)
+                            If objTreeNodes.Count > 0 Then
+                                TreeView_Process.SelectedNode = objTreeNodes(0)
+                            End If
+                        Else
+                            MsgBox("Die Reihenfolge kann nicht geändert werden!", MsgBoxStyle.Exclamation)
+                            objOItem_Result = objTransaction_Process.save_003_ParentProcess_To_Process(objOItem_Process_Parent, _
+                                                                                          objOLProcesses(0).Level, _
+                                                                                          objOItem_Process_Child)
+                        End If
+                    Else
+                        MsgBox("Die Reihenfolge kann nicht geändert werden!", MsgBoxStyle.Exclamation)
+                    End If
+                End If
+            End If
+
+        End If
+
+
     End Sub
 
     Private Sub TreeView_Process_MouseDoubleClick(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles TreeView_Process.MouseDoubleClick
@@ -712,5 +1060,112 @@ Public Class UserControl_Process
 
     Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles TabControl1.SelectedIndexChanged
         configureTabPages()
+    End Sub
+
+    Private Sub CreateNewToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles CreateNewToolStripMenuItem.Click
+
+    End Sub
+
+    Private Sub new_Process(ByVal boolCreate As Boolean, ByVal objTreeNode As TreeNode)
+
+        Dim objDRC_Process As DataRowCollection
+        Dim objOItem_Parent As New clsOntologyItem
+        Dim objOItem_Process As New clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objTreeNode_Sub As TreeNode
+        Dim intOrderID As Integer
+
+        Select Case objTreeNode.ImageIndex
+            Case objLocalConfig.ImageID_Root
+                objOItem_Parent = Nothing
+            Case objLocalConfig.ImageID_Process
+                objOItem_Parent.GUID = objTreeNode.Name
+                objOItem_Parent.Name = objTreeNode.Text
+                objOItem_Parent.GUID_Parent = objLocalConfig.OItem_Type_Process.GUID
+                objOItem_Parent.Type = objLocalConfig.Globals.Type_Object
+
+        End Select
+
+        If boolCreate = True Then
+            objFrm_Name = New frm_Name("New Process", objLocalConfig.Globals)
+            objFrm_Name.ShowDialog(Me)
+            If objFrm_Name.DialogResult = DialogResult.OK Then
+                objOItem_Process.GUID = objLocalConfig.Globals.NewGUID
+                objOItem_Process.Name = objFrm_Name.Value1
+                objOItem_Process.GUID_Parent = objLocalConfig.OItem_Type_Process.GUID
+                objOItem_Process.Type = objLocalConfig.Globals.Type_Object.GUID
+                If objOItem_Parent Is Nothing Then
+                    objDRC_Process = procA_Processes_Public.GetData(objLocalConfig.SemItem_Attribute_Public.GUID, _
+                                                                    objLocalConfig.SemItem_Type_Process.GUID, _
+                                                                    objSemItem_Process.Name).Rows
+                    If objDRC_Process.Count = 0 Then
+                        objSemItem_Result = objTransaction_Process.save_001_Process(objSemItem_Process)
+                        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                            objSemItem_Result = objTransaction_Process.save_002_Process_Public(True)
+                            If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                objTreeNode_Sub = objTreeNode.Nodes.Add(objSemItem_Process.GUID.ToString, _
+                                                                        objSemItem_Process.Name, cint_ImageID_Process, cint_ImageID_Process)
+                            Else
+                                objTransaction_Process.del_001_Process()
+                                MsgBox("Beim Speichern des Prozesses ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+                            End If
+                        Else
+                            MsgBox("Beim Speichern des Prozesses ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+                        End If
+
+
+                    Else
+                        MsgBox("Es existiert bereits ein Public-Prozess mit der Bezeichnung!", MsgBoxStyle.Exclamation)
+
+                    End If
+                Else
+                    objDRC_Process = funcA_TokenToken.GetData_By_GUIDToken_Left_GUIDType_Right_TokenName_Right_GUIDRel(objSemItem_Parent.GUID, _
+                                                                                                                       objSemItem_Process.Name, _
+                                                                                                                       objLocalConfig.SemItem_Type_Process.GUID, _
+                                                                                                                       objLocalConfig.SemItem_RelationType_superordinate.GUID).Rows
+                    If objDRC_Process.Count = 0 Then
+                        objSemItem_Result = objTransaction_Process.save_001_Process(objSemItem_Process)
+                        If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                            objSemItem_Result = objTransaction_Process.save_002_Process_Public(False)
+                            If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                intOrderID = funcA_TokenToken.LeftRight_Max_OrderID_By_GUIDs(objSemItem_Parent.GUID, _
+                                                                                             objLocalConfig.SemItem_Type_Process.GUID, _
+                                                                                             objLocalConfig.SemItem_RelationType_superordinate.GUID)
+                                intOrderID = intOrderID + 1
+                                objSemItem_Result = objTransaction_Process.save_003_Process_To_Parent(objSemItem_Parent, _
+                                                                                                      intOrderID)
+                                If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                    objTreeNode_Sub = objTreeNode.Nodes.Add(objSemItem_Process.GUID.ToString, _
+                                                                            objSemItem_Process.Name, cint_ImageID_Process, cint_ImageID_Process)
+                                Else
+                                    objSemItem_Result = objTransaction_Process.del_002_Process_Public
+
+                                    If objSemItem_Result.GUID = objLocalConfig.Globals.LogState_Success.GUID Then
+                                        objTransaction_Process.del_001_Process()
+                                    End If
+
+                                    MsgBox("Beim Speichern des Prozesses ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+                                End If
+                            Else
+                                objTransaction_Process.del_001_Process()
+                                MsgBox("Beim Speichern des Prozesses ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+                            End If
+                        Else
+                            MsgBox("Beim Speichern des Prozesses ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+                        End If
+                    Else
+                        MsgBox("Es gibt bereits einen untergeordneten Prozesse mit dem Namen!", MsgBoxStyle.Exclamation)
+                    End If
+
+                End If
+            End If
+        Else
+            objFrmProcessModule = New frmProcessModule(objLocalConfig)
+            objFrmProcessModule.applyable = True
+            objFrmProcessModule.ShowDialog(Me)
+            If objFrmProcessModule.DialogResult = DialogResult.OK Then
+
+            End If
+        End If
     End Sub
 End Class

@@ -344,7 +344,7 @@ Partial Class frm_FilesystemModule
         '
         Me.ContextMenuStrip_Tree.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem_Tree, Me.Open_Tree_ToolStripMenuItem1, Me.ApplyToolStripMenuItem, Me.ModuleActionsToolStripMenuItem_Tree})
         Me.ContextMenuStrip_Tree.Name = "ContextMenuStrip_Tree"
-        Me.ContextMenuStrip_Tree.Size = New System.Drawing.Size(171, 92)
+        Me.ContextMenuStrip_Tree.Size = New System.Drawing.Size(171, 114)
         '
         'NewToolStripMenuItem_Tree
         '
@@ -458,7 +458,7 @@ Partial Class frm_FilesystemModule
         '
         Me.ContextMenuStrip_DataGrid.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem_DataGrid, Me.OpenToolStripMenuItem, Me.ApplyFilesToolStripMenuItem, Me.ModuleActionsToolStripMenuItem, Me.EditToolStripMenuItem, Me.BlobsToolStripMenuItem})
         Me.ContextMenuStrip_DataGrid.Name = "ContextMenuStrip_DataGrid"
-        Me.ContextMenuStrip_DataGrid.Size = New System.Drawing.Size(171, 158)
+        Me.ContextMenuStrip_DataGrid.Size = New System.Drawing.Size(171, 136)
         '
         'NewToolStripMenuItem_DataGrid
         '

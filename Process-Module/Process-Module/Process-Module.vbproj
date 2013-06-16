@@ -78,6 +78,7 @@
     <Compile Include="clsDataWork_References.vb" />
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsRefToNode.vb" />
+    <Compile Include="clsTransaction_Process.vb" />
     <Compile Include="clsTransaction_References.vb" />
     <Compile Include="frmProcessModule.vb">
       <SubType>Form</SubType>

@@ -42,6 +42,11 @@ Public Class frm_FilesystemModule
         End Get
     End Property
 
+    Public ReadOnly Property OItem_FileSystemObject As clsOntologyItem
+        Get
+            Return objOItem_FileSystemObject
+        End Get
+    End Property
 
 
     Public Sub New()
@@ -621,4 +626,40 @@ Public Class frm_FilesystemModule
     End Sub
 
 
+    Private Sub ApplyToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles ApplyToolStripMenuItem.Click
+        Dim objTreeNode As TreeNode
+        objTreeNode = TreeView_Folder.SelectedNode
+
+        If Not objTreeNode Is Nothing Then
+            Select Case objTreeNode.ImageIndex
+                Case cint_ImageID_Drive
+                    objOItem_Class_Applied = objLocalConfig.OItem_Type_Drive
+                    objOItem_FileSystemObject = New clsOntologyItem(objTreeNode.Name, _
+                                                                    objTreeNode.Text, _
+                                                                    objLocalConfig.OItem_Type_Drive.GUID, _
+                                                                    objLocalConfig.Globals.Type_Object)
+                    DialogResult = DialogResult.OK
+                    Me.Close()
+                Case cint_ImageID_Server
+                    objOItem_Class_Applied = objLocalConfig.OItem_Type_Server
+                    objOItem_FileSystemObject = New clsOntologyItem(objTreeNode.Name, _
+                                                                    objTreeNode.Text, _
+                                                                    objLocalConfig.OItem_Type_Server.GUID, _
+                                                                    objLocalConfig.Globals.Type_Object)
+                    DialogResult = DialogResult.OK
+                    Me.Close()
+                Case cint_ImageID_Folder_Closed
+                    objOItem_Class_Applied = objLocalConfig.OItem_type_Folder
+                    objOItem_FileSystemObject = New clsOntologyItem(objTreeNode.Name, _
+                                                                    objTreeNode.Text, _
+                                                                    objLocalConfig.OItem_type_Folder.GUID, _
+                                                                    objLocalConfig.Globals.Type_Object)
+                    DialogResult = DialogResult.OK
+                    Me.Close()
+                Case Else
+                    MsgBox("Bitt nur " & objLocalConfig.OItem_Type_Server.Name & ", " & objLocalConfig.OItem_Type_Drive.Name & " oder " & objLocalConfig.OItem_type_Folder.Name & " auswählen!", MsgBoxStyle.Information)
+
+            End Select
+        End If
+    End Sub
 End Class

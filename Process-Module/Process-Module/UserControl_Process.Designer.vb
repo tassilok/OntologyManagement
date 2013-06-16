@@ -80,7 +80,7 @@ Partial Class UserControl_Process
         '
         Me.ContextMenuStrip_Process.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.EditToolStripMenuItem, Me.RemoveToolStripMenuItem, Me.ApplyToolStripMenuItem})
         Me.ContextMenuStrip_Process.Name = "ContextMenuStrip_Proces"
-        Me.ContextMenuStrip_Process.Size = New System.Drawing.Size(128, 92)
+        Me.ContextMenuStrip_Process.Size = New System.Drawing.Size(153, 114)
         '
         'NewToolStripMenuItem
         '
@@ -228,6 +228,7 @@ Partial Class UserControl_Process
         Me.TreeView_Process.AllowDrop = True
         Me.TreeView_Process.ContextMenuStrip = Me.ContextMenuStrip_Process
         Me.TreeView_Process.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TreeView_Process.HideSelection = False
         Me.TreeView_Process.ImageIndex = 0
         Me.TreeView_Process.ImageList = Me.ImageList_Process
         Me.TreeView_Process.Location = New System.Drawing.Point(0, 0)
@@ -295,7 +296,7 @@ Partial Class UserControl_Process
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Correlation, Me.ToolStripSeparator1, Me.ToolStripLabel_Mark, Me.ToolStripTextBox_Mark, Me.ToolStripButton_NextProcess, Me.ToolStripButton_Clear})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(531, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(500, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Correlation

@@ -1677,6 +1677,72 @@ Public Class clsDBLevel
         End If
     End Sub
 
+    Public Sub CreateQuery_Rel_OrderID(Optional OItem_Left As clsOntologyItem = Nothing, _
+                                       Optional OItem_Right As clsOntologyItem = Nothing, _
+                                       Optional OItem_RelationType As clsOntologyItem = Nothing)
+        Dim strQuery As String
+        objBoolQuery = New Lucene.Net.Search.BooleanQuery
+
+        strQuery = ""
+
+        If Not OItem_Left Is Nothing Then
+            If Not OItem_Left.GUID Is Nothing Then
+                strQuery = OItem_Left.GUID
+            End If
+
+            If Not strQuery = "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objGlobals.Field_ID_Object, strQuery)), BooleanClause.Occur.MUST)
+            End If
+
+            strQuery = ""
+            If Not OItem_Left.GUID_Parent Is Nothing Then
+                strQuery = OItem_Left.GUID_Parent
+            End If
+
+            If Not strQuery = "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objGlobals.Field_ID_Parent_Object, strQuery)), BooleanClause.Occur.MUST)
+            End If
+        End If
+
+        strQuery = ""
+        If Not OItem_Right Is Nothing Then
+            If Not OItem_Right.GUID Is Nothing Then
+                strQuery = OItem_Right.GUID
+            End If
+
+            If Not strQuery = "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objGlobals.Field_ID_Other, strQuery)), BooleanClause.Occur.MUST)
+            End If
+
+            strQuery = ""
+            If Not OItem_Right.GUID_Parent Is Nothing Then
+                strQuery = OItem_Right.GUID_Parent
+            End If
+
+            If Not strQuery = "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objGlobals.Field_ID_Parent_Other, strQuery)), BooleanClause.Occur.MUST)
+            End If
+
+            strQuery = ""
+            strQuery = OItem_Right.Type
+
+            objBoolQuery.Add(New TermQuery(New Term(objGlobals.Field_Ontology, strQuery)), BooleanClause.Occur.MUST)
+
+
+        End If
+
+        strQuery = ""
+        If Not OItem_RelationType Is Nothing Then
+            If Not OItem_RelationType.GUID Is Nothing Then
+                strQuery = OItem_RelationType.GUID
+            End If
+
+            If Not strQuery = "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objGlobals.Field_ID_RelationType, strQuery)), BooleanClause.Occur.MUST)
+            End If
+        End If
+    End Sub
+
     Public Function get_Data_AttributeType(Optional ByVal OList_AttType As List(Of clsOntologyItem) = Nothing, _
                                            Optional ByVal boolTable As Boolean = False, _
                                            Optional ByVal doCount As Boolean = False) As clsOntologyItem
@@ -2540,6 +2606,36 @@ Public Class clsDBLevel
 
 
         Return objOItem_Result
+    End Function
+
+    Public Function get_Data_Rel_OrderID(Optional OItem_Left As clsOntologyItem = Nothing, _
+                                         Optional OItem_Right As clsOntologyItem = Nothing, _
+                                         Optional OItem_RelationType As clsOntologyItem = Nothing, _
+                                         Optional doASC As Boolean = True) As Long
+        Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
+        Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
+        Dim objOItem_Result As clsOntologyItem = objGlobals.LState_Success
+        Dim strSort As String
+        Dim lngOrderID As Long = 1
+
+        CreateQuery_Rel_OrderID(OItem_Left, OItem_Right, OItem_RelationType)
+
+        strSort = "OrderID:"
+
+        If doASC = True Then
+            strSort = strSort + "asc"
+        Else
+            strSort = strSort + "desc"
+        End If
+
+        objSearchResult = objElConn.Search(objGlobals.Index, objGlobals.Type_ObjectRel, objBoolQuery.ToString, strSort, 1, 1)
+
+        objList = objSearchResult.GetHits.Hits
+        If objList.Count > 0 Then
+            lngOrderID = objList(0).Source("OrderID")
+        End If
+
+        Return lngOrderID
     End Function
 
     Public Function get_Data_ObjectRel(ByVal oList_ObjectRel As List(Of clsObjectRel), _

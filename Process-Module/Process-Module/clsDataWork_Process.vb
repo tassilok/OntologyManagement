@@ -5,6 +5,7 @@ Public Class clsDataWork_Process
     Private objLocalConfig As clsLocalConfig
     Private objDBLevel_Process_Root As clsDBLevel
     Private objDBLevel_Process_Sub As clsDBLevel
+    Private objDBLevel_Process_Sub_L1 As clsDBLevel
 
     Private objOItem_Result_ProcessTree As clsOntologyItem
 
@@ -53,6 +54,19 @@ Public Class clsDataWork_Process
         Return objOItem_Result
     End Function
 
+    Public Function get_Next_OrderID(OItem_Process_Parent As clsOntologyItem) As Long
+        Dim lngOrderID As Long = 1
+        Dim objOItem_Process As clsOntologyItem
+
+        objOItem_Process = New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Type_Process.GUID, objLocalConfig.Globals.Type_Object)
+
+
+        lngOrderID = objDBLevel_Process_Root.get_Data_Rel_OrderID(OItem_Process_Parent, objOItem_Process, objLocalConfig.OItem_RelationType_superordinate, False)
+
+
+        Return lngOrderID
+    End Function
+
     Public Function get_Processes() As clsOntologyItem
         Dim objOItem_Process As clsOntologyItem = objLocalConfig.Globals.LState_Success
 
@@ -68,6 +82,80 @@ Public Class clsDataWork_Process
         objThread.Start()
 
         Return objOItem_Process
+    End Function
+
+    Public Function get_SubProcesses_L1(OItem_Process_Parent As clsOntologyItem) As List(Of clsObjectRel)
+        Dim objOLProcesses_Search As New List(Of clsObjectRel)
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOLProcesses As List(Of clsObjectRel)
+
+        objOLProcesses_Search.Add(New clsObjectRel(OItem_Process_Parent.GUID, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   objLocalConfig.OItem_Type_Process.GUID, _
+                                                   objLocalConfig.OItem_RelationType_superordinate.GUID, _
+                                                   objLocalConfig.Globals.Type_Object, _
+                                                   Nothing, _
+                                                   Nothing))
+
+        objOItem_Result = objDBLevel_Process_Sub_L1.get_Data_ObjectRel(objOLProcesses_Search, _
+                                                                       boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOLProcesses = objDBLevel_Process_Sub_L1.OList_ObjectRel
+        Else
+            objOLProcesses = Nothing
+        End If
+
+        Return objOLProcesses
+    End Function
+
+    Public Function add_SubNodes_Of_Process_L11(TreeNode_Parent As TreeNode) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_Process As clsObjectRel
+        Dim objOList_Process As New List(Of clsObjectRel)
+        Dim objTreeNodes() As TreeNode
+        Dim objTreeNode_Sub As TreeNode
+
+        objOList_Process.Add(New clsObjectRel(TreeNode_Parent.Name, _
+                                              Nothing, _
+                                              Nothing, _
+                                              objLocalConfig.OItem_Type_Process.GUID, _
+                                              objLocalConfig.OItem_RelationType_superordinate.GUID, _
+                                              objLocalConfig.Globals.Type_Object, _
+                                              Nothing, _
+                                              Nothing))
+
+        objOItem_Result = objDBLevel_Process_Sub_L1.get_Data_ObjectRel(objOList_Process, _
+                                                                       boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+            If objDBLevel_Process_Sub_L1.OList_ObjectRel.Count > 0 Then
+                objDBLevel_Process_Sub_L1.OList_ObjectRel.Sort(Function(U1 As clsObjectRel, U2 As clsObjectRel) U1.OrderID.CompareTo(U2.OrderID))
+                For Each objOItem_Process In objDBLevel_Process_Sub_L1.OList_ObjectRel
+                    objTreeNodes = TreeNode_Parent.Nodes.Find(objOItem_Process.ID_Other, False)
+                    If objTreeNodes.Count = 0 Then
+                        objTreeNode_Sub = TreeNode_Parent.Nodes.Add(objOItem_Process.ID_Other, _
+                                                                    objOItem_Process.Name_Other, _
+                                                                    objLocalConfig.ImageID_Process, _
+                                                                    objLocalConfig.ImageID_Process)
+
+                    End If
+                Next
+
+            End If
+
+            For Each objTreeNode_Sub In TreeNode_Parent.Nodes
+                objOItem_Result = add_SubNodes_Of_Process_L11(objTreeNode_Sub)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    Exit For
+                End If
+            Next
+
+        End If
+
+        Return objOItem_Result
     End Function
 
     Private Sub get_ProcessTree()
@@ -118,5 +206,7 @@ Public Class clsDataWork_Process
     Private Sub set_DBConnection()
         objDBLevel_Process_Root = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Process_Sub = New clsDBLevel(objLocalConfig.Globals)
+
+        objDBLevel_Process_Sub_L1 = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class

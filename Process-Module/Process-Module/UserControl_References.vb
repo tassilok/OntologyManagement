@@ -460,6 +460,7 @@ Public Class UserControl_References
         Dim objOItem_Result As clsOntologyItem
         Dim intToDo As Integer
         Dim intDone As Integer
+        Dim intImageID As Integer
 
         objTreeNode = TreeView_Refs.SelectedNode
 
@@ -468,16 +469,21 @@ Public Class UserControl_References
             If Not objOItem_ProcessReference Is Nothing Then
                 Select Case objTreeNode.ImageIndex
                     Case objLocalConfig.ImageID_Applications
+                        intImageID = objLocalConfig.ImageID_Application
                         objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Application)
                         If Not objOList_Objects Is Nothing Then
                             Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                                      Where obj.ImageID = objLocalConfig.ImageID_Application
+                                      Where obj.ImageID = intImageID
 
                             intDone = 0
                             intToDo = objOList_Objects.Count
                             For Each objOItem_Object As clsOntologyItem In objOList_Objects
                                 objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
                                     intDone = intDone + 1
                                 End If
                             Next
@@ -488,28 +494,100 @@ Public Class UserControl_References
                         End If
                         
                     Case objLocalConfig.ImageID_Attributes
+                        intImageID = objLocalConfig.ImageID_Attribute
+                        objOList_Objects = getItemList(objLocalConfig.Globals.Type_AttributeType)
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
 
-                    Case objLocalConfig.ImageID_Belongings
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                    intDone = intDone + 1
+                                End If
+                            Next
 
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Elemente referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
+                        
                     Case objLocalConfig.ImageID_Classes
+                        intImageID = objLocalConfig.ImageID_Class
+                        objOList_Objects = getItemList()
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
 
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                    intDone = intDone + 1
+                                End If
+                            Next
+
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Elemente referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
                     Case objLocalConfig.ImageID_Documents
+                        intImageID = objLocalConfig.ImageID_Document
+                        objOList_Objects = getItemList()
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
 
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                    intDone = intDone + 1
+                                End If
+                            Next
+
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Elemente referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
                     Case objLocalConfig.ImageID_Files
+                        intImageID = objLocalConfig.ImageID_File
                         objFrm_FilesystemModule = New frm_FilesystemModule(objLocalConfig.Globals)
                         objFrm_FilesystemModule.ShowDialog(Me)
                         If objFrm_FilesystemModule.DialogResult = DialogResult.OK Then
-                            
+
 
                             If objFrm_FilesystemModule.OItem_Class_Applied.GUID = objLocalConfig.OItem_Type_File.GUID Then
+                                objOList_Objects = objFrm_FilesystemModule.OList_Files
                                 Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                                      Where obj.ImageID = objLocalConfig.ImageID_File
+                                      Where obj.ImageID = intImageID
 
                                 intDone = 0
-                                intToDo = objFrm_FilesystemModule.OList_Files.Count
-                                For Each objOItem_Object As clsOntologyItem In objFrm_FilesystemModule.OList_Files
+                                intToDo = objOList_Objects.Count
+                                For Each objOItem_Object As clsOntologyItem In objOList_Objects
                                     objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+
                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
                                         intDone = intDone + 1
                                     End If
                                 Next
@@ -521,41 +599,355 @@ Public Class UserControl_References
                                 MsgBox("Bitte nur Dateien auswählen!", MsgBoxStyle.Information)
                             End If
                         End If
-                        If Not objOList_Objects Is Nothing Then
-                            
-
-
-                        End If
+                        
                     Case objLocalConfig.ImageID_Folders
+                        intImageID = objLocalConfig.ImageID_Folder
+                        objFrm_FilesystemModule = New frm_FilesystemModule(objLocalConfig.Globals)
+                        objFrm_FilesystemModule.ShowDialog(Me)
+                        If objFrm_FilesystemModule.DialogResult = DialogResult.OK Then
 
+
+                            If objFrm_FilesystemModule.OItem_Class_Applied.GUID = objLocalConfig.OItem_type_Folder.GUID Then
+
+                                objOList_Objects = New List(Of clsOntologyItem)
+                                objOList_Objects.Add(objFrm_FilesystemModule.OItem_FileSystemObject)
+                                Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
+
+                                intDone = 0
+                                intToDo = objOList_Objects.Count
+                                For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                    objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                        intDone = intDone + 1
+                                    End If
+                                Next
+
+                                If intDone < intToDo Then
+                                    MsgBox("Es konnten nur " & intDone & " von " & intToDo & " " & objLocalConfig.OItem_Type_Application.Name & " referenziert werden!", MsgBoxStyle.Information)
+                                End If
+                            Else
+                                MsgBox("Bitte nur Dateien auswählen!", MsgBoxStyle.Information)
+                            End If
+                        End If
                     Case objLocalConfig.ImageID_Groups
+                        intImageID = objLocalConfig.ImageID_Group
+                        objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Group)
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
 
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                    intDone = intDone + 1
+                                End If
+                            Next
+
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " " & objLocalConfig.OItem_Type_Group.Name & " referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
                     Case objLocalConfig.ImageID_Manuals
+                        intImageID = objLocalConfig.ImageID_Manual
+                        objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Manual)
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
 
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                    intDone = intDone + 1
+                                End If
+                            Next
+
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " " & objLocalConfig.OItem_Type_Group.Name & " referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
                     Case objLocalConfig.ImageID_Materials
+                        intImageID = objLocalConfig.ImageID_Material
+                        objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Things_References)
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
 
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                    intDone = intDone + 1
+                                End If
+                            Next
+
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " " & objLocalConfig.OItem_Type_Things_References.Name & " referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
                     Case objLocalConfig.ImageID_Medias
+                        intImageID = objLocalConfig.ImageID_Media
+                        objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Media)
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
 
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                    intDone = intDone + 1
+                                End If
+                            Next
+
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " " & objLocalConfig.OItem_Type_Media.Name & " referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
                     Case objLocalConfig.ImageID_NeedsPar
+                        intImageID = objLocalConfig.ImageID_Needs
+                        objOList_Objects = getItemList()
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
 
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                    intDone = intDone + 1
+                                End If
+                            Next
+
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Elemente referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
                     Case objLocalConfig.ImageID_NeedsChildPar
+                        intImageID = objLocalConfig.ImageID_NeedsChild
+                        objOList_Objects = getItemList(objLocalConfig.Globals.Type_Class)
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
 
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                    intDone = intDone + 1
+                                End If
+                            Next
+
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Elemente referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
                     Case objLocalConfig.ImageID_Objects
+                        intImageID = objLocalConfig.ImageID_Object
+                        objOList_Objects = getItemList(objLocalConfig.Globals.Type_Object)
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
 
-                    Case objLocalConfig.ImageID_Refs
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                    intDone = intDone + 1
+                                End If
+                            Next
 
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Elemente referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
+            
                     Case objLocalConfig.ImageID_RelationTypes
+                        intImageID = objLocalConfig.ImageID_RelationType
+                        objOList_Objects = getItemList(objLocalConfig.Globals.Type_RelationType)
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
 
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                    intDone = intDone + 1
+                                End If
+                            Next
+
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Elemente referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
                     Case objLocalConfig.ImageID_Responsibilities
+                        intImageID = objLocalConfig.ImageID_Responsibility
+                        objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_responsibility)
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
 
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                    intDone = intDone + 1
+                                End If
+                            Next
+
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " " & objLocalConfig.OItem_Type_responsibility.Name & " referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
                     Case objLocalConfig.ImageID_Roles
+                        intImageID = objLocalConfig.ImageID_Role
+                        objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Role)
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
 
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                    intDone = intDone + 1
+                                End If
+                            Next
+
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " " & objLocalConfig.OItem_Type_Role.Name & " referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
                     Case objLocalConfig.ImageID_Users
+                        intImageID = objLocalConfig.ImageID_User
+                        objOList_Objects = getObjectItemList(objLocalConfig.OItem_type_User)
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
 
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                    intDone = intDone + 1
+                                End If
+                            Next
+
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " " & objLocalConfig.OItem_type_User.Name & " referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
                     Case objLocalConfig.ImageID_Utils
+                        intImageID = objLocalConfig.ImageID_Util
+                        objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Things_References)
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
 
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                    intDone = intDone + 1
+                                End If
+                            Next
+
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " " & objLocalConfig.OItem_Type_Things_References.Name & " referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
                     Case objLocalConfig.ImageID_Variables
+                        intImageID = objLocalConfig.ImageID_Variable
+                        objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Variable)
+                        If Not objOList_Objects Is Nothing Then
+                            Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
+                                      Where obj.ImageID = intImageID
 
+                            intDone = 0
+                            intToDo = objOList_Objects.Count
+                            For Each objOItem_Object As clsOntologyItem In objOList_Objects
+                                objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTreeNode.Nodes.Add(objOItem_Object.GUID, _
+                                                              objOItem_Object.Name, _
+                                                              intImageID, _
+                                                              intImageID)
+                                    intDone = intDone + 1
+                                End If
+                            Next
+
+                            If intDone < intToDo Then
+                                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " " & objLocalConfig.OItem_Type_Variable.Name & " referenziert werden!", MsgBoxStyle.Information)
+                            End If
+                        End If
                 End Select
             Else
                 MsgBox("Die Prozessreferenz kann nicht erstellt werden!", MsgBoxStyle.Exclamation)
@@ -563,6 +955,37 @@ Public Class UserControl_References
             
         End If
     End Sub
+
+    Private Function getItemList(Optional Type_Selected As String = Nothing) As List(Of clsOntologyItem)
+        Dim objOList_Objects As List(Of clsOntologyItem) = Nothing
+
+        
+        objFrmMain = New frmMain(objLocalConfig.Globals)
+
+
+
+        objFrmMain.ShowDialog(Me)
+        If objFrmMain.DialogResult = DialogResult.OK Then
+            If Type_Selected Is Nothing Then
+                If objFrmMain.OList_Simple.Count > 0 Then
+                    objOList_Objects = objFrmMain.OList_Simple
+
+                End If
+            Else
+                If objFrmMain.Type_Applied = Type_Selected Then
+                    If objFrmMain.OList_Simple.Count > 0 Then
+                        objOList_Objects = objFrmMain.OList_Simple
+
+                    End If
+                Else
+                    MsgBox("Wählen Sie bitte Items des Types " & Type_Selected)
+                End If
+            End If
+            
+        End If
+
+        Return objOList_Objects
+    End Function
 
     Private Function getObjectItemList(OItem_Class_Objects As clsOntologyItem) As List(Of clsOntologyItem)
         Dim objOList_Objects As List(Of clsOntologyItem) = Nothing
