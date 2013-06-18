@@ -186,7 +186,12 @@
         strOntology = Ontology
         strID_Direction = ID_Direction
         strName_Direction = Name_Direction
-        lngOrderID = OrderID
+        If OrderID = -1 Then
+            lngOrderID = Nothing
+        Else
+            lngOrderID = OrderID
+        End If
+
     End Sub
 
     Public Sub New()
