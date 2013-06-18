@@ -63,6 +63,7 @@ Public Class clsDataWork_Process
 
         lngOrderID = objDBLevel_Process_Root.get_Data_Rel_OrderID(OItem_Process_Parent, objOItem_Process, objLocalConfig.OItem_RelationType_superordinate, False)
 
+        lngOrderID = lngOrderID + 1
 
         Return lngOrderID
     End Function
@@ -84,12 +85,13 @@ Public Class clsDataWork_Process
         Return objOItem_Process
     End Function
 
-    Public Function get_SubProcesses_L1(OItem_Process_Parent As clsOntologyItem) As List(Of clsObjectRel)
+    Public Function get_SubProcesses_L1(OItem_Process_Parent As clsOntologyItem, Optional Name_Process As String = "") As List(Of clsObjectRel)
         Dim objOLProcesses_Search As New List(Of clsObjectRel)
         Dim objOItem_Result As clsOntologyItem
         Dim objOLProcesses As List(Of clsObjectRel)
 
-        objOLProcesses_Search.Add(New clsObjectRel(OItem_Process_Parent.GUID, _
+        If Name_Process = "" Then
+            objOLProcesses_Search.Add(New clsObjectRel(OItem_Process_Parent.GUID, _
                                                    Nothing, _
                                                    Nothing, _
                                                    objLocalConfig.OItem_Type_Process.GUID, _
@@ -97,6 +99,23 @@ Public Class clsDataWork_Process
                                                    objLocalConfig.Globals.Type_Object, _
                                                    Nothing, _
                                                    Nothing))
+        Else
+            objOLProcesses_Search.Add(New clsObjectRel(OItem_Process_Parent.GUID, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Name_Process, _
+                                                   objLocalConfig.OItem_Type_Process.GUID, _
+                                                   Nothing, _
+                                                   objLocalConfig.OItem_RelationType_superordinate.GUID, _
+                                                   Nothing, _
+                                                   objLocalConfig.Globals.Type_Object, _
+                                                   Nothing, _
+                                                   Nothing, _
+                                                   Nothing))
+        End If
+        
 
         objOItem_Result = objDBLevel_Process_Sub_L1.get_Data_ObjectRel(objOLProcesses_Search, _
                                                                        boolIDs:=False)
@@ -110,12 +129,29 @@ Public Class clsDataWork_Process
         Return objOLProcesses
     End Function
 
-    Public Function get_ProcessesPublic() As List(Of clsObjectAtt)
+    Public Function get_ProcessesPublic(Optional Name_Process As String = "") As List(Of clsObjectAtt)
         Dim objOItem_Result As clsOntologyItem
-        Dim objOLProcessesPublic_Search As List(Of clsObjectAtt)
+        Dim objOLProcessesPublic_Search As New List(Of clsObjectAtt)
         Dim objOLProcessesPublic As List(Of clsObjectAtt)
 
-        objOLProcessesPublic_Search.Add(New clsObjectAtt(Nothing, _
+        If Name_Process <> "" Then
+            objOLProcessesPublic_Search.Add(New clsObjectAtt(Nothing, _
+                                                             Nothing, _
+                                                         Name_Process, _
+                                                         objLocalConfig.OItem_Type_Process.GUID, _
+                                                         Nothing, _
+                                                         objLocalConfig.OItem_Attribute_Public.GUID, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         True, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         objLocalConfig.Globals.DType_Bool.GUID))
+        Else
+            objOLProcessesPublic_Search.Add(New clsObjectAtt(Nothing, _
                                                          Nothing, _
                                                          Nothing, _
                                                          objLocalConfig.OItem_Type_Process.GUID, _
@@ -130,6 +166,8 @@ Public Class clsDataWork_Process
                                                          Nothing, _
                                                          Nothing, _
                                                          objLocalConfig.Globals.DType_Bool.GUID))
+        End If
+        
 
         objOItem_Result = objDBLevel_Process_Root.get_Data_ObjectAtt(objOLProcessesPublic_Search, _
                                                                      boolIDs:=False)

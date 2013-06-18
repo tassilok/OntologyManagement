@@ -2628,7 +2628,7 @@ Public Class clsDBLevel
             strSort = strSort + "desc"
         End If
 
-        objSearchResult = objElConn.Search(objGlobals.Index, objGlobals.Type_ObjectRel, objBoolQuery.ToString, strSort, 1, 1)
+        objSearchResult = objElConn.Search(objGlobals.Index, objGlobals.Type_ObjectRel, objBoolQuery.ToString, strSort, 0, 1)
 
         objList = objSearchResult.GetHits.Hits
         If objList.Count > 0 Then
