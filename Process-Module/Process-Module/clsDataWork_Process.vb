@@ -110,6 +110,38 @@ Public Class clsDataWork_Process
         Return objOLProcesses
     End Function
 
+    Public Function get_ProcessesPublic() As List(Of clsObjectAtt)
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOLProcessesPublic_Search As List(Of clsObjectAtt)
+        Dim objOLProcessesPublic As List(Of clsObjectAtt)
+
+        objOLProcessesPublic_Search.Add(New clsObjectAtt(Nothing, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         objLocalConfig.OItem_Type_Process.GUID, _
+                                                         Nothing, _
+                                                         objLocalConfig.OItem_Attribute_Public.GUID, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         True, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         objLocalConfig.Globals.DType_Bool.GUID))
+
+        objOItem_Result = objDBLevel_Process_Root.get_Data_ObjectAtt(objOLProcessesPublic_Search, _
+                                                                     boolIDs:=False)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOLProcessesPublic = objDBLevel_Process_Root.OList_ObjectAtt
+        Else
+            objOLProcessesPublic = Nothing
+        End If
+
+        Return objOLProcessesPublic
+    End Function
+
     Public Function add_SubNodes_Of_Process_L11(TreeNode_Parent As TreeNode) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objOItem_Process As clsObjectRel
