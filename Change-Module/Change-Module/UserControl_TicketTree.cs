@@ -32,6 +32,8 @@ namespace Change_Module
 
         private Thread objThread_Related;
 
+        private clsDataWork_Ticket objDataWork_Ticket;
+
         public delegate clsOntologyClipboard sel_TicketList( );
         public delegate TreeNode applied_TicketList( );
         public delegate void clear_List( );
@@ -59,6 +61,7 @@ namespace Change_Module
         private void set_DBConnection()
         {
             objDBLevel = new clsDBLevel(objLocalConfig.Globals);
+            objDataWork_Ticket = new clsDataWork_Ticket(objLocalConfig);
         }
 
         private void initialize()

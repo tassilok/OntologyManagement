@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsDataWork_Ticket.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="DataSet_ChangeModule.Designer.cs">
       <AutoGen>True</AutoGen>

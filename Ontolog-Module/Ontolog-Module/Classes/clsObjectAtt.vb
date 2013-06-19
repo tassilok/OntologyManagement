@@ -166,7 +166,12 @@
         strName_Object = Name_Object
         strID_Class = ID_Class
         strName_Class = Name_Class
-        lngOrderID = OrderID
+        If OrderID = -1 Then
+            lngOrderID = Nothing
+        Else
+            lngOrderID = OrderID
+        End If
+
         strVal_Named = val_Named
         boolVal = val_Bit
         lngVal = val_Int

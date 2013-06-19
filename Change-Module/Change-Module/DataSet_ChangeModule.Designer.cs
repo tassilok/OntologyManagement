@@ -299,7 +299,7 @@ namespace Change_Module {
             
             private global::System.Data.DataColumn columnName_Item_belongsTo;
             
-            private global::System.Data.DataColumn columnGUID_ItemType_belongsTo;
+            private global::System.Data.DataColumn columnbelongsTo_Ontology;
             
             private global::System.Data.DataColumn columnGUID_LastProcess;
             
@@ -307,25 +307,29 @@ namespace Change_Module {
             
             private global::System.Data.DataColumn columnGUID_Type_LastProcess;
             
-            private global::System.Data.DataColumn columnGUID_LogEntry_LastDone;
+            private global::System.Data.DataColumn columnName_Type_LastProcess;
             
-            private global::System.Data.DataColumn columnVal_LogEntry_LastDone;
+            private global::System.Data.DataColumn columnGUID_LogEntry_Started;
             
-            private global::System.Data.DataColumn columnMsg_LogEntry_LastDone;
+            private global::System.Data.DataColumn columnDateTimeStamp_LogEntry_Started;
             
-            private global::System.Data.DataColumn columnGUID_LogEntry;
-            
-            private global::System.Data.DataColumn columndateTime_TimeStamp;
-            
-            private global::System.Data.DataColumn columnGUID_LogState_LastDone;
-            
-            private global::System.Data.DataColumn columnName_LogState_LastDone;
-            
-            private global::System.Data.DataColumn columndateTime_TimeStamp_Finished;
+            private global::System.Data.DataColumn columnGUID_LogEntry_Finished;
             
             private global::System.Data.DataColumn columnGUID_LogState_Finished;
             
             private global::System.Data.DataColumn columnName_LogState_Finished;
+            
+            private global::System.Data.DataColumn columnDateTimeStamp_LogEntry_Finished;
+            
+            private global::System.Data.DataColumn columnGUID_LogEntry_LastDone;
+            
+            private global::System.Data.DataColumn columnDateTimeStamp_LogEntry_LastDone;
+            
+            private global::System.Data.DataColumn columnMsg_LogEntry_LastDone;
+            
+            private global::System.Data.DataColumn columnGUID_LogState_LastDone;
+            
+            private global::System.Data.DataColumn columnName_LogState_LastDone;
             
             private global::System.Data.DataColumn columnGUID_TicketList;
             
@@ -446,9 +450,9 @@ namespace Change_Module {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn GUID_ItemType_belongsToColumn {
+            public global::System.Data.DataColumn belongsTo_OntologyColumn {
                 get {
-                    return this.columnGUID_ItemType_belongsTo;
+                    return this.columnbelongsTo_Ontology;
                 }
             }
             
@@ -478,65 +482,33 @@ namespace Change_Module {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn GUID_LogEntry_LastDoneColumn {
+            public global::System.Data.DataColumn Name_Type_LastProcessColumn {
                 get {
-                    return this.columnGUID_LogEntry_LastDone;
+                    return this.columnName_Type_LastProcess;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn Val_LogEntry_LastDoneColumn {
+            public global::System.Data.DataColumn GUID_LogEntry_StartedColumn {
                 get {
-                    return this.columnVal_LogEntry_LastDone;
+                    return this.columnGUID_LogEntry_Started;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn Msg_LogEntry_LastDoneColumn {
+            public global::System.Data.DataColumn DateTimeStamp_LogEntry_StartedColumn {
                 get {
-                    return this.columnMsg_LogEntry_LastDone;
+                    return this.columnDateTimeStamp_LogEntry_Started;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn GUID_LogEntryColumn {
+            public global::System.Data.DataColumn GUID_LogEntry_FinishedColumn {
                 get {
-                    return this.columnGUID_LogEntry;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn dateTime_TimeStampColumn {
-                get {
-                    return this.columndateTime_TimeStamp;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn GUID_LogState_LastDoneColumn {
-                get {
-                    return this.columnGUID_LogState_LastDone;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn Name_LogState_LastDoneColumn {
-                get {
-                    return this.columnName_LogState_LastDone;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn dateTime_TimeStamp_FinishedColumn {
-                get {
-                    return this.columndateTime_TimeStamp_Finished;
+                    return this.columnGUID_LogEntry_Finished;
                 }
             }
             
@@ -553,6 +525,54 @@ namespace Change_Module {
             public global::System.Data.DataColumn Name_LogState_FinishedColumn {
                 get {
                     return this.columnName_LogState_Finished;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DateTimeStamp_LogEntry_FinishedColumn {
+                get {
+                    return this.columnDateTimeStamp_LogEntry_Finished;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn GUID_LogEntry_LastDoneColumn {
+                get {
+                    return this.columnGUID_LogEntry_LastDone;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DateTimeStamp_LogEntry_LastDoneColumn {
+                get {
+                    return this.columnDateTimeStamp_LogEntry_LastDone;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn Msg_LogEntry_LastDoneColumn {
+                get {
+                    return this.columnMsg_LogEntry_LastDone;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn GUID_LogState_LastDoneColumn {
+                get {
+                    return this.columnGUID_LogState_LastDone;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn Name_LogState_LastDoneColumn {
+                get {
+                    return this.columnName_LogState_LastDone;
                 }
             }
             
@@ -620,20 +640,22 @@ namespace Change_Module {
                         string Name_Process, 
                         string GUID_Item_belongsTo, 
                         string Name_Item_belongsTo, 
-                        string GUID_ItemType_belongsTo, 
+                        string belongsTo_Ontology, 
                         string GUID_LastProcess, 
                         string Name_LastProcess, 
                         string GUID_Type_LastProcess, 
-                        string GUID_LogEntry_LastDone, 
-                        System.DateTime Val_LogEntry_LastDone, 
-                        string Msg_LogEntry_LastDone, 
-                        string GUID_LogEntry, 
-                        System.DateTime dateTime_TimeStamp, 
-                        string GUID_LogState_LastDone, 
-                        string Name_LogState_LastDone, 
-                        System.DateTime dateTime_TimeStamp_Finished, 
+                        string Name_Type_LastProcess, 
+                        string GUID_LogEntry_Started, 
+                        System.DateTime DateTimeStamp_LogEntry_Started, 
+                        string GUID_LogEntry_Finished, 
                         string GUID_LogState_Finished, 
                         string Name_LogState_Finished, 
+                        System.DateTime DateTimeStamp_LogEntry_Finished, 
+                        string GUID_LogEntry_LastDone, 
+                        System.DateTime DateTimeStamp_LogEntry_LastDone, 
+                        string Msg_LogEntry_LastDone, 
+                        string GUID_LogState_LastDone, 
+                        string Name_LogState_LastDone, 
                         string GUID_TicketList, 
                         string Name_TicketList) {
                 chngview_TicketList_TicketListsRow rowchngview_TicketList_TicketListsRow = ((chngview_TicketList_TicketListsRow)(this.NewRow()));
@@ -648,20 +670,22 @@ namespace Change_Module {
                         Name_Process,
                         GUID_Item_belongsTo,
                         Name_Item_belongsTo,
-                        GUID_ItemType_belongsTo,
+                        belongsTo_Ontology,
                         GUID_LastProcess,
                         Name_LastProcess,
                         GUID_Type_LastProcess,
-                        GUID_LogEntry_LastDone,
-                        Val_LogEntry_LastDone,
-                        Msg_LogEntry_LastDone,
-                        GUID_LogEntry,
-                        dateTime_TimeStamp,
-                        GUID_LogState_LastDone,
-                        Name_LogState_LastDone,
-                        dateTime_TimeStamp_Finished,
+                        Name_Type_LastProcess,
+                        GUID_LogEntry_Started,
+                        DateTimeStamp_LogEntry_Started,
+                        GUID_LogEntry_Finished,
                         GUID_LogState_Finished,
                         Name_LogState_Finished,
+                        DateTimeStamp_LogEntry_Finished,
+                        GUID_LogEntry_LastDone,
+                        DateTimeStamp_LogEntry_LastDone,
+                        Msg_LogEntry_LastDone,
+                        GUID_LogState_LastDone,
+                        Name_LogState_LastDone,
                         GUID_TicketList,
                         Name_TicketList};
                 rowchngview_TicketList_TicketListsRow.ItemArray = columnValuesArray;
@@ -696,20 +720,22 @@ namespace Change_Module {
                 this.columnName_Process = base.Columns["Name_Process"];
                 this.columnGUID_Item_belongsTo = base.Columns["GUID_Item_belongsTo"];
                 this.columnName_Item_belongsTo = base.Columns["Name_Item_belongsTo"];
-                this.columnGUID_ItemType_belongsTo = base.Columns["GUID_ItemType_belongsTo"];
+                this.columnbelongsTo_Ontology = base.Columns["belongsTo_Ontology"];
                 this.columnGUID_LastProcess = base.Columns["GUID_LastProcess"];
                 this.columnName_LastProcess = base.Columns["Name_LastProcess"];
                 this.columnGUID_Type_LastProcess = base.Columns["GUID_Type_LastProcess"];
-                this.columnGUID_LogEntry_LastDone = base.Columns["GUID_LogEntry_LastDone"];
-                this.columnVal_LogEntry_LastDone = base.Columns["Val_LogEntry_LastDone"];
-                this.columnMsg_LogEntry_LastDone = base.Columns["Msg_LogEntry_LastDone"];
-                this.columnGUID_LogEntry = base.Columns["GUID_LogEntry"];
-                this.columndateTime_TimeStamp = base.Columns["dateTime_TimeStamp"];
-                this.columnGUID_LogState_LastDone = base.Columns["GUID_LogState_LastDone"];
-                this.columnName_LogState_LastDone = base.Columns["Name_LogState_LastDone"];
-                this.columndateTime_TimeStamp_Finished = base.Columns["dateTime_TimeStamp_Finished"];
+                this.columnName_Type_LastProcess = base.Columns["Name_Type_LastProcess"];
+                this.columnGUID_LogEntry_Started = base.Columns["GUID_LogEntry_Started"];
+                this.columnDateTimeStamp_LogEntry_Started = base.Columns["DateTimeStamp_LogEntry_Started"];
+                this.columnGUID_LogEntry_Finished = base.Columns["GUID_LogEntry_Finished"];
                 this.columnGUID_LogState_Finished = base.Columns["GUID_LogState_Finished"];
                 this.columnName_LogState_Finished = base.Columns["Name_LogState_Finished"];
+                this.columnDateTimeStamp_LogEntry_Finished = base.Columns["DateTimeStamp_LogEntry_Finished"];
+                this.columnGUID_LogEntry_LastDone = base.Columns["GUID_LogEntry_LastDone"];
+                this.columnDateTimeStamp_LogEntry_LastDone = base.Columns["DateTimeStamp_LogEntry_LastDone"];
+                this.columnMsg_LogEntry_LastDone = base.Columns["Msg_LogEntry_LastDone"];
+                this.columnGUID_LogState_LastDone = base.Columns["GUID_LogState_LastDone"];
+                this.columnName_LogState_LastDone = base.Columns["Name_LogState_LastDone"];
                 this.columnGUID_TicketList = base.Columns["GUID_TicketList"];
                 this.columnName_TicketList = base.Columns["Name_TicketList"];
             }
@@ -739,34 +765,38 @@ namespace Change_Module {
                 base.Columns.Add(this.columnGUID_Item_belongsTo);
                 this.columnName_Item_belongsTo = new global::System.Data.DataColumn("Name_Item_belongsTo", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName_Item_belongsTo);
-                this.columnGUID_ItemType_belongsTo = new global::System.Data.DataColumn("GUID_ItemType_belongsTo", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnGUID_ItemType_belongsTo);
+                this.columnbelongsTo_Ontology = new global::System.Data.DataColumn("belongsTo_Ontology", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnbelongsTo_Ontology);
                 this.columnGUID_LastProcess = new global::System.Data.DataColumn("GUID_LastProcess", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGUID_LastProcess);
                 this.columnName_LastProcess = new global::System.Data.DataColumn("Name_LastProcess", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName_LastProcess);
                 this.columnGUID_Type_LastProcess = new global::System.Data.DataColumn("GUID_Type_LastProcess", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGUID_Type_LastProcess);
-                this.columnGUID_LogEntry_LastDone = new global::System.Data.DataColumn("GUID_LogEntry_LastDone", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnGUID_LogEntry_LastDone);
-                this.columnVal_LogEntry_LastDone = new global::System.Data.DataColumn("Val_LogEntry_LastDone", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnVal_LogEntry_LastDone);
-                this.columnMsg_LogEntry_LastDone = new global::System.Data.DataColumn("Msg_LogEntry_LastDone", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnMsg_LogEntry_LastDone);
-                this.columnGUID_LogEntry = new global::System.Data.DataColumn("GUID_LogEntry", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnGUID_LogEntry);
-                this.columndateTime_TimeStamp = new global::System.Data.DataColumn("dateTime_TimeStamp", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columndateTime_TimeStamp);
-                this.columnGUID_LogState_LastDone = new global::System.Data.DataColumn("GUID_LogState_LastDone", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnGUID_LogState_LastDone);
-                this.columnName_LogState_LastDone = new global::System.Data.DataColumn("Name_LogState_LastDone", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnName_LogState_LastDone);
-                this.columndateTime_TimeStamp_Finished = new global::System.Data.DataColumn("dateTime_TimeStamp_Finished", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columndateTime_TimeStamp_Finished);
+                this.columnName_Type_LastProcess = new global::System.Data.DataColumn("Name_Type_LastProcess", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnName_Type_LastProcess);
+                this.columnGUID_LogEntry_Started = new global::System.Data.DataColumn("GUID_LogEntry_Started", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnGUID_LogEntry_Started);
+                this.columnDateTimeStamp_LogEntry_Started = new global::System.Data.DataColumn("DateTimeStamp_LogEntry_Started", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDateTimeStamp_LogEntry_Started);
+                this.columnGUID_LogEntry_Finished = new global::System.Data.DataColumn("GUID_LogEntry_Finished", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnGUID_LogEntry_Finished);
                 this.columnGUID_LogState_Finished = new global::System.Data.DataColumn("GUID_LogState_Finished", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGUID_LogState_Finished);
                 this.columnName_LogState_Finished = new global::System.Data.DataColumn("Name_LogState_Finished", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName_LogState_Finished);
+                this.columnDateTimeStamp_LogEntry_Finished = new global::System.Data.DataColumn("DateTimeStamp_LogEntry_Finished", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDateTimeStamp_LogEntry_Finished);
+                this.columnGUID_LogEntry_LastDone = new global::System.Data.DataColumn("GUID_LogEntry_LastDone", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnGUID_LogEntry_LastDone);
+                this.columnDateTimeStamp_LogEntry_LastDone = new global::System.Data.DataColumn("DateTimeStamp_LogEntry_LastDone", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDateTimeStamp_LogEntry_LastDone);
+                this.columnMsg_LogEntry_LastDone = new global::System.Data.DataColumn("Msg_LogEntry_LastDone", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMsg_LogEntry_LastDone);
+                this.columnGUID_LogState_LastDone = new global::System.Data.DataColumn("GUID_LogState_LastDone", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnGUID_LogState_LastDone);
+                this.columnName_LogState_LastDone = new global::System.Data.DataColumn("Name_LogState_LastDone", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnName_LogState_LastDone);
                 this.columnGUID_TicketList = new global::System.Data.DataColumn("GUID_TicketList", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGUID_TicketList);
                 this.columnName_TicketList = new global::System.Data.DataColumn("Name_TicketList", typeof(string), null, global::System.Data.MappingType.Element);
@@ -1082,18 +1112,18 @@ namespace Change_Module {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string GUID_ItemType_belongsTo {
+            public string belongsTo_Ontology {
                 get {
                     try {
-                        return ((string)(this[this.tablechngview_TicketList_TicketLists.GUID_ItemType_belongsToColumn]));
+                        return ((string)(this[this.tablechngview_TicketList_TicketLists.belongsTo_OntologyColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte GUID_ItemType_belongsTo in Tabelle chngview_TicketList_Ticket" +
-                                "Lists ist DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte belongsTo_Ontology in Tabelle chngview_TicketList_TicketLists" +
+                                " ist DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablechngview_TicketList_TicketLists.GUID_ItemType_belongsToColumn] = value;
+                    this[this.tablechngview_TicketList_TicketLists.belongsTo_OntologyColumn] = value;
                 }
             }
             
@@ -1150,137 +1180,69 @@ namespace Change_Module {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string GUID_LogEntry_LastDone {
+            public string Name_Type_LastProcess {
                 get {
                     try {
-                        return ((string)(this[this.tablechngview_TicketList_TicketLists.GUID_LogEntry_LastDoneColumn]));
+                        return ((string)(this[this.tablechngview_TicketList_TicketLists.Name_Type_LastProcessColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte GUID_LogEntry_LastDone in Tabelle chngview_TicketList_TicketL" +
-                                "ists ist DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablechngview_TicketList_TicketLists.GUID_LogEntry_LastDoneColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.DateTime Val_LogEntry_LastDone {
-                get {
-                    try {
-                        return ((global::System.DateTime)(this[this.tablechngview_TicketList_TicketLists.Val_LogEntry_LastDoneColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte Val_LogEntry_LastDone in Tabelle chngview_TicketList_TicketLi" +
+                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte Name_Type_LastProcess in Tabelle chngview_TicketList_TicketLi" +
                                 "sts ist DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablechngview_TicketList_TicketLists.Val_LogEntry_LastDoneColumn] = value;
+                    this[this.tablechngview_TicketList_TicketLists.Name_Type_LastProcessColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Msg_LogEntry_LastDone {
+            public string GUID_LogEntry_Started {
                 get {
                     try {
-                        return ((string)(this[this.tablechngview_TicketList_TicketLists.Msg_LogEntry_LastDoneColumn]));
+                        return ((string)(this[this.tablechngview_TicketList_TicketLists.GUID_LogEntry_StartedColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte Msg_LogEntry_LastDone in Tabelle chngview_TicketList_TicketLi" +
+                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte GUID_LogEntry_Started in Tabelle chngview_TicketList_TicketLi" +
                                 "sts ist DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablechngview_TicketList_TicketLists.Msg_LogEntry_LastDoneColumn] = value;
+                    this[this.tablechngview_TicketList_TicketLists.GUID_LogEntry_StartedColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string GUID_LogEntry {
+            public System.DateTime DateTimeStamp_LogEntry_Started {
                 get {
                     try {
-                        return ((string)(this[this.tablechngview_TicketList_TicketLists.GUID_LogEntryColumn]));
+                        return ((global::System.DateTime)(this[this.tablechngview_TicketList_TicketLists.DateTimeStamp_LogEntry_StartedColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte GUID_LogEntry in Tabelle chngview_TicketList_TicketLists ist " +
-                                "DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte DateTimeStamp_LogEntry_Started in Tabelle chngview_TicketList" +
+                                "_TicketLists ist DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablechngview_TicketList_TicketLists.GUID_LogEntryColumn] = value;
+                    this[this.tablechngview_TicketList_TicketLists.DateTimeStamp_LogEntry_StartedColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.DateTime dateTime_TimeStamp {
+            public string GUID_LogEntry_Finished {
                 get {
                     try {
-                        return ((global::System.DateTime)(this[this.tablechngview_TicketList_TicketLists.dateTime_TimeStampColumn]));
+                        return ((string)(this[this.tablechngview_TicketList_TicketLists.GUID_LogEntry_FinishedColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte dateTime_TimeStamp in Tabelle chngview_TicketList_TicketLists" +
-                                " ist DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablechngview_TicketList_TicketLists.dateTime_TimeStampColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string GUID_LogState_LastDone {
-                get {
-                    try {
-                        return ((string)(this[this.tablechngview_TicketList_TicketLists.GUID_LogState_LastDoneColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte GUID_LogState_LastDone in Tabelle chngview_TicketList_TicketL" +
+                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte GUID_LogEntry_Finished in Tabelle chngview_TicketList_TicketL" +
                                 "ists ist DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablechngview_TicketList_TicketLists.GUID_LogState_LastDoneColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Name_LogState_LastDone {
-                get {
-                    try {
-                        return ((string)(this[this.tablechngview_TicketList_TicketLists.Name_LogState_LastDoneColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte Name_LogState_LastDone in Tabelle chngview_TicketList_TicketL" +
-                                "ists ist DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablechngview_TicketList_TicketLists.Name_LogState_LastDoneColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.DateTime dateTime_TimeStamp_Finished {
-                get {
-                    try {
-                        return ((global::System.DateTime)(this[this.tablechngview_TicketList_TicketLists.dateTime_TimeStamp_FinishedColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte dateTime_TimeStamp_Finished in Tabelle chngview_TicketList_Ti" +
-                                "cketLists ist DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablechngview_TicketList_TicketLists.dateTime_TimeStamp_FinishedColumn] = value;
+                    this[this.tablechngview_TicketList_TicketLists.GUID_LogEntry_FinishedColumn] = value;
                 }
             }
             
@@ -1315,6 +1277,108 @@ namespace Change_Module {
                 }
                 set {
                     this[this.tablechngview_TicketList_TicketLists.Name_LogState_FinishedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public System.DateTime DateTimeStamp_LogEntry_Finished {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tablechngview_TicketList_TicketLists.DateTimeStamp_LogEntry_FinishedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte DateTimeStamp_LogEntry_Finished in Tabelle chngview_TicketLis" +
+                                "t_TicketLists ist DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablechngview_TicketList_TicketLists.DateTimeStamp_LogEntry_FinishedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string GUID_LogEntry_LastDone {
+                get {
+                    try {
+                        return ((string)(this[this.tablechngview_TicketList_TicketLists.GUID_LogEntry_LastDoneColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte GUID_LogEntry_LastDone in Tabelle chngview_TicketList_TicketL" +
+                                "ists ist DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablechngview_TicketList_TicketLists.GUID_LogEntry_LastDoneColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public System.DateTime DateTimeStamp_LogEntry_LastDone {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tablechngview_TicketList_TicketLists.DateTimeStamp_LogEntry_LastDoneColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte DateTimeStamp_LogEntry_LastDone in Tabelle chngview_TicketLis" +
+                                "t_TicketLists ist DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablechngview_TicketList_TicketLists.DateTimeStamp_LogEntry_LastDoneColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Msg_LogEntry_LastDone {
+                get {
+                    try {
+                        return ((string)(this[this.tablechngview_TicketList_TicketLists.Msg_LogEntry_LastDoneColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte Msg_LogEntry_LastDone in Tabelle chngview_TicketList_TicketLi" +
+                                "sts ist DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablechngview_TicketList_TicketLists.Msg_LogEntry_LastDoneColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string GUID_LogState_LastDone {
+                get {
+                    try {
+                        return ((string)(this[this.tablechngview_TicketList_TicketLists.GUID_LogState_LastDoneColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte GUID_LogState_LastDone in Tabelle chngview_TicketList_TicketL" +
+                                "ists ist DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablechngview_TicketList_TicketLists.GUID_LogState_LastDoneColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Name_LogState_LastDone {
+                get {
+                    try {
+                        return ((string)(this[this.tablechngview_TicketList_TicketLists.Name_LogState_LastDoneColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte Name_LogState_LastDone in Tabelle chngview_TicketList_TicketL" +
+                                "ists ist DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablechngview_TicketList_TicketLists.Name_LogState_LastDoneColumn] = value;
                 }
             }
             
@@ -1474,14 +1538,14 @@ namespace Change_Module {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsGUID_ItemType_belongsToNull() {
-                return this.IsNull(this.tablechngview_TicketList_TicketLists.GUID_ItemType_belongsToColumn);
+            public bool IsbelongsTo_OntologyNull() {
+                return this.IsNull(this.tablechngview_TicketList_TicketLists.belongsTo_OntologyColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetGUID_ItemType_belongsToNull() {
-                this[this.tablechngview_TicketList_TicketLists.GUID_ItemType_belongsToColumn] = global::System.Convert.DBNull;
+            public void SetbelongsTo_OntologyNull() {
+                this[this.tablechngview_TicketList_TicketLists.belongsTo_OntologyColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1522,98 +1586,50 @@ namespace Change_Module {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsGUID_LogEntry_LastDoneNull() {
-                return this.IsNull(this.tablechngview_TicketList_TicketLists.GUID_LogEntry_LastDoneColumn);
+            public bool IsName_Type_LastProcessNull() {
+                return this.IsNull(this.tablechngview_TicketList_TicketLists.Name_Type_LastProcessColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetGUID_LogEntry_LastDoneNull() {
-                this[this.tablechngview_TicketList_TicketLists.GUID_LogEntry_LastDoneColumn] = global::System.Convert.DBNull;
+            public void SetName_Type_LastProcessNull() {
+                this[this.tablechngview_TicketList_TicketLists.Name_Type_LastProcessColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsVal_LogEntry_LastDoneNull() {
-                return this.IsNull(this.tablechngview_TicketList_TicketLists.Val_LogEntry_LastDoneColumn);
+            public bool IsGUID_LogEntry_StartedNull() {
+                return this.IsNull(this.tablechngview_TicketList_TicketLists.GUID_LogEntry_StartedColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetVal_LogEntry_LastDoneNull() {
-                this[this.tablechngview_TicketList_TicketLists.Val_LogEntry_LastDoneColumn] = global::System.Convert.DBNull;
+            public void SetGUID_LogEntry_StartedNull() {
+                this[this.tablechngview_TicketList_TicketLists.GUID_LogEntry_StartedColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsMsg_LogEntry_LastDoneNull() {
-                return this.IsNull(this.tablechngview_TicketList_TicketLists.Msg_LogEntry_LastDoneColumn);
+            public bool IsDateTimeStamp_LogEntry_StartedNull() {
+                return this.IsNull(this.tablechngview_TicketList_TicketLists.DateTimeStamp_LogEntry_StartedColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetMsg_LogEntry_LastDoneNull() {
-                this[this.tablechngview_TicketList_TicketLists.Msg_LogEntry_LastDoneColumn] = global::System.Convert.DBNull;
+            public void SetDateTimeStamp_LogEntry_StartedNull() {
+                this[this.tablechngview_TicketList_TicketLists.DateTimeStamp_LogEntry_StartedColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsGUID_LogEntryNull() {
-                return this.IsNull(this.tablechngview_TicketList_TicketLists.GUID_LogEntryColumn);
+            public bool IsGUID_LogEntry_FinishedNull() {
+                return this.IsNull(this.tablechngview_TicketList_TicketLists.GUID_LogEntry_FinishedColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetGUID_LogEntryNull() {
-                this[this.tablechngview_TicketList_TicketLists.GUID_LogEntryColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsdateTime_TimeStampNull() {
-                return this.IsNull(this.tablechngview_TicketList_TicketLists.dateTime_TimeStampColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetdateTime_TimeStampNull() {
-                this[this.tablechngview_TicketList_TicketLists.dateTime_TimeStampColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsGUID_LogState_LastDoneNull() {
-                return this.IsNull(this.tablechngview_TicketList_TicketLists.GUID_LogState_LastDoneColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetGUID_LogState_LastDoneNull() {
-                this[this.tablechngview_TicketList_TicketLists.GUID_LogState_LastDoneColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsName_LogState_LastDoneNull() {
-                return this.IsNull(this.tablechngview_TicketList_TicketLists.Name_LogState_LastDoneColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetName_LogState_LastDoneNull() {
-                this[this.tablechngview_TicketList_TicketLists.Name_LogState_LastDoneColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsdateTime_TimeStamp_FinishedNull() {
-                return this.IsNull(this.tablechngview_TicketList_TicketLists.dateTime_TimeStamp_FinishedColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetdateTime_TimeStamp_FinishedNull() {
-                this[this.tablechngview_TicketList_TicketLists.dateTime_TimeStamp_FinishedColumn] = global::System.Convert.DBNull;
+            public void SetGUID_LogEntry_FinishedNull() {
+                this[this.tablechngview_TicketList_TicketLists.GUID_LogEntry_FinishedColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1638,6 +1654,78 @@ namespace Change_Module {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetName_LogState_FinishedNull() {
                 this[this.tablechngview_TicketList_TicketLists.Name_LogState_FinishedColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsDateTimeStamp_LogEntry_FinishedNull() {
+                return this.IsNull(this.tablechngview_TicketList_TicketLists.DateTimeStamp_LogEntry_FinishedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetDateTimeStamp_LogEntry_FinishedNull() {
+                this[this.tablechngview_TicketList_TicketLists.DateTimeStamp_LogEntry_FinishedColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsGUID_LogEntry_LastDoneNull() {
+                return this.IsNull(this.tablechngview_TicketList_TicketLists.GUID_LogEntry_LastDoneColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetGUID_LogEntry_LastDoneNull() {
+                this[this.tablechngview_TicketList_TicketLists.GUID_LogEntry_LastDoneColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsDateTimeStamp_LogEntry_LastDoneNull() {
+                return this.IsNull(this.tablechngview_TicketList_TicketLists.DateTimeStamp_LogEntry_LastDoneColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetDateTimeStamp_LogEntry_LastDoneNull() {
+                this[this.tablechngview_TicketList_TicketLists.DateTimeStamp_LogEntry_LastDoneColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsMsg_LogEntry_LastDoneNull() {
+                return this.IsNull(this.tablechngview_TicketList_TicketLists.Msg_LogEntry_LastDoneColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetMsg_LogEntry_LastDoneNull() {
+                this[this.tablechngview_TicketList_TicketLists.Msg_LogEntry_LastDoneColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsGUID_LogState_LastDoneNull() {
+                return this.IsNull(this.tablechngview_TicketList_TicketLists.GUID_LogState_LastDoneColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetGUID_LogState_LastDoneNull() {
+                this[this.tablechngview_TicketList_TicketLists.GUID_LogState_LastDoneColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsName_LogState_LastDoneNull() {
+                return this.IsNull(this.tablechngview_TicketList_TicketLists.Name_LogState_LastDoneColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetName_LogState_LastDoneNull() {
+                this[this.tablechngview_TicketList_TicketLists.Name_LogState_LastDoneColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
