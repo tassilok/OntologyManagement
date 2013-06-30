@@ -455,168 +455,171 @@
         Dim boolRel As Boolean = False
         Dim boolChange As Boolean = False
 
-        If DataGridView_Items.Columns(e.ColumnIndex).DataPropertyName.ToLower = "orderid" Then
-            objDGVR_Selected = DataGridView_Items.Rows(e.RowIndex)
-            objDRV_Selected = objDGVR_Selected.DataBoundItem
+        If Not e.ColumnIndex = -1 Then
+            If DataGridView_Items.Columns(e.ColumnIndex).DataPropertyName.ToLower = "orderid" Then
+                objDGVR_Selected = DataGridView_Items.Rows(e.RowIndex)
+                objDRV_Selected = objDGVR_Selected.DataBoundItem
 
-            objDlg_Attribute_Long = New dlg_Attribute_Long("New OrderID", objLocalConfig.Globals, objDRV_Selected.Item("OrderID"))
-            objDlg_Attribute_Long.ShowDialog(Me)
+                objDlg_Attribute_Long = New dlg_Attribute_Long("New OrderID", objLocalConfig.Globals, objDRV_Selected.Item("OrderID"))
+                objDlg_Attribute_Long.ShowDialog(Me)
 
-            If objDlg_Attribute_Long.DialogResult = DialogResult.OK Then
-                For Each objColumn In DataGridView_Items.Columns
-                    If objColumn.DataPropertyName.ToLower = "id_other" Then
-                        boolRel = True
-                        boolChange = True
-                        Exit For
-                    End If
-
-                    If objColumn.DataPropertyName.ToLower = "id_attribute" Then
-
-                        boolRel = False
-                        boolChange = True
-                        Exit For
-                    End If
-                Next
-
-                If boolChange = True Then
-                    If boolRel = True Then
-                        objOList_Relation.Add(New clsObjectRel(objDRV_Selected.Item("ID_Object"), _
-                                                               objDRV_Selected.Item("ID_Parent_Object"), _
-                                                               objDRV_Selected.Item("ID_Other"), _
-                                                               objDRV_Selected.Item("ID_Parent_Other"), _
-                                                               objDRV_Selected.Item("ID_RelationType"), _
-                                                               objDRV_Selected.Item("Ontology"), _
-                                                               Nothing, _
-                                                               objDlg_Attribute_Long.Value))
-                        objOItem_Result = objDBLevel.save_ObjRel(objOList_Relation)
-                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                            MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                If objDlg_Attribute_Long.DialogResult = DialogResult.OK Then
+                    For Each objColumn In DataGridView_Items.Columns
+                        If objColumn.DataPropertyName.ToLower = "id_other" Then
+                            boolRel = True
+                            boolChange = True
+                            Exit For
                         End If
 
-                        get_Data()
-                    Else
-                        Select Case objDRV_Selected.Item("ID_DataType")
-                            Case objLocalConfig.Globals.DType_Bool.GUID
-                                objOLIst_Att.Add(New clsObjectAtt(objDRV_Selected.Item("ID_Attribute"), _
-                                                                  objDRV_Selected.Item("ID_Object"), _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("ID_Class"), _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("ID_AttributeType"), _
-                                                                  Nothing, _
-                                                                  objDlg_Attribute_Long.Value, _
-                                                                  objDRV_Selected.Item("val_named"), _
-                                                                  objDRV_Selected.Item("val_bit"), _
-                                                                  Nothing, _
-                                                                  Nothing, _
-                                                                  Nothing, _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("ID_DataType")))
+                        If objColumn.DataPropertyName.ToLower = "id_attribute" Then
 
-                                objOItem_Result = objDBLevel.save_ObjAtt(objOLIst_Att)
-                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                                    MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
-                                End If
+                            boolRel = False
+                            boolChange = True
+                            Exit For
+                        End If
+                    Next
 
-                                get_Data()
-                            Case objLocalConfig.Globals.DType_DateTime.GUID
-                                objOLIst_Att.Add(New clsObjectAtt(objDRV_Selected.Item("ID_Attribute"), _
-                                                                  objDRV_Selected.Item("ID_Object"), _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("ID_Class"), _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("ID_AttributeType"), _
-                                                                  Nothing, _
-                                                                  objDlg_Attribute_Long.Value, _
-                                                                  objDRV_Selected.Item("val_named"), _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("val_datetime"), _
-                                                                  Nothing, _
-                                                                  Nothing, _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("ID_DataType")))
+                    If boolChange = True Then
+                        If boolRel = True Then
+                            objOList_Relation.Add(New clsObjectRel(objDRV_Selected.Item("ID_Object"), _
+                                                                   objDRV_Selected.Item("ID_Parent_Object"), _
+                                                                   objDRV_Selected.Item("ID_Other"), _
+                                                                   objDRV_Selected.Item("ID_Parent_Other"), _
+                                                                   objDRV_Selected.Item("ID_RelationType"), _
+                                                                   objDRV_Selected.Item("Ontology"), _
+                                                                   Nothing, _
+                                                                   objDlg_Attribute_Long.Value))
+                            objOItem_Result = objDBLevel.save_ObjRel(objOList_Relation)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                            End If
 
-                                objOItem_Result = objDBLevel.save_ObjAtt(objOLIst_Att)
-                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                                    MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
-                                End If
+                            get_Data()
+                        Else
+                            Select Case objDRV_Selected.Item("ID_DataType")
+                                Case objLocalConfig.Globals.DType_Bool.GUID
+                                    objOLIst_Att.Add(New clsObjectAtt(objDRV_Selected.Item("ID_Attribute"), _
+                                                                      objDRV_Selected.Item("ID_Object"), _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("ID_Class"), _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("ID_AttributeType"), _
+                                                                      Nothing, _
+                                                                      objDlg_Attribute_Long.Value, _
+                                                                      objDRV_Selected.Item("val_named"), _
+                                                                      objDRV_Selected.Item("val_bit"), _
+                                                                      Nothing, _
+                                                                      Nothing, _
+                                                                      Nothing, _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("ID_DataType")))
 
-                                get_Data()
-                            Case objLocalConfig.Globals.DType_Int.GUID
-                                objOLIst_Att.Add(New clsObjectAtt(objDRV_Selected.Item("ID_Attribute"), _
-                                                                  objDRV_Selected.Item("ID_Object"), _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("ID_Class"), _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("ID_AttributeType"), _
-                                                                  Nothing, _
-                                                                  objDlg_Attribute_Long.Value, _
-                                                                  objDRV_Selected.Item("val_named"), _
-                                                                  Nothing, _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("val_int"), _
-                                                                  Nothing, _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("ID_DataType")))
+                                    objOItem_Result = objDBLevel.save_ObjAtt(objOLIst_Att)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                        MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                                    End If
 
-                                objOItem_Result = objDBLevel.save_ObjAtt(objOLIst_Att)
-                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                                    MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
-                                End If
+                                    get_Data()
+                                Case objLocalConfig.Globals.DType_DateTime.GUID
+                                    objOLIst_Att.Add(New clsObjectAtt(objDRV_Selected.Item("ID_Attribute"), _
+                                                                      objDRV_Selected.Item("ID_Object"), _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("ID_Class"), _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("ID_AttributeType"), _
+                                                                      Nothing, _
+                                                                      objDlg_Attribute_Long.Value, _
+                                                                      objDRV_Selected.Item("val_named"), _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("val_datetime"), _
+                                                                      Nothing, _
+                                                                      Nothing, _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("ID_DataType")))
 
-                                get_Data()
-                            Case objLocalConfig.Globals.DType_Real.GUID
-                                objOLIst_Att.Add(New clsObjectAtt(objDRV_Selected.Item("ID_Attribute"), _
-                                                                  objDRV_Selected.Item("ID_Object"), _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("ID_Class"), _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("ID_AttributeType"), _
-                                                                  Nothing, _
-                                                                  objDlg_Attribute_Long.Value, _
-                                                                  objDRV_Selected.Item("val_named"), _
-                                                                  Nothing, _
-                                                                  Nothing, _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("val_real"), _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("ID_DataType")))
+                                    objOItem_Result = objDBLevel.save_ObjAtt(objOLIst_Att)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                        MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                                    End If
 
-                                objOItem_Result = objDBLevel.save_ObjAtt(objOLIst_Att)
-                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                                    MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
-                                End If
+                                    get_Data()
+                                Case objLocalConfig.Globals.DType_Int.GUID
+                                    objOLIst_Att.Add(New clsObjectAtt(objDRV_Selected.Item("ID_Attribute"), _
+                                                                      objDRV_Selected.Item("ID_Object"), _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("ID_Class"), _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("ID_AttributeType"), _
+                                                                      Nothing, _
+                                                                      objDlg_Attribute_Long.Value, _
+                                                                      objDRV_Selected.Item("val_named"), _
+                                                                      Nothing, _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("val_int"), _
+                                                                      Nothing, _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("ID_DataType")))
 
-                                get_Data()
-                            Case objLocalConfig.Globals.DType_String.GUID
-                                objOLIst_Att.Add(New clsObjectAtt(objDRV_Selected.Item("ID_Attribute"), _
-                                                                  objDRV_Selected.Item("ID_Object"), _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("ID_Class"), _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("ID_AttributeType"), _
-                                                                  Nothing, _
-                                                                  objDlg_Attribute_Long.Value, _
-                                                                  objDRV_Selected.Item("val_named"), _
-                                                                  Nothing, _
-                                                                  Nothing, _
-                                                                  Nothing, _
-                                                                  Nothing, _
-                                                                  objDRV_Selected.Item("val_string"), _
-                                                                  objDRV_Selected.Item("ID_DataType")))
+                                    objOItem_Result = objDBLevel.save_ObjAtt(objOLIst_Att)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                        MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                                    End If
 
-                                objOItem_Result = objDBLevel.save_ObjAtt(objOLIst_Att)
-                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                                    MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
-                                End If
+                                    get_Data()
+                                Case objLocalConfig.Globals.DType_Real.GUID
+                                    objOLIst_Att.Add(New clsObjectAtt(objDRV_Selected.Item("ID_Attribute"), _
+                                                                      objDRV_Selected.Item("ID_Object"), _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("ID_Class"), _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("ID_AttributeType"), _
+                                                                      Nothing, _
+                                                                      objDlg_Attribute_Long.Value, _
+                                                                      objDRV_Selected.Item("val_named"), _
+                                                                      Nothing, _
+                                                                      Nothing, _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("val_real"), _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("ID_DataType")))
 
-                                get_Data()
-                        End Select
-                        
+                                    objOItem_Result = objDBLevel.save_ObjAtt(objOLIst_Att)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                        MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                                    End If
+
+                                    get_Data()
+                                Case objLocalConfig.Globals.DType_String.GUID
+                                    objOLIst_Att.Add(New clsObjectAtt(objDRV_Selected.Item("ID_Attribute"), _
+                                                                      objDRV_Selected.Item("ID_Object"), _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("ID_Class"), _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("ID_AttributeType"), _
+                                                                      Nothing, _
+                                                                      objDlg_Attribute_Long.Value, _
+                                                                      objDRV_Selected.Item("val_named"), _
+                                                                      Nothing, _
+                                                                      Nothing, _
+                                                                      Nothing, _
+                                                                      Nothing, _
+                                                                      objDRV_Selected.Item("val_string"), _
+                                                                      objDRV_Selected.Item("ID_DataType")))
+
+                                    objOItem_Result = objDBLevel.save_ObjAtt(objOLIst_Att)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                        MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                                    End If
+
+                                    get_Data()
+                            End Select
+
+                        End If
                     End If
                 End If
             End If
         End If
+        
     End Sub
 
     Private Sub DataGridView_Items_RowHeaderMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellMouseEventArgs) Handles DataGridView_Items.RowHeaderMouseDoubleClick

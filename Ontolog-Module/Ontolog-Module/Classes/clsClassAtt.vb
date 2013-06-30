@@ -2,8 +2,8 @@
     Private strID_AttributeType As String
     Private strID_Class As String
     Private strID_DataType As String
-    Private intMin As Integer
-    Private intMax As Integer
+    Private lngMin As Nullable(Of Long)
+    Private lngMax As Nullable(Of Long)
 
     Public Property ID_AttributeType As String
         Get
@@ -32,30 +32,34 @@
         End Set
     End Property
 
-    Public Property Min As Integer
+    Public Property Min As Nullable(Of Long)
         Get
-            Return intMin
+            Return lngMin
         End Get
-        Set(ByVal value As Integer)
-            intMin = value
+        Set(ByVal value As Nullable(Of Long))
+            lngMin = value
         End Set
     End Property
 
-    Public Property Max As Integer
+    Public Property Max As Nullable(Of Long)
         Get
-            Return intMax
+            Return lngMax
         End Get
-        Set(ByVal value As Integer)
-            intMax = value
+        Set(ByVal value As Nullable(Of Long))
+            lngMax = value
         End Set
     End Property
 
 
-    Public Sub New(ByVal ID_AttributeType As String, ByVal ID_DataType As String, ByVal ID_Class As String, ByVal Min As Integer, ByVal Max As Integer)
+    Public Sub New(ByVal ID_AttributeType As String, ByVal ID_DataType As String, ByVal ID_Class As String, ByVal Min As Nullable(Of Long), ByVal Max As Nullable(Of Long))
         strID_AttributeType = ID_AttributeType
         strID_DataType = ID_DataType
         strID_Class = ID_Class
-        intMin = Min
-        intMax = Max
+        lngMin = Min
+        lngMax = Max
+    End Sub
+
+    Public Sub New()
+
     End Sub
 End Class

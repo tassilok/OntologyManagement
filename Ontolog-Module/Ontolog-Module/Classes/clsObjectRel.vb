@@ -12,7 +12,7 @@
     Private strOntology As String
     Private strID_Direction As String
     Private strName_Direction As String
-    Private lngOrderID As Long
+    Private lngOrderID As Nullable(Of Long)
 
     Public Property ID_Direction As String
         Get
@@ -130,15 +130,23 @@
         End Set
     End Property
 
-    Public Property OrderID As Long
+    Public Property OrderID As Nullable(Of Long)
         Get
             Return lngOrderID
         End Get
-        Set(ByVal value As Long)
+        Set(ByVal value As Nullable(Of Long))
             lngOrderID = value
         End Set
     End Property
 
+    Public Property OrderIDNotNull As Long
+        Get
+            Return lngOrderID
+        End Get
+        Set(value As Long)
+            lngOrderID = value
+        End Set
+    End Property
  
     Public Sub New(ByVal ID_Object As String, _
                    ByVal ID_Parent_Object As String, _
@@ -147,7 +155,7 @@
                    ByVal ID_RelationType As String, _
                    ByVal Ontology As String, _
                    ByVal ID_Direction As String, _
-                   ByVal OrderID As Long)
+                   ByVal OrderID As Nullable(Of Long))
 
         strID_Object = ID_Object
         strID_Parent_Object = ID_Parent_Object
@@ -171,7 +179,7 @@
                    ByVal Ontology As String, _
                    ByVal ID_Direction As String, _
                    ByVal Name_Direction As String, _
-                   ByVal OrderID As Long)
+                   ByVal OrderID As Nullable(Of Long))
 
         strID_Object = ID_Object
         strName_Object = Name_Object
@@ -186,11 +194,7 @@
         strOntology = Ontology
         strID_Direction = ID_Direction
         strName_Direction = Name_Direction
-        If OrderID = -1 Then
-            lngOrderID = Nothing
-        Else
-            lngOrderID = OrderID
-        End If
+        lngOrderID = OrderID
 
     End Sub
 

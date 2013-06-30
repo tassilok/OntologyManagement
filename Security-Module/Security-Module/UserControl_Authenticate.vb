@@ -91,9 +91,9 @@ Public Class UserControl_Authenticate
                     objUserControl_OItemList_Group.initialize(New clsOntologyItem(Nothing, Nothing, objOItem_Type_Group.GUID, objLocalConfig.Globals.Type_Object))
                 End If
             Case ERelateMode.User_To_Group
-                objUserControl_OItemList_User.initialize(objOItem_Type_User)
+                objUserControl_OItemList_User.initialize(New clsOntologyItem(Nothing, Nothing, objOItem_Type_User.GUID, objLocalConfig.Globals.Type_Object))
             Case ERelateMode.Group_To_User
-                objUserControl_OItemList_Group.initialize(objOItem_Type_Group)
+                objUserControl_OItemList_Group.initialize(New clsOntologyItem(Nothing, Nothing, objOItem_Type_Group.GUID, objLocalConfig.Globals.Type_Object))
         End Select
     End Sub
 
@@ -110,7 +110,7 @@ Public Class UserControl_Authenticate
                 objDRV_Select = objDGVR_Select.DataBoundItem
 
                 objOItem_User = New clsOntologyItem
-                objOItem_User.GUID = objDRV_Select.Item("GUID")
+                objOItem_User.GUID = objDRV_Select.Item("ID_Item")
                 objOItem_User.Name = objDRV_Select.Item("Name")
                 objOItem_User.GUID_Parent = objLocalConfig.OItem_type_User.GUID
                 objOItem_User.Type = objLocalConfig.Globals.Type_Object
@@ -118,7 +118,7 @@ Public Class UserControl_Authenticate
                 objUserControl_OItemList_Group.initialize(Nothing, _
                                                           objOItem_User, _
                                                           objLocalConfig.Globals.Direction_RightLeft, _
-                                                          objLocalConfig.OItem_Type_Group, _
+                                                          New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Type_Group.GUID, objLocalConfig.Globals.Type_Object), _
                                                           objLocalConfig.OItem_RelationType_contains)
 
 
@@ -141,7 +141,7 @@ Public Class UserControl_Authenticate
                 objDRV_Select = objDGVR_Select.DataBoundItem
 
                 objOItem_Group = New clsOntologyItem
-                objOItem_Group.GUID = objDRV_Select.Item("GUID")
+                objOItem_Group.GUID = objDRV_Select.Item("ID_Item")
                 objOItem_Group.Name = objDRV_Select.Item("Name")
                 objOItem_Group.GUID_Parent = objLocalConfig.OItem_type_User.GUID
                 objOItem_Group.Type = objLocalConfig.Globals.Type_Object
@@ -149,7 +149,7 @@ Public Class UserControl_Authenticate
                 objUserControl_OItemList_User.initialize(Nothing, _
                                                           objOItem_Group, _
                                                           objLocalConfig.Globals.Direction_LeftRight, _
-                                                          objLocalConfig.OItem_type_User, _
+                                                          New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_type_User.GUID, objLocalConfig.Globals.Type_Object), _
                                                           objLocalConfig.OItem_RelationType_contains)
 
 

@@ -6,9 +6,9 @@
     Dim strID_RelationType As String
     Dim strName_RelationType As String
     Dim strOntology As String
-    Dim lngMin_Forw As Long
-    Dim lngMax_Forw As Long
-    Dim lngMax_Backw As Long
+    Dim lngMin_Forw As Nullable(Of Long)
+    Dim lngMax_Forw As Nullable(Of Long)
+    Dim lngMax_Backw As Nullable(Of Long)
 
     Public Property Name_Class_Left As String
         Get
@@ -73,34 +73,34 @@
         End Set
     End Property
 
-    Public Property Min_Forw As Long
+    Public Property Min_Forw As Nullable(Of Long)
         Get
             Return lngMin_Forw
         End Get
-        Set(ByVal value As Long)
+        Set(ByVal value As Nullable(Of Long))
             lngMin_Forw = value
         End Set
     End Property
 
-    Public Property Max_Forw As Long
+    Public Property Max_Forw As Nullable(Of Long)
         Get
             Return lngMax_Forw
         End Get
-        Set(ByVal value As Long)
+        Set(ByVal value As Nullable(Of Long))
             lngMax_Forw = value
         End Set
     End Property
 
-    Public Property Max_Backw As Long
+    Public Property Max_Backw As Nullable(Of Long)
         Get
             Return lngMax_Backw
         End Get
-        Set(ByVal value As Long)
+        Set(ByVal value As Nullable(Of Long))
             lngMax_Backw = value
         End Set
     End Property
 
-    Public Sub New(ByVal ID_Class_Left As String, ByVal ID_Class_Right As String, ByVal ID_RelationType As String, ByVal Ontology As String, ByVal Min_forw As Long, ByVal Max_forw As Long, ByVal Max_backw As Long)
+    Public Sub New(ByVal ID_Class_Left As String, ByVal ID_Class_Right As String, ByVal ID_RelationType As String, ByVal Ontology As String, ByVal Min_forw As Nullable(Of Long), ByVal Max_forw As Nullable(Of Long), ByVal Max_backw As Nullable(Of Long))
         strID_Class_Left = ID_Class_Left
         strID_Class_Right = ID_Class_Right
         strID_RelationType = ID_RelationType
@@ -117,9 +117,9 @@
                    ByVal ID_RelationType As String, _
                    ByVal Name_RelationType As String, _
                    ByVal Ontology As String, _
-                   ByVal Min_forw As Long, _
-                   ByVal Max_forw As Long, _
-                   ByVal Max_backw As Long)
+                   ByVal Min_forw As Nullable(Of Long), _
+                   ByVal Max_forw As Nullable(Of Long), _
+                   ByVal Max_backw As Nullable(Of Long))
 
         strID_Class_Left = ID_Class_Left
         strName_Class_Left = Name_Class_Left
@@ -131,5 +131,9 @@
         lngMin_Forw = Min_forw
         lngMax_Forw = Max_forw
         lngMax_Backw = Max_backw
+    End Sub
+
+    Public Sub New()
+
     End Sub
 End Class

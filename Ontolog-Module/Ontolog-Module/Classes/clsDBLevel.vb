@@ -403,7 +403,7 @@ Public Class clsDBLevel
 
             Next
             Try
-                objOPResult = objElConn.Delete(objGlobals.Index, objGlobals.Type_ClassRel, strKeys)
+                objOPResult = objElConn.Delete(objGlobals.Index, objGlobals.Type_Object, strKeys)
                 objOItem_Result = objGlobals.LState_Success
             Catch ex As Exception
                 objOItem_Result = objGlobals.LState_Error
@@ -1396,7 +1396,7 @@ Public Class clsDBLevel
             strQuery = ""
 
             For Each objQuery_Val_Bit In objLQuery_Val_Bit
-                If Not objQuery_Val_Bit.Val_Bit = Nothing Then
+                If Not objQuery_Val_Bit.Val_Bit Is Nothing Then
                     If strQuery <> "" Then
                         strQuery = strQuery & "\ OR\ "
                     End If
@@ -1674,6 +1674,47 @@ Public Class clsDBLevel
             strQuery = "*"
             objBoolQuery.Add(New WildcardQuery(New Term(objGlobals.Field_ID_Object, strQuery)), BooleanClause.Occur.MUST)
 
+        End If
+    End Sub
+
+    Public Sub CreateQuery_Att_OrderID(Optional OItem_Object As clsOntologyItem = Nothing, _
+                                       Optional OItem_AttributeType As clsOntologyItem = Nothing)
+        Dim strQuery As String
+        objBoolQuery = New Lucene.Net.Search.BooleanQuery
+
+        strQuery = ""
+
+        If Not OItem_Object Is Nothing Then
+            If Not OItem_Object.GUID Is Nothing Then
+                strQuery = OItem_Object.GUID
+            End If
+
+            If Not strQuery = "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objGlobals.Field_ID_Object, strQuery)), BooleanClause.Occur.MUST)
+
+            End If
+
+            strQuery = ""
+            If Not OItem_Object.GUID_Parent Is Nothing Then
+                strQuery = OItem_Object.GUID_Parent
+            End If
+
+            If Not strQuery = "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objGlobals.Field_ID_Class, strQuery)), BooleanClause.Occur.MUST)
+            End If
+        End If
+
+
+        If Not OItem_AttributeType Is Nothing Then
+            strQuery = ""
+            If Not OItem_AttributeType.GUID Is Nothing Then
+                strQuery = OItem_AttributeType.GUID
+            End If
+
+            
+            If Not strQuery = "" Then
+                objBoolQuery.Add(New TermQuery(New Term(objGlobals.Field_ID_AttributeType, strQuery)), BooleanClause.Occur.MUST)
+            End If
         End If
     End Sub
 
@@ -2606,6 +2647,67 @@ Public Class clsDBLevel
 
 
         Return objOItem_Result
+    End Function
+
+    Public Function get_Data_Att_OrderID(Optional OItem_Object As clsOntologyItem = Nothing, _
+                                         Optional OItem_AttributeType As clsOntologyItem = Nothing, _
+                                         Optional doASC As Boolean = True) As Long
+        Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
+        Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
+        Dim objOItem_Result As clsOntologyItem = objGlobals.LState_Success
+        Dim strSort As String
+        Dim lngOrderID As Long = 1
+
+        strSort = "OrderID:"
+
+        If doASC = True Then
+            strSort = strSort + "asc"
+        Else
+            strSort = strSort + "desc"
+        End If
+
+        CreateQuery_Att_OrderID(OItem_Object, OItem_AttributeType)
+
+        objSearchResult = objElConn.Search(objGlobals.Index, objGlobals.Type_ObjectAtt, objBoolQuery.ToString, strSort, 0, 1)
+
+        objList = objSearchResult.GetHits.Hits
+        If objList.Count > 0 Then
+            lngOrderID = objList(0).Source("OrderID")
+        End If
+
+        Return lngOrderID
+
+    End Function
+
+    Public Function get_Data_Att_OrderByVal(strOrderField As String, _
+                                     Optional OItem_Object As clsOntologyItem = Nothing, _
+                                         Optional OItem_AttributeType As clsOntologyItem = Nothing, _
+                                         Optional doASC As Boolean = True) As Long
+        Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
+        Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
+        Dim objOItem_Result As clsOntologyItem = objGlobals.LState_Success
+        Dim strSort As String
+        Dim lngOrderID As Long = 1
+
+        strSort = strOrderField & ":"
+
+        If doASC = True Then
+            strSort = strSort + "asc"
+        Else
+            strSort = strSort + "desc"
+        End If
+
+        CreateQuery_Att_OrderID(OItem_Object, OItem_AttributeType)
+
+        objSearchResult = objElConn.Search(objGlobals.Index, objGlobals.Type_ObjectAtt, objBoolQuery.ToString, strSort, 0, 1)
+
+        objList = objSearchResult.GetHits.Hits
+        If objList.Count > 0 Then
+            lngOrderID = objList(0).Source(strOrderField)
+        End If
+
+        Return lngOrderID
+
     End Function
 
     Public Function get_Data_Rel_OrderID(Optional OItem_Left As clsOntologyItem = Nothing, _

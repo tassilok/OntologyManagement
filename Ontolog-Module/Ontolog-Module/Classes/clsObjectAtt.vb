@@ -8,12 +8,12 @@
     Private strName_Class As String
     Private strVal_Named As String
     Private strID_DataType As String
-    Private boolVal As Boolean
-    Private lngVal As Long
-    Private dblVal As Double
-    Private dateVal As Date
+    Private boolVal As Nullable(Of Boolean)
+    Private lngVal As Nullable(Of Long)
+    Private dblVal As Nullable(Of Double)
+    Private dateVal As Nullable(Of Date)
     Private strVal As String
-    Private lngOrderID As Long
+    Private lngOrderID As Nullable(Of Long)
 
     Public Property ID_DataType As String
         Get
@@ -86,11 +86,11 @@
         End Set
     End Property
 
-    Public Property OrderID As Long
+    Public Property OrderID As Nullable(Of Long)
         Get
             Return lngOrderID
         End Get
-        Set(ByVal value As Long)
+        Set(ByVal value As Nullable(Of Long))
             lngOrderID = value
         End Set
     End Property
@@ -104,38 +104,38 @@
         End Set
     End Property
 
-    Public Property Val_Bit As Boolean
+    Public Property Val_Bit As Nullable(Of Boolean)
         Get
             Return boolVal
         End Get
-        Set(ByVal value As Boolean)
+        Set(ByVal value As Nullable(Of Boolean))
             boolVal = value
         End Set
     End Property
 
-    Public Property Val_lng As Long
+    Public Property Val_lng As Nullable(Of Long)
         Get
             Return lngVal
         End Get
-        Set(ByVal value As Long)
+        Set(ByVal value As Nullable(Of Long))
             lngVal = value
         End Set
     End Property
 
-    Public Property Val_Date As Date
+    Public Property Val_Date As Nullable(Of Date)
         Get
             Return dateVal
         End Get
-        Set(ByVal value As Date)
+        Set(ByVal value As Nullable(Of Date))
             dateVal = value
         End Set
     End Property
 
-    Public Property Val_Double As Double
+    Public Property Val_Double As Nullable(Of Double)
         Get
             Return dblVal
         End Get
-        Set(ByVal value As Double)
+        Set(ByVal value As Nullable(Of Double))
             dblVal = value
         End Set
     End Property
@@ -150,7 +150,7 @@
     End Property
 
 
-    Public Sub New(ByVal ID_Attribute As String, ByVal ID_Object As String, ByVal ID_Class As String, ByVal ID_AttributeType As String, ByVal OrderID As Long)
+    Public Sub New(ByVal ID_Attribute As String, ByVal ID_Object As String, ByVal ID_Class As String, ByVal ID_AttributeType As String, ByVal OrderID As Nullable(Of Long))
         strID_Attribute = ID_Attribute
         strID_AttributeType = ID_AttributeType
         strID_Object = ID_Object
@@ -158,7 +158,7 @@
         lngOrderID = OrderID
     End Sub
 
-    Public Sub New(ByVal ID_Attribute As String, ByVal ID_Object As String, ByVal Name_Object As String, ByVal ID_Class As String, ByVal Name_Class As String, ByVal ID_AttributeType As String, ByVal Name_AttributeType As String, ByVal OrderID As Long, ByVal val_Named As String, ByVal val_Bit As Boolean, ByVal val_Datetime As DateTime, ByVal val_Int As Long, ByVal val_Real As Double, ByVal val_String As String, ByVal ID_DataType As String)
+    Public Sub New(ByVal ID_Attribute As String, ByVal ID_Object As String, ByVal Name_Object As String, ByVal ID_Class As String, ByVal Name_Class As String, ByVal ID_AttributeType As String, ByVal Name_AttributeType As String, ByVal OrderID As Nullable(Of Long), ByVal val_Named As String, ByVal val_Bit As Nullable(Of Boolean), ByVal val_Datetime As Nullable(Of DateTime), ByVal val_Int As Nullable(Of Long), ByVal val_Real As Nullable(Of Double), ByVal val_String As String, ByVal ID_DataType As String)
         strID_Attribute = ID_Attribute
         strID_AttributeType = ID_AttributeType
         strName_AttributeType = Name_AttributeType
@@ -166,11 +166,9 @@
         strName_Object = Name_Object
         strID_Class = ID_Class
         strName_Class = Name_Class
-        If OrderID = -1 Then
-            lngOrderID = Nothing
-        Else
-            lngOrderID = OrderID
-        End If
+        lngOrderID = OrderID
+
+
 
         strVal_Named = val_Named
         boolVal = val_Bit
@@ -179,6 +177,10 @@
         dateVal = val_Datetime
         strVal = val_String
         strID_DataType = ID_DataType
+    End Sub
+
+    Public Sub New()
+
     End Sub
 
     Protected Overrides Sub Finalize()

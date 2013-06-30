@@ -202,7 +202,7 @@ Public Class clsDataWork_Process
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
 
             If objDBLevel_Process_Sub_L1.OList_ObjectRel.Count > 0 Then
-                objDBLevel_Process_Sub_L1.OList_ObjectRel.Sort(Function(U1 As clsObjectRel, U2 As clsObjectRel) U1.OrderID.CompareTo(U2.OrderID))
+                objDBLevel_Process_Sub_L1.OList_ObjectRel.Sort(Function(U1 As clsObjectRel, U2 As clsObjectRel) U1.OrderIDNotNull.CompareTo(U2.OrderIDNotNull))
                 For Each objOItem_Process In objDBLevel_Process_Sub_L1.OList_ObjectRel
                     objTreeNodes = TreeNode_Parent.Nodes.Find(objOItem_Process.ID_Other, False)
                     If objTreeNodes.Count = 0 Then

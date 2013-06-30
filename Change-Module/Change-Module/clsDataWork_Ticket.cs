@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace Change_Module
 {
-    class clsDataWork_Ticket
+    public class clsDataWork_Ticket
     {
         private clsDBLevel objDBLevel_Process;
         private clsDBLevel objDBLevel_Group;
@@ -21,6 +21,10 @@ namespace Change_Module
         private clsDBLevel objDBLevel_ProcessLastDone;
         private clsDBLevel objDBLevel_ProcessLastDoneDetail;
         private clsDBLevel objDBLevel_TicketList;
+        private clsDBLevel objDBLevel_TicketListStandard;
+
+        private clsDBLevel objDBLevel_TicketListTree;
+
 
         private clsLocalConfig objLocalConfig;
 
@@ -36,6 +40,8 @@ namespace Change_Module
         private Thread objThread_ProcessLastDoneDetail;
         private Thread objThread_TicketList;
 
+        private Thread objThread_TicketListTree;
+
         private clsOntologyItem objOItem_Result_Tickets;
         private clsOntologyItem objOItem_Result_Group;
         private clsOntologyItem objOItem_Result_User;
@@ -47,12 +53,19 @@ namespace Change_Module
         private clsOntologyItem objOItem_Result_ProcessLastDone;
         private clsOntologyItem objOItem_Result_ProcessLastDoneDetail;
         private clsOntologyItem objOItem_Result_TicketList;
+        private clsOntologyItem objOItem_Result_TicketListTree;
 
         private DataSet_ChangeModule.chngview_TicketList_TicketListsDataTable chngviewT_TicketList_TicketLists = new DataSet_ChangeModule.chngview_TicketList_TicketListsDataTable();
 
         public DataSet_ChangeModule.chngview_TicketList_TicketListsDataTable chngview_TicketList
         {
             get { return chngviewT_TicketList_TicketLists; }
+        }
+
+        public clsOntologyItem OItem_Result_TicketListTree 
+        {
+            get { return objOItem_Result_TicketListTree;  }
+            set { objOItem_Result_TicketListTree = value; }
         }
 
         public clsOntologyItem OItem_Result
@@ -72,24 +85,39 @@ namespace Change_Module
                 {
                     return objLocalConfig.Globals.LState_Success;
                 }
-                else if (objOItem_Result_Belonging.GUID == objLocalConfig.Globals.LState_Nothing.GUID
-                    && objOItem_Result_Group.GUID == objLocalConfig.Globals.LState_Nothing.GUID
-                    && objOItem_Result_ID.GUID == objLocalConfig.Globals.LState_Nothing.GUID
-                    && objOItem_Result_LogEntry.GUID == objLocalConfig.Globals.LState_Nothing.GUID
-                    && objOItem_Result_LogEntryDetails.GUID == objLocalConfig.Globals.LState_Nothing.GUID
-                    && objOItem_Result_Process.GUID == objLocalConfig.Globals.LState_Nothing.GUID
-                    && objOItem_Result_ProcessLastDone.GUID == objLocalConfig.Globals.LState_Nothing.GUID
-                    && objOItem_Result_ProcessLastDoneDetail.GUID == objLocalConfig.Globals.LState_Nothing.GUID
-                    && objOItem_Result_Tickets.GUID == objLocalConfig.Globals.LState_Nothing.GUID
-                    && objOItem_Result_User.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
-                {
-                    return objLocalConfig.Globals.LState_Nothing;
-                }
-                else
+                else if (objOItem_Result_Belonging.GUID == objLocalConfig.Globals.LState_Error.GUID
+                    || objOItem_Result_Group.GUID == objLocalConfig.Globals.LState_Error.GUID
+                    || objOItem_Result_ID.GUID == objLocalConfig.Globals.LState_Error.GUID
+                    || objOItem_Result_LogEntry.GUID == objLocalConfig.Globals.LState_Error.GUID
+                    || objOItem_Result_LogEntryDetails.GUID == objLocalConfig.Globals.LState_Error.GUID
+                    || objOItem_Result_Process.GUID == objLocalConfig.Globals.LState_Error.GUID
+                    || objOItem_Result_ProcessLastDone.GUID == objLocalConfig.Globals.LState_Error.GUID
+                    || objOItem_Result_ProcessLastDoneDetail.GUID == objLocalConfig.Globals.LState_Error.GUID
+                    || objOItem_Result_Tickets.GUID == objLocalConfig.Globals.LState_Error.GUID
+                    || objOItem_Result_User.GUID == objLocalConfig.Globals.LState_Error.GUID)
                 {
                     return objLocalConfig.Globals.LState_Error;
                 }
+                else
+                {
+                    return objLocalConfig.Globals.LState_Nothing;
+                }
             }
+        }
+
+        public List<clsObjectTree> OList_TicketListTree
+        {
+            get { return objDBLevel_TicketListTree.OList_ObjectTree; }
+        }
+
+        public List<clsObjectAtt> OAList_TicketListsStandard
+        {
+            get { return objDBLevel_TicketListStandard.OList_ObjectAtt; }
+        }
+
+        public List<clsOntologyItem> OList_TicketLists
+        {
+            get { return objDBLevel_TicketListTree.OList_Objects; }
         }
 
         public clsOntologyItem FillTicketTable()
@@ -108,6 +136,7 @@ namespace Change_Module
             string Name_LogState_LastDone;
             string ID_TicketList;
             string Name_TicketList;
+            Nullable<long> OrderID_TicketList;
             string ID_ProcesIncident;
             string Name_ProcessIncident;
             string ID_Class_ProcesIncident;
@@ -279,11 +308,13 @@ namespace Change_Module
                     {
                         ID_TicketList = objTicketList.objTicketList.ID_Object;
                         Name_TicketList = objTicketList.objTicketList.Name_Object;
+                        OrderID_TicketList = objTicketList.objTicketList.OrderID;
                     }
                     else
                     {
                         ID_TicketList = null;
                         Name_TicketList = null;
+                        OrderID_TicketList = null;
                     }
 
                     if (objTicketList.objProcessLastDone != null)
@@ -300,24 +331,16 @@ namespace Change_Module
                         ID_Class_ProcesIncident = null;
                         Name_Class_ProcessIncident = null;
                     }
-                    
-                    Val_Date_Finished = objTicketList.objLogEntryFinished.objDateTimeStamp.Val_Date;
-                    ID_LogState_Finished = objTicketList.objLogEntryFinished.objLogState.ID_Other;
-                    Name_LogState_Finished = objTicketList.objLogEntryFinished.objLogState.Name_Other;
-                    ID_LogEntry_LastDone = objTicketList.objLogEntryLastDone.objLogEntry.ID_Other;
-                    Val_Date_LastDone = objTicketList.objLogEntryLastDone.objDateTimeStamp.Val_Date;
-                    Val_Message_LastDone = objTicketList.objLogEntryLastDone.objMessage.Val_String;
-                    ID_LogState_LastDone = objTicketList.objLogEntryLastDone.objLogState.ID_Other;
-                    Name_LogState_LastDone = objTicketList.objLogEntryLastDone.objLogState.Name_Other;
-                    ID_TicketList = objTicketList.objTicketList.ID_Object;
-                    Name_TicketList = objTicketList.objTicketList.Name_Object;
 
-                    chngviewT_TicketList_TicketLists.Rows.Add(objTicketList.objTicket.GUID,
+
+                    chngviewT_TicketList_TicketLists.Rows.Add(objTicketList.objID.Val_lng, 
+                                                              objTicketList.objTicket.GUID,
                                                               objTicketList.objTicket.Name,
-                                                              objTicketList.objID.Val_lng,
-                                                              objTicketList.objTicketList.OrderID,
+                                                              OrderID_TicketList,
                                                               objTicketList.objGroup.ID_Other,
                                                               objTicketList.objGroup.Name_Other,
+                                                              objTicketList.objUser.ID_Other, 
+                                                              objTicketList.objUser.Name_Other,
                                                               objTicketList.objProcess.ID_Other,
                                                               objTicketList.objProcess.Name_Other,
                                                               objTicketList.objBelonging.ID_Other,
@@ -330,9 +353,9 @@ namespace Change_Module
                                                               objTicketList.objLogEntryStarted.objLogEntry.ID_Other,
                                                               objTicketList.objLogEntryStarted.objDateTimeStamp.Val_Date,
                                                               ID_LogEntry_Finished,
-                                                              Val_Date_Finished,
                                                               ID_LogState_Finished,
                                                               Name_LogState_Finished,
+                                                              Val_Date_Finished,
                                                               ID_LogEntry_LastDone,
                                                               Val_Date_LastDone,
                                                               Val_Message_LastDone,
@@ -366,7 +389,7 @@ namespace Change_Module
             return objOItem_Result;
         }
 
-        private void GetData_Tickets()
+        private void GetData_TicketsList()
         {
             List<clsOntologyItem> objOList_TicketList = new List<clsOntologyItem>() { };
 
@@ -398,7 +421,7 @@ namespace Change_Module
                                                       objLocalConfig.OItem_RelationType_belongsTo.GUID,
                                                       objLocalConfig.Globals.Type_Object,
                                                       null,
-                                                      -1));
+                                                      null));
 
             objOItem_Result_Group = objDBLevel_Group.get_Data_ObjectRel(objORList_Groups, 
                                                                         boolIDs:false);
@@ -418,7 +441,7 @@ namespace Change_Module
                                                       objLocalConfig.OItem_RelationType_belongsTo.GUID,
                                                       objLocalConfig.Globals.Type_Object,
                                                       null,
-                                                      -1));
+                                                      null));
 
             objOItem_Result_User = objDBLevel_User.get_Data_ObjectRel(objORList_Users,
                                                                       boolIDs: false);
@@ -438,7 +461,7 @@ namespace Change_Module
                                                       null,
                                                       objLocalConfig.Globals.Type_Object,
                                                       null,
-                                                      -1));
+                                                      null));
 
             objOItem_Result_LogEntry = objDBLevel_LogEntry.get_Data_ObjectRel(objORList_LogEntries, 
                                                                               boolIDs: false);
@@ -460,7 +483,7 @@ namespace Change_Module
                                                       objLocalConfig.OItem_RelationType_belongsTo.GUID,
                                                       objLocalConfig.Globals.Type_Object,
                                                       null,
-                                                      -1));
+                                                      null));
 
             objOItem_Result_Process = objDBLevel_Process.get_Data_ObjectRel(objORList_Process, 
                                                                             boolIDs: false);
@@ -479,10 +502,10 @@ namespace Change_Module
                                                       objLocalConfig.OItem_Type_Process_Ticket.GUID,
                                                       null,
                                                       null,
-                                                      objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                                                      objLocalConfig.OItem_RelationType_belonging_Resource.GUID,
                                                       null,
                                                       null,
-                                                      -1));
+                                                      null));
 
             objOItem_Result_Belonging = objDBLevel_Belonging.get_Data_ObjectRel(objORList_Belonging, 
                                                                                 boolIDs: false);
@@ -502,7 +525,7 @@ namespace Change_Module
                                                       objLocalConfig.OItem_RelationType_Last_Done.GUID,
                                                       objLocalConfig.Globals.Type_Object,
                                                       null,
-                                                      -1));
+                                                      null));
 
             objOItem_Result_ProcessLastDone = objDBLevel_ProcessLastDone.get_Data_ObjectRel(objORList_ProcessLastDone, 
                                                                                             boolIDs: false);
@@ -521,7 +544,7 @@ namespace Change_Module
                                                                  objLocalConfig.OItem_RelationType_Last_Done.GUID,
                                                                  objLocalConfig.Globals.Type_Object,
                                                                  null,
-                                                                 -1));
+                                                                 null));
 
             objORList_ProcessLastDoneDetail.Add(new clsObjectRel(null,
                                                                  objLocalConfig.OItem_Type_Process_Last_Done.GUID,
@@ -530,7 +553,7 @@ namespace Change_Module
                                                                  objLocalConfig.OItem_RelationType_Last_Done.GUID,
                                                                  objLocalConfig.Globals.Type_Object,
                                                                  null,
-                                                                 -1));
+                                                                 null));
 
             objOItem_Result_ProcessLastDoneDetail = objDBLevel_ProcessLastDoneDetail.get_Data_ObjectRel(objORList_ProcessLastDoneDetail, 
                                                                                                         boolIDs: false);
@@ -547,7 +570,7 @@ namespace Change_Module
                                               null,
                                               objLocalConfig.OItem_Type_Process_Ticket.GUID,
                                               objLocalConfig.OItem_Attribute_ID.GUID,
-                                              -1));
+                                              null));
 
             objOItem_Result_ID = objDBLevel_ID.get_Data_ObjectAtt(objOAList_ID, 
                                                                   boolIDs: false);
@@ -566,7 +589,7 @@ namespace Change_Module
                                                       objLocalConfig.OItem_RelationType_contains.GUID,
                                                       objLocalConfig.Globals.Type_Object,
                                                       null,
-                                                      -1));
+                                                      null));
 
             objOItem_Result_TicketList = objDBLevel_TicketList.get_Data_ObjectRel(objORList_TicketList,
                                                                                   boolIDs: false);
@@ -586,13 +609,13 @@ namespace Change_Module
                                                            null,
                                                            objLocalConfig.OItem_Type_LogEntry.GUID,
                                                            objLocalConfig.OItem_Attribute_DateTimeStamp.GUID,
-                                                           -1));
+                                                           null));
 
             objOAList_LogEntryDetails.Add(new clsObjectAtt(null,
                                                            null,
                                                            objLocalConfig.OItem_Type_LogEntry.GUID,
                                                            objLocalConfig.OItem_Attribute_Message.GUID,
-                                                           -1));
+                                                           null));
             
             objORList_LogEntryDetails.Add(new clsObjectRel(null,
                                                            objLocalConfig.OItem_Type_LogEntry.GUID,
@@ -601,7 +624,7 @@ namespace Change_Module
                                                            objLocalConfig.OItem_RelationType_provides.GUID,
                                                            objLocalConfig.Globals.Type_Object,
                                                            null,
-                                                           -1));
+                                                           null));
 
             objOItem_Result = objDBLevel_LogEntryDetailsAtt.get_Data_ObjectAtt(objOAList_LogEntryDetails,
                                                                                boolIDs: false);
@@ -621,7 +644,75 @@ namespace Change_Module
             
         }
 
-        public clsOntologyItem GetData()
+        public void GetData_TicketListTree_Thread()
+        {
+            clsOntologyItem objOItem_Result;
+            List<clsObjectAtt> objOAL_TicketStandard = new List<clsObjectAtt>() { };
+            Nullable<DateTime> DateTime_Filter = null;
+            Nullable<double> Double_Filter = null;
+            Nullable<int> Int_Filter = null;
+
+            OItem_Result_TicketListTree = objLocalConfig.Globals.LState_Nothing;
+
+
+            objOItem_Result = objDBLevel_TicketListTree.get_Data_Objects_Tree(objLocalConfig.OItem_Type_Process_Ticket_Lists,
+                                                                                             objLocalConfig.OItem_Type_Process_Ticket_Lists,
+                                                                                             objLocalConfig.OItem_RelationType_contains);
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                objOAL_TicketStandard.Add(new clsObjectAtt(null,
+                                                           null,
+                                                           null,
+                                                           objLocalConfig.OItem_Type_Process_Ticket_Lists.GUID, 
+                                                           null,
+                                                           objLocalConfig.OItem_Attribute_Standard.GUID, 
+                                                           null,
+                                                           null, 
+                                                           null,
+                                                           true,
+                                                           null,
+                                                           null, 
+                                                           null, 
+                                                           null,
+                                                           objLocalConfig.Globals.DType_Bool.GUID));
+
+                objOItem_Result_TicketListTree = objDBLevel_TicketListStandard.get_Data_ObjectAtt(objOAL_TicketStandard,
+                                                                                                  boolIDs:false);
+            }
+            else
+            {
+                objOItem_Result_TicketListTree = objOItem_Result;
+            }
+
+            
+
+        }
+
+        public clsOntologyItem GetData_TicketListTree()
+        {
+            clsOntologyItem objOItem_Result;
+
+            try
+            {
+                objThread_TicketListTree.Abort();
+            }
+            catch
+            {
+
+            }
+
+            OItem_Result_TicketListTree = objLocalConfig.Globals.LState_Nothing;
+
+            objThread_TicketListTree = new Thread(GetData_TicketListTree_Thread);
+
+            objThread_TicketListTree.Start();
+
+            objOItem_Result = objLocalConfig.Globals.LState_Success;
+
+            return objOItem_Result;
+        }
+        public clsOntologyItem GetData_Tickets()
         {
             clsOntologyItem objOItem_Result;
 
@@ -733,9 +824,9 @@ namespace Change_Module
             objThread_Process = new Thread(GetData_Process);
             objThread_ProcessLastDone = new Thread(GetData_ProcessLastDone);
             objThread_ProcessLastDoneDetail = new Thread(GetData_ProcessLastDoneDetail);
-            objThread_Tickets = new Thread(GetData_Tickets);
+            objThread_Tickets = new Thread(GetData_TicketsList);
             objThread_User = new Thread(GetData_User);
-            objThread_TicketList = new Thread(GetData_User);
+            objThread_TicketList = new Thread(GetData_TicketList);
             
 
             objOItem_Result_Belonging = objLocalConfig.Globals.LState_Nothing;
@@ -767,9 +858,119 @@ namespace Change_Module
             return objOItem_Result;
         }
 
+        public clsObjectAtt GetID(clsOntologyItem OItem_Ticket)
+        {
+            clsObjectAtt objOA_ID;
+            long lngOrderID;
+
+            lngOrderID = objDBLevel_ID.get_Data_Att_OrderByVal("Val_Int", new clsOntologyItem(null,null,OItem_Ticket.GUID_Parent,objLocalConfig.Globals.Type_Object), objLocalConfig.OItem_Attribute_ID,false);
+
+            lngOrderID++;
+
+            objOA_ID = new clsObjectAtt(objLocalConfig.Globals.NewGUID,
+                                        OItem_Ticket.GUID,
+                                        null,
+                                        OItem_Ticket.GUID_Parent,
+                                        null,
+                                        objLocalConfig.OItem_Attribute_ID.GUID,
+                                        null,
+                                        1,
+                                        lngOrderID.ToString(),
+                                        null,
+                                        null,
+                                        lngOrderID,
+                                        null,
+                                        null,
+                                        objLocalConfig.Globals.DType_Int.GUID);
+
+            return objOA_ID;
+        }
+
+        public clsObjectRel Rel_Ticket_To_Group(clsOntologyItem OItem_Ticket)
+        {
+            clsObjectRel objOR_Ticket_To_Group;
+
+            objOR_Ticket_To_Group = new clsObjectRel(OItem_Ticket.GUID,
+                                                     OItem_Ticket.GUID_Parent,
+                                                     objLocalConfig.OItem_Group.GUID,
+                                                     objLocalConfig.OItem_Group.GUID_Parent,
+                                                     objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                                                     objLocalConfig.Globals.Type_Object,
+                                                     null,
+                                                     1);
+
+            return objOR_Ticket_To_Group;
+        }
+
+        public clsObjectRel Rel_ProcessLog_To_Process(clsOntologyItem OItem_ProcessLog, clsOntologyItem OItem_Process)
+        {
+            clsObjectRel objOR_ProcessLog_To_Process;
+
+            objOR_ProcessLog_To_Process = new clsObjectRel(OItem_ProcessLog.GUID,
+                                                           OItem_ProcessLog.GUID_Parent,
+                                                           OItem_Process.GUID,
+                                                           OItem_Process.GUID_Parent,
+                                                           objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                                                           objLocalConfig.Globals.Type_Object,
+                                                           null,
+                                                           1);
+
+            return objOR_ProcessLog_To_Process;
+        }
+
+        public clsObjectRel Rel_Ticket_To_User(clsOntologyItem OItem_Ticket)
+        {
+            clsObjectRel objOR_Ticket_To_User;
+
+            objOR_Ticket_To_User = new clsObjectRel(OItem_Ticket.GUID,
+                                                     OItem_Ticket.GUID_Parent,
+                                                     objLocalConfig.OItem_User.GUID,
+                                                     objLocalConfig.OItem_User.GUID_Parent,
+                                                     objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                                                     objLocalConfig.Globals.Type_Object,
+                                                     null,
+                                                     1);
+
+            return objOR_Ticket_To_User ;
+        }
+
+        public clsObjectRel Rel_Ticket_To_LogEntry(clsOntologyItem OItem_Ticket, clsOntologyItem OItem_LogEntry, clsOntologyItem OItem_RelationType)
+        {
+            clsObjectRel objOR_Ticket_LogEntry;
+
+            objOR_Ticket_LogEntry = new clsObjectRel(OItem_Ticket.GUID,
+                                                     OItem_Ticket.GUID_Parent,
+                                                     OItem_LogEntry.GUID,
+                                                     OItem_LogEntry.GUID_Parent,
+                                                     OItem_RelationType.GUID,
+                                                     objLocalConfig.Globals.Type_Object,
+                                                     null,
+                                                     1);
+
+            return objOR_Ticket_LogEntry;
+        }
+
+        public clsObjectRel Rel_Ticket_To_Process(clsOntologyItem OItem_Ticket, clsOntologyItem OItem_Process)
+        {
+            clsObjectRel objOR_Ticket_Process;
+
+            objOR_Ticket_Process = new clsObjectRel(OItem_Ticket.GUID,
+                                                    OItem_Ticket.GUID_Parent,
+                                                    OItem_Process.GUID,
+                                                    OItem_Process.GUID_Parent,
+                                                    objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                                                    objLocalConfig.Globals.Type_Object,
+                                                    null,
+                                                    1);
+
+
+            return objOR_Ticket_Process;
+        }
+
         public clsDataWork_Ticket(clsLocalConfig LocalConfig)
         {
             objLocalConfig = LocalConfig;
+            set_DBConnection();
         }
 
         private void set_DBConnection()
@@ -783,8 +984,12 @@ namespace Change_Module
             objDBLevel_Tickets = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_User = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Process = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_ProcessLastDoneDetail = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Group = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_TicketList = new clsDBLevel(objLocalConfig.Globals);
+
+            objDBLevel_TicketListTree = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_TicketListStandard = new clsDBLevel(objLocalConfig.Globals);
             
         }
     }

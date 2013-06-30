@@ -49,6 +49,13 @@
   <ItemGroup>
     <Compile Include="clsDataWork_Ticket.cs" />
     <Compile Include="clsLocalConfig.cs" />
+    <Compile Include="clsTicketWork.cs" />
+    <Compile Include="clsTransaction_ProcessLog.cs" />
+    <Compile Include="clsTransaction_Ticket.cs" />
+    <Compile Include="clsTransaction_TicketLists.cs" />
+    <Compile Include="DataSet_ChangeModule.cs">
+      <DependentUpon>DataSet_ChangeModule.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DataSet_ChangeModule.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -62,6 +69,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControl_TicketList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_TicketList.Designer.cs">
+      <DependentUpon>UserControl_TicketList.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControl_TicketTree.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -81,6 +94,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UserControl_TicketList.resx">
+      <DependentUpon>UserControl_TicketList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControl_TicketTree.resx">
       <DependentUpon>UserControl_TicketTree.cs</DependentUpon>
     </EmbeddedResource>
@@ -116,9 +132,21 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Log-Module\Log-Module\Log-Module.vbproj">
+      <Project>{666536BD-FD4A-4BDF-A5BC-572E07D4E27A}</Project>
+      <Name>Log-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3F2F6722-C36B-420D-AFE7-B21C19457208}</Project>
       <Name>Ontolog-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Process-Module\Process-Module\Process-Module.vbproj">
+      <Project>{E561F46E-D579-4C7D-8692-A0351E0F7069}</Project>
+      <Name>Process-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Security-Module\Security-Module\Security-Module.vbproj">
+      <Project>{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}</Project>
+      <Name>Security-Module</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

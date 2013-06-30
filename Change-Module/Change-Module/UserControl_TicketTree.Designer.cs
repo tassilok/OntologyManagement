@@ -34,17 +34,22 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripProgressBar_Lists = new System.Windows.Forms.ToolStripProgressBar();
             this.treeView_Lists = new System.Windows.Forms.TreeView();
+            this.ImageList_Main = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel_SelctedRange = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_SelectedRange = new System.Windows.Forms.ToolStripTextBox();
-            this.ImageList_Main = new System.Windows.Forms.ImageList(this.components);
             this.timerRelated = new System.Windows.Forms.Timer(this.components);
+            this.ContextMenuStrip_TicketTree = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.CreateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RemoveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ApplyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
+            this.ContextMenuStrip_TicketTree.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -87,10 +92,30 @@
             // treeView_Lists
             // 
             this.treeView_Lists.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView_Lists.ImageIndex = 0;
+            this.treeView_Lists.ImageList = this.ImageList_Main;
             this.treeView_Lists.Location = new System.Drawing.Point(0, 0);
             this.treeView_Lists.Name = "treeView_Lists";
+            this.treeView_Lists.SelectedImageIndex = 0;
             this.treeView_Lists.Size = new System.Drawing.Size(464, 359);
             this.treeView_Lists.TabIndex = 0;
+            this.treeView_Lists.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_Lists_AfterSelect);
+            // 
+            // ImageList_Main
+            // 
+            this.ImageList_Main.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageList_Main.ImageStream")));
+            this.ImageList_Main.TransparentColor = System.Drawing.Color.Transparent;
+            this.ImageList_Main.Images.SetKeyName(0, "bb_home_.png");
+            this.ImageList_Main.Images.SetKeyName(1, "gnome-mime-application-vnd.ms-powerpoint.png");
+            this.ImageList_Main.Images.SetKeyName(2, "Types_Closed.png");
+            this.ImageList_Main.Images.SetKeyName(3, "Types_Opened.png");
+            this.ImageList_Main.Images.SetKeyName(4, "Attributes bamboo_danny_allen_r.png");
+            this.ImageList_Main.Images.SetKeyName(5, "RelationTypes gpride_jean_victor_balin_.png");
+            this.ImageList_Main.Images.SetKeyName(6, "Vogelschwarm klein.png");
+            this.ImageList_Main.Images.SetKeyName(7, "Types_Closed SubItems.png");
+            this.ImageList_Main.Images.SetKeyName(8, "Types_Opened SubItems.png");
+            this.ImageList_Main.Images.SetKeyName(9, "clipboard_01.ico");
+            this.ImageList_Main.Images.SetKeyName(10, "bb_pckg_.ico");
             // 
             // toolStrip2
             // 
@@ -114,25 +139,40 @@
             this.toolStripTextBox_SelectedRange.Name = "toolStripTextBox_SelectedRange";
             this.toolStripTextBox_SelectedRange.Size = new System.Drawing.Size(200, 25);
             // 
-            // ImageList_Main
-            // 
-            this.ImageList_Main.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageList_Main.ImageStream")));
-            this.ImageList_Main.TransparentColor = System.Drawing.Color.Transparent;
-            this.ImageList_Main.Images.SetKeyName(0, "bb_home_.png");
-            this.ImageList_Main.Images.SetKeyName(1, "gnome-mime-application-vnd.ms-powerpoint.png");
-            this.ImageList_Main.Images.SetKeyName(2, "Types_Closed.png");
-            this.ImageList_Main.Images.SetKeyName(3, "Types_Opened.png");
-            this.ImageList_Main.Images.SetKeyName(4, "Attributes bamboo_danny_allen_r.png");
-            this.ImageList_Main.Images.SetKeyName(5, "RelationTypes gpride_jean_victor_balin_.png");
-            this.ImageList_Main.Images.SetKeyName(6, "Vogelschwarm klein.png");
-            this.ImageList_Main.Images.SetKeyName(7, "Types_Closed SubItems.png");
-            this.ImageList_Main.Images.SetKeyName(8, "Types_Opened SubItems.png");
-            this.ImageList_Main.Images.SetKeyName(9, "clipboard_01.ico");
-            this.ImageList_Main.Images.SetKeyName(10, "bb_pckg_.ico");
-            // 
             // timerRelated
             // 
             this.timerRelated.Interval = 300;
+            this.timerRelated.Tick += new System.EventHandler(this.timerRelated_Tick);
+            // 
+            // ContextMenuStrip_TicketTree
+            // 
+            this.ContextMenuStrip_TicketTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CreateToolStripMenuItem,
+            this.RemoveToolStripMenuItem,
+            this.ApplyToolStripMenuItem});
+            this.ContextMenuStrip_TicketTree.Name = "ContextMenuStrip_TicketTree";
+            this.ContextMenuStrip_TicketTree.Size = new System.Drawing.Size(153, 92);
+            this.ContextMenuStrip_TicketTree.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip_TicketTree_Opening);
+            // 
+            // CreateToolStripMenuItem
+            // 
+            this.CreateToolStripMenuItem.Name = "CreateToolStripMenuItem";
+            this.CreateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.CreateToolStripMenuItem.Text = "x_Create";
+            this.CreateToolStripMenuItem.Click += new System.EventHandler(this.CreateToolStripMenuItem_Click);
+            // 
+            // RemoveToolStripMenuItem
+            // 
+            this.RemoveToolStripMenuItem.Name = "RemoveToolStripMenuItem";
+            this.RemoveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.RemoveToolStripMenuItem.Text = "x_Remove";
+            // 
+            // ApplyToolStripMenuItem
+            // 
+            this.ApplyToolStripMenuItem.Enabled = false;
+            this.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem";
+            this.ApplyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ApplyToolStripMenuItem.Text = "x_Apply";
             // 
             // UserControl_TicketTree
             // 
@@ -152,6 +192,7 @@
             this.toolStrip1.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            this.ContextMenuStrip_TicketTree.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -167,5 +208,9 @@
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox_SelectedRange;
         internal System.Windows.Forms.ImageList ImageList_Main;
         private System.Windows.Forms.Timer timerRelated;
+        internal System.Windows.Forms.ContextMenuStrip ContextMenuStrip_TicketTree;
+        internal System.Windows.Forms.ToolStripMenuItem CreateToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem RemoveToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem ApplyToolStripMenuItem;
     }
 }

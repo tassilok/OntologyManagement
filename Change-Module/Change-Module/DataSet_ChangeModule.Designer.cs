@@ -279,17 +279,21 @@ namespace Change_Module {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class chngview_TicketList_TicketListsDataTable : global::System.Data.TypedTableBase<chngview_TicketList_TicketListsRow> {
             
+            private global::System.Data.DataColumn columnID;
+            
             private global::System.Data.DataColumn columnGUID_Ticket;
             
             private global::System.Data.DataColumn columnName_Ticket;
-            
-            private global::System.Data.DataColumn columnID;
             
             private global::System.Data.DataColumn _columnTicket_Order;
             
             private global::System.Data.DataColumn columnGUID_Group;
             
             private global::System.Data.DataColumn columnName_Group;
+            
+            private global::System.Data.DataColumn columnGUID_User;
+            
+            private global::System.Data.DataColumn columnName_User;
             
             private global::System.Data.DataColumn columnGUID_Process;
             
@@ -370,6 +374,14 @@ namespace Change_Module {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn IDColumn {
+                get {
+                    return this.columnID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public global::System.Data.DataColumn GUID_TicketColumn {
                 get {
                     return this.columnGUID_Ticket;
@@ -381,14 +393,6 @@ namespace Change_Module {
             public global::System.Data.DataColumn Name_TicketColumn {
                 get {
                     return this.columnName_Ticket;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn IDColumn {
-                get {
-                    return this.columnID;
                 }
             }
             
@@ -413,6 +417,22 @@ namespace Change_Module {
             public global::System.Data.DataColumn Name_GroupColumn {
                 get {
                     return this.columnName_Group;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn GUID_UserColumn {
+                get {
+                    return this.columnGUID_User;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn Name_UserColumn {
+                get {
+                    return this.columnName_User;
                 }
             }
             
@@ -630,12 +650,14 @@ namespace Change_Module {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public chngview_TicketList_TicketListsRow Addchngview_TicketList_TicketListsRow(
+                        long ID, 
                         string GUID_Ticket, 
                         string Name_Ticket, 
-                        long ID, 
                         long _Ticket_Order, 
                         string GUID_Group, 
                         string Name_Group, 
+                        string GUID_User, 
+                        string Name_User, 
                         string GUID_Process, 
                         string Name_Process, 
                         string GUID_Item_belongsTo, 
@@ -660,12 +682,14 @@ namespace Change_Module {
                         string Name_TicketList) {
                 chngview_TicketList_TicketListsRow rowchngview_TicketList_TicketListsRow = ((chngview_TicketList_TicketListsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
+                        ID,
                         GUID_Ticket,
                         Name_Ticket,
-                        ID,
                         _Ticket_Order,
                         GUID_Group,
                         Name_Group,
+                        GUID_User,
+                        Name_User,
                         GUID_Process,
                         Name_Process,
                         GUID_Item_belongsTo,
@@ -710,12 +734,14 @@ namespace Change_Module {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
+                this.columnID = base.Columns["ID"];
                 this.columnGUID_Ticket = base.Columns["GUID_Ticket"];
                 this.columnName_Ticket = base.Columns["Name_Ticket"];
-                this.columnID = base.Columns["ID"];
                 this._columnTicket_Order = base.Columns["Ticket-Order"];
                 this.columnGUID_Group = base.Columns["GUID_Group"];
                 this.columnName_Group = base.Columns["Name_Group"];
+                this.columnGUID_User = base.Columns["GUID_User"];
+                this.columnName_User = base.Columns["Name_User"];
                 this.columnGUID_Process = base.Columns["GUID_Process"];
                 this.columnName_Process = base.Columns["Name_Process"];
                 this.columnGUID_Item_belongsTo = base.Columns["GUID_Item_belongsTo"];
@@ -743,12 +769,12 @@ namespace Change_Module {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
+                this.columnID = new global::System.Data.DataColumn("ID", typeof(long), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID);
                 this.columnGUID_Ticket = new global::System.Data.DataColumn("GUID_Ticket", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGUID_Ticket);
                 this.columnName_Ticket = new global::System.Data.DataColumn("Name_Ticket", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName_Ticket);
-                this.columnID = new global::System.Data.DataColumn("ID", typeof(long), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID);
                 this._columnTicket_Order = new global::System.Data.DataColumn("Ticket-Order", typeof(long), null, global::System.Data.MappingType.Element);
                 this._columnTicket_Order.ExtendedProperties.Add("Generator_ColumnVarNameInTable", "_columnTicket_Order");
                 this._columnTicket_Order.ExtendedProperties.Add("Generator_UserColumnName", "Ticket-Order");
@@ -757,6 +783,10 @@ namespace Change_Module {
                 base.Columns.Add(this.columnGUID_Group);
                 this.columnName_Group = new global::System.Data.DataColumn("Name_Group", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName_Group);
+                this.columnGUID_User = new global::System.Data.DataColumn("GUID_User", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnGUID_User);
+                this.columnName_User = new global::System.Data.DataColumn("Name_User", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnName_User);
                 this.columnGUID_Process = new global::System.Data.DataColumn("GUID_Process", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGUID_Process);
                 this.columnName_Process = new global::System.Data.DataColumn("Name_Process", typeof(string), null, global::System.Data.MappingType.Element);
@@ -943,6 +973,22 @@ namespace Change_Module {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public long ID {
+                get {
+                    try {
+                        return ((long)(this[this.tablechngview_TicketList_TicketLists.IDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte ID in Tabelle chngview_TicketList_TicketLists ist DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablechngview_TicketList_TicketLists.IDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string GUID_Ticket {
                 get {
                     try {
@@ -972,22 +1018,6 @@ namespace Change_Module {
                 }
                 set {
                     this[this.tablechngview_TicketList_TicketLists.Name_TicketColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public long ID {
-                get {
-                    try {
-                        return ((long)(this[this.tablechngview_TicketList_TicketLists.IDColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte ID in Tabelle chngview_TicketList_TicketLists ist DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablechngview_TicketList_TicketLists.IDColumn] = value;
                 }
             }
             
@@ -1039,6 +1069,40 @@ namespace Change_Module {
                 }
                 set {
                     this[this.tablechngview_TicketList_TicketLists.Name_GroupColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string GUID_User {
+                get {
+                    try {
+                        return ((string)(this[this.tablechngview_TicketList_TicketLists.GUID_UserColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte GUID_User in Tabelle chngview_TicketList_TicketLists ist DBNu" +
+                                "ll.", e);
+                    }
+                }
+                set {
+                    this[this.tablechngview_TicketList_TicketLists.GUID_UserColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Name_User {
+                get {
+                    try {
+                        return ((string)(this[this.tablechngview_TicketList_TicketLists.Name_UserColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("Der Wert für Spalte Name_User in Tabelle chngview_TicketList_TicketLists ist DBNu" +
+                                "ll.", e);
+                    }
+                }
+                set {
+                    this[this.tablechngview_TicketList_TicketLists.Name_UserColumn] = value;
                 }
             }
             
@@ -1418,6 +1482,18 @@ namespace Change_Module {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsIDNull() {
+                return this.IsNull(this.tablechngview_TicketList_TicketLists.IDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetIDNull() {
+                this[this.tablechngview_TicketList_TicketLists.IDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsGUID_TicketNull() {
                 return this.IsNull(this.tablechngview_TicketList_TicketLists.GUID_TicketColumn);
             }
@@ -1438,18 +1514,6 @@ namespace Change_Module {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetName_TicketNull() {
                 this[this.tablechngview_TicketList_TicketLists.Name_TicketColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsIDNull() {
-                return this.IsNull(this.tablechngview_TicketList_TicketLists.IDColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetIDNull() {
-                this[this.tablechngview_TicketList_TicketLists.IDColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1486,6 +1550,30 @@ namespace Change_Module {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetName_GroupNull() {
                 this[this.tablechngview_TicketList_TicketLists.Name_GroupColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsGUID_UserNull() {
+                return this.IsNull(this.tablechngview_TicketList_TicketLists.GUID_UserColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetGUID_UserNull() {
+                this[this.tablechngview_TicketList_TicketLists.GUID_UserColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsName_UserNull() {
+                return this.IsNull(this.tablechngview_TicketList_TicketLists.Name_UserColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetName_UserNull() {
+                this[this.tablechngview_TicketList_TicketLists.Name_UserColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

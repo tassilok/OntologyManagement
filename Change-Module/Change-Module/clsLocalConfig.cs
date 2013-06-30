@@ -6,7 +6,7 @@ using Ontolog_Module;
 
 namespace Change_Module
 {
-    class clsLocalConfig
+    public class clsLocalConfig
     {
 
         private const string cstr_ID_SoftwareDevelopment = "f74f2b0d84a448aea930a6f13081a95b";
@@ -107,6 +107,7 @@ namespace Change_Module
         public clsOntologyItem OItem_RelationType_superordinate{ get; set; }
         public clsOntologyItem OItem_RelationType_Time_Measuring{ get; set; }
         public clsOntologyItem OItem_RelationType_wasCreatedBy{ get; set; }
+        public clsOntologyItem OItem_RelationType_belonging_Resource { get; set; }
 
         // Objects
         public clsOntologyItem OItem_Token_LogState_Create{ get; set; }
@@ -149,7 +150,10 @@ namespace Change_Module
         public clsOntologyItem OItem_type_User{ get; set; }
         public clsOntologyItem OItem_Type_User_Work_Config{ get; set; }
         public clsOntologyItem OItem_Type_Work_Day{ get; set; }
-               
+
+        // Credentials
+        public clsOntologyItem OItem_User { get; set; }
+        public clsOntologyItem OItem_Group { get; set; }
 
         private void get_Data_DevelopmentConfig()
         {
@@ -173,7 +177,7 @@ namespace Change_Module
                                         Globals.Type_Object,
                                         null,
                                         null,
-                                        -1));
+                                        null));
 
             objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel);
             if (objDBLevel_Config1.OList_ObjectRel_ID.Count > 0)
@@ -197,7 +201,7 @@ namespace Change_Module
                                                         Globals.Type_Object,
                                                         null,
                                                         null,
-                                                        -1));
+                                                        null));
 
                 objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel,
                                                 false,
@@ -227,7 +231,7 @@ namespace Change_Module
                                                                 null,
                                                                 Globals.Direction_LeftRight.GUID,
                                                                 Globals.Direction_LeftRight.Name,
-                                                                -1));
+                                                                null));
                     }
                     objDBLevel_Config2.get_Data_ObjectRel(oList_ObjectRel,
                                                         false,
@@ -1050,6 +1054,23 @@ namespace Change_Module
                 throw new Exception("Config-Error");
             }
 
+            var objOList_relationtype_belonginResources = from obj in objDBLevel_Config2.OList_ObjectRel
+                                                          where obj.Name_Object.ToLower() == "relationtype_belonging_resource"
+                                                     && obj.Ontology == Globals.Type_RelationType
+                                                     select obj;
+
+            if (objOList_relationtype_belonginResources.Any())
+            {
+                OItem_RelationType_belonging_Resource = new clsOntologyItem();
+                OItem_RelationType_belonging_Resource.GUID = objOList_relationtype_belonginResources.ElementAt(0).ID_Other;
+                OItem_RelationType_belonging_Resource.Name = objOList_relationtype_belonginResources.ElementAt(0).Name_Other;
+                OItem_RelationType_belonging_Resource.Type = Globals.Type_RelationType;
+            }
+            else
+            {
+                throw new Exception("Config-Error");
+            }
+
 
         }
 
@@ -1395,6 +1416,11 @@ namespace Change_Module
                     throw new Exception("Config-Error");
                 }
 
+
+        }
+
+        public clsLocalConfig()
+        {
 
         }
     }
