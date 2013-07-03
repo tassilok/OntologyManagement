@@ -105,7 +105,10 @@ namespace Change_Module
             clsObjectRel objORel_Ticket_To_LogEntry_BelongingDone;
             clsObjectRel objORel_Ticket_To_Process;
             clsObjectRel objORel_User;
-            clsObjectRel objORel_
+            clsObjectRel objORel_Ticket_To_ProcessLastDone;
+            clsObjectRel objORel_ProcessLog_To_Process;
+            clsObjectRel objORel_ProcessLog_To_LogEntry_Started;
+            clsObjectRel objORel_ProcessLog_To_LogEntry_belongingDone;
 
             objLogManagement = new clsLogManagement(objLocalConfig.Globals);
 
@@ -208,16 +211,69 @@ namespace Change_Module
                                                 objOItem_Result = objTransaction_Ticket.do_Transaction(objORel_Ticket_To_Process);
                                                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                                 {
-                                                    objOItem_Result = objTransaction_Ticket.do_Transaction(objOItem_ProcessLog);
+                                                    objORel_Ticket_To_ProcessLastDone = objDataWork_Ticket.Rel_Ticket_To_ProcessLastDone(objOItem_Ticket, objOItem_Process);
+
+                                                    objOItem_Result =objTransaction_Ticket.do_Transaction(objORel_Ticket_To_ProcessLastDone, true);
                                                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                                     {
-                                                        asdf
+                                                        objOItem_Result = objTransaction_Ticket.do_Transaction(objOItem_ProcessLog);
+                                                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                                        {
+                                                            objORel_ProcessLog_To_Process = objDataWork_Ticket.Rel_ProcessLog_To_Process(objOItem_ProcessLog, objOItem_Process);
+
+                                                            objOItem_Result =objTransaction_Ticket.do_Transaction(objORel_ProcessLog_To_Process, true);
+                                                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                                            {
+                                                                objORel_ProcessLog_To_LogEntry_Started =objDataWork_Ticket.Rel_ProcessLog_To_LogEntry(
+                                                                                                            objOItem_ProcessLog,
+                                                                                                            objLogManagement.OItem_LogEntry,
+                                                                                                            objLocalConfig.OItem_RelationType_started_with);
+                                                                objOItem_Result =objTransaction_Ticket.do_Transaction(objORel_ProcessLog_To_LogEntry_Started, true);
+                                                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                                                {
+                                                                    objORel_ProcessLog_To_LogEntry_Started = objDataWork_Ticket.Rel_ProcessLog_To_LogEntry(
+                                                                                                                 objOItem_ProcessLog,
+                                                                                                                 objLogManagement.OItem_LogEntry,
+                                                                                                                 objLocalConfig.OItem_RelationType_belonging_Done);
+
+                                                                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                                                    {
+                                                                     
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        objTransaction_Ticket.rollback();
+                                                                        objOItem_Result = objLocalConfig.Globals.LState_Error;
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    objTransaction_Ticket.rollback();
+                                                                    objOItem_Result = objLocalConfig.Globals.LState_Error;
+                                                                }
+
+                                                            }
+                                                            else
+                                                            {
+                                                                objTransaction_Ticket.rollback();
+                                                                objOItem_Result = objLocalConfig.Globals.LState_Error;
+                                                            }
+
+                                                        }
+                                                        else
+                                                        {
+                                                            objTransaction_Ticket.rollback();
+                                                            objOItem_Result = objLocalConfig.Globals.LState_Error;
+                                                        }
                                                     }
                                                     else
                                                     {
                                                         objTransaction_Ticket.rollback();
                                                         objOItem_Result = objLocalConfig.Globals.LState_Error;
                                                     }
+
+                                                    
                                                 }
                                                 else
                                                 {

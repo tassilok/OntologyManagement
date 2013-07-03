@@ -967,6 +967,40 @@ namespace Change_Module
             return objOR_Ticket_Process;
         }
 
+        public clsObjectRel Rel_Ticket_To_ProcessLastDone(clsOntologyItem OItem_Ticket, clsOntologyItem OItem_Process)
+        {
+            clsObjectRel objOR_Ticket_Process_LastDone;
+
+            objOR_Ticket_Process_LastDone = new clsObjectRel(OItem_Ticket.GUID,
+                                                             OItem_Ticket.GUID_Parent,
+                                                             OItem_Process.GUID,
+                                                             OItem_Process.GUID_Parent,
+                                                             objLocalConfig.OItem_RelationType_Last_Done.GUID,
+                                                             objLocalConfig.Globals.Type_Object,
+                                                             null,
+                                                             1);
+
+            return objOR_Ticket_Process_LastDone;
+        }
+
+        public clsObjectRel Rel_ProcessLog_To_LogEntry(clsOntologyItem OItem_ProcessLog, clsOntologyItem OItem_LogEntry, clsOntologyItem OItem_RelationType)
+        {
+            clsObjectRel objOR_Ticket_ProcessLog_Logentry;
+
+            objOR_Ticket_ProcessLog_Logentry = new clsObjectRel(OItem_ProcessLog.GUID,
+                                                             OItem_ProcessLog.GUID_Parent,
+                                                             OItem_LogEntry.GUID,
+                                                             OItem_LogEntry.GUID_Parent,
+                                                             OItem_RelationType.GUID,
+                                                             objLocalConfig.Globals.Type_Object,
+                                                             null,
+                                                             1);
+
+            return objOR_Ticket_ProcessLog_Logentry;
+        }
+
+       
+
         public clsDataWork_Ticket(clsLocalConfig LocalConfig)
         {
             objLocalConfig = LocalConfig;
