@@ -5,7 +5,9 @@ Public Class clsLogManagement
     Private objOItem_LogState As clsOntologyItem
     Private objOItem_User As clsOntologyItem
 
-    Private objTransaction_LogEntries As clsTransaction_LogEntry
+    'Private objTransaction_LogEntries As clsTransaction_LogEntry
+    Private objDataWork_LogEntry As clsDataWork_LogEntry
+    Private objTransaction_LogEntries As clsTransaction
 
     Private strMessage As String
 
@@ -17,6 +19,10 @@ Public Class clsLogManagement
 
     Public Function log_Entry(ByVal dateTimestamp As Date, ByVal OItem_LogState As clsOntologyItem, ByVal OItem_User As clsOntologyItem, Optional ByVal strMessage As String = Nothing) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
+        Dim objOARel_LogEntry__DateTimeStamp As clsObjectAtt
+        Dim objOARel_LogEntry__Message As clsObjectAtt
+        Dim objORel_LogEntry_To_LogState As clsObjectRel
+        Dim objORel_LogEntry_To_User As clsObjectRel
 
         objOItem_LogEntry = New clsOntologyItem
         objOItem_LogEntry.GUID = objOItem_LogEntry.NewGUID
@@ -34,88 +40,118 @@ Public Class clsLogManagement
         objOItem_LogEntry.GUID_Parent = objLocalConfig.OItem_Type_LogEntry.GUID
         objOItem_LogEntry.Type = objLocalConfig.Globals.Type_Object
 
-        objOItem_Result = objTransaction_LogEntries.save_001_LogEntry(objOItem_LogEntry)
+        'objOItem_Result = objTransaction_LogEntries.save_001_LogEntry(objOItem_LogEntry)
 
         objOItem_LogState = OItem_LogState
         objOItem_User = OItem_User
 
+        objOItem_Result = objTransaction_LogEntries.do_Transaction(objOItem_LogEntry)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            objOItem_Result = objTransaction_LogEntries.save_002_LogEntry_To_LogState(objOItem_LogState, _
-                                                                                      objOItem_LogEntry)
+            objOARel_LogEntry__DateTimeStamp = objDataWork_LogEntry.RelA_LogEntry__DateTimeStamp(objOItem_LogEntry, dateTimestamp)
+
+            objOItem_Result = objTransaction_LogEntries.do_Transaction(objOARel_LogEntry__DateTimeStamp, True)
+
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                objOItem_Result = objTransaction_LogEntries.save_003_LogEntry__DateTimeStamp(dateTimestamp, _
-                                                                                               objOItem_LogEntry)
+                objOARel_LogEntry__Message = objDataWork_LogEntry.RelA_LogEntry__Message(objOItem_LogEntry, strMessage)
+
+                objOItem_Result = objTransaction_LogEntries.do_Transaction(objOARel_LogEntry__Message, True)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    If Not strMessage = "" And Not strMessage Is Nothing Then
-                        objOItem_Result = objTransaction_LogEntries.save_004_LogEntry__Message(strMessage, _
-                                                                                               objOItem_LogEntry)
+                    objORel_LogEntry_To_LogState = objDataWork_LogEntry.Rel_LogEntry_To_LogState(objOItem_LogEntry, objOItem_LogState)
+
+                    objOItem_Result = objTransaction_LogEntries.do_Transaction(objORel_LogEntry_To_LogState, True)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objORel_LogEntry_To_User = objDataWork_LogEntry.Rel_LogEntry_To_User(objOItem_LogEntry, objOItem_User)
+
+                        objOItem_Result = objTransaction_LogEntries.do_Transaction(objORel_LogEntry_To_User, True)
                         If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            objOItem_Result = objTransaction_LogEntries.del_003_LogEntry__DateTimeStamp()
-                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                objOItem_Result = objTransaction_LogEntries.del_002_LogEntry_To_LogState()
-                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                    objTransaction_LogEntries.del_001_LogEntry()
-                                End If
-                            End If
-
-
+                            objTransaction_LogEntries.rollback()
                             objOItem_LogEntry = Nothing
                         End If
+
+                    Else
+                        objTransaction_LogEntries.rollback()
+                        objOItem_LogEntry = Nothing
                     End If
                 Else
-                    objOItem_Result = objTransaction_LogEntries.del_002_LogEntry_To_LogState()
-                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        objTransaction_LogEntries.del_001_LogEntry()
-                    End If
-
+                    objTransaction_LogEntries.rollback()
                     objOItem_LogEntry = Nothing
                 End If
             Else
-                objTransaction_LogEntries.del_001_LogEntry()
-
+                objTransaction_LogEntries.rollback()
                 objOItem_LogEntry = Nothing
             End If
-        Else
-            objOItem_LogEntry = Nothing
         End If
+        
         Return objOItem_Result
     End Function
 
     Public Function del_LogEntry(ByVal OItem_LogEntry As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
+        Dim objOARel_LogEntry__DateTimeStamp As clsObjectAtt
+        Dim objOARel_LogEntry__Message As clsObjectAtt
+        Dim objORel_LogEntry_To_LogState As clsObjectRel
+        Dim objORel_LogEntry_To_User As clsObjectRel
 
-        objOItem_Result = objTransaction_LogEntries.del_004_LogEntry__Messages(objOItem_LogEntry)
-        If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-            objOItem_Result = objTransaction_LogEntries.del_003_LogEntry__DateTimeStamp()
-            If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                objOItem_Result = objTransaction_LogEntries.del_002_LogEntry_To_LogState()
-                If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                    objOItem_Result = objTransaction_LogEntries.del_001_LogEntry()
-                    If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID _
-                        And Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
-                        objOItem_Result = objLocalConfig.Globals.LState_Success
-                    Else
-                        objOItem_Result = objLocalConfig.Globals.LState_Error
-                    End If
+        objTransaction_LogEntries.fill_TransactionList(objOItem_LogEntry)
 
-                End If
-            End If
-        End If
+        objOARel_LogEntry__DateTimeStamp = New clsObjectAtt(Nothing, _
+                                                            objOItem_LogEntry.GUID, _
+                                                            Nothing, _
+                                                            objLocalConfig.OItem_Attribute_DateTimeStamp.GUID, _
+                                                            Nothing)
+
+        objTransaction_LogEntries.fill_TransactionList(objOARel_LogEntry__DateTimeStamp)
+
+        objOARel_LogEntry__Message = New clsObjectAtt(Nothing, _
+                                                      objOItem_LogEntry.GUID, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_Attribute_Message.GUID, _
+                                                      Nothing)
+
+        objTransaction_LogEntries.fill_TransactionList(objOARel_LogEntry__Message)
+
+        objORel_LogEntry_To_LogState = New clsObjectRel(objOItem_LogEntry.GUID, _
+                                                        Nothing, _
+                                                        Nothing, _
+                                                        objLocalConfig.OItem_type_Logstate.GUID, _
+                                                        objLocalConfig.OItem_RelationType_provides.GUID, _
+                                                        objLocalConfig.Globals.Type_Object, _
+                                                        Nothing, _
+                                                        Nothing)
+
+        objTransaction_LogEntries.fill_TransactionList(objORel_LogEntry_To_LogState)
+
+        objORel_LogEntry_To_User = New clsObjectRel(objOItem_LogEntry.GUID, _
+                                                        Nothing, _
+                                                        Nothing, _
+                                                        objLocalConfig.OItem_type_User.GUID, _
+                                                        objLocalConfig.OItem_RelationType_wasCreatedBy.GUID, _
+                                                        objLocalConfig.Globals.Type_Object, _
+                                                        Nothing, _
+                                                        Nothing)
+
+        objTransaction_LogEntries.fill_TransactionList(objORel_LogEntry_To_User)
+
+        objOItem_Result = objTransaction_LogEntries.rollback
 
         Return objOItem_Result
     End Function
 
-    Public Sub New(ByVal LocalConfig As clsLocalConfig)
+    Public Sub New(ByVal LocalConfig As clsLocalConfig, DataWork As clsDataWork_LogEntry)
         objLocalConfig = LocalConfig
+        objDataWork_LogEntry = DataWork
         set_DBConnection()
     End Sub
 
     Public Sub New(ByVal Globals As clsGlobals)
         objLocalConfig = New clsLocalConfig(Globals)
+        objDataWork_LogEntry = New clsDataWork_LogEntry(objLocalConfig)
         set_DBConnection()
     End Sub
 
     Private Sub set_DBConnection()
-        objTransaction_LogEntries = New clsTransaction_LogEntry(objLocalConfig)
+        'objTransaction_LogEntries = New clsTransaction_LogEntry(objLocalConfig)
+        objTransaction_LogEntries = New clsTransaction(objLocalConfig.Globals)
+
     End Sub
 End Class

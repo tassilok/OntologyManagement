@@ -91,9 +91,72 @@ Public Class clsTransaction
         Return objOItem_Result
     End Function
 
+    Public Function fill_TransactionList(OItem_Item As Object, Optional boolRemoveAll As Boolean = False) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem = objGlobals.LState_Error
+        Dim objOL_Items As New List(Of clsOntologyItem)
+        Dim objOL_AItems As New List(Of clsObjectAtt)
+        Dim objOL_RItems As New List(Of clsObjectRel)
+        Dim objOL_CLaItems As New List(Of clsClassAtt)
+        Dim objOL_ClrItems As New List(Of clsClassRel)
+
+        objOItem_TransItem = New clsTransactionItem(objGlobals)
+
+        Select Case OItem_Item.GetType().Name
+            Case objGlobals.ClassType_ObjectAtt
+                objOItem_TransItem.OItem_ObjectAtt = OItem_Item
+
+                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                    objOL_AItems.Add(OItem_Item)
+
+                End If
+
+                objOItem_TransItem.TransactionResult = objOItem_Result
+            Case objGlobals.ClassType_ObjectRel
+
+
+
+                objOItem_TransItem.OItem_ObjectRel = OItem_Item
+                
+                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                    objOL_RItems.Add(OItem_Item)
+                End If
+
+                objOItem_TransItem.TransactionResult = objOItem_Result
+            Case objGlobals.ClassType_ClassAtt
+
+                objOItem_TransItem.OItem_ClassAtt = OItem_Item
+
+                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                    objOL_CLaItems.Add(OItem_Item)
+
+                End If
+
+                objOItem_TransItem.TransactionResult = objOItem_Result
+            Case objGlobals.ClassType_ClassRel
+                objOItem_TransItem.OItem_ClassRel = OItem_Item
+
+                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                    objOL_ClrItems.Add(OItem_Item)
+
+                End If
+
+                objOItem_TransItem.TransactionResult = objOItem_Result
+            Case objGlobals.ClassType_OntologyItem
+                objOItem_TransItem.OItem_OntologyItem = OItem_Item
+                'objOItem_Result = clear_Relations(OItem_Item.GetType().Name, boolRemoveAll:=False)
+                objOL_Items.Add(OItem_Item)
+                
+
+        End Select
+
+        objOList_Item.Add(objOItem_TransItem)
+
+        Return objOItem_Result
+    End Function
+
     Public Function rollback() As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem = objGlobals.LState_Error
-        
+
         Dim i As Integer
 
         Dim objTransactionItem As clsTransactionItem

@@ -123,7 +123,7 @@
         objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_ClassRel, False, False, False, False)
 
 
-
+        objDBLevel_Class_LeftRight.OList_ClassRel.Sort(Function(U1 As clsClassRel, U2 As clsClassRel) U1.Name_Class_Right.CompareTo(U2.Name_Class_Right))
         For Each objItem In objDBLevel_Class_LeftRight.OList_ClassRel
             objOList_ObjRel.Clear()
             objOList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, _
@@ -184,7 +184,7 @@
 
         objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_ClassRel, False, False, False, False)
 
-
+        objDBLevel_Class_LeftRight.OList_ClassRel.Sort(Function(U1 As clsClassRel, U2 As clsClassRel) U1.Name_Class_Left.CompareTo(U2.Name_Class_Left))
         For Each objItem In objDBLevel_Class_LeftRight.OList_ClassRel
             objOList_ObjRel.Clear()
             objOList_ObjRel.Add(New clsObjectRel(Nothing, _
@@ -240,6 +240,9 @@
         Dim oList_Param2 As List(Of clsOntologyItem)
         Dim objOItem_Result As clsOntologyItem
         Dim objOR_Node As clsClassRel
+        Dim objOR_Rel As clsObjectRel
+        Dim strCount As String
+        Dim boolOK As Boolean
 
         objOList_ClassRel.Add(New clsClassRel(objOItem_Object.GUID_Parent, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing))
 
@@ -247,53 +250,83 @@
 
 
         objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_ClassRel, False, False, True)
+        objDBLevel_Class_LeftRight.OList_ClassRel.Sort(Function(U1 As clsClassRel, U2 As clsClassRel) U1.Name_RelationType.CompareTo(U2.Name_RelationType))
 
 
-        
-        objOList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, _
-                            objOItem_Object.Name, _
-                            objOItem_Object.GUID_Parent, _
-                            Nothing, _
-                            Nothing, _
-                            Nothing, _
-                            Nothing, _
-                            Nothing, _
-                            Nothing, _
-                            Nothing, _
-                            objLocalConfig.Globals.Type_AttributeType, _
-                            Nothing, _
-                            Nothing, _
-                            Nothing))
-
-
-
-
-        objOItem_Result = objDBLevel_ObjectRel.get_Data_ObjectRel(objOList_ObjRel, False, False, True)
-
-        '' Attributes
-        
         For Each objOR_Node In objDBLevel_Class_LeftRight.OList_ClassRel
+            objOList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 objOR_Node.ID_RelationType, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing))
+
+            objOItem_Result = objDBLevel_ObjectRel.get_Data_ObjectRel(objOList_ObjRel, _
+                                                                      boolIDs:=False)
 
             If objTreeNode_RelForward_OR Is Nothing Then
                 objTreeNode_RelForward_OR = TreeView_ObjectRels.Nodes.Add(objLocalConfig.Globals.Type_Other, objLocalConfig.Globals.Type_Other, 0)
             End If
-            objTreeNode = objTreeNode_RelForward_OR.Nodes.Add(objOR_Node.ID_RelationType, objOR_Node.Name_RelationType & " (" & objOR_Node.Min_Forw & " / " & objOItem_Result.Count & " / " & objOR_Node.Max_Forw & ")", 0)
-            objTreeNode.ForeColor = Color.Green
-            If objOItem_Result.Count < objOR_Node.Min_Forw Then
-                objTreeNode.ForeColor = Color.SandyBrown
-            Else
 
-                If objOItem_Result.Count > objOR_Node.Max_Forw And objOR_Node.Max_Forw > -1 Then
-                    objTreeNode.ForeColor = Color.SandyBrown
+            lngCount = objDBLevel_ObjectRel.OList_ObjectRel.Count
+
+            objTreeNode = objTreeNode_RelForward_OR.Nodes.Add(objOR_Node.ID_RelationType, objOR_Node.Name_RelationType & " (" & objOR_Node.Min_Forw & " / " & lngCount & " / " & objOR_Node.Max_Forw & ")", 0)
+            If objOR_Node.Max_Forw = -1 Then
+                If lngCount >= objOR_Node.Min_Forw Then
+                    boolOK = True
+                Else
+                    boolOK = False
+                End If
+            Else
+                If lngCount >= objOR_Node.Min_Forw And lngCount <= objOR_Node.Max_Forw Then
+                    boolOK = True
+                Else
+                    boolOK = False
                 End If
             End If
 
-            If objOItem_Result.Count > 0 Then
+
+            If boolOK = True Then
+                objTreeNode.ForeColor = Color.Green
+            Else
+                objTreeNode.ForeColor = Color.SandyBrown
+            End If
+
+            If lngCount > 0 Then
                 objTreeNode.ImageIndex = 1
                 objTreeNode.SelectedImageIndex = 1
             End If
 
         Next
+
+
+
+
+        ' '' Attributes
+        'For Each objOR_Node In objDBLevel_Class_LeftRight.OList_ClassRel
+
+        '    If objTreeNode_RelForward_OR Is Nothing Then
+        '        objTreeNode_RelForward_OR = TreeView_ObjectRels.Nodes.Add(objLocalConfig.Globals.Type_Other, objLocalConfig.Globals.Type_Other, 0)
+        '    End If
+        '    objTreeNode = objTreeNode_RelForward_OR.Nodes.Add(objOR_Node.ID_RelationType, objOR_Node.Name_RelationType & " (" & objOR_Node.Min_Forw & " / " & objOItem_Result.Count & " / " & objOR_Node.Max_Forw & ")", 0)
+        '    objTreeNode.ForeColor = Color.Green
+        '    If objOItem_Result.Count < objOR_Node.Min_Forw Then
+        '        objTreeNode.ForeColor = Color.SandyBrown
+        '    Else
+
+        '        If objOItem_Result.Count > objOR_Node.Max_Forw And objOR_Node.Max_Forw > -1 Then
+        '            objTreeNode.ForeColor = Color.SandyBrown
+        '        End If
+        '    End If
+
+        '    If objOItem_Result.Count > 0 Then
+        '        objTreeNode.ImageIndex = 1
+        '        objTreeNode.SelectedImageIndex = 1
+        '    End If
+
+        'Next
 
     End Sub
 

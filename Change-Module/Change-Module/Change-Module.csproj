@@ -55,6 +55,7 @@
     <Compile Include="clsTransaction_TicketLists.cs" />
     <Compile Include="DataSet_ChangeModule.cs">
       <DependentUpon>DataSet_ChangeModule.xsd</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="DataSet_ChangeModule.Designer.cs">
       <AutoGen>True</AutoGen>

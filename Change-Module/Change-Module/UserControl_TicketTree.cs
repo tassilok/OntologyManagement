@@ -297,6 +297,9 @@ namespace Change_Module
                             }
                             else
                             {
+
+                            }
+                            {
                                 MessageBox.Show("Ticketlist cannot be created", "Ticketlist", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                         }

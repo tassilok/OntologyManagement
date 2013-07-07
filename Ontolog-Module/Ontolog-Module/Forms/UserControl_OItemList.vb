@@ -1252,62 +1252,91 @@
         Dim objDRV_Selected As DataRowView
         Dim oList_Simple As New List(Of clsOntologyItem)
         Dim oList_ORel As New List(Of clsObjectRel)
+        Dim oList_OAtt As New List(Of clsObjectAtt)
         Dim objOItem_Result As clsOntologyItem
+        Dim objOAL_ObjectAtts As New List(Of clsObjectAtt)
 
         For Each objDGVR_Selected In DataGridView_Items.SelectedRows
             objDRV_Selected = objDGVR_Selected.DataBoundItem
 
             If Not objOItem_Parent Is Nothing Then
-                Select Case objOItem_Parent.Type
-                    Case objLocalConfig.Globals.Type_Object
-                        oList_Simple.Add(New clsOntologyItem(objDRV_Selected.Item("ID_Item"), objLocalConfig.Globals.Type_Object))
 
-                    Case objLocalConfig.Globals.Type_RelationType
-                  
-                    Case objLocalConfig.Globals.Type_AttributeType
-                  
+                
+                oList_Simple.Add(New clsOntologyItem(objDRV_Selected.Item("ID_Item"), objOItem_Parent.Type))
 
-                End Select
 
-                If Not oList_Simple Is Nothing Then
-                    If oList_Simple.Count > 0 Then
-                        objOItem_Result = objDBLevel.del_Objects(oList_Simple)
 
-                        If objOItem_Result.Val_Long > 0 Then
-                            MsgBox(objOItem_Result.Val_Long & " Items konnten nicht gelöscht werden!", MsgBoxStyle.Exclamation)
-                        End If
-                        
 
-                    End If
-                End If
 
-                configure_TabPages()
             Else
-
                 Select Case strType
-                    Case objLocalConfig.Globals.Type_Object
-
-
-                    Case objLocalConfig.Globals.Type_RelationType
-
-
-
                     Case objLocalConfig.Globals.Type_AttributeType
-
-
-
+                        oList_OAtt.Add(New clsObjectAtt(objDRV_Selected.Item("ID_ObjectAttribute"), _
+                                                        Nothing, _
+                                                        Nothing, _
+                                                        Nothing, _
+                                                        Nothing))
+                    
                     Case objLocalConfig.Globals.Type_Other
-                        
-                        If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
-
-                        Else
-
-                        End If
+                        oList_ORel.Add(New clsObjectRel(objDRV_Selected.Item("ID_Object"), _
+                                                            Nothing, _
+                                                            objDRV_Selected.Item("ID_Other"), _
+                                                            Nothing, _
+                                                            objDRV_Selected.Item("ID_RelationType"), _
+                                                            objDRV_Selected.Item("Ontology"), _
+                                                            Nothing, _
+                                                            Nothing))
                 End Select
+                
+              
 
             End If
 
         Next
+
+        If Not oList_Simple Is Nothing Then
+            If oList_Simple.Count > 0 Then
+
+                If oList_Simple(0).Type = objLocalConfig.Globals.Type_AttributeType Then
+                    objOItem_Result = objDBLevel.del_AttributeType(oList_Simple)
+                    If objOItem_Result.Val_Long > 0 Then
+                        MsgBox(objOItem_Result.Val_Long & " Items konnten nicht gelöscht werden!", MsgBoxStyle.Exclamation)
+                    End If
+                ElseIf oList_Simple(0).Type = objLocalConfig.Globals.Type_Object Then
+                    objOItem_Result = objDBLevel.del_Objects(oList_Simple)
+                    If objOItem_Result.Val_Long > 0 Then
+                        MsgBox(objOItem_Result.Val_Long & " Items konnten nicht gelöscht werden!", MsgBoxStyle.Exclamation)
+                    End If
+                ElseIf oList_Simple(0).Type = objLocalConfig.Globals.Type_RelationType Then
+                    ' RelationTypes
+                End If
+
+
+                
+
+
+            End If
+        End If
+
+        If Not oList_ORel Is Nothing Then
+            If oList_ORel.Count > 0 Then
+                objOItem_Result = objDBLevel.del_ObjectRel(oList_ORel)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Die Beziehungen konnten nicht entfernt werden!", MsgBoxStyle.Exclamation)
+                End If
+            End If
+        End If
+
+        If Not oList_OAtt Is Nothing Then
+            If oList_OAtt.Count > 0 Then
+                objOItem_Result = objDBLevel.del_ObjectAtt(oList_OAtt)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Die Beziehungen konnten nicht entfernt werden!", MsgBoxStyle.Exclamation)
+                End If
+            End If
+        End If
+
+        configure_TabPages()
     End Sub
 
     Private Sub ContextMenuStrip_SemList_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_SemList.Opening

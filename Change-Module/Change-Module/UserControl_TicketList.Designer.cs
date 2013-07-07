@@ -214,6 +214,7 @@
             this.dataGridView_TicketLists.ReadOnly = true;
             this.dataGridView_TicketLists.Size = new System.Drawing.Size(782, 482);
             this.dataGridView_TicketLists.TabIndex = 0;
+            this.dataGridView_TicketLists.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_TicketLists_KeyDown);
             // 
             // ContextMenuStrip_Tickets
             // 
@@ -224,12 +225,12 @@
             this.OpenToolStripMenuItem,
             this.ApplyToolStripMenuItem});
             this.ContextMenuStrip_Tickets.Name = "ContextMenuStrip_Tickets";
-            this.ContextMenuStrip_Tickets.Size = new System.Drawing.Size(153, 136);
+            this.ContextMenuStrip_Tickets.Size = new System.Drawing.Size(116, 114);
             // 
             // NewToolStripMenuItem
             // 
             this.NewToolStripMenuItem.Name = "NewToolStripMenuItem";
-            this.NewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.NewToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.NewToolStripMenuItem.Text = "x_New";
             this.NewToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
@@ -242,7 +243,7 @@
             this.ContainsToolStripMenuItem,
             this.ClearToolStripMenuItem});
             this.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem";
-            this.FilterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.FilterToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.FilterToolStripMenuItem.Text = "x_Filter";
             // 
             // EqualToolStripMenuItem
@@ -307,21 +308,21 @@
             // 
             this.RelateToolStripMenuItem.Enabled = false;
             this.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem";
-            this.RelateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.RelateToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.RelateToolStripMenuItem.Text = "x_relate";
             // 
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Enabled = false;
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.OpenToolStripMenuItem.Text = "x_Open";
             // 
             // ApplyToolStripMenuItem
             // 
             this.ApplyToolStripMenuItem.Enabled = false;
             this.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem";
-            this.ApplyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ApplyToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.ApplyToolStripMenuItem.Text = "x_Apply";
             this.ApplyToolStripMenuItem.Visible = false;
             // 

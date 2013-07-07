@@ -116,7 +116,29 @@ namespace Change_Module
 
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            objTicketWork.NewTicket();            
+            objTicketWork.NewTicket();
+
+            refresh_TicketList();
+        }
+
+        private void refresh_TicketList()
+        {
+            objDataWork_Ticket.GetData_Tickets();
+            
+            while (objDataWork_Ticket.OItem_Result.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
+            {
+            }
+            objDataWork_Ticket.FillTicketTable();
+            initialize();
+        }
+
+        private void dataGridView_TicketLists_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5)
+            {
+             
+                refresh_TicketList();
+            }
         }
     }
 }

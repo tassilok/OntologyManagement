@@ -3,6 +3,16 @@ Imports Lucene.Net.Search
 Imports Lucene.Net.Index
 
 Public Class clsDBLevel
+    <Flags()>
+    Enum SortEnum
+        ASC_Name
+        DESC_Name
+        NONE
+        ASC_OrderID
+        DESC_OrderID
+    End Enum
+    
+
     Private objElConn As ElasticSearch.Client.ElasticSearchClient
     Private objOntologyList_Objects1 As New List(Of clsOntologyItem)
     Private objOntologyList_Objects2 As New List(Of clsOntologyItem)
@@ -39,6 +49,16 @@ Public Class clsDBLevel
     Private objGlobals As clsGlobals
 
     Private intPackageLength As Integer
+    Private intSort As Integer
+
+    Public Property Sort
+        Get
+            Return intSort
+        End Get
+        Set(value)
+            intSort = value
+        End Set
+    End Property
 
     Public Property PackageLength As Integer
         Get
@@ -282,6 +302,116 @@ Public Class clsDBLevel
 
         Return objOItem_Result
     End Function
+
+    Public Function del_AttributeType(OList_AttributeType As List(Of clsOntologyItem)) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_AttributeType As clsOntologyItem
+        Dim objDBLevel_ClassAtt As clsDBLevel
+        Dim objDBLevel_ObjectAtt As clsDBLevel
+        Dim objDBLevel_ObjectRel As clsDBLevel
+        Dim objOList_ObjAtt As New List(Of clsObjectAtt)
+        Dim objOList_ObjRel As New List(Of clsObjectRel)
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+        Dim strKeys() As String
+
+        objDBLevel_ClassAtt = New clsDBLevel(objGlobals)
+
+        objOItem_Result = objDBLevel_ClassAtt.get_Data_ClassAtt(Nothing, _
+                                                                OList_AttributeType)
+
+        If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+            Dim objLClassAtt = From objAttType In OList_AttributeType
+                               Group Join objClassAtt In objDBLevel_ClassAtt.OList_ClassAtt_ID On objAttType.GUID Equals objClassAtt.ID_AttributeType Into ClassAtts = Group
+                                From objClassAtt In ClassAtts.DefaultIfEmpty
+                                Where objClassAtt Is Nothing
+                                Select objAttType
+
+
+            If objLClassAtt.Any Then
+                objDBLevel_ObjectAtt = New clsDBLevel(objGlobals)
+
+                For Each objOItem_AttributeType In OList_AttributeType
+                    objOList_ObjAtt.Add(New clsObjectAtt(objOItem_AttributeType.GUID, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         Nothing))
+
+                    objOList_ObjRel.Add(New clsObjectRel(Nothing, _
+                                                         Nothing, _
+                                                         objOItem_AttributeType.GUID, _
+                                                         Nothing, _
+                                                         Nothing, _
+                                                         objGlobals.Type_AttributeType, _
+                                                         Nothing, _
+                                                         Nothing))
+                Next
+
+                objOItem_Result = objDBLevel_ObjectAtt.get_Data_ObjectAtt(objOList_ObjAtt)
+
+                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                    Dim objLObjAtt = From objAttType In OList_AttributeType
+                                   Group Join objObjAtt In objDBLevel_ObjectAtt.OList_ObjectAtt_ID On objAttType.GUID Equals objObjAtt.ID_AttributeType Into ObjAtts = Group
+                                   From objObjAtt In ObjAtts.DefaultIfEmpty
+                                   Where objObjAtt Is Nothing
+                                   Select objAttType
+
+                    If objLObjAtt.Any Then
+                        objDBLevel_ObjectRel = New clsDBLevel(objGlobals)
+
+                        objOItem_Result = objDBLevel_ObjectRel.get_Data_ObjectRel(objOList_ObjRel)
+
+                        If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                            Dim objLObjRel = From objAttType In OList_AttributeType
+                                   Group Join objObjRel In objDBLevel_ObjectAtt.OList_ObjectRel_ID On objAttType.GUID Equals objObjRel.ID_Other Into ObjRels = Group
+                                   From objObjRel In ObjRels.DefaultIfEmpty
+                                   Where objObjRel Is Nothing
+                                   Select objAttType
+
+                            If objLObjRel.Any Then
+                                Dim objLAtts = From objAttType In OList_AttributeType
+                                               Join objClassAtt In objLClassAtt On objAttType.GUID Equals objClassAtt.GUID _
+                                               Join objObjAtt In objLObjAtt On objAttType.GUID Equals objObjAtt.GUID _
+                                               Join objObjRel In objLObjRel On objAttType.GUID Equals objObjRel.GUID _
+                                               Select objAttType.GUID
+
+                                If objLAtts.Any Then
+                                    For i As Integer = 0 To objLAtts.Count - 1
+                                        ReDim Preserve strKeys(i)
+                                        strKeys(i) = objLAtts(i)
+
+                                    Next
+                                    Try
+                                        objOPResult = objElConn.Delete(objGlobals.Index, objGlobals.Type_AttributeType, strKeys)
+                                        objOItem_Result = objGlobals.LState_Success
+                                        objOItem_Result.Val_Long = OList_AttributeType.Count - objLAtts.Count
+
+                                    Catch ex As Exception
+                                        objOItem_Result = objGlobals.LState_Error
+                                    End Try
+                                Else
+                                    objOItem_Result = objGlobals.LState_Relation
+                                End If
+                            Else
+
+                                objOItem_Result = objGlobals.LState_Relation
+                            End If
+                        End If
+                    Else
+                        objOItem_Result = objGlobals.LState_Relation
+                    End If
+
+
+                End If
+            Else
+                objOItem_Result = objGlobals.LState_Relation
+            End If
+
+        End If
+
+        Return objOItem_Result
+    End Function
+
     Public Function del_ClassAttType(ByVal oItem_Class As clsOntologyItem, ByVal oItem_AttType As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objDBLevel_ObjAtt As clsDBLevel
@@ -1711,7 +1841,7 @@ Public Class clsDBLevel
                 strQuery = OItem_AttributeType.GUID
             End If
 
-            
+
             If Not strQuery = "" Then
                 objBoolQuery.Add(New TermQuery(New Term(objGlobals.Field_ID_AttributeType, strQuery)), BooleanClause.Occur.MUST)
             End If
@@ -3717,6 +3847,7 @@ Public Class clsDBLevel
         objGlobals = Globals
         set_DBConnection()
         initialize_Client()
+        intSort = SortEnum.NONE
     End Sub
 
     Private Sub set_DBConnection()

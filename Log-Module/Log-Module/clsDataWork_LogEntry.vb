@@ -295,6 +295,86 @@ Public Class clsDataWork_LogEntry
         objOItem_Result_LogState = objLocalConfig.Globals.LState_Success
     End Sub
 
+    Public Function Rel_LogEntry_To_LogState(OItem_LogEntry As clsOntologyItem, OItem_LogState As clsOntologyItem)
+        Dim objORel_LogEntry_To_LogState As clsObjectRel
+
+        objORel_LogEntry_To_LogState = New clsObjectRel(OItem_LogEntry.GUID, _
+                                                        OItem_LogEntry.GUID_Parent, _
+                                                        OItem_LogState.GUID, _
+                                                        OItem_LogState.GUID_Parent, _
+                                                        objLocalConfig.OItem_RelationType_provides.GUID, _
+                                                        objLocalConfig.Globals.Type_Object, _
+                                                        Nothing, _
+                                                        1)
+
+
+
+        Return objORel_LogEntry_To_LogState
+    End Function
+
+    Public Function Rel_LogEntry_To_User(OItem_LogEntry As clsOntologyItem, OItem_User As clsOntologyItem)
+        Dim objORel_LogEntry_To_User As clsObjectRel
+
+        objORel_LogEntry_To_User = New clsObjectRel(OItem_LogEntry.GUID, _
+                                                        OItem_LogEntry.GUID_Parent, _
+                                                        OItem_User.GUID, _
+                                                        OItem_User.GUID_Parent, _
+                                                        objLocalConfig.OItem_RelationType_wasCreatedBy.GUID, _
+                                                        objLocalConfig.Globals.Type_Object, _
+                                                        Nothing, _
+                                                        1)
+
+
+
+        Return objORel_LogEntry_To_User
+    End Function
+
+    Public Function RelA_LogEntry__DateTimeStamp(OItem_LogEntry As clsOntologyItem, DateTimeStamp As DateTime)
+        Dim objOARel_LogEntry__DateTimeStamp As clsObjectAtt
+
+        objOARel_LogEntry__DateTimeStamp = New clsObjectAtt(objLocalConfig.Globals.NewGUID, _
+                                                            OItem_LogEntry.GUID, _
+                                                            Nothing, _
+                                                            OItem_LogEntry.GUID_Parent, _
+                                                            Nothing, _
+                                                            objLocalConfig.OItem_Attribute_DateTimeStamp.GUID, _
+                                                            Nothing, _
+                                                            1, _
+                                                            DateTimeStamp.ToString, _
+                                                            Nothing, _
+                                                            DateTimeStamp, _
+                                                            Nothing, _
+                                                            Nothing, _
+                                                            Nothing, _
+                                                            objLocalConfig.Globals.DType_DateTime.GUID)
+
+
+        Return objOARel_LogEntry__DateTimeStamp
+    End Function
+
+    Public Function RelA_LogEntry__Message(OItem_LogEntry As clsOntologyItem, strMessage As String)
+        Dim objOARel_LogEntry__Message As clsObjectAtt
+
+        objOARel_LogEntry__Message = New clsObjectAtt(objLocalConfig.Globals.NewGUID, _
+                                                      OItem_LogEntry.GUID, _
+                                                      Nothing, _
+                                                      OItem_LogEntry.GUID_Parent, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_Attribute_Message.GUID, _
+                                                      Nothing, _
+                                                      1, _
+                                                      strMessage, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      strMessage, _
+                                                      objLocalConfig.Globals.DType_String.GUID)
+
+
+        Return objOARel_LogEntry__Message
+    End Function
+
     Private Sub set_DBConnection()
         objDBLevel_LogState = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_LogState_Combo = New clsDBLevel(objLocalConfig.Globals)

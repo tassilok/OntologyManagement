@@ -71,8 +71,6 @@
         Return objOItem_Result
     End Function
 
-
-
     Public Sub New(ByVal LocalConfig As clsLocalConfig, Optional ByVal frmParent As Windows.Forms.IWin32Window = Nothing)
         objLocalConfig = LocalConfig
         objfrmParent = frmParent
