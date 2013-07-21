@@ -18,7 +18,7 @@ namespace OntWeb
     public class OntService : System.Web.Services.WebService
     {
 
-        private clsGlobals objGlobals = new clsGlobals();
+        private clsGlobals objGlobals = new clsGlobals(AppDomain.CurrentDomain.BaseDirectory);
         private clsDBLevel objDBLevel;
 
         public OntService()
@@ -28,14 +28,10 @@ namespace OntWeb
 
         private void set_DBConnection()
         {
+            
             objDBLevel = new clsDBLevel(objGlobals);
         }
 
-        [WebMethod]
-        public string HelloWorld()
-        {
-            return "Hello World";
-        }
 
         [WebMethod]
         public List<clsOntologyItem> ClassList()
@@ -43,6 +39,86 @@ namespace OntWeb
             clsOntologyItem objResult;
 
             objResult = objDBLevel.get_Data_Classes();
+
+            if (objResult.GUID == objGlobals.LState_Success.GUID)
+            {
+                return objDBLevel.OList_Classes;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        [WebMethod]
+        public List<clsOntologyItem> ClassListByGUID(string GUID_Class)
+        {
+            clsOntologyItem objResult;
+            List<clsOntologyItem> objOList_Classes = new List<clsOntologyItem>();
+
+            objOList_Classes.Add(new clsOntologyItem(GUID_Class, null, null, objGlobals.Type_Class));
+
+            objResult = objDBLevel.get_Data_Classes(objOList_Classes);
+
+            if (objResult.GUID == objGlobals.LState_Success.GUID)
+            {
+                return objDBLevel.OList_Classes;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        [WebMethod]
+        public List<clsOntologyItem> ClassListByGUIDParent(string GUID_Class)
+        {
+            clsOntologyItem objResult;
+            List<clsOntologyItem> objOList_Classes = new List<clsOntologyItem>();
+
+            objOList_Classes.Add(new clsOntologyItem(null, null, GUID_Class, objGlobals.Type_Class));
+
+            objResult = objDBLevel.get_Data_Classes(objOList_Classes);
+
+            if (objResult.GUID == objGlobals.LState_Success.GUID)
+            {
+                return objDBLevel.OList_Classes;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        [WebMethod]
+        public List<clsOntologyItem> ClassListByName(string Name_Class)
+        {
+            clsOntologyItem objResult;
+            List<clsOntologyItem> objOList_Classes = new List<clsOntologyItem>();
+
+            objOList_Classes.Add(new clsOntologyItem(null, Name_Class, null, objGlobals.Type_Class));
+
+            objResult = objDBLevel.get_Data_Classes(objOList_Classes);
+
+            if (objResult.GUID == objGlobals.LState_Success.GUID)
+            {
+                return objDBLevel.OList_Classes;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        [WebMethod]
+        public List<clsOntologyItem> ClassListByNameOfParent(string Name_Class, string GUID_Class_Parent)
+        {
+            clsOntologyItem objResult;
+            List<clsOntologyItem> objOList_Classes = new List<clsOntologyItem>();
+
+            objOList_Classes.Add(new clsOntologyItem(null, Name_Class, GUID_Class_Parent, objGlobals.Type_Class));
+
+            objResult = objDBLevel.get_Data_Classes(objOList_Classes);
 
             if (objResult.GUID == objGlobals.LState_Success.GUID)
             {

@@ -25,6 +25,36 @@ namespace Change_Module
         private clsDBLevel objDBLevel_Config2;
 	
         // Images
+
+        public int ImageID_Ticket 
+        {
+            get { return 0; }
+        }
+
+        public int ImageID_Process
+        {
+            get { return 1; }
+        }
+        
+        public int Image_Incident
+        {
+            get { return 2; }
+        }
+    
+        public int Image_Process_w_doc
+        {
+            get { return 3; }
+        }
+        
+        public int Image_Incident_w_doc
+        {
+            get { return 4; }
+        }
+        public int cintImage_Root_Process
+        {
+            get { return 5; }
+        }
+
         public int ImageID_Root
         {
             get { return 0; }

@@ -17,6 +17,7 @@ namespace Change_Module
         private clsLocalConfig objLocalConfig;
         private clsOntologyItem objOItem_TicketList;
         private clsOntologyItem objOItem_Ref;
+        private frmChange objFrmChange;
         private string filterBase;
         private Boolean showAll;
 
@@ -140,5 +141,67 @@ namespace Change_Module
                 refresh_TicketList();
             }
         }
+
+        private void ContextMenuStrip_Tickets_Opening(object sender, CancelEventArgs e)
+        {
+            ApplyToolStripMenuItem.Enabled = false;
+            OpenToolStripMenuItem.Enabled= false;
+            EqualToolStripMenuItem.Enabled = false;
+            NotEqualToolStripMenuItem.Enabled = false;
+            approximateToolStripMenuItem.Enabled = false;
+            ContainsToolStripMenuItem.Enabled = false;
+            ClearToolStripMenuItem.Enabled = false;
+            FilterToolStripMenuItem.Enabled = false;
+            RelateToolStripMenuItem.Enabled = false;
+            if (dataGridView_TicketLists.SelectedRows.Count >= 0) 
+            {
+                if (dataGridView_TicketLists.SelectedRows.Count == 1)
+                {
+                    OpenToolStripMenuItem.Enabled = true;
+                }
+                
+
+                RelateToolStripMenuItem.Enabled = true;
+                ApplyToolStripMenuItem.Enabled = true;
+            }
+
+            if (bindingSource_Tickets.Filter != "")
+            {
+                FilterToolStripMenuItem.Enabled = true;
+                ClearToolStripMenuItem.Enabled = true;
+            }
+
+            if (dataGridView_TicketLists.SelectedCells.Count == 1)
+            {
+                EqualToolStripMenuItem.Enabled = true;
+                NotEqualToolStripMenuItem.Enabled = true;
+                approximateToolStripMenuItem.Enabled = true;
+                ContainsToolStripMenuItem.Enabled = true;
+                ClearToolStripMenuItem.Enabled = true;
+                FilterToolStripMenuItem.Enabled = true;
+            }
+        }
+
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow objDGVR_Selected;
+            if (dataGridView_TicketLists.SelectedRows.Count == 1)
+            {
+                objDGVR_Selected = dataGridView_TicketLists.SelectedRows[0];
+                objFrmChange = new frmChange(objDGVR_Selected.Index, dataGridView_TicketLists.Rows, objLocalConfig,objDataWork_Ticket);
+                objFrmChange.ShowDialog(this);
+
+            }
+        }
+
+        private void dataGridView_TicketLists_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+                        
+            objFrmChange = new frmChange(e.RowIndex, dataGridView_TicketLists.Rows, objLocalConfig, objDataWork_Ticket);
+            objFrmChange.ShowDialog(this);
+
+        }
+
+
     }
 }

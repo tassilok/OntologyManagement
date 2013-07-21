@@ -114,6 +114,8 @@ Public Class clsGlobals
 
     Private GUID_Session As String
 
+    Private strPath_Config As String
+
     Public ReadOnly Property ClassType_OntologyItem As String
         Get
             Return "clsOntologyItem"
@@ -703,7 +705,7 @@ Public Class clsGlobals
 
     Private Sub get_ConfigData()
         Dim objDRs_ConfigItem() As DataRow
-        dtblT_Config.ReadXml("Config\Config_ont.xml")
+        dtblT_Config.ReadXml(strPath_Config & "Config\Config_ont.xml")
         If dtblT_Config.Rows.Count > 0 Then
             objDRs_ConfigItem = dtblT_Config.Select("ConfigItem_Name='Index'")
             If objDRs_ConfigItem.Count > 0 Then
@@ -764,6 +766,25 @@ Public Class clsGlobals
         objDirection_RightLeft = New clsOntologyItem("061243fc4c134bd5800c2c33b70e99b2", "Right-Left", objOItem_Class_Directions.GUID, cstrType_Object)
     End Sub
     Public Sub New()
+        strPath_Config = ""
+        strRegEx_GUID = "[A-Za-z0-9]{8}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9]{12}"
+        set_Classes()
+        set_RelationTypes()
+
+        set_Session()
+        get_ConfigData()
+        set_DataTypes()
+        set_LogStates()
+        set_Directions()
+        set_OntologyRelationRules()
+
+    End Sub
+
+    Public Sub New(strPath_Config As String)
+        Me.strPath_Config = strPath_Config
+        If Not Me.strPath_Config.EndsWith(IO.Path.DirectorySeparatorChar) Then
+            Me.strPath_Config = Me.strPath_Config & IO.Path.DirectorySeparatorChar
+        End If
         strRegEx_GUID = "[A-Za-z0-9]{8}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9]{12}"
         set_Classes()
         set_RelationTypes()

@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="clsDataWork_Ticket.cs" />
     <Compile Include="clsLocalConfig.cs" />
+    <Compile Include="clsProcess_LogWork.cs" />
     <Compile Include="clsTicketWork.cs" />
     <Compile Include="clsTransaction_ProcessLog.cs" />
     <Compile Include="clsTransaction_Ticket.cs" />
@@ -62,6 +63,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet_ChangeModule.xsd</DependentUpon>
     </Compile>
+    <Compile Include="frmChange.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmChange.Designer.cs">
+      <DependentUpon>frmChange.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmChangeModule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +77,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControl_ProcessTree.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_ProcessTree.Designer.cs">
+      <DependentUpon>UserControl_ProcessTree.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControl_TicketList.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -82,6 +95,9 @@
     <Compile Include="UserControl_TicketTree.Designer.cs">
       <DependentUpon>UserControl_TicketTree.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmChange.resx">
+      <DependentUpon>frmChange.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmChangeModule.resx">
       <DependentUpon>frmChangeModule.cs</DependentUpon>
     </EmbeddedResource>
@@ -95,6 +111,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UserControl_ProcessTree.resx">
+      <DependentUpon>UserControl_ProcessTree.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControl_TicketList.resx">
       <DependentUpon>UserControl_TicketList.cs</DependentUpon>
     </EmbeddedResource>
@@ -131,6 +150,18 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\trashcan_full.png" />
+    <None Include="Resources\pulsante_02_architetto_f_01 Last.png" />
+    <None Include="Resources\pulsante_02_architetto_f_01.png" />
+    <None Include="Resources\pulsante_01_architetto_f_01 First.png" />
+    <None Include="Resources\pulsante_01_architetto_f_01.png" />
+    <None Include="Resources\next.png" />
+    <None Include="Resources\gnome-mime-application-vnd.ms-powerpoint.png" />
+    <None Include="Resources\desktop.png" />
+    <None Include="Resources\bb_txt_.png" />
+    <None Include="Resources\back.png" />
+    <None Include="Resources\b_stop.png" />
+    <None Include="Resources\b_down_Infinite.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Log-Module\Log-Module\Log-Module.vbproj">

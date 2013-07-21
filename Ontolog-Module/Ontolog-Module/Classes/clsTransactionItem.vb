@@ -7,6 +7,7 @@ Public Class clsTransactionItem
     Private objOItem_ClassAtt As clsClassAtt
     Private objOItem_ClassRel As clsClassRel
     Private objOItem_Result As clsOntologyItem
+    Private boolRemoved As Boolean
     Private strType As String
     Private boolAll As Boolean
 
@@ -14,6 +15,15 @@ Public Class clsTransactionItem
         Get
             Return strType
         End Get
+    End Property
+
+    Public Property Removed As Boolean
+        Get
+            Return boolRemoved
+        End Get
+        Set(value As Boolean)
+            boolRemoved = value
+        End Set
     End Property
 
     Public Property OItem_OntologyItem As clsOntologyItem

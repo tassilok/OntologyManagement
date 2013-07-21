@@ -5,7 +5,7 @@ Public Class clsTransaction
     Private objOItem_TransItem As New clsTransactionItem(objGlobals)
     Private objDBLevel As clsDBLevel
 
-    Public Function do_Transaction(OItem_Item As Object, Optional boolRemoveAll As Boolean = False) As clsOntologyItem
+    Public Function do_Transaction(OItem_Item As Object, Optional boolRemoveAll As Boolean = False, Optional boolRemoveItem As Boolean = False) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem = objGlobals.LState_Error
         Dim objOL_Items As New List(Of clsOntologyItem)
         Dim objOL_AItems As New List(Of clsObjectAtt)
@@ -15,15 +15,20 @@ Public Class clsTransaction
 
         objOItem_TransItem = New clsTransactionItem(objGlobals)
 
+        objOItem_TransItem.Removed = boolRemoveItem
+        
         Select Case OItem_Item.GetType().Name
             Case objGlobals.ClassType_ObjectAtt
                 objOItem_TransItem.OItem_ObjectAtt = OItem_Item
                 objOItem_Result = clear_Relations(OItem_Item.GetType().Name, boolRemoveAll:=False)
-                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                    objOL_AItems.Add(OItem_Item)
-                    objOItem_Result = objDBLevel.save_ObjAtt(objOL_AItems)
-                End If
+                If boolRemoveItem = False Then
+                    If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                        objOL_AItems.Add(OItem_Item)
+                        objOItem_Result = objDBLevel.save_ObjAtt(objOL_AItems)
+                    End If
 
+                End If
+                
                 objOItem_TransItem.TransactionResult = objOItem_Result
             Case objGlobals.ClassType_ObjectRel
 
@@ -36,52 +41,67 @@ Public Class clsTransaction
                     objOItem_Result = clear_Relations(OItem_Item.GetType().Name, boolNeutral:=True, boolRemoveAll:=False)
                 End If
 
-                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                    objOL_RItems.Add(OItem_Item)
-                    objOItem_Result = objDBLevel.save_ObjRel(objOL_RItems)
+                If boolRemoveItem = False Then
+                    If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                        objOL_RItems.Add(OItem_Item)
+                        objOItem_Result = objDBLevel.save_ObjRel(objOL_RItems)
+                    End If
                 End If
+                
 
                 objOItem_TransItem.TransactionResult = objOItem_Result
             Case objGlobals.ClassType_ClassAtt
-                
+
                 objOItem_TransItem.OItem_ClassAtt = OItem_Item
                 objOItem_Result = clear_Relations(objGlobals.ClassType_ObjectAtt, boolRemoveAll:=False)
-                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                    objOL_CLaItems.Add(OItem_Item)
-                    objOItem_Result = objDBLevel.save_ClassAttType(objOL_CLaItems)
+                If boolRemoveItem = False Then
+                    If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                        objOL_CLaItems.Add(OItem_Item)
+                        objOItem_Result = objDBLevel.save_ClassAttType(objOL_CLaItems)
+                    End If
                 End If
+                
 
                 objOItem_TransItem.TransactionResult = objOItem_Result
             Case objGlobals.ClassType_ClassRel
                 objOItem_TransItem.OItem_ClassRel = OItem_Item
                 objOItem_Result = clear_Relations(OItem_Item.GetType().Name, boolRemoveAll:=False)
-                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                    objOL_ClrItems.Add(OItem_Item)
-                    objOItem_Result = objDBLevel.save_ClassRel(objOL_ClrItems)
-                End If
 
+                If boolRemoveItem = False Then
+                    If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                        objOL_ClrItems.Add(OItem_Item)
+                        objOItem_Result = objDBLevel.save_ClassRel(objOL_ClrItems)
+                    End If
+
+                End If
+                
                 objOItem_TransItem.TransactionResult = objOItem_Result
             Case objGlobals.ClassType_OntologyItem
                 objOItem_TransItem.OItem_OntologyItem = OItem_Item
                 'objOItem_Result = clear_Relations(OItem_Item.GetType().Name, boolRemoveAll:=False)
-                objOL_Items.Add(OItem_Item)
-                Select Case objOItem_TransItem.OItem_OntologyItem.Type
-                    Case objGlobals.Type_AttributeType
-                        objOItem_Result = objDBLevel.save_AttributeType(OItem_Item)
-                        objOItem_TransItem.TransactionResult = objOItem_Result
-                    Case objGlobals.Type_Class
-                        objOItem_Result = objDBLevel.save_Class(OItem_Item)
-                        objOItem_TransItem.TransactionResult = objOItem_Result
-                    Case objGlobals.Type_Object
-                        objOItem_Result = objDBLevel.save_Objects(objOL_Items)
-                        objOItem_TransItem.TransactionResult = objOItem_Result
-                    Case objGlobals.Type_RelationType
-                        objOItem_Result = objDBLevel.save_RelationType(OItem_Item)
-                        objOItem_TransItem.TransactionResult = objOItem_Result
-                    Case Else
-                        objOItem_TransItem.TransactionResult = objGlobals.LState_Error
-                End Select
+                If boolRemoveItem = False Then
+                    objOL_Items.Add(OItem_Item)
+                    Select Case objOItem_TransItem.OItem_OntologyItem.Type
+                        Case objGlobals.Type_AttributeType
+                            objOItem_Result = objDBLevel.save_AttributeType(OItem_Item)
+                            objOItem_TransItem.TransactionResult = objOItem_Result
+                        Case objGlobals.Type_Class
+                            objOItem_Result = objDBLevel.save_Class(OItem_Item)
+                            objOItem_TransItem.TransactionResult = objOItem_Result
+                        Case objGlobals.Type_Object
+                            objOItem_Result = objDBLevel.save_Objects(objOL_Items)
+                            objOItem_TransItem.TransactionResult = objOItem_Result
+                        Case objGlobals.Type_RelationType
+                            objOItem_Result = objDBLevel.save_RelationType(OItem_Item)
+                            objOItem_TransItem.TransactionResult = objOItem_Result
+                        Case Else
+                            objOItem_TransItem.TransactionResult = objGlobals.LState_Error
+                    End Select
 
+                Else
+
+                End If
+                
 
 
         End Select
@@ -182,6 +202,7 @@ Public Class clsTransaction
         Dim objOItem_Result As clsOntologyItem
         Dim objOItem_Class As New clsOntologyItem
         Dim objOItem_AttributeType As New clsOntologyItem
+        Dim objOLClassAtt As New List(Of clsClassAtt)
         Dim objOLClassRel As New List(Of clsClassRel)
         Dim objOLObjAtt As New List(Of clsObjectAtt)
         Dim objOLObjRel As New List(Of clsObjectRel)
@@ -193,12 +214,20 @@ Public Class clsTransaction
                 objOItem_Class.GUID = objTransactionItem.OItem_ClassAtt.ID_Class
                 objOItem_AttributeType.GUID = objTransactionItem.OItem_ClassAtt.ID_AttributeType
 
-                objOItem_Result = objDBLevel.del_ClassAttType(objOItem_Class, _
+                If objTransactionItem.Removed = False Then
+                    objOItem_Result = objDBLevel.del_ClassAttType(objOItem_Class, _
                                                               objOItem_AttributeType)
+                Else
+                    objOLClassAtt.Add(objTransactionItem.OItem_ClassAtt)
+                    objOItem_Result = objDBLevel.save_ClassAttType(objOLClassAtt)
+
+                End If
+                
 
             Case objGlobals.ClassType_ClassRel
 
-                objOLClassRel.Add(New clsClassRel(objTransactionItem.OItem_ClassRel.ID_Class_Left, _
+                If objTransactionItem.Removed = False Then
+                    objOLClassRel.Add(New clsClassRel(objTransactionItem.OItem_ClassRel.ID_Class_Left, _
                                                   objTransactionItem.OItem_ClassRel.ID_Class_Right, _
                                                   objTransactionItem.OItem_ClassRel.ID_RelationType, _
                                                   Nothing, _
@@ -206,24 +235,38 @@ Public Class clsTransaction
                                                   Nothing, _
                                                   Nothing))
 
-                If objDBLevel.del_ClassRel(objOLClassRel).Count > 0 Then
-                    objOItem_Result = objGlobals.LState_Success
+                    If objDBLevel.del_ClassRel(objOLClassRel).Count > 0 Then
+                        objOItem_Result = objGlobals.LState_Success
+                    Else
+                        objOItem_Result = objGlobals.LState_Error
+                    End If
                 Else
-                    objOItem_Result = objGlobals.LState_Error
+                    objOLClassRel.Add(objTransactionItem.OItem_ClassRel)
+
+                    objOItem_Result = objDBLevel.save_ClassRel(objOLClassRel)
                 End If
+                
             Case objGlobals.ClassType_ObjectAtt
 
-                objOLObjAtt.Add(New clsObjectAtt(objTransactionItem.OItem_ObjectAtt.ID_Attribute, _
+                If objTransactionItem.Removed = False Then
+                    objOLObjAtt.Add(New clsObjectAtt(objTransactionItem.OItem_ObjectAtt.ID_Attribute, _
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing))
 
 
-                objOItem_Result = objDBLevel.del_ObjectAtt(objOLObjAtt)
+                    objOItem_Result = objDBLevel.del_ObjectAtt(objOLObjAtt)
+                Else
+                    objOLObjAtt.Add(objTransactionItem.OItem_ObjectAtt)
+
+                    objOItem_Result = objDBLevel.save_ObjAtt(objOLObjAtt)
+                End If
+                
 
             Case objGlobals.ClassType_ObjectRel
-                objOLObjRel.Add(New clsObjectRel(objTransactionItem.OItem_ObjectRel.ID_Object, _
+                If objTransactionItem.Removed = False Then
+                    objOLObjRel.Add(New clsObjectRel(objTransactionItem.OItem_ObjectRel.ID_Object, _
                                                  Nothing, _
                                                  objTransactionItem.OItem_ObjectRel.ID_Other, _
                                                  Nothing, _
@@ -232,10 +275,21 @@ Public Class clsTransaction
                                                  Nothing, _
                                                  Nothing))
 
-                objOItem_Result = objDBLevel.del_ObjectRel(objOLObjRel)
+                    objOItem_Result = objDBLevel.del_ObjectRel(objOLObjRel)
+                Else
+                    objOLObjRel.Add(objTransactionItem.OItem_ObjectRel)
+
+                    objOItem_Result = objDBLevel.save_ObjRel(objOLObjRel)
+                End If
+                
             Case objGlobals.ClassType_OntologyItem
                 objOLOntologyItem.Add(objTransactionItem.OItem_OntologyItem)
-                objOItem_Result = objDBLevel.del_Objects(objOLOntologyItem)
+                If objTransactionItem.Removed = False Then
+                    objOItem_Result = objDBLevel.del_Objects(objOLOntologyItem)
+                Else
+                    objOItem_Result = objDBLevel.save_Objects(objOLOntologyItem)
+                End If
+
             Case Else
                 objOItem_Result = objGlobals.LState_Error
         End Select
@@ -457,7 +511,7 @@ Public Class clsTransaction
 
             Case objGlobals.ClassType_ObjectRel
 
-                If boolRemoveAll = False Then
+                If boolRemoveAll = True Then
 
                     If boolNeutral = False Then
                         objOL_ObjRel_Search.Add(New clsObjectRel(objOItem_TransItem.OItem_ObjectRel.ID_Object, _

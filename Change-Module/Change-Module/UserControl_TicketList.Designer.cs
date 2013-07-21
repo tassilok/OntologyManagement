@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControl_TicketList));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.bindingNavigator_Tickets = new System.Windows.Forms.BindingNavigator(this.components);
-            this.bindingSource_Tickets = new System.Windows.Forms.BindingSource(this.components);
             this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
@@ -60,14 +59,15 @@
             this.RelateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ApplyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bindingSource_Tickets = new System.Windows.Forms.BindingSource(this.components);
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator_Tickets)).BeginInit();
             this.bindingNavigator_Tickets.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource_Tickets)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_TicketLists)).BeginInit();
             this.ContextMenuStrip_Tickets.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource_Tickets)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -214,6 +214,7 @@
             this.dataGridView_TicketLists.ReadOnly = true;
             this.dataGridView_TicketLists.Size = new System.Drawing.Size(782, 482);
             this.dataGridView_TicketLists.TabIndex = 0;
+            this.dataGridView_TicketLists.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_TicketLists_RowHeaderMouseDoubleClick);
             this.dataGridView_TicketLists.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_TicketLists_KeyDown);
             // 
             // ContextMenuStrip_Tickets
@@ -226,11 +227,12 @@
             this.ApplyToolStripMenuItem});
             this.ContextMenuStrip_Tickets.Name = "ContextMenuStrip_Tickets";
             this.ContextMenuStrip_Tickets.Size = new System.Drawing.Size(116, 114);
+            this.ContextMenuStrip_Tickets.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip_Tickets_Opening);
             // 
             // NewToolStripMenuItem
             // 
             this.NewToolStripMenuItem.Name = "NewToolStripMenuItem";
-            this.NewToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.NewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.NewToolStripMenuItem.Text = "x_New";
             this.NewToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
@@ -243,7 +245,7 @@
             this.ContainsToolStripMenuItem,
             this.ClearToolStripMenuItem});
             this.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem";
-            this.FilterToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.FilterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.FilterToolStripMenuItem.Text = "x_Filter";
             // 
             // EqualToolStripMenuItem
@@ -308,21 +310,22 @@
             // 
             this.RelateToolStripMenuItem.Enabled = false;
             this.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem";
-            this.RelateToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.RelateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.RelateToolStripMenuItem.Text = "x_relate";
             // 
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Enabled = false;
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.OpenToolStripMenuItem.Text = "x_Open";
+            this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // ApplyToolStripMenuItem
             // 
             this.ApplyToolStripMenuItem.Enabled = false;
             this.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem";
-            this.ApplyToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.ApplyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ApplyToolStripMenuItem.Text = "x_Apply";
             this.ApplyToolStripMenuItem.Visible = false;
             // 
@@ -341,9 +344,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator_Tickets)).EndInit();
             this.bindingNavigator_Tickets.ResumeLayout(false);
             this.bindingNavigator_Tickets.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource_Tickets)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_TicketLists)).EndInit();
             this.ContextMenuStrip_Tickets.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource_Tickets)).EndInit();
             this.ResumeLayout(false);
 
         }
