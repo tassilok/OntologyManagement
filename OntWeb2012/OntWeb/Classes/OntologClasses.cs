@@ -15,11 +15,10 @@ namespace OntWeb
         public List<OntologyItem> OntologyList_ObjectRel { get; set; }
         public List<OntologyItem> OntologyList_ObjectTree { get; set; }
         public List<OntologyItem> OntologyList_Classes1 { get; set; }
-        public List<OntologyItem> OntologyList_Classes2 { get; set; }
+        public List<OntologyItem> OntologyList_Classes2 { get; set; } 
+        public List<ClassRelFull> OntologyList_ClassRel { get; set;  }
         public List<OntologyItem> OntologyList_RelationTypes { get; set; }
         public List<OntologyItem> OntologyList_AttributTypes { get; set; }
-        public List<OntologyItem> OntologyList_ClassRel_ID { get; set; }
-        public List<OntologyItem> OntologyList_ClassRel { get; set; }
         public List<OntologyItem> OntologyList_ClassAtt_ID { get; set; }
         public List<OntologyItem> OntologyList_ObjAtt_ID { get; set; }
         public List<OntologyItem> OntologyList_ObjAtt { get; set; }
@@ -36,10 +35,9 @@ namespace OntWeb
             OntologyList_AttributTypes = new List<OntologyItem> ();
             OntologyList_Attributes = new List<OntologyItem> ();
             OntologyList_ClassAtt_ID = new List<OntologyItem> ();
-            OntologyList_ClassRel = new List<OntologyItem> ();
-            OntologyList_ClassRel_ID = new List<OntologyItem> ();
-            OntologyList_Classes1 = new List<OntologyItem> ();
-            OntologyList_Classes2 = new List<OntologyItem> ();
+            OntologyList_Classes1 = new List<OntologyItem>();
+            OntologyList_Classes2 = new List<OntologyItem>();
+            OntologyList_ClassRel = new List<ClassRelFull> ();
             OntologyList_DataTypes = new List<OntologyItem> ();
             OntologyList_ObjAtt = new List<OntologyItem> ();
             OntologyList_ObjAtt_ID = new List<OntologyItem> ();

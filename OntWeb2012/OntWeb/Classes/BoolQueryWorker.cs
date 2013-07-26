@@ -51,11 +51,11 @@ namespace OntWeb.Classes
 
                         foreach (var objQuery_ID in objLQuery_ID)
                         {
-                            if (!String.IsNullOrEmpty(objQuery_ID.ToString()))
+                            if (!String.IsNullOrEmpty(objQuery_ID.Key))
                             {
                                 if (QueryString != "") QueryString += "\\ OR\\ ";
 
-                                QueryString += objQuery_ID.ToString();
+                                QueryString += objQuery_ID.Key;
                             }
                         }
 
@@ -86,11 +86,11 @@ namespace OntWeb.Classes
 
                             foreach (var objQuery_Name in objLQuery_Name)
                             {
-                                if (!String.IsNullOrEmpty(objQuery_Name.ToString()))
+                                if (!String.IsNullOrEmpty(objQuery_Name.Key))
                                 {
                                     if (QueryString != "") QueryString += "\\ OR\\ ";
 
-                                    QueryString += "*" + objQuery_Name.ToString() + "*";
+                                    QueryString += "*" + objQuery_Name.Key + "*";
                                 }
                             }
 
@@ -118,11 +118,11 @@ namespace OntWeb.Classes
 
                             foreach (var objQuery_IDParent in objLQuery_IDParent)
                             {
-                                if (!String.IsNullOrEmpty(objQuery_IDParent.ToString()))
+                                if (!String.IsNullOrEmpty(objQuery_IDParent.Key))
                                 {
                                     if (QueryString != "") QueryString += "\\ OR\\ ";
 
-                                    QueryString += objQuery_IDParent.ToString();
+                                    QueryString += objQuery_IDParent.Key;
                                 }
                             }
 
@@ -140,6 +140,59 @@ namespace OntWeb.Classes
                 
             
                 
+            }
+            if (BoolQuery.ToString() == "")
+            {
+                QueryString = "*";
+                BoolQuery.Add(new WildcardQuery(new Term(Globals.Field_ID_Item, QueryString)),
+                                          BooleanClause.Occur.MUST);
+            }
+            return BoolQuery;
+        }
+
+        public BooleanQuery ClassRelQuery(List<ClassRelFull> OList_Items, string Ontology)
+        {
+            BooleanQuery BoolQuery = new BooleanQuery();
+
+            string QueryString;
+
+            if (OList_Items != null)
+            {
+                if (OList_Items.Any())
+                {
+                    
+                        var objLQuery_ID = from ClassRelFull obj in OList_Items
+                                           group obj by obj.ClassRels
+                                               into obj1
+                                               select obj1;
+
+                        QueryString = "";
+
+                        foreach (var objQuery_ID in objLQuery_ID)
+                        {
+                            if (!String.IsNullOrEmpty(objQuery_ID.Key))
+                            {
+                                if (QueryString != "") QueryString += "\\ OR\\ ";
+
+                                QueryString += objQuery_ID.Key;
+                            }
+                        }
+
+                        if (QueryString != "")
+                        {
+                    
+                            BoolQuery.Add(new TermQuery(new Term(Globals.Field_ID_Item, QueryString)),
+                                          BooleanClause.Occur.MUST);
+                        }
+
+                    
+
+                    
+                }
+
+
+
+
             }
             if (BoolQuery.ToString() == "")
             {
