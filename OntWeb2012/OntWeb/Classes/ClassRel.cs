@@ -28,7 +28,7 @@ namespace OntWeb.Classes
 
         }
 
-        public ClassRel(string ID_Class_Left, string ID_Class_Right = null, string Ontology, string ID_RelationType)
+        public ClassRel(string ID_Class_Left, string Ontology, string ID_RelationType, string ID_Class_Right = null)
         {
             this.ID_Class_Left = ID_Class_Left;
             this.ID_Class_Right = ID_Class_Right;
@@ -49,7 +49,7 @@ namespace OntWeb.Classes
 
         }
 
-        public ClassRel(string ID_Class_Left, string ID_Class_Right=null, string Ontology, string ID_RelationType, long? Min_Forw, long? Max_Forw, long? Max_Backw)
+        public ClassRel(string ID_Class_Left, string Ontology, string ID_RelationType, long? Min_Forw, long? Max_Forw, long? Max_Backw, string ID_Class_Right = null)
         {
             this.ID_Class_Left = ID_Class_Left;
             this.ID_Class_Right = ID_Class_Right;
