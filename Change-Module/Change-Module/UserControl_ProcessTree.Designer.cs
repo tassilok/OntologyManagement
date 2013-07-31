@@ -60,6 +60,7 @@
             this.treeView_ProcessTree.Size = new System.Drawing.Size(457, 423);
             this.treeView_ProcessTree.TabIndex = 0;
             this.treeView_ProcessTree.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView_ProcessTree_BeforeCheck);
+            this.treeView_ProcessTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_ProcessTree_AfterSelect);
             this.treeView_ProcessTree.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.treeView_ProcessTree_MouseDoubleClick);
             // 
             // ContextMenuStrip_ProcessTree
@@ -128,14 +129,14 @@
             // NewToolStripMenuItem1
             // 
             this.NewToolStripMenuItem1.Name = "NewToolStripMenuItem1";
-            this.NewToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.NewToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
             this.NewToolStripMenuItem1.Text = "x_New";
             this.NewToolStripMenuItem1.Click += new System.EventHandler(this.NewToolStripMenuItem1_Click);
             // 
             // ExistingToolStripMenuItem
             // 
             this.ExistingToolStripMenuItem.Name = "ExistingToolStripMenuItem";
-            this.ExistingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ExistingToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.ExistingToolStripMenuItem.Text = "x_Existing";
             // 
             // SubIncidentToolStripMenuItem
