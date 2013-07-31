@@ -155,6 +155,7 @@
     <Compile Include="Classes\BoolQueryWorker.cs" />
     <Compile Include="Classes\ClassRel.cs" />
     <Compile Include="Classes\ClassRelFull.cs" />
+    <Compile Include="Classes\OntologRelTypes.cs" />
     <Compile Include="Classes\OntologyItem.cs" />
     <Compile Include="Config\DataSet_Config.Designer.cs">
       <AutoGen>True</AutoGen>
