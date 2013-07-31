@@ -12,6 +12,8 @@ namespace Change_Module
 {
 
     public delegate void ChangedEventHandler(object sender, EventArgs e);
+    public delegate void SelectEventHandler(clsOntologyItem objOItem_Selected);
+   
 
     public partial class UserControl_ProcessTree : UserControl
     {
@@ -26,11 +28,15 @@ namespace Change_Module
         private clsProcess_LogWork objProcess_LogWork;
         private List<clsObjectTree> objOTree_ProcessTree;
 
+        private TreeNode objTreeNode_Selected;
+        private clsOntologyItem objOItem_Selected;
+
         private frm_ObjectEdit objFrmObjectEdit;
 
         private Boolean boolPCChange_Process;
 
         public event ChangedEventHandler CloseApplication;
+        public event SelectEventHandler SelectItem;
 
         public UserControl_ProcessTree(clsLocalConfig LocalConfig, clsDataWork_Ticket DataWork_Ticket)
         {
@@ -271,6 +277,31 @@ namespace Change_Module
 
                 
             }
+        }
+
+        private void treeView_ProcessTree_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
+            objTreeNode_Selected = e.Node;
+
+            objOItem_Selected = new clsOntologyItem(objTreeNode_Selected.Name, objTreeNode_Selected.Text, objLocalConfig.Globals.Type_Object);
+
+            if (objTreeNode_Selected.ImageIndex == objLocalConfig.Image_Incident
+                || objTreeNode_Selected.ImageIndex == objLocalConfig.Image_Incident_w_doc)
+            {
+                objOItem_Selected.GUID_Parent = objLocalConfig.OItem_Type_Incident.GUID;
+            }
+            else if (objTreeNode_Selected.ImageIndex == objLocalConfig.Image_Process_w_doc
+                    || objTreeNode_Selected.ImageIndex == objLocalConfig.ImageID_Process)
+            {
+                objOItem_Selected.GUID_Parent = objLocalConfig.OItem_Type_Process_Log.GUID;
+            }
+            else if (objTreeNode_Selected.ImageIndex == objLocalConfig.ImageID_Ticket)
+            {
+                objOItem_Selected.GUID_Parent = objLocalConfig.OItem_Type_Process_Ticket.GUID;
+            }
+
+            SelectItem(objOItem_Selected);            
         }
 
         

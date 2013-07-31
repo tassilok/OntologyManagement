@@ -32,10 +32,19 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmChange));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.ToolStripButton_Close = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripLabel_ClockLBL = new System.Windows.Forms.ToolStripLabel();
             this.ToolStripLabel_Clock = new System.Windows.Forms.ToolStripLabel();
+            this.ToolStripButton_StartClock = new System.Windows.Forms.ToolStripButton();
+            this.ToolStripButton_PauseClock = new System.Windows.Forms.ToolStripButton();
+            this.ToolStripButton_StopClock = new System.Windows.Forms.ToolStripButton();
+            this.ToolStripButton_ResetClock = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripButton_MoveFirst = new System.Windows.Forms.ToolStripButton();
+            this.ToolStripButton_MovePrevious = new System.Windows.Forms.ToolStripButton();
+            this.ToolStripButton_MoveNext = new System.Windows.Forms.ToolStripButton();
+            this.ToolStripButton_MoveLast = new System.Windows.Forms.ToolStripButton();
             this.ToolStripLabel_TicketCount = new System.Windows.Forms.ToolStripLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
@@ -64,8 +73,12 @@
             this.TabPage_Process_PDF = new System.Windows.Forms.TabPage();
             this.TabPage_PDF_ProcessLog = new System.Windows.Forms.TabPage();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton_Description = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_RefHist = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton_Tickets = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripButton_TicketDoc = new System.Windows.Forms.ToolStripButton();
             this.ToolStripLabel_Doc = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripLabel_TicketIDLBL = new System.Windows.Forms.ToolStripLabel();
@@ -81,19 +94,6 @@
             this.Timer_Description_Ticket = new System.Windows.Forms.Timer(this.components);
             this.Timer_Description_Process = new System.Windows.Forms.Timer(this.components);
             this.Timer_Description_ProcessLog = new System.Windows.Forms.Timer(this.components);
-            this.ToolStripButton_Close = new System.Windows.Forms.ToolStripButton();
-            this.ToolStripButton_StartClock = new System.Windows.Forms.ToolStripButton();
-            this.ToolStripButton_PauseClock = new System.Windows.Forms.ToolStripButton();
-            this.ToolStripButton_StopClock = new System.Windows.Forms.ToolStripButton();
-            this.ToolStripButton_ResetClock = new System.Windows.Forms.ToolStripButton();
-            this.ToolStripButton_MoveFirst = new System.Windows.Forms.ToolStripButton();
-            this.ToolStripButton_MovePrevious = new System.Windows.Forms.ToolStripButton();
-            this.ToolStripButton_MoveNext = new System.Windows.Forms.ToolStripButton();
-            this.ToolStripButton_MoveLast = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_Description = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_RefHist = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_Tickets = new System.Windows.Forms.ToolStripButton();
-            this.ToolStripButton_TicketDoc = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -176,6 +176,15 @@
             this.toolStrip2.Size = new System.Drawing.Size(400, 25);
             this.toolStrip2.TabIndex = 0;
             // 
+            // ToolStripButton_Close
+            // 
+            this.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ToolStripButton_Close.Image = ((System.Drawing.Image)(resources.GetObject("ToolStripButton_Close.Image")));
+            this.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStripButton_Close.Name = "ToolStripButton_Close";
+            this.ToolStripButton_Close.Size = new System.Drawing.Size(50, 22);
+            this.ToolStripButton_Close.Text = "x_Close";
+            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
@@ -193,10 +202,91 @@
             this.ToolStripLabel_Clock.Size = new System.Drawing.Size(49, 22);
             this.ToolStripLabel_Clock.Text = "00:00:00";
             // 
+            // ToolStripButton_StartClock
+            // 
+            this.ToolStripButton_StartClock.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStripButton_StartClock.Enabled = false;
+            this.ToolStripButton_StartClock.Image = global::Change_Module.Properties.Resources.next;
+            this.ToolStripButton_StartClock.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStripButton_StartClock.Name = "ToolStripButton_StartClock";
+            this.ToolStripButton_StartClock.Size = new System.Drawing.Size(23, 22);
+            this.ToolStripButton_StartClock.Text = "ToolStripButton1";
+            // 
+            // ToolStripButton_PauseClock
+            // 
+            this.ToolStripButton_PauseClock.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStripButton_PauseClock.Enabled = false;
+            this.ToolStripButton_PauseClock.Image = global::Change_Module.Properties.Resources.b_down_Infinite;
+            this.ToolStripButton_PauseClock.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStripButton_PauseClock.Name = "ToolStripButton_PauseClock";
+            this.ToolStripButton_PauseClock.Size = new System.Drawing.Size(23, 22);
+            this.ToolStripButton_PauseClock.Text = "ToolStripButton1";
+            // 
+            // ToolStripButton_StopClock
+            // 
+            this.ToolStripButton_StopClock.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStripButton_StopClock.Enabled = false;
+            this.ToolStripButton_StopClock.Image = global::Change_Module.Properties.Resources.b_stop;
+            this.ToolStripButton_StopClock.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStripButton_StopClock.Name = "ToolStripButton_StopClock";
+            this.ToolStripButton_StopClock.Size = new System.Drawing.Size(23, 22);
+            this.ToolStripButton_StopClock.Text = "ToolStripButton2";
+            // 
+            // ToolStripButton_ResetClock
+            // 
+            this.ToolStripButton_ResetClock.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStripButton_ResetClock.Enabled = false;
+            this.ToolStripButton_ResetClock.Image = global::Change_Module.Properties.Resources.back;
+            this.ToolStripButton_ResetClock.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStripButton_ResetClock.Name = "ToolStripButton_ResetClock";
+            this.ToolStripButton_ResetClock.Size = new System.Drawing.Size(23, 22);
+            this.ToolStripButton_ResetClock.Text = "ToolStripButton3";
+            // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
+            // 
+            // ToolStripButton_MoveFirst
+            // 
+            this.ToolStripButton_MoveFirst.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStripButton_MoveFirst.Enabled = false;
+            this.ToolStripButton_MoveFirst.Image = global::Change_Module.Properties.Resources.pulsante_01_architetto_f_01_First;
+            this.ToolStripButton_MoveFirst.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStripButton_MoveFirst.Name = "ToolStripButton_MoveFirst";
+            this.ToolStripButton_MoveFirst.Size = new System.Drawing.Size(23, 22);
+            this.ToolStripButton_MoveFirst.Text = "ToolStripButton1";
+            // 
+            // ToolStripButton_MovePrevious
+            // 
+            this.ToolStripButton_MovePrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStripButton_MovePrevious.Enabled = false;
+            this.ToolStripButton_MovePrevious.Image = global::Change_Module.Properties.Resources.pulsante_01_architetto_f_01;
+            this.ToolStripButton_MovePrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStripButton_MovePrevious.Name = "ToolStripButton_MovePrevious";
+            this.ToolStripButton_MovePrevious.Size = new System.Drawing.Size(23, 22);
+            this.ToolStripButton_MovePrevious.Text = "ToolStripButton2";
+            // 
+            // ToolStripButton_MoveNext
+            // 
+            this.ToolStripButton_MoveNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStripButton_MoveNext.Enabled = false;
+            this.ToolStripButton_MoveNext.Image = global::Change_Module.Properties.Resources.pulsante_02_architetto_f_01;
+            this.ToolStripButton_MoveNext.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStripButton_MoveNext.Name = "ToolStripButton_MoveNext";
+            this.ToolStripButton_MoveNext.Size = new System.Drawing.Size(23, 22);
+            this.ToolStripButton_MoveNext.Text = "ToolStripButton3";
+            this.ToolStripButton_MoveNext.Click += new System.EventHandler(this.ToolStripButton_MoveNext_Click);
+            // 
+            // ToolStripButton_MoveLast
+            // 
+            this.ToolStripButton_MoveLast.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStripButton_MoveLast.Enabled = false;
+            this.ToolStripButton_MoveLast.Image = global::Change_Module.Properties.Resources.pulsante_02_architetto_f_01_Last;
+            this.ToolStripButton_MoveLast.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStripButton_MoveLast.Name = "ToolStripButton_MoveLast";
+            this.ToolStripButton_MoveLast.Size = new System.Drawing.Size(23, 22);
+            this.ToolStripButton_MoveLast.Text = "ToolStripButton4";
             // 
             // ToolStripLabel_TicketCount
             // 
@@ -286,6 +376,7 @@
             this.TextBox_Description_Ticket.ReadOnly = true;
             this.TextBox_Description_Ticket.Size = new System.Drawing.Size(567, 76);
             this.TextBox_Description_Ticket.TabIndex = 1;
+            this.TextBox_Description_Ticket.TextChanged += new System.EventHandler(this.TextBox_Description_Ticket_TextChanged_1);
             // 
             // Label_Description_Ticket
             // 
@@ -327,6 +418,7 @@
             this.TextBox_Description_Process.ReadOnly = true;
             this.TextBox_Description_Process.Size = new System.Drawing.Size(290, 87);
             this.TextBox_Description_Process.TabIndex = 1;
+            this.TextBox_Description_Process.TextChanged += new System.EventHandler(this.TextBox_Description_Process_TextChanged);
             // 
             // Label_Description_Process
             // 
@@ -348,6 +440,7 @@
             this.TextBox_Description_ProcessLog.ReadOnly = true;
             this.TextBox_Description_ProcessLog.Size = new System.Drawing.Size(261, 87);
             this.TextBox_Description_ProcessLog.TabIndex = 1;
+            this.TextBox_Description_ProcessLog.TextChanged += new System.EventHandler(this.TextBox_Description_ProcessLog_TextChanged);
             // 
             // Label_Description_ProcessLog
             // 
@@ -530,6 +623,30 @@
             this.toolStrip3.Size = new System.Drawing.Size(24, 57);
             this.toolStrip3.TabIndex = 0;
             // 
+            // toolStripButton_Description
+            // 
+            this.toolStripButton_Description.Checked = true;
+            this.toolStripButton_Description.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripButton_Description.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Description.Image = global::Change_Module.Properties.Resources.bb_txt_;
+            this.toolStripButton_Description.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Description.Name = "toolStripButton_Description";
+            this.toolStripButton_Description.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButton_Description.Text = "toolStripButton1";
+            this.toolStripButton_Description.Click += new System.EventHandler(this.toolStripButton_Description_Click);
+            // 
+            // toolStripButton_RefHist
+            // 
+            this.toolStripButton_RefHist.Checked = true;
+            this.toolStripButton_RefHist.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripButton_RefHist.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_RefHist.Image = global::Change_Module.Properties.Resources.desktop;
+            this.toolStripButton_RefHist.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_RefHist.Name = "toolStripButton_RefHist";
+            this.toolStripButton_RefHist.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButton_RefHist.Text = "toolStripButton2";
+            this.toolStripButton_RefHist.Click += new System.EventHandler(this.toolStripButton_RefHist_Click);
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
@@ -553,10 +670,29 @@
             this.toolStrip1.Size = new System.Drawing.Size(868, 25);
             this.toolStrip1.TabIndex = 0;
             // 
+            // toolStripButton_Tickets
+            // 
+            this.toolStripButton_Tickets.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Tickets.Image = global::Change_Module.Properties.Resources.gnome_mime_application_vnd_ms_powerpoint;
+            this.toolStripButton_Tickets.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Tickets.Name = "toolStripButton_Tickets";
+            this.toolStripButton_Tickets.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_Tickets.Text = "toolStripButton1";
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // ToolStripButton_TicketDoc
+            // 
+            this.ToolStripButton_TicketDoc.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStripButton_TicketDoc.Enabled = false;
+            this.ToolStripButton_TicketDoc.Image = global::Change_Module.Properties.Resources.bb_txt_;
+            this.ToolStripButton_TicketDoc.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStripButton_TicketDoc.Name = "ToolStripButton_TicketDoc";
+            this.ToolStripButton_TicketDoc.Size = new System.Drawing.Size(23, 22);
+            this.ToolStripButton_TicketDoc.Text = "toolStripButton1";
             // 
             // ToolStripLabel_Doc
             // 
@@ -635,147 +771,17 @@
             // Timer_Description_Ticket
             // 
             this.Timer_Description_Ticket.Interval = 300;
+            this.Timer_Description_Ticket.Tick += new System.EventHandler(this.Timer_Description_Ticket_Tick);
             // 
             // Timer_Description_Process
             // 
             this.Timer_Description_Process.Interval = 300;
+            this.Timer_Description_Process.Tick += new System.EventHandler(this.Timer_Description_Process_Tick);
             // 
             // Timer_Description_ProcessLog
             // 
             this.Timer_Description_ProcessLog.Interval = 300;
-            // 
-            // ToolStripButton_Close
-            // 
-            this.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.ToolStripButton_Close.Image = ((System.Drawing.Image)(resources.GetObject("ToolStripButton_Close.Image")));
-            this.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolStripButton_Close.Name = "ToolStripButton_Close";
-            this.ToolStripButton_Close.Size = new System.Drawing.Size(50, 22);
-            this.ToolStripButton_Close.Text = "x_Close";
-            // 
-            // ToolStripButton_StartClock
-            // 
-            this.ToolStripButton_StartClock.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolStripButton_StartClock.Enabled = false;
-            this.ToolStripButton_StartClock.Image = global::Change_Module.Properties.Resources.next;
-            this.ToolStripButton_StartClock.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolStripButton_StartClock.Name = "ToolStripButton_StartClock";
-            this.ToolStripButton_StartClock.Size = new System.Drawing.Size(23, 22);
-            this.ToolStripButton_StartClock.Text = "ToolStripButton1";
-            // 
-            // ToolStripButton_PauseClock
-            // 
-            this.ToolStripButton_PauseClock.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolStripButton_PauseClock.Enabled = false;
-            this.ToolStripButton_PauseClock.Image = global::Change_Module.Properties.Resources.b_down_Infinite;
-            this.ToolStripButton_PauseClock.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolStripButton_PauseClock.Name = "ToolStripButton_PauseClock";
-            this.ToolStripButton_PauseClock.Size = new System.Drawing.Size(23, 22);
-            this.ToolStripButton_PauseClock.Text = "ToolStripButton1";
-            // 
-            // ToolStripButton_StopClock
-            // 
-            this.ToolStripButton_StopClock.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolStripButton_StopClock.Enabled = false;
-            this.ToolStripButton_StopClock.Image = global::Change_Module.Properties.Resources.b_stop;
-            this.ToolStripButton_StopClock.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolStripButton_StopClock.Name = "ToolStripButton_StopClock";
-            this.ToolStripButton_StopClock.Size = new System.Drawing.Size(23, 22);
-            this.ToolStripButton_StopClock.Text = "ToolStripButton2";
-            // 
-            // ToolStripButton_ResetClock
-            // 
-            this.ToolStripButton_ResetClock.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolStripButton_ResetClock.Enabled = false;
-            this.ToolStripButton_ResetClock.Image = global::Change_Module.Properties.Resources.back;
-            this.ToolStripButton_ResetClock.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolStripButton_ResetClock.Name = "ToolStripButton_ResetClock";
-            this.ToolStripButton_ResetClock.Size = new System.Drawing.Size(23, 22);
-            this.ToolStripButton_ResetClock.Text = "ToolStripButton3";
-            // 
-            // ToolStripButton_MoveFirst
-            // 
-            this.ToolStripButton_MoveFirst.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolStripButton_MoveFirst.Enabled = false;
-            this.ToolStripButton_MoveFirst.Image = global::Change_Module.Properties.Resources.pulsante_01_architetto_f_01_First;
-            this.ToolStripButton_MoveFirst.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolStripButton_MoveFirst.Name = "ToolStripButton_MoveFirst";
-            this.ToolStripButton_MoveFirst.Size = new System.Drawing.Size(23, 22);
-            this.ToolStripButton_MoveFirst.Text = "ToolStripButton1";
-            // 
-            // ToolStripButton_MovePrevious
-            // 
-            this.ToolStripButton_MovePrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolStripButton_MovePrevious.Enabled = false;
-            this.ToolStripButton_MovePrevious.Image = global::Change_Module.Properties.Resources.pulsante_01_architetto_f_01;
-            this.ToolStripButton_MovePrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolStripButton_MovePrevious.Name = "ToolStripButton_MovePrevious";
-            this.ToolStripButton_MovePrevious.Size = new System.Drawing.Size(23, 22);
-            this.ToolStripButton_MovePrevious.Text = "ToolStripButton2";
-            // 
-            // ToolStripButton_MoveNext
-            // 
-            this.ToolStripButton_MoveNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolStripButton_MoveNext.Enabled = false;
-            this.ToolStripButton_MoveNext.Image = global::Change_Module.Properties.Resources.pulsante_02_architetto_f_01;
-            this.ToolStripButton_MoveNext.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolStripButton_MoveNext.Name = "ToolStripButton_MoveNext";
-            this.ToolStripButton_MoveNext.Size = new System.Drawing.Size(23, 22);
-            this.ToolStripButton_MoveNext.Text = "ToolStripButton3";
-            this.ToolStripButton_MoveNext.Click += new System.EventHandler(this.ToolStripButton_MoveNext_Click);
-            // 
-            // ToolStripButton_MoveLast
-            // 
-            this.ToolStripButton_MoveLast.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolStripButton_MoveLast.Enabled = false;
-            this.ToolStripButton_MoveLast.Image = global::Change_Module.Properties.Resources.pulsante_02_architetto_f_01_Last;
-            this.ToolStripButton_MoveLast.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolStripButton_MoveLast.Name = "ToolStripButton_MoveLast";
-            this.ToolStripButton_MoveLast.Size = new System.Drawing.Size(23, 22);
-            this.ToolStripButton_MoveLast.Text = "ToolStripButton4";
-            // 
-            // toolStripButton_Description
-            // 
-            this.toolStripButton_Description.Checked = true;
-            this.toolStripButton_Description.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripButton_Description.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_Description.Image = global::Change_Module.Properties.Resources.bb_txt_;
-            this.toolStripButton_Description.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Description.Name = "toolStripButton_Description";
-            this.toolStripButton_Description.Size = new System.Drawing.Size(22, 20);
-            this.toolStripButton_Description.Text = "toolStripButton1";
-            this.toolStripButton_Description.Click += new System.EventHandler(this.toolStripButton_Description_Click);
-            // 
-            // toolStripButton_RefHist
-            // 
-            this.toolStripButton_RefHist.Checked = true;
-            this.toolStripButton_RefHist.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripButton_RefHist.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_RefHist.Image = global::Change_Module.Properties.Resources.desktop;
-            this.toolStripButton_RefHist.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_RefHist.Name = "toolStripButton_RefHist";
-            this.toolStripButton_RefHist.Size = new System.Drawing.Size(22, 20);
-            this.toolStripButton_RefHist.Text = "toolStripButton2";
-            this.toolStripButton_RefHist.Click += new System.EventHandler(this.toolStripButton_RefHist_Click);
-            // 
-            // toolStripButton_Tickets
-            // 
-            this.toolStripButton_Tickets.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_Tickets.Image = global::Change_Module.Properties.Resources.gnome_mime_application_vnd_ms_powerpoint;
-            this.toolStripButton_Tickets.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Tickets.Name = "toolStripButton_Tickets";
-            this.toolStripButton_Tickets.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_Tickets.Text = "toolStripButton1";
-            // 
-            // ToolStripButton_TicketDoc
-            // 
-            this.ToolStripButton_TicketDoc.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolStripButton_TicketDoc.Enabled = false;
-            this.ToolStripButton_TicketDoc.Image = global::Change_Module.Properties.Resources.bb_txt_;
-            this.ToolStripButton_TicketDoc.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolStripButton_TicketDoc.Name = "ToolStripButton_TicketDoc";
-            this.ToolStripButton_TicketDoc.Size = new System.Drawing.Size(23, 22);
-            this.ToolStripButton_TicketDoc.Text = "toolStripButton1";
+            this.Timer_Description_ProcessLog.Tick += new System.EventHandler(this.Timer_Description_ProcessLog_Tick);
             // 
             // frmChange
             // 

@@ -37,6 +37,7 @@ namespace Change_Module
         private clsDBLevel objDBLevel_TicketListTree;
         private clsDBLevel objDBLevel_Description;
 
+        public clsOntologyItem objOItem_Process { get; set; }
 
         private clsLocalConfig objLocalConfig;
 
@@ -75,6 +76,7 @@ namespace Change_Module
         private List<clsObjectRel> objOList_Incidents;
 
         private string GUID_Ticket;
+
 
         private DataSet_ChangeModule.chngview_TicketList_TicketListsDataTable chngviewT_TicketList_TicketLists = new DataSet_ChangeModule.chngview_TicketList_TicketListsDataTable();
 
@@ -1622,6 +1624,78 @@ namespace Change_Module
             return objOItem_Result;
         }
 
+        public clsOntologyItem ProcessDescription(clsOntologyItem OItem_ProcessLog)
+        {
+            clsOntologyItem objOItem_Result;
+            List<clsObjectAtt> objOAList_Description = new List<clsObjectAtt>();
+
+            objOItem_Process = GetData_ProcessOfProcessLog(OItem_ProcessLog);
+
+            if (objOItem_Process != null)
+            {
+                objOAList_Description.Add(new clsObjectAtt(null,
+                                                           objOItem_Process.GUID,
+                                                           null,
+                                                           objLocalConfig.OItem_Attribute_Description.GUID,
+                                                           null));
+
+
+                objOItem_Result = objDBLevel_Description.get_Data_ObjectAtt(objOAList_Description,
+                                                                            boolIDs: false);
+
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    if (objDBLevel_Description.OList_ObjectAtt.Any())
+                    {
+                        objOItem_Result.Val_String = objDBLevel_Description.OList_ObjectAtt.First().Val_String;
+                        objOItem_Result.GUID_Related = objDBLevel_Description.OList_ObjectAtt.First().ID_Attribute;
+                    }
+                    else
+                    {
+                        objOItem_Result.Additional1 = "";
+                    }
+                }
+            }
+            else
+            {
+                objOItem_Result = objLocalConfig.Globals.LState_Error;
+            }
+
+            return objOItem_Result;
+
+        }
+
+        public clsOntologyItem ProcessLogDescription(clsOntologyItem OItem_Process_Log)
+        {
+            clsOntologyItem objOItem_Result = objLocalConfig.Globals.LState_Success;
+
+            List<clsObjectAtt> objOAList_Description = new List<clsObjectAtt>();
+
+            objOAList_Description.Add(new clsObjectAtt(null,
+                                                       OItem_Process_Log.GUID,
+                                                       null,
+                                                       objLocalConfig.OItem_Attribute_Description.GUID,
+                                                       null));
+
+            objOItem_Result = objDBLevel_Description.get_Data_ObjectAtt(objOAList_Description,
+                                                                        boolIDs: false);
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                if (objDBLevel_Description.OList_ObjectAtt.Any())
+                {
+                    objOItem_Result.Val_String = objDBLevel_Description.OList_ObjectAtt.First().Val_String;
+                    objOItem_Result.GUID_Related = objDBLevel_Description.OList_ObjectAtt.First().ID_Attribute;
+                }
+                else
+                {
+                    objOItem_Result.Val_String = "";
+                }
+            }
+
+            return objOItem_Result;
+        }
+
         public clsOntologyItem TicketDescription(clsOntologyItem OItem_Ticket)
         {
             clsOntologyItem objOItem_Result;
@@ -1639,9 +1713,10 @@ namespace Change_Module
 
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                if (objOAList_Description.Any())
+                if (objDBLevel_Description.OList_ObjectAtt.Any())
                 {
-                    objOItem_Result.Val_String = objDBLevel_Description.OList_ObjectAtt[0].Val_String;
+                    objOItem_Result.Val_String = objDBLevel_Description.OList_ObjectAtt.First().Val_String;
+                    objOItem_Result.GUID_Related = objDBLevel_Description.OList_ObjectAtt.First().ID_Attribute;
                 }
                 else
                 {

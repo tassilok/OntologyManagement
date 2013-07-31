@@ -172,7 +172,7 @@ namespace Change_Module
 
         public clsOntologyItem ToogleFinishState(clsOntologyItem OItem_Node)
         {
-            clsOntologyItem objOItem_Result;
+            clsOntologyItem objOItem_Result = objLocalConfig.Globals.LState_Success;
 
 
 
