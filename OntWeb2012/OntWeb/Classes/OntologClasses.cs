@@ -9,46 +9,29 @@ namespace OntWeb
 {
     public class OntologClasses
     {
-        public List<OntologyItem> OntologyList_Objects1 { get; set; }
-        public List<OntologyItem> OntologyList_Objects2 { get; set; }
-        public List<OntologyItem> OntologyList_ObjectRel_ID { get; set; }
-        public List<OntologyItem> OntologyList_ObjectRel { get; set; }
-        public List<OntologyItem> OntologyList_ObjectTree { get; set; }
+        
+        
+        
+        
         public List<OntologyItem> OntologyList_Classes1 { get; set; }
-        public List<OntologyItem> OntologyList_Classes2 { get; set; }
-        public List<OntologyItem> OntologyList_RelationTypes { get; set; }
-        public List<OntologyItem> OntologyList_AttributTypes { get; set; }
-        public List<OntologyItem> OntologyList_ClassRel_ID { get; set; }
-        public List<OntologyItem> OntologyList_ClassRel { get; set; }
-        public List<OntologyItem> OntologyList_ClassAtt_ID { get; set; }
-        public List<OntologyItem> OntologyList_ObjAtt_ID { get; set; }
-        public List<OntologyItem> OntologyList_ObjAtt { get; set; }
-        public List<OntologyItem> OntologyList_DataTypes { get; set; }
-        public List<OntologyItem> OntologyList_Attributes { get; set; }
-
+        public List<OntologyItem> OntologyList_Classes2 { get; set; } 
+        public List<ClassRelFull> OntologyList_ClassRel { get; set;  }
+        
         private ElasticSearchConnector ElConn = new ElasticSearchConnector();
+
+        private OntologClasses OClasses_Left = new OntologClasses();
+        private OntologClasses OClasses_Right = new OntologClasses();
+        private OntologRelTypes ORelTypes = new OntologRelTypes();
 
         private BoolQueryWorker BoolQueryWorker = new BoolQueryWorker();
         private BooleanQuery BoolQuery;
 
         public OntologClasses()
         {
-            OntologyList_AttributTypes = new List<OntologyItem> ();
-            OntologyList_Attributes = new List<OntologyItem> ();
-            OntologyList_ClassAtt_ID = new List<OntologyItem> ();
-            OntologyList_ClassRel = new List<OntologyItem> ();
-            OntologyList_ClassRel_ID = new List<OntologyItem> ();
-            OntologyList_Classes1 = new List<OntologyItem> ();
-            OntologyList_Classes2 = new List<OntologyItem> ();
-            OntologyList_DataTypes = new List<OntologyItem> ();
-            OntologyList_ObjAtt = new List<OntologyItem> ();
-            OntologyList_ObjAtt_ID = new List<OntologyItem> ();
-            OntologyList_ObjectRel = new List<OntologyItem>();
-            OntologyList_ObjectRel_ID = new List<OntologyItem>();
-            OntologyList_ObjectTree = new List<OntologyItem>();
-            OntologyList_Objects1 = new List<OntologyItem>();
-            OntologyList_Objects2 = new List<OntologyItem>();
-            OntologyList_RelationTypes = new List<OntologyItem>();
+            OntologyList_Classes1 = new List<OntologyItem>();
+            OntologyList_Classes2 = new List<OntologyItem>();
+            OntologyList_ClassRel = new List<ClassRelFull> ();
+        
         }
 
         public OntologyItem GetDataClasses(List<OntologyItem> ClassesIn,
@@ -132,6 +115,30 @@ namespace OntWeb
                 SearchResult = null;
                 ResultList = null;
             }
+
+            return Result;
+        }
+
+        public OntologyItem GetDataClassRel(List<ClassRel> ClassRels,
+                                                  Boolean OnlyIDs = false,
+                                                  Boolean ORs = false,
+                                                  Boolean DoCount = false)
+        {
+            ElConn.InitializeClient();
+            OntologyItem Result;
+
+            ElConn.FlushClient();
+
+            Result = new OntologyItem(Globals.LogState_Success.GUID_Item,
+                                      Globals.LogState_Success.Name_Item,
+                                      Globals.LogState_Success.GUID_Parent,
+                                      Globals.LogState_Success.Type_Item);
+
+            Result.Count = 0;
+
+            BoolQuery = BoolQueryWorker.ClassRelQuery(ClassRels, Globals.Type_Class);
+
+
 
             return Result;
         }
