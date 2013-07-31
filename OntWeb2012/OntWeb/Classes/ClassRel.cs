@@ -10,6 +10,9 @@ namespace OntWeb.Classes
         public string ID_Class_Left { get; set; }
         public string ID_Class_Right { get; set; }
         public string ID_RelationType { get; set; }
+        public string Name_Class_Left { get; set; }
+        public string Name_Class_Right { get; set; }
+        public string Name_RelationType { get; set; }
         public string Ontology { get; set; }
         public long? Min_Forw { get; set; }
         public long? Max_Forw { get; set; }
