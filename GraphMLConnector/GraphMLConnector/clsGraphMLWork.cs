@@ -64,6 +64,8 @@ namespace GraphMLConnector
                                                   objClassRel.ID_Class_Left);
                         EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_Object_ID_RIGHT.Name + "@",
                                                   objClassRel.ID_Class_Right);
+                        EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_Object_NAME_RELATIONTYPE.Name + "@",
+                                                  objClassRel.Name_RelationType);
 
                         objTextWriter.WriteLine(EdgeXML);
                     }
