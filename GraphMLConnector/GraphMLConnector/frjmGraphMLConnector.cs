@@ -24,7 +24,7 @@ namespace GraphMLConnector
             objLocalConfig = new clsLocalConfig(new clsGlobals());
 
             objGraphMLWork = new clsGraphMLWork(objLocalConfig);
-            objGraphMLWork.ExportClasses();
+            objGraphMLWork.ExportClasses(true,false,true,false);
         }
     }
 }
