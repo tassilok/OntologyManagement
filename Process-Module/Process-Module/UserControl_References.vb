@@ -73,6 +73,15 @@ Public Class UserControl_References
 
     End Sub
 
+    Public Sub New(Globals As clsGlobals)
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = New clsLocalConfig(Globals)
+        set_DBConnection()
+    End Sub
+
     Private Sub fill_Refs()
         objDataWork_References_Process.clear_Refs()
         objDataWork_References_ProcessLog.clear_Refs()

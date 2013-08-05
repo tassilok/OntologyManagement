@@ -19,9 +19,9 @@ namespace OntWeb
         
         private ElasticSearchConnector ElConn = new ElasticSearchConnector();
 
-        private OntologClasses OClasses_Left = new OntologClasses();
-        private OntologClasses OClasses_Right = new OntologClasses();
-        private OntologRelTypes ORelTypes = new OntologRelTypes();
+        private OntologClasses OClasses_Left;
+        private OntologClasses OClasses_Right;
+        private OntologRelTypes ORelTypes;
 
         private BoolQueryWorker BoolQueryWorker = new BoolQueryWorker();
         private BooleanQuery BoolQuery;

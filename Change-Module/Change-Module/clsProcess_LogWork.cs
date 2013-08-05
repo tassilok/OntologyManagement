@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Ontolog_Module;
 using System.Windows.Forms;
+using Log_Module;
 
 namespace Change_Module
 {
@@ -14,7 +15,11 @@ namespace Change_Module
         private IWin32Window objFrm_Parent;
         private frm_Name objFrmName;
         private clsTransaction objTransaction_ProcessIncident;
-        private clsTransaction objTransaction_ProcessProcess;        
+        private clsTransaction objTransaction_ProcessProcess;
+
+        private clsLogManagement objLogManagement;
+
+        private dlg_Attribute_String objDLG_Attribute_String;
 
         public clsOntologyItem CreateIncident(TreeNode objTreeNode_Parent)
         {
@@ -326,10 +331,58 @@ namespace Change_Module
 
             set_DBConnection();
         }
+        
+        public clsOntologyItem Log(clsOntologyItem OItem_Node, clsOntologyItem OItem_LogState)
+        {
+            clsOntologyItem objOItem_Result;
+            clsOntologyItem objOItem_LogEntry;
+            
+
+            string strMessage;
+
+            if (OItem_LogState.GUID == objLocalConfig.OItem_Token_Logstate_solved.GUID)
+            {
+
+            }
+            else if (OItem_LogState.GUID == objLocalConfig.OItem_Token_Logstate_Error.GUID)
+            {
+
+            }
+            else if (OItem_LogState.GUID == objLocalConfig.OItem_Token_Logstate_finished.GUID)
+            {
+
+            }
+            else if (OItem_LogState.GUID == objLocalConfig.OItem_Token_LogState_Information.GUID)
+            {
+                
+                objDLG_Attribute_String.ShowDialog(objFrm_Parent);
+                if (objDLG_Attribute_String.DialogResult == DialogResult.OK)
+                {
+                    strMessage = objDLG_Attribute_String.Value;
+                    objOItem_LogEntry =  objLogManagement.log_Entry(DateTime.Now, OItem_LogState, objLocalConfig.OItem_User, strMessage);
+                    var objORel_ProcessLogIncident_To_LogEntry = objDataWork_Ticket.Rel_ProcessLog_To_LogEntry(OItem_Node, objOItem_LogEntry, objLocalConfig.OItem_RelationType_belonging_Done);
+                    objOItem_Result = objTransaction_ProcessIncident.do_Transaction(objORel_ProcessLogIncident_To_LogEntry);
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        var objORel_Ticket_To_LogEntry_belongingDone = objDataWork_Ticket.Rel_Ticket_To_LogEntry(obj
+                    }
+                }
+            }
+            else if (OItem_LogState.GUID == objLocalConfig.OItem_Token_LogState_Obsolete.GUID)
+            {
+
+            }
+            else if (OItem_LogState.GUID == objLocalConfig.OItem_Token_Logstate_Start.GUID)
+            {
+
+            }
+
+            return objOItem_Result;
+        }
 
         private void set_DBConnection()
         {
-
+            objLogManagement = new clsLogManagement(objLocalConfig.Globals);
         }
     }
 }

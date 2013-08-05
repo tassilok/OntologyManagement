@@ -72,6 +72,9 @@ namespace OntWeb.Classes
                 SearchResult = null;
                 ResultList = null;
             }
+
+            return Result;
         }
+        
     }
 }

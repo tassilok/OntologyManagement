@@ -69,7 +69,8 @@
             this.LoggingToolStripMenuItem,
             this.NewToolStripMenuItem});
             this.ContextMenuStrip_ProcessTree.Name = "ContextMenuStrip_ProcessTree";
-            this.ContextMenuStrip_ProcessTree.Size = new System.Drawing.Size(129, 48);
+            this.ContextMenuStrip_ProcessTree.Size = new System.Drawing.Size(153, 70);
+            this.ContextMenuStrip_ProcessTree.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip_ProcessTree_Opening);
             // 
             // LoggingToolStripMenuItem
             // 
@@ -79,31 +80,32 @@
             this.InformationToolStripMenuItem,
             this.ObsoleteToolStripMenuItem});
             this.LoggingToolStripMenuItem.Name = "LoggingToolStripMenuItem";
-            this.LoggingToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.LoggingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.LoggingToolStripMenuItem.Text = "x_Logging";
             // 
             // ErrorToolStripMenuItem
             // 
             this.ErrorToolStripMenuItem.Name = "ErrorToolStripMenuItem";
-            this.ErrorToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.ErrorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ErrorToolStripMenuItem.Text = "x_Error";
             // 
             // ErrorSolvedToolStripMenuItem
             // 
             this.ErrorSolvedToolStripMenuItem.Name = "ErrorSolvedToolStripMenuItem";
-            this.ErrorSolvedToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.ErrorSolvedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ErrorSolvedToolStripMenuItem.Text = "x_Error solved";
             // 
             // InformationToolStripMenuItem
             // 
             this.InformationToolStripMenuItem.Name = "InformationToolStripMenuItem";
-            this.InformationToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.InformationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.InformationToolStripMenuItem.Text = "x_Information";
+            this.InformationToolStripMenuItem.Click += new System.EventHandler(this.InformationToolStripMenuItem_Click);
             // 
             // ObsoleteToolStripMenuItem
             // 
             this.ObsoleteToolStripMenuItem.Name = "ObsoleteToolStripMenuItem";
-            this.ObsoleteToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.ObsoleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ObsoleteToolStripMenuItem.Text = "x_Obsolete";
             // 
             // NewToolStripMenuItem
@@ -113,7 +115,7 @@
             this.SubIncidentToolStripMenuItem,
             this.SubTicketToolStripMenuItem});
             this.NewToolStripMenuItem.Name = "NewToolStripMenuItem";
-            this.NewToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.NewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.NewToolStripMenuItem.Text = "x_New";
             // 
             // SubProcessToolStripMenuItem

@@ -144,3 +144,7 @@ ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_RE
 >>>>>>> Go On
 >>>>>>> f319f5c43851dfa038764588c86a13589b3c0f89
 Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-08-02 22:42:05,175 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-08-02 22:42:05,182 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}

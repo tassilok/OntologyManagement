@@ -304,6 +304,58 @@ namespace Change_Module
             SelectItem(objOItem_Selected);            
         }
 
+        private void InformationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objOItem_Selected.GUID_Parent == objLocalConfig.OItem_Type_Process_Log.GUID || objOItem_Selected.GUID_Parent == objLocalConfig.OItem_Type_Incident.GUID)
+            {
+                     
+            }
+            
+                        
+        }
+
+        private void ContextMenuStrip_ProcessTree_Opening(object sender, CancelEventArgs e)
+        {
+            LoggingToolStripMenuItem.Enabled = false;
+            ErrorSolvedToolStripMenuItem.Enabled = false;
+            ErrorToolStripMenuItem.Enabled = false;
+            InformationToolStripMenuItem.Enabled = false;
+            ObsoleteToolStripMenuItem.Enabled = false;
+
+            NewToolStripMenuItem.Enabled = false;
+            SubProcessToolStripMenuItem.Enabled = false;
+
+            if (objOItem_Selected.GUID_Parent == objLocalConfig.OItem_Type_Process_Ticket.GUID)
+            {
+                LoggingToolStripMenuItem.Enabled = true;
+                ErrorSolvedToolStripMenuItem.Enabled = true;
+                
+            }
+            else if (objOItem_Selected.GUID_Parent == objLocalConfig.OItem_Type_Process_Log.GUID)
+            {
+                LoggingToolStripMenuItem.Enabled = true;
+
+                ErrorSolvedToolStripMenuItem.Enabled = true;
+                ErrorToolStripMenuItem.Enabled = true;
+                InformationToolStripMenuItem.Enabled = true;
+                ObsoleteToolStripMenuItem.Enabled = true;
+
+                NewToolStripMenuItem.Enabled = true;
+                SubProcessToolStripMenuItem.Enabled = true;
+            }
+            else if (objOItem_Selected.GUID_Parent == objLocalConfig.OItem_Type_Incident.GUID)
+            {
+                LoggingToolStripMenuItem.Enabled = true;
+
+                ErrorSolvedToolStripMenuItem.Enabled = true;
+                ErrorToolStripMenuItem.Enabled = true;
+                InformationToolStripMenuItem.Enabled = true;
+                ObsoleteToolStripMenuItem.Enabled = true;
+
+                NewToolStripMenuItem.Enabled = true;
+            }
+        }
+
         
         
     }

@@ -54,48 +54,53 @@ namespace Change_Module
 
             objOItem_TicketProcessLog = OItem_Selected;
 
+            objOItem_Result_LogEntries = objLocalConfig.Globals.LState_Nothing;
+            objOItem_Result_LogStates = objLocalConfig.Globals.LState_Nothing;
+            objOItem_Result_DateTimeStamps = objLocalConfig.Globals.LState_Nothing;
+            objOItem_Result_Messages = objLocalConfig.Globals.LState_Nothing;
+
             try
             {
                 objThread_LogEntries.Abort();
             }
-            catch(Exception e)
-            {
-            }
-
-            try
-            {
-                objThread_LogStates.Abort();
-            }
             catch (Exception e)
             {
             }
 
-            try
-            {
-                objThread_DateTimeStamps.Abort();
-            }
-            catch (Exception e)
-            {
-            }
+            //try
+            //{
+            //    objThread_LogStates.Abort();
+            //}
+            //catch (Exception e)
+            //{
+            //}
 
-            try
-            {
-                objThread_Messages.Abort();
-            }
-            catch (Exception e)
-            {
-            }
+            //try
+            //{
+            //    objThread_DateTimeStamps.Abort();
+            //}
+            //catch (Exception e)
+            //{
+            //}
+
+            //try
+            //{
+            //    objThread_Messages.Abort();
+            //}
+            //catch (Exception e)
+            //{
+            //}
 
             objThread_LogEntries = new Thread(GetData_LogEntriesOfProcessLog);
-            objThread_DateTimeStamps = new Thread(GetData_DateTimeStampsOfLogEntries);
-            objThread_Messages = new Thread(GetData_MessagesOfLogEntries);
-            objThread_LogStates = new Thread(GetData_LogStatesOfLogEntries);
+            //objThread_DateTimeStamps = new Thread(GetData_DateTimeStampsOfLogEntries);
+            //objThread_Messages = new Thread(GetData_MessagesOfLogEntries);
+            //objThread_LogStates = new Thread(GetData_LogStatesOfLogEntries);
 
             objThread_LogEntries.Start();
-            objThread_DateTimeStamps.Start();
-            objThread_Messages.Start();
-            objThread_LogStates.Start();
-
+            //objThread_DateTimeStamps.Start();
+            //objThread_Messages.Start();
+            //objThread_LogStates.Start();
+            
             objOItem_Result = objLocalConfig.Globals.LState_Success;
 
             return objOItem_Result;
@@ -174,6 +179,18 @@ namespace Change_Module
             objOItem_Result_LogEntries = objDBLevel_History_LogEntries.get_Data_ObjectRel(objOList_LogEntries,
                                                                     boolIDs: false);
 
+            if (objOItem_Result_LogEntries.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                GetData_DateTimeStampsOfLogEntries();
+                if (objOItem_Result_DateTimeStamps.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    GetData_MessagesOfLogEntries();
+                    if (objOItem_Result_DateTimeStamps.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        GetData_LogStatesOfLogEntries();
+                    }
+                }
+            }
          
         }
 
@@ -182,14 +199,25 @@ namespace Change_Module
             List<clsObjectAtt> objOList_DateTimeStamp = new List<clsObjectAtt>();
             objOItem_Result_DateTimeStamps = objLocalConfig.Globals.LState_Nothing;
 
-            objOList_DateTimeStamp.Add(new clsObjectAtt(null,
+            foreach (var objOItem_LogEntries in objDBLevel_History_LogEntries.OList_ObjectRel)
+            {
+                objOList_DateTimeStamp.Add(new clsObjectAtt(null,
+                                                        objOItem_LogEntries.ID_Other,
                                                         null,
-                                                        objLocalConfig.OItem_Type_LogEntry.GUID,
                                                         objLocalConfig.OItem_Attribute_DateTimeStamp.GUID,
                                                         null));
+            }
 
-            objOItem_Result_DateTimeStamps = objDBLevel_History_DateTimeStamps.get_Data_ObjectAtt(objOList_DateTimeStamp,
+            if (objOList_DateTimeStamp.Any())
+            {
+                objOItem_Result_DateTimeStamps = objDBLevel_History_DateTimeStamps.get_Data_ObjectAtt(objOList_DateTimeStamp,
                                                                                    boolIDs: false);
+            }
+            else
+            {
+                objOItem_Result_DateTimeStamps = objLocalConfig.Globals.LState_Success;
+            }
+            
         }
 
         private void GetData_MessagesOfLogEntries()
@@ -198,14 +226,25 @@ namespace Change_Module
 
             objOItem_Result_Messages = objLocalConfig.Globals.LState_Nothing;
 
-            objOList_Message.Add(new clsObjectAtt(null,
+            foreach (var objOItem_LogEntries in objDBLevel_History_LogEntries.OList_ObjectRel)
+            {
+                objOList_Message.Add(new clsObjectAtt(null,
+                                                  objOItem_LogEntries.ID_Other,
                                                   null,
-                                                  objLocalConfig.OItem_Type_LogEntry.GUID,
                                                   objLocalConfig.OItem_Attribute_Message.GUID,
                                                   null));
+            }
 
-            objOItem_Result_Messages = objDBLevel_History_Messages.get_Data_ObjectAtt(objOList_Message,
+
+            if (objOList_Message.Any())
+            {
+                objOItem_Result_Messages = objDBLevel_History_Messages.get_Data_ObjectAtt(objOList_Message,
                                                                                       boolIDs: false);
+            }
+            else
+            {
+                objOItem_Result_Messages = objLocalConfig.Globals.LState_Success;
+            }
         }
 
         private void GetData_LogStatesOfLogEntries()
@@ -214,17 +253,30 @@ namespace Change_Module
 
             objOItem_Result_LogStates = objLocalConfig.Globals.LState_Nothing;
 
-            objOList_LogStates.Add(new clsObjectRel(null,
-                                                    objLocalConfig.OItem_Type_LogEntry.GUID,
+            foreach (var OItem_LogEntry in objDBLevel_History_LogEntries.OList_ObjectRel)
+            {
+                objOList_LogStates.Add(new clsObjectRel(OItem_LogEntry.ID_Other,
+                                                    null,
                                                     null,
                                                     objLocalConfig.OItem_type_Logstate.GUID,
                                                     objLocalConfig.OItem_RelationType_provides.GUID,
                                                     objLocalConfig.Globals.Type_Object,
                                                     null,
                                                     null));
+            }
 
-            objOItem_Result_LogStates = objDBLevel_History_LogStates.get_Data_ObjectRel(objOList_LogStates,
+
+
+            if (objOList_LogStates.Any())
+            {
+                objOItem_Result_LogStates = objDBLevel_History_LogStates.get_Data_ObjectRel(objOList_LogStates,
                                                                                         boolIDs: false);
+            }
+            else
+            {
+                objOItem_Result_LogStates = objLocalConfig.Globals.LState_Success;
+            }
+            
         }
 
     }

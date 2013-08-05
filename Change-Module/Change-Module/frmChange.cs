@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Ontolog_Module;
+using Process_Module;
 
 namespace Change_Module
 {
@@ -16,6 +17,7 @@ namespace Change_Module
         DataGridViewRowCollection objDGVRC;
         UserControl_ProcessTree objUserControl_ProcessTree;
         UserControl_History objUserControl_History;
+        UserControl_References objUserControl_References;
         clsDataWork_Ticket objDataWork_Ticket;
 
         clsOntologyItem objOItem_TicketDescription;
@@ -53,6 +55,11 @@ namespace Change_Module
             objUserControl_History.Dock = DockStyle.Fill;
 
             splitContainer5.Panel2.Controls.Add(objUserControl_History);
+
+            objUserControl_References = new UserControl_References(objLocalConfig.Globals);
+            objUserControl_References.Dock = DockStyle.Fill;
+
+            splitContainer5.Panel1.Controls.Add(objUserControl_References);
             
             configure_Controls();
         }
@@ -143,9 +150,26 @@ namespace Change_Module
 
         private void SelectedTreeItem(clsOntologyItem objOItem_Selected)
         {
+            clsOntologyItem objOItem_ProcessLog;
+            clsOntologyItem objOItem_Process;
             objOItem_SelNode = objOItem_Selected;
             SetProcessAndLogDescription(objOItem_SelNode);
             objUserControl_History.initialize(objOItem_SelNode);
+            if (objOItem_Selected.GUID_Parent == objLocalConfig.OItem_Type_Process_Ticket.GUID)
+            {
+                objUserControl_References.fill_Tree_Ref_Process(null, null);
+            }
+            else if (objOItem_Selected.GUID_Parent == objLocalConfig.OItem_Type_Process.GUID)
+            {
+                objOItem_ProcessLog = objDataWork_Ticket.GetData_ProcessLogOfProcess();
+                objUserControl_References.fill_Tree_Ref_Process(objOItem_Selected, objOItem_ProcessLog);
+            }
+            else
+            {
+                objOItem_Process = objDataWork_Ticket.GetData_ProcessOfProcessLog(objOItem_Selected);
+                objUserControl_References.fill_Tree_Ref_Process(objOItem_Process, objOItem_Selected);
+            }
+            
         }
 
         private void configure_Controls()

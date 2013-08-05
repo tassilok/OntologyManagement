@@ -243,11 +243,11 @@ namespace OntWeb.Classes
 
                         foreach (var objQuery_MinForw in objLQuery_MinForw)
                         {
-                            if (!String.IsNullOrEmpty(objQuery_MinForw.Key))
+                            if (objQuery_MinForw.Key != null)
                             {
                                 if (QueryString != "") QueryString += "\\ OR\\ ";
 
-                                QueryString += objQuery_IDRel.Key;
+                                QueryString += objQuery_MinForw.Key.ToString();
                             }
                         }
 
