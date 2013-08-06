@@ -2069,6 +2069,10 @@ Public Class clsDBLevel
 
         End If
 
+        If objBoolQuery.ToString() = "" Then
+            objBoolQuery.Add(New WildcardQuery(New Term(objGlobals.Field_ID_Class, "*")), BooleanClause.Occur.MUST)
+        End If
+
         objOntologyList_ClassAtt_ID.Clear()
         objOntologyList_Classes1.Clear()
         otblT_ClassAtt.Clear()

@@ -45,9 +45,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsExportModes.cs" />
     <Compile Include="clsGraphMLWork.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="clsXMLTemplateWork.cs" />
+    <Compile Include="DataSet_Export.cs">
+      <DependentUpon>DataSet_Export.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataSet_Export.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet_Export.xsd</DependentUpon>
+    </Compile>
     <Compile Include="frjmGraphMLConnector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +80,17 @@
     </Compile>
     <None Include="Config\ElasticSearch.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="DataSet_Export.xsc">
+      <DependentUpon>DataSet_Export.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet_Export.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet_Export.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSet_Export.xss">
+      <DependentUpon>DataSet_Export.xsd</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

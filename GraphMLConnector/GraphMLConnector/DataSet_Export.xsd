@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet_Export" targetNamespace="http://tempuri.org/DataSet_Export.xsd" xmlns:mstns="http://tempuri.org/DataSet_Export.xsd" xmlns="http://tempuri.org/DataSet_Export.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet_Export" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet_Export" msprop:Generator_UserDSName="DataSet_Export">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtbl_Export" msprop:Generator_TableClassName="dtbl_ExportDataTable" msprop:Generator_TableVarName="tabledtbl_Export" msprop:Generator_RowChangedName="dtbl_ExportRowChanged" msprop:Generator_TablePropName="dtbl_Export" msprop:Generator_RowDeletingName="dtbl_ExportRowDeleting" msprop:Generator_RowChangingName="dtbl_ExportRowChanging" msprop:Generator_RowEvHandlerName="dtbl_ExportRowChangeEventHandler" msprop:Generator_RowDeletedName="dtbl_ExportRowDeleted" msprop:Generator_RowClassName="dtbl_ExportRow" msprop:Generator_UserTableName="dtbl_Export" msprop:Generator_RowEvArgName="dtbl_ExportRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_Item" msprop:Generator_ColumnVarNameInTable="columnID_Item" msprop:Generator_ColumnPropNameInRow="ID_Item" msprop:Generator_ColumnPropNameInTable="ID_ItemColumn" msprop:Generator_UserColumnName="ID_Item" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_Item" msprop:Generator_ColumnVarNameInTable="columnName_Item" msprop:Generator_ColumnPropNameInRow="Name_Item" msprop:Generator_ColumnPropNameInTable="Name_ItemColumn" msprop:Generator_UserColumnName="Name_Item" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_Parent" msprop:Generator_ColumnVarNameInTable="columnID_Parent" msprop:Generator_ColumnPropNameInRow="ID_Parent" msprop:Generator_ColumnPropNameInTable="ID_ParentColumn" msprop:Generator_UserColumnName="ID_Parent" type="xs:string" minOccurs="0" />
+              <xs:element name="Type_Item" msprop:Generator_ColumnVarNameInTable="columnType_Item" msprop:Generator_ColumnPropNameInRow="Type_Item" msprop:Generator_ColumnPropNameInTable="Type_ItemColumn" msprop:Generator_UserColumnName="Type_Item" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_ExportMode" msprop:Generator_ColumnVarNameInTable="columnID_ExportMode" msprop:Generator_ColumnPropNameInRow="ID_ExportMode" msprop:Generator_ColumnPropNameInTable="ID_ExportModeColumn" msprop:Generator_UserColumnName="ID_ExportMode" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_ExportMode" msprop:Generator_ColumnVarNameInTable="columnName_ExportMode" msprop:Generator_ColumnPropNameInRow="Name_ExportMode" msprop:Generator_ColumnPropNameInTable="Name_ExportModeColumn" msprop:Generator_UserColumnName="Name_ExportMode" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

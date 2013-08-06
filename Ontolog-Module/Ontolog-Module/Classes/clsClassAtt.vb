@@ -4,6 +4,8 @@
     Private strID_DataType As String
     Private lngMin As Nullable(Of Long)
     Private lngMax As Nullable(Of Long)
+    Private strName_DataType As String
+    Private strName_AttributeType As String
 
     Public Property ID_AttributeType As String
         Get
@@ -11,6 +13,24 @@
         End Get
         Set(ByVal value As String)
             strID_AttributeType = value
+        End Set
+    End Property
+
+    Public Property Name_AttributeType As String
+        Get
+            Return strName_AttributeType
+        End Get
+        Set(ByVal value As String)
+            strName_AttributeType = value
+        End Set
+    End Property
+
+    Public Property Name_DataType As String
+        Get
+            Return strName_DataType
+        End Get
+        Set(ByVal value As String)
+            strName_DataType = value
         End Set
     End Property
 

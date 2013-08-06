@@ -36,6 +36,7 @@ namespace GraphMLConnector
         public clsOntologyItem OItem_Object_ID_RIGHT { get; set; }
         public clsOntologyItem OItem_Object_NAME_NODE { get; set; }
         public clsOntologyItem OItem_Object_NAME_RELATIONTYPE { get; set; }
+        public clsOntologyItem OItem_Object_ATTRIB_LIST { get; set; }
 
 
         public clsLocalConfig(clsGlobals Globals)
@@ -157,6 +158,12 @@ namespace GraphMLConnector
             OItem_Object_ID_RIGHT.Name = "ID_RIGHT";
             OItem_Object_ID_RIGHT.GUID_Parent = "4158aad2656a4fb997bf524c6f5fecaa";
             OItem_Object_ID_RIGHT.Type = Globals.Type_Object;
+
+            OItem_Object_ATTRIB_LIST = new clsOntologyItem();
+            OItem_Object_ATTRIB_LIST.GUID = "8f07c729ed0946f6a64e2cacb3ab702b";
+            OItem_Object_ATTRIB_LIST.Name = "ATTRIB_LIST";
+            OItem_Object_ATTRIB_LIST.GUID_Parent = "4158aad2656a4fb997bf524c6f5fecaa";
+            OItem_Object_ATTRIB_LIST.Type = Globals.Type_Object;
 
         }
     }
