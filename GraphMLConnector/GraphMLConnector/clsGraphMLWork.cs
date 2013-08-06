@@ -310,7 +310,7 @@ namespace GraphMLConnector
                     objOItem_Result = objDBLevel1.get_Data_ObjectRel(null,false,false);
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
-                        foreach (var objObjRel in objDBLevel1.OList_ObjectRel_ID)
+                        foreach (var objObjRel in objDBLevel1.OList_ObjectRel)
                         {
                             EdgeXML = objXMLTemplateWork.UML_Edge;
                             EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_Object_ID.Name + "@",
@@ -321,7 +321,7 @@ namespace GraphMLConnector
                             EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_Object_ID_RIGHT.Name + "@",
                                                       objObjRel.ID_Other);
                             EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_Object_NAME_RELATIONTYPE.Name + "@",
-                                                      "");
+                                                      objObjRel.Name_RelationType);
 
                             objTextWriter.WriteLine(EdgeXML);
                         }    

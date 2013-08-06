@@ -364,7 +364,7 @@ namespace Change_Module
                     objOItem_Result = objTransaction_ProcessIncident.do_Transaction(objORel_ProcessLogIncident_To_LogEntry);
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
-                        var objORel_Ticket_To_LogEntry_belongingDone = objDataWork_Ticket.Rel_Ticket_To_LogEntry(obj
+                        
                     }
                 }
             }
@@ -376,7 +376,7 @@ namespace Change_Module
             {
 
             }
-
+            objOItem_Result = objLocalConfig.Globals.LState_Success;
             return objOItem_Result;
         }
 

@@ -8,6 +8,7 @@
     Private strName_Class As String
     Private strVal_Named As String
     Private strID_DataType As String
+    Private strName_DataType As String
     Private boolVal As Nullable(Of Boolean)
     Private lngVal As Nullable(Of Long)
     Private dblVal As Nullable(Of Double)
@@ -149,6 +150,14 @@
         End Set
     End Property
 
+    Public Property Name_DataType As String
+        Get
+            Return strName_DataType
+        End Get
+        Set(value As String)
+            strName_DataType = value
+        End Set
+    End Property
 
     Public Sub New(ByVal ID_Attribute As String, ByVal ID_Object As String, ByVal ID_Class As String, ByVal ID_AttributeType As String, ByVal OrderID As Nullable(Of Long))
         strID_Attribute = ID_Attribute
@@ -177,6 +186,28 @@
         dateVal = val_Datetime
         strVal = val_String
         strID_DataType = ID_DataType
+    End Sub
+
+    Public Sub New(ByVal ID_Attribute As String, ByVal ID_Object As String, ByVal Name_Object As String, ByVal ID_Class As String, ByVal Name_Class As String, ByVal ID_AttributeType As String, ByVal Name_AttributeType As String, ByVal OrderID As Nullable(Of Long), ByVal val_Named As String, ByVal val_Bit As Nullable(Of Boolean), ByVal val_Datetime As Nullable(Of DateTime), ByVal val_Int As Nullable(Of Long), ByVal val_Real As Nullable(Of Double), ByVal val_String As String, ByVal ID_DataType As String, Name_DataType As String)
+        strID_Attribute = ID_Attribute
+        strID_AttributeType = ID_AttributeType
+        strName_AttributeType = Name_AttributeType
+        strID_Object = ID_Object
+        strName_Object = Name_Object
+        strID_Class = ID_Class
+        strName_Class = Name_Class
+        lngOrderID = OrderID
+
+
+
+        strVal_Named = val_Named
+        boolVal = val_Bit
+        lngVal = val_Int
+        dblVal = val_Real
+        dateVal = val_Datetime
+        strVal = val_String
+        strID_DataType = ID_DataType
+        strName_DataType = Name_DataType
     End Sub
 
     Public Sub New()
