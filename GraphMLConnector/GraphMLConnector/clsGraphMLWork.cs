@@ -307,7 +307,7 @@ namespace GraphMLConnector
 
                 if (doObjectRels)
                 {
-                    objOItem_Result = objDBLevel1.get_Data_ObjectRel(null);
+                    objOItem_Result = objDBLevel1.get_Data_ObjectRel(null,false,false);
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
                         foreach (var objObjRel in objDBLevel1.OList_ObjectRel_ID)

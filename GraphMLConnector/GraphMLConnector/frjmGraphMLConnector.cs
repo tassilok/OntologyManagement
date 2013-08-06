@@ -165,23 +165,61 @@ namespace GraphMLConnector
         private void toolStripButton_Export_Click(object sender, EventArgs e)
         {
             
-
-            foreach (DataGridViewRow dataGridViewRow in dataGridView_Export.Rows)
+            
+            if (gridToolStripMenuItem.Checked)
             {
-                objGraphMLWork.OList_ExportItems.Add(new clsOntologyItem(dataGridViewRow.Cells[0].Value.ToString(), dataGridViewRow.Cells[1].Value.ToString(), dataGridViewRow.Cells[2].Value.ToString(), dataGridViewRow.Cells[3].Value.ToString()));
+                foreach (DataGridViewRow dataGridViewRow in dataGridView_Export.Rows)
+                {
+                    objGraphMLWork.OList_ExportItems.Add(new clsOntologyItem(dataGridViewRow.Cells[0].Value.ToString(), dataGridViewRow.Cells[1].Value.ToString(), dataGridViewRow.Cells[2].Value.ToString(), dataGridViewRow.Cells[3].Value.ToString()));
 
 
-            }
+                }
 
-            var objOItem_Result = objGraphMLWork.GetItemLists();
-            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-            {
-                objGraphMLWork.ExportItems();
+                var objOItem_Result = objGraphMLWork.GetItemLists();
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    objGraphMLWork.ExportItems();
+                }
+                else
+                {
+                    MessageBox.Show("The Graph cannot be created!", "Error", MessageBoxButtons.OK);
+                }
             }
             else
             {
-                MessageBox.Show("The Graph cannot be created!", "Error", MessageBoxButtons.OK);
+                var boolClasses = false;
+                var boolClassRels = false;
+                var boolObjects = false;
+                var boolObjRels = false;
+
+                if (classesWithRelsToolStripMenuItem.Checked)
+                {
+                    boolClasses = true;
+                    boolClassRels = true;
+                }
+                if (classesToolStripMenuItem.Checked)
+                {
+                    boolClasses = true;
+                }
+
+                if (objectsAndClassesToolStripMenuItem.Checked)
+                {
+                    boolObjects = true;
+                    boolClasses = true;
+                }
+
+                if (objectsAndClassesWithRelsToolStripMenuItem.Checked)
+                {
+                    boolObjRels = true;
+                    boolClassRels = true;
+                    boolClasses = true;
+                    boolObjects = true;
+                }
+
+                objGraphMLWork.ExportClasses(boolClasses, boolObjects, boolClassRels, boolObjRels);
+
             }
+            
         }
 
         
