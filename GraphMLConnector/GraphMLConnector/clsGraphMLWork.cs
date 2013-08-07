@@ -37,6 +37,20 @@ namespace GraphMLConnector
             initialize();
         }
 
+        public void ClearLists()
+        {
+            OList_AttributeTypes.Clear();
+            OList_ClassAtt.Clear();
+            OList_ClassRel.Clear();
+            OList_Classes.Clear();
+            OList_EModes.Clear();
+            OList_ExportItems.Clear();
+            OList_OAtts.Clear();
+            OList_ORels.Clear();
+            OList_Objects.Clear();
+            OList_RelationTypes.Clear();
+        }
+
         public clsOntologyItem GetItemLists()
         {
             OList_Classes = (from objClass in OList_ExportItems
@@ -59,18 +73,23 @@ namespace GraphMLConnector
             var objOItem_Result = objDBLevel1.get_Data_Classes(null, false, false, null, false);
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                var oList_ClassesOfObjects = from objClass in objDBLevel1.OList_Classes
-                                             join objObject in OList_Objects on objClass.GUID equals objObject.GUID_Parent
-                                             join objClassExist in OList_Classes on objClass.GUID equals objClassExist.GUID into objClassesExists
-                                             from objClassExist in objClassesExists.DefaultIfEmpty()
-                                             where objClassExist == null
-                                             select objClass;
-                
-                foreach (var oItem_Class in oList_ClassesOfObjects)
-                {
-                    OList_Classes.Add(oItem_Class);
-                }
+                var oList_ClassesOfObjects = (from objClass in objDBLevel1.OList_Classes
+                                              join objObject in OList_Objects on objClass.GUID equals  objObject.GUID_Parent
+                                              group objClass by objClass.GUID into g
+                                              select new {GUID = g.Key, Classes = g}).ToList();
 
+                OList_Classes = OList_Classes.Concat((from objClass in oList_ClassesOfObjects
+                                                      join objClassExist in OList_Classes on objClass.GUID equals
+                                                          objClassExist.GUID into objClassesExist
+                                                      from objClassExist in objClassesExist.DefaultIfEmpty()
+                                                      where objClassExist == null
+                                                      select
+                                                          new clsOntologyItem(GUID_Item: objClass.GUID,
+                                                                              Name_Item: objClass.Classes.First().Name,
+                                                                              GUID_Item_Parent: objClass.Classes.First().GUID_Parent,
+                                                                              Type: objLocalConfig.Globals.Type_Class))
+                                                         .ToList()).ToList();
+                
                 objOItem_Result = objDBLevel1.get_Data_ClassRel(null, true);
 
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
@@ -154,7 +173,8 @@ namespace GraphMLConnector
                                         OList_OAtts = (from objObject in OList_Objects
                                                        join objOAtt in objDBLevel1.OList_ObjectAtt_ID on objObject.GUID equals
                                                            objOAtt.ID_Object
-                                                       select objOAtt).ToList();
+                                                       join objAttType in OList_AttributeTypes on objOAtt.ID_AttributeType equals  objAttType.GUID
+                                                       select new clsObjectAtt(){ID_Object = objOAtt.ID_Object,val_Named = objOAtt.val_Named, Name_AttributeType = objAttType.Name}).ToList();
                                     }    
                                 }
                                 else
@@ -195,15 +215,21 @@ namespace GraphMLConnector
                 NodeXML = objXMLTemplateWork.UML_ClassNode;
                 NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_ID.Name + "@", oItem_Class.GUID);
                 NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_NAME_NODE.Name + "@", HttpUtility.HtmlEncode(oItem_Class.Name));
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_COLOR_FILL.Name + "@", "#003300");
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_COLOR_TEXT.Name + "@", "#ffffff");
                
                 var ClassAtt = "";
-                foreach (var oItem_ClassAtt in OList_ClassAtt)
+                var OList_ClassAtts = from objOClass in OList_ClassAtt
+                                      where objOClass.ID_Class == oItem_Class.GUID
+                                      select new {Caption = objOClass.Name_AttributeType + ": " + objOClass.Name_DataType};
+
+                foreach (var oItem_ClassAtt in OList_ClassAtts)
                 {
                     if (ClassAtt != "")
                     {
                         ClassAtt += "\n";
                     }
-                    ClassAtt += HttpUtility.HtmlEncode(oItem_ClassAtt.Name_AttributeType + ": " + oItem_ClassAtt.Name_DataType);
+                    ClassAtt += HttpUtility.HtmlEncode(oItem_ClassAtt.Caption);
                 }
                 NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_ATTRIB_LIST.Name + "@", ClassAtt);
 
@@ -222,6 +248,57 @@ namespace GraphMLConnector
                                           oItem_ClassRel.ID_Class_Right);
                 EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_Object_NAME_RELATIONTYPE.Name + "@",
                                           HttpUtility.HtmlEncode(oItem_ClassRel.Name_RelationType));
+
+                objTextWriter.WriteLine(EdgeXML);
+            }
+
+            foreach (var oItem_Object in OList_Objects)
+            {
+                NodeXML = objXMLTemplateWork.UML_ClassNode;
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_ID.Name + "@", oItem_Object.GUID);
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_NAME_NODE.Name + "@", HttpUtility.HtmlEncode(oItem_Object.Name));
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_COLOR_FILL.Name + "@", "#ffcc00");
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_COLOR_TEXT.Name + "@", "#000000");
+
+                var ObjAtt = "";
+
+                var OList_ObjAtts = from objOAtt in OList_OAtts
+                                    where objOAtt.ID_Object == oItem_Object.GUID
+                                    select
+                                        new
+                                            {
+                                                Caption =
+                                        objOAtt.Name_AttributeType + ": " +
+                                        (objOAtt.val_Named.Length > 20
+                                             ? objOAtt.val_Named.Substring(0, 20)
+                                             : objOAtt.val_Named)
+                                            };
+
+                foreach (var objOAtt in OList_ObjAtts)
+                {
+                    if (ObjAtt != "")
+                    {
+                        ObjAtt += "\n";
+                    }
+                    ObjAtt += HttpUtility.HtmlEncode(objOAtt.Caption);
+                }
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_ATTRIB_LIST.Name + "@", ObjAtt);
+
+                objTextWriter.WriteLine(NodeXML);
+            }
+
+            foreach (var oItem_ORel in OList_ORels)
+            {
+                EdgeXML = objXMLTemplateWork.UML_Edge;
+                EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_Object_ID.Name + "@",
+                                          oItem_ORel.ID_Object + oItem_ORel.ID_Other +
+                                          oItem_ORel.ID_RelationType);
+                EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_Object_ID_LEFT.Name + "@",
+                                          oItem_ORel.ID_Object);
+                EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_Object_ID_RIGHT.Name + "@",
+                                          oItem_ORel.ID_Other);
+                EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_Object_NAME_RELATIONTYPE.Name + "@",
+                                          HttpUtility.HtmlEncode(oItem_ORel.Name_RelationType));
 
                 objTextWriter.WriteLine(EdgeXML);
             }
@@ -337,12 +414,17 @@ namespace GraphMLConnector
         private void initialize()
         {
             objXMLTemplateWork = new clsXMLTemplateWork(objLocalConfig);
+            OList_AttributeTypes = new List<clsOntologyItem>();
             OList_ClassAtt = new List<clsClassAtt>();
             OList_ClassRel = new List<clsClassRel>();
             OList_ExportItems = new List<clsOntologyItem>();
             OList_OAtts = new List<clsObjectAtt>();
             OList_ORels = new List<clsObjectRel>();
             OList_EModes = new List<clsExportModes>();
+            OList_Classes = new List<clsOntologyItem>();
+            OList_EModes = new List<clsExportModes>();
+            OList_Objects = new List<clsOntologyItem>();
+            OList_RelationTypes = new List<clsOntologyItem>();
         }
 
     }

@@ -165,7 +165,7 @@ namespace GraphMLConnector
         private void toolStripButton_Export_Click(object sender, EventArgs e)
         {
             
-            
+            objGraphMLWork.ClearLists();
             if (gridToolStripMenuItem.Checked)
             {
                 foreach (DataGridViewRow dataGridViewRow in dataGridView_Export.Rows)

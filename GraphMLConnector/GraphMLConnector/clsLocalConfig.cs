@@ -37,6 +37,8 @@ namespace GraphMLConnector
         public clsOntologyItem OItem_Object_NAME_NODE { get; set; }
         public clsOntologyItem OItem_Object_NAME_RELATIONTYPE { get; set; }
         public clsOntologyItem OItem_Object_ATTRIB_LIST { get; set; }
+        public clsOntologyItem OItem_Object_COLOR_FILL { get; set; }
+        public clsOntologyItem OItem_Object_COLOR_TEXT { get; set; }
 
 
         public clsLocalConfig(clsGlobals Globals)
@@ -164,6 +166,18 @@ namespace GraphMLConnector
             OItem_Object_ATTRIB_LIST.Name = "ATTRIB_LIST";
             OItem_Object_ATTRIB_LIST.GUID_Parent = "4158aad2656a4fb997bf524c6f5fecaa";
             OItem_Object_ATTRIB_LIST.Type = Globals.Type_Object;
+
+            OItem_Object_COLOR_FILL = new clsOntologyItem();
+            OItem_Object_COLOR_FILL.GUID = "74cefc34bf134a95928e62e039569300";
+            OItem_Object_COLOR_FILL.Name = "COLOR_FILL";
+            OItem_Object_COLOR_FILL.GUID_Parent = "4158aad2656a4fb997bf524c6f5fecaa";
+            OItem_Object_COLOR_FILL.Type = Globals.Type_Object;
+
+            OItem_Object_COLOR_TEXT = new clsOntologyItem();
+            OItem_Object_COLOR_TEXT.GUID = "1ed7a9cfe716432eab49385f9c2a663c";
+            OItem_Object_COLOR_TEXT.Name = "COLOR_TEXT";
+            OItem_Object_COLOR_TEXT.GUID_Parent = "4158aad2656a4fb997bf524c6f5fecaa";
+            OItem_Object_COLOR_TEXT.Type = Globals.Type_Object;
 
         }
     }
