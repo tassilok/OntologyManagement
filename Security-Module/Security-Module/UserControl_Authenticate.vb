@@ -55,6 +55,7 @@ Public Class UserControl_Authenticate
         objUserControl_OItemList_Group.clear_Relation()
         objUserControl_OItemList_User.clear_Relation()
 
+        ToolStripTextBox_Database.Text = objLocalConfig.Globals.Index & "@" & objLocalConfig.Globals.Server
     End Sub
 
     Public Sub initialize_Authentication(ByVal boolUser As Boolean, Optional ByVal boolGroup As Boolean = False, Optional ByVal RelateMode As ERelateMode = ERelateMode.NoRelate)

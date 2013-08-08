@@ -27,6 +27,9 @@ Partial Class UserControl_Authenticate
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Apply = New System.Windows.Forms.ToolStripButton()
         Me.SplitContainer_UserGroup = New System.Windows.Forms.SplitContainer()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel_DatabaseLBL = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripTextBox_Database = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -56,10 +59,10 @@ Partial Class UserControl_Authenticate
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Apply})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Apply, Me.ToolStripSeparator1, Me.ToolStripLabel_DatabaseLBL, Me.ToolStripTextBox_Database})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(91, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(371, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Apply
@@ -69,7 +72,7 @@ Partial Class UserControl_Authenticate
         Me.ToolStripButton_Apply.Image = CType(resources.GetObject("ToolStripButton_Apply.Image"), System.Drawing.Image)
         Me.ToolStripButton_Apply.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Apply.Name = "ToolStripButton_Apply"
-        Me.ToolStripButton_Apply.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripButton_Apply.Size = New System.Drawing.Size(52, 22)
         Me.ToolStripButton_Apply.Text = "x_Apply"
         '
         'SplitContainer_UserGroup
@@ -81,6 +84,23 @@ Partial Class UserControl_Authenticate
         Me.SplitContainer_UserGroup.Size = New System.Drawing.Size(463, 387)
         Me.SplitContainer_UserGroup.SplitterDistance = 229
         Me.SplitContainer_UserGroup.TabIndex = 0
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripLabel_DatabaseLBL
+        '
+        Me.ToolStripLabel_DatabaseLBL.Name = "ToolStripLabel_DatabaseLBL"
+        Me.ToolStripLabel_DatabaseLBL.Size = New System.Drawing.Size(68, 22)
+        Me.ToolStripLabel_DatabaseLBL.Text = "x_Database:"
+        '
+        'ToolStripTextBox_Database
+        '
+        Me.ToolStripTextBox_Database.Name = "ToolStripTextBox_Database"
+        Me.ToolStripTextBox_Database.ReadOnly = True
+        Me.ToolStripTextBox_Database.Size = New System.Drawing.Size(200, 25)
         '
         'UserControl_Authenticate
         '
@@ -105,5 +125,8 @@ Partial Class UserControl_Authenticate
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripButton_Apply As System.Windows.Forms.ToolStripButton
     Friend WithEvents SplitContainer_UserGroup As System.Windows.Forms.SplitContainer
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripLabel_DatabaseLBL As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripTextBox_Database As System.Windows.Forms.ToolStripTextBox
 
 End Class

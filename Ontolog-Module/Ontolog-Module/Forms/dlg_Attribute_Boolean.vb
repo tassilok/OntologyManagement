@@ -57,7 +57,9 @@ Public Class dlg_Attribute_Boolean
 
     Private Sub initialize()
         Me.Text = strCaption
+        objUserControl_Attribute_Boolean = New UserControl_Attribute_Boolean()
         objUserControl_Attribute_Boolean.Dock = DockStyle.Fill
+        objUserControl_Attribute_Boolean.Value = boolValue
         Panel_Attribute.Controls.Add(objUserControl_Attribute_Boolean)
     End Sub
 End Class

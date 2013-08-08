@@ -51,7 +51,7 @@ Public Class UserControl_TransactionList
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = LocalConfig
 
-
+        ToolStripTextBox_Database.Text = objLocalConfig.Globals.Index & "@" & objLocalConfig.Globals.Server
         set_DBConnection()
     End Sub
 

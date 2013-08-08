@@ -156,6 +156,17 @@ Public Class clsBlobConnection
         Return objOItem_Result
     End Function
 
+    Public Function isFilePresent(strPath_File As String) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim strHash As String
+
+        strHash = get_Hash_Of_File(strPath_File)
+        objOItem_Result = get_File_Of_Hash(strHash)
+
+
+        Return objOItem_Result
+    End Function
+
     Public Function save_File_To_Blob(ByVal objOItem_File As clsOntologyItem, ByVal strPath_File As String) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objStream_Read As IO.Stream

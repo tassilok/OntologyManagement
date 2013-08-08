@@ -27,6 +27,8 @@ Partial Class UserControl_TransactionList
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.BindingNavigator_Transactions = New System.Windows.Forms.BindingNavigator(Me.components)
+        Me.DtblBanktransactionsBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.DataSet_Transactions = New BankTransaction_Module.DataSet_Transactions()
         Me.BindingNavigatorCountItem = New System.Windows.Forms.ToolStripLabel()
         Me.BindingNavigatorMoveFirstItem = New System.Windows.Forms.ToolStripButton()
         Me.BindingNavigatorMovePreviousItem = New System.Windows.Forms.ToolStripButton()
@@ -44,34 +46,6 @@ Partial Class UserControl_TransactionList
         Me.ToolStripLabel_OrderLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Order = New System.Windows.Forms.ToolStripTextBox()
         Me.DataGridView_Transactions = New System.Windows.Forms.DataGridView()
-        Me.ContextMenuStrip_BankTransactions = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.FilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EqualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.NotEqualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.approximateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripTextBox_approximate = New System.Windows.Forms.ToolStripTextBox()
-        Me.ContainsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ClearToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToFilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToOrderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem_Archive = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ApplyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton_Import = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripLabel_LastImportLBL = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel_LastImport = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripButton_NoPayment = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripSplitButton_Folder = New System.Windows.Forms.ToolStripSplitButton()
-        Me.TransactionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ArchiveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Timer_BankTransactions = New System.Windows.Forms.Timer(Me.components)
-        Me.DtblBanktransactionsBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.DataSet_Transactions = New BankTransaction_Module.DataSet_Transactions()
         Me.GUIDBankTransactionDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Name_BankTransaction = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GUID_Type_BankTransaction = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -103,18 +77,47 @@ Partial Class UserControl_TransactionList
         Me.VerwendungszweckDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GUIDAttributeBetragDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.BetragDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ContextMenuStrip_BankTransactions = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.FilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EqualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NotEqualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.approximateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripTextBox_approximate = New System.Windows.Forms.ToolStripTextBox()
+        Me.ContainsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ClearToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToFilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToOrderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem_Archive = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ApplyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButton_Import = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripLabel_LastImportLBL = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel_LastImport = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripButton_NoPayment = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripSplitButton_Folder = New System.Windows.Forms.ToolStripSplitButton()
+        Me.TransactionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ArchiveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Timer_BankTransactions = New System.Windows.Forms.Timer(Me.components)
+        Me.ToolStripLabel_Database = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripTextBox_Database = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         CType(Me.BindingNavigator_Transactions, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.BindingNavigator_Transactions.SuspendLayout()
+        CType(Me.DtblBanktransactionsBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DataSet_Transactions, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStrip2.SuspendLayout()
         CType(Me.DataGridView_Transactions, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip_BankTransactions.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        CType(Me.DtblBanktransactionsBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DataSet_Transactions, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -159,6 +162,16 @@ Partial Class UserControl_TransactionList
         Me.BindingNavigator_Transactions.PositionItem = Me.BindingNavigatorPositionItem
         Me.BindingNavigator_Transactions.Size = New System.Drawing.Size(268, 25)
         Me.BindingNavigator_Transactions.TabIndex = 0
+        '
+        'DtblBanktransactionsBindingSource
+        '
+        Me.DtblBanktransactionsBindingSource.DataMember = "dtbl_Banktransactions"
+        Me.DtblBanktransactionsBindingSource.DataSource = Me.DataSet_Transactions
+        '
+        'DataSet_Transactions
+        '
+        Me.DataSet_Transactions.DataSetName = "DataSet_Transactions"
+        Me.DataSet_Transactions.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
         'BindingNavigatorCountItem
         '
@@ -239,10 +252,10 @@ Partial Class UserControl_TransactionList
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripProgressBar_Transactions, Me.ToolStripLabel_Filter, Me.ToolStripTextBox_Filter, Me.ToolStripLabel_OrderLBL, Me.ToolStripTextBox_Order})
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripProgressBar_Transactions, Me.ToolStripLabel_Filter, Me.ToolStripTextBox_Filter, Me.ToolStripLabel_OrderLBL, Me.ToolStripTextBox_Order, Me.ToolStripSeparator4, Me.ToolStripLabel_Database, Me.ToolStripTextBox_Database})
         Me.ToolStrip2.Location = New System.Drawing.Point(271, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(614, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(750, 25)
         Me.ToolStrip2.TabIndex = 1
         '
         'ToolStripProgressBar_Transactions
@@ -287,192 +300,6 @@ Partial Class UserControl_TransactionList
         Me.DataGridView_Transactions.ReadOnly = True
         Me.DataGridView_Transactions.Size = New System.Drawing.Size(1021, 381)
         Me.DataGridView_Transactions.TabIndex = 0
-        '
-        'ContextMenuStrip_BankTransactions
-        '
-        Me.ContextMenuStrip_BankTransactions.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FilterToolStripMenuItem, Me.EditToolStripMenuItem, Me.ApplyToolStripMenuItem})
-        Me.ContextMenuStrip_BankTransactions.Name = "ContextMenuStrip_BankTransactions"
-        Me.ContextMenuStrip_BankTransactions.Size = New System.Drawing.Size(116, 70)
-        '
-        'FilterToolStripMenuItem
-        '
-        Me.FilterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EqualToolStripMenuItem, Me.NotEqualToolStripMenuItem, Me.approximateToolStripMenuItem, Me.ContainsToolStripMenuItem, Me.ClearToolStripMenuItem, Me.ToFilterToolStripMenuItem, Me.ToOrderToolStripMenuItem})
-        Me.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem"
-        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(115, 22)
-        Me.FilterToolStripMenuItem.Text = "x_Filter"
-        '
-        'EqualToolStripMenuItem
-        '
-        Me.EqualToolStripMenuItem.Name = "EqualToolStripMenuItem"
-        Me.EqualToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
-        Me.EqualToolStripMenuItem.Text = "x_equal"
-        '
-        'NotEqualToolStripMenuItem
-        '
-        Me.NotEqualToolStripMenuItem.Name = "NotEqualToolStripMenuItem"
-        Me.NotEqualToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
-        Me.NotEqualToolStripMenuItem.Text = "x_not equal"
-        '
-        'approximateToolStripMenuItem
-        '
-        Me.approximateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripTextBox_approximate})
-        Me.approximateToolStripMenuItem.Name = "approximateToolStripMenuItem"
-        Me.approximateToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
-        Me.approximateToolStripMenuItem.Text = "x_approximate"
-        '
-        'ToolStripTextBox_approximate
-        '
-        Me.ToolStripTextBox_approximate.Name = "ToolStripTextBox_approximate"
-        Me.ToolStripTextBox_approximate.Size = New System.Drawing.Size(100, 23)
-        '
-        'ContainsToolStripMenuItem
-        '
-        Me.ContainsToolStripMenuItem.Name = "ContainsToolStripMenuItem"
-        Me.ContainsToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
-        Me.ContainsToolStripMenuItem.Text = "x_Contains"
-        '
-        'ClearToolStripMenuItem
-        '
-        Me.ClearToolStripMenuItem.Image = Global.BankTransaction_Module.My.Resources.Resources.delete
-        Me.ClearToolStripMenuItem.Name = "ClearToolStripMenuItem"
-        Me.ClearToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
-        Me.ClearToolStripMenuItem.Text = "Clear"
-        '
-        'ToFilterToolStripMenuItem
-        '
-        Me.ToFilterToolStripMenuItem.Name = "ToFilterToolStripMenuItem"
-        Me.ToFilterToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
-        Me.ToFilterToolStripMenuItem.Text = "To Filter"
-        '
-        'ToOrderToolStripMenuItem
-        '
-        Me.ToOrderToolStripMenuItem.Name = "ToOrderToolStripMenuItem"
-        Me.ToOrderToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
-        Me.ToOrderToolStripMenuItem.Text = "To Order"
-        '
-        'EditToolStripMenuItem
-        '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.ToolStripMenuItem_Archive})
-        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(115, 22)
-        Me.EditToolStripMenuItem.Text = "x_Edit"
-        '
-        'CopyToolStripMenuItem
-        '
-        Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
-        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
-        Me.CopyToolStripMenuItem.Text = "x_Copy"
-        '
-        'DeleteToolStripMenuItem
-        '
-        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
-        Me.DeleteToolStripMenuItem.Text = "x_Delete"
-        '
-        'ToolStripMenuItem_Archive
-        '
-        Me.ToolStripMenuItem_Archive.Name = "ToolStripMenuItem_Archive"
-        Me.ToolStripMenuItem_Archive.Size = New System.Drawing.Size(124, 22)
-        Me.ToolStripMenuItem_Archive.Text = "x_Archive"
-        '
-        'ApplyToolStripMenuItem
-        '
-        Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
-        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(115, 22)
-        Me.ApplyToolStripMenuItem.Text = "x_Apply"
-        Me.ApplyToolStripMenuItem.Visible = False
-        '
-        'ToolStrip1
-        '
-        Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Import, Me.ToolStripLabel_LastImportLBL, Me.ToolStripLabel_LastImport, Me.ToolStripSeparator1, Me.ToolStripButton_NoPayment, Me.ToolStripSeparator2, Me.ToolStripSplitButton_Folder})
-        Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
-        Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(326, 25)
-        Me.ToolStrip1.TabIndex = 0
-        '
-        'ToolStripButton_Import
-        '
-        Me.ToolStripButton_Import.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Import.Image = CType(resources.GetObject("ToolStripButton_Import.Image"), System.Drawing.Image)
-        Me.ToolStripButton_Import.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Import.Name = "ToolStripButton_Import"
-        Me.ToolStripButton_Import.Size = New System.Drawing.Size(57, 22)
-        Me.ToolStripButton_Import.Text = "x_Import"
-        '
-        'ToolStripLabel_LastImportLBL
-        '
-        Me.ToolStripLabel_LastImportLBL.Name = "ToolStripLabel_LastImportLBL"
-        Me.ToolStripLabel_LastImportLBL.Size = New System.Drawing.Size(80, 22)
-        Me.ToolStripLabel_LastImportLBL.Text = "x_Last Import:"
-        '
-        'ToolStripLabel_LastImport
-        '
-        Me.ToolStripLabel_LastImport.Name = "ToolStripLabel_LastImport"
-        Me.ToolStripLabel_LastImport.Size = New System.Drawing.Size(12, 22)
-        Me.ToolStripLabel_LastImport.Text = "-"
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripButton_NoPayment
-        '
-        Me.ToolStripButton_NoPayment.Checked = True
-        Me.ToolStripButton_NoPayment.CheckOnClick = True
-        Me.ToolStripButton_NoPayment.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ToolStripButton_NoPayment.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_NoPayment.Image = CType(resources.GetObject("ToolStripButton_NoPayment.Image"), System.Drawing.Image)
-        Me.ToolStripButton_NoPayment.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_NoPayment.Name = "ToolStripButton_NoPayment"
-        Me.ToolStripButton_NoPayment.Size = New System.Drawing.Size(87, 22)
-        Me.ToolStripButton_NoPayment.Text = "x_No Payment"
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripSplitButton_Folder
-        '
-        Me.ToolStripSplitButton_Folder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripSplitButton_Folder.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TransactionsToolStripMenuItem, Me.ArchiveToolStripMenuItem})
-        Me.ToolStripSplitButton_Folder.Image = CType(resources.GetObject("ToolStripSplitButton_Folder.Image"), System.Drawing.Image)
-        Me.ToolStripSplitButton_Folder.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripSplitButton_Folder.Name = "ToolStripSplitButton_Folder"
-        Me.ToolStripSplitButton_Folder.Size = New System.Drawing.Size(66, 22)
-        Me.ToolStripSplitButton_Folder.Text = "x_Folder"
-        '
-        'TransactionsToolStripMenuItem
-        '
-        Me.TransactionsToolStripMenuItem.Checked = True
-        Me.TransactionsToolStripMenuItem.CheckOnClick = True
-        Me.TransactionsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.TransactionsToolStripMenuItem.Name = "TransactionsToolStripMenuItem"
-        Me.TransactionsToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
-        Me.TransactionsToolStripMenuItem.Text = "x_Transactions"
-        '
-        'ArchiveToolStripMenuItem
-        '
-        Me.ArchiveToolStripMenuItem.CheckOnClick = True
-        Me.ArchiveToolStripMenuItem.Name = "ArchiveToolStripMenuItem"
-        Me.ArchiveToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
-        Me.ArchiveToolStripMenuItem.Text = "x_Archive"
-        '
-        'Timer_BankTransactions
-        '
-        Me.Timer_BankTransactions.Interval = 300
-        '
-        'DtblBanktransactionsBindingSource
-        '
-        Me.DtblBanktransactionsBindingSource.DataMember = "dtbl_Banktransactions"
-        Me.DtblBanktransactionsBindingSource.DataSource = Me.DataSet_Transactions
-        '
-        'DataSet_Transactions
-        '
-        Me.DataSet_Transactions.DataSetName = "DataSet_Transactions"
-        Me.DataSet_Transactions.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
         'GUIDBankTransactionDataGridViewTextBoxColumn
         '
@@ -711,6 +538,199 @@ Partial Class UserControl_TransactionList
         Me.BetragDataGridViewTextBoxColumn.Name = "BetragDataGridViewTextBoxColumn"
         Me.BetragDataGridViewTextBoxColumn.ReadOnly = True
         '
+        'ContextMenuStrip_BankTransactions
+        '
+        Me.ContextMenuStrip_BankTransactions.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FilterToolStripMenuItem, Me.EditToolStripMenuItem, Me.ApplyToolStripMenuItem})
+        Me.ContextMenuStrip_BankTransactions.Name = "ContextMenuStrip_BankTransactions"
+        Me.ContextMenuStrip_BankTransactions.Size = New System.Drawing.Size(116, 70)
+        '
+        'FilterToolStripMenuItem
+        '
+        Me.FilterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EqualToolStripMenuItem, Me.NotEqualToolStripMenuItem, Me.approximateToolStripMenuItem, Me.ContainsToolStripMenuItem, Me.ClearToolStripMenuItem, Me.ToFilterToolStripMenuItem, Me.ToOrderToolStripMenuItem})
+        Me.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem"
+        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(115, 22)
+        Me.FilterToolStripMenuItem.Text = "x_Filter"
+        '
+        'EqualToolStripMenuItem
+        '
+        Me.EqualToolStripMenuItem.Name = "EqualToolStripMenuItem"
+        Me.EqualToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.EqualToolStripMenuItem.Text = "x_equal"
+        '
+        'NotEqualToolStripMenuItem
+        '
+        Me.NotEqualToolStripMenuItem.Name = "NotEqualToolStripMenuItem"
+        Me.NotEqualToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.NotEqualToolStripMenuItem.Text = "x_not equal"
+        '
+        'approximateToolStripMenuItem
+        '
+        Me.approximateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripTextBox_approximate})
+        Me.approximateToolStripMenuItem.Name = "approximateToolStripMenuItem"
+        Me.approximateToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.approximateToolStripMenuItem.Text = "x_approximate"
+        '
+        'ToolStripTextBox_approximate
+        '
+        Me.ToolStripTextBox_approximate.Name = "ToolStripTextBox_approximate"
+        Me.ToolStripTextBox_approximate.Size = New System.Drawing.Size(100, 23)
+        '
+        'ContainsToolStripMenuItem
+        '
+        Me.ContainsToolStripMenuItem.Name = "ContainsToolStripMenuItem"
+        Me.ContainsToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.ContainsToolStripMenuItem.Text = "x_Contains"
+        '
+        'ClearToolStripMenuItem
+        '
+        Me.ClearToolStripMenuItem.Image = Global.BankTransaction_Module.My.Resources.Resources.delete
+        Me.ClearToolStripMenuItem.Name = "ClearToolStripMenuItem"
+        Me.ClearToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.ClearToolStripMenuItem.Text = "Clear"
+        '
+        'ToFilterToolStripMenuItem
+        '
+        Me.ToFilterToolStripMenuItem.Name = "ToFilterToolStripMenuItem"
+        Me.ToFilterToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.ToFilterToolStripMenuItem.Text = "To Filter"
+        '
+        'ToOrderToolStripMenuItem
+        '
+        Me.ToOrderToolStripMenuItem.Name = "ToOrderToolStripMenuItem"
+        Me.ToOrderToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.ToOrderToolStripMenuItem.Text = "To Order"
+        '
+        'EditToolStripMenuItem
+        '
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.ToolStripMenuItem_Archive})
+        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(115, 22)
+        Me.EditToolStripMenuItem.Text = "x_Edit"
+        '
+        'CopyToolStripMenuItem
+        '
+        Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
+        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
+        Me.CopyToolStripMenuItem.Text = "x_Copy"
+        '
+        'DeleteToolStripMenuItem
+        '
+        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
+        Me.DeleteToolStripMenuItem.Text = "x_Delete"
+        '
+        'ToolStripMenuItem_Archive
+        '
+        Me.ToolStripMenuItem_Archive.Name = "ToolStripMenuItem_Archive"
+        Me.ToolStripMenuItem_Archive.Size = New System.Drawing.Size(124, 22)
+        Me.ToolStripMenuItem_Archive.Text = "x_Archive"
+        '
+        'ApplyToolStripMenuItem
+        '
+        Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
+        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(115, 22)
+        Me.ApplyToolStripMenuItem.Text = "x_Apply"
+        Me.ApplyToolStripMenuItem.Visible = False
+        '
+        'ToolStrip1
+        '
+        Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Import, Me.ToolStripLabel_LastImportLBL, Me.ToolStripLabel_LastImport, Me.ToolStripSeparator1, Me.ToolStripButton_NoPayment, Me.ToolStripSeparator2, Me.ToolStripSplitButton_Folder})
+        Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
+        Me.ToolStrip1.Name = "ToolStrip1"
+        Me.ToolStrip1.Size = New System.Drawing.Size(326, 25)
+        Me.ToolStrip1.TabIndex = 0
+        '
+        'ToolStripButton_Import
+        '
+        Me.ToolStripButton_Import.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Import.Image = CType(resources.GetObject("ToolStripButton_Import.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Import.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Import.Name = "ToolStripButton_Import"
+        Me.ToolStripButton_Import.Size = New System.Drawing.Size(57, 22)
+        Me.ToolStripButton_Import.Text = "x_Import"
+        '
+        'ToolStripLabel_LastImportLBL
+        '
+        Me.ToolStripLabel_LastImportLBL.Name = "ToolStripLabel_LastImportLBL"
+        Me.ToolStripLabel_LastImportLBL.Size = New System.Drawing.Size(80, 22)
+        Me.ToolStripLabel_LastImportLBL.Text = "x_Last Import:"
+        '
+        'ToolStripLabel_LastImport
+        '
+        Me.ToolStripLabel_LastImport.Name = "ToolStripLabel_LastImport"
+        Me.ToolStripLabel_LastImport.Size = New System.Drawing.Size(12, 22)
+        Me.ToolStripLabel_LastImport.Text = "-"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripButton_NoPayment
+        '
+        Me.ToolStripButton_NoPayment.Checked = True
+        Me.ToolStripButton_NoPayment.CheckOnClick = True
+        Me.ToolStripButton_NoPayment.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ToolStripButton_NoPayment.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_NoPayment.Image = CType(resources.GetObject("ToolStripButton_NoPayment.Image"), System.Drawing.Image)
+        Me.ToolStripButton_NoPayment.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_NoPayment.Name = "ToolStripButton_NoPayment"
+        Me.ToolStripButton_NoPayment.Size = New System.Drawing.Size(87, 22)
+        Me.ToolStripButton_NoPayment.Text = "x_No Payment"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripSplitButton_Folder
+        '
+        Me.ToolStripSplitButton_Folder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripSplitButton_Folder.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TransactionsToolStripMenuItem, Me.ArchiveToolStripMenuItem})
+        Me.ToolStripSplitButton_Folder.Image = CType(resources.GetObject("ToolStripSplitButton_Folder.Image"), System.Drawing.Image)
+        Me.ToolStripSplitButton_Folder.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripSplitButton_Folder.Name = "ToolStripSplitButton_Folder"
+        Me.ToolStripSplitButton_Folder.Size = New System.Drawing.Size(66, 22)
+        Me.ToolStripSplitButton_Folder.Text = "x_Folder"
+        '
+        'TransactionsToolStripMenuItem
+        '
+        Me.TransactionsToolStripMenuItem.Checked = True
+        Me.TransactionsToolStripMenuItem.CheckOnClick = True
+        Me.TransactionsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.TransactionsToolStripMenuItem.Name = "TransactionsToolStripMenuItem"
+        Me.TransactionsToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
+        Me.TransactionsToolStripMenuItem.Text = "x_Transactions"
+        '
+        'ArchiveToolStripMenuItem
+        '
+        Me.ArchiveToolStripMenuItem.CheckOnClick = True
+        Me.ArchiveToolStripMenuItem.Name = "ArchiveToolStripMenuItem"
+        Me.ArchiveToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
+        Me.ArchiveToolStripMenuItem.Text = "x_Archive"
+        '
+        'Timer_BankTransactions
+        '
+        Me.Timer_BankTransactions.Interval = 300
+        '
+        'ToolStripLabel_Database
+        '
+        Me.ToolStripLabel_Database.Name = "ToolStripLabel_Database"
+        Me.ToolStripLabel_Database.Size = New System.Drawing.Size(68, 22)
+        Me.ToolStripLabel_Database.Text = "x_Database:"
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripTextBox_Database
+        '
+        Me.ToolStripTextBox_Database.Name = "ToolStripTextBox_Database"
+        Me.ToolStripTextBox_Database.ReadOnly = True
+        Me.ToolStripTextBox_Database.Size = New System.Drawing.Size(200, 23)
+        '
         'UserControl_TransactionList
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -728,14 +748,14 @@ Partial Class UserControl_TransactionList
         CType(Me.BindingNavigator_Transactions, System.ComponentModel.ISupportInitialize).EndInit()
         Me.BindingNavigator_Transactions.ResumeLayout(False)
         Me.BindingNavigator_Transactions.PerformLayout()
+        CType(Me.DtblBanktransactionsBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DataSet_Transactions, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
         CType(Me.DataGridView_Transactions, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ContextMenuStrip_BankTransactions.ResumeLayout(False)
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        CType(Me.DtblBanktransactionsBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DataSet_Transactions, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -817,5 +837,8 @@ Partial Class UserControl_TransactionList
     Friend WithEvents VerwendungszweckDataGridViewTextBoxColumn As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents GUIDAttributeBetragDataGridViewTextBoxColumn As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents BetragDataGridViewTextBoxColumn As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripLabel_Database As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripTextBox_Database As System.Windows.Forms.ToolStripTextBox
 
 End Class

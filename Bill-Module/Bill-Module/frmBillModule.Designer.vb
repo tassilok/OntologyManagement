@@ -30,6 +30,9 @@ Partial Class frmBillModule
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage_TransactionDetails = New System.Windows.Forms.TabPage()
         Me.TabPage_Documents = New System.Windows.Forms.TabPage()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel_DatabaseLBL = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripTextBox_Database = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -61,10 +64,10 @@ Partial Class frmBillModule
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close, Me.ToolStripSeparator1, Me.ToolStripLabel_DatabaseLBL, Me.ToolStripTextBox_Database})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(59, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(369, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Close
@@ -73,7 +76,7 @@ Partial Class frmBillModule
         Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
         Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
-        Me.ToolStripButton_Close.Size = New System.Drawing.Size(49, 22)
+        Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Close.Text = "x_Close"
         '
         'SplitContainer1
@@ -116,10 +119,27 @@ Partial Class frmBillModule
         Me.TabPage_Documents.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Documents.Name = "TabPage_Documents"
         Me.TabPage_Documents.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_Documents.Size = New System.Drawing.Size(582, 468)
+        Me.TabPage_Documents.Size = New System.Drawing.Size(521, 449)
         Me.TabPage_Documents.TabIndex = 1
         Me.TabPage_Documents.Text = "x_Documents"
         Me.TabPage_Documents.UseVisualStyleBackColor = True
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripLabel_DatabaseLBL
+        '
+        Me.ToolStripLabel_DatabaseLBL.Name = "ToolStripLabel_DatabaseLBL"
+        Me.ToolStripLabel_DatabaseLBL.Size = New System.Drawing.Size(68, 22)
+        Me.ToolStripLabel_DatabaseLBL.Text = "x_Database:"
+        '
+        'ToolStripTextBox_Database
+        '
+        Me.ToolStripTextBox_Database.Name = "ToolStripTextBox_Database"
+        Me.ToolStripTextBox_Database.ReadOnly = True
+        Me.ToolStripTextBox_Database.Size = New System.Drawing.Size(200, 25)
         '
         'frmBillModule
         '
@@ -150,5 +170,8 @@ Partial Class frmBillModule
     Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
     Friend WithEvents TabPage_TransactionDetails As System.Windows.Forms.TabPage
     Friend WithEvents TabPage_Documents As System.Windows.Forms.TabPage
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripLabel_DatabaseLBL As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripTextBox_Database As System.Windows.Forms.ToolStripTextBox
 
 End Class

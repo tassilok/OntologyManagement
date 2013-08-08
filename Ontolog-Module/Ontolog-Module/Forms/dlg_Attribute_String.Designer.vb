@@ -71,6 +71,9 @@ Partial Class dlg_Attribute_String
         '
         'Panel_Val
         '
+        Me.Panel_Val.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_Val.Location = New System.Drawing.Point(13, 6)
         Me.Panel_Val.Name = "Panel_Val"
         Me.Panel_Val.Size = New System.Drawing.Size(410, 314)
@@ -92,8 +95,8 @@ Partial Class dlg_Attribute_String
         '
         Me.ToolStripStatusLabel_DB.BackColor = System.Drawing.SystemColors.HighlightText
         Me.ToolStripStatusLabel_DB.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_DB.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
         Me.ToolStripStatusLabel_DB.Name = "ToolStripStatusLabel_DB"
         Me.ToolStripStatusLabel_DB.Size = New System.Drawing.Size(35, 19)
@@ -131,9 +134,6 @@ Partial Class dlg_Attribute_String
         Me.Controls.Add(Me.CheckBox_more)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.TableLayoutPanel1)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
         Me.Name = "dlg_Attribute_String"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent

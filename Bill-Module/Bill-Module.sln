@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Bill-Module", "Bill-Module\Bill-Module.vbproj", "{B59F5B2F-28EF-439F-BC00-B0DDD07381D0}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Ontolog-Module", "..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj", "{3F2F6722-C36B-420D-AFE7-B21C19457208}"
@@ -12,6 +12,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Media-Viewer-Module", "..\Media-Viewer-Module\Media-Viewer-Module\Media-Viewer-Module.vbproj", "{E5546C53-BE08-44E1-B136-D172C3F2FE3E}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BankTransaction-Module", "..\BankTransaction-Module\BankTransaction-Module.vbproj", "{4A28D95E-9C54-4C8B-9DF9-98E5A4AEAB65}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Filesystem-Module", "..\Filesystem-Module\Filesystem-Module\Filesystem-Module.vbproj", "{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{4A28D95E-9C54-4C8B-9DF9-98E5A4AEAB65}.Debug|x86.Build.0 = Debug|x86
 		{4A28D95E-9C54-4C8B-9DF9-98E5A4AEAB65}.Release|x86.ActiveCfg = Release|x86
 		{4A28D95E-9C54-4C8B-9DF9-98E5A4AEAB65}.Release|x86.Build.0 = Release|x86
+		{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}.Debug|x86.ActiveCfg = Debug|x86
+		{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}.Debug|x86.Build.0 = Debug|x86
+		{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}.Release|x86.ActiveCfg = Release|x86
+		{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

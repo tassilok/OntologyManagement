@@ -180,6 +180,8 @@ Public Class frmBillModule
             objUserControl_Documents.Dock = DockStyle.Fill
             TabPage_Documents.Controls.Add(objUserControl_Documents)
 
+            ToolStripTextBox_Database.Text = objLocalConfig.Globals.Index & "@" & objLocalConfig.Globals.Server
+
             configure_TabPages()
         End If
     End Sub

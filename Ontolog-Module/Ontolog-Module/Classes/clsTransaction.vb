@@ -592,6 +592,10 @@ Public Class clsTransaction
         Return objOItem_Result
     End Function
 
+    Public Sub ClearItems()
+        objOList_Item.Clear()
+    End Sub
+
     Public Sub New(Globals As clsGlobals)
         objGlobals = Globals
         objDBLevel = New clsDBLevel(objGlobals)

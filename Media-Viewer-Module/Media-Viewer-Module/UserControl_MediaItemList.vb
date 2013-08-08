@@ -1,9 +1,11 @@
 ﻿Imports Ontolog_Module
+Imports Filesystem_Module
 Public Class UserControl_MediaItemList
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_MediaItem As clsDataWork_MediaItem
+    Private objTransaction_MediaItems As clsTransaction_MediaItems
     Private dtblT_MediaItems As New DataSet_MediaItems.dtbl_MediaItemsDataTable
-
+    Private objBlobConnection As clsBlobConnection
 
     Private objOItem_Ref As clsOntologyItem
 
@@ -120,7 +122,8 @@ Public Class UserControl_MediaItemList
 
     Private Sub initialize()
         objDataWork_MediaItem = New clsDataWork_MediaItem(objLocalConfig)
-
+        objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
+        objTransaction_MediaItems = New clsTransaction_MediaItems(objLocalConfig)
     End Sub
 
     Public Sub clear_List()
@@ -219,5 +222,110 @@ Public Class UserControl_MediaItemList
 
             RaiseEvent selected_MediaItem(objOItem_MediaItem, objOItem_File, dateCreated)
         End If
+    End Sub
+
+    Private Sub ToolStripButton_Add_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Add.Click
+        Dim objOItem_File As clsOntologyItem
+        Dim objOItem_MediaItem As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim strPath As String
+        Dim intToDo As Integer
+        Dim intDone As Integer
+
+        If ToolStripButton_Replace.Checked Then
+            If DataGridView_MediaItems.SelectedRows.Count = 1 Then
+                
+            Else
+                MsgBox("Sie können nur jeweils ein Media-Item ersetzen!", MsgBoxStyle.Information)
+            End If
+        Else
+            OpenFileDialog_MediaItem.Multiselect = True
+            If OpenFileDialog_MediaItem.ShowDialog(Me) = DialogResult.OK Then
+                intToDo = OpenFileDialog_MediaItem.FileNames.Count
+                intDone = 0
+                For Each strPath In OpenFileDialog_MediaItem.FileNames
+                    objOItem_File = New clsOntologyItem
+                    objOItem_File.GUID = objDRV_Selected.Item("GUID_File")
+                    objOItem_File.Name = objDRV_Selected.Item("Name_File")
+                    objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
+                    objOItem_File.Type = objLocalConfig.Globals.Type_Object
+
+                    strPath = OpenFileDialog_MediaItem.FileName
+
+                    objOItem_MediaItem = LoadMediaItem(strPath, objOItem_File)
+                    If Not objOItem_MediaItem Is Nothing Then
+                        objOItem_MediaItem.Level = objDataWork_MediaItem.GetNextOrderIDOFRef(objOItem_Ref)
+                        objOItem_Result = objTransaction_MediaItems.save_MediaItemToRef(objOItem_Ref, objOItem_MediaItem)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            intDone = intDone + 1
+                        End If
+                    End If
+                Next
+
+                If intDone < intToDo Then
+                    MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Dateien gespeichert werden!", MsgBoxStyle.Exclamation)
+                End If
+
+            End If
+        End If
+    End Sub
+
+    Private Function LoadMediaItem(strPath_File As String, Optional OItem_File_Replace As clsOntologyItem = Nothing) As clsOntologyItem
+        Dim objOItem_File_Exists As clsOntologyItem
+        Dim objOItem_MediaItem As clsOntologyItem = Nothing
+        Dim objOItem_Result As clsOntologyItem
+
+        objOItem_Result = objLocalConfig.Globals.LState_Success
+
+        If Not OItem_File_Replace Is Nothing Then
+            objOItem_File_Exists = objBlobConnection.isFilePresent(strPath_File)
+
+            If Not objOItem_File_Exists Is Nothing Then
+                objOItem_MediaItem = objDataWork_MediaItem.GetMediaItemOfFile(objOItem_File_Exists)
+                If objOItem_MediaItem Is Nothing Then
+                    objOItem_Result = objTransaction_MediaItems.save_MediaItem_To_File(objOItem_MediaItem, objOItem_File_Exists)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objOItem_MediaItem = objTransaction_MediaItems.OItem_MediaItem
+                    Else
+                        objOItem_MediaItem = Nothing
+                    End If
+                End If
+                
+            Else
+                objOItem_File_Exists = New clsOntologyItem
+                objOItem_File_Exists.GUID = objLocalConfig.Globals.NewGUID
+                objOItem_File_Exists.Name = IO.Path.GetFileName(strPath_File)
+                objOItem_File_Exists.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
+                objOItem_File_Exists.Type = objLocalConfig.Globals.Type_Object
+
+                objOItem_Result = objTransaction_MediaItems.save_File(objOItem_File_Exists)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_File_Exists, strPath_File)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objOItem_Result = objTransaction_MediaItems.save_MediaItem_To_File(Nothing, objOItem_File_Exists)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objOItem_MediaItem = objTransaction_MediaItems.OItem_MediaItem
+                        Else
+                            objOItem_MediaItem = Nothing
+                        End If
+                    Else
+                        objTransaction_MediaItems.del_File(objOItem_File_Exists)
+
+                        objOItem_MediaItem = Nothing
+                    End If
+                Else
+
+                    objOItem_MediaItem = Nothing
+                End If
+            End If
+        End If
+
+        Return objOItem_MediaItem
+    End Function
+
+    Private Sub ToolStripButton_Bookmarks_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Bookmarks.Click
+
     End Sub
 End Class

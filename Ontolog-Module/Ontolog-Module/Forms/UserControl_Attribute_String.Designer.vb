@@ -31,6 +31,7 @@ Partial Class UserControl_Attribute_String
         Me.TextBox_Val.Location = New System.Drawing.Point(0, 0)
         Me.TextBox_Val.Multiline = True
         Me.TextBox_Val.Name = "TextBox_Val"
+        Me.TextBox_Val.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.TextBox_Val.Size = New System.Drawing.Size(376, 317)
         Me.TextBox_Val.TabIndex = 0
         '

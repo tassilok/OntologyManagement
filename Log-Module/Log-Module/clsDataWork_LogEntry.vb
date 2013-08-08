@@ -67,17 +67,28 @@ Public Class clsDataWork_LogEntry
         End Get
     End Property
 
-    Public ReadOnly Property OItem_User As clsOntologyItem
+    Public Property OItem_User As clsOntologyItem
         Get
             Return objOItem_User
         End Get
+        Set(value As clsOntologyItem)
+            objOItem_User = value
+        End Set
     End Property
 
-    Public ReadOnly Property OItem_LogState As clsOntologyItem
+        
+
+    Public Property OItem_LogState As clsOntologyItem
         Get
             Return objOItem_LogState
+
         End Get
+        Set(value As clsOntologyItem)
+            objOItem_LogState = value
+        End Set
     End Property
+
+
 
     Public ReadOnly Property OItem_DateTimeStamp As clsObjectAtt
         Get

@@ -73,5 +73,6 @@ Public Class frmLogModule
         If boolOpen = False Then
             Me.Close()
         End If
+        ToolStripTextBox_Database.Text = objLocalConfig.Globals.Index & "@" & objLocalConfig.Globals.Server
     End Sub
 End Class

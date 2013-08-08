@@ -335,6 +335,8 @@ namespace GraphMLConnector
                         NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_ID.Name + "@", objClass.GUID);
                         NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_NAME_NODE.Name + "@", HttpUtility.HtmlEncode(objClass.Name));
                         NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_ATTRIB_LIST.Name + "@", "");
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_COLOR_FILL.Name + "@", "#00ff00");
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_COLOR_TEXT.Name + "@", "#ffffff");
                         objTextWriter.WriteLine(NodeXML);
 
                     }
@@ -371,6 +373,8 @@ namespace GraphMLConnector
                             NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_ID.Name + "@", objObject.GUID);
                             NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_NAME_NODE.Name + "@", HttpUtility.HtmlEncode(objObject.Name));
                             NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_ATTRIB_LIST.Name + "@", "");
+                            NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_COLOR_FILL.Name + "@", "#ffcc00");
+                            NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_Object_COLOR_TEXT.Name + "@", "#000000");
                             objTextWriter.WriteLine(NodeXML);
 
                         }

@@ -6,6 +6,7 @@ Public Class clsDataWork_MediaItem
     Private objDBLevel_Files As clsDBLevel
     Private objDBLevel_BookMarks As clsDBLevel
     Private objDBLevel_Created As clsDBLevel
+    Private objDBLevel_MediaItemsOfFiles As clsDBLevel
 
     Private dtblT_MediaItems As New DataSet_MediaItems.dtbl_MediaItemsDataTable
 
@@ -26,6 +27,55 @@ Public Class clsDataWork_MediaItem
             Return dtblT_MediaItems
         End Get
     End Property
+
+    Public Function GetMediaItemOfFile(OItem_File As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_MediaItem As clsOntologyItem
+        Dim objOList_MediaItemToFile As New List(Of clsObjectRel)
+
+        objOList_MediaItemToFile.Add(New clsObjectRel(Nothing, _
+                                                      objLocalConfig.OItem_Type_Media_Item.GUID, _
+                                                      OItem_File.GUID, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_RelationType_belonging_Source.GUID,
+                                                      objLocalConfig.Globals.Type_Object, _
+                                                      Nothing, _
+                                                      Nothing))
+
+
+        objOItem_Result = objDBLevel_MediaItemsOfFiles.get_Data_ObjectRel(objOList_MediaItemToFile, _
+                                                                          boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_MediaItemsOfFiles.OList_ObjectRel.Any() Then
+                objOItem_MediaItem = New clsOntologyItem(objDBLevel_MediaItemsOfFiles.OList_ObjectRel.First().ID_Object, _
+                                                         objDBLevel_MediaItemsOfFiles.OList_ObjectRel.First().ID_Other, _
+                                                         objDBLevel_MediaItemsOfFiles.OList_ObjectRel.First().ID_Parent_Other, _
+                                                         objLocalConfig.Globals.Type_Object)
+
+
+            Else
+                objOItem_MediaItem = Nothing
+            End If
+        Else
+            objOItem_MediaItem = Nothing
+        End If
+
+        Return objOItem_MediaItem
+    End Function
+
+    Public Function GetNextOrderIDOFRef(OItem_Ref As clsOntologyItem) As Long
+        Dim lngOrderID As Long
+        Dim objOItem_MediaItem As clsOntologyItem
+
+        objOItem_MediaItem = New clsOntologyItem
+        objOItem_MediaItem.GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID
+        objOItem_MediaItem.Type = objLocalConfig.Globals.Type_Object
+
+        lngOrderID = objDBLevel_MediaItems.get_Data_Rel_OrderID(objOItem_MediaItem, OItem_Ref, objLocalConfig.OItem_RelationType_belonging_Source, False)
+
+        Return lngOrderID
+    End Function
 
     Public Sub get_MediaItems(ByVal OItem_Ref As clsOntologyItem)
         objOItem_Ref = OItem_Ref
@@ -173,5 +223,6 @@ Public Class clsDataWork_MediaItem
         objDBLevel_Files = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_MediaItems = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_BookMarks = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_MediaItemsOfFiles = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class

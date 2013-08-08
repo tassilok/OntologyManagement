@@ -14,6 +14,7 @@
     Private objTransaction_Objects As clsTransaction_Objects
     Private objTransaction_RelationTypes As clsTransaction_RelationTypes
     Private objTransaction_AttributeTypes As clsTransaction_AttributeTypes
+    Private objTransaction As clsTransaction
 
     Private objOItem_Parent As clsOntologyItem
 
@@ -442,6 +443,7 @@
         objTransaction_Objects = New clsTransaction_Objects(objLocalConfig, Me)
         objTransaction_AttributeTypes = New clsTransaction_AttributeTypes(objLocalConfig, Me)
         objTransaction_RelationTypes = New clsTransaction_RelationTypes(objLocalConfig, Me)
+        objTransaction = New clsTransaction(objLocalConfig.Globals)
         objOntologyClipboard = New clsOntologyClipboard(objLocalConfig)
     End Sub
 
@@ -630,62 +632,194 @@
         Dim objDRV_Selected As DataRowView
         Dim objOItem_Selected As New clsOntologyItem
         Dim objOLObjects As New List(Of clsOntologyItem)
-        Dim strOntology As String
+        Dim objOAItem_Value As New clsObjectAtt
+        Dim objOItem_Result As clsOntologyItem
 
         objDGVR_Selected = DataGridView_Items.Rows(e.RowIndex)
         objDRV_Selected = objDGVR_Selected.DataBoundItem
         objOItem_Selected.GUID = objDRV_Selected.Item(strRowName_GUID)
-        objOItem_Selected.Name = objDRV_Selected.Item(strRowName_Name)
-        If strRowName_ParentGUID <> "" Then
-            objOItem_Selected.GUID_Parent = objDRV_Selected.Item(strRowName_ParentGUID)
-        End If
 
         
-        Select Case strType
-            Case objLocalConfig.Globals.Type_AttributeType
-                objFrm_AttributeTypeEdit = New frm_AttributeTypeEdit(objLocalConfig, objOItem_Selected)
-                objFrm_AttributeTypeEdit.ShowDialog(Me)
-                MsgBox("Implement: AttributeTye-Edit")
-            Case objLocalConfig.Globals.Type_Class
-                MsgBox("Implement: Class-Edit")
-            Case objLocalConfig.Globals.Type_RelationType
-                MsgBox("Implement: RelationType-Edit")
-            Case objLocalConfig.Globals.Type_Object
-                objOLObjects.Add(objOItem_Selected)
-                objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
-                                                       objOLObjects, _
-                                                       0, _
-                                                       objLocalConfig.Globals.Type_Object, _
-                                                       Nothing)
-                objFrm_ObjectEdit.ShowDialog(Me)
-                If objFrm_ObjectEdit.DialogResult = DialogResult.OK Then
 
-                End If
-            Case objLocalConfig.Globals.Type_Other
-                strOntology = objDRV_Selected.Item("Ontology")
-                Select Case strOntology
-                    Case objLocalConfig.Globals.Type_AttributeType
-                        objFrm_AttributeTypeEdit = New frm_AttributeTypeEdit(objLocalConfig, objOItem_Selected)
-                        objFrm_AttributeTypeEdit.ShowDialog(Me)
-                        MsgBox("Implement: AttributeTye-Edit")
-                    Case objLocalConfig.Globals.Type_Class
-                        MsgBox("Implement: Class-Edit")
-                    Case objLocalConfig.Globals.Type_RelationType
-                        MsgBox("Implement: RelationType-Edit")
-                    Case objLocalConfig.Globals.Type_Object
-                        objOLObjects.Add(objOItem_Selected)
-                        objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
-                                                               objOLObjects, _
-                                                               0, _
-                                                               objLocalConfig.Globals.Type_Object, _
-                                                               Nothing)
-                        objFrm_ObjectEdit.ShowDialog(Me)
-                        If objFrm_ObjectEdit.DialogResult = DialogResult.OK Then
+        If Not objOItem_Parent Is Nothing Then
+            objOItem_Selected.Name = objDRV_Selected.Item(strRowName_Name)
+            If strRowName_ParentGUID <> "" Then
+                objOItem_Selected.GUID_Parent = objDRV_Selected.Item(strRowName_ParentGUID)
+            End If
+            Select Case strType
+                Case objLocalConfig.Globals.Type_AttributeType
+                    objFrm_AttributeTypeEdit = New frm_AttributeTypeEdit(objLocalConfig, objOItem_Selected)
+                    objFrm_AttributeTypeEdit.ShowDialog(Me)
+                    MsgBox("Implement: AttributeTye-Edit")
+                Case objLocalConfig.Globals.Type_Class
+                    MsgBox("Implement: Class-Edit")
+                Case objLocalConfig.Globals.Type_RelationType
+                    MsgBox("Implement: RelationType-Edit")
+                Case objLocalConfig.Globals.Type_Object
+                    objOLObjects.Add(objOItem_Selected)
+                    objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
+                                                           objOLObjects, _
+                                                           0, _
+                                                           objLocalConfig.Globals.Type_Object, _
+                                                           Nothing)
+                    objFrm_ObjectEdit.ShowDialog(Me)
+                    If objFrm_ObjectEdit.DialogResult = DialogResult.OK Then
 
-                        End If
-                    Case objLocalConfig.Globals.Type_Other
-                End Select
-        End Select
+                    End If
+
+
+            End Select
+        Else
+            'strOntology = objDRV_Selected.Item("Ontology")
+            Select Case strType
+                Case objLocalConfig.Globals.Type_AttributeType
+
+                    Select Case objDRV_Selected.Item("ID_DataType")
+                        Case objLocalConfig.Globals.DType_Bool.GUID
+                            objDlg_Attribute_Boolean = New dlg_Attribute_Boolean(objDRV_Selected.Item("Name_Object") + ": " + objDRV_Selected.Item("Name_DataType"), objLocalConfig.Globals, objDRV_Selected.Item("Val_Bit"))
+                            objDlg_Attribute_Boolean.ShowDialog(Me)
+
+                            If objDlg_Attribute_Boolean.DialogResult = DialogResult.OK Then
+                                objOAItem_Value = New clsObjectAtt
+                                objOAItem_Value.ID_Attribute = objDRV_Selected.Item("ID_ObjectAttribute")
+                                objOAItem_Value.ID_AttributeType = objDRV_Selected.Item("ID_AttributeType")
+                                objOAItem_Value.ID_Class = objDRV_Selected.Item("ID_Class")
+                                objOAItem_Value.ID_Object = objDRV_Selected.Item("ID_Object")
+                                objOAItem_Value.val_Named = objDlg_Attribute_Boolean.Value
+                                objOAItem_Value.Val_Bit = objDlg_Attribute_Boolean.Value
+                                objOAItem_Value.OrderID = objDRV_Selected.Item("OrderID")
+                                objOAItem_Value.ID_DataType = objDRV_Selected.Item("ID_DataType")
+
+                                objTransaction.ClearItems()
+
+                                objOItem_Result = objTransaction.do_Transaction(objOAItem_Value)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                    MsgBox("Das Attribute konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+
+                                Else
+                                    get_Data()
+                                End If
+                            End If
+                        Case objLocalConfig.Globals.DType_DateTime.GUID
+                            objDlg_Attribute_DateTime = New dlg_Attribute_DateTime(objDRV_Selected.Item("Name_Object") + ": " + objDRV_Selected.Item("Name_DataType"), objLocalConfig.Globals, objDRV_Selected.Item("Val_DateTime"))
+                            objDlg_Attribute_DateTime.ShowDialog(Me)
+
+                            If objDlg_Attribute_DateTime.DialogResult = DialogResult.OK Then
+                                objOAItem_Value = New clsObjectAtt
+                                objOAItem_Value.ID_Attribute = objDRV_Selected.Item("ID_ObjectAttribute")
+                                objOAItem_Value.ID_AttributeType = objDRV_Selected.Item("ID_AttributeType")
+                                objOAItem_Value.ID_Class = objDRV_Selected.Item("ID_Class")
+                                objOAItem_Value.ID_Object = objDRV_Selected.Item("ID_Object")
+                                objOAItem_Value.val_Named = objDlg_Attribute_DateTime.Value
+                                objOAItem_Value.Val_Date = objDlg_Attribute_DateTime.Value
+                                objOAItem_Value.OrderID = objDRV_Selected.Item("OrderID")
+                                objOAItem_Value.ID_DataType = objDRV_Selected.Item("ID_DataType")
+
+                                objTransaction.ClearItems()
+
+                                objOItem_Result = objTransaction.do_Transaction(objOAItem_Value)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                    MsgBox("Das Attribute konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+
+                                Else
+                                    get_Data()
+                                End If
+                            End If
+                        Case objLocalConfig.Globals.DType_Int.GUID
+                            objDlg_Attribute_Long = New dlg_Attribute_Long(objDRV_Selected.Item("Name_Object") + ": " + objDRV_Selected.Item("Name_DataType"), objLocalConfig.Globals, objDRV_Selected.Item("Val_Int"))
+                            objDlg_Attribute_Long.ShowDialog(Me)
+
+                            If objDlg_Attribute_Long.DialogResult = DialogResult.OK Then
+                                objOAItem_Value = New clsObjectAtt
+                                objOAItem_Value.ID_Attribute = objDRV_Selected.Item("ID_ObjectAttribute")
+                                objOAItem_Value.ID_AttributeType = objDRV_Selected.Item("ID_AttributeType")
+                                objOAItem_Value.ID_Class = objDRV_Selected.Item("ID_Class")
+                                objOAItem_Value.ID_Object = objDRV_Selected.Item("ID_Object")
+                                objOAItem_Value.val_Named = objDlg_Attribute_Long.Value
+                                objOAItem_Value.Val_lng = objDlg_Attribute_Long.Value
+                                objOAItem_Value.OrderID = objDRV_Selected.Item("OrderID")
+                                objOAItem_Value.ID_DataType = objDRV_Selected.Item("ID_DataType")
+
+                                objTransaction.ClearItems()
+
+                                objOItem_Result = objTransaction.do_Transaction(objOAItem_Value)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                    MsgBox("Das Attribute konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+
+                                Else
+                                    get_Data()
+                                End If
+                            End If
+                        Case objLocalConfig.Globals.DType_Real.GUID
+                            objDlg_Attribute_Double = New dlg_Attribute_Double(objDRV_Selected.Item("Name_Object") + ": " + objDRV_Selected.Item("Name_DataType"), objLocalConfig.Globals, objDRV_Selected.Item("Val_Real"))
+                            objDlg_Attribute_Double.ShowDialog(Me)
+
+                            If objDlg_Attribute_Double.DialogResult = DialogResult.OK Then
+                                objOAItem_Value = New clsObjectAtt
+                                objOAItem_Value.ID_Attribute = objDRV_Selected.Item("ID_ObjectAttribute")
+                                objOAItem_Value.ID_AttributeType = objDRV_Selected.Item("ID_AttributeType")
+                                objOAItem_Value.ID_Class = objDRV_Selected.Item("ID_Class")
+                                objOAItem_Value.ID_Object = objDRV_Selected.Item("ID_Object")
+                                objOAItem_Value.val_Named = objDlg_Attribute_Double.Value
+                                objOAItem_Value.Val_Double = objDlg_Attribute_Double.Value
+                                objOAItem_Value.OrderID = objDRV_Selected.Item("OrderID")
+                                objOAItem_Value.ID_DataType = objDRV_Selected.Item("ID_DataType")
+
+                                objTransaction.ClearItems()
+
+                                objOItem_Result = objTransaction.do_Transaction(objOAItem_Value)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                    MsgBox("Das Attribute konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+
+                                Else
+                                    get_Data()
+                                End If
+                            End If
+                        Case objLocalConfig.Globals.DType_String.GUID
+                            objDlg_Attribute_String = New dlg_Attribute_String(objDRV_Selected.Item("Name_Object") + ": " + objDRV_Selected.Item("Name_DataType"), objLocalConfig.Globals, objDRV_Selected.Item("Val_String"))
+                            objDlg_Attribute_String.ShowDialog(Me)
+
+                            If objDlg_Attribute_String.DialogResult = DialogResult.OK Then
+                                objOAItem_Value = New clsObjectAtt
+                                objOAItem_Value.ID_Attribute = objDRV_Selected.Item("ID_ObjectAttribute")
+                                objOAItem_Value.ID_AttributeType = objDRV_Selected.Item("ID_AttributeType")
+                                objOAItem_Value.ID_Class = objDRV_Selected.Item("ID_Class")
+                                objOAItem_Value.ID_Object = objDRV_Selected.Item("ID_Object")
+                                objOAItem_Value.val_Named = objDlg_Attribute_String.Value
+                                objOAItem_Value.Val_String = objDlg_Attribute_String.Value
+                                objOAItem_Value.OrderID = objDRV_Selected.Item("OrderID")
+                                objOAItem_Value.ID_DataType = objDRV_Selected.Item("ID_DataType")
+
+                                objTransaction.ClearItems()
+
+                                objOItem_Result = objTransaction.do_Transaction(objOAItem_Value)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                    MsgBox("Das Attribute konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+
+                                Else
+                                    get_Data()
+                                End If
+                            End If
+                    End Select
+                Case objLocalConfig.Globals.Type_Class
+                    MsgBox("Implement: Class-Edit")
+                Case objLocalConfig.Globals.Type_RelationType
+                    MsgBox("Implement: RelationType-Edit")
+                Case objLocalConfig.Globals.Type_Object
+                    objOLObjects.Add(objOItem_Selected)
+                    objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
+                                                           objOLObjects, _
+                                                           0, _
+                                                           objLocalConfig.Globals.Type_Object, _
+                                                           Nothing)
+                    objFrm_ObjectEdit.ShowDialog(Me)
+                    If objFrm_ObjectEdit.DialogResult = DialogResult.OK Then
+                        
+                    End If
+                Case objLocalConfig.Globals.Type_Other
+            End Select
+        End If
+        
     End Sub
 
     Private Sub DataGridView_Items_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles DataGridView_Items.SelectionChanged

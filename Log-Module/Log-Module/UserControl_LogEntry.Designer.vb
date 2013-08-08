@@ -28,10 +28,19 @@ Partial Class UserControl_LogEntry
         Me.Button_FromTimestamp = New System.Windows.Forms.Button()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripProgressBar_Data = New System.Windows.Forms.ToolStripProgressBar()
+        Me.ToolStripLabel_UserLBL = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel_User = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel_LogstateLBL = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel_LogState = New System.Windows.Forms.ToolStripLabel()
         Me.ComboBox_User = New System.Windows.Forms.ComboBox()
+        Me.ContextMenuStrip_User = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.OpenObjectEditUserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Timer_Data = New System.Windows.Forms.Timer(Me.components)
         Me.Label_User = New System.Windows.Forms.Label()
         Me.ComboBox_Logstate = New System.Windows.Forms.ComboBox()
+        Me.ContextMenuStrip_LogState = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.StandardLogstateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenObjectEditLogstateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Label_Logstate = New System.Windows.Forms.Label()
         Me.TextBox_Message = New System.Windows.Forms.TextBox()
         Me.Label_Message = New System.Windows.Forms.Label()
@@ -40,6 +49,8 @@ Partial Class UserControl_LogEntry
         Me.TextBox_Caption = New System.Windows.Forms.TextBox()
         Me.Label_Name = New System.Windows.Forms.Label()
         Me.ToolStrip1.SuspendLayout()
+        Me.ContextMenuStrip_User.SuspendLayout()
+        Me.ContextMenuStrip_LogState.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label_Relations
@@ -54,8 +65,8 @@ Partial Class UserControl_LogEntry
         'Panel_Relations
         '
         Me.Panel_Relations.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_Relations.Location = New System.Drawing.Point(80, 311)
         Me.Panel_Relations.Name = "Panel_Relations"
         Me.Panel_Relations.Size = New System.Drawing.Size(438, 100)
@@ -74,7 +85,7 @@ Partial Class UserControl_LogEntry
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripProgressBar_Data})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripProgressBar_Data, Me.ToolStripLabel_UserLBL, Me.ToolStripLabel_User, Me.ToolStripLabel_LogstateLBL, Me.ToolStripLabel_LogState})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 450)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(527, 25)
@@ -86,16 +97,53 @@ Partial Class UserControl_LogEntry
         Me.ToolStripProgressBar_Data.Name = "ToolStripProgressBar_Data"
         Me.ToolStripProgressBar_Data.Size = New System.Drawing.Size(200, 22)
         '
+        'ToolStripLabel_UserLBL
+        '
+        Me.ToolStripLabel_UserLBL.Name = "ToolStripLabel_UserLBL"
+        Me.ToolStripLabel_UserLBL.Size = New System.Drawing.Size(43, 22)
+        Me.ToolStripLabel_UserLBL.Text = "x_User:"
+        '
+        'ToolStripLabel_User
+        '
+        Me.ToolStripLabel_User.Name = "ToolStripLabel_User"
+        Me.ToolStripLabel_User.Size = New System.Drawing.Size(12, 22)
+        Me.ToolStripLabel_User.Text = "-"
+        '
+        'ToolStripLabel_LogstateLBL
+        '
+        Me.ToolStripLabel_LogstateLBL.Name = "ToolStripLabel_LogstateLBL"
+        Me.ToolStripLabel_LogstateLBL.Size = New System.Drawing.Size(65, 22)
+        Me.ToolStripLabel_LogstateLBL.Text = "x_Logstate:"
+        '
+        'ToolStripLabel_LogState
+        '
+        Me.ToolStripLabel_LogState.Name = "ToolStripLabel_LogState"
+        Me.ToolStripLabel_LogState.Size = New System.Drawing.Size(12, 22)
+        Me.ToolStripLabel_LogState.Text = "-"
+        '
         'ComboBox_User
         '
         Me.ComboBox_User.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ComboBox_User.ContextMenuStrip = Me.ContextMenuStrip_User
         Me.ComboBox_User.Enabled = False
         Me.ComboBox_User.FormattingEnabled = True
         Me.ComboBox_User.Location = New System.Drawing.Point(80, 283)
         Me.ComboBox_User.Name = "ComboBox_User"
         Me.ComboBox_User.Size = New System.Drawing.Size(438, 21)
         Me.ComboBox_User.TabIndex = 25
+        '
+        'ContextMenuStrip_User
+        '
+        Me.ContextMenuStrip_User.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenObjectEditUserToolStripMenuItem})
+        Me.ContextMenuStrip_User.Name = "ContextMenuStrip_LogState"
+        Me.ContextMenuStrip_User.Size = New System.Drawing.Size(177, 48)
+        '
+        'OpenObjectEditUserToolStripMenuItem
+        '
+        Me.OpenObjectEditUserToolStripMenuItem.Name = "OpenObjectEditUserToolStripMenuItem"
+        Me.OpenObjectEditUserToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+        Me.OpenObjectEditUserToolStripMenuItem.Text = "x_Open Object-Edit"
         '
         'Timer_Data
         '
@@ -113,13 +161,32 @@ Partial Class UserControl_LogEntry
         'ComboBox_Logstate
         '
         Me.ComboBox_Logstate.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ComboBox_Logstate.ContextMenuStrip = Me.ContextMenuStrip_LogState
         Me.ComboBox_Logstate.Enabled = False
         Me.ComboBox_Logstate.FormattingEnabled = True
         Me.ComboBox_Logstate.Location = New System.Drawing.Point(80, 257)
         Me.ComboBox_Logstate.Name = "ComboBox_Logstate"
         Me.ComboBox_Logstate.Size = New System.Drawing.Size(438, 21)
         Me.ComboBox_Logstate.TabIndex = 23
+        '
+        'ContextMenuStrip_LogState
+        '
+        Me.ContextMenuStrip_LogState.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StandardLogstateToolStripMenuItem, Me.OpenObjectEditLogstateToolStripMenuItem})
+        Me.ContextMenuStrip_LogState.Name = "ContextMenuStrip_LogState"
+        Me.ContextMenuStrip_LogState.Size = New System.Drawing.Size(177, 48)
+        '
+        'StandardLogstateToolStripMenuItem
+        '
+        Me.StandardLogstateToolStripMenuItem.Name = "StandardLogstateToolStripMenuItem"
+        Me.StandardLogstateToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+        Me.StandardLogstateToolStripMenuItem.Text = "x_Standard"
+        '
+        'OpenObjectEditLogstateToolStripMenuItem
+        '
+        Me.OpenObjectEditLogstateToolStripMenuItem.Name = "OpenObjectEditLogstateToolStripMenuItem"
+        Me.OpenObjectEditLogstateToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+        Me.OpenObjectEditLogstateToolStripMenuItem.Text = "x_Open Object-Edit"
         '
         'Label_Logstate
         '
@@ -133,7 +200,7 @@ Partial Class UserControl_LogEntry
         'TextBox_Message
         '
         Me.TextBox_Message.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_Message.Location = New System.Drawing.Point(80, 52)
         Me.TextBox_Message.Multiline = True
         Me.TextBox_Message.Name = "TextBox_Message"
@@ -154,7 +221,7 @@ Partial Class UserControl_LogEntry
         'DateTimePicker_DateTimeStamp
         '
         Me.DateTimePicker_DateTimeStamp.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DateTimePicker_DateTimeStamp.CustomFormat = "dd.MM.yyy HH:mm:ss"
         Me.DateTimePicker_DateTimeStamp.Enabled = False
         Me.DateTimePicker_DateTimeStamp.Format = System.Windows.Forms.DateTimePickerFormat.Custom
@@ -175,7 +242,7 @@ Partial Class UserControl_LogEntry
         'TextBox_Caption
         '
         Me.TextBox_Caption.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_Caption.Location = New System.Drawing.Point(80, 2)
         Me.TextBox_Caption.Name = "TextBox_Caption"
         Me.TextBox_Caption.ReadOnly = True
@@ -213,6 +280,8 @@ Partial Class UserControl_LogEntry
         Me.Size = New System.Drawing.Size(527, 475)
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
+        Me.ContextMenuStrip_User.ResumeLayout(False)
+        Me.ContextMenuStrip_LogState.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -233,5 +302,14 @@ Partial Class UserControl_LogEntry
     Friend WithEvents Label_DateTimeStamp As System.Windows.Forms.Label
     Friend WithEvents TextBox_Caption As System.Windows.Forms.TextBox
     Friend WithEvents Label_Name As System.Windows.Forms.Label
+    Friend WithEvents ToolStripLabel_UserLBL As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripLabel_User As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripLabel_LogstateLBL As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripLabel_LogState As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ContextMenuStrip_User As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents OpenObjectEditUserToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ContextMenuStrip_LogState As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents StandardLogstateToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenObjectEditLogstateToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

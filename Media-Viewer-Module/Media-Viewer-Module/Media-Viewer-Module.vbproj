@@ -90,6 +90,7 @@
     <Compile Include="clsDataWork_RefTree.vb" />
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsTransaction_Bookmarks.vb" />
+    <Compile Include="clsTransaction_MediaItems.vb" />
     <Compile Include="DataSet_Images.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -308,14 +309,6 @@
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
-    <COMReference Include="AxFOXITREADEROCXLib">
-      <Guid>{3D20F47F-E818-4A03-AD52-45B708ACCF23}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>aximp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
     <COMReference Include="AxWMPLib">
       <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -326,15 +319,6 @@
     </COMReference>
     <COMReference Include="FOXITREADERLib">
       <Guid>{3A8BD65E-9922-4162-A649-83F2D5326BBE}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="FOXITREADEROCXLib">
-      <Guid>{3D20F47F-E818-4A03-AD52-45B708ACCF23}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>

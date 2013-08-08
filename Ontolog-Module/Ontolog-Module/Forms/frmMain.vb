@@ -387,6 +387,8 @@
 
         ToolStripButton_Filter.Checked = Not SplitContainer_Filter_Body.Panel1Collapsed
 
+        ToolStripStatusLabel_Database.Text = objLocalConfig.Globals.Index & "@" & objLocalConfig.Globals.Server
+
         initialize_OTree()
     End Sub
 

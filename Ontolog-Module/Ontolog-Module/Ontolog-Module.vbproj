@@ -240,6 +240,12 @@
     <Compile Include="Forms\UserControl_Attribute_String.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Forms\UserControl_DataSource.Designer.vb">
+      <DependentUpon>UserControl_DataSource.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_DataSource.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -367,6 +373,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserControl_Attribute_String.resx">
       <DependentUpon>UserControl_Attribute_String.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_DataSource.resx">
+      <DependentUpon>UserControl_DataSource.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

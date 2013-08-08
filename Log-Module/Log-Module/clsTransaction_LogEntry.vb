@@ -4,10 +4,14 @@ Public Class clsTransaction_LogEntry
 
     Private objDBLevel_LogEntry As clsDBLevel
 
+    Private objTransaction_LogEntry As clsTransaction
+
     Private objOItem_LogEntry As clsOntologyItem
     Private objOItem_LogState As clsOntologyItem
     Private objOItem_ObjectAttribute_DateTimeStamp As clsObjectAtt
     Private objOItem_ObjectAttribute_Message As clsObjectAtt
+    Private objOItem_User As clsOntologyItem
+    Private objORItem_LogEntryToUser As clsObjectRel
 
     Public Function save_001_LogEntry(ByVal OItem_LogEntry As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
@@ -192,6 +196,58 @@ Public Class clsTransaction_LogEntry
         Return objOItem_Result
     End Function
 
+    Public Function save_005_LogEntry_To_User(OItem_User As clsOntologyItem, Optional OItem_LogEntry As clsOntologyItem = Nothing) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+
+        objOItem_User = OItem_User
+        If Not OItem_LogEntry Is Nothing Then
+            objOItem_LogEntry = OItem_LogEntry
+        End If
+
+
+        objORItem_LogEntryToUser = New clsObjectRel(objOItem_LogEntry.GUID, _
+                                                       objOItem_LogEntry.GUID_Parent, _
+                                                       objOItem_User.GUID, _
+                                                       objOItem_User.GUID_Parent, _
+                                                       objLocalConfig.OItem_RelationType_wasCreatedBy.GUID, _
+                                                       objLocalConfig.Globals.Type_Object, _
+                                                       Nothing, _
+                                                       1)
+
+        objTransaction_LogEntry.ClearItems()
+        objOItem_Result = objTransaction_LogEntry.do_Transaction(objORItem_LogEntryToUser, True)
+
+        Return objOItem_Result
+    End Function
+
+    Public Function del_005_LogEntry_To_User(Optional OItem_LogEntry As clsOntologyItem = Nothing, Optional OItem_User As clsOntologyItem = Nothing) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+
+        If Not OItem_LogEntry Is Nothing Then
+            objOItem_LogEntry = OItem_LogEntry
+        End If
+
+        If Not OItem_User Is Nothing Then
+            objOItem_User = OItem_User
+        End If
+
+
+        objORItem_LogEntryToUser = New clsObjectRel(objOItem_LogEntry.GUID, _
+                                                       Nothing, _
+                                                       objOItem_User.GUID, _
+                                                       Nothing, _
+                                                       objLocalConfig.OItem_RelationType_wasCreatedBy.GUID, _
+                                                       objLocalConfig.Globals.Type_Object, _
+                                                       Nothing, _
+                                                       Nothing)
+
+        objTransaction_LogEntry.ClearItems()
+        objOItem_Result = objTransaction_LogEntry.do_Transaction(objORItem_LogEntryToUser, False, True)
+
+        Return objOItem_Result
+    End Function
+
+
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
@@ -201,5 +257,6 @@ Public Class clsTransaction_LogEntry
 
     Private Sub set_DBConnection()
         objDBLevel_LogEntry = New clsDBLevel(objLocalConfig.Globals)
+        objTransaction_LogEntry = New clsTransaction(objLocalConfig.Globals)
     End Sub
 End Class

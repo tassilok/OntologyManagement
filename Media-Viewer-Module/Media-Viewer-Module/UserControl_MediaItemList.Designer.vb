@@ -32,6 +32,7 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripProgressBar_MediaItem = New System.Windows.Forms.ToolStripProgressBar()
+        Me.DataGridView_MediaItems = New System.Windows.Forms.DataGridView()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Add = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Remove = New System.Windows.Forms.ToolStripButton()
@@ -39,15 +40,16 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripButton_Meta = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_Bookmarks = New System.Windows.Forms.ToolStripButton()
-        Me.DataGridView_MediaItems = New System.Windows.Forms.DataGridView()
+        Me.ToolStripButton_Replace = New System.Windows.Forms.ToolStripButton()
+        Me.OpenFileDialog_MediaItem = New System.Windows.Forms.OpenFileDialog()
         CType(Me.BindingSource_MediaItems, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip2.SuspendLayout()
-        Me.ToolStrip1.SuspendLayout()
         CType(Me.DataGridView_MediaItems, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ToolStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Timer_MediaItems
@@ -82,13 +84,13 @@ Partial Class UserControl_MediaItemList
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLBL, Me.ToolStripLabel_Count, Me.ToolStripSeparator2, Me.ToolStripProgressBar_MediaItem})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(183, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(186, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripLabel_CountLBL
         '
         Me.ToolStripLabel_CountLBL.Name = "ToolStripLabel_CountLBL"
-        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(52, 22)
+        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(53, 22)
         Me.ToolStripLabel_CountLBL.Text = "x_Count:"
         '
         'ToolStripLabel_Count
@@ -107,13 +109,25 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripProgressBar_MediaItem.Name = "ToolStripProgressBar_MediaItem"
         Me.ToolStripProgressBar_MediaItem.Size = New System.Drawing.Size(100, 22)
         '
+        'DataGridView_MediaItems
+        '
+        Me.DataGridView_MediaItems.AllowUserToAddRows = False
+        Me.DataGridView_MediaItems.AllowUserToDeleteRows = False
+        Me.DataGridView_MediaItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView_MediaItems.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView_MediaItems.Location = New System.Drawing.Point(0, 0)
+        Me.DataGridView_MediaItems.Name = "DataGridView_MediaItems"
+        Me.DataGridView_MediaItems.ReadOnly = True
+        Me.DataGridView_MediaItems.Size = New System.Drawing.Size(766, 426)
+        Me.DataGridView_MediaItems.TabIndex = 0
+        '
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Remove, Me.ToolStripSeparator1, Me.ToolStripButton_Meta, Me.ToolStripSeparator3, Me.ToolStripButton_Bookmarks})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Replace, Me.ToolStripButton_Remove, Me.ToolStripSeparator1, Me.ToolStripButton_Meta, Me.ToolStripSeparator3, Me.ToolStripButton_Bookmarks})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(249, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(324, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Add
@@ -145,7 +159,7 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripButton_Meta.Image = CType(resources.GetObject("ToolStripButton_Meta.Image"), System.Drawing.Image)
         Me.ToolStripButton_Meta.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Meta.Name = "ToolStripButton_Meta"
-        Me.ToolStripButton_Meta.Size = New System.Drawing.Size(67, 22)
+        Me.ToolStripButton_Meta.Size = New System.Drawing.Size(69, 22)
         Me.ToolStripButton_Meta.Text = "x_Get Meta"
         '
         'ToolStripSeparator3
@@ -159,20 +173,22 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripButton_Bookmarks.Image = CType(resources.GetObject("ToolStripButton_Bookmarks.Image"), System.Drawing.Image)
         Me.ToolStripButton_Bookmarks.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Bookmarks.Name = "ToolStripButton_Bookmarks"
-        Me.ToolStripButton_Bookmarks.Size = New System.Drawing.Size(114, 22)
+        Me.ToolStripButton_Bookmarks.Size = New System.Drawing.Size(123, 22)
         Me.ToolStripButton_Bookmarks.Text = "x_Bookmarks/Ranges"
         '
-        'DataGridView_MediaItems
+        'ToolStripButton_Replace
         '
-        Me.DataGridView_MediaItems.AllowUserToAddRows = False
-        Me.DataGridView_MediaItems.AllowUserToDeleteRows = False
-        Me.DataGridView_MediaItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView_MediaItems.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView_MediaItems.Location = New System.Drawing.Point(0, 0)
-        Me.DataGridView_MediaItems.Name = "DataGridView_MediaItems"
-        Me.DataGridView_MediaItems.ReadOnly = True
-        Me.DataGridView_MediaItems.Size = New System.Drawing.Size(766, 426)
-        Me.DataGridView_MediaItems.TabIndex = 0
+        Me.ToolStripButton_Replace.CheckOnClick = True
+        Me.ToolStripButton_Replace.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Replace.Image = CType(resources.GetObject("ToolStripButton_Replace.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Replace.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Replace.Name = "ToolStripButton_Replace"
+        Me.ToolStripButton_Replace.Size = New System.Drawing.Size(62, 22)
+        Me.ToolStripButton_Replace.Text = "x_Replace"
+        '
+        'OpenFileDialog_MediaItem
+        '
+        Me.OpenFileDialog_MediaItem.FileName = "OpenFileDialog1"
         '
         'UserControl_MediaItemList
         '
@@ -191,9 +207,9 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripContainer1.PerformLayout()
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
+        CType(Me.DataGridView_MediaItems, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        CType(Me.DataGridView_MediaItems, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -213,5 +229,7 @@ Partial Class UserControl_MediaItemList
     Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripButton_Bookmarks As System.Windows.Forms.ToolStripButton
     Friend WithEvents DataGridView_MediaItems As System.Windows.Forms.DataGridView
+    Friend WithEvents ToolStripButton_Replace As System.Windows.Forms.ToolStripButton
+    Friend WithEvents OpenFileDialog_MediaItem As System.Windows.Forms.OpenFileDialog
 
 End Class
