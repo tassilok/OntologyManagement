@@ -15,9 +15,17 @@ namespace GraphMLConnector
     {
         private clsLocalConfig objLocalConfig;
 
+        private clsDataWork_Graph objDataWork_Graph;
+        private clsTransaction_Graph objTransaction_Graph;
         private clsGraphMLWork objGraphMLWork;
 
+
+
+        private frm_ObjectEdit objFrmObjectEdit;
+
         private frmMain objFrmOntologyModule;
+
+        private TreeNode objTreeNode_Selected;
 
         public frmGraphMLConnector()
         {
@@ -25,10 +33,73 @@ namespace GraphMLConnector
 
             objLocalConfig = new clsLocalConfig(new clsGlobals());
 
-            objGraphMLWork = new clsGraphMLWork(objLocalConfig);
-            //objGraphMLWork.ExportClasses(true,true,true,true);
+            initialize();
+
+            
+
         }
 
+        private void initialize()
+        {
+            objDataWork_Graph = new clsDataWork_Graph(objLocalConfig);
+            objGraphMLWork = new clsGraphMLWork(objLocalConfig);
+            objTransaction_Graph = new clsTransaction_Graph(objLocalConfig);
+
+            objDataWork_Graph.GetData_GraphTree();
+            while (objDataWork_Graph.OItem_Result_GraphTree.GUID == objLocalConfig.Globals.LState_Nothing.GUID){}
+            
+            fill_Tree_Graphs();
+        }
+
+        private void fill_Tree_Graphs(TreeNode TreeNode_Parent = null )
+        {
+            List<clsOntologyItem> objOTree_Nodes;
+            TreeNode objTreeNode_Sub;
+
+            if (TreeNode_Parent == null)
+            {
+                objOTree_Nodes = (from objOTree in objDataWork_Graph.OTree_Graphs
+                                    join objOTreeParent in objDataWork_Graph.OTree_Graphs on objOTree.ID_Object_Parent
+                                        equals objOTreeParent.ID_Object into objOTreeParents
+                                    from objOTreeParent in objOTreeParents.DefaultIfEmpty()
+                                    where objOTreeParent == null
+                                    select
+                                        new clsOntologyItem(objOTree.ID_Object_Parent, objOTree.Name_Object_Parent,
+                                                            objLocalConfig.OItem_Class_Graphs.GUID,
+                                                            objLocalConfig.Globals.Type_Object)).ToList();                
+            }
+            else
+            {
+                objOTree_Nodes = (from objOTree in objDataWork_Graph.OTree_Graphs
+                                  where objOTree.ID_Object_Parent == TreeNode_Parent.Name
+                                  select
+                                      new clsOntologyItem(objOTree.ID_Object, objOTree.Name_Object,
+                                                          objLocalConfig.OItem_Class_Graphs.GUID,
+                                                          objLocalConfig.Globals.Type_Object)).ToList();
+
+            }
+
+
+
+            foreach (var objOItem_Node in objOTree_Nodes)
+            {
+                if (TreeNode_Parent == null)
+                {
+                    objTreeNode_Sub =  treeView_Graphs.Nodes.Add(objOItem_Node.GUID,
+                                              objOItem_Node.Name,
+                                              0, 0);    
+                }
+                else
+                {
+                    objTreeNode_Sub = TreeNode_Parent.Nodes.Add(objOItem_Node.GUID,
+                                              objOItem_Node.Name,
+                                              0, 0);
+                }
+                
+                fill_Tree_Graphs(objTreeNode_Sub);
+                
+            }
+        }
 
 
         private void SetCheckState(ToolStripMenuItem objMenuItem)
@@ -123,21 +194,68 @@ namespace GraphMLConnector
 
         private void addItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
-            objFrmOntologyModule = new frmMain(objLocalConfig.Globals);
-            objFrmOntologyModule.Applyable = true;
-            objFrmOntologyModule.ShowDialog(this);
-            if (objFrmOntologyModule.DialogResult == DialogResult.OK)
+            var objOItem_Result = new clsOntologyItem();
+            int ToDo;
+            int Done;
+            if (objDataWork_Graph.OItem_Graph != null)
             {
-                var OList_Selected = objFrmOntologyModule.OList_Simple;
-                foreach (var OItem_Selected in OList_Selected)
+                objFrmOntologyModule = new frmMain(objLocalConfig.Globals);
+                objFrmOntologyModule.Applyable = true;
+                objFrmOntologyModule.ShowDialog(this);
+                if (objFrmOntologyModule.DialogResult == DialogResult.OK)
                 {
-                    if (!dataSet_Export.dtbl_Export.Select("ID_Item='" + OItem_Selected.GUID + "'").Any())
+                    var OList_Selected = objFrmOntologyModule.OList_Simple;
+                    Done = 0;
+                    ToDo = OList_Selected.Count;
+                    foreach (var OItem_Selected in OList_Selected)
                     {
-                        dataSet_Export.dtbl_Export.Rows.Add(OItem_Selected.GUID, OItem_Selected.Name, OItem_Selected.GUID_Parent, OItem_Selected.Type, null, null);
+                        var ExistGraphItems = (from objGraphItem in objDataWork_Graph.GraphItems
+                                               where objGraphItem.ID_OItem == OItem_Selected.GUID
+                                               select objGraphItem).ToList().Any();
+
+                        if (!ExistGraphItems)
+                        {
+                            var OItem_GraphItem = new clsOntologyItem(
+                                objLocalConfig.Globals.NewGUID,
+                                OItem_Selected.Name,
+                                objLocalConfig
+                                    .OItem_Class_GraphItem.GUID,
+                                objLocalConfig.Globals.Type_Object);
+                            objOItem_Result = objTransaction_Graph.save_GraphItem(objDataWork_Graph.OItem_Graph,
+                                                                                  OItem_GraphItem,
+                                                                                  objLocalConfig.OItem_Object_Normal,
+                                                                                  OItem_Selected);
+
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            {
+                                objDataWork_Graph.GraphItems.Add(new clsGraphItem() {ID_GraphItem =  OItem_GraphItem.GUID,
+                                                                                     Name_GraphItem = OItem_GraphItem.Name, 
+                                                                                     ID_ExportType =  objLocalConfig.OItem_Object_Normal.GUID, 
+                                                                                     Name_ExportType = objLocalConfig.OItem_Object_Normal.Name, 
+                                                                                     ID_OItem = OItem_Selected.GUID, 
+                                                                                     Name_OItem =  OItem_Selected.Name, 
+                                                                                     ID_OItem_Parent = OItem_Selected.GUID_Parent,
+                                                                                     Type_OItem = OItem_Selected.Type});
+
+                                Done++;
+                            }
+                            
+                        }
+                        else
+                        {
+                            Done ++;
+                        }
+                        
+                        
                     }
+                    if (Done < ToDo)
+                    {
+                        MessageBox.Show("Es konnten nur " + Done.ToString() + " von " + ToDo.ToString() + " Items verknüpft werden!","GraphItems",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+                    }
+                    dataGridView_Export.Refresh();
                 }
             }
+            
         }
 
         private void contextMenuStrip_Export_Opening(object sender, CancelEventArgs e)
@@ -151,15 +269,30 @@ namespace GraphMLConnector
                 removeItemToolStripMenuItem.Enabled = true;
                 setExportModeToolStripMenuItem.Enabled = true;
             }
+
+            if (dataGridView_Export.SelectedCells.Count == 1)
+            {
+                if (dataGridView_Export.Columns[dataGridView_Export.SelectedCells[0].ColumnIndex].DataPropertyName ==
+                    "Name_ExportType")
+                {
+                    setExportModeToolStripMenuItem.Enabled = true;
+                }
+            }
         }
 
         private void removeItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow dataGridViewRow_Selected in dataGridView_Export.SelectedRows)
             {
-                DataRowView dataRowView = dataGridViewRow_Selected.DataBoundItem as DataRowView;
-                dataRowView.Delete();
+                var objGraphItem = new clsOntologyItem(dataGridViewRow_Selected.Cells["ID_GraphItem"].Value.ToString(),
+                                                   dataGridViewRow_Selected.Cells["Name_GraphItem"].Value.ToString(),
+                                                   objLocalConfig.OItem_Class_GraphItem.GUID,
+                                                   objLocalConfig.Globals.Type_Object);
+                var objOItem_Result = objTransaction_Graph.Remove_GraphItem(objDataWork_Graph.OItem_Graph, objGraphItem);
+                
+
             }
+            LoadGraphItems();
         }
 
         private void toolStripButton_Export_Click(object sender, EventArgs e)
@@ -170,15 +303,26 @@ namespace GraphMLConnector
             {
                 foreach (DataGridViewRow dataGridViewRow in dataGridView_Export.Rows)
                 {
-                    objGraphMLWork.OList_ExportItems.Add(new clsOntologyItem(dataGridViewRow.Cells[0].Value.ToString(), dataGridViewRow.Cells[1].Value.ToString(), dataGridViewRow.Cells[2].Value.ToString(), dataGridViewRow.Cells[3].Value.ToString()));
-
+                    if (dataGridViewRow.Cells[7].Value != null)
+                    {
+                        objGraphMLWork.OList_ExportItems.Add(new clsOntologyItem(dataGridViewRow.Cells[5].Value.ToString(), dataGridViewRow.Cells[6].Value.ToString(), dataGridViewRow.Cells[7].Value.ToString(), dataGridViewRow.Cells[8].Value.ToString()));    
+                    }
+                    else
+                    {
+                        objGraphMLWork.OList_ExportItems.Add(new clsOntologyItem(dataGridViewRow.Cells[5].Value.ToString(), dataGridViewRow.Cells[6].Value.ToString(), null, dataGridViewRow.Cells[8].Value.ToString()));
+                    }
+                    
+                    if (dataGridViewRow.Cells["ID_ExportType"].Value.ToString() != objLocalConfig.OItem_Object_Normal.GUID)
+                    {
+                        objGraphMLWork.OList_EModes.Add(new clsExportModes() { ID_ExportMode = dataGridViewRow.Cells["ID_ExportType"].Value.ToString(), ID_Item = dataGridViewRow.Cells["ID_OItem"].Value.ToString() });
+                    }
 
                 }
 
                 var objOItem_Result = objGraphMLWork.GetItemLists();
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    objGraphMLWork.ExportItems();
+                    objGraphMLWork.ExportItems(objDataWork_Graph.OItem_PathGraph.Name);
                 }
                 else
                 {
@@ -216,10 +360,101 @@ namespace GraphMLConnector
                     boolObjects = true;
                 }
 
-                objGraphMLWork.ExportClasses(boolClasses, boolObjects, boolClassRels, boolObjRels);
+                objGraphMLWork.ExportClasses(boolClasses, boolObjects, boolClassRels, boolObjRels, objDataWork_Graph.OItem_PathGraph.Name);
 
             }
             
+        }
+
+        private void treeView_Graphs_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            objTreeNode_Selected = e.Node;
+
+            LoadGraphItems();
+            
+        }
+
+        private void LoadGraphItems()
+        {
+            var objOItem_Result = objDataWork_Graph.GetData_GraphNode(new clsOntologyItem(objTreeNode_Selected.Name, objTreeNode_Selected.Text,
+                                                                    objLocalConfig.OItem_Class_Graphs.GUID,
+                                                                    objLocalConfig.Globals.Type_Object));
+            
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                SortedBindingList<clsGraphItem> objBindingList = new SortedBindingList<clsGraphItem>(objDataWork_Graph.GraphItems);
+
+                dataGridView_Export.DataSource = objBindingList;
+                dataGridView_Export.Columns[1].Visible = false;
+                dataGridView_Export.Columns[2].Visible = false;
+                dataGridView_Export.Columns[3].Visible = false;
+                dataGridView_Export.Columns[5].Visible = false;
+                dataGridView_Export.Columns[7].Visible = false;
+            }
+        }
+
+        private void treeView_Graphs_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            var objTreeNode_Selected = e.Node;
+
+
+            if (objTreeNode_Selected != null)
+            {
+                var oList_Graphs = new List<clsOntologyItem>();
+
+                oList_Graphs.Add(new clsOntologyItem(objTreeNode_Selected.Name, objTreeNode_Selected.Text,
+                                                         objLocalConfig.OItem_Class_Graphs.GUID,
+                                                         objLocalConfig.Globals.Type_Object));
+                objFrmObjectEdit = new frm_ObjectEdit(objLocalConfig.Globals,oList_Graphs,0,objLocalConfig.Globals.Type_Object,null,null,null,null);
+                objFrmObjectEdit.ShowDialog(this);
+            }
+        }
+
+        private void dataGridView_Export_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            
+        }
+
+        private void setExportModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            DataGridViewRow dataGridViewRow_Selected =
+                dataGridView_Export.Rows[dataGridView_Export.SelectedCells[0].RowIndex];
+
+
+
+            
+            var objGraphItem = new clsOntologyItem(dataGridViewRow_Selected.Cells["ID_GraphItem"].Value.ToString(),
+                                                dataGridViewRow_Selected.Cells["Name_GraphItem"].Value.ToString(),
+                                                objLocalConfig.OItem_Class_GraphItem.GUID,
+                                                objLocalConfig.Globals.Type_Object);
+            
+            
+            objFrmOntologyModule = new frmMain(objLocalConfig.Globals,objLocalConfig.Globals.Type_Class,objLocalConfig.OItem_Class_ExportMode);
+            objFrmOntologyModule.Applyable = true;
+            objFrmOntologyModule.ShowDialog(this);
+            if (objFrmOntologyModule.DialogResult == DialogResult.OK)
+            {
+                if (objFrmOntologyModule.Type_Applied == objLocalConfig.Globals.Type_Object)
+                {
+                    if (objFrmOntologyModule.OList_Simple.Count == 1)
+                    {
+                        var objOIem_ExportMode = objFrmOntologyModule.OList_Simple.First();
+                        objTransaction_Graph.save_GraphItem_To_ExportMode(objGraphItem, objOIem_ExportMode);
+                        LoadGraphItems();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Bitte nur einen Export-Mode auswählen!", "Export-Mode", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Bitte nur einen Export-Mode auswählen!", "Export-Mode", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+                }
+            }
         }
 
         

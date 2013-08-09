@@ -30,14 +30,24 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmGraphMLConnector));
-            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
-            this.dataGridView_Export = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip_Export = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setExportModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel_CountLBL = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel_Count = new System.Windows.Forms.ToolStripLabel();
+            this.treeView_Graphs = new System.Windows.Forms.TreeView();
+            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel_Mark = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox_Mark = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.dataGridView_Export = new System.Windows.Forms.DataGridView();
+            this.ID_Parent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Export = new System.Windows.Forms.ToolStripButton();
             this.toolStripSplitButton_GlobalExportMode = new System.Windows.Forms.ToolStripSplitButton();
@@ -47,88 +57,25 @@
             this.objectsAndClassesWithRelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dtblExportBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataSet_Export = new GraphMLConnector.DataSet_Export();
-            this.iDItemDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nameItemDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ID_Parent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.typeItemDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.iDExportModeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nameExportModeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
+            this.bindingSource_GraphItems = new System.Windows.Forms.BindingSource(this.components);
+            this.contextMenuStrip_Export.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            this.toolStripContainer2.BottomToolStripPanel.SuspendLayout();
+            this.toolStripContainer2.ContentPanel.SuspendLayout();
+            this.toolStripContainer2.TopToolStripPanel.SuspendLayout();
+            this.toolStripContainer2.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
+            this.toolStrip3.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Export)).BeginInit();
-            this.contextMenuStrip_Export.SuspendLayout();
             this.toolStrip2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtblExportBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataSet_Export)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource_GraphItems)).BeginInit();
             this.SuspendLayout();
-            // 
-            // toolStripContainer1
-            // 
-            // 
-            // toolStripContainer1.BottomToolStripPanel
-            // 
-            this.toolStripContainer1.BottomToolStripPanel.Controls.Add(this.toolStrip1);
-            // 
-            // toolStripContainer1.ContentPanel
-            // 
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGridView_Export);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(680, 437);
-            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
-            this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(680, 487);
-            this.toolStripContainer1.TabIndex = 0;
-            this.toolStripContainer1.Text = "toolStripContainer1";
-            // 
-            // toolStripContainer1.TopToolStripPanel
-            // 
-            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton_Close});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(62, 25);
-            this.toolStrip1.TabIndex = 0;
-            // 
-            // toolStripButton_Close
-            // 
-            this.toolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_Close.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Close.Image")));
-            this.toolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Close.Name = "toolStripButton_Close";
-            this.toolStripButton_Close.Size = new System.Drawing.Size(50, 22);
-            this.toolStripButton_Close.Text = "x_Close";
-            // 
-            // dataGridView_Export
-            // 
-            this.dataGridView_Export.AllowUserToAddRows = false;
-            this.dataGridView_Export.AllowUserToDeleteRows = false;
-            this.dataGridView_Export.AutoGenerateColumns = false;
-            this.dataGridView_Export.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_Export.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.iDItemDataGridViewTextBoxColumn,
-            this.nameItemDataGridViewTextBoxColumn,
-            this.ID_Parent,
-            this.typeItemDataGridViewTextBoxColumn,
-            this.iDExportModeDataGridViewTextBoxColumn,
-            this.nameExportModeDataGridViewTextBoxColumn});
-            this.dataGridView_Export.ContextMenuStrip = this.contextMenuStrip_Export;
-            this.dataGridView_Export.DataSource = this.dtblExportBindingSource;
-            this.dataGridView_Export.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView_Export.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView_Export.Name = "dataGridView_Export";
-            this.dataGridView_Export.ReadOnly = true;
-            this.dataGridView_Export.Size = new System.Drawing.Size(680, 437);
-            this.dataGridView_Export.TabIndex = 0;
             // 
             // contextMenuStrip_Export
             // 
@@ -159,6 +106,160 @@
             this.setExportModeToolStripMenuItem.Name = "setExportModeToolStripMenuItem";
             this.setExportModeToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.setExportModeToolStripMenuItem.Text = "Set Export-Mode";
+            this.setExportModeToolStripMenuItem.Click += new System.EventHandler(this.setExportModeToolStripMenuItem_Click);
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.toolStripContainer2);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.toolStripContainer1);
+            this.splitContainer1.Size = new System.Drawing.Size(680, 487);
+            this.splitContainer1.SplitterDistance = 226;
+            this.splitContainer1.TabIndex = 1;
+            // 
+            // toolStripContainer2
+            // 
+            // 
+            // toolStripContainer2.BottomToolStripPanel
+            // 
+            this.toolStripContainer2.BottomToolStripPanel.Controls.Add(this.toolStrip1);
+            // 
+            // toolStripContainer2.ContentPanel
+            // 
+            this.toolStripContainer2.ContentPanel.Controls.Add(this.treeView_Graphs);
+            this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(222, 433);
+            this.toolStripContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolStripContainer2.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer2.Name = "toolStripContainer2";
+            this.toolStripContainer2.Size = new System.Drawing.Size(222, 483);
+            this.toolStripContainer2.TabIndex = 0;
+            this.toolStripContainer2.Text = "toolStripContainer2";
+            // 
+            // toolStripContainer2.TopToolStripPanel
+            // 
+            this.toolStripContainer2.TopToolStripPanel.Controls.Add(this.toolStrip3);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton_Close,
+            this.toolStripSeparator1,
+            this.toolStripLabel_CountLBL,
+            this.toolStripLabel_Count});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(133, 25);
+            this.toolStrip1.TabIndex = 3;
+            // 
+            // toolStripButton_Close
+            // 
+            this.toolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Close.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Close.Image")));
+            this.toolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Close.Name = "toolStripButton_Close";
+            this.toolStripButton_Close.Size = new System.Drawing.Size(50, 22);
+            this.toolStripButton_Close.Text = "x_Close";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel_CountLBL
+            // 
+            this.toolStripLabel_CountLBL.Name = "toolStripLabel_CountLBL";
+            this.toolStripLabel_CountLBL.Size = new System.Drawing.Size(53, 22);
+            this.toolStripLabel_CountLBL.Text = "x_Count:";
+            // 
+            // toolStripLabel_Count
+            // 
+            this.toolStripLabel_Count.Name = "toolStripLabel_Count";
+            this.toolStripLabel_Count.Size = new System.Drawing.Size(12, 22);
+            this.toolStripLabel_Count.Text = "-";
+            // 
+            // treeView_Graphs
+            // 
+            this.treeView_Graphs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView_Graphs.Location = new System.Drawing.Point(0, 0);
+            this.treeView_Graphs.Name = "treeView_Graphs";
+            this.treeView_Graphs.Size = new System.Drawing.Size(222, 433);
+            this.treeView_Graphs.TabIndex = 0;
+            this.treeView_Graphs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_Graphs_AfterSelect);
+            this.treeView_Graphs.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_Graphs_NodeMouseDoubleClick);
+            // 
+            // toolStrip3
+            // 
+            this.toolStrip3.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel_Mark,
+            this.toolStripTextBox_Mark});
+            this.toolStrip3.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip3.Name = "toolStrip3";
+            this.toolStrip3.Size = new System.Drawing.Size(161, 25);
+            this.toolStrip3.TabIndex = 0;
+            // 
+            // toolStripLabel_Mark
+            // 
+            this.toolStripLabel_Mark.Name = "toolStripLabel_Mark";
+            this.toolStripLabel_Mark.Size = new System.Drawing.Size(47, 22);
+            this.toolStripLabel_Mark.Text = "x_Mark:";
+            // 
+            // toolStripTextBox_Mark
+            // 
+            this.toolStripTextBox_Mark.Name = "toolStripTextBox_Mark";
+            this.toolStripTextBox_Mark.Size = new System.Drawing.Size(100, 25);
+            // 
+            // toolStripContainer1
+            // 
+            // 
+            // toolStripContainer1.ContentPanel
+            // 
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGridView_Export);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(446, 458);
+            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer1.Name = "toolStripContainer1";
+            this.toolStripContainer1.Size = new System.Drawing.Size(446, 483);
+            this.toolStripContainer1.TabIndex = 1;
+            this.toolStripContainer1.Text = "toolStripContainer1";
+            // 
+            // toolStripContainer1.TopToolStripPanel
+            // 
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
+            // 
+            // dataGridView_Export
+            // 
+            this.dataGridView_Export.AllowUserToAddRows = false;
+            this.dataGridView_Export.AllowUserToDeleteRows = false;
+            this.dataGridView_Export.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_Export.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ID_Parent});
+            this.dataGridView_Export.ContextMenuStrip = this.contextMenuStrip_Export;
+            this.dataGridView_Export.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView_Export.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_Export.Name = "dataGridView_Export";
+            this.dataGridView_Export.ReadOnly = true;
+            this.dataGridView_Export.Size = new System.Drawing.Size(446, 458);
+            this.dataGridView_Export.TabIndex = 0;
+            this.dataGridView_Export.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Export_ColumnHeaderMouseClick);
+            // 
+            // ID_Parent
+            // 
+            this.ID_Parent.DataPropertyName = "ID_Parent";
+            this.ID_Parent.HeaderText = "ID_Parent";
+            this.ID_Parent.Name = "ID_Parent";
+            this.ID_Parent.ReadOnly = true;
+            this.ID_Parent.Visible = false;
             // 
             // toolStrip2
             // 
@@ -168,7 +269,7 @@
             this.toolStripSplitButton_GlobalExportMode});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(203, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(234, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripButton_Export
@@ -241,98 +342,63 @@
             this.gridToolStripMenuItem.Text = "x_Grid";
             this.gridToolStripMenuItem.Click += new System.EventHandler(this.gridToolStripMenuItem_Click);
             // 
-            // dtblExportBindingSource
-            // 
-            this.dtblExportBindingSource.DataMember = "dtbl_Export";
-            this.dtblExportBindingSource.DataSource = this.dataSet_Export;
-            // 
-            // dataSet_Export
-            // 
-            this.dataSet_Export.DataSetName = "DataSet_Export";
-            this.dataSet_Export.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // iDItemDataGridViewTextBoxColumn
-            // 
-            this.iDItemDataGridViewTextBoxColumn.DataPropertyName = "ID_Item";
-            this.iDItemDataGridViewTextBoxColumn.HeaderText = "ID_Item";
-            this.iDItemDataGridViewTextBoxColumn.Name = "iDItemDataGridViewTextBoxColumn";
-            this.iDItemDataGridViewTextBoxColumn.ReadOnly = true;
-            this.iDItemDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // nameItemDataGridViewTextBoxColumn
-            // 
-            this.nameItemDataGridViewTextBoxColumn.DataPropertyName = "Name_Item";
-            this.nameItemDataGridViewTextBoxColumn.HeaderText = "Name_Item";
-            this.nameItemDataGridViewTextBoxColumn.Name = "nameItemDataGridViewTextBoxColumn";
-            this.nameItemDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // ID_Parent
-            // 
-            this.ID_Parent.DataPropertyName = "ID_Parent";
-            this.ID_Parent.HeaderText = "ID_Parent";
-            this.ID_Parent.Name = "ID_Parent";
-            this.ID_Parent.ReadOnly = true;
-            this.ID_Parent.Visible = false;
-            // 
-            // typeItemDataGridViewTextBoxColumn
-            // 
-            this.typeItemDataGridViewTextBoxColumn.DataPropertyName = "Type_Item";
-            this.typeItemDataGridViewTextBoxColumn.HeaderText = "Type_Item";
-            this.typeItemDataGridViewTextBoxColumn.Name = "typeItemDataGridViewTextBoxColumn";
-            this.typeItemDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // iDExportModeDataGridViewTextBoxColumn
-            // 
-            this.iDExportModeDataGridViewTextBoxColumn.DataPropertyName = "ID_ExportMode";
-            this.iDExportModeDataGridViewTextBoxColumn.HeaderText = "ID_ExportMode";
-            this.iDExportModeDataGridViewTextBoxColumn.Name = "iDExportModeDataGridViewTextBoxColumn";
-            this.iDExportModeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.iDExportModeDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // nameExportModeDataGridViewTextBoxColumn
-            // 
-            this.nameExportModeDataGridViewTextBoxColumn.DataPropertyName = "Name_ExportMode";
-            this.nameExportModeDataGridViewTextBoxColumn.HeaderText = "Name_ExportMode";
-            this.nameExportModeDataGridViewTextBoxColumn.Name = "nameExportModeDataGridViewTextBoxColumn";
-            this.nameExportModeDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
             // frmGraphMLConnector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(680, 487);
-            this.Controls.Add(this.toolStripContainer1);
+            this.Controls.Add(this.splitContainer1);
             this.Name = "frmGraphMLConnector";
             this.Text = "Graph-ML Connector";
-            this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
-            this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
+            this.contextMenuStrip_Export.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.toolStripContainer2.BottomToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer2.BottomToolStripPanel.PerformLayout();
+            this.toolStripContainer2.ContentPanel.ResumeLayout(false);
+            this.toolStripContainer2.TopToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer2.TopToolStripPanel.PerformLayout();
+            this.toolStripContainer2.ResumeLayout(false);
+            this.toolStripContainer2.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            this.toolStrip3.ResumeLayout(false);
+            this.toolStrip3.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Export)).EndInit();
-            this.contextMenuStrip_Export.ResumeLayout(false);
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtblExportBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataSet_Export)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource_GraphItems)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ToolStripContainer toolStripContainer1;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton_Close;
-        private System.Windows.Forms.DataGridView dataGridView_Export;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Export;
         private System.Windows.Forms.ToolStripMenuItem addItemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeItemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setExportModeToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.ToolStripContainer toolStripContainer2;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButton_Close;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_CountLBL;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_Count;
+        private System.Windows.Forms.TreeView treeView_Graphs;
+        private System.Windows.Forms.ToolStrip toolStrip3;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_Mark;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox_Mark;
+        private System.Windows.Forms.ToolStripContainer toolStripContainer1;
+        private System.Windows.Forms.DataGridView dataGridView_Export;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID_Parent;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton toolStripButton_Export;
         private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton_GlobalExportMode;
@@ -342,14 +408,7 @@
         private System.Windows.Forms.ToolStripMenuItem objectsAndClassesWithRelsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem objectsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gridToolStripMenuItem;
-        private System.Windows.Forms.BindingSource dtblExportBindingSource;
-        private DataSet_Export dataSet_Export;
-        private System.Windows.Forms.DataGridViewTextBoxColumn iDItemDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nameItemDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ID_Parent;
-        private System.Windows.Forms.DataGridViewTextBoxColumn typeItemDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn iDExportModeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nameExportModeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource bindingSource_GraphItems;
     }
 }
 

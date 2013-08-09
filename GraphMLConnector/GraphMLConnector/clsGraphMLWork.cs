@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Ontolog_Module;
 using System.IO;
 using System.Web;
+using System.IO;
+using ClassLibrary_ShellWork;
 
 namespace GraphMLConnector
 {
@@ -28,6 +30,8 @@ namespace GraphMLConnector
 
         private clsDBLevel objDBLevel1;
         private clsDBLevel objDBLevel2;
+
+        private clsShellWork objShellWork = new clsShellWork();
 
         public clsGraphMLWork(clsLocalConfig localConfig)
         {
@@ -89,109 +93,141 @@ namespace GraphMLConnector
                                                                               GUID_Item_Parent: objClass.Classes.First().GUID_Parent,
                                                                               Type: objLocalConfig.Globals.Type_Class))
                                                          .ToList()).ToList();
-                
-                objOItem_Result = objDBLevel1.get_Data_ClassRel(null, true);
+
+                var oList_ClassesWithChildren = (from objClass in OList_Classes
+                                                 join objExportMode in OList_EModes on objClass.GUID equals
+                                                     objExportMode.ID_Item
+                                                 where
+                                                     objExportMode.ID_ExportMode ==
+                                                     objLocalConfig.OItem_Object_GrantChildOfItem.GUID
+                                                 select
+                                                     new clsOntologyItem(null, null, objClass.GUID,
+                                                                         objLocalConfig.Globals.Type_Object)).ToList();
+
+                objOItem_Result = objLocalConfig.Globals.LState_Success;
+                if (oList_ClassesWithChildren.Any())
+                {
+                    objOItem_Result = objDBLevel1.get_Data_Objects(oList_ClassesWithChildren);
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        OList_Objects = OList_Objects.Concat(objDBLevel1.OList_Objects).ToList();    
+                    }
+                    
+
+                }
 
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    OList_ClassRel = (from objClass_Left in OList_Classes
-                                           join objClassRel in objDBLevel1.OList_ClassRel_ID on objClass_Left.GUID equals
-                                               objClassRel.ID_Class_Left
-                                           join objClass_Right in OList_Classes on objClassRel.ID_Class_Right equals
-                                                objClass_Right.GUID
-                                           join objRelType in OList_RelationTypes on objClassRel.ID_RelationType equals
-                                               objRelType.GUID
-                                           select new clsClassRel() {ID_Class_Left = objClassRel.ID_Class_Left, 
-                                                       ID_Class_Right = objClassRel.ID_Class_Right, 
-                                                       ID_RelationType = objClassRel.ID_RelationType, 
-                                                       Min_Forw = objClassRel.Min_Forw, 
-                                                       Max_Forw = objClassRel.Max_Forw, 
-                                                       Max_Backw = objClassRel.Max_Backw,
-                                                       Name_Class_Left = objClass_Left.Name,
-                                                       Name_Class_Right = objClass_Right.Name}).ToList();
-                
+                    objOItem_Result = objDBLevel1.get_Data_ClassRel(null, true);
 
-                    var oList_ClassAtt = new List<clsClassAtt>();
-                    oList_ClassAtt.Add(new clsClassAtt(null, null, null, null, null));
-
-                    
-                    objOItem_Result = objDBLevel1.get_Data_ClassAtt(null, null, false, true, false);
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
-                        objOItem_Result = objDBLevel2.get_Data_DataTyps(null, false, false);
+                        OList_ClassRel = (from objClass_Left in OList_Classes
+                                          join objClassRel in objDBLevel1.OList_ClassRel_ID on objClass_Left.GUID equals
+                                              objClassRel.ID_Class_Left
+                                          join objClass_Right in OList_Classes on objClassRel.ID_Class_Right equals
+                                               objClass_Right.GUID
+                                          join objRelType in OList_RelationTypes on objClassRel.ID_RelationType equals
+                                              objRelType.GUID
+                                          select new clsClassRel()
+                                          {
+                                              ID_Class_Left = objClassRel.ID_Class_Left,
+                                              ID_Class_Right = objClassRel.ID_Class_Right,
+                                              ID_RelationType = objClassRel.ID_RelationType,
+                                              Min_Forw = objClassRel.Min_Forw,
+                                              Max_Forw = objClassRel.Max_Forw,
+                                              Max_Backw = objClassRel.Max_Backw,
+                                              Name_Class_Left = objClass_Left.Name,
+                                              Name_Class_Right = objClass_Right.Name
+                                          }).ToList();
+
+
+                        var oList_ClassAtt = new List<clsClassAtt>();
+                        oList_ClassAtt.Add(new clsClassAtt(null, null, null, null, null));
+
+
+                        objOItem_Result = objDBLevel1.get_Data_ClassAtt(null, null, false, true, false);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-                            OList_ClassAtt = (from objClass in OList_Classes
-                                              join objClassAtt in objDBLevel1.OList_ClassAtt_ID on objClass.GUID equals
-                                                  objClassAtt.ID_Class
-                                              join objAttType in OList_AttributeTypes on objClassAtt.ID_AttributeType equals
-                                                  objAttType.GUID
-                                              join objDataType in objDBLevel2.OList_DataTypes on objAttType.GUID_Parent equals objDataType.GUID
-                                              select new clsClassAtt(){ID_AttributeType = objAttType.GUID,
-                                                          Name_AttributeType = objAttType.Name,
-                                                          Name_DataType = objDataType.Name,
-                                                          ID_Class = objClass.GUID,
-                                                          ID_DataType = objDataType.GUID,
-                                                          Min = objClassAtt.Min,
-                                                          Max = objClassAtt.Max}).ToList();
-
-
-                            if (OList_Objects.Any())
-                            {
-                                objOItem_Result = objDBLevel1.get_Data_ObjectRel(null, false, true, false, null, true, false);
-                                
-                            }
-                            else
-                            {
-                                objOItem_Result = objLocalConfig.Globals.LState_Nothing;
-                            }
-                            
+                            objOItem_Result = objDBLevel2.get_Data_DataTyps(null, false, false);
                             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                             {
+                                OList_ClassAtt = (from objClass in OList_Classes
+                                                  join objClassAtt in objDBLevel1.OList_ClassAtt_ID on objClass.GUID equals
+                                                      objClassAtt.ID_Class
+                                                  join objAttType in OList_AttributeTypes on objClassAtt.ID_AttributeType equals
+                                                      objAttType.GUID
+                                                  join objDataType in objDBLevel2.OList_DataTypes on objAttType.GUID_Parent equals objDataType.GUID
+                                                  select new clsClassAtt()
+                                                  {
+                                                      ID_AttributeType = objAttType.GUID,
+                                                      Name_AttributeType = objAttType.Name,
+                                                      Name_DataType = objDataType.Name,
+                                                      ID_Class = objClass.GUID,
+                                                      ID_DataType = objDataType.GUID,
+                                                      Min = objClassAtt.Min,
+                                                      Max = objClassAtt.Max
+                                                  }).ToList();
+
+
+                                if (OList_Objects.Any())
+                                {
+                                    objOItem_Result = objDBLevel1.get_Data_ObjectRel(null, false, true, false, null, true, false);
+
+                                }
+                                else
+                                {
+                                    objOItem_Result = objLocalConfig.Globals.LState_Nothing;
+                                }
+
                                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                 {
-                                    OList_ORels = (from objObjectLeft in OList_Objects
-                                                   join objORel in objDBLevel1.OList_ObjectRel_ID on objObjectLeft.GUID equals
-                                                       objORel.ID_Object
-                                                   join objObjectRight in OList_Objects on objORel.ID_Other equals
-                                                       objObjectRight.GUID
-                                                   select objORel).ToList();    
-                                }
-                                else
-                                {
-                                    OList_ORels.Clear();
-                                }
-                                
-
-                                if (OList_AttributeTypes.Any())
-                                {
-                                    objOItem_Result = objDBLevel1.get_Data_ObjectAtt(null, false, true, false, false);
                                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                     {
+                                        OList_ORels = (from objObjectLeft in OList_Objects
+                                                       join objORel in objDBLevel1.OList_ObjectRel_ID on objObjectLeft.GUID equals
+                                                           objORel.ID_Object
+                                                       join objObjectRight in OList_Objects on objORel.ID_Other equals
+                                                           objObjectRight.GUID
+                                                       select objORel).ToList();
+                                    }
+                                    else
+                                    {
+                                        OList_ORels.Clear();
+                                    }
 
 
-                                        OList_OAtts = (from objObject in OList_Objects
-                                                       join objOAtt in objDBLevel1.OList_ObjectAtt_ID on objObject.GUID equals
-                                                           objOAtt.ID_Object
-                                                       join objAttType in OList_AttributeTypes on objOAtt.ID_AttributeType equals  objAttType.GUID
-                                                       select new clsObjectAtt(){ID_Object = objOAtt.ID_Object,val_Named = objOAtt.val_Named, Name_AttributeType = objAttType.Name}).ToList();
-                                    }    
+                                    if (OList_AttributeTypes.Any())
+                                    {
+                                        objOItem_Result = objDBLevel1.get_Data_ObjectAtt(null, false, true, false, false);
+                                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                        {
+
+
+                                            OList_OAtts = (from objObject in OList_Objects
+                                                           join objOAtt in objDBLevel1.OList_ObjectAtt_ID on objObject.GUID equals
+                                                               objOAtt.ID_Object
+                                                           join objAttType in OList_AttributeTypes on objOAtt.ID_AttributeType equals objAttType.GUID
+                                                           select new clsObjectAtt() { ID_Object = objOAtt.ID_Object, val_Named = objOAtt.val_Named, Name_AttributeType = objAttType.Name }).ToList();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        OList_OAtts.Clear();
+                                    }
+
+
                                 }
-                                else
+                                else if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
                                 {
-                                    OList_OAtts.Clear();
+                                    objOItem_Result = objLocalConfig.Globals.LState_Success;
                                 }
-                                
+                            }
 
-                            }
-                            else if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
-                            {
-                                objOItem_Result = objLocalConfig.Globals.LState_Success;
-                            }
                         }
-                        
                     }
                 }
+                
             }
 
             
@@ -201,13 +237,23 @@ namespace GraphMLConnector
         }
 
 
-        public clsOntologyItem ExportItems()
+        public clsOntologyItem ExportItems(string path)
         {
             var objOItem_Result = new clsOntologyItem();
             string NodeXML;
             string EdgeXML;
-            
-            TextWriter objTextWriter = new StreamWriter("test.graphml");
+
+            if (!Directory.Exists(path.Substring(0,path.Length - Path.GetFileName(path).Length)))
+            {
+                Directory.CreateDirectory(path.Substring(0,path.Length - Path.GetFileName(path).Length));
+            }
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            TextWriter objTextWriter = new StreamWriter(path);
             objTextWriter.WriteLine(objXMLTemplateWork.UML_Container.Substring(0, objXMLTemplateWork.UML_Container.IndexOf("@" + objLocalConfig.OItem_Object_NODE_LIST.Name + "@") - 1));
 
             foreach (var oItem_Class in OList_Classes)
@@ -306,6 +352,17 @@ namespace GraphMLConnector
             objTextWriter.WriteLine(objXMLTemplateWork.UML_Container.Substring(objXMLTemplateWork.UML_Container.IndexOf("@" + objLocalConfig.OItem_Object_EDGE_LIST.Name + "@") + ("@" + objLocalConfig.OItem_Object_EDGE_LIST.Name + "@").Length));
             objTextWriter.Close();
 
+            if (File.Exists(path))
+            {
+                if (
+                    !objShellWork.start_Process(path, "", path.Substring(0, path.Length - Path.GetFileName(path).Length),
+                                                false, false))
+                {
+                    objOItem_Result = objLocalConfig.Globals.LState_Error;
+                }
+
+            }
+
             return objOItem_Result;
         }
         private void set_DBConnection()
@@ -314,7 +371,7 @@ namespace GraphMLConnector
             objDBLevel2 = new clsDBLevel(objLocalConfig.Globals);
         }
 
-        public clsOntologyItem ExportClasses(bool doClasses, bool doObjects, bool doClassRel, bool doObjectRels)
+        public clsOntologyItem ExportClasses(bool doClasses, bool doObjects, bool doClassRel, bool doObjectRels, string Path)
         {
             clsOntologyItem objOItem_Result;
             TextWriter objTextWriter = new StreamWriter("test.graphml");

@@ -269,7 +269,7 @@
         If objOList_Join.Count > 0 Then
             objOItem_Result = objLocalConfig.Globals.LState_Success
         Else
-            objOItem_Result = objLocalConfig.Globals.LState_Error
+            objOItem_Result = objLocalConfig.Globals.LState_Nothing
         End If
 
         Return objOItem_Result

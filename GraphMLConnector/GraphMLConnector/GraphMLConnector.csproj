@@ -45,9 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsDataWork_Graph.cs" />
     <Compile Include="clsExportModes.cs" />
+    <Compile Include="clsGraphItem.cs" />
     <Compile Include="clsGraphMLWork.cs" />
     <Compile Include="clsLocalConfig.cs" />
+    <Compile Include="clsTransaction_Graph.cs" />
     <Compile Include="clsXMLTemplateWork.cs" />
     <Compile Include="DataSet_Export.cs">
       <DependentUpon>DataSet_Export.xsd</DependentUpon>
@@ -66,6 +69,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyDescriptorComparer.cs" />
+    <Compile Include="SortedBindingList.cs" />
     <EmbeddedResource Include="frjmGraphMLConnector.resx">
       <DependentUpon>frjmGraphMLConnector.cs</DependentUpon>
     </EmbeddedResource>
@@ -106,6 +111,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\ClassLibrary_ShellWork.vbproj">
+      <Project>{10bcc346-a390-401c-ba6a-904a8842a40b}</Project>
+      <Name>ClassLibrary_ShellWork</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3f2f6722-c36b-420d-afe7-b21c19457208}</Project>
       <Name>Ontolog-Module</Name>

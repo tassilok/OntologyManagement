@@ -24,8 +24,23 @@ namespace GraphMLConnector
 
         // Attributetypes
         public clsOntologyItem OItem_Attribute_XMLText { get; set; }
+
+        // RelationTypes
+        public clsOntologyItem OItem_RelationType_Contains { get; set; }
+        public clsOntologyItem OItem_RelationType_exportTo { get; set; }
+        public clsOntologyItem OItem_RelationType_isOfType { get; set; }
+        public clsOntologyItem OItem_RelationType_belongingSemItem { get; set; }
+
         
+        // Classes
+        public clsOntologyItem OItem_Class_Graphs { get; set; }
+        public clsOntologyItem OItem_Class_GraphItem { get; set; }
+        public clsOntologyItem OItem_Class_Path { get; set; }
+        public clsOntologyItem OItem_Class_ExportMode { get; set; }
+
         // Objects
+        public clsOntologyItem OItem_Object_Normal { get; set; }
+        public clsOntologyItem OItem_Object_GrantChildOfItem { get; set; }
         public clsOntologyItem OItem_Object_GraphML___Container { get; set; }
         public clsOntologyItem OItem_Object_GraphML___UML_Edge { get; set; }
         public clsOntologyItem OItem_Object_GraphML___UML_Class_Node { get; set; }
@@ -66,13 +81,25 @@ namespace GraphMLConnector
 
         private void get_Config_Classes()
         {
-            
-            
-            
-            
-            
+            OItem_Class_Graphs = new clsOntologyItem();
+            OItem_Class_Graphs.GUID = "f15ebc675f084860acd34ba38e763edc";
+            OItem_Class_Graphs.Name = "Graphs";
+            OItem_Class_Graphs.Type = Globals.Type_Class;
 
+            OItem_Class_GraphItem = new clsOntologyItem();
+            OItem_Class_GraphItem.GUID = "2203d59f09244b0d8a6acf70bd0d0d1d";
+            OItem_Class_GraphItem.Name = "GraphItem";
+            OItem_Class_GraphItem.Type = Globals.Type_Class;
 
+            OItem_Class_Path = new clsOntologyItem();
+            OItem_Class_Path.GUID = "8a894710e08c42c5b829ef4809830d33";
+            OItem_Class_Path.Name = "Path";
+            OItem_Class_Path.Type = Globals.Type_Class;
+
+            OItem_Class_ExportMode = new clsOntologyItem();
+            OItem_Class_ExportMode.GUID = "8703010b98304113b2e98a4f24b5e99b";
+            OItem_Class_ExportMode.Name = "Export-Mode";
+            OItem_Class_ExportMode.Type = Globals.Type_Class;
         }
 
         private void get_Config_Attributes()
@@ -89,17 +116,42 @@ namespace GraphMLConnector
 
         private void get_Config_RelationTypes()
         {
-            
+            OItem_RelationType_Contains = new clsOntologyItem();
+            OItem_RelationType_Contains.GUID = "e971160347db44d8a476fe88290639a4";
+            OItem_RelationType_Contains.Name = "contains";
+            OItem_RelationType_Contains.Type = Globals.Type_RelationType;
 
-           
+            OItem_RelationType_belongingSemItem = new clsOntologyItem();
+            OItem_RelationType_belongingSemItem.GUID = "51f3c615a01e400db81b58cadd07e773";
+            OItem_RelationType_belongingSemItem.Name = "belonging Sem-Item";
+            OItem_RelationType_belongingSemItem.Type = Globals.Type_RelationType;
 
+            OItem_RelationType_exportTo = new clsOntologyItem();
+            OItem_RelationType_exportTo.GUID = "aaf3e012a8224ba69d9dd5bb35821757";
+            OItem_RelationType_exportTo.Name = "export to";
+            OItem_RelationType_exportTo.Type = Globals.Type_RelationType;
+
+            OItem_RelationType_isOfType = new clsOntologyItem();
+            OItem_RelationType_isOfType.GUID = "9996494aef6a4357a6ef71a92b5ff596";
+            OItem_RelationType_isOfType.Name = "export to";
+            OItem_RelationType_isOfType.Type = Globals.Type_RelationType;
 
         }
 
         private void get_Config_Objects()
         {
 
+            OItem_Object_Normal = new clsOntologyItem();
+            OItem_Object_Normal.GUID = "988634b22d9546958a2e2811a424dab9";
+            OItem_Object_Normal.Name = "Normal";
+            OItem_Object_Normal.GUID_Parent = "8703010b98304113b2e98a4f24b5e99b";
+            OItem_Object_Normal.Type = Globals.Type_Object;
 
+            OItem_Object_GrantChildOfItem = new clsOntologyItem();
+            OItem_Object_GrantChildOfItem.GUID = "46cd2b4cc3174a2c8f75abf23ea6efba";
+            OItem_Object_GrantChildOfItem.Name = "Grant Children of Item";
+            OItem_Object_GrantChildOfItem.GUID_Parent = "8703010b98304113b2e98a4f24b5e99b";
+            OItem_Object_GrantChildOfItem.Type = Globals.Type_Object;
 
             OItem_Object_GraphML___Container = new clsOntologyItem();
             OItem_Object_GraphML___Container.GUID = "dcb33b4683484a03b1fefff5eed04c49";

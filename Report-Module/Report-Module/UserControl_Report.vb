@@ -21,6 +21,8 @@ Public Class UserControl_Report
     Private objDataSet As DataSet
     Private objOItem_Report As clsOntologyItem
 
+    Private objOItem_Result_Sync As clsOntologyItem
+
     Private objDataWork_ReportTree As clsDataWork_ReportTree
     Private objDataWork_Report As clsDataWork_Report
     Private objDataWork_ReportFields As clsDataWork_ReportFields
@@ -45,19 +47,22 @@ Public Class UserControl_Report
 
                 If Not objLReportFields Is Nothing Then
 
-                    If objLReportFields(0).Visible = False Then
-                        objColumn.Visible = False
-                    End If
+                    If objLReportFields.Any() Then
+                        If objLReportFields(0).Visible = False Then
+                            objColumn.Visible = False
+                        End If
 
-                    objColumn.HeaderText = objLReportFields(0).Name_Field
+                        objColumn.HeaderText = objLReportFields(0).Name_Field
 
-                    If Not objLReportFields(0).Name_FieldFormat Is Nothing Then
-                        objColumn.DefaultCellStyle.Format = objLReportFields(0).Name_FieldFormat
-                    End If
+                        If Not objLReportFields(0).Name_FieldFormat Is Nothing Then
+                            objColumn.DefaultCellStyle.Format = objLReportFields(0).Name_FieldFormat
+                        End If
 
-                    If objLReportFields(0).ID_FieldType = objLocalConfig.OItem_Object_Field_Type_Zahl.GUID Then
-                        objColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopRight
+                        If objLReportFields(0).ID_FieldType = objLocalConfig.OItem_Object_Field_Type_Zahl.GUID Then
+                            objColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopRight
+                        End If
                     End If
+                    
 
                     
                 End If
@@ -196,10 +201,12 @@ Public Class UserControl_Report
                 objReport.sync_SQLDB_Relations(oList_ClassRel)
 
             End If
-
+            objOItem_Result_Sync = objOItem_Result
         Else
-            MsgBox("Leider konnten keine Ontology-Beziehungen ermittelt werden!", MsgBoxStyle.Exclamation)
+            objOItem_Result_Sync = objOItem_Result
         End If
+
+        boolSynced = True
     End Sub
     Private Sub get_Data()
         objDataTable.Clear()
@@ -243,6 +250,14 @@ Public Class UserControl_Report
         Else
             Timer_Sync.Stop()
             ToolStripProgressBar_Synced.Value = 0
+            If objOItem_Result_Sync.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Der Sync in die Reports-DB konnte nicht durchgeführt werden!", MsgBoxStyle.Exclamation)
+                ToolStripLabel_ES.Text = "x"
+            ElseIf objOItem_Result_Sync.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+                ToolStripLabel_ES.Text = "-"
+            ElseIf objOItem_Result_Sync.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                ToolStripLabel_ES.Text = "x"
+            End If
         End If
     End Sub
 

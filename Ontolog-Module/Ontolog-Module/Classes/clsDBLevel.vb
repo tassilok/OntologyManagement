@@ -1009,7 +1009,10 @@ Public Class clsDBLevel
             objDict.Add(objGlobals.Field_ID_Object, oList_ObjectRel(l).ID_Object)
             objDict.Add(objGlobals.Field_ID_Parent_Object, oList_ObjectRel(l).ID_Parent_Object)
             objDict.Add(objGlobals.Field_ID_Other, oList_ObjectRel(l).ID_Other)
-            objDict.Add(objGlobals.Field_ID_Parent_Other, oList_ObjectRel(l).ID_Parent_Other)
+            If Not oList_ObjectRel(l).ID_Parent_Other Is Nothing Then
+                objDict.Add(objGlobals.Field_ID_Parent_Other, oList_ObjectRel(l).ID_Parent_Other)
+            End If
+
             objDict.Add(objGlobals.Field_ID_RelationType, oList_ObjectRel(l).ID_RelationType)
             objDict.Add(objGlobals.Field_Ontology, oList_ObjectRel(l).Ontology)
             objDict.Add(objGlobals.Field_OrderID, oList_ObjectRel(l).OrderID)

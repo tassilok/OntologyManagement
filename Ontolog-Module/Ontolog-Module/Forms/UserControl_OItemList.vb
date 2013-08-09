@@ -817,6 +817,31 @@
                         
                     End If
                 Case objLocalConfig.Globals.Type_Other
+                    Select Case objDRV_Selected.Item("Ontology")
+                        Case objLocalConfig.Globals.Type_Object
+                            If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                                objOLObjects.Add(New clsOntologyItem(objDRV_Selected.Item("ID_Other"), _
+                                                                 objDRV_Selected.Item("Name_Other"), _
+                                                                 objDRV_Selected.Item("ID_Parent_Other"), _
+                                                                 objDRV_Selected.Item("Ontology")))
+                            Else
+                                objOLObjects.Add(New clsOntologyItem(objDRV_Selected.Item("ID_Object"), _
+                                                                 objDRV_Selected.Item("Name_Object"), _
+                                                                 objDRV_Selected.Item("ID_Parent_Object"), _
+                                                                 objLocalConfig.Globals.Type_Object))
+                            End If
+                            
+
+                            objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
+                                                           objOLObjects, _
+                                                           0, _
+                                                           objLocalConfig.Globals.Type_Object, _
+                                                           Nothing)
+                            objFrm_ObjectEdit.ShowDialog(Me)
+                            If objFrm_ObjectEdit.DialogResult = DialogResult.OK Then
+
+                            End If
+                    End Select
             End Select
         End If
         
