@@ -42,6 +42,42 @@ Public Class clsDataWork_RefTree
         Return objTreeNode_Root
     End Function
 
+    Public Function get_ParentClasses(OItem_Class As clsOntologyItem) As List(Of clsOntologyItem)
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOList_Class As New List(Of clsOntologyItem)
+        Dim objOList_Classes As New List(Of clsOntologyItem)
+
+        objOItem_Result = objDBLevel_Classes.get_Data_Classes()
+
+        If OItem_Class.GUID_Parent Is Nothing Then
+            objOList_Class = (From objClass In objDBLevel_Classes.OList_Classes
+                              Where objClass.GUID = OItem_Class.GUID).ToList()
+            If objOList_Class.Any() Then
+                OItem_Class.GUID_Parent = objOList_Class.First().GUID_Parent
+            End If
+        End If
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_Class.Add(OItem_Class)
+            Do
+                objOList_Class = (From objClass In objDBLevel_Classes.OList_Classes
+                                 Where objClass.GUID = objOList_Class.First().GUID_Parent
+                                 Select objClass).ToList()
+
+                objOList_Classes.Add(objOList_Class.First())
+
+            Loop Until objOList_Class.First().GUID_Parent Is Nothing
+
+            'objOList_Classes.Add(New clsOntologyItem(TreeNode_Root.Name, TreeNode_Root.Text, objLocalConfig.Globals.Type_Class))
+
+            objOList_Classes.Add(OItem_Class)
+        Else
+            objOList_Classes = Nothing
+        End If
+
+        Return objOList_Classes
+    End Function
+
     Private Sub add_SubNodes_Loc(Optional ByVal objTreeNode As TreeNode = Nothing)
         Dim objTreeNode_Sub As TreeNode
         Dim objTreeNodes() As TreeNode

@@ -245,23 +245,55 @@ Public Class UserControl_MediaItemList
             If OpenFileDialog_MediaItem.ShowDialog(Me) = DialogResult.OK Then
                 intToDo = OpenFileDialog_MediaItem.FileNames.Count
                 intDone = 0
+
                 For Each strPath In OpenFileDialog_MediaItem.FileNames
-                    objOItem_File = New clsOntologyItem
-                    objOItem_File.GUID = objDRV_Selected.Item("GUID_File")
-                    objOItem_File.Name = objDRV_Selected.Item("Name_File")
-                    objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
-                    objOItem_File.Type = objLocalConfig.Globals.Type_Object
+                    objOItem_File = objBlobConnection.isFilePresent(strPath)
+                    If objOItem_File Is Nothing Then
+                        objOItem_File = New clsOntologyItem
+                        objOItem_File.GUID = objLocalConfig.Globals.NewGUID
+                        objOItem_File.Name = IO.Path.GetFileName(strPath)
+                        objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
+                        objOItem_File.Type = objLocalConfig.Globals.Type_Object
 
-                    strPath = OpenFileDialog_MediaItem.FileName
+                        objOItem_Result = objTransaction_MediaItems.save_File(objOItem_File)
+                    Else
+                        objOItem_Result = objLocalConfig.Globals.LState_Success
+                    End If
 
-                    objOItem_MediaItem = LoadMediaItem(strPath, objOItem_File)
-                    If Not objOItem_MediaItem Is Nothing Then
-                        objOItem_MediaItem.Level = objDataWork_MediaItem.GetNextOrderIDOFRef(objOItem_Ref)
-                        objOItem_Result = objTransaction_MediaItems.save_MediaItemToRef(objOItem_Ref, objOItem_MediaItem)
+
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_File, strPath)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            intDone = intDone + 1
+                            objOItem_MediaItem = objDataWork_MediaItem.GetMediaItemOfFile(objOItem_File)
+                            If objOItem_MediaItem Is Nothing Then
+                                objOItem_MediaItem = New clsOntologyItem
+                                objOItem_MediaItem.GUID = objLocalConfig.Globals.NewGUID
+                                objOItem_MediaItem.Name = objOItem_File.Name
+                                objOItem_MediaItem.GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID
+                                objOItem_MediaItem.Type = objLocalConfig.Globals.Type_Object
+
+                                objOItem_Result = objTransaction_MediaItems.save_MediaItem(objOItem_MediaItem)
+                            Else
+                                objOItem_Result = objLocalConfig.Globals.LState_Success
+                            End If
+
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objOItem_Result = objTransaction_MediaItems.save_MediaItem_To_File(objOItem_MediaItem, objOItem_File)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objOItem_Result = objTransaction_MediaItems.save_MediaItemToRef(objOItem_Ref, objOItem_MediaItem)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        intDone = intDone + 1
+                                    End If
+                                End If
+                            Else
+                                objTransaction_MediaItems.del_File(objOItem_File)
+                            End If
+                        Else
+                            objTransaction_MediaItems.del_File(objOItem_File)
                         End If
                     End If
+
+
                 Next
 
                 If intDone < intToDo Then

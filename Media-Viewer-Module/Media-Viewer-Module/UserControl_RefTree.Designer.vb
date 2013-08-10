@@ -34,16 +34,19 @@ Partial Class UserControl_RefTree
         Me.ToolStripLabel_Seperator = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_RelRight = New System.Windows.Forms.ToolStripLabel()
         Me.TreeView_Ref = New System.Windows.Forms.TreeView()
+        Me.ImageList_RelatedItems = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_Mark = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Mark = New System.Windows.Forms.ToolStripTextBox()
-        Me.ImageList_RelatedItems = New System.Windows.Forms.ImageList(Me.components)
+        Me.ContextMenuStrip_Ref = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.AddToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.ToolStrip2.SuspendLayout()
+        Me.ContextMenuStrip_Ref.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -74,7 +77,7 @@ Partial Class UserControl_RefTree
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_ItemCountLBL, Me.ToolStripLabel_ItemCount, Me.ToolStripSeparator1, Me.ToolStripLabel1, Me.ToolStripLabel_RelLeft, Me.ToolStripLabel_Seperator, Me.ToolStripLabel_RelRight})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(170, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(176, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_ItemCountLBL
@@ -97,29 +100,30 @@ Partial Class UserControl_RefTree
         'ToolStripLabel1
         '
         Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(62, 22)
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(63, 22)
         Me.ToolStripLabel1.Text = "x_Relation:"
         '
         'ToolStripLabel_RelLeft
         '
         Me.ToolStripLabel_RelLeft.Name = "ToolStripLabel_RelLeft"
-        Me.ToolStripLabel_RelLeft.Size = New System.Drawing.Size(11, 22)
+        Me.ToolStripLabel_RelLeft.Size = New System.Drawing.Size(12, 22)
         Me.ToolStripLabel_RelLeft.Text = "-"
         '
         'ToolStripLabel_Seperator
         '
         Me.ToolStripLabel_Seperator.Name = "ToolStripLabel_Seperator"
-        Me.ToolStripLabel_Seperator.Size = New System.Drawing.Size(11, 22)
+        Me.ToolStripLabel_Seperator.Size = New System.Drawing.Size(12, 22)
         Me.ToolStripLabel_Seperator.Text = "/"
         '
         'ToolStripLabel_RelRight
         '
         Me.ToolStripLabel_RelRight.Name = "ToolStripLabel_RelRight"
-        Me.ToolStripLabel_RelRight.Size = New System.Drawing.Size(11, 22)
+        Me.ToolStripLabel_RelRight.Size = New System.Drawing.Size(12, 22)
         Me.ToolStripLabel_RelRight.Text = "-"
         '
         'TreeView_Ref
         '
+        Me.TreeView_Ref.ContextMenuStrip = Me.ContextMenuStrip_Ref
         Me.TreeView_Ref.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TreeView_Ref.ImageIndex = 0
         Me.TreeView_Ref.ImageList = Me.ImageList_RelatedItems
@@ -128,26 +132,6 @@ Partial Class UserControl_RefTree
         Me.TreeView_Ref.SelectedImageIndex = 0
         Me.TreeView_Ref.Size = New System.Drawing.Size(475, 380)
         Me.TreeView_Ref.TabIndex = 0
-        '
-        'ToolStrip2
-        '
-        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_Mark, Me.ToolStripTextBox_Mark})
-        Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
-        Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(258, 25)
-        Me.ToolStrip2.TabIndex = 0
-        '
-        'ToolStripLabel_Mark
-        '
-        Me.ToolStripLabel_Mark.Name = "ToolStripLabel_Mark"
-        Me.ToolStripLabel_Mark.Size = New System.Drawing.Size(46, 22)
-        Me.ToolStripLabel_Mark.Text = "x_Mark:"
-        '
-        'ToolStripTextBox_Mark
-        '
-        Me.ToolStripTextBox_Mark.Name = "ToolStripTextBox_Mark"
-        Me.ToolStripTextBox_Mark.Size = New System.Drawing.Size(200, 25)
         '
         'ImageList_RelatedItems
         '
@@ -171,6 +155,38 @@ Partial Class UserControl_RefTree
         Me.ImageList_RelatedItems.Images.SetKeyName(15, "Types_Closed.png")
         Me.ImageList_RelatedItems.Images.SetKeyName(16, "Types_Opened.png")
         '
+        'ToolStrip2
+        '
+        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_Mark, Me.ToolStripTextBox_Mark})
+        Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
+        Me.ToolStrip2.Name = "ToolStrip2"
+        Me.ToolStrip2.Size = New System.Drawing.Size(261, 25)
+        Me.ToolStrip2.TabIndex = 0
+        '
+        'ToolStripLabel_Mark
+        '
+        Me.ToolStripLabel_Mark.Name = "ToolStripLabel_Mark"
+        Me.ToolStripLabel_Mark.Size = New System.Drawing.Size(47, 22)
+        Me.ToolStripLabel_Mark.Text = "x_Mark:"
+        '
+        'ToolStripTextBox_Mark
+        '
+        Me.ToolStripTextBox_Mark.Name = "ToolStripTextBox_Mark"
+        Me.ToolStripTextBox_Mark.Size = New System.Drawing.Size(200, 25)
+        '
+        'ContextMenuStrip_Ref
+        '
+        Me.ContextMenuStrip_Ref.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToolStripMenuItem})
+        Me.ContextMenuStrip_Ref.Name = "ContextMenuStrip_Ref"
+        Me.ContextMenuStrip_Ref.Size = New System.Drawing.Size(153, 48)
+        '
+        'AddToolStripMenuItem
+        '
+        Me.AddToolStripMenuItem.Name = "AddToolStripMenuItem"
+        Me.AddToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AddToolStripMenuItem.Text = "x_Add"
+        '
         'UserControl_RefTree
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -189,6 +205,7 @@ Partial Class UserControl_RefTree
         Me.ToolStrip1.PerformLayout()
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
+        Me.ContextMenuStrip_Ref.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -206,5 +223,7 @@ Partial Class UserControl_RefTree
     Friend WithEvents ToolStripLabel_Seperator As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripLabel_RelRight As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ImageList_RelatedItems As System.Windows.Forms.ImageList
+    Friend WithEvents ContextMenuStrip_Ref As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents AddToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

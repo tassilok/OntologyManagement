@@ -7,7 +7,7 @@ Public Class clsTransaction_MediaItems
     Private objOItem_MediaItem As clsOntologyItem
     Private objOList_MediaItem_To_File As List(Of clsObjectRel) = New List(Of clsObjectRel)
     Private objOItem_Ref As clsOntologyItem
-    Private objOList_MediaItem_To_Ref As List(Of clsObjectRel) = New List(Of clsObjectRel)
+    Private objOR_MediaItem_To_Ref As New clsObjectRel
 
     Public ReadOnly Property OItem_File As clsOntologyItem
         Get
@@ -28,20 +28,34 @@ Public Class clsTransaction_MediaItems
         objOItem_Ref = OItem_Ref
         objOItem_MediaItem = OItem_MediaItem
 
-        If objOItem_Ref.Type = objLocalConfig.Globals.Type_Object Then
-            objOList_MediaItem_To_Ref.Add(New clsObjectRel(objOItem_MediaItem.GUID, _
+        If objOItem_Ref.Type = objLocalConfig.Globals.Type_Object Or _
+            objOItem_Ref.Type = objLocalConfig.Globals.Type_AttributeType Or _
+            objOItem_Ref.Type = objLocalConfig.Globals.Type_Class Then
+
+
+            objOR_MediaItem_To_Ref = New clsObjectRel(objOItem_MediaItem.GUID, _
                                                        objOItem_MediaItem.GUID_Parent,
                                                        objOItem_Ref.GUID, _
                                                        objOItem_Ref.GUID_Parent, _
                                                        objLocalConfig.OItem_RelationType_belonging_Source.GUID, _
                                                        objLocalConfig.Globals.Type_Object, _
                                                        Nothing, _
-                                                       objOItem_MediaItem.Level))
+                                                       objOItem_MediaItem.Level)
 
         Else
+            objOR_MediaItem_To_Ref = New clsObjectRel(objOItem_MediaItem.GUID, _
+                                                           objOItem_MediaItem.GUID_Parent, _
+                                                           objOItem_Ref.GUID, _
+                                                           Nothing, _
+                                                           objLocalConfig.OItem_RelationType_belonging_Source.GUID, _
+                                                           objOItem_Ref.Type, _
+                                                           Nothing, _
+                                                           objOItem_MediaItem.Level)
+
 
         End If
-        
+
+        objOItem_Result = objTransaction.do_Transaction(objOR_MediaItem_To_Ref)
 
         Return objOItem_Result
     End Function
@@ -53,8 +67,18 @@ Public Class clsTransaction_MediaItems
 
         objOItem_File = OItem_File
 
+        objTransaction.ClearItems()
         objOItem_Result = objTransaction.do_Transaction(objOItem_File)
 
+
+        Return objOItem_Result
+    End Function
+
+    Public Function save_MediaItem(OItem_MediaItem As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+
+        objTransaction.ClearItems()
+        objOItem_Result = objTransaction.do_Transaction(objOItem_MediaItem)
 
         Return objOItem_Result
     End Function
