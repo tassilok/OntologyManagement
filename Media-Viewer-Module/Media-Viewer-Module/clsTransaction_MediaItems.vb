@@ -5,7 +5,6 @@ Public Class clsTransaction_MediaItems
 
     Private objOItem_File As clsOntologyItem
     Private objOItem_MediaItem As clsOntologyItem
-    Private objOList_MediaItem_To_File As List(Of clsObjectRel) = New List(Of clsObjectRel)
     Private objOItem_Ref As clsOntologyItem
     Private objOR_MediaItem_To_Ref As New clsObjectRel
 
@@ -78,6 +77,7 @@ Public Class clsTransaction_MediaItems
         Dim objOItem_Result As clsOntologyItem
 
         objTransaction.ClearItems()
+        objOItem_MediaItem = OItem_MediaItem
         objOItem_Result = objTransaction.do_Transaction(objOItem_MediaItem)
 
         Return objOItem_Result
@@ -95,6 +95,7 @@ Public Class clsTransaction_MediaItems
 
     Public Function save_MediaItem_To_File(OItem_MediaItem As clsOntologyItem, OItem_File As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
+        Dim objOR_MediaItemToFile As clsObjectRel
         Dim boolNew As Boolean
 
         objTransaction.ClearItems()
@@ -116,15 +117,15 @@ Public Class clsTransaction_MediaItems
         End If
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            objOList_MediaItem_To_File.Add(New clsObjectRel(objOItem_MediaItem.GUID, _
+            objOR_MediaItemToFile = New clsObjectRel(objOItem_MediaItem.GUID, _
                                                             objOItem_MediaItem.GUID_Parent, _
                                                             objOItem_File.GUID, _
                                                             objOItem_File.GUID_Parent, _
                                                             objLocalConfig.OItem_RelationType_belonging_Source.GUID, _
                                                             objLocalConfig.Globals.Type_Object, _
                                                             Nothing, _
-                                                             1))
-            objOItem_Result = objTransaction.do_Transaction(objOList_MediaItem_To_File, True)
+                                                             1)
+            objOItem_Result = objTransaction.do_Transaction(objOR_MediaItemToFile, True)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                 objTransaction.rollback()
 

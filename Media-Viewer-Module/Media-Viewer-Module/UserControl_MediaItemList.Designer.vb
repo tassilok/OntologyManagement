@@ -35,13 +35,15 @@ Partial Class UserControl_MediaItemList
         Me.DataGridView_MediaItems = New System.Windows.Forms.DataGridView()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Add = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Replace = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Remove = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_Meta = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_Bookmarks = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Replace = New System.Windows.Forms.ToolStripButton()
         Me.OpenFileDialog_MediaItem = New System.Windows.Forms.OpenFileDialog()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripButton_Play = New System.Windows.Forms.ToolStripButton()
         CType(Me.BindingSource_MediaItems, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -124,10 +126,10 @@ Partial Class UserControl_MediaItemList
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Replace, Me.ToolStripButton_Remove, Me.ToolStripSeparator1, Me.ToolStripButton_Meta, Me.ToolStripSeparator3, Me.ToolStripButton_Bookmarks})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Replace, Me.ToolStripButton_Remove, Me.ToolStripSeparator1, Me.ToolStripButton_Meta, Me.ToolStripSeparator3, Me.ToolStripButton_Play, Me.ToolStripSeparator4, Me.ToolStripButton_Bookmarks})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(324, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(384, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Add
@@ -138,6 +140,16 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripButton_Add.Name = "ToolStripButton_Add"
         Me.ToolStripButton_Add.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_Add.Text = "ToolStripButton1"
+        '
+        'ToolStripButton_Replace
+        '
+        Me.ToolStripButton_Replace.CheckOnClick = True
+        Me.ToolStripButton_Replace.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Replace.Image = CType(resources.GetObject("ToolStripButton_Replace.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Replace.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Replace.Name = "ToolStripButton_Replace"
+        Me.ToolStripButton_Replace.Size = New System.Drawing.Size(62, 22)
+        Me.ToolStripButton_Replace.Text = "x_Replace"
         '
         'ToolStripButton_Remove
         '
@@ -176,19 +188,24 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripButton_Bookmarks.Size = New System.Drawing.Size(123, 22)
         Me.ToolStripButton_Bookmarks.Text = "x_Bookmarks/Ranges"
         '
-        'ToolStripButton_Replace
-        '
-        Me.ToolStripButton_Replace.CheckOnClick = True
-        Me.ToolStripButton_Replace.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Replace.Image = CType(resources.GetObject("ToolStripButton_Replace.Image"), System.Drawing.Image)
-        Me.ToolStripButton_Replace.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Replace.Name = "ToolStripButton_Replace"
-        Me.ToolStripButton_Replace.Size = New System.Drawing.Size(62, 22)
-        Me.ToolStripButton_Replace.Text = "x_Replace"
-        '
         'OpenFileDialog_MediaItem
         '
         Me.OpenFileDialog_MediaItem.FileName = "OpenFileDialog1"
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripButton_Play
+        '
+        Me.ToolStripButton_Play.CheckOnClick = True
+        Me.ToolStripButton_Play.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Play.Image = Global.Media_Viewer_Module.My.Resources.Resources._next
+        Me.ToolStripButton_Play.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Play.Name = "ToolStripButton_Play"
+        Me.ToolStripButton_Play.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_Play.Text = "ToolStripButton1"
         '
         'UserControl_MediaItemList
         '
@@ -231,5 +248,7 @@ Partial Class UserControl_MediaItemList
     Friend WithEvents DataGridView_MediaItems As System.Windows.Forms.DataGridView
     Friend WithEvents ToolStripButton_Replace As System.Windows.Forms.ToolStripButton
     Friend WithEvents OpenFileDialog_MediaItem As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents ToolStripButton_Play As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
 
 End Class

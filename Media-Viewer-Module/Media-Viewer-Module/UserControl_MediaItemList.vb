@@ -124,6 +124,7 @@ Public Class UserControl_MediaItemList
         objDataWork_MediaItem = New clsDataWork_MediaItem(objLocalConfig)
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
         objTransaction_MediaItems = New clsTransaction_MediaItems(objLocalConfig)
+        configure_Controls()
     End Sub
 
     Public Sub clear_List()
@@ -132,11 +133,8 @@ Public Class UserControl_MediaItemList
         DataGridView_MediaItems.DataSource = Nothing
         BindingSource_MediaItems.DataSource = Nothing
 
-
-        ToolStripButton_Add.Enabled = False
-        ToolStripButton_Bookmarks.Enabled = False
-        ToolStripButton_Meta.Enabled = False
-        ToolStripButton_Remove.Enabled = False
+        configure_Controls()
+        
     End Sub
 
     Public Sub initialize_MediaItems(ByVal OItem_Ref As clsOntologyItem, Optional ByVal select_First As Boolean = False)
@@ -149,6 +147,31 @@ Public Class UserControl_MediaItemList
             objDataWork_MediaItem.get_MediaItems(objOItem_Ref)
 
             Timer_MediaItems.Start()
+        End If
+
+        configure_Controls()
+    End Sub
+
+    Private Sub configure_Controls()
+        ToolStripButton_Add.Enabled = False
+        DataGridView_MediaItems.Enabled = False
+        ToolStripButton_Bookmarks.Enabled = False
+        ToolStripButton_Meta.Enabled = False
+        ToolStripButton_Remove.Enabled = False
+        ToolStripButton_Replace.Enabled = False
+
+        If Not objOItem_Ref Is Nothing Then
+            DataGridView_MediaItems.Enabled = True
+            ToolStripButton_Add.Enabled = True
+            ToolStripButton_Bookmarks.Enabled = True
+            ToolStripButton_Replace.Enabled = True
+            ToolStripButton_Meta.Enabled = True
+        End If
+
+        If DataGridView_MediaItems.SelectedRows.Count > 0 Then
+            ToolStripButton_Remove.Enabled = True
+
+            
         End If
     End Sub
 
@@ -220,7 +243,10 @@ Public Class UserControl_MediaItemList
                 dateCreated = Nothing
             End If
 
-            RaiseEvent selected_MediaItem(objOItem_MediaItem, objOItem_File, dateCreated)
+            If ToolStripButton_Play.Checked = True Then
+                RaiseEvent selected_MediaItem(objOItem_MediaItem, objOItem_File, dateCreated)
+            End If
+
         End If
     End Sub
 
@@ -300,6 +326,7 @@ Public Class UserControl_MediaItemList
                     MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Dateien gespeichert werden!", MsgBoxStyle.Exclamation)
                 End If
 
+                initialize_MediaItems(objOItem_Ref)
             End If
         End If
     End Sub

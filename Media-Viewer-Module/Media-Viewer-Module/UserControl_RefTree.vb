@@ -141,6 +141,7 @@ Public Class UserControl_RefTree
                                                                                    objOItem.Name,
                                                                                    objLocalConfig.ImageID_Token, _
                                                                                    objLocalConfig.ImageID_Token)
+                                    TreeView_Ref.SelectedNode = objTreeNode_Added
                                 End If
                             Case objLocalConfig.Globals.Type_RelationType
 
@@ -158,6 +159,29 @@ Public Class UserControl_RefTree
                 objFrmMain = New frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class, objOItem_Class)
                 objFrmMain.Applyable = True
                 objFrmMain.ShowDialog(Me)
+                If objFrmMain.DialogResult = DialogResult.OK Then
+                    For Each objOItem In objFrmMain.OList_Simple
+                        Select Case objOItem.Type
+                            Case objLocalConfig.Globals.Type_AttributeType
+                            
+                            Case objLocalConfig.Globals.Type_Class
+                            
+                            Case objLocalConfig.Globals.Type_Object
+                                If objOItem.GUID_Parent = objTreeNode.Name Then                                    
+                                    objTreeNode_Added = objTreeNode.Nodes.Add(objOItem.GUID, _
+                                                                                    objOItem.Name,
+                                                                                    objLocalConfig.ImageID_Token, _
+                                                                                    objLocalConfig.ImageID_Token)
+                                    TreeView_Ref.SelectedNode = objTreeNode_Added
+                                Else
+
+                                End If
+                                
+                            Case objLocalConfig.Globals.Type_RelationType
+
+                        End Select
+                    Next
+                End If
             End If
             
 
