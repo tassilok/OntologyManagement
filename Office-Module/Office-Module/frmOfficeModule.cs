@@ -67,6 +67,7 @@ namespace Office_Module
 
         private void fill_Tree()
         {
+            clsOntologyItem objOItem_Result;
             boolPChange_Tree = true;
             treeView_Items.Nodes.Clear();
 
@@ -84,7 +85,26 @@ namespace Office_Module
 
             if (objDatawork_Documents.isPresent_OItems().GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                
+                objOItem_Result = objDatawork_Documents.GetData_OItems();
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    objOItem_Result = objDatawork_Documents.GetData_Classes();
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        createTreeStrucuture(objTreeNode_Documents);
+                        addObjects();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Die Dokumente konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        this.Close();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Die Dokumente konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Close();
+                }
 
             }
             else
@@ -93,5 +113,75 @@ namespace Office_Module
                 this.Close();
             }
         }
+
+        private void addObjects()
+        {
+            TreeNode[] objTreeNodes;
+            var objObjects = (from obj in objDatawork_Documents.OList_OItems
+                              where obj.Type == objLocalConfig.Globals.Type_Object
+                              orderby obj.GUID_Parent, obj.Name
+                              select new clsOntologyItem
+                              {
+                                  GUID = obj.GUID,
+                                  Name = obj.Name,
+                                  GUID_Parent = obj.GUID_Parent
+                              }).ToList();
+
+            foreach (var objObject in objObjects)
+            {
+                objTreeNodes = objTreeNode_Documents.Nodes.Find(objObject.GUID_Parent, true);
+                if (objTreeNodes.Any())
+                {
+                    objTreeNodes[0].Nodes.Add(objObject.GUID,
+                                              objObject.Name,
+                                              objLocalConfig.ImageID_Token,
+                                              objLocalConfig.ImageID_Token);
+                }
+            }
+        }
+
+        private void createTreeStrucuture(TreeNode objTreeNode)
+        {
+            var objSubNodes = new List<clsOntologyItem>();
+            TreeNode objSubTreeNode;
+            if (objTreeNode.Name != objTreeNode_Documents.Name)
+            {
+                objSubNodes = (from obj in objDatawork_Documents.OList_Classes
+                               where obj.GUID_Parent == objTreeNode.Name
+                               orderby obj.Name
+                               select new clsOntologyItem
+                               {
+                                   GUID = obj.GUID,
+                                   Name = obj.Name,
+                                   Type = obj.Type
+                               }).ToList();
+            }
+            else
+            {
+                objSubNodes = (from obj in objDatawork_Documents.OList_Classes
+                               where obj.GUID_Parent == null
+                               orderby obj.Name
+                               select new clsOntologyItem
+                               {
+                                   GUID = obj.GUID,
+                                   Name = obj.Name,
+                                   Type = obj.Type
+                               }).ToList();
+            }
+
+
+            foreach (var objSubNode in objSubNodes)
+            {
+                
+                objSubTreeNode = objTreeNode.Nodes.Add(objSubNode.GUID,
+                                            objSubNode.Name,
+                                            objLocalConfig.ImageID_Close,
+                                            objLocalConfig.ImageID_Open);
+                
+
+                createTreeStrucuture(objSubTreeNode);
+            }
+        }
     }
 }
+

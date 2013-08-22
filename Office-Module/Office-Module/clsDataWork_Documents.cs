@@ -16,6 +16,7 @@ namespace Office_Module
         private clsDBLevel objDBLevel_MD_To_DocumentType;
         private clsDBLevel objDBLevel_MD_To_File;
         private clsDBLevel objDBLevel_MD_To_OItem;
+        private clsDBLevel objDBLevel_Classes;
 
         private Thread objThread_ManagedDocuments;
         private Thread objThread_MD__DateTimeStampChanged;
@@ -24,6 +25,7 @@ namespace Office_Module
         private Thread objThread_MD_To_OItem;
 
         public List<clsOntologyItem> OList_OItems { get; set; }
+        public List<clsOntologyItem> OList_Classes { get; set; }
 
         public clsOntologyItem OItem_Result_ManagedDocuments { get; set; }
         public clsOntologyItem OItem_Result_MD__DateTimeStampChanged { get; set; }
@@ -57,19 +59,10 @@ namespace Office_Module
             return objOItem_Result;
         }
 
-        public clsOntologyItem GetOItems()
+        public clsOntologyItem GetData_OItems()
         {
 
             clsOntologyItem objOItem_Result;
-
-            if (OList_OItems == null)
-            {
-                OList_OItems = new List<clsOntologyItem>();
-            }
-            else
-            {
-                OList_OItems.Clear();
-            }
 
             if (isPresent_OItems().GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
@@ -80,7 +73,7 @@ namespace Office_Module
                                 select new clsOntologyItem
                                 {
                                     GUID = OItems.ID_Other,
-                                    Name = OItems.Name_Object,
+                                    Name = OItems.Name_Other,
                                     GUID_Parent = OItems.ID_Parent_Other,
                                     Type = OItems.Ontology
                                 }).ToList();
@@ -100,6 +93,79 @@ namespace Office_Module
 
             return objOItem_Result;
         }
+
+        public clsOntologyItem GetData_Classes()
+        {
+            int intCount;
+            clsOntologyItem objOItem_Result;
+            List<clsOntologyItem> objOList_ClassParObjects = new List<clsOntologyItem>();
+
+            OList_Classes = (from obj in OList_OItems
+                                     where obj.Type == objLocalConfig.Globals.Type_Object
+                                     group obj by obj.GUID_Parent into objGroup
+                                     select new clsOntologyItem
+                                     {
+                                         GUID_Parent = objGroup.Key,
+                                         Type = objLocalConfig.Globals.Type_Object
+                                     }).ToList();
+
+            objOItem_Result = objDBLevel_Classes.get_Data_Classes(OList_Classes);
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                OList_Classes = (from obj in objDBLevel_Classes.OList_Classes
+                                         select new clsOntologyItem
+                                         {
+                                             GUID = obj.GUID,
+                                             Name = obj.Name,
+                                             GUID_Parent = obj.GUID_Parent,
+                                             Type = obj.Type
+                                         }).ToList();
+                    
+                do
+                {
+                    objOList_ClassParObjects = (from obj in OList_Classes
+                                                group obj by obj.GUID_Parent into ClassParents
+                                                select new clsOntologyItem
+                                                {
+                                                    GUID = ClassParents.Key,
+                                                    Type = objLocalConfig.Globals.Type_Class
+                                                }).ToList();
+
+                    objOItem_Result = objDBLevel_Classes.get_Data_Classes(objOList_ClassParObjects);
+
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        intCount = OList_Classes.Count;
+                        OList_Classes = OList_Classes.Concat((from obj in objDBLevel_Classes.OList_Classes
+                                                                join objExist in OList_Classes on obj.GUID equals objExist.GUID into GroupExists
+                                                                from objExist in GroupExists.DefaultIfEmpty()
+                                                                where objExist == null
+                                                                select new clsOntologyItem
+                                                                {
+                                                                    GUID = obj.GUID,
+                                                                    Name = obj.Name,
+                                                                    GUID_Parent = obj.GUID_Parent,
+                                                                    Type = obj.Type
+                                                                }).ToList()).ToList();
+                    }
+                    else
+                    {
+                        intCount = 0;
+                    }
+                        
+
+
+                } while (intCount < OList_Classes.Count);
+                    
+
+            }
+            
+            return objOItem_Result;
+        }
+
+        
 
         public clsDataWork_Documents(clsLocalConfig LocalConfig)
         {
@@ -180,6 +246,7 @@ namespace Office_Module
             objDBLevel_MD_To_DocumentType = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_MD_To_File = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_MD_To_OItem = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_Classes = new clsDBLevel(objLocalConfig.Globals);
         }
 
         private void GetData_ManagedDocuments()
