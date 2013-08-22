@@ -7,7 +7,7 @@ using Ontolog_Module;
 
 namespace Office_Module
 {
-    class clsDataWork_Documents
+    public class clsDataWork_Documents
     {
         private clsLocalConfig objLocalConfig;
 
@@ -24,7 +24,7 @@ namespace Office_Module
         private Thread objThread_MD_To_File;
         private Thread objThread_MD_To_OItem;
 
-        public List<clsOntologyItem> OList_OItems { get; set; }
+        public SortableBindingList<clsDocument> OList_Documents { get; set; }
         public List<clsOntologyItem> OList_Classes { get; set; }
 
         public clsOntologyItem OItem_Result_ManagedDocuments { get; set; }
@@ -33,11 +33,12 @@ namespace Office_Module
         public clsOntologyItem OItem_Result_MD_To_File { get; set; }
         public clsOntologyItem OItem_Result_MD_To_OItem { get; set; }
 
-        public clsOntologyItem isPresent_OItems()
+        public clsOntologyItem isPresent_Documents()
         {
             clsOntologyItem objOItem_Result;
 
             if (OItem_Result_ManagedDocuments.GUID == objLocalConfig.Globals.LState_Success.GUID &&
+                OItem_Result_MD__DateTimeStampChanged.GUID == objLocalConfig.Globals.LState_Success.GUID &&
                 OItem_Result_MD_To_File.GUID == objLocalConfig.Globals.LState_Success.GUID &&
                 OItem_Result_MD_To_OItem.GUID == objLocalConfig.Globals.LState_Success.GUID &&
                 OItem_Result_MD_To_DocumentType.GUID == objLocalConfig.Globals.LState_Success.GUID)
@@ -45,6 +46,7 @@ namespace Office_Module
                 objOItem_Result = objLocalConfig.Globals.LState_Success;
             }
             else if (OItem_Result_ManagedDocuments.GUID == objLocalConfig.Globals.LState_Nothing.GUID ||
+                OItem_Result_MD__DateTimeStampChanged.GUID == objLocalConfig.Globals.LState_Nothing.GUID ||
                 OItem_Result_MD_To_File.GUID == objLocalConfig.Globals.LState_Nothing.GUID ||
                 OItem_Result_MD_To_OItem.GUID == objLocalConfig.Globals.LState_Nothing.GUID ||
                 OItem_Result_MD_To_DocumentType.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
@@ -59,28 +61,40 @@ namespace Office_Module
             return objOItem_Result;
         }
 
-        public clsOntologyItem GetData_OItems()
+        public clsOntologyItem GetData_Documents()
         {
 
             clsOntologyItem objOItem_Result;
 
-            if (isPresent_OItems().GUID == objLocalConfig.Globals.LState_Success.GUID)
+            if (isPresent_Documents().GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                OList_OItems = (from ManagedDoc in objDBLevel_ManagementDocuments.OList_Objects
-                                join Files in objDBLevel_MD_To_File.OList_ObjectRel on ManagedDoc.GUID equals Files.ID_Object
-                                join DocTypes in objDBLevel_MD_To_DocumentType.OList_ObjectRel on ManagedDoc.GUID equals DocTypes.ID_Object
-                                join OItems in objDBLevel_MD_To_OItem.OList_ObjectRel on ManagedDoc.GUID equals OItems.ID_Object
-                                select new clsOntologyItem
-                                {
-                                    GUID = OItems.ID_Other,
-                                    Name = OItems.Name_Other,
-                                    GUID_Parent = OItems.ID_Parent_Other,
-                                    Type = OItems.Ontology
-                                }).ToList();
+                OList_Documents = new SortableBindingList<clsDocument>((from ManagedDoc in objDBLevel_ManagementDocuments.OList_Objects
+                                   join ChangeDate in objDBLevel_MD__DateTimeStampChanged.OList_ObjectAtt on ManagedDoc.GUID equals ChangeDate.ID_Object into ChangeDates
+                                   from ChangeDate in ChangeDates.DefaultIfEmpty()
+                                   join Files in objDBLevel_MD_To_File.OList_ObjectRel on ManagedDoc.GUID equals Files.ID_Object
+                                   join DocTypes in objDBLevel_MD_To_DocumentType.OList_ObjectRel on ManagedDoc.GUID equals DocTypes.ID_Object
+                                   join OItems in objDBLevel_MD_To_OItem.OList_ObjectRel on ManagedDoc.GUID equals OItems.ID_Object
+                                   select new clsDocument
+                                   {
+                                       ID_Attribute_DateTimeStampChange = (ChangeDate != null ? ChangeDate.ID_Attribute : null) ,
+                                       ID_Object_DateTimeStampChange = (ChangeDate != null ? ChangeDate.ID_Object : null),
+                                       ID_Parent_Object_DateTimeStampChange = (ChangeDate != null ? ChangeDate.ID_Class : null),
+                                       DateTimeStampChanged = (ChangeDate != null ? ChangeDate.Val_Date : null),
+                                       ID_DocumentType = DocTypes.ID_Other,
+                                       Name_DocumentType = DocTypes.Name_Other,
+                                       ID_Parent_DocumentType = DocTypes.ID_Parent_Other,
+                                       ID_File = Files.ID_Other,
+                                       Name_File = Files.Name_Other,
+                                       ID_Parent_File = Files.ID_Parent_Other,
+                                       ID_Ref = OItems.ID_Other,
+                                       Name_Ref = OItems.Name_Other,
+                                       ID_Parent_Ref = OItems.ID_Parent_Other,
+                                       Ontology_Ref = OItems.Ontology
+                                   }).ToList());
 
                 objOItem_Result = objLocalConfig.Globals.LState_Success;
             }
-            else if (isPresent_OItems().GUID == objLocalConfig.Globals.LState_Nothing.GUID)
+            else if (isPresent_Documents().GUID == objLocalConfig.Globals.LState_Nothing.GUID)
             {
                 objOItem_Result = objLocalConfig.Globals.LState_Nothing;
             }
@@ -100,12 +114,12 @@ namespace Office_Module
             clsOntologyItem objOItem_Result;
             List<clsOntologyItem> objOList_ClassParObjects = new List<clsOntologyItem>();
 
-            OList_Classes = (from obj in OList_OItems
-                                     where obj.Type == objLocalConfig.Globals.Type_Object
-                                     group obj by obj.GUID_Parent into objGroup
+            OList_Classes = (from obj in OList_Documents
+                                     where obj.Ontology_Ref == objLocalConfig.Globals.Type_Object
+                                     group obj by obj.ID_Parent_Ref into objGroup
                                      select new clsOntologyItem
                                      {
-                                         GUID_Parent = objGroup.Key,
+                                         GUID = objGroup.Key,
                                          Type = objLocalConfig.Globals.Type_Object
                                      }).ToList();
 

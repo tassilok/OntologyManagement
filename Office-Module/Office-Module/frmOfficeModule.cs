@@ -21,6 +21,7 @@ namespace Office_Module
         //private UserControl_Bookmarks objUserControl_Bookmarks;
 
         private frmMain objFrmOntologyModule;
+        private UserControl_Documents objUserControl_Documents;
 
         private clsDataWork_Documents objDatawork_Documents;
 
@@ -47,6 +48,9 @@ namespace Office_Module
         private void Initialize()
         {
             objDatawork_Documents = new clsDataWork_Documents(objLocalConfig);
+            objUserControl_Documents = new UserControl_Documents(objLocalConfig);
+            objUserControl_Documents.Dock = DockStyle.Fill;
+            splitContainer1.Panel2.Controls.Add(objUserControl_Documents);
 
             string[] strArguments;
             strArguments = Environment.GetCommandLineArgs();
@@ -55,13 +59,7 @@ namespace Office_Module
             { 
             }
 
-            //objUserControl_Bookmarks = new UserControl_Bookmarks(objLocalConfig);
-            //objUserControl_Bookmarks.Dock = DockStyle.Fill;
-            //splitContainer2.Panel2.Controls.Add(objUserControl_Bookmarks);
-            //objUserControl_Documents = new UserControl_Documents(objLocalConfig);
-            //objUserControl_Documents.Dock = DockStyle.Fill;
-            //splitContainer2.Panel1.Controls.Add(objUserControl_Documents);
-
+            
             fill_Tree();
         }
 
@@ -71,6 +69,8 @@ namespace Office_Module
             boolPChange_Tree = true;
             treeView_Items.Nodes.Clear();
 
+            boolPChange_Tree = true;
+
             objTreeNode_Root = treeView_Items.Nodes.Add(objLocalConfig.OItem_Token_Module_Office_Manager.GUID, objLocalConfig.OItem_Token_Module_Office_Manager.Name, objLocalConfig.ImageID_Root, objLocalConfig.ImageID_Root);
             objTreeNode_Documents = objTreeNode_Root.Nodes.Add(objLocalConfig.OItem_Type_Managed_Document.GUID, objLocalConfig.OItem_Type_Managed_Document.Name, objLocalConfig.ImageID_Root, objLocalConfig.ImageID_Root);
             objTreeNode_ContentItems = objTreeNode_Root.Nodes.Add(objLocalConfig.OItem_Type_ContentObject.GUID, objLocalConfig.OItem_Type_ContentObject.Name, objLocalConfig.ImageID_Root, objLocalConfig.ImageID_Root);
@@ -79,13 +79,13 @@ namespace Office_Module
             objTreeNode_RelationTypes = objTreeNode_Documents.Nodes.Add(objLocalConfig.Globals.Type_RelationType, objLocalConfig.Globals.Type_RelationType, objLocalConfig.ImageID_RelationTypes, objLocalConfig.ImageID_RelationTypes);
 
             objDatawork_Documents.GetData();
-            while (objDatawork_Documents.isPresent_OItems().GUID == objLocalConfig.Globals.LState_Nothing.GUID)
+            while (objDatawork_Documents.isPresent_Documents().GUID == objLocalConfig.Globals.LState_Nothing.GUID)
             {
             }
 
-            if (objDatawork_Documents.isPresent_OItems().GUID == objLocalConfig.Globals.LState_Success.GUID)
+            if (objDatawork_Documents.isPresent_Documents().GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                objOItem_Result = objDatawork_Documents.GetData_OItems();
+                objOItem_Result = objDatawork_Documents.GetData_Documents();
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
                     objOItem_Result = objDatawork_Documents.GetData_Classes();
@@ -112,19 +112,19 @@ namespace Office_Module
                 MessageBox.Show("Die Dokumente konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
             }
+            boolPChange_Tree = false;
         }
 
         private void addObjects()
         {
             TreeNode[] objTreeNodes;
-            var objObjects = (from obj in objDatawork_Documents.OList_OItems
-                              where obj.Type == objLocalConfig.Globals.Type_Object
-                              orderby obj.GUID_Parent, obj.Name
+            var objObjects = (from obj in objDatawork_Documents.OList_Documents
+                              where obj.Ontology_Ref == objLocalConfig.Globals.Type_Object
                               select new clsOntologyItem
                               {
-                                  GUID = obj.GUID,
-                                  Name = obj.Name,
-                                  GUID_Parent = obj.GUID_Parent
+                                  GUID = obj.ID_Ref,
+                                  Name = obj.Name_Ref,
+                                  GUID_Parent = obj.ID_Parent_Ref
                               }).ToList();
 
             foreach (var objObject in objObjects)
@@ -180,6 +180,25 @@ namespace Office_Module
                 
 
                 createTreeStrucuture(objSubTreeNode);
+            }
+        }
+
+        private void treeView_Items_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            
+            if (boolPChange_Tree == false)
+            {
+                if (e.Node.ImageIndex == objLocalConfig.ImageID_Close ||
+                    e.Node.ImageIndex == objLocalConfig.ImageID_Attribute ||
+                    e.Node.ImageIndex == objLocalConfig.ImageID_RelationType ||
+                    e.Node.ImageIndex == objLocalConfig.ImageID_Token)
+                {
+                    var objOItem_Ref = new clsOntologyItem { 
+                                                             GUID = e.Node.Name,
+                                                             Name = e.Node.Text
+                                                           };
+                    objUserControl_Documents.Initialize_Documents(objDatawork_Documents, objOItem_Ref);
+                }
             }
         }
     }

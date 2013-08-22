@@ -35,10 +35,6 @@
             this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
-            this.ToolStrip3 = new System.Windows.Forms.ToolStrip();
-            this.ToolStripComboBox_Filter = new System.Windows.Forms.ToolStripComboBox();
-            this.ToolStripTextBox_Filter = new System.Windows.Forms.ToolStripTextBox();
-            this.ToolStripButton_Filter = new System.Windows.Forms.ToolStripButton();
             this.ToolStrip2 = new System.Windows.Forms.ToolStrip();
             this.ToolStripLabel_ItemCountLBL = new System.Windows.Forms.ToolStripLabel();
             this.ToolStripLabel_ItemCount = new System.Windows.Forms.ToolStripLabel();
@@ -46,24 +42,24 @@
             this.ContextMenuStrip_Tree = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.NewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImageList_RelatedItems = new System.Windows.Forms.ImageList(this.components);
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.ToolStrip3 = new System.Windows.Forms.ToolStrip();
+            this.ToolStripComboBox_Filter = new System.Windows.Forms.ToolStripComboBox();
+            this.ToolStripTextBox_Filter = new System.Windows.Forms.ToolStripTextBox();
+            this.ToolStripButton_Filter = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.toolStripContainer2.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer2.ContentPanel.SuspendLayout();
             this.toolStripContainer2.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer2.SuspendLayout();
-            this.ToolStrip3.SuspendLayout();
             this.ToolStrip2.SuspendLayout();
             this.ContextMenuStrip_Tree.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.SuspendLayout();
+            this.ToolStrip3.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -114,10 +110,6 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.toolStripContainer2);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(785, 465);
             this.splitContainer1.SplitterDistance = 485;
             this.splitContainer1.TabIndex = 0;
@@ -143,37 +135,6 @@
             // toolStripContainer2.TopToolStripPanel
             // 
             this.toolStripContainer2.TopToolStripPanel.Controls.Add(this.ToolStrip3);
-            // 
-            // ToolStrip3
-            // 
-            this.ToolStrip3.Dock = System.Windows.Forms.DockStyle.None;
-            this.ToolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripComboBox_Filter,
-            this.ToolStripTextBox_Filter,
-            this.ToolStripButton_Filter});
-            this.ToolStrip3.Location = new System.Drawing.Point(3, 0);
-            this.ToolStrip3.Name = "ToolStrip3";
-            this.ToolStrip3.Size = new System.Drawing.Size(434, 25);
-            this.ToolStrip3.TabIndex = 1;
-            // 
-            // ToolStripComboBox_Filter
-            // 
-            this.ToolStripComboBox_Filter.Name = "ToolStripComboBox_Filter";
-            this.ToolStripComboBox_Filter.Size = new System.Drawing.Size(121, 25);
-            // 
-            // ToolStripTextBox_Filter
-            // 
-            this.ToolStripTextBox_Filter.Name = "ToolStripTextBox_Filter";
-            this.ToolStripTextBox_Filter.Size = new System.Drawing.Size(250, 25);
-            // 
-            // ToolStripButton_Filter
-            // 
-            this.ToolStripButton_Filter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.ToolStripButton_Filter.Image = ((System.Drawing.Image)(resources.GetObject("ToolStripButton_Filter.Image")));
-            this.ToolStripButton_Filter.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolStripButton_Filter.Name = "ToolStripButton_Filter";
-            this.ToolStripButton_Filter.Size = new System.Drawing.Size(47, 22);
-            this.ToolStripButton_Filter.Text = "x_Filter";
             // 
             // ToolStrip2
             // 
@@ -209,6 +170,7 @@
             this.treeView_Items.SelectedImageIndex = 0;
             this.treeView_Items.Size = new System.Drawing.Size(481, 411);
             this.treeView_Items.TabIndex = 0;
+            this.treeView_Items.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_Items_AfterSelect);
             // 
             // ContextMenuStrip_Tree
             // 
@@ -242,16 +204,36 @@
             this.ImageList_RelatedItems.Images.SetKeyName(12, "Attributes bamboo_danny_allen_r.png");
             this.ImageList_RelatedItems.Images.SetKeyName(13, "RelationTypes gpride_jean_victor_balin_.png");
             // 
-            // splitContainer2
+            // ToolStrip3
             // 
-            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.splitContainer2.Size = new System.Drawing.Size(296, 465);
-            this.splitContainer2.SplitterDistance = 230;
-            this.splitContainer2.TabIndex = 0;
+            this.ToolStrip3.Dock = System.Windows.Forms.DockStyle.None;
+            this.ToolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripComboBox_Filter,
+            this.ToolStripTextBox_Filter,
+            this.ToolStripButton_Filter});
+            this.ToolStrip3.Location = new System.Drawing.Point(3, 0);
+            this.ToolStrip3.Name = "ToolStrip3";
+            this.ToolStrip3.Size = new System.Drawing.Size(434, 25);
+            this.ToolStrip3.TabIndex = 1;
+            // 
+            // ToolStripComboBox_Filter
+            // 
+            this.ToolStripComboBox_Filter.Name = "ToolStripComboBox_Filter";
+            this.ToolStripComboBox_Filter.Size = new System.Drawing.Size(121, 25);
+            // 
+            // ToolStripTextBox_Filter
+            // 
+            this.ToolStripTextBox_Filter.Name = "ToolStripTextBox_Filter";
+            this.ToolStripTextBox_Filter.Size = new System.Drawing.Size(250, 25);
+            // 
+            // ToolStripButton_Filter
+            // 
+            this.ToolStripButton_Filter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ToolStripButton_Filter.Image = ((System.Drawing.Image)(resources.GetObject("ToolStripButton_Filter.Image")));
+            this.ToolStripButton_Filter.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStripButton_Filter.Name = "ToolStripButton_Filter";
+            this.ToolStripButton_Filter.Size = new System.Drawing.Size(47, 22);
+            this.ToolStripButton_Filter.Text = "x_Filter";
             // 
             // frmOfficeModule
             // 
@@ -269,7 +251,6 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.toolStripContainer2.BottomToolStripPanel.ResumeLayout(false);
@@ -279,13 +260,11 @@
             this.toolStripContainer2.TopToolStripPanel.PerformLayout();
             this.toolStripContainer2.ResumeLayout(false);
             this.toolStripContainer2.PerformLayout();
-            this.ToolStrip3.ResumeLayout(false);
-            this.ToolStrip3.PerformLayout();
             this.ToolStrip2.ResumeLayout(false);
             this.ToolStrip2.PerformLayout();
             this.ContextMenuStrip_Tree.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
+            this.ToolStrip3.ResumeLayout(false);
+            this.ToolStrip3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -308,7 +287,6 @@
         internal System.Windows.Forms.ContextMenuStrip ContextMenuStrip_Tree;
         internal System.Windows.Forms.ToolStripMenuItem NewToolStripMenuItem;
         internal System.Windows.Forms.ImageList ImageList_RelatedItems;
-        private System.Windows.Forms.SplitContainer splitContainer2;
     }
 }
 

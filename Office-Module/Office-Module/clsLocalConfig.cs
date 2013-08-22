@@ -6,7 +6,7 @@ using Ontolog_Module;
 
 namespace Office_Module
 {
-    class clsLocalConfig
+    public class clsLocalConfig
     {
         private const string cstr_ID_SoftwareDevelopment = "9ad11085f76c4d1fbbb3136276a89852";
         private const string cstr_ID_Class_SoftwareDevelopment = "132a845f849f4f6b86847ab3fd068824";
