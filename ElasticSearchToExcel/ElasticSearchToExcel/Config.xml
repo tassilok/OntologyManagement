@@ -2,7 +2,7 @@
 <DocumentElement>
   <dtbl_BaseConfig>
     <ConfigItem_Name>Index</ConfigItem_Name>
-    <ConfigItem_Value>explido_access_log</ConfigItem_Value>
+    <ConfigItem_Value>ontology_db</ConfigItem_Value>
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>Port</ConfigItem_Name>
@@ -10,10 +10,10 @@
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>server</ConfigItem_Name>
-    <ConfigItem_Value>192.168.30.93</ConfigItem_Value>
+    <ConfigItem_Value>localhost</ConfigItem_Value>
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>type</ConfigItem_Name>
-    <ConfigItem_Value>explido</ConfigItem_Value>
+    <ConfigItem_Value>ObjectAttribute</ConfigItem_Value>
   </dtbl_BaseConfig>
 </DocumentElement>

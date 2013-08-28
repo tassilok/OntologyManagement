@@ -89,7 +89,7 @@
 
         If strKey <> "" And strValue <> "" Then
             objDict.Add(strKey, strValue)
-            objElasticSearchToExcel.del_By_Query(objDict, True)
+            objElasticSearchToExcel.del_By_Query(objDict, False)
         End If
     End Sub
 

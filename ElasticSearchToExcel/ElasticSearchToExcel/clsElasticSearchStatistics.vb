@@ -133,7 +133,7 @@ Public Class clsElasticSearchStatistics
                 objBoolQuery.Add(New WildcardQuery(New Term(objKeyValue.Key, "*" & objKeyValue.Value.ToString & "*")), BooleanClause.Occur.MUST)
 
             Else
-                objBoolQuery.Add(New TermQuery(New Term(objKeyValue.Key, "*" & objKeyValue.Value.ToString & "*")), BooleanClause.Occur.MUST)
+                objBoolQuery.Add(New TermQuery(New Term(objKeyValue.Key, objKeyValue.Value.ToString)), BooleanClause.Occur.MUST)
             End If
         Next
 
