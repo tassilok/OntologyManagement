@@ -85,6 +85,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet_FileSystemModule.xsd</DependentUpon>
     </Compile>
+    <Compile Include="frmBlobWatcher.Designer.vb">
+      <DependentUpon>frmBlobWatcher.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmBlobWatcher.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frm_FilesystemModule.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +115,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmBlobWatcher.resx">
+      <DependentUpon>frmBlobWatcher.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frm_FilesystemModule.resx">
       <DependentUpon>frm_FilesystemModule.vb</DependentUpon>
     </EmbeddedResource>

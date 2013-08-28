@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Ontolog_Module;
+using Filesystem_Module;
+using System.IO;
 
 namespace Office_Module
 {
@@ -15,12 +17,22 @@ namespace Office_Module
         private clsLocalConfig objLocalConfig;
         private clsDataWork_Documents objDataWork_Documents;
         private clsOntologyItem objOItem_Ref;
+        private clsBlobConnection objBlobConnection;
+        private clsFileWork objFileWork;
         
         public UserControl_Documents(clsLocalConfig LocalConfig)
         {
             objLocalConfig = LocalConfig;
             InitializeComponent();
+            initialize();
             ConfigureControls();
+           
+        }
+
+        private void initialize()
+        {
+            objBlobConnection = new clsBlobConnection(objLocalConfig.Globals);
+            objFileWork = new clsFileWork(objLocalConfig.Globals);
         }
 
         public void Initialize_Documents(clsDataWork_Documents DataWork_Documents, clsOntologyItem OItem_Ref)
@@ -96,6 +108,30 @@ namespace Office_Module
         private void button_Open_Click(object sender, EventArgs e)
         {
 
+            if (objBlobConnection.BlobActive & objBlobConnection.BlobWatchConfigured)
+            {
+                var objDGVR = dataGridView_Documents.SelectedRows[0];
+                var strPath = objBlobConnection.Path_BlobWatcher;
+                var objOItem_File = new clsOntologyItem
+                {
+                    GUID = objDGVR.Cells["ID_File"].Value.ToString(),
+                    Name = objDGVR.Cells["Name_File"].Value.ToString(),
+                    GUID_Parent = objLocalConfig.OItem_Type_File.GUID,
+                    Type = objLocalConfig.Globals.Type_Object
+                };
+
+                if (objFileWork.is_File_Blob(objOItem_File))
+                {
+                    var strPathDst = Path.Combine(new string[] { strPath, objOItem_File.Name });
+                    var objOItem_Result =  objBlobConnection.save_Blob_To_File(objOItem_File, strPathDst);
+
+                }
+                else
+                {
+
+                }
+            }
+            
         }
 
         

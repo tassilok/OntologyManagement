@@ -134,7 +134,7 @@ Public Class clsTransaction_Files
                                                        Nothing, _
                                                        objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID, _
                                                        Nothing, _
-                                                       Nothing, _
+                                                       1, _
                                                        Me.dateCreate.ToString, _
                                                        Nothing, _
                                                        Me.dateCreate, _

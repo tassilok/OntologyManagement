@@ -18,11 +18,15 @@ namespace Office_Module
 
         public clsGlobals Globals { get; set; }
 
+        public clsDataWork_Documents DataWork_Documents { get; set; }
+
         private clsOntologyItem objOItem_DevConfig = new clsOntologyItem();
+        public clsOntologyItem OItem_BaseConfig { get; set; }
 
         private clsDBLevel objDBLevel_Config1;
         private clsDBLevel objDBLevel_Config2;
 
+        
         public int ImageID_Root
         {
             get { return 0; }
@@ -257,6 +261,70 @@ namespace Office_Module
 
         }
 
+        private void GetBaseConfig()
+        {
+            List<clsObjectRel> objORel_ModuleOfSoftwareDevelopment = new List<clsObjectRel>();
+            clsOntologyItem objOItem_Result;
+
+            objORel_ModuleOfSoftwareDevelopment.Add(new clsObjectRel()
+            {
+                ID_Parent_Object = OItem_Type_Module.GUID,
+                ID_Other = cstr_ID_SoftwareDevelopment,
+                ID_RelationType = OItem_RelationType_offered_by.GUID
+            });
+
+
+            objOItem_Result = objDBLevel_Config1.get_Data_ObjectRel(objORel_ModuleOfSoftwareDevelopment);
+
+            if (objOItem_Result.GUID == Globals.LState_Success.GUID)
+            {
+                if (objDBLevel_Config1.OList_ObjectRel_ID.Any())
+                {
+                    objORel_ModuleOfSoftwareDevelopment.Clear();
+                    objORel_ModuleOfSoftwareDevelopment.Add(new clsObjectRel()
+                    {
+                        ID_Other = objDBLevel_Config1.OList_ObjectRel_ID.First().ID_Object,
+                        ID_Parent_Object = OItem_Type_Office_Module.GUID,
+                        ID_RelationType = OItem_RelationType_belongsTo.GUID
+                    });
+
+                    objOItem_Result = objDBLevel_Config1.get_Data_ObjectRel(objORel_ModuleOfSoftwareDevelopment,
+                                                                            boolIDs: false);
+
+                    if (objOItem_Result.GUID == Globals.LState_Success.GUID)
+                    {
+                        if (objDBLevel_Config1.OList_ObjectRel.Any())
+                        {
+                            OItem_BaseConfig = new clsOntologyItem()
+                            {
+                                GUID = objDBLevel_Config1.OList_ObjectRel.First().ID_Object,
+                                Name = objDBLevel_Config1.OList_ObjectRel.First().Name_Object,
+                                GUID_Parent = OItem_Type_Office_Module.GUID,
+                                Type = Globals.Type_Object
+                            };
+
+
+
+                        }
+                        else
+                        {
+                            throw new Exception("Config not set!");
+                        }
+                        
+                    }
+                    else
+                    {
+                        throw new Exception("Config not set!");
+                    }
+                                                                                                       
+                }
+                else
+                {
+                    throw new Exception("Config not set!");
+                }
+            }
+        }
+
         private void set_DBConnection()
         {
 		    objDBLevel_Config1 = new clsDBLevel(Globals);
@@ -270,6 +338,7 @@ namespace Office_Module
 		    get_Config_RelationTypes();
 		    get_Config_Classes();
             get_Config_Objects();
+            GetBaseConfig();
         }
 
         private void get_Config_AttributeTypes()
@@ -1199,6 +1268,14 @@ namespace Office_Module
             set_DBConnection();
             get_Config();
         }
+
+        public clsLocalConfig(clsGlobals Globals)
+        {
+            this.Globals = Globals;
+            set_DBConnection();
+            get_Config();
+        }
+        
 	
     }
 

@@ -8,15 +8,24 @@ Public Class clsBlobConnection
 
     Private objTransaction_Files As clsTransaction_Files
 
+    Private objFrmBlobWatcher As frmBlobWatcher
+
     Private objStream_Read As IO.Stream
     Private byteFile() As Byte
     Private strHash_File As String
     Private strPath_Blob As String
+    Private strPathBlobWatch As String
     Private boolBlobActive As Boolean
+    Private boolBlobWatcherConfigured As Boolean
 
     Public ReadOnly Property Path_Blob As String
         Get
             Return strPath_Blob
+        End Get
+    End Property
+    Public ReadOnly Property Path_BlobWatcher As String
+        Get
+            Return strPathBlobWatch
         End Get
     End Property
     Public ReadOnly Property BlobActive As Boolean
@@ -24,6 +33,29 @@ Public Class clsBlobConnection
             Return boolBlobActive
         End Get
     End Property
+
+    Public ReadOnly Property BlobWatchConfigured As Boolean
+        Get
+            Return boolBlobWatcherConfigured
+        End Get
+    End Property
+
+    Public Sub start_BlobDirWatcher()
+        Dim objOItem_Result As clsOntologyItem
+
+        If objFrmBlobWatcher Is Nothing Then
+            objFrmBlobWatcher = New frmBlobWatcher(objLocalConfig.Globals)
+        End If
+
+        If objFrmBlobWatcher.IsDisposed Then
+            objOItem_Result = objFrmBlobWatcher.Initialize_BlobDirWatcher()
+            If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                objFrmBlobWatcher.Dispose()
+            End If
+
+        End If
+    End Sub
+
 
     Private Sub get_BlobPath()
         Dim objLPath As New List(Of clsObjectRel)
@@ -51,6 +83,38 @@ Public Class clsBlobConnection
             boolBlobActive = True
         Else
             boolBlobActive = False
+        End If
+
+
+    End Sub
+
+    Public Sub get_BlobDirWatcherPath()
+        Dim objLPath As New List(Of clsObjectRel)
+
+        objLPath.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
+                                      Nothing, _
+                                      Nothing, _
+                                      Nothing, _
+                                      Nothing, _
+                                      Nothing, _
+                                      objLocalConfig.OItem_Type_Path.GUID, _
+                                      Nothing, _
+                                      objLocalConfig.OItem_RelationType_watch.GUID, _
+                                      Nothing, _
+                                      objLocalConfig.Globals.Type_Object, _
+                                      Nothing, _
+                                      Nothing, _
+                                      Nothing))
+
+        objDBLevel_Blobs.get_Data_ObjectRel(objLPath, _
+                                            boolIDs:=False)
+
+        If objDBLevel_Blobs.OList_ObjectRel.Count > 0 Then
+            strPathBlobWatch = objDBLevel_Blobs.OList_ObjectRel(0).Name_Other
+            boolBlobWatcherConfigured = True
+        Else
+            strPathBlobWatch = Nothing
+            boolBlobWatcherConfigured = False
         End If
 
 
@@ -133,7 +197,7 @@ Public Class clsBlobConnection
                     Else
                         Exit For
                     End If
-                    
+
                 End If
                 intCount = intCount + 1
             End If
@@ -142,12 +206,12 @@ Public Class clsBlobConnection
         Next
 
         If objOList_ObjAtt.Count > 0 Then
-            objOItem_Result = objDBLevel_Blobs.del_ObjectAtt(objOList_ObjAtt_del)
+            objOItem_Result = objDBLevel_Blobs.del_ObjectAtt(objOList_ObjAtt_Del)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                 objDBLevel_Blobs.save_ObjAtt(objOList_ObjAtt)
                 lngDone = lngDone + objOList_ObjAtt.Count
             End If
-            
+
 
         End If
 
@@ -194,6 +258,8 @@ Public Class clsBlobConnection
                         objStream_Read = New IO.FileStream(strPath_File, IO.FileMode.Open)
                         objStream_Write = New IO.FileStream(strPath_File_TMP, IO.FileMode.Create)
                         objStream_Read.CopyTo(objStream_Write)
+                        objStream_Read.Close()
+                        objStream_Write.Close()
                         IO.File.Move(strPath_File_TMP, strPath_File_DST)
 
                         objOItem_Result = objTransaction_Files.save_003_File__CreationDate(objFileInfo.CreationTime, objOItem_File)
@@ -223,6 +289,8 @@ Public Class clsBlobConnection
                         objStream_Read = New IO.FileStream(strPath_File, IO.FileMode.Open)
                         objStream_Write = New IO.FileStream(strPath_File_DST, IO.FileMode.Create)
                         objStream_Read.CopyTo(objStream_Write)
+                        objStream_Read.Close()
+                        objStream_Write.Close()
 
                         objOItem_Result = objTransaction_Files.save_003_File__CreationDate(objFileInfo.CreationTime, objOItem_File)
                         objOItem_Result = objTransaction_Files.save_004_File__Blob(True, objOItem_File)
@@ -234,7 +302,7 @@ Public Class clsBlobConnection
                 End If
 
             End If
-            
+
 
 
         Else
@@ -280,19 +348,26 @@ Public Class clsBlobConnection
     End Sub
 
     Public Function save_Blob_To_File(ByVal objOItem_File As clsOntologyItem, ByVal strPath_File As String) As clsOntologyItem
+        Dim objOAR_CreationDate As New List(Of clsObjectAtt)
         Dim objOItem_Result As clsOntologyItem
         Dim objStream_Read As IO.Stream
         Dim objStream_Write As IO.Stream
         Dim strPath_File_SRC As String
+        Dim strPath_File_DST As String
         objOItem_Result = objLocalConfig.Globals.LState_Error
 
         If boolBlobActive = True Then
             strPath_File_SRC = strPath_Blob & IO.Path.DirectorySeparatorChar & objOItem_File.GUID
+            strPath_File = Environment.ExpandEnvironmentVariables(strPath_File)
 
             If IO.File.Exists(strPath_File) Then
                 objOItem_Result = objLocalConfig.Globals.LState_Relation
             Else
                 Try
+                    strPath_File_DST = IO.Path.GetDirectoryName(strPath_File)
+                    If Not IO.Directory.Exists(strPath_File_DST) Then
+                        IO.Directory.CreateDirectory(strPath_File_DST)
+                    End If
                     objStream_Write = New IO.FileStream(strPath_File, IO.FileMode.CreateNew)
                     objStream_Read = New IO.FileStream(strPath_File_SRC, IO.FileMode.Open)
                     objStream_Read.CopyTo(objStream_Write)
@@ -301,12 +376,24 @@ Public Class clsBlobConnection
                     objStream_Read.Close()
                     objOItem_Result = objLocalConfig.Globals.LState_Success
 
+                    objOAR_CreationDate.Add(New clsObjectAtt() With {.ID_Object = objOItem_File.GUID, _
+                                                                     .ID_AttributeType = objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID})
+                    objOItem_Result = objDBLevel_Blobs.get_Data_ObjectAtt(objOAR_CreationDate, _
+                                                                          boolIDs:=False)
+
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        If objDBLevel_Blobs.OList_ObjectAtt.Any Then
+                            Dim objFileInfo As New IO.FileInfo(strPath_File)
+                            objFileInfo.CreationTime = objDBLevel_Blobs.OList_ObjectAtt.First().Val_Date
+                        End If
+
+                    End If
                 Catch ex As Exception
                     objOItem_Result = objLocalConfig.Globals.LState_Error
                 End Try
-                
+
             End If
-            
+
         End If
 
         Return objOItem_Result
@@ -427,6 +514,7 @@ Public Class clsBlobConnection
 
     Private Sub initialize()
         get_BlobPath()
+        get_BlobDirWatcherPath()
     End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)

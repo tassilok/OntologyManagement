@@ -344,7 +344,7 @@ Partial Class frm_FilesystemModule
         '
         Me.ContextMenuStrip_Tree.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem_Tree, Me.Open_Tree_ToolStripMenuItem1, Me.ApplyToolStripMenuItem, Me.ModuleActionsToolStripMenuItem_Tree})
         Me.ContextMenuStrip_Tree.Name = "ContextMenuStrip_Tree"
-        Me.ContextMenuStrip_Tree.Size = New System.Drawing.Size(171, 114)
+        Me.ContextMenuStrip_Tree.Size = New System.Drawing.Size(171, 92)
         '
         'NewToolStripMenuItem_Tree
         '

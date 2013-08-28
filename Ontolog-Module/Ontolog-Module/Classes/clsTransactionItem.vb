@@ -1,6 +1,5 @@
 ﻿Imports Ontolog_Module
 Public Class clsTransactionItem
-    Private objGlobals As clsGlobals
     Private objOItem_OntologyItem As clsOntologyItem
     Private objOItem_ObjectAtt As clsObjectAtt
     Private objOItem_ObjectRel As clsObjectRel
@@ -10,6 +9,8 @@ Public Class clsTransactionItem
     Private boolRemoved As Boolean
     Private strType As String
     Private boolAll As Boolean
+
+    Private objClassTypes As New clsClassTypes
 
     Public ReadOnly Property savedType As String
         Get
@@ -32,7 +33,7 @@ Public Class clsTransactionItem
         End Get
         Set(value As clsOntologyItem)
             objOItem_OntologyItem = value
-            strType = objGlobals.ClassType_OntologyItem
+            strType = objClassTypes.ClassType_OntologyItem
         End Set
     End Property
 
@@ -42,7 +43,7 @@ Public Class clsTransactionItem
         End Get
         Set(value As clsObjectAtt)
             objOItem_ObjectAtt = value
-            strType = objGlobals.ClassType_ObjectAtt
+            strType = objClassTypes.ClassType_ObjectAtt
         End Set
     End Property
 
@@ -52,7 +53,7 @@ Public Class clsTransactionItem
         End Get
         Set(value As clsObjectRel)
             objOItem_ObjectRel = value
-            strType = objGlobals.ClassType_ObjectRel
+            strType = objClassTypes.ClassType_ObjectRel
         End Set
     End Property
 
@@ -62,7 +63,7 @@ Public Class clsTransactionItem
         End Get
         Set(value As clsClassAtt)
             objOItem_ClassAtt = value
-            strType = objGlobals.ClassType_ClassAtt
+            strType = objClassTypes.ClassType_ClassAtt
         End Set
     End Property
 
@@ -72,7 +73,7 @@ Public Class clsTransactionItem
         End Get
         Set(value As clsClassRel)
             objOItem_ClassRel = value
-            strType = objGlobals.ClassType_ClassRel
+            strType = objClassTypes.ClassType_ClassRel
         End Set
     End Property
 
@@ -94,8 +95,8 @@ Public Class clsTransactionItem
         End Set
     End Property
 
-    Public Sub New(Globals As clsGlobals)
+    Public Sub New()
         boolAll = False
-        objGlobals = Globals
+
     End Sub
 End Class

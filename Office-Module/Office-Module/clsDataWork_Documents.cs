@@ -17,6 +17,8 @@ namespace Office_Module
         private clsDBLevel objDBLevel_MD_To_File;
         private clsDBLevel objDBLevel_MD_To_OItem;
         private clsDBLevel objDBLevel_Classes;
+        private clsDBLevel objDBLevel_Documents;
+        private clsDBLevel objDBLevel_Templates;
 
         private Thread objThread_ManagedDocuments;
         private Thread objThread_MD__DateTimeStampChanged;
@@ -253,6 +255,36 @@ namespace Office_Module
             return objOItem_Result;
         }
 
+        public clsOntologyItem GetClassOfObject(clsOntologyItem OItem_Object)
+        {
+            clsOntologyItem objOItem_Class = new clsOntologyItem();
+            clsOntologyItem objOItem_Result;
+
+            List<clsOntologyItem> objOList_ClassOfObject = new List<clsOntologyItem>();
+
+            objOList_ClassOfObject.Add(new clsOntologyItem(OItem_Object.GUID_Parent, objLocalConfig.Globals.Type_Class));
+
+            objOItem_Result = objDBLevel_Documents.get_Data_Classes(objOList_ClassOfObject);
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                if (objDBLevel_Documents.OList_Classes.Any())
+                {
+                    objOItem_Class = objDBLevel_Documents.OList_Classes.First();
+                }
+                else
+                {
+                    objOItem_Class = null;
+                }
+            }
+            else
+            {
+                objOItem_Class = null;
+            }
+
+            return objOItem_Class;
+        }
+
         private void set_DBConnection()
         {
             objDBLevel_ManagementDocuments = new clsDBLevel(objLocalConfig.Globals);
@@ -261,6 +293,8 @@ namespace Office_Module
             objDBLevel_MD_To_File = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_MD_To_OItem = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Classes = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_Documents = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_Templates = new clsDBLevel(objLocalConfig.Globals);
         }
 
         private void GetData_ManagedDocuments()
@@ -349,6 +383,156 @@ namespace Office_Module
 
             OItem_Result_MD_To_OItem = objDBLevel_MD_To_OItem.get_Data_ObjectRel(objORList_MD_To_OItem,
                                                                                boolIDs: false);
+        }
+
+
+        public clsOntologyItem GetStandardTemplate()
+        {
+            clsOntologyItem objOItem_Result;
+            clsOntologyItem objOItem_File;
+            List<clsObjectRel> objORel_WordTemplate = new List<clsObjectRel>();
+
+            objORel_WordTemplate.Add(new clsObjectRel()
+            {
+                ID_Object = objLocalConfig.OItem_BaseConfig.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_Type_Word_Templates.GUID,
+                ID_RelationType = objLocalConfig.OItem_RelationType_Standard.GUID
+            });
+
+            objOItem_Result = objDBLevel_Templates.get_Data_ObjectRel(objORel_WordTemplate);
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                if (objDBLevel_Templates.OList_ObjectRel_ID.Any())
+                {
+                    objORel_WordTemplate.Clear();
+                    objORel_WordTemplate.Add(new clsObjectRel()
+                    {
+                        ID_Object = objDBLevel_Templates.OList_ObjectRel_ID.First().ID_Other,
+                        ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID,
+                        ID_RelationType = objLocalConfig.OItem_RelationType_is.GUID
+                    });
+
+                    objOItem_Result = objDBLevel_Templates.get_Data_ObjectRel(objORel_WordTemplate,
+                                                                              boolIDs: false);
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        if (objDBLevel_Templates.OList_ObjectRel.Any())
+                        {
+                            objOItem_File = new clsOntologyItem()
+                            {
+                                GUID = objDBLevel_Templates.OList_ObjectRel.First().ID_Other,
+                                Name = objDBLevel_Templates.OList_ObjectRel.First().Name_Other,
+                                GUID_Parent = objLocalConfig.OItem_Type_File.GUID,
+                                Type = objLocalConfig.Globals.Type_Object
+                            };
+
+                        }
+                        else
+                        {
+                            objOItem_File = null;
+                        }
+                    }
+                    else
+                    {
+                        objOItem_File = null;
+                    }
+                }
+                else
+                {
+                    objOItem_File = null;
+                }
+            }
+            else
+            {
+                objOItem_File = null;
+            }
+
+
+
+            return objOItem_File;
+        }
+
+        public clsOntologyItem GetTemplate(clsOntologyItem objOItem_RefForTemplate)
+        {
+
+            clsOntologyItem objOItem_File;
+            clsOntologyItem objOItem_Result;
+            List<clsObjectRel> objORel_Templates = new List<clsObjectRel>();
+
+
+            if (objOItem_RefForTemplate != null)
+            {
+                objORel_Templates.Add(new clsObjectRel()
+                {
+                    ID_Parent_Object = objOItem_RefForTemplate.GUID,
+                    ID_Other = objOItem_RefForTemplate.GUID,
+                    ID_RelationType = objLocalConfig.OItem_RelationType_used_for.GUID
+                });
+
+                objOItem_Result = objDBLevel_Templates.get_Data_ObjectRel(objORel_Templates,
+                                                                          boolIDs: true);
+
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    if (objDBLevel_Templates.OList_ClassRel.Any())
+                    {
+                        objORel_Templates.Clear();
+                        objORel_Templates.Add(new clsObjectRel()
+                        {
+                            ID_Object = objDBLevel_Classes.OList_ObjectRel.First().ID_Object,
+                            ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID,
+                            ID_RelationType = objLocalConfig.OItem_RelationType_is.GUID
+                        });
+
+                        objOItem_Result = objDBLevel_Templates.get_Data_ObjectRel(objORel_Templates,
+                                                                                  boolIDs: false);
+
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            if (objDBLevel_Templates.OList_ObjectRel.Any())
+                            {
+                                objOItem_File = new clsOntologyItem()
+                                {
+                                    GUID = objDBLevel_Templates.OList_ObjectRel.First().ID_Other,
+                                    Name = objDBLevel_Templates.OList_ObjectRel.First().Name_Other,
+                                    GUID_Parent = objLocalConfig.OItem_Type_File.GUID,
+                                    Type = objLocalConfig.Globals.Type_Object
+                                };
+
+                            }
+                            else
+                            {
+                                objOItem_File = null;
+                            }
+                        }
+                        else
+                        {
+                            objOItem_File = null;
+                        }
+
+                    }
+                    else
+                    {
+                        objOItem_File = null;
+                    }
+                    
+                }
+                else
+                {
+                    objOItem_File = null;
+                }
+            }
+            else
+            {
+                objOItem_File = null;
+            }
+
+            
+
+                    
+
+            return objOItem_File;
         }
 
     }

@@ -23,7 +23,6 @@ namespace Office_Module
         private frmMain objFrmOntologyModule;
         private UserControl_Documents objUserControl_Documents;
 
-        private clsDataWork_Documents objDatawork_Documents;
 
         private TreeNode objTreeNode_Root;
         private TreeNode objTreeNode_Documents;
@@ -47,7 +46,7 @@ namespace Office_Module
 
         private void Initialize()
         {
-            objDatawork_Documents = new clsDataWork_Documents(objLocalConfig);
+            objLocalConfig.DataWork_Documents = new clsDataWork_Documents(objLocalConfig);
             objUserControl_Documents = new UserControl_Documents(objLocalConfig);
             objUserControl_Documents.Dock = DockStyle.Fill;
             splitContainer1.Panel2.Controls.Add(objUserControl_Documents);
@@ -78,17 +77,17 @@ namespace Office_Module
             objTreeNode_Attributes = objTreeNode_Documents.Nodes.Add(objLocalConfig.Globals.Type_AttributeType, objLocalConfig.Globals.Type_AttributeType, objLocalConfig.ImageID_Attributes, objLocalConfig.ImageID_Attributes);
             objTreeNode_RelationTypes = objTreeNode_Documents.Nodes.Add(objLocalConfig.Globals.Type_RelationType, objLocalConfig.Globals.Type_RelationType, objLocalConfig.ImageID_RelationTypes, objLocalConfig.ImageID_RelationTypes);
 
-            objDatawork_Documents.GetData();
-            while (objDatawork_Documents.isPresent_Documents().GUID == objLocalConfig.Globals.LState_Nothing.GUID)
+            objLocalConfig.DataWork_Documents.GetData();
+            while (objLocalConfig.DataWork_Documents.isPresent_Documents().GUID == objLocalConfig.Globals.LState_Nothing.GUID)
             {
             }
 
-            if (objDatawork_Documents.isPresent_Documents().GUID == objLocalConfig.Globals.LState_Success.GUID)
+            if (objLocalConfig.DataWork_Documents.isPresent_Documents().GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                objOItem_Result = objDatawork_Documents.GetData_Documents();
+                objOItem_Result = objLocalConfig.DataWork_Documents.GetData_Documents();
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    objOItem_Result = objDatawork_Documents.GetData_Classes();
+                    objOItem_Result = objLocalConfig.DataWork_Documents.GetData_Classes();
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
                         createTreeStrucuture(objTreeNode_Documents);
@@ -118,7 +117,7 @@ namespace Office_Module
         private void addObjects()
         {
             TreeNode[] objTreeNodes;
-            var objObjects = (from obj in objDatawork_Documents.OList_Documents
+            var objObjects = (from obj in objLocalConfig.DataWork_Documents.OList_Documents
                               where obj.Ontology_Ref == objLocalConfig.Globals.Type_Object
                               select new clsOntologyItem
                               {
@@ -146,7 +145,7 @@ namespace Office_Module
             TreeNode objSubTreeNode;
             if (objTreeNode.Name != objTreeNode_Documents.Name)
             {
-                objSubNodes = (from obj in objDatawork_Documents.OList_Classes
+                objSubNodes = (from obj in objLocalConfig.DataWork_Documents.OList_Classes
                                where obj.GUID_Parent == objTreeNode.Name
                                orderby obj.Name
                                select new clsOntologyItem
@@ -158,7 +157,7 @@ namespace Office_Module
             }
             else
             {
-                objSubNodes = (from obj in objDatawork_Documents.OList_Classes
+                objSubNodes = (from obj in objLocalConfig.DataWork_Documents.OList_Classes
                                where obj.GUID_Parent == null
                                orderby obj.Name
                                select new clsOntologyItem
@@ -197,7 +196,7 @@ namespace Office_Module
                                                              GUID = e.Node.Name,
                                                              Name = e.Node.Text
                                                            };
-                    objUserControl_Documents.Initialize_Documents(objDatawork_Documents, objOItem_Ref);
+                    objUserControl_Documents.Initialize_Documents(objLocalConfig.DataWork_Documents, objOItem_Ref);
                 }
             }
         }

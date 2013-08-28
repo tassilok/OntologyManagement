@@ -635,4 +635,57 @@ Public Class clsDataWork
         Return oItem_Result
     End Function
 
+    Public Function get_FileByGUID(strGUID As String) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_File As clsOntologyItem
+        Dim objOList_File As New List(Of clsOntologyItem)
+
+        objOList_File.Add(New clsOntologyItem(strGUID, objLocalConfig.Globals.Type_Object))
+
+        objOItem_Result = objDBLevel_Files.get_Data_Objects(objOList_File)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_Files.OList_Objects.Any Then
+                objOItem_File = objDBLevel_Files.OList_Objects.First()
+            Else
+                objOItem_File = Nothing
+            End If
+
+        Else
+            objOItem_File = Nothing
+        End If
+
+        Return objOItem_File
+    End Function
+
+    Public Function get_FilesOfServer(OItem_Server As clsOntologyItem) As List(Of clsOntologyItem)
+        Dim objOLR_RegisteredFiles As New List(Of clsObjectRel)
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOL_Files As New List(Of clsOntologyItem)
+
+        objOLR_RegisteredFiles.Add(New clsObjectRel() With {.ID_Object = objLocalConfig.Globals.OItem_Server.GUID, _
+                                                            .ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID, _
+                                                            .ID_RelationType = objLocalConfig.OItem_RelationType_is_checkout_by.GUID})
+
+        objOItem_Result = objDBLevel_Files.get_Data_ObjectRel(objOLR_RegisteredFiles, _
+                                                              boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOL_Files = (From objFile In objDBLevel_Files.OList_ObjectRel
+                           Select New clsOntologyItem() With {.GUID = objFile.ID_Other, _
+                                                               .Name = objFile.Name_Other, _
+                                                               .GUID_Parent = objFile.ID_Parent_Other, _
+                                                               .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+        Else
+
+            objOL_Files = Nothing
+        End If
+
+        Return objOL_Files
+    End Function
+
+    
+
+
 End Class

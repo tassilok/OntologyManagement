@@ -29,6 +29,7 @@ Public Class frm_FilesystemModule
     Private objOItem_FileSystemObject As clsOntologyItem
     Private objOItem_Class_Applied As clsOntologyItem
 
+    Private objFrmBlobWatcher As frmBlobWatcher
 
     Public ReadOnly Property OItem_Class_Applied As clsOntologyItem
         Get
@@ -661,5 +662,10 @@ Public Class frm_FilesystemModule
 
             End Select
         End If
+    End Sub
+
+    Private Sub StartBlobdirwatcherToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StartBlobdirwatcherToolStripMenuItem.Click
+
+        objBlobConnection.start_BlobDirWatcher()
     End Sub
 End Class
