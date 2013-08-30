@@ -15,10 +15,10 @@ namespace Office_Module
     public partial class UserControl_Documents : UserControl
     {
         private clsLocalConfig objLocalConfig;
-        private clsDataWork_Documents objDataWork_Documents;
         private clsOntologyItem objOItem_Ref;
         private clsBlobConnection objBlobConnection;
         private clsFileWork objFileWork;
+        private clsDocumentation objDocumentation;
         
         public UserControl_Documents(clsLocalConfig LocalConfig)
         {
@@ -33,18 +33,19 @@ namespace Office_Module
         {
             objBlobConnection = new clsBlobConnection(objLocalConfig.Globals);
             objFileWork = new clsFileWork(objLocalConfig.Globals);
+            objDocumentation = new clsDocumentation(objLocalConfig.Globals);
         }
 
-        public void Initialize_Documents(clsDataWork_Documents DataWork_Documents, clsOntologyItem OItem_Ref)
+        public void Initialize_Documents(clsDataWork_Documents objDataWork_Documents, clsOntologyItem OItem_Ref)
         {
-            objDataWork_Documents = DataWork_Documents;
+            objLocalConfig.DataWork_Documents = objDataWork_Documents;
 
             objOItem_Ref = OItem_Ref;
 
             if (objOItem_Ref != null)
             {
 
-                dataGridView_Documents.DataSource = new SortableBindingList<clsDocument>((from obj in objDataWork_Documents.OList_Documents
+                dataGridView_Documents.DataSource = new SortableBindingList<clsDocument>((from obj in objLocalConfig.DataWork_Documents.OList_Documents
                                                                                          where obj.ID_Ref == objOItem_Ref.GUID
                                                                                          select obj).ToList());
             }
@@ -108,29 +109,23 @@ namespace Office_Module
         private void button_Open_Click(object sender, EventArgs e)
         {
 
-            if (objBlobConnection.BlobActive & objBlobConnection.BlobWatchConfigured)
+            
+            var objDGVR = dataGridView_Documents.SelectedRows[0];
+            var objOList_Document = (from objDoc in objLocalConfig.DataWork_Documents.OList_Documents
+                                     where objDoc.ID_Document == objDGVR.Cells["ID_Document"].Value.ToString()
+                                     select objDoc).ToList();
+
+            if (objOList_Document.Any())
             {
-                var objDGVR = dataGridView_Documents.SelectedRows[0];
-                var strPath = objBlobConnection.Path_BlobWatcher;
-                var objOItem_File = new clsOntologyItem
-                {
-                    GUID = objDGVR.Cells["ID_File"].Value.ToString(),
-                    Name = objDGVR.Cells["Name_File"].Value.ToString(),
-                    GUID_Parent = objLocalConfig.OItem_Type_File.GUID,
-                    Type = objLocalConfig.Globals.Type_Object
-                };
-
-                if (objFileWork.is_File_Blob(objOItem_File))
-                {
-                    var strPathDst = Path.Combine(new string[] { strPath, objOItem_File.Name });
-                    var objOItem_Result =  objBlobConnection.save_Blob_To_File(objOItem_File, strPathDst);
-
-                }
-                else
-                {
-
-                }
+                var objOItem_Document_Opened = objDocumentation.open_Document(objOList_Document.First());
             }
+            else
+            {
+                MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            
+
+            
             
         }
 

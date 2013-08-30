@@ -24,6 +24,7 @@ Public Class frm_FilesystemModule
     Private objTreeNode_ParentLessFiles As TreeNode
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
+    Private objFrm_FileSync As frmFileSync
 
     Private objOLFiles As New List(Of clsOntologyItem)
     Private objOItem_FileSystemObject As clsOntologyItem
@@ -667,5 +668,11 @@ Public Class frm_FilesystemModule
     Private Sub StartBlobdirwatcherToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StartBlobdirwatcherToolStripMenuItem.Click
 
         objBlobConnection.start_BlobDirWatcher()
+    End Sub
+
+    Private Sub SyncFilesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SyncFilesToolStripMenuItem.Click
+        objFrm_FileSync = New frmFileSync(objLocalConfig, True)
+        objFrm_FileSync.ShowDialog(Me)
+
     End Sub
 End Class

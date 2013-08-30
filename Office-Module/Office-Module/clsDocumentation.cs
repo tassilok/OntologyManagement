@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Ontolog_Module;
 using Filesystem_Module;
+using System.IO;
 
 namespace Office_Module
 {
@@ -13,43 +14,56 @@ namespace Office_Module
         private clsDataWork_Documents objDataWork_Documents;
         private clsFileWork objFileWork;
         private clsBlobConnection objBlobConnection;
+        private clsWordWork objWordWork;
+        private clsOntologyItem objOItem_Document;
+        private frmBlobWatcher objFrmBlobWatcher;
         private string strCategory;
 
-        public clsOntologyItem open_Document(clsOntologyItem OItem_Ref)
+        public clsOntologyItem open_Document(clsDocument objDocument)
         {
             clsOntologyItem objOItem_Result;
             clsOntologyItem objOItem_RefForTemplate = null;
             clsOntologyItem objOItem_Template_File;
 
+            
             objOItem_Result = objLocalConfig.Globals.LState_Error;
 
-            if (OItem_Ref.Type == objLocalConfig.Globals.Type_AttributeType)
+            var objOItem_Ref = new clsOntologyItem()
+            {
+                GUID = objDocument.ID_Ref,
+                Name = objDocument.Name_Ref,
+                GUID_Parent = objDocument.ID_Parent_Ref,
+                Type = objDocument.Ontology_Ref
+            };
+
+            if (objOItem_Ref.Type == objLocalConfig.Globals.Type_AttributeType)
             {
                 objOItem_Result = objLocalConfig.Globals.LState_Success;
                 strCategory = objLocalConfig.Globals.Type_AttributeType;
                 // Todo Template for Attribute-Types
                 objOItem_RefForTemplate = null;
             }
-            else if (OItem_Ref.Type == objLocalConfig.Globals.Type_Class)
+            else if (objOItem_Ref.Type == objLocalConfig.Globals.Type_Class)
             {
                 objOItem_Result = objLocalConfig.Globals.LState_Success;
                 strCategory = objLocalConfig.Globals.Type_Class;
                 // Todo Template for Classes
                 objOItem_RefForTemplate = null;
             }
-            else if (OItem_Ref.Type == objLocalConfig.Globals.Type_Object)
+            else if (objOItem_Ref.Type == objLocalConfig.Globals.Type_Object)
             {
+                
 
-                objOItem_RefForTemplate = objLocalConfig.DataWork_Documents.GetClassOfObject(OItem_Ref);
+                objOItem_RefForTemplate = objLocalConfig.DataWork_Documents.GetClassOfObject(objOItem_Ref);
                 if (objOItem_RefForTemplate != null)
                 {
                     strCategory = objOItem_RefForTemplate.Name;
                     objOItem_Result = objLocalConfig.Globals.LState_Success;
                 }
-                
-                
+
+
             }
-            else if (OItem_Ref.Type == objLocalConfig.Globals.Type_RelationType)
+            else if (objOItem_Ref.Type == objLocalConfig.Globals.Type_RelationType)
             {
                 objOItem_Result = objLocalConfig.Globals.LState_Success;
                 strCategory = objLocalConfig.Globals.Type_RelationType;
@@ -65,7 +79,7 @@ namespace Office_Module
                     if (objFileWork.is_File_Blob(objOItem_Template_File))
                     {
                         objOItem_Template_File.Mark = true;
-                        objOItem_Template_File.Additional1 = "%temp%\\" + objOItem_Template_File.Name;    
+                        objOItem_Template_File.Additional1 = "%temp%\\" + objOItem_Template_File.Name;
                         objOItem_Template_File.Additional1 = Environment.ExpandEnvironmentVariables(objOItem_Template_File.Additional1);
 
                     }
@@ -73,7 +87,7 @@ namespace Office_Module
                     {
                         objOItem_Template_File.Additional1 = objFileWork.get_Path_FileSystemObject(objOItem_Template_File);
                     }
-                    
+
                 }
                 else
                 {
@@ -90,9 +104,9 @@ namespace Office_Module
                         {
                             objOItem_Template_File.Additional1 = objFileWork.get_Path_FileSystemObject(objOItem_Template_File);
                         }
-                        
+
                         objOItem_Result = objLocalConfig.Globals.LState_Success;
-                        
+
                     }
                     else
                     {
@@ -106,51 +120,72 @@ namespace Office_Module
                 {
                     if (objOItem_Template_File.Mark)
                     {
-                        objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_Template_File, objOItem_Template_File.Additional1);
+                        objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_Template_File, objOItem_Template_File.Additional1, true);
                     }
-                    
+
                 }
 
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    var OList_Document = (from objDoc in objDataWork_Documents.OList_Documents
-                                          where objDoc.ID_Ref == OItem_Ref.GUID
-                                          select objDoc).ToList();
-
-                    if (OList_Document.Any())
+                        
+                    if (objDocument.ID_File != null)
                     {
-                        if (OList_Document.First().ID_File != null)
+                        
+                        var objOItem_File_Document = new clsOntologyItem()
                         {
-                            var objOListFile = OList_Document.First();
-                            var objOItem_File_Document = new clsOntologyItem()
-                            {
-                                GUID = objOListFile.ID_File,
-                                Name = objOListFile.Name_File,
-                                GUID_Parent = objLocalConfig.OItem_Type_File.GUID,
-                                Type = objLocalConfig.Globals.Type_Object
-                            };
+                            GUID = objDocument.ID_File,
+                            Name = objDocument.Name_File,
+                            GUID_Parent = objLocalConfig.OItem_Type_File.GUID,
+                            Type = objLocalConfig.Globals.Type_Object
+                        };
 
-                            if (objFileWork.is_File_Blob(objOItem_File_Document))
-                            {
+                        var strPath = objFileWork.merge_paths(objBlobConnection.Path_BlobWatcher, objOItem_File_Document.Name);
+                        var strExtension = Path.GetExtension(strPath);
+                        strPath = objFileWork.merge_paths(objBlobConnection.Path_BlobWatcher, objOItem_File_Document.GUID + strExtension);
 
-                            }
-                            else
-                            {
+                        objOItem_File_Document.Additional1 = strPath;
 
-                            }
+                        objOItem_Result = objFrmBlobWatcher.Initialize_BlobDirWatcher();
+
+                        if (objFileWork.is_File_Blob(objOItem_File_Document))
+                        {
+                            objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_File_Document, objOItem_File_Document.Additional1);
                         }
                         else
                         {
                             objOItem_Result = objLocalConfig.Globals.LState_Error;
+                        }
+
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            objOItem_Document = new clsOntologyItem();
+                            objOItem_Document.GUID = objDocument.ID_Document;
+                            objOItem_Document.Name = objDocument.Name_Document;
+                            objOItem_Document.GUID_Parent = objDocument.ID_Parent_Document;
+
+
+                            objOItem_Document.GUID_Related = objWordWork.openDocument(objOItem_File_Document.Additional1, strCategory, objDocument.Name_Ref, objOItem_Template_File.Additional1);
+                            if (objOItem_Document.GUID_Related == null)
+                            {
+                                objOItem_Result = objLocalConfig.Globals.LState_Error;
+                            }
+                            else
+                            {
+                                objOItem_Result = objOItem_Document;
+                            }
+
+
                         }
                     }
                     else
                     {
                         objOItem_Result = objLocalConfig.Globals.LState_Error;
                     }
+                    
                 }
 
             }
+            
 
 
             return objOItem_Result;
@@ -176,6 +211,8 @@ namespace Office_Module
         {
             objFileWork = new clsFileWork(objLocalConfig.Globals);
             objBlobConnection = new clsBlobConnection(objLocalConfig.Globals);
+            objWordWork = new clsWordWork();
+            objFrmBlobWatcher = new frmBlobWatcher(objLocalConfig.Globals);
         }
     }
 }

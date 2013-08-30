@@ -229,6 +229,7 @@ Public Class frmBlobWatcher
 
     Private Sub Timer_BlobSave_Tick(sender As Object, e As EventArgs) Handles Timer_BlobSave.Tick
         Dim FileList As List(Of String)
+        Dim strGUID_File As String
         Dim objOItem_File As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objFileInfo As IO.FileInfo
@@ -240,35 +241,44 @@ Public Class frmBlobWatcher
 
             If Not is_File_Locked(strFile) Then
                 objFileInfo = New IO.FileInfo(strFile)
-                objOItem_File = objDataWork.get_FileByGUID(IO.Path.GetFileName(strFile))
-                objOItem_Result = objLocalConfig.Globals.LState_Success
-                If objOItem_File Is Nothing Then
-
-                    objOItem_File = New clsOntologyItem() With {.GUID = IO.Path.GetFileName(strFile), _
-                                                            .Name = IO.Path.GetFileName(strFile), _
-                                                            .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
-                                                            .Type = objLocalConfig.Globals.Type_Object}
-
-                    objOItem_Result = objTransaction.do_Transaction(objOItem_File)
-
+                strGUID_File = IO.Path.GetFileName(strFile)
+                If (strGUID_File.Contains(".")) Then
+                    strGUID_File = strGUID_File.Substring(0, strGUID_File.IndexOf("."))
                 End If
-                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_File, strFile)
-                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        Try
-                            IO.File.Delete(strFile)
-                            objOLR_FileToServer = New clsObjectRel() With {.ID_Object = objOItem_File.GUID, _
-                                                                           .ID_Other = objLocalConfig.Globals.OItem_Server.GUID, _
-                                                                           .ID_RelationType = objLocalConfig.OItem_RelationType_is_checkout_by.GUID}
-                            objTransaction.ClearItems()
-                            objTransaction.do_Transaction(objOLR_FileToServer, False, True)
-                        Catch ex As Exception
 
-                        End Try
+                If objLocalConfig.Globals.is_GUID(strGUID_File) Then
+                    objOItem_File = objDataWork.get_FileByGUID(strGUID_File)
+                    objOItem_Result = objLocalConfig.Globals.LState_Success
+                    If objOItem_File Is Nothing Then
 
+                        objOItem_File = New clsOntologyItem() With {.GUID = strGUID_File, _
+                                                                .Name = IO.Path.GetFileName(strFile), _
+                                                                .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
+                                                                .Type = objLocalConfig.Globals.Type_Object}
+
+                        objOItem_Result = objTransaction.do_Transaction(objOItem_File)
 
                     End If
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_File, strFile)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            Try
+                                IO.File.Delete(strFile)
+                                objOLR_FileToServer = New clsObjectRel() With {.ID_Object = objOItem_File.GUID, _
+                                                                               .ID_Other = objLocalConfig.Globals.OItem_Server.GUID, _
+                                                                               .ID_RelationType = objLocalConfig.OItem_RelationType_is_checkout_by.GUID}
+                                objTransaction.ClearItems()
+                                objTransaction.do_Transaction(objOLR_FileToServer, False, True)
+                            Catch ex As Exception
+
+                            End Try
+
+
+                        End If
+                    End If
                 End If
+
+                
 
             End If
         Next

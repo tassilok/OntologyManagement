@@ -15,6 +15,10 @@ namespace Office_Module
         public string ID_AttributeType { get; set; }
         public DateTime? DateTimeStampChanged { get; set; }
 
+        public string ID_Document { get; set; }
+        public string Name_Document { get; set; }
+        public string ID_Parent_Document { get; set; }
+
         public string ID_DocumentType { get; set; }
         public string Name_DocumentType { get; set; }
         public string ID_Parent_DocumentType { get; set; }

@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsContentObject.cs" />
     <Compile Include="clsDataWork_Documents.cs" />
     <Compile Include="clsDocument.cs" />
     <Compile Include="clsDocumentation.cs" />

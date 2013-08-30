@@ -347,7 +347,7 @@ Public Class clsBlobConnection
 
     End Sub
 
-    Public Function save_Blob_To_File(ByVal objOItem_File As clsOntologyItem, ByVal strPath_File As String) As clsOntologyItem
+    Public Function save_Blob_To_File(ByVal objOItem_File As clsOntologyItem, ByVal strPath_File As String, Optional boolOverwrite As Boolean = False) As clsOntologyItem
         Dim objOAR_CreationDate As New List(Of clsObjectAtt)
         Dim objOItem_Result As clsOntologyItem
         Dim objStream_Read As IO.Stream
@@ -357,19 +357,31 @@ Public Class clsBlobConnection
         objOItem_Result = objLocalConfig.Globals.LState_Error
 
         If boolBlobActive = True Then
+            objOItem_Result = objLocalConfig.Globals.LState_Success
             strPath_File_SRC = strPath_Blob & IO.Path.DirectorySeparatorChar & objOItem_File.GUID
             strPath_File = Environment.ExpandEnvironmentVariables(strPath_File)
 
-            If IO.File.Exists(strPath_File) Then
-                objOItem_Result = objLocalConfig.Globals.LState_Relation
-            Else
-                Try
-                    strPath_File_DST = IO.Path.GetDirectoryName(strPath_File)
-                    If Not IO.Directory.Exists(strPath_File_DST) Then
-                        IO.Directory.CreateDirectory(strPath_File_DST)
+            
+            Try
+                strPath_File_DST = IO.Path.GetDirectoryName(strPath_File)
+                If Not IO.Directory.Exists(strPath_File_DST) Then
+                    IO.Directory.CreateDirectory(strPath_File_DST)
+                End If
+                If boolOverwrite Then
+                    If IO.File.Exists(strPath_File) Then
+                        IO.File.Delete(strPath_File)
                     End If
-                    objStream_Write = New IO.FileStream(strPath_File, IO.FileMode.CreateNew)
+                Else
+                    If IO.File.Exists(strPath_File) Then
+                        objOItem_Result = objLocalConfig.Globals.LState_Relation
+                    End If
+
+                End If
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
                     objStream_Read = New IO.FileStream(strPath_File_SRC, IO.FileMode.Open)
+                    objStream_Write = New IO.FileStream(strPath_File, IO.FileMode.CreateNew)
                     objStream_Read.CopyTo(objStream_Write)
                     objStream_Write.Flush()
                     objStream_Write.Close()
@@ -377,9 +389,9 @@ Public Class clsBlobConnection
                     objOItem_Result = objLocalConfig.Globals.LState_Success
 
                     objOAR_CreationDate.Add(New clsObjectAtt() With {.ID_Object = objOItem_File.GUID, _
-                                                                     .ID_AttributeType = objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID})
+                                                                        .ID_AttributeType = objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID})
                     objOItem_Result = objDBLevel_Blobs.get_Data_ObjectAtt(objOAR_CreationDate, _
-                                                                          boolIDs:=False)
+                                                                            boolIDs:=False)
 
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                         If objDBLevel_Blobs.OList_ObjectAtt.Any Then
@@ -388,11 +400,13 @@ Public Class clsBlobConnection
                         End If
 
                     End If
-                Catch ex As Exception
-                    objOItem_Result = objLocalConfig.Globals.LState_Error
-                End Try
+                End If
 
-            End If
+            Catch ex As Exception
+                objOItem_Result = objLocalConfig.Globals.LState_Error
+            End Try
+
+
 
         End If
 
@@ -434,7 +448,7 @@ Public Class clsBlobConnection
         Return objOItem_Result
     End Function
 
-    Private Function get_Hash_Of_File(ByVal strPath As String) As String
+    Public Function get_Hash_Of_File(ByVal strPath As String) As String
         Dim objOItem_Result As clsOntologyItem
         Dim objFileStream As New IO.FileStream(strPath, IO.FileMode.Open, IO.FileAccess.Read)
         Dim objMD5 As System.Security.Cryptography.MD5 = New System.Security.Cryptography.MD5CryptoServiceProvider()

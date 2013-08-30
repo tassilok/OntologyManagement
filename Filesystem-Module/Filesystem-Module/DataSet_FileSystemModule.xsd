@@ -12,13 +12,24 @@
   <xs:element name="DataSet_FileSystemModule" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet_FileSystemModule" msprop:Generator_UserDSName="DataSet_FileSystemModule">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="otbl_Files" msprop:Generator_TableClassName="otbl_FilesDataTable" msprop:Generator_TableVarName="tableotbl_Files" msprop:Generator_TablePropName="otbl_Files" msprop:Generator_RowDeletingName="otbl_FilesRowDeleting" msprop:Generator_UserTableName="otbl_Files" msprop:Generator_RowChangingName="otbl_FilesRowChanging" msprop:Generator_RowEvHandlerName="otbl_FilesRowChangeEventHandler" msprop:Generator_RowDeletedName="otbl_FilesRowDeleted" msprop:Generator_RowEvArgName="otbl_FilesRowChangeEvent" msprop:Generator_RowChangedName="otbl_FilesRowChanged" msprop:Generator_RowClassName="otbl_FilesRow">
+        <xs:element name="otbl_Files" msprop:Generator_TableClassName="otbl_FilesDataTable" msprop:Generator_TableVarName="tableotbl_Files" msprop:Generator_RowChangedName="otbl_FilesRowChanged" msprop:Generator_TablePropName="otbl_Files" msprop:Generator_RowDeletingName="otbl_FilesRowDeleting" msprop:Generator_RowChangingName="otbl_FilesRowChanging" msprop:Generator_RowEvHandlerName="otbl_FilesRowChangeEventHandler" msprop:Generator_RowDeletedName="otbl_FilesRowDeleted" msprop:Generator_RowClassName="otbl_FilesRow" msprop:Generator_UserTableName="otbl_Files" msprop:Generator_RowEvArgName="otbl_FilesRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="GUID_File" msprop:Generator_ColumnVarNameInTable="columnGUID_File" msprop:Generator_ColumnPropNameInRow="GUID_File" msprop:Generator_ColumnPropNameInTable="GUID_FileColumn" msprop:Generator_UserColumnName="GUID_File" type="xs:string" minOccurs="0" />
               <xs:element name="Name_File" msprop:Generator_ColumnVarNameInTable="columnName_File" msprop:Generator_ColumnPropNameInRow="Name_File" msprop:Generator_ColumnPropNameInTable="Name_FileColumn" msprop:Generator_UserColumnName="Name_File" type="xs:string" minOccurs="0" />
               <xs:element name="isBlob" msprop:Generator_ColumnVarNameInTable="columnisBlob" msprop:Generator_ColumnPropNameInRow="isBlob" msprop:Generator_ColumnPropNameInTable="isBlobColumn" msprop:Generator_UserColumnName="isBlob" type="xs:boolean" minOccurs="0" />
               <xs:element name="Class_File" msprop:Generator_ColumnVarNameInTable="columnClass_File" msprop:Generator_ColumnPropNameInRow="Class_File" msprop:Generator_ColumnPropNameInTable="Class_FileColumn" msprop:Generator_UserColumnName="Class_File" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="dtbl_SyncLog" msprop:Generator_TableClassName="dtbl_SyncLogDataTable" msprop:Generator_TableVarName="tabledtbl_SyncLog" msprop:Generator_TablePropName="dtbl_SyncLog" msprop:Generator_RowDeletingName="dtbl_SyncLogRowDeleting" msprop:Generator_RowChangingName="dtbl_SyncLogRowChanging" msprop:Generator_RowEvHandlerName="dtbl_SyncLogRowChangeEventHandler" msprop:Generator_RowDeletedName="dtbl_SyncLogRowDeleted" msprop:Generator_UserTableName="dtbl_SyncLog" msprop:Generator_RowChangedName="dtbl_SyncLogRowChanged" msprop:Generator_RowEvArgName="dtbl_SyncLogRowChangeEvent" msprop:Generator_RowClassName="dtbl_SyncLogRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="dateLog" msprop:Generator_ColumnVarNameInTable="columndateLog" msprop:Generator_ColumnPropNameInRow="dateLog" msprop:Generator_ColumnPropNameInTable="dateLogColumn" msprop:Generator_UserColumnName="dateLog" type="xs:dateTime" />
+              <xs:element name="FileSrc" msprop:Generator_ColumnVarNameInTable="columnFileSrc" msprop:Generator_ColumnPropNameInRow="FileSrc" msprop:Generator_ColumnPropNameInTable="FileSrcColumn" msprop:Generator_UserColumnName="FileSrc" type="xs:string" minOccurs="0" />
+              <xs:element name="FileDst" msprop:Generator_ColumnVarNameInTable="columnFileDst" msprop:Generator_ColumnPropNameInRow="FileDst" msprop:Generator_ColumnPropNameInTable="FileDstColumn" msprop:Generator_UserColumnName="FileDst" type="xs:string" minOccurs="0" />
+              <xs:element name="Log" msprop:Generator_ColumnVarNameInTable="columnLog" msprop:Generator_ColumnPropNameInRow="Log" msprop:Generator_ColumnPropNameInTable="LogColumn" msprop:Generator_UserColumnName="Log" type="xs:string" minOccurs="0" />
+              <xs:element name="Type" msprop:Generator_ColumnVarNameInTable="columnType" msprop:Generator_ColumnPropNameInRow="Type" msprop:Generator_ColumnPropNameInTable="TypeColumn" msprop:Generator_UserColumnName="Type" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

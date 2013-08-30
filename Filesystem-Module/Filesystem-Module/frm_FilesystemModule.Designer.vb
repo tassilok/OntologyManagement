@@ -83,15 +83,16 @@ Partial Class frm_FilesystemModule
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Search = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
-        Me.FoldersToolStripButton = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel_ObjectList_Label = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_ObjectList = New System.Windows.Forms.ToolStripLabel()
         Me.FolderBrowserDialog_Download = New System.Windows.Forms.FolderBrowserDialog()
-        Me.BindingSource_Files = New System.Windows.Forms.BindingSource(Me.components)
         Me.Timer_Search = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog_Files = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog_Folders = New System.Windows.Forms.FolderBrowserDialog()
+        Me.FoldersToolStripButton = New System.Windows.Forms.ToolStripButton()
+        Me.BindingSource_Files = New System.Windows.Forms.BindingSource(Me.components)
+        Me.SyncFilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -181,7 +182,7 @@ Partial Class frm_FilesystemModule
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.BrowseToolStripMenuItem, Me.ObjectToolStripMenuItem, Me.StartBlobdirwatcherToolStripMenuItem, Me.MenuToolStripMenuItem, Me.RefreshToolStripMenuItem, Me.GetHashOfFilesToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.BrowseToolStripMenuItem, Me.ObjectToolStripMenuItem, Me.StartBlobdirwatcherToolStripMenuItem, Me.MenuToolStripMenuItem, Me.RefreshToolStripMenuItem, Me.GetHashOfFilesToolStripMenuItem, Me.SyncFilesToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(58, 20)
         Me.ToolsToolStripMenuItem.Text = "x_Tools"
@@ -572,17 +573,6 @@ Partial Class frm_FilesystemModule
         Me.ToolStrip1.Size = New System.Drawing.Size(182, 25)
         Me.ToolStrip1.TabIndex = 0
         '
-        'FoldersToolStripButton
-        '
-        Me.FoldersToolStripButton.Checked = True
-        Me.FoldersToolStripButton.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.FoldersToolStripButton.Image = CType(resources.GetObject("FoldersToolStripButton.Image"), System.Drawing.Image)
-        Me.FoldersToolStripButton.ImageTransparentColor = System.Drawing.Color.Black
-        Me.FoldersToolStripButton.Name = "FoldersToolStripButton"
-        Me.FoldersToolStripButton.Size = New System.Drawing.Size(74, 22)
-        Me.FoldersToolStripButton.Text = "x_Ordner"
-        Me.FoldersToolStripButton.ToolTipText = "Ordneransicht umschalten"
-        '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
@@ -608,6 +598,23 @@ Partial Class frm_FilesystemModule
         '
         Me.OpenFileDialog_Files.FileName = "OpenFileDialog1"
         Me.OpenFileDialog_Files.Multiselect = True
+        '
+        'FoldersToolStripButton
+        '
+        Me.FoldersToolStripButton.Checked = True
+        Me.FoldersToolStripButton.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.FoldersToolStripButton.Image = CType(resources.GetObject("FoldersToolStripButton.Image"), System.Drawing.Image)
+        Me.FoldersToolStripButton.ImageTransparentColor = System.Drawing.Color.Black
+        Me.FoldersToolStripButton.Name = "FoldersToolStripButton"
+        Me.FoldersToolStripButton.Size = New System.Drawing.Size(74, 22)
+        Me.FoldersToolStripButton.Text = "x_Ordner"
+        Me.FoldersToolStripButton.ToolTipText = "Ordneransicht umschalten"
+        '
+        'SyncFilesToolStripMenuItem
+        '
+        Me.SyncFilesToolStripMenuItem.Name = "SyncFilesToolStripMenuItem"
+        Me.SyncFilesToolStripMenuItem.Size = New System.Drawing.Size(196, 22)
+        Me.SyncFilesToolStripMenuItem.Text = "x_Sync Files"
         '
         'frm_FilesystemModule
         '
@@ -722,5 +729,6 @@ Partial Class frm_FilesystemModule
     Friend WithEvents FolderBrowserDialog_Folders As System.Windows.Forms.FolderBrowserDialog
     Friend WithEvents GUIDAsNameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents HashesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SyncFilesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

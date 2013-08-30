@@ -50,6 +50,8 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Synchronization, Version=1.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Synchronization.Files, Version=1.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -78,6 +80,7 @@
     <Compile Include="clsDataWork.vb" />
     <Compile Include="clsFileWork.vb" />
     <Compile Include="clsLocalConfig.vb" />
+    <Compile Include="clsSync.vb" />
     <Compile Include="clsTransaction_Files.vb" />
     <Compile Include="clsTransaction_Folders.vb" />
     <Compile Include="DataSet_FileSystemModule.Designer.vb">
@@ -89,6 +92,12 @@
       <DependentUpon>frmBlobWatcher.vb</DependentUpon>
     </Compile>
     <Compile Include="frmBlobWatcher.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFileSync.Designer.vb">
+      <DependentUpon>frmFileSync.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmFileSync.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frm_FilesystemModule.vb">
@@ -117,6 +126,9 @@
   <ItemGroup>
     <EmbeddedResource Include="frmBlobWatcher.resx">
       <DependentUpon>frmBlobWatcher.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFileSync.resx">
+      <DependentUpon>frmFileSync.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm_FilesystemModule.resx">
       <DependentUpon>frm_FilesystemModule.vb</DependentUpon>
@@ -169,6 +181,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\sync.png" />
     <None Include="Resources\tasto_7_architetto_franc_01.png" />
     <None Include="Resources\tasto_11_architetto_fran_01.png" />
   </ItemGroup>

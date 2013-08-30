@@ -343,17 +343,17 @@ Public Class clsFileWork
         Dim strPath As String
 
 
-        If strPath1.EndsWith(IO.Path.PathSeparator) Then
-            If strPath2.StartsWith(IO.Path.PathSeparator) Then
+        If strPath1.EndsWith(IO.Path.DirectorySeparatorChar) Then
+            If strPath2.StartsWith(IO.Path.DirectorySeparatorChar) Then
                 strPath = strPath1 & strPath2.Substring(1)
             Else
                 strPath = strPath1 & strPath2
             End If
         Else
-            If strPath2.StartsWith(IO.Path.PathSeparator) Then
+            If strPath2.StartsWith(IO.Path.DirectorySeparatorChar) Then
                 strPath = strPath1 & strPath2
             Else
-                strPath = strPath1 & IO.Path.PathSeparator & strPath2
+                strPath = strPath1 & IO.Path.DirectorySeparatorChar & strPath2
             End If
         End If
 
