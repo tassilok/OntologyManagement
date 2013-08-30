@@ -3111,7 +3111,8 @@ Public Class clsDBLevel
                                                               objHit1.Source.ContainsKey(objFields.ID_Other) And _
                                                               objHit1.Source.ContainsKey(objFields.ID_RelationType) And _
                                                               objHit1.Source.ContainsKey(objFields.Ontology) And _
-                                                              objHit1.Source.ContainsKey(objFields.OrderID)
+                                                              objHit1.Source.ContainsKey(objFields.OrderID) And _
+                                                              Not objHit1.Source.ContainsKey(objFields.ID_Parent_Other) _
                                                             Select New clsObjectRel(objHit1.Source(objFields.ID_Object).ToString, _
                                                                                     objHit1.Source(objFields.ID_Parent_Object).ToString, _
                                                                                     objHit1.Source(objFields.ID_Other).ToString, _
