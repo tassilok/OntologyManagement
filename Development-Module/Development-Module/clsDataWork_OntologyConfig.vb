@@ -168,11 +168,11 @@ Public Class clsDataWork_OntologyConfig
             Dim objLOntologyItems1 = From objOntologyItem In objDBLevel_OntologyItems.OList_ObjectRel
                                      Where objOntologyItem.ID_Object = "75ba46671cfb49fe92e44adb1918b5f6"
 
-            Dim objLOntologyItems = From objConfig In objDBLevel_Config.OList_ObjectRel_ID
+            Dim objLOntologyItems = (From objConfig In objDBLevel_Config.OList_ObjectRel_ID
                                 Join objConfigItem In objDBLevel_ConfigItems.OList_ObjectRel On objConfig.ID_Other Equals objConfigItem.ID_Object
                                 Join objOntologyItem In objDBLevel_OntologyItems.OList_ObjectRel On objOntologyItem.ID_Object Equals objConfigItem.ID_Other
                                 Group Join objExportMode In objLExportMode On objExportMode.objConfItem.ID_Other Equals objConfigItem.ID_Other And objExportMode.objSDConfItem.ID_Other Equals objConfig.ID_Object Into objExportModes = Group
-                                From objExportMode In objExportModes.DefaultIfEmpty
+                                From objExportMode In objExportModes.DefaultIfEmpty).ToList()
 
 
 

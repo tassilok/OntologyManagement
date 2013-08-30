@@ -125,8 +125,8 @@ Public Class clsDataWork_CodeGenerator
     End Function
 
     Private Sub get_XML_ConfigItem(ByVal objDRV_ConfigItem As DataRowView)
-        strXML_Declaration_List = strXML_Declaration_List & strXML_Declaration.Replace("@" & objLocalConfig.OItem_Token_Variable_Name_ConfigItem.Name & "@", objDRV_ConfigItem.Item("Name_ConfigItem")) & vbCrLf
-        strXML_Property_List = strXML_Property_List & strXML_Property.Replace("@" & objLocalConfig.OItem_Token_Variable_Name_ConfigItem.Name & "@", objDRV_ConfigItem.Item("Name_ConfigItem")) & vbCrLf & vbCrLf
+        strXML_Declaration_List = strXML_Declaration_List & strXML_Declaration.Replace("@" & objLocalConfig.OItem_Token_Variable_Name_ConfigItem.Name & "@", objDRV_ConfigItem.Item("Name_ConfigItem").ToString.ToLower) & vbCrLf
+        strXML_Property_List = strXML_Property_List & strXML_Property.Replace("@" & objLocalConfig.OItem_Token_Variable_Name_ConfigItem.Name & "@", objDRV_ConfigItem.Item("Name_ConfigItem").ToString.ToLower) & vbCrLf & vbCrLf
 
         Select Case objDRV_ConfigItem.Item("Ontology")
             Case objLocalConfig.Globals.Type_AttributeType
