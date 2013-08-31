@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Office_Module
 {
-    class clsDocumentation
+    public class clsDocumentation
     {
         private clsLocalConfig objLocalConfig;
         private clsDataWork_Documents objDataWork_Documents;
