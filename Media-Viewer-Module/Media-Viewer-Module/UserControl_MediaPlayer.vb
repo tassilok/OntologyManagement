@@ -123,6 +123,17 @@ Public Class UserControl_MediaPlayer
         initialize()
     End Sub
 
+    Public Sub New(Globals As clsGlobals)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = New clsLocalConfig(Globals)
+        set_DBConnection()
+        initialize()
+    End Sub
+
     Private Sub set_DBConnection()
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
         objTransaction_Bookmarks = New clsTransaction_Bookmarks(objLocalConfig)
