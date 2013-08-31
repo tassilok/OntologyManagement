@@ -124,6 +124,13 @@ Public Class clsDBLevel
 
     Public ReadOnly Property OList_Objects As List(Of clsOntologyItem)
         Get
+            If Sort = SortEnum.ASC_Name Then
+                objOntologyList_Objects1.Sort(Function(LS1 As clsOntologyItem, LS2 As clsOntologyItem) LS1.Name.CompareTo(LS2.Name))
+            ElseIf Sort = SortEnum.DESC_Name Then
+                objOntologyList_Objects1 = (From obj In objOntologyList_Objects1
+                                            Order By obj.Name Descending
+                                            Select obj).ToList()
+            End If
             Return objOntologyList_Objects1
         End Get
     End Property
@@ -160,6 +167,13 @@ Public Class clsDBLevel
 
     Public ReadOnly Property OList_ObjectRel As List(Of clsObjectRel)
         Get
+            If Sort = SortEnum.ASC_Name Then
+                objOntologyList_ObjectRel.Sort(Function(LS1 As clsObjectRel, LS2 As clsObjectRel) LS1.Name_Other.CompareTo(LS2.Name_Other))
+            ElseIf Sort = SortEnum.DESC_Name Then
+                objOntologyList_ObjectRel = (From obj In objOntologyList_ObjectRel
+                                            Order By obj.Name_Other Descending
+                                            Select obj).ToList()
+            End If
             Return objOntologyList_ObjectRel
         End Get
     End Property
@@ -3057,6 +3071,16 @@ Public Class clsDBLevel
         Dim strQuery As String
         Dim intCount As Integer
         Dim intPos As Integer
+        Dim strSort As String
+
+        If Sort = SortEnum.ASC_OrderID Then
+            strSort = "OrderID:asc"
+
+        ElseIf Sort = SortEnum.DESC_OrderID Then
+            strSort = "OrderID:desc"
+        Else
+            strSort = Nothing
+        End If
 
         objElConn.Flush()
         objOntologyList_ObjectRel_ID.Clear()
@@ -3084,7 +3108,12 @@ Public Class clsDBLevel
         While intCount > 0
 
             intCount = 0
-            objSearchResult = objElConn.Search(strIndex, objTypes.ObjectRel, objBoolQuery.ToString, intPos, intPackageLength)
+            If strSort Is Nothing Then
+                objSearchResult = objElConn.Search(strIndex, objTypes.ObjectRel, objBoolQuery.ToString, intPos, intPackageLength)
+            Else
+                objSearchResult = objElConn.Search(strIndex, objTypes.ObjectRel, objBoolQuery.ToString, strSort, intPos, intPackageLength)
+            End If
+
             If doCount = False Then
                 objList = objSearchResult.GetHits.Hits
                 If objList.Any() Then
@@ -3985,11 +4014,14 @@ Public Class clsDBLevel
         While intCount > 0
 
             intCount = 0
+
             objSearchResult = objElConn.Search(strIndex, _
-                                               objTypes.ObjectType, _
-                                               objBoolQuery.ToString, _
-                                               intPos, _
-                                               intPackageLength)
+                                           objTypes.ObjectType, _
+                                           objBoolQuery.ToString, _
+                                           intPos, _
+                                           intPackageLength)
+            
+
             If doCount = False Then
                 objList = objSearchResult.GetHits.Hits
 
