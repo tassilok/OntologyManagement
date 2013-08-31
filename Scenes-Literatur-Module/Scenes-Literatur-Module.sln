@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Office-Module", "..\Office-
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Ontolog-Module", "..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj", "{3F2F6722-C36B-420D-AFE7-B21C19457208}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Media-Viewer-Module", "..\Media-Viewer-Module\Media-Viewer-Module\Media-Viewer-Module.vbproj", "{E5546C53-BE08-44E1-B136-D172C3F2FE3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,16 @@ Global
 		{3F2F6722-C36B-420D-AFE7-B21C19457208}.Release|Mixed Platforms.Build.0 = Release|x86
 		{3F2F6722-C36B-420D-AFE7-B21C19457208}.Release|x86.ActiveCfg = Release|x86
 		{3F2F6722-C36B-420D-AFE7-B21C19457208}.Release|x86.Build.0 = Release|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Debug|x86.ActiveCfg = Debug|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Debug|x86.Build.0 = Debug|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Release|Any CPU.ActiveCfg = Release|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Release|Mixed Platforms.Build.0 = Release|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Release|x86.ActiveCfg = Release|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

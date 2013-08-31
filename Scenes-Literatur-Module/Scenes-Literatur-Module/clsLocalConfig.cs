@@ -16,6 +16,33 @@ namespace Scenes_Literatur_Module
         private const string cstr_ID_RelType_contains = "e971160347db44d8a476fe88290639a4";
         private const string cstr_ID_RelType_belongsTo = "e07469d9766c443e85266d9c684f944f";
 
+        public int ImageID_Root
+        {
+            get { return 0; }
+        }
+        public int ImageID_Level1Rel_Close
+        {
+            get { return 1; }
+        }
+        public int ImageID_Level1Rel_Open
+        {
+            get { return 2; }
+        }
+        public int ImageiD_Level2Rel_Close
+        {
+            get { return 3; }
+        }
+        public int ImageiD_Level2Rel_Open
+        {
+            get { return 4; }
+        }
+        public int ImageID_Scene
+        {
+            get { return 5; }
+        }
+
+        public clsDataWork_Scenes DataWork_Scenes { get; set; }
+
         public clsGlobals Globals { get; set; }
 
         private clsOntologyItem objOItem_DevConfig = new clsOntologyItem();
@@ -44,6 +71,7 @@ public clsOntologyItem OItem_token_search_template_location_ { get; set; }
 public clsOntologyItem OItem_token_search_template_name_ { get; set; }
 public clsOntologyItem OItem_type_contentobject { get; set; }
 public clsOntologyItem OItem_type_dramaturgische_ebenen { get; set; }
+public clsOntologyItem OItem_type_eigene_literatur { get; set; }
 public clsOntologyItem OItem_type_kapitel { get; set; }
 public clsOntologyItem OItem_type_literarischer_charakter { get; set; }
 public clsOntologyItem OItem_type_literarischer_ort { get; set; }
@@ -190,6 +218,7 @@ private void get_Data_DevelopmentConfig()
 		    get_Config_Classes();
             get_Config_Objects();
         }
+
   
 	private void get_Config_AttributeTypes()
         {
@@ -568,6 +597,28 @@ var objOList_token_search_template_name_ = (from obj in objDBLevel_Config2.OList
   
 	private void get_Config_Classes()
         {
+
+            var objOList_type_eigene_literatur = (from obj in objDBLevel_Config2.OList_ObjectRel
+                                                  where (obj.Name_Object.ToLower() == "type_eigene_literatur") &&
+                                                        (obj.Ontology == Globals.Type_Class)
+                                                  select obj).ToList();
+
+            if (objOList_type_eigene_literatur.Any())
+            {
+                OItem_type_eigene_literatur = new clsOntologyItem()
+                {
+                    GUID = objOList_type_eigene_literatur[0].ID_Other,
+                    Name = objOList_type_eigene_literatur[0].Name_Other,
+                    GUID_Parent = objOList_type_eigene_literatur[0].ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+
 		var objOList_type_contentobject = (from obj in objDBLevel_Config2.OList_ObjectRel
                                   where (obj.Name_Object.ToLower() == "type_contentobject") &&
                                         (obj.Ontology == Globals.Type_Class)
