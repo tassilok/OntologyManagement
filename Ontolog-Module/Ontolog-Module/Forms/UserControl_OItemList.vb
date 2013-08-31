@@ -1328,56 +1328,71 @@
 
 
                 Case objLocalConfig.Globals.Type_Other
-                    Select Case objOItem_Other.Type
-                        Case objLocalConfig.Globals.Type_Object
-
-
-
-                            If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
-                                objOItem_ClipBoardEntry = New clsOntologyItem(Nothing, Nothing, objOItem_Other.GUID_Parent)
-                                objOItem_Class.GUID = objOItem_Other.GUID_Parent
-                                objOItem_Class.Type = objLocalConfig.Globals.Type_Class
+                    If objOItem_Other Is Nothing Then
+                        objFrm_Main = New frmMain(objLocalConfig.Globals)
+                        objFrm_Main.Applyable = True
+                        objFrm_Main.ShowDialog(Me)
+                        If objFrm_Main.DialogResult = DialogResult.OK Then
+                            If objFrm_Main.OList_Simple.Any Then
+                                oList_Simple = objFrm_Main.OList_Simple
+                                boolAdd = True
                             Else
-                                objOItem_ClipBoardEntry = New clsOntologyItem(Nothing, Nothing, strGUID_Class)
-                                objOItem_Class.GUID = strGUID_Class
-                                objOItem_Class.Type = objLocalConfig.Globals.Type_Class
+                                MsgBox("Bitte ein Element auswählen!", MsgBoxStyle.Information)
                             End If
+                        End If
+                    Else
+                        Select Case objOItem_Other.Type
+                            Case objLocalConfig.Globals.Type_Object
 
-                            boolOpenMain = True
 
-                            objFrm_Clipboard = New frmClipboard(objLocalConfig, objOItem_ClipBoardEntry)
-                            If objFrm_Clipboard.containedByClipboard() = True Then
-                                objFrm_Clipboard.ShowDialog(Me)
-                            End If
 
-                            objFrm_Main = New frmMain(objLocalConfig, objLocalConfig.Globals.Type_Class, objOItem_Class)
-                            objFrm_Main.ShowDialog(Me)
-                            If objFrm_Main.DialogResult = DialogResult.OK Then
-                                If objFrm_Main.Type_Applied = objLocalConfig.Globals.Type_Object Then
-                                    oList_Simple = objFrm_Main.OList_Simple
-                                    boolAdd = True
-
-                                    Dim oLSel = From obj In oList_Simple
-                                                Group By obj.GUID_Parent Into Group
-
-                                    For Each oSel In oLSel
-                                        If Not oSel.GUID_Parent = objOItem_Class.GUID Then
-                                            boolAdd = False
-                                            Exit For
-                                        End If
-                                    Next
-
+                                If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                                    objOItem_ClipBoardEntry = New clsOntologyItem(Nothing, Nothing, objOItem_Other.GUID_Parent)
+                                    objOItem_Class.GUID = objOItem_Other.GUID_Parent
+                                    objOItem_Class.Type = objLocalConfig.Globals.Type_Class
                                 Else
-                                    MsgBox("Bitte nur Objekte auswählen!", MsgBoxStyle.Information)
+                                    objOItem_ClipBoardEntry = New clsOntologyItem(Nothing, Nothing, strGUID_Class)
+                                    objOItem_Class.GUID = strGUID_Class
+                                    objOItem_Class.Type = objLocalConfig.Globals.Type_Class
                                 End If
 
+                                boolOpenMain = True
 
-                            End If
-                    End Select
+                                objFrm_Clipboard = New frmClipboard(objLocalConfig, objOItem_ClipBoardEntry)
+                                If objFrm_Clipboard.containedByClipboard() = True Then
+                                    objFrm_Clipboard.ShowDialog(Me)
+                                End If
+
+                                objFrm_Main = New frmMain(objLocalConfig, objLocalConfig.Globals.Type_Class, objOItem_Class)
+                                objFrm_Main.ShowDialog(Me)
+                                If objFrm_Main.DialogResult = DialogResult.OK Then
+                                    If objFrm_Main.Type_Applied = objLocalConfig.Globals.Type_Object Then
+                                        oList_Simple = objFrm_Main.OList_Simple
+                                        boolAdd = True
+
+                                        Dim oLSel = From obj In oList_Simple
+                                                    Group By obj.GUID_Parent Into Group
+
+                                        For Each oSel In oLSel
+                                            If Not oSel.GUID_Parent = objOItem_Class.GUID Then
+                                                boolAdd = False
+                                                Exit For
+                                            End If
+                                        Next
+
+                                    Else
+                                        MsgBox("Bitte nur Objekte auswählen!", MsgBoxStyle.Information)
+                                    End If
+
+
+                                End If
+                        End Select
+                    End If
+                    
 
                     If boolAdd = True Then
                         For Each oItem_Obj In oList_Simple
-                            If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                            If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID 
                                 oList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, objOItem_Object.GUID_Parent, oItem_Obj.GUID, oItem_Obj.GUID_Parent, objOItem_RelationType.GUID, oItem_Obj.Type, Nothing, 1))
 
                             Else
