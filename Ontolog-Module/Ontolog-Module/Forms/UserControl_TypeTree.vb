@@ -274,7 +274,7 @@
         objTreeNode = TreeView_Types.SelectedNode
 
         If Not objTreeNode Is Nothing Then
-            If objTreeNode.ImageIndex = cint_ImageID_Class_Opened Or _
+            If objTreeNode.ImageIndex = cint_ImageID_Class_Closed Or _
                 objTreeNode.ImageIndex = cint_ImageID_Root Then
                 objFrm_Name = New frm_Name("New Class", _
                                            objLocalConfig, _
