@@ -28,15 +28,15 @@ Partial Class UserControl_SingleViewer
         Me.ToolStripButton_Previous = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Next = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Last = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripButton_Playlist = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripTextBox_Sec = New System.Windows.Forms.ToolStripTextBox()
-        Me.ToolStripLabel_secLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel_CountLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Curr = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripButton_Playlist = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripTextBox_Sec = New System.Windows.Forms.ToolStripTextBox()
+        Me.ToolStripLabel_secLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
@@ -65,7 +65,7 @@ Partial Class UserControl_SingleViewer
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_First, Me.ToolStripButton_Previous, Me.ToolStripButton_Next, Me.ToolStripButton_Last, Me.ToolStripSeparator2, Me.ToolStripLabel_CountLBL, Me.ToolStripTextBox_Curr, Me.ToolStripLabel1, Me.ToolStripLabel_Count, Me.ToolStripSeparator1, Me.ToolStripButton_Playlist, Me.ToolStripTextBox_Sec, Me.ToolStripLabel_secLBL})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(283, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(314, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_First
@@ -108,35 +108,6 @@ Partial Class UserControl_SingleViewer
         Me.ToolStripButton_Last.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_Last.Text = "ToolStripButton4"
         '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripButton_Playlist
-        '
-        Me.ToolStripButton_Playlist.CheckOnClick = True
-        Me.ToolStripButton_Playlist.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Playlist.Enabled = False
-        Me.ToolStripButton_Playlist.Image = Global.Media_Viewer_Module.My.Resources.Resources.bb_fforward_
-        Me.ToolStripButton_Playlist.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Playlist.Name = "ToolStripButton_Playlist"
-        Me.ToolStripButton_Playlist.Size = New System.Drawing.Size(23, 22)
-        Me.ToolStripButton_Playlist.Text = "ToolStripButton5"
-        '
-        'ToolStripTextBox_Sec
-        '
-        Me.ToolStripTextBox_Sec.Enabled = False
-        Me.ToolStripTextBox_Sec.Name = "ToolStripTextBox_Sec"
-        Me.ToolStripTextBox_Sec.Size = New System.Drawing.Size(20, 25)
-        Me.ToolStripTextBox_Sec.Text = "5"
-        '
-        'ToolStripLabel_secLBL
-        '
-        Me.ToolStripLabel_secLBL.Name = "ToolStripLabel_secLBL"
-        Me.ToolStripLabel_secLBL.Size = New System.Drawing.Size(22, 22)
-        Me.ToolStripLabel_secLBL.Text = "x_s"
-        '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
@@ -165,6 +136,35 @@ Partial Class UserControl_SingleViewer
         Me.ToolStripLabel_Count.Name = "ToolStripLabel_Count"
         Me.ToolStripLabel_Count.Size = New System.Drawing.Size(13, 22)
         Me.ToolStripLabel_Count.Text = "0"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripButton_Playlist
+        '
+        Me.ToolStripButton_Playlist.CheckOnClick = True
+        Me.ToolStripButton_Playlist.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Playlist.Enabled = False
+        Me.ToolStripButton_Playlist.Image = Global.Media_Viewer_Module.My.Resources.Resources.bb_fforward_
+        Me.ToolStripButton_Playlist.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Playlist.Name = "ToolStripButton_Playlist"
+        Me.ToolStripButton_Playlist.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_Playlist.Text = "ToolStripButton5"
+        '
+        'ToolStripTextBox_Sec
+        '
+        Me.ToolStripTextBox_Sec.Enabled = False
+        Me.ToolStripTextBox_Sec.Name = "ToolStripTextBox_Sec"
+        Me.ToolStripTextBox_Sec.Size = New System.Drawing.Size(20, 25)
+        Me.ToolStripTextBox_Sec.Text = "5"
+        '
+        'ToolStripLabel_secLBL
+        '
+        Me.ToolStripLabel_secLBL.Name = "ToolStripLabel_secLBL"
+        Me.ToolStripLabel_secLBL.Size = New System.Drawing.Size(22, 22)
+        Me.ToolStripLabel_secLBL.Text = "x_s"
         '
         'UserControl_SingleViewer
         '

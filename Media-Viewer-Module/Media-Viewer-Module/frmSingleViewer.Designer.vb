@@ -129,7 +129,7 @@ Partial Class frmSingleViewer
         'ToolStripLabel_secLBL
         '
         Me.ToolStripLabel_secLBL.Name = "ToolStripLabel_secLBL"
-        Me.ToolStripLabel_secLBL.Size = New System.Drawing.Size(24, 22)
+        Me.ToolStripLabel_secLBL.Size = New System.Drawing.Size(22, 22)
         Me.ToolStripLabel_secLBL.Text = "x_s"
         '
         'frmSingleViewer

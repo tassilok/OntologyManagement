@@ -29,6 +29,21 @@ Public Class UserControl_SingleViewer
         
     End Enum
 
+    Private Sub stoppedMedia() Handles objUserControl_MediaPlayer.stopped
+        If ToolStripButton_Next.Enabled = True Then
+            If ToolStripButton_Playlist.Checked = True Then
+                If boolNavigation Then
+                    configure_Viewer(1)
+                    configure_List()
+                Else
+                    RaiseEvent Media_Next()
+                End If
+
+            End If
+
+        End If
+    End Sub
+
     Public Sub set_Count(lngCurr As Long, lngCount As Long)
         ToolStripTextBox_Curr.Text = lngCurr
         ToolStripLabel_Count.Text = lngCount
@@ -155,9 +170,9 @@ Public Class UserControl_SingleViewer
         End If
     End Sub
 
-    Private Sub configure_Viewer()
+    Private Sub configure_Viewer(Optional IncrItemID As Integer = 0)
 
-
+        intItemID = intItemID + IncrItemID
         Dim objItem As clsMultiMediaItem = Nothing
 
         Select Case objOItem_MediaType.GUID
@@ -202,7 +217,7 @@ Public Class UserControl_SingleViewer
                     objUserControl_MediaPlayer.initialize_MediaItem(objMediaItem, objFile, dateCreated)
             End Select
         End If
-        
+
     End Sub
 
     Public Sub initialize_Image(ByVal objDR_Media As DataRow)
@@ -236,7 +251,8 @@ Public Class UserControl_SingleViewer
         objUserControl_MediaPlayer.initialize_MediaItem(OItem_MediaItem, OItem_File, dateCreated)
         ToolStripTextBox_Curr.Text = 0
         ToolStripLabel_Count.Text = 0
-        boolNavigation = True
+        ToolStripButton_Playlist.Enabled = True
+        boolNavigation = False
     End Sub
 
     Public Sub initialize_MediaItem(ByVal objDR_Media As DataRow)
@@ -264,7 +280,8 @@ Public Class UserControl_SingleViewer
         objUserControl_MediaPlayer.initialize_MediaItem(objOItem_MediaItem, objOItem_File, dateCreated)
         ToolStripTextBox_Curr.Text = 0
         ToolStripLabel_Count.Text = 0
-        boolNavigation = True
+        ToolStripButton_Playlist.Enabled = True
+        boolNavigation = False
     End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal OItem_MediaType As clsOntologyItem)
@@ -352,5 +369,9 @@ Public Class UserControl_SingleViewer
             configure_List()
             configure_Viewer()
         End If
+    End Sub
+
+    Private Sub ToolStripButton_Playlist_CheckStateChanged(sender As Object, e As EventArgs) Handles ToolStripButton_Playlist.CheckStateChanged
+        objUserControl_MediaPlayer.Playlist = ToolStripButton_Playlist.Checked
     End Sub
 End Class

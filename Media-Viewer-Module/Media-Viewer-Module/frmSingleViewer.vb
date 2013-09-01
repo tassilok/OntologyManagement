@@ -13,7 +13,17 @@ Public Class frmSingleViewer
     Public Event Media_Next()
     Public Event Media_Last()
 
+    Private Sub StoppedMedia() Handles objUserControl_MediaPlayer.stopped
+        If ToolStripButton_Next.Enabled = True Then
+            If ToolStripButton_Playlist.Checked = True Then
+              
+                RaiseEvent Media_Next()
 
+
+            End If
+
+        End If
+    End Sub
 
     Public ReadOnly Property OItem_MediaType As clsOntologyItem
         Get
@@ -46,6 +56,7 @@ Public Class frmSingleViewer
     End Sub
 
     Public Sub initialize_MediaItem(ByVal OItem_MediaItem As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date)
+        ToolStripButton_Playlist.Enabled = True
         objUserControl_MediaPlayer.initialize_MediaItem(OItem_MediaItem, OItem_File, dateCreated)
 
     End Sub
@@ -99,5 +110,13 @@ Public Class frmSingleViewer
 
     Private Sub ToolStripButton_Last_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Last.Click
         RaiseEvent Media_Last()
+    End Sub
+
+    Private Sub ToolStripButton_Playlist_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Playlist.Click
+
+    End Sub
+
+    Private Sub ToolStripButton_Playlist_CheckStateChanged(sender As Object, e As EventArgs) Handles ToolStripButton_Playlist.CheckStateChanged
+        objUserControl_MediaPlayer.Playlist = ToolStripButton_Playlist.Checked
     End Sub
 End Class
