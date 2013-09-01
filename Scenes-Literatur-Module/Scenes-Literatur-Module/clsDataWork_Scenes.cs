@@ -14,6 +14,8 @@ namespace Scenes_Literatur_Module
         private clsDBLevel objDBLevel_Literature;
         private clsDBLevel objDBLevel_Chapter;
         private clsDBLevel objDBLevel_Scenes;
+        private clsDBLevel objDBLevel_ContentObject;
+        private clsDBLevel objDBLevel_Bookmarks;
 
         public clsOntologyItem OItem_Result_Literature { get; set; }
         public clsOntologyItem OItem_Result_Chapter { get; set; }
@@ -26,7 +28,7 @@ namespace Scenes_Literatur_Module
         public List<clsOntologyItem> OList_Literature { get; set; }
         public List<clsObjectRel> OList_Chapter { get; set; }
         public List<clsObjectRel> OList_Scene { get; set; }
-
+        public List<clsObjectRel> OList_Bookmark { get; set; }
 
         public clsDataWork_Scenes(clsLocalConfig LocalConfig)
         {
@@ -39,8 +41,76 @@ namespace Scenes_Literatur_Module
             objDBLevel_Literature = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Chapter = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Scenes = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_Bookmarks = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_ContentObject = new clsDBLevel(objLocalConfig.Globals);
 
             getData();
+        }
+
+        public clsOntologyItem getBookmarkOfRef(clsOntologyItem OItem_Ref)
+        {
+            clsOntologyItem OItem_Result;
+            clsOntologyItem OItem_Bookmark = null;
+
+            var OList_ContentObjectOfRef = new List<clsObjectRel>();
+            var OList_ContentType = new List<clsObjectRel>();
+
+            OList_ContentObjectOfRef.Add(new clsObjectRel()
+            {
+                ID_Other = OItem_Ref.GUID,
+                ID_Parent_Object = objLocalConfig.OItem_type_contentobject.GUID,
+                ID_RelationType = objLocalConfig.OItem_relationtype_belonging_sem_item.GUID
+            });
+
+            OList_ContentType.Add(new clsObjectRel()
+            {
+                ID_Parent_Object = objLocalConfig.OItem_type_contentobject.GUID,
+                ID_Other = objLocalConfig.OItem_token_contenttype_bookmark.GUID,
+                ID_RelationType = objLocalConfig.OItem_relationtype_is_of_type.GUID
+            });
+
+            OItem_Result = objDBLevel_Bookmarks.get_Data_ObjectRel(OList_ContentType, 
+                                                                   boolIDs: false);
+
+            if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                OItem_Result = objDBLevel_ContentObject.get_Data_ObjectRel(OList_ContentObjectOfRef,
+                                                                   boolIDs: false);
+
+                if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    if (objDBLevel_ContentObject.OList_ObjectRel.Any() && objDBLevel_Bookmarks.OList_ObjectRel.Any())
+                    {
+                        var OList_Orel = (from objContentObject in objDBLevel_ContentObject.OList_ObjectRel
+                                          join objBookMark in objDBLevel_Bookmarks.OList_ObjectRel on objContentObject.ID_Object equals objBookMark.ID_Object
+                                          select objContentObject).ToList();
+                        if (OList_Orel.Any())
+                        {
+                            OItem_Bookmark = new clsOntologyItem()
+                            {
+                                GUID = OList_Orel.First().ID_Object,
+                                Name = OList_Orel.First().Name_Object,
+                                GUID_Parent = OList_Orel.First().ID_Parent_Object,
+                                Type = objLocalConfig.Globals.Type_Object
+                            };
+                        }
+                        
+                    }
+                    else
+                    {
+                        OItem_Bookmark = null;
+                    }
+
+
+                }
+                else
+                {
+                    OItem_Bookmark = objLocalConfig.Globals.LState_Error;
+                }
+            }
+            
+
+            return OItem_Bookmark;
         }
 
         private void getData()
@@ -142,6 +212,11 @@ namespace Scenes_Literatur_Module
                 OList_Chapter = null;
                 OItem_Result_Chapter = objLocalConfig.Globals.LState_Error;
             }
+        }
+
+        public void getDataImages(clsOntologyItem OItem_Scene)
+        {
+
         }
 
         public void getDataScenes()

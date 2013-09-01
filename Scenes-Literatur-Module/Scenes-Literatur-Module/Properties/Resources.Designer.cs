@@ -63,6 +63,16 @@ namespace Scenes_Literatur_Module.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap applications_multimedia {
+            get {
+                object obj = ResourceManager.GetObject("applications-multimedia", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap tasto_8_architetto_franc_01 {
             get {
                 object obj = ResourceManager.GetObject("tasto_8_architetto_franc_01", resourceCulture);

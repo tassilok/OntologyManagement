@@ -138,5 +138,56 @@ namespace Scenes_Literatur_Module
 
             
         }
+
+        private void contextMenuStrip_Tree_Opening(object sender, CancelEventArgs e)
+        {
+            TreeNode objTreeNode_Selected;
+            clsOntologyItem objOItem_Scene;
+
+            newToolStripMenuItem.Enabled = false;
+            winwordToolStripMenuItem.Enabled = false;
+            removeToolStripMenuItem.Enabled = false;
+            applyToolStripMenuItem.Enabled = false;
+            openBelongingDocToolStripMenuItem.Enabled = false;
+            insertBookmarkToolStripMenuItem.Enabled = false;
+            activateBookmarkToolStripMenuItem.Enabled = false;  
+
+            objTreeNode_Selected = treeView_SceneTree.SelectedNode;
+
+            if (objTreeNode_Selected != null)
+            {
+                if (objTreeNode_Selected.ImageIndex == objLocalConfig.ImageiD_Level2Rel_Close)
+                {
+                    newToolStripMenuItem.Enabled = true;
+                }
+
+                if (objTreeNode_Selected.ImageIndex == objLocalConfig.ImageID_Scene)
+                {
+                    objOItem_Scene = new clsOntologyItem()
+                    {
+                        GUID = objTreeNode_Selected.Name,
+                        Name = objTreeNode_Selected.Text,
+                        GUID_Parent = objLocalConfig.OItem_type_szene.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+
+                    var objOItem_Bookmark = objLocalConfig.DataWork_Scenes.getBookmarkOfRef(objOItem_Scene);
+                    if (objOItem_Bookmark != null)
+                    {
+                        if (objOItem_Bookmark.GUID != objLocalConfig.Globals.LState_Error.GUID)
+                        {
+                            winwordToolStripMenuItem.Enabled = true;
+                            activateBookmarkToolStripMenuItem.Enabled = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Bookmarks konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                    }
+
+                }
+            }
+
+        }
     }
 }

@@ -39,7 +39,7 @@ namespace Scenes_Literatur_Module
             objUserControl_ImageViewer = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.Image);
             objUserControl_ImageViewer.Dock = DockStyle.Fill;
             tabPage_Images.Controls.Add(objUserControl_ImageViewer);
-
+            
             objUserControl_MediaPlayer = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.MediaItem);
             objUserControl_MediaPlayer.Dock = DockStyle.Fill;
             tabPage_Media.Controls.Add(objUserControl_MediaPlayer);
@@ -47,7 +47,7 @@ namespace Scenes_Literatur_Module
             objUserControl_PDFViewer = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.PDF);
             objUserControl_PDFViewer.Dock = DockStyle.Fill;
             tabPage_PDF.Controls.Add(objUserControl_PDFViewer);
-
+            
             objUserControl_OItemList_LiteratureDate = new UserControl_OItemList(objLocalConfig.Globals);
             objUserControl_OItemList_LiteratureDate.Dock = DockStyle.Fill;
             panel_LiteratureDate.Controls.Add(objUserControl_OItemList_LiteratureDate);
@@ -63,6 +63,8 @@ namespace Scenes_Literatur_Module
             configureControls();
         }
 
+        
+
 
         public void InitializeScene(clsOntologyItem OItem_Scene = null)
         {
@@ -71,6 +73,9 @@ namespace Scenes_Literatur_Module
             ConfigureLiteratureDate();
             ConfigureLiteratureCharacter();
             ConfigureLiteratureLocation();
+            configureImages();
+            configureMediaItems();
+            configurePDF();
         }
 
         private void ConfigureLiteratureDate()
@@ -127,7 +132,32 @@ namespace Scenes_Literatur_Module
             }
         }
 
-        
+        private void configureImages()
+        {
+            if (objOItem_Scene != null)
+            {
+                if (toolStripButton_Medias.Checked && (tabControl1.SelectedTab.Name == tabPage_Images.Name))
+                    objUserControl_ImageViewer.initialize_Image(objOItem_Scene);
+            }
+        }
+
+        private void configureMediaItems()
+        {
+            if (objOItem_Scene != null)
+            {
+                if (toolStripButton_Medias.Checked && (tabControl1.SelectedTab.Name == tabPage_Media.Name))
+                    objUserControl_MediaPlayer.initialize_MediaItem(objOItem_Scene);
+            }
+        }
+
+        private void configurePDF()
+        {
+            if (objOItem_Scene != null)
+            {
+                if (toolStripButton_Medias.Checked && (tabControl1.SelectedTab.Name == tabPage_PDF.Name))
+                    objUserControl_PDFViewer.initialize_PDF(objOItem_Scene);
+            }
+        }
 
         private void configureControls()
         {
@@ -158,6 +188,31 @@ namespace Scenes_Literatur_Module
                 objUserControl_OItemList_LiteratureLocation.Enabled = true;
                 objUserControl_PDFViewer.Enabled = true;
             }
+
+
+            splitContainer1.Panel2Collapsed = !toolStripButton_Medias.Checked;
+            
+        }
+
+        private void toolStripButton_Medias_CheckStateChanged(object sender, EventArgs e)
+        {
+            splitContainer1.Panel2Collapsed = !toolStripButton_Medias.Checked;
+            configureImages();
+            configureMediaItems();
+            configurePDF();
+        }
+
+        private void tabControl1_SystemColorsChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            splitContainer1.Panel2Collapsed = !toolStripButton_Medias.Checked;
+            configureImages();
+            configureMediaItems();
+            configurePDF();
         }
     }
 }
