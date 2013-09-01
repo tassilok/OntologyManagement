@@ -19,6 +19,24 @@ namespace Office_Module
         private frmBlobWatcher objFrmBlobWatcher;
         private string strCategory;
 
+        public clsOntologyItem activate_Bookmark(clsDocument objDocument, clsOntologyItem OItem_Bookmark)
+        {
+            clsOntologyItem objOItem_Result;
+            var strTitle = "m_" + objLocalConfig.Globals.GUIDFormat1(OItem_Bookmark.GUID);
+            strTitle = strTitle.Replace("-","_");
+
+            if (objWordWork.activateBookmark(strTitle, objDocument.ID_File + "." + objLocalConfig.OItem_Token_Extensions_docx.Name))
+            {
+                objOItem_Result = objLocalConfig.Globals.LState_Success;
+            }
+            else
+            {
+                objOItem_Result = objLocalConfig.Globals.LState_Error;
+            }
+
+            return objOItem_Result;
+        }
+
         public clsOntologyItem open_Document(clsDocument objDocument)
         {
             clsOntologyItem objOItem_Result;

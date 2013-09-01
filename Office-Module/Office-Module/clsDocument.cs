@@ -32,5 +32,6 @@ namespace Office_Module
         public string ID_Parent_Ref { get; set; }
         public string Ontology_Ref { get; set; }
 
+        public clsOntologyItem OItem_Result { get; set; }
     }
 }

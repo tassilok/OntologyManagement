@@ -26,6 +26,7 @@ namespace Scenes_Literatur_Module
 
 
         private clsDocumentation objDocumentumentation;
+        private clsDataWork_Documents objDataWork_Documents;
 
         public event SelectedNode selectedNode;
         public event ErrorOccured errorOccured;
@@ -55,6 +56,8 @@ namespace Scenes_Literatur_Module
         {
             treeView_SceneTree.Nodes.Clear();
             objTreeNode_Root = treeView_SceneTree.Nodes.Add(objLocalConfig.OItem_type_szene.GUID, objLocalConfig.OItem_type_szene.Name, objLocalConfig.ImageID_Root, objLocalConfig.ImageID_Root);
+            objDataWork_Documents = new clsDataWork_Documents(objLocalConfig.Globals);
+            objDocumentumentation = new clsDocumentation(objLocalConfig.Globals);
             addLiteratureNodes();
         }
 
@@ -176,8 +179,24 @@ namespace Scenes_Literatur_Module
                     {
                         if (objOItem_Bookmark.GUID != objLocalConfig.Globals.LState_Error.GUID)
                         {
-                            winwordToolStripMenuItem.Enabled = true;
-                            activateBookmarkToolStripMenuItem.Enabled = true;
+                            
+
+                            var objOItem_Document = objLocalConfig.DataWork_Scenes.getDocumentOfBookmark(objOItem_Bookmark);
+                            if (objOItem_Document != null)
+                            {
+                                if (objOItem_Document.GUID != objLocalConfig.Globals.LState_Error.GUID)
+                                {
+                                    winwordToolStripMenuItem.Enabled = true;
+                                    activateBookmarkToolStripMenuItem.Enabled = true;
+                                    openBelongingDocToolStripMenuItem.Enabled = true;
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Das Dokument zum Bookmark konnte nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                }
+                                
+                            }
+                            
                         }
                         else
                         {
@@ -188,6 +207,99 @@ namespace Scenes_Literatur_Module
                 }
             }
 
+        }
+
+        private void activateBookmarkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objLocalConfig.DataWork_Scenes.OItem_Document_Last != null)
+            {
+                var Item_Document = openDocument(objLocalConfig.DataWork_Scenes.OItem_Document_Last);
+                if (Item_Document != null)
+                {
+                    if (Item_Document.OItem_Result == null || (Item_Document.OItem_Result.GUID != objLocalConfig.Globals.LState_Error.GUID))
+                    {
+                        var objOItem_Result = objDocumentumentation.activate_Bookmark(Item_Document, objLocalConfig.DataWork_Scenes.OItem_Bookmark_Last);
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                        {
+                            MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }            
+                    }
+                    else
+                    {
+                        MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
+            
+        }
+
+        private void openBelongingDocToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objLocalConfig.DataWork_Scenes.OItem_Document_Last != null)
+            {
+                var Item_Document = openDocument(objLocalConfig.DataWork_Scenes.OItem_Document_Last);
+                if (Item_Document != null)
+                {
+                    if (Item_Document.OItem_Result != null && (Item_Document.OItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID))
+                    {
+                        MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                
+            }
+            else
+            {
+                MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        private clsDocument openDocument(clsOntologyItem OItem_Document)
+        {
+            clsOntologyItem OItem_Result;
+            var Item_Document = objDataWork_Documents.GetData_DocumentData(OItem_Document);
+            if (Item_Document != null)
+            {
+                OItem_Result = Item_Document.OItem_Result;
+                if (OItem_Result == null || OItem_Result.GUID != objLocalConfig.Globals.LState_Error.GUID)
+                {
+                    OItem_Result = objDocumentumentation.open_Document(Item_Document);
+                    if (OItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                    {
+                        MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    OItem_Result = objLocalConfig.Globals.LState_Error;
+                }
+
+            }
+            else
+            {
+                OItem_Result = objLocalConfig.Globals.LState_Error;
+            }
+
+            Item_Document.OItem_Result = OItem_Result;
+            return Item_Document;
         }
     }
 }

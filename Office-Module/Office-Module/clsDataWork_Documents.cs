@@ -35,6 +35,8 @@ namespace Office_Module
         public clsOntologyItem OItem_Result_MD_To_File { get; set; }
         public clsOntologyItem OItem_Result_MD_To_OItem { get; set; }
 
+        private clsOntologyItem OItem_Document;
+
         public clsOntologyItem isPresent_Documents()
         {
             clsOntologyItem objOItem_Result;
@@ -61,6 +63,61 @@ namespace Office_Module
             }
 
             return objOItem_Result;
+        }
+
+        public clsDocument GetData_DocumentData(clsOntologyItem OItem_Document)
+        {
+            this.OItem_Document = OItem_Document;
+            clsDocument ItemDocument;
+            OItem_Result_ManagedDocuments = objLocalConfig.Globals.LState_Success;
+            GetData_MD__DateTimeStampChange();
+            GetData_MD_To_DocumentType();
+            GetData_MD_To_File();
+            GetData_MD_To_OItem();
+            if (isPresent_Documents().GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                OList_Documents = new SortableBindingList<clsDocument>((from Files in objDBLevel_MD_To_File.OList_ObjectRel 
+                                                                        where Files.ID_Object == this.OItem_Document.GUID
+                                                                        join ChangeDate in objDBLevel_MD__DateTimeStampChanged.OList_ObjectAtt on Files.ID_Object equals this.OItem_Document.GUID into ChangeDates
+                                                                        from ChangeDate in ChangeDates.DefaultIfEmpty()
+                                                                        join DocTypes in objDBLevel_MD_To_DocumentType.OList_ObjectRel on Files.ID_Object equals DocTypes.ID_Object
+                                                                        join OItems in objDBLevel_MD_To_OItem.OList_ObjectRel on Files.ID_Object equals OItems.ID_Object
+                                                                        select new clsDocument
+                                                                        {
+                                                                            ID_Attribute_DateTimeStampChange = (ChangeDate != null ? ChangeDate.ID_Attribute : null),
+                                                                            ID_Object_DateTimeStampChange = (ChangeDate != null ? ChangeDate.ID_Object : null),
+                                                                            ID_Parent_Object_DateTimeStampChange = (ChangeDate != null ? ChangeDate.ID_Class : null),
+                                                                            DateTimeStampChanged = (ChangeDate != null ? ChangeDate.Val_Date : null),
+                                                                            ID_Document = this.OItem_Document.GUID,
+                                                                            Name_Document = this.OItem_Document.Name,
+                                                                            ID_Parent_Document = this.OItem_Document.GUID_Parent,
+                                                                            ID_DocumentType = DocTypes.ID_Other,
+                                                                            Name_DocumentType = DocTypes.Name_Other,
+                                                                            ID_Parent_DocumentType = DocTypes.ID_Parent_Other,
+                                                                            ID_File = Files.ID_Other,
+                                                                            Name_File = Files.Name_Other,
+                                                                            ID_Parent_File = Files.ID_Parent_Other,
+                                                                            ID_Ref = OItems.ID_Other,
+                                                                            Name_Ref = OItems.Name_Other,
+                                                                            ID_Parent_Ref = OItems.ID_Parent_Other,
+                                                                            Ontology_Ref = OItems.Ontology
+                                                                        }).ToList());
+
+                if (OList_Documents.Any())
+                {
+                    ItemDocument = OList_Documents.First();
+                }
+                else
+                {
+                    ItemDocument = null;
+                }
+            }
+            else
+            {
+                ItemDocument = new clsDocument() { OItem_Result = objLocalConfig.Globals.LState_Error };
+            }
+
+            return ItemDocument;
         }
 
         public clsOntologyItem GetData_Documents()
@@ -193,8 +250,16 @@ namespace Office_Module
             set_DBConnection();
         }
 
+        public clsDataWork_Documents(clsGlobals Globals)
+        {
+            objLocalConfig = new clsLocalConfig(Globals);
+
+            set_DBConnection();
+        }
+
         public clsOntologyItem GetData()
         {
+            OItem_Document = null;
             var objOItem_Result = objLocalConfig.Globals.LState_Success;
 
             try
@@ -321,11 +386,23 @@ namespace Office_Module
 
             OItem_Result_MD__DateTimeStampChanged = objLocalConfig.Globals.LState_Nothing;
 
-            objOAList_MD__DateTimeStampChange.Add(new clsObjectAtt(null,
-                                                                   null,
-                                                                   objLocalConfig.OItem_Type_Managed_Document.GUID,
-                                                                   objLocalConfig.OItem_Attribute_DateTimeStamp__Change_.GUID,
-                                                                   null));
+            if (OItem_Document == null)
+            {
+
+                objOAList_MD__DateTimeStampChange.Add(new clsObjectAtt(null,
+                                                                       null,
+                                                                       objLocalConfig.OItem_Type_Managed_Document.GUID,
+                                                                       objLocalConfig.OItem_Attribute_DateTimeStamp__Change_.GUID,
+                                                                       null));
+            }
+            else
+            {
+                objOAList_MD__DateTimeStampChange.Add(new clsObjectAtt(null,
+                                                                       OItem_Document.GUID,
+                                                                       null,
+                                                                       objLocalConfig.OItem_Attribute_DateTimeStamp__Change_.GUID,
+                                                                       null));
+            }
 
             OItem_Result_MD__DateTimeStampChanged = objDBLevel_MD__DateTimeStampChanged.get_Data_ObjectAtt(objOAList_MD__DateTimeStampChange,
                                                                                                       boolIDs:false);
@@ -337,7 +414,9 @@ namespace Office_Module
 
             OItem_Result_MD_To_DocumentType = objLocalConfig.Globals.LState_Nothing;
 
-            objORList_MD_To_DocumentType.Add(new clsObjectRel(null,
+            if (OItem_Document == null)
+            {
+                objORList_MD_To_DocumentType.Add(new clsObjectRel(null,
                                                               objLocalConfig.OItem_Type_Managed_Document.GUID,
                                                               null,
                                                               objLocalConfig.OItem_Type_Document_Type__managed_.GUID,
@@ -345,6 +424,20 @@ namespace Office_Module
                                                               objLocalConfig.Globals.Type_Object,
                                                               null,
                                                               null));
+            }
+            else
+            {
+                objORList_MD_To_DocumentType.Add(new clsObjectRel(OItem_Document.GUID,
+                                                              null,
+                                                              null,
+                                                              objLocalConfig.OItem_Type_Document_Type__managed_.GUID,
+                                                              objLocalConfig.OItem_RelationType_is_of_Type.GUID,
+                                                              objLocalConfig.Globals.Type_Object,
+                                                              null,
+                                                              null));
+            }
+
+            
 
             OItem_Result_MD_To_DocumentType = objDBLevel_MD_To_DocumentType.get_Data_ObjectRel(objORList_MD_To_DocumentType,
                                                                                                boolIDs: false);
@@ -356,7 +449,9 @@ namespace Office_Module
 
             OItem_Result_MD_To_File = objLocalConfig.Globals.LState_Nothing;
 
-            objORList_MD_To_File.Add(new clsObjectRel(null,
+            if (OItem_Document == null)
+            {
+                objORList_MD_To_File.Add(new clsObjectRel(null,
                                                       objLocalConfig.OItem_Type_Managed_Document.GUID,
                                                       null,
                                                       objLocalConfig.OItem_Type_File.GUID,
@@ -364,6 +459,19 @@ namespace Office_Module
                                                       objLocalConfig.Globals.Type_Object,
                                                       null,
                                                       null));
+            }
+            else
+            {
+                objORList_MD_To_File.Add(new clsObjectRel(OItem_Document.GUID,
+                                                      null,
+                                                      null,
+                                                      objLocalConfig.OItem_Type_File.GUID,
+                                                      objLocalConfig.OItem_RelationType_belonging_Document.GUID,
+                                                      objLocalConfig.Globals.Type_Object,
+                                                      null,
+                                                      null));
+            }
+            
 
             OItem_Result_MD_To_File = objDBLevel_MD_To_File.get_Data_ObjectRel(objORList_MD_To_File,
                                                                                boolIDs: false);
@@ -375,7 +483,9 @@ namespace Office_Module
 
             OItem_Result_MD_To_OItem = objLocalConfig.Globals.LState_Nothing;
 
-            objORList_MD_To_OItem.Add(new clsObjectRel(null,
+            if (OItem_Document == null)
+            {
+                objORList_MD_To_OItem.Add(new clsObjectRel(null,
                                                       objLocalConfig.OItem_Type_Managed_Document.GUID,
                                                       null,
                                                       null,
@@ -383,6 +493,19 @@ namespace Office_Module
                                                       null,
                                                       null,
                                                       null));
+            }
+            else
+            {
+                objORList_MD_To_OItem.Add(new clsObjectRel(OItem_Document.GUID,
+                                                      null,
+                                                      null,
+                                                      null,
+                                                      objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                                                      null,
+                                                      null,
+                                                      null));
+            }
+            
 
             OItem_Result_MD_To_OItem = objDBLevel_MD_To_OItem.get_Data_ObjectRel(objORList_MD_To_OItem,
                                                                                boolIDs: false);

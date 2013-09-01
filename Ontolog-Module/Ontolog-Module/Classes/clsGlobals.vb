@@ -131,7 +131,21 @@ Public Class clsGlobals
         End Get
     End Property
 
-    
+    Public Function GUIDFormat1(strGUIDFormat2 As String) As String
+        Dim strGUIDFormat1 As String
+
+        strGUIDFormat1 = strGUIDFormat2.Insert(8, "-")
+        strGUIDFormat1 = strGUIDFormat1.Insert(13, "-")
+        strGUIDFormat1 = strGUIDFormat1.Insert(18, "-")
+        strGUIDFormat1 = strGUIDFormat1.Insert(23, "-")
+
+        Return strGUIDFormat1
+    End Function
+
+    Public Function GUIDFormat2(strGUIDFormat1 As String) As String
+        Return strGUIDFormat1.Replace("-", "")
+    End Function
+
     Public Function get_ConnectionStr(ByVal strServer As String, ByVal strInstance As String, ByVal strDatabase As String) As String
         Dim strConn As String
         strConn = "Data Source=" & strServer

@@ -30,6 +30,9 @@ namespace Scenes_Literatur_Module
         public List<clsObjectRel> OList_Scene { get; set; }
         public List<clsObjectRel> OList_Bookmark { get; set; }
 
+        public clsOntologyItem OItem_Bookmark_Last { get; set; }
+        public clsOntologyItem OItem_Document_Last { get; set; }
+
         public clsDataWork_Scenes(clsLocalConfig LocalConfig)
         {
             objLocalConfig = LocalConfig;
@@ -50,7 +53,7 @@ namespace Scenes_Literatur_Module
         public clsOntologyItem getBookmarkOfRef(clsOntologyItem OItem_Ref)
         {
             clsOntologyItem OItem_Result;
-            clsOntologyItem OItem_Bookmark = null;
+            OItem_Bookmark_Last = null;
 
             var OList_ContentObjectOfRef = new List<clsObjectRel>();
             var OList_ContentType = new List<clsObjectRel>();
@@ -62,55 +65,115 @@ namespace Scenes_Literatur_Module
                 ID_RelationType = objLocalConfig.OItem_relationtype_belonging_sem_item.GUID
             });
 
-            OList_ContentType.Add(new clsObjectRel()
-            {
-                ID_Parent_Object = objLocalConfig.OItem_type_contentobject.GUID,
-                ID_Other = objLocalConfig.OItem_token_contenttype_bookmark.GUID,
-                ID_RelationType = objLocalConfig.OItem_relationtype_is_of_type.GUID
-            });
+            
 
-            OItem_Result = objDBLevel_Bookmarks.get_Data_ObjectRel(OList_ContentType, 
+            OItem_Result = objDBLevel_ContentObject.get_Data_ObjectRel(OList_ContentObjectOfRef,
                                                                    boolIDs: false);
 
             if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                OItem_Result = objDBLevel_ContentObject.get_Data_ObjectRel(OList_ContentObjectOfRef,
-                                                                   boolIDs: false);
 
-                if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                if (objDBLevel_ContentObject.OList_ObjectRel.Any())
                 {
-                    if (objDBLevel_ContentObject.OList_ObjectRel.Any() && objDBLevel_Bookmarks.OList_ObjectRel.Any())
+                    OList_ContentType.Add(new clsObjectRel()
                     {
-                        var OList_Orel = (from objContentObject in objDBLevel_ContentObject.OList_ObjectRel
-                                          join objBookMark in objDBLevel_Bookmarks.OList_ObjectRel on objContentObject.ID_Object equals objBookMark.ID_Object
-                                          select objContentObject).ToList();
-                        if (OList_Orel.Any())
+                        ID_Object = objDBLevel_ContentObject.OList_ObjectRel.First().ID_Object,
+                        ID_Other = objLocalConfig.OItem_token_contenttype_bookmark.GUID,
+                        ID_RelationType = objLocalConfig.OItem_relationtype_is_of_type.GUID
+                    });
+
+                    OItem_Result = objDBLevel_Bookmarks.get_Data_ObjectRel(OList_ContentType,
+                                                                       boolIDs: false);
+
+                    if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        if (objDBLevel_Bookmarks.OList_ObjectRel.Any())
                         {
-                            OItem_Bookmark = new clsOntologyItem()
+                            var OList_Orel = (from objContentObject in objDBLevel_ContentObject.OList_ObjectRel
+                                              join objBookMark in objDBLevel_Bookmarks.OList_ObjectRel on objContentObject.ID_Object equals objBookMark.ID_Object
+                                              select objContentObject).ToList();
+                            if (OList_Orel.Any())
                             {
-                                GUID = OList_Orel.First().ID_Object,
-                                Name = OList_Orel.First().Name_Object,
-                                GUID_Parent = OList_Orel.First().ID_Parent_Object,
-                                Type = objLocalConfig.Globals.Type_Object
-                            };
+                                OItem_Bookmark_Last = new clsOntologyItem()
+                                {
+                                    GUID = OList_Orel.First().ID_Object,
+                                    Name = OList_Orel.First().Name_Object,
+                                    GUID_Parent = OList_Orel.First().ID_Parent_Object,
+                                    Type = objLocalConfig.Globals.Type_Object
+                                };
+                            }
+
                         }
-                        
+                        else
+                        {
+                            OItem_Bookmark_Last = null;
+                        }
+
+
                     }
                     else
                     {
-                        OItem_Bookmark = null;
+                        OItem_Bookmark_Last = objLocalConfig.Globals.LState_Error;
                     }
-
-
                 }
                 else
                 {
-                    OItem_Bookmark = objLocalConfig.Globals.LState_Error;
+                    OItem_Bookmark_Last = null;
+                }
+
+                
+            }
+
+
+            return OItem_Bookmark_Last;
+        }
+
+        public clsOntologyItem getDocumentOfBookmark(clsOntologyItem OItem_Bookmark)
+        {
+            clsOntologyItem OItem_Result;
+            List<clsObjectRel> objOR_DocumentOfBookmark = new List<clsObjectRel>();
+
+            OItem_Document_Last = null;
+
+            objOR_DocumentOfBookmark.Add(new clsObjectRel()
+            {
+                ID_Object = OItem_Bookmark.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_type_managed_document.GUID,
+                ID_RelationType = objLocalConfig.OItem_relationtype_belonging_document.GUID
+            });
+
+            OItem_Result = objDBLevel_Bookmarks.get_Data_ObjectRel(objOR_DocumentOfBookmark, 
+                                                                   boolIDs: false);
+
+            if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                if (objDBLevel_Bookmarks.OList_ObjectRel.Any())
+                {
+                    OItem_Document_Last = new clsOntologyItem()
+                    {
+                        GUID = objDBLevel_Bookmarks.OList_ObjectRel.First().ID_Other,
+                        Name = objDBLevel_Bookmarks.OList_ObjectRel.First().Name_Other,
+                        GUID_Parent = objDBLevel_Bookmarks.OList_ObjectRel.First().ID_Parent_Other,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+                }
+                else
+                {
+                    OItem_Document_Last = null;
                 }
             }
-            
+            else
+            {
+                OItem_Document_Last = new clsOntologyItem()
+                {
+                    GUID = objLocalConfig.Globals.LState_Error.GUID,
+                    Name = objLocalConfig.Globals.LState_Error.Name,
+                    GUID_Parent = objLocalConfig.Globals.LState_Error.GUID_Parent,
+                    Type = objLocalConfig.Globals.Type_Object
+                };
+            }
 
-            return OItem_Bookmark;
+            return OItem_Document_Last;
         }
 
         private void getData()

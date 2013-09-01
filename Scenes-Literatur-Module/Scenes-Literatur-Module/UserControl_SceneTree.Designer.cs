@@ -38,6 +38,14 @@
             this.toolStripLabel_FoundLbl = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_Found = new System.Windows.Forms.ToolStripLabel();
             this.treeView_SceneTree = new System.Windows.Forms.TreeView();
+            this.contextMenuStrip_Tree = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.winwordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openBelongingDocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insertBookmarkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.activateBookmarkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.applyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImageList_SceneTree = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripComboBox_SearchTemplates = new System.Windows.Forms.ToolStripComboBox();
@@ -45,21 +53,13 @@
             this.ToolStripButton_ClearSearch = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_GetRel = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Search = new System.Windows.Forms.ToolStripButton();
-            this.contextMenuStrip_Tree = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.winwordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.applyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openBelongingDocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.insertBookmarkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.activateBookmarkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
             this.contextMenuStrip_Tree.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -141,6 +141,65 @@
             this.treeView_SceneTree.TabIndex = 0;
             this.treeView_SceneTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_SceneTree_AfterSelect);
             // 
+            // contextMenuStrip_Tree
+            // 
+            this.contextMenuStrip_Tree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
+            this.removeToolStripMenuItem,
+            this.winwordToolStripMenuItem,
+            this.applyToolStripMenuItem});
+            this.contextMenuStrip_Tree.Name = "contextMenuStrip_Tree";
+            this.contextMenuStrip_Tree.Size = new System.Drawing.Size(153, 114);
+            this.contextMenuStrip_Tree.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Tree_Opening);
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Text = "x_New";
+            // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.removeToolStripMenuItem.Text = "x_Remove";
+            // 
+            // winwordToolStripMenuItem
+            // 
+            this.winwordToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openBelongingDocToolStripMenuItem,
+            this.insertBookmarkToolStripMenuItem,
+            this.activateBookmarkToolStripMenuItem});
+            this.winwordToolStripMenuItem.Name = "winwordToolStripMenuItem";
+            this.winwordToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.winwordToolStripMenuItem.Text = "x_Winword";
+            // 
+            // openBelongingDocToolStripMenuItem
+            // 
+            this.openBelongingDocToolStripMenuItem.Name = "openBelongingDocToolStripMenuItem";
+            this.openBelongingDocToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.openBelongingDocToolStripMenuItem.Text = "x_open belonging Doc";
+            this.openBelongingDocToolStripMenuItem.Click += new System.EventHandler(this.openBelongingDocToolStripMenuItem_Click);
+            // 
+            // insertBookmarkToolStripMenuItem
+            // 
+            this.insertBookmarkToolStripMenuItem.Name = "insertBookmarkToolStripMenuItem";
+            this.insertBookmarkToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.insertBookmarkToolStripMenuItem.Text = "x_insert Bookmark";
+            // 
+            // activateBookmarkToolStripMenuItem
+            // 
+            this.activateBookmarkToolStripMenuItem.Name = "activateBookmarkToolStripMenuItem";
+            this.activateBookmarkToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.activateBookmarkToolStripMenuItem.Text = "x_activate Bookmark";
+            this.activateBookmarkToolStripMenuItem.Click += new System.EventHandler(this.activateBookmarkToolStripMenuItem_Click);
+            // 
+            // applyToolStripMenuItem
+            // 
+            this.applyToolStripMenuItem.Name = "applyToolStripMenuItem";
+            this.applyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.applyToolStripMenuItem.Text = "x_Apply";
+            // 
             // ImageList_SceneTree
             // 
             this.ImageList_SceneTree.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageList_SceneTree.ImageStream")));
@@ -205,63 +264,6 @@
             this.toolStripButton_Search.Size = new System.Drawing.Size(56, 22);
             this.toolStripButton_Search.Text = "x_Search";
             // 
-            // contextMenuStrip_Tree
-            // 
-            this.contextMenuStrip_Tree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripMenuItem,
-            this.removeToolStripMenuItem,
-            this.winwordToolStripMenuItem,
-            this.applyToolStripMenuItem});
-            this.contextMenuStrip_Tree.Name = "contextMenuStrip_Tree";
-            this.contextMenuStrip_Tree.Size = new System.Drawing.Size(153, 114);
-            this.contextMenuStrip_Tree.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Tree_Opening);
-            // 
-            // winwordToolStripMenuItem
-            // 
-            this.winwordToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openBelongingDocToolStripMenuItem,
-            this.insertBookmarkToolStripMenuItem,
-            this.activateBookmarkToolStripMenuItem});
-            this.winwordToolStripMenuItem.Name = "winwordToolStripMenuItem";
-            this.winwordToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.winwordToolStripMenuItem.Text = "x_Winword";
-            // 
-            // newToolStripMenuItem
-            // 
-            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.newToolStripMenuItem.Text = "x_New";
-            // 
-            // removeToolStripMenuItem
-            // 
-            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.removeToolStripMenuItem.Text = "x_Remove";
-            // 
-            // applyToolStripMenuItem
-            // 
-            this.applyToolStripMenuItem.Name = "applyToolStripMenuItem";
-            this.applyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.applyToolStripMenuItem.Text = "x_Apply";
-            // 
-            // openBelongingDocToolStripMenuItem
-            // 
-            this.openBelongingDocToolStripMenuItem.Name = "openBelongingDocToolStripMenuItem";
-            this.openBelongingDocToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
-            this.openBelongingDocToolStripMenuItem.Text = "x_open belonging Doc";
-            // 
-            // insertBookmarkToolStripMenuItem
-            // 
-            this.insertBookmarkToolStripMenuItem.Name = "insertBookmarkToolStripMenuItem";
-            this.insertBookmarkToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
-            this.insertBookmarkToolStripMenuItem.Text = "x_insert Bookmark";
-            // 
-            // activateBookmarkToolStripMenuItem
-            // 
-            this.activateBookmarkToolStripMenuItem.Name = "activateBookmarkToolStripMenuItem";
-            this.activateBookmarkToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
-            this.activateBookmarkToolStripMenuItem.Text = "x_activate Bookmark";
-            // 
             // UserControl_SceneTree
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -278,9 +280,9 @@
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.contextMenuStrip_Tree.ResumeLayout(false);
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
-            this.contextMenuStrip_Tree.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
