@@ -4,6 +4,7 @@
     Private objDBLevel As clsDBLevel
     Private objOList_Objects As List(Of clsOntologyItem)
     Private objOList_ObjectRel As List(Of clsObjectRel)
+    Private objTransaction As clsTransaction
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
 
@@ -189,7 +190,9 @@
             objOItem_Object = objOList_Objects(intRowID)
 
             ToolStripTextBox_GUID.Text = objOItem_Object.GUID
+            ToolStripTextBox_Name.ReadOnly = True
             ToolStripTextBox_Name.Text = objOItem_Object.Name
+            ToolStripTextBox_Name.ReadOnly = False
 
         ElseIf objDataGridviewRowCollection_Objects Is Nothing Then
 
@@ -260,9 +263,13 @@
             
 
             ToolStripTextBox_GUID.Text = objOItem_Object.GUID
+            ToolStripTextBox_Name.ReadOnly = True
             ToolStripTextBox_Name.Text = objOItem_Object.Name
+            ToolStripTextBox_Name.ReadOnly = False
         End If
-
+        If objOItem_Object.Type Is Nothing Then
+            objOItem_Object.Type = objLocalConfig.Globals.Type_Object
+        End If
         objUserControl_ObjectRelTree = New UserControl_ObjectRelTree(objLocalConfig, objOItem_Object)
         objUserControl_ObjectRelTree.Dock = DockStyle.Fill
         SplitContainer1.Panel1.Controls.Clear()
@@ -287,18 +294,32 @@
 
     Private Sub set_DBConnection()
         objDBLevel = New clsDBLevel(objLocalConfig.Globals)
-
+        objTransaction = New clsTransaction(objLocalConfig.Globals)
     End Sub
 
     Private Sub ToolStripTextBox_Name_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripTextBox_Name.TextChanged
         Timer_Name_Change.Stop()
-        Timer_Name_Change.Start()
+        If ToolStripTextBox_Name.ReadOnly = False Then
+            Timer_Name_Change.Start()
+        End If
+
 
     End Sub
 
     Private Sub Timer_Name_Change_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Name_Change.Tick
+        Dim objOItem_Result As clsOntologyItem
         Timer_Name_Change.Stop()
 
-
+        If ToolStripTextBox_Name.Text <> objOItem_Object.Name Then
+            objOItem_Object.Name = ToolStripTextBox_Name.Text
+            objTransaction.ClearItems()
+            objOItem_Result = objTransaction.do_Transaction(objOItem_Object)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Der Name konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                ToolStripTextBox_Name.ReadOnly = True
+                ToolStripTextBox_Name.Text = objOItem_Object.Name
+                ToolStripTextBox_Name.ReadOnly = False
+            End If
+        End If
     End Sub
 End Class

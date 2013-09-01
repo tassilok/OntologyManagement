@@ -4,8 +4,15 @@
     Private objDBLevel As clsDBLevel
 
     Private objFrm_Name As frm_Name
+    Private objOItem_Saved_LastItem As clsOntologyItem
 
     Private objfrmParent As Windows.Forms.IWin32Window
+
+    Public ReadOnly Property OItem_SavedLast As clsOntologyItem
+        Get
+            Return objOItem_Saved_LastItem
+        End Get
+    End Property
 
     Public Function save_Object(ByVal strClass As String, Optional ByVal objOItem_Object As clsOntologyItem = Nothing) As clsOntologyItem
         Dim oList_Objects As New List(Of clsOntologyItem)
@@ -14,6 +21,8 @@
         Dim objOItem_Result As clsOntologyItem
         Dim strValue As String
         Dim boolSave As Boolean
+
+        objOItem_Saved_LastItem = Nothing
 
         If objOItem_Object Is Nothing Then
             objFrm_Name = New frm_Name("New Object", objLocalConfig, Nothing, Nothing, Nothing, True, True, False, False, True)
@@ -64,6 +73,9 @@
             End If
             If boolSave = True Then
                 objOItem_Result = objDBLevel.save_Objects(oList_Objects)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objOItem_Saved_LastItem = oList_Objects.Last
+                End If
             End If
 
         End If

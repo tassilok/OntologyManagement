@@ -1115,6 +1115,9 @@
                     objOItem_Result = objTransaction_Objects.save_Object(objOItem_Parent.GUID_Parent)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                         configure_TabPages()
+                        If Not objTransaction_Objects.OItem_SavedLast Is Nothing Then
+                            ToolStripTextBox_Filter.Text = objTransaction_Objects.OItem_SavedLast.GUID
+                        End If
                     ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                         MsgBox("Beim Erzeugen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
                     End If
@@ -1419,7 +1422,6 @@
         End If
     End Sub
     
-    
 
     Private Sub ToolStripButton_DelItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_DelItem.Click
         Dim objDGVR_Selected As DataGridViewRow
@@ -1699,5 +1701,64 @@
             End If
         Next
     End Sub
+
+    Private Sub CopyNameToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CopyNameToolStripMenuItem.Click
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim strClipboard As String = ""
+
+
+        For Each objDGVR_Selected In DataGridView_Items.SelectedRows
+            objDRV_Selected = objDGVR_Selected.DataBoundItem
+            If Not objOItem_Parent Is Nothing Then
+                Select Case objOItem_Parent.Type
+                    Case objLocalConfig.Globals.Type_Object
+                        strClipboard = objDRV_Selected.Item("Name")
+
+
+                    Case objLocalConfig.Globals.Type_RelationType
+                        strClipboard = objDRV_Selected.Item("Name")
+
+                    Case objLocalConfig.Globals.Type_AttributeType
+                        strClipboard = objDRV_Selected.Item("Name")
+
+                End Select
+
+
+            Else
+
+                Select Case strType
+                    Case objLocalConfig.Globals.Type_Object
+
+
+                    Case objLocalConfig.Globals.Type_RelationType
+
+
+
+                    Case objLocalConfig.Globals.Type_AttributeType
+
+
+
+                    Case objLocalConfig.Globals.Type_Other
+                        
+                        If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                            strClipboard = objDRV_Selected.Item("name_other")
+
+                            
+                        Else
+                            strClipboard = objDRV_Selected.Item("name_object")
+                            
+                        End If
+
+
+
+                End Select
+
+            End If
+        Next
+
+        Clipboard.SetDataObject(strClipboard)
+    End Sub
+
 End Class
 
