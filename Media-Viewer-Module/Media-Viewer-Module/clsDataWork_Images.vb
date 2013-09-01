@@ -8,6 +8,8 @@ Public Class clsDataWork_Images
     Private objThread_Images As Threading.Thread
     Private objOItem_Ref As clsOntologyItem
     Private boolLoaded As Boolean
+    Private boolTable As Boolean
+    Private objLImages As List(Of clsMultiMediaItem) = New List(Of clsMultiMediaItem)
 
     Public ReadOnly Property Loaded As Boolean
         Get
@@ -21,8 +23,15 @@ Public Class clsDataWork_Images
         End Get
     End Property
 
-    Public Sub get_Images(ByVal OItem_Ref As clsOntologyItem)
+    Public ReadOnly Property ItemList As List(Of clsMultiMediaItem)
+        Get
+            Return objLImages
+        End Get
+    End Property
 
+    Public Sub get_Images(ByVal OItem_Ref As clsOntologyItem, Optional boolTable As Boolean = True)
+
+        Me.boolTable = boolTable
         objOItem_Ref = OItem_Ref
         dtblT_Images.Clear()
         boolLoaded = False
@@ -94,29 +103,41 @@ Public Class clsDataWork_Images
         objDBLevel_CreationDate.get_Data_ObjectAtt(objOL_CreationDate, _
                                                    boolIDs:=False)
 
-        Dim objLImages = From objImg In objDBLevel_Images.OList_ObjectRel
+        objLImages.Clear()
+        objLImages = (From objImg In objDBLevel_Images.OList_ObjectRel
                          Join objFile In objDBLevel_Files.OList_ObjectRel_ID On objFile.ID_Object Equals objImg.ID_Object
                          Group Join objDate In objDBLevel_CreationDate.OList_ObjectAtt On objDate.ID_Object Equals objImg.ID_Object Into objDates = Group
                          From objDate In objDates.DefaultIfEmpty
                          Order By objImg.OrderID
+                         Select New clsMultiMediaItem(objImg.ID_Object, _
+                                                      objImg.Name_Object, _
+                                                      objImg.ID_Parent_Object, _
+                                                      objFile.ID_Other, _
+                                                      objFile.Name_Other, _
+                                                      objFile.ID_Parent_Other, _
+                                                      objDate, _
+                                                      objImg.OrderID)).ToList()
 
-        For Each objImage In objLImages
-            If objImage.objDate Is Nothing Then
-                dtblT_Images.Rows.Add(objImage.objImg.OrderID, _
-                                      objImage.objImg.ID_Object, _
-                                      objImage.objImg.Name_Object, _
-                                      Nothing, _
-                                      objImage.objFile.ID_Other, _
-                                      Nothing)
-            Else
-                dtblT_Images.Rows.Add(objImage.objImg.OrderID, _
-                                      objImage.objImg.ID_Object, _
-                                      objImage.objImg.Name_Object, _
-                                      objImage.objDate.Val_Date, _
-                                      objImage.objFile.ID_Other, _
-                                      Nothing)
-            End If
-        Next
+        If boolTable Then
+            For Each objImage In objLImages
+                If objImage.OACreate Is Nothing Then
+                    dtblT_Images.Rows.Add(objImage.OrderID, _
+                                          objImage.ID_Item, _
+                                          objImage.Name_Item, _
+                                          Nothing, _
+                                          objImage.ID_File, _
+                                          Nothing)
+                Else
+                    dtblT_Images.Rows.Add(objImage.OrderID, _
+                                          objImage.ID_Item, _
+                                          objImage.Name_Item, _
+                                          objImage.OACreate.Val_Date, _
+                                          objImage.ID_File, _
+                                          Nothing)
+                End If
+            Next
+        End If
+
 
         boolLoaded = True
     End Sub

@@ -12,6 +12,8 @@ Public Class clsDataWork_PDF
     Private objOItem_Ref As clsOntologyItem
 
     Private boolLoaded As Boolean
+    Private boolTable As Boolean
+    Private objOLPDFs As List(Of clsMultiMediaItem) = New List(Of clsMultiMediaItem)
 
     Public ReadOnly Property Loaded As Boolean
         Get
@@ -25,7 +27,14 @@ Public Class clsDataWork_PDF
         End Get
     End Property
 
-    Public Sub get_PDF(ByVal OItem_Ref As clsOntologyItem)
+    Public ReadOnly Property ItemList As List(Of clsMultiMediaItem)
+        Get
+            Return objOLPDFs
+        End Get
+    End Property
+
+    Public Sub get_PDF(ByVal OItem_Ref As clsOntologyItem, Optional boolTable As Boolean = True)
+        Me.boolTable = boolTable
         objOItem_Ref = OItem_Ref
         dtblT_PDFList.Clear()
         boolLoaded = False
@@ -72,18 +81,29 @@ Public Class clsDataWork_PDF
         objDBLevel_File.get_Data_ObjectRel(objOLFile, _
                                            boolIDs:=False)
 
-        Dim objOLPDFs = From objPDF In objDBLevel_PDF.OList_ObjectRel
+        objOLPDFs = (From objPDF In objDBLevel_PDF.OList_ObjectRel
                         Join objFile In objDBLevel_File.OList_ObjectRel On objPDF.ID_Object Equals objFile.ID_Object
                         Order By objPDF.OrderID
+                        Select New clsMultiMediaItem(objPDF.ID_Object, _
+                                                     objPDF.Name_Object, _
+                                                     objPDF.ID_Parent_Object, _
+                                                     objFile.ID_Other, _
+                                                     objFile.Name_Other, _
+                                                     objFile.ID_Parent_Other, _
+                                                     Nothing, _
+                                                     objPDF.OrderID)).ToList()
 
-        For Each objPDF In objOLPDFs
-            dtblT_PDFList.Rows.Add(objPDF.objPDF.OrderID, _
-                                   objPDF.objPDF.ID_Object, _
-                                   objPDF.objPDF.Name_Object, _
-                                   objPDF.objFile.ID_Other, _
-                                   objPDF.objFile.Name_Other)
+        If boolTable Then
+            For Each objPDF In objOLPDFs
+                dtblT_PDFList.Rows.Add(objPDF.OrderID, _
+                                       objPDF.ID_Item, _
+                                       objPDF.Name_Item, _
+                                       objPDF.ID_File, _
+                                       objPDF.Name_File)
 
-        Next
+            Next
+        End If
+        
 
         boolLoaded = True
     End Sub

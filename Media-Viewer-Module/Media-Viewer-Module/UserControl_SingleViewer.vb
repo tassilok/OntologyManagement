@@ -18,6 +18,9 @@ Public Class UserControl_SingleViewer
     Public Event Media_Next()
     Public Event Media_Last()
 
+    Private intItemID As Integer
+    Private boolNavigation As Boolean
+
     <Flags()> _
     Enum MediaType
         Image = 0
@@ -67,6 +70,7 @@ Public Class UserControl_SingleViewer
         objUserControl_PDFViewer.initialize_PDF(OItem_PDF, OItem_File)
         ToolStripTextBox_Curr.Text = 0
         ToolStripLabel_Count.Text = 0
+        boolNavigation = True
     End Sub
 
     Public Sub initialize_PDF(ByVal objDR_Media As DataRow)
@@ -88,12 +92,117 @@ Public Class UserControl_SingleViewer
         objUserControl_PDFViewer.initialize_PDF(objOItem_PDF, objOItem_File)
         ToolStripTextBox_Curr.Text = 0
         ToolStripLabel_Count.Text = 0
+
+        boolNavigation = True
     End Sub
 
     Public Sub initialize_Image(ByVal OItem_Image As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date)
         objUserControl_ImageViewer.initialize_Image(OItem_Image, OItem_File, dateCreated)
         ToolStripTextBox_Curr.Text = 0
         ToolStripLabel_Count.Text = 0
+        boolNavigation = False
+    End Sub
+
+    Public Sub initialize_Image(ByVal OItem_Ref As clsOntologyItem)
+        objDataWork_Images.get_Images(OItem_Ref, False)
+        While (Not objDataWork_Images.Loaded)
+        End While
+
+        intItemID = 0
+        boolNavigation = True
+        configure_List()
+        configure_Viewer()
+    End Sub
+
+    Public Sub initialize_MediaItem(ByVal OItem_Ref As clsOntologyItem)
+        objDataWork_MediaItems.get_MediaItems(OItem_Ref, False)
+        While (Not objDataWork_MediaItems.Loaded)
+        End While
+
+        intItemID = 0
+        boolNavigation = True
+        configure_List()
+        configure_Viewer()
+    End Sub
+
+    Public Sub initialize_PDF(ByVal OItem_Ref As clsOntologyItem)
+        objDataWork_PDFs.get_PDF(OItem_Ref, False)
+        While (Not objDataWork_PDFs.Loaded)
+        End While
+
+        intItemID = 0
+        boolNavigation = True
+        configure_List()
+        configure_Viewer()
+    End Sub
+
+    Private Sub configure_List()
+
+        ToolStripTextBox_Curr.Text = intItemID + 1
+        ToolStripLabel_Count.Text = objDataWork_Images.ItemList.Count
+
+        isPossible_Next = False
+        isPossible_Previous = False
+
+        If intItemID > 0 Then
+            isPossible_Previous = True
+        Else
+            isPossible_Previous = False
+        End If
+
+        If intItemID < objDataWork_Images.ItemList.Count Then
+            isPossible_Next = True
+        End If
+    End Sub
+
+    Private Sub configure_Viewer()
+
+
+        Dim objItem As clsMultiMediaItem = Nothing
+
+        Select Case objOItem_MediaType.GUID
+            Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+                If objDataWork_PDFs.ItemList.Any Then
+                    objItem = objDataWork_PDFs.ItemList(intItemID)
+                End If
+
+            Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                If objDataWork_Images.ItemList.Any() Then
+                    objItem = objDataWork_Images.ItemList(intItemID)
+                End If
+
+            Case objLocalConfig.OItem_Type_Media_Item.GUID
+                If objDataWork_MediaItems.ItemList.Any() Then
+                    objItem = objDataWork_MediaItems.ItemList(intItemID)
+                End If
+        End Select
+
+        If Not objItem Is Nothing Then
+            Dim objMediaItem As clsOntologyItem = New clsOntologyItem(objItem.ID_Item, _
+                                                                  objItem.Name_Item, _
+                                                                  objItem.ID_Parent_Item)
+            Dim objFile As clsOntologyItem = New clsOntologyItem(objItem.ID_File, _
+                                                                 objItem.Name_File, _
+                                                                 objItem.ID_Parent_File)
+            Dim dateCreated As DateTime
+
+            If Not objItem.OACreate Is Nothing Then
+                dateCreated = objItem.OACreate.Val_Date
+            Else
+                dateCreated = Nothing
+            End If
+
+            Select Case objOItem_MediaType.GUID
+                Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+                    objUserControl_PDFViewer.initialize_PDF(objMediaItem, objFile)
+                Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                    objUserControl_ImageViewer.initialize_Image(objMediaItem, objFile, dateCreated)
+                Case objLocalConfig.OItem_Type_Media_Item.GUID
+
+                    objUserControl_MediaPlayer.initialize_MediaItem(objMediaItem, objFile, dateCreated)
+            End Select
+        End If
+        
     End Sub
 
     Public Sub initialize_Image(ByVal objDR_Media As DataRow)
@@ -120,12 +229,14 @@ Public Class UserControl_SingleViewer
         objUserControl_ImageViewer.initialize_Image(objOItem_Image, objOItem_File, dateCreated)
         ToolStripTextBox_Curr.Text = 0
         ToolStripLabel_Count.Text = 0
+        boolNavigation = False
     End Sub
 
     Public Sub initialize_MediaItem(ByVal OItem_MediaItem As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date)
         objUserControl_MediaPlayer.initialize_MediaItem(OItem_MediaItem, OItem_File, dateCreated)
         ToolStripTextBox_Curr.Text = 0
         ToolStripLabel_Count.Text = 0
+        boolNavigation = True
     End Sub
 
     Public Sub initialize_MediaItem(ByVal objDR_Media As DataRow)
@@ -153,6 +264,7 @@ Public Class UserControl_SingleViewer
         objUserControl_MediaPlayer.initialize_MediaItem(objOItem_MediaItem, objOItem_File, dateCreated)
         ToolStripTextBox_Curr.Text = 0
         ToolStripLabel_Count.Text = 0
+        boolNavigation = True
     End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal OItem_MediaType As clsOntologyItem)
@@ -212,19 +324,33 @@ Public Class UserControl_SingleViewer
 
     Private Sub ToolStripButton_First_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_First.Click
         RaiseEvent Media_First()
+        If boolNavigation Then
+            configure_List()
+            configure_Viewer()
+        End If
     End Sub
 
     Private Sub ToolStripButton_Previous_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Previous.Click
         RaiseEvent Media_Previous()
-
+        If boolNavigation Then
+            configure_List()
+            configure_Viewer()
+        End If
     End Sub
 
     Private Sub ToolStripButton_Next_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Next.Click
         RaiseEvent Media_Next()
-
+        If boolNavigation Then
+            configure_List()
+            configure_Viewer()
+        End If
     End Sub
 
     Private Sub ToolStripButton_Last_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Last.Click
         RaiseEvent Media_Last()
+        If boolNavigation Then
+            configure_List()
+            configure_Viewer()
+        End If
     End Sub
 End Class

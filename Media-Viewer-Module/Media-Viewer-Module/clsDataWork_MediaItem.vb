@@ -11,14 +11,22 @@ Public Class clsDataWork_MediaItem
     Private dtblT_MediaItems As New DataSet_MediaItems.dtbl_MediaItemsDataTable
 
     Private boolLoaded As Boolean
+    Private boolTable As Boolean
 
     Private objOItem_Ref As clsOntologyItem
 
     Private objThread_MediaItems As Threading.Thread
+    Private objLMediaItems As List(Of clsMultiMediaItem) = New List(Of clsMultiMediaItem)
 
     Public ReadOnly Property Loaded As Boolean
         Get
             Return boolLoaded
+        End Get
+    End Property
+
+    Public ReadOnly Property ItemList As List(Of clsMultiMediaItem)
+        Get
+            Return objLMediaItems
         End Get
     End Property
 
@@ -77,10 +85,11 @@ Public Class clsDataWork_MediaItem
         Return lngOrderID
     End Function
 
-    Public Sub get_MediaItems(ByVal OItem_Ref As clsOntologyItem)
+    Public Sub get_MediaItems(ByVal OItem_Ref As clsOntologyItem, Optional boolTable As Boolean = True)
         objOItem_Ref = OItem_Ref
         dtblT_MediaItems.Clear()
         boolLoaded = False
+        Me.boolTable = boolTable
         Try
             objThread_MediaItems.Abort()
         Catch ex As Exception
@@ -167,35 +176,47 @@ Public Class clsDataWork_MediaItem
 
         objDBLevel_Created.get_Data_ObjectAtt(objOL_CreationDate)
 
-        Dim objLMediaItems = From objMediaItem In objDBLevel_MediaItems.OList_ObjectRel
+        objLMediaItems = (From objMediaItem In objDBLevel_MediaItems.OList_ObjectRel
                              Join objFile In objDBLevel_Files.OList_ObjectRel On objFile.ID_Object Equals objMediaItem.ID_Object
                              Group Join objAttrib In objDBLevel_Created.OList_ObjectAtt On objAttrib.ID_Object Equals objFile.ID_Other Into objAttribs = Group
                              From objAttrib In objAttribs.DefaultIfEmpty
                              Group Join objBookmark In objDBLevel_BookMarks.OList_ObjectRel_ID On objBookmark.ID_Other Equals objMediaItem.ID_Object Into Count_Bookmarks = Count()
                              Order By objMediaItem.OrderID
+                             Select New clsMultiMediaItem(objMediaItem.ID_Object, _
+                                                          objMediaItem.Name_Object, _
+                                                          objMediaItem.ID_Parent_Object, _
+                                                          objFile.ID_Other, _
+                                                          objFile.Name_Other, _
+                                                          objFile.ID_Parent_Other, _
+                                                          objAttrib, _
+                                                          objMediaItem.OrderID, _
+                                                          Count_Bookmarks)).ToList()
 
-        For Each objMediaItem In objLMediaItems
-            If objMediaItem.objAttrib Is Nothing Then
-                dtblT_MediaItems.Rows.Add(objMediaItem.objMediaItem.OrderID, _
-                                          objMediaItem.objMediaItem.ID_Object, _
-                                          objMediaItem.objMediaItem.Name_Object, _
-                                          Nothing, _
-                                          objMediaItem.objFile.ID_Other, _
-                                          objMediaItem.objFile.Name_Other, _
-                                          objRandom.Next(), _
-                                          objMediaItem.Count_Bookmarks)
+        If boolTable Then
+            For Each objMediaItem In objLMediaItems
+                If objMediaItem.OACreate Is Nothing Then
+                    dtblT_MediaItems.Rows.Add(objMediaItem.OrderID, _
+                                              objMediaItem.ID_Item, _
+                                              objMediaItem.Name_Item, _
+                                              Nothing, _
+                                              objMediaItem.ID_File, _
+                                              objMediaItem.Name_File, _
+                                              objRandom.Next(), _
+                                              objMediaItem.CountBookMark)
 
-            Else
-                dtblT_MediaItems.Rows.Add(objMediaItem.objMediaItem.OrderID, _
-                                          objMediaItem.objMediaItem.ID_Object, _
-                                          objMediaItem.objMediaItem.Name_Object, _
-                                          objMediaItem.objAttrib.Val_Date, _
-                                          objMediaItem.objFile.ID_Other, _
-                                          objMediaItem.objFile.Name_Other, _
-                                          objRandom.Next(), _
-                                          objMediaItem.Count_Bookmarks)
-            End If
-        Next
+                Else
+                    dtblT_MediaItems.Rows.Add(objMediaItem.OrderID, _
+                                              objMediaItem.ID_Item, _
+                                              objMediaItem.Name_Item, _
+                                              objMediaItem.OACreate, _
+                                              objMediaItem.ID_File, _
+                                              objMediaItem.Name_File, _
+                                              objRandom.Next(), _
+                                              objMediaItem.CountBookMark)
+                End If
+            Next
+        End If
+        
 
         boolLoaded = True
     End Sub
