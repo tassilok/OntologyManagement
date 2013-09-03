@@ -305,16 +305,13 @@
         If objDBLevel.OList_ObjectRel_ID.Count > 0 Then
             objOList_Ontologies.Add(OItem_Ontology)
 
-            Dim oList = From obj In objDBLevel.OList_ObjectRel_ID
+            objOList_Ontologies = objOList_Ontologies.Concat((From obj In objDBLevel.OList_ObjectRel_ID
                         Group By obj.ID_Other Into Group
+                        Select New clsOntologyItem(ID_Other, objLocalConfig.Globals.Type_Object)).ToList())
 
-            For Each ListItem In oList
-                objOList_Ontologies.Add(New clsOntologyItem(ListItem.ID_Other, objLocalConfig.Globals.Type_Object))
-
-            Next
             objOList_ObjRel.Clear()
-            For Each ListItem In oList
-                objOList_ObjRel.Add(New clsObjectRel(ListItem.ID_Other, _
+            objOList_ObjRel = (From objOItem In objOList_Ontologies
+                               Select New clsObjectRel(objOItem.GUID, _
                                                      Nothing, _
                                                      Nothing, _
                                                      Nothing, _
@@ -329,19 +326,15 @@
                                                      Nothing, _
                                                      Nothing))
 
-
-            Next
-
-
-
             objDBLevel.get_Data_ObjectRel(objOList_ObjRel, False)
 
             objOList_ObjRel.Clear()
             objOList_ObjRel2.Clear()
             objOList_ObjRel3.Clear()
             objOList_ObjRel4.Clear()
-            For Each ListItem In objDBLevel.OList_ObjectRel_ID
-                objOList_ObjRel.Add(New clsObjectRel(ListItem.ID_Other, _
+
+            objOList_ObjRel = (From objOrel In objDBLevel.OList_ObjectRel_ID
+                               Select New clsObjectRel(objOrel.ID_Other, _
                                                      Nothing, _
                                                      Nothing, _
                                                      Nothing, _
@@ -356,7 +349,8 @@
                                                      Nothing, _
                                                      Nothing))
 
-                objOList_ObjRel2.Add(New clsObjectRel(ListItem.ID_Other, _
+            objOList_ObjRel2 = (From objOrel In objDBLevel.OList_ObjectRel_ID
+                               Select New clsObjectRel(objOrel.ID_Other, _
                                                      Nothing, _
                                                      Nothing, _
                                                      Nothing, _
@@ -371,7 +365,8 @@
                                                      Nothing, _
                                                      Nothing))
 
-                objOList_ObjRel3.Add(New clsObjectRel(ListItem.ID_Other, _
+            objOList_ObjRel3 = (From objOrel In objDBLevel.OList_ObjectRel_ID
+                               Select New clsObjectRel(objOrel.ID_Other, _
                                                      Nothing, _
                                                      Nothing, _
                                                      Nothing, _
@@ -386,7 +381,8 @@
                                                      Nothing, _
                                                      Nothing))
 
-                objOList_ObjRel4.Add(New clsObjectRel(ListItem.ID_Other, _
+            objOList_ObjRel4 = (From objOrel In objDBLevel.OList_ObjectRel_ID
+                               Select New clsObjectRel(objOrel.ID_Other, _
                                                      Nothing, _
                                                      Nothing, _
                                                      Nothing, _
@@ -401,10 +397,7 @@
                                                      Nothing, _
                                                      Nothing))
 
-            Next
-
-
-
+            
             objDBLevel_Attributes.get_Data_ObjectRel(objOList_ObjRel, False, False)
 
             objDBLevel_Classes.get_Data_ObjectRel(objOList_ObjRel3, False, False)
@@ -413,49 +406,50 @@
 
             objDBLevel_RelTypes.get_Data_ObjectRel(objOList_ObjRel2, False, False)
 
-            objOList.Clear()
-
+            
             objOItem_Result = objLocalConfig.Globals.LState_Nothing
 
             If objDBLevel_Attributes.OList_ObjectRel.Count > 0 Then
                 objOItem_Result = objLocalConfig.Globals.LState_Success
             End If
-            For Each objORel_Item In objDBLevel_Attributes.OList_ObjectRel
-                objOList.Add(New clsOntologyItem(objORel_Item.ID_Other, _
-                             objORel_Item.Name_Other, _
-                             objORel_Item.ID_Parent_Other, _
-                             objORel_Item.Ontology))
-            Next
+
+            objOList = (From objOItem In objDBLevel_Attributes.OList_ObjectRel
+                        Select New clsOntologyItem(objOItem.ID_Other, _
+                             objOItem.Name_Other, _
+                             objOItem.ID_Parent_Other, _
+                             objOItem.Ontology)).ToList()
 
             If objDBLevel_Classes.OList_ObjectRel.Count > 0 Then
                 objOItem_Result = objLocalConfig.Globals.LState_Success
             End If
-            For Each objORel_Item In objDBLevel_Classes.OList_ObjectRel
-                objOList.Add(New clsOntologyItem(objORel_Item.ID_Other, _
-                             objORel_Item.Name_Other, _
-                             objORel_Item.ID_Parent_Other, _
-                             objORel_Item.Ontology))
-            Next
+
+            objOList = objOList.Concat((From objOItem In objDBLevel_Classes.OList_ObjectRel
+                        Select New clsOntologyItem(objOItem.ID_Other, _
+                             objOItem.Name_Other, _
+                             objOItem.ID_Parent_Other, _
+                             objOItem.Ontology)).ToList())
+
 
             If objDBLevel_Objects.OList_ObjectRel.Count > 0 Then
                 objOItem_Result = objLocalConfig.Globals.LState_Success
             End If
-            For Each objORel_Item In objDBLevel_Objects.OList_ObjectRel
-                objOList.Add(New clsOntologyItem(objORel_Item.ID_Other, _
-                             objORel_Item.Name_Other, _
-                             objORel_Item.ID_Parent_Other, _
-                             objORel_Item.Ontology))
-            Next
 
+            objOList = objOList.Concat((From objOItem In objDBLevel_Objects.OList_ObjectRel
+                        Select New clsOntologyItem(objOItem.ID_Other, _
+                             objOItem.Name_Other, _
+                             objOItem.ID_Parent_Other, _
+                             objOItem.Ontology)).ToList())
+
+            
             If objDBLevel_RelTypes.OList_ObjectRel.Count > 0 Then
                 objOItem_Result = objLocalConfig.Globals.LState_Success
             End If
-            For Each objORel_Item In objDBLevel_RelTypes.OList_ObjectRel
-                objOList.Add(New clsOntologyItem(objORel_Item.ID_Other, _
-                             objORel_Item.Name_Other, _
-                             objORel_Item.ID_Parent_Other, _
-                             objORel_Item.Ontology))
-            Next
+
+            objOList = objOList.Concat((From objOItem In objDBLevel_RelTypes.OList_ObjectRel
+                        Select New clsOntologyItem(objOItem.ID_Other, _
+                             objOItem.Name_Other, _
+                             objOItem.ID_Parent_Other, _
+                             objOItem.Ontology)).ToList())
 
         Else
             objOItem_Result = objLocalConfig.Globals.LState_Nothing
