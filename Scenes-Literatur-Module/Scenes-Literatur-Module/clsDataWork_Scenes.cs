@@ -32,6 +32,7 @@ namespace Scenes_Literatur_Module
 
         public clsOntologyItem OItem_Bookmark_Last { get; set; }
         public clsOntologyItem OItem_Document_Last { get; set; }
+        public clsOntologyItem OItem_Scene_Last { get; set; }
 
         public clsDataWork_Scenes(clsLocalConfig LocalConfig)
         {

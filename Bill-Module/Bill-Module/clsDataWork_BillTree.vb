@@ -83,6 +83,7 @@ Public Class clsDataWork_BillTree
         Dim objOItem_Result As clsOntologyItem
         Dim objTreeNode_FinPar As TreeNode
         Dim intTransaction As Integer
+        Dim dateTransation As Date
 
         intTransaction = 0
         If objTreeNode_ContractType.ImageIndex = objLocalConfig.ImageID_Ausgaben Then
@@ -135,8 +136,10 @@ Public Class clsDataWork_BillTree
 
                     intTransaction = objOLFin_Par.Count
                     For Each objFin_Par In objOLFin_Par
+                        dateTransation = objFin_Par.objTranDate.Val_Date
+
                         objTreeNode_FinPar = objTreeNode_ContractType.Nodes.Add(objFin_Par.objFin_Par.ID_Object, _
-                                                           objFin_Par.objFin_Par.Name_Object & " (" & objFin_Par.objTranDate.Val_Date.ToString("dd.MM.yyyy") & ")", _
+                                                           objFin_Par.objFin_Par.Name_Object & " (" & dateTransation.ToString("dd.MM.yyyy") & ")", _
                                                            objLocalConfig.ImageID_Bill, objLocalConfig.ImageID_BillSelected)
 
                         Dim objOLFin_Child = From objFin_Child In objDBLevel_TransactionNodes2.OList_ObjectRel

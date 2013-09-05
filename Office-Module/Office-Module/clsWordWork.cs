@@ -29,8 +29,35 @@ namespace Office_Module
         private bool boolVisible = false;
 
         public string FilePath_LastAction { get; set; }
-        public string FilePath_Active_Doc { get; set; }
-        public string FileName_Active_Doc { get; set; }
+        public string FilePath_Active_Doc 
+        { 
+            get 
+            {
+                if (openWord())
+                {
+                    return objWord.ActiveDocument.Path;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+        }
+        public string FileName_Active_Doc 
+        {
+            get
+            {
+                if (openWord())
+                {
+                    return objWord.ActiveDocument.Name;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
 
         public bool Visible
         {

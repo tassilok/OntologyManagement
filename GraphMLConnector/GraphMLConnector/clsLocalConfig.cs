@@ -133,7 +133,7 @@ namespace GraphMLConnector
 
             OItem_RelationType_isOfType = new clsOntologyItem();
             OItem_RelationType_isOfType.GUID = "9996494aef6a4357a6ef71a92b5ff596";
-            OItem_RelationType_isOfType.Name = "export to";
+            OItem_RelationType_isOfType.Name = "is of Type";
             OItem_RelationType_isOfType.Type = Globals.Type_RelationType;
 
         }

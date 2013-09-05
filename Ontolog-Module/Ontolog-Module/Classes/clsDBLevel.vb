@@ -2541,6 +2541,13 @@ Public Class clsDBLevel
                                                                        Nothing, _
                                                                        objHit1.Source(objFields.ID_DataType))).ToList()).ToList()
 
+                    'Dim objOL_Empty = (From obj In (From obj1 In objList
+                    '                   Where obj1.Source.ContainsKey(objFields.Val_String)).ToList()
+                    '                   Where obj.Source(objFields.Val_String) = Nothing
+                    '                   Select New clsObjectAtt(obj.Source(objFields.ID_Attribute), Nothing, Nothing, Nothing, Nothing)).ToList()
+                    'If objOL_Empty.Any Then
+                    '    del_ObjectAtt(objOL_Empty)
+                    'End If
                     objOntologyList_ObjAtt_ID = objOntologyList_ObjAtt_ID.Concat((From objHit1 In objList
                                                                                  Where objHit1.Source(objFields.ID_DataType).ToString = objDataTypes.DType_String.GUID _
                                                                                  And objHit1.Source.ContainsKey(objFields.ID_Attribute) _

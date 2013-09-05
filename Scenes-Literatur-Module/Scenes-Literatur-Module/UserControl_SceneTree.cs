@@ -166,6 +166,8 @@ namespace Scenes_Literatur_Module
 
                 if (objTreeNode_Selected.ImageIndex == objLocalConfig.ImageID_Scene)
                 {
+                    insertBookmarkToolStripMenuItem.Enabled = true;
+
                     objOItem_Scene = new clsOntologyItem()
                     {
                         GUID = objTreeNode_Selected.Name,
@@ -173,6 +175,8 @@ namespace Scenes_Literatur_Module
                         GUID_Parent = objLocalConfig.OItem_type_szene.GUID,
                         Type = objLocalConfig.Globals.Type_Object
                     };
+
+                    objLocalConfig.DataWork_Scenes.OItem_Scene_Last = objOItem_Scene;
 
                     var objOItem_Bookmark = objLocalConfig.DataWork_Scenes.getBookmarkOfRef(objOItem_Scene);
                     if (objOItem_Bookmark != null)
@@ -300,6 +304,14 @@ namespace Scenes_Literatur_Module
 
             Item_Document.OItem_Result = OItem_Result;
             return Item_Document;
+        }
+
+        private void insertBookmarkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            var objOItem_Result = objDocumentumentation.insert_Bookmark(objLocalConfig.DataWork_Scenes.OItem_Scene_Last);
+
+
         }
     }
 }

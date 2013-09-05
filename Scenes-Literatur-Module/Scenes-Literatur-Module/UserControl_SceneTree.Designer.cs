@@ -186,6 +186,7 @@
             this.insertBookmarkToolStripMenuItem.Name = "insertBookmarkToolStripMenuItem";
             this.insertBookmarkToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.insertBookmarkToolStripMenuItem.Text = "x_insert Bookmark";
+            this.insertBookmarkToolStripMenuItem.Click += new System.EventHandler(this.insertBookmarkToolStripMenuItem_Click);
             // 
             // activateBookmarkToolStripMenuItem
             // 
