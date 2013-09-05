@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsAppointment.cs" />
     <Compile Include="clsDataWork_Appointments.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="frmAppointmentModule.cs">
@@ -99,6 +100,10 @@
     <ProjectReference Include="..\..\Security-Module\Security-Module\Security-Module.vbproj">
       <Project>{c9add5dc-090d-4003-bba9-cf9218c938b2}</Project>
       <Name>Security-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Structure-Module\Structure-Module\Structure-Module.csproj">
+      <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
+      <Name>Structure-Module</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

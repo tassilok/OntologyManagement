@@ -44,8 +44,10 @@ public clsOntologyItem OItem_type_raum { get; set; }
 public clsOntologyItem OItem_type_user { get; set; }
 
 public clsOntologyItem OItem_User { get; set; }
-  
-	
+
+
+public clsDataWork_Appointments DataWork_Appointments { get; set; }
+
 private void get_Data_DevelopmentConfig()
         {
             List<clsObjectRel> oList_ObjectRel = new List<clsObjectRel> ();

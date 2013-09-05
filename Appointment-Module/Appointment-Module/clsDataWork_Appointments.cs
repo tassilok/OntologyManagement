@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Ontolog_Module;
 using System.Threading;
+using Structure_Module;
 
 namespace Appointment_Module
 {
@@ -56,7 +57,33 @@ namespace Appointment_Module
             }
         }
 
-        public 
+        public SortableBindingList<clsAppointment> GetAppointments()
+        {
+
+            if (IsDataPresent().GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                var Appointments = new SortableBindingList<clsAppointment>((from objAppointment in objDBLevel_Appointments.OList_Objects
+                                join objStart in objDBLevel_Appointments__Start.OList_ObjectAtt on objAppointment.GUID equals objStart.ID_Object
+                                join objEnde in objDBLevel_Appointments__Ende.OList_ObjectAtt on objAppointment.GUID equals objEnde.ID_Object into objEndes
+                                from objEnde in objEndes.DefaultIfEmpty()
+                                join objUser in objDBLevel_AppointmentsToUser.OList_ObjectRel_ID on objAppointment.GUID equals objUser.ID_Object
+                                where objUser.ID_Other == objLocalConfig.OItem_User.GUID
+                                select new clsAppointment()
+                                {
+                                    ID_Appointment = objAppointment.GUID,
+                                    Name_Appointment = objAppointment.Name,
+                                    OItem_User = objLocalConfig.OItem_User,
+                                    ID_Attribute_Start = objStart.ID_Attribute,
+                                    ID_Attribute_Ende = objEnde.ID_Attribute,
+                                    Val_Start = objStart.Val_Date,
+                                    Val_Ende = objEnde.Val_Date
+                                }).ToList());
+                return Appointments;
+            }
+            
+
+            return null;
+        }
 
         public clsDataWork_Appointments(clsLocalConfig LocalConfig)
         {
