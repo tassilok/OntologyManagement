@@ -48,8 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsAppointment.cs" />
+    <Compile Include="clsContact.cs" />
+    <Compile Include="clsDataWork_AppointmentDetail.cs" />
     <Compile Include="clsDataWork_Appointments.cs" />
     <Compile Include="clsLocalConfig.cs" />
+    <Compile Include="clsTransaction_AppointmentDetail.cs" />
     <Compile Include="frmAppointmentModule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +61,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControl_AppointmentData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_AppointmentData.Designer.cs">
+      <DependentUpon>UserControl_AppointmentData.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControl_Appointments.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -75,7 +84,11 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UserControl_AppointmentData.resx">
+      <DependentUpon>UserControl_AppointmentData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControl_Appointments.resx">
       <DependentUpon>UserControl_Appointments.cs</DependentUpon>
     </EmbeddedResource>
@@ -97,6 +110,10 @@
       <Project>{3f2f6722-c36b-420d-afe7-b21c19457208}</Project>
       <Name>Ontolog-Module</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Partner-Module\Partner-Module\Partner-Module.vbproj">
+      <Project>{d42c6737-ef33-40d6-8253-173099f93885}</Project>
+      <Name>Partner-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Security-Module\Security-Module\Security-Module.vbproj">
       <Project>{c9add5dc-090d-4003-bba9-cf9218c938b2}</Project>
       <Name>Security-Module</Name>
@@ -111,6 +128,10 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\pulsante_02_architetto_f_01.png" />
+    <None Include="Resources\pulsante_01_architetto_f_011.png" />
+    <None Include="Resources\b_plus.png" />
+    <None Include="Resources\b_minus.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

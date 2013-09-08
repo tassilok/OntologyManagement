@@ -59,10 +59,11 @@ namespace Appointment_Module
 
         public SortableBindingList<clsAppointment> GetAppointments()
         {
+            SortableBindingList<clsAppointment> Appointments;
 
             if (IsDataPresent().GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                var Appointments = new SortableBindingList<clsAppointment>((from objAppointment in objDBLevel_Appointments.OList_Objects
+                Appointments = new SortableBindingList<clsAppointment>((from objAppointment in objDBLevel_Appointments.OList_Objects
                                 join objStart in objDBLevel_Appointments__Start.OList_ObjectAtt on objAppointment.GUID equals objStart.ID_Object
                                 join objEnde in objDBLevel_Appointments__Ende.OList_ObjectAtt on objAppointment.GUID equals objEnde.ID_Object into objEndes
                                 from objEnde in objEndes.DefaultIfEmpty()
@@ -74,15 +75,29 @@ namespace Appointment_Module
                                     Name_Appointment = objAppointment.Name,
                                     OItem_User = objLocalConfig.OItem_User,
                                     ID_Attribute_Start = objStart.ID_Attribute,
-                                    ID_Attribute_Ende = objEnde.ID_Attribute,
+                                    ID_Attribute_Ende = objEnde != null ? objEnde.ID_Attribute : null,
                                     Val_Start = objStart.Val_Date,
-                                    Val_Ende = objEnde.Val_Date
+                                    Val_Ende = objEnde != null ? objEnde.Val_Date : null,
+                                    Val_Filter = objEnde != null ? objEnde.Val_Date : objStart.Val_Date,
+                                    OItem_Result = objLocalConfig.Globals.LState_Success
                                 }).ToList());
+                return Appointments;
+            }
+            else if (IsDataPresent().GUID == objLocalConfig.Globals.LState_Error.GUID)
+            {
+                Appointments = new SortableBindingList<clsAppointment>();
+                Appointments.Add(new clsAppointment() { OItem_Result = objLocalConfig.Globals.LState_Error });
+                return Appointments;
+            }
+            else
+            {
+                Appointments = new SortableBindingList<clsAppointment>();
+                Appointments.Add(new clsAppointment() { OItem_Result = objLocalConfig.Globals.LState_Nothing });
                 return Appointments;
             }
             
 
-            return null;
+            
         }
 
         public clsDataWork_Appointments(clsLocalConfig LocalConfig)

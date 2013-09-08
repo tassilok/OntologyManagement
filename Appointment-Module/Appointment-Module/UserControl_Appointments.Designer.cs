@@ -30,18 +30,19 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControl_Appointments));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton_Active = new System.Windows.Forms.ToolStripButton();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel_CountLbl = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_Count = new System.Windows.Forms.ToolStripLabel();
             this.dataGridView_Apointments = new System.Windows.Forms.DataGridView();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton_Active = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Apointments)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -66,6 +67,42 @@
             // 
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
             // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel_CountLbl,
+            this.toolStripLabel_Count});
+            this.toolStrip2.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(78, 25);
+            this.toolStrip2.TabIndex = 0;
+            // 
+            // toolStripLabel_CountLbl
+            // 
+            this.toolStripLabel_CountLbl.Name = "toolStripLabel_CountLbl";
+            this.toolStripLabel_CountLbl.Size = new System.Drawing.Size(53, 22);
+            this.toolStripLabel_CountLbl.Text = "x_Count:";
+            // 
+            // toolStripLabel_Count
+            // 
+            this.toolStripLabel_Count.Name = "toolStripLabel_Count";
+            this.toolStripLabel_Count.Size = new System.Drawing.Size(13, 22);
+            this.toolStripLabel_Count.Text = "0";
+            // 
+            // dataGridView_Apointments
+            // 
+            this.dataGridView_Apointments.AllowUserToAddRows = false;
+            this.dataGridView_Apointments.AllowUserToDeleteRows = false;
+            this.dataGridView_Apointments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_Apointments.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView_Apointments.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_Apointments.Name = "dataGridView_Apointments";
+            this.dataGridView_Apointments.ReadOnly = true;
+            this.dataGridView_Apointments.Size = new System.Drawing.Size(361, 346);
+            this.dataGridView_Apointments.TabIndex = 0;
+            this.dataGridView_Apointments.SelectionChanged += new System.EventHandler(this.dataGridView_Apointments_SelectionChanged);
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
@@ -87,34 +124,7 @@
             this.toolStripButton_Active.Name = "toolStripButton_Active";
             this.toolStripButton_Active.Size = new System.Drawing.Size(54, 22);
             this.toolStripButton_Active.Text = "x_Active";
-            // 
-            // toolStrip2
-            // 
-            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel_Count});
-            this.toolStrip2.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(65, 25);
-            this.toolStrip2.TabIndex = 0;
-            // 
-            // toolStripLabel_Count
-            // 
-            this.toolStripLabel_Count.Name = "toolStripLabel_Count";
-            this.toolStripLabel_Count.Size = new System.Drawing.Size(53, 22);
-            this.toolStripLabel_Count.Text = "x_Count:";
-            // 
-            // dataGridView_Apointments
-            // 
-            this.dataGridView_Apointments.AllowUserToAddRows = false;
-            this.dataGridView_Apointments.AllowUserToDeleteRows = false;
-            this.dataGridView_Apointments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_Apointments.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView_Apointments.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView_Apointments.Name = "dataGridView_Apointments";
-            this.dataGridView_Apointments.ReadOnly = true;
-            this.dataGridView_Apointments.Size = new System.Drawing.Size(361, 346);
-            this.dataGridView_Apointments.TabIndex = 0;
+            this.toolStripButton_Active.CheckStateChanged += new System.EventHandler(this.toolStripButton_Active_CheckStateChanged);
             // 
             // UserControl_Appointments
             // 
@@ -130,11 +140,11 @@
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Apointments)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -145,7 +155,8 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton_Active;
         private System.Windows.Forms.ToolStrip toolStrip2;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel_Count;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_CountLbl;
         private System.Windows.Forms.DataGridView dataGridView_Apointments;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_Count;
     }
 }

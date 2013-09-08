@@ -21,7 +21,7 @@ Public Class UserControl_Address
         End If
     End Sub
 
-    Private Sub clear_Controls()
+    Public Sub clear_Controls()
         TextBox_Zusatz.ReadOnly = True
         TextBox_Zusatz.Text = ""
         TextBox_Postfach.ReadOnly = True
@@ -41,6 +41,15 @@ Public Class UserControl_Address
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = LocalConfig
+        set_DBConnection()
+    End Sub
+
+    Public Sub New(Globals As clsGlobals)
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = New clsLocalConfig(Globals)
         set_DBConnection()
     End Sub
 
