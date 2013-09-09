@@ -244,5 +244,120 @@ namespace Appointment_Module
                 toolStripProgressBar_Contacts.Value = 0;
             }
         }
+
+        private void dateTimePicker_Start_ValueChanged(object sender, EventArgs e)
+        {
+            SaveStart();
+            
+            
+            
+        }
+
+        private void SaveStart(DateTime? dateTime_Set = null)
+        {
+            if (dateTimePicker_Start.Enabled)
+            {
+                var boolChange = true;
+                var boolEndToStart = false;
+                if (dateTime_Set == null)
+                {
+                    dateTime_Set = dateTimePicker_Start.Value;
+                }
+                if (dateTime_Set > dateTimePicker_Ende.Value)
+                {
+                    if (MessageBox.Show("Der Startdatum würde das Enddatum auf einen späteren Zeitpunkt setzen. Soll dies geschehen?", "Werte", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                    {
+                        boolChange = false;
+                        boolEndToStart = true;
+                    }
+                }
+
+                if (boolChange)
+                {
+                    var objOItem_Appointment = new clsOntologyItem()
+                    {
+                        GUID = objAppointment.ID_Appointment,
+                        Name = objAppointment.Name_Appointment,
+                        GUID_Parent = objLocalConfig.OItem_type_appointment.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+
+                    var objOItem_Result = objTransaction_AppointmentDetail.SaveStart(objOItem_Appointment, dateTime_Set);
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        if (boolEndToStart)
+                        {
+                            SaveEnde(dateTime_Set);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Das Startdatum konnte nicht gesetzt werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        dateTimePicker_Start.Enabled = false;
+                        dateTimePicker_Start.Value = (DateTime)objAppointment.Val_Start;
+                        dateTimePicker_Start.Enabled = true;
+                    }
+
+
+                }
+            }
+        }
+
+        private void SaveEnde(DateTime? dateTime_Set = null)
+        {
+            if (dateTimePicker_Ende.Enabled)
+            {
+                var boolChange = true;
+                var boolStartToEnd = false;
+                if (dateTime_Set == null)
+                {
+                    dateTime_Set = dateTimePicker_Ende.Value;
+                }
+                if (dateTime_Set < dateTimePicker_Start.Value)
+                {
+                    if (MessageBox.Show("Der Enddatum würde das Startdatum auf einen früheren Zeitpunkt setzen. Soll dies geschehen?", "Werte", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                    {
+                        boolChange = false;
+                        boolStartToEnd = true;
+                    }
+                }
+
+                if (boolChange)
+                {
+                    var objOItem_Appointment = new clsOntologyItem()
+                    {
+                        GUID = objAppointment.ID_Appointment,
+                        Name = objAppointment.Name_Appointment,
+                        GUID_Parent = objLocalConfig.OItem_type_appointment.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+
+                    var objOItem_Result = objTransaction_AppointmentDetail.SaveEnde(objOItem_Appointment, dateTime_Set);
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        if (boolStartToEnd)
+                        {
+                            SaveStart(dateTime_Set);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Das Enddatum konnte nicht gesetzt werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        dateTimePicker_Ende.Enabled = false;
+                        dateTimePicker_Ende.Value = (DateTime)objAppointment.Val_Ende;
+                        dateTimePicker_Ende.Enabled = true;
+                    }
+
+
+                }
+            }
+        }
+
+        private void dateTimePicker_Ende_ValueChanged(object sender, EventArgs e)
+        {
+            SaveEnde();
+        }
     }
 }

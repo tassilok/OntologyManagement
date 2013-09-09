@@ -140,6 +140,7 @@
             this.dateTimePicker_Ende.Name = "dateTimePicker_Ende";
             this.dateTimePicker_Ende.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker_Ende.TabIndex = 5;
+            this.dateTimePicker_Ende.ValueChanged += new System.EventHandler(this.dateTimePicker_Ende_ValueChanged);
             // 
             // label_Ende
             // 
@@ -156,6 +157,7 @@
             this.dateTimePicker_Start.Name = "dateTimePicker_Start";
             this.dateTimePicker_Start.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker_Start.TabIndex = 3;
+            this.dateTimePicker_Start.ValueChanged += new System.EventHandler(this.dateTimePicker_Start_ValueChanged);
             // 
             // label_Start
             // 
@@ -268,7 +270,7 @@
             this.toolStripProgressBar_Contacts});
             this.toolStrip3.Location = new System.Drawing.Point(3, 0);
             this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(145, 25);
+            this.toolStrip3.Size = new System.Drawing.Size(114, 25);
             this.toolStrip3.TabIndex = 0;
             // 
             // toolStripProgressBar_Contacts

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControl_Appointments));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
@@ -36,6 +37,9 @@
             this.dataGridView_Apointments = new System.Windows.Forms.DataGridView();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Active = new System.Windows.Forms.ToolStripButton();
+            this.ContextMenuStrip_Appointment = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.NewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RemoveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -43,6 +47,7 @@
             this.toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Apointments)).BeginInit();
             this.toolStrip1.SuspendLayout();
+            this.ContextMenuStrip_Appointment.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -95,6 +100,7 @@
             this.dataGridView_Apointments.AllowUserToAddRows = false;
             this.dataGridView_Apointments.AllowUserToDeleteRows = false;
             this.dataGridView_Apointments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_Apointments.ContextMenuStrip = this.ContextMenuStrip_Appointment;
             this.dataGridView_Apointments.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView_Apointments.Location = new System.Drawing.Point(0, 0);
             this.dataGridView_Apointments.Name = "dataGridView_Apointments";
@@ -126,6 +132,29 @@
             this.toolStripButton_Active.Text = "x_Active";
             this.toolStripButton_Active.CheckStateChanged += new System.EventHandler(this.toolStripButton_Active_CheckStateChanged);
             // 
+            // ContextMenuStrip_Appointment
+            // 
+            this.ContextMenuStrip_Appointment.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.NewToolStripMenuItem,
+            this.RemoveToolStripMenuItem});
+            this.ContextMenuStrip_Appointment.Name = "ContextMenuStrip_Appointment";
+            this.ContextMenuStrip_Appointment.Size = new System.Drawing.Size(153, 70);
+            this.ContextMenuStrip_Appointment.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip_Appointment_Opening);
+            // 
+            // NewToolStripMenuItem
+            // 
+            this.NewToolStripMenuItem.Name = "NewToolStripMenuItem";
+            this.NewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.NewToolStripMenuItem.Text = "x_New";
+            this.NewToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
+            // 
+            // RemoveToolStripMenuItem
+            // 
+            this.RemoveToolStripMenuItem.Name = "RemoveToolStripMenuItem";
+            this.RemoveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.RemoveToolStripMenuItem.Text = "x_Remove";
+            this.RemoveToolStripMenuItem.Click += new System.EventHandler(this.RemoveToolStripMenuItem_Click);
+            // 
             // UserControl_Appointments
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -145,6 +174,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Apointments)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.ContextMenuStrip_Appointment.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -158,5 +188,8 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel_CountLbl;
         private System.Windows.Forms.DataGridView dataGridView_Apointments;
         private System.Windows.Forms.ToolStripLabel toolStripLabel_Count;
+        internal System.Windows.Forms.ContextMenuStrip ContextMenuStrip_Appointment;
+        internal System.Windows.Forms.ToolStripMenuItem NewToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem RemoveToolStripMenuItem;
     }
 }

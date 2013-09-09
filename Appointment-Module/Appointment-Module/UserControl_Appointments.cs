@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Structure_Module;
+using Ontolog_Module;
 
 namespace Appointment_Module
 {
@@ -14,8 +15,10 @@ namespace Appointment_Module
 
     public partial class UserControl_Appointments : UserControl
     {
-        clsLocalConfig objLocalConfig;
-        SortableBindingList<clsAppointment> OList_Appointments;
+        private clsLocalConfig objLocalConfig;
+        private SortableBindingList<clsAppointment> OList_Appointments;
+        private frm_Name objFrmName;
+        private clsTransaction_AppointmentDetail objTransaction_AppointmentDetail;
         public SelectedNode selectedNode;
 
         public UserControl_Appointments(clsLocalConfig LocalConfig)
@@ -27,6 +30,7 @@ namespace Appointment_Module
 
         private void initialize()
         {
+            objTransaction_AppointmentDetail = new clsTransaction_AppointmentDetail(objLocalConfig);
             OList_Appointments = objLocalConfig.DataWork_Appointments.GetAppointments();
             while (OList_Appointments.First().OItem_Result.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
             {
@@ -51,7 +55,8 @@ namespace Appointment_Module
             {
                 if (toolStripButton_Active.Checked)
                 {
-                    dataGridView_Apointments.DataSource = new SortableBindingList<clsAppointment>(OList_Appointments.Where(Filter => Filter.Val_Filter > DateTime.Now).ToList());
+
+                    dataGridView_Apointments.DataSource = new SortableBindingList<clsAppointment>(OList_Appointments.Where(Filter => Filter.Val_Filter > DateTime.Now.Date).ToList());
                     dataGridView_Apointments.Sort(dataGridView_Apointments.Columns["Val_Start"], ListSortDirection.Ascending);
 
                 }
@@ -87,6 +92,97 @@ namespace Appointment_Module
             else
             {
                 selectedNode(null);
+            }
+        }
+
+        private void ContextMenuStrip_Appointment_Opening(object sender, CancelEventArgs e)
+        {
+            RemoveToolStripMenuItem.Enabled = false;
+            if (dataGridView_Apointments.SelectedRows.Count > 0)
+            {
+                RemoveToolStripMenuItem.Enabled = true;
+            }
+        }
+
+        private void NewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            objFrmName = new frm_Name("Neuer Termin", objLocalConfig.Globals);
+            objFrmName.ShowDialog(this);
+            if (objFrmName.DialogResult == DialogResult.OK)
+            {
+                if (objFrmName.Value1.Length > 0)
+                {
+                    var OItem_Appointment = new clsOntologyItem()
+                    {
+                        GUID = objLocalConfig.Globals.NewGUID,
+                        Name = objFrmName.Value1,
+                        GUID_Parent = objLocalConfig.OItem_type_appointment.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+
+                    var valStart = DateTime.Now;
+
+                    var OItem_Result = objTransaction_AppointmentDetail.SaveFullAppointment(OItem_Appointment, valStart, valStart, objLocalConfig.OItem_User);
+                    if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        OList_Appointments.Add(new clsAppointment()
+                        {
+                            ID_Appointment = OItem_Appointment.GUID,
+                            Name_Appointment = OItem_Appointment.Name,
+                            OItem_User = objLocalConfig.OItem_User,
+                            Val_Start = valStart,
+                            Val_Ende = valStart,
+                            Val_Filter = valStart
+                        });
+
+                        configure_DataGridView();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Der Termin konnte nicht gespeichert werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Geben Sie bitte eine Bezeichnung für den Termin ein!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+        }
+
+        private void RemoveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (dataGridView_Apointments.SelectedRows.Count > 0)
+            {
+                if (MessageBox.Show("Sollen die Termine wirklich gelöscht werden?", "Löschen", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    var intTodo = dataGridView_Apointments.SelectedRows.Count;
+                    var intDone = 0;
+                    foreach (DataGridViewRow objDGVR_Selected in dataGridView_Apointments.SelectedRows)
+                    {
+                        var OItem_Appointment = new clsOntologyItem()
+                        {
+                            GUID = objDGVR_Selected.Cells["ID_Appointment"].Value.ToString(),
+                            Name = objDGVR_Selected.Cells["Name_Appointment"].Value.ToString(),
+                            GUID_Parent = objLocalConfig.OItem_type_appointment.GUID,
+                            Type = objLocalConfig.Globals.Type_Object
+                        };
+
+                        var OItem_Result = objTransaction_AppointmentDetail.DelFullAppointment(OItem_Appointment);
+                        if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            intDone++;
+                        }
+                        
+                    }
+
+                    if (intDone < intTodo)
+                    {
+                        MessageBox.Show("Es konnten nur " + intDone.ToString() + " Termine von " + intTodo.ToString() + " gelöscht werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+
+                    configure_DataGridView();
+                }
             }
         }
     }
