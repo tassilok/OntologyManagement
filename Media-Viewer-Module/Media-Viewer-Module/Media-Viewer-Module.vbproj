@@ -91,7 +91,9 @@
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsMultiMediaItem.vb" />
     <Compile Include="clsTransaction_Bookmarks.vb" />
+    <Compile Include="clsTransaction_Image.vb" />
     <Compile Include="clsTransaction_MediaItems.vb" />
+    <Compile Include="clsTransaction_PDF.vb" />
     <Compile Include="DataSet_Images.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

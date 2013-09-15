@@ -11,6 +11,7 @@ Public Class UserControl_RefTree
     Private objFrmMain As frmMain
 
     Public Event selected_Item(ByVal objOItem_Ref As clsOntologyItem)
+    Public Event save_Items()
 
     Public Sub fill_Tree(ByVal OItem_MediaType As clsOntologyItem)
         Dim objOItem_Result As clsOntologyItem
@@ -54,6 +55,7 @@ Public Class UserControl_RefTree
     Private Sub TreeView_Ref_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_Ref.AfterSelect
         Dim objTreeNode As TreeNode
         Dim objOItem_Ref As clsOntologyItem = Nothing
+        Dim objTreeNode_Parent As TreeNode
         objTreeNode = TreeView_Ref.SelectedNode
 
         If Not objTreeNode Is Nothing Then
@@ -75,6 +77,8 @@ Public Class UserControl_RefTree
                     Case objLocalConfig.ImageID_RelationType
                         objOItem_Ref.Type = objLocalConfig.Globals.Type_RelationType
                     Case objLocalConfig.ImageID_Token
+                        objTreeNode_Parent = objTreeNode.Parent
+                        objOItem_Ref.GUID_Parent = objTreeNode_Parent.Name
                         objOItem_Ref.Type = objLocalConfig.Globals.Type_Object
                     Case objLocalConfig.ImageID_Token_Named
                         objOItem_Ref.Type = objLocalConfig.Globals.Type_Object
@@ -91,6 +95,7 @@ Public Class UserControl_RefTree
         Dim objTreeNode As TreeNode
 
         AddToolStripMenuItem.Enabled = False
+        SaveToolStripMenuItem.Enabled = False
 
         objTreeNode = TreeView_Ref.SelectedNode
         If Not objTreeNode Is Nothing Then
@@ -101,7 +106,16 @@ Public Class UserControl_RefTree
                 objTreeNode.ImageIndex = objLocalConfig.ImageID_Open_Images_SubItems Then
 
                 AddToolStripMenuItem.Enabled = True
+            ElseIf objTreeNode.ImageIndex = objLocalConfig.ImageID_Close Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Open_SubItems Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Close_Images Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Open_Images_SubItems Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_RelationType Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Attribute Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Token Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Token_Named Then
 
+                SaveToolStripMenuItem.Enabled = True
             End If
         End If
 
@@ -232,4 +246,24 @@ Public Class UserControl_RefTree
 
         Return objTreeNode_Added
     End Function
+
+    Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
+        Dim objTreeNode As TreeNode
+
+        objTreeNode = TreeView_Ref.SelectedNode
+
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = objLocalConfig.ImageID_Close Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Open_SubItems Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Close_Images Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Open_Images_SubItems Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_RelationType Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Attribute Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Token Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Token_Named Then
+
+                RaiseEvent save_Items()
+            End If
+        End If
+    End Sub
 End Class

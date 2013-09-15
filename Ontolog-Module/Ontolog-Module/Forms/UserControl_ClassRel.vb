@@ -85,7 +85,7 @@
             DataGridView_Relations.Columns(3).Visible = False
             DataGridView_Relations.Columns(4).Visible = False
             DataGridView_Relations.Columns(6).Visible = False
-            DataGridView_Relations.Columns(8).Visible = False
+            DataGridView_Relations.Columns(9).Visible = False
         End If
 
         ToolStripLabel_Count.Text = DataGridView_Relations.RowCount
@@ -227,6 +227,7 @@
                     Case objLocalConfig.Globals.Field_Min_forw
 
                         lngMax_forw = objDRV_Selected.Item("Max_forw")
+
                         lngMax_backw = objDRV_Selected.Item("Max_backw")
                         If (lngMax_forw >= lngValue Or lngMax_forw = -1) And _
                             lngValue >= 0 Then

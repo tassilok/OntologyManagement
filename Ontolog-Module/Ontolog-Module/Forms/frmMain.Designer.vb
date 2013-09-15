@@ -129,6 +129,7 @@ Partial Class frmMain
         Me.Timer_TokenAttribute = New System.Windows.Forms.Timer(Me.components)
         Me.BindingSource_TokenRel = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_TokenAtt = New System.Windows.Forms.BindingSource(Me.components)
+        Me.OntologyConfiguratorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.LeftToolStripPanel.SuspendLayout()
@@ -219,8 +220,8 @@ Partial Class frmMain
         'ToolStripStatusLabel_Database
         '
         Me.ToolStripStatusLabel_Database.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_Database.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner
         Me.ToolStripStatusLabel_Database.Name = "ToolStripStatusLabel_Database"
         Me.ToolStripStatusLabel_Database.Size = New System.Drawing.Size(16, 19)
@@ -271,8 +272,8 @@ Partial Class frmMain
         'ToolStripStatusLabel_TokenRelLeft
         '
         Me.ToolStripStatusLabel_TokenRelLeft.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_TokenRelLeft.BorderStyle = System.Windows.Forms.Border3DStyle.Raised
         Me.ToolStripStatusLabel_TokenRelLeft.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.ToolStripStatusLabel_TokenRelLeft.Name = "ToolStripStatusLabel_TokenRelLeft"
@@ -288,8 +289,8 @@ Partial Class frmMain
         'ToolStripStatusLabel_TokenRelRelation
         '
         Me.ToolStripStatusLabel_TokenRelRelation.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_TokenRelRelation.BorderStyle = System.Windows.Forms.Border3DStyle.Raised
         Me.ToolStripStatusLabel_TokenRelRelation.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.ToolStripStatusLabel_TokenRelRelation.Name = "ToolStripStatusLabel_TokenRelRelation"
@@ -305,8 +306,8 @@ Partial Class frmMain
         'ToolStripStatusLabel_TokenRelRight
         '
         Me.ToolStripStatusLabel_TokenRelRight.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_TokenRelRight.BorderStyle = System.Windows.Forms.Border3DStyle.Raised
         Me.ToolStripStatusLabel_TokenRelRight.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.ToolStripStatusLabel_TokenRelRight.Name = "ToolStripStatusLabel_TokenRelRight"
@@ -362,8 +363,8 @@ Partial Class frmMain
         'Panel_Filter
         '
         Me.Panel_Filter.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_Filter.Controls.Add(Me.SplitContainer1)
         Me.Panel_Filter.Location = New System.Drawing.Point(119, 3)
         Me.Panel_Filter.Name = "Panel_Filter"
@@ -409,7 +410,7 @@ Partial Class frmMain
         'TextBox_NameRelationType
         '
         Me.TextBox_NameRelationType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameRelationType.Location = New System.Drawing.Point(119, 122)
         Me.TextBox_NameRelationType.Name = "TextBox_NameRelationType"
         Me.TextBox_NameRelationType.Size = New System.Drawing.Size(370, 20)
@@ -418,7 +419,7 @@ Partial Class frmMain
         'TextBox_GUIDRelationType
         '
         Me.TextBox_GUIDRelationType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDRelationType.Location = New System.Drawing.Point(118, 98)
         Me.TextBox_GUIDRelationType.Name = "TextBox_GUIDRelationType"
         Me.TextBox_GUIDRelationType.Size = New System.Drawing.Size(371, 20)
@@ -427,7 +428,7 @@ Partial Class frmMain
         'TextBox_NameType
         '
         Me.TextBox_NameType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameType.Location = New System.Drawing.Point(87, 74)
         Me.TextBox_NameType.Name = "TextBox_NameType"
         Me.TextBox_NameType.Size = New System.Drawing.Size(402, 20)
@@ -436,7 +437,7 @@ Partial Class frmMain
         'TextBox_GUIDType
         '
         Me.TextBox_GUIDType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDType.Location = New System.Drawing.Point(87, 50)
         Me.TextBox_GUIDType.Name = "TextBox_GUIDType"
         Me.TextBox_GUIDType.Size = New System.Drawing.Size(402, 20)
@@ -445,7 +446,7 @@ Partial Class frmMain
         'TextBox_NameToken
         '
         Me.TextBox_NameToken.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameToken.Location = New System.Drawing.Point(87, 27)
         Me.TextBox_NameToken.Name = "TextBox_NameToken"
         Me.TextBox_NameToken.Size = New System.Drawing.Size(402, 20)
@@ -454,7 +455,7 @@ Partial Class frmMain
         'TextBox_GUIDToken
         '
         Me.TextBox_GUIDToken.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDToken.Location = New System.Drawing.Point(87, 4)
         Me.TextBox_GUIDToken.Name = "TextBox_GUIDToken"
         Me.TextBox_GUIDToken.Size = New System.Drawing.Size(402, 20)
@@ -463,7 +464,7 @@ Partial Class frmMain
         'Label_NameRelationTypeLBL
         '
         Me.Label_NameRelationTypeLBL.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label_NameRelationTypeLBL.AutoSize = True
         Me.Label_NameRelationTypeLBL.Location = New System.Drawing.Point(6, 124)
         Me.Label_NameRelationTypeLBL.Name = "Label_NameRelationTypeLBL"
@@ -519,7 +520,7 @@ Partial Class frmMain
         'TextBox_NameTypeOther
         '
         Me.TextBox_NameTypeOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameTypeOther.Location = New System.Drawing.Point(86, 74)
         Me.TextBox_NameTypeOther.Name = "TextBox_NameTypeOther"
         Me.TextBox_NameTypeOther.Size = New System.Drawing.Size(459, 20)
@@ -528,7 +529,7 @@ Partial Class frmMain
         'TextBox_GUIDTypeOther
         '
         Me.TextBox_GUIDTypeOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDTypeOther.Location = New System.Drawing.Point(86, 50)
         Me.TextBox_GUIDTypeOther.Name = "TextBox_GUIDTypeOther"
         Me.TextBox_GUIDTypeOther.Size = New System.Drawing.Size(459, 20)
@@ -537,7 +538,7 @@ Partial Class frmMain
         'TextBox_NameTokenOther
         '
         Me.TextBox_NameTokenOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameTokenOther.Location = New System.Drawing.Point(86, 27)
         Me.TextBox_NameTokenOther.Name = "TextBox_NameTokenOther"
         Me.TextBox_NameTokenOther.Size = New System.Drawing.Size(459, 20)
@@ -546,7 +547,7 @@ Partial Class frmMain
         'TextBox_GUIDTokenOther
         '
         Me.TextBox_GUIDTokenOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDTokenOther.Location = New System.Drawing.Point(86, 4)
         Me.TextBox_GUIDTokenOther.Name = "TextBox_GUIDTokenOther"
         Me.TextBox_GUIDTokenOther.Size = New System.Drawing.Size(459, 20)
@@ -650,7 +651,7 @@ Partial Class frmMain
         'GroupBox_FilterDr
         '
         Me.GroupBox_FilterDr.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.GroupBox_FilterDr.Controls.Add(Me.CheckBox1)
         Me.GroupBox_FilterDr.Controls.Add(Me.RadioButton_RightLeft)
         Me.GroupBox_FilterDr.Controls.Add(Me.RadioButton_LeftRight)
@@ -786,8 +787,8 @@ Partial Class frmMain
         'Panel_Attributes
         '
         Me.Panel_Attributes.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_Attributes.Location = New System.Drawing.Point(4, 21)
         Me.Panel_Attributes.Name = "Panel_Attributes"
         Me.Panel_Attributes.Size = New System.Drawing.Size(322, 199)
@@ -821,8 +822,8 @@ Partial Class frmMain
         'Panel_RelationTypes
         '
         Me.Panel_RelationTypes.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_RelationTypes.Location = New System.Drawing.Point(3, 21)
         Me.Panel_RelationTypes.Name = "Panel_RelationTypes"
         Me.Panel_RelationTypes.Size = New System.Drawing.Size(363, 199)
@@ -968,7 +969,7 @@ Partial Class frmMain
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReportsToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReportsToolStripMenuItem, Me.OntologyConfiguratorToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(49, 20)
         Me.ToolsToolStripMenuItem.Text = "&Extras"
@@ -977,7 +978,7 @@ Partial Class frmMain
         '
         Me.ReportsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SyncToolStripMenuItem})
         Me.ReportsToolStripMenuItem.Name = "ReportsToolStripMenuItem"
-        Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
+        Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
         Me.ReportsToolStripMenuItem.Text = "x_Reports"
         '
         'SyncToolStripMenuItem
@@ -1136,6 +1137,12 @@ Partial Class frmMain
         'Timer_TokenAttribute
         '
         Me.Timer_TokenAttribute.Interval = 300
+        '
+        'OntologyConfiguratorToolStripMenuItem
+        '
+        Me.OntologyConfiguratorToolStripMenuItem.Name = "OntologyConfiguratorToolStripMenuItem"
+        Me.OntologyConfiguratorToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
+        Me.OntologyConfiguratorToolStripMenuItem.Text = "x_Ontology-Configurator"
         '
         'frmMain
         '
@@ -1309,5 +1316,6 @@ Partial Class frmMain
     Friend WithEvents ToolStripButton_AttributesAndRelations As System.Windows.Forms.ToolStripButton
     Friend WithEvents SyncToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripButton_TokenType As System.Windows.Forms.ToolStripButton
+    Friend WithEvents OntologyConfiguratorToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

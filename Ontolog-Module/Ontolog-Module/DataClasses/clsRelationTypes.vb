@@ -5,6 +5,7 @@
     Private objOItem_RelationType_belongingClass As clsOntologyItem
     Private objOItem_RelationType_belongingObject As clsOntologyItem
     Private objOItem_RelationType_belonging As clsOntologyItem
+    Private objOItem_RelationType_belongingResource As clsOntologyItem
 
     Private objTypes As New clsTypes
 
@@ -40,6 +41,12 @@
         End Get
     End Property
 
+    Public ReadOnly Property OItem_RelationType_belongingResource As clsOntologyItem
+        Get
+            Return objOItem_RelationType_belongingResource
+        End Get
+    End Property
+
 
     Public Sub New()
         objOItem_RelationType_Contains = New clsOntologyItem("e971160347db44d8a476fe88290639a4", "contains", objTypes.RelationType)
@@ -48,5 +55,6 @@
         objOItem_RelationType_belongingRelationType = New clsOntologyItem("4417582dbd6347fbab18770a611917fe", "belonging RelationType", objTypes.RelationType)
         objOItem_RelationType_belongingObject = New clsOntologyItem("f68a9438fb8b418d8e0bd9aefc9ecdf3", "belonging Object", objTypes.RelationType)
         objOItem_RelationType_belonging = New clsOntologyItem("796712399c8f493cb5e749700f9543f4", "belonging", objTypes.RelationType)
+        objOItem_RelationType_belongingResource = New clsOntologyItem("92619f7ecbf342308ca34b7e7e8883f6", "belonging Resource", objTypes.RelationType)
     End Sub
 End Class

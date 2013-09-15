@@ -68,7 +68,7 @@ Public Class clsTransaction_Password
                                                      objLocalConfig.Globals.Type_Object, _
                                                      Nothing, _
                                                      Nothing, _
-                                                     Nothing))
+                                                     1))
 
         objOItem_Result = objDBLevel_Password.save_ObjRel(objOList_PasswordToUser)
 
@@ -122,7 +122,7 @@ Public Class clsTransaction_Password
                                                       objLocalConfig.Globals.Type_Object, _
                                                       Nothing, _
                                                       Nothing, _
-                                                      Nothing))
+                                                      1))
 
         objOItem_Result = objDBLevel_Password.save_ObjRel(objOList_Rel_To_Password)
 

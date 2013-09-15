@@ -14,6 +14,17 @@ Public Class frmMediaViewerModule
     Private objOItem_MediaType As clsOntologyItem
     Private objOItem_Open As clsOntologyItem
 
+    Private Sub save_Items() Handles objUserControl_RefTree.save_Items
+        Select Case objOItem_MediaType.GUID
+            Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+
+            Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+
+            Case objLocalConfig.OItem_Type_Media_Item.GUID
+                objUserControl_MediaItemList.save_Items(True)
+        End Select
+    End Sub
+
     Private Sub Media_First() Handles objFrmSingleViewer.Media_First
         Select Case objOItem_MediaType.GUID
             Case objLocalConfig.OItem_Type_PDF_Documents.GUID

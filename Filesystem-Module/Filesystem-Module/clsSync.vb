@@ -20,6 +20,8 @@ Public Class clsSync
     Private strPathDirDst As String
     Private objFileSyncFilter As FileSyncScopeFilter
 
+    Private enFileSyncOptions As FileSyncOptions
+
     Public Event SyncComplete(strPath As String, strType As String)
     Public Event SyncSkippted(strPath As String, strErr As String)
 
@@ -75,6 +77,8 @@ Public Class clsSync
         End Set
     End Property
 
+
+
     Public Property RecyclePreviousFileOnUpdates As Boolean
         Get
             Return boolRecyclePreviousFileOnUpdates
@@ -103,7 +107,7 @@ Public Class clsSync
         destinationProvider = Nothing
         Dim GUID_Replica As Guid
 
-        Dim enFileSyncOptions As FileSyncOptions
+
 
 
 
@@ -171,7 +175,14 @@ Public Class clsSync
             strFileDst = strFile.Replace(strPathDirSrc, strPathDirDst)
             If different_Files(strFile, strFileDst) Then
                 Try
-                    IO.File.Delete(strFileDst)
+                    If enFileSyncOptions.HasFlag(FileSyncOptions.RecycleConflictLoserFiles) Then
+                        IO.File.Move(strFileDst, GetFileName(strFileDst, 1))
+                    Else
+                        IO.File.Delete(strFileDst)
+                    End If
+
+
+
                     IO.File.Copy(strFile, strFileDst)
                     RaiseEvent SyncComplete(strFileDst, "copy")
                 Catch ex As Exception
@@ -188,6 +199,20 @@ Public Class clsSync
             sync_Files(strDirectory)
         Next
     End Sub
+
+    Private Function GetFileName(strFileDst As String, intID As Integer) As String
+        Dim strExtension As String
+        Dim strFileNameWithoutExtension As String
+
+        If IO.File.Exists(strFileDst) Then
+            strExtension = IO.Path.GetExtension(strFileDst)
+            strFileNameWithoutExtension = strFileDst.Substring(0, strFileDst.Length - strExtension.Length)
+            strFileDst = strFileNameWithoutExtension & "_" & intID & strExtension
+            strFileDst = GetFileName(strFileDst, intID + 1)
+        End If
+
+        Return strFileDst
+    End Function
 
     Private Function different_Files(strPathSrc As String, strPathDst As String) As Boolean
         Dim boolDifferent As Boolean = False

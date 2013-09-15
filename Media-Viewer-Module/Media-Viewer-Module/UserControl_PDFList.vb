@@ -10,6 +10,8 @@ Public Class UserControl_PDFList
 
     Private dtblT_PDFList As New DataSet_PDF.dtbl_PDFListDataTable
 
+    Private objTransaction_PDF As clsTransaction_PDF
+
     Private boolSelect_First As Boolean
 
     Public Event selected_PDF(ByVal OItem_PDF As clsOntologyItem, ByVal OItem_File As clsOntologyItem)
@@ -109,6 +111,7 @@ Public Class UserControl_PDFList
 
     Private Sub initialize()
         objDataWork_PDF = New clsDataWork_PDF(objLocalConfig)
+        objTransaction_PDF = New clsTransaction_PDF(objLocalConfig)
     End Sub
 
     Public Sub clear_List()
@@ -129,6 +132,7 @@ Public Class UserControl_PDFList
         boolSelect_First = select_First
 
         If Not objOItem_Ref Is Nothing Then
+
             Timer_PDF.Stop()
             objDataWork_PDF.get_PDF(objOItem_Ref)
 
@@ -176,6 +180,7 @@ Public Class UserControl_PDFList
         Dim objDGVR_Selected As DataGridViewRow
 
         If objDataWork_PDF.Loaded = True Then
+            ToolStripButton_Add.Enabled = True
             Timer_PDF.Stop()
             dtblT_PDFList = objDataWork_PDF.dtbl_PDFList
             BindingSource_PDFList.DataSource = dtblT_PDFList
@@ -196,6 +201,48 @@ Public Class UserControl_PDFList
         Else
 
             ToolStripProgressBar_PDF.Value = 50
+        End If
+    End Sub
+
+    Private Sub ToolStripButton_Add_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Add.Click
+        Dim strPath As String
+        Dim strFileName As String
+        Dim objOItem_PDF As clsOntologyItem
+        Dim objOItem_File As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim intToDo As Integer
+        Dim intDone As Integer
+
+        OpenFileDialog_PDF.Multiselect = True
+
+        If OpenFileDialog_PDF.ShowDialog(Me) = DialogResult.OK Then
+            intToDo = OpenFileDialog_PDF.FileNames.Count
+            intDone = 0
+            For Each strPath In OpenFileDialog_PDF.FileNames
+                strFileName = IO.Path.GetFileName(strPath)
+                objOItem_PDF = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
+                                                         .Name = strFileName, _
+                                                         .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
+                                                         .Type = objLocalConfig.Globals.Type_Object}
+
+                objOItem_File = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
+                                                          .Name = strFileName, _
+                                                          .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
+                                                          .Type = objLocalConfig.Globals.Type_Object}
+
+                objOItem_Result = objTransaction_PDF.save_PDF(objOItem_PDF, objOItem_File, strPath, objOItem_Ref)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    intDone = intDone + 1
+                End If
+            Next
+
+            If intDone < intToDo Then
+                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " PDFs gespeichert werden!", MsgBoxStyle.Exclamation)
+            End If
+
+            initialize_PDF(objOItem_Ref)
+
         End If
     End Sub
 End Class

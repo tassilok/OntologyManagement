@@ -3,6 +3,8 @@ Imports ClassLibrary_ShellWork
 Public Class clsFileWork
 
     Private objLocalConfig As clsLocalConfig
+    Private objTransaction As clsTransaction
+    Private objBlobConnection As clsBlobConnection
 
     Private objDBLevel_Blob As clsDBLevel
     Private objDBLevel_FSO As clsDBLevel
@@ -18,6 +20,71 @@ Public Class clsFileWork
 
     Private boolBlob As Boolean
     Private strSeperator As String
+
+    Public Function copy_File(OItem_File As clsOntologyItem, strPathDst As String) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim strPathSrc As String
+        If is_File_Blob(OItem_File) Then
+            objOItem_Result = objBlobConnection.save_Blob_To_File(OItem_File, strPathDst, False)
+        Else
+            strPathSrc = get_Path_FileSystemObject(OItem_File)
+            If IO.File.Exists(strPathSrc) Then
+                Try
+                    IO.File.Copy(strPathSrc, strPathDst)
+                    objOItem_Result = objLocalConfig.Globals.LState_Success
+                Catch ex As Exception
+                    objOItem_Result = objLocalConfig.Globals.LState_Error
+                End Try
+            Else
+                objOItem_Result = objLocalConfig.Globals.LState_Nothing
+            End If
+        End If
+
+        Return objOItem_Result
+    End Function
+
+    Public Function save_File(OItem_File As clsOntologyItem) As clsOntologyItem
+        Dim objOitem_Result As clsOntologyItem
+
+
+        If Not OItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID Then
+            objOitem_Result = objLocalConfig.Globals.LState_Error
+        Else
+            objOitem_Result = objLocalConfig.Globals.LState_Success
+        End If
+
+        If objOitem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objTransaction.ClearItems()
+            objOitem_Result = objTransaction.do_Transaction(OItem_File)
+
+            If objOitem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                objTransaction.rollback()
+            End If
+        End If
+
+        Return objOitem_Result
+    End Function
+
+    Public Function del_File(OItem_File As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+
+        If Not OItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID Then
+            objOItem_Result = objLocalConfig.Globals.LState_Error
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Success
+        End If
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objTransaction.ClearItems()
+            objOItem_Result = objTransaction.do_Transaction(OItem_File, False, True)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                objTransaction.rollback()
+            End If
+        End If
+
+        Return objOItem_Result
+    End Function
 
     Public Function is_File_Blob(ByVal objOItem_File As clsOntologyItem) As Boolean
         Dim boolResult As Boolean
@@ -379,6 +446,8 @@ Public Class clsFileWork
 
     Private Sub set_DBConnection()
         objShellWork = New clsShellWork()
+        objTransaction = New clsTransaction(objLocalConfig.Globals)
+        objBlobConnection = New clsBlobConnection(objLocalConfig)
         objDBLevel_FSO = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Folder = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Server = New clsDBLevel(objLocalConfig.Globals)

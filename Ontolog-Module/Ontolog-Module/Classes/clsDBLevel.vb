@@ -437,6 +437,81 @@ Public Class clsDBLevel
         Return objOItem_Result
     End Function
 
+    Public Function del_RelationType(oItem_RelationType As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objDBLevel_ObjectRel As clsDBLevel
+        Dim objDBLevel_ObjectRelOther As clsDBLevel
+        Dim objDBLevel_ClassRel As clsDBLevel
+        Dim objOLClassRel As New List(Of clsClassRel)
+        Dim objOLObjectRel As New List(Of clsObjectRel)
+        Dim objOLObjectRelOther As New List(Of clsObjectRel)
+        Dim objOPResult As ElasticSearch.Client.Domain.OperateResult
+        Dim strKeys(0) As String
+
+        objDBLevel_ClassRel = New clsDBLevel(strServer, intPort, strIndex, strIndexRep, intSearchRange, strSession)
+
+        objOLClassRel.Add(New clsClassRel() With {.ID_RelationType = oItem_RelationType.GUID})
+
+
+        objOItem_Result = objDBLevel_ClassRel.get_Data_ClassRel(objOLClassRel, boolIDs:=True, doCount:=True)
+        If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+            If objOItem_Result.Count > 0 Then
+                objOItem_Result = objLogStates.LogState_Relation
+            End If
+
+
+        End If
+
+        If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+            objDBLevel_ObjectRel = New clsDBLevel(strServer, intPort, strIndex, strIndexRep, intSearchRange, strSession)
+
+            objOLObjectRel.Add(New clsObjectRel() With {.ID_RelationType = oItem_RelationType.GUID})
+
+            objOItem_Result = objDBLevel_ObjectRel.get_Data_ObjectRel(objOLObjectRel, doCount:=True)
+
+            If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+                If objOItem_Result.Count > 0 Then
+                    objOItem_Result = objLogStates.LogState_Relation
+                End If
+            End If
+        End If
+
+        If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+            objDBLevel_ObjectRelOther = New clsDBLevel(strServer, intPort, strIndex, strIndexRep, intSearchRange, strSession)
+
+            objOLObjectRelOther.Add(New clsObjectRel() With {.ID_Other = oItem_RelationType.GUID})
+
+            objOItem_Result = objDBLevel_ObjectRelOther.get_Data_ObjectRel(objOLObjectRelOther, doCount:=True)
+
+            If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+                objOItem_Result = objLogStates.LogState_Relation
+            End If
+        End If
+
+        If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+
+
+            strKeys(1) = oItem_RelationType.GUID
+
+
+            Try
+                objOPResult = objElConn.Delete(strIndex, objTypes.AttributeType, strKeys)
+                If objOPResult.Success Then
+                    objOItem_Result = objLogStates.LogState_Success
+                Else
+                    objOItem_Result = objLogStates.LogState_Error
+                End If
+
+
+
+            Catch ex As Exception
+                objOItem_Result = objLogStates.LogState_Error
+            End Try
+        End If
+
+        Return objOItem_Result
+    End Function
+
     Public Function del_ClassAttType(ByVal oItem_Class As clsOntologyItem, ByVal oItem_AttType As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objDBLevel_ObjAtt As clsDBLevel
@@ -2248,9 +2323,9 @@ Public Class clsDBLevel
                                                                  Nothing, _
                                                                  objHit.Source(objFields.ID_RelationType).ToString, _
                                                                  objHit.Source(objFields.Ontology).ToString, _
-                                                                 objHit.Source(objFields.Min_forw), _
-                                                                 objHit.Source(objFields.Max_forw), _
-                                                                 Nothing))
+                                                                 objHit.Source(objFields.Min_Forw), _
+                                                                 objHit.Source(objFields.Max_Forw), _
+                                                                 objHit.Source(objFields.Max_Backw)))
                     Else
                         objOntologyList_ClassRel_ID.Add(New clsClassRel(objHit.Source(objFields.ID_Class_Left).ToString, _
                                                                  objHit.Source(objFields.ID_Class_Right).ToString, _

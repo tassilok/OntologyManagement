@@ -6,6 +6,7 @@ Public Class UserControl_Address
     Private objTransaction_Address As clsTransaction_Address
 
     Private objFrm_PLZOrtLand As frmPLZOrtLand
+    Private objFrm_Name As frm_Name
 
     Private objOItem_Partner As clsOntologyItem
 
@@ -127,6 +128,17 @@ Public Class UserControl_Address
         End If
     End Sub
 
+    Private Sub TextBox_Zusatz_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles TextBox_Zusatz.MouseDoubleClick
+        If TextBox_Strasse.ReadOnly = False Then
+            objFrm_Name = New frm_Name(objLocalConfig.OItem_Attribute_Straße.Name, objLocalConfig.Globals, Value1:=TextBox_Zusatz.Text)
+            objFrm_Name.ShowDialog(Me)
+
+            If objFrm_Name.DialogResult = DialogResult.OK Then
+                TextBox_Zusatz.Text = objFrm_Name.Value1
+            End If
+        End If
+    End Sub
+
     Private Sub TextBox_Zusatz_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBox_Zusatz.TextChanged
         Timer_Zusatz.Stop()
         If TextBox_Zusatz.ReadOnly = False Then
@@ -174,6 +186,19 @@ Public Class UserControl_Address
             MsgBox("Beim Speichern ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
             clear_Controls()
         End If
+    End Sub
+
+    Private Sub TextBox_Strasse_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles TextBox_Strasse.MouseDoubleClick
+
+        If TextBox_Strasse.ReadOnly = False Then
+            objFrm_Name = New frm_Name(objLocalConfig.OItem_Attribute_Straße.Name, objLocalConfig.Globals, Value1:=TextBox_Strasse.Text)
+            objFrm_Name.ShowDialog(Me)
+
+            If objFrm_Name.DialogResult = DialogResult.OK Then
+                TextBox_Strasse.Text = objFrm_Name.Value1
+            End If
+        End If
+        
     End Sub
 
     Private Sub TextBox_Strasse_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBox_Strasse.TextChanged
@@ -264,6 +289,17 @@ Public Class UserControl_Address
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
             MsgBox("Beim Speichern ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
             clear_Controls()
+        End If
+    End Sub
+
+    Private Sub TextBox_Postfach_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles TextBox_Postfach.MouseDoubleClick
+        If TextBox_Postfach.ReadOnly = False Then
+            objFrm_Name = New frm_Name(objLocalConfig.OItem_Attribute_Straße.Name, objLocalConfig.Globals, Value1:=TextBox_Postfach.Text)
+            objFrm_Name.ShowDialog(Me)
+
+            If objFrm_Name.DialogResult = DialogResult.OK Then
+                TextBox_Postfach.Text = objFrm_Name.Value1
+            End If
         End If
     End Sub
 

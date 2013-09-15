@@ -34,19 +34,20 @@ Partial Class UserControl_RefTree
         Me.ToolStripLabel_Seperator = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_RelRight = New System.Windows.Forms.ToolStripLabel()
         Me.TreeView_Ref = New System.Windows.Forms.TreeView()
+        Me.ContextMenuStrip_Ref = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.AddToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImageList_RelatedItems = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_Mark = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Mark = New System.Windows.Forms.ToolStripTextBox()
-        Me.ContextMenuStrip_Ref = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.AddToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        Me.ToolStrip2.SuspendLayout()
         Me.ContextMenuStrip_Ref.SuspendLayout()
+        Me.ToolStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -133,6 +134,18 @@ Partial Class UserControl_RefTree
         Me.TreeView_Ref.Size = New System.Drawing.Size(475, 380)
         Me.TreeView_Ref.TabIndex = 0
         '
+        'ContextMenuStrip_Ref
+        '
+        Me.ContextMenuStrip_Ref.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToolStripMenuItem, Me.SaveToolStripMenuItem})
+        Me.ContextMenuStrip_Ref.Name = "ContextMenuStrip_Ref"
+        Me.ContextMenuStrip_Ref.Size = New System.Drawing.Size(153, 70)
+        '
+        'AddToolStripMenuItem
+        '
+        Me.AddToolStripMenuItem.Name = "AddToolStripMenuItem"
+        Me.AddToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AddToolStripMenuItem.Text = "x_Add"
+        '
         'ImageList_RelatedItems
         '
         Me.ImageList_RelatedItems.ImageStream = CType(resources.GetObject("ImageList_RelatedItems.ImageStream"), System.Windows.Forms.ImageListStreamer)
@@ -175,17 +188,11 @@ Partial Class UserControl_RefTree
         Me.ToolStripTextBox_Mark.Name = "ToolStripTextBox_Mark"
         Me.ToolStripTextBox_Mark.Size = New System.Drawing.Size(200, 25)
         '
-        'ContextMenuStrip_Ref
+        'SaveToolStripMenuItem
         '
-        Me.ContextMenuStrip_Ref.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToolStripMenuItem})
-        Me.ContextMenuStrip_Ref.Name = "ContextMenuStrip_Ref"
-        Me.ContextMenuStrip_Ref.Size = New System.Drawing.Size(153, 48)
-        '
-        'AddToolStripMenuItem
-        '
-        Me.AddToolStripMenuItem.Name = "AddToolStripMenuItem"
-        Me.AddToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.AddToolStripMenuItem.Text = "x_Add"
+        Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.SaveToolStripMenuItem.Text = "x_Save"
         '
         'UserControl_RefTree
         '
@@ -203,9 +210,9 @@ Partial Class UserControl_RefTree
         Me.ToolStripContainer1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
+        Me.ContextMenuStrip_Ref.ResumeLayout(False)
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
-        Me.ContextMenuStrip_Ref.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -225,5 +232,6 @@ Partial Class UserControl_RefTree
     Friend WithEvents ImageList_RelatedItems As System.Windows.Forms.ImageList
     Friend WithEvents ContextMenuStrip_Ref As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents AddToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SaveToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

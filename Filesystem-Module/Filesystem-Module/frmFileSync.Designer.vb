@@ -27,6 +27,9 @@ Partial Class frmFileSync
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel_CountLBL = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.GroupBox_SyncOptions = New System.Windows.Forms.GroupBox()
         Me.CheckBoxRecyclePreviousFileOnUpdates = New System.Windows.Forms.CheckBox()
@@ -51,9 +54,6 @@ Partial Class frmFileSync
         Me.ToolStripButton_Sync = New System.Windows.Forms.ToolStripButton()
         Me.FolderBrowserDialog_Main = New System.Windows.Forms.FolderBrowserDialog()
         Me.Timer_State = New System.Windows.Forms.Timer(Me.components)
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripLabel_CountLBL = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -97,7 +97,7 @@ Partial Class frmFileSync
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close, Me.ToolStripSeparator1, Me.ToolStripLabel_CountLBL, Me.ToolStripLabel_Count})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(165, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(134, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Close
@@ -108,6 +108,23 @@ Partial Class frmFileSync
         Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
         Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Close.Text = "x_Close"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripLabel_CountLBL
+        '
+        Me.ToolStripLabel_CountLBL.Name = "ToolStripLabel_CountLBL"
+        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(53, 22)
+        Me.ToolStripLabel_CountLBL.Text = "x_Count:"
+        '
+        'ToolStripLabel_Count
+        '
+        Me.ToolStripLabel_Count.Name = "ToolStripLabel_Count"
+        Me.ToolStripLabel_Count.Size = New System.Drawing.Size(13, 22)
+        Me.ToolStripLabel_Count.Text = "0"
         '
         'SplitContainer1
         '
@@ -332,23 +349,6 @@ Partial Class frmFileSync
         'Timer_State
         '
         Me.Timer_State.Interval = 300
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripLabel_CountLBL
-        '
-        Me.ToolStripLabel_CountLBL.Name = "ToolStripLabel_CountLBL"
-        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(53, 22)
-        Me.ToolStripLabel_CountLBL.Text = "x_Count:"
-        '
-        'ToolStripLabel_Count
-        '
-        Me.ToolStripLabel_Count.Name = "ToolStripLabel_Count"
-        Me.ToolStripLabel_Count.Size = New System.Drawing.Size(13, 22)
-        Me.ToolStripLabel_Count.Text = "0"
         '
         'frmFileSync
         '

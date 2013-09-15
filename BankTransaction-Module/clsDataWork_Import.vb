@@ -193,7 +193,7 @@ Public Class clsDataWork_ImportSettings
                     dateStart = Now
                     objOItem_ImportSettingsLog = New clsOntologyItem(Guid.NewGuid.ToString.Replace("-", ""), _
                                                              dateStart.ToString, _
-                                                             objLocalConfig.OItem_Type_Import_Settings.GUID, _
+                                                             objLocalConfig.OItem_Type_Imports.GUID, _
                                                              objLocalConfig.Globals.Type_Object)
 
                     objOItem_Result = objTransaction_ImportSettings.save_001_ImportLog(objOItem_ImportSettingsLog)

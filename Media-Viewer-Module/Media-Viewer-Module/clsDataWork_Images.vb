@@ -51,6 +51,19 @@ Public Class clsDataWork_Images
 
     End Sub
 
+    Public Function GetNextOrderIDOFRef(OItem_Ref As clsOntologyItem) As Long
+        Dim lngOrderID As Long
+        Dim objOItem_Image As clsOntologyItem
+
+        objOItem_Image = New clsOntologyItem
+        objOItem_Image.GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID
+        objOItem_Image.Type = objLocalConfig.Globals.Type_Object
+
+        lngOrderID = objDBLevel_Images.get_Data_Rel_OrderID(objOItem_Image, OItem_Ref, objLocalConfig.OItem_RelationType_belongsTo, False)
+
+        Return lngOrderID
+    End Function
+
     Private Sub get_Images_Thread()
         Dim objOL_Images_To_Ref As New List(Of clsObjectRel)
         Dim objOL_Images_To_File As New List(Of clsObjectRel)

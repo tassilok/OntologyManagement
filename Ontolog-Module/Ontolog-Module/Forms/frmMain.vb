@@ -12,6 +12,7 @@
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFrm_AttributeTypeEdit As frm_AttributeTypeEdit
+    Private objFrm_OntologyConfigurator As frmOntologyConfigurator
 
     Private objOItem As clsOntologyItem
 
@@ -438,5 +439,10 @@
 
     Private Sub frmMain_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         initialize()
+    End Sub
+
+    Private Sub OntologyConfiguratorToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OntologyConfiguratorToolStripMenuItem.Click
+        objFrm_OntologyConfigurator = New frmOntologyConfigurator(objLocalConfig.Globals)
+        objFrm_OntologyConfigurator.ShowDialog(Me)
     End Sub
 End Class

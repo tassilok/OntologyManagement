@@ -65,7 +65,7 @@ Public Class clsTransaction_Address
                                                          objLocalConfig.OItem_RelationType_Sitz.GUID, _
                                                          objLocalConfig.Globals.Type_Object, _
                                                          Nothing, _
-                                                         Nothing))
+                                                         1))
 
         objOItem_Result = objDBLevel_Address.save_ObjRel(objOList_Partner_To_Address)
 

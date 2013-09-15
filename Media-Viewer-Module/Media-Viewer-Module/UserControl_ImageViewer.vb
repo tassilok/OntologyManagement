@@ -221,4 +221,8 @@ Public Class UserControl_ImageViewer
             configure_Zoom_Image()
         End If
     End Sub
+
+    Private Sub ToolStripButton_Paste_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Paste.Click
+
+    End Sub
 End Class

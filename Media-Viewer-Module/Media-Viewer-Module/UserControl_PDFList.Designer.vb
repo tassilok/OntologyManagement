@@ -35,6 +35,7 @@ Partial Class UserControl_PDFList
         Me.ToolStripButton_Remove = New System.Windows.Forms.ToolStripButton()
         Me.BindingSource_PDFList = New System.Windows.Forms.BindingSource(Me.components)
         Me.Timer_PDF = New System.Windows.Forms.Timer(Me.components)
+        Me.OpenFileDialog_PDF = New System.Windows.Forms.OpenFileDialog()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -116,7 +117,7 @@ Partial Class UserControl_PDFList
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Remove})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(58, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(89, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripButton_Add
@@ -140,6 +141,10 @@ Partial Class UserControl_PDFList
         'Timer_PDF
         '
         Me.Timer_PDF.Interval = 300
+        '
+        'OpenFileDialog_PDF
+        '
+        Me.OpenFileDialog_PDF.FileName = "OpenFileDialog1"
         '
         'UserControl_PDFList
         '
@@ -176,5 +181,6 @@ Partial Class UserControl_PDFList
     Friend WithEvents Timer_PDF As System.Windows.Forms.Timer
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripProgressBar_PDF As System.Windows.Forms.ToolStripProgressBar
+    Friend WithEvents OpenFileDialog_PDF As System.Windows.Forms.OpenFileDialog
 
 End Class

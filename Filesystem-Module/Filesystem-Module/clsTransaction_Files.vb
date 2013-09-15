@@ -210,7 +210,7 @@ Public Class clsTransaction_Files
                                                        Nothing, _
                                                        objLocalConfig.OItem_Attribute_Blob.GUID, _
                                                        Nothing, _
-                                                       Nothing, _
+                                                       1, _
                                                        Me.boolBlob.ToString, _
                                                        Me.boolBlob, _
                                                        Nothing, _

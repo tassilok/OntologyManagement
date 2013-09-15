@@ -1,8 +1,13 @@
 ﻿Imports Ontolog_Module
+Imports Filesystem_Module
 Public Class UserControl_ImageList
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_Images As clsDataWork_Images
     Private dtblT_Images As New DataSet_Images.dtbl_ImagesDataTable
+    Private objFileWork As clsFileWork
+
+    Private objTransaction_Image As clsTransaction_Image
+    Private objBlobConnection As clsBlobConnection
 
     'Private objUserControl_ImageViewer As UserControl_ImageViewer
 
@@ -110,7 +115,9 @@ Public Class UserControl_ImageList
         'objUserControl_ImageViewer = New UserControl_ImageViewer(objLocalConfig)
         'objUserControl_ImageViewer.Dock = DockStyle.Fill
         'SplitContainer1.Panel2.Controls.Add(objUserControl_ImageViewer)
-
+        objTransaction_Image = New clsTransaction_Image(objLocalConfig)
+        objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
+        objFileWork = New clsFileWork(objLocalConfig.Globals)
     End Sub
 
     Public Sub clear_List()
@@ -162,7 +169,7 @@ Public Class UserControl_ImageList
 
     Private Sub set_DBConnection()
         objDataWork_Images = New clsDataWork_Images(objLocalConfig)
-
+        objFileWork = New clsFileWork(objLocalConfig.Globals)
     End Sub
 
     Private Sub Timer_Images_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Images.Tick
@@ -231,4 +238,210 @@ Public Class UserControl_ImageList
     Private Sub ToolStripButton_Open_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Open.Click
 
     End Sub
+
+    Private Sub ToolStripButton_Paste_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Paste.Click
+        Dim objOItem_Result = SaveImageFromClipboardToTemp()
+        Dim objOItem_Image As clsOntologyItem
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim objOItem_File = GetFile(objOItem_Result.Additional1)
+            If objOItem_File.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
+                MsgBox("Bitte markieren Sie nur ein Bild!", MsgBoxStyle.Information)
+            ElseIf objOItem_File.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Das Bild konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+            Else
+                objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_File, objOItem_Result.Additional1)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objOItem_Image = GetImage(objOItem_File.Name)
+                    If objOItem_Image.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
+                        If objOItem_File.new_Item Then
+                            objFileWork.del_File(objOItem_File)
+
+                        End If
+                        MsgBox("Bitte markieren Sie nur ein Bild!", MsgBoxStyle.Information)
+                    ElseIf objOItem_Image.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        If objOItem_File.new_Item Then
+                            objFileWork.del_File(objOItem_File)
+
+                        End If
+                        MsgBox("Das Bild konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                    Else
+                        objOItem_Result = objTransaction_Image.SaveImageToFile(objOItem_Image, objOItem_File, True)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objOItem_Result = objTransaction_Image.SaveImageToRef(objOItem_Image, objOItem_Ref, objOItem_Image.Level, True)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+
+                                If objOItem_Image.new_Item Then
+                                    objOItem_Result = objTransaction_Image.DelImageToFile(objOItem_Image, True)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        objTransaction_Image.DelImage(objOItem_Image)
+                                    End If
+
+
+                                End If
+                                If objOItem_File.new_Item Then
+                                    objFileWork.del_File(objOItem_File)
+
+                                End If
+                            End If
+                        Else
+                            If objOItem_Image.new_Item Then
+                                objTransaction_Image.DelImage(objOItem_Image)
+                            End If
+                            If objOItem_File.new_Item Then
+                                objFileWork.del_File(objOItem_File)
+
+                            End If
+                            MsgBox("Das Bild konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                        End If
+                    End If
+                Else
+                    If objOItem_File.new_Item Then
+                        objFileWork.del_File(objOItem_File)
+
+                    End If
+                End If
+
+                    objOItem_Result = objTransaction_Image.SaveImageToRef(objOItem_Image, objOItem_Ref, objOItem_Image.Level, True)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+                        initialize_Images(objOItem_Ref)
+                    Else
+
+                    End If
+
+                End If
+        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
+
+            MsgBox("Die Zwischenablage enthält keine Bilder!", MsgBoxStyle.Information)
+        Else
+            MsgBox("Beim Speichern des Bildes ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+
+        End If
+    End Sub
+
+    Private Function GetImage(Optional NameNewImage As String = Nothing) As clsOntologyItem
+        Dim objOItem_Image As clsOntologyItem
+
+
+        If ToolStripButton_Paste.Checked Then
+            If DataGridView_Images.SelectedRows.Count = 1 Then
+                Dim objDGVR_Selected = DataGridView_Images.SelectedRows(0)
+                Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+
+                objOItem_Image = New clsOntologyItem() With {.GUID = objDRV_Selected.Item("ID_Image"), _
+                                                             .Name = objDRV_Selected.Item("Name_Image"), _
+                                                             .GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                             .Level = objDRV_Selected.Item("OrderID"), _
+                                                             .Type = objLocalConfig.Globals.Type_Object}
+
+
+
+
+            Else
+                objOItem_Image = objLocalConfig.Globals.LState_Relation
+            End If
+        Else
+            Dim lngOrderID As Long
+
+            lngOrderID = objDataWork_Images.GetNextOrderIDOFRef(objOItem_Ref)
+            lngOrderID = lngOrderID + 1
+
+            objOItem_Image = New clsOntologyItem()
+            objOItem_Image.GUID = objLocalConfig.Globals.NewGUID
+            If Not NameNewImage Is Nothing Then
+                objOItem_Image.Name = IO.Path.GetFileName(NameNewImage)
+            Else
+                objOItem_Image.Name = objOItem_Ref.Name & "." & objLocalConfig.OItem_Token_Extensions_Image.Name
+            End If
+            objOItem_Image.GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID
+            objOItem_Image.Type = objLocalConfig.Globals.Type_Object
+            objOItem_Image.Level = lngOrderID
+            objOItem_Image.new_Item = True
+
+            Dim objOItem_Result = objTransaction_Image.SaveImage(objOItem_Image, True)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                objOItem_Image = objLocalConfig.Globals.LState_Error
+            End If
+
+
+
+        End If
+
+        Return objOItem_Image
+    End Function
+
+    Private Function GetFile(Optional strPath As String = Nothing) As clsOntologyItem
+        Dim objOItem_File As clsOntologyItem
+
+
+        If ToolStripButton_Paste.Checked Then
+            If DataGridView_Images.SelectedRows.Count = 1 Then
+                Dim objDGVR_Selected = DataGridView_Images.SelectedRows(0)
+                Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+
+                objOItem_File = New clsOntologyItem() With {.GUID = objDRV_Selected.Item("ID_File"), _
+                                                             .Name = objDRV_Selected.Item("Name_File"), _
+                                                             .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
+                                                             .Type = objLocalConfig.Globals.Type_Object}
+
+
+
+
+            Else
+                objOItem_File = objLocalConfig.Globals.LState_Relation
+            End If
+        Else
+            
+            objOItem_File = New clsOntologyItem()
+            objOItem_File.GUID = objLocalConfig.Globals.NewGUID
+            If Not strPath Is Nothing Then
+                objOItem_File.Name = IO.Path.GetFileName(strPath)
+            Else
+                objOItem_File.Name = objOItem_Ref.Name & "." & objLocalConfig.OItem_Token_Extensions_Image.Name
+            End If
+            objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
+            objOItem_File.Type = objLocalConfig.Globals.Type_Object
+            objOItem_File.new_Item = True
+
+            Dim objOItem_Result = objFileWork.save_File(objOItem_File)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                objOItem_File = objLocalConfig.Globals.LState_Error
+            End If
+
+
+
+        End If
+
+        Return objOItem_File
+    End Function
+
+    Private Function SaveImageFromClipboardToTemp() As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objImage As Bitmap
+        Dim strPath As String
+
+        objOItem_Result = New clsOntologyItem() With {.GUID = objLocalConfig.Globals.LState_Success.GUID, _
+                                                      .Name = objLocalConfig.Globals.LState_Success.Name, _
+                                                      .GUID_Parent = objLocalConfig.Globals.LState_Success.GUID_Parent, _
+                                                      .Type = objLocalConfig.Globals.Type_Object}
+        If Clipboard.ContainsImage Then
+            objImage = Clipboard.GetData(System.Windows.Forms.DataFormats.Bitmap)
+            strPath = Environment.ExpandEnvironmentVariables("%temp%")
+
+            strPath = objFileWork.merge_paths(strPath, objLocalConfig.Globals.NewGUID & "." & objLocalConfig.OItem_Token_Extensions_Image.Name)
+            Try
+                objImage.Save(strPath)
+
+                objOItem_Result.Additional1 = strPath
+            Catch ex As Exception
+                objOItem_Result = objLocalConfig.Globals.LState_Error
+            End Try
+            
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Relation
+        End If
+
+        Return objOItem_Result
+    End Function
 End Class

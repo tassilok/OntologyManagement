@@ -71,6 +71,7 @@ Public Class UserControl_TransactionDetail
                                                    Nothing, _
                                                    objLocalConfig.OItem_RelationType_belonging_Sem_Item, _
                                                    True)
+            objUserControl_RelatedItems.Enabled = True
             Timer_Data.Start()
         End If
     End Sub
@@ -615,38 +616,32 @@ Public Class UserControl_TransactionDetail
 
     End Sub
 
-    Private Sub save_Amount()
+    Private Sub TextBox_Amount_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles TextBox_Amount.MouseDoubleClick
         Dim dblAmount As Double
-        Dim objOItem_Unit As clsOntologyItem
-        Dim objOItem_Result As clsOntologyItem
 
-        If Double.TryParse(TextBox_Amount.Text, dblAmount) = True Then
-            objOItem_Unit = ComboBox_unit.SelectedItem
-            If Not objOItem_Unit Is Nothing Then
-                objOItem_Result = objTransaction_Amount.save_001_Amount(dblAmount, objOItem_Unit)
-                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                    MsgBox("Die Menge konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
-                    initialize(objOItem_FinancialTransaction)
-                End If
+
+        If TextBox_Amount.ReadOnly = False Then
+            If Double.TryParse(TextBox_Amount.Text, dblAmount) = False Then
+                dblAmount = 0
+            End If
+            objDLG_Attribute_Double = New dlg_Attribute_Double(objLocalConfig.OItem_Attribute_Amount.Name, _
+                                                               objLocalConfig.Globals, dblAmount)
+
+            objDLG_Attribute_Double.ShowDialog(Me)
+            If objDLG_Attribute_Double.DialogResult = DialogResult.OK Then
+                dblAmount = objDLG_Attribute_Double.Value
+                TextBox_Amount.Text = dblAmount
             End If
         End If
+        
     End Sub
 
    
     Private Sub TextBox_Amount_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBox_Amount.TextChanged
-        Dim dblAmount As Double
+
         Timer_Menge.Stop()
         If TextBox_Amount.ReadOnly = False Then
-            If TextBox_Amount.Text <> strAmount Then
-                If Double.TryParse(TextBox_Amount.Text, dblAmount) Then
-                    strAmount = TextBox_Amount.Text
-                    Timer_Menge.Start()
-                Else
-                    TextBox_Amount.ReadOnly = True
-                    TextBox_Amount.Text = strAmount
-                    TextBox_Amount.ReadOnly = False
-                End If
-            End If
+            Timer_Menge.Start()
         End If
     End Sub
 
@@ -654,7 +649,7 @@ Public Class UserControl_TransactionDetail
     Private Sub Timer_Menge_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Menge.Tick
         Timer_Menge.Stop()
 
-        save_Amount()
+        save_AmountUnit()
     End Sub
 
     Private Sub Button_Contractor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Contractor.Click
@@ -890,5 +885,120 @@ Public Class UserControl_TransactionDetail
 
     Private Sub RemovePaymentToolStripMenuItem1_Click(sender As System.Object, e As System.EventArgs) Handles RemovePaymentToolStripMenuItem1.Click
 
+    End Sub
+
+    Private Sub ComboBox_unit_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox_unit.SelectedIndexChanged
+
+        If ComboBox_unit.Enabled Then
+            save_AmountUnit()
+
+
+        End If
+
+
+    End Sub
+
+    Private Sub save_AmountUnit()
+        Dim objOItem_Unit As clsOntologyItem
+        Dim objORel_Unit_Old As clsObjectRel = Nothing
+        Dim objOItem_Result As clsOntologyItem
+        Dim strAmount As String
+        Dim dblAmount As Double
+        Dim strAmount_Old As String
+        Dim boolSave As Boolean
+
+        objOItem_Unit = ComboBox_unit.SelectedItem
+
+        boolSave = False
+        If Not objOItem_Unit Is Nothing Then
+            If objOItem_Unit.GUID_Parent = objLocalConfig.OItem_Class_Einheit.GUID Then
+
+                strAmount = TextBox_Amount.Text
+                If Not strAmount = "" Then
+                    If Double.TryParse(strAmount, dblAmount) Then
+                        boolSave = True
+                    End If
+                End If
+            End If
+        End If
+
+        If boolSave Then
+            boolSave = False
+            strAmount_Old = Nothing
+            If Not objDataWork_Transaction.Menge_Unit Is Nothing Then
+                If Not objDataWork_Transaction.Menge_Value Is Nothing Then
+                    If objDataWork_Transaction.Menge_Unit.Any Then
+                        If objDataWork_Transaction.Menge_Value.Any Then
+                            If Not objOItem_Unit.GUID = objDataWork_Transaction.Menge_Unit.First().ID_Other Then
+                                If Not dblAmount = objDataWork_Transaction.Menge_Value.First().Val_Double Then
+                                    strAmount_Old = objDataWork_Transaction.Menge_Value.First().Val_Double.ToString()
+                                    objORel_Unit_Old = objDataWork_Transaction.Menge_Unit.First()
+                                    boolSave = True
+                                End If
+                            End If
+                        Else
+                            boolSave = True
+                        End If
+                    Else
+                        boolSave = True
+                    End If
+                Else
+                    boolSave = True
+                End If
+            Else
+                boolSave = True
+            End If
+
+            If boolSave Then
+                objOItem_Result = objTransaction_Amount.save_001_Amount(dblAmount, objOItem_Unit)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If Not objTransaction_Amount.OItem_Amount Is Nothing Then
+                        objOItem_Result = objTransaction_FinancialTransaction.save_010_FinancialTransaction_To_Amount(objTransaction_Amount.OItem_Amount, objOItem_FinancialTransaction)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                            MsgBox("Die Menge konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                            If Not strAmount_Old Is Nothing Then
+                                If Not objORel_Unit_Old Is Nothing Then
+                                    TextBox_Amount.ReadOnly = True
+                                    TextBox_Amount.Text = strAmount_Old
+                                    TextBox_Amount.ReadOnly = False
+
+                                    ComboBox_unit.Enabled = False
+                                    ComboBox_unit.SelectedValue = objORel_Unit_Old.ID_Other
+                                    ComboBox_unit.Enabled = True
+                                End If
+                            End If
+                        End If
+                    Else
+
+                        MsgBox("Die Menge konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                        If Not strAmount_Old Is Nothing Then
+                            If Not objORel_Unit_Old Is Nothing Then
+                                TextBox_Amount.ReadOnly = True
+                                TextBox_Amount.Text = strAmount_Old
+                                TextBox_Amount.ReadOnly = False
+
+                                ComboBox_unit.Enabled = False
+                                ComboBox_unit.SelectedValue = objORel_Unit_Old.ID_Other
+                                ComboBox_unit.Enabled = True
+                            End If
+                        End If
+                    End If
+                End If
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Die Menge konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                    If Not strAmount_Old Is Nothing Then
+                        If Not objORel_Unit_Old Is Nothing Then
+                            TextBox_Amount.ReadOnly = True
+                            TextBox_Amount.Text = strAmount_Old
+                            TextBox_Amount.ReadOnly = False
+
+                            ComboBox_unit.Enabled = False
+                            ComboBox_unit.SelectedValue = objORel_Unit_Old.ID_Other
+                            ComboBox_unit.Enabled = True
+                        End If
+                    End If
+                End If
+            End If
+        End If
     End Sub
 End Class

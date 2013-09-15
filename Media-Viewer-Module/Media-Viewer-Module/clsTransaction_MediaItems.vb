@@ -36,7 +36,7 @@ Public Class clsTransaction_MediaItems
                                                        objOItem_MediaItem.GUID_Parent,
                                                        objOItem_Ref.GUID, _
                                                        objOItem_Ref.GUID_Parent, _
-                                                       objLocalConfig.OItem_RelationType_belonging_Source.GUID, _
+                                                       objLocalConfig.OItem_RelationType_belongsTo.GUID, _
                                                        objLocalConfig.Globals.Type_Object, _
                                                        Nothing, _
                                                        objOItem_MediaItem.Level)
@@ -46,7 +46,7 @@ Public Class clsTransaction_MediaItems
                                                            objOItem_MediaItem.GUID_Parent, _
                                                            objOItem_Ref.GUID, _
                                                            Nothing, _
-                                                           objLocalConfig.OItem_RelationType_belonging_Source.GUID, _
+                                                           objLocalConfig.OItem_RelationType_belongsTo.GUID, _
                                                            objOItem_Ref.Type, _
                                                            Nothing, _
                                                            objOItem_MediaItem.Level)
@@ -101,7 +101,7 @@ Public Class clsTransaction_MediaItems
         objTransaction.ClearItems()
 
         objOItem_File = OItem_File
-        objOItem_MediaItem = OItem_File
+        objOItem_MediaItem = OItem_MediaItem
 
         boolNew = False
         objOItem_Result = objLocalConfig.Globals.LState_Success

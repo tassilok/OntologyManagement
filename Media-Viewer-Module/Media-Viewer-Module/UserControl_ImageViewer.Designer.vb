@@ -177,7 +177,7 @@ Partial Class UserControl_ImageViewer
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Copy, Me.ToolStripButton_Paste, Me.ToolStripSeparator6, Me.ToolStripButton_Replace, Me.ToolStripSeparator5, Me.ToolStripSplitButton_Scale, Me.ToolStripButton_Edit})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(233, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(264, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripButton_Copy

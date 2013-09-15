@@ -103,7 +103,23 @@ Public Class clsTransaction
                     End Select
 
                 Else
-
+                    objOL_Items.Add(OItem_Item)
+                    Select Case objOItem_TransItem.OItem_OntologyItem.Type
+                        Case objTypes.AttributeType
+                            objOItem_Result = objDBLevel.del_AttributeType(OItem_Item)
+                            objOItem_TransItem.TransactionResult = objOItem_Result
+                        Case objTypes.ClassType
+                            objOItem_Result = objDBLevel.del_Class(OItem_Item)
+                            objOItem_TransItem.TransactionResult = objOItem_Result
+                        Case objTypes.ObjectType
+                            objOItem_Result = objDBLevel.del_Objects(objOL_Items)
+                            objOItem_TransItem.TransactionResult = objOItem_Result
+                        Case objTypes.RelationType
+                            objOItem_Result = objDBLevel.del_RelationType(OItem_Item)
+                            objOItem_TransItem.TransactionResult = objOItem_Result
+                        Case Else
+                            objOItem_TransItem.TransactionResult = objLogStates.LogState_Error
+                    End Select
                 End If
 
 

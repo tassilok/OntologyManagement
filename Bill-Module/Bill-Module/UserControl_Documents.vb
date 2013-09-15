@@ -126,6 +126,7 @@ Public Class UserControl_Documents
 
     Private Sub configure_Controls()
         If objOLDocuments.Count > 0 Then
+
             If intDocID < objOLDocuments.Count - 1 Then
                 ToolStripButton_MoveNext.Enabled = True
                 ToolStripButton_MoveLast.Enabled = True
@@ -176,8 +177,8 @@ Public Class UserControl_Documents
             ToolStripButton_Location.Enabled = True
             ToolStripButton_Location.Enabled = True
         Else
-
             clear_Controls()
+            ToolStripButton_New.Enabled = True
         End If
     End Sub
 
@@ -302,5 +303,27 @@ Public Class UserControl_Documents
             End If
         End If
         
+    End Sub
+
+    Private Sub ToolStripButton_New_Click(sender As Object, e As EventArgs) Handles ToolStripButton_New.Click
+        Dim objOItem_Document As New clsOntologyItem() With {.GUID = objLocalConfig.Globals.NewGUID, _
+                                                                .Name = objOItem_FinancialTransaction.Name, _
+                                                                .GUID_Parent = objLocalConfig.OItem_Class_Beleg.GUID, _
+                                                                .Type = objLocalConfig.Globals.Type_Object}
+
+        Dim objOItem_Result = objTransaction_Documents.save_001_Document(objOItem_Document)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOItem_Result = objTransaction_Documents.save_002_FinancialTransaction_To_Document(objOItem_FinancialTransaction)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                initialize_Documents(objOItem_FinancialTransaction)
+            Else
+                MsgBox("Der Beleg konnte nicht erzeugt werden!", MsgBoxStyle.Exclamation)
+                clear_Controls()
+            End If
+
+        Else
+            MsgBox("Der Beleg konnte nicht erzeugt werden!", MsgBoxStyle.Exclamation)
+            clear_Controls()
+        End If
     End Sub
 End Class

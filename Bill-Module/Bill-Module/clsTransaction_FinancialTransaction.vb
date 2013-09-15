@@ -3,6 +3,7 @@ Public Class clsTransaction_FinancialTransaction
     Private objLocalConfig As clsLocalConfig
 
     Private objDBLevel_FinancialTransaction As clsDBLevel
+    Private objTransaction As clsTransaction
 
     Private objOItem_FinancialTransaction As clsOntologyItem
     Private objOItem_FinancialTransaction_Parent As clsOntologyItem
@@ -16,6 +17,7 @@ Public Class clsTransaction_FinancialTransaction
     Private objOItem_TaxRate As clsOntologyItem
     Private objOItem_Partner As clsOntologyItem
     Private objOItem_RelationType_Partner As clsOntologyItem
+    Private objOItem_Amount As clsOntologyItem
 
     Public Function save_001_FinancialTransaction(ByVal OItem_FinancialTransaction As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
@@ -865,6 +867,51 @@ Public Class clsTransaction_FinancialTransaction
         Return objOItem_Result
     End Function
 
+    Public Function save_010_FinancialTransaction_To_Amount(OItem_Amount As clsOntologyItem, Optional ByVal OItem_FinancialTransaction As clsOntologyItem = Nothing) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOR_FinancialTransaction_To_Amount As clsObjectRel
+
+        objOItem_Amount = OItem_Amount
+
+        If Not OItem_FinancialTransaction Is Nothing Then
+            objOItem_FinancialTransaction = OItem_FinancialTransaction
+        End If
+
+        objTransaction.ClearItems()
+
+        objOR_FinancialTransaction_To_Amount = New clsObjectRel() With {.ID_Object = objOItem_FinancialTransaction.GUID, _
+                                                                        .ID_Parent_Object = objOItem_FinancialTransaction.GUID_Parent, _
+                                                                        .ID_Other = OItem_Amount.GUID, _
+                                                                        .ID_Parent_Other = OItem_Amount.GUID_Parent, _
+                                                                        .Ontology = objLocalConfig.Globals.Type_Object, _
+                                                                        .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Amount.GUID, _
+                                                                        .OrderID = 1}
+
+        objOItem_Result = objTransaction.do_Transaction(objOR_FinancialTransaction_To_Amount, True)
+
+        Return objOItem_Result
+    End Function
+
+    Public Function del_010_FinancialTransaction_To_Amount(Optional OItem_FinancialTransaction As clsOntologyItem = Nothing) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOR_FinancialTransaction_To_Amount As clsObjectRel
+
+        If Not OItem_FinancialTransaction Is Nothing Then
+            objOItem_FinancialTransaction = OItem_FinancialTransaction
+        End If
+
+        objTransaction.ClearItems()
+
+        objOR_FinancialTransaction_To_Amount = New clsObjectRel() With {.ID_Object = objOItem_FinancialTransaction.GUID, _
+                                                                        .ID_Parent_Other = objLocalConfig.OItem_Class_Menge.GUID, _
+                                                                        .Ontology = objLocalConfig.Globals.Type_Object, _
+                                                                        .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Amount.GUID}
+
+        objOItem_Result = objTransaction.do_Transaction(objOR_FinancialTransaction_To_Amount, False, True)
+
+        Return objOItem_Result
+    End Function
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
 
@@ -873,5 +920,6 @@ Public Class clsTransaction_FinancialTransaction
 
     Private Sub set_DBConnection()
         objDBLevel_FinancialTransaction = New clsDBLevel(objLocalConfig.Globals)
+        objTransaction = New clsTransaction(objLocalConfig.Globals)
     End Sub
 End Class

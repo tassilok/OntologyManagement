@@ -6,6 +6,7 @@ Public Class UserControl_MediaItemList
     Private objTransaction_MediaItems As clsTransaction_MediaItems
     Private dtblT_MediaItems As New DataSet_MediaItems.dtbl_MediaItemsDataTable
     Private objBlobConnection As clsBlobConnection
+    Private objFileWork As clsFileWork
 
     Private objOItem_Ref As clsOntologyItem
 
@@ -34,6 +35,144 @@ Public Class UserControl_MediaItemList
             End If
         End Get
     End Property
+
+    Public Sub save_Items(boolAll As Boolean)
+
+        Dim objDGVR As DataGridViewRow
+        Dim strPath As String
+        Dim strPathDst As String = ""
+        Dim strPathLast As String
+        Dim charsInvalid() As Char
+        Dim objOItem_Result As clsOntologyItem
+        Dim intError As Integer
+        Dim intNotExistent As Integer
+        Dim intDone As Integer
+        Dim intToDo As Integer
+
+        If FolderBrowserDialog_Save.ShowDialog(Me) = DialogResult.OK Then
+            strPath = FolderBrowserDialog_Save.SelectedPath
+
+            objOItem_Result = objLocalConfig.Globals.LState_Success
+            If IO.Directory.Exists(strPath) Then
+                charsInvalid = IO.Path.GetInvalidPathChars()
+                strPathLast = objOItem_Ref.Name
+                Do
+                    strPathDst = strPath & IO.Path.DirectorySeparatorChar & strPathLast
+                    For Each charInvalid As Char In charsInvalid
+                        If strPathDst.Contains(charInvalid) Then
+                            strPathDst = strPathDst.Replace(charInvalid, "_")
+                        End If
+                    Next
+                    objOItem_Result = objLocalConfig.Globals.LState_Success
+                    If IO.Directory.Exists(strPathDst) 
+                        objOItem_Result = objLocalConfig.Globals.LState_Relation
+                    End If
+
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        Try
+                            IO.Directory.CreateDirectory(strPathDst)
+                        Catch ex As Exception
+                            objOItem_Result = objLocalConfig.Globals.LState_Error
+                        End Try
+                    End If
+                Loop Until objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Or _
+                    objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Or _
+                    objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
+                    MsgBox("Das Verzeichnis existiert bereits!", MsgBoxStyle.Exclamation)
+                End If
+
+            Else
+                MsgBox("Das ausgewählte Verzeichnis existiert nicht!", MsgBoxStyle.Exclamation)
+                objOItem_Result = objLocalConfig.Globals.LState_Error
+            End If
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                If boolAll Then
+                    intToDo = DataGridView_MediaItems.Rows.Count
+                    intError = 0
+                    intNotExistent = 0
+                    intDone = 0
+                    For Each objDGVR In DataGridView_MediaItems.Rows
+                        objOItem_Result = save_Item(objDGVR, strPathDst)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                            intError = intError + 1
+                        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+                            intNotExistent = intNotExistent + 1
+                        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            intDone = intDone + 1
+                        End If
+                    Next
+                Else
+                    intToDo = DataGridView_MediaItems.SelectedRows.Count
+                    intError = 0
+                    intNotExistent = 0
+                    intDone = 0
+                    For Each objDGVR In DataGridView_MediaItems.SelectedRows
+                        objOItem_Result = save_Item(objDGVR, strPathDst)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                            intError = intError + 1
+                        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+                            intNotExistent = intNotExistent + 1
+                        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            intDone = intDone + 1
+                        End If
+                    Next
+                End If
+
+                If intDone < intToDo Then
+                    MsgBox("Es konnten nur " & intDone & " von " & intToDo & " MediaItems exportiert werden!" & vbCrLf & _
+                           "Fehler: " & intError & _
+                           "Nicht existierende Quelldateien: " & intNotExistent, MsgBoxStyle.Exclamation)
+                Else
+                    MsgBox("Die Dateien wurden exportiert!", MsgBoxStyle.Information)
+                End If
+            End If
+            
+        End If
+
+        
+    End Sub
+
+    Private Function save_Item(objDGVR As DataGridViewRow, strPath As String) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_File As New clsOntologyItem
+        Dim objDRV As DataRowView
+        Dim strPathDst As String
+        Dim strFileName As String
+        Dim charsInvalid() As Char
+
+        objDRV = objDGVR.DataBoundItem
+        objOItem_File = New clsOntologyItem
+        objOItem_File.GUID = objDRV.Item("ID_File")
+        objOItem_File.Name = objDRV.Item("Name_File")
+        objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
+        objOItem_File.Type = objLocalConfig.Globals.Type_Object
+
+        strPathDst = strPath
+        strFileName = objDRV.Item("Name_File")
+
+        If IO.Directory.Exists(strPathDst) Then
+            charsInvalid = IO.Path.GetInvalidFileNameChars
+            For Each charInvalid As Char In charsInvalid
+                If strFileName.Contains(charInvalid) Then
+                    strFileName = strFileName.Replace(charInvalid, "_")
+                End If
+            Next
+
+            strPathDst = strPathDst & IO.Path.DirectorySeparatorChar & strFileName
+            If Not IO.File.Exists(strPathDst) Then
+
+                objOItem_Result = objFileWork.copy_File(objOItem_File, strPathDst)
+            Else
+                objOItem_Result = objLocalConfig.Globals.LState_Relation
+            End If
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Error
+        End If
+
+        Return objOItem_Result
+    End Function
 
     'Private Sub stopped_MediaItem() Handles objUserControl_MediaPlayer.stopped
     '    Dim objDGVR_Selected As DataGridViewRow
@@ -124,6 +263,7 @@ Public Class UserControl_MediaItemList
         objDataWork_MediaItem = New clsDataWork_MediaItem(objLocalConfig)
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
         objTransaction_MediaItems = New clsTransaction_MediaItems(objLocalConfig)
+        objFileWork = New clsFileWork(objLocalConfig.Globals)
         configure_Controls()
     End Sub
 
@@ -306,6 +446,8 @@ Public Class UserControl_MediaItemList
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                 objOItem_Result = objTransaction_MediaItems.save_MediaItem_To_File(objOItem_MediaItem, objOItem_File)
                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objOItem_MediaItem.Level = objDataWork_MediaItem.GetNextOrderIDOFRef(objOItem_Ref)
+                                    objOItem_MediaItem.Level = objOItem_MediaItem.Level + 1
                                     objOItem_Result = objTransaction_MediaItems.save_MediaItemToRef(objOItem_Ref, objOItem_MediaItem)
                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                         intDone = intDone + 1

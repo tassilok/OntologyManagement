@@ -40,10 +40,11 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_Meta = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripButton_Play = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_Bookmarks = New System.Windows.Forms.ToolStripButton()
         Me.OpenFileDialog_MediaItem = New System.Windows.Forms.OpenFileDialog()
-        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripButton_Play = New System.Windows.Forms.ToolStripButton()
+        Me.FolderBrowserDialog_Save = New System.Windows.Forms.FolderBrowserDialog()
         CType(Me.BindingSource_MediaItems, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -129,7 +130,7 @@ Partial Class UserControl_MediaItemList
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Replace, Me.ToolStripButton_Remove, Me.ToolStripSeparator1, Me.ToolStripButton_Meta, Me.ToolStripSeparator3, Me.ToolStripButton_Play, Me.ToolStripSeparator4, Me.ToolStripButton_Bookmarks})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(384, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(353, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Add
@@ -179,6 +180,21 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
         Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 25)
         '
+        'ToolStripButton_Play
+        '
+        Me.ToolStripButton_Play.CheckOnClick = True
+        Me.ToolStripButton_Play.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Play.Image = Global.Media_Viewer_Module.My.Resources.Resources._next
+        Me.ToolStripButton_Play.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Play.Name = "ToolStripButton_Play"
+        Me.ToolStripButton_Play.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_Play.Text = "ToolStripButton1"
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 25)
+        '
         'ToolStripButton_Bookmarks
         '
         Me.ToolStripButton_Bookmarks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
@@ -191,21 +207,6 @@ Partial Class UserControl_MediaItemList
         'OpenFileDialog_MediaItem
         '
         Me.OpenFileDialog_MediaItem.FileName = "OpenFileDialog1"
-        '
-        'ToolStripSeparator4
-        '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripButton_Play
-        '
-        Me.ToolStripButton_Play.CheckOnClick = True
-        Me.ToolStripButton_Play.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Play.Image = Global.Media_Viewer_Module.My.Resources.Resources._next
-        Me.ToolStripButton_Play.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Play.Name = "ToolStripButton_Play"
-        Me.ToolStripButton_Play.Size = New System.Drawing.Size(23, 22)
-        Me.ToolStripButton_Play.Text = "ToolStripButton1"
         '
         'UserControl_MediaItemList
         '
@@ -250,5 +251,6 @@ Partial Class UserControl_MediaItemList
     Friend WithEvents OpenFileDialog_MediaItem As System.Windows.Forms.OpenFileDialog
     Friend WithEvents ToolStripButton_Play As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents FolderBrowserDialog_Save As System.Windows.Forms.FolderBrowserDialog
 
 End Class

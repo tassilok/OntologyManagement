@@ -108,6 +108,11 @@ Public Class frmFileSync
 
     Private Sub ToolStripButton_Sync_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Sync.Click
         Timer_State.Start()
+        objSync.CompareFileStreams = CheckBoxCompareFileStreams.Checked
+        objSync.RecycleConflictLoserFiles = CheckBoxRecycleConflictLoserFiles.Checked
+        objSync.RecycleDeletedFiles = CheckBoxRecycleDeletedFiles.Checked
+        objSync.RecyclePreviousFileOnUpdates = CheckBoxRecyclePreviousFileOnUpdates.Checked
+
         objSync.SyncDirectories(TextBox_PathSrc.Text, TextBox_PathDst.Text, Nothing)
 
 

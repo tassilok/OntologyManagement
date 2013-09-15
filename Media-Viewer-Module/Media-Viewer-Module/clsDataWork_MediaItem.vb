@@ -80,7 +80,7 @@ Public Class clsDataWork_MediaItem
         objOItem_MediaItem.GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID
         objOItem_MediaItem.Type = objLocalConfig.Globals.Type_Object
 
-        lngOrderID = objDBLevel_MediaItems.get_Data_Rel_OrderID(objOItem_MediaItem, OItem_Ref, objLocalConfig.OItem_RelationType_belonging_Source, False)
+        lngOrderID = objDBLevel_MediaItems.get_Data_Rel_OrderID(objOItem_MediaItem, OItem_Ref, objLocalConfig.OItem_RelationType_belongsTo, False)
 
         Return lngOrderID
     End Function

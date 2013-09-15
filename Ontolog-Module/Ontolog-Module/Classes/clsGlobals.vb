@@ -225,19 +225,19 @@ Public Class clsGlobals
         End Get
     End Property
 
-    Public ReadOnly Property Server
+    Public ReadOnly Property Server As String
         Get
             Return strEL_Server
         End Get
     End Property
 
-    Public ReadOnly Property Index
+    Public ReadOnly Property Index As String
         Get
             Return strEL_Index
         End Get
     End Property
 
-    Public ReadOnly Property Index_Rep
+    Public ReadOnly Property Index_Rep As String
         Get
             Return strRep_Index
         End Get
