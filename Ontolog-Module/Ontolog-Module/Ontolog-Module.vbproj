@@ -118,8 +118,9 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\clsDataWork_Ontologies.vb" />
-    <Compile Include="Classes\clsLocalConfig_Ontologies.vb" />
+    <Compile Include="Classes\Ontologies\clsDataWork_Ontologies.vb" />
+    <Compile Include="Classes\Ontologies\clsLocalConfig_Ontologies.vb" />
+    <Compile Include="Classes\Ontologies\clsOntologyJoins.vb" />
     <Compile Include="DataClasses\clsAttributeTypes.vb" />
     <Compile Include="DataClasses\clsClasses.vb" />
     <Compile Include="DataClasses\clsClassTypes.vb" />
@@ -161,34 +162,34 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet_Report.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Forms\dlg_Attribute_Boolean.Designer.vb">
+    <Compile Include="Forms\Attributes\dlg_Attribute_Boolean.Designer.vb">
       <DependentUpon>dlg_Attribute_Boolean.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\dlg_Attribute_Boolean.vb">
+    <Compile Include="Forms\Attributes\dlg_Attribute_Boolean.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\dlg_Attribute_DateTime.Designer.vb">
+    <Compile Include="Forms\Attributes\dlg_Attribute_DateTime.Designer.vb">
       <DependentUpon>dlg_Attribute_DateTime.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\dlg_Attribute_DateTime.vb">
+    <Compile Include="Forms\Attributes\dlg_Attribute_DateTime.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\dlg_Attribute_Double.Designer.vb">
+    <Compile Include="Forms\Attributes\dlg_Attribute_Double.Designer.vb">
       <DependentUpon>dlg_Attribute_Double.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\dlg_Attribute_Double.vb">
+    <Compile Include="Forms\Attributes\dlg_Attribute_Double.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\dlg_Attribute_Long.Designer.vb">
+    <Compile Include="Forms\Attributes\dlg_Attribute_Long.Designer.vb">
       <DependentUpon>dlg_Attribute_Long.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\dlg_Attribute_Long.vb">
+    <Compile Include="Forms\Attributes\dlg_Attribute_Long.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\dlg_Attribute_String.Designer.vb">
+    <Compile Include="Forms\Attributes\dlg_Attribute_String.Designer.vb">
       <DependentUpon>dlg_Attribute_String.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\dlg_Attribute_String.vb">
+    <Compile Include="Forms\Attributes\dlg_Attribute_String.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmClassEdit.Designer.vb">
@@ -210,16 +211,16 @@
       <DependentUpon>frmMain.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmOntologyConfigurator.Designer.vb">
+    <Compile Include="Forms\Ontologies\frmOntologyConfigurator.Designer.vb">
       <DependentUpon>frmOntologyConfigurator.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmOntologyConfigurator.vb">
+    <Compile Include="Forms\Ontologies\frmOntologyConfigurator.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frm_AttributeTypeEdit.Designer.vb">
+    <Compile Include="Forms\Attributes\frm_AttributeTypeEdit.Designer.vb">
       <DependentUpon>frm_AttributeTypeEdit.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frm_AttributeTypeEdit.vb">
+    <Compile Include="Forms\Attributes\frm_AttributeTypeEdit.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frm_Name.Designer.vb">
@@ -234,28 +235,40 @@
     <Compile Include="Forms\frm_ObjectEdit.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\UserControl_Attribute_DateTime.Designer.vb">
+    <Compile Include="Forms\Attributes\UserControl_Attribute_DateTime.Designer.vb">
       <DependentUpon>UserControl_Attribute_DateTime.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserControl_Attribute_DateTime.vb">
+    <Compile Include="Forms\Attributes\UserControl_Attribute_DateTime.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\UserControl_Attribute_Double.Designer.vb">
+    <Compile Include="Forms\Attributes\UserControl_Attribute_Double.Designer.vb">
       <DependentUpon>UserControl_Attribute_Double.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserControl_Attribute_Double.vb">
+    <Compile Include="Forms\Attributes\UserControl_Attribute_Double.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\UserControl_Attribute_Long.Designer.vb">
+    <Compile Include="Forms\Attributes\UserControl_Attribute_Long.Designer.vb">
       <DependentUpon>UserControl_Attribute_Long.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserControl_Attribute_Long.vb">
+    <Compile Include="Forms\Attributes\UserControl_Attribute_Long.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\UserControl_Attribute_String.Designer.vb">
+    <Compile Include="Forms\Attributes\UserControl_Attribute_String.Designer.vb">
       <DependentUpon>UserControl_Attribute_String.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserControl_Attribute_String.vb">
+    <Compile Include="Forms\Attributes\UserControl_Attribute_String.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Ontologies\UserControl_OntologyJoins.Designer.vb">
+      <DependentUpon>UserControl_OntologyJoins.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Ontologies\UserControl_OntologyJoins.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Ontologies\UserControl_OntologyTree.Designer.vb">
+      <DependentUpon>UserControl_OntologyTree.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Ontologies\UserControl_OntologyTree.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\UserControl_DataSource.Designer.vb">
@@ -264,16 +277,16 @@
     <Compile Include="Forms\UserControl_DataSource.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\UserControl_OntologyItemList.Designer.vb">
+    <Compile Include="Forms\Ontologies\UserControl_OntologyItemList.Designer.vb">
       <DependentUpon>UserControl_OntologyItemList.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserControl_OntologyItemList.vb">
+    <Compile Include="Forms\Ontologies\UserControl_OntologyItemList.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\UserControl_OntologyTree.Designer.vb">
-      <DependentUpon>UserControl_OntologyTree.vb</DependentUpon>
+    <Compile Include="Forms\Ontologies\UserControl_OntologyRefTree.Designer.vb">
+      <DependentUpon>UserControl_OntologyRefTree.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserControl_OntologyTree.vb">
+    <Compile Include="Forms\Ontologies\UserControl_OntologyRefTree.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -291,16 +304,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Forms\UserControl_AttributeTypeSel.Designer.vb">
+    <Compile Include="Forms\Attributes\UserControl_AttributeTypeSel.Designer.vb">
       <DependentUpon>UserControl_AttributeTypeSel.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserControl_AttributeTypeSel.vb">
+    <Compile Include="Forms\Attributes\UserControl_AttributeTypeSel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\UserControl_Attribute_Boolean.Designer.vb">
+    <Compile Include="Forms\Attributes\UserControl_Attribute_Boolean.Designer.vb">
       <DependentUpon>UserControl_Attribute_Boolean.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserControl_Attribute_Boolean.vb">
+    <Compile Include="Forms\Attributes\UserControl_Attribute_Boolean.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\UserControl_ClassAttributeTypes.Designer.vb">
@@ -359,19 +372,19 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Forms\dlg_Attribute_Boolean.resx">
+    <EmbeddedResource Include="Forms\Attributes\dlg_Attribute_Boolean.resx">
       <DependentUpon>dlg_Attribute_Boolean.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\dlg_Attribute_DateTime.resx">
+    <EmbeddedResource Include="Forms\Attributes\dlg_Attribute_DateTime.resx">
       <DependentUpon>dlg_Attribute_DateTime.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\dlg_Attribute_Double.resx">
+    <EmbeddedResource Include="Forms\Attributes\dlg_Attribute_Double.resx">
       <DependentUpon>dlg_Attribute_Double.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\dlg_Attribute_Long.resx">
+    <EmbeddedResource Include="Forms\Attributes\dlg_Attribute_Long.resx">
       <DependentUpon>dlg_Attribute_Long.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\dlg_Attribute_String.resx">
+    <EmbeddedResource Include="Forms\Attributes\dlg_Attribute_String.resx">
       <DependentUpon>dlg_Attribute_String.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmClassEdit.resx">
@@ -383,10 +396,10 @@
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmOntologyConfigurator.resx">
+    <EmbeddedResource Include="Forms\Ontologies\frmOntologyConfigurator.resx">
       <DependentUpon>frmOntologyConfigurator.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frm_AttributeTypeEdit.resx">
+    <EmbeddedResource Include="Forms\Attributes\frm_AttributeTypeEdit.resx">
       <DependentUpon>frm_AttributeTypeEdit.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frm_Name.resx">
@@ -395,26 +408,32 @@
     <EmbeddedResource Include="Forms\frm_ObjectEdit.resx">
       <DependentUpon>frm_ObjectEdit.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControl_Attribute_DateTime.resx">
+    <EmbeddedResource Include="Forms\Attributes\UserControl_Attribute_DateTime.resx">
       <DependentUpon>UserControl_Attribute_DateTime.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControl_Attribute_Double.resx">
+    <EmbeddedResource Include="Forms\Attributes\UserControl_Attribute_Double.resx">
       <DependentUpon>UserControl_Attribute_Double.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControl_Attribute_Long.resx">
+    <EmbeddedResource Include="Forms\Attributes\UserControl_Attribute_Long.resx">
       <DependentUpon>UserControl_Attribute_Long.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControl_Attribute_String.resx">
+    <EmbeddedResource Include="Forms\Attributes\UserControl_Attribute_String.resx">
       <DependentUpon>UserControl_Attribute_String.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Ontologies\UserControl_OntologyJoins.resx">
+      <DependentUpon>UserControl_OntologyJoins.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Ontologies\UserControl_OntologyTree.resx">
+      <DependentUpon>UserControl_OntologyTree.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserControl_DataSource.resx">
       <DependentUpon>UserControl_DataSource.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControl_OntologyItemList.resx">
+    <EmbeddedResource Include="Forms\Ontologies\UserControl_OntologyItemList.resx">
       <DependentUpon>UserControl_OntologyItemList.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControl_OntologyTree.resx">
-      <DependentUpon>UserControl_OntologyTree.vb</DependentUpon>
+    <EmbeddedResource Include="Forms\Ontologies\UserControl_OntologyRefTree.resx">
+      <DependentUpon>UserControl_OntologyRefTree.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -422,10 +441,10 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControl_AttributeTypeSel.resx">
+    <EmbeddedResource Include="Forms\Attributes\UserControl_AttributeTypeSel.resx">
       <DependentUpon>UserControl_AttributeTypeSel.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControl_Attribute_Boolean.resx">
+    <EmbeddedResource Include="Forms\Attributes\UserControl_Attribute_Boolean.resx">
       <DependentUpon>UserControl_Attribute_Boolean.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserControl_ClassAttributeTypes.resx">
@@ -561,6 +580,7 @@
       <Name>Structure-Module</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -28,6 +28,9 @@ Partial Class frmOntologyConfigurator
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.TabPage_OntologyItems = New System.Windows.Forms.TabPage()
+        Me.TabPage_OntologyJoins = New System.Windows.Forms.TabPage()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -36,7 +39,9 @@ Partial Class frmOntologyConfigurator
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        Me.TabControl1.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -95,9 +100,44 @@ Partial Class frmOntologyConfigurator
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer2.Name = "SplitContainer2"
+        '
+        'SplitContainer2.Panel2
+        '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.TabControl1)
         Me.SplitContainer2.Size = New System.Drawing.Size(478, 409)
         Me.SplitContainer2.SplitterDistance = 208
         Me.SplitContainer2.TabIndex = 0
+        '
+        'TabControl1
+        '
+        Me.TabControl1.Controls.Add(Me.TabPage_OntologyItems)
+        Me.TabControl1.Controls.Add(Me.TabPage_OntologyJoins)
+        Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControl1.Location = New System.Drawing.Point(0, 0)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(262, 405)
+        Me.TabControl1.TabIndex = 0
+        '
+        'TabPage_OntologyItems
+        '
+        Me.TabPage_OntologyItems.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage_OntologyItems.Name = "TabPage_OntologyItems"
+        Me.TabPage_OntologyItems.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage_OntologyItems.Size = New System.Drawing.Size(254, 379)
+        Me.TabPage_OntologyItems.TabIndex = 0
+        Me.TabPage_OntologyItems.Text = "x_Ontology-Items"
+        Me.TabPage_OntologyItems.UseVisualStyleBackColor = True
+        '
+        'TabPage_OntologyJoins
+        '
+        Me.TabPage_OntologyJoins.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage_OntologyJoins.Name = "TabPage_OntologyJoins"
+        Me.TabPage_OntologyJoins.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage_OntologyJoins.Size = New System.Drawing.Size(254, 379)
+        Me.TabPage_OntologyJoins.TabIndex = 1
+        Me.TabPage_OntologyJoins.Text = "x_Ontology-Joins"
+        Me.TabPage_OntologyJoins.UseVisualStyleBackColor = True
         '
         'frmOntologyConfigurator
         '
@@ -117,8 +157,10 @@ Partial Class frmOntologyConfigurator
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
+        Me.SplitContainer2.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer2.ResumeLayout(False)
+        Me.TabControl1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -127,4 +169,7 @@ Partial Class frmOntologyConfigurator
     Friend WithEvents ToolStripButton_Close As System.Windows.Forms.ToolStripButton
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
+    Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
+    Friend WithEvents TabPage_OntologyItems As System.Windows.Forms.TabPage
+    Friend WithEvents TabPage_OntologyJoins As System.Windows.Forms.TabPage
 End Class

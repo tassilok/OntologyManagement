@@ -1,4 +1,5 @@
-﻿Public Class UserControl_OntologyItemList
+﻿Imports Structure_Module
+Public Class UserControl_OntologyItemList
 
     Private objDataWork_Ontologies As clsDataWork_Ontologies
 
@@ -19,10 +20,11 @@
 
     Public Sub initialize_List(OItem_Ontology As clsOntologyItem)
         If Not OItem_Ontology Is Nothing Then
-            Dim objOList = From objOntology In objDataWork_Ontologies.OList_JoinsOfOntologies
-                           Where objOntology.ID_Other = OItem_Ontology.GUID
-                           Join objJoin In objDataWork_Ontologies.olist
+            Dim objOList = New SortableBindingList(Of clsOntologyItem)((From objOntology In objDataWork_Ontologies.OList_RefsOfOntologyItems
+                           Where objOntology.GUID_Related = OItem_Ontology.GUID).ToList())
 
+
+            DataGridView_OItems.DataSource = objOList
             DataGridView_OItems.Columns(0).Visible = False
             DataGridView_OItems.Columns(1).Visible = False
             DataGridView_OItems.Columns(2).Visible = False
@@ -53,6 +55,6 @@
         Else
             DataGridView_OItems.DataSource = Nothing
         End If
-        
+
     End Sub
 End Class

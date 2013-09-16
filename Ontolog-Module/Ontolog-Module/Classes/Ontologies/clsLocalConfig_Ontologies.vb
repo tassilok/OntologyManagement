@@ -17,6 +17,9 @@
     Private Const cint_ImageID_Close_RelateChoose As Integer = 15
     Private Const cint_ImageID_Open_RelateChoose As Integer = 16
 
+    Private Const cint_ImageID_OntologyClose As Integer = 1
+    Private Const cint_ImageID_OntologyOpen As Integer = 2
+
     Private objGlobals As clsGlobals
 
     Public ReadOnly Property Globals As clsGlobals
@@ -124,6 +127,18 @@
     Public ReadOnly Property ImageID_Open_RelateChoose As Integer
         Get
             Return cint_ImageID_Open_RelateChoose
+        End Get
+    End Property
+
+    Public ReadOnly Property ImageID_OntologyClose As Integer
+        Get
+            Return cint_ImageID_OntologyClose
+        End Get
+    End Property
+
+    Public ReadOnly Property ImageID_OntologyOpen As Integer
+        Get
+            Return cint_ImageID_OntologyOpen
         End Get
     End Property
 

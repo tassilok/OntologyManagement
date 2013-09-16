@@ -1,9 +1,11 @@
-﻿Public Class UserControl_OntologyTree
+﻿Public Class UserControl_OntologyRefTree
 
     Private objDataWork_Ontologies As clsDataWork_Ontologies
     Private objTreeNode_Root As TreeNode
     Private objTreeNode_AttributeTypes As TreeNode
     Private objTreeNode_RelationTypes As TreeNode
+
+    Public Event selected_Node(OItem_Ref As clsOntologyItem)
 
     Public Sub New(DataWork_Ontologies As clsDataWork_Ontologies)
 
@@ -92,8 +94,8 @@
                 intImageID_Close = objDataWork_Ontologies.LocalConfig.ImageID_Close_Images_SubItems
                 intImageID_Open = objDataWork_Ontologies.LocalConfig.ImageID_Close_Images_SubItems
             Else
-                intImageID_Close = objDataWork_Ontologies.LocalConfig.ImageID_Open
-                intImageID_Open = objDataWork_Ontologies.LocalConfig.ImageID_Close
+                intImageID_Close = objDataWork_Ontologies.LocalConfig.ImageID_Close
+                intImageID_Open = objDataWork_Ontologies.LocalConfig.ImageID_Open
             End If
 
             Dim objTreeNode_Sub = objTreeNode_Parent.Nodes.Add(objChild.GUID, objChild.Name, intImageID_Close, intImageID_Open)
@@ -101,5 +103,39 @@
             AddSubNodes(objTreeNode_Sub)
         Next
 
+    End Sub
+
+    Private Sub TreeView_Ontologies_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles TreeView_Ontologies.AfterSelect
+        Dim objTreeNode = e.Node
+        Dim objOItem_SelectedNode As clsOntologyItem = Nothing
+        If Not objTreeNode Is Nothing Then
+            Select Case objTreeNode.ImageIndex
+                Case objDataWork_Ontologies.LocalConfig.ImageID_Attribute
+                    objOItem_SelectedNode = New clsOntologyItem
+                    objOItem_SelectedNode.GUID = objTreeNode.Name
+                    objOItem_SelectedNode.Name = objTreeNode.Text
+                    objOItem_SelectedNode.Type = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType
+
+                Case objDataWork_Ontologies.LocalConfig.ImageID_Close, objDataWork_Ontologies.LocalConfig.ImageID_Close_Images_SubItems
+                    objOItem_SelectedNode = New clsOntologyItem
+                    objOItem_SelectedNode.GUID = objTreeNode.Name
+                    objOItem_SelectedNode.Name = objTreeNode.Text
+                    objOItem_SelectedNode.Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Class
+                Case objDataWork_Ontologies.LocalConfig.ImageID_RelationType
+                    objOItem_SelectedNode = New clsOntologyItem
+                    objOItem_SelectedNode.GUID = objTreeNode.Name
+                    objOItem_SelectedNode.Name = objTreeNode.Text
+                    objOItem_SelectedNode.Type = objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType
+                Case objDataWork_Ontologies.LocalConfig.ImageID_Token
+                    objOItem_SelectedNode = New clsOntologyItem
+                    objOItem_SelectedNode.GUID = objTreeNode.Name
+                    objOItem_SelectedNode.Name = objTreeNode.Text
+                    objOItem_SelectedNode.GUID_Parent = objTreeNode.Parent.Name
+                    objOItem_SelectedNode.Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object
+                
+            End Select
+        End If
+
+        RaiseEvent selected_Node(objOItem_SelectedNode)
     End Sub
 End Class
