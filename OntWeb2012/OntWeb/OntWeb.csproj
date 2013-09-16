@@ -162,6 +162,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet_Config.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DataClasses\AttributeTypeItems.cs" />
+    <Compile Include="DataClasses\ClassItems.cs" />
+    <Compile Include="DataClasses\DataTypes.cs" />
+    <Compile Include="DataClasses\RelationTypeItems.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -170,16 +174,20 @@
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Classes\ElasticSearchConnector.cs" />
+    <Compile Include="DataClasses\Directions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Classes\Globals.cs" />
     <Compile Include="Classes\OntologClasses.cs" />
+    <Compile Include="DataClasses\LogStates.cs" />
+    <Compile Include="DataClasses\OItemTypes.cs" />
     <Compile Include="OntService.asmx.cs">
       <DependentUpon>OntService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DataClasses\QueryFields.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
