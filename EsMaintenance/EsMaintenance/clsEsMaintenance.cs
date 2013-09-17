@@ -276,6 +276,52 @@ namespace EsMaintenance
             
         }
 
+        public clsOntologyItem SaveClassRel(List<Dictionary<string, object>> objDictList)
+        {
+            List<BulkObject> objLBulkObjects = new List<BulkObject>();
+            OperateResult objOPResult;
+            var objTypes = new clsTypes();
+            var objFields = new clsFields();
+            string id;
+
+            foreach (var objDict in objDictList)
+            {
+                id = objDict[objFields.ID_Class_Left].ToString();
+                if (objDict.ContainsKey(objFields.ID_Class_Right))
+                {
+                    if (objDict[objFields.ID_Class_Right] != null)
+                    {
+                        id += objDict[objFields.ID_Class_Right].ToString();    
+                    }
+                    
+                }
+
+                id += objDict[objFields.ID_RelationType].ToString();
+                
+                objLBulkObjects.Add(new BulkObject(objGlobals.Index, objTypes.ClassRel, id, objDict));
+            }
+
+            if (objLBulkObjects.Count > 0)
+            {
+                var objElConn = new ElasticSearch.Client.ElasticSearchClient(objGlobals.Server.ToString(), int.Parse(objGlobals.Port), ElasticSearch.Client.Config.TransportType.Thrift, false);
+                objOPResult = objElConn.Bulk(objLBulkObjects);
+                if (objOPResult.Success)
+                {
+                    return objGlobals.LState_Success;
+                }
+                else
+                {
+                    return objGlobals.LState_Error;
+                }
+            }
+            else
+            {
+                return objGlobals.LState_Nothing;
+            }
+
+
+        }
+
         public clsOntologyItem SaveObjectRel(List<Dictionary<string, object>> objDictList)
         {
             List<BulkObject> objLBulkObjects = new List<BulkObject>();

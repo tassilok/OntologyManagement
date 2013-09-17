@@ -290,7 +290,19 @@ namespace EsMaintenance
                 }
                 else if (objListViewItem.Text == objGlobals.Type_ClassRel)
                 {
-                    
+                    var OItem_Result = objEsMaintenance.SaveClassRel(objDictList);
+                    if (OItem_Result.GUID == objGlobals.LState_Success.GUID)
+                    {
+                        MessageBox.Show("Die Elemente wurden gespeichert!", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (OItem_Result.GUID == objGlobals.LState_Nothing.GUID)
+                    {
+                        MessageBox.Show("Keine Elemente wurden gespeichert!", "Unbekannt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Fehler beim Speichern!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }        
                 }
                 else if (objListViewItem.Text == objGlobals.Type_ObjectAtt)
                 {
