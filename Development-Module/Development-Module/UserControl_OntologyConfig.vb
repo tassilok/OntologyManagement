@@ -3,8 +3,10 @@ Public Class UserControl_OntologyConfig
     Private dtblT_OntologyItems As New DataSet_Development.dtbl_OntologyItemsDataTable
 
     Private objLocalConfig As clsLocalConfig
+    Private objFrmOntologyModule As frmMain
     Private objFrmCodeGenerator As frmCodeGenerator
     Private objDataWork_OntologyConfig As clsDataWork_OntologyConfig
+    Private objTransaction_OntologyConfig As clsTransaction_OntologyConfig
     Private objOItem_Development As clsOntologyItem
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
@@ -52,6 +54,7 @@ Public Class UserControl_OntologyConfig
 
     Private Sub set_DBConnection()
         objDataWork_OntologyConfig = New clsDataWork_OntologyConfig(objLocalConfig)
+        objTransaction_OntologyConfig = New clsTransaction_OntologyConfig(objLocalConfig)
     End Sub
 
     Private Sub DataGridView_ConfigItems_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles DataGridView_ConfigItems.SelectionChanged
@@ -66,5 +69,55 @@ Public Class UserControl_OntologyConfig
         objFrmCodeGenerator = New frmCodeGenerator(objLocalConfig, DataGridView_ConfigItems, objOItem_Development)
         objFrmCodeGenerator.ShowDialog(Me)
 
+    End Sub
+
+    Private Sub ToolStripButton_Add_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Add.Click
+        objFrmOntologyModule = New frmMain(objLocalConfig.Globals)
+        objFrmOntologyModule.ShowDialog(Me)
+
+
+        Dim intToDo As Integer
+        Dim intDone As Integer
+
+        If objFrmOntologyModule.DialogResult = DialogResult.OK Then
+            intToDo = objFrmOntologyModule.OList_Simple.Count
+            intDone = 0
+            For Each objOItem_Item In objFrmOntologyModule.OList_Simple
+                Dim objOItem_OntologyItem = objDataWork_OntologyConfig.get_ConfigItem(objDataWork_OntologyConfig.OItem_Config, objOItem_Item)
+                If Not objOItem_OntologyItem.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    If Not objOItem_OntologyItem.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
+                        If objOItem_OntologyItem.new_Item Then
+                            Dim objOItem_Result = objTransaction_OntologyConfig.save_ConfigItem(objOItem_OntologyItem, True)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objOItem_Result = objTransaction_OntologyConfig.save_ConfigItemToRef(objOItem_OntologyItem, objOItem_Item, True)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objOItem_Result = objTransaction_OntologyConfig.save_ConfigToConfigItem(objDataWork_OntologyConfig.OItem_Config, objOItem_OntologyItem, True)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                        objOItem_Result = objTransaction_OntologyConfig.save_ConfigItemToRef(objOItem_OntologyItem, objOItem_Item, True)
+                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                            intDone = intDone + 1
+                                        Else
+
+                                            objTransaction_OntologyConfig.del_ConfigItem(objOItem_OntologyItem, True)
+                                        End If
+
+                                    End If
+                                Else
+                                    objTransaction_OntologyConfig.del_ConfigItem(objOItem_OntologyItem, True)
+                                End If
+
+                            End If
+                        Else
+                            Dim objOItem_Result = objTransaction_OntologyConfig.save_ConfigToConfigItem(objDataWork_OntologyConfig.OItem_Config, objOItem_OntologyItem, True)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                intDone = intDone + 1
+                            End If
+                        End If
+                    Else
+                        intDone = intDone + 1
+                    End If
+                End If
+            Next
+        End If
     End Sub
 End Class

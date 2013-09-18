@@ -11,12 +11,79 @@ Public Class clsDataWork_OntologyConfig
     Private objDBLevel_ExportMode As clsDBLevel
     Private objLOntologyItems As Object
 
+    Private objOItem_Config As clsOntologyItem
+
+    Public ReadOnly Property OItem_Config As clsOntologyItem
+        Get
+            Return objOItem_Config
+        End Get
+    End Property
+
     Public ReadOnly Property dtbl_OntologyItems As DataSet_Development.dtbl_OntologyItemsDataTable
         Get
             Return dtblT_OntologyItems
         End Get
     End Property
 
+
+    Public Function get_ConfigItem(OItem_Config As clsOntologyItem, OItem_Ref As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_ConfigItem As clsOntologyItem
+        Dim objOR_ConfigItem As New List(Of clsObjectRel)
+
+        objOR_ConfigItem.Add(New clsObjectRel() With {.ID_Object = OItem_Config.GUID, _
+                                                      .ID_Parent_Other = objLocalConfig.OItem_Class_DevelopmentConfigItem.GUID, _
+                                                      .ID_RelationType = objLocalConfig.Oitem_RelationType_contains.GUID})
+
+        Dim objOItem_Result = objDBLevel_ConfigItems.get_Data_ObjectRel(objOR_ConfigItem, boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_ConfigItems.OList_ObjectRel.Any Then
+                objOR_ConfigItem.Clear()
+                objOR_ConfigItem.Add(New clsObjectRel() With {.ID_Parent_Object = objLocalConfig.OItem_Class_DevelopmentConfigItem.GUID, _
+                                                              .ID_Other = OItem_Ref.GUID, _
+                                                              .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID})
+
+                objOItem_Result = objDBLevel_OntologyItems.get_Data_ObjectRel(objOR_ConfigItem, boolIDs:=False)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objDBLevel_OntologyItems.OList_ObjectRel.Any Then
+                        Dim objOLIst_ConfigItems = (From objConfigItem In objDBLevel_ConfigItems.OList_ObjectRel
+                                                    Join objRef In objDBLevel_OntologyItems.OList_ObjectRel On objRef.ID_Object Equals objConfigItem.ID_Other).ToList()
+                        If objOLIst_ConfigItems.Any() Then
+                            objOItem_ConfigItem = objLocalConfig.Globals.LState_Relation
+                        Else
+                            objOItem_ConfigItem = New clsOntologyItem With {.GUID = objDBLevel_OntologyItems.OList_ObjectRel.First().ID_Object, _
+                                                                            .Name = objDBLevel_OntologyItems.OList_ObjectRel.First().Name_Object, _
+                                                                            .GUID_Parent = objDBLevel_OntologyItems.OList_ObjectRel.First().ID_Parent_Object, _
+                                                                            .Type = objLocalConfig.Globals.Type_Object}
+
+                        End If
+
+                    Else
+                        objOItem_ConfigItem = objLocalConfig.Globals.LState_Nothing
+                    End If
+                Else
+                    objOItem_ConfigItem = objLocalConfig.Globals.LState_Error
+                End If
+            Else
+                objOItem_ConfigItem = objLocalConfig.Globals.LState_Nothing
+            End If
+            
+        Else
+            objOItem_ConfigItem = objLocalConfig.Globals.LState_Error
+        End If
+
+        If objOItem_ConfigItem.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+            objOItem_ConfigItem = New clsOntologyItem() With {.GUID = objLocalConfig.Globals.NewGUID, _
+                                                              .Name = OItem_Ref.Name, _
+                                                              .GUID_Parent = objLocalConfig.OItem_Class_DevelopmentConfigItem.GUID, _
+                                                              .Type = objLocalConfig.Globals.Type_Object, _
+                                                              .new_Item = True}
+
+
+        End If
+        Return objOItem_ConfigItem
+    End Function
 
     Public Sub get_ConfigItems(ByVal objOItem_Development As clsOntologyItem)
         Dim objOLConfig As New List(Of clsObjectRel)
@@ -26,6 +93,7 @@ Public Class clsDataWork_OntologyConfig
         Dim objOLSD_To_ExportItems As New List(Of clsObjectRel)
         Dim objOLExportMode As New List(Of clsObjectRel)
 
+        objOItem_Config = Nothing
         dtblT_OntologyItems.Clear()
 
         'Development-Config of Development
@@ -68,6 +136,18 @@ Public Class clsDataWork_OntologyConfig
                                                       boolIDs:=False)
 
             If objDBLevel_ConfigItems.OList_ObjectRel.Count > 0 Then
+
+                Dim objOList_Config = (From objConfig In objDBLevel_Config.OList_ObjectRel_ID
+                                       Join objConfigIem In objDBLevel_ConfigItems.OList_ObjectRel On objConfig.ID_Other Equals objConfigIem.ID_Object
+                                       Group By objConfig.ID_Other, objConfigIem.Name_Object, objConfig.ID_Parent_Other Into Group
+                                       Select New clsOntologyItem() With {.GUID = ID_Other, _
+                                                                          .Name = Name_Object, _
+                                                                          .GUID_Parent = ID_Parent_Other, _
+                                                                          .Type = objLocalConfig.Globals.Type_Object}).ToList()
+                If objOList_Config.Any() Then
+                    objOItem_Config = objOList_Config.First()
+                
+                End If
                 'Ontology-Items
                 objOLOntologyItems.Add(New clsObjectRel(Nothing, _
                                                         Nothing, _

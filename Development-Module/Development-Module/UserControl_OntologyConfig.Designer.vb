@@ -75,13 +75,13 @@ Partial Class UserControl_OntologyConfig
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLBL, Me.ToolStripLabel_Count})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(75, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(78, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_CountLBL
         '
         Me.ToolStripLabel_CountLBL.Name = "ToolStripLabel_CountLBL"
-        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(52, 22)
+        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(53, 22)
         Me.ToolStripLabel_CountLBL.Text = "x_Count:"
         '
         'ToolStripLabel_Count
@@ -107,13 +107,13 @@ Partial Class UserControl_OntologyConfig
         '
         Me.ContextMenuStrip_OItems.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.setExportModeToolStripMenuItem})
         Me.ContextMenuStrip_OItems.Name = "ContextMenuStrip_SemItems"
-        Me.ContextMenuStrip_OItems.Size = New System.Drawing.Size(167, 26)
+        Me.ContextMenuStrip_OItems.Size = New System.Drawing.Size(172, 26)
         '
         'setExportModeToolStripMenuItem
         '
         Me.setExportModeToolStripMenuItem.Enabled = False
         Me.setExportModeToolStripMenuItem.Name = "setExportModeToolStripMenuItem"
-        Me.setExportModeToolStripMenuItem.Size = New System.Drawing.Size(166, 22)
+        Me.setExportModeToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
         Me.setExportModeToolStripMenuItem.Text = "x_set Export-Mode"
         '
         'ToolStrip2
@@ -122,7 +122,7 @@ Partial Class UserControl_OntologyConfig
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Remove, Me.ToolStripSeparator1, Me.ToolStripButton_View})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(116, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(118, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripButton_Add

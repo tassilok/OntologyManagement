@@ -2315,25 +2315,45 @@ Public Class clsDBLevel
             objSearchResult = objElConn.Search(strIndex, objTypes.ClassRel, objBoolQuery.ToString, intPos, intPackageLength)
             If doCount = False Then
                 objList = objSearchResult.GetHits.Hits
+                Dim strField_MaxBackw As String
+                Dim strField_MinForw As String
+                Dim strField_MaxForw As String
 
                 For Each objHit In objList
+                    If objHit.Source.ContainsKey(objFields.Max_Backw) Then
+                        strField_MaxBackw = objFields.Max_Backw
+                    Else
+                        strField_MaxBackw = "Max_Backw"
+                    End If
+
+                    If objHit.Source.ContainsKey(objFields.Min_Forw) Then
+                        strField_MinForw = objFields.Min_Forw
+                    Else
+                        strField_MinForw = "Min_Forw"
+                    End If
+
+                    If objHit.Source.ContainsKey(objFields.Max_Forw) Then
+                        strField_MaxForw = objFields.Max_Forw
+                    Else
+                        strField_MaxForw = "Max_Forw"
+                    End If
 
                     If objHit.Source(objFields.Ontology).ToString = objTypes.Other Then
                         objOntologyList_ClassRel_ID.Add(New clsClassRel(objHit.Source(objFields.ID_Class_Left).ToString, _
                                                                  Nothing, _
                                                                  objHit.Source(objFields.ID_RelationType).ToString, _
                                                                  objHit.Source(objFields.Ontology).ToString, _
-                                                                 objHit.Source(objFields.Min_Forw), _
-                                                                 objHit.Source(objFields.Max_Forw), _
-                                                                 objHit.Source(objFields.Max_Backw)))
+                                                                 objHit.Source(strField_MinForw), _
+                                                                 objHit.Source(strField_MaxForw), _
+                                                                 objHit.Source(strField_MaxBackw)))
                     Else
                         objOntologyList_ClassRel_ID.Add(New clsClassRel(objHit.Source(objFields.ID_Class_Left).ToString, _
                                                                  objHit.Source(objFields.ID_Class_Right).ToString, _
                                                                  objHit.Source(objFields.ID_RelationType).ToString, _
                                                                  objHit.Source(objFields.Ontology).ToString, _
-                                                                 objHit.Source(objFields.Min_forw), _
-                                                                 objHit.Source(objFields.Max_forw), _
-                                                                 objHit.Source(objFields.Max_backw)))
+                                                                 objHit.Source(strField_MinForw), _
+                                                                 objHit.Source(strField_MaxForw), _
+                                                                 objHit.Source(strField_MaxBackw)))
                     End If
 
 
