@@ -121,6 +121,7 @@
     <Compile Include="Classes\Ontologies\clsDataWork_Ontologies.vb" />
     <Compile Include="Classes\Ontologies\clsLocalConfig_Ontologies.vb" />
     <Compile Include="Classes\Ontologies\clsOntologyJoins.vb" />
+    <Compile Include="Classes\Ontologies\clsTransaction_Ontologies.vb" />
     <Compile Include="DataClasses\clsAttributeTypes.vb" />
     <Compile Include="DataClasses\clsClasses.vb" />
     <Compile Include="DataClasses\clsClassTypes.vb" />
@@ -209,6 +210,12 @@
     </Compile>
     <Compile Include="Forms\frmMain.Designer.vb">
       <DependentUpon>frmMain.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Ontologies\frmAttributeTypeOrRelationType.Designer.vb">
+      <DependentUpon>frmAttributeTypeOrRelationType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Ontologies\frmAttributeTypeOrRelationType.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Ontologies\frmOntologyConfigurator.Designer.vb">
@@ -395,6 +402,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Ontologies\frmAttributeTypeOrRelationType.resx">
+      <DependentUpon>frmAttributeTypeOrRelationType.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Ontologies\frmOntologyConfigurator.resx">
       <DependentUpon>frmOntologyConfigurator.vb</DependentUpon>
