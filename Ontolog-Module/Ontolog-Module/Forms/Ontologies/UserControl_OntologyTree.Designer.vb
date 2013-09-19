@@ -29,19 +29,19 @@ Partial Class UserControl_OntologyTree
         Me.ToolStripLabel_CountLbl = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.TreeView_Ontologies = New System.Windows.Forms.TreeView()
+        Me.ContextMenuStrip_Ontologies = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImageList_Ontologies = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_Mark = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Mark = New System.Windows.Forms.ToolStripTextBox()
-        Me.ContextMenuStrip_Ontologies = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        Me.ToolStrip2.SuspendLayout()
         Me.ContextMenuStrip_Ontologies.SuspendLayout()
+        Me.ToolStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -99,6 +99,18 @@ Partial Class UserControl_OntologyTree
         Me.TreeView_Ontologies.Size = New System.Drawing.Size(495, 413)
         Me.TreeView_Ontologies.TabIndex = 0
         '
+        'ContextMenuStrip_Ontologies
+        '
+        Me.ContextMenuStrip_Ontologies.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem})
+        Me.ContextMenuStrip_Ontologies.Name = "ContextMenuStrip_Ontologies"
+        Me.ContextMenuStrip_Ontologies.Size = New System.Drawing.Size(153, 48)
+        '
+        'NewToolStripMenuItem
+        '
+        Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NewToolStripMenuItem.Text = "x_New"
+        '
         'ImageList_Ontologies
         '
         Me.ImageList_Ontologies.ImageStream = CType(resources.GetObject("ImageList_Ontologies.ImageStream"), System.Windows.Forms.ImageListStreamer)
@@ -127,18 +139,6 @@ Partial Class UserControl_OntologyTree
         Me.ToolStripTextBox_Mark.Name = "ToolStripTextBox_Mark"
         Me.ToolStripTextBox_Mark.Size = New System.Drawing.Size(250, 25)
         '
-        'ContextMenuStrip_Ontologies
-        '
-        Me.ContextMenuStrip_Ontologies.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem})
-        Me.ContextMenuStrip_Ontologies.Name = "ContextMenuStrip_Ontologies"
-        Me.ContextMenuStrip_Ontologies.Size = New System.Drawing.Size(109, 26)
-        '
-        'NewToolStripMenuItem
-        '
-        Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
-        Me.NewToolStripMenuItem.Text = "x_New"
-        '
         'UserControl_OntologyTree
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -155,9 +155,9 @@ Partial Class UserControl_OntologyTree
         Me.ToolStripContainer1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
+        Me.ContextMenuStrip_Ontologies.ResumeLayout(False)
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
-        Me.ContextMenuStrip_Ontologies.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub

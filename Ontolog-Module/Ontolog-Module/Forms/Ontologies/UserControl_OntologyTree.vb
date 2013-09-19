@@ -1,8 +1,13 @@
 ﻿Public Class UserControl_OntologyTree
+    Private objFrmName As frm_Name
+
+    Private objTransaction_Ontologies As clsTransaction_Ontologies
     Private objDataWork_Ontologies As clsDataWork_Ontologies
     Private objOItem_Ref As clsOntologyItem
 
     Private objTreeNode_Root As TreeNode
+
+
 
     Public Event selected_Ontology(OItem_Ontology As clsOntologyItem)
 
@@ -17,7 +22,7 @@
     End Sub
 
     Private Sub initialize()
-
+        objTransaction_Ontologies = New clsTransaction_Ontologies(objDataWork_Ontologies)
     End Sub
 
     Public Sub initialize_Ontology(OItem_Ref As clsOntologyItem)
@@ -74,7 +79,7 @@
                                                               objDataWork_Ontologies.LocalConfig.ImageID_OntologyClose, _
                                                               objDataWork_Ontologies.LocalConfig.ImageID_OntologyOpen)
             End If
-            
+
 
         Next
     End Sub
@@ -96,5 +101,68 @@
         End If
 
         RaiseEvent selected_Ontology(objOItem_Ontology)
+    End Sub
+
+    Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
+        Dim objTreeNode As TreeNode
+        Dim boolAdd As Boolean
+
+        objTreeNode = TreeView_Ontologies.SelectedNode
+
+        If Not objTreeNode Is Nothing Then
+            objFrmName = New frm_Name("New Ontology", objDataWork_Ontologies.LocalConfig.Globals)
+            objFrmName.ShowDialog(Me)
+            If objFrmName.DialogResult = DialogResult.OK Then
+                Dim strNameOntology = objFrmName.Value1
+                If Not strNameOntology = "" Then
+                    boolAdd = True
+                    For Each objTreeNode_Sub As TreeNode In objTreeNode.Nodes
+                        If objTreeNode_Sub.Text.ToLower = strNameOntology Then
+                            boolAdd = False
+                            Exit For
+                        End If
+                    Next
+
+                    If boolAdd = True Then
+                        Dim objOItem_Ontology = New clsOntologyItem With {.GUID = objDataWork_Ontologies.LocalConfig.Globals.NewGUID, _
+                                                                          .Name = strNameOntology, _
+                                                                          .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_Ontologies.GUID, _
+                                                                          .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}
+
+                        Dim objOItem_Result = objTransaction_Ontologies.save_Ontology(objOItem_Ontology)
+
+                        If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                            If Not objTreeNode_Root.Name = objTreeNode.Name Then
+                                Dim objOItem_OntologyParent = New clsOntologyItem With {.GUID = objTreeNode.Name, _
+                                                                                        .Name = objTreeNode.Text, _
+                                                                                        .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_Ontologies.GUID, _
+                                                                                        .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}
+
+                                objOItem_Result = objTransaction_Ontologies.save_OntologyToOntology(objOItem_Ontology, objOItem_OntologyParent)
+                                If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                                    fillTree()
+                                Else
+                                    MsgBox("Die Ontologie konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                                    objTransaction_Ontologies.del_Ontology(objOItem_Ontology)
+                                End If
+                            Else
+                                fillTree()
+                            End If
+
+                        Else
+                            MsgBox("Die Ontologie konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                        End If
+
+                    Else
+                        MsgBox("Es existiert bereits eine Ontologie mit diesem Namen!", MsgBoxStyle.Exclamation)
+                    End If
+                Else
+                    MsgBox("Geben Sie bitte einen gültigen Namen ein!", MsgBoxStyle.Exclamation)
+
+                End If
+            End If
+        End If
+
+        
     End Sub
 End Class
