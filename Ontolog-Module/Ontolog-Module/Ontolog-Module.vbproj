@@ -218,6 +218,12 @@
     <Compile Include="Forms\Ontologies\frmAttributeTypeOrRelationType.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\Ontologies\frmJoinSelector.Designer.vb">
+      <DependentUpon>frmJoinSelector.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Ontologies\frmJoinSelector.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Ontologies\frmOntologyConfigurator.Designer.vb">
       <DependentUpon>frmOntologyConfigurator.vb</DependentUpon>
     </Compile>
@@ -405,6 +411,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Ontologies\frmAttributeTypeOrRelationType.resx">
       <DependentUpon>frmAttributeTypeOrRelationType.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Ontologies\frmJoinSelector.resx">
+      <DependentUpon>frmJoinSelector.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Ontologies\frmOntologyConfigurator.resx">
       <DependentUpon>frmOntologyConfigurator.vb</DependentUpon>

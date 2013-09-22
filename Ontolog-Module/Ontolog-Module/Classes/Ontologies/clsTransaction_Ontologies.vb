@@ -5,6 +5,7 @@
     Private objOItem_Ontology As clsOntologyItem
     Private objOItem_OntologyParent As clsOntologyItem
     Private objOItem_Join As clsOntologyItem
+    Private objOItem As clsOntologyItem
     Private objOItem1 As clsOntologyItem
     Private objOItem2 As clsOntologyItem
     Private objOItem3 As clsOntologyItem
@@ -86,7 +87,31 @@
 
     End Function
 
-    Public Function save_JoinToOItem(OItem_Join As clsOntologyItem, OItem As clsOntologyItem, OrderID As Integer, Optional ClearTransaction As Boolean = true) As clsOntologyItem
+    Public Function save_OItem(OItem_OItem As clsOntologyItem, Optional ClearTransaction As Boolean = True)
+        objOItem = OItem_OItem
+
+        If ClearTransaction Then
+            objTransaction.ClearItems()
+        End If
+
+        Dim objOItem_Result = objTransaction.do_Transaction(objOItem)
+
+        Return objOItem_Result
+    End Function
+
+    Public Function del_OItem(OItem_OItem As clsOntologyItem, Optional ClearTransaction As Boolean = True)
+        objOItem = OItem_OItem
+
+        If ClearTransaction Then
+            objTransaction.ClearItems()
+        End If
+
+        Dim objOItem_Result = objTransaction.do_Transaction(objOItem, False, True)
+
+        Return objOItem_Result
+    End Function
+
+    Public Function save_OntologyJoinToOItem(OItem_Join As clsOntologyItem, OItem As clsOntologyItem, OrderID As Integer, Optional ClearTransaction As Boolean = True) As clsOntologyItem
         objOItem_Join = OItem_Join
         Select Case OrderID
             Case 1
@@ -96,26 +121,26 @@
             Case 3
                 objOItem3 = OItem
         End Select
-        
-        Dim objOR_JoinToOItem1Del = new clsObjectRel With{.ID_Object = objOItem_Join.GUID, _
+
+        Dim objOR_JoinToOItem1Del = New clsObjectRel With {.ID_Object = objOItem_Join.GUID, _
                                                           .ID_Parent_Other = objDataWork_Ontologies.LocalConfig.Globals.Class_OntologyItems.GUID, _
                                                           .Ontology = objDataWork_Ontologies.LocalConfig.Globals.Type_Object, _
-                                                          .ID_RelationType= objDataWork_Ontologies.LocalConfig.Globals.RelationType_contains.GUID, _
+                                                          .ID_RelationType = objDataWork_Ontologies.LocalConfig.Globals.RelationType_contains.GUID, _
                                                           .OrderID = OrderID}
 
-        Dim objOR_JoinToOItem1 = new clsObjectRel With {.ID_Object = objOItem_Join.GUID, _
+        Dim objOR_JoinToOItem1 = New clsObjectRel With {.ID_Object = objOItem_Join.GUID, _
                                                         .ID_Parent_Object = objOItem_Join.GUID_Parent, _
                                                         .ID_Other = OItem.GUID, _
                                                         .ID_Parent_Other = OItem.GUID_Parent, _
                                                         .Ontology = objDataWork_Ontologies.LocalConfig.Globals.Type_Object, _
-                                                        .ID_RelationType= objDataWork_Ontologies.LocalConfig.Globals.RelationType_contains.GUID, _
-                                                        .OrderID = OrderID }
+                                                        .ID_RelationType = objDataWork_Ontologies.LocalConfig.Globals.RelationType_contains.GUID, _
+                                                        .OrderID = OrderID}
 
         If ClearTransaction Then
             objTransaction.ClearItems()
         End If
 
-        Dim objOItem_Result = objTransaction.do_Transaction(objOR_JoinToOItem1Del,False,True)
+        Dim objOItem_Result = objTransaction.do_Transaction(objOR_JoinToOItem1Del, False, True)
         If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
             objOItem_Result = objTransaction.do_Transaction(objOR_JoinToOItem1)
         End If
@@ -123,13 +148,13 @@
         Return objOItem_Result
     End Function
 
-    Public Function del_JoinToOItem(OItem_Join As clsOntologyItem, OrderID As Integer, Optional ClearTransaction As Boolean = true) As clsOntologyItem
+    Public Function del_JoinToOItem(OItem_Join As clsOntologyItem, OrderID As Integer, Optional ClearTransaction As Boolean = True) As clsOntologyItem
         objOItem_Join = OItem_Join
 
-        Dim objOR_JoinToOItem1Del = new clsObjectRel With{.ID_Object = objOItem_Join.GUID, _
+        Dim objOR_JoinToOItem1Del = New clsObjectRel With {.ID_Object = objOItem_Join.GUID, _
                                                           .ID_Parent_Other = objDataWork_Ontologies.LocalConfig.Globals.Class_OntologyItems.GUID, _
                                                           .Ontology = objDataWork_Ontologies.LocalConfig.Globals.Type_Object, _
-                                                          .ID_RelationType= objDataWork_Ontologies.LocalConfig.Globals.RelationType_contains.GUID, _
+                                                          .ID_RelationType = objDataWork_Ontologies.LocalConfig.Globals.RelationType_contains.GUID, _
                                                           .OrderID = OrderID}
 
 
@@ -137,7 +162,7 @@
             objTransaction.ClearItems()
         End If
 
-        Dim objOItem_Result = objTransaction.do_Transaction(objOR_JoinToOItem1Del,False,True)
+        Dim objOItem_Result = objTransaction.do_Transaction(objOR_JoinToOItem1Del, False, True)
         If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
             objOItem1 = Nothing
         End If
@@ -145,9 +170,74 @@
         Return objOItem_Result
     End Function
 
+    Public Function save_OntologyJoin(OItem_Join As clsOntologyItem, Optional ClearTransaction As Boolean = True) As clsOntologyItem
+        objOItem_Join = OItem_Join
+
+        If ClearTransaction Then
+            objTransaction.ClearItems()
+        End If
+
+        Dim objOItem_Result = objTransaction.do_Transaction(objOItem_Join)
+
+        Return objOItem_Result
+    End Function
+
+    Public Function del_OntologyJoin(OItem_Join As clsOntologyItem, Optional ClearTransaction As Boolean = True) As clsOntologyItem
+        objOItem_Join = OItem_Join
+
+        If ClearTransaction Then
+            objTransaction.ClearItems()
+        End If
+
+        Dim objOItem_Result = objTransaction.do_Transaction(New clsOntologyItem With {.GUID = OItem_Join.GUID}, False, True)
+
+
+        Return objOItem_Result
+    End Function
+
+    Public Function save_OntologyToOntologyJoin(OItem_Ontology As clsOntologyItem, OItem_Join As clsOntologyItem, Optional ClearTransaction As Boolean = True) As clsOntologyItem
+        objOItem_Join = OItem_Join
+        objOItem_Ontology = OItem_Ontology
+
+        If ClearTransaction Then
+            objTransaction.ClearItems()
+        End If
+
+        Dim objOR_OntologyToJoin = New clsObjectRel With {.ID_Object = objOItem_Ontology.GUID, _
+                                                                .ID_Parent_Object = objOItem_Ontology.GUID_Parent, _
+                                                                .ID_Other = objOItem_Join.GUID, _
+                                                                .ID_Parent_Other = objOItem_Join.GUID_Parent, _
+                                                                .ID_RelationType = objDataWork_Ontologies.LocalConfig.Globals.RelationType_contains.GUID, _
+                                                                .OrderID = 1, _
+                                                                .Ontology = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}
+
+        Dim objOItem_Result = objTransaction.do_Transaction(objOR_OntologyToJoin)
+
+        Return objOItem_Result
+    End Function
+
+    Public Function del_OntologyToOntologyJoin(OItem_Ontology As clsOntologyItem, OItem_Join As clsOntologyItem, Optional ClearTransaction As Boolean = True) As clsOntologyItem
+        objOItem_Join = OItem_Join
+        objOItem_Ontology = OItem_Ontology
+
+        If ClearTransaction Then
+            objTransaction.ClearItems()
+        End If
+
+        Dim objOR_OntologyToOntologyJoin = New List(Of clsObjectRel)
+
+        objOR_OntologyToOntologyJoin.Add(New clsObjectRel With {.ID_Object = objOItem_Ontology.GUID, _
+                                                                .ID_Other = objOItem_Join.GUID, _
+                                                                .ID_RelationType = objDataWork_Ontologies.LocalConfig.Globals.RelationType_contains.GUID})
+
+        Dim objOItem_Result = objTransaction.do_Transaction(objOR_OntologyToOntologyJoin, False, True)
+
+        Return objOItem_Result
+    End Function
+
     Public Sub New(DataWork_Ontologies As clsDataWork_Ontologies)
         objDataWork_Ontologies = DataWork_Ontologies
-        objTransaction = new clsTransaction(objDataWork_Ontologies.LocalConfig.Globals)
+        objTransaction = New clsTransaction(objDataWork_Ontologies.LocalConfig.Globals)
 
     End Sub
 End Class
