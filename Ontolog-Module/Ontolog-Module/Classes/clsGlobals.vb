@@ -156,6 +156,11 @@ Public Class clsGlobals
 
         Return strConn
     End Function
+    Public ReadOnly Property RelationType_isOfType As clsOntologyItem
+        Get
+            Return objRelationTypes.OItem_RelationType_isOfType
+        End Get
+    End Property
 
     Public ReadOnly Property RelationType_contains As clsOntologyItem
         Get

@@ -61,41 +61,48 @@
                                     If objDataWork_Ontologies.OItem_Result_OntologyItemsOfJoins.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                         objDataWork_Ontologies.GetData_003_OntologyItemsOfOntologies()
                                         If objDataWork_Ontologies.OItem_Result_OntologyItemsOfOntologies.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                            objDataWork_Ontologies.GetData_RefsOfOntologyItems()
+                                            objDataWork_Ontologies.GetData_OntologyRelationRulesOfOItems()
                                             If objDataWork_Ontologies.OItem_Result_OntologyRels.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                objDataWork_Ontologies.GetData_OntologyTree()
-                                                If objDataWork_Ontologies.OItem_Result_OntologyTree.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                    objDataWork_Ontologies.GetData_OntologyRelationRulesOfJoins()
-                                                    If objDataWork_Ontologies.OItem_Result_OntologyRelationRulesOfJoins.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                        objUserControl_OntologyRefTree = New UserControl_OntologyRefTree(objDataWork_Ontologies)
-                                                        objUserControl_OntologyRefTree.Dock = DockStyle.Fill
-                                                        SplitContainer1.Panel1.Controls.Add(objUserControl_OntologyRefTree)
+                                                objDataWork_Ontologies.GetData_RefsOfOntologyItems()
+                                                If objDataWork_Ontologies.OItem_OntologyRelationRulesOfOItems.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                    objDataWork_Ontologies.GetData_OntologyTree()
+                                                    If objDataWork_Ontologies.OItem_Result_OntologyTree.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                        objDataWork_Ontologies.GetData_OntologyRelationRulesOfJoins()
+                                                        If objDataWork_Ontologies.OItem_Result_OntologyRelationRulesOfJoins.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                            objUserControl_OntologyRefTree = New UserControl_OntologyRefTree(objDataWork_Ontologies)
+                                                            objUserControl_OntologyRefTree.Dock = DockStyle.Fill
+                                                            SplitContainer1.Panel1.Controls.Add(objUserControl_OntologyRefTree)
 
-                                                        objUserControl_OntologyTree = New UserControl_OntologyTree(objDataWork_Ontologies)
-                                                        objUserControl_OntologyTree.Dock = DockStyle.Fill
-                                                        SplitContainer2.Panel1.Controls.Add(objUserControl_OntologyTree)
+                                                            objUserControl_OntologyTree = New UserControl_OntologyTree(objDataWork_Ontologies)
+                                                            objUserControl_OntologyTree.Dock = DockStyle.Fill
+                                                            SplitContainer2.Panel1.Controls.Add(objUserControl_OntologyTree)
 
-                                                        objUserControl_OntologyItemList = New UserControl_OntologyItemList(objDataWork_Ontologies)
-                                                        objUserControl_OntologyItemList.Dock = DockStyle.Fill
-                                                        TabPage_OntologyItems.Controls.Add(objUserControl_OntologyItemList)
+                                                            objUserControl_OntologyItemList = New UserControl_OntologyItemList(objDataWork_Ontologies)
+                                                            objUserControl_OntologyItemList.Dock = DockStyle.Fill
+                                                            TabPage_OntologyItems.Controls.Add(objUserControl_OntologyItemList)
 
-                                                        objUserControl_OntologyJoins = New UserControl_OntologyJoins(objDataWork_Ontologies)
-                                                        objUserControl_OntologyJoins.Dock = DockStyle.Fill
-                                                        TabPage_OntologyJoins.Controls.Add(objUserControl_OntologyJoins)
+                                                            objUserControl_OntologyJoins = New UserControl_OntologyJoins(objDataWork_Ontologies)
+                                                            objUserControl_OntologyJoins.Dock = DockStyle.Fill
+                                                            TabPage_OntologyJoins.Controls.Add(objUserControl_OntologyJoins)
+                                                        Else
+                                                            objOItem_Open = objLocalConfig.Globals.LState_Error
+                                                            MsgBox("Die Ontologien konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+                                                        End If
+                                                    
                                                     Else
                                                         objOItem_Open = objLocalConfig.Globals.LState_Error
                                                         MsgBox("Die Ontologien konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
                                                     End If
-                                                    
+
                                                 Else
                                                     objOItem_Open = objLocalConfig.Globals.LState_Error
                                                     MsgBox("Die Ontologien konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
                                                 End If
-
-                                            Else
+                                            Else 
                                                 objOItem_Open = objLocalConfig.Globals.LState_Error
                                                 MsgBox("Die Ontologien konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
                                             End If
+                                            
 
                                         Else
                                             objOItem_Open = objLocalConfig.Globals.LState_Error

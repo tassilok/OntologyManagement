@@ -120,6 +120,7 @@
   <ItemGroup>
     <Compile Include="Classes\Ontologies\clsDataWork_Ontologies.vb" />
     <Compile Include="Classes\Ontologies\clsLocalConfig_Ontologies.vb" />
+    <Compile Include="Classes\Ontologies\clsOntologyItemsOfOntologies.vb" />
     <Compile Include="Classes\Ontologies\clsOntologyJoins.vb" />
     <Compile Include="Classes\Ontologies\clsTransaction_Ontologies.vb" />
     <Compile Include="DataClasses\clsAttributeTypes.vb" />
