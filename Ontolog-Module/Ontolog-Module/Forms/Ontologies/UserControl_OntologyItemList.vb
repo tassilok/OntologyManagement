@@ -45,11 +45,16 @@ Public Class UserControl_OntologyItemList
     End Sub
 
     Private Sub ContextMenuStrip_OItems_Opening( sender As Object,  e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_OItems.Opening
+        AddToolStripMenuItem.Enabled = False
         ChangeToolStripMenuItem.Enabled = False
         If DataGridView_OItems.SelectedCells.Count =1 Then
             If DataGridView_OItems.Columns(DataGridView_OItems.SelectedCells(0).ColumnIndex).DataPropertyName = "Name_OntologyRelationRule" Then
                 ChangeToolStripMenuItem.Enabled = True
             End If
+        End If
+
+        If Not objOItem_Ontology Is Nothing Then
+            AddToolStripMenuItem.Enabled = True
         End If
     End Sub
 
@@ -101,6 +106,61 @@ Public Class UserControl_OntologyItemList
             Else 
                 MsgBox("Bitte nur eine Regel auswählen!",MsgBoxStyle.Information)
             End If
+        End If
+    End Sub
+
+    Private Sub AddToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddToolStripMenuItem.Click
+        objFrmMain = New frmMain(objDataWork_Ontologies.LocalConfig.Globals)
+        objFrmMain.Applyable = True
+        If objFrmMain.DialogResult = DialogResult.OK Then
+            Dim intToDo = objFrmMain.OList_Simple.Count
+            Dim intDone = 0
+
+            For Each objOItem In objFrmMain.OList_Simple
+                Dim objOItem_OItem = objDataWork_Ontologies.Get_OntologyItemOfOntology(objOItem_Ontology, objOItem)
+                If objOItem_OItem Is Nothing Then
+                    objOItem_OItem = New clsOntologyItem With {.GUID = objDataWork_Ontologies.LocalConfig.Globals.NewGUID, _
+                                                              .Name = objOItem.Name, _
+                                                              .GUID_Parent = objOItem.GUID_Parent, _
+                                                              .Type = objOItem.Type}
+                    objTransaction.ClearItems()
+
+                    Dim objOItem_Result = objTransaction.do_Transaction(objOItem_OItem)
+                    If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                        Dim objRel_OntologyItemToRef = objDataWork_Ontologies.Rel_OntologyItemToRef(objOItem_OItem, objOItem)
+                        objOItem_Result = objTransaction.do_Transaction(objRel_OntologyItemToRef, True)
+                        If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                            Dim objORel_OntologyItem_To_Ontology = objDataWork_Ontologies.Rel_Ontology_To_OntologyItem(objOItem_Ontology, objOItem_OItem)
+
+                            objOItem_Result = objTransaction.do_Transaction(objORel_OntologyItem_To_Ontology, True)
+
+                            If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                                objDataWork_Ontologies.OList_RefsOfOntologyItems.Add(New clsOntologyItemsOfOntologies With {.ID_Ontology = objOItem_Ontology.GUID, _
+                                                                                                                            .ID_OntologyItem = objOItem_OItem.GUID, _
+                                                                                                                            .ID_Parent_Ref = objOItem.GUID_Parent, _
+                                                                                                                            .ID_Ref = objOItem.GUID, _
+                                                                                                                            .Name_Ref = objOItem.Name, _
+                                                                                                                            .Type_Ref = objOItem.Type})
+
+                                initialize_List(objOItem_Ontology)
+                            Else
+                                objTransaction.rollback()
+                            End If
+
+                        Else
+                            objTransaction.rollback()
+                        End If
+
+                    End If
+
+
+                Else
+                    If objOItem_OItem.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                        intDone += 1
+                    End If
+                End If
+
+            Next
         End If
     End Sub
 End Class

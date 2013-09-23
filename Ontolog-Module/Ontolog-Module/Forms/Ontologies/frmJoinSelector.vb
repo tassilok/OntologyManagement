@@ -10,11 +10,16 @@ Public Class frmJoinSelector
     Public ReadOnly Property OItem_Left As clsOntologyItem
         Get
             If Not objOItem_OItem_Other Is Nothing Then
-                If objOItem_OItem_Other.Direction = objOItem_OItem_Other.Direction_LeftRight Then
+                If objOItem_OItem_RelationType Is Nothing Then
                     Return objOItem_OItem_Class
                 Else
-                    Return objOItem_OItem_Other
+                    If objOItem_OItem_Other.Direction = objOItem_OItem_Other.Direction_LeftRight Then
+                        Return objOItem_OItem_Class
+                    Else
+                        Return objOItem_OItem_Other
+                    End If
                 End If
+                
             Else
                 Return objOItem_OItem_Class
             End If
@@ -25,11 +30,16 @@ Public Class frmJoinSelector
     Public ReadOnly Property OItem_Right As clsOntologyItem
         Get
             If Not objOItem_OItem_Other Is Nothing Then
-                If objOItem_OItem_Other.Direction = objOItem_OItem_Other.Direction_LeftRight Then
+                If objOItem_OItem_RelationType Is Nothing Then
                     Return objOItem_OItem_Other
                 Else
-                    Return objOItem_OItem_Class
+                    If objOItem_OItem_Other.Direction = objOItem_OItem_Other.Direction_LeftRight Then
+                        Return objOItem_OItem_Other
+                    Else
+                        Return objOItem_OItem_Class
+                    End If
                 End If
+                
             Else
                 Return Nothing
             End If
@@ -45,74 +55,109 @@ Public Class frmJoinSelector
 
     Private Sub select_Object(oList_Items As List(Of clsOntologyItem)) Handles objUserControl_ObjectRelTree.selected_Item
         If oList_Items.Count = 2 Then
-            objOItem_OItem_Other = oList_Items(1)
-            objOItem_OItem_Other = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_Other.GUID, _
-                                                                                     objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType)
+            objOItem_OItem_Class = oList_Items(0)
+            objOItem_OItem_Class = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_Class.GUID, _
+                                                                                     objDataWork_Ontologies.LocalConfig.Globals.Type_Class)
 
-            If Not objOItem_OItem_Other.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+            If objOItem_OItem_Class.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                objOItem_OItem_Other = oList_Items(1)
+                objOItem_OItem_Other = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_Other.GUID, _
+                                                                                         objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType)
+
+                If Not objOItem_OItem_Other.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                    objOItem_OItem_Other = Nothing
+                    MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+                End If
+            Else
+                objOItem_OItem_Other = Nothing
+                MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+            End If
+            
+
+
+            objOItem_OItem_RelationType = Nothing
+        ElseIf oList_Items.Count = 4 Then
+            objOItem_OItem_Class = oList_Items(0)
+            objOItem_OItem_Class = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_Class.GUID, _
+                                                                                     objDataWork_Ontologies.LocalConfig.Globals.Type_Class)
+
+            If objOItem_OItem_Class.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                If oList_Items(3).GUID = objDataWork_Ontologies.LocalConfig.Globals.Direction_LeftRight.GUID Then
+                    objOItem_OItem_Other = oList_Items(1)
+
+                    objOItem_OItem_Other = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_Other.GUID, _
+                                                                                         objOItem_OItem_Other.Type)
+
+                    If objOItem_OItem_Other.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                        objOItem_OItem_Other.Direction = objOItem_OItem_Other.Direction_LeftRight
+                    Else
+
+                        objOItem_OItem_Other = Nothing
+                        MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+                    End If
+
+                    objOItem_OItem_RelationType = oList_Items(2)
+                    objOItem_OItem_RelationType = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_RelationType.GUID, _
+                                                                                         objOItem_OItem_RelationType.Type)
+
+                    If Not objOItem_OItem_RelationType.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+
+                        objOItem_OItem_RelationType = Nothing
+                        MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+                    End If
+                ElseIf oList_Items(3).GUID = objDataWork_Ontologies.LocalConfig.Globals.Direction_RightLeft.GUID Then
+                    objOItem_OItem_Class = oList_Items(0)
+
+                    objOItem_OItem_Other = oList_Items(1)
+                    objOItem_OItem_Other = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_Other.GUID, _
+                                                                                         objOItem_OItem_Other.Type)
+
+                    If objOItem_OItem_Other.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                        objOItem_OItem_Other.Direction = objOItem_OItem_Other.Direction_RightLeft
+                    Else
+
+                        objOItem_OItem_Other = Nothing
+                        MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+                    End If
+
+                    objOItem_OItem_RelationType = oList_Items(2)
+                    objOItem_OItem_RelationType = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_RelationType.GUID, _
+                                                                                         objOItem_OItem_RelationType.Type)
+
+                    If Not objOItem_OItem_RelationType.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+
+                        objOItem_OItem_RelationType = Nothing
+                        MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+                    End If
+
+                End If
+            Else
                 objOItem_OItem_Other = Nothing
                 MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
             End If
 
-        ElseIf oList_Items.Count = 4 Then
-            If oList_Items(3).GUID = objDataWork_Ontologies.LocalConfig.Globals.Direction_LeftRight.GUID Then
-                objOItem_OItem_Other = oList_Items(1)
-
-                objOItem_OItem_Other = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_Other.GUID, _
-                                                                                     objDataWork_Ontologies.LocalConfig.Globals.Type_Class)
-
-                If objOItem_OItem_Other.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                    objOItem_OItem_Other.Direction = objOItem_OItem_Other.Direction_LeftRight
-                Else
-
-                    objOItem_OItem_Other = Nothing
-                    MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
-                End If
-
-                objOItem_OItem_RelationType = oList_Items(2)
-                objOItem_OItem_RelationType = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_RelationType.GUID, _
-                                                                                     objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType)
-
-                If Not objOItem_OItem_RelationType.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-
-                    objOItem_OItem_RelationType = Nothing
-                    MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
-                End If
-            ElseIf oList_Items(3).GUID = objDataWork_Ontologies.LocalConfig.Globals.Direction_RightLeft.GUID Then
-                objOItem_OItem_Other = oList_Items(1)
-                objOItem_OItem_Other = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_Other.GUID, _
-                                                                                     objDataWork_Ontologies.LocalConfig.Globals.Type_Class)
-
-                If objOItem_OItem_Other.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                    objOItem_OItem_Other.Direction = objOItem_OItem_Other.Direction_RightLeft
-                Else
-
-                    objOItem_OItem_Other = Nothing
-                    MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
-                End If
-
-                objOItem_OItem_RelationType = oList_Items(2)
-                objOItem_OItem_RelationType = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_RelationType.GUID, _
-                                                                                     objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType)
-
-                If Not objOItem_OItem_RelationType.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-
-                    objOItem_OItem_RelationType = Nothing
-                    MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
-                End If
-
-            End If
+            
         Else
-            objOItem_OItem_RelationType = oList_Items(0)
+            objOItem_OItem_Class = oList_Items(0)
+            objOItem_OItem_Class = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_Class.GUID, _
+                                                                                     objDataWork_Ontologies.LocalConfig.Globals.Type_Class)
 
-            objOItem_OItem_RelationType = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_RelationType.GUID, _
-                                                                                     objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType)
+            If objOItem_OItem_Class.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                objOItem_OItem_RelationType = oList_Items(1)
 
-            If objOItem_OItem_RelationType.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                objOItem_OItem_RelationType = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_RelationType.GUID, _
+                                                                                         objOItem_OItem_RelationType.Type)
 
+                If Not objOItem_OItem_RelationType.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+
+                    objOItem_OItem_RelationType = Nothing
+                    MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+                End If
+            Else
                 objOItem_OItem_RelationType = Nothing
                 MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
             End If
+            
         End If
 
         Configure_Apply()

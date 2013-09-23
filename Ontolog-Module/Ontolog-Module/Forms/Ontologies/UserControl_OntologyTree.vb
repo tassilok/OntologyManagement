@@ -1,7 +1,7 @@
 ﻿Public Class UserControl_OntologyTree
     Private objFrmName As frm_Name
 
-    Private objTransaction_Ontologies As clsTransaction_Ontologies
+    Private objTransaction_Ontologies As clsTransaction
     Private objDataWork_Ontologies As clsDataWork_Ontologies
     Private objOItem_Ref As clsOntologyItem
 
@@ -22,7 +22,7 @@
     End Sub
 
     Private Sub initialize()
-        objTransaction_Ontologies = New clsTransaction_Ontologies(objDataWork_Ontologies)
+        objTransaction_Ontologies = New clsTransaction(objDataWork_Ontologies.LocalConfig.Globals)
     End Sub
 
     Public Sub initialize_Ontology(OItem_Ref As clsOntologyItem)
@@ -129,7 +129,8 @@
                                                                           .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_Ontologies.GUID, _
                                                                           .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}
 
-                        Dim objOItem_Result = objTransaction_Ontologies.save_Ontology(objOItem_Ontology)
+                        objTransaction_Ontologies.ClearItems()
+                        Dim objOItem_Result = objTransaction_Ontologies.do_Transaction(objOItem_Ontology)
 
                         If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
                             If Not objTreeNode_Root.Name = objTreeNode.Name Then
@@ -138,15 +139,31 @@
                                                                                         .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_Ontologies.GUID, _
                                                                                         .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}
 
-                                objOItem_Result = objTransaction_Ontologies.save_OntologyToOntology(objOItem_Ontology, objOItem_OntologyParent)
+                                Dim objOR_Ontology_To_Ontology = objDataWork_Ontologies.Rel_Ontology_To_Ontolgy(objOItem_OntologyParent, objOItem_Ontology)
+
+                                objOItem_Result = objTransaction_Ontologies.do_Transaction(objOR_Ontology_To_Ontology)
                                 If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                                    objDataWork_Ontologies.GetData_Ontologies()
+                                    objDataWork_Ontologies.GetData_OntologyRefs()
                                     fillTree()
+                                    
+
                                 Else
                                     MsgBox("Die Ontologie konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
-                                    objTransaction_Ontologies.del_Ontology(objOItem_Ontology)
+                                    objTransaction_Ontologies.rollback()
                                 End If
-                            Else
+                                
+                            End If
+                            Dim objOR_Ontology_To_Ref = objDataWork_Ontologies.Rel_Ontology_To_Ref(objOItem_Ref, objOItem_Ontology)
+
+                            objOItem_Result = objTransaction_Ontologies.do_Transaction(objOR_Ontology_To_Ref)
+                            If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                                objDataWork_Ontologies.GetData_Ontologies()
+                                objDataWork_Ontologies.GetData_OntologyRefs()
                                 fillTree()
+                            Else
+                                MsgBox("Die Ontologie konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                                objTransaction_Ontologies.rollback()
                             End If
 
                         Else

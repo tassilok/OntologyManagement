@@ -33,12 +33,15 @@ Partial Class UserControl_OntologyRefTree
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_Mark = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Mark = New System.Windows.Forms.ToolStripTextBox()
+        Me.ContextMenuStrip_Refs = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.ToolStrip2.SuspendLayout()
+        Me.ContextMenuStrip_Refs.SuspendLayout()
         Me.SuspendLayout()
         '
         'ImageList_RelatedItems
@@ -108,6 +111,7 @@ Partial Class UserControl_OntologyRefTree
         '
         'TreeView_Ontologies
         '
+        Me.TreeView_Ontologies.ContextMenuStrip = Me.ContextMenuStrip_Refs
         Me.TreeView_Ontologies.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TreeView_Ontologies.ImageIndex = 0
         Me.TreeView_Ontologies.ImageList = Me.ImageList_RelatedItems
@@ -137,12 +141,24 @@ Partial Class UserControl_OntologyRefTree
         Me.ToolStripTextBox_Mark.Name = "ToolStripTextBox_Mark"
         Me.ToolStripTextBox_Mark.Size = New System.Drawing.Size(250, 25)
         '
-        'UserControl_OntologyTree
+        'ContextMenuStrip_Refs
+        '
+        Me.ContextMenuStrip_Refs.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem})
+        Me.ContextMenuStrip_Refs.Name = "ContextMenuStrip_Refs"
+        Me.ContextMenuStrip_Refs.Size = New System.Drawing.Size(109, 26)
+        '
+        'NewToolStripMenuItem
+        '
+        Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NewToolStripMenuItem.Text = "x_New"
+        '
+        'UserControl_OntologyRefTree
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.ToolStripContainer1)
-        Me.Name = "UserControl_OntologyTree"
+        Me.Name = "UserControl_OntologyRefTree"
         Me.Size = New System.Drawing.Size(555, 472)
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
         Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
@@ -155,6 +171,7 @@ Partial Class UserControl_OntologyRefTree
         Me.ToolStrip1.PerformLayout()
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
+        Me.ContextMenuStrip_Refs.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -167,5 +184,7 @@ Partial Class UserControl_OntologyRefTree
     Friend WithEvents ToolStrip2 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripLabel_Mark As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripTextBox_Mark As System.Windows.Forms.ToolStripTextBox
+    Friend WithEvents ContextMenuStrip_Refs As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents NewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

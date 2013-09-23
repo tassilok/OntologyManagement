@@ -63,6 +63,7 @@
         objOItem_RelationType_belongingObject = New clsOntologyItem("f68a9438fb8b418d8e0bd9aefc9ecdf3", "belonging Object", objTypes.RelationType)
         objOItem_RelationType_belonging = New clsOntologyItem("796712399c8f493cb5e749700f9543f4", "belonging", objTypes.RelationType)
         objOItem_RelationType_belongingResource = New clsOntologyItem("92619f7ecbf342308ca34b7e7e8883f6", "belonging Resource", objTypes.RelationType)
-        objOItem_RelationType_isOfType = new clsOntologyItem("9996494aef6a4357a6ef71a92b5ff596", "is of Type", objTypes.RelationType)
+        objOItem_RelationType_isOfType = New clsOntologyItem("9996494aef6a4357a6ef71a92b5ff596", "is of Type", objTypes.RelationType)
+
     End Sub
 End Class

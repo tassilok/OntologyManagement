@@ -75,13 +75,42 @@ Public Class UserControl_OntologyJoins
                     objFrmOntologyModule.ShowDialog(me)
                     If objFrmOntologyModule.OList_Simple.Count=1 Then
                         If objFrmOntologyModule.OList_Simple.First().Type =objDataWork_Ontologies.LocalConfig.Globals.Type_Object Then
-                            
+                            If objFrmOntologyModule.OList_Simple.First().GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_OntologyRelationRule.GUID Then
+                                Dim objOItem_Rule = objFrmOntologyModule.OList_Simple.First()
+                                Dim objOItem_Join = New clsOntologyItem With {.GUID = objOntologyJoin.ID_Join, _
+                                                                              .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_OntologyJoin.GUID, _
+                                                                              .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}
+
+                                objOItem_Join = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOntologyJoin.ID_Join, objDataWork_Ontologies.LocalConfig.Globals.Type_Object)
+                                If Not objOItem_Join Is Nothing Then
+                                    If objOItem_Join.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                                        Dim objOR_JoinToRule = objDataWork_Ontologies.Rel_OntologyJoinToRule(objOItem_Join, objOItem_Rule)
+                                        objTransaction_Ontologies.ClearItems()
+                                        Dim objOItem_Result = objTransaction_Ontologies.do_Transaction(objOR_JoinToRule, True)
+                                        If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+
+                                            initialize_Joins(objOItem_Ontology)
+                                        Else
+                                            objTransaction_Ontologies.rollback()
+                                            MsgBox("Die Regel konnte nicht hinzugefügt werden!", MsgBoxStyle.Exclamation)
+                                        End If
+                                    Else
+                                        MsgBox("Die Regel konnte nicht hinzugefügt werden!", MsgBoxStyle.Exclamation)
+                                    End If
+                                Else
+                                    MsgBox("Die Regel konnte nicht hinzugefügt werden!", MsgBoxStyle.Exclamation)
+                                End If
+
+
+                            Else
+                                MsgBox("Bitte nur eine Regel auswählen!", MsgBoxStyle.Exclamation)
+                            End If
 
                         Else
-                            MsgBox("Bitte nur eine Klasse auswählen!", MsgBoxStyle.Exclamation)
+                            MsgBox("Bitte nur eine Regel auswählen!", MsgBoxStyle.Exclamation)
                         End If
                     Else
-                        MsgBox("Bitte nur eine Klasse auswählen!", MsgBoxStyle.Exclamation)
+                        MsgBox("Bitte nur eine Regel auswählen!", MsgBoxStyle.Exclamation)
                     End If
 
                 Case "Name_OItem1"
@@ -129,7 +158,7 @@ Public Class UserControl_OntologyJoins
             objFrmJoinSelector = New frmJoinSelector(objDataWork_Ontologies)
             objFrmJoinSelector.ShowDialog(Me)
             If objFrmJoinSelector.DialogResult = DialogResult.OK Then
-                Dim objOItem_Join = objDataWork_Ontologies.GetData_OntologyItemsOfJoinsExplicit(objFrmJoinSelector.OItem_Left, objFrmJoinSelector.OItem_Right, objFrmJoinSelector.OItem_RelationType)
+                Dim objOItem_Join = objDataWork_Ontologies.GetData_OntologyItemsOfJoinsExplicit(objOItem_Ontology, objFrmJoinSelector.OItem_Left, objFrmJoinSelector.OItem_Right, objFrmJoinSelector.OItem_RelationType)
 
                 If objOItem_Join Is Nothing Then
                     objOItem_Join = New clsOntologyItem With {.GUID = objDataWork_Ontologies.LocalConfig.Globals.NewGUID, _
@@ -140,42 +169,58 @@ Public Class UserControl_OntologyJoins
                     objTransaction_Ontologies.ClearItems()
                     objOItem_Result = objTransaction_Ontologies.do_Transaction(objOItem_Join)
                     If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                        objOItem_OItemLeft = objDataWork_Ontologies.GetData_OntologyItemOfRef(objFrmJoinSelector.OItem_Left)
-                        If objOItem_OItemLeft.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Nothing.GUID Then
-                            objOItem_OItemLeft = objFrmJoinSelector.OItem_Left
+                        objOItem_OItemLeft = objDataWork_Ontologies.Get_OntologyItemOfOntology(objOItem_Ontology, objFrmJoinSelector.OItem_Left)
+                        If objOItem_OItemLeft Is Nothing Then
+                            objOItem_OItemLeft = New clsOntologyItem With {.GUID = objDataWork_Ontologies.LocalConfig.Globals.NewGUID, _
+                                                                       .Name = objFrmJoinSelector.OItem_Left.Name, _
+                                                                       .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_OntologyItems.GUID, _
+                                                                       .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}
+
                             objOItem_Result = objTransaction_Ontologies.do_Transaction(objOItem_OItemLeft)
                             If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
                                 Dim objORel_OItemToRef = objDataWork_Ontologies.Rel_OntologyItemToRef(objOItem_OItemLeft, objFrmJoinSelector.OItem_Left)
                                 objOItem_Result = objTransaction_Ontologies.do_Transaction(objORel_OItemToRef, True)
 
                             End If
-
-                        ElseIf objOItem_OItemLeft.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                            objOItem_Result = objDataWork_Ontologies.LocalConfig.Globals.LState_Success
                         Else
-                            objOItem_Result = objDataWork_Ontologies.LocalConfig.Globals.LState_Error
+                            If objOItem_OItemLeft.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                                objOItem_Result = objDataWork_Ontologies.LocalConfig.Globals.LState_Success
+                            Else
+                                objOItem_Result = objDataWork_Ontologies.LocalConfig.Globals.LState_Error
+                            End If
                         End If
-
+                        
                         If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
                             Dim objORel_OntologyJoinToOItemLeft = objDataWork_Ontologies.Rel_OntologyJoinToOItem(objOItem_Join, objOItem_OItemLeft, 1)
                             objOItem_Result = objTransaction_Ontologies.do_Transaction(objORel_OntologyJoinToOItemLeft)
                             If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
                                 If Not objFrmJoinSelector.OItem_Right Is Nothing Then
-                                    objOItem_OItemRight = objDataWork_Ontologies.GetData_OntologyItemOfRef(objFrmJoinSelector.OItem_Right)
-                                    If objOItem_OItemRight.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Nothing.GUID Then
-                                        objOItem_OItemRight = objFrmJoinSelector.OItem_Right
+                                    objOItem_OItemRight = objDataWork_Ontologies.Get_OntologyItemOfOntology(objOItem_Ontology, objFrmJoinSelector.OItem_Right)
+                                    If objOItem_OItemRight Is Nothing Then
+                                        objOItem_OItemRight = New clsOntologyItem With {.GUID = objDataWork_Ontologies.LocalConfig.Globals.NewGUID, _
+                                                                       .Name = objFrmJoinSelector.OItem_Right.Name, _
+                                                                       .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_OntologyItems.GUID, _
+                                                                       .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}
+
                                         objOItem_Result = objTransaction_Ontologies.do_Transaction(objOItem_OItemRight)
                                         If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
                                             Dim objORel_OItemToRef = objDataWork_Ontologies.Rel_OntologyItemToRef(objOItem_OItemRight, objFrmJoinSelector.OItem_Right)
                                             objOItem_Result = objTransaction_Ontologies.do_Transaction(objORel_OItemToRef, True)
 
+                                            If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                                                Dim objORel_OntologyJoinToOItemRight = objDataWork_Ontologies.Rel_OntologyJoinToOItem(objOItem_Join, objOItem_OItemRight, 2)
+                                                objOItem_Result = objTransaction_Ontologies.do_Transaction(objORel_OntologyJoinToOItemRight)
+                                            End If
+                                            
                                         End If
-                                    ElseIf objOItem_OItemLeft.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                                        objOItem_Result = objDataWork_Ontologies.LocalConfig.Globals.LState_Success
                                     Else
-                                        objOItem_Result = objDataWork_Ontologies.LocalConfig.Globals.LState_Error
+                                        If objOItem_OItemRight.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                                            objOItem_Result = objDataWork_Ontologies.LocalConfig.Globals.LState_Success
+                                        Else
+                                            objOItem_Result = objDataWork_Ontologies.LocalConfig.Globals.LState_Error
+                                        End If
                                     End If
-
+                                    
 
                                 Else
                                     objOItem_OItemRight = Nothing
@@ -183,74 +228,73 @@ Public Class UserControl_OntologyJoins
                                 End If
 
                                 If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                                    Dim objORel_OntologyJoinToOItemRight = objDataWork_Ontologies.Rel_OntologyJoinToOItem(objOItem_Join, objOItem_OItemRight, 2)
-                                    objOItem_Result = objTransaction_Ontologies.do_Transaction(objORel_OntologyJoinToOItemRight)
-                                    If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                                        If Not objFrmJoinSelector.OItem_Right Is Nothing Then
-                                            objOItem_OItemRelationType = objDataWork_Ontologies.GetData_OntologyItemOfRef(objFrmJoinSelector.OItem_RelationType)
-                                            If objOItem_OItemRelationType.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Nothing.GUID Then
-                                                objOItem_OItemRelationType = objFrmJoinSelector.OItem_Right
-                                                objOItem_Result = objTransaction_Ontologies.do_Transaction(objOItem_OItemRelationType)
-                                                If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                                                    Dim objORel_OItemToRef = objDataWork_Ontologies.Rel_OntologyItemToRef(objOItem_OItemRelationType, objFrmJoinSelector.OItem_RelationType)
-                                                    objOItem_Result = objTransaction_Ontologies.do_Transaction(objORel_OItemToRef, True)
+                                    If Not objFrmJoinSelector.OItem_RelationType Is Nothing Then
+                                        objOItem_OItemRelationType = objDataWork_Ontologies.Get_OntologyItemOfOntology(objOItem_Ontology, objFrmJoinSelector.OItem_RelationType)
+                                        If objOItem_OItemRelationType Is Nothing Then
+                                            objOItem_OItemRelationType = New clsOntologyItem With {.GUID = objDataWork_Ontologies.LocalConfig.Globals.NewGUID, _
+                                                                   .Name = objFrmJoinSelector.OItem_RelationType.Name, _
+                                                                   .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_OntologyItems.GUID, _
+                                                                   .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}
 
-                                                End If
-                                            ElseIf objOItem_OItemLeft.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+
+                                            objOItem_Result = objTransaction_Ontologies.do_Transaction(objOItem_OItemRelationType)
+                                            If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                                                Dim objORel_OItemToRef = objDataWork_Ontologies.Rel_OntologyItemToRef(objOItem_OItemRelationType, objFrmJoinSelector.OItem_RelationType)
+                                                objOItem_Result = objTransaction_Ontologies.do_Transaction(objORel_OItemToRef, True)
+
+                                            End If
+                                        Else
+                                            If objOItem_OItemRelationType.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
                                                 objOItem_Result = objDataWork_Ontologies.LocalConfig.Globals.LState_Success
                                             Else
                                                 objOItem_Result = objDataWork_Ontologies.LocalConfig.Globals.LState_Error
                                             End If
-
-                                            If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                                                Dim objORel_OntologyJoinToOItemRelationType = objDataWork_Ontologies.Rel_OntologyJoinToOItem(objOItem_Join, objOItem_OItemRelationType, 3)
-                                                objOItem_Result = objTransaction_Ontologies.do_Transaction(objORel_OntologyJoinToOItemRelationType)
-
-                                                If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                                                    Dim objORel_OntologyToOntologyJoin =  objDataWork_Ontologies.Rel_OntologyToOntologyJoin(objOItem_Ontology, objOItem_Join)
-                                                    objOItem_Result = objTransaction_Ontologies.do_Transaction(objORel_OntologyToOntologyJoin)
-                                                    If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                                                        initialize_Joins(objOItem_Ontology)
-                                                    Else 
-                                                        objTransaction_Ontologies.rollback()
-                                                        MsgBox("Der Join konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
-                                                    End If
-                                                    
-                                                Else
-                                                    objTransaction_Ontologies.rollback()
-                                                    MsgBox("Der Join konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
-                                                End If
-                                            Else
-
-                                                objTransaction_Ontologies.rollback()
-                                                MsgBox("Der Join konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
-                                            End If
-                                        Else
-                                            objOItem_OItemRight = Nothing
-                                            objOItem_Result = objDataWork_Ontologies.LocalConfig.Globals.LState_Success
                                         End If
 
+
                                         If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                                            If Not objFrmJoinSelector.OItem_Right Is Nothing Then
-                                                objORel_OntologyJoinToOItemRight = objDataWork_Ontologies.Rel_OntologyJoinToOItem(objOItem_Join, objOItem_OItemRight, 2)
-                                                objOItem_Result = objTransaction_Ontologies.do_Transaction(objORel_OntologyJoinToOItemRight)
+                                            Dim objORel_OntologyJoinToOItemRelationType = objDataWork_Ontologies.Rel_OntologyJoinToOItem(objOItem_Join, objOItem_OItemRelationType, 3)
+                                            objOItem_Result = objTransaction_Ontologies.do_Transaction(objORel_OntologyJoinToOItemRelationType)
 
-                                            End If
 
-                                            If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-
-                                            Else
-                                                objTransaction_Ontologies.rollback()
-                                                MsgBox("Der Join konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
-                                            End If
                                         Else
+
                                             objTransaction_Ontologies.rollback()
                                             MsgBox("Der Join konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
                                         End If
                                     Else
-                                        objTransaction_Ontologies.rollback()
-                                        MsgBox("Der Join konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                                        objOItem_OItemRelationType = Nothing
+                                        objOItem_Result = objDataWork_Ontologies.LocalConfig.Globals.LState_Success
                                     End If
+                                    If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+
+                                        Dim objORel_OntologyToOntologyJoin = objDataWork_Ontologies.Rel_OntologyToOntologyJoin(objOItem_Ontology, objOItem_Join)
+                                        objOItem_Result = objTransaction_Ontologies.do_Transaction(objORel_OntologyToOntologyJoin)
+                                        If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                                            objDataWork_Ontologies.OList_OntologyJoins.Add(New clsOntologyJoins With {.ID_Join = objOItem_Join.GUID, _
+                                                                                                                      .Name_Join = objOItem_Join.Name, _
+                                                                                                                      .ID_OItem1 = objOItem_OItemLeft.GUID, _
+                                                                                                                      .Name_OItem1 = objOItem_OItemLeft.Name, _
+                                                                                                                      .ID_ParentOItem1 = objOItem_OItemLeft.GUID_Parent, _
+                                                                                                                      .Ontology_OItem1 = objOItem_OItemLeft.Type, _
+                                                                                                                      .ID_OItem2 = If(objOItem_OItemRight Is Nothing, Nothing, objOItem_OItemRight.GUID), _
+                                                                                                                      .Name_OItem2 = If(objOItem_OItemRight Is Nothing, Nothing, objOItem_OItemRight.Name), _
+                                                                                                                      .ID_ParentOItem2 = If(objOItem_OItemRight Is Nothing, Nothing, objOItem_OItemRight.GUID_Parent), _
+                                                                                                                      .Ontology_OItem2 = If(objOItem_OItemRight Is Nothing, Nothing, objOItem_OItemRight.Type), _
+                                                                                                                      .ID_OItem3 = If(objOItem_OItemRelationType Is Nothing, Nothing, objOItem_OItemRelationType.GUID), _
+                                                                                                                      .Name_OItem3 = If(objOItem_OItemRelationType Is Nothing, Nothing, objOItem_OItemRelationType.Name), _
+                                                                                                                      .Ontology_OItem3 = If(objOItem_OItemRelationType Is Nothing, Nothing, objOItem_OItemRelationType.Type), _
+                                                                                                                      .ID_Ontology = objOItem_Ontology.GUID})
+
+
+                                            initialize_Joins(objOItem_Ontology)
+                                        Else
+                                            objTransaction_Ontologies.rollback()
+                                            MsgBox("Der Join konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                                        End If
+                                    End If
+
+
 
 
 
@@ -262,7 +306,7 @@ Public Class UserControl_OntologyJoins
                                 objTransaction_Ontologies.rollback()
                                 MsgBox("Der Join konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
                             End If
-                            
+
 
                         Else
                             objTransaction_Ontologies.rollback()

@@ -257,6 +257,10 @@ namespace EsMaintenance
                         strFieldName = (strFieldName == "val_Named" ? objFields.Val_Name : strFieldName);
                         strFieldName = (strFieldName == "Val_Double" ? objFields.Val_Real : strFieldName);
 
+                        strFieldName = (strFieldName == "GUID" ? objFields.ID_Item : strFieldName);
+                        strFieldName = (strFieldName == "GUID_Parent" ? objFields.ID_Class : strFieldName);
+                        strFieldName = (strFieldName == "Name" ? objFields.Name_Item : strFieldName);
+
                         objDict.Add(strFieldName, objDGVR.Cells[objColumn.DataPropertyName].Value);
                         
                     }
@@ -278,7 +282,19 @@ namespace EsMaintenance
                 }
                 else if (objListViewItem.Text == objGlobals.Type_Object)
                 {
-                    
+                    var OItem_Result = objEsMaintenance.SaveObject(objDictList);
+                    if (OItem_Result.GUID == objGlobals.LState_Success.GUID)
+                    {
+                        MessageBox.Show("Die Elemente wurden gespeichert!", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (OItem_Result.GUID == objGlobals.LState_Nothing.GUID)
+                    {
+                        MessageBox.Show("Keine Elemente wurden gespeichert!", "Unbekannt", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Fehler beim Speichern!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }        
                 }
                 else if (objListViewItem.Text == objGlobals.Type_RelationType)
                 {
