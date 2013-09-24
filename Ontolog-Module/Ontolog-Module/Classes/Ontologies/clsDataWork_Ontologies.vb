@@ -41,17 +41,23 @@ Public Class clsDataWork_Ontologies
     Dim objOList_Ontologies As New List(Of clsOntologyItem)
     Dim objOList_RefsOfOntology As New List(Of clsOntologyItem)
     Dim objOList_RefsOfOntologyItems As New List(Of clsOntologyItemsOfOntologies)
-    Dim objOList_Joins As New SortableBindingList(Of clsOntologyJoins)
+    Dim objOList_Joins As New List(Of clsOntologyJoins)
 
     Private objClasses As New clsClasses
     Private objRelationTypes As New clsRelationTypes
     Private objFields As New clsFields
 
-    Public ReadOnly Property OList_OntologyJoins As SortableBindingList(Of clsOntologyJoins)
+    Public Property OList_OntologyJoins As List(Of clsOntologyJoins)
         Get
             Return objOList_Joins
         End Get
+        Set(value As List(Of clsOntologyJoins))
+            objOList_Joins = value
+        End Set
+
     End Property
+
+    
 
     Public ReadOnly Property OList_RefsOfOntologyItems As List(Of clsOntologyItemsOfOntologies)
         Get
@@ -957,9 +963,10 @@ Public Class clsDataWork_Ontologies
                                                                   .Type = objRef.Ontology}).ToList()
 
 
-            objOList_Joins = New SortableBindingList(Of clsOntologyJoins)((From objJoin In objDBLevel_OntologyJoinsOfOntologies.OList_ObjectRel_ID
+            objOList_Joins = New List(Of clsOntologyJoins)((From objJoin In objDBLevel_OntologyJoinsOfOntologies.OList_ObjectRel_ID
                                                                             Join objOItem1 In OList_OItems1 On objOItem1.GUID_Related Equals objJoin.ID_Other
-                                                                            Join objOItem2 In OList_OItems2 On objOItem2.GUID_Related Equals objJoin.ID_Other
+                                                                            group Join objOItem2 In OList_OItems2 On objOItem2.GUID_Related Equals objJoin.ID_Other Into objOItems2 = Group
+                                                                            From objOItem2 In objOItems2
                                                                             Group Join objOItem3 In OList_OItems3 On objOItem3.GUID_Related Equals objJoin.ID_Other Into objOItems3 = Group
                                                                             From objOItem3 In objOItems3.DefaultIfEmpty()
                                                                             Group Join objOntologRelationRule In objDBLevel_OntologyRelationRules.OList_ObjectRel On objOntologRelationRule.ID_Object Equals objJoin.ID_Other Into objRules = Group

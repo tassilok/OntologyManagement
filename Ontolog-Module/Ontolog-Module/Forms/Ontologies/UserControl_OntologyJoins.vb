@@ -88,7 +88,27 @@ Public Class UserControl_OntologyJoins
                                         objTransaction_Ontologies.ClearItems()
                                         Dim objOItem_Result = objTransaction_Ontologies.do_Transaction(objOR_JoinToRule, True)
                                         If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-
+                                            Dim objUpd = (From objJoin In objDataWork_Ontologies.OList_OntologyJoins
+                                                         Select New clsOntologyJoins With {.ID_Join = objJoin.ID_Join, _
+                                                                                           .ID_OItem1 = objJoin.ID_OItem1, _
+                                                                                           .ID_OItem2 = objJoin.ID_OItem2, _
+                                                                                           .ID_OItem3 = objJoin.ID_OItem3, _
+                                                                                           .ID_Ontology = objJoin.ID_Ontology, _
+                                                                                           .ID_OntologyRelationRule = If (objjoin.ID_Join = objoitem_join.GUID, objOItem_Rule.GUID, objJoin.ID_OntologyRelationRule), _
+                                                                                           .ID_ParentOItem1 = objJoin.ID_ParentOItem1, _
+                                                                                           .ID_ParentOItem2 = objJoin.ID_ParentOItem2, _
+                                                                                           .ID_ParentOItem3 = objjoin.ID_ParentOItem3, _
+                                                                                           .Name_Join = objJoin.Name_Join, _
+                                                                                           .Name_OItem1 = objJoin.Name_OItem1, _
+                                                                                           .Name_OItem2 = objJoin.Name_OItem2, _
+                                                                                           .Name_OItem3 = objJoin.Name_OItem3, _
+                                                                                           .Name_OntolgyRelationRule = If (objjoin.ID_Join = objoitem_join.GUID, objOItem_Rule.Name, objJoin.Name_OntolgyRelationRule), _
+                                                                                           .Ontology_OItem1 = objJoin.Ontology_OItem1, _
+                                                                                           .Ontology_OItem2 = objJoin.Ontology_OItem2, _
+                                                                                           .Ontology_OItem3 = objJoin.Ontology_OItem3 }).tolist()
+                                            objDataWork_Ontologies.OList_OntologyJoins = objUpd
+                                                         
+                                                         
                                             initialize_Joins(objOItem_Ontology)
                                         Else
                                             objTransaction_Ontologies.rollback()
@@ -207,10 +227,6 @@ Public Class UserControl_OntologyJoins
                                             Dim objORel_OItemToRef = objDataWork_Ontologies.Rel_OntologyItemToRef(objOItem_OItemRight, objFrmJoinSelector.OItem_Right)
                                             objOItem_Result = objTransaction_Ontologies.do_Transaction(objORel_OItemToRef, True)
 
-                                            If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                                                Dim objORel_OntologyJoinToOItemRight = objDataWork_Ontologies.Rel_OntologyJoinToOItem(objOItem_Join, objOItem_OItemRight, 2)
-                                                objOItem_Result = objTransaction_Ontologies.do_Transaction(objORel_OntologyJoinToOItemRight)
-                                            End If
                                             
                                         End If
                                     Else
@@ -221,13 +237,19 @@ Public Class UserControl_OntologyJoins
                                         End If
                                     End If
                                     
-
+                                    If Not objFrmJoinSelector.OItem_Right Is Nothing Then
+                                        Dim objORel_OntologyJoinToOItemRight = objDataWork_Ontologies.Rel_OntologyJoinToOItem(objOItem_Join, objOItem_OItemRight, 2)
+                                        objOItem_Result = objTransaction_Ontologies.do_Transaction(objORel_OntologyJoinToOItemRight)
+                                    End If
                                 Else
                                     objOItem_OItemRight = Nothing
                                     objOItem_Result = objDataWork_Ontologies.LocalConfig.Globals.LState_Success
                                 End If
 
+                                
+
                                 If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                                    
                                     If Not objFrmJoinSelector.OItem_RelationType Is Nothing Then
                                         objOItem_OItemRelationType = objDataWork_Ontologies.Get_OntologyItemOfOntology(objOItem_Ontology, objFrmJoinSelector.OItem_RelationType)
                                         If objOItem_OItemRelationType Is Nothing Then
@@ -328,5 +350,15 @@ Public Class UserControl_OntologyJoins
             End If
         End If
 
+    End Sub
+
+
+    Private Sub DataGridView_Joins_RowHeaderMouseDoubleClick( sender As Object,  e As DataGridViewCellMouseEventArgs) Handles DataGridView_Joins.RowHeaderMouseDoubleClick
+        Dim objDGVR_Selected = DataGridView_Joins.Rows(e.RowIndex)
+        Dim objJoin As clsOntologyJoins = objDGVR_Selected.DataBoundItem
+
+        Dim objOItem_Join = new clsOntologyItem With {.GUID = objJoin.ID_Join, _
+                                                      .Name = objJoin.Name_Join, _
+                                                      .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_OntologyJoin.GUID
     End Sub
 End Class

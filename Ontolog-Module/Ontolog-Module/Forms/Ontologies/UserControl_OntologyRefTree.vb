@@ -26,12 +26,12 @@
         Dim objOList_Parent = (From obj In objDataWork_Ontologies.OList_ClassTree
                               Where obj.GUID_Parent Is Nothing
                               Select obj).ToList()
-
-        For Each objParent As clsOntologyItem In objOList_Parent
-            objTreeNode_Root = TreeView_Ontologies.Nodes.Add(objParent.GUID, _
-                                                             objParent.Name, _
+        objTreeNode_Root = TreeView_Ontologies.Nodes.Add(objDataWork_Ontologies.LocalConfig.Globals.Root.GUID, _
+                                                             objDataWork_Ontologies.LocalConfig.Globals.Root.Name, _
                                                              objDataWork_Ontologies.LocalConfig.ImageID_Root, _
                                                              objDataWork_Ontologies.LocalConfig.ImageID_Root)
+        For Each objParent As clsOntologyItem In objOList_Parent
+            
             AddSubNodes(objTreeNode_Root)
         Next
 

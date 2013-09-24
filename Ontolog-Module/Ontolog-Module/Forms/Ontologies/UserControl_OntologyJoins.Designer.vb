@@ -29,15 +29,15 @@ Partial Class UserControl_OntologyJoins
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.DataGridView_Joins = New System.Windows.Forms.DataGridView()
         Me.ContextMenuStrip_Items = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ChangeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AddToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
-        Me.ToolStripContainer1.SuspendLayout()
-        Me.ToolStrip1.SuspendLayout()
-        CType(Me.DataGridView_Joins, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ContextMenuStrip_Items.SuspendLayout()
-        Me.SuspendLayout()
+        Me.ChangeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout
+        Me.ToolStripContainer1.SuspendLayout
+        Me.ToolStrip1.SuspendLayout
+        CType(Me.DataGridView_Joins,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.ContextMenuStrip_Items.SuspendLayout
+        Me.SuspendLayout
         '
         'ToolStripContainer1
         '
@@ -80,14 +80,14 @@ Partial Class UserControl_OntologyJoins
         '
         'DataGridView_Joins
         '
-        Me.DataGridView_Joins.AllowUserToAddRows = False
-        Me.DataGridView_Joins.AllowUserToDeleteRows = False
+        Me.DataGridView_Joins.AllowUserToAddRows = false
+        Me.DataGridView_Joins.AllowUserToDeleteRows = false
         Me.DataGridView_Joins.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView_Joins.ContextMenuStrip = Me.ContextMenuStrip_Items
         Me.DataGridView_Joins.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView_Joins.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_Joins.Name = "DataGridView_Joins"
-        Me.DataGridView_Joins.ReadOnly = True
+        Me.DataGridView_Joins.ReadOnly = true
         Me.DataGridView_Joins.Size = New System.Drawing.Size(509, 368)
         Me.DataGridView_Joins.TabIndex = 0
         '
@@ -95,19 +95,19 @@ Partial Class UserControl_OntologyJoins
         '
         Me.ContextMenuStrip_Items.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToolStripMenuItem, Me.ChangeToolStripMenuItem})
         Me.ContextMenuStrip_Items.Name = "ContextMenuStrip_Items"
-        Me.ContextMenuStrip_Items.Size = New System.Drawing.Size(153, 70)
-        '
-        'ChangeToolStripMenuItem
-        '
-        Me.ChangeToolStripMenuItem.Name = "ChangeToolStripMenuItem"
-        Me.ChangeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.ChangeToolStripMenuItem.Text = "x_Change"
+        Me.ContextMenuStrip_Items.Size = New System.Drawing.Size(126, 48)
         '
         'AddToolStripMenuItem
         '
         Me.AddToolStripMenuItem.Name = "AddToolStripMenuItem"
-        Me.AddToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AddToolStripMenuItem.Size = New System.Drawing.Size(125, 22)
         Me.AddToolStripMenuItem.Text = "x_Add"
+        '
+        'ChangeToolStripMenuItem
+        '
+        Me.ChangeToolStripMenuItem.Name = "ChangeToolStripMenuItem"
+        Me.ChangeToolStripMenuItem.Size = New System.Drawing.Size(125, 22)
+        Me.ChangeToolStripMenuItem.Text = "x_Change"
         '
         'UserControl_OntologyJoins
         '
