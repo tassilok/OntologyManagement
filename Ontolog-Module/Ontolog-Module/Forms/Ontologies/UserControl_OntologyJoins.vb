@@ -5,6 +5,7 @@ Public Class UserControl_OntologyJoins
     Private objFrmOntologyModule As frmMain
     Private objFrmJoinSelector As frmJoinSelector
     Private objFrmAttributeTypeOrRelationType As frmAttributeTypeOrRelationType
+    Private objFrmObjectEdit As frm_ObjectEdit
     Private objTransaction_Ontologies As clsTransaction
     Private objTransaction_Ontology As clsTransaction_Ontologies
 
@@ -357,8 +358,14 @@ Public Class UserControl_OntologyJoins
         Dim objDGVR_Selected = DataGridView_Joins.Rows(e.RowIndex)
         Dim objJoin As clsOntologyJoins = objDGVR_Selected.DataBoundItem
 
-        Dim objOItem_Join = new clsOntologyItem With {.GUID = objJoin.ID_Join, _
+        Dim objOItem_Join = New clsOntologyItem With {.GUID = objJoin.ID_Join, _
                                                       .Name = objJoin.Name_Join, _
-                                                      .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_OntologyJoin.GUID
+                                                      .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_OntologyJoin.GUID, _
+                                                      .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}
+
+        Dim objOList_Joins = New List(Of clsOntologyItem) From {objOItem_Join}
+        objFrmObjectEdit = New frm_ObjectEdit(objDataWork_Ontologies.LocalConfig.Globals, objOList_Joins, 0, objDataWork_Ontologies.LocalConfig.Globals.Type_Object, Nothing)
+        objFrmObjectEdit.ShowDialog(Me)
+
     End Sub
 End Class

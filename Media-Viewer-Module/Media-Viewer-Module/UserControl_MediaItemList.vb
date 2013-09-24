@@ -3,7 +3,7 @@ Imports Filesystem_Module
 Public Class UserControl_MediaItemList
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_MediaItem As clsDataWork_MediaItem
-    Private objTransaction_MediaItems As clsTransaction_MediaItems
+    Private objTransaction_MediaItems As clsTransaction
     Private dtblT_MediaItems As New DataSet_MediaItems.dtbl_MediaItemsDataTable
     Private objBlobConnection As clsBlobConnection
     Private objFileWork As clsFileWork
@@ -262,7 +262,7 @@ Public Class UserControl_MediaItemList
     Private Sub initialize()
         objDataWork_MediaItem = New clsDataWork_MediaItem(objLocalConfig)
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
-        objTransaction_MediaItems = New clsTransaction_MediaItems(objLocalConfig)
+        objTransaction_MediaItems = New clsTransaction(objLocalConfig.Globals)
         objFileWork = New clsFileWork(objLocalConfig.Globals)
         configure_Controls()
     End Sub
@@ -421,7 +421,7 @@ Public Class UserControl_MediaItemList
                         objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
                         objOItem_File.Type = objLocalConfig.Globals.Type_Object
 
-                        objOItem_Result = objTransaction_MediaItems.save_File(objOItem_File)
+                        objOItem_Result = objTransaction_MediaItems.do_Transaction(objOItem_File)
                     Else
                         objOItem_Result = objLocalConfig.Globals.LState_Success
                     End If
@@ -438,26 +438,34 @@ Public Class UserControl_MediaItemList
                                 objOItem_MediaItem.GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID
                                 objOItem_MediaItem.Type = objLocalConfig.Globals.Type_Object
 
-                                objOItem_Result = objTransaction_MediaItems.save_MediaItem(objOItem_MediaItem)
+                                objOItem_Result = objTransaction_MediaItems.do_Transaction(objOItem_MediaItem)
                             Else
                                 objOItem_Result = objLocalConfig.Globals.LState_Success
                             End If
 
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                objOItem_Result = objTransaction_MediaItems.save_MediaItem_To_File(objOItem_MediaItem, objOItem_File)
+                                Dim objORel_MediaItem_To_File = objDataWork_MediaItem.Rel_MediaItem_To_File(objOItem_MediaItem, objOItem_File)
+
+                                objOItem_Result = objTransaction_MediaItems.do_Transaction(objORel_MediaItem_To_File, True)
                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                     objOItem_MediaItem.Level = objDataWork_MediaItem.GetNextOrderIDOFRef(objOItem_Ref)
                                     objOItem_MediaItem.Level = objOItem_MediaItem.Level + 1
-                                    objOItem_Result = objTransaction_MediaItems.save_MediaItemToRef(objOItem_Ref, objOItem_MediaItem)
+                                    Dim objORel_MediaItem_To_Ref = objDataWork_MediaItem.Rel_MediaItem_To_Ref(objOItem_MediaItem, objOItem_Ref)
+
+                                    objOItem_Result = objTransaction_MediaItems.do_Transaction(objORel_MediaItem_To_Ref)
                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                         intDone = intDone + 1
+                                    Else
+                                        objTransaction_MediaItems.rollback()
                                     End If
                                 End If
                             Else
-                                objTransaction_MediaItems.del_File(objOItem_File)
+                                objTransaction_MediaItems.rollback()
+
                             End If
                         Else
-                            objTransaction_MediaItems.del_File(objOItem_File)
+                            objTransaction_MediaItems.rollback()
+
                         End If
                     End If
 
@@ -478,6 +486,7 @@ Public Class UserControl_MediaItemList
         Dim objOItem_MediaItem As clsOntologyItem = Nothing
         Dim objOItem_Result As clsOntologyItem
 
+        objTransaction_MediaItems.ClearItems()
         objOItem_Result = objLocalConfig.Globals.LState_Success
 
         If Not OItem_File_Replace Is Nothing Then
@@ -486,12 +495,24 @@ Public Class UserControl_MediaItemList
             If Not objOItem_File_Exists Is Nothing Then
                 objOItem_MediaItem = objDataWork_MediaItem.GetMediaItemOfFile(objOItem_File_Exists)
                 If objOItem_MediaItem Is Nothing Then
-                    objOItem_Result = objTransaction_MediaItems.save_MediaItem_To_File(objOItem_MediaItem, objOItem_File_Exists)
+                    objOItem_MediaItem.GUID = objLocalConfig.Globals.NewGUID
+                    objOItem_MediaItem.Name = objOItem_File_Exists.Name
+                    objOItem_MediaItem.GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID
+                    objOItem_MediaItem.Type = objLocalConfig.Globals.Type_Object
+
+                    objOItem_Result = objTransaction_MediaItems.do_Transaction(objOItem_MediaItem)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        objOItem_MediaItem = objTransaction_MediaItems.OItem_MediaItem
-                    Else
-                        objOItem_MediaItem = Nothing
+                        Dim objOR_MediaItem_To_File = objDataWork_MediaItem.Rel_MediaItem_To_File(objOItem_MediaItem, objOItem_File_Exists)
+
+                        objOItem_Result = objTransaction_MediaItems.do_Transaction(objOR_MediaItem_To_File, True)
+
                     End If
+
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        objOItem_MediaItem = Nothing
+                        objTransaction_MediaItems.rollback()
+                    End If
+                    
                 End If
                 
             Else
@@ -501,18 +522,29 @@ Public Class UserControl_MediaItemList
                 objOItem_File_Exists.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
                 objOItem_File_Exists.Type = objLocalConfig.Globals.Type_Object
 
-                objOItem_Result = objTransaction_MediaItems.save_File(objOItem_File_Exists)
+                objOItem_Result = objTransaction_MediaItems.do_Transaction(objOItem_File_Exists)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_File_Exists, strPath_File)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        objOItem_Result = objTransaction_MediaItems.save_MediaItem_To_File(Nothing, objOItem_File_Exists)
+                        objOItem_MediaItem.GUID = objLocalConfig.Globals.NewGUID
+                        objOItem_MediaItem.Name = objOItem_File_Exists.Name
+                        objOItem_MediaItem.GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID
+                        objOItem_MediaItem.Type = objLocalConfig.Globals.Type_Object
+
+                        objOItem_Result = objTransaction_MediaItems.do_Transaction(objOItem_MediaItem)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            objOItem_MediaItem = objTransaction_MediaItems.OItem_MediaItem
-                        Else
-                            objOItem_MediaItem = Nothing
+                            Dim objORel_MediaItem_To_File = objDataWork_MediaItem.Rel_MediaItem_To_File(objOItem_MediaItem, objOItem_File_Exists)
+
+                            objOItem_Result = objTransaction_MediaItems.do_Transaction(objORel_MediaItem_To_File, True)
+
                         End If
+
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                            objTransaction_MediaItems.rollback()
+                        End If
+
                     Else
-                        objTransaction_MediaItems.del_File(objOItem_File_Exists)
+                        objTransaction_MediaItems.rollback()
 
                         objOItem_MediaItem = Nothing
                     End If

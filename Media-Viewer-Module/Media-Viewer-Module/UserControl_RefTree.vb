@@ -9,6 +9,7 @@ Public Class UserControl_RefTree
     Private objOItem_MediaType As clsOntologyItem
 
     Private objFrmMain As frmMain
+    Private objFrmObjectEdit As frm_ObjectEdit
 
     Public Event selected_Item(ByVal objOItem_Ref As clsOntologyItem)
     Public Event save_Items()
@@ -263,6 +264,26 @@ Public Class UserControl_RefTree
                 objTreeNode.ImageIndex = objLocalConfig.ImageID_Token_Named Then
 
                 RaiseEvent save_Items()
+            End If
+        End If
+    End Sub
+
+    Private Sub TreeView_Ref_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles TreeView_Ref.MouseDoubleClick
+        Dim objTreeNode = TreeView_Ref.SelectedNode
+
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = objLocalConfig.ImageID_Token Then
+                Dim objOItem_Ref = New clsOntologyItem With {.GUID = objTreeNode.Name, _
+                                                             .Name = objTreeNode.Text, _
+                                                             .GUID_Parent = objTreeNode.Parent.Name, _
+                                                             .Type = objLocalConfig.Globals.Type_Object}
+
+                Dim objOList_Ref = New List(Of clsOntologyItem)
+                objOList_Ref.Add(objOItem_Ref)
+
+                objFrmObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList_Ref, 0, objLocalConfig.Globals.Type_Object, Nothing)
+                objFrmObjectEdit.ShowDialog(Me)
+
             End If
         End If
     End Sub

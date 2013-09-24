@@ -221,6 +221,30 @@ Public Class clsDataWork_MediaItem
         boolLoaded = True
     End Sub
 
+    Public Function Rel_MediaItem_To_File(OItem_MediaItem As clsOntologyItem, OItem_File As clsOntologyItem) As clsObjectRel
+        Dim objOR_MediaItem_To_File = New clsObjectRel With {.ID_Object = OItem_MediaItem.GUID, _
+                                                             .ID_Parent_Object = OItem_MediaItem.GUID_Parent, _
+                                                             .ID_Other = OItem_File.GUID, _
+                                                             .ID_Parent_Other = OItem_File.GUID_Parent, _
+                                                             .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Source.GUID, _
+                                                             .OrderID = 1, _
+                                                             .Ontology = objLocalConfig.Globals.Type_Object}
+
+        Return objOR_MediaItem_To_File
+    End Function
+
+    Public Function Rel_MediaItem_To_Ref(OItem_MediaItem As clsOntologyItem, OItem_Ref As clsOntologyItem) As clsObjectRel
+        Dim objOR_MediaItem_To_Ref = New clsObjectRel With {.ID_Object = OItem_MediaItem.GUID, _
+                                                            .ID_Parent_Object = OItem_MediaItem.GUID_Parent, _
+                                                            .ID_Other = OItem_Ref.GUID, _
+                                                            .ID_Parent_Other = OItem_Ref.GUID_Parent, _
+                                                            .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID, _
+                                                            .OrderID = OItem_MediaItem.Level, _
+                                                            .Ontology = OItem_Ref.Type}
+
+        Return objOR_MediaItem_To_Ref
+    End Function
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
 

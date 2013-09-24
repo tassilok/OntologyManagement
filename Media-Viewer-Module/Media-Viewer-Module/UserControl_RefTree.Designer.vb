@@ -36,11 +36,11 @@ Partial Class UserControl_RefTree
         Me.TreeView_Ref = New System.Windows.Forms.TreeView()
         Me.ContextMenuStrip_Ref = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.AddToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImageList_RelatedItems = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_Mark = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Mark = New System.Windows.Forms.ToolStripTextBox()
-        Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -138,13 +138,19 @@ Partial Class UserControl_RefTree
         '
         Me.ContextMenuStrip_Ref.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToolStripMenuItem, Me.SaveToolStripMenuItem})
         Me.ContextMenuStrip_Ref.Name = "ContextMenuStrip_Ref"
-        Me.ContextMenuStrip_Ref.Size = New System.Drawing.Size(153, 70)
+        Me.ContextMenuStrip_Ref.Size = New System.Drawing.Size(109, 48)
         '
         'AddToolStripMenuItem
         '
         Me.AddToolStripMenuItem.Name = "AddToolStripMenuItem"
-        Me.AddToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AddToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
         Me.AddToolStripMenuItem.Text = "x_Add"
+        '
+        'SaveToolStripMenuItem
+        '
+        Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
+        Me.SaveToolStripMenuItem.Text = "x_Save"
         '
         'ImageList_RelatedItems
         '
@@ -187,12 +193,6 @@ Partial Class UserControl_RefTree
         '
         Me.ToolStripTextBox_Mark.Name = "ToolStripTextBox_Mark"
         Me.ToolStripTextBox_Mark.Size = New System.Drawing.Size(200, 25)
-        '
-        'SaveToolStripMenuItem
-        '
-        Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.SaveToolStripMenuItem.Text = "x_Save"
         '
         'UserControl_RefTree
         '
