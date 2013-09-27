@@ -276,6 +276,36 @@ namespace EsMaintenance
             
         }
 
+        public clsOntologyItem DelObjectAtt(List<Dictionary<string, string>> objDictList)
+        {
+
+
+            var objTypes = new clsTypes();
+            var objFields = new clsFields();
+            var objElConn = new ElasticSearch.Client.ElasticSearchClient(objGlobals.Server.ToString(), int.Parse(objGlobals.Port), ElasticSearch.Client.Config.TransportType.Thrift, false);
+            OperateResult objOPResult;
+            clsOntologyItem objOItem_Result = new clsOntologyItem()
+            {
+                GUID = objGlobals.LState_Success.GUID,
+                Name = objGlobals.LState_Success.Name,
+                GUID_Parent = objGlobals.LState_Success.GUID_Parent,
+                Type = objTypes.ObjectType
+            };
+
+            foreach (var objDict in objDictList)
+            {
+                var strID = objDict[objFields.ID_Attribute];
+                objOPResult = objElConn.Delete(objGlobals.Index, objTypes.ObjectAtt, strID);
+                if (objOPResult.Success)
+                {
+                    objOItem_Result.Count++;
+                }
+            }
+
+            return objOItem_Result;
+
+        }
+
         public clsOntologyItem SaveObject(List<Dictionary<string, object>> objDictList)
         {
             List<BulkObject> objLBulkObjects = new List<BulkObject>();

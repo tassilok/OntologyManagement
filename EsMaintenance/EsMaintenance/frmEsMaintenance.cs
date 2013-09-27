@@ -427,6 +427,17 @@ namespace EsMaintenance
             {
                 foreach (DataGridViewRow objDGVR in dataGridView_Found.SelectedRows)
                 {
+                    var objDict = new Dictionary<string, string>();
+                    objDict.Add(objFields.ID_Attribute, objDGVR.Cells[objFields.ID_Attribute].Value.ToString());
+
+                    objDictList.Add(objDict);
+
+                }
+
+                var objOItem_Result = objEsMaintenance.DelObjectAtt(objDictList);
+                if (objOItem_Result.Count < objDictList.Count)
+                {
+                    MessageBox.Show("Es konnten nur " + objOItem_Result.Count.ToString() + " von " + objDictList.Count.ToString() + " Items gelöscht werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
             else if (objListViewItem.Text == objGlobals.Type_ObjectRel)
