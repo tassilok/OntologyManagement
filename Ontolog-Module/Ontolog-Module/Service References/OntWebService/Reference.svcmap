@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="c44f22d2-a0e0-4ea7-92b6-22a5f01d383a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:5970/OntWebService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="OntWebService.xsd" MetadataType="Schema" ID="084220ef-c8d1-4e9c-bc28-45e3c30177e2" SourceId="1" SourceUrl="http://localhost:5970/OntWebService.svc?xsd=xsd2" />
+    <MetadataFile FileName="OntWebService1.xsd" MetadataType="Schema" ID="1c1cae03-e53d-4cd3-9021-c8d2e5a9b7a5" SourceId="1" SourceUrl="http://localhost:5970/OntWebService.svc?xsd=xsd3" />
+    <MetadataFile FileName="OntWebService2.xsd" MetadataType="Schema" ID="d6f7ca9c-7cbe-41bd-a44f-6ddadf50103b" SourceId="1" SourceUrl="http://localhost:5970/OntWebService.svc?xsd=xsd0" />
+    <MetadataFile FileName="OntWebService3.xsd" MetadataType="Schema" ID="667cd0ca-442a-4f85-ba6b-2a8fe3c5e43f" SourceId="1" SourceUrl="http://localhost:5970/OntWebService.svc?xsd=xsd1" />
+    <MetadataFile FileName="OntWebService.disco" MetadataType="Disco" ID="127ec0e0-9ff3-47b9-8378-2c9a7b4f9c28" SourceId="1" SourceUrl="http://localhost:5970/OntWebService.svc?disco" />
+    <MetadataFile FileName="OntWebService.wsdl" MetadataType="Wsdl" ID="03049662-9273-4bb6-9e68-441659fbe7cf" SourceId="1" SourceUrl="http://localhost:5970/OntWebService.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

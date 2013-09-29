@@ -31,17 +31,6 @@ Public Class clsDBLevel
     Private objOntologyList_DataTypes As New List(Of clsOntologyItem)
     Private objOntologyList_Attributes As New List(Of clsAttribute)
 
-    Private otblT_Objects As New DataSet_Config.otbl_ObjectsDataTable
-    Private otblT_Classes As New DataSet_Config.otbl_ClassesDataTable
-    Private otblT_RelationTypes As New DataSet_Config.otbl_RelationTypesDataTable
-    Private otblT_AttributeTypes As New DataSet_Config.otbl_AttributeTypesDataTable
-    Private otblT_ObjectRel As New DataSet_Config.otbl_ObjectRelDataTable
-    Private otblT_DataTypes As New DataSet_Config.otbl_DataTypesDataTable
-    Private otblT_ObjectTree As New DataSet_Config.otbl_ObjetTreeDataTable
-    Private otblT_ObjectAtt As New DataSet_Config.otbl_ObjectAttDataTable
-    Private otblT_ClassAtt As New DataSet_Config.otbl_ClassAttDataTable
-    Private otblT_ClassRel As New DataSet_Config.otbl_ClassRelDataTable
-
     Private objDataTypes As New clsDataTypes
     Private objTypes As New clsTypes
     Private objLogStates As New clsLogStates
@@ -190,54 +179,6 @@ Public Class clsDBLevel
         End Get
     End Property
 
-
-    Public ReadOnly Property tbl_Objects As DataSet_Config.otbl_ObjectsDataTable
-        Get
-            Return otblT_Objects
-        End Get
-    End Property
-
-    Public ReadOnly Property tbl_Classes As DataSet_Config.otbl_ClassesDataTable
-        Get
-            Return otblT_Classes
-        End Get
-    End Property
-
-    Public ReadOnly Property tbl_ClassAtt As DataSet_Config.otbl_ClassAttDataTable
-        Get
-            Return otblT_ClassAtt
-        End Get
-    End Property
-
-    Public ReadOnly Property tbl_RelationTypes As DataSet_Config.otbl_RelationTypesDataTable
-        Get
-            Return otblT_RelationTypes
-        End Get
-    End Property
-
-    Public ReadOnly Property tbl_AttributeTypes As DataSet_Config.otbl_AttributeTypesDataTable
-        Get
-            Return otblT_AttributeTypes
-        End Get
-    End Property
-
-    Public ReadOnly Property tbl_ObjectRelation As DataSet_Config.otbl_ObjectRelDataTable
-        Get
-            Return otblT_ObjectRel
-        End Get
-    End Property
-
-    Public ReadOnly Property tbl_ObjectAttribute As DataSet_Config.otbl_ObjectAttDataTable
-        Get
-            Return otblT_ObjectAtt
-        End Get
-    End Property
-
-    Public ReadOnly Property tbl_ClassRelation As DataSet_Config.otbl_ClassRelDataTable
-        Get
-            Return otblT_ClassRel
-        End Get
-    End Property
 
     Public Function save_AttributeType(ByVal oItem_AttributeType As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
@@ -1276,7 +1217,6 @@ Public Class clsDBLevel
         'objElConn = New ElasticSearch.Client.ElasticSearchClient("ontology_db")
     End Sub
     Public Function get_Data_RelationTypes(Optional ByVal OList_RelType As List(Of clsOntologyItem) = Nothing, _
-                                           Optional ByVal boolTable As Boolean = False, _
                                            Optional ByVal doCount As Boolean = False) As clsOntologyItem
 
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
@@ -1291,7 +1231,6 @@ Public Class clsDBLevel
         Dim intPos As Integer
 
         objElConn.Flush()
-        otblT_RelationTypes.Clear()
         objOntologyList_RelationTypes.Clear()
 
 
@@ -1323,14 +1262,10 @@ Public Class clsDBLevel
                 objList = objSearchResult.GetHits.Hits
 
                 For Each objHit In objList
-                    If boolTable = False Then
-                        objOntologyList_RelationTypes.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                    objHit.Source("Name_Item").ToString, _
-                                                                    objTypes.RelationType))
-                    Else
-                        otblT_RelationTypes.Rows.Add(objHit.Id.ToString, _
-                                                                    objHit.Source("Name_Item").ToString)
-                    End If
+
+                    objOntologyList_RelationTypes.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                objHit.Source("Name_Item").ToString, _
+                                                                objTypes.RelationType))
 
 
                 Next
@@ -2044,7 +1979,6 @@ Public Class clsDBLevel
     End Sub
 
     Public Function get_Data_AttributeType(Optional ByVal OList_AttType As List(Of clsOntologyItem) = Nothing, _
-                                           Optional ByVal boolTable As Boolean = False, _
                                            Optional ByVal doCount As Boolean = False) As clsOntologyItem
         Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
@@ -2054,7 +1988,6 @@ Public Class clsDBLevel
         Dim intPos As Integer
 
         objElConn.Flush()
-        otblT_AttributeTypes.Clear()
         objOntologyList_AttributTypes.Clear()
 
 
@@ -2093,16 +2026,11 @@ Public Class clsDBLevel
                 '    CidA_Count.Insert(Integer.Parse(b.key), b.count)
                 'Next
                 For Each objHit In objList
-                    If boolTable = False Then
-                        objOntologyList_AttributTypes.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                    objHit.Source(objFields.Name_Item).ToString, _
-                                                                    objHit.Source(objFields.ID_DataType).ToString, _
-                                                                    objTypes.AttributeType))
-                    Else
-                        otblT_AttributeTypes.Rows.Add(objHit.Id.ToString, _
-                                                                    objHit.Source(objFields.Name_Item).ToString, _
-                                                                    objHit.Source(objFields.ID_DataType).ToString)
-                    End If
+
+                    objOntologyList_AttributTypes.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                objHit.Source(objFields.Name_Item).ToString, _
+                                                                objHit.Source(objFields.ID_DataType).ToString, _
+                                                                objTypes.AttributeType))
 
 
                 Next
@@ -2216,7 +2144,6 @@ Public Class clsDBLevel
 
         objOntologyList_ClassAtt_ID.Clear()
         objOntologyList_Classes1.Clear()
-        otblT_ClassAtt.Clear()
 
         intCount = intPackageLength
         intPos = 0
@@ -2291,20 +2218,6 @@ Public Class clsDBLevel
                     get_Data_Classes(oList_Classes, False)
                 End If
 
-                If boolTable = True Then
-                    Dim objLClassAtt = From obj In objOntologyList_ClassAtt_ID
-                                       Join objAttType In objOntologyList_AttributTypes On obj.ID_AttributeType Equals objAttType.GUID
-                                       Join objClass In objOntologyList_Classes1 On obj.ID_Class Equals objClass.GUID
-
-                    For Each objClassAtt In objLClassAtt
-                        otblT_ClassAtt.Rows.Add(objClassAtt.obj.ID_Class, _
-                                                objClassAtt.objClass.Name, _
-                                                objClassAtt.objAttType.GUID, _
-                                                objClassAtt.objAttType.Name, _
-                                                objClassAtt.obj.Min, _
-                                                objClassAtt.obj.Max)
-                    Next
-                End If
             End If
         End If
 
@@ -2336,7 +2249,6 @@ Public Class clsDBLevel
         objOntologyList_RelationTypes.Clear()
         objOntologyList_ClassRel_ID.Clear()
         objOntologyList_ClassRel.Clear()
-        otblT_ClassRel.Clear()
 
         objOItem_Result = objLogStates.LogState_Success
         objOItem_Result.Count = 0
@@ -2473,26 +2385,14 @@ Public Class clsDBLevel
                               Join objRelType In objOntologyList_RelationTypes On objRelType.GUID Equals objRel.ID_RelationType
 
                     For Each objRel In objLRels
-                        If boolTable = False Then
-                            objOntologyList_ClassRel.Add(New clsClassRel(objRel.objClass_Left.GUID, objRel.objClass_Left.Name, _
-                                                                         objRel.objClass_Right.GUID, objRel.objClass_Right.Name, _
-                                                                         objRel.objRelType.GUID, objRel.objRelType.Name, _
-                                                                         objRel.objRel.Ontology, _
-                                                                         objRel.objRel.Min_Forw, _
-                                                                         objRel.objRel.Max_Forw, _
-                                                                         objRel.objRel.Max_Backw))
-                        Else
-                            otblT_ClassRel.Rows.Add(objRel.objRel.ID_Class_Left, _
-                                                                 objRel.objClass_Left.Name, _
-                                                                 objRel.objRel.ID_Class_Right, _
-                                                                 objRel.objClass_Right.Name, _
-                                                                 objRel.objRel.ID_RelationType, _
-                                                                 objRel.objRelType.Name, _
-                                                                 objRel.objRel.Ontology, _
-                                                                 objRel.objRel.Min_Forw, _
-                                                                 objRel.objRel.Max_Forw, _
-                                                                 objRel.objRel.Max_Backw)
-                        End If
+
+                        objOntologyList_ClassRel.Add(New clsClassRel(objRel.objClass_Left.GUID, objRel.objClass_Left.Name, _
+                                                                     objRel.objClass_Right.GUID, objRel.objClass_Right.Name, _
+                                                                     objRel.objRelType.GUID, objRel.objRelType.Name, _
+                                                                     objRel.objRel.Ontology, _
+                                                                     objRel.objRel.Min_Forw, _
+                                                                     objRel.objRel.Max_Forw, _
+                                                                     objRel.objRel.Max_Backw))
 
 
                     Next
@@ -2503,26 +2403,14 @@ Public Class clsDBLevel
                               Where objRel.Ontology = objTypes.Other
 
                     For Each objRel In objLRels
-                        If boolTable = False Then
-                            objOntologyList_ClassRel.Add(New clsClassRel(objRel.objClass_Left.GUID, objRel.objClass_Left.Name, _
-                                                                         Nothing, Nothing, _
-                                                                         objRel.objRelType.GUID, objRel.objRelType.Name, _
-                                                                         objRel.objRel.Ontology, _
-                                                                         objRel.objRel.Min_Forw, _
-                                                                         objRel.objRel.Max_Forw, _
-                                                                         objRel.objRel.Max_Backw))
-                        Else
-                            otblT_ClassRel.Rows.Add(objRel.objRel.ID_Class_Left, _
-                                                                 objRel.objClass_Left.Name, _
-                                                                 Nothing, _
-                                                                 Nothing, _
-                                                                 objRel.objRel.ID_RelationType, _
-                                                                 objRel.objRelType.Name, _
-                                                                 objRel.objRel.Ontology, _
-                                                                 objRel.objRel.Min_Forw, _
-                                                                 objRel.objRel.Max_Forw, _
-                                                                 objRel.objRel.Max_Backw)
-                        End If
+
+                        objOntologyList_ClassRel.Add(New clsClassRel(objRel.objClass_Left.GUID, objRel.objClass_Left.Name, _
+                                                                     Nothing, Nothing, _
+                                                                     objRel.objRelType.GUID, objRel.objRelType.Name, _
+                                                                     objRel.objRel.Ontology, _
+                                                                     objRel.objRel.Min_Forw, _
+                                                                     objRel.objRel.Max_Forw, _
+                                                                     objRel.objRel.Max_Backw))
 
 
                     Next
@@ -2568,8 +2456,6 @@ Public Class clsDBLevel
         objOList_Attributes.Clear()
         objOList_Classes.Clear()
         objOList_Objects.Clear()
-
-        otblT_ObjectAtt.Clear()
 
         objOItem_Result = objLogStates.LogState_Success
         objOItem_Result.Count = 0
@@ -3018,97 +2904,7 @@ Public Class clsDBLevel
                                                        OrderID:=objRel.OrderID)).ToList()).ToList()
 
 
-                If boolTable = True Then
-                    For Each objOA As clsObjectAtt In objOntologyList_ObjAtt
-                        Select Case objOA.ID_DataType
-                            Case objDataTypes.DType_Bool.GUID
-                                otblT_ObjectAtt.Rows.Add(objOA.ID_Attribute, _
-                                                     objOA.ID_Object, _
-                                                     objOA.Name_Object, _
-                                                     objOA.ID_AttributeType, _
-                                                     objOA.Name_AttributeType, _
-                                                     objOA.ID_Class, _
-                                                     objOA.Name_Class, _
-                                                     objOA.OrderID, _
-                                                     objOA.val_Named, _
-                                                     objOA.Val_Bit, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     objOA.ID_DataType, _
-                                                     objOA.Name_DataType)
-                            Case objDataTypes.DType_DateTime.GUID
-                                otblT_ObjectAtt.Rows.Add(objOA.ID_Attribute, _
-                                                         objOA.ID_Object, _
-                                                     objOA.Name_Object, _
-                                                     objOA.ID_AttributeType, _
-                                                     objOA.Name_AttributeType, _
-                                                     objOA.ID_Class, _
-                                                     objOA.Name_Class, _
-                                                     objOA.OrderID, _
-                                                     objOA.val_Named, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                      objOA.Val_Date, _
-                                                     Nothing, _
-                                                     objOA.ID_DataType, _
-                                                     objOA.Name_DataType)
-                            Case objDataTypes.DType_Int.GUID
-                                otblT_ObjectAtt.Rows.Add(objOA.ID_Attribute, _
-                                                         objOA.ID_Object, _
-                                                     objOA.Name_Object, _
-                                                     objOA.ID_AttributeType, _
-                                                     objOA.Name_AttributeType, _
-                                                     objOA.ID_Class, _
-                                                     objOA.Name_Class, _
-                                                     objOA.OrderID, _
-                                                     objOA.val_Named, _
-                                                     Nothing, _
-                                                      objOA.Val_lng, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     objOA.ID_DataType, _
-                                                     objOA.Name_DataType)
-                            Case objDataTypes.DType_Real.GUID
-                                otblT_ObjectAtt.Rows.Add(objOA.ID_Attribute, _
-                                                         objOA.ID_Object, _
-                                                     objOA.Name_Object, _
-                                                     objOA.ID_AttributeType, _
-                                                     objOA.Name_AttributeType, _
-                                                     objOA.ID_Class, _
-                                                     objOA.Name_Class, _
-                                                     objOA.OrderID, _
-                                                     objOA.val_Named, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                      objOA.Val_Double, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     objOA.ID_DataType, _
-                                                     objOA.Name_DataType)
-                            Case objDataTypes.DType_String.GUID
-                                otblT_ObjectAtt.Rows.Add(objOA.ID_Attribute, _
-                                                         objOA.ID_Object, _
-                                                     objOA.Name_Object, _
-                                                     objOA.ID_AttributeType, _
-                                                     objOA.Name_AttributeType, _
-                                                     objOA.ID_Class, _
-                                                     objOA.Name_Class, _
-                                                     objOA.OrderID, _
-                                                     objOA.val_Named, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                      objOA.Val_String, _
-                                                     objOA.ID_DataType, _
-                                                     objOA.Name_DataType)
-                        End Select
-                    Next
-                End If
+                
 
             End If
         End If
@@ -3291,11 +3087,7 @@ Public Class clsDBLevel
         End If
 
         objOntologyList_RelationTypes.Clear()
-        If boolClear = True Then
-            otblT_ObjectRel.Clear()
-        End If
-
-
+        
         objOItem_Result = objLogStates.LogState_Success
         objOItem_Result.Count = 0
 
@@ -3550,73 +3342,6 @@ Public Class clsDBLevel
                                 Join objRelRels In objDBLevel.objOntologyList_RelationTypes On objRel.ID_Other Equals objRelRels.GUID
                                 Select New clsObjectRel(objRel.ID_Object, objObjs.Name, objRel.ID_Parent_Object, objCls.Name, objRelRels.GUID, objRelRels.Name, Nothing, Nothing, objRelTypes.GUID, objRelTypes.Name, objRel.Ontology, Nothing, Nothing, objRel.OrderID)).ToList()).ToList()
 
-                        If boolTable = True Then
-                            For Each ObjOrel As clsObjectRel In objOntologyList_ObjectRel
-                                Select Case ObjOrel.Ontology
-                                    Case objTypes.AttributeType
-                                        otblT_ObjectRel.Rows.Add(ObjOrel.ID_Object, _
-                                                         ObjOrel.Name_Object, _
-                                                         ObjOrel.ID_Parent_Object, _
-                                                         ObjOrel.Name_Parent_Object, _
-                                                         ObjOrel.ID_RelationType, _
-                                                         ObjOrel.Name_RelationType, _
-                                                         ObjOrel.OrderID, _
-                                                         ObjOrel.ID_Other, _
-                                                         ObjOrel.Name_Other, _
-                                                         Nothing, _
-                                                         Nothing, _
-                                                         ObjOrel.Ontology, _
-                                                         Direction)
-
-
-
-                                    Case objTypes.ClassType
-                                        otblT_ObjectRel.Rows.Add(ObjOrel.ID_Object, _
-                                                         ObjOrel.Name_Object, _
-                                                         ObjOrel.ID_Parent_Object, _
-                                                         ObjOrel.Name_Parent_Object, _
-                                                         ObjOrel.ID_RelationType, _
-                                                         ObjOrel.Name_RelationType, _
-                                                         ObjOrel.OrderID, _
-                                                         ObjOrel.ID_Other, _
-                                                         ObjOrel.Name_Other, _
-                                                         Nothing, _
-                                                         Nothing, _
-                                                          ObjOrel.Ontology, _
-                                                         Direction)
-
-                                    Case objTypes.ObjectType
-                                        otblT_ObjectRel.Rows.Add(ObjOrel.ID_Object, _
-                                                         ObjOrel.Name_Object, _
-                                                         ObjOrel.ID_Parent_Object, _
-                                                         ObjOrel.Name_Parent_Object, _
-                                                         ObjOrel.ID_RelationType, _
-                                                         ObjOrel.Name_RelationType, _
-                                                         ObjOrel.OrderID, _
-                                                         ObjOrel.ID_Other, _
-                                                         ObjOrel.Name_Other, _
-                                                         ObjOrel.ID_Parent_Other, _
-                                                         ObjOrel.Name_Parent_Right, _
-                                                          ObjOrel.Ontology, _
-                                                          Direction)
-
-                                    Case objTypes.RelationType
-                                        otblT_ObjectRel.Rows.Add(ObjOrel.ID_Object, _
-                                                         ObjOrel.Name_Object, _
-                                                         ObjOrel.ID_Parent_Object, _
-                                                         ObjOrel.Name_Parent_Object, _
-                                                         ObjOrel.ID_RelationType, _
-                                                         ObjOrel.Name_RelationType, _
-                                                         ObjOrel.OrderID, _
-                                                         ObjOrel.ID_Other, _
-                                                         ObjOrel.Name_Other, _
-                                                         Nothing, _
-                                                         Nothing, _
-                                                          ObjOrel.Ontology, _
-                                                         Direction)
-                                End Select
-                            Next
-                        End If
 
                         'For Each oItem In objLItems
                         '    If boolTable = False Then
@@ -3788,73 +3513,6 @@ Public Class clsDBLevel
                                 Select New clsObjectRel(objRel.ID_Object, objObjs.Name, objRel.ID_Parent_Object, objCls.Name, objRelRels.GUID, objRelRels.Name, Nothing, Nothing, objRelTypes.GUID, objRelTypes.Name, objRel.Ontology, Nothing, Nothing, objRel.OrderID)).ToList()).ToList()
 
 
-                        If boolTable = True Then
-                            For Each ObjOrel As clsObjectRel In objOntologyList_ObjectRel
-                                Select Case ObjOrel.Ontology
-                                    Case objTypes.AttributeType
-                                        otblT_ObjectRel.Rows.Add(ObjOrel.ID_Object, _
-                                                         ObjOrel.Name_Object, _
-                                                         ObjOrel.ID_Parent_Object, _
-                                                         ObjOrel.Name_Parent_Object, _
-                                                         ObjOrel.ID_RelationType, _
-                                                         ObjOrel.Name_RelationType, _
-                                                         ObjOrel.OrderID, _
-                                                         ObjOrel.ID_Other, _
-                                                         ObjOrel.Name_Other, _
-                                                         Nothing, _
-                                                         Nothing, _
-                                                         ObjOrel.Ontology, _
-                                                         Direction)
-
-
-
-                                    Case objTypes.ClassType
-                                        otblT_ObjectRel.Rows.Add(ObjOrel.ID_Object, _
-                                                         ObjOrel.Name_Object, _
-                                                         ObjOrel.ID_Parent_Object, _
-                                                         ObjOrel.Name_Parent_Object, _
-                                                         ObjOrel.ID_RelationType, _
-                                                         ObjOrel.Name_RelationType, _
-                                                         ObjOrel.OrderID, _
-                                                         ObjOrel.ID_Other, _
-                                                         ObjOrel.Name_Other, _
-                                                         Nothing, _
-                                                         Nothing, _
-                                                          ObjOrel.Ontology, _
-                                                         Direction)
-
-                                    Case objTypes.ObjectType
-                                        otblT_ObjectRel.Rows.Add(ObjOrel.ID_Object, _
-                                                         ObjOrel.Name_Object, _
-                                                         ObjOrel.ID_Parent_Object, _
-                                                         ObjOrel.Name_Parent_Object, _
-                                                         ObjOrel.ID_RelationType, _
-                                                         ObjOrel.Name_RelationType, _
-                                                         ObjOrel.OrderID, _
-                                                         ObjOrel.ID_Other, _
-                                                         ObjOrel.Name_Other, _
-                                                         ObjOrel.ID_Parent_Other, _
-                                                         ObjOrel.Name_Parent_Right, _
-                                                          ObjOrel.Ontology, _
-                                                          Direction)
-
-                                    Case objTypes.RelationType
-                                        otblT_ObjectRel.Rows.Add(ObjOrel.ID_Object, _
-                                                         ObjOrel.Name_Object, _
-                                                         ObjOrel.ID_Parent_Object, _
-                                                         ObjOrel.Name_Parent_Object, _
-                                                         ObjOrel.ID_RelationType, _
-                                                         ObjOrel.Name_RelationType, _
-                                                         ObjOrel.OrderID, _
-                                                         ObjOrel.ID_Other, _
-                                                         ObjOrel.Name_Other, _
-                                                         Nothing, _
-                                                         Nothing, _
-                                                          ObjOrel.Ontology, _
-                                                         Direction)
-                                End Select
-                            Next
-                        End If
                         'Dim objLItems = From objRel In objOntologyList_ObjectRel_ID
                         '        Join objObjs In objOntologyList_Objects1 On objRel.ID_Object Equals objObjs.GUID
                         '        Join objCls In objOntologyList_Classes1 On objRel.ID_Parent_Object Equals objCls.GUID
@@ -4045,7 +3703,6 @@ Public Class clsDBLevel
         Dim strQuery_Name As String
 
         objElConn.Flush()
-        otblT_DataTypes.Clear()
         objOntologyList_DataTypes.Clear()
 
         objOItem_Result = objLogStates.LogState_Success
@@ -4080,14 +3737,10 @@ Public Class clsDBLevel
                 objList = objSearchResult.GetHits.Hits
 
                 For Each objHit In objList
-                    If boolTable = False Then
-                        objOntologyList_DataTypes.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                    objHit.Source(objFields.Name_Item).ToString, _
-                                                                    objTypes.DataType))
-                    Else
-                        otblT_DataTypes.Rows.Add(objHit.Id.ToString, _
-                                                                    objHit.Source(objFields.Name_Item).ToString)
-                    End If
+
+                    objOntologyList_DataTypes.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                objHit.Source(objFields.Name_Item).ToString, _
+                                                                objTypes.DataType))
 
 
                 Next
@@ -4135,9 +3788,7 @@ Public Class clsDBLevel
         objOItem_Result.Count = 0
 
         objOntologyList_ObjectTree.Clear()
-        otblT_ObjectTree.Clear()
         objOntologyList_Objects1.Clear()
-        otblT_Objects.Clear()
 
         objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objOItem_Class_Par.GUID, objTypes.ObjectType))
         objOList_Others.Add(New clsOntologyItem(Nothing, Nothing, objOitem_Class_Child.GUID, objTypes.ObjectType))
@@ -4188,23 +3839,14 @@ Public Class clsDBLevel
                                     Order By ID_Object_Parent, OrderID, Name_Object
 
                 For Each objList_Item In objList_Items
-                    If boolTable = False Then
-                        objOntologyList_ObjectTree.Add(New clsObjectTree(objList_Item.ID_Object, _
-                                                                         objList_Item.Name_Object, _
-                                                                         objList_Item.ID_Parent, _
-                                                                         objList_Item.ID_Object_Parent, _
-                                                                         objList_Item.Name_Object_Parent, _
-                                                                         objList_Item.OrderID))
-                    Else
-                        otblT_ObjectTree.Rows.Add(objList_Item.ID_Object, _
-                                                  objList_Item.Name_Object, _
-                                                  objList_Item.ID_Object_Parent, _
-                                                  objList_Item.ID_Parent, _
-                                                  objList_Item.Name_Object_Parent, _
-                                                  objList_Item.OrderID)
 
+                    objOntologyList_ObjectTree.Add(New clsObjectTree(objList_Item.ID_Object, _
+                                                                     objList_Item.Name_Object, _
+                                                                     objList_Item.ID_Parent, _
+                                                                     objList_Item.ID_Object_Parent, _
+                                                                     objList_Item.Name_Object_Parent, _
+                                                                     objList_Item.OrderID))
 
-                    End If
                 Next
 
                 intCount = objList.Count
@@ -4238,7 +3880,7 @@ Public Class clsDBLevel
         Dim intPos As Integer
 
         objElConn.Flush()
-        otblT_Objects.Clear()
+
         If ClearObj1 = True Then
             objOntologyList_Objects1.Clear()
         End If
@@ -4302,29 +3944,6 @@ Public Class clsDBLevel
                     End If
                 End If
 
-                For Each objHit In objList
-                    If boolTable = True Then
-                        '    If List2 = False Then
-                        '        objOntologyList_Objects1.Add(New clsOntologyItem(objHit.Id.ToString, _
-                        '                                                objHit.Source(objFields.Name_Item).ToString, _
-                        '                                                objHit.Source(objFields.ID_Class).ToString, _
-                        '                                                objTypes.ObjectType))
-                        '    Else
-                        '        objOntologyList_Objects2.Add(New clsOntologyItem(objHit.Id.ToString, _
-                        '                                                objHit.Source(objFields.Name_Item).ToString, _
-                        '                                                objHit.Source(objFields.ID_Class).ToString, _
-                        '                                                objTypes.ObjectType))
-                        '    End If
-
-                        'Else
-                        otblT_Objects.Rows.Add(objHit.Id.ToString, _
-                                                                    objHit.Source(objFields.Name_Item).ToString, _
-                                                                    objHit.Source(objFields.ID_Class).ToString)
-                    End If
-
-
-                Next
-
                 intCount = objList.Count
                 intPos = intPos + intCount
             Else
@@ -4343,78 +3962,6 @@ Public Class clsDBLevel
         Return objOItem_Result
     End Function
 
-
-
-    Public Function create_Report_ES(ByVal objOItem_Report As clsOntologyItem) As clsOntologyItem
-        Dim objOItem_Result As clsOntologyItem
-
-        Return objOItem_Result
-    End Function
-
-    Public Function create_Report_SQL(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing) As clsOntologyItem
-        Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
-        Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
-        Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
-        Dim objHit As ElasticSearch.Client.Domain.Hits
-        Dim objOItem As clsOntologyItem
-        Dim strTable As String
-        Dim intCount As Integer
-        Dim intPos As Integer
-
-        intCount = 0
-        If OList_Classes Is Nothing Then
-            objBoolQuery.Add(New TermQuery(New Term("ID_Item", "*")), BooleanClause.Occur.MUST)
-        Else
-            For Each objOItem In OList_Classes
-                strTable = strSession & objOItem.GUID
-                objBoolQuery.Add(New TermQuery(New Term("ID_Item", objOItem.GUID)), BooleanClause.Occur.MUST)
-            Next
-        End If
-
-
-        objOntologyList_Classes1.Clear()
-
-        intCount = intPackageLength
-        intPos = 0
-        While intCount > 0
-
-            intCount = 0
-            objSearchResult = objElConn.Search(strIndex, objTypes.ClassType, objBoolQuery.ToString, intPos, intPackageLength)
-            objList = objSearchResult.GetHits.Hits
-            'Dim a = From obja In objList
-            'Where (Not obja.Source("@fields")("ex_cid") Is Nothing)
-            '       Group obja By key = obja.Source("@fields")("ex_cid").First.ToString Into Count() Select key, count = Count
-
-            'For Each b In a
-            '    CidA_Count.Insert(Integer.Parse(b.key), b.count)
-            'Next
-            For Each objHit In objList
-
-                If Not objHit.Source("ID_Parent") = "" Then
-                    otblT_Classes.Rows.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                objHit.Source(objFields.Name_Item).ToString, _
-                                                                objHit.Source(objFields.ID_Parent).ToString))
-                Else
-                    otblT_Classes.Rows.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                objHit.Source(objFields.Name_Item).ToString, _
-                                                                Nothing))
-                End If
-
-
-
-
-
-
-            Next
-
-            intCount = objList.Count
-
-            objList.Clear()
-            objSearchResult = Nothing
-            objList = Nothing
-            intPos = intPos + intCount
-        End While
-    End Function
 
     Public Function get_Data_Classes(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing, _
                                      Optional ByVal boolTable As Boolean = False, _
@@ -4440,8 +3987,6 @@ Public Class clsDBLevel
             objOntologyList_Classes2.Clear()
         End If
 
-
-        tbl_Classes.Clear()
 
         objOItem_Result = objLogStates.LogState_Success
         objOItem_Result.Count = 0
@@ -4478,44 +4023,32 @@ Public Class clsDBLevel
                 '    CidA_Count.Insert(Integer.Parse(b.key), b.count)
                 'Next
                 For Each objHit In objList
-                    If boolTable = False Then
-                        If Not objHit.Source("ID_Parent") = "" Then
-                            If boolClasses_Right = False Then
-                                objOntologyList_Classes1.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                        objHit.Source(objFields.Name_Item).ToString, _
-                                                                        objHit.Source(objFields.ID_Parent).ToString, _
-                                                                        objTypes.ClassType))
-                            Else
-                                objOntologyList_Classes2.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                        objHit.Source(objFields.Name_Item).ToString, _
-                                                                        objHit.Source(objFields.ID_Parent).ToString, _
-                                                                        objTypes.ClassType))
-                            End If
 
+                    If Not objHit.Source("ID_Parent") = "" Then
+                        If boolClasses_Right = False Then
+                            objOntologyList_Classes1.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                    objHit.Source(objFields.Name_Item).ToString, _
+                                                                    objHit.Source(objFields.ID_Parent).ToString, _
+                                                                    objTypes.ClassType))
                         Else
-                            If boolClasses_Right = False Then
-                                objOntologyList_Classes1.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                        objHit.Source(objFields.Name_Item).ToString, _
-                                                                        objTypes.ClassType))
-                            Else
-                                objOntologyList_Classes2.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                        objHit.Source(objFields.Name_Item).ToString, _
-                                                                        objTypes.ClassType))
-                            End If
-
+                            objOntologyList_Classes2.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                    objHit.Source(objFields.Name_Item).ToString, _
+                                                                    objHit.Source(objFields.ID_Parent).ToString, _
+                                                                    objTypes.ClassType))
                         End If
+
                     Else
-                        If Not objHit.Source("ID_Parent") = "" Then
-                            otblT_Classes.Rows.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                        objHit.Source(objFields.Name_Item).ToString, _
-                                                                        objHit.Source(objFields.ID_Parent).ToString))
+                        If boolClasses_Right = False Then
+                            objOntologyList_Classes1.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                    objHit.Source(objFields.Name_Item).ToString, _
+                                                                    objTypes.ClassType))
                         Else
-                            otblT_Classes.Rows.Add(New clsOntologyItem(objHit.Id.ToString, _
-                                                                        objHit.Source(objFields.Name_Item).ToString, _
-                                                                        Nothing))
+                            objOntologyList_Classes2.Add(New clsOntologyItem(objHit.Id.ToString, _
+                                                                    objHit.Source(objFields.Name_Item).ToString, _
+                                                                    objTypes.ClassType))
                         End If
-                    End If
 
+                    End If
 
 
 

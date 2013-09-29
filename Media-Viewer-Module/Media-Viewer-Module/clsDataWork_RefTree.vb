@@ -4,6 +4,7 @@ Public Class clsDataWork_RefTree
 
     Private objDBLevel_RefItems As clsDBLevel
     Private objDBLevel_Classes As clsDBLevel
+    Private objDBLevel_Related As clsDBLevel
     Private objOLClasses_Tree As New List(Of clsOntologyItem)
     Private objOLClasses_Mark As New List(Of clsOntologyItem)
     Private oLClasses As Object
@@ -396,6 +397,10 @@ Public Class clsDataWork_RefTree
         Return objOItem_Result
     End Function
 
+    Public Function GetOItem(GUID_Item As String, Type_Item As String) As clsOntologyItem
+        Return objDBLevel_Related.GetOItem(GUID_Item, Type_Item)
+    End Function
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
 
         objLocalConfig = LocalConfig
@@ -405,5 +410,6 @@ Public Class clsDataWork_RefTree
     Private Sub set_DBConnection()
         objDBLevel_RefItems = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Classes = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Related = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class

@@ -1000,7 +1000,7 @@ Public Class clsDataWork_Ontologies
 
         objORL_OntologyRelationRulesOfOItems.Add(New clsObjectRel With {.ID_Parent_Object = objLocalConfig.Globals.Class_OntologyItems.GUID,
                                                                         .ID_Parent_Other = objLocalConfig.Globals.Class_OntologyRelationRule.GUID,
-                                                                        .ID_RelationType = objLocalConfig.Globals.RelationType_isOfType.GUID})
+                                                                        .ID_RelationType = objLocalConfig.Globals.RelationType_contains.GUID})
 
         objOItem_OntologyRelationRulesOfOItems = objDBLevel_OntologyRelationRulesOfOItems.get_Data_ObjectRel(objORL_OntologyRelationRulesOfOItems, boolIDs:=False)
     End Sub
@@ -1070,7 +1070,7 @@ Public Class clsDataWork_Ontologies
                                                                          .ID_Parent_Other = OItem_Rule.GUID_Parent, _
                                                                          .OrderID = 1, _
                                                                          .Ontology = objLocalConfig.Globals.Type_Object, _
-                                                                         .ID_RelationType = objLocalConfig.Globals.RelationType_isOfType.GUID}
+                                                                         .ID_RelationType = objLocalConfig.Globals.RelationType_contains.GUID}
 
         Return objOR_OntologyItem_To_OntologyRule
     End Function

@@ -42,6 +42,7 @@ Public Class UserControl_OntologyItemList
             DataGridView_OItems.DataSource = Nothing
         End If
 
+        ToolStripLabel_Count.Text = DataGridView_OItems.RowCount
     End Sub
 
     Private Sub ContextMenuStrip_OItems_Opening( sender As Object,  e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_OItems.Opening
@@ -112,6 +113,7 @@ Public Class UserControl_OntologyItemList
     Private Sub AddToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddToolStripMenuItem.Click
         objFrmMain = New frmMain(objDataWork_Ontologies.LocalConfig.Globals)
         objFrmMain.Applyable = True
+        objFrmMain.ShowDialog(Me)
         If objFrmMain.DialogResult = DialogResult.OK Then
             Dim intToDo = objFrmMain.OList_Simple.Count
             Dim intDone = 0
@@ -121,8 +123,8 @@ Public Class UserControl_OntologyItemList
                 If objOItem_OItem Is Nothing Then
                     objOItem_OItem = New clsOntologyItem With {.GUID = objDataWork_Ontologies.LocalConfig.Globals.NewGUID, _
                                                               .Name = objOItem.Name, _
-                                                              .GUID_Parent = objOItem.GUID_Parent, _
-                                                              .Type = objOItem.Type}
+                                                              .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_OntologyItems.GUID, _
+                                                              .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}
                     objTransaction.ClearItems()
 
                     Dim objOItem_Result = objTransaction.do_Transaction(objOItem_OItem)

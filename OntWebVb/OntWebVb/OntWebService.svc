@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="VB" Debug="true" Service="OntWebVb.OntWebService" CodeBehind="OntWebService.svc.vb" %>

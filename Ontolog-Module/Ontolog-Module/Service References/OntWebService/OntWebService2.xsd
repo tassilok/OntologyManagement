@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:5970/OntWebService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/OntWebVb" />
+  <xs:import schemaLocation="http://localhost:5970/OntWebService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:element name="del_AttributeType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="OList_AttributeType" nillable="true" type="q1:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="del_AttributeTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="del_AttributeTypeResult" nillable="true" type="q2:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="del_RelationType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oItem_RelationType" nillable="true" type="q3:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="del_RelationTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="del_RelationTypeResult" nillable="true" type="q4:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="del_ClassAttType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oItem_Class" nillable="true" type="q5:clsOntologyItem" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oItem_AttType" nillable="true" type="q6:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="del_ClassAttTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="del_ClassAttTypeResult" nillable="true" type="q7:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="del_Objects">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="List_Objects" nillable="true" type="q8:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="del_ObjectsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="del_ObjectsResult" nillable="true" type="q9:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="del_ClassRel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_ClRel" nillable="true" type="q10:ArrayOfclsClassRel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="del_ClassRelResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="del_ClassRelResult" nillable="true" type="q11:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="del_ObjectAtt">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_ObjectAtts" nillable="true" type="q12:ArrayOfclsObjectAtt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="del_ObjectAttResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="del_ObjectAttResult" nillable="true" type="q13:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="del_ObjectRel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_ObjecRels" nillable="true" type="q14:ArrayOfclsObjectRel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="del_ObjectRelResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="del_ObjectRelResult" nillable="true" type="q15:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="del_Class">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_Class" nillable="true" type="q16:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="del_ClassResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="del_ClassResult" nillable="true" type="q17:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="save_RelationType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oItem_RelationType" nillable="true" type="q18:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="save_RelationTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="save_RelationTypeResult" nillable="true" type="q19:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="save_Class">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="objOItem_Class" nillable="true" type="q20:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="save_ClassResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="save_ClassResult" nillable="true" type="q21:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="save_ClassAttType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_ClassAtt" nillable="true" type="q22:ArrayOfclsClassAtt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="save_ClassAttTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="save_ClassAttTypeResult" nillable="true" type="q23:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="save_ClassRel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_ClassRel" nillable="true" type="q24:ArrayOfclsClassRel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="save_ClassRelResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="save_ClassRelResult" nillable="true" type="q25:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="save_ObjAtt">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_ObjAtt" nillable="true" type="q26:ArrayOfclsObjectAtt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="save_ObjAttResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="save_ObjAttResult" nillable="true" type="q27:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="save_Objects">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_Objects" nillable="true" type="q28:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="save_ObjectsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="save_ObjectsResult" nillable="true" type="q29:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="save_ObjRel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_ObjectRel" nillable="true" type="q30:ArrayOfclsObjectRel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="save_ObjRelResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="save_ObjRelResult" nillable="true" type="q31:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="save_AttributeType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oItem_AttributeType" nillable="true" type="q32:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="save_AttributeTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="save_AttributeTypeResult" nillable="true" type="q33:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_Att_OrderByVal">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="strOrderField" nillable="true" type="xs:string" />
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="OItem_Object" nillable="true" type="q34:clsOntologyItem" />
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="OItem_AttributeType" nillable="true" type="q35:clsOntologyItem" />
+        <xs:element minOccurs="0" name="doASC" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_Att_OrderByValResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="get_Data_Att_OrderByValResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_Att_OrderID">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="OItem_Object" nillable="true" type="q36:clsOntologyItem" />
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="OItem_AttributeType" nillable="true" type="q37:clsOntologyItem" />
+        <xs:element minOccurs="0" name="doASC" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_Att_OrderIDResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="get_Data_Att_OrderIDResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_AttributeType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="OList_AttType" nillable="true" type="q38:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_AttributeTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="get_Data_AttributeTypeResult" nillable="true" type="q39:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_AttributeTypeCount">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q40="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="OList_AttType" nillable="true" type="q40:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_AttributeTypeCountResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="get_Data_AttributeTypeCountResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ClassAtt">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_Class" nillable="true" type="q41:ArrayOfclsOntologyItem" />
+        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_AttributeTyp" nillable="true" type="q42:ArrayOfclsOntologyItem" />
+        <xs:element minOccurs="0" name="boolIDs" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ClassAttResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="get_Data_ClassAttResult" nillable="true" type="q43:ArrayOfclsClassAtt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ClassAttCount">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_Class" nillable="true" type="q44:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ClassAttCountResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="get_Data_ClassAttCountResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_Classes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="OList_Classes" nillable="true" type="q45:ArrayOfclsOntologyItem" />
+        <xs:element minOccurs="0" name="boolClasses_Right" type="xs:boolean" />
+        <xs:element minOccurs="0" name="strSort" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ClassesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="get_Data_ClassesResult" nillable="true" type="q46:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ClassesCount">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q47="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="OList_Classes" nillable="true" type="q47:ArrayOfclsOntologyItem" />
+        <xs:element minOccurs="0" name="boolClasses_Right" type="xs:boolean" />
+        <xs:element minOccurs="0" name="strSort" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ClassesCountResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="get_Data_ClassesCountResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ClassRel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q48="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="OList_ClassRel" nillable="true" type="q48:ArrayOfclsClassRel" />
+        <xs:element minOccurs="0" name="boolIDs" type="xs:boolean" />
+        <xs:element minOccurs="0" name="boolOR" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ClassRelResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q49="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="get_Data_ClassRelResult" nillable="true" type="q49:ArrayOfclsClassRel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ClassRelCount">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q50="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="OList_ClassRel" nillable="true" type="q50:ArrayOfclsClassRel" />
+        <xs:element minOccurs="0" name="boolOR" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ClassRelCountResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="get_Data_ClassRelCountResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_DataTypes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q51="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_DataTypes" nillable="true" type="q51:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_DataTypesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q52="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="get_Data_DataTypesResult" nillable="true" type="q52:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_DataTypesCount">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q53="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_DataTypes" nillable="true" type="q53:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_DataTypesCountResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="get_Data_DataTypesCountResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ObjectAtt">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q54="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_ObjectAtt" nillable="true" type="q54:ArrayOfclsObjectAtt" />
+        <xs:element minOccurs="0" name="boolIDs" type="xs:boolean" />
+        <xs:element minOccurs="0" name="doJoin" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ObjectAttResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q55="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="get_Data_ObjectAttResult" nillable="true" type="q55:ArrayOfclsObjectAtt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ObjectAttCount">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q56="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_ObjectAtt" nillable="true" type="q56:ArrayOfclsObjectAtt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ObjectAttCountResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="get_Data_ObjectAttCountResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ObjectRel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q57="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_ObjectRel" nillable="true" type="q57:ArrayOfclsObjectRel" />
+        <xs:element minOccurs="0" name="boolIDs" type="xs:boolean" />
+        <xs:element minOccurs="0" name="Direction" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="boolClear" type="xs:boolean" />
+        <xs:element minOccurs="0" name="doJoin_Left" type="xs:boolean" />
+        <xs:element minOccurs="0" name="doJoin_right" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ObjectRelResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q58="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="get_Data_ObjectRelResult" nillable="true" type="q58:ArrayOfclsObjectRel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ObjectRelCount">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q59="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_ObjectRel" nillable="true" type="q59:ArrayOfclsObjectRel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ObjectRelCountResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="get_Data_ObjectRelCountResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_Objects">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q60="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_Objects" nillable="true" type="q60:ArrayOfclsOntologyItem" />
+        <xs:element minOccurs="0" name="List2" type="xs:boolean" />
+        <xs:element minOccurs="0" name="ClearObj1" type="xs:boolean" />
+        <xs:element minOccurs="0" name="ClearObj2" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ObjectsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q61="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="get_Data_ObjectsResult" nillable="true" type="q61:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ObjectsCount">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q62="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="oList_Objects" nillable="true" type="q62:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_ObjectsCountResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="get_Data_ObjectsCountResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_Objects_Tree">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q63="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="objOItem_Class_Par" nillable="true" type="q63:clsOntologyItem" />
+        <xs:element xmlns:q64="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="objOitem_Class_Child" nillable="true" type="q64:clsOntologyItem" />
+        <xs:element xmlns:q65="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="objOItem_RelationType" nillable="true" type="q65:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_Objects_TreeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q66="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="get_Data_Objects_TreeResult" nillable="true" type="q66:ArrayOfclsObjectTree" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_Objects_TreeCount">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q67="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="objOItem_Class_Par" nillable="true" type="q67:clsOntologyItem" />
+        <xs:element xmlns:q68="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="objOitem_Class_Child" nillable="true" type="q68:clsOntologyItem" />
+        <xs:element xmlns:q69="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="objOItem_RelationType" nillable="true" type="q69:clsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_Objects_TreeCountResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="get_Data_Objects_TreeCountResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_Rel_OrderID">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q70="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="OItem_Left" nillable="true" type="q70:clsOntologyItem" />
+        <xs:element xmlns:q71="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="OItem_Right" nillable="true" type="q71:clsOntologyItem" />
+        <xs:element xmlns:q72="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="OItem_RelationType" nillable="true" type="q72:clsOntologyItem" />
+        <xs:element minOccurs="0" name="doASC" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_Rel_OrderIDResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="get_Data_Rel_OrderIDResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_RelationTypes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q73="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="OList_RelType" nillable="true" type="q73:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_RelationTypesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q74="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="get_Data_RelationTypesResult" nillable="true" type="q74:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_RelationTypesCount">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q75="http://schemas.datacontract.org/2004/07/OntWebVb" minOccurs="0" name="OList_RelType" nillable="true" type="q75:ArrayOfclsOntologyItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_Data_RelationTypesCountResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="get_Data_RelationTypesCountResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

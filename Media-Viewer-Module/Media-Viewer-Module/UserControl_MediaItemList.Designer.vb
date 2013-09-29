@@ -45,6 +45,8 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripButton_Bookmarks = New System.Windows.Forms.ToolStripButton()
         Me.OpenFileDialog_MediaItem = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog_Save = New System.Windows.Forms.FolderBrowserDialog()
+        Me.ContextMenuStrip_Items = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.RelateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.BindingSource_MediaItems, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -53,6 +55,7 @@ Partial Class UserControl_MediaItemList
         Me.ToolStrip2.SuspendLayout()
         CType(Me.DataGridView_MediaItems, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStrip1.SuspendLayout()
+        Me.ContextMenuStrip_Items.SuspendLayout()
         Me.SuspendLayout()
         '
         'Timer_MediaItems
@@ -117,6 +120,7 @@ Partial Class UserControl_MediaItemList
         Me.DataGridView_MediaItems.AllowUserToAddRows = False
         Me.DataGridView_MediaItems.AllowUserToDeleteRows = False
         Me.DataGridView_MediaItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView_MediaItems.ContextMenuStrip = Me.ContextMenuStrip_Items
         Me.DataGridView_MediaItems.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView_MediaItems.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_MediaItems.Name = "DataGridView_MediaItems"
@@ -208,6 +212,18 @@ Partial Class UserControl_MediaItemList
         '
         Me.OpenFileDialog_MediaItem.FileName = "OpenFileDialog1"
         '
+        'ContextMenuStrip_Items
+        '
+        Me.ContextMenuStrip_Items.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RelateToolStripMenuItem})
+        Me.ContextMenuStrip_Items.Name = "ContextMenuStrip_Items"
+        Me.ContextMenuStrip_Items.Size = New System.Drawing.Size(153, 48)
+        '
+        'RelateToolStripMenuItem
+        '
+        Me.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem"
+        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.RelateToolStripMenuItem.Text = "x_Relate"
+        '
         'UserControl_MediaItemList
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -228,6 +244,7 @@ Partial Class UserControl_MediaItemList
         CType(Me.DataGridView_MediaItems, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
+        Me.ContextMenuStrip_Items.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -252,5 +269,7 @@ Partial Class UserControl_MediaItemList
     Friend WithEvents ToolStripButton_Play As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents FolderBrowserDialog_Save As System.Windows.Forms.FolderBrowserDialog
+    Friend WithEvents ContextMenuStrip_Items As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents RelateToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

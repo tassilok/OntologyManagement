@@ -8,11 +8,14 @@ Public Class UserControl_RefTree
 
     Private objOItem_MediaType As clsOntologyItem
 
+    Private objOItem_Relate As clsOntologyItem
+
     Private objFrmMain As frmMain
     Private objFrmObjectEdit As frm_ObjectEdit
 
     Public Event selected_Item(ByVal objOItem_Ref As clsOntologyItem)
     Public Event save_Items()
+    Public Event relate_Item(OItem_Related As clsOntologyItem)
 
     Public Sub fill_Tree(ByVal OItem_MediaType As clsOntologyItem)
         Dim objOItem_Result As clsOntologyItem
@@ -97,6 +100,7 @@ Public Class UserControl_RefTree
 
         AddToolStripMenuItem.Enabled = False
         SaveToolStripMenuItem.Enabled = False
+        RelateToolStripMenuItem.Enabled = False
 
         objTreeNode = TreeView_Ref.SelectedNode
         If Not objTreeNode Is Nothing Then
@@ -107,6 +111,7 @@ Public Class UserControl_RefTree
                 objTreeNode.ImageIndex = objLocalConfig.ImageID_Open_Images_SubItems Then
 
                 AddToolStripMenuItem.Enabled = True
+                RelateToolStripMenuItem.Enabled = True
             ElseIf objTreeNode.ImageIndex = objLocalConfig.ImageID_Close Or _
                 objTreeNode.ImageIndex = objLocalConfig.ImageID_Open_SubItems Or _
                 objTreeNode.ImageIndex = objLocalConfig.ImageID_Close_Images Or _
@@ -117,6 +122,7 @@ Public Class UserControl_RefTree
                 objTreeNode.ImageIndex = objLocalConfig.ImageID_Token_Named Then
 
                 SaveToolStripMenuItem.Enabled = True
+                RelateToolStripMenuItem.Enabled = True
             End If
         End If
 
@@ -286,5 +292,24 @@ Public Class UserControl_RefTree
 
             End If
         End If
+    End Sub
+
+    Private Sub RelateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RelateToolStripMenuItem.Click
+        Dim objTreeNode As TreeNode = TreeView_Ref.SelectedNode
+
+        objOItem_Relate = Nothing
+
+        Select Case objTreeNode.ImageIndex
+            Case objLocalConfig.ImageID_Attribute
+                objOItem_Relate = objDataWork_RefTree.GetOItem(objTreeNode.Name, objLocalConfig.Globals.Type_AttributeType)
+            Case objLocalConfig.ImageID_Close, objLocalConfig.ImageID_Close_Images, objLocalConfig.ImageID_Close_Images_SubItems, objLocalConfig.ImageID_Close_RelateChoose, objLocalConfig.ImageID_Close_SubItems
+                objOItem_Relate = objDataWork_RefTree.GetOItem(objTreeNode.Name, objLocalConfig.Globals.Type_Class)
+            Case objLocalConfig.ImageID_RelationType
+                objOItem_Relate = objDataWork_RefTree.GetOItem(objTreeNode.Name, objLocalConfig.Globals.Type_RelationType)
+            Case objLocalConfig.ImageID_Token
+                objOItem_Relate = objDataWork_RefTree.GetOItem(objTreeNode.Name, objLocalConfig.Globals.Type_Object)
+        End Select
+
+        RaiseEvent relate_Item(objOItem_Relate)
     End Sub
 End Class

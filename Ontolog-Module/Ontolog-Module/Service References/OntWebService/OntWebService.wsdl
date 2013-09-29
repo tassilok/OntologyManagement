@@ -1,0 +1,762 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="OntWebService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:5970/OntWebService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:5970/OntWebService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:5970/OntWebService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/OntWebVb" />
+      <xsd:import schemaLocation="http://localhost:5970/OntWebService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IOntWebService_del_AttributeType_InputMessage">
+    <wsdl:part name="parameters" element="tns:del_AttributeType" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_del_AttributeType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:del_AttributeTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_del_RelationType_InputMessage">
+    <wsdl:part name="parameters" element="tns:del_RelationType" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_del_RelationType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:del_RelationTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_del_ClassAttType_InputMessage">
+    <wsdl:part name="parameters" element="tns:del_ClassAttType" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_del_ClassAttType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:del_ClassAttTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_del_Objects_InputMessage">
+    <wsdl:part name="parameters" element="tns:del_Objects" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_del_Objects_OutputMessage">
+    <wsdl:part name="parameters" element="tns:del_ObjectsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_del_ClassRel_InputMessage">
+    <wsdl:part name="parameters" element="tns:del_ClassRel" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_del_ClassRel_OutputMessage">
+    <wsdl:part name="parameters" element="tns:del_ClassRelResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_del_ObjectAtt_InputMessage">
+    <wsdl:part name="parameters" element="tns:del_ObjectAtt" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_del_ObjectAtt_OutputMessage">
+    <wsdl:part name="parameters" element="tns:del_ObjectAttResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_del_ObjectRel_InputMessage">
+    <wsdl:part name="parameters" element="tns:del_ObjectRel" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_del_ObjectRel_OutputMessage">
+    <wsdl:part name="parameters" element="tns:del_ObjectRelResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_del_Class_InputMessage">
+    <wsdl:part name="parameters" element="tns:del_Class" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_del_Class_OutputMessage">
+    <wsdl:part name="parameters" element="tns:del_ClassResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_save_RelationType_InputMessage">
+    <wsdl:part name="parameters" element="tns:save_RelationType" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_save_RelationType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:save_RelationTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_save_Class_InputMessage">
+    <wsdl:part name="parameters" element="tns:save_Class" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_save_Class_OutputMessage">
+    <wsdl:part name="parameters" element="tns:save_ClassResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_save_ClassAttType_InputMessage">
+    <wsdl:part name="parameters" element="tns:save_ClassAttType" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_save_ClassAttType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:save_ClassAttTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_save_ClassRel_InputMessage">
+    <wsdl:part name="parameters" element="tns:save_ClassRel" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_save_ClassRel_OutputMessage">
+    <wsdl:part name="parameters" element="tns:save_ClassRelResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_save_ObjAtt_InputMessage">
+    <wsdl:part name="parameters" element="tns:save_ObjAtt" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_save_ObjAtt_OutputMessage">
+    <wsdl:part name="parameters" element="tns:save_ObjAttResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_save_Objects_InputMessage">
+    <wsdl:part name="parameters" element="tns:save_Objects" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_save_Objects_OutputMessage">
+    <wsdl:part name="parameters" element="tns:save_ObjectsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_save_ObjRel_InputMessage">
+    <wsdl:part name="parameters" element="tns:save_ObjRel" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_save_ObjRel_OutputMessage">
+    <wsdl:part name="parameters" element="tns:save_ObjRelResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_save_AttributeType_InputMessage">
+    <wsdl:part name="parameters" element="tns:save_AttributeType" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_save_AttributeType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:save_AttributeTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_Att_OrderByVal_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_Att_OrderByVal" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_Att_OrderByVal_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_Att_OrderByValResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_Att_OrderID_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_Att_OrderID" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_Att_OrderID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_Att_OrderIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_AttributeType_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_AttributeType" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_AttributeType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_AttributeTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_AttributeTypeCount_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_AttributeTypeCount" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_AttributeTypeCount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_AttributeTypeCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ClassAtt_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ClassAtt" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ClassAtt_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ClassAttResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ClassAttCount_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ClassAttCount" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ClassAttCount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ClassAttCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_Classes_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_Classes" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_Classes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ClassesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ClassesCount_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ClassesCount" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ClassesCount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ClassesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ClassRel_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ClassRel" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ClassRel_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ClassRelResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ClassRelCount_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ClassRelCount" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ClassRelCount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ClassRelCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_DataTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_DataTypes" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_DataTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_DataTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_DataTypesCount_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_DataTypesCount" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_DataTypesCount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_DataTypesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ObjectAtt_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ObjectAtt" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ObjectAtt_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ObjectAttResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ObjectAttCount_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ObjectAttCount" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ObjectAttCount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ObjectAttCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ObjectRel_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ObjectRel" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ObjectRel_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ObjectRelResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ObjectRelCount_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ObjectRelCount" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ObjectRelCount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ObjectRelCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_Objects_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_Objects" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_Objects_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ObjectsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ObjectsCount_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ObjectsCount" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_ObjectsCount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_ObjectsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_Objects_Tree_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_Objects_Tree" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_Objects_Tree_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_Objects_TreeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_Objects_TreeCount_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_Objects_TreeCount" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_Objects_TreeCount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_Objects_TreeCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_Rel_OrderID_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_Rel_OrderID" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_Rel_OrderID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_Rel_OrderIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_RelationTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_RelationTypes" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_RelationTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_RelationTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_RelationTypesCount_InputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_RelationTypesCount" />
+  </wsdl:message>
+  <wsdl:message name="IOntWebService_get_Data_RelationTypesCount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:get_Data_RelationTypesCountResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IOntWebService">
+    <wsdl:operation name="del_AttributeType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/del_AttributeType" message="tns:IOntWebService_del_AttributeType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/del_AttributeTypeResponse" message="tns:IOntWebService_del_AttributeType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="del_RelationType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/del_RelationType" message="tns:IOntWebService_del_RelationType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/del_RelationTypeResponse" message="tns:IOntWebService_del_RelationType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="del_ClassAttType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/del_ClassAttType" message="tns:IOntWebService_del_ClassAttType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/del_ClassAttTypeResponse" message="tns:IOntWebService_del_ClassAttType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="del_Objects">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/del_Objects" message="tns:IOntWebService_del_Objects_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/del_ObjectsResponse" message="tns:IOntWebService_del_Objects_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="del_ClassRel">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/del_ClassRel" message="tns:IOntWebService_del_ClassRel_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/del_ClassRelResponse" message="tns:IOntWebService_del_ClassRel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="del_ObjectAtt">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/del_ObjectAtt" message="tns:IOntWebService_del_ObjectAtt_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/del_ObjectAttResponse" message="tns:IOntWebService_del_ObjectAtt_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="del_ObjectRel">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/del_ObjectRel" message="tns:IOntWebService_del_ObjectRel_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/del_ObjectRelResponse" message="tns:IOntWebService_del_ObjectRel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="del_Class">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/del_Class" message="tns:IOntWebService_del_Class_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/del_ClassResponse" message="tns:IOntWebService_del_Class_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="save_RelationType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/save_RelationType" message="tns:IOntWebService_save_RelationType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/save_RelationTypeResponse" message="tns:IOntWebService_save_RelationType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="save_Class">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/save_Class" message="tns:IOntWebService_save_Class_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/save_ClassResponse" message="tns:IOntWebService_save_Class_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="save_ClassAttType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/save_ClassAttType" message="tns:IOntWebService_save_ClassAttType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/save_ClassAttTypeResponse" message="tns:IOntWebService_save_ClassAttType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="save_ClassRel">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/save_ClassRel" message="tns:IOntWebService_save_ClassRel_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/save_ClassRelResponse" message="tns:IOntWebService_save_ClassRel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="save_ObjAtt">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/save_ObjAtt" message="tns:IOntWebService_save_ObjAtt_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/save_ObjAttResponse" message="tns:IOntWebService_save_ObjAtt_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="save_Objects">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/save_Objects" message="tns:IOntWebService_save_Objects_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/save_ObjectsResponse" message="tns:IOntWebService_save_Objects_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="save_ObjRel">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/save_ObjRel" message="tns:IOntWebService_save_ObjRel_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/save_ObjRelResponse" message="tns:IOntWebService_save_ObjRel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="save_AttributeType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/save_AttributeType" message="tns:IOntWebService_save_AttributeType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/save_AttributeTypeResponse" message="tns:IOntWebService_save_AttributeType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_Att_OrderByVal">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_Att_OrderByVal" message="tns:IOntWebService_get_Data_Att_OrderByVal_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_Att_OrderByValResponse" message="tns:IOntWebService_get_Data_Att_OrderByVal_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_Att_OrderID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_Att_OrderID" message="tns:IOntWebService_get_Data_Att_OrderID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_Att_OrderIDResponse" message="tns:IOntWebService_get_Data_Att_OrderID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_AttributeType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_AttributeType" message="tns:IOntWebService_get_Data_AttributeType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_AttributeTypeResponse" message="tns:IOntWebService_get_Data_AttributeType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_AttributeTypeCount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_AttributeTypeCount" message="tns:IOntWebService_get_Data_AttributeTypeCount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_AttributeTypeCountResponse" message="tns:IOntWebService_get_Data_AttributeTypeCount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ClassAtt">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ClassAtt" message="tns:IOntWebService_get_Data_ClassAtt_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ClassAttResponse" message="tns:IOntWebService_get_Data_ClassAtt_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ClassAttCount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ClassAttCount" message="tns:IOntWebService_get_Data_ClassAttCount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ClassAttCountResponse" message="tns:IOntWebService_get_Data_ClassAttCount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_Classes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_Classes" message="tns:IOntWebService_get_Data_Classes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ClassesResponse" message="tns:IOntWebService_get_Data_Classes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ClassesCount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ClassesCount" message="tns:IOntWebService_get_Data_ClassesCount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ClassesCountResponse" message="tns:IOntWebService_get_Data_ClassesCount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ClassRel">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ClassRel" message="tns:IOntWebService_get_Data_ClassRel_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ClassRelResponse" message="tns:IOntWebService_get_Data_ClassRel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ClassRelCount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ClassRelCount" message="tns:IOntWebService_get_Data_ClassRelCount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ClassRelCountResponse" message="tns:IOntWebService_get_Data_ClassRelCount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_DataTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_DataTypes" message="tns:IOntWebService_get_Data_DataTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_DataTypesResponse" message="tns:IOntWebService_get_Data_DataTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_DataTypesCount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_DataTypesCount" message="tns:IOntWebService_get_Data_DataTypesCount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_DataTypesCountResponse" message="tns:IOntWebService_get_Data_DataTypesCount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ObjectAtt">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ObjectAtt" message="tns:IOntWebService_get_Data_ObjectAtt_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ObjectAttResponse" message="tns:IOntWebService_get_Data_ObjectAtt_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ObjectAttCount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ObjectAttCount" message="tns:IOntWebService_get_Data_ObjectAttCount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ObjectAttCountResponse" message="tns:IOntWebService_get_Data_ObjectAttCount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ObjectRel">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ObjectRel" message="tns:IOntWebService_get_Data_ObjectRel_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ObjectRelResponse" message="tns:IOntWebService_get_Data_ObjectRel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ObjectRelCount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ObjectRelCount" message="tns:IOntWebService_get_Data_ObjectRelCount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ObjectRelCountResponse" message="tns:IOntWebService_get_Data_ObjectRelCount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_Objects">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_Objects" message="tns:IOntWebService_get_Data_Objects_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ObjectsResponse" message="tns:IOntWebService_get_Data_Objects_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ObjectsCount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ObjectsCount" message="tns:IOntWebService_get_Data_ObjectsCount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_ObjectsCountResponse" message="tns:IOntWebService_get_Data_ObjectsCount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_Objects_Tree">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_Objects_Tree" message="tns:IOntWebService_get_Data_Objects_Tree_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_Objects_TreeResponse" message="tns:IOntWebService_get_Data_Objects_Tree_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_Objects_TreeCount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_Objects_TreeCount" message="tns:IOntWebService_get_Data_Objects_TreeCount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_Objects_TreeCountResponse" message="tns:IOntWebService_get_Data_Objects_TreeCount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_Rel_OrderID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_Rel_OrderID" message="tns:IOntWebService_get_Data_Rel_OrderID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_Rel_OrderIDResponse" message="tns:IOntWebService_get_Data_Rel_OrderID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_RelationTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_RelationTypes" message="tns:IOntWebService_get_Data_RelationTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_RelationTypesResponse" message="tns:IOntWebService_get_Data_RelationTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_RelationTypesCount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IOntWebService/get_Data_RelationTypesCount" message="tns:IOntWebService_get_Data_RelationTypesCount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IOntWebService/get_Data_RelationTypesCountResponse" message="tns:IOntWebService_get_Data_RelationTypesCount_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IOntWebService" type="tns:IOntWebService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="del_AttributeType">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/del_AttributeType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="del_RelationType">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/del_RelationType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="del_ClassAttType">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/del_ClassAttType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="del_Objects">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/del_Objects" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="del_ClassRel">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/del_ClassRel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="del_ObjectAtt">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/del_ObjectAtt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="del_ObjectRel">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/del_ObjectRel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="del_Class">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/del_Class" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="save_RelationType">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/save_RelationType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="save_Class">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/save_Class" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="save_ClassAttType">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/save_ClassAttType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="save_ClassRel">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/save_ClassRel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="save_ObjAtt">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/save_ObjAtt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="save_Objects">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/save_Objects" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="save_ObjRel">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/save_ObjRel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="save_AttributeType">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/save_AttributeType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_Att_OrderByVal">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_Att_OrderByVal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_Att_OrderID">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_Att_OrderID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_AttributeType">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_AttributeType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_AttributeTypeCount">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_AttributeTypeCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ClassAtt">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_ClassAtt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ClassAttCount">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_ClassAttCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_Classes">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_Classes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ClassesCount">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_ClassesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ClassRel">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_ClassRel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ClassRelCount">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_ClassRelCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_DataTypes">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_DataTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_DataTypesCount">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_DataTypesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ObjectAtt">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_ObjectAtt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ObjectAttCount">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_ObjectAttCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ObjectRel">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_ObjectRel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ObjectRelCount">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_ObjectRelCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_Objects">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_Objects" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_ObjectsCount">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_ObjectsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_Objects_Tree">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_Objects_Tree" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_Objects_TreeCount">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_Objects_TreeCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_Rel_OrderID">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_Rel_OrderID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_RelationTypes">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_RelationTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_Data_RelationTypesCount">
+      <soap:operation soapAction="http://tempuri.org/IOntWebService/get_Data_RelationTypesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OntWebService">
+    <wsdl:port name="BasicHttpBinding_IOntWebService" binding="tns:BasicHttpBinding_IOntWebService">
+      <soap:address location="http://localhost:5970/OntWebService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

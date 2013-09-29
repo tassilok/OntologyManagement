@@ -9,10 +9,22 @@ Public Class UserControl_MediaItemList
     Private objFileWork As clsFileWork
 
     Private objOItem_Ref As clsOntologyItem
+    Private objOItem_Relate As clsOntologyItem
 
     Private boolSelect_First As Boolean
 
     Public Event selected_MediaItem(ByVal OItem_MediaItem As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal Created As Date)
+    Public Event related_Last(OItem_MediaItem As clsOntologyItem)
+
+
+    Public Property OItem_Relate As clsOntologyItem
+        Get
+            Return objOItem_Relate
+        End Get
+        Set(value As clsOntologyItem)
+            objOItem_Relate = value
+        End Set
+    End Property
 
     Public ReadOnly Property isPossible_Previous As Boolean
         Get
@@ -560,5 +572,44 @@ Public Class UserControl_MediaItemList
 
     Private Sub ToolStripButton_Bookmarks_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Bookmarks.Click
 
+    End Sub
+
+    Private Sub ContextMenuStrip_Items_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Items.Opening
+        RelateToolStripMenuItem.Enabled = False
+
+        If Not OItem_Relate Is Nothing And DataGridView_MediaItems.SelectedRows.Count > 0 Then
+            RelateToolStripMenuItem.Enabled = True
+        End If
+    End Sub
+
+    Private Sub RelateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RelateToolStripMenuItem.Click
+        If Not OItem_Relate Is Nothing And DataGridView_MediaItems.SelectedRows.Count > 0 Then
+            Dim objOItem_MediaItem As clsOntologyItem = Nothing
+            Dim intToDo = DataGridView_MediaItems.SelectedRows.Count
+            Dim intDone = 0
+
+            objTransaction_MediaItems.ClearItems()
+            For Each objDGVR As DataGridViewRow In DataGridView_MediaItems.SelectedRows
+                Dim objDRV As DataRowView = objDGVR.DataBoundItem
+
+                objOItem_MediaItem = New clsOntologyItem With {.GUID = objDRV.Item("ID_MediaItem"), _
+                                                                   .Name = objDRV.Item("Name_MediaItem"), _
+                                                                   .GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID, _
+                                                                   .Type = objLocalConfig.Globals.Type_Object}
+
+                Dim objOR_MediaItem_To_Ref = objDataWork_MediaItem.Rel_MediaItem_To_Ref(objOItem_MediaItem, OItem_Relate)
+
+                Dim objOItem_Result = objTransaction_MediaItems.do_Transaction(objOR_MediaItem_To_Ref, True)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    intDone = intDone + 1
+                End If
+            Next
+
+            If intDone < intToDo Then
+                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " MediaItems verknüpft werden!", MsgBoxStyle.Exclamation)
+            End If
+
+            RaiseEvent related_Last(objOItem_MediaItem)
+        End If
     End Sub
 End Class

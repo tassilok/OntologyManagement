@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/OntWebVb" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/OntWebVb" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfclsOntologyItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="clsOntologyItem" nillable="true" type="tns:clsOntologyItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfclsOntologyItem" nillable="true" type="tns:ArrayOfclsOntologyItem" />
+  <xs:complexType name="clsOntologyItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Additional1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Additional2" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Caption" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Count" type="xs:long" />
+      <xs:element minOccurs="0" name="Direction" type="xs:int" />
+      <xs:element minOccurs="0" name="Filter" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GUID" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GUID_Parent" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GUID_Related" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GUID_Relation" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ImageID" type="xs:int" />
+      <xs:element minOccurs="0" name="Level" type="xs:int" />
+      <xs:element minOccurs="0" name="Mark" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Max1" type="xs:long" />
+      <xs:element minOccurs="0" name="Max2" type="xs:long" />
+      <xs:element minOccurs="0" name="Min" type="xs:long" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OList_Rel" nillable="true" type="tns:ArrayOfclsOntologyItem" />
+      <xs:element minOccurs="0" name="Rel_ObjectReference" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Val_Bool" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Val_Date" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Val_Long" type="xs:long" />
+      <xs:element minOccurs="0" name="Val_String" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Version" type="xs:int" />
+      <xs:element minOccurs="0" name="deleted" type="xs:boolean" />
+      <xs:element minOccurs="0" name="new_Item" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="clsOntologyItem" nillable="true" type="tns:clsOntologyItem" />
+  <xs:complexType name="ArrayOfclsClassRel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="clsClassRel" nillable="true" type="tns:clsClassRel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfclsClassRel" nillable="true" type="tns:ArrayOfclsClassRel" />
+  <xs:complexType name="clsClassRel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID_Class_Left" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID_Class_Right" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID_RelationType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Max_Backw" nillable="true" type="xs:long" />
+      <xs:element minOccurs="0" name="Max_Forw" nillable="true" type="xs:long" />
+      <xs:element minOccurs="0" name="Min_Forw" nillable="true" type="xs:long" />
+      <xs:element minOccurs="0" name="Name_Class_Left" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name_Class_Right" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name_RelationType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Ontology" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="clsClassRel" nillable="true" type="tns:clsClassRel" />
+  <xs:complexType name="ArrayOfclsObjectAtt">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="clsObjectAtt" nillable="true" type="tns:clsObjectAtt" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfclsObjectAtt" nillable="true" type="tns:ArrayOfclsObjectAtt" />
+  <xs:complexType name="clsObjectAtt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID_Attribute" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID_AttributeType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID_Class" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID_DataType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID_Object" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name_AttributeType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name_Class" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name_DataType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name_Object" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OrderID" nillable="true" type="xs:long" />
+      <xs:element minOccurs="0" name="Val_Bit" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Val_Date" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Val_Double" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="Val_String" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Val_lng" nillable="true" type="xs:long" />
+      <xs:element minOccurs="0" name="val_Named" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="clsObjectAtt" nillable="true" type="tns:clsObjectAtt" />
+  <xs:complexType name="ArrayOfclsObjectRel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="clsObjectRel" nillable="true" type="tns:clsObjectRel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfclsObjectRel" nillable="true" type="tns:ArrayOfclsObjectRel" />
+  <xs:complexType name="clsObjectRel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID_Direction" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID_Object" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID_Other" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID_Parent_Object" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID_Parent_Other" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID_RelationType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name_Direction" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name_Object" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name_Other" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name_Parent_Object" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name_Parent_Right" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name_RelationType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Ontology" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OrderID" nillable="true" type="xs:long" />
+      <xs:element minOccurs="0" name="OrderIDNotNull" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="clsObjectRel" nillable="true" type="tns:clsObjectRel" />
+  <xs:complexType name="ArrayOfclsClassAtt">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="clsClassAtt" nillable="true" type="tns:clsClassAtt" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfclsClassAtt" nillable="true" type="tns:ArrayOfclsClassAtt" />
+  <xs:complexType name="clsClassAtt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID_AttributeType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID_Class" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID_DataType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Max" nillable="true" type="xs:long" />
+      <xs:element minOccurs="0" name="Min" nillable="true" type="xs:long" />
+      <xs:element minOccurs="0" name="Name_AttributeType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name_DataType" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="clsClassAtt" nillable="true" type="tns:clsClassAtt" />
+  <xs:complexType name="ArrayOfclsObjectTree">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="clsObjectTree" nillable="true" type="tns:clsObjectTree" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfclsObjectTree" nillable="true" type="tns:ArrayOfclsObjectTree" />
+  <xs:complexType name="clsObjectTree">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID_Object" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID_Object_Parent" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID_Parent" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Level" nillable="true" type="xs:long" />
+      <xs:element minOccurs="0" name="Name_Object" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name_Object_Parent" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OrderID" nillable="true" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="clsObjectTree" nillable="true" type="tns:clsObjectTree" />
+</xs:schema>

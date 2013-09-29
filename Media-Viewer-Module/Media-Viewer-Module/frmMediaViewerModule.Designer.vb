@@ -26,6 +26,9 @@ Partial Class frmMediaViewerModule
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel_RelatedLastCap = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel_RelatedLast = New System.Windows.Forms.ToolStripLabel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_MediaType = New System.Windows.Forms.ToolStripLabel()
@@ -73,10 +76,10 @@ Partial Class frmMediaViewerModule
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close, Me.ToolStripSeparator2, Me.ToolStripLabel_RelatedLastCap, Me.ToolStripLabel_RelatedLast})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(62, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(187, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Close
@@ -87,6 +90,24 @@ Partial Class frmMediaViewerModule
         Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
         Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Close.Text = "x_Close"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripLabel_RelatedLastCap
+        '
+        Me.ToolStripLabel_RelatedLastCap.Name = "ToolStripLabel_RelatedLastCap"
+        Me.ToolStripLabel_RelatedLastCap.Size = New System.Drawing.Size(76, 22)
+        Me.ToolStripLabel_RelatedLastCap.Text = "x_Last Relate:"
+        '
+        'ToolStripLabel_RelatedLast
+        '
+        Me.ToolStripLabel_RelatedLast.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.ToolStripLabel_RelatedLast.Name = "ToolStripLabel_RelatedLast"
+        Me.ToolStripLabel_RelatedLast.Size = New System.Drawing.Size(12, 22)
+        Me.ToolStripLabel_RelatedLast.Text = "-"
         '
         'SplitContainer1
         '
@@ -220,5 +241,8 @@ Partial Class frmMediaViewerModule
     Friend WithEvents ToolStripButton_OpenGrid As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripButton_GetMetadata As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripLabel_RelatedLastCap As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripLabel_RelatedLast As System.Windows.Forms.ToolStripLabel
 
 End Class

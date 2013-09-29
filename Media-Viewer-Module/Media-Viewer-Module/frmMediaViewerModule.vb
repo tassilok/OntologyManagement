@@ -14,6 +14,31 @@ Public Class frmMediaViewerModule
     Private objOItem_MediaType As clsOntologyItem
     Private objOItem_Open As clsOntologyItem
 
+    Private objOItem_Relate As clsOntologyItem
+
+    Private Sub relate_Item(OItem_Relate As clsOntologyItem) Handles objUserControl_RefTree.relate_Item
+        objOItem_Relate = OItem_Relate
+
+        If Not objOItem_Relate Is Nothing Then
+            Select Case objOItem_MediaType.GUID
+                Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+
+                Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+
+                Case objLocalConfig.OItem_Type_Media_Item.GUID
+                    objUserControl_MediaItemList.OItem_Relate = OItem_Relate
+            End Select
+            ToolStripLabel_RelatedLast.Text = objOItem_Relate.Name
+        Else
+            ToolStripLabel_RelatedLast.Text = "-"
+        End If
+        
+    End Sub
+
+    Private Sub relate_LastMediaItem(OItem_MediaItem As clsOntologyItem) Handles objUserControl_MediaItemList.related_Last
+        ToolStripLabel_RelatedLast.Text = objOItem_Relate.Name & " / " & OItem_MediaItem.Name
+    End Sub
+
     Private Sub save_Items() Handles objUserControl_RefTree.save_Items
         Select Case objOItem_MediaType.GUID
             Case objLocalConfig.OItem_Type_PDF_Documents.GUID
