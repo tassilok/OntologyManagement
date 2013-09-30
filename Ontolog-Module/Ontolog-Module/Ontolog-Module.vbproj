@@ -584,6 +584,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ElasticSearchConnector\ElasticSearchConnector\ElasticSearchConnector.csproj">
+      <Project>{7085762b-19ce-4125-a52b-4556a96bbba9}</Project>
+      <Name>ElasticSearchConnector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
       <Name>OntologyClasses</Name>

@@ -64,6 +64,8 @@ Public Class clsDBLevel
     Private intPackageLength As Integer
     Private intSort As Integer
 
+    Private objElConnector as ElasticSearchConnector.clsDBLevel
+
     Public Property Sort
         Get
             Return intSort
@@ -1262,7 +1264,7 @@ Public Class clsDBLevel
 
     Private Sub initialize_Client()
         intPackageLength = intSearchRange
-
+        objElConnector = New ElasticSearchConnector.clsDBLevel(strServer,intPort,strIndex,strIndexRep,intSearchRange,strSession)
         objElConn = New ElasticSearch.Client.ElasticSearchClient(strServer, intPort, Client.Config.TransportType.Thrift, False)
         Try
             objElConn.CreateIndex(strIndexRep)
@@ -4231,116 +4233,138 @@ Public Class clsDBLevel
                                      Optional ByVal ClearObj1 As Boolean = True, _
                                      Optional ByVal ClearObj2 As Boolean = True) As clsOntologyItem
 
-        Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
-        Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
-        Dim objOItem_Result As clsOntologyItem
-        Dim objHit As ElasticSearch.Client.Domain.Hits
-        Dim strQuery As String = ""
-        Dim intCount As Integer
-        Dim intPos As Integer
+        Dim objOItem_Result As clsOntologyItem = objLogStates.LogState_Success
 
-        objElConn.Flush()
-        otblT_Objects.Clear()
-        If ClearObj1 = True Then
-            objOntologyList_Objects1.Clear()
-        End If
-
-        If ClearObj2 = True Then
-            objOntologyList_Objects2.Clear()
-        End If
-
-
-        create_BoolQuery_Simple(oList_Objects, objTypes.ObjectType)
-
-        objOItem_Result = objLogStates.LogState_Success
-        objOItem_Result.Count = 0
-        intCount = 0
-
-        intCount = intPackageLength
-        intPos = 0
-        While intCount > 0
-
-            intCount = 0
-
-            Try
-                objSearchResult = objElConn.Search(strIndex, _
-                                           objTypes.ObjectType, _
-                                           objBoolQuery.ToString, _
-                                           intPos, _
-                                           intPackageLength)
-            Catch ex As Exception
-                Try
-                    Threading.Thread.Sleep(1000)
-                    objSearchResult = objElConn.Search(strIndex, _
-                                           objTypes.ObjectType, _
-                                           objBoolQuery.ToString, _
-                                           intPos, _
-                                           intPackageLength)
-                Catch ex1 As Exception
-                    Throw ex1
-
-                End Try
-            End Try
-            
-            
-
-            If doCount = False Then
-                objList = objSearchResult.GetHits.Hits
-
-
-                If boolTable = False Then
-                    If List2 = False Then
-                        objOntologyList_Objects1 = objOntologyList_Objects1.Concat((From objHit1 In objList
-                                                                                   Select New clsOntologyItem(objHit1.Id.ToString, _
-                                                                    objHit1.Source(objFields.Name_Item).ToString, _
-                                                                    objHit1.Source(objFields.ID_Class).ToString, _
-                                                                    objTypes.ObjectType)).ToList()).ToList()
-                    Else
-                        objOntologyList_Objects2 = objOntologyList_Objects2.Concat((From objHit1 In objList
-                                                                                   Select New clsOntologyItem(objHit1.Id.ToString, _
-                                                                    objHit1.Source(objFields.Name_Item).ToString, _
-                                                                    objHit1.Source(objFields.ID_Class).ToString, _
-                                                                    objTypes.ObjectType)).ToList()).ToList()
-                    End If
-                End If
-
-                For Each objHit In objList
-                    If boolTable = True Then
-                        '    If List2 = False Then
-                        '        objOntologyList_Objects1.Add(New clsOntologyItem(objHit.Id.ToString, _
-                        '                                                objHit.Source(objFields.Name_Item).ToString, _
-                        '                                                objHit.Source(objFields.ID_Class).ToString, _
-                        '                                                objTypes.ObjectType))
-                        '    Else
-                        '        objOntologyList_Objects2.Add(New clsOntologyItem(objHit.Id.ToString, _
-                        '                                                objHit.Source(objFields.Name_Item).ToString, _
-                        '                                                objHit.Source(objFields.ID_Class).ToString, _
-                        '                                                objTypes.ObjectType))
-                        '    End If
-
-                        'Else
-                        otblT_Objects.Rows.Add(objHit.Id.ToString, _
-                                                                    objHit.Source(objFields.Name_Item).ToString, _
-                                                                    objHit.Source(objFields.ID_Class).ToString)
-                    End If
-
-
+        If Not List2 Then
+            objOntologyList_Objects1 = objElConnector.get_Data_Objects(oList_Objects,False,True,true)
+            If boolTable Then
+                For Each objOItem As clsOntologyItem In objOntologyList_Objects1
+                    otblT_Objects.Rows.Add(objOItem.GUID, objOItem.Name,objOItem.GUID_Parent)
                 Next
-
-                intCount = objList.Count
-                intPos = intPos + intCount
-            Else
-                objOItem_Result.Count = objOItem_Result.Count + objSearchResult.GetTotalCount
-                intCount = 0
-
             End If
 
+            
+        Else 
+            objOntologyList_Objects2 = objElConnector.get_Data_Objects(oList_Objects,False,True,true)
+            If boolTable Then
+                For Each objOItem As clsOntologyItem In objOntologyList_Objects2
+                    otblT_Objects.Rows.Add(objOItem.GUID, objOItem.Name,objOItem.GUID_Parent)
+                Next
+            End If
+        End If
 
-            objList.Clear()
-            objSearchResult = Nothing
-            objList = Nothing
+        
+        
+        'Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
+        'Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
+        'Dim objOItem_Result As clsOntologyItem
+        'Dim objHit As ElasticSearch.Client.Domain.Hits
+        'Dim strQuery As String = ""
+        'Dim intCount As Integer
+        'Dim intPos As Integer
 
-        End While
+        'objElConn.Flush()
+        'otblT_Objects.Clear()
+        'If ClearObj1 = True Then
+        '    objOntologyList_Objects1.Clear()
+        'End If
+
+        'If ClearObj2 = True Then
+        '    objOntologyList_Objects2.Clear()
+        'End If
+
+
+        'create_BoolQuery_Simple(oList_Objects, objTypes.ObjectType)
+
+        'objOItem_Result = objLogStates.LogState_Success
+        'objOItem_Result.Count = 0
+        'intCount = 0
+
+        'intCount = intPackageLength
+        'intPos = 0
+        'While intCount > 0
+
+        '    intCount = 0
+
+        '    Try
+        '        objSearchResult = objElConn.Search(strIndex, _
+        '                                   objTypes.ObjectType, _
+        '                                   objBoolQuery.ToString, _
+        '                                   intPos, _
+        '                                   intPackageLength)
+        '    Catch ex As Exception
+        '        Try
+        '            Threading.Thread.Sleep(1000)
+        '            objSearchResult = objElConn.Search(strIndex, _
+        '                                   objTypes.ObjectType, _
+        '                                   objBoolQuery.ToString, _
+        '                                   intPos, _
+        '                                   intPackageLength)
+        '        Catch ex1 As Exception
+        '            Throw ex1
+
+        '        End Try
+        '    End Try
+            
+            
+
+        '    If doCount = False Then
+        '        objList = objSearchResult.GetHits.Hits
+
+
+        '        If boolTable = False Then
+        '            If List2 = False Then
+        '                objOntologyList_Objects1 = objOntologyList_Objects1.Concat((From objHit1 In objList
+        '                                                                           Select New clsOntologyItem(objHit1.Id.ToString, _
+        '                                                            objHit1.Source(objFields.Name_Item).ToString, _
+        '                                                            objHit1.Source(objFields.ID_Class).ToString, _
+        '                                                            objTypes.ObjectType)).ToList()).ToList()
+        '            Else
+        '                objOntologyList_Objects2 = objOntologyList_Objects2.Concat((From objHit1 In objList
+        '                                                                           Select New clsOntologyItem(objHit1.Id.ToString, _
+        '                                                            objHit1.Source(objFields.Name_Item).ToString, _
+        '                                                            objHit1.Source(objFields.ID_Class).ToString, _
+        '                                                            objTypes.ObjectType)).ToList()).ToList()
+        '            End If
+        '        End If
+
+        '        For Each objHit In objList
+        '            If boolTable = True Then
+        '                    If List2 = False Then
+        '                        objOntologyList_Objects1.Add(New clsOntologyItem(objHit.Id.ToString, _
+        '                                                                objHit.Source(objFields.Name_Item).ToString, _
+        '                                                                objHit.Source(objFields.ID_Class).ToString, _
+        '                                                                objTypes.ObjectType))
+        '                    Else
+        '                        objOntologyList_Objects2.Add(New clsOntologyItem(objHit.Id.ToString, _
+        '                                                                objHit.Source(objFields.Name_Item).ToString, _
+        '                                                                objHit.Source(objFields.ID_Class).ToString, _
+        '                                                                objTypes.ObjectType))
+        '                    End If
+
+        '                Else
+        '                otblT_Objects.Rows.Add(objHit.Id.ToString, _
+        '                                                            objHit.Source(objFields.Name_Item).ToString, _
+        '                                                            objHit.Source(objFields.ID_Class).ToString)
+        '            End If
+
+
+        '        Next
+
+        '        intCount = objList.Count
+        '        intPos = intPos + intCount
+        '    Else
+        '        objOItem_Result.Count = objOItem_Result.Count + objSearchResult.GetTotalCount
+        '        intCount = 0
+
+        '    End If
+
+
+        '    objList.Clear()
+        '    objSearchResult = Nothing
+        '    objList = Nothing
+
+        'End While
 
         Return objOItem_Result
     End Function
@@ -4615,6 +4639,7 @@ Public Class clsDBLevel
         strSession = Globals.Session
 
         initialize_Client()
+        
         intSort = SortEnum.NONE
     End Sub
 
@@ -4630,6 +4655,7 @@ Public Class clsDBLevel
         Me.strSession = strSession
 
         initialize_Client()
+        
         intSort = SortEnum.NONE
     End Sub
 
