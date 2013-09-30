@@ -36,11 +36,6 @@ namespace ElasticSearchConnector
 
         private ElasticSearchClient objElConn;
 
-        private clsDBLevel objDBLevel_Other_Objects;
-        private clsDBLevel objDBLevel_Other_Classes;
-        private clsDBLevel objDBLevel_Other_AttributeTypes;
-        private clsDBLevel objDBLevel_Other_RelationTypes;
-
         private clsFields objFields = new clsFields();
         private clsTypes objTypes = new clsTypes();
 
@@ -758,7 +753,7 @@ namespace ElasticSearchConnector
 
             if (objBoolQuery.ToString() == "")
             {
-                objBoolQuery.Add(new WildcardQuery(new Term(objFields.ID_Item, strQuery)),BooleanClause.Occur.MUST);
+                objBoolQuery.Add(new WildcardQuery(new Term(objFields.ID_Item, "*")),BooleanClause.Occur.MUST);
             }
 
             return objBoolQuery;
@@ -966,11 +961,29 @@ namespace ElasticSearchConnector
             return lngCount;
         }
 
-        public List<clsOntologyItem> get_Data_AttributeType(List<clsOntologyItem> OList_AttType = null)
+        public List<clsOntologyItem> get_Data_AttributeType(List<clsOntologyItem> OList_AttType = null, bool List2 = false)
         {
             SearchResult objSearchResult;
 
-            OntologyList_AttributTypes1.Clear();
+            if (OntologyList_AttributTypes1 == null)
+            {
+                OntologyList_AttributTypes1 = new List<clsOntologyItem>();
+            }
+
+            if (OntologyList_AttributTypes2 == null)
+            {
+                OntologyList_AttributTypes2 = new List<clsOntologyItem>();
+            }
+
+            if (!List2)
+            {
+                OntologyList_AttributTypes1.Clear();
+            }
+            else
+            {
+                OntologyList_AttributTypes2.Clear();
+            }
+            
 
             var objBoolQuery = create_BoolQuery_Simple(OList_AttType, objTypes.AttributeType);
 
@@ -1004,24 +1017,55 @@ namespace ElasticSearchConnector
                
                 var objList = objSearchResult.GetHits().Hits;
 
-                OntologyList_AttributTypes1.AddRange((from objHit in objList
-                                                        select new clsOntologyItem
-                                                            {
-                                                                GUID = objHit.Id,
-                                                                Name = objHit.Source[objFields.Name_Item].ToString(),
-                                                                GUID_Parent =
-                                                                    objHit.Source[objFields.ID_DataType].ToString(),
-                                                                Type = objTypes.AttributeType
-                                                            }).ToList());
+                if (!List2)
+                {
+                    OntologyList_AttributTypes1.AddRange((from objHit in objList
+                                                          select new clsOntologyItem
+                                                          {
+                                                              GUID = objHit.Id,
+                                                              Name = objHit.Source[objFields.Name_Item].ToString(),
+                                                              GUID_Parent =
+                                                                  objHit.Source[objFields.ID_DataType].ToString(),
+                                                              Type = objTypes.AttributeType
+                                                          }).ToList());
+                }
+                else
+                {
+                    OntologyList_AttributTypes2.AddRange((from objHit in objList
+                                                          select new clsOntologyItem
+                                                          {
+                                                              GUID = objHit.Id,
+                                                              Name = objHit.Source[objFields.Name_Item].ToString(),
+                                                              GUID_Parent =
+                                                                  objHit.Source[objFields.ID_DataType].ToString(),
+                                                              Type = objTypes.AttributeType
+                                                          }).ToList());
+                }
 
-                intCount = objList.Count;
-                intPos += intCount;
+
+                if (objList.Count < intSearchRange)
+                {
+                    intCount = 0;
+                }
+                else
+                {
+                    intCount = objList.Count;
+                    intPos += intSearchRange;
+                }
                 
 
 
             }
 
-            return OntologyList_AttributTypes1;
+            if (!List2)
+            {
+                return OntologyList_AttributTypes1;
+            }
+            else
+            {
+                return OntologyList_AttributTypes2;
+            }
+            
         }
 
         public long get_Data_ClassAttCount(List<clsOntologyItem> OList_Class = null,
@@ -1102,8 +1146,15 @@ namespace ElasticSearchConnector
                                                                            Min = (long?)objHit.Source[objFields.Min],
                                                                            Max = (long?)objHit.Source[objFields.Max]}).ToList());
 
-                intCount = objList.Count;
-                intPos += intCount;
+                if (objList.Count < intSearchRange)
+                {
+                    intCount = 0;
+                }
+                else
+                {
+                    intCount = objList.Count;
+                    intPos += intSearchRange;
+                }
             }
 
             if (!boolIDs)
@@ -1197,9 +1248,6 @@ namespace ElasticSearchConnector
         {
             SearchResult objSearchResult;
 
-            OntologyList_ClassAtt_ID.Clear();
-            OntologyList_ClassAtt.Clear();
-
             var objBoolQuery = create_BoolQuery_Simple(OList_Classes,objTypes.ClassType);
 
             if (!boolClasses_Right)
@@ -1244,7 +1292,7 @@ namespace ElasticSearchConnector
                                                        {
                                                            GUID = objHit.Id,
                                                            Name = objHit.Source[objFields.Name_Item].ToString(),
-                                                           GUID_Parent = objHit.Source[objFields.ID_Parent_Object].ToString(),
+                                                           GUID_Parent = objHit.Source[objFields.ID_Parent].ToString(),
                                                            Type = objTypes.ClassType
                                                        }).ToList());    
                 }
@@ -1255,14 +1303,21 @@ namespace ElasticSearchConnector
                                                     {
                                                         GUID = objHit.Id,
                                                         Name = objHit.Source[objFields.Name_Item].ToString(),
-                                                        GUID_Parent = objHit.Source[objFields.ID_Parent_Object].ToString(),
+                                                        GUID_Parent = objHit.Source[objFields.ID_Parent].ToString(),
                                                         Type = objTypes.ClassType
                                                     }).ToList());    
                 }
-                
 
-                intCount = objList.Count;
-                intPos += intCount;
+
+                if (objList.Count < intSearchRange)
+                {
+                    intCount = 0;
+                }
+                else
+                {
+                    intCount = objList.Count;
+                    intPos += intSearchRange;
+                }
             }
 
             if (boolIDs)
@@ -1355,8 +1410,15 @@ namespace ElasticSearchConnector
                                                          Type = objTypes.DataType
                                                      }).ToList());
 
-                intCount = objList.Count;
-                intPos += intCount;
+                if (objList.Count < intSearchRange)
+                {
+                    intCount = 0;
+                }
+                else
+                {
+                    intCount = objList.Count;
+                    intPos += intSearchRange;
+                }
 
 
 
@@ -1462,8 +1524,15 @@ namespace ElasticSearchConnector
                                                      OrderID = (long?)objHit.Source[objFields.OrderID]
                                                  }).ToList());
 
-                intCount = objList.Count;
-                intPos += intCount;
+                if (objList.Count < intSearchRange)
+                {
+                    intCount = 0;
+                }
+                else
+                {
+                    intCount = objList.Count;
+                    intPos += intSearchRange;
+                }
 
 
 
@@ -1660,11 +1729,17 @@ namespace ElasticSearchConnector
                                                         Type = objTypes.DataType
                                                     }).ToList());
                 }
-                
 
-                intCount = objList.Count;
-                intPos += intCount;
 
+                if (objList.Count < intSearchRange)
+                {
+                    intCount = 0;
+                }
+                else
+                {
+                    intCount = objList.Count;
+                    intPos += intSearchRange;
+                }
 
 
             }
@@ -1714,29 +1789,39 @@ namespace ElasticSearchConnector
 
         public List<clsObjectRel> get_Data_ObjectRel(List<clsObjectRel> OList_ObjectRel = null,
                                                      bool boolIDs = true,
-                                                     string Direction = null,
                                                      bool doJoin_Left = false,
                                                      bool doJoin_Right = false)
         {
             SearchResult objSearchResult;
 
-            OntologyList_DataTypes.Clear();
+            
 
             var objBoolQuery = create_BoolQuery_ObjectRel(OList_ObjectRel);
 
-            OntologyList_ObjectRel.Clear();
-            OntologyList_ObjectRel_ID.Clear();
-            OntologyList_Objects1.Clear();
-            OntologyList_Classes1.Clear();
-            OntologyList_RelationTypes1.Clear();
+            OntologyList_ObjectRel = new List<clsObjectRel>();
+            OntologyList_ObjectRel_ID = new List<clsObjectRel>();
+            OntologyList_Classes1 = new List<clsOntologyItem>();
+            OntologyList_RelationTypes1 = new List<clsOntologyItem>();
+            OntologyList_DataTypes = new List<clsOntologyItem>();
 
-            objDBLevel_Other_AttributeTypes = new clsDBLevel(strServer, intPort, strIndex, strIndexRep, intSearchRange, strSession);
-            objDBLevel_Other_Classes = new clsDBLevel(strServer, intPort, strIndex, strIndexRep, intSearchRange, strSession);
-            objDBLevel_Other_Objects = new clsDBLevel(strServer, intPort, strIndex, strIndexRep, intSearchRange, strSession);
-            objDBLevel_Other_RelationTypes = new clsDBLevel(strServer, intPort, strIndex, strIndexRep, intSearchRange, strSession);
+            if (OntologyList_Objects1 == null)
+            {
+                OntologyList_Objects1 = new List<clsOntologyItem>();
+            }
+            else
+            {
+                if (!doJoin_Left) OntologyList_Objects1.Clear();
+            }
 
-            if (!doJoin_Left) OntologyList_Objects1.Clear();
-            if (!doJoin_Right) OntologyList_Objects2.Clear();
+            if (OntologyList_Objects2 == null)
+            {
+                OntologyList_Objects2 = new List<clsOntologyItem>();
+            }
+            else
+            {
+                if (!doJoin_Right) OntologyList_Objects2.Clear();
+            }
+            
 
             string strSort = null;
             if (sort == SortEnum.DESC_OrderID)
@@ -1811,14 +1896,22 @@ namespace ElasticSearchConnector
                                                      ID_Object = objHit.Source[objFields.ID_Object].ToString(),
                                                      ID_Other = objHit.Source[objFields.ID_Other].ToString(),
                                                      ID_Parent_Object = objHit.Source[objFields.ID_Parent_Object].ToString(),
-                                                     ID_Parent_Other = (objHit.Source[objFields.ID_Parent_Other] != null ? objHit.Source[objFields.ID_Parent_Other].ToString() : null),
+                                                     ID_Parent_Other = (objHit.Source.ContainsKey(objFields.ID_Parent_Other) ? (objHit.Source[objFields.ID_Parent_Other] != null ? objHit.Source[objFields.ID_Parent_Other].ToString() : null) : null),
                                                      ID_RelationType = objHit.Source[objFields.ID_RelationType].ToString(),
-                                                     OrderID = (long?)objHit.Source[objFields.OrderID],
+                                                     OrderID = objHit.Source[objFields.OrderID] as long?,
                                                      Ontology = objHit.Source[objFields.Ontology].ToString()
                                                  }).ToList());
 
-                intCount = objList.Count;
-                intPos += intCount;
+                if (objList.Count < intSearchRange)
+                {
+                    intCount = 0;
+                }
+                else
+                {
+                    intCount = objList.Count;
+                    intPos += intSearchRange;
+                }
+                
 
 
 
@@ -1830,7 +1923,7 @@ namespace ElasticSearchConnector
                 if (!doJoin_Left)
                 {
                     var oList_OItems = (from objObj in OntologyList_ObjectRel_ID
-                                        group objObj by objObj.ID_Object
+                                        group objObj by objObj.ID_Parent_Object
                                             into g
                                             select
                                                 new clsOntologyItem { GUID_Parent = g.Key, Type = objTypes.ObjectType }).ToList();
@@ -1842,53 +1935,26 @@ namespace ElasticSearchConnector
                 }
 
                 
-                var oList_Classes = (from objClass in OntologyList_ObjAtt_ID
-                                     group objClass by objClass.ID_Class
-                                         into g
-                                         select new clsOntologyItem { GUID = g.Key }).ToList();
-
-                if (oList_Classes.Any())
-                {
-                    get_Data_Classes(oList_Classes);
-                }
-
-                var oList_RelationTypes = (from objRelType in OntologyList_ObjectRel_ID
-                                           group objRelType by objRelType.ID_RelationType
-                                           into g
-                                           select new clsOntologyItem {GUID = g.Key}).ToList();
-
-                if (oList_RelationTypes.Any())
-                {
-                    get_Data_RelationTypes(oList_RelationTypes);
-                }
-                else
-                {
-                    OntologyList_RelationTypes1 = new List<clsOntologyItem>();
-                }
-
-                OntologyList_Classes2 = objDBLevel_Other_Classes.get_Data_Classes();
-
-                var oList_AttributeTypes2 = (from objAttributeType in OntologyList_ObjectRel_ID
-                                             where objAttributeType.Ontology == objTypes.AttributeType
-                                             group objAttributeType by objAttributeType.ID_Parent_Other
-                                                 into g
-                                                 select new clsOntologyItem { GUID_Parent = g.Key }).ToList();
-
-                OntologyList_AttributTypes2 = oList_AttributeTypes2.Any() ? objDBLevel_Other_AttributeTypes.get_Data_AttributeType(oList_AttributeTypes2) : new List<clsOntologyItem>();
-
-
-                OntologyList_RelationTypes2 = (from objObj in OntologyList_ObjectRel_ID
-                                               where objObj.Ontology == objTypes.RelationType
-                                               select objObj).Any() ? objDBLevel_Other_RelationTypes.get_Data_RelationTypes() : new List<clsOntologyItem>();
-                                          
+                get_Data_Classes();
+                
+                get_Data_RelationTypes();
+                
+                get_Data_AttributeType();
+                          
                 var oList_OtherObjects = (from objClass in OntologyList_ObjectRel_ID
                                           where objClass.Ontology == objTypes.ObjectType
                                            group objClass by objClass.ID_Parent_Other
                                            into g
-                                           select new clsOntologyItem {GUID = g.Key}).ToList();
-                OntologyList_Objects2 = oList_OtherObjects.Any() ? objDBLevel_Other_Objects.get_Data_Objects(oList_OtherObjects) : new List<clsOntologyItem>();
+                                           select new clsOntologyItem {GUID_Parent = g.Key}).ToList();
+                OntologyList_Objects2 = oList_OtherObjects.Any() ? get_Data_Objects(oList_OtherObjects,List2:true,ClearObj1:false) : new List<clsOntologyItem>();
 
                 OntologyList_DataTypes = get_Data_DataTypes();
+
+                var OList_Ohter = (from objOther in OntologyList_ObjectRel_ID
+                                   where objOther.Ontology == objTypes.AttributeType ||
+                                         objOther.Ontology == objTypes.RelationType ||
+                                         objOther.Ontology == objTypes.ClassType
+                                   select objOther);
 
                 if (OntologyList_Objects2.Any())
                 {
@@ -1899,7 +1965,7 @@ namespace ElasticSearchConnector
                                                          objObjRel.ID_Parent_Object equals objLeftClass.GUID
                                                      join objRight in OntologyList_Objects2 on objObjRel.ID_Other equals
                                                          objRight.GUID
-                                                     join objRightParent in OntologyList_Classes2 on
+                                                     join objRightParent in OntologyList_Classes1 on
                                                          objObjRel.ID_Parent_Other equals objRightParent.GUID
                                                      join objRelationType in OntologyList_RelationTypes1 on
                                                          objObjRel.ID_RelationType equals objRelationType.GUID
@@ -1921,17 +1987,17 @@ namespace ElasticSearchConnector
 
                 }
 
-                if (OntologyList_AttributTypes2.Any())
+                if (OList_Ohter.Where(p => p.Ontology == objTypes.AttributeType).Any())
                 {
                     OntologyList_ObjectRel.AddRange((from objObjRel in OntologyList_ObjectRel_ID
                                                      join objLeft in OntologyList_Objects1 on objObjRel.ID_Object equals
                                                          objLeft.GUID
                                                      join objLeftClass in OntologyList_Classes1 on
                                                          objObjRel.ID_Parent_Object equals objLeftClass.GUID
-                                                     join objRight in OntologyList_AttributTypes2 on objObjRel.ID_Other equals
+                                                     join objRight in OntologyList_AttributTypes1 on objObjRel.ID_Other equals
                                                          objRight.GUID
                                                      join objRightParent in OntologyList_DataTypes on
-                                                         objObjRel.ID_Parent_Other equals objRightParent.GUID
+                                                         objRight.GUID_Parent equals objRightParent.GUID
                                                      join objRelationType in OntologyList_RelationTypes1 on
                                                          objObjRel.ID_RelationType equals objRelationType.GUID
                                                      select new clsObjectRel
@@ -1952,14 +2018,14 @@ namespace ElasticSearchConnector
 
                 }
 
-                if (OntologyList_RelationTypes2.Any())
+                if (OList_Ohter.Where(p => p.Ontology == objTypes.RelationType).Any())
                 {
                     OntologyList_ObjectRel.AddRange((from objObjRel in OntologyList_ObjectRel_ID
                                                      join objLeft in OntologyList_Objects1 on objObjRel.ID_Object equals
                                                          objLeft.GUID
                                                      join objLeftClass in OntologyList_Classes1 on
                                                          objObjRel.ID_Parent_Object equals objLeftClass.GUID
-                                                     join objRight in OntologyList_RelationTypes2 on objObjRel.ID_Other equals
+                                                     join objRight in OntologyList_RelationTypes1 on objObjRel.ID_Other equals
                                                          objRight.GUID
                                                      join objRelationType in OntologyList_RelationTypes1 on
                                                          objObjRel.ID_RelationType equals objRelationType.GUID
@@ -1979,14 +2045,14 @@ namespace ElasticSearchConnector
 
                 }
 
-                if (OntologyList_Classes2.Any())
+                if (OList_Ohter.Where(p => p.Ontology == objTypes.ClassType).Any())
                 {
                     OntologyList_ObjectRel.AddRange((from objObjRel in OntologyList_ObjectRel_ID
                                                      join objLeft in OntologyList_Objects1 on objObjRel.ID_Object equals
                                                          objLeft.GUID
                                                      join objLeftClass in OntologyList_Classes1 on
                                                          objObjRel.ID_Parent_Object equals objLeftClass.GUID
-                                                     join objRight in OntologyList_Classes2 on objObjRel.ID_Other equals
+                                                     join objRight in OntologyList_Classes1 on objObjRel.ID_Other equals
                                                          objRight.GUID
                                                      join objRelationType in OntologyList_RelationTypes1 on
                                                          objObjRel.ID_RelationType equals objRelationType.GUID
@@ -2008,8 +2074,15 @@ namespace ElasticSearchConnector
                 }
                 
             }
-
-            return OntologyList_ObjectRel;
+            if (boolIDs)
+            {
+                return OntologyList_ObjectRel_ID;
+            }
+            else
+            {
+                return OntologyList_ObjectRel;
+            }
+            
         }
             
 
@@ -2045,11 +2118,29 @@ namespace ElasticSearchConnector
             return lngCount;
         }
 
-        public List<clsOntologyItem> get_Data_RelationTypes(List<clsOntologyItem> OList_RelType = null)
+        public List<clsOntologyItem> get_Data_RelationTypes(List<clsOntologyItem> OList_RelType = null, bool List2 = false)
         {
             SearchResult objSearchResult;
 
-            OntologyList_DataTypes.Clear();
+            if (OntologyList_RelationTypes1 == null)
+            {
+                OntologyList_RelationTypes1 = new List<clsOntologyItem>();
+            }
+
+            if (OntologyList_RelationTypes2 == null)
+            {
+                OntologyList_RelationTypes2 = new List<clsOntologyItem>();
+            }
+
+            if (!List2)
+            {
+                OntologyList_RelationTypes1.Clear();
+            }
+            else
+            {
+                OntologyList_RelationTypes2.Clear();
+            }
+            
 
             var objBoolQuery = create_BoolQuery_Simple(OList_RelType, objTypes.RelationType);
 
@@ -2083,22 +2174,50 @@ namespace ElasticSearchConnector
 
                 var objList = objSearchResult.GetHits().Hits;
 
-                OntologyList_DataTypes.AddRange((from objHit in objList
-                                                 select new clsOntologyItem
-                                                 {
-                                                     GUID = objHit.Id,
-                                                     Name = objHit.Source[objFields.Name_Item].ToString(),
-                                                     Type = objTypes.RelationType
-                                                 }).ToList());
+                if (!List2)
+                {
+                    OntologyList_RelationTypes1.AddRange((from objHit in objList
+                                                     select new clsOntologyItem
+                                                     {
+                                                         GUID = objHit.Id,
+                                                         Name = objHit.Source[objFields.Name_Item].ToString(),
+                                                         Type = objTypes.RelationType
+                                                     }).ToList());
+                }
+                else
+                {
+                    OntologyList_RelationTypes2.AddRange((from objHit in objList
+                                                     select new clsOntologyItem
+                                                     {
+                                                         GUID = objHit.Id,
+                                                         Name = objHit.Source[objFields.Name_Item].ToString(),
+                                                         Type = objTypes.RelationType
+                                                     }).ToList());
+                }
 
-                intCount = objList.Count;
-                intPos += intCount;
 
+                if (objList.Count < intSearchRange)
+                {
+                    intCount = 0;
+                }
+                else
+                {
+                    intCount = objList.Count;
+                    intPos += intSearchRange;
+                }
 
 
             }
 
-            return OntologyList_DataTypes;
+            if (!List2)
+            {
+                return OntologyList_RelationTypes1;
+            }
+            else
+            {
+                return OntologyList_RelationTypes2;
+            }
+            
         }
 
 

@@ -328,7 +328,7 @@ Public Class clsLocalConfig
                                                  Nothing, _
                                                  objOItem_Class_Sem_Manager.GUID, _
                                                  Nothing, _
-                                                 objDBLevel_Config1.OList_ObjectRel_ID(0).ID_Object, _
+                                                 objDBLevel_Config1.OList_ObjectRel(0).ID_Object, _
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing, _
