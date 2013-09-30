@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structure-Module", "..\Stru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElasticSearchConnector", "..\ElasticSearchConnector\ElasticSearchConnector\ElasticSearchConnector.csproj", "{7085762B-19CE-4125-A52B-4556A96BBBA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OntologyClasses", "OntologyClasses\OntologyClasses.csproj", "{E937824A-B52A-4AA4-A008-710824FC52F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OntologyClasses", "..\OntologyClasses\OntologyClasses.csproj", "{E937824A-B52A-4AA4-A008-710824FC52F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
