@@ -1,5 +1,7 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.Management
+Imports OntologyClasses.DataClasses
+Imports OntologyClasses.BaseClasses
 
 Public Class clsGlobals
 

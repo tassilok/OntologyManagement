@@ -1,4 +1,6 @@
-﻿Public Class UserControl_OntologyRefTree
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class UserControl_OntologyRefTree
 
     Private objDataWork_Ontologies As clsDataWork_Ontologies
     Private objTreeNode_Root As TreeNode

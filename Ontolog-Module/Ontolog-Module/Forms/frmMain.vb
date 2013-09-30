@@ -1,4 +1,6 @@
-﻿Public Class frmMain
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class frmMain
     Private objLocalConfig As clsLocalConfig
 
     Private WithEvents objUserControl_TypeTree As UserControl_TypeTree

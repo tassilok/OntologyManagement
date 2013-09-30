@@ -1,4 +1,6 @@
-﻿Public Class UserControl_ObjectRelTree
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class UserControl_ObjectRelTree
     Private objTreeNode_RelForward As TreeNode
     Private objTreeNode_RelBackward As TreeNode
     Private objTreeNode_RelForward_OR As TreeNode

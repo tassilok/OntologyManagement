@@ -1,4 +1,6 @@
-﻿Public Class clsTransaction_RelationTypes
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class clsTransaction_RelationTypes
 
     Private objLocalConfig As clsLocalConfig
 

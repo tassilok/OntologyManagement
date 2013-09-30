@@ -1,4 +1,6 @@
-﻿Public Class clsTransaction_Ontologies
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class clsTransaction_Ontologies
     Private objDataWork_Ontologies As clsDataWork_Ontologies
     Private objTransaction As clsTransaction
 

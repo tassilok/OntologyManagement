@@ -1,4 +1,6 @@
-﻿Public Class clsLocalConfig
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class clsLocalConfig
     Private objGlobals As clsGlobals
 
     Private objOItem_DevConfig As New clsOntologyItem

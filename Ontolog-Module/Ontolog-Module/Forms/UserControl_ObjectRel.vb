@@ -1,4 +1,6 @@
-﻿Public Class UserControl_ObjectRel
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class UserControl_ObjectRel
 
     Private objLocalConfig As clsLocalConfig
 

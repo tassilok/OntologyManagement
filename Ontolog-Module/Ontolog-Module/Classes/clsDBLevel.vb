@@ -1,4 +1,6 @@
-﻿Imports ElasticSearch
+﻿Imports OntologyClasses.DataClasses
+Imports OntologyClasses.BaseClasses
+Imports ElasticSearch
 Imports Lucene.Net.Search
 Imports Lucene.Net.Index
 
@@ -3596,7 +3598,7 @@ Public Class clsDBLevel
                                                          ObjOrel.ID_Other, _
                                                          ObjOrel.Name_Other, _
                                                          ObjOrel.ID_Parent_Other, _
-                                                         ObjOrel.Name_Parent_Right, _
+                                                         ObjOrel.Name_Parent_Other, _
                                                           ObjOrel.Ontology, _
                                                           Direction)
 
@@ -3834,7 +3836,7 @@ Public Class clsDBLevel
                                                          ObjOrel.ID_Other, _
                                                          ObjOrel.Name_Other, _
                                                          ObjOrel.ID_Parent_Other, _
-                                                         ObjOrel.Name_Parent_Right, _
+                                                         ObjOrel.Name_Parent_Other, _
                                                           ObjOrel.Ontology, _
                                                           Direction)
 

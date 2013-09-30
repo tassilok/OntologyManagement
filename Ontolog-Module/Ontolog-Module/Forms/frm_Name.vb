@@ -1,4 +1,6 @@
-﻿Public Class frm_Name
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class frm_Name
 
     Private objLocalConfig As clsLocalConfig
     Private strCaption As String

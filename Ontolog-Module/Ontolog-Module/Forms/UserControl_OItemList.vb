@@ -1,4 +1,6 @@
-﻿Public Class UserControl_OItemList
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class UserControl_OItemList
     Private objLocalConfig As clsLocalConfig
 
     Private otblT_Objects As New DataSet_Config.otbl_ObjectsDataTable

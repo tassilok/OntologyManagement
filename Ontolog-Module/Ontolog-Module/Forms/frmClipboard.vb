@@ -1,4 +1,6 @@
-﻿Public Class frmClipboard
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class frmClipboard
 
     Private objLocalConfig As clsLocalConfig
     Private objOntologyClipboard As clsOntologyClipboard

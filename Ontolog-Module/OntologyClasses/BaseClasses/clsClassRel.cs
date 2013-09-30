@@ -19,6 +19,24 @@ namespace OntologyClasses.BaseClasses
         public long? Max_Forw { get; set; }
         public long? Max_Backw { get; set; }
 
+
+        public clsClassRel(string ID_Class_Left,
+                           string ID_Class_Right,
+                           string ID_RelationType,
+                           string Ontology,
+                           long? Min_forw,
+                           long? Max_forw,
+                           long? Max_backw)
+        {
+            this.ID_Class_Left = ID_Class_Left;
+            this.ID_Class_Right = ID_Class_Right;
+            this.ID_RelationType = ID_RelationType;
+            this.Ontology = Ontology;
+            this.Min_Forw = Min_forw;
+            this.Max_Forw = Max_forw;
+            this.Max_Backw = Max_backw;
+        }
+
         public clsClassRel(string ID_Class_Left ,
                    string Name_Class_Left ,
                    string ID_Class_Right ,

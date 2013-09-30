@@ -1,4 +1,6 @@
-﻿Public Class clsOntologyWork
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class clsOntologyWork
     Private objLocalConfig As clsLocalConfig
 
     Private objOList As New List(Of clsOntologyItem)

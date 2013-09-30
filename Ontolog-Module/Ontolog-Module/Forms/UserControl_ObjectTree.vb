@@ -1,4 +1,6 @@
-﻿Public Class UserControl_ObjectTree
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class UserControl_ObjectTree
     Private objLocalConfig As clsLocalConfig
     Private objDBLevel As clsDBLevel
     Private objOItem_Object As clsObjectTree

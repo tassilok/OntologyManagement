@@ -1,4 +1,6 @@
-﻿Public Class frmOntologyConfigurator
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class frmOntologyConfigurator
 
     Private objLocalConfig As clsLocalConfig_Ontologies
     Private objDataWork_Ontologies As clsDataWork_Ontologies

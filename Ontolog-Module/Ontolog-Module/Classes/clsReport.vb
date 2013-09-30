@@ -1,4 +1,6 @@
-﻿Public Class clsReport
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class clsReport
 
     Private objLocalConfig As clsLocalConfig
     Private objConnection As SqlClient.SqlConnection
@@ -92,7 +94,7 @@
                         If j < objDBLevel_ObjectRel.OList_ObjectRel.Count Then
                             objOItem_ORel = objDBLevel_ObjectRel.OList_ObjectRel(j)
                             strClass_Left = objOItem_ORel.Name_Parent_Object
-                            strClass_Right = objOItem_ORel.Name_Parent_Right
+                            strClass_Right = objOItem_ORel.Name_Parent_Other
                             strRelationType = objOItem_ORel.Name_RelationType
 
                             strLine = "<tmptbl>"

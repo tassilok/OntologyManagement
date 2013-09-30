@@ -1,4 +1,6 @@
-﻿Public Class frm_ObjectEdit
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class frm_ObjectEdit
     Private objLocalConfig As clsLocalConfig
 
     Private objUserControl_TokenEdit As UserControl_ObjectEdit

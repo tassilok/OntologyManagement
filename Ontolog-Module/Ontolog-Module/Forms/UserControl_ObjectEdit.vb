@@ -1,4 +1,6 @@
-﻿Public Class UserControl_ObjectEdit
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class UserControl_ObjectEdit
 
     Private objLocalConfig As clsLocalConfig
     Private objDBLevel As clsDBLevel

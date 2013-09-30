@@ -1,4 +1,6 @@
-﻿Public Class UserControl_OntologyTree
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class UserControl_OntologyTree
     Private objFrmName As frm_Name
 
     Private objTransaction_Ontologies As clsTransaction

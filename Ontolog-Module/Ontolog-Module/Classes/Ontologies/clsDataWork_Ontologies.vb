@@ -1,4 +1,6 @@
-﻿Imports Structure_Module
+﻿Imports OntologyClasses.DataClasses
+Imports OntologyClasses.BaseClasses
+Imports Structure_Module
 Public Class clsDataWork_Ontologies
     Public objLocalConfig As clsLocalConfig_Ontologies
 

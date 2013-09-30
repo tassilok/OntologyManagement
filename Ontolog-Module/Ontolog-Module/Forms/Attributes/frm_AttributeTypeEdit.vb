@@ -1,4 +1,6 @@
-﻿Public Class frm_AttributeTypeEdit
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class frm_AttributeTypeEdit
 
     Private objLocalConfig As clsLocalConfig
 

@@ -1,4 +1,6 @@
-﻿Public Class frmAttributeTypeOrRelationType
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class frmAttributeTypeOrRelationType
 
     Private objGlobals As clsGlobals
     Private WithEvents objUserControl_AttributeTypes As UserControl_OItemList

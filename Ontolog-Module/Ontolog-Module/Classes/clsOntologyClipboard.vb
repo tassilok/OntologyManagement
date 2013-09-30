@@ -1,4 +1,5 @@
-﻿Imports Ontolog_Module
+﻿Imports OntologyClasses.BaseClasses
+Imports Ontolog_Module
 Public Class clsOntologyClipboard
 
     Private objLocalConfig As clsLocalConfig

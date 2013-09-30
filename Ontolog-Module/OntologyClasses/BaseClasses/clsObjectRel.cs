@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OntologyClasses.BaseClasses
 {
-    class clsObjectRel
+    public class clsObjectRel
     {
         public string ID_Object { get; set; }
         public string Name_Object { get; set; }
@@ -28,26 +28,7 @@ namespace OntologyClasses.BaseClasses
             
         }
 
-        public clsObjectRel(string ID_Object ,
-                            string ID_Parent_Object ,
-                            string ID_Other ,
-                            string ID_Parent_Other ,
-                            string ID_RelationType ,
-                            string Ontology ,
-                            string ID_Direction ,
-                            long? OrderID)
-        {
-            this.ID_Object = ID_Object;
-            this.ID_Parent_Object = ID_Parent_Object;
-            this.ID_Other = ID_Other;
-            this.ID_Parent_Other = ID_Parent_Other;
-            this.ID_RelationType = ID_RelationType;
-            this.Ontology = Ontology;
-            this.ID_Direction = ID_Direction;
-            this.OrderID = OrderID;
-        }
-
-        private clsObjectRel(string ID_Object,
+        public clsObjectRel(string ID_Object,
                              string Name_Object,
                              string ID_Parent_Object,
                              string Name_Parent_Object,
@@ -77,5 +58,26 @@ namespace OntologyClasses.BaseClasses
             this.Name_Direction = Name_Direction;
             this.OrderID = OrderID;
         }
+
+        public clsObjectRel(string ID_Object ,
+                            string ID_Parent_Object ,
+                            string ID_Other ,
+                            string ID_Parent_Other ,
+                            string ID_RelationType ,
+                            string Ontology ,
+                            string ID_Direction ,
+                            long? OrderID)
+        {
+            this.ID_Object = ID_Object;
+            this.ID_Parent_Object = ID_Parent_Object;
+            this.ID_Other = ID_Other;
+            this.ID_Parent_Other = ID_Parent_Other;
+            this.ID_RelationType = ID_RelationType;
+            this.Ontology = Ontology;
+            this.ID_Direction = ID_Direction;
+            this.OrderID = OrderID;
+        }
+
+        
     }
 }

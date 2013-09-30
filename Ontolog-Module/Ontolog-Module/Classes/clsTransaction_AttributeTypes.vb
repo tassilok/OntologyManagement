@@ -1,4 +1,6 @@
-﻿Public Class clsTransaction_AttributeTypes
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class clsTransaction_AttributeTypes
     Private objLocalConfig As clsLocalConfig
 
     Private objDBLevel As clsDBLevel

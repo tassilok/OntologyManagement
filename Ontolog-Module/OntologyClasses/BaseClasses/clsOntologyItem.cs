@@ -25,14 +25,14 @@ namespace OntologyClasses.BaseClasses
         public string Filter { get; set; }
         public int? ImageID { get; set; }
         public int? Version { get; set; }
-        public int? Level { get; set; }
+        public long? Level { get; set; }
         public bool? New_Item { get; set; }
         public bool? Deleted { get; set; }
         public bool? Mark { get; set; }
         public bool? ObjectReference { get; set; }
         public int? Direction { get; set; }
         public long? Min { get; set; }
-        public long? Max { get; set; }
+        public long? Max1 { get; set; }
         public long? Max2 { get; set; }
         public long? Val_Long { get; set; }
         public bool? Val_Bool { get; set; }

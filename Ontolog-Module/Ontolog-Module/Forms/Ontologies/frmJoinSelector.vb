@@ -1,4 +1,5 @@
-﻿Imports Ontolog_Module
+﻿Imports OntologyClasses.BaseClasses
+Imports Ontolog_Module
 Public Class frmJoinSelector
     Private WithEvents objUserControl_ObjectRelTree As UserControl_ObjectRelTree
     Private WithEvents objUserControl_TypeTree As UserControl_TypeTree

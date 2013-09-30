@@ -1,4 +1,5 @@
-﻿Imports Structure_Module
+﻿Imports OntologyClasses.BaseClasses
+Imports Structure_Module
 Public Class UserControl_OntologyItemList
 
     Private objDataWork_Ontologies As clsDataWork_Ontologies

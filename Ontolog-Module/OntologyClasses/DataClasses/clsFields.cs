@@ -21,7 +21,7 @@ namespace OntologyClasses.DataClasses
         public string Name_Other { get { return "Name_Other"; } }
         public string Name_AttributeType { get { return "AttributeType"; } }
         public string Name_Item { get { return "Name_Item"; } }
-        public string ID_DataType { get { return "ID_DataType" } }
+        public string ID_DataType { get { return "ID_DataType"; } }
         public string ID_Parent { get { return "ID_Parent"; } }
         public string ID_Class { get { return "ID_Class"; } }
         public string Val_Int { get { return "Val_Int"; } }

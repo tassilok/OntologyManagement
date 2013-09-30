@@ -1,4 +1,6 @@
-﻿Public Class UserControl_ObjectAtt
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class UserControl_ObjectAtt
 
     Private objLocalConfig As clsLocalConfig
 

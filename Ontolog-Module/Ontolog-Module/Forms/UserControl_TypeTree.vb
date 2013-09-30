@@ -1,4 +1,6 @@
-﻿Public Class UserControl_TypeTree
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class UserControl_TypeTree
     Private Const cint_ImageID_Root As Integer = 0
     Private Const cint_ImageID_Class_Closed As Integer = 1
     Private Const cint_ImageID_Class_Opened As Integer = 2

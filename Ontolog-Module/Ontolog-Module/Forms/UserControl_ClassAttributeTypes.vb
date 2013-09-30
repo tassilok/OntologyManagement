@@ -1,4 +1,6 @@
-﻿Public Class UserControl_ClassAttributeTypes
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class UserControl_ClassAttributeTypes
 
     Private objLocalConfig As clsLocalConfig
 
