@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class clsDataWork_PDF
     Private objLocalConfig As clsLocalConfig
 
@@ -103,7 +105,7 @@ Public Class clsDataWork_PDF
 
             Next
         End If
-        
+
 
         boolLoaded = True
     End Sub

@@ -1,5 +1,7 @@
 ﻿Imports Ontolog_Module
 Imports Filesystem_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class UserControl_MediaItemList
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_MediaItem As clsDataWork_MediaItem
@@ -76,7 +78,7 @@ Public Class UserControl_MediaItemList
                         End If
                     Next
                     objOItem_Result = objLocalConfig.Globals.LState_Success
-                    If IO.Directory.Exists(strPathDst) 
+                    If IO.Directory.Exists(strPathDst) Then
                         objOItem_Result = objLocalConfig.Globals.LState_Relation
                     End If
 
@@ -140,10 +142,10 @@ Public Class UserControl_MediaItemList
                     MsgBox("Die Dateien wurden exportiert!", MsgBoxStyle.Information)
                 End If
             End If
-            
+
         End If
 
-        
+
     End Sub
 
     Private Function save_Item(objDGVR As DataGridViewRow, strPath As String) As clsOntologyItem
@@ -286,7 +288,7 @@ Public Class UserControl_MediaItemList
         BindingSource_MediaItems.DataSource = Nothing
 
         configure_Controls()
-        
+
     End Sub
 
     Public Sub initialize_MediaItems(ByVal OItem_Ref As clsOntologyItem, Optional ByVal select_First As Boolean = False)
@@ -323,7 +325,7 @@ Public Class UserControl_MediaItemList
         If DataGridView_MediaItems.SelectedRows.Count > 0 Then
             ToolStripButton_Remove.Enabled = True
 
-            
+
         End If
     End Sub
 
@@ -366,7 +368,7 @@ Public Class UserControl_MediaItemList
         End If
     End Sub
 
-   
+
     Private Sub DataGridView_MediaItems_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles DataGridView_MediaItems.SelectionChanged
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
@@ -414,7 +416,7 @@ Public Class UserControl_MediaItemList
 
         If ToolStripButton_Replace.Checked Then
             If DataGridView_MediaItems.SelectedRows.Count = 1 Then
-                
+
             Else
                 MsgBox("Sie können nur jeweils ein Media-Item ersetzen!", MsgBoxStyle.Information)
             End If
@@ -524,9 +526,9 @@ Public Class UserControl_MediaItemList
                         objOItem_MediaItem = Nothing
                         objTransaction_MediaItems.rollback()
                     End If
-                    
+
                 End If
-                
+
             Else
                 objOItem_File_Exists = New clsOntologyItem
                 objOItem_File_Exists.GUID = objLocalConfig.Globals.NewGUID

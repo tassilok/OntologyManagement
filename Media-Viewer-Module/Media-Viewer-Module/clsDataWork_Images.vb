@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class clsDataWork_Images
     Private objLocalConfig As clsLocalConfig
     Private objDBLevel_Images As clsDBLevel

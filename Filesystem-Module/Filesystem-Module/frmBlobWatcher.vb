@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class frmBlobWatcher
     Private objLocalConfig As clsLocalConfig
     Private objBlobConnection As clsBlobConnection
@@ -110,7 +112,7 @@ Public Class frmBlobWatcher
                     Timer_BlobSave.Start()
 
                 End If
-                
+
             End If
         Else
             objOItem_Result = objLocalConfig.Globals.LState_Error
@@ -178,8 +180,8 @@ Public Class frmBlobWatcher
             objTransaction.ClearItems()
             objOItem_Result = objTransaction.do_Transaction(objORFilesToServer, False, True)
         End If
-        
-        
+
+
 
         Return objOItem_Result
     End Function
@@ -214,7 +216,7 @@ Public Class frmBlobWatcher
 
                     objOItem_Result = objTransaction.do_Transaction(objORItem_ServerFiles)
 
-                    
+
                 End If
             End If
         End If
@@ -278,7 +280,7 @@ Public Class frmBlobWatcher
                     End If
                 End If
 
-                
+
 
             End If
         Next

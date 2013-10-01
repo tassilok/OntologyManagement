@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class UserControl_Password
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_Security As clsDataWork_Security
@@ -21,7 +23,7 @@ Public Class UserControl_Password
             BindingSource_Passwords.DataSource = Nothing
             DataGridView_Passwords.DataSource = Nothing
         End If
-        
+
     End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal SecurityWork As clsSecurityWork)
@@ -172,7 +174,7 @@ Public Class UserControl_Password
                     End If
 
 
-                    
+
             End Select
         End If
     End Sub

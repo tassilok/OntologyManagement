@@ -1,6 +1,8 @@
 ﻿Imports Ontolog_Module
 Imports Filesystem_Module
 Imports Log_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class UserControl_MediaPlayer
     Private objLocalConfig As clsLocalConfig
 
@@ -10,7 +12,7 @@ Public Class UserControl_MediaPlayer
     Private objThread_MediaItem As Threading.Thread
 
     Private objTransaction_Bookmarks As clsTransaction_Bookmarks
-    Private objLogManagement As clsLogManagement
+    Private objLogManagement As Log_Module.clsLogManagement
 
     Private objBlobConnection As clsBlobConnection
 
@@ -60,7 +62,7 @@ Public Class UserControl_MediaPlayer
         objOItem_MediaItem = OItem_MediaItem
 
         clear_Media()
-        
+
 
 
 
@@ -97,8 +99,8 @@ Public Class UserControl_MediaPlayer
             End If
         End If
 
-        
-        
+
+
     End Sub
 
     Private Sub open_MediaItem()
@@ -137,7 +139,7 @@ Public Class UserControl_MediaPlayer
     Private Sub set_DBConnection()
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
         objTransaction_Bookmarks = New clsTransaction_Bookmarks(objLocalConfig)
-        objLogManagement = New clsLogManagement(objLocalConfig.Globals)
+        objLogManagement = New Log_Module.clsLogManagement(objLocalConfig.Globals)
     End Sub
 
     Private Sub initialize()
@@ -213,7 +215,7 @@ Public Class UserControl_MediaPlayer
 
                                 End If
 
-                                
+
                             End If
                         Else
                             objLogManagement.del_LogEntry(objTransaction_Bookmarks.OItem_LogEntry)

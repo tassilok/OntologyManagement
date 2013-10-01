@@ -1,6 +1,7 @@
 ﻿Imports Ontolog_Module
 Imports Microsoft.Synchronization
 Imports Microsoft.Synchronization.Files
+Imports OntologyClasses.BaseClasses
 
 Public Class clsSync
     Private WithEvents sourceProvider As FileSyncProvider
@@ -219,7 +220,7 @@ Public Class clsSync
         Dim objFileInfoSrc As IO.FileInfo
         Dim objFileInfoDst As IO.FileInfo
 
-        
+
         If IO.File.Exists(strPathDst) Then
             If boolCompareFileStreams Then
                 If objBlobConnection.get_Hash_Of_File(strPathSrc) <> objBlobConnection.get_Hash_Of_File(strPathDst) Then
@@ -238,7 +239,7 @@ Public Class clsSync
         Else
             boolDifferent = True
         End If
-        
+
 
         Return boolDifferent
     End Function

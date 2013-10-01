@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class frmSecurityModule
     Private objLocalConfig As clsLocalConfig
 
@@ -74,7 +76,7 @@ Public Class frmSecurityModule
     End Sub
 
     Private Sub frmSecurityModule_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        
+
         If boolOpen = False Then
             Me.Close()
         Else

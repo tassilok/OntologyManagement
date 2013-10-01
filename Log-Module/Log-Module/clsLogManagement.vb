@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class clsLogManagement
     Private objLocalConfig As clsLocalConfig
     Private objOItem_LogEntry As clsOntologyItem
@@ -25,7 +27,7 @@ Public Class clsLogManagement
         Dim objORel_LogEntry_To_User As clsObjectRel
 
         objOItem_LogEntry = New clsOntologyItem
-        objOItem_LogEntry.GUID = objOItem_LogEntry.NewGUID
+        objOItem_LogEntry.GUID = objOItem_LogEntry.NewGuid
 
         If strMessage = "" Or strMessage Is Nothing Then
             objOItem_LogEntry.Name = dateTimestamp.ToString
@@ -81,7 +83,7 @@ Public Class clsLogManagement
                 objOItem_LogEntry = Nothing
             End If
         End If
-        
+
         Return objOItem_Result
     End Function
 

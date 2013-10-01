@@ -1,5 +1,7 @@
 ﻿Imports Ontolog_Module
 Imports Filesystem_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class UserControl_ImageViewer
     Private objLocalConfig As clsLocalConfig
 
@@ -15,9 +17,9 @@ Public Class UserControl_ImageViewer
     Private boolImageFinished As Boolean
 
     Public Sub clear_Image()
-        
+
         objImage = Nothing
-       
+
         objOItem_File = Nothing
         objOItem_File = Nothing
 
@@ -154,7 +156,7 @@ Public Class UserControl_ImageViewer
                 PictureBox_Image.SizeMode = PictureBoxSizeMode.AutoSize
             End If
         End If
-        
+
         PictureBox_Image.Refresh()
     End Sub
 
@@ -206,7 +208,7 @@ Public Class UserControl_ImageViewer
 
     Private Sub PictureBox_Image_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles PictureBox_Image.Paint
 
-        
+
     End Sub
 
     Private Sub ToolStripButton_Copy_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Copy.Click

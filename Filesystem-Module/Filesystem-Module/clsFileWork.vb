@@ -1,5 +1,7 @@
 ﻿Imports Ontolog_Module
 Imports ClassLibrary_ShellWork
+Imports OntologyClasses.BaseClasses
+
 Public Class clsFileWork
 
     Private objLocalConfig As clsLocalConfig

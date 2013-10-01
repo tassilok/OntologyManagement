@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class clsTransaction_LogEntry
     Private objLocalConfig As clsLocalConfig
 

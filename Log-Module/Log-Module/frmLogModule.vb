@@ -1,5 +1,7 @@
 ﻿Imports Ontolog_Module
 Imports Security_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class frmLogModule
     Private objLocalConfig As clsLocalConfig
     Private WithEvents objUserControl_LogEntryList As UserControl_OItemList

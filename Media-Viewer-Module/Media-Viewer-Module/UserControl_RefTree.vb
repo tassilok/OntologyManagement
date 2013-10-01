@@ -1,6 +1,8 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class UserControl_RefTree
-    
+
 
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_RefTree As clsDataWork_RefTree
@@ -184,11 +186,11 @@ Public Class UserControl_RefTree
                     For Each objOItem In objFrmMain.OList_Simple
                         Select Case objOItem.Type
                             Case objLocalConfig.Globals.Type_AttributeType
-                            
+
                             Case objLocalConfig.Globals.Type_Class
-                            
+
                             Case objLocalConfig.Globals.Type_Object
-                                If objOItem.GUID_Parent = objTreeNode.Name Then                                    
+                                If objOItem.GUID_Parent = objTreeNode.Name Then
                                     objTreeNode_Added = objTreeNode.Nodes.Add(objOItem.GUID, _
                                                                                     objOItem.Name,
                                                                                     objLocalConfig.ImageID_Token, _
@@ -197,14 +199,14 @@ Public Class UserControl_RefTree
                                 Else
 
                                 End If
-                                
+
                             Case objLocalConfig.Globals.Type_RelationType
 
                         End Select
                     Next
                 End If
             End If
-            
+
 
         End If
     End Sub

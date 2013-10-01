@@ -1,5 +1,7 @@
 ﻿Imports Ontolog_Module
 Imports Security_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class frmMediaViewerModule
     Private objLocalConfig As clsLocalConfig
 
@@ -32,7 +34,7 @@ Public Class frmMediaViewerModule
         Else
             ToolStripLabel_RelatedLast.Text = "-"
         End If
-        
+
     End Sub
 
     Private Sub relate_LastMediaItem(OItem_MediaItem As clsOntologyItem) Handles objUserControl_MediaItemList.related_Last
@@ -53,7 +55,7 @@ Public Class frmMediaViewerModule
     Private Sub Media_First() Handles objFrmSingleViewer.Media_First
         Select Case objOItem_MediaType.GUID
             Case objLocalConfig.OItem_Type_PDF_Documents.GUID
-                objUserControl_PDF.Media_First
+                objUserControl_PDF.Media_First()
             Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
                 objUserControl_ImageList.Media_First()
             Case objLocalConfig.OItem_Type_Media_Item.GUID
@@ -201,7 +203,7 @@ Public Class frmMediaViewerModule
 
             objUserControl_ImageList = New UserControl_ImageList(objLocalConfig)
             objUserControl_ImageList.Dock = DockStyle.Fill
-            
+
             objUserControl_MediaItemList = New UserControl_MediaItemList(objLocalConfig)
             objUserControl_MediaItemList.Dock = DockStyle.Fill
 
@@ -209,7 +211,7 @@ Public Class frmMediaViewerModule
             objUserControl_PDF.Dock = DockStyle.Fill
         End If
 
-        
+
 
 
     End Sub

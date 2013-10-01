@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class clsTransaction_MediaItems
     Dim objTransaction As clsTransaction
     Dim objLocalConfig As clsLocalConfig
@@ -12,7 +14,7 @@ Public Class clsTransaction_MediaItems
         Get
             Return objOItem_File
         End Get
-        
+
     End Property
 
     Public ReadOnly Property OItem_MediaItem As clsOntologyItem

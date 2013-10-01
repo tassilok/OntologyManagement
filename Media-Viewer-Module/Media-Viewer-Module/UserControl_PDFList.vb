@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class UserControl_PDFList
     Private objLocalConfig As clsLocalConfig
 
@@ -171,7 +173,7 @@ Public Class UserControl_PDFList
             objOItem_File.Name = objDRV_Selected.Item("Name_File")
             objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
             objOItem_File.Type = objLocalConfig.Globals.Type_Object
-            
+
             RaiseEvent selected_PDF(objOItem_PDF, objOItem_File)
         End If
     End Sub

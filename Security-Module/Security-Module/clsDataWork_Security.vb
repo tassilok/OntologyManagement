@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class clsDataWork_Security
     Private objLocalConfig As clsLocalConfig
     Private dtblT_Password As New DataSet_Password.dtbl_PasswordDataTable

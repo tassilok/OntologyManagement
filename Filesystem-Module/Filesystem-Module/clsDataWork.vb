@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class clsDataWork
     Private objLocalConfig As clsLocalConfig
 
@@ -101,7 +103,7 @@ Public Class clsDataWork
 
         oList_ObjRel.Clear()
         If ID_RelationType = objLocalConfig.OItem_RelationType_isSubordinated.GUID Then
-           
+
             oList_ObjRel.Add(New clsObjectRel(Nothing, _
                                               Nothing, _
                                               objLocalConfig.OItem_type_Folder.GUID, _
@@ -116,9 +118,9 @@ Public Class clsDataWork
                                               Nothing, _
                                               Nothing, _
                                               Nothing))
-           
+
         Else
-            
+
             oList_ObjRel.Add(New clsObjectRel(objTreeNode.Name, _
                                               Nothing, _
                                               Nothing, _
@@ -134,7 +136,7 @@ Public Class clsDataWork
                                               Nothing, _
                                               Nothing))
         End If
-        
+
 
         objDBLevel_Folder.get_Data_ObjectRel(oList_ObjRel, _
                                              boolIDs:=False)
@@ -156,7 +158,7 @@ Public Class clsDataWork
                                                        intImageID_Folder_Closed, _
                                                        intImageID_Folder_Opened)
             End If
-            
+
             get_SubFolders(objTreeNode_Folder, _
                            intImageID_Folder_Closed, _
                            intImageID_Folder_Opened)
@@ -174,11 +176,11 @@ Public Class clsDataWork
 
         otblT_Files.Clear()
 
-        
+
         objOItem_Object.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
         objOItem_Object.Type = objLocalConfig.Globals.Type_Object
 
-       
+
         oList_ObjRel.Clear()
 
         If objTreeNode Is Nothing Then
@@ -358,7 +360,7 @@ Public Class clsDataWork
                                                              Nothing))
 
             End If
-            
+
 
 
             objDBLevel_Files.get_Data_ObjectAtt(oList_ObjAtt, _
@@ -481,7 +483,7 @@ Public Class clsDataWork
         Dim oList_ObjRel As New List(Of clsObjectRel)
         Dim oList_Result As New List(Of clsOntologyItem)
 
-        
+
         oList_ObjRel.Add(New clsObjectRel(Nothing, _
                                           Nothing, _
                                           objLocalConfig.OItem_Type_File.GUID, _
@@ -518,7 +520,7 @@ Public Class clsDataWork
                                     ByVal oItem_NewFolder As clsOntologyItem) As clsOntologyItem
 
         Dim oList_ObjRel As New List(Of clsObjectRel)
-        
+
         Dim objOItem_Result As New clsOntologyItem
         Dim boolResult As Boolean
 
@@ -559,7 +561,7 @@ Public Class clsDataWork
                                               Nothing, _
                                               Nothing))
 
-            
+
         End If
 
 
@@ -685,7 +687,7 @@ Public Class clsDataWork
         Return objOL_Files
     End Function
 
-    
+
 
 
 End Class

@@ -91,6 +91,7 @@
     <Compile Include="clsDataWork_PDF.vb" />
     <Compile Include="clsDataWork_RefTree.vb" />
     <Compile Include="clsLocalConfig.vb" />
+    <Compile Include="clsLogManagement.vb" />
     <Compile Include="clsMultiMediaItem.vb" />
     <Compile Include="clsTransaction_Bookmarks.vb" />
     <Compile Include="clsTransaction_Image.vb" />
@@ -282,6 +283,10 @@
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3F2F6722-C36B-420D-AFE7-B21C19457208}</Project>
       <Name>Ontolog-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
+      <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
+      <Name>OntologyClasses</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class clsSecurityWork
     Private objLocalConfig As clsLocalConfig
 
@@ -55,7 +57,7 @@ Public Class clsSecurityWork
 
             objDBLevel_MasterPassword.get_Data_ObjectAtt(objOLMasterPassword, _
                                                          boolIDs:=False)
-            
+
             If objDBLevel_MasterPassword.OList_ObjectAtt.Count > 0 Then
                 strMasterPassword_Encoded = objDBLevel_MasterPassword.OList_ObjectAtt(0).Val_String
 

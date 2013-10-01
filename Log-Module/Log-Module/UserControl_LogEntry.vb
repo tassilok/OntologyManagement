@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class UserControl_LogEntry
     Private objLocalConfig As clsLocalConfig
 
@@ -164,7 +166,7 @@ Public Class UserControl_LogEntry
                 boolStop = False
             End If
         End If
-        
+
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             If objDataWork_LogEntry.OItem_Result_DateTimeStamp.GUID = objLocalConfig.Globals.LState_Success.GUID Then
@@ -198,7 +200,7 @@ Public Class UserControl_LogEntry
         End If
     End Sub
 
-    
+
     Private Sub ContextMenuStrip_LogState_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_LogState.Opening
         StandardLogstateToolStripMenuItem.Enabled = False
         OpenObjectEditLogstateToolStripMenuItem.Enabled = False
@@ -235,5 +237,5 @@ Public Class UserControl_LogEntry
         ToolStripLabel_User.Text = objLocalConfig.OItem_User.Name
     End Sub
 
-    
+
 End Class

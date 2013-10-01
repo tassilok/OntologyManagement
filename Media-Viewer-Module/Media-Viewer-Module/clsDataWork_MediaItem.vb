@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class clsDataWork_MediaItem
     Private objLocalConfig As clsLocalConfig
 
@@ -216,7 +218,7 @@ Public Class clsDataWork_MediaItem
                 End If
             Next
         End If
-        
+
 
         boolLoaded = True
     End Sub
@@ -260,7 +262,7 @@ Public Class clsDataWork_MediaItem
     End Sub
 
     Private Sub initialize()
-        
+
     End Sub
 
     Private Sub set_DBConnection()

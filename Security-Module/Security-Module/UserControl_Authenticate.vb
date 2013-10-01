@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class UserControl_Authenticate
     <FlagsAttribute()> _
     Public Enum ERelateMode As Integer

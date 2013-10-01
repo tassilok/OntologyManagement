@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class clsLocalConfig
     Private cstr_ID_SoftwareDevelopment As String = "488fe6a8ac9048718e3a598667ba8828"
     Private cstr_ID_Class_SoftwareDevelopment As String = "132a845f849f4f6b86847ab3fd068824"
@@ -734,7 +736,7 @@ Public Class clsLocalConfig
                                             Nothing, _
                                             Nothing, _
                                             Nothing))
-        
+
         objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel)
 
         If objDBLevel_Config1.OList_ObjectRel_ID.Count > 0 Then

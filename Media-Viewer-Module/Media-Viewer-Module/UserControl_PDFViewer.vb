@@ -1,5 +1,7 @@
 ﻿Imports Ontolog_Module
 Imports Filesystem_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class UserControl_PDFViewer
     Private objLocalConfig As clsLocalConfig
     Private objOItem_PDF As clsOntologyItem

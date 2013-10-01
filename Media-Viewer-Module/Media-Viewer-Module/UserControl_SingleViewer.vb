@@ -1,6 +1,8 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class UserControl_SingleViewer
-    
+
     Private objLocalConfig As clsLocalConfig
 
     Private objOItem_MediaType As clsOntologyItem
@@ -26,7 +28,7 @@ Public Class UserControl_SingleViewer
         Image = 0
         MediaItem = 1
         PDF = 2
-        
+
     End Enum
 
     Private Sub stoppedMedia() Handles objUserControl_MediaPlayer.stopped

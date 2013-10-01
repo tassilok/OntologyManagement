@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class frm_FilesystemModule
     Private Const cint_ImageID_Root As Integer = 7
     Private Const cint_ImageID_Server As Integer = 3
@@ -358,7 +360,7 @@ Public Class frm_FilesystemModule
         End If
     End Sub
 
- 
+
     Private Sub ContextMenuStrip_DataGrid_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_DataGrid.Opening
         Dim objTreeNode As TreeNode
         Dim objDGVR_Selected As DataGridViewRow
@@ -555,7 +557,7 @@ Public Class frm_FilesystemModule
         Else
             MsgBox("Die Dateiverwaltung ist nicht aktiv!", MsgBoxStyle.Critical)
         End If
-        
+
     End Sub
 
     Private Sub CreateBlobToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CreateBlobToolStripMenuItem.Click

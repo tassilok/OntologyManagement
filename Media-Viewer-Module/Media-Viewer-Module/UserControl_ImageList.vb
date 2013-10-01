@@ -1,5 +1,7 @@
 ﻿Imports Ontolog_Module
 Imports Filesystem_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class UserControl_ImageList
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_Images As clsDataWork_Images
@@ -87,7 +89,7 @@ Public Class UserControl_ImageList
         Return objOItem_Result
     End Function
 
-    
+
     Public ReadOnly Property isPossible_Previous As Boolean
         Get
             If BindingSource_Images.Position > 0 Then
@@ -110,7 +112,7 @@ Public Class UserControl_ImageList
         End Get
     End Property
 
-    
+
     Private Sub initialize()
         'objUserControl_ImageViewer = New UserControl_ImageViewer(objLocalConfig)
         'objUserControl_ImageViewer.Dock = DockStyle.Fill
@@ -191,7 +193,7 @@ Public Class UserControl_ImageList
                     objDGVR_Selected.Selected = True
                 End If
             End If
-            
+
             ToolStripLabel_Count.Text = DataGridView_Images.RowCount
         Else
 
@@ -234,7 +236,7 @@ Public Class UserControl_ImageList
         End If
     End Sub
 
-    
+
     Private Sub ToolStripButton_Open_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Open.Click
 
     End Sub
@@ -254,13 +256,13 @@ Public Class UserControl_ImageList
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     objOItem_Image = GetImage(objOItem_File.Name)
                     If objOItem_Image.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
-                        If objOItem_File.new_Item Then
+                        If objOItem_File.New_Item Then
                             objFileWork.del_File(objOItem_File)
 
                         End If
                         MsgBox("Bitte markieren Sie nur ein Bild!", MsgBoxStyle.Information)
                     ElseIf objOItem_Image.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                        If objOItem_File.new_Item Then
+                        If objOItem_File.New_Item Then
                             objFileWork.del_File(objOItem_File)
 
                         End If
@@ -271,7 +273,7 @@ Public Class UserControl_ImageList
                             objOItem_Result = objTransaction_Image.SaveImageToRef(objOItem_Image, objOItem_Ref, objOItem_Image.Level, True)
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
 
-                                If objOItem_Image.new_Item Then
+                                If objOItem_Image.New_Item Then
                                     objOItem_Result = objTransaction_Image.DelImageToFile(objOItem_Image, True)
                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                         objTransaction_Image.DelImage(objOItem_Image)
@@ -279,16 +281,16 @@ Public Class UserControl_ImageList
 
 
                                 End If
-                                If objOItem_File.new_Item Then
+                                If objOItem_File.New_Item Then
                                     objFileWork.del_File(objOItem_File)
 
                                 End If
                             End If
                         Else
-                            If objOItem_Image.new_Item Then
+                            If objOItem_Image.New_Item Then
                                 objTransaction_Image.DelImage(objOItem_Image)
                             End If
-                            If objOItem_File.new_Item Then
+                            If objOItem_File.New_Item Then
                                 objFileWork.del_File(objOItem_File)
 
                             End If
@@ -296,21 +298,21 @@ Public Class UserControl_ImageList
                         End If
                     End If
                 Else
-                    If objOItem_File.new_Item Then
+                    If objOItem_File.New_Item Then
                         objFileWork.del_File(objOItem_File)
 
                     End If
                 End If
 
-                    objOItem_Result = objTransaction_Image.SaveImageToRef(objOItem_Image, objOItem_Ref, objOItem_Image.Level, True)
-                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                objOItem_Result = objTransaction_Image.SaveImageToRef(objOItem_Image, objOItem_Ref, objOItem_Image.Level, True)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
 
-                        initialize_Images(objOItem_Ref)
-                    Else
-
-                    End If
+                    initialize_Images(objOItem_Ref)
+                Else
 
                 End If
+
+            End If
         ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
 
             MsgBox("Die Zwischenablage enthält keine Bilder!", MsgBoxStyle.Information)
@@ -357,7 +359,7 @@ Public Class UserControl_ImageList
             objOItem_Image.GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID
             objOItem_Image.Type = objLocalConfig.Globals.Type_Object
             objOItem_Image.Level = lngOrderID
-            objOItem_Image.new_Item = True
+            objOItem_Image.New_Item = True
 
             Dim objOItem_Result = objTransaction_Image.SaveImage(objOItem_Image, True)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
@@ -392,7 +394,7 @@ Public Class UserControl_ImageList
                 objOItem_File = objLocalConfig.Globals.LState_Relation
             End If
         Else
-            
+
             objOItem_File = New clsOntologyItem()
             objOItem_File.GUID = objLocalConfig.Globals.NewGUID
             If Not strPath Is Nothing Then
@@ -402,7 +404,7 @@ Public Class UserControl_ImageList
             End If
             objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
             objOItem_File.Type = objLocalConfig.Globals.Type_Object
-            objOItem_File.new_Item = True
+            objOItem_File.New_Item = True
 
             Dim objOItem_Result = objFileWork.save_File(objOItem_File)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
@@ -437,7 +439,7 @@ Public Class UserControl_ImageList
             Catch ex As Exception
                 objOItem_Result = objLocalConfig.Globals.LState_Error
             End Try
-            
+
         Else
             objOItem_Result = objLocalConfig.Globals.LState_Relation
         End If

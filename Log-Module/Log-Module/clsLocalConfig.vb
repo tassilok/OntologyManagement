@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class clsLocalConfig
     Private cstr_ID_SoftwareDevelopment As String = "105f328b05dc4498abfd6ca06470c19a"
     Private cstr_ID_Class_SoftwareDevelopment As String = "132a845f849f4f6b86847ab3fd068824"
@@ -221,11 +223,11 @@ Public Class clsLocalConfig
                                   Where obj.Name_Object.ToLower = "attribute_datetimestamp" And obj.Ontology = objGlobals.Type_AttributeType
 
         If objOList_attribute_datetimestamp.Count > 0 Then
-            objOItem_attribute_datetimestamp = New clsOntologyItem
-            objOItem_attribute_datetimestamp.GUID = objOList_attribute_datetimestamp(0).ID_Other
-            objOItem_attribute_datetimestamp.Name = objOList_attribute_datetimestamp(0).Name_Other
-            objOItem_attribute_datetimestamp.GUID_Parent = objOList_attribute_datetimestamp(0).ID_Parent_Other
-            objOItem_attribute_datetimestamp.Type = objGlobals.Type_AttributeType
+            objOItem_Attribute_DateTimeStamp = New clsOntologyItem
+            objOItem_Attribute_DateTimeStamp.GUID = objOList_attribute_datetimestamp(0).ID_Other
+            objOItem_Attribute_DateTimeStamp.Name = objOList_attribute_datetimestamp(0).Name_Other
+            objOItem_Attribute_DateTimeStamp.GUID_Parent = objOList_attribute_datetimestamp(0).ID_Parent_Other
+            objOItem_Attribute_DateTimeStamp.Type = objGlobals.Type_AttributeType
         Else
             Err.Raise(1, "config err")
         End If
@@ -234,11 +236,11 @@ Public Class clsLocalConfig
                                     Where obj.Name_Object.ToLower = "attribute_dbpostfix" And obj.Ontology = objGlobals.Type_AttributeType
 
         If objOList_attribute_dbpostfix.Count > 0 Then
-            objOItem_attribute_dbpostfix = New clsOntologyItem
-            objOItem_attribute_dbpostfix.GUID = objOList_attribute_dbpostfix(0).ID_Other
-            objOItem_attribute_dbpostfix.Name = objOList_attribute_dbpostfix(0).Name_Other
-            objOItem_attribute_dbpostfix.GUID_Parent = objOList_attribute_dbpostfix(0).ID_Parent_Other
-            objOItem_attribute_dbpostfix.Type = objGlobals.Type_AttributeType
+            objOItem_attribute_dbPostfix = New clsOntologyItem
+            objOItem_attribute_dbPostfix.GUID = objOList_attribute_dbpostfix(0).ID_Other
+            objOItem_attribute_dbPostfix.Name = objOList_attribute_dbpostfix(0).Name_Other
+            objOItem_attribute_dbPostfix.GUID_Parent = objOList_attribute_dbpostfix(0).ID_Parent_Other
+            objOItem_attribute_dbPostfix.Type = objGlobals.Type_AttributeType
         Else
             Err.Raise(1, "config err")
         End If
@@ -247,11 +249,11 @@ Public Class clsLocalConfig
                                     Where obj.Name_Object.ToLower = "attribute_message" And obj.Ontology = objGlobals.Type_AttributeType
 
         If objOList_attribute_message.Count > 0 Then
-            objOItem_attribute_message = New clsOntologyItem
-            objOItem_attribute_message.GUID = objOList_attribute_message(0).ID_Other
-            objOItem_attribute_message.Name = objOList_attribute_message(0).Name_Other
-            objOItem_attribute_message.GUID_Parent = objOList_attribute_message(0).ID_Parent_Other
-            objOItem_attribute_message.Type = objGlobals.Type_AttributeType
+            objOItem_Attribute_Message = New clsOntologyItem
+            objOItem_Attribute_Message.GUID = objOList_attribute_message(0).ID_Other
+            objOItem_Attribute_Message.Name = objOList_attribute_message(0).Name_Other
+            objOItem_Attribute_Message.GUID_Parent = objOList_attribute_message(0).ID_Parent_Other
+            objOItem_Attribute_Message.Type = objGlobals.Type_AttributeType
         Else
             Err.Raise(1, "config err")
         End If
@@ -264,10 +266,10 @@ Public Class clsLocalConfig
                           Where obj.Name_Object.ToLower = "relationtype_belongsto" And obj.Ontology = objGlobals.Type_RelationType
 
         If objOList_relationtype_belongsto.Count > 0 Then
-            objOItem_relationtype_belongsto = New clsOntologyItem
-            objOItem_relationtype_belongsto.GUID = objOList_relationtype_belongsto(0).ID_Other
-            objOItem_relationtype_belongsto.Name = objOList_relationtype_belongsto(0).Name_Other
-            objOItem_relationtype_belongsto.Type = objGlobals.Type_RelationType
+            objOItem_RelationType_belongsTo = New clsOntologyItem
+            objOItem_RelationType_belongsTo.GUID = objOList_relationtype_belongsto(0).ID_Other
+            objOItem_RelationType_belongsTo.Name = objOList_relationtype_belongsto(0).Name_Other
+            objOItem_RelationType_belongsTo.Type = objGlobals.Type_RelationType
         Else
             Err.Raise(1, "config err")
         End If
@@ -276,10 +278,10 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "relationtype_provides" And obj.Ontology = objGlobals.Type_RelationType
 
         If objOList_relationtype_provides.Count > 0 Then
-            objOItem_relationtype_provides = New clsOntologyItem
-            objOItem_relationtype_provides.GUID = objOList_relationtype_provides(0).ID_Other
-            objOItem_relationtype_provides.Name = objOList_relationtype_provides(0).Name_Other
-            objOItem_relationtype_provides.Type = objGlobals.Type_RelationType
+            objOItem_RelationType_provides = New clsOntologyItem
+            objOItem_RelationType_provides.GUID = objOList_relationtype_provides(0).ID_Other
+            objOItem_RelationType_provides.Name = objOList_relationtype_provides(0).Name_Other
+            objOItem_RelationType_provides.Type = objGlobals.Type_RelationType
         Else
             Err.Raise(1, "config err")
         End If
@@ -288,10 +290,10 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "relationtype_wascreatedby" And obj.Ontology = objGlobals.Type_RelationType
 
         If objOList_relationtype_wascreatedby.Count > 0 Then
-            objOItem_relationtype_wascreatedby = New clsOntologyItem
-            objOItem_relationtype_wascreatedby.GUID = objOList_relationtype_wascreatedby(0).ID_Other
-            objOItem_relationtype_wascreatedby.Name = objOList_relationtype_wascreatedby(0).Name_Other
-            objOItem_relationtype_wascreatedby.Type = objGlobals.Type_RelationType
+            objOItem_RelationType_wasCreatedBy = New clsOntologyItem
+            objOItem_RelationType_wasCreatedBy.GUID = objOList_relationtype_wascreatedby(0).ID_Other
+            objOItem_RelationType_wasCreatedBy.Name = objOList_relationtype_wascreatedby(0).Name_Other
+            objOItem_RelationType_wasCreatedBy.Type = objGlobals.Type_RelationType
         Else
             Err.Raise(1, "config err")
         End If
@@ -308,11 +310,11 @@ Public Class clsLocalConfig
                           Where obj.Name_Object.ToLower = "type_logentry" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_logentry.Count > 0 Then
-            objOItem_type_logentry = New clsOntologyItem
-            objOItem_type_logentry.GUID = objOList_type_logentry(0).ID_Other
-            objOItem_type_logentry.Name = objOList_type_logentry(0).Name_Other
-            objOItem_type_logentry.GUID_Parent = objOList_type_logentry(0).ID_Parent_Other
-            objOItem_type_logentry.Type = objGlobals.Type_Class
+            objOItem_Type_LogEntry = New clsOntologyItem
+            objOItem_Type_LogEntry.GUID = objOList_type_logentry(0).ID_Other
+            objOItem_Type_LogEntry.Name = objOList_type_logentry(0).Name_Other
+            objOItem_Type_LogEntry.GUID_Parent = objOList_type_logentry(0).ID_Parent_Other
+            objOItem_Type_LogEntry.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -321,11 +323,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_logstate" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_logstate.Count > 0 Then
-            objOItem_type_logstate = New clsOntologyItem
-            objOItem_type_logstate.GUID = objOList_type_logstate(0).ID_Other
-            objOItem_type_logstate.Name = objOList_type_logstate(0).Name_Other
-            objOItem_type_logstate.GUID_Parent = objOList_type_logstate(0).ID_Parent_Other
-            objOItem_type_logstate.Type = objGlobals.Type_Class
+            objOItem_type_Logstate = New clsOntologyItem
+            objOItem_type_Logstate.GUID = objOList_type_logstate(0).ID_Other
+            objOItem_type_Logstate.Name = objOList_type_logstate(0).Name_Other
+            objOItem_type_Logstate.GUID_Parent = objOList_type_logstate(0).ID_Parent_Other
+            objOItem_type_Logstate.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
@@ -334,11 +336,11 @@ Public Class clsLocalConfig
                             Where obj.Name_Object.ToLower = "type_user" And obj.Ontology = objGlobals.Type_Class
 
         If objOList_type_user.Count > 0 Then
-            objOItem_type_user = New clsOntologyItem
-            objOItem_type_user.GUID = objOList_type_user(0).ID_Other
-            objOItem_type_user.Name = objOList_type_user(0).Name_Other
-            objOItem_type_user.GUID_Parent = objOList_type_user(0).ID_Parent_Other
-            objOItem_type_user.Type = objGlobals.Type_Class
+            objOItem_type_User = New clsOntologyItem
+            objOItem_type_User.GUID = objOList_type_user(0).ID_Other
+            objOItem_type_User.Name = objOList_type_user(0).Name_Other
+            objOItem_type_User.GUID_Parent = objOList_type_user(0).ID_Parent_Other
+            objOItem_type_User.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If

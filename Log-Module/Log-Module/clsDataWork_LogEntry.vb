@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class clsDataWork_LogEntry
     Private objLocalConfig As clsLocalConfig
     Private objDBLevel_TimeStamp As clsDBLevel
@@ -76,7 +78,7 @@ Public Class clsDataWork_LogEntry
         End Set
     End Property
 
-        
+
 
     Public Property OItem_LogState As clsOntologyItem
         Get

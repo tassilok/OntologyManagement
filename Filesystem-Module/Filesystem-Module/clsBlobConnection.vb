@@ -1,5 +1,8 @@
 ﻿Imports Ontolog_Module
 Imports System.Security
+Imports OntologyClasses
+Imports OntologyClasses.BaseClasses
+
 Public Class clsBlobConnection
     Private objLocalConfig As clsLocalConfig
 
@@ -361,7 +364,7 @@ Public Class clsBlobConnection
             strPath_File_SRC = strPath_Blob & IO.Path.DirectorySeparatorChar & objOItem_File.GUID
             strPath_File = Environment.ExpandEnvironmentVariables(strPath_File)
 
-            
+
             Try
                 strPath_File_DST = IO.Path.GetDirectoryName(strPath_File)
                 If Not IO.Directory.Exists(strPath_File_DST) Then

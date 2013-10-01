@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class frmSingleViewer
     Private objLocalConfig As clsLocalConfig
 
@@ -16,7 +18,7 @@ Public Class frmSingleViewer
     Private Sub StoppedMedia() Handles objUserControl_MediaPlayer.stopped
         If ToolStripButton_Next.Enabled = True Then
             If ToolStripButton_Playlist.Checked = True Then
-              
+
                 RaiseEvent Media_Next()
 
 

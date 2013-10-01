@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 
 Public Class clsTransaction_Bookmarks
     Private objLocalConfig As clsLocalConfig

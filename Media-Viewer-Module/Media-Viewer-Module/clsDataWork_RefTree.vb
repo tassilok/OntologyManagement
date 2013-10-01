@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class clsDataWork_RefTree
     Private objLocalConfig As clsLocalConfig
 
@@ -231,7 +233,7 @@ Public Class clsDataWork_RefTree
                                               objLocalConfig.ImageID_Token)
                 End If
             End If
-            
+
         Next
     End Sub
 
