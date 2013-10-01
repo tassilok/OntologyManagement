@@ -69,7 +69,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsDBLevel.cs" />
+    <Compile Include="clsDBDeletor.cs" />
+    <Compile Include="clsDBSelector.cs" />
+    <Compile Include="clsDBUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

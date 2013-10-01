@@ -103,10 +103,9 @@ Public Class UserControl_ObjectRelTree
 
 
 
-        Dim objOL_AttributeTree = From objAttType In objDBLevel_ClassAtt.OList_ClassAtt_ID
-                                  Join objAtt In objDBLevel_ClassAtt.OList_AttributeTypes On objAttType.ID_AttributeType Equals objAtt.GUID
-                                  Select objAttType.ID_AttributeType, objAttType.Min, objAttType.Max, objAtt.Name
-                                  Order By Name
+        Dim objOL_AttributeTree = From objAttType In objDBLevel_ClassAtt.OList_ClassAtt
+                                  Select objAttType.ID_AttributeType, objAttType.Min, objAttType.Max, objAttType.Name_AttributeType
+                                  Order By Name_AttributeType
 
         For Each objO_AttributeType In objOL_AttributeTree
             If objOItem_Object.Type = objLocalConfig.Globals.Type_Object Then
@@ -114,9 +113,9 @@ Public Class UserControl_ObjectRelTree
                 oList_ObjAtt.Add(New clsObjectAtt(Nothing, objOItem_Object.GUID, Nothing, objO_AttributeType.ID_AttributeType, Nothing))
                 objOItem_Result = objDBLevel_Count.get_Data_ObjectAtt(oList_ObjAtt, False, False, True)
                 intCount = objOItem_Result.Count
-                objTreeNode = objTreeNode_Atttributes.Nodes.Add(objO_AttributeType.ID_AttributeType, objO_AttributeType.Name & " (" & objO_AttributeType.Min & "/" & intCount & "/" & objO_AttributeType.Max & ")")
+                objTreeNode = objTreeNode_Atttributes.Nodes.Add(objO_AttributeType.ID_AttributeType, objO_AttributeType.Name_AttributeType & " (" & objO_AttributeType.Min & "/" & intCount & "/" & objO_AttributeType.Max & ")")
             Else
-                objTreeNode = objTreeNode_Atttributes.Nodes.Add(objO_AttributeType.ID_AttributeType, objO_AttributeType.Name)
+                objTreeNode = objTreeNode_Atttributes.Nodes.Add(objO_AttributeType.ID_AttributeType, objO_AttributeType.Name_AttributeType)
             End If
             
 

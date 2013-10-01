@@ -1477,16 +1477,31 @@ Public Class UserControl_OItemList
 
                 If oList_Simple(0).Type = objLocalConfig.Globals.Type_AttributeType Then
                     objOItem_Result = objDBLevel.del_AttributeType(oList_Simple)
-                    If objOItem_Result.Val_Long > 0 Then
-                        MsgBox(objOItem_Result.Val_Long & " Items konnten nicht gelöscht werden!", MsgBoxStyle.Exclamation)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        If objOItem_Result.Count > 0 Then
+                            MsgBox("Es konnten nur " & objOItem_Result.Min & " von " & objOItem_Result.Max1 & " Items gelöscht werden!",MsgBoxStyle.Information)
+                        End If
+                        
+                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID then
+                        MsgBox("Beim Löschen ist ein Fehler aufgetreten!",MsgBoxStyle.Exclamation)
                     End If
+                    get_Data()
                 ElseIf oList_Simple(0).Type = objLocalConfig.Globals.Type_Object Then
                     objOItem_Result = objDBLevel.del_Objects(oList_Simple)
-                    If objOItem_Result.Val_Long > 0 Then
-                        MsgBox(objOItem_Result.Val_Long & " Items konnten nicht gelöscht werden!", MsgBoxStyle.Exclamation)
+                    If objOItem_Result.Count > 0  Then
+                        MsgBox("Es konnten nur " & objOItem_Result.Min & " von " & objOItem_Result.Max1 & " Items gelöscht werden!",MsgBoxStyle.Information)
+                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID then
+                        MsgBox("Beim Löschen ist ein Fehler aufgetreten!",MsgBoxStyle.Exclamation)
                     End If
+                    get_Data()
                 ElseIf oList_Simple(0).Type = objLocalConfig.Globals.Type_RelationType Then
-                    ' RelationTypes
+                    objOItem_Result = objDBLevel.del_RelationTypes(oList_Simple)
+                    If objOItem_Result.Count > 0  Then
+                        MsgBox("Es konnten nur " & objOItem_Result.Min & " von " & objOItem_Result.Max1 & " Items gelöscht werden!",MsgBoxStyle.Information)
+                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID then
+                        MsgBox("Beim Löschen ist ein Fehler aufgetreten!",MsgBoxStyle.Exclamation)
+                    End If
+                    get_Data()
                 End If
 
 

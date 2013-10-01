@@ -117,10 +117,16 @@ Public Class frmClassEdit
                 Me.DialogResult = Windows.Forms.DialogResult.Cancel
                 Me.Close()
             Case objLocalConfig.Globals.LState_Success.GUID
-                objOItem_Class.deleted = True
-                objOItem_Result = objLocalConfig.Globals.LState_Delete
-                Me.DialogResult = Windows.Forms.DialogResult.OK
-                Me.Close()
+                If objOItem_Result.Count=0 Then
+                    objOItem_Class.deleted = True
+                    objOItem_Result = objLocalConfig.Globals.LState_Delete
+                    Me.DialogResult = Windows.Forms.DialogResult.OK
+                    Me.Close()
+                Else 
+                    objOItem_Class.deleted = False
+                    MsgBox("Eine der Klassen hat noch Beziehungen oder Objekte!", MsgBoxStyle.Exclamation)
+                End If
+                
         End Select
     End Sub
 End Class

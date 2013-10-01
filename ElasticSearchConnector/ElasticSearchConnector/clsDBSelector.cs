@@ -23,18 +23,18 @@ namespace ElasticSearchConnector
         DESC_OrderID
     }
 
-    public class clsDBLevel
+    public class clsDBSelector
     {
-        private string strServer;
-        private int intPort;
-        private string strIndex;
-        private string strIndexRep;
-        private int intSearchRange;
-        private string strSession;
+        public string Server { get; private set; }
+        public int Port { get; private set; }
+        public string Index { get; private set; }
+        public string IndexRep { get; private set; }
+        public int SearchRange { get; private set; }
+        public string Session { get; private set; }
 
         private SortEnum sort;
 
-        private ElasticSearchClient objElConn;
+        public ElasticSearchClient ElConnector { get; private set; }
 
         private clsFields objFields = new clsFields();
         private clsTypes objTypes = new clsTypes();
@@ -886,13 +886,13 @@ namespace ElasticSearchConnector
 
             try
             {
-                objSearchResult = objElConn.Search(strIndex, objTypes.ObjectAtt, objBoolQuery.ToString(), strSort, 0, 1);
+                objSearchResult = ElConnector.Search(Index, objTypes.ObjectAtt, objBoolQuery.ToString(), strSort, 0, 1);
             }
             catch (Exception)
             {
                 try
                 {
-                    objSearchResult = objElConn.Search(strIndex, objTypes.ObjectAtt, objBoolQuery.ToString(), strSort, 0, 1);
+                    objSearchResult = ElConnector.Search(Index, objTypes.ObjectAtt, objBoolQuery.ToString(), strSort, 0, 1);
                 }
                 catch (Exception)
                 {
@@ -915,11 +915,11 @@ namespace ElasticSearchConnector
 
         private void initialize_Client()
         {
-            objElConn = new ElasticSearchClient(strServer,intPort,TransportType.Thrift);
+            ElConnector = new ElasticSearchClient(Server,Port,TransportType.Thrift);
 
             try
             {
-                objElConn.CreateIndex(strIndexRep);
+                ElConnector.CreateIndex(IndexRep);
             }
             catch (Exception)
             {
@@ -939,14 +939,14 @@ namespace ElasticSearchConnector
             
             try
             {
-                objSearchResult = objElConn.Search(strIndex, objTypes.AttributeType, objBoolQuery.ToString(), 0, 1);
+                objSearchResult = ElConnector.Search(Index, objTypes.AttributeType, objBoolQuery.ToString(), 0, 1);
             }
             catch (Exception)
             {
 
                 try
                 {
-                    objSearchResult = objElConn.Search(strIndex, objTypes.AttributeType, objBoolQuery.ToString(), 0,
+                    objSearchResult = ElConnector.Search(Index, objTypes.AttributeType, objBoolQuery.ToString(), 0,
                                                     1);
                 }
                 catch (Exception)
@@ -987,7 +987,7 @@ namespace ElasticSearchConnector
 
             var objBoolQuery = create_BoolQuery_Simple(OList_AttType, objTypes.AttributeType);
 
-            var intCount = intSearchRange;
+            var intCount = SearchRange;
             var intPos = 0;
 
             while (intCount>0)
@@ -996,16 +996,16 @@ namespace ElasticSearchConnector
 
                 try
                 {
-                    objSearchResult = objElConn.Search(strIndex, objTypes.AttributeType, objBoolQuery.ToString(), intPos,
-                                                       intSearchRange);
+                    objSearchResult = ElConnector.Search(Index, objTypes.AttributeType, objBoolQuery.ToString(), intPos,
+                                                       SearchRange);
                 }
                 catch (Exception)
                 {
 
                     try
                     {
-                        objSearchResult = objElConn.Search(strIndex, objTypes.AttributeType, objBoolQuery.ToString(), intPos,
-                                                       intSearchRange);
+                        objSearchResult = ElConnector.Search(Index, objTypes.AttributeType, objBoolQuery.ToString(), intPos,
+                                                       SearchRange);
                     }
                     catch (Exception)
                     {
@@ -1043,14 +1043,14 @@ namespace ElasticSearchConnector
                 }
 
 
-                if (objList.Count < intSearchRange)
+                if (objList.Count < SearchRange)
                 {
                     intCount = 0;
                 }
                 else
                 {
                     intCount = objList.Count;
-                    intPos += intSearchRange;
+                    intPos += SearchRange;
                 }
                 
 
@@ -1075,18 +1075,16 @@ namespace ElasticSearchConnector
 
             var objBoolQuery = create_BoolQuery_ClassAtt(OList_Class,OList_AttributeType);
 
-            OntologyList_ClassAtt_ID.Clear();
-
             try
             {
-                objSearchResult = objElConn.Search(strIndex, objTypes.ClassAtt, objBoolQuery.ToString(), 0, 1);
+                objSearchResult = ElConnector.Search(Index, objTypes.ClassAtt, objBoolQuery.ToString(), 0, 1);
             }
             catch (Exception)
             {
 
                 try
                 {
-                    objSearchResult = objElConn.Search(strIndex, objTypes.ClassAtt, objBoolQuery.ToString(), 0,
+                    objSearchResult = ElConnector.Search(Index, objTypes.ClassAtt, objBoolQuery.ToString(), 0,
                                                     1);
                 }
                 catch (Exception)
@@ -1107,29 +1105,36 @@ namespace ElasticSearchConnector
         {
             SearchResult objSearchResult;
 
+            if (OntologyList_ClassAtt_ID == null)
+            {
+                OntologyList_ClassAtt_ID = new List<clsClassAtt>();
+            }
+
+            if (OntologyList_ClassAtt == null)
+            {
+                OntologyList_ClassAtt = new List<clsClassAtt>();
+            }
+
             OntologyList_ClassAtt_ID.Clear();
             OntologyList_ClassAtt.Clear();
 
             var objBoolQuery = create_BoolQuery_ClassAtt(OList_Class, OList_AttributeType);
 
-            OntologyList_ClassAtt_ID.Clear();
-            OntologyList_ClassAtt.Clear();
-
-            var intCount = intSearchRange;
+            var intCount = SearchRange;
             var intPos = 0;
 
             while (intCount > 0)
             {
                 try
                 {
-                    objSearchResult = objElConn.Search(strIndex, objTypes.ClassAtt, objBoolQuery.ToString(), intPos, intSearchRange);
+                    objSearchResult = ElConnector.Search(Index, objTypes.ClassAtt, objBoolQuery.ToString(), intPos, SearchRange);
                 }
                 catch (Exception)
                 {
 
                     try
                     {
-                        objSearchResult = objElConn.Search(strIndex, objTypes.ClassAtt, objBoolQuery.ToString(), intPos, intSearchRange);
+                        objSearchResult = ElConnector.Search(Index, objTypes.ClassAtt, objBoolQuery.ToString(), intPos, SearchRange);
                     }
                     catch (Exception)
                     {
@@ -1146,14 +1151,14 @@ namespace ElasticSearchConnector
                                                                            Min = (long?)objHit.Source[objFields.Min],
                                                                            Max = (long?)objHit.Source[objFields.Max]}).ToList());
 
-                if (objList.Count < intSearchRange)
+                if (objList.Count < SearchRange)
                 {
                     intCount = 0;
                 }
                 else
                 {
                     intCount = objList.Count;
-                    intPos += intSearchRange;
+                    intPos += SearchRange;
                 }
             }
 
@@ -1172,8 +1177,8 @@ namespace ElasticSearchConnector
 
                 get_Data_Classes(oList_Classes);
 
-                var oList_DataTypes = (from objDataType in OntologyList_ClassAtt_ID
-                                       group objDataType by objDataType.ID_DataType
+                var oList_DataTypes = (from objDataType in OntologyList_AttributTypes1
+                                       group objDataType by objDataType.GUID_Parent
                                        into g
                                        select new clsOntologyItem {GUID = g.Key}).ToList();
 
@@ -1207,7 +1212,206 @@ namespace ElasticSearchConnector
             
         }
 
-        
+        public long get_Data_ClassRelCount(List<clsClassRel> OList_ClassRel)
+        {
+            SearchResult objSearchResult;
+
+            var objBoolQuery = create_BoolQuery_ClassRel(OList_ClassRel);
+
+            try
+            {
+                objSearchResult = ElConnector.Search(Index, objTypes.ClassRel, objBoolQuery.ToString(), 0, 1);
+            }
+            catch (Exception)
+            {
+
+                try
+                {
+                    objSearchResult = ElConnector.Search(Index, objTypes.ClassRel, objBoolQuery.ToString(), 0,
+                                                    1);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+
+            var lngCount = objSearchResult.GetTotalCount();
+
+            return lngCount;
+        }
+
+        public List<clsClassRel> get_Data_ClassRel(List<clsClassRel>  OList_ClassRel, 
+                                                   bool boolIDs = true,
+                                                   bool boolOR = false)
+        {
+            SearchResult objSearchResult;
+
+            if (OntologyList_ClassRel_ID == null)
+            {
+                OntologyList_ClassRel_ID = new List<clsClassRel>();
+            }
+
+            if (OntologyList_ClassRel == null)
+            {
+                OntologyList_ClassRel = new List<clsClassRel>();
+            }
+
+            if (OntologyList_Classes1 == null)
+            {
+                OntologyList_Classes1 = new List<clsOntologyItem>();
+            }
+
+            if (OntologyList_Classes2 == null)
+            {
+                OntologyList_Classes2 = new List<clsOntologyItem>();
+            }
+
+            if (OntologyList_RelationTypes1 == null)
+            {
+                OntologyList_RelationTypes1 = new List<clsOntologyItem>();
+            }
+
+            OntologyList_ClassRel_ID.Clear();
+            OntologyList_ClassRel.Clear();
+            OntologyList_Classes1.Clear();
+            OntologyList_Classes2.Clear();
+            OntologyList_RelationTypes1.Clear();
+
+            var objBoolQuery = create_BoolQuery_ClassRel(OList_ClassRel);
+
+            
+            var intCount = SearchRange;
+            var intPos = 0;
+
+            while (intCount > 0)
+            {
+                try
+                {
+                    objSearchResult = ElConnector.Search(Index, objTypes.ClassRel, objBoolQuery.ToString(), intPos, SearchRange);
+                }
+                catch (Exception)
+                {
+
+                    try
+                    {
+                        objSearchResult = ElConnector.Search(Index, objTypes.ClassRel, objBoolQuery.ToString(), intPos, SearchRange);
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                }
+
+                var objList = objSearchResult.GetHits().Hits;
+                OntologyList_ClassRel_ID.AddRange((from objHit in objList
+                                                   select new clsClassRel
+                                                   {
+                                                       ID_Class_Left = objHit.Source[objFields.ID_Class_Left].ToString(),
+                                                       ID_RelationType = objHit.Source[objFields.ID_RelationType].ToString(),
+                                                       ID_Class_Right = (objHit.Source.ContainsKey(objFields.ID_Class_Right) ? (objHit.Source[objFields.ID_Class_Right] != null ? objHit.Source[objFields.ID_Class_Right].ToString() : null) : null),
+                                                       Min_Forw = (long?) objHit.Source[objFields.Min_Forw],
+                                                       Max_Forw = (long?) objHit.Source[objFields.Max_Forw],
+                                                       Max_Backw = (objHit.Source.ContainsKey(objFields.Max_Backw) ? (objHit.Source[objFields.Max_Backw] != null ? (long?)objHit.Source[objFields.Max_Backw] : null) : null)                                                       
+                                                   }).ToList());
+
+                if (objList.Count < SearchRange)
+                {
+                    intCount = 0;
+                }
+                else
+                {
+                    intCount = objList.Count;
+                    intPos += SearchRange;
+                }
+            }
+
+            if (!boolIDs)
+            {
+                var oList_ClassesLeft = (from objClass in OntologyList_ClassRel_ID
+                                     group objClass by objClass.ID_Class_Left
+                                         into g
+                                         select new clsOntologyItem { GUID = g.Key }).ToList();
+
+                get_Data_Classes(oList_ClassesLeft);
+
+                var oList_ClassesRight = (from objClass in OntologyList_ClassRel_ID
+                                          group objClass by objClass.ID_Class_Right
+                                              into g
+                                              select new clsOntologyItem { GUID = g.Key }).ToList();
+
+                if (oList_ClassesRight.Any())
+                {
+                    get_Data_Classes(oList_ClassesRight, true);
+                }
+                
+                var oList_RelationTypes = (from objClass in OntologyList_ClassRel_ID
+                                          group objClass by objClass.ID_RelationType
+                                              into g
+                                              select new clsOntologyItem { GUID = g.Key }).ToList();
+
+                get_Data_RelationTypes(oList_RelationTypes);
+
+                if (boolOR)
+                {
+                    OntologyList_ClassRel.AddRange((from objClassRel in OntologyList_ClassRel_ID
+                                                    join objClassLeft in OntologyList_Classes1 on objClassRel.ID_Class_Left equals objClassLeft.GUID
+                                                    join objClassRight in OntologyList_Classes2 on objClassRel.ID_Class_Right equals objClassRight.GUID into objClassesRight
+                                                    from objClassRight in objClassesRight.DefaultIfEmpty()
+                                                    where objClassRight == null
+                                                    join objRelationType in OntologyList_RelationTypes1 on objClassRel.ID_RelationType equals objRelationType.GUID
+                                                    select new clsClassRel
+                                                    {
+                                                        ID_Class_Left = objClassLeft.GUID,
+                                                        Name_Class_Left = objClassLeft.Name,
+                                                        ID_Class_Right = objClassRight.GUID,
+                                                        Name_Class_Right = objClassRight.Name,
+                                                        ID_RelationType = objRelationType.GUID,
+                                                        Name_RelationType = objRelationType.Name,
+                                                        Min_Forw = objClassRel.Min_Forw,
+                                                        Max_Forw = objClassRel.Max_Forw,
+                                                        Max_Backw = objClassRel.Max_Backw,
+                                                        Ontology = objClassRel.Ontology
+                                                    }).ToList());    
+                }
+                else
+                {
+                    OntologyList_ClassRel.AddRange((from objClassRel in OntologyList_ClassRel_ID
+                                                    join objClassLeft in OntologyList_Classes1 on objClassRel.ID_Class_Left equals objClassLeft.GUID
+                                                    join objClassRight in OntologyList_Classes2 on objClassRel.ID_Class_Right equals objClassRight.GUID
+                                                    join objRelationType in OntologyList_RelationTypes1 on objClassRel.ID_RelationType equals objRelationType.GUID
+                                                    select new clsClassRel
+                                                    {
+                                                        ID_Class_Left = objClassLeft.GUID,
+                                                        Name_Class_Left = objClassLeft.Name,
+                                                        ID_Class_Right = objClassRight.GUID,
+                                                        Name_Class_Right = objClassRight.Name,
+                                                        ID_RelationType = objRelationType.GUID,
+                                                        Name_RelationType = objRelationType.Name,
+                                                        Min_Forw = objClassRel.Min_Forw,
+                                                        Max_Forw = objClassRel.Max_Forw,
+                                                        Max_Backw = objClassRel.Max_Backw,
+                                                        Ontology = objClassRel.Ontology
+                                                    }).ToList());
+                }
+
+                
+            }
+
+
+
+            if (boolIDs)
+            {
+                return OntologyList_ClassRel_ID;
+            }
+            else
+            {
+                return OntologyList_ClassRel;
+            }
+
+        }
 
         public long get_Data_ClassesCount(List<clsOntologyItem> OList_Classes = null)
         {
@@ -1219,14 +1423,14 @@ namespace ElasticSearchConnector
 
             try
             {
-                objSearchResult = objElConn.Search(strIndex, objTypes.ClassType, objBoolQuery.ToString(), 0, 1);
+                objSearchResult = ElConnector.Search(Index, objTypes.ClassType, objBoolQuery.ToString(), 0, 1);
             }
             catch (Exception)
             {
 
                 try
                 {
-                    objSearchResult = objElConn.Search(strIndex, objTypes.ClassType, objBoolQuery.ToString(), 0,
+                    objSearchResult = ElConnector.Search(Index, objTypes.ClassType, objBoolQuery.ToString(), 0,
                                                     1);
                 }
                 catch (Exception)
@@ -1243,12 +1447,21 @@ namespace ElasticSearchConnector
 
         public List<clsOntologyItem> get_Data_Classes(List<clsOntologyItem> OList_Classes = null,
                                                   bool boolClasses_Right = false,
-                                                  string strSort = null,
-                                                  bool boolIDs = true)
+                                                  string strSort = null)
         {
             SearchResult objSearchResult;
 
             var objBoolQuery = create_BoolQuery_Simple(OList_Classes,objTypes.ClassType);
+
+            if (OntologyList_Classes1 == null)
+            {
+                OntologyList_Classes1 = new List<clsOntologyItem>();
+            }
+
+            if (OntologyList_Classes2 == null)
+            {
+                OntologyList_Classes2 = new List<clsOntologyItem>();
+            }
 
             if (!boolClasses_Right)
             {
@@ -1260,21 +1473,21 @@ namespace ElasticSearchConnector
             }
             
 
-            var intCount = intSearchRange;
+            var intCount = SearchRange;
             var intPos = 0;
 
             while (intCount > 0)
             {
                 try
                 {
-                    objSearchResult = objElConn.Search(strIndex, objTypes.ClassType, objBoolQuery.ToString(), intPos, intSearchRange);
+                    objSearchResult = ElConnector.Search(Index, objTypes.ClassType, objBoolQuery.ToString(), intPos, SearchRange);
                 }
                 catch (Exception)
                 {
 
                     try
                     {
-                        objSearchResult = objElConn.Search(strIndex, objTypes.ClassType, objBoolQuery.ToString(), intPos, intSearchRange);
+                        objSearchResult = ElConnector.Search(Index, objTypes.ClassType, objBoolQuery.ToString(), intPos, SearchRange);
                     }
                     catch (Exception)
                     {
@@ -1309,18 +1522,18 @@ namespace ElasticSearchConnector
                 }
 
 
-                if (objList.Count < intSearchRange)
+                if (objList.Count < SearchRange)
                 {
                     intCount = 0;
                 }
                 else
                 {
                     intCount = objList.Count;
-                    intPos += intSearchRange;
+                    intPos += SearchRange;
                 }
             }
 
-            if (boolIDs)
+            if (!boolClasses_Right)
             {
                 return OntologyList_Classes1;
             }
@@ -1342,14 +1555,14 @@ namespace ElasticSearchConnector
 
             try
             {
-                objSearchResult = objElConn.Search(strIndex, objTypes.DataType, objBoolQuery.ToString(), 0, 1);
+                objSearchResult = ElConnector.Search(Index, objTypes.DataType, objBoolQuery.ToString(), 0, 1);
             }
             catch (Exception)
             {
 
                 try
                 {
-                    objSearchResult = objElConn.Search(strIndex, objTypes.DataType, objBoolQuery.ToString(), 0,
+                    objSearchResult = ElConnector.Search(Index, objTypes.DataType, objBoolQuery.ToString(), 0,
                                                     1);
                 }
                 catch (Exception)
@@ -1368,11 +1581,15 @@ namespace ElasticSearchConnector
         {
             SearchResult objSearchResult;
 
+            if (OntologyList_DataTypes == null)
+            {
+                OntologyList_DataTypes = new List<clsOntologyItem>();
+            }
             OntologyList_DataTypes.Clear();
 
             var objBoolQuery = create_BoolQuery_Simple(OList_DataType, objTypes.DataType);
 
-            var intCount = intSearchRange;
+            var intCount = SearchRange;
             var intPos = 0;
 
             while (intCount > 0)
@@ -1381,16 +1598,16 @@ namespace ElasticSearchConnector
 
                 try
                 {
-                    objSearchResult = objElConn.Search(strIndex, objTypes.DataType, objBoolQuery.ToString(), intPos,
-                                                       intSearchRange);
+                    objSearchResult = ElConnector.Search(Index, objTypes.DataType, objBoolQuery.ToString(), intPos,
+                                                       SearchRange);
                 }
                 catch (Exception)
                 {
 
                     try
                     {
-                        objSearchResult = objElConn.Search(strIndex, objTypes.DataType, objBoolQuery.ToString(), intPos,
-                                                       intSearchRange);
+                        objSearchResult = ElConnector.Search(Index, objTypes.DataType, objBoolQuery.ToString(), intPos,
+                                                       SearchRange);
                     }
                     catch (Exception)
                     {
@@ -1410,14 +1627,14 @@ namespace ElasticSearchConnector
                                                          Type = objTypes.DataType
                                                      }).ToList());
 
-                if (objList.Count < intSearchRange)
+                if (objList.Count < SearchRange)
                 {
                     intCount = 0;
                 }
                 else
                 {
                     intCount = objList.Count;
-                    intPos += intSearchRange;
+                    intPos += SearchRange;
                 }
 
 
@@ -1437,14 +1654,14 @@ namespace ElasticSearchConnector
 
             try
             {
-                objSearchResult = objElConn.Search(strIndex, objTypes.ObjectAtt, objBoolQuery.ToString(), 0, 1);
+                objSearchResult = ElConnector.Search(Index, objTypes.ObjectAtt, objBoolQuery.ToString(), 0, 1);
             }
             catch (Exception)
             {
 
                 try
                 {
-                    objSearchResult = objElConn.Search(strIndex, objTypes.ObjectAtt, objBoolQuery.ToString(), 0,
+                    objSearchResult = ElConnector.Search(Index, objTypes.ObjectAtt, objBoolQuery.ToString(), 0,
                                                     1);
                 }
                 catch (Exception)
@@ -1465,9 +1682,15 @@ namespace ElasticSearchConnector
         {
             SearchResult objSearchResult;
 
-            OntologyList_DataTypes.Clear();
-
             var objBoolQuery = create_BoolQuery_ObjectAtt(OList_ObjectAtt, doJoin);
+
+            if (OntologyList_ObjAtt == null) OntologyList_ObjAtt = new List<clsObjectAtt>();
+            if (OntologyList_ObjAtt_ID == null) OntologyList_ObjAtt_ID = new List<clsObjectAtt>();
+            if (OntologyList_AttributTypes1 == null) OntologyList_AttributTypes1 = new List<clsOntologyItem>();
+            if (OntologyList_Attributes == null) OntologyList_Attributes = new List<clsAttribute>();
+            if (OntologyList_Classes1 == null) OntologyList_Classes1 = new List<clsOntologyItem>();
+            if (OntologyList_Objects1 == null) OntologyList_Objects1 = new List<clsOntologyItem>();
+            if (OntologyList_DataTypes == null) OntologyList_DataTypes = new List<clsOntologyItem>();
 
             OntologyList_ObjAtt.Clear();
             OntologyList_ObjAtt_ID.Clear();
@@ -1475,9 +1698,10 @@ namespace ElasticSearchConnector
             OntologyList_Attributes.Clear();
             OntologyList_Classes1.Clear();
             OntologyList_Objects1.Clear();
+            OntologyList_DataTypes.Clear();
 
 
-            var intCount = intSearchRange;
+            var intCount = SearchRange;
             var intPos = 0;
 
             while (intCount > 0)
@@ -1486,16 +1710,16 @@ namespace ElasticSearchConnector
 
                 try
                 {
-                    objSearchResult = objElConn.Search(strIndex, objTypes.ObjectAtt, objBoolQuery.ToString(), intPos,
-                                                       intSearchRange);
+                    objSearchResult = ElConnector.Search(Index, objTypes.ObjectAtt, objBoolQuery.ToString(), intPos,
+                                                       SearchRange);
                 }
                 catch (Exception)
                 {
 
                     try
                     {
-                        objSearchResult = objElConn.Search(strIndex, objTypes.ObjectAtt, objBoolQuery.ToString(), intPos,
-                                                       intSearchRange);
+                        objSearchResult = ElConnector.Search(Index, objTypes.ObjectAtt, objBoolQuery.ToString(), intPos,
+                                                       SearchRange);
                     }
                     catch (Exception)
                     {
@@ -1515,23 +1739,23 @@ namespace ElasticSearchConnector
                                                      ID_Object = objHit.Source[objFields.ID_Object].ToString(),
                                                      ID_Class = objHit.Source[objFields.ID_Class].ToString(),
                                                      ID_DataType = objHit.Source[objFields.ID_DataType].ToString(),
-                                                     Val_Bit = (objHit.Source[objFields.Val_Bool]!=null ? (bool?) objHit.Source[objFields.Val_Bool] : null),
-                                                     Val_Date = (objHit.Source[objFields.Val_Datetime] != null ? (DateTime?)objHit.Source[objFields.Val_Datetime] : null),
-                                                     Val_Double = (objHit.Source[objFields.Val_Real] != null ? (double?)objHit.Source[objFields.Val_Real] : null),
-                                                     Val_Lng = (objHit.Source[objFields.Val_Int] != null ? (int?)objHit.Source[objFields.Val_Int] : null),
-                                                     Val_Named = (objHit.Source[objFields.Val_Name] != null ? objHit.Source[objFields.Val_Name].ToString() : null),
-                                                     Val_String = (objHit.Source[objFields.Val_String] != null ? objHit.Source[objFields.Val_String].ToString() : null),
+                                                     Val_Bit = (objHit.Source.ContainsKey(objFields.Val_Bool) ? (objHit.Source[objFields.Val_Bool]!=null ? (bool?) objHit.Source[objFields.Val_Bool] : null) : null),
+                                                     Val_Date = (objHit.Source.ContainsKey(objFields.Val_Datetime) ? (objHit.Source[objFields.Val_Datetime] != null ? (DateTime?)objHit.Source[objFields.Val_Datetime] : null) : null),
+                                                     Val_Double = (objHit.Source.ContainsKey(objFields.Val_Real) ? (objHit.Source[objFields.Val_Real] != null ? (double?)objHit.Source[objFields.Val_Real] : null) : null),
+                                                     Val_Lng = (objHit.Source.ContainsKey(objFields.Val_Int) ? (objHit.Source[objFields.Val_Int] != null ? (long?)objHit.Source[objFields.Val_Int] : null) : null),
+                                                     Val_Named = (objHit.Source.ContainsKey(objFields.Val_Name) ? (objHit.Source[objFields.Val_Name] != null ? objHit.Source[objFields.Val_Name].ToString() : null) : null),
+                                                     Val_String = (objHit.Source.ContainsKey(objFields.Val_String) ? (objHit.Source[objFields.Val_String] != null ? objHit.Source[objFields.Val_String].ToString() : null) : null),
                                                      OrderID = (long?)objHit.Source[objFields.OrderID]
                                                  }).ToList());
 
-                if (objList.Count < intSearchRange)
+                if (objList.Count < SearchRange)
                 {
                     intCount = 0;
                 }
                 else
                 {
                     intCount = objList.Count;
-                    intPos += intSearchRange;
+                    intPos += SearchRange;
                 }
 
 
@@ -1615,7 +1839,15 @@ namespace ElasticSearchConnector
                                            }).ToList();
             }
 
-            return OntologyList_ObjAtt;
+            if (boolIDs)
+            {
+                return OntologyList_ObjAtt_ID;
+            }
+            else
+            {
+                return OntologyList_ObjAtt;    
+            }
+            
         }
 
         public long get_Data_ObjectsCount(List<clsOntologyItem> OList_Objects = null)
@@ -1628,14 +1860,14 @@ namespace ElasticSearchConnector
 
             try
             {
-                objSearchResult = objElConn.Search(strIndex, objTypes.ObjectType, objBoolQuery.ToString(), 0, 1);
+                objSearchResult = ElConnector.Search(Index, objTypes.ObjectType, objBoolQuery.ToString(), 0, 1);
             }
             catch (Exception)
             {
 
                 try
                 {
-                    objSearchResult = objElConn.Search(strIndex, objTypes.ObjectType, objBoolQuery.ToString(), 0,
+                    objSearchResult = ElConnector.Search(Index, objTypes.ObjectType, objBoolQuery.ToString(), 0,
                                                     1);
                 }
                 catch (Exception)
@@ -1677,7 +1909,7 @@ namespace ElasticSearchConnector
 
             var objBoolQuery = create_BoolQuery_Simple(OList_Objects, objTypes.ObjectType);
 
-            var intCount = intSearchRange;
+            var intCount = SearchRange;
             var intPos = 0;
 
             while (intCount > 0)
@@ -1686,16 +1918,16 @@ namespace ElasticSearchConnector
 
                 try
                 {
-                    objSearchResult = objElConn.Search(strIndex, objTypes.ObjectType, objBoolQuery.ToString(), intPos,
-                                                       intSearchRange);
+                    objSearchResult = ElConnector.Search(Index, objTypes.ObjectType, objBoolQuery.ToString(), intPos,
+                                                       SearchRange);
                 }
                 catch (Exception)
                 {
 
                     try
                     {
-                        objSearchResult = objElConn.Search(strIndex, objTypes.ObjectType, objBoolQuery.ToString(), intPos,
-                                                       intSearchRange);
+                        objSearchResult = ElConnector.Search(Index, objTypes.ObjectType, objBoolQuery.ToString(), intPos,
+                                                       SearchRange);
                     }
                     catch (Exception)
                     {
@@ -1731,14 +1963,14 @@ namespace ElasticSearchConnector
                 }
 
 
-                if (objList.Count < intSearchRange)
+                if (objList.Count < SearchRange)
                 {
                     intCount = 0;
                 }
                 else
                 {
                     intCount = objList.Count;
-                    intPos += intSearchRange;
+                    intPos += SearchRange;
                 }
 
 
@@ -1759,20 +1991,19 @@ namespace ElasticSearchConnector
         {
             SearchResult objSearchResult;
 
-            OntologyList_AttributTypes1.Clear();
-
+            
             var objBoolQuery = create_BoolQuery_ObjectRel(OList_ObjectRel);
 
             try
             {
-                objSearchResult = objElConn.Search(strIndex, objTypes.ObjectRel, objBoolQuery.ToString(), 0, 1);
+                objSearchResult = ElConnector.Search(Index, objTypes.ObjectRel, objBoolQuery.ToString(), 0, 1);
             }
             catch (Exception)
             {
 
                 try
                 {
-                    objSearchResult = objElConn.Search(strIndex, objTypes.ObjectRel, objBoolQuery.ToString(), 0,
+                    objSearchResult = ElConnector.Search(Index, objTypes.ObjectRel, objBoolQuery.ToString(), 0,
                                                     1);
                 }
                 catch (Exception)
@@ -1833,7 +2064,7 @@ namespace ElasticSearchConnector
                 strSort = "OrderID:desc";
             }
 
-            var intCount = intSearchRange;
+            var intCount = SearchRange;
             var intPos = 0;
 
             while (intCount > 0)
@@ -1844,16 +2075,16 @@ namespace ElasticSearchConnector
                 {
                     try
                     {
-                        objSearchResult = objElConn.Search(strIndex, objTypes.ObjectRel, objBoolQuery.ToString(), intPos,
-                                                           intSearchRange);
+                        objSearchResult = ElConnector.Search(Index, objTypes.ObjectRel, objBoolQuery.ToString(), intPos,
+                                                           SearchRange);
                     }
                     catch (Exception)
                     {
 
                         try
                         {
-                            objSearchResult = objElConn.Search(strIndex, objTypes.ObjectRel, objBoolQuery.ToString(), intPos,
-                                                           intSearchRange);
+                            objSearchResult = ElConnector.Search(Index, objTypes.ObjectRel, objBoolQuery.ToString(), intPos,
+                                                           SearchRange);
                         }
                         catch (Exception)
                         {
@@ -1866,16 +2097,16 @@ namespace ElasticSearchConnector
                 {
                     try
                     {
-                        objSearchResult = objElConn.Search(strIndex, objTypes.ObjectRel, objBoolQuery.ToString(), strSort, intPos,
-                                                           intSearchRange);
+                        objSearchResult = ElConnector.Search(Index, objTypes.ObjectRel, objBoolQuery.ToString(), strSort, intPos,
+                                                           SearchRange);
                     }
                     catch (Exception)
                     {
 
                         try
                         {
-                            objSearchResult = objElConn.Search(strIndex, objTypes.ObjectRel, objBoolQuery.ToString(), strSort, intPos,
-                                                           intSearchRange);
+                            objSearchResult = ElConnector.Search(Index, objTypes.ObjectRel, objBoolQuery.ToString(), strSort, intPos,
+                                                           SearchRange);
                         }
                         catch (Exception)
                         {
@@ -1902,14 +2133,14 @@ namespace ElasticSearchConnector
                                                      Ontology = objHit.Source[objFields.Ontology].ToString()
                                                  }).ToList());
 
-                if (objList.Count < intSearchRange)
+                if (objList.Count < SearchRange)
                 {
                     intCount = 0;
                 }
                 else
                 {
                     intCount = objList.Count;
-                    intPos += intSearchRange;
+                    intPos += SearchRange;
                 }
                 
 
@@ -2096,14 +2327,14 @@ namespace ElasticSearchConnector
 
             try
             {
-                objSearchResult = objElConn.Search(strIndex, objTypes.RelationType, objBoolQuery.ToString(), 0, 1);
+                objSearchResult = ElConnector.Search(Index, objTypes.RelationType, objBoolQuery.ToString(), 0, 1);
             }
             catch (Exception)
             {
 
                 try
                 {
-                    objSearchResult = objElConn.Search(strIndex, objTypes.RelationType, objBoolQuery.ToString(), 0,
+                    objSearchResult = ElConnector.Search(Index, objTypes.RelationType, objBoolQuery.ToString(), 0,
                                                     1);
                 }
                 catch (Exception)
@@ -2144,7 +2375,7 @@ namespace ElasticSearchConnector
 
             var objBoolQuery = create_BoolQuery_Simple(OList_RelType, objTypes.RelationType);
 
-            var intCount = intSearchRange;
+            var intCount = SearchRange;
             var intPos = 0;
 
             while (intCount > 0)
@@ -2153,16 +2384,16 @@ namespace ElasticSearchConnector
 
                 try
                 {
-                    objSearchResult = objElConn.Search(strIndex, objTypes.RelationType, objBoolQuery.ToString(), intPos,
-                                                       intSearchRange);
+                    objSearchResult = ElConnector.Search(Index, objTypes.RelationType, objBoolQuery.ToString(), intPos,
+                                                       SearchRange);
                 }
                 catch (Exception)
                 {
 
                     try
                     {
-                        objSearchResult = objElConn.Search(strIndex, objTypes.RelationType, objBoolQuery.ToString(), intPos,
-                                                       intSearchRange);
+                        objSearchResult = ElConnector.Search(Index, objTypes.RelationType, objBoolQuery.ToString(), intPos,
+                                                       SearchRange);
                     }
                     catch (Exception)
                     {
@@ -2196,14 +2427,14 @@ namespace ElasticSearchConnector
                 }
 
 
-                if (objList.Count < intSearchRange)
+                if (objList.Count < SearchRange)
                 {
                     intCount = 0;
                 }
                 else
                 {
                     intCount = objList.Count;
-                    intPos += intSearchRange;
+                    intPos += SearchRange;
                 }
 
 
@@ -2221,19 +2452,19 @@ namespace ElasticSearchConnector
         }
 
 
-        public clsDBLevel(string strServer,
-                          int intPort,
-                          string strIndex,
-                          string strIndexRep,
-                          int intSearchRange,
-                          string strSession)
+        public clsDBSelector(string server,
+                          int port,
+                          string index,
+                          string indexRep,
+                          int searchRange,
+                          string session)
         {
-            this.strServer = strServer;
-            this.intPort = intPort;
-            this.strIndex = strIndex;
-            this.strIndexRep = strIndexRep;
-            this.intSearchRange = intSearchRange;
-            this.strSession = strSession;
+            this.Server = server;
+            this.Port = port;
+            this.Index = index;
+            this.IndexRep = indexRep;
+            this.SearchRange = searchRange;
+            this.Session = session;
 
             initialize_Client();
             sort = SortEnum.NONE;

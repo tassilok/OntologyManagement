@@ -339,24 +339,13 @@ Public Class UserControl_ClassRel
         Next
 
         If oList_ClRel.Count > 0 Then
-            strKeys = objDBLevel.del_ClassRel(oList_ClRel)
-            If Not strKeys Is Nothing Then
-                If Not strKeys.Count = 0 Then
-                    Dim objL1 = From strKey In strKeys
-                       Join objRel In oList_ClRel On strKey Equals objRel.ID_Class_Left & objRel.ID_Class_Right & objRel.ID_RelationType
-
-                    Dim objL2 = From strKey In strKeys
-                                Join objRel In oList_ClRel On strKey Equals objRel.ID_Class_Left & objRel.ID_RelationType
-
-                    If objL1.Count + objL2.Count < oList_ClRel.Count Then
-                        MsgBox("Es konnten nur " & objL1.Count + objL2.Count & " von " & oList_ClRel.Count & " Beziehungen gelöscht werden!", MsgBoxStyle.Information)
-                    End If
-                Else
-                    MsgBox("Es konnten keine Beziehungen gelöscht werden!", MsgBoxStyle.Information)
+            objOItem_Result = objDBLevel.del_ClassRel(oList_ClRel)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                If objOItem_Result.Count>0 Then
+                    MsgBox("Es konnten nur " & objOItem_Result.Min & " von " & objOItem_Result.Max1 & " Beziehungen gelöscht werden!",MsgBoxStyle.Information)
                 End If
-
-            Else
-                MsgBox("Es konnten keine Beziehungen gelöscht werden!", MsgBoxStyle.Information)
+            Else 
+                MsgBox("Beim Löschen ist ein Fehler aufgetreten",MsgBoxStyle.Exclamation)
             End If
 
             
