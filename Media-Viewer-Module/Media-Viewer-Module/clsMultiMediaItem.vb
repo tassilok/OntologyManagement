@@ -12,9 +12,9 @@ Public Class clsMultiMediaItem
 
     Private objOACreate As clsObjectAtt
 
-    Private intOrderID As Integer
+    Private intOrderID As Nullable(Of Long)
 
-    Private intCountBookmark As Integer
+    Private intCountBookmark As Nullable(Of Long)
 
     Public Property CountBookMark As Integer
         Get

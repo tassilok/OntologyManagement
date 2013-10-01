@@ -5,6 +5,8 @@ using System.Text;
 using ElasticSearch.Client.Domain;
 using Ontolog_Module;
 using Structure_Module;
+using OntologyClasses.BaseClasses;
+using OntologyClasses.DataClasses;
 
 namespace EsMaintenance
 {
@@ -456,9 +458,9 @@ namespace EsMaintenance
                         OItem_ObjectAtt.Val_Bit = (objHit.Source.ContainsKey(objFields.Val_Bool) ? (objHit.Source[objFields.Val_Bool] != null ? (bool)objHit.Source[objFields.Val_Bool] : (bool?)null) : (bool?)null);
                         OItem_ObjectAtt.Val_Date = (objHit.Source.ContainsKey(objFields.Val_Datetime) ? (objHit.Source[objFields.Val_Datetime] != null ? (DateTime)objHit.Source[objFields.Val_Datetime] : (DateTime?)null) : (DateTime?)null);
                         OItem_ObjectAtt.Val_Double = (objHit.Source.ContainsKey(objFields.Val_Real) ? (objHit.Source[objFields.Val_Real] != null ? (double)objHit.Source[objFields.Val_Real] : (double?)null) : (double?)null);
-                        OItem_ObjectAtt.Val_lng = (objHit.Source.ContainsKey(objFields.Val_Int) ? (objHit.Source[objFields.Val_Int] != null ? (long)objHit.Source[objFields.Val_Int] : (long?)null) : (long?)null);
+                        OItem_ObjectAtt.Val_Lng = (objHit.Source.ContainsKey(objFields.Val_Int) ? (objHit.Source[objFields.Val_Int] != null ? (long)objHit.Source[objFields.Val_Int] : (long?)null) : (long?)null);
                         OItem_ObjectAtt.Val_String = (objHit.Source.ContainsKey(objFields.Val_String) ? (objHit.Source[objFields.Val_String] != null ? objHit.Source[objFields.Val_String].ToString() : null) : null);
-                        OItem_ObjectAtt.val_Named = (objHit.Source.ContainsKey(objFields.Val_Name) ? (objHit.Source[objFields.Val_Name] != null ? objHit.Source[objFields.Val_Name].ToString() : null) : null);
+                        OItem_ObjectAtt.Val_Named= (objHit.Source.ContainsKey(objFields.Val_Name) ? (objHit.Source[objFields.Val_Name] != null ? objHit.Source[objFields.Val_Name].ToString() : null) : null);
                            
                         OList_ObjectAttribute.Add(OItem_ObjectAtt);
 

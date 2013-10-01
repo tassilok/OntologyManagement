@@ -8,6 +8,8 @@ namespace OntologyClasses.BaseClasses
 {
     public class clsObjectRel
     {
+        private long lngOrderID;
+
         public string ID_Object { get; set; }
         public string Name_Object { get; set; }
         public string ID_Parent_Object { get; set; }
@@ -21,7 +23,11 @@ namespace OntologyClasses.BaseClasses
         public string Ontology { get; set; }
         public string ID_Direction { get; set; }
         public string Name_Direction { get; set; }
-        public long? OrderID { get; set; }
+        public long? OrderID 
+        {
+            get { return (long?)lngOrderID; }
+            set { lngOrderID = value ?? 0; } 
+        }
 
         public clsObjectRel()
         {

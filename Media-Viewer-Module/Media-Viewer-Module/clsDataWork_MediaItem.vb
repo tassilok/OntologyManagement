@@ -176,7 +176,7 @@ Public Class clsDataWork_MediaItem
                                                 objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID, _
                                                 Nothing))
 
-        objDBLevel_Created.get_Data_ObjectAtt(objOL_CreationDate)
+        objDBLevel_Created.get_Data_ObjectAtt(objOL_CreationDate, boolIDs:=False)
 
         objLMediaItems = (From objMediaItem In objDBLevel_MediaItems.OList_ObjectRel
                              Join objFile In objDBLevel_Files.OList_ObjectRel On objFile.ID_Object Equals objMediaItem.ID_Object
@@ -184,13 +184,17 @@ Public Class clsDataWork_MediaItem
                              From objAttrib In objAttribs.DefaultIfEmpty
                              Group Join objBookmark In objDBLevel_BookMarks.OList_ObjectRel_ID On objBookmark.ID_Other Equals objMediaItem.ID_Object Into Count_Bookmarks = Count()
                              Order By objMediaItem.OrderID
+                             Where Not objMediaItem.ID_Object Is Nothing _
+                                And Not objMediaItem.Name_Object Is Nothing _
+                                And Not objMediaItem.ID_Parent_Object Is Nothing _
+                                And Not objFile Is Nothing
                              Select New clsMultiMediaItem(objMediaItem.ID_Object, _
                                                           objMediaItem.Name_Object, _
                                                           objMediaItem.ID_Parent_Object, _
                                                           objFile.ID_Other, _
                                                           objFile.Name_Other, _
                                                           objFile.ID_Parent_Other, _
-                                                          objAttrib, _
+                                                          If(Not objAttrib Is Nothing, objAttrib, Nothing), _
                                                           objMediaItem.OrderID, _
                                                           Count_Bookmarks)).ToList()
 
@@ -210,7 +214,7 @@ Public Class clsDataWork_MediaItem
                     dtblT_MediaItems.Rows.Add(objMediaItem.OrderID, _
                                               objMediaItem.ID_Item, _
                                               objMediaItem.Name_Item, _
-                                              objMediaItem.OACreate, _
+                                              objMediaItem.OACreate.Val_Date, _
                                               objMediaItem.ID_File, _
                                               objMediaItem.Name_File, _
                                               objRandom.Next(), _

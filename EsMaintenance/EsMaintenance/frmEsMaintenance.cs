@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Ontolog_Module;
+using OntologyClasses.DataClasses;
 
 namespace EsMaintenance
 {
