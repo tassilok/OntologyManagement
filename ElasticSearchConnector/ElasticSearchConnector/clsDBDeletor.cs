@@ -364,6 +364,110 @@ namespace ElasticSearchConnector
 
             return objOItem_Result;
         }
+
+        public clsOntologyItem del_ObjectAtt(List<clsObjectAtt> OList_ObjectAtt)
+        {
+            var objOItem_Result = objLogStates.LogState_Success;
+            OperateResult opResult;
+
+            var objBoolQuery = objDBSelector.create_BoolQuery_ObjectAtt(OList_ObjectAtt);
+
+            opResult = objDBSelector.ElConnector.DeleteByQueryString(objDBSelector.Index, objTypes.ObjectAtt, objBoolQuery.ToString());
+
+            if (opResult.Success)
+            {
+                objOItem_Result = objLogStates.LogState_Success;
+            }
+            else
+            {
+                objOItem_Result = objLogStates.LogState_Error;
+            }
+
+            return objOItem_Result;
+        }
+
+        public clsOntologyItem del_ObjectRel(List<clsObjectRel> OList_ObjectRel)
+        {
+            var objOItem_Result = objLogStates.LogState_Success;
+            OperateResult opResult;
+
+            var objBoolQuery = objDBSelector.create_BoolQuery_ObjectRel(OList_ObjectRel);
+
+            opResult = objDBSelector.ElConnector.DeleteByQueryString(objDBSelector.Index, objTypes.ObjectRel, objBoolQuery.ToString());
+
+            if (opResult.Success)
+            {
+                objOItem_Result = objLogStates.LogState_Success;
+            }
+            else
+            {
+                objOItem_Result = objLogStates.LogState_Error;
+            }
+
+            return objOItem_Result;
+        }
+
+        public clsOntologyItem del_Objects(List<clsOntologyItem> OList_Objects)
+        {
+            var objOItem_Result = objLogStates.LogState_Success;
+            OperateResult opResult;
+
+            var OList_ORelLeft = OList_Objects.Select(p => new clsObjectRel { ID_Object = p.GUID }).ToList();
+            var OList_ORelRight = OList_Objects.Select(p => new clsObjectRel { ID_Other = p.GUID }).ToList();
+
+            var objOList_Left = objDBSelector.get_Data_ObjectRel(OList_ORelLeft);
+            var objOList_Right = objDBSelector.get_Data_ObjectRel(OList_ORelRight);
+
+            if (objOItem_Result.GUID == objLogStates.LogState_Success.GUID)
+            {
+                var oList_Delete = (from objObject in OList_Objects
+                                   join objORelLeftRight in objOList_Left on objObject.GUID equals objORelLeftRight.ID_Object into objORelsLeftRight
+                                   from objORelLeftRight in objORelsLeftRight.DefaultIfEmpty()
+                                   join objORelRightLeft in objOList_Right on objObject.GUID equals objORelRightLeft.ID_Other into objORelsRightLeft
+                                   from objORelRightLeft in objORelsRightLeft.DefaultIfEmpty()
+                                   where objORelLeftRight == null && objORelRightLeft == null
+                                   select objObject.GUID).ToList();
+
+
+                if (oList_Delete.Any())
+                {
+                    try
+                    {
+                        opResult = objDBSelector.ElConnector.Delete(objDBSelector.Index, objTypes.ObjectType,
+                                                                    oList_Delete.ToArray());
+                        if (opResult.Success)
+                        {
+                            objOItem_Result = objLogStates.LogState_Success;
+                            objOItem_Result.Min = oList_Delete.Count;
+                            objOItem_Result.Max1 = OList_Objects.Count;
+                            objOItem_Result.Count = OList_Objects.Count - oList_Delete.Count;
+                        }
+                        else
+                        {
+                            objOItem_Result = objLogStates.LogState_Error;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        objOItem_Result = objLogStates.LogState_Error;
+                        throw;
+                    }
+                }
+                else
+                {
+                    objOItem_Result.Min = oList_Delete.Count;
+                    objOItem_Result.Max1 = OList_Objects.Count;
+                    objOItem_Result.Count = OList_Objects.Count - oList_Delete.Count;
+                }
+            }
+
+            
+
+
+
+            return objOItem_Result;
+        }
+
     }
     
 }

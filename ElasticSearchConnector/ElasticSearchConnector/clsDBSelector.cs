@@ -59,7 +59,7 @@ namespace ElasticSearchConnector
         public List<clsOntologyItem> OntologyList_DataTypes { get; set; }
         public List<clsAttribute> OntologyList_Attributes { get; set; }
 
-        private BooleanQuery create_BoolQuery_ClassRel(List<clsClassRel> OList_ClassRel, bool boolClear = true )
+        public BooleanQuery create_BoolQuery_ClassRel(List<clsClassRel> OList_ClassRel, bool boolClear = true )
         {
             var objBoolQuery = new BooleanQuery();
 
@@ -147,7 +147,7 @@ namespace ElasticSearchConnector
             return objBoolQuery;
         }
 
-        private BooleanQuery create_BoolQuery_ObjectAtt(List<clsObjectAtt> OList_ObjectAtt, bool doJoin = false)
+        public BooleanQuery create_BoolQuery_ObjectAtt(List<clsObjectAtt> OList_ObjectAtt, bool doJoin = false)
         {
             var objBoolQuery = new BooleanQuery();
             var strQuery = "";
@@ -418,7 +418,7 @@ namespace ElasticSearchConnector
             return objBoolQuery;
         }
 
-        private BooleanQuery create_BoolQuery_ObjectRel(List<clsObjectRel> OList_ObjectRel)
+        public BooleanQuery create_BoolQuery_ObjectRel(List<clsObjectRel> OList_ObjectRel)
         {
            var objBoolQuery = new BooleanQuery();
             var strQuery = "";
@@ -575,7 +575,7 @@ namespace ElasticSearchConnector
 
         }
 
-        private BooleanQuery create_BoolQuery_ClassAtt(List<clsOntologyItem> OList_Classes = null,
+        public BooleanQuery create_BoolQuery_ClassAtt(List<clsOntologyItem> OList_Classes = null,
                                                        List<clsOntologyItem> OList_AttributeTypes = null)
         {
             BooleanQuery objBoolQuery = new BooleanQuery();
@@ -647,7 +647,7 @@ namespace ElasticSearchConnector
             return objBoolQuery;
         }
 
-        private BooleanQuery create_BoolQuery_Simple(List<clsOntologyItem> OList_Items, string strOntology)
+        public BooleanQuery create_BoolQuery_Simple(List<clsOntologyItem> OList_Items, string strOntology)
         {
             var strQuery = "";
             var strField_IDParent = "";
@@ -759,7 +759,7 @@ namespace ElasticSearchConnector
             return objBoolQuery;
         }
 
-        private BooleanQuery create_Query_Att_OrderID(clsOntologyItem OItem_Object = null,
+        public BooleanQuery create_Query_Att_OrderID(clsOntologyItem OItem_Object = null,
                                                       clsOntologyItem OItem_AttributeType = null)
         {
             var objBoolQuery = new Lucene.Net.Search.BooleanQuery();
@@ -809,7 +809,7 @@ namespace ElasticSearchConnector
             return objBoolQuery;
         }
 
-        private BooleanQuery create_Query_Rel_OrderID(clsOntologyItem OItem_Left = null,
+        public BooleanQuery create_Query_Rel_OrderID(clsOntologyItem OItem_Left = null,
                                                       clsOntologyItem OItem_Right = null,
                                                       clsOntologyItem OItem_RelationType = null)
         {
@@ -1366,8 +1366,6 @@ namespace ElasticSearchConnector
                                                     {
                                                         ID_Class_Left = objClassLeft.GUID,
                                                         Name_Class_Left = objClassLeft.Name,
-                                                        ID_Class_Right = objClassRight.GUID,
-                                                        Name_Class_Right = objClassRight.Name,
                                                         ID_RelationType = objRelationType.GUID,
                                                         Name_RelationType = objRelationType.Name,
                                                         Min_Forw = objClassRel.Min_Forw,

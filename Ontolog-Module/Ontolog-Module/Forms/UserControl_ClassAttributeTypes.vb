@@ -64,7 +64,10 @@ Public Class UserControl_ClassAttributeTypes
                 objOItem_Result = objDBLevel.save_ClassAttType(oList_ClassAtt)
                 If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     MsgBox("Beim Speichern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
-
+                Else
+                    If objOItem_Result.Count > 0 Then
+                        MsgBox("Es konnten nur " & objOItem_Result.Min & " von " & objOItem_Result.Max1 & " Attributetypen verknüpft werden!", MsgBoxStyle.Exclamation)
+                    End If
                 End If
                 get_Data_AttributeTypes()
             Else

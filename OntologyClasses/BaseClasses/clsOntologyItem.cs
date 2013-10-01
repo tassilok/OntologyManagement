@@ -45,7 +45,7 @@ namespace OntologyClasses.BaseClasses
         public int Direction_LeftRight { get { return cint_LeftRight;  } }
         public int Direction_RightLeft { get { return cint_RightLeft; } }
 
-        public string NewGuid { get { return Guid.NewGuid().ToString(); }}
+        public string NewGuid { get { return Guid.NewGuid().ToString().Replace("-",""); }}
 
         public void add_OItem(clsOntologyItem OItem)
         {
