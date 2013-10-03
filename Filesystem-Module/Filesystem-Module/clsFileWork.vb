@@ -299,14 +299,14 @@ Public Class clsFileWork
                                                          False, _
                                                          False)
                     strPath = objOItem_FileSystemObject.Name
-                    If objDBLevel_Folder.OList_ObjectRel_ID.Count > 0 Then
+                    If objDBLevel_Folder.OList_ObjectRel.Count > 0 Then
                         strPath = objDBLevel_Folder.OList_ObjectRel(0).Name_Other & strSeperator & strPath
                         objDBLevel_Folder.get_Data_Objects_Tree(objLocalConfig.OItem_type_Folder, _
                                                          objLocalConfig.OItem_type_Folder, _
                                                          objLocalConfig.OItem_RelationType_isSubordinated)
 
                         Dim objRel = From obj In objDBLevel_Folder.OList_ObjectTree
-                                     Join objChild In objDBLevel_Folder.OList_ObjectRel_ID On objChild.ID_Other Equals obj.ID_Object_Parent
+                                     Join objChild In objDBLevel_Folder.OList_ObjectRel On objChild.ID_Other Equals obj.ID_Object_Parent
 
                         If objRel.Count > 0 Then
 

@@ -41,6 +41,17 @@ Public Class frmMain
     Private oList_Applied_Simple As List(Of clsOntologyItem)
     Private oList_Applied_ObjRel As List(Of clsObjectRel)
 
+    Private Sub objUserControl_ObjRel_related_Items() Handles objUserControl_ObjRel.related_Items
+        configureRelationLabel()
+    End Sub
+
+    Private Sub configureRelationLabel()
+        ToolStripStatusLabel_RelationDone.Text = If(objUserControl_ObjRel.OItem_Left Is Nothing, "-", objUserControl_ObjRel.OItem_Left.Name)
+        ToolStripStatusLabel_RelationDone.Text = ToolStripStatusLabel_RelationDone.Text & If(objUserControl_ObjRel.OItem_RelationType Is Nothing, "-", objUserControl_ObjRel.OItem_RelationType.Name)
+        ToolStripStatusLabel_RelationDone.Text = ToolStripStatusLabel_RelationDone.Text & If(objUserControl_ObjRel.OItem_Other.Name Is Nothing, "-", objUserControl_ObjRel.OItem_Other.Name)
+
+    End Sub
+
     Private Sub selected_Left(ByVal objOItem_Object As clsOntologyItem) Handles objUserControl_ObjRel.selected_Left
         If objOItem_Object Is Nothing Then
             ToolStripStatusLabel_TokenRelLeft.Text = "-"
@@ -446,5 +457,23 @@ Public Class frmMain
     Private Sub OntologyConfiguratorToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OntologyConfiguratorToolStripMenuItem.Click
         objFrm_OntologyConfigurator = New frmOntologyConfigurator(objLocalConfig.Globals)
         objFrm_OntologyConfigurator.ShowDialog(Me)
+    End Sub
+
+    Private Sub ToolStripStatusLabel_TokenRelLeft_Click(sender As Object, e As EventArgs) Handles ToolStripStatusLabel_TokenRelLeft.Click
+        objUserControl_ObjRel.clear_Left()
+
+        configureRelationLabel()
+    End Sub
+
+    Private Sub ToolStripStatusLabel_TokenRelRelation_Click(sender As Object, e As EventArgs) Handles ToolStripStatusLabel_TokenRelRelation.Click
+        objUserControl_ObjRel.clear_RelationType()
+
+        configureRelationLabel()
+    End Sub
+
+    Private Sub ToolStripStatusLabel_TokenRelRight_Click(sender As Object, e As EventArgs) Handles ToolStripStatusLabel_TokenRelRight.Click
+        objUserControl_ObjRel.clear_Other()
+
+        configureRelationLabel()
     End Sub
 End Class

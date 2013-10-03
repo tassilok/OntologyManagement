@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class clsDataWork_BaseConfig
     Private objLocalConfig As clsLocalConfig
 
@@ -145,9 +146,9 @@ Public Class clsDataWork_BaseConfig
                         objDBLevel_TaxRate.get_Data_ObjectRel(objOLTaxRate, _
                                                               boolIDs:=False)
 
-                        If objDBLevel_TaxRate.OList_ObjectRel_ID.Count > 0 Then
+                        If objDBLevel_TaxRate.OList_ObjectRel.Count > 0 Then
                             objOLPercent.Add(New clsObjectAtt(Nothing, _
-                                                              objDBLevel_TaxRate.OList_ObjectRel_ID(0).ID_Other, _
+                                                              objDBLevel_TaxRate.OList_ObjectRel(0).ID_Other, _
                                                               objLocalConfig.OItem_Class_Tax_Rates.GUID, _
                                                               objLocalConfig.OItem_Attribute_percent.GUID, _
                                                               Nothing))
@@ -156,7 +157,7 @@ Public Class clsDataWork_BaseConfig
                                                                   boolIDs:=False)
 
                             If objDBLevel_Percent.OList_ObjectAtt.Count > 0 Then
-                                objOLUnit.Add(New clsObjectRel(objDBLevel_TaxRate.OList_ObjectRel_ID(0).ID_Other, _
+                                objOLUnit.Add(New clsObjectRel(objDBLevel_TaxRate.OList_ObjectRel(0).ID_Other, _
                                                                Nothing, _
                                                                Nothing, _
                                                                objLocalConfig.OItem_Class_Einheit.GUID, _

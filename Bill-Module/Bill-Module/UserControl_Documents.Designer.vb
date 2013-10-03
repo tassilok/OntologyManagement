@@ -119,7 +119,7 @@ Partial Class UserControl_Documents
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_New, Me.ToolStripButton_MoveFirst, Me.ToolStripButton_MovePrevious, Me.ToolStripButton_MoveNext, Me.ToolStripButton_MoveLast, Me.ToolStripButton_Down, Me.ToolStripButton_Up, Me.ToolStripButton_Del, Me.ToolStripSeparator1, Me.ToolStripLabel_Title, Me.ToolStripTextBox_Title})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(497, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(528, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_New
@@ -224,7 +224,7 @@ Partial Class UserControl_Documents
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_Location, Me.ToolStripTextBox_Location, Me.ToolStripButton_Location, Me.ToolStripButton_DelLocation, Me.ToolStripSeparator2, Me.ToolStripLabel_Type, Me.ToolStripComboBox_Type})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 25)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(659, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(626, 25)
         Me.ToolStrip2.TabIndex = 1
         '
         'ToolStripLabel_Location

@@ -32,9 +32,12 @@ Public Class clsTransaction_Objects
             If objFrm_Name.DialogResult = DialogResult.OK Then
                 If objFrm_Name.isList = True Then
                     For Each strValue In objFrm_Name.Values
-                        oList_Objects.Add(New clsOntologyItem(Guid.NewGuid.ToString.Replace("-", ""), _
-                                                              strValue, _
-                                                              strClass))
+                        strValue = strValue.Replace(vbLf, "")
+                        strValue = strValue.Replace(vbCr, "")
+                        oList_Objects.Add(New clsOntologyItem With {.GUID = Guid.NewGuid.ToString.Replace("-", ""), _
+                                                              .Name = strValue, _
+                                                              .GUID_Parent = strClass, _
+                                                              .Type = objLocalConfig.Globals.Type_Object})
                     Next
                 Else
                     If objFrm_Name.TextBox_GUID.Text = "" Then
@@ -60,7 +63,7 @@ Public Class clsTransaction_Objects
         boolSave = True
 
         objOItem_Result = objLocalConfig.Globals.LState_Nothing
-        If oList_Objects.Count > 0 Then
+        If oList_ObjectDbl.Count > 0 Then
             objDBLevel.get_Data_Objects(oList_ObjectDbl)
             If objDBLevel.OList_Objects.Count > 0 Then
                 Dim oL_Double = From obj_db In objDBLevel.OList_Objects
@@ -73,15 +76,16 @@ Public Class clsTransaction_Objects
                 End If
 
             End If
-            If boolSave = True Then
-                objOItem_Result = objDBLevel.save_Objects(oList_Objects)
-                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    objOItem_Saved_LastItem = oList_Objects.Last
-                End If
-            End If
+            
 
         End If
 
+        If boolSave = True Then
+            objOItem_Result = objDBLevel.save_Objects(oList_Objects)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                objOItem_Saved_LastItem = oList_Objects.Last
+            End If
+        End If
         Return objOItem_Result
     End Function
 

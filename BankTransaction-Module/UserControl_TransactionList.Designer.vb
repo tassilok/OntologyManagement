@@ -45,6 +45,9 @@ Partial Class UserControl_TransactionList
         Me.ToolStripTextBox_Filter = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripLabel_OrderLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Order = New System.Windows.Forms.ToolStripTextBox()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel_Database = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripTextBox_Database = New System.Windows.Forms.ToolStripTextBox()
         Me.DataGridView_Transactions = New System.Windows.Forms.DataGridView()
         Me.GUIDBankTransactionDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Name_BankTransaction = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -103,9 +106,6 @@ Partial Class UserControl_TransactionList
         Me.TransactionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ArchiveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Timer_BankTransactions = New System.Windows.Forms.Timer(Me.components)
-        Me.ToolStripLabel_Database = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripTextBox_Database = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -284,6 +284,23 @@ Partial Class UserControl_TransactionList
         '
         Me.ToolStripTextBox_Order.Name = "ToolStripTextBox_Order"
         Me.ToolStripTextBox_Order.Size = New System.Drawing.Size(200, 25)
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripLabel_Database
+        '
+        Me.ToolStripLabel_Database.Name = "ToolStripLabel_Database"
+        Me.ToolStripLabel_Database.Size = New System.Drawing.Size(68, 22)
+        Me.ToolStripLabel_Database.Text = "x_Database:"
+        '
+        'ToolStripTextBox_Database
+        '
+        Me.ToolStripTextBox_Database.Name = "ToolStripTextBox_Database"
+        Me.ToolStripTextBox_Database.ReadOnly = True
+        Me.ToolStripTextBox_Database.Size = New System.Drawing.Size(200, 23)
         '
         'DataGridView_Transactions
         '
@@ -713,23 +730,6 @@ Partial Class UserControl_TransactionList
         'Timer_BankTransactions
         '
         Me.Timer_BankTransactions.Interval = 300
-        '
-        'ToolStripLabel_Database
-        '
-        Me.ToolStripLabel_Database.Name = "ToolStripLabel_Database"
-        Me.ToolStripLabel_Database.Size = New System.Drawing.Size(68, 22)
-        Me.ToolStripLabel_Database.Text = "x_Database:"
-        '
-        'ToolStripSeparator4
-        '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripTextBox_Database
-        '
-        Me.ToolStripTextBox_Database.Name = "ToolStripTextBox_Database"
-        Me.ToolStripTextBox_Database.ReadOnly = True
-        Me.ToolStripTextBox_Database.Size = New System.Drawing.Size(200, 23)
         '
         'UserControl_TransactionList
         '

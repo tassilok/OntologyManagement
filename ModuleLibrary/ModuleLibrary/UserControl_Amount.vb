@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class UserControl_Amount
     Private objLocalConfig As clsLocalConfig
 

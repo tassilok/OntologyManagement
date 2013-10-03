@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class clsDataWork_BillTree
 
     Private Const cstr_Ausgaben As String = "Ausgaben"

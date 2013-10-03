@@ -218,6 +218,10 @@
       <Project>{3F2F6722-C36B-420D-AFE7-B21C19457208}</Project>
       <Name>Ontolog-Module</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
+      <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
+      <Name>OntologyClasses</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Partner-Module\Partner-Module\Partner-Module.vbproj">
       <Project>{D42C6737-EF33-40D6-8253-173099F93885}</Project>
       <Name>Partner-Module</Name>

@@ -1,5 +1,6 @@
 ﻿Imports Ontolog_Module
 Imports Media_Viewer_Module
+Imports OntologyClasses.BaseClasses
 Public Class UserControl_PersonalData
     Private objLocalConfig As clsLocalConfig
     Private WithEvents objUserControl_ImageList As UserControl_ImageList

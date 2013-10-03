@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class clsDocument
     Private objOItem_Document As clsOntologyItem
     Private objOItem_Belegsart As clsOntologyItem

@@ -1,6 +1,7 @@
 ﻿Imports Ontolog_Module
 Imports ModuleLibrary
 Imports Partner_Module
+Imports OntologyClasses.BaseClasses
 Public Class UserControl_TransactionDetail
     Private objLocalConfig As clsLocalConfig
 
@@ -18,7 +19,7 @@ Public Class UserControl_TransactionDetail
     Private objDAtaWork_Payments As clsDataWork_Payments
     Private strAmount As String
 
-    Private objTransaction_FinancialTransaction As clsTransaction_FinancialTransaction
+    Private objTransaction_FinancialTransaction As clsTransaction
     Private objTransaction_Amount As clsTransaction_Amount
     Private objTransaction_Payment As clsTransaction_Payment
 
@@ -121,7 +122,7 @@ Public Class UserControl_TransactionDetail
         objDataWork_Transaction = New clsDataWork_Transaction(objLocalConfig)
         objDAtaWork_Payments = New clsDataWork_Payments(objLocalConfig)
 
-        objTransaction_FinancialTransaction = New clsTransaction_FinancialTransaction(objLocalConfig)
+        objTransaction_FinancialTransaction = New clsTransaction(objLocalConfig.Globals)
         objTransaction_Amount = New clsTransaction_Amount(objLocalConfig.Globals)
         objTransaction_Payment = New clsTransaction_Payment(objLocalConfig)
     End Sub
@@ -465,8 +466,9 @@ Public Class UserControl_TransactionDetail
         If objDLG_Attribute_DateTime.DialogResult = DialogResult.OK Then
             dateVal = objDLG_Attribute_DateTime.Value
 
-            objOItem_Result = objTransaction_FinancialTransaction.save_002_FinancialTransaction__TransactionDate(dateVal, _
-                                                                                                                 objOItem_FinancialTransaction)
+            Dim objOA_FinancialTransaction__TransactionDate = objDataWork_Transaction.Rel_FinancialTransaction__TransactionDate(objOItem_FinancialTransaction, dateVal)
+            objTransaction_FinancialTransaction.ClearItems()
+            objOItem_Result = objTransaction_FinancialTransaction.do_Transaction(objOA_FinancialTransaction__TransactionDate, True)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                 TextBox_Date.Text = dateVal
             Else
@@ -489,10 +491,12 @@ Public Class UserControl_TransactionDetail
         Dim objOItem_Result As clsOntologyItem
         Timer_TransactionID.Stop()
 
+        objTransaction_FinancialTransaction.ClearItems()
         If TextBox_TransactionID.Text = "" Then
             strTransactionID = ""
+            Dim objOA_FinancialTransaction__TransactionId = objDataWork_Transaction.Rel_FinancialTransaction__TransactionId(objOItem_FinancialTransaction, strTransactionID)
 
-            objOItem_Result = objTransaction_FinancialTransaction.del_003_FinancialTransaction__TransactionID(objOItem_FinancialTransaction)
+            objOItem_Result = objTransaction_FinancialTransaction.do_Transaction(objOA_FinancialTransaction__TransactionId, True, True)
 
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                 MsgBox("Das Transaktionsdatum kann nicht geändert werden!", MsgBoxStyle.Exclamation)
@@ -500,8 +504,8 @@ Public Class UserControl_TransactionDetail
             End If
         Else
             strTransactionID = TextBox_TransactionID.Text
-
-            objOItem_Result = objTransaction_FinancialTransaction.save_003_FinancialTransaction__TransactionID(strTransactionID, objOItem_FinancialTransaction)
+            Dim objOA_FinancialTransaction__TransactionId = objDataWork_Transaction.Rel_FinancialTransaction__TransactionId(objOItem_FinancialTransaction, strTransactionID)
+            objOItem_Result = objTransaction_FinancialTransaction.do_Transaction(objOA_FinancialTransaction__TransactionId, True)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                 MsgBox("Das Transaktionsdatum kann nicht geändert werden!", MsgBoxStyle.Exclamation)
                 initialize(objOItem_FinancialTransaction)
@@ -533,7 +537,8 @@ Public Class UserControl_TransactionDetail
 
         If TextBox_sum.ReadOnly = False Then
             If TextBox_sum.Text = "" Then
-                objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum(objOItem_FinancialTransaction)
+                Dim objOA_FinancialTransaction__Sum = objDataWork_Transaction.Rel_FinancialTransaction__Sum(objOItem_FinancialTransaction, 0)
+                objOItem_Result = objTransaction_FinancialTransaction.do_Transaction(objOA_FinancialTransaction__Sum, True, True)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                     MsgBox("Die Summe kann nicht gesetzt werden!", MsgBoxStyle.Exclamation)
                     initialize(objOItem_FinancialTransaction)
@@ -546,8 +551,8 @@ Public Class UserControl_TransactionDetail
                 If Double.TryParse(TextBox_sum.Text, dblSum) = False Then
                     dblSum = 0
                 End If
-
-                objOItem_Result = objTransaction_FinancialTransaction.save_004_FinnacialTransaction__Sum(dblSum, objOItem_FinancialTransaction)
+                Dim objOA_FinancialTransaction__Sum = objDataWork_Transaction.Rel_FinancialTransaction__Sum(objOItem_FinancialTransaction, dblSum)
+                objOItem_Result = objTransaction_FinancialTransaction.do_Transaction(objOA_FinancialTransaction__Sum, True)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                     MsgBox("Die Summe kann nicht gesetzt werden!", MsgBoxStyle.Exclamation)
                     initialize(objOItem_FinancialTransaction)
@@ -572,8 +577,11 @@ Public Class UserControl_TransactionDetail
         Dim objOItem_Result As clsOntologyItem
 
         If ComboBox_currency.Enabled = True Then
-            objOItem_Result = objTransaction_FinancialTransaction.save_005_FinancialTransaction_To_Currency(ComboBox_currency.SelectedItem, _
-                                                                                                        objOItem_FinancialTransaction)
+            objTransaction_FinancialTransaction.ClearItems()
+
+            Dim objOR_FinancialTransaction_To_Currency = objDataWork_Transaction.Rel_FinancialTransaction_To_Currency(objOItem_FinancialTransaction, ComboBox_currency.SelectedItem)
+
+            objOItem_Result = objTransaction_FinancialTransaction.do_Transaction(objOR_FinancialTransaction_To_Currency, True)
 
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                 MsgBox("Die Währung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
@@ -591,8 +599,10 @@ Public Class UserControl_TransactionDetail
     Private Sub CheckBox_Gross_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles CheckBox_Gross.CheckStateChanged
         Dim objOItem_Result As clsOntologyItem
         If CheckBox_Gross.Enabled = True Then
-            objOItem_Result = objTransaction_FinancialTransaction.save_006_FinancialTransaction__gross(CheckBox_Gross.Checked, _
-                                                                                                       objOItem_FinancialTransaction)
+            Dim objOR_FinancialTransaction__Gross = objDataWork_Transaction.Rel_FinancialTransaction__Gross(objOItem_FinancialTransaction, CheckBox_Gross.Checked)
+
+            objTransaction_FinancialTransaction.ClearItems()
+            objOItem_Result = objTransaction_FinancialTransaction.do_Transaction(objOR_FinancialTransaction__Gross)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                 MsgBox("Brutto/Netto kann nicht geändert werden!", MsgBoxStyle.Exclamation)
                 initialize(objOItem_FinancialTransaction)
@@ -604,8 +614,8 @@ Public Class UserControl_TransactionDetail
         Dim objOItem_Result As clsOntologyItem
 
         If ComboBox_TaxRate.Enabled = True Then
-            objOItem_Result = objTransaction_FinancialTransaction.save_007_FinancialTransaction_To_TaxRate(ComboBox_TaxRate.SelectedItem, _
-                                                                                                           objOItem_FinancialTransaction)
+            Dim objOR_FinancialTransaction_To_TaxRate = objDataWork_Transaction.Rel_FinancialTransaction_To_TaxRate(objOItem_FinancialTransaction, ComboBox_TaxRate.SelectedItem)
+            objOItem_Result = objTransaction_FinancialTransaction.do_Transaction(objOR_FinancialTransaction_To_TaxRate)
 
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                 MsgBox("Die Steuerrate kann nicht geändert werden!", MsgBoxStyle.Exclamation)
@@ -662,10 +672,9 @@ Public Class UserControl_TransactionDetail
         If objFrmPartnerModule.DialogResult = DialogResult.OK Then
             If objFrmPartnerModule.OList_Partner.Count = 1 Then
                 objOItem_Partner = objFrmPartnerModule.OList_Partner(0)
+                Dim objOR_FinancialTransaction_To_Partner = objDataWork_Transaction.Rel_FinancialTransaction_To_Partner(objOItem_FinancialTransaction, objOItem_Partner, objLocalConfig.OItem_RelationType_belonging_Contractor)
 
-                objOItem_Result = objTransaction_FinancialTransaction.save_008_FinancialTransaction_To_Partner(objOItem_Partner, _
-                                                                                             objLocalConfig.OItem_RelationType_belonging_Contractor, _
-                                                                                             objOItem_FinancialTransaction)
+                objOItem_Result = objTransaction_FinancialTransaction.do_Transaction(objOR_FinancialTransaction_To_Partner, True)
 
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     TextBox_Contractor.Text = objOItem_Partner.Name
@@ -686,10 +695,8 @@ Public Class UserControl_TransactionDetail
         If objFrmPartnerModule.DialogResult = DialogResult.OK Then
             If objFrmPartnerModule.OList_Partner.Count = 1 Then
                 objOItem_Partner = objFrmPartnerModule.OList_Partner(0)
-
-                objOItem_Result = objTransaction_FinancialTransaction.save_008_FinancialTransaction_To_Partner(objOItem_Partner, _
-                                                                                             objLocalConfig.OItem_RelationType_belonging_Contractee, _
-                                                                                             objOItem_FinancialTransaction)
+                Dim objOR_FinancialTransaction_To_Partner = objDataWork_Transaction.Rel_FinancialTransaction_To_Partner(objOItem_FinancialTransaction, objOItem_Partner, objLocalConfig.OItem_RelationType_belonging_Contractee)
+                objOItem_Result = objTransaction_FinancialTransaction.do_Transaction(objOR_FinancialTransaction_To_Partner)
 
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     TextBox_Contractee.Text = objOItem_Partner.Name
@@ -953,7 +960,9 @@ Public Class UserControl_TransactionDetail
                 objOItem_Result = objTransaction_Amount.save_001_Amount(dblAmount, objOItem_Unit)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     If Not objTransaction_Amount.OItem_Amount Is Nothing Then
-                        objOItem_Result = objTransaction_FinancialTransaction.save_010_FinancialTransaction_To_Amount(objTransaction_Amount.OItem_Amount, objOItem_FinancialTransaction)
+                        Dim objOR_FinancialTransaction_To_Amount = objDataWork_Transaction.Rel_FinancialTransaction_To_Amount(objOItem_FinancialTransaction, objTransaction_Amount.OItem_Amount)
+
+                        objOItem_Result = objTransaction_FinancialTransaction.do_Transaction(objOR_FinancialTransaction_To_Amount)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                             MsgBox("Die Menge konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
                             If Not strAmount_Old Is Nothing Then

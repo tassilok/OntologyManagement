@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Ontolog_Module;
+using OntologyClasses.BaseClasses;
 
 namespace Office_Module
 {
@@ -339,7 +340,7 @@ namespace Office_Module
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
                         intCount = OList_Classes.Count;
-                        OList_Classes = OList_Classes.Concat((from obj in objDBLevel_Classes.OList_Classes
+                        OList_Classes.AddRange((from obj in objDBLevel_Classes.OList_Classes
                                                                 join objExist in OList_Classes on obj.GUID equals objExist.GUID into GroupExists
                                                                 from objExist in GroupExists.DefaultIfEmpty()
                                                                 where objExist == null
@@ -349,7 +350,7 @@ namespace Office_Module
                                                                     Name = obj.Name,
                                                                     GUID_Parent = obj.GUID_Parent,
                                                                     Type = obj.Type
-                                                                }).ToList()).ToList();
+                                                                }).ToList());
                     }
                     else
                     {

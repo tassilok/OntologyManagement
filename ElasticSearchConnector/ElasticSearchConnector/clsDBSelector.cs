@@ -429,7 +429,7 @@ namespace ElasticSearchConnector
                     strQuery = "";
 
                     var oL_IDObject = (from obj in OList_ObjectRel
-                                       where obj.ID_Object != null
+                                       where obj.ID_Object != null && obj.ID_Object != ""
                                   group obj by obj.ID_Object
                                       into g
                                       select g.Key).ToList();
@@ -452,7 +452,7 @@ namespace ElasticSearchConnector
                     strQuery = "";
 
                     var oL_IDParentObject = (from obj in OList_ObjectRel
-                                             where obj.ID_Parent_Object != null
+                                             where obj.ID_Parent_Object != null && obj.ID_Parent_Object != ""
                                        group obj by obj.ID_Parent_Object
                                            into g
                                            select g.Key).ToList();
@@ -475,7 +475,7 @@ namespace ElasticSearchConnector
                     strQuery = "";
 
                     var oL_IDOther = (from obj in OList_ObjectRel
-                                             where obj.ID_Other != null
+                                             where obj.ID_Other != null && obj.ID_Other != ""
                                              group obj by obj.ID_Other
                                                  into g
                                                  select g.Key).ToList();
@@ -498,7 +498,7 @@ namespace ElasticSearchConnector
                     strQuery = "";
 
                     var oL_IDParentOther = (from obj in OList_ObjectRel
-                                      where obj.ID_Parent_Other != null
+                                      where obj.ID_Parent_Other != null && obj.ID_Parent_Other != ""
                                             group obj by obj.ID_Parent_Other
                                           into g
                                           select g.Key).ToList();
@@ -521,7 +521,7 @@ namespace ElasticSearchConnector
                     strQuery = "";
 
                     var oL_IDRelationType = (from obj in OList_ObjectRel
-                                            where obj.ID_RelationType != null
+                                            where obj.ID_RelationType != null && obj.ID_RelationType != ""
                                             group obj by obj.ID_RelationType
                                                 into g
                                                 select g.Key).ToList();
@@ -544,7 +544,7 @@ namespace ElasticSearchConnector
                     strQuery = "";
 
                     var oL_Ontology = (from obj in OList_ObjectRel
-                                             where obj.Ontology != null
+                                             where obj.Ontology != null && obj.Ontology != ""
                                              group obj by obj.Ontology
                                                  into g
                                                  select g.Key).ToList();
@@ -674,7 +674,7 @@ namespace ElasticSearchConnector
                     strQuery = "";
                     var boolID = false;
                     var oL_ID = (from obj in OList_Items
-                                       where obj.GUID != null
+                                       where obj.GUID != null && obj.GUID != ""
                                        group obj by obj.GUID
                                            into g
                                            select g.Key).ToList();
@@ -699,7 +699,7 @@ namespace ElasticSearchConnector
                     {
                         strQuery = "";
                         var oL_Name = (from obj in OList_Items
-                                     where obj.Name != null
+                                     where obj.Name != null && obj.Name != ""
                                      group obj by obj.Name
                                          into g
                                          select g.Key).ToList();
@@ -725,7 +725,7 @@ namespace ElasticSearchConnector
                         {
                             strQuery = "";
                             var oL_IDParent = (from obj in OList_Items
-                                         where obj.GUID_Parent != null
+                                         where obj.GUID_Parent != null & obj.GUID_Parent != ""
                                          group obj by obj.GUID_Parent
                                              into g
                                              select g.Key).ToList();
@@ -1312,9 +1312,9 @@ namespace ElasticSearchConnector
                                                        ID_Class_Left = objHit.Source[objFields.ID_Class_Left].ToString(),
                                                        ID_RelationType = objHit.Source[objFields.ID_RelationType].ToString(),
                                                        ID_Class_Right = (objHit.Source.ContainsKey(objFields.ID_Class_Right) ? (objHit.Source[objFields.ID_Class_Right] != null ? objHit.Source[objFields.ID_Class_Right].ToString() : null) : null),
-                                                       Min_Forw = (long?) objHit.Source[objFields.Min_Forw],
-                                                       Max_Forw = (long?) objHit.Source[objFields.Max_Forw],
-                                                       Max_Backw = (objHit.Source.ContainsKey(objFields.Max_Backw) ? (objHit.Source[objFields.Max_Backw] != null ? (long?)objHit.Source[objFields.Max_Backw] : null) : null)                                                       
+                                                       Min_Forw = (long?) (objHit.Source.ContainsKey(objFields.Min_Forw) ? objHit.Source[objFields.Min_Forw] : objHit.Source["Min_Forw"]),
+                                                       Max_Forw = (long?) (objHit.Source.ContainsKey(objFields.Max_Forw) ? objHit.Source[objFields.Max_Forw] : objHit.Source["Max_Forw"]),
+                                                       Max_Backw = (objHit.Source.ContainsKey(objFields.Max_Backw) ? (objHit.Source[objFields.Max_Backw] != null ? (long?)objHit.Source[objFields.Max_Backw] : null) : (objHit.Source.ContainsKey("Max_Backw") ? (objHit.Source["Max_Backw"] != null ? (long?)objHit.Source["Max_Backw"] : null) : null))                                                       
                                                    }).ToList());
 
                 if (objList.Count < SearchRange)
@@ -1646,6 +1646,10 @@ namespace ElasticSearchConnector
         {
             SearchResult objSearchResult;
 
+            if (OntologyList_AttributTypes1 == null)
+            {
+                OntologyList_AttributTypes1 = new List<clsOntologyItem>();
+            }
             OntologyList_AttributTypes1.Clear();
 
             var objBoolQuery = create_BoolQuery_ObjectAtt(OList_ObjectAtt);
@@ -1851,8 +1855,6 @@ namespace ElasticSearchConnector
         public long get_Data_ObjectsCount(List<clsOntologyItem> OList_Objects = null)
         {
             SearchResult objSearchResult;
-
-            OntologyList_AttributTypes1.Clear();
 
             var objBoolQuery = create_BoolQuery_Simple(OList_Objects,objTypes.ObjectType);
 
@@ -2127,7 +2129,7 @@ namespace ElasticSearchConnector
                                                      ID_Parent_Object = objHit.Source[objFields.ID_Parent_Object].ToString(),
                                                      ID_Parent_Other = (objHit.Source.ContainsKey(objFields.ID_Parent_Other) ? (objHit.Source[objFields.ID_Parent_Other] != null ? objHit.Source[objFields.ID_Parent_Other].ToString() : null) : null),
                                                      ID_RelationType = objHit.Source[objFields.ID_RelationType].ToString(),
-                                                     OrderID = objHit.Source[objFields.OrderID] as long?,
+                                                     OrderID = ((objHit.Source[objFields.OrderID] as long?) ?? 0),
                                                      Ontology = objHit.Source[objFields.Ontology].ToString()
                                                  }).ToList());
 
@@ -2449,6 +2451,176 @@ namespace ElasticSearchConnector
             
         }
 
+        public long get_Data_Rel_OrderByVal(clsOntologyItem OItem_Left,
+                                        clsOntologyItem OItem_Right,
+                                        clsOntologyItem OItem_RelationType,
+                                        string strSort,
+                                        bool doASC = true)
+        {
+            SearchResult objSearchResult;
+            long lngOrderID = 1;
+
+            if (doASC)
+            {
+                strSort += ":asc";
+            }
+            else
+            {
+                strSort += ":desc";
+            }
+
+            var objBoolQuery = create_Query_Rel_OrderID(OItem_Left, OItem_Right, OItem_RelationType);
+
+            try
+            {
+                objSearchResult = ElConnector.Search(Index, objTypes.ObjectAtt, objBoolQuery.ToString(), strSort, 0, 1);
+            }
+            catch (Exception)
+            {
+                try
+                {
+                    objSearchResult = ElConnector.Search(Index, objTypes.ObjectAtt, objBoolQuery.ToString(), strSort, 0, 1);
+                }
+                catch (Exception)
+                {
+                    
+                    throw;
+                }
+                
+            }
+
+            List<ElasticSearch.Client.Domain.Hits>  objList = objSearchResult.GetHits().Hits;
+            if (objList.Any())
+            {
+                long.TryParse(objList.First().Source[strSort].ToString(),out lngOrderID);
+            }
+            
+
+            return lngOrderID;
+        }
+
+        public long get_Data_Objects_Tree_Count(clsOntologyItem OItem_Class_Par,
+                                                clsOntologyItem OItem_Class_Child,
+                                                clsOntologyItem OItem_RelationType)
+        {
+            SearchResult objSearchResult;
+            BooleanQuery objBoolQuery = new BooleanQuery();
+
+            objBoolQuery.Add(new TermQuery(new Term(objFields.ID_Parent_Object, OItem_Class_Par.GUID)), BooleanClause.Occur.MUST);
+            objBoolQuery.Add(new TermQuery(new Term(objFields.ID_Parent_Other, OItem_Class_Child.GUID)), BooleanClause.Occur.MUST);
+            objBoolQuery.Add(new TermQuery(new Term(objFields.ID_RelationType, OItem_RelationType.GUID)), BooleanClause.Occur.MUST);
+
+            
+            try
+            {
+                objSearchResult = ElConnector.Search(Index, objTypes.ObjectRel, objBoolQuery.ToString(), 0, 1);
+            }
+            catch (Exception)
+            {
+
+                try
+                {
+                    objSearchResult = ElConnector.Search(Index, objTypes.ObjectType, objBoolQuery.ToString(), 0,
+                                                    1);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+
+            var lngCount = objSearchResult.GetTotalCount();
+
+            return lngCount;
+        }
+
+        public List<clsObjectTree> get_Data_Objects_Tree(clsOntologyItem OItem_Class_Par,
+                                                clsOntologyItem OItem_Class_Child,
+                                                clsOntologyItem OItem_RelationType)
+        {
+            SearchResult objSearchResult;
+            BooleanQuery objBoolQuery = new BooleanQuery();
+
+            if (OntologyList_ObjectTree == null)
+            {
+                OntologyList_ObjectTree = new List<clsObjectTree>();
+            }
+
+            OntologyList_ObjectTree.Clear();
+
+            objBoolQuery.Add(new TermQuery(new Term(objFields.ID_Parent_Object, OItem_Class_Par.GUID)), BooleanClause.Occur.MUST);
+            objBoolQuery.Add(new TermQuery(new Term(objFields.ID_Parent_Other, OItem_Class_Child.GUID)), BooleanClause.Occur.MUST);
+            objBoolQuery.Add(new TermQuery(new Term(objFields.ID_RelationType, OItem_RelationType.GUID)), BooleanClause.Occur.MUST);
+
+            var objOList_Objects = new List<clsOntologyItem> { new clsOntologyItem { GUID_Parent = OItem_Class_Par.GUID,
+                                                                                     Type = objTypes.ObjectType } };
+
+            var objOList_Other = new List<clsOntologyItem> { new clsOntologyItem {GUID_Parent = OItem_Class_Child.GUID,
+                                                                                     Type = objTypes.ObjectType } };
+
+            var objOList_RelationType = new List<clsOntologyItem> { OItem_RelationType };
+
+
+            get_Data_Objects(objOList_Objects);
+            get_Data_Objects(objOList_Other, true,false,true);
+            get_Data_RelationTypes(objOList_RelationType);
+            
+            var intCount = SearchRange;
+            var intPos = 0;
+
+            while (intCount > 0)
+            {
+                intCount = 0;
+
+                try
+                {
+                    objSearchResult = ElConnector.Search(Index, objTypes.ObjectRel, objBoolQuery.ToString(), intPos,
+                                                        SearchRange);
+                }
+                catch (Exception)
+                {
+
+                    try
+                    {
+                        objSearchResult = ElConnector.Search(Index, objTypes.ObjectRel, objBoolQuery.ToString(), intPos,
+                                                        SearchRange);
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                }
+
+                var objList = objSearchResult.GetHits().Hits;
+
+                OntologyList_ObjectTree.AddRange((from objHit in objList
+                                           join objLeft in OntologyList_Objects1 on objHit.Source[objFields.ID_Object].ToString() equals objLeft.GUID
+                                           join objRight in OntologyList_Objects2 on objHit.Source[objFields.ID_Other].ToString() equals objRight.GUID
+                                           join objRel in OntologyList_RelationTypes1 on objHit.Source[objFields.ID_RelationType].ToString() equals objRel.GUID
+                                           select new clsObjectTree { ID_Object = objRight.GUID, 
+                                                                      Name_Object = objRight.Name,
+                                                                      ID_Parent = objRight.GUID_Parent,
+                                                                      ID_Object_Parent = objLeft.GUID,
+                                                                      Name_Object_Parent = objLeft.Name,
+                                                                      OrderID = ((objHit.Source["OrderID"] as long?) ?? 0)
+                                                                    } ).ToList().OrderBy(p => p.ID_Object_Parent).ThenBy(p => p.OrderID).ThenBy(p => p.Name_Object ).ToList());
+
+                if (objList.Count < SearchRange)
+                {
+                    intCount = 0;
+                }
+                else
+                {
+                    intCount = objList.Count;
+                    intPos += SearchRange;
+                }
+            }
+
+            return OntologyList_ObjectTree;
+        }
+
 
         public clsDBSelector(string server,
                           int port,
@@ -2471,5 +2643,6 @@ namespace ElasticSearchConnector
             
 
         }
+
     }
 }

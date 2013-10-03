@@ -26,6 +26,9 @@ namespace ElasticSearchConnector
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;
             var OList_AttributeTypeNameTest = new List<clsOntologyItem>();
+
+            objDBSelector.ElConnector.Flush();
+
             OList_AttributeTypeNameTest.Add(new clsOntologyItem { Name = objOItem_AttributeType.Name });
 
             var objOList_AttributeTypeNameTest = objDBSelector.get_Data_AttributeType(OList_AttributeTypeNameTest);
@@ -143,6 +146,8 @@ namespace ElasticSearchConnector
         public clsOntologyItem save_Class(clsOntologyItem objOItem_Class)
         {
             OperateResult opResult;
+            objDBSelector.ElConnector.Flush();
+
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;
 
@@ -229,6 +234,8 @@ namespace ElasticSearchConnector
         public clsOntologyItem save_ClassAtt(List<clsClassAtt> OList_ClassAtt)
         {
             OperateResult opResult;
+            objDBSelector.ElConnector.Flush();
+
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;
 
@@ -301,6 +308,8 @@ namespace ElasticSearchConnector
         public clsOntologyItem save_ClassRel(List<clsClassRel> OList_ClassRel)
         {
             OperateResult opResult;
+            objDBSelector.ElConnector.Flush();
+
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;
 
@@ -389,6 +398,8 @@ namespace ElasticSearchConnector
         public clsOntologyItem save_ObjectAtt(List<clsObjectAtt> OList_ObjAtt)
         {
             OperateResult opResult;
+            objDBSelector.ElConnector.Flush();
+
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;
 
@@ -502,6 +513,8 @@ namespace ElasticSearchConnector
         public clsOntologyItem save_Objects(List<clsOntologyItem> OList_Objects)
         {
             OperateResult opResult;
+            objDBSelector.ElConnector.Flush();
+
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;
 
@@ -564,6 +577,8 @@ namespace ElasticSearchConnector
         public clsOntologyItem save_RelationType(clsOntologyItem objOItem_RelationType)
         {
             OperateResult opResult;
+            objDBSelector.ElConnector.Flush();
+
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;
             var OList_RelationTypeNameTest = new List<clsOntologyItem>();
@@ -646,8 +661,109 @@ namespace ElasticSearchConnector
         public clsOntologyItem save_ObjectRel(List<clsObjectRel> OList_ObjectRel)
         {
             OperateResult opResult;
+            objDBSelector.ElConnector.Flush();
+
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;
+
+            var OList_Objects = OList_ObjectRel.GroupBy(p => p.ID_Object).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
+            var objOList_Objects = objDBSelector.get_Data_Objects(OList_Objects);
+
+            var OList_RelationTypes = OList_ObjectRel.GroupBy(p => p.ID_RelationType).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
+            var objOList_RelationTypes = objDBSelector.get_Data_RelationTypes(OList_RelationTypes);
+
+            var OList_OtherAttributeTypes = OList_ObjectRel.Where(p => p.Ontology == objTypes.AttributeType).GroupBy(p => p.ID_Other).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
+            var OList_OtherObjects = OList_ObjectRel.Where(p => p.Ontology == objTypes.ObjectType).GroupBy(p => p.ID_Other).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
+            var OList_OtherClasses = OList_ObjectRel.Where(p => p.Ontology == objTypes.ClassType).GroupBy(p => p.ID_Other).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
+            var OList_OtherRelationTypes = OList_ObjectRel.Where(p => p.Ontology == objTypes.RelationType).GroupBy(p => p.ID_Other).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
+
+            var objOList_Other = new List<clsOntologyItem>();
+            
+
+            if (OList_OtherAttributeTypes.Any())
+            {
+                objOList_Other.AddRange(objDBSelector.get_Data_AttributeType(OList_OtherAttributeTypes));
+            }
+
+            if (OList_OtherObjects.Any())
+            {
+                objOList_Other.AddRange(objDBSelector.get_Data_Objects(OList_OtherObjects,true,false));
+            }
+
+            if (OList_OtherClasses.Any())
+            {
+                objOList_Other.AddRange(objDBSelector.get_Data_Classes(OList_OtherClasses));
+            }
+
+            if (OList_OtherRelationTypes.Any())
+            {
+                objOList_Other.AddRange(objDBSelector.get_Data_RelationTypes(OList_OtherRelationTypes,true));
+            }
+
+            var objOList_ToSave = (from objORel in OList_ObjectRel
+                                   join objObject in objOList_Objects on objORel.ID_Object equals objObject.GUID
+                                   join objRelationType in objOList_RelationTypes on objORel.ID_RelationType equals objRelationType.GUID
+                                   join objOther in objOList_Other on objORel.ID_Other equals objOther.GUID
+                                   where objORel.OrderID != null && objORel.Ontology != null
+                                   select objORel).ToList();
+
+            if (objOList_ToSave.Any())
+            {
+                foreach (var objToSave in objOList_ToSave)
+                {
+                    var objDict = new Dictionary<string, object>();
+                    objDict.Add(objFields.ID_Object, objToSave.ID_Object);
+                    objDict.Add(objFields.ID_Parent_Object, objToSave.ID_Parent_Object);
+                    objDict.Add(objFields.ID_Other, objToSave.ID_Other);
+                    objDict.Add(objFields.OrderID, objToSave.OrderID);
+                    objDict.Add(objFields.Ontology, objToSave.Ontology);
+                    objDict.Add(objFields.ID_RelationType, objToSave.ID_RelationType);
+                    var strID = objToSave.ID_Object + objToSave.ID_Other + objToSave.ID_RelationType;
+
+                    if (objToSave.Ontology == objTypes.AttributeType ||
+                        objToSave.Ontology == objTypes.ObjectType)
+                    {
+                        objDict.Add(objFields.ID_Parent_Other, objToSave.ID_Parent_Other);
+
+                    }
+
+
+
+                    objBulkObjects.Add(new BulkObject(objDBSelector.Index, objTypes.ObjectRel, strID, objDict));
+
+
+                }
+
+                try
+                {
+                    opResult = objDBSelector.ElConnector.Bulk(objBulkObjects);
+                    objBulkObjects = null;
+                    if (opResult.Success)
+                    {
+                        objOItem_Result = objLogStates.LogState_Success;
+                        objOItem_Result.Count = OList_ObjectRel.Count - objOList_ToSave.Count;
+                        objOItem_Result.Min = objOList_ToSave.Count;
+                        objOItem_Result.Max1 = OList_ObjectRel.Count;
+                    }
+                    else
+                    {
+                        objOItem_Result = objLogStates.LogState_Error;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    objOItem_Result = objLogStates.LogState_Error;
+                }
+            }
+            else
+            {
+                objOItem_Result = objLogStates.LogState_Nothing;
+                objOItem_Result.Count = OList_ObjectRel.Count - objOList_ToSave.Count;
+                objOItem_Result.Min = objOList_ToSave.Count;
+                objOItem_Result.Max1 = OList_ObjectRel.Count;
+            }
+
 
             return objOItem_Result;
         }

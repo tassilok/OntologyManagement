@@ -370,6 +370,7 @@ Public Class UserControl_OItemList
     Private Sub configure_TabPages()
 
         Timer_List.Stop()
+        Timer_Filter.Stop()
         Select Case TabControl1.SelectedTab.Name
             Case TabPage_List.Name
                 Try
@@ -377,8 +378,6 @@ Public Class UserControl_OItemList
                 Catch ex As Exception
 
                 End Try
-                objThread_List = New Threading.Thread(AddressOf get_Data)
-                boolFinished = False
                 BindingSource_Attribute.DataSource = Nothing
                 BindingSource_RelationType.DataSource = Nothing
                 BindingSource_Token.DataSource = Nothing
@@ -386,6 +385,10 @@ Public Class UserControl_OItemList
 
                 DataGridView_Items.DataSource = Nothing
 
+                boolFinished = False
+                objThread_List = New Threading.Thread(AddressOf get_Data)
+
+                
                 objThread_List.Start()
                 Timer_List.Start
 
@@ -420,6 +423,7 @@ Public Class UserControl_OItemList
 
     End Sub
 
+    
     Public Sub New(ByVal Globals As clsGlobals)
 
         ' This call is required by the designer.
@@ -623,7 +627,14 @@ Public Class UserControl_OItemList
                 End If
             End If
         End If
-        
+
+    End Sub
+
+    Private Sub DataGridView_Items_KeyDown(sender As Object, e As KeyEventArgs) Handles DataGridView_Items.KeyDown
+        If e.KeyCode = Keys.F5 Then
+            get_Data()
+            Timer_List.Start()
+        End If
     End Sub
 
     Private Sub DataGridView_Items_RowHeaderMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellMouseEventArgs) Handles DataGridView_Items.RowHeaderMouseDoubleClick
@@ -641,7 +652,7 @@ Public Class UserControl_OItemList
         objDRV_Selected = objDGVR_Selected.DataBoundItem
         objOItem_Selected.GUID = objDRV_Selected.Item(strRowName_GUID)
 
-        
+
 
         If Not objOItem_Parent Is Nothing Then
             objOItem_Selected.Name = objDRV_Selected.Item(strRowName_Name)
@@ -658,17 +669,17 @@ Public Class UserControl_OItemList
                 Case objLocalConfig.Globals.Type_RelationType
                     MsgBox("Implement: RelationType-Edit")
                 Case objLocalConfig.Globals.Type_Object
-                    objOLObjects.Add(objOItem_Selected)
+                    intRowID = objDGVR_Selected.Index
+
+                    'objOLObjects.Add(objOItem_Selected)
                     objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
-                                                           objOLObjects, _
-                                                           0, _
+                                                           DataGridView_Items.Rows, _
+                                                           intRowID, _
                                                            objLocalConfig.Globals.Type_Object, _
                                                            Nothing)
                     objFrm_ObjectEdit.ShowDialog(Me)
-                    If objFrm_ObjectEdit.DialogResult = DialogResult.OK Then
-
-                    End If
-
+                    get_Data()
+                    Timer_List.Start()
 
             End Select
         Else
@@ -687,7 +698,7 @@ Public Class UserControl_OItemList
                                 objOAItem_Value.ID_AttributeType = objDRV_Selected.Item("ID_AttributeType")
                                 objOAItem_Value.ID_Class = objDRV_Selected.Item("ID_Class")
                                 objOAItem_Value.ID_Object = objDRV_Selected.Item("ID_Object")
-                                objOAItem_Value.val_Named = objDlg_Attribute_Boolean.Value
+                                objOAItem_Value.Val_Named = objDlg_Attribute_Boolean.Value
                                 objOAItem_Value.Val_Bit = objDlg_Attribute_Boolean.Value
                                 objOAItem_Value.OrderID = objDRV_Selected.Item("OrderID")
                                 objOAItem_Value.ID_DataType = objDRV_Selected.Item("ID_DataType")
@@ -712,7 +723,7 @@ Public Class UserControl_OItemList
                                 objOAItem_Value.ID_AttributeType = objDRV_Selected.Item("ID_AttributeType")
                                 objOAItem_Value.ID_Class = objDRV_Selected.Item("ID_Class")
                                 objOAItem_Value.ID_Object = objDRV_Selected.Item("ID_Object")
-                                objOAItem_Value.val_Named = objDlg_Attribute_DateTime.Value
+                                objOAItem_Value.Val_Named = objDlg_Attribute_DateTime.Value
                                 objOAItem_Value.Val_Date = objDlg_Attribute_DateTime.Value
                                 objOAItem_Value.OrderID = objDRV_Selected.Item("OrderID")
                                 objOAItem_Value.ID_DataType = objDRV_Selected.Item("ID_DataType")
@@ -737,8 +748,8 @@ Public Class UserControl_OItemList
                                 objOAItem_Value.ID_AttributeType = objDRV_Selected.Item("ID_AttributeType")
                                 objOAItem_Value.ID_Class = objDRV_Selected.Item("ID_Class")
                                 objOAItem_Value.ID_Object = objDRV_Selected.Item("ID_Object")
-                                objOAItem_Value.val_Named = objDlg_Attribute_Long.Value
-                                objOAItem_Value.Val_lng = objDlg_Attribute_Long.Value
+                                objOAItem_Value.Val_Named = objDlg_Attribute_Long.Value
+                                objOAItem_Value.Val_Lng = objDlg_Attribute_Long.Value
                                 objOAItem_Value.OrderID = objDRV_Selected.Item("OrderID")
                                 objOAItem_Value.ID_DataType = objDRV_Selected.Item("ID_DataType")
 
@@ -762,7 +773,7 @@ Public Class UserControl_OItemList
                                 objOAItem_Value.ID_AttributeType = objDRV_Selected.Item("ID_AttributeType")
                                 objOAItem_Value.ID_Class = objDRV_Selected.Item("ID_Class")
                                 objOAItem_Value.ID_Object = objDRV_Selected.Item("ID_Object")
-                                objOAItem_Value.val_Named = objDlg_Attribute_Double.Value
+                                objOAItem_Value.Val_Named = objDlg_Attribute_Double.Value
                                 objOAItem_Value.Val_Double = objDlg_Attribute_Double.Value
                                 objOAItem_Value.OrderID = objDRV_Selected.Item("OrderID")
                                 objOAItem_Value.ID_DataType = objDRV_Selected.Item("ID_DataType")
@@ -787,7 +798,7 @@ Public Class UserControl_OItemList
                                 objOAItem_Value.ID_AttributeType = objDRV_Selected.Item("ID_AttributeType")
                                 objOAItem_Value.ID_Class = objDRV_Selected.Item("ID_Class")
                                 objOAItem_Value.ID_Object = objDRV_Selected.Item("ID_Object")
-                                objOAItem_Value.val_Named = objDlg_Attribute_String.Value
+                                objOAItem_Value.Val_Named = objDlg_Attribute_String.Value
                                 objOAItem_Value.Val_String = objDlg_Attribute_String.Value
                                 objOAItem_Value.OrderID = objDRV_Selected.Item("OrderID")
                                 objOAItem_Value.ID_DataType = objDRV_Selected.Item("ID_DataType")
@@ -816,7 +827,7 @@ Public Class UserControl_OItemList
                                                            Nothing)
                     objFrm_ObjectEdit.ShowDialog(Me)
                     If objFrm_ObjectEdit.DialogResult = DialogResult.OK Then
-                        
+
                     End If
                 Case objLocalConfig.Globals.Type_Other
                     Select Case objDRV_Selected.Item("Ontology")
@@ -832,7 +843,7 @@ Public Class UserControl_OItemList
                                                                  objDRV_Selected.Item("ID_Parent_Object"), _
                                                                  objLocalConfig.Globals.Type_Object))
                             End If
-                            
+
 
                             objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
                                                            objOLObjects, _
@@ -846,7 +857,7 @@ Public Class UserControl_OItemList
                     End Select
             End Select
         End If
-        
+
     End Sub
 
     Private Sub DataGridView_Items_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles DataGridView_Items.SelectionChanged
@@ -858,7 +869,7 @@ Public Class UserControl_OItemList
             objDGVR = DataGridView_Items.SelectedRows(0)
             objDRV = objDGVR.DataBoundItem
             ToolStripTextBox_GUID.Text = objDRV.Item(strRowName_GUID).ToString
-            
+
         Else
             ToolStripTextBox_GUID.Clear()
         End If
@@ -869,6 +880,7 @@ Public Class UserControl_OItemList
 
     Private Sub ToolStripTextBox_Filter_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripTextBox_Filter.TextChanged
         If ToolStripTextBox_Filter.ReadOnly = False Then
+            Timer_List.Stop()
             Timer_Filter.Stop()
             ToolStripButton_Filter.Checked = True
             Timer_Filter.Start()
@@ -877,13 +889,14 @@ Public Class UserControl_OItemList
 
     Private Sub Timer_Filter_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Filter.Tick
         Timer_Filter.Stop()
+        Timer_List.Stop()
         Filter_List()
     End Sub
 
     Public Sub Filter_Items(ByVal strFilter As String)
         strFilter_Extern = strFilter
         ToolStripTextBox_Filter.Text = strFilter
-        
+
     End Sub
 
     Private Sub Filter_List()
@@ -1352,11 +1365,11 @@ Public Class UserControl_OItemList
 
 
                                 If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
-                                    objOItem_ClipBoardEntry = New clsOntologyItem(Nothing, Nothing, objOItem_Other.GUID_Parent)
+                                    objOItem_ClipBoardEntry = New clsOntologyItem(Nothing, Nothing, objOItem_Other.GUID_Parent, objLocalConfig.Globals.Type_Object)
                                     objOItem_Class.GUID = objOItem_Other.GUID_Parent
                                     objOItem_Class.Type = objLocalConfig.Globals.Type_Class
                                 Else
-                                    objOItem_ClipBoardEntry = New clsOntologyItem(Nothing, Nothing, strGUID_Class)
+                                    objOItem_ClipBoardEntry = New clsOntologyItem(Nothing, Nothing, strGUID_Class, objLocalConfig.Globals.Type_Object)
                                     objOItem_Class.GUID = strGUID_Class
                                     objOItem_Class.Type = objLocalConfig.Globals.Type_Class
                                 End If
@@ -1364,40 +1377,57 @@ Public Class UserControl_OItemList
                                 boolOpenMain = True
 
                                 objFrm_Clipboard = New frmClipboard(objLocalConfig, objOItem_ClipBoardEntry)
+                                Dim objOLRel As New List(Of clsObjectRel)
                                 If objFrm_Clipboard.containedByClipboard() = True Then
                                     objFrm_Clipboard.ShowDialog(Me)
-                                End If
+                                    If objFrm_Clipboard.DialogResult = DialogResult.OK Then
+                                        For Each objDGVR_Selected As DataGridViewRow In objFrm_Clipboard.selectedRows
+                                            objOLRel.Add(objDGVR_Selected.DataBoundItem)
 
-                                objFrm_Main = New frmMain(objLocalConfig, objLocalConfig.Globals.Type_Class, objOItem_Class)
-                                objFrm_Main.ShowDialog(Me)
-                                If objFrm_Main.DialogResult = DialogResult.OK Then
-                                    If objFrm_Main.Type_Applied = objLocalConfig.Globals.Type_Object Then
-                                        oList_Simple = objFrm_Main.OList_Simple
-                                        boolAdd = True
-
-                                        Dim oLSel = From obj In oList_Simple
-                                                    Group By obj.GUID_Parent Into Group
-
-                                        For Each oSel In oLSel
-                                            If Not oSel.GUID_Parent = objOItem_Class.GUID Then
-                                                boolAdd = False
-                                                Exit For
-                                            End If
                                         Next
-
-                                    Else
-                                        MsgBox("Bitte nur Objekte auswählen!", MsgBoxStyle.Information)
                                     End If
-
-
                                 End If
+
+                                If Not objOLRel.Any Then
+                                    objFrm_Main = New frmMain(objLocalConfig, objLocalConfig.Globals.Type_Class, objOItem_Class)
+                                    objFrm_Main.ShowDialog(Me)
+                                    If objFrm_Main.DialogResult = DialogResult.OK Then
+                                        If objFrm_Main.Type_Applied = objLocalConfig.Globals.Type_Object Then
+                                            oList_Simple = objFrm_Main.OList_Simple
+                                            boolAdd = True
+
+                                            Dim oLSel = From obj In oList_Simple
+                                                        Group By obj.GUID_Parent Into Group
+
+                                            For Each oSel In oLSel
+                                                If Not oSel.GUID_Parent = objOItem_Class.GUID Then
+                                                    boolAdd = False
+                                                    Exit For
+                                                End If
+                                            Next
+
+                                        Else
+                                            MsgBox("Bitte nur Objekte auswählen!", MsgBoxStyle.Information)
+                                        End If
+
+
+                                    End If
+                                Else
+                                    oList_Simple = (From objORel In objOLRel
+                                                    Select New clsOntologyItem With {.GUID = objORel.ID_Other, _
+                                                                                     .Name = objORel.Name_Other, _
+                                                                                     .GUID_Parent = objORel.ID_Parent_Other, _
+                                                                                     .Type = objLocalConfig.Globals.Type_Object}).ToList()
+                                    boolAdd = True
+                                End If
+                                
                         End Select
                     End If
-                    
+
 
                     If boolAdd = True Then
                         For Each oItem_Obj In oList_Simple
-                            If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID 
+                            If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
                                 oList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, objOItem_Object.GUID_Parent, oItem_Obj.GUID, oItem_Obj.GUID_Parent, objOItem_RelationType.GUID, oItem_Obj.Type, Nothing, 1))
 
                             Else
@@ -1423,7 +1453,7 @@ Public Class UserControl_OItemList
 
         End If
     End Sub
-    
+
 
     Private Sub ToolStripButton_DelItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_DelItem.Click
         Dim objDGVR_Selected As DataGridViewRow
@@ -1439,7 +1469,7 @@ Public Class UserControl_OItemList
 
             If Not objOItem_Parent Is Nothing Then
 
-                
+
                 oList_Simple.Add(New clsOntologyItem(objDRV_Selected.Item("ID_Item"), objOItem_Parent.Type))
 
 
@@ -1454,7 +1484,7 @@ Public Class UserControl_OItemList
                                                         Nothing, _
                                                         Nothing, _
                                                         Nothing))
-                    
+
                     Case objLocalConfig.Globals.Type_Other
                         oList_ORel.Add(New clsObjectRel(objDRV_Selected.Item("ID_Object"), _
                                                             Nothing, _
@@ -1465,8 +1495,8 @@ Public Class UserControl_OItemList
                                                             Nothing, _
                                                             Nothing))
                 End Select
-                
-              
+
+
 
             End If
 
@@ -1479,33 +1509,33 @@ Public Class UserControl_OItemList
                     objOItem_Result = objDBLevel.del_AttributeType(oList_Simple)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                         If objOItem_Result.Count > 0 Then
-                            MsgBox("Es konnten nur " & objOItem_Result.Min & " von " & objOItem_Result.Max1 & " Items gelöscht werden!",MsgBoxStyle.Information)
+                            MsgBox("Es konnten nur " & objOItem_Result.Min & " von " & objOItem_Result.Max1 & " Items gelöscht werden!", MsgBoxStyle.Information)
                         End If
-                        
-                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID then
-                        MsgBox("Beim Löschen ist ein Fehler aufgetreten!",MsgBoxStyle.Exclamation)
+
+                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        MsgBox("Beim Löschen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
                     End If
                     get_Data()
                 ElseIf oList_Simple(0).Type = objLocalConfig.Globals.Type_Object Then
                     objOItem_Result = objDBLevel.del_Objects(oList_Simple)
-                    If objOItem_Result.Count > 0  Then
-                        MsgBox("Es konnten nur " & objOItem_Result.Min & " von " & objOItem_Result.Max1 & " Items gelöscht werden!",MsgBoxStyle.Information)
-                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID then
-                        MsgBox("Beim Löschen ist ein Fehler aufgetreten!",MsgBoxStyle.Exclamation)
+                    If objOItem_Result.Count > 0 Then
+                        MsgBox("Es konnten nur " & objOItem_Result.Min & " von " & objOItem_Result.Max1 & " Items gelöscht werden!", MsgBoxStyle.Information)
+                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        MsgBox("Beim Löschen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
                     End If
                     get_Data()
                 ElseIf oList_Simple(0).Type = objLocalConfig.Globals.Type_RelationType Then
                     objOItem_Result = objDBLevel.del_RelationTypes(oList_Simple)
-                    If objOItem_Result.Count > 0  Then
-                        MsgBox("Es konnten nur " & objOItem_Result.Min & " von " & objOItem_Result.Max1 & " Items gelöscht werden!",MsgBoxStyle.Information)
-                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID then
-                        MsgBox("Beim Löschen ist ein Fehler aufgetreten!",MsgBoxStyle.Exclamation)
+                    If objOItem_Result.Count > 0 Then
+                        MsgBox("Es konnten nur " & objOItem_Result.Min & " von " & objOItem_Result.Max1 & " Items gelöscht werden!", MsgBoxStyle.Information)
+                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        MsgBox("Beim Löschen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
                     End If
                     get_Data()
                 End If
 
 
-                
+
 
 
             End If
@@ -1591,7 +1621,7 @@ Public Class UserControl_OItemList
             End If
             ToClipboardToolStripMenuItem.Enabled = True
         End If
-        
+
 
     End Sub
 
@@ -1640,8 +1670,8 @@ Public Class UserControl_OItemList
 
 
                         Case objLocalConfig.Globals.Type_Other
-                        
-                        
+
+
                     End Select
 
                 End If
@@ -1757,14 +1787,14 @@ Public Class UserControl_OItemList
 
 
                     Case objLocalConfig.Globals.Type_Other
-                        
+
                         If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
                             strClipboard = objDRV_Selected.Item("name_other")
 
-                            
+
                         Else
                             strClipboard = objDRV_Selected.Item("name_object")
-                            
+
                         End If
 
 

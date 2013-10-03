@@ -35,7 +35,7 @@ Public Class clsOntologyClipboard
                                                    Nothing, _
                                                    Nothing))
             Case objLocalConfig.Globals.Type_Class
-                objOItem_RelationType = objLocalConfig.Globals.RelationType_belongingObject
+                objOItem_RelationType = objLocalConfig.Globals.RelationType_belongingClass
 
                 objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
                                                    Nothing, _
@@ -46,7 +46,7 @@ Public Class clsOntologyClipboard
                                                    Nothing, _
                                                    Nothing))
             Case objLocalConfig.Globals.Type_Object
-                objOItem_RelationType = objLocalConfig.Globals.RelationType_belongingClass
+                objOItem_RelationType = objLocalConfig.Globals.RelationType_belongingObject
 
                 objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
                                                    Nothing, _
@@ -334,8 +334,8 @@ Public Class clsOntologyClipboard
 
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
 
-                    For Each objBaseConfig_To_Ref In objLBaseConfig_To_Ref
-                        objLResult.Add(objBaseConfig_To_Ref)
+                    For Each objRef In objDBLevel.OList_ObjectRel
+                        objLResult.Add(objRef)
                     Next
                 Else
                     objLResult.Clear()
@@ -355,8 +355,8 @@ Public Class clsOntologyClipboard
 
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
 
-                    For Each objBaseConfig_To_Ref In objLBaseConfig_To_Ref
-                        objLResult.Add(objBaseConfig_To_Ref)
+                    For Each objRef In objDBLevel.OList_ObjectRel
+                        objLResult.Add(objRef)
                     Next
                 Else
                     objLResult.Clear()
@@ -376,8 +376,8 @@ Public Class clsOntologyClipboard
 
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
 
-                    For Each objBaseConfig_To_Ref In objLBaseConfig_To_Ref
-                        objLResult.Add(objBaseConfig_To_Ref)
+                    For Each objRef In objDBLevel.OList_ObjectRel
+                        objLResult.Add(objRef)
                     Next
                 Else
                     objLResult.Clear()

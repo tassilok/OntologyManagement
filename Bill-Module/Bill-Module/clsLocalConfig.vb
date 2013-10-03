@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class clsLocalConfig
     Private Const cint_ImageID_Bill As Integer = 0
     Private Const cint_ImageID_PartialBill As Integer = 1
@@ -706,7 +707,7 @@ Public Class clsLocalConfig
                                                  Nothing, _
                                                  objOItem_Class_Bill_Module.GUID, _
                                                  Nothing, _
-                                                 objDBLevel_Config1.OList_ObjectRel_ID(0).ID_Object, _
+                                                 objOItem_Module.GUID, _
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing, _

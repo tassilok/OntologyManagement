@@ -1,5 +1,6 @@
 ﻿Imports Ontolog_Module
 Imports BankTransaction_Module
+Imports OntologyClasses.BaseClasses
 Public Class UserControl_BillTree
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_BaseConfig As clsDataWork_BaseConfig

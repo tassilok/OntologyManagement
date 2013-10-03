@@ -224,7 +224,7 @@ Public Class UserControl_PDFList
                 strFileName = IO.Path.GetFileName(strPath)
                 objOItem_PDF = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
                                                          .Name = strFileName, _
-                                                         .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
+                                                         .GUID_Parent = objLocalConfig.OItem_Type_PDF_Documents.GUID, _
                                                          .Type = objLocalConfig.Globals.Type_Object}
 
                 objOItem_File = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _

@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class clsTransaction_Documents
     Private objLocalConfig As clsLocalConfig
     Private objDBLevel_Document As clsDBLevel

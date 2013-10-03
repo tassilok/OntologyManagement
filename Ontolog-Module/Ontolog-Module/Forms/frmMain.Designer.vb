@@ -102,6 +102,7 @@ Partial Class frmMain
         Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReportsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SyncToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OntologyConfiguratorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip_TokAtt = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.EditToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.CopyValToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -129,7 +130,6 @@ Partial Class frmMain
         Me.Timer_TokenAttribute = New System.Windows.Forms.Timer(Me.components)
         Me.BindingSource_TokenRel = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_TokenAtt = New System.Windows.Forms.BindingSource(Me.components)
-        Me.OntologyConfiguratorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.LeftToolStripPanel.SuspendLayout()
@@ -987,6 +987,12 @@ Partial Class frmMain
         Me.SyncToolStripMenuItem.Size = New System.Drawing.Size(109, 22)
         Me.SyncToolStripMenuItem.Text = "x_Sync"
         '
+        'OntologyConfiguratorToolStripMenuItem
+        '
+        Me.OntologyConfiguratorToolStripMenuItem.Name = "OntologyConfiguratorToolStripMenuItem"
+        Me.OntologyConfiguratorToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
+        Me.OntologyConfiguratorToolStripMenuItem.Text = "x_Ontology-Configurator"
+        '
         'ContextMenuStrip_TokAtt
         '
         Me.ContextMenuStrip_TokAtt.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditToolStripMenuItem1, Me.RelateToolStripMenuItem1, Me.DeleteToolStripMenuItem1})
@@ -1137,12 +1143,6 @@ Partial Class frmMain
         'Timer_TokenAttribute
         '
         Me.Timer_TokenAttribute.Interval = 300
-        '
-        'OntologyConfiguratorToolStripMenuItem
-        '
-        Me.OntologyConfiguratorToolStripMenuItem.Name = "OntologyConfiguratorToolStripMenuItem"
-        Me.OntologyConfiguratorToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
-        Me.OntologyConfiguratorToolStripMenuItem.Text = "x_Ontology-Configurator"
         '
         'frmMain
         '

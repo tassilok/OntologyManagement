@@ -28,6 +28,7 @@ Partial Class UserControl_ObjectRel
         Me.ToolStripLabel_RelCountLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_RelCount = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripProgressBar_TokenRelation = New System.Windows.Forms.ToolStripProgressBar()
+        Me.DataGridView_Relations = New System.Windows.Forms.DataGridView()
         Me.ContextMenuStrip_TokRel = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SetOrderIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -53,16 +54,15 @@ Partial Class UserControl_ObjectRel
         Me.ToolStripButton_DelTokenRel = New System.Windows.Forms.ToolStripButton()
         Me.Timer_TokenRelation = New System.Windows.Forms.Timer(Me.components)
         Me.BindingSource_ObjectRel = New System.Windows.Forms.BindingSource(Me.components)
-        Me.DataGridView_Relations = New System.Windows.Forms.DataGridView()
         Me.ToolStripContainer2.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer2.ContentPanel.SuspendLayout()
         Me.ToolStripContainer2.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer2.SuspendLayout()
         Me.ToolStrip4.SuspendLayout()
+        CType(Me.DataGridView_Relations, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip_TokRel.SuspendLayout()
         Me.ToolStrip5.SuspendLayout()
         CType(Me.BindingSource_ObjectRel, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DataGridView_Relations, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ToolStripContainer2
@@ -115,17 +115,30 @@ Partial Class UserControl_ObjectRel
         Me.ToolStripProgressBar_TokenRelation.Name = "ToolStripProgressBar_TokenRelation"
         Me.ToolStripProgressBar_TokenRelation.Size = New System.Drawing.Size(100, 22)
         '
+        'DataGridView_Relations
+        '
+        Me.DataGridView_Relations.AllowUserToAddRows = False
+        Me.DataGridView_Relations.AllowUserToDeleteRows = False
+        Me.DataGridView_Relations.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView_Relations.ContextMenuStrip = Me.ContextMenuStrip_TokRel
+        Me.DataGridView_Relations.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView_Relations.Location = New System.Drawing.Point(0, 0)
+        Me.DataGridView_Relations.Name = "DataGridView_Relations"
+        Me.DataGridView_Relations.ReadOnly = True
+        Me.DataGridView_Relations.Size = New System.Drawing.Size(505, 436)
+        Me.DataGridView_Relations.TabIndex = 0
+        '
         'ContextMenuStrip_TokRel
         '
         Me.ContextMenuStrip_TokRel.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditToolStripMenuItem, Me.FilterToolStripMenuItem, Me.RelateToolStripMenuItem, Me.DeleteToolStripMenuItem})
         Me.ContextMenuStrip_TokRel.Name = "ContextMenuStrip_TokRel"
-        Me.ContextMenuStrip_TokRel.Size = New System.Drawing.Size(107, 92)
+        Me.ContextMenuStrip_TokRel.Size = New System.Drawing.Size(153, 114)
         '
         'EditToolStripMenuItem
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SetOrderIDToolStripMenuItem, Me.SetRelationTypeToolStripMenuItem, Me.ModuleEditToolStripMenuItem, Me.ModuleMenuToolStripMenuItem, Me.CopyValToolStripMenuItem1})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.EditToolStripMenuItem.Text = "Edit"
         '
         'SetOrderIDToolStripMenuItem
@@ -174,7 +187,7 @@ Partial Class UserControl_ObjectRel
         '
         Me.FilterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EqualToolStripMenuItem, Me.DifferentToolStripMenuItem, Me.ContainsToolStripMenuItem, Me.GreaterToolStripMenuItem, Me.LessThanToolStripMenuItem, Me.ClearFilterToolStripMenuItem})
         Me.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem"
-        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
+        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.FilterToolStripMenuItem.Text = "Filter"
         '
         'EqualToolStripMenuItem
@@ -222,13 +235,13 @@ Partial Class UserControl_ObjectRel
         'RelateToolStripMenuItem
         '
         Me.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem"
-        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
+        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.RelateToolStripMenuItem.Text = "Relate"
         '
         'DeleteToolStripMenuItem
         '
         Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.DeleteToolStripMenuItem.Text = "delete"
         '
         'ToolStrip5
@@ -265,19 +278,6 @@ Partial Class UserControl_ObjectRel
         '
         Me.Timer_TokenRelation.Interval = 300
         '
-        'DataGridView_Relations
-        '
-        Me.DataGridView_Relations.AllowUserToAddRows = False
-        Me.DataGridView_Relations.AllowUserToDeleteRows = False
-        Me.DataGridView_Relations.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView_Relations.ContextMenuStrip = Me.ContextMenuStrip_TokRel
-        Me.DataGridView_Relations.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView_Relations.Location = New System.Drawing.Point(0, 0)
-        Me.DataGridView_Relations.Name = "DataGridView_Relations"
-        Me.DataGridView_Relations.ReadOnly = True
-        Me.DataGridView_Relations.Size = New System.Drawing.Size(505, 436)
-        Me.DataGridView_Relations.TabIndex = 0
-        '
         'UserControl_ObjectRel
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -294,11 +294,11 @@ Partial Class UserControl_ObjectRel
         Me.ToolStripContainer2.PerformLayout()
         Me.ToolStrip4.ResumeLayout(False)
         Me.ToolStrip4.PerformLayout()
+        CType(Me.DataGridView_Relations, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ContextMenuStrip_TokRel.ResumeLayout(False)
         Me.ToolStrip5.ResumeLayout(False)
         Me.ToolStrip5.PerformLayout()
         CType(Me.BindingSource_ObjectRel, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DataGridView_Relations, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub

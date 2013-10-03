@@ -5,6 +5,7 @@ using System.Text;
 using Ontolog_Module;
 using Filesystem_Module;
 using System.IO;
+using OntologyClasses.BaseClasses;
 
 namespace Office_Module
 {
@@ -286,7 +287,7 @@ namespace Office_Module
 
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    if (objOItem_Template_File.Mark)
+                    if (objOItem_Template_File.Mark ?? false)
                     {
                         objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_Template_File, objOItem_Template_File.Additional1, true);
                     }

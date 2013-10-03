@@ -35,6 +35,7 @@ Partial Class frmClipboard
         'Button_Apply
         '
         Me.Button_Apply.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button_Apply.Enabled = False
         Me.Button_Apply.Location = New System.Drawing.Point(43, 231)
         Me.Button_Apply.Name = "Button_Apply"
         Me.Button_Apply.Size = New System.Drawing.Size(75, 23)
@@ -45,6 +46,7 @@ Partial Class frmClipboard
         'Button_Clear
         '
         Me.Button_Clear.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button_Clear.Enabled = False
         Me.Button_Clear.Location = New System.Drawing.Point(124, 231)
         Me.Button_Clear.Name = "Button_Clear"
         Me.Button_Clear.Size = New System.Drawing.Size(75, 23)
@@ -67,8 +69,8 @@ Partial Class frmClipboard
         Me.DataGridView_Items.AllowUserToAddRows = False
         Me.DataGridView_Items.AllowUserToDeleteRows = False
         Me.DataGridView_Items.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView_Items.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView_Items.Location = New System.Drawing.Point(5, 6)
         Me.DataGridView_Items.Name = "DataGridView_Items"

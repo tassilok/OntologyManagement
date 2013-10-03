@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class clsDataWork_Documents
     Private objLocalConfig As clsLocalConfig
     Private objDBLevel_FinancialTransactions_To_Document As clsDBLevel
@@ -172,6 +173,42 @@ Public Class clsDataWork_Documents
 
         objOItem_Result_Refs = objOItem_Result
     End Sub
+
+    Public Function Rel_FinancialTransaction_To_Document(OItem_FinancialTransaction As clsOntologyItem, OItem_Document As clsOntologyItem) As clsObjectRel
+        Dim objOR_FinancialTransaction_To_Document = New clsObjectRel With {.ID_Object = OItem_FinancialTransaction.GUID, _
+                                                                            .ID_Parent_Object = OItem_FinancialTransaction.GUID_Parent, _
+                                                                            .ID_Other = OItem_Document.GUID, _
+                                                                            .ID_Parent_Other = OItem_Document.GUID_Parent, _
+                                                                            .OrderID = 1, _
+                                                                            .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID, _
+                                                                            .Ontology = objLocalConfig.Globals.Type_Object}
+
+        Return objOR_FinancialTransaction_To_Document
+    End Function
+
+    Public Function Rel_Document_To_Container(OItem_Document As clsOntologyItem, OItem_Container As clsOntologyItem) As clsObjectRel
+        Dim objOR_Document_To_Container = New clsObjectRel With {.ID_Object = OItem_Document.GUID, _
+                                                                            .ID_Parent_Object = OItem_Document.GUID_Parent, _
+                                                                            .ID_Other = OItem_Container.GUID, _
+                                                                            .ID_Parent_Other = OItem_Container.GUID_Parent, _
+                                                                            .OrderID = 1, _
+                                                                            .ID_RelationType = objLocalConfig.OItem_RelationType_located_in.GUID, _
+                                                                            .Ontology = objLocalConfig.Globals.Type_Object}
+
+        Return objOR_Document_To_Container
+    End Function
+
+    Public Function Rel_Document_To_Belegsart(OItem_Document As clsOntologyItem, OItem_Belegsart As clsOntologyItem) As clsObjectRel
+        Dim objOR_Document_To_Belegsart = New clsObjectRel With {.ID_Object = OItem_Document.GUID, _
+                                                                            .ID_Parent_Object = OItem_Document.GUID_Parent, _
+                                                                            .ID_Other = OItem_Belegsart.GUID, _
+                                                                            .ID_Parent_Other = OItem_Belegsart.GUID_Parent, _
+                                                                            .OrderID = 1, _
+                                                                            .ID_RelationType = objLocalConfig.OItem_RelationType_is_of_Type.GUID, _
+                                                                            .Ontology = objLocalConfig.Globals.Type_Object}
+
+        Return objOR_Document_To_Belegsart
+    End Function
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig

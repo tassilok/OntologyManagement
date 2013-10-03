@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class clsDataWork_CommunicationData
     Private objLocalConfig As clsLocalConfig
 
@@ -45,9 +46,9 @@ Public Class clsDataWork_CommunicationData
                     objOItem_CommunicationData = Nothing
                 End If
             Else
-                objOItem_CommunicationData = New clsOntologyItem(objDBLevel_CommunicationData.OList_ObjectRel_ID(0).ID_Object, _
-                                                                 objDBLevel_CommunicationData.OList_ObjectRel_ID(0).Name_Object, _
-                                                                 objDBLevel_CommunicationData.OList_ObjectRel_ID(0).ID_Parent_Object, _
+                objOItem_CommunicationData = New clsOntologyItem(objDBLevel_CommunicationData.OList_ObjectRel(0).ID_Object, _
+                                                                 objDBLevel_CommunicationData.OList_ObjectRel(0).Name_Object, _
+                                                                 objDBLevel_CommunicationData.OList_ObjectRel(0).ID_Parent_Object, _
                                                                  objLocalConfig.Globals.Type_Object)
 
             End If

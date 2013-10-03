@@ -202,6 +202,7 @@ Public Class frm_Name
             Me.Height = Me.Height + 100
             TextBox_Name.Multiline = True
             TextBox_Name.Height = TextBox_Name.Height + 100
+            TextBox_Name.MaxLength = 1000000
             TextBox_Name.ScrollBars = ScrollBars.Vertical
             boolList = True
         Else

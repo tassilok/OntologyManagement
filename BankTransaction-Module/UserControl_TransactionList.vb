@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class UserControl_TransactionList
 
     Private objLocalConfig As clsLocalConfig
@@ -8,6 +9,8 @@ Public Class UserControl_TransactionList
     Private objOItem_Class_BankTransaction As clsOntologyItem
     Private objTransaction_Import As clsTransaction_Import
     Private boolApply As Boolean = False
+
+    Private objFrm_ObjectEdit As frm_ObjectEdit
 
     Public Event Close()
     Public Event Apply(ByVal OList_Transaction As List(Of DataRowView))
@@ -417,5 +420,20 @@ Public Class UserControl_TransactionList
         Next
 
         RaiseEvent Apply(objOList_Transactions)
+    End Sub
+
+    Private Sub DataGridView_Transactions_RowHeaderMouseDoubleClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView_Transactions.RowHeaderMouseDoubleClick
+        Dim objDGVR_Selected = DataGridView_Transactions.Rows(e.RowIndex)
+        Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+        Dim objOList_BankTransaction = New List(Of clsOntologyItem)
+        objOList_BankTransaction.Add(New clsOntologyItem With {.GUID = objDRV_Selected.Item("GUID_BankTransaction"), _
+                                                                 .Name = objDRV_Selected.Item("Name_BankTransaction"), _
+                                                                 .GUID_Parent = objLocalConfig.OItem_Type_Bank_Transaktionen__Sparkasse_.GUID, _
+                                                                 .Type = objLocalConfig.Globals.Type_Object})
+
+
+        objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList_BankTransaction, 0, objLocalConfig.Globals.Type_Object, Nothing)
+        objFrm_ObjectEdit.ShowDialog(Me)
+
     End Sub
 End Class

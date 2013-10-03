@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Ontolog_Module;
+using OntologyClasses.BaseClasses;
 
 namespace Office_Module
 {
@@ -158,7 +159,7 @@ namespace Office_Module
             else
             {
                 objSubNodes = (from obj in objLocalConfig.DataWork_Documents.OList_Classes
-                               where obj.GUID_Parent == null
+                               where obj.GUID_Parent == null || obj.GUID_Parent == ""
                                orderby obj.Name
                                select new clsOntologyItem
                                {
@@ -199,6 +200,11 @@ namespace Office_Module
                     objUserControl_Documents.Initialize_Documents(objLocalConfig.DataWork_Documents, objOItem_Ref);
                 }
             }
+        }
+
+        private void NewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

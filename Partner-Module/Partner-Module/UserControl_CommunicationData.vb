@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class UserControl_CommunicationData
 
     Private Const cstr_TabPage_TelFax As String = "x_Tel(@NR_1@)/x_Fax(@NR_2@)"

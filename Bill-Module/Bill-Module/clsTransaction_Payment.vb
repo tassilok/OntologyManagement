@@ -1,4 +1,6 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class clsTransaction_Payment
     Dim objLocalConfig As clsLocalConfig
     Dim objDBLevel_Payment As clsDBLevel

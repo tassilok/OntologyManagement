@@ -1,5 +1,6 @@
 ﻿Imports Ontolog_Module
 Imports Filesystem_Module
+Imports OntologyClasses.BaseClasses
 Public Class clsDataWork_BankTransactions
 
     Private dtblT_Banktransactions As DataSet_Transactions.dtbl_BanktransactionsDataTable

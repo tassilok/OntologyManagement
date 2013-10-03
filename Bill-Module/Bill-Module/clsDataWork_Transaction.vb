@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class clsDataWork_Transaction
     Private objLocalConfig As clsLocalConfig
 
@@ -460,6 +461,101 @@ Public Class clsDataWork_Transaction
         objOItem_Result_Contractor = objDBLevel_Contractor.get_Data_ObjectRel(objOList_Contractor, _
                                                                               boolIDs:=False)
     End Sub
+    Public Function Rel_FinancialTransaction__TransactionDate(OItem_FinancialTransaction As clsOntologyItem, dateTransaction As Date) As clsObjectAtt
+        Dim objOA_FinancialTransaction__TransactionDate = New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_Transaction_Date.GUID, _
+                                                                                 .ID_DataType = objLocalConfig.Globals.DType_DateTime.GUID, _
+                                                                                 .ID_Object = OItem_FinancialTransaction.GUID, _
+                                                                                 .ID_Class = OItem_FinancialTransaction.GUID_Parent, _
+                                                                                 .Val_Named = dateTransaction.ToString, _
+                                                                                 .Val_Date = dateTransaction, _
+                                                                                 .OrderID = 1}
+
+        Return objOA_FinancialTransaction__TransactionDate
+    End Function
+
+    Public Function Rel_FinancialTransaction__TransactionId(OItem_FinancialTransaction As clsOntologyItem, strTransactionId As String) As clsObjectAtt
+        Dim objOA_FinancialTransaction__TransactionId = New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_Transaction_ID.GUID, _
+                                                                                 .ID_DataType = objLocalConfig.Globals.DType_String.GUID, _
+                                                                                 .ID_Object = OItem_FinancialTransaction.GUID, _
+                                                                                 .ID_Class = OItem_FinancialTransaction.GUID_Parent, _
+                                                                                 .Val_Named = strTransactionId, _
+                                                                                 .Val_String = strTransactionId, _
+                                                                                 .OrderID = 1}
+
+        Return objOA_FinancialTransaction__TransactionId
+    End Function
+
+    Public Function Rel_FinancialTransaction__Sum(OItem_FinancialTransaction As clsOntologyItem, dblSum As Double) As clsObjectAtt
+        Dim objOA_FinancialTransaction__TransactionId = New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_to_Pay.GUID, _
+                                                                                 .ID_DataType = objLocalConfig.Globals.DType_Real.GUID, _
+                                                                                 .ID_Object = OItem_FinancialTransaction.GUID, _
+                                                                                 .ID_Class = OItem_FinancialTransaction.GUID_Parent, _
+                                                                                 .Val_Named = dblSum.ToString, _
+                                                                                 .Val_Double = dblSum, _
+                                                                                 .OrderID = 1}
+
+        Return objOA_FinancialTransaction__TransactionId
+    End Function
+
+    Public Function Rel_FinancialTransaction_To_Currency(OItem_FinancialTransaction As clsOntologyItem, OItem_Currency As clsOntologyItem) As clsObjectRel
+        Dim objOR_FinancialTransaction_To_Currency = New clsObjectRel With {.ID_Object = OItem_FinancialTransaction.GUID, _
+                                                                            .ID_Parent_Object = OItem_FinancialTransaction.GUID_Parent, _
+                                                                            .ID_Other = OItem_Currency.GUID, _
+                                                                            .ID_Parent_Other = OItem_Currency.GUID_Parent, _
+                                                                            .OrderID = 1, _
+                                                                            .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Currency.GUID, _
+                                                                            .Ontology = objLocalConfig.Globals.Type_Object}
+
+        Return objOR_FinancialTransaction_To_Currency
+    End Function
+
+    Public Function Rel_FinancialTransaction__Gross(OItem_FinancialTransaction As clsOntologyItem, boolGross As Boolean) As clsObjectAtt
+        Dim objOA_FinancialTransaction__Gross = New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_gross.GUID, _
+                                                                                 .ID_DataType = objLocalConfig.Globals.DType_Bool.GUID, _
+                                                                                 .ID_Object = OItem_FinancialTransaction.GUID, _
+                                                                                 .ID_Class = OItem_FinancialTransaction.GUID_Parent, _
+                                                                                 .Val_Named = boolGross.ToString, _
+                                                                                 .Val_Bit = boolGross, _
+                                                                                 .OrderID = 1}
+
+        Return objOA_FinancialTransaction__Gross
+    End Function
+
+    Public Function Rel_FinancialTransaction_To_TaxRate(OItem_FinancialTransaction As clsOntologyItem, OItem_TaxRate As clsOntologyItem) As clsObjectRel
+        Dim objOR_FinancialTransaction_To_TaxRate = New clsObjectRel With {.ID_Object = OItem_FinancialTransaction.GUID, _
+                                                                            .ID_Parent_Object = OItem_FinancialTransaction.GUID_Parent, _
+                                                                            .ID_Other = OItem_TaxRate.GUID, _
+                                                                            .ID_Parent_Other = OItem_TaxRate.GUID_Parent, _
+                                                                            .OrderID = 1, _
+                                                                            .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Tax_Rate.GUID, _
+                                                                            .Ontology = objLocalConfig.Globals.Type_Object}
+
+        Return objOR_FinancialTransaction_To_TaxRate
+    End Function
+
+    Public Function Rel_FinancialTransaction_To_Partner(OItem_FinancialTransaction As clsOntologyItem, OItem_Partner As clsOntologyItem, OItem_RelationType As clsOntologyItem) As clsObjectRel
+        Dim objOR_FinancialTransaction_To_Partner = New clsObjectRel With {.ID_Object = OItem_FinancialTransaction.GUID, _
+                                                                            .ID_Parent_Object = OItem_FinancialTransaction.GUID_Parent, _
+                                                                            .ID_Other = OItem_Partner.GUID, _
+                                                                            .ID_Parent_Other = OItem_Partner.GUID_Parent, _
+                                                                            .OrderID = 1, _
+                                                                            .ID_RelationType = OItem_RelationType.GUID, _
+                                                                            .Ontology = objLocalConfig.Globals.Type_Object}
+
+        Return objOR_FinancialTransaction_To_Partner
+    End Function
+
+    Public Function Rel_FinancialTransaction_To_Amount(OItem_FinancialTransaction As clsOntologyItem, OItem_Amount As clsOntologyItem) As clsObjectRel
+        Dim objOR_FinancialTransaction_To_Amount = New clsObjectRel() With {.ID_Object = OItem_FinancialTransaction.GUID, _
+                                                                        .ID_Parent_Object = OItem_FinancialTransaction.GUID_Parent, _
+                                                                        .ID_Other = OItem_Amount.GUID, _
+                                                                        .ID_Parent_Other = OItem_Amount.GUID_Parent, _
+                                                                        .Ontology = objLocalConfig.Globals.Type_Object, _
+                                                                        .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Amount.GUID, _
+                                                                        .OrderID = 1}
+
+        Return objOR_FinancialTransaction_To_Amount
+    End Function
 
     Private Sub set_DBConnection()
         objDBLevel_Contractee = New clsDBLevel(objLocalConfig.Globals)

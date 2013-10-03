@@ -90,4 +90,32 @@ Public Class UserControl_ObjectAtt
             ToolStripProgressBar_ObjectAtt.Value = 50
         End If
     End Sub
+
+    Private Sub ContextMenuStrip_Items_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Items.Opening
+        CopyValueToolStripMenuItem.Enabled = False
+        If DataGridView_ObjectAtt.SelectedRows.Count = 1 Then
+            CopyValueToolStripMenuItem.Enabled = True
+        End If
+    End Sub
+
+    Private Sub CopyValueToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CopyValueToolStripMenuItem.Click
+        Dim objDGVR_Selected = If(DataGridView_ObjectAtt.SelectedRows.Count = 1, DataGridView_ObjectAtt.SelectedRows(0), Nothing)
+
+        If Not objDGVR_Selected Is Nothing Then
+            Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+
+            Select Case objDRV_Selected.Item("ID_DataType")
+                Case objLocalConfig.Globals.DType_Bool.GUID
+                    Clipboard.SetDataObject(objDRV_Selected.Item(objLocalConfig.Globals.Field_Val_Bool))
+                Case objLocalConfig.Globals.DType_DateTime.GUID
+                    Clipboard.SetDataObject(objDRV_Selected.Item(objLocalConfig.Globals.Field_Val_Datetime))
+                Case objLocalConfig.Globals.DType_Int.GUID
+                    Clipboard.SetDataObject(objDRV_Selected.Item(objLocalConfig.Globals.Field_Val_Int))
+                Case objLocalConfig.Globals.DType_Real.GUID
+                    Clipboard.SetDataObject(objDRV_Selected.Item(objLocalConfig.Globals.Field_Val_Real))
+                Case objLocalConfig.Globals.DType_String.GUID
+                    Clipboard.SetDataObject(objDRV_Selected.Item(objLocalConfig.Globals.Field_Val_String))
+            End Select
+        End If
+    End Sub
 End Class

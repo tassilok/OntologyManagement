@@ -1,12 +1,13 @@
 ﻿Imports Ontolog_Module
 Imports Media_Viewer_Module
+Imports OntologyClasses.BaseClasses
 Public Class UserControl_Documents
     Private objLocalConfig As clsLocalConfig
 
     Private objDataWork_Documents As clsDataWork_Documents
     Private objDataWork_PDF As clsDataWork_PDF
 
-    Private objTransaction_Documents As clsTransaction_Documents
+    Private objTransaction_Documents As clsTransaction
 
     Private objOLDocuments As List(Of clsDocument)
 
@@ -120,7 +121,7 @@ Public Class UserControl_Documents
     Private Sub set_DBConnection()
         objDataWork_Documents = New clsDataWork_Documents(objLocalConfig)
         objDataWork_PDF = New clsDataWork_PDF(objLocalConfig.Globals)
-        objTransaction_Documents = New clsTransaction_Documents(objLocalConfig)
+        objTransaction_Documents = New clsTransaction(objLocalConfig.Globals)
     End Sub
 
 
@@ -233,8 +234,8 @@ Public Class UserControl_Documents
         Else
             objOItem_Document = objOLDocuments(intDocID).Document
             objOItem_Document.Name = ToolStripTextBox_Title.Text
-
-            objOItem_Result = objTransaction_Documents.save_001_Document(objOItem_Document)
+            objTransaction_Documents.ClearItems()
+            objOItem_Result = objTransaction_Documents.do_Transaction(objOItem_Document)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                 MsgBox("Beim Speichern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
                 initialize_Documents(objOItem_FinancialTransaction)
@@ -258,8 +259,9 @@ Public Class UserControl_Documents
                 If objFrm_OntologyEditor.OList_Simple.Count = 1 Then
                     If objFrm_OntologyEditor.OList_Simple(0).GUID_Parent = objLocalConfig.OItem_Class_Container__physical_.GUID Then
                         objOItem_Container = objFrm_OntologyEditor.OList_Simple(0)
-                        objOItem_Result = objTransaction_Documents.save_004_Document_To_Container(objOItem_Container, _
-                                                                                                  objOLDocuments(intDocID).Document)
+                        objTransaction_Documents.ClearItems()
+                        Dim objOR_Document_To_Container = objDataWork_Documents.Rel_Document_To_Container(objOItem_FinancialTransaction, objOItem_Container)
+                        objOItem_Result = objTransaction_Documents.do_Transaction(objOR_Document_To_Container)
 
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             ToolStripTextBox_Location.Text = objOItem_Container.Name
@@ -289,13 +291,17 @@ Public Class UserControl_Documents
             objOItem_Belegsart = ToolStripComboBox_Type.SelectedItem
 
             If objOItem_Belegsart Is Nothing Then
-                objOItem_Result = objTransaction_Documents.del_003_Document_To_Belegsart(objOLDocuments(intDocID).Document)
+                Dim objOR_Document_To_Belegsart = New clsObjectRel With {.ID_Object = objOLDocuments(intDocID).Document.GUID, _
+                                                                         .ID_RelationType = objLocalConfig.OItem_RelationType_is_of_Type.GUID}
+
+                objOItem_Result = objTransaction_Documents.do_Transaction(objOR_Document_To_Belegsart, False, True)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                     MsgBox("Die Belegsart konnte nicht entfernt werden!", MsgBoxStyle.Exclamation)
                     initialize_Documents(objOItem_FinancialTransaction)
                 End If
             Else
-                objOItem_Result = objTransaction_Documents.save_003_Document_To_Belegsart(objOItem_Belegsart, objOLDocuments(intDocID).Document)
+                Dim objOR_Document_To_Belegsart = objDataWork_Documents.Rel_Document_To_Belegsart(objOLDocuments(intDocID).Document, objOItem_Belegsart)
+                objOItem_Result = objTransaction_Documents.do_Transaction(objOR_Document_To_Belegsart, True)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                     MsgBox("Die Belegsart konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
                     initialize_Documents(objOItem_FinancialTransaction)
@@ -311,9 +317,11 @@ Public Class UserControl_Documents
                                                                 .GUID_Parent = objLocalConfig.OItem_Class_Beleg.GUID, _
                                                                 .Type = objLocalConfig.Globals.Type_Object}
 
-        Dim objOItem_Result = objTransaction_Documents.save_001_Document(objOItem_Document)
+        objTransaction_Documents.ClearItems()
+        Dim objOItem_Result = objTransaction_Documents.do_Transaction(objOItem_Document)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            objOItem_Result = objTransaction_Documents.save_002_FinancialTransaction_To_Document(objOItem_FinancialTransaction)
+            Dim objOR_FinancialTransaction_To_Document = objDataWork_Documents.Rel_FinancialTransaction_To_Document(objOItem_FinancialTransaction, objOItem_Document)
+            objOItem_Result = objTransaction_Documents.do_Transaction(objOR_FinancialTransaction_To_Document, True)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                 initialize_Documents(objOItem_FinancialTransaction)
             Else

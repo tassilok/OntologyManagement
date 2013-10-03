@@ -1,5 +1,6 @@
 ﻿Imports Ontolog_Module
 Imports OntologyClasses.BaseClasses
+Imports ClassLibrary_ShellWork
 
 Public Class frm_FilesystemModule
     Private Const cint_ImageID_Root As Integer = 7
@@ -33,6 +34,8 @@ Public Class frm_FilesystemModule
     Private objOItem_Class_Applied As clsOntologyItem
 
     Private objFrmBlobWatcher As frmBlobWatcher
+
+    Private objShellWork As clsShellWork
 
     Public ReadOnly Property OItem_Class_Applied As clsOntologyItem
         Get
@@ -133,6 +136,7 @@ Public Class frm_FilesystemModule
     End Sub
 
     Private Sub initialize()
+        objShellWork = New clsShellWork()
 
         TreeView_Folder.Nodes.Clear()
         objTreeNode_Root = TreeView_Folder.Nodes.Add(objLocalConfig.OItem_Type_Filesystem_Management.GUID.ToString, objLocalConfig.OItem_Type_Filesystem_Management.Name, cint_ImageID_Root, cint_ImageID_Root)
@@ -676,5 +680,35 @@ Public Class frm_FilesystemModule
         objFrm_FileSync = New frmFileSync(objLocalConfig, True)
         objFrm_FileSync.ShowDialog(Me)
 
+    End Sub
+
+    Private Sub Open_Tree_ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles Open_Tree_ToolStripMenuItem1.Click
+        Dim objTreeNode As TreeNode
+
+        objTreeNode = TreeView_Folder.SelectedNode
+
+        If Not objTreeNode Is Nothing Then
+            Select Case objTreeNode.ImageIndex
+                Case cint_ImageID_Drive
+                Case cint_ImageID_Folder_Closed
+                    Dim objOItem_Folder = New clsOntologyItem With {.GUID = objTreeNode.Name, _
+                                                                    .Name = objTreeNode.Text, _
+                                                                    .GUID_Parent = objLocalConfig.OItem_type_Folder.GUID, _
+                                                                    .Type = objLocalConfig.Globals.Type_Object}
+
+                    Dim strPath = objFileWork.get_Path_FileSystemObject(objOItem_Folder)
+
+                    If IO.Directory.Exists(strPath) Then
+                        If objShellWork.start_Process(strPath, Nothing, strPath, False, False) = False Then
+                            MsgBox("Der Pfad konnte nicht geöffnet werden!", MsgBoxStyle.Exclamation)
+                        End If
+                    Else
+                        MsgBox("Der Pfad existiert nicht!", MsgBoxStyle.Exclamation)
+                    End If
+                Case cint_ImageID_ParentLessFiles
+
+
+            End Select
+        End If
     End Sub
 End Class

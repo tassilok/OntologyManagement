@@ -177,13 +177,14 @@
             this.ContextMenuStrip_Tree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.NewToolStripMenuItem});
             this.ContextMenuStrip_Tree.Name = "ContextMenuStrip_Tree";
-            this.ContextMenuStrip_Tree.Size = new System.Drawing.Size(109, 26);
+            this.ContextMenuStrip_Tree.Size = new System.Drawing.Size(153, 48);
             // 
             // NewToolStripMenuItem
             // 
             this.NewToolStripMenuItem.Name = "NewToolStripMenuItem";
-            this.NewToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.NewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.NewToolStripMenuItem.Text = "x_New";
+            this.NewToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
             // ImageList_RelatedItems
             // 

@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class clsTransaction_Amount
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_Amount As clsDataWork_Amount

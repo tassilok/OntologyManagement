@@ -36,6 +36,54 @@ Public Class UserControl_ObjectEdit
         End If
     End Sub
 
+    Private Sub configure_Navigation()
+        ToolStripButton_Nav_First.Enabled = False
+        ToolStripButton_Nav_Previous.Enabled = False
+        ToolStripButton_Nav_Next.Enabled = False
+        ToolStripButton_Nav_Last.Enabled = False
+
+        If objDataGridviewRowCollection_Objects Is Nothing Then
+            If objDataGridviewRowCollection_Objects.Count > 0 Then
+                If intRowID >= 0 Then
+                    ToolStripButton_Nav_First.Enabled = True
+                    ToolStripButton_Nav_Previous.Enabled = True
+                End If
+
+                If intRowID < objDataGridviewRowCollection_Objects.Count Then
+                    ToolStripButton_Nav_Next.Enabled = True
+                    ToolStripButton_Nav_Last.Enabled = True
+                End If
+            End If
+            
+        ElseIf objOList_ObjectRel Is Nothing Then
+            If objOList_ObjectRel.Count > 0 Then
+                If intRowID >= 0 Then
+                    ToolStripButton_Nav_First.Enabled = True
+                    ToolStripButton_Nav_Previous.Enabled = True
+                End If
+
+                If intRowID < objOList_ObjectRel.Count Then
+                    ToolStripButton_Nav_Next.Enabled = True
+                    ToolStripButton_Nav_Last.Enabled = True
+                End If
+            End If
+        Else
+            If objOList_Objects.Count > 0 Then
+                If intRowID >= 0 Then
+                    ToolStripButton_Nav_First.Enabled = True
+                    ToolStripButton_Nav_Previous.Enabled = True
+                End If
+
+                If intRowID < objOList_Objects.Count Then
+                    ToolStripButton_Nav_Next.Enabled = True
+                    ToolStripButton_Nav_Last.Enabled = True
+                End If
+            End If
+
+        End If
+    End Sub
+
+
     Private Sub selected_Node(ByVal oList_Selected As List(Of clsOntologyItem)) Handles objUserControl_ObjectRelTree.selected_Item
 
 
@@ -113,6 +161,8 @@ Public Class UserControl_ObjectEdit
         objOItem_Direction = oItem_Direction
         objOList_ObjectRel = OList_Objecst
         objDataGridviewRowCollection_Objects = Nothing
+        objOList_Objects = Nothing
+
         intRowID = RowID
         strOntology = Ontology
 
@@ -141,6 +191,7 @@ Public Class UserControl_ObjectEdit
 
         objOItem_Direction = oItem_Direction
         objOList_Objects = OList_Objecst
+        objOList_ObjectRel = Nothing
         objDataGridviewRowCollection_Objects = Nothing
         intRowID = RowID
         strOntology = Ontology
@@ -171,6 +222,7 @@ Public Class UserControl_ObjectEdit
         objOItem_Direction = oItem_Direction
         objDataGridviewRowCollection_Objects = DataGridviewRowCollection
         objOList_Objects = Nothing
+        objOList_ObjectRel = Nothing
         intRowID = RowID
         strOntology = Ontology
 
@@ -284,7 +336,7 @@ Public Class UserControl_ObjectEdit
     End Sub
 
     Private Sub set_CountLbl()
-        ToolStripLabel_ObjectCount.Text = intRowID
+        ToolStripLabel_ObjectCount.Text = intRowID + 1
 
         If objOList_Objects Is Nothing Then
             ToolStripLabel_ObjectCount.Text = ToolStripLabel_ObjectCount.Text & "/" & objDataGridviewRowCollection_Objects.Count
@@ -324,4 +376,89 @@ Public Class UserControl_ObjectEdit
             End If
         End If
     End Sub
+
+    Private Sub ToolStripButton_Nav_First_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Nav_First.Click
+        intRowID = 0
+
+        initialize()
+    End Sub
+
+    Private Function RowIdLast() As Integer
+        intRowID = -1
+        If objDataGridviewRowCollection_Objects Is Nothing Then
+            If objDataGridviewRowCollection_Objects.Count > 0 Then
+                intRowID = objDataGridviewRowCollection_Objects.Count - 1
+            End If
+
+        ElseIf objOList_ObjectRel Is Nothing Then
+            If objOList_ObjectRel.Count > 0 Then
+                intRowID = objOList_ObjectRel.Count - 1
+
+            End If
+        Else
+            If objOList_Objects.Count > 0 Then
+                intRowID = objOList_Objects.Count - 1
+            End If
+
+        End If
+    End Function
+
+    Private Function IsRowIdValid() As Boolean
+        Dim boolResult As Boolean
+
+        boolResult = False
+        If objDataGridviewRowCollection_Objects Is Nothing Then
+            If objDataGridviewRowCollection_Objects.Count > 0 Then
+                If intRowID >= 0 Then
+                    boolResult = True
+                End If
+
+                If intRowID < objDataGridviewRowCollection_Objects.Count Then
+                    boolResult = True
+                End If
+            End If
+
+        ElseIf objOList_ObjectRel Is Nothing Then
+            If objOList_ObjectRel.Count > 0 Then
+                If intRowID >= 0 Then
+                    boolResult = True
+                End If
+
+                If intRowID < objOList_ObjectRel.Count Then
+                    boolResult = True
+                End If
+            End If
+        Else
+            If objOList_Objects.Count > 0 Then
+                If intRowID >= 0 Then
+                    boolResult = True
+                End If
+
+                If intRowID < objOList_Objects.Count Then
+                    boolResult = True
+                End If
+            End If
+
+        End If
+
+        Return boolResult
+    End Function
+
+    Private Sub ToolStripButton_Nav_Previous_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Nav_Previous.Click
+        intRowID = intRowID - 1
+        initialize()
+
+    End Sub
+
+    Private Sub ToolStripButton_Nav_Next_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Nav_Next.Click
+        intRowID = intRowID + 1
+        initialize()
+    End Sub
+
+    Private Sub ToolStripButton_Nav_Last_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Nav_Last.Click
+        intRowID = RowIdLast()
+        initialize()
+
+    End Sub
 End Class
+

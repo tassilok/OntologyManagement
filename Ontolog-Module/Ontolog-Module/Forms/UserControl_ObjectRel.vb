@@ -15,6 +15,8 @@ Public Class UserControl_ObjectRel
     Private objDBLevel_ObjRel As clsDBLevel
 
     Private objOItem_Object As clsOntologyItem
+
+    Private objOItem_Left As clsOntologyItem
     Private objOItem_Other As clsOntologyItem
     Private objOItem_RelationType As clsOntologyItem
 
@@ -27,6 +29,37 @@ Public Class UserControl_ObjectRel
     Public Event selected_Right(ByVal oItem_Right As clsOntologyItem)
     Public Event selected_RelationType(ByVal oItem_RelationType As clsOntologyItem)
     Public Event related_Items()
+
+    Public ReadOnly Property OItem_Left As clsOntologyItem
+        Get
+            Return OItem_Left
+        End Get
+        
+    End Property
+
+    Public ReadOnly Property OItem_Other As clsOntologyItem
+        Get
+            Return OItem_Other
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_RelationType As clsOntologyItem
+        Get
+            Return OItem_RelationType
+        End Get
+    End Property
+
+    Public Sub clear_Left()
+        objOItem_Left = Nothing
+    End Sub
+
+    Public Sub clear_Other()
+        objOItem_Other = Nothing
+    End Sub
+
+    Public Sub clear_RelationType()
+        objOItem_RelationType = Nothing
+    End Sub
 
     Public Sub applied_Object(ByVal oList_Objects As List(Of clsOntologyItem))
         Dim l As Long
@@ -155,7 +188,9 @@ Public Class UserControl_ObjectRel
             DataGridView_Relations.Columns(4).Visible = False
             DataGridView_Relations.Columns(7).Visible = False
             DataGridView_Relations.Columns(9).Visible = False
-            
+
+            DataGridView_Relations.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText
+
             ToolStripProgressBar_TokenRelation.Value = 0
         Else
             ToolStripProgressBar_TokenRelation.Value = 50
@@ -178,27 +213,30 @@ Public Class UserControl_ObjectRel
         Dim oList_Relation As New List(Of clsObjectRel)
         Dim objOItem_Result As clsOntologyItem
 
-        For Each objDGVR_Selected In DataGridView_Relations.SelectedRows
-            objDRV_Selected = objDGVR_Selected.DataBoundItem
+        If MsgBox("Wollen Sie die Elemente wirklich löschen!", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            For Each objDGVR_Selected In DataGridView_Relations.SelectedRows
+                objDRV_Selected = objDGVR_Selected.DataBoundItem
 
-            oList_Relation.Add(New clsObjectRel(objDRV_Selected.Item("ID_Object"), _
-                                                Nothing, _
-                                                objDRV_Selected.Item("ID_Other"), _
-                                                Nothing, _
-                                                objDRV_Selected.Item("ID_RelationType"), _
-                                                objDRV_Selected.Item("Ontology"), _
-                                                objLocalConfig.Globals.Direction_LeftRight.GUID, _
-                                                Nothing))
+                oList_Relation.Add(New clsObjectRel(objDRV_Selected.Item("ID_Object"), _
+                                                    Nothing, _
+                                                    objDRV_Selected.Item("ID_Other"), _
+                                                    Nothing, _
+                                                    objDRV_Selected.Item("ID_RelationType"), _
+                                                    objDRV_Selected.Item("Ontology"), _
+                                                    objLocalConfig.Globals.Direction_LeftRight.GUID, _
+                                                    Nothing))
 
-        Next
+            Next
 
-        objOItem_Result = objDBLevel_ObjRel.del_ObjectRel(oList_Relation)
+            objOItem_Result = objDBLevel_ObjRel.del_ObjectRel(oList_Relation)
 
-        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-            MsgBox("Es konnten nicht alle Beziehungen gelöscht werden!", MsgBoxStyle.Information)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Es konnten nicht alle Beziehungen gelöscht werden!", MsgBoxStyle.Information)
+            End If
+
+            initialize_Data()
         End If
-
-        initialize_Data()
+        
     End Sub
 
     Private Sub ContextMenuStrip_TokRel_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_TokRel.Opening
@@ -425,7 +463,7 @@ Public Class UserControl_ObjectRel
 
     Private Sub RelateToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RelateToolStripMenuItem.Click
         objOItem_Other = Nothing
-
+        objOItem_Left = objOItem_Object
         save_Relation()
         initialize_Data()
     End Sub
@@ -440,7 +478,7 @@ Public Class UserControl_ObjectRel
         objOItem_Result = objLocalConfig.Globals.LState_Success
 
 
-        If Not objOItem_Object Is Nothing Then
+        If Not objOItem_Left Is Nothing Then
             objOItem_ForListRelation.GUID = objOItem_Object.GUID
             objOItem_ForListRelation.Name = objOItem_Object.Name
             objOItem_ForListRelation.GUID_Parent = objOItem_Object.GUID_Parent
@@ -449,7 +487,7 @@ Public Class UserControl_ObjectRel
 
             'objUserControl_SemItemList_TokenLis.SemItem_Other = objSemItem_ForListRelation
 
-            RaiseEvent selected_Left(objOItem_Object)
+            RaiseEvent selected_Left(objOItem_Left)
 
         Else
             RaiseEvent selected_Left(Nothing)
@@ -482,11 +520,11 @@ Public Class UserControl_ObjectRel
             objOItem_Result = objLocalConfig.Globals.LState_Nothing
         End If
 
-        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID And Not objOItem_Left Is Nothing Then
             objOList_Right.Add(New clsOntologyItem(objOItem_Other.GUID, objOItem_Other.Name, objOItem_Other.GUID_Parent, objOItem_Other.Type))
             For Each objOItem_Right In objOList_Right
-                oList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, _
-                                                  objOItem_Object.GUID_Parent, _
+                oList_ObjRel.Add(New clsObjectRel(objOItem_Left.GUID, _
+                                                  objOItem_Left.GUID_Parent, _
                                                   objOItem_Right.GUID, _
                                                   objOItem_Right.GUID_Parent, _
                                                   objOItem_RelationType.GUID, _
@@ -510,4 +548,24 @@ Public Class UserControl_ObjectRel
         End If
         Return objOItem_Result
     End Function
+
+    Private Sub DataGridView_Relations_KeyDown(sender As Object, e As KeyEventArgs) Handles DataGridView_Relations.KeyDown
+        Select Case e.KeyCode
+            Case Keys.F5
+
+                initialize_Data()
+            Case Keys.C
+                If e.Control Then
+                    Clipboard.SetDataObject(DataGridView_Relations.GetClipboardContent())
+                End If
+        End Select
+    End Sub
+
+    Private Sub CopyValToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles CopyValToolStripMenuItem1.Click
+
+    End Sub
+
+    Private Sub ContextMenuStrip_TokRel_RightToLeftChanged(sender As Object, e As EventArgs) Handles ContextMenuStrip_TokRel.RightToLeftChanged
+
+    End Sub
 End Class

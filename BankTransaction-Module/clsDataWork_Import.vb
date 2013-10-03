@@ -1,6 +1,7 @@
 ﻿Imports Ontolog_Module
 Imports Log_Module
 Imports System.IO
+Imports OntologyClasses.BaseClasses
 
 Public Class clsDataWork_ImportSettings
     Private cstrCol_Auftragskonto As String = "Auftragskonto"
@@ -20,7 +21,7 @@ Public Class clsDataWork_ImportSettings
     Private objOItem_ImportSettings As clsOntologyItem
 
     Private objLogManagement As clsLogManagement
-    Private objTransaction_ImportSettings As clsTransaction_ImportSettings
+    Private objTransaction_ImportSettings As clsTransaction
 
     Private objOItem_Result_ReportFields As clsOntologyItem
     Private objOItem_Result_OntologyJoins As clsOntologyItem
@@ -34,7 +35,9 @@ Public Class clsDataWork_ImportSettings
     Private objDBLevel_BankTransactions_Rel_Archive As clsDBLevel
     Private objDBLevel_Konto As clsDBLevel
 
-    Private objTransaction_Import As clsTransaction_Import
+    Private objTransaction_Import As clsTransaction
+    Private objTransaction_Konto As clsTransaction
+    Private objTransaction_BLZ As clsTransaction
 
     Private objDBLevel_AltCurr As clsDBLevel
 
@@ -66,8 +69,9 @@ Public Class clsDataWork_ImportSettings
                                                     strBLZ, _
                                                     objLocalConfig.OItem_Type_Bankleitzahl.GUID, _
                                                     objLocalConfig.Globals.Type_Object)
+                objTransaction_BLZ.ClearItems()
 
-                objOItem_Result = objTransaction_Import.save_013_BLZ(objOItem_BLZ)
+                objOItem_Result = objTransaction_BLZ.do_Transaction(objOItem_BLZ)
 
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     objOItem_Result = objLocalConfig.Globals.LState_Nothing
@@ -136,17 +140,21 @@ Public Class clsDataWork_ImportSettings
                                                    objLocalConfig.OItem_Type_Kontonummer.GUID, _
                                                    objLocalConfig.Globals.Type_Object)
 
-            objOItem_Result = objTransaction_Import.save_012_Konto(objOItem_Konto)
+
+            objTransaction_Konto.ClearItems()
+
+            objOItem_Result = objTransaction_Konto.do_Transaction(objOItem_Konto)
 
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                objOItem_Result = objTransaction_Import.save_014_Konto_To_BLZ(objOItem_Konto, _
-                                                                              objOItem_BLZ)
+                Dim objOR_Konto_BLZ = Rel_Konto_To_BLZ(objOItem_Konto, objOItem_BLZ)
+
+                objOItem_Result = objTransaction_Import.do_Transaction(objOR_Konto_BLZ)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     objOList_Konto.Add(objOItem_Konto)
                     objOList_Konto.Add(objOItem_BLZ)
                 Else
 
-                    objTransaction_Import.del_012_Konto()
+                    objTransaction_Konto.ClearItems()
 
                 End If
             End If
@@ -195,13 +203,17 @@ Public Class clsDataWork_ImportSettings
                                                              dateStart.ToString, _
                                                              objLocalConfig.OItem_Type_Imports.GUID, _
                                                              objLocalConfig.Globals.Type_Object)
+                    objTransaction_Import.ClearItems()
+                    objTransaction_ImportSettings.ClearItems()
 
-                    objOItem_Result = objTransaction_ImportSettings.save_001_ImportLog(objOItem_ImportSettingsLog)
-
+                    objOItem_Result = objTransaction_ImportSettings.do_Transaction(objOItem_ImportSettingsLog)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        objOItem_Result = objTransaction_ImportSettings.save_002_ImportLog__Start(dateStart)
-                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            objOItem_Result = objTransaction_ImportSettings.save_003_ImportLog_To_ImportSetting(objDataWork_BankTransactions.OItem_ImportSetting)
+                        Dim objOR_ImportLog__Start = Rel_ImportLog__Start(objOItem_ImportSettingsLog, dateStart)
+                        objOItem_Result = objTransaction_Import.do_Transaction(objOR_ImportLog__Start, True)
+                        If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+
+                            Dim objOR_ImportLog_To_ImportSetting = Rel_ImportLog_To_ImportSetting(objOItem_ImportSettingsLog, objOItem_ImportSettings)
+                            objOItem_Result = objTransaction_ImportSettings.do_Transaction(objOR_ImportLog_To_ImportSetting, True)
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
 
                                 If objDataWork_BankTransactions.FirstColHeader = True Then
@@ -423,7 +435,7 @@ Public Class clsDataWork_ImportSettings
                                                                         boolBuchungstext = True
                                                                     End If
                                                                 End If
-                                                                
+
 
 
                                                                 If boolBuchungstext Then
@@ -440,7 +452,7 @@ Public Class clsDataWork_ImportSettings
                                                                         End If
                                                                     End If
 
-                                                                    
+
 
 
                                                                     If boolVerwendungszweck = True Then
@@ -732,274 +744,139 @@ Public Class clsDataWork_ImportSettings
                                             objOItem_BankTransaction.GUID_Parent = objLocalConfig.OItem_Type_Bank_Transaktionen__Sparkasse_.GUID
                                             objOItem_BankTransaction.Type = objLocalConfig.Globals.Type_Object
 
-                                            objOItem_Result = objTransaction_Import.save_001_BankTransaciton(objOItem_BankTransaction)
-                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                objOItem_Result = objTransaction_Import.save_002_BankTransaction__Info(objDict_ImportSettings(cstrCol_Info))
-                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                    objOItem_Result = objTransaction_Import.save_003_BankTransaction__Valutadatum(objDict_ImportSettings(cstrCol_Valutadatum))
-                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                        objOItem_Result = objTransaction_Import.save_004_BankTransaction__Zahlungsausgang(boolZahlungsausgang)
-                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                            objOItem_Result = objTransaction_Import.save_005_BankTransaction__BegZahl(objDict_ImportSettings(cstrCol_BegZahl))
-                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                objOItem_Result = objTransaction_Import.save_006_BankTransaction__Betrag(objDict_ImportSettings(cstrCol_Betrag))
-                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                    objOItem_Result = objTransaction_Import.save_007_BankTransaction__Buchungstext(objDict_ImportSettings(cstrCol_Buchungstext))
-                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                        objOItem_Result = objTransaction_Import.save_008_BankTransaction__Verwendungszweck(objDict_ImportSettings(cstrCol_Verwendungszweck))
-                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                            objOItem_Result = objTransaction_Import.save_009_BankTransaction_To_Auftragskonto(objDataWork_BankTransactions.OItem_Konto_Mandant)
-                                                                            objOList_KontoBLZ = get_KontoBLZ(objDict_ImportSettings(cstrCol_Kontonummer), _
-                                                                                                             objDict_ImportSettings(cstrCol_BLZ))
+                                            objOItem_Result = objTransaction_Import.do_Transaction(objOItem_BankTransaction)
+                                            If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                                Dim objOA_BankTransaction__Info = Rel_BankTransaction__Info(objOItem_BankTransaction, objDict_ImportSettings(cstrCol_Info))
 
-                                                                            If objOList_KontoBLZ.Count = 2 Then
-                                                                                objOItem_Result = objTransaction_Import.save_010_BankTransaction_To_Gegenkonto(objOList_KontoBLZ(0))
+                                                objOItem_Result = objTransaction_Import.do_Transaction(objOA_BankTransaction__Info, True)
+                                                If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                                    Dim objOA_BankTransaction__Valutadatum = Rel_BankTransaction__Valutadatum(objOItem_BankTransaction, objDict_ImportSettings(cstrCol_Valutadatum))
 
-                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                    objOItem_Currency = get_AltCur(objDict_ImportSettings(cstrCol_Currency))
-                                                                                    If Not objOItem_Currency Is Nothing Then
-                                                                                        objOItem_Result = objTransaction_Import.save_011_BankTransaction_To_Currency(objOItem_Currency)
-                                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                                                                                            objOItem_Result = objTransaction_Import.del_010_BankTransaction__Gegenkonto()
+                                                    If Not objOA_BankTransaction__Valutadatum Is Nothing Then
+                                                        objOItem_Result = objTransaction_Import.do_Transaction(objOA_BankTransaction__Valutadatum, True)
+                                                        If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                                            Dim objOA_BankTransaction__Zahlungsausgang = Rel_BankTransaction__Zahlungsausgang(objOItem_BankTransaction, boolZahlungsausgang)
+
+                                                            objOItem_Result = objTransaction_Import.do_Transaction(objOA_BankTransaction__Zahlungsausgang)
+                                                            If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                                                Dim objOA_BankTransaction__BegZahl = Rel_BankTransaction__BegZahl(objOItem_BankTransaction, objDict_ImportSettings(cstrCol_BegZahl))
+
+                                                                objOItem_Result = objTransaction_Import.do_Transaction(objOA_BankTransaction__BegZahl)
+                                                                If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                                                    Dim objOA_BankTransaction__Betrag = Rel_BankTransaction__Betrag(objOItem_BankTransaction, objDict_ImportSettings(cstrCol_Betrag))
+
+                                                                    If Not objOA_BankTransaction__Betrag Is Nothing Then
+                                                                        objOItem_Result = objTransaction_Import.do_Transaction(objOA_BankTransaction__Betrag)
+                                                                        If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                                                            Dim objOA_BankTransaction__Buchungstext = Rel_BankTransaction__Buchungstext(objOItem_BankTransaction, objDict_ImportSettings(cstrCol_Buchungstext))
+
+                                                                            objOItem_Result = objTransaction_Import.do_Transaction(objOA_BankTransaction__Buchungstext)
+                                                                            If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                                                                Dim objOA_BankTransaction__Verwendungszweck = Rel_BankTransaction__Verwendungszweck(objOItem_BankTransaction, objDict_ImportSettings(cstrCol_Verwendungszweck))
+
+                                                                                objOItem_Result = objTransaction_Import.do_Transaction(objOA_BankTransaction__Verwendungszweck)
+                                                                                If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                                                                    Dim objOR_ImportLog_To_Auftragskonto = Rel_ImportLog_To_Auftragskonto(objOItem_BankTransaction, objDataWork_BankTransactions.OItem_Konto_Mandant)
+
+                                                                                    objOItem_Result = objTransaction_Import.do_Transaction(objOR_ImportLog_To_Auftragskonto)
+                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                                        objOList_KontoBLZ = get_KontoBLZ(objDict_ImportSettings(cstrCol_Kontonummer), _
+                                                                                                                     objDict_ImportSettings(cstrCol_BLZ))
+
+                                                                                        If objOList_KontoBLZ.Count = 2 Then
+                                                                                            Dim objOR_ImportLog_To_Gegenkonto = Rel_ImportLog_To_Gegenkonto(objOItem_BankTransaction, objOList_KontoBLZ(0))
+
+                                                                                            objOItem_Result = objTransaction_Import.do_Transaction(objOR_ImportLog_To_Gegenkonto)
+
                                                                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                objOItem_Result = objTransaction_Import.del_009_BankTransaction__Auftragskonto()
-                                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                    objOItem_Result = objTransaction_Import.del_008_BankTransaction__Verwendungszweck()
-                                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                        objOItem_Result = objTransaction_Import.del_007_BankTransaction__Buchungstext()
-                                                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                            objOItem_Result = objTransaction_Import.del_006_BankTransaction__Betrag()
-                                                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                objOItem_Result = objTransaction_Import.del_005_BankTransaction__BegZahl()
-                                                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                    objOItem_Result = objTransaction_Import.del_004_BankTransaction__Zahlungsausgang()
-                                                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                        objOItem_Result = objTransaction_Import.del_003_BankTransaction__Valutadatum()
-                                                                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                            objOItem_Result = objTransaction_Import.del_002_BankTransaction__Info()
-                                                                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                                objTransaction_Import.del_001_BankTransaction()
-                                                                                                                            End If
-                                                                                                                        End If
-                                                                                                                    End If
-                                                                                                                End If
-                                                                                                            End If
-                                                                                                        End If
-                                                                                                    End If
+                                                                                                objOItem_Currency = get_AltCur(objDict_ImportSettings(cstrCol_Currency))
+                                                                                                If Not objOItem_Currency Is Nothing Then
+                                                                                                    Dim objOR_BankTransaction_To_Currency = Rel_BankTransaction_To_Currency(objOItem_BankTransaction, objOItem_Currency)
 
+                                                                                                    objOItem_Result = objTransaction_Import.do_Transaction(objOR_BankTransaction_To_Currency)
+                                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                                                                                        objTransaction_Import.rollback()
+
+                                                                                                        objOItem_Result = objLocalConfig.Globals.LState_Error
+                                                                                                    End If
+                                                                                                Else
+                                                                                                    objTransaction_Import.rollback()
+
+                                                                                                    objOItem_Result = objLocalConfig.Globals.LState_Error
                                                                                                 End If
+
+
+                                                                                            Else
+
+                                                                                                objTransaction_Import.rollback()
+
+                                                                                                objOItem_Result = objLocalConfig.Globals.LState_Error
+
                                                                                             End If
+                                                                                        Else
+                                                                                            objTransaction_Import.rollback()
 
                                                                                             objOItem_Result = objLocalConfig.Globals.LState_Error
                                                                                         End If
                                                                                     Else
-                                                                                        objOItem_Result = objTransaction_Import.del_010_BankTransaction__Gegenkonto()
-                                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                            objOItem_Result = objTransaction_Import.del_009_BankTransaction__Auftragskonto()
-                                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                objOItem_Result = objTransaction_Import.del_008_BankTransaction__Verwendungszweck()
-                                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                    objOItem_Result = objTransaction_Import.del_007_BankTransaction__Buchungstext()
-                                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                        objOItem_Result = objTransaction_Import.del_006_BankTransaction__Betrag()
-                                                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                            objOItem_Result = objTransaction_Import.del_005_BankTransaction__BegZahl()
-                                                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                objOItem_Result = objTransaction_Import.del_004_BankTransaction__Zahlungsausgang()
-                                                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                    objOItem_Result = objTransaction_Import.del_003_BankTransaction__Valutadatum()
-                                                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                        objOItem_Result = objTransaction_Import.del_002_BankTransaction__Info()
-                                                                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                            objTransaction_Import.del_001_BankTransaction()
-                                                                                                                        End If
-                                                                                                                    End If
-                                                                                                                End If
-                                                                                                            End If
-                                                                                                        End If
-                                                                                                    End If
-                                                                                                End If
-
-                                                                                            End If
-                                                                                        End If
-
-                                                                                        objOItem_Result = objLocalConfig.Globals.LState_Error
+                                                                                        objTransaction_Import.rollback()
                                                                                     End If
+
+
 
 
                                                                                 Else
+                                                                                    objTransaction_Import.rollback()
 
-                                                                                    objOItem_Result = objTransaction_Import.del_009_BankTransaction__Auftragskonto()
-                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                        objOItem_Result = objTransaction_Import.del_008_BankTransaction__Verwendungszweck()
-                                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                            objOItem_Result = objTransaction_Import.del_007_BankTransaction__Buchungstext()
-                                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                objOItem_Result = objTransaction_Import.del_006_BankTransaction__Betrag()
-                                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                    objOItem_Result = objTransaction_Import.del_005_BankTransaction__BegZahl()
-                                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                        objOItem_Result = objTransaction_Import.del_004_BankTransaction__Zahlungsausgang()
-                                                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                            objOItem_Result = objTransaction_Import.del_003_BankTransaction__Valutadatum()
-                                                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                objOItem_Result = objTransaction_Import.del_002_BankTransaction__Info()
-                                                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                    objTransaction_Import.del_001_BankTransaction()
-                                                                                                                End If
-                                                                                                            End If
-                                                                                                        End If
-                                                                                                    End If
-                                                                                                End If
-                                                                                            End If
-                                                                                        End If
-
-                                                                                    End If
                                                                                     objOItem_Result = objLocalConfig.Globals.LState_Error
-
                                                                                 End If
+
+
                                                                             Else
-                                                                                objOItem_Result = objTransaction_Import.del_008_BankTransaction__Verwendungszweck()
-                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                    objOItem_Result = objTransaction_Import.del_007_BankTransaction__Buchungstext()
-                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                        objOItem_Result = objTransaction_Import.del_006_BankTransaction__Betrag()
-                                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                            objOItem_Result = objTransaction_Import.del_005_BankTransaction__BegZahl()
-                                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                objOItem_Result = objTransaction_Import.del_004_BankTransaction__Zahlungsausgang()
-                                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                    objOItem_Result = objTransaction_Import.del_003_BankTransaction__Valutadatum()
-                                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                        objOItem_Result = objTransaction_Import.del_002_BankTransaction__Info()
-                                                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                            objTransaction_Import.del_001_BankTransaction()
-                                                                                                        End If
-                                                                                                    End If
-                                                                                                End If
-                                                                                            End If
-                                                                                        End If
-                                                                                    End If
-                                                                                End If
-
-
-
-
+                                                                                objTransaction_Import.rollback()
 
                                                                                 objOItem_Result = objLocalConfig.Globals.LState_Error
                                                                             End If
 
 
-
                                                                         Else
-                                                                            objOItem_Result = objTransaction_Import.del_007_BankTransaction__Buchungstext()
-                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                objOItem_Result = objTransaction_Import.del_006_BankTransaction__Betrag()
-                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                    objOItem_Result = objTransaction_Import.del_005_BankTransaction__BegZahl()
-                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                        objOItem_Result = objTransaction_Import.del_004_BankTransaction__Zahlungsausgang()
-                                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                            objOItem_Result = objTransaction_Import.del_003_BankTransaction__Valutadatum()
-                                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                objOItem_Result = objTransaction_Import.del_002_BankTransaction__Info()
-                                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                    objTransaction_Import.del_001_BankTransaction()
-                                                                                                End If
-                                                                                            End If
-                                                                                        End If
-                                                                                    End If
-                                                                                End If
-                                                                            End If
-
-
-
+                                                                            objTransaction_Import.rollback()
 
                                                                             objOItem_Result = objLocalConfig.Globals.LState_Error
                                                                         End If
-
-
                                                                     Else
-                                                                        objOItem_Result = objTransaction_Import.del_006_BankTransaction__Betrag()
-                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                            objOItem_Result = objTransaction_Import.del_005_BankTransaction__BegZahl()
-                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                objOItem_Result = objTransaction_Import.del_004_BankTransaction__Zahlungsausgang()
-                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                    objOItem_Result = objTransaction_Import.del_003_BankTransaction__Valutadatum()
-                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                        objOItem_Result = objTransaction_Import.del_002_BankTransaction__Info()
-                                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                            objTransaction_Import.del_001_BankTransaction()
-                                                                                        End If
-                                                                                    End If
-                                                                                End If
-                                                                            End If
-                                                                        End If
-
-
+                                                                        objTransaction_Import.rollback()
 
                                                                         objOItem_Result = objLocalConfig.Globals.LState_Error
                                                                     End If
 
 
-                                                                Else
-                                                                    objOItem_Result = objTransaction_Import.del_005_BankTransaction__BegZahl()
-                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                        objOItem_Result = objTransaction_Import.del_004_BankTransaction__Zahlungsausgang()
-                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                            objOItem_Result = objTransaction_Import.del_003_BankTransaction__Valutadatum()
-                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                objOItem_Result = objTransaction_Import.del_002_BankTransaction__Info()
-                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                    objTransaction_Import.del_001_BankTransaction()
-                                                                                End If
-                                                                            End If
-                                                                        End If
-                                                                    End If
 
+                                                                Else
+                                                                    objTransaction_Import.rollback()
 
                                                                     objOItem_Result = objLocalConfig.Globals.LState_Error
                                                                 End If
 
-
                                                             Else
-                                                                objOItem_Result = objTransaction_Import.del_004_BankTransaction__Zahlungsausgang()
-                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                    objOItem_Result = objTransaction_Import.del_003_BankTransaction__Valutadatum()
-                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                        objOItem_Result = objTransaction_Import.del_002_BankTransaction__Info()
-                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                            objTransaction_Import.del_001_BankTransaction()
-                                                                        End If
-                                                                    End If
-                                                                End If
+                                                                objTransaction_Import.rollback()
 
                                                                 objOItem_Result = objLocalConfig.Globals.LState_Error
                                                             End If
-
                                                         Else
-                                                            objOItem_Result = objTransaction_Import.del_003_BankTransaction__Valutadatum()
-                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                objOItem_Result = objTransaction_Import.del_002_BankTransaction__Info()
-                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                    objTransaction_Import.del_001_BankTransaction()
-                                                                End If
-                                                            End If
-
+                                                            objTransaction_Import.rollback()
 
                                                             objOItem_Result = objLocalConfig.Globals.LState_Error
                                                         End If
                                                     Else
-                                                        objOItem_Result = objTransaction_Import.del_002_BankTransaction__Info()
-                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                            objTransaction_Import.del_001_BankTransaction()
-                                                        End If
-
+                                                        objTransaction_Import.rollback()
                                                         objOItem_Result = objLocalConfig.Globals.LState_Error
+
                                                     End If
+
+
                                                 Else
-                                                    objTransaction_Import.del_001_BankTransaction()
+                                                    objTransaction_Import.rollback()
                                                 End If
                                             End If
                                         Else
@@ -1016,7 +893,8 @@ Public Class clsDataWork_ImportSettings
 
 
                         Else
-                            objTransaction_ImportSettings.del_001_ImportLog()
+                            objTransaction_ImportSettings.rollback()
+                            objOItem_Result = objLocalConfig.Globals.LState_Error
                         End If
 
                     End If
@@ -1332,6 +1210,175 @@ Public Class clsDataWork_ImportSettings
         Return objOItem_Result
     End Function
 
+    Public Function Rel_ImportLog__Start(OItem_ImportLog As clsOntologyItem, dateStart As DateTime) As clsObjectAtt
+        Dim objOA_ImportLog__Start = New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_Start.GUID, _
+                                                            .ID_Class = OItem_ImportLog.GUID_Parent, _
+                                                            .ID_Object = OItem_ImportLog.GUID, _
+                                                            .ID_DataType = objLocalConfig.Globals.DType_DateTime.GUID, _
+                                                            .OrderID = 1, _
+                                                            .Val_Named = dateStart.ToString(), _
+                                                            .Val_Date = dateStart}
+
+        Return objOA_ImportLog__Start
+
+    End Function
+
+    Public Function Rel_ImportLog_To_ImportSetting(OItem_ImportLog As clsOntologyItem, OItem_ImportSettings As clsOntologyItem) As clsObjectRel
+        Dim objOR_Import = New clsObjectRel With {.ID_Object = OItem_ImportLog.GUID, _
+                                                  .ID_Parent_Object = OItem_ImportLog.GUID_Parent, _
+                                                  .ID_Other = OItem_ImportSettings.GUID, _
+                                                  .ID_Parent_Other = OItem_ImportSettings.GUID_Parent, _
+                                                  .ID_RelationType = objLocalConfig.OItem_RelationType_Log_of.GUID, _
+                                                  .OrderID = 1, _
+                                                  .Ontology = objLocalConfig.Globals.Type_Object}
+        Return objOR_Import
+    End Function
+
+    Public Function Rel_BankTransaction__Info(OItem_BankTransaction As clsOntologyItem, strInfo As String) As clsObjectAtt
+        Dim objOA_BankTransaction__Info = New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_Info.GUID, _
+                                                            .ID_Class = OItem_BankTransaction.GUID_Parent, _
+                                                            .ID_Object = OItem_BankTransaction.GUID, _
+                                                            .ID_DataType = objLocalConfig.Globals.DType_String.GUID, _
+                                                            .OrderID = 1, _
+                                                            .Val_Named = strInfo, _
+                                                            .Val_String = strInfo}
+
+        Return objOA_BankTransaction__Info
+    End Function
+
+    Public Function Rel_BankTransaction__Valutadatum(OItem_BankTransaction As clsOntologyItem, strValutadatum As String) As clsObjectAtt
+        Dim dateValutaDatum As Date
+        Dim objOA_BankTransaction__Valutadatum = New clsObjectAtt()
+
+        If Date.TryParse(strValutadatum, dateValutaDatum) Then
+            objOA_BankTransaction__Valutadatum = New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_Valutatag.GUID, _
+                                                            .ID_Class = OItem_BankTransaction.GUID_Parent, _
+                                                            .ID_Object = OItem_BankTransaction.GUID, _
+                                                            .ID_DataType = objLocalConfig.Globals.DType_DateTime.GUID, _
+                                                            .OrderID = 1, _
+                                                            .Val_Named = dateValutaDatum.ToString, _
+                                                            .Val_Date = dateValutaDatum}
+        Else
+            objOA_BankTransaction__Valutadatum = Nothing
+        End If
+
+        
+
+        Return objOA_BankTransaction__Valutadatum
+    End Function
+
+    Public Function Rel_BankTransaction__Zahlungsausgang(OItem_BankTransaction As clsOntologyItem, boolZahlungsausgang As Boolean) As clsObjectAtt
+        Dim objOR_BankTransaction__Zahlungsausgang = New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_Zahlungsausgang.GUID, _
+                                                            .ID_Class = OItem_BankTransaction.GUID_Parent, _
+                                                            .ID_Object = OItem_BankTransaction.GUID, _
+                                                            .ID_DataType = objLocalConfig.Globals.DType_Bool.GUID, _
+                                                            .OrderID = 1, _
+                                                            .Val_Named = boolZahlungsausgang.ToString, _
+                                                            .Val_Bit = boolZahlungsausgang}
+
+        Return objOR_BankTransaction__Zahlungsausgang
+    End Function
+
+    Public Function Rel_BankTransaction__BegZahl(OItem_BankTransaction As clsOntologyItem, strBegZahl As String) As clsObjectAtt
+        Dim objOA_BankTransaction__BegZahl = New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_Beg_nstigter_Zahlungspflichtiger.GUID, _
+                                                            .ID_Class = OItem_BankTransaction.GUID_Parent, _
+                                                            .ID_Object = OItem_BankTransaction.GUID, _
+                                                            .ID_DataType = objLocalConfig.Globals.DType_String.GUID, _
+                                                            .OrderID = 1, _
+                                                            .Val_Named = strBegZahl, _
+                                                            .Val_String = strBegZahl}
+
+        Return objOA_BankTransaction__BegZahl
+    End Function
+
+    Public Function Rel_BankTransaction__Betrag(OItem_BankTransaction As clsOntologyItem, strBetrag As String) As clsObjectAtt
+        Dim dblBetrag As Double
+        Dim objOA_BankTransaction__Betrag As clsObjectAtt
+
+        If Double.TryParse(strBetrag, dblBetrag) Then
+            objOA_BankTransaction__Betrag = New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_Betrag.GUID, _
+                                                            .ID_Class = OItem_BankTransaction.GUID_Parent, _
+                                                            .ID_Object = OItem_BankTransaction.GUID, _
+                                                            .ID_DataType = objLocalConfig.Globals.DType_Real.GUID, _
+                                                            .OrderID = 1, _
+                                                            .Val_Named = dblBetrag.ToString, _
+                                                            .Val_Double = dblBetrag}
+        Else
+            objOA_BankTransaction__Betrag = Nothing
+        End If
+        
+
+        Return objOA_BankTransaction__Betrag
+    End Function
+
+    Public Function Rel_BankTransaction__Buchungstext(OItem_BankTransaction As clsOntologyItem, strBuchungstext As String) As clsObjectAtt
+        Dim objOA_BankTransaction__Buchungstext = New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_Buchungstext.GUID, _
+                                                            .ID_Class = OItem_BankTransaction.GUID_Parent, _
+                                                            .ID_Object = OItem_BankTransaction.GUID, _
+                                                            .ID_DataType = objLocalConfig.Globals.DType_String.GUID, _
+                                                            .OrderID = 1, _
+                                                            .Val_Named = strBuchungstext, _
+                                                            .Val_String = strBuchungstext}
+
+        Return objOA_BankTransaction__Buchungstext
+    End Function
+
+    Public Function Rel_BankTransaction__Verwendungszweck(OItem_BankTransaction As clsOntologyItem, strVerwendungszweck As String) As clsObjectAtt
+        Dim objOA_BankTransaction__Verwendungszweck = New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_Verwendungszweck.GUID, _
+                                                            .ID_Class = OItem_BankTransaction.GUID_Parent, _
+                                                            .ID_Object = OItem_BankTransaction.GUID, _
+                                                            .ID_DataType = objLocalConfig.Globals.DType_String.GUID, _
+                                                            .OrderID = 1, _
+                                                            .Val_Named = strVerwendungszweck, _
+                                                            .Val_String = strVerwendungszweck}
+
+        Return objOA_BankTransaction__Verwendungszweck
+    End Function
+
+    Public Function Rel_ImportLog_To_Auftragskonto(OItem_BankTransaction As clsOntologyItem, OItem_Auftragskonto As clsOntologyItem) As clsObjectRel
+        Dim objOR_ImportLog_To_Auftragskonto = New clsObjectRel With {.ID_Object = OItem_BankTransaction.GUID, _
+                                                  .ID_Parent_Object = OItem_BankTransaction.GUID_Parent, _
+                                                  .ID_Other = OItem_Auftragskonto.GUID, _
+                                                  .ID_Parent_Other = OItem_Auftragskonto.GUID_Parent, _
+                                                  .ID_RelationType = objLocalConfig.OItem_RelationType_Auftragskonto.GUID, _
+                                                  .OrderID = 1, _
+                                                  .Ontology = objLocalConfig.Globals.Type_Object}
+        Return objOR_ImportLog_To_Auftragskonto
+    End Function
+
+    Public Function Rel_ImportLog_To_Gegenkonto(OItem_BankTransaction As clsOntologyItem, OItem_Gegenkonto As clsOntologyItem) As clsObjectRel
+        Dim objOR_ImportLog_To_Gegenkonto = New clsObjectRel With {.ID_Object = OItem_BankTransaction.GUID, _
+                                                  .ID_Parent_Object = OItem_BankTransaction.GUID_Parent, _
+                                                  .ID_Other = OItem_Gegenkonto.GUID, _
+                                                  .ID_Parent_Other = OItem_Gegenkonto.GUID_Parent, _
+                                                  .ID_RelationType = objLocalConfig.OItem_RelationType_Gegenkonto.GUID, _
+                                                  .OrderID = 1, _
+                                                  .Ontology = objLocalConfig.Globals.Type_Object}
+        Return objOR_ImportLog_To_Gegenkonto
+    End Function
+
+    Public Function Rel_BankTransaction_To_Currency(OItem_BankTransaction As clsOntologyItem, OItem_Currency As clsOntologyItem) As clsObjectRel
+        Dim objOR_ImportLog_To_Gegenkonto = New clsObjectRel With {.ID_Object = OItem_BankTransaction.GUID, _
+                                                  .ID_Parent_Object = OItem_BankTransaction.GUID_Parent, _
+                                                  .ID_Other = OItem_Currency.GUID, _
+                                                  .ID_Parent_Other = OItem_Currency.GUID_Parent, _
+                                                  .ID_RelationType = objLocalConfig.OItem_RelationType_belonging.GUID, _
+                                                  .OrderID = 1, _
+                                                  .Ontology = objLocalConfig.Globals.Type_Object}
+        Return objOR_ImportLog_To_Gegenkonto
+    End Function
+
+    Public Function Rel_Konto_To_BLZ(OItem_Konto As clsOntologyItem, OItem_BLZ As clsOntologyItem) As clsObjectRel
+        Dim objOR_Konto_To_BLZ = New clsObjectRel With {.ID_Object = OItem_Konto.GUID, _
+                                                  .ID_Parent_Object = OItem_Konto.GUID_Parent, _
+                                                  .ID_Other = OItem_BLZ.GUID, _
+                                                  .ID_Parent_Other = OItem_BLZ.GUID_Parent, _
+                                                  .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID, _
+                                                  .OrderID = 1, _
+                                                  .Ontology = objLocalConfig.Globals.Type_Object}
+        Return objOR_Konto_To_BLZ
+    End Function
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
         set_DBConnection()
@@ -1345,7 +1392,7 @@ Public Class clsDataWork_ImportSettings
     End Sub
     Private Sub set_DBConnection()
         objLogManagement = New clsLogManagement(objLocalConfig.Globals)
-        objTransaction_ImportSettings = New clsTransaction_ImportSettings(objLocalConfig)
+        objTransaction_ImportSettings = New clsTransaction(objLocalConfig.Globals)
         objDBLevel_ReportFields = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_OntologyJoins = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_RepFields_To_OJoins = New clsDBLevel(objLocalConfig.Globals)
@@ -1356,7 +1403,9 @@ Public Class clsDataWork_ImportSettings
         objDBLevel_AltCurr = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Konto = New clsDBLevel(objLocalConfig.Globals)
 
-        objTransaction_Import = New clsTransaction_Import(objLocalConfig)
+        objTransaction_Import = New clsTransaction(objLocalConfig.Globals)
+        objTransaction_Konto = New clsTransaction(objLocalConfig.Globals)
+        objTransaction_BLZ = New clsTransaction(objLocalConfig.Globals)
     End Sub
 
 

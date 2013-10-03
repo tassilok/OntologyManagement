@@ -36,6 +36,8 @@ Partial Class UserControl_ObjectAtt
         Me.ToolStripButton_ClearFilter = New System.Windows.Forms.ToolStripButton()
         Me.BindingSource_ObjectAtt = New System.Windows.Forms.BindingSource(Me.components)
         Me.Timer_ObjectAtt = New System.Windows.Forms.Timer(Me.components)
+        Me.ContextMenuStrip_Items = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.CopyValueToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -44,6 +46,7 @@ Partial Class UserControl_ObjectAtt
         CType(Me.DataGridView_ObjectAtt, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStrip2.SuspendLayout()
         CType(Me.BindingSource_ObjectAtt, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ContextMenuStrip_Items.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -74,13 +77,13 @@ Partial Class UserControl_ObjectAtt
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLBL, Me.ToolStripLabel_Count, Me.ToolStripSeparator1, Me.ToolStripProgressBar_ObjectAtt})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(183, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(186, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_CountLBL
         '
         Me.ToolStripLabel_CountLBL.Name = "ToolStripLabel_CountLBL"
-        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(52, 22)
+        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(53, 22)
         Me.ToolStripLabel_CountLBL.Text = "x_Count:"
         '
         'ToolStripLabel_Count
@@ -104,6 +107,7 @@ Partial Class UserControl_ObjectAtt
         Me.DataGridView_ObjectAtt.AllowUserToAddRows = False
         Me.DataGridView_ObjectAtt.AllowUserToDeleteRows = False
         Me.DataGridView_ObjectAtt.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView_ObjectAtt.ContextMenuStrip = Me.ContextMenuStrip_Items
         Me.DataGridView_ObjectAtt.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView_ObjectAtt.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_ObjectAtt.Name = "DataGridView_ObjectAtt"
@@ -117,19 +121,19 @@ Partial Class UserControl_ObjectAtt
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_FilterLBL, Me.ToolStripLabel_Filter, Me.ToolStripButton_ClearFilter})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(91, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(93, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripLabel_FilterLBL
         '
         Me.ToolStripLabel_FilterLBL.Name = "ToolStripLabel_FilterLBL"
-        Me.ToolStripLabel_FilterLBL.Size = New System.Drawing.Size(47, 22)
+        Me.ToolStripLabel_FilterLBL.Size = New System.Drawing.Size(46, 22)
         Me.ToolStripLabel_FilterLBL.Text = "x_Filter:"
         '
         'ToolStripLabel_Filter
         '
         Me.ToolStripLabel_Filter.Name = "ToolStripLabel_Filter"
-        Me.ToolStripLabel_Filter.Size = New System.Drawing.Size(11, 22)
+        Me.ToolStripLabel_Filter.Size = New System.Drawing.Size(12, 22)
         Me.ToolStripLabel_Filter.Text = "-"
         '
         'ToolStripButton_ClearFilter
@@ -144,6 +148,18 @@ Partial Class UserControl_ObjectAtt
         'Timer_ObjectAtt
         '
         Me.Timer_ObjectAtt.Interval = 300
+        '
+        'ContextMenuStrip_Items
+        '
+        Me.ContextMenuStrip_Items.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyValueToolStripMenuItem})
+        Me.ContextMenuStrip_Items.Name = "ContextMenuStrip_Items"
+        Me.ContextMenuStrip_Items.Size = New System.Drawing.Size(153, 48)
+        '
+        'CopyValueToolStripMenuItem
+        '
+        Me.CopyValueToolStripMenuItem.Name = "CopyValueToolStripMenuItem"
+        Me.CopyValueToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.CopyValueToolStripMenuItem.Text = "x_Copy Value"
         '
         'UserControl_ObjectAtt
         '
@@ -165,6 +181,7 @@ Partial Class UserControl_ObjectAtt
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
         CType(Me.BindingSource_ObjectAtt, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContextMenuStrip_Items.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -181,5 +198,7 @@ Partial Class UserControl_ObjectAtt
     Friend WithEvents Timer_ObjectAtt As System.Windows.Forms.Timer
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripProgressBar_ObjectAtt As System.Windows.Forms.ToolStripProgressBar
+    Friend WithEvents ContextMenuStrip_Items As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents CopyValueToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
