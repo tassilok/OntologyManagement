@@ -130,49 +130,49 @@ Partial Class frmMain
         Me.Timer_TokenAttribute = New System.Windows.Forms.Timer(Me.components)
         Me.BindingSource_TokenRel = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_TokenAtt = New System.Windows.Forms.BindingSource(Me.components)
-        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
-        Me.ToolStripContainer1.LeftToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer1.SuspendLayout()
-        Me.StatusStrip1.SuspendLayout()
-        CType(Me.SplitContainer_Filter_Body, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer_Filter_Body.Panel1.SuspendLayout()
-        Me.SplitContainer_Filter_Body.Panel2.SuspendLayout()
-        Me.SplitContainer_Filter_Body.SuspendLayout()
-        Me.Panel_Filter.SuspendLayout()
-        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer1.Panel1.SuspendLayout()
-        Me.SplitContainer1.Panel2.SuspendLayout()
-        Me.SplitContainer1.SuspendLayout()
-        Me.GroupBox_FilterDr.SuspendLayout()
-        CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer2.Panel1.SuspendLayout()
-        Me.SplitContainer2.Panel2.SuspendLayout()
-        Me.SplitContainer2.SuspendLayout()
-        CType(Me.SplitContainer_TypeToken, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer_TypeToken.Panel1.SuspendLayout()
-        Me.SplitContainer_TypeToken.Panel2.SuspendLayout()
-        Me.SplitContainer_TypeToken.SuspendLayout()
-        CType(Me.SplitContainer_Token, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer_Token.SuspendLayout()
-        CType(Me.SplitContainer_AttribRelTokenRel, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer_AttribRelTokenRel.Panel1.SuspendLayout()
-        Me.SplitContainer_AttribRelTokenRel.Panel2.SuspendLayout()
-        Me.SplitContainer_AttribRelTokenRel.SuspendLayout()
-        CType(Me.SplitContainer_AttribRel, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer_AttribRel.Panel1.SuspendLayout()
-        Me.SplitContainer_AttribRel.SuspendLayout()
-        CType(Me.SplitContainer_TokAttTokRel, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer_TokAttTokRel.Panel1.SuspendLayout()
-        Me.SplitContainer_TokAttTokRel.SuspendLayout()
-        Me.ToolStrip1.SuspendLayout()
-        Me.MenuStrip1.SuspendLayout()
-        Me.ContextMenuStrip_TokAtt.SuspendLayout()
-        Me.ContextMenuStrip_TokRel.SuspendLayout()
-        CType(Me.BindingSource_TokenRel, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BindingSource_TokenAtt, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SuspendLayout()
+        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout
+        Me.ToolStripContainer1.LeftToolStripPanel.SuspendLayout
+        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout
+        Me.ToolStripContainer1.SuspendLayout
+        Me.StatusStrip1.SuspendLayout
+        CType(Me.SplitContainer_Filter_Body,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitContainer_Filter_Body.Panel1.SuspendLayout
+        Me.SplitContainer_Filter_Body.Panel2.SuspendLayout
+        Me.SplitContainer_Filter_Body.SuspendLayout
+        Me.Panel_Filter.SuspendLayout
+        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitContainer1.Panel1.SuspendLayout
+        Me.SplitContainer1.Panel2.SuspendLayout
+        Me.SplitContainer1.SuspendLayout
+        Me.GroupBox_FilterDr.SuspendLayout
+        CType(Me.SplitContainer2,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitContainer2.Panel1.SuspendLayout
+        Me.SplitContainer2.Panel2.SuspendLayout
+        Me.SplitContainer2.SuspendLayout
+        CType(Me.SplitContainer_TypeToken,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitContainer_TypeToken.Panel1.SuspendLayout
+        Me.SplitContainer_TypeToken.Panel2.SuspendLayout
+        Me.SplitContainer_TypeToken.SuspendLayout
+        CType(Me.SplitContainer_Token,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitContainer_Token.SuspendLayout
+        CType(Me.SplitContainer_AttribRelTokenRel,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitContainer_AttribRelTokenRel.Panel1.SuspendLayout
+        Me.SplitContainer_AttribRelTokenRel.Panel2.SuspendLayout
+        Me.SplitContainer_AttribRelTokenRel.SuspendLayout
+        CType(Me.SplitContainer_AttribRel,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitContainer_AttribRel.Panel1.SuspendLayout
+        Me.SplitContainer_AttribRel.SuspendLayout
+        CType(Me.SplitContainer_TokAttTokRel,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitContainer_TokAttTokRel.Panel1.SuspendLayout
+        Me.SplitContainer_TokAttTokRel.SuspendLayout
+        Me.ToolStrip1.SuspendLayout
+        Me.MenuStrip1.SuspendLayout
+        Me.ContextMenuStrip_TokAtt.SuspendLayout
+        Me.ContextMenuStrip_TokRel.SuspendLayout
+        CType(Me.BindingSource_TokenRel,System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BindingSource_TokenAtt,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SuspendLayout
         '
         'ToolStripContainer1
         '
@@ -192,7 +192,7 @@ Partial Class frmMain
         Me.ToolStripContainer1.LeftToolStripPanel.Controls.Add(Me.ToolStrip1)
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.RightToolStripPanelVisible = False
+        Me.ToolStripContainer1.RightToolStripPanelVisible = false
         Me.ToolStripContainer1.Size = New System.Drawing.Size(1401, 602)
         Me.ToolStripContainer1.TabIndex = 2
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
@@ -219,9 +219,9 @@ Partial Class frmMain
         '
         'ToolStripStatusLabel_Database
         '
-        Me.ToolStripStatusLabel_Database.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.ToolStripStatusLabel_Database.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)  _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)  _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom),System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_Database.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner
         Me.ToolStripStatusLabel_Database.Name = "ToolStripStatusLabel_Database"
         Me.ToolStripStatusLabel_Database.Size = New System.Drawing.Size(16, 19)
@@ -271,11 +271,11 @@ Partial Class frmMain
         '
         'ToolStripStatusLabel_TokenRelLeft
         '
-        Me.ToolStripStatusLabel_TokenRelLeft.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.ToolStripStatusLabel_TokenRelLeft.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)  _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)  _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom),System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_TokenRelLeft.BorderStyle = System.Windows.Forms.Border3DStyle.Raised
-        Me.ToolStripStatusLabel_TokenRelLeft.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.ToolStripStatusLabel_TokenRelLeft.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Bold)
         Me.ToolStripStatusLabel_TokenRelLeft.Name = "ToolStripStatusLabel_TokenRelLeft"
         Me.ToolStripStatusLabel_TokenRelLeft.Size = New System.Drawing.Size(16, 19)
         Me.ToolStripStatusLabel_TokenRelLeft.Text = "-"
@@ -288,11 +288,11 @@ Partial Class frmMain
         '
         'ToolStripStatusLabel_TokenRelRelation
         '
-        Me.ToolStripStatusLabel_TokenRelRelation.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.ToolStripStatusLabel_TokenRelRelation.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)  _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)  _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom),System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_TokenRelRelation.BorderStyle = System.Windows.Forms.Border3DStyle.Raised
-        Me.ToolStripStatusLabel_TokenRelRelation.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.ToolStripStatusLabel_TokenRelRelation.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Bold)
         Me.ToolStripStatusLabel_TokenRelRelation.Name = "ToolStripStatusLabel_TokenRelRelation"
         Me.ToolStripStatusLabel_TokenRelRelation.Size = New System.Drawing.Size(16, 19)
         Me.ToolStripStatusLabel_TokenRelRelation.Text = "-"
@@ -305,11 +305,11 @@ Partial Class frmMain
         '
         'ToolStripStatusLabel_TokenRelRight
         '
-        Me.ToolStripStatusLabel_TokenRelRight.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.ToolStripStatusLabel_TokenRelRight.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)  _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)  _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom),System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_TokenRelRight.BorderStyle = System.Windows.Forms.Border3DStyle.Raised
-        Me.ToolStripStatusLabel_TokenRelRight.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.ToolStripStatusLabel_TokenRelRight.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Bold)
         Me.ToolStripStatusLabel_TokenRelRight.Name = "ToolStripStatusLabel_TokenRelRight"
         Me.ToolStripStatusLabel_TokenRelRight.Size = New System.Drawing.Size(16, 19)
         Me.ToolStripStatusLabel_TokenRelRight.Text = "-"
@@ -362,9 +362,9 @@ Partial Class frmMain
         '
         'Panel_Filter
         '
-        Me.Panel_Filter.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Panel_Filter.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.Panel_Filter.Controls.Add(Me.SplitContainer1)
         Me.Panel_Filter.Location = New System.Drawing.Point(119, 3)
         Me.Panel_Filter.Name = "Panel_Filter"
@@ -409,8 +409,8 @@ Partial Class frmMain
         '
         'TextBox_NameRelationType
         '
-        Me.TextBox_NameRelationType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_NameRelationType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameRelationType.Location = New System.Drawing.Point(119, 122)
         Me.TextBox_NameRelationType.Name = "TextBox_NameRelationType"
         Me.TextBox_NameRelationType.Size = New System.Drawing.Size(370, 20)
@@ -418,8 +418,8 @@ Partial Class frmMain
         '
         'TextBox_GUIDRelationType
         '
-        Me.TextBox_GUIDRelationType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_GUIDRelationType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDRelationType.Location = New System.Drawing.Point(118, 98)
         Me.TextBox_GUIDRelationType.Name = "TextBox_GUIDRelationType"
         Me.TextBox_GUIDRelationType.Size = New System.Drawing.Size(371, 20)
@@ -427,8 +427,8 @@ Partial Class frmMain
         '
         'TextBox_NameType
         '
-        Me.TextBox_NameType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_NameType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameType.Location = New System.Drawing.Point(87, 74)
         Me.TextBox_NameType.Name = "TextBox_NameType"
         Me.TextBox_NameType.Size = New System.Drawing.Size(402, 20)
@@ -436,8 +436,8 @@ Partial Class frmMain
         '
         'TextBox_GUIDType
         '
-        Me.TextBox_GUIDType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_GUIDType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDType.Location = New System.Drawing.Point(87, 50)
         Me.TextBox_GUIDType.Name = "TextBox_GUIDType"
         Me.TextBox_GUIDType.Size = New System.Drawing.Size(402, 20)
@@ -445,8 +445,8 @@ Partial Class frmMain
         '
         'TextBox_NameToken
         '
-        Me.TextBox_NameToken.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_NameToken.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameToken.Location = New System.Drawing.Point(87, 27)
         Me.TextBox_NameToken.Name = "TextBox_NameToken"
         Me.TextBox_NameToken.Size = New System.Drawing.Size(402, 20)
@@ -454,8 +454,8 @@ Partial Class frmMain
         '
         'TextBox_GUIDToken
         '
-        Me.TextBox_GUIDToken.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_GUIDToken.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDToken.Location = New System.Drawing.Point(87, 4)
         Me.TextBox_GUIDToken.Name = "TextBox_GUIDToken"
         Me.TextBox_GUIDToken.Size = New System.Drawing.Size(402, 20)
@@ -463,9 +463,9 @@ Partial Class frmMain
         '
         'Label_NameRelationTypeLBL
         '
-        Me.Label_NameRelationTypeLBL.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label_NameRelationTypeLBL.AutoSize = True
+        Me.Label_NameRelationTypeLBL.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.Label_NameRelationTypeLBL.AutoSize = true
         Me.Label_NameRelationTypeLBL.Location = New System.Drawing.Point(6, 124)
         Me.Label_NameRelationTypeLBL.Name = "Label_NameRelationTypeLBL"
         Me.Label_NameRelationTypeLBL.Size = New System.Drawing.Size(107, 13)
@@ -474,7 +474,7 @@ Partial Class frmMain
         '
         'Label_GUIDRelationLBL
         '
-        Me.Label_GUIDRelationLBL.AutoSize = True
+        Me.Label_GUIDRelationLBL.AutoSize = true
         Me.Label_GUIDRelationLBL.Location = New System.Drawing.Point(6, 100)
         Me.Label_GUIDRelationLBL.Name = "Label_GUIDRelationLBL"
         Me.Label_GUIDRelationLBL.Size = New System.Drawing.Size(106, 13)
@@ -483,7 +483,7 @@ Partial Class frmMain
         '
         'Label_NameTypeLBL
         '
-        Me.Label_NameTypeLBL.AutoSize = True
+        Me.Label_NameTypeLBL.AutoSize = true
         Me.Label_NameTypeLBL.Location = New System.Drawing.Point(5, 77)
         Me.Label_NameTypeLBL.Name = "Label_NameTypeLBL"
         Me.Label_NameTypeLBL.Size = New System.Drawing.Size(68, 13)
@@ -492,7 +492,7 @@ Partial Class frmMain
         '
         'Label_GUIDTypeLBL
         '
-        Me.Label_GUIDTypeLBL.AutoSize = True
+        Me.Label_GUIDTypeLBL.AutoSize = true
         Me.Label_GUIDTypeLBL.Location = New System.Drawing.Point(6, 53)
         Me.Label_GUIDTypeLBL.Name = "Label_GUIDTypeLBL"
         Me.Label_GUIDTypeLBL.Size = New System.Drawing.Size(67, 13)
@@ -501,7 +501,7 @@ Partial Class frmMain
         '
         'Label_NameTokenLBL
         '
-        Me.Label_NameTokenLBL.AutoSize = True
+        Me.Label_NameTokenLBL.AutoSize = true
         Me.Label_NameTokenLBL.Location = New System.Drawing.Point(6, 30)
         Me.Label_NameTokenLBL.Name = "Label_NameTokenLBL"
         Me.Label_NameTokenLBL.Size = New System.Drawing.Size(75, 13)
@@ -510,7 +510,7 @@ Partial Class frmMain
         '
         'Label_GUIDTokenLBL
         '
-        Me.Label_GUIDTokenLBL.AutoSize = True
+        Me.Label_GUIDTokenLBL.AutoSize = true
         Me.Label_GUIDTokenLBL.Location = New System.Drawing.Point(6, 6)
         Me.Label_GUIDTokenLBL.Name = "Label_GUIDTokenLBL"
         Me.Label_GUIDTokenLBL.Size = New System.Drawing.Size(74, 13)
@@ -519,8 +519,8 @@ Partial Class frmMain
         '
         'TextBox_NameTypeOther
         '
-        Me.TextBox_NameTypeOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_NameTypeOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameTypeOther.Location = New System.Drawing.Point(86, 74)
         Me.TextBox_NameTypeOther.Name = "TextBox_NameTypeOther"
         Me.TextBox_NameTypeOther.Size = New System.Drawing.Size(459, 20)
@@ -528,8 +528,8 @@ Partial Class frmMain
         '
         'TextBox_GUIDTypeOther
         '
-        Me.TextBox_GUIDTypeOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_GUIDTypeOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDTypeOther.Location = New System.Drawing.Point(86, 50)
         Me.TextBox_GUIDTypeOther.Name = "TextBox_GUIDTypeOther"
         Me.TextBox_GUIDTypeOther.Size = New System.Drawing.Size(459, 20)
@@ -537,8 +537,8 @@ Partial Class frmMain
         '
         'TextBox_NameTokenOther
         '
-        Me.TextBox_NameTokenOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_NameTokenOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.TextBox_NameTokenOther.Location = New System.Drawing.Point(86, 27)
         Me.TextBox_NameTokenOther.Name = "TextBox_NameTokenOther"
         Me.TextBox_NameTokenOther.Size = New System.Drawing.Size(459, 20)
@@ -546,8 +546,8 @@ Partial Class frmMain
         '
         'TextBox_GUIDTokenOther
         '
-        Me.TextBox_GUIDTokenOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_GUIDTokenOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUIDTokenOther.Location = New System.Drawing.Point(86, 4)
         Me.TextBox_GUIDTokenOther.Name = "TextBox_GUIDTokenOther"
         Me.TextBox_GUIDTokenOther.Size = New System.Drawing.Size(459, 20)
@@ -555,7 +555,7 @@ Partial Class frmMain
         '
         'Label_NameTypeOtherLBL
         '
-        Me.Label_NameTypeOtherLBL.AutoSize = True
+        Me.Label_NameTypeOtherLBL.AutoSize = true
         Me.Label_NameTypeOtherLBL.Location = New System.Drawing.Point(6, 77)
         Me.Label_NameTypeOtherLBL.Name = "Label_NameTypeOtherLBL"
         Me.Label_NameTypeOtherLBL.Size = New System.Drawing.Size(68, 13)
@@ -564,7 +564,7 @@ Partial Class frmMain
         '
         'Label_GUIDTypeOtherLBL
         '
-        Me.Label_GUIDTypeOtherLBL.AutoSize = True
+        Me.Label_GUIDTypeOtherLBL.AutoSize = true
         Me.Label_GUIDTypeOtherLBL.Location = New System.Drawing.Point(6, 53)
         Me.Label_GUIDTypeOtherLBL.Name = "Label_GUIDTypeOtherLBL"
         Me.Label_GUIDTypeOtherLBL.Size = New System.Drawing.Size(67, 13)
@@ -573,7 +573,7 @@ Partial Class frmMain
         '
         'Label_NameTokenOtherLBL
         '
-        Me.Label_NameTokenOtherLBL.AutoSize = True
+        Me.Label_NameTokenOtherLBL.AutoSize = true
         Me.Label_NameTokenOtherLBL.Location = New System.Drawing.Point(5, 30)
         Me.Label_NameTokenOtherLBL.Name = "Label_NameTokenOtherLBL"
         Me.Label_NameTokenOtherLBL.Size = New System.Drawing.Size(75, 13)
@@ -582,7 +582,7 @@ Partial Class frmMain
         '
         'Label_GUIDTokenOtherLBL
         '
-        Me.Label_GUIDTokenOtherLBL.AutoSize = True
+        Me.Label_GUIDTokenOtherLBL.AutoSize = true
         Me.Label_GUIDTokenOtherLBL.Location = New System.Drawing.Point(6, 6)
         Me.Label_GUIDTokenOtherLBL.Name = "Label_GUIDTokenOtherLBL"
         Me.Label_GUIDTokenOtherLBL.Size = New System.Drawing.Size(74, 13)
@@ -591,28 +591,28 @@ Partial Class frmMain
         '
         'CheckBox_Filter
         '
-        Me.CheckBox_Filter.AutoSize = True
+        Me.CheckBox_Filter.AutoSize = true
         Me.CheckBox_Filter.Location = New System.Drawing.Point(953, 51)
         Me.CheckBox_Filter.Name = "CheckBox_Filter"
         Me.CheckBox_Filter.Size = New System.Drawing.Size(48, 17)
         Me.CheckBox_Filter.TabIndex = 7
         Me.CheckBox_Filter.Text = "Filter"
-        Me.CheckBox_Filter.UseVisualStyleBackColor = True
+        Me.CheckBox_Filter.UseVisualStyleBackColor = true
         '
         'Button_SaveFilter
         '
-        Me.Button_SaveFilter.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button_SaveFilter.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.Button_SaveFilter.Location = New System.Drawing.Point(1275, 51)
         Me.Button_SaveFilter.Name = "Button_SaveFilter"
         Me.Button_SaveFilter.Size = New System.Drawing.Size(95, 23)
         Me.Button_SaveFilter.TabIndex = 6
         Me.Button_SaveFilter.Text = "Filter speichern"
-        Me.Button_SaveFilter.UseVisualStyleBackColor = True
+        Me.Button_SaveFilter.UseVisualStyleBackColor = true
         '
         'ComboBox_Filter
         '
-        Me.ComboBox_Filter.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ComboBox_Filter.FormattingEnabled = True
+        Me.ComboBox_Filter.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.ComboBox_Filter.FormattingEnabled = true
         Me.ComboBox_Filter.Location = New System.Drawing.Point(1177, 28)
         Me.ComboBox_Filter.Name = "ComboBox_Filter"
         Me.ComboBox_Filter.Size = New System.Drawing.Size(193, 21)
@@ -620,8 +620,8 @@ Partial Class frmMain
         '
         'Label_FilterStd
         '
-        Me.Label_FilterStd.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label_FilterStd.AutoSize = True
+        Me.Label_FilterStd.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.Label_FilterStd.AutoSize = true
         Me.Label_FilterStd.Location = New System.Drawing.Point(1174, 11)
         Me.Label_FilterStd.Name = "Label_FilterStd"
         Me.Label_FilterStd.Size = New System.Drawing.Size(96, 13)
@@ -630,28 +630,28 @@ Partial Class frmMain
         '
         'Button_Filter
         '
-        Me.Button_Filter.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button_Filter.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.Button_Filter.Location = New System.Drawing.Point(1275, 75)
         Me.Button_Filter.Name = "Button_Filter"
         Me.Button_Filter.Size = New System.Drawing.Size(95, 23)
         Me.Button_Filter.TabIndex = 3
         Me.Button_Filter.Text = "Filter"
-        Me.Button_Filter.UseVisualStyleBackColor = True
+        Me.Button_Filter.UseVisualStyleBackColor = true
         '
         'Button_GetData
         '
-        Me.Button_GetData.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button_GetData.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.Button_GetData.Location = New System.Drawing.Point(1275, 47)
         Me.Button_GetData.Name = "Button_GetData"
         Me.Button_GetData.Size = New System.Drawing.Size(95, 23)
         Me.Button_GetData.TabIndex = 2
         Me.Button_GetData.Text = "Eintrag holen"
-        Me.Button_GetData.UseVisualStyleBackColor = True
+        Me.Button_GetData.UseVisualStyleBackColor = true
         '
         'GroupBox_FilterDr
         '
-        Me.GroupBox_FilterDr.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox_FilterDr.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
         Me.GroupBox_FilterDr.Controls.Add(Me.CheckBox1)
         Me.GroupBox_FilterDr.Controls.Add(Me.RadioButton_RightLeft)
         Me.GroupBox_FilterDr.Controls.Add(Me.RadioButton_LeftRight)
@@ -659,40 +659,40 @@ Partial Class frmMain
         Me.GroupBox_FilterDr.Name = "GroupBox_FilterDr"
         Me.GroupBox_FilterDr.Size = New System.Drawing.Size(92, 95)
         Me.GroupBox_FilterDr.TabIndex = 0
-        Me.GroupBox_FilterDr.TabStop = False
+        Me.GroupBox_FilterDr.TabStop = false
         Me.GroupBox_FilterDr.Text = "Filter-Config"
         '
         'CheckBox1
         '
-        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.AutoSize = true
         Me.CheckBox1.Location = New System.Drawing.Point(7, 67)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(44, 17)
         Me.CheckBox1.TabIndex = 2
         Me.CheckBox1.Text = "Null"
-        Me.CheckBox1.UseVisualStyleBackColor = True
+        Me.CheckBox1.UseVisualStyleBackColor = true
         '
         'RadioButton_RightLeft
         '
-        Me.RadioButton_RightLeft.AutoSize = True
+        Me.RadioButton_RightLeft.AutoSize = true
         Me.RadioButton_RightLeft.Location = New System.Drawing.Point(7, 44)
         Me.RadioButton_RightLeft.Name = "RadioButton_RightLeft"
         Me.RadioButton_RightLeft.Size = New System.Drawing.Size(77, 17)
         Me.RadioButton_RightLeft.TabIndex = 1
         Me.RadioButton_RightLeft.Text = "Right->Left"
-        Me.RadioButton_RightLeft.UseVisualStyleBackColor = True
+        Me.RadioButton_RightLeft.UseVisualStyleBackColor = true
         '
         'RadioButton_LeftRight
         '
-        Me.RadioButton_LeftRight.AutoSize = True
-        Me.RadioButton_LeftRight.Checked = True
+        Me.RadioButton_LeftRight.AutoSize = true
+        Me.RadioButton_LeftRight.Checked = true
         Me.RadioButton_LeftRight.Location = New System.Drawing.Point(7, 20)
         Me.RadioButton_LeftRight.Name = "RadioButton_LeftRight"
         Me.RadioButton_LeftRight.Size = New System.Drawing.Size(77, 17)
         Me.RadioButton_LeftRight.TabIndex = 0
-        Me.RadioButton_LeftRight.TabStop = True
+        Me.RadioButton_LeftRight.TabStop = true
         Me.RadioButton_LeftRight.Text = "Left->Right"
-        Me.RadioButton_LeftRight.UseVisualStyleBackColor = True
+        Me.RadioButton_LeftRight.UseVisualStyleBackColor = true
         '
         'SplitContainer2
         '
@@ -786,9 +786,9 @@ Partial Class frmMain
         '
         'Panel_Attributes
         '
-        Me.Panel_Attributes.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Panel_Attributes.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.Panel_Attributes.Location = New System.Drawing.Point(4, 21)
         Me.Panel_Attributes.Name = "Panel_Attributes"
         Me.Panel_Attributes.Size = New System.Drawing.Size(322, 199)
@@ -796,7 +796,7 @@ Partial Class frmMain
         '
         'Label_AttributesLBL
         '
-        Me.Label_AttributesLBL.AutoSize = True
+        Me.Label_AttributesLBL.AutoSize = true
         Me.Label_AttributesLBL.Location = New System.Drawing.Point(4, 4)
         Me.Label_AttributesLBL.Name = "Label_AttributesLBL"
         Me.Label_AttributesLBL.Size = New System.Drawing.Size(54, 13)
@@ -821,9 +821,9 @@ Partial Class frmMain
         '
         'Panel_RelationTypes
         '
-        Me.Panel_RelationTypes.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Panel_RelationTypes.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.Panel_RelationTypes.Location = New System.Drawing.Point(3, 21)
         Me.Panel_RelationTypes.Name = "Panel_RelationTypes"
         Me.Panel_RelationTypes.Size = New System.Drawing.Size(363, 199)
@@ -831,7 +831,7 @@ Partial Class frmMain
         '
         'Label_RelationTypes
         '
-        Me.Label_RelationTypes.AutoSize = True
+        Me.Label_RelationTypes.AutoSize = true
         Me.Label_RelationTypes.Location = New System.Drawing.Point(3, 4)
         Me.Label_RelationTypes.Name = "Label_RelationTypes"
         Me.Label_RelationTypes.Size = New System.Drawing.Size(78, 13)
@@ -849,11 +849,11 @@ Partial Class frmMain
         '
         'ToolStripButton_TokenType
         '
-        Me.ToolStripButton_TokenType.Checked = True
-        Me.ToolStripButton_TokenType.CheckOnClick = True
+        Me.ToolStripButton_TokenType.Checked = true
+        Me.ToolStripButton_TokenType.CheckOnClick = true
         Me.ToolStripButton_TokenType.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ToolStripButton_TokenType.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_TokenType.Image = CType(resources.GetObject("ToolStripButton_TokenType.Image"), System.Drawing.Image)
+        Me.ToolStripButton_TokenType.Image = CType(resources.GetObject("ToolStripButton_TokenType.Image"),System.Drawing.Image)
         Me.ToolStripButton_TokenType.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_TokenType.Name = "ToolStripButton_TokenType"
         Me.ToolStripButton_TokenType.Size = New System.Drawing.Size(22, 20)
@@ -861,100 +861,100 @@ Partial Class frmMain
         '
         'ToolStripButton_Types
         '
-        Me.ToolStripButton_Types.Checked = True
-        Me.ToolStripButton_Types.CheckOnClick = True
+        Me.ToolStripButton_Types.Checked = true
+        Me.ToolStripButton_Types.CheckOnClick = true
         Me.ToolStripButton_Types.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ToolStripButton_Types.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.ToolStripButton_Types.Image = Global.Ontolog_Module.My.Resources.Resources.Types_Closed
         Me.ToolStripButton_Types.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Types.Name = "ToolStripButton_Types"
-        Me.ToolStripButton_Types.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_Types.Size = New System.Drawing.Size(30, 20)
         Me.ToolStripButton_Types.Text = "ToolStripButton1"
         Me.ToolStripButton_Types.ToolTipText = "Toggle Typetree"
         '
         'ToolStripButton_Token
         '
-        Me.ToolStripButton_Token.Checked = True
-        Me.ToolStripButton_Token.CheckOnClick = True
+        Me.ToolStripButton_Token.Checked = true
+        Me.ToolStripButton_Token.CheckOnClick = true
         Me.ToolStripButton_Token.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ToolStripButton_Token.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.ToolStripButton_Token.Image = Global.Ontolog_Module.My.Resources.Resources.Vogelschwarm
         Me.ToolStripButton_Token.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Token.Name = "ToolStripButton_Token"
-        Me.ToolStripButton_Token.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_Token.Size = New System.Drawing.Size(30, 20)
         Me.ToolStripButton_Token.Text = "ToolStripButton2"
         Me.ToolStripButton_Token.ToolTipText = "Toggle Tokenlist"
         '
         'ToolStripButton_Tokentree
         '
-        Me.ToolStripButton_Tokentree.CheckOnClick = True
+        Me.ToolStripButton_Tokentree.CheckOnClick = true
         Me.ToolStripButton_Tokentree.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.ToolStripButton_Tokentree.Image = Global.Ontolog_Module.My.Resources.Resources.XSDSchema_SequenceIcon
         Me.ToolStripButton_Tokentree.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Tokentree.Name = "ToolStripButton_Tokentree"
-        Me.ToolStripButton_Tokentree.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_Tokentree.Size = New System.Drawing.Size(30, 20)
         Me.ToolStripButton_Tokentree.Text = "x_Tokentree"
         '
         'ToolStripButton_AttributesAndRelations
         '
-        Me.ToolStripButton_AttributesAndRelations.CheckOnClick = True
+        Me.ToolStripButton_AttributesAndRelations.CheckOnClick = true
         Me.ToolStripButton_AttributesAndRelations.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.ToolStripButton_AttributesAndRelations.Image = Global.Ontolog_Module.My.Resources.Resources.NavForward
         Me.ToolStripButton_AttributesAndRelations.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_AttributesAndRelations.Name = "ToolStripButton_AttributesAndRelations"
-        Me.ToolStripButton_AttributesAndRelations.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_AttributesAndRelations.Size = New System.Drawing.Size(30, 20)
         Me.ToolStripButton_AttributesAndRelations.Text = "ToolStripButton1"
         '
         'ToolStripButton_AttribRel
         '
-        Me.ToolStripButton_AttribRel.Checked = True
-        Me.ToolStripButton_AttribRel.CheckOnClick = True
+        Me.ToolStripButton_AttribRel.Checked = true
+        Me.ToolStripButton_AttribRel.CheckOnClick = true
         Me.ToolStripButton_AttribRel.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ToolStripButton_AttribRel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.ToolStripButton_AttribRel.Image = Global.Ontolog_Module.My.Resources.Resources.Attributes_bamboo_danny_allen_r
         Me.ToolStripButton_AttribRel.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_AttribRel.Name = "ToolStripButton_AttribRel"
-        Me.ToolStripButton_AttribRel.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_AttribRel.Size = New System.Drawing.Size(30, 20)
         Me.ToolStripButton_AttribRel.Text = "ToolStripButton3"
         Me.ToolStripButton_AttribRel.ToolTipText = "Toggle Attributes and Relations"
         '
         'ToolStripButton_TokenRel
         '
-        Me.ToolStripButton_TokenRel.Checked = True
-        Me.ToolStripButton_TokenRel.CheckOnClick = True
+        Me.ToolStripButton_TokenRel.Checked = true
+        Me.ToolStripButton_TokenRel.CheckOnClick = true
         Me.ToolStripButton_TokenRel.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ToolStripButton_TokenRel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.ToolStripButton_TokenRel.Image = Global.Ontolog_Module.My.Resources.Resources.RelationTypes_gpride_jean_victor_balin_
         Me.ToolStripButton_TokenRel.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_TokenRel.Name = "ToolStripButton_TokenRel"
-        Me.ToolStripButton_TokenRel.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_TokenRel.Size = New System.Drawing.Size(30, 20)
         Me.ToolStripButton_TokenRel.Text = "ToolStripButton4"
         Me.ToolStripButton_TokenRel.ToolTipText = "Toggle Token-Relations"
         '
         'ToolStripButton_Filter
         '
-        Me.ToolStripButton_Filter.CheckOnClick = True
+        Me.ToolStripButton_Filter.CheckOnClick = true
         Me.ToolStripButton_Filter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.ToolStripButton_Filter.Image = Global.Ontolog_Module.My.Resources.Resources.Procedures
         Me.ToolStripButton_Filter.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Filter.Name = "ToolStripButton_Filter"
-        Me.ToolStripButton_Filter.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_Filter.Size = New System.Drawing.Size(30, 20)
         Me.ToolStripButton_Filter.Text = "ToolStripButton1"
         Me.ToolStripButton_Filter.ToolTipText = "Toggle Filter"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(22, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(30, 6)
         '
         'ToolStripButton_ModuleView
         '
-        Me.ToolStripButton_ModuleView.CheckOnClick = True
+        Me.ToolStripButton_ModuleView.CheckOnClick = true
         Me.ToolStripButton_ModuleView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_ModuleView.Image = CType(resources.GetObject("ToolStripButton_ModuleView.Image"), System.Drawing.Image)
+        Me.ToolStripButton_ModuleView.Image = CType(resources.GetObject("ToolStripButton_ModuleView.Image"),System.Drawing.Image)
         Me.ToolStripButton_ModuleView.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_ModuleView.Name = "ToolStripButton_ModuleView"
-        Me.ToolStripButton_ModuleView.Size = New System.Drawing.Size(22, 19)
+        Me.ToolStripButton_ModuleView.Size = New System.Drawing.Size(30, 19)
         Me.ToolStripButton_ModuleView.Text = "M"
         '
         'MenuStrip1
@@ -1146,71 +1146,71 @@ Partial Class frmMain
         '
         'frmMain
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1401, 602)
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "frmMain"
         Me.Text = "x_Ontology_Module"
-        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
-        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.LeftToolStripPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.LeftToolStripPanel.PerformLayout()
-        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
-        Me.ToolStripContainer1.ResumeLayout(False)
-        Me.ToolStripContainer1.PerformLayout()
-        Me.StatusStrip1.ResumeLayout(False)
-        Me.StatusStrip1.PerformLayout()
-        Me.SplitContainer_Filter_Body.Panel1.ResumeLayout(False)
-        Me.SplitContainer_Filter_Body.Panel1.PerformLayout()
-        Me.SplitContainer_Filter_Body.Panel2.ResumeLayout(False)
-        CType(Me.SplitContainer_Filter_Body, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer_Filter_Body.ResumeLayout(False)
-        Me.Panel_Filter.ResumeLayout(False)
-        Me.SplitContainer1.Panel1.ResumeLayout(False)
-        Me.SplitContainer1.Panel1.PerformLayout()
-        Me.SplitContainer1.Panel2.ResumeLayout(False)
-        Me.SplitContainer1.Panel2.PerformLayout()
-        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer1.ResumeLayout(False)
-        Me.GroupBox_FilterDr.ResumeLayout(False)
-        Me.GroupBox_FilterDr.PerformLayout()
-        Me.SplitContainer2.Panel1.ResumeLayout(False)
-        Me.SplitContainer2.Panel2.ResumeLayout(False)
-        CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer2.ResumeLayout(False)
-        Me.SplitContainer_TypeToken.Panel1.ResumeLayout(False)
-        Me.SplitContainer_TypeToken.Panel1.PerformLayout()
-        Me.SplitContainer_TypeToken.Panel2.ResumeLayout(False)
-        CType(Me.SplitContainer_TypeToken, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer_TypeToken.ResumeLayout(False)
-        CType(Me.SplitContainer_Token, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer_Token.ResumeLayout(False)
-        Me.SplitContainer_AttribRelTokenRel.Panel1.ResumeLayout(False)
-        Me.SplitContainer_AttribRelTokenRel.Panel2.ResumeLayout(False)
-        CType(Me.SplitContainer_AttribRelTokenRel, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer_AttribRelTokenRel.ResumeLayout(False)
-        Me.SplitContainer_AttribRel.Panel1.ResumeLayout(False)
-        Me.SplitContainer_AttribRel.Panel1.PerformLayout()
-        CType(Me.SplitContainer_AttribRel, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer_AttribRel.ResumeLayout(False)
-        Me.SplitContainer_TokAttTokRel.Panel1.ResumeLayout(False)
-        Me.SplitContainer_TokAttTokRel.Panel1.PerformLayout()
-        CType(Me.SplitContainer_TokAttTokRel, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer_TokAttTokRel.ResumeLayout(False)
-        Me.ToolStrip1.ResumeLayout(False)
-        Me.ToolStrip1.PerformLayout()
-        Me.MenuStrip1.ResumeLayout(False)
-        Me.MenuStrip1.PerformLayout()
-        Me.ContextMenuStrip_TokAtt.ResumeLayout(False)
-        Me.ContextMenuStrip_TokRel.ResumeLayout(False)
-        CType(Me.BindingSource_TokenRel, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BindingSource_TokenAtt, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ResumeLayout(False)
+        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout
+        Me.ToolStripContainer1.ContentPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.LeftToolStripPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.LeftToolStripPanel.PerformLayout
+        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout
+        Me.ToolStripContainer1.ResumeLayout(false)
+        Me.ToolStripContainer1.PerformLayout
+        Me.StatusStrip1.ResumeLayout(false)
+        Me.StatusStrip1.PerformLayout
+        Me.SplitContainer_Filter_Body.Panel1.ResumeLayout(false)
+        Me.SplitContainer_Filter_Body.Panel1.PerformLayout
+        Me.SplitContainer_Filter_Body.Panel2.ResumeLayout(false)
+        CType(Me.SplitContainer_Filter_Body,System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitContainer_Filter_Body.ResumeLayout(false)
+        Me.Panel_Filter.ResumeLayout(false)
+        Me.SplitContainer1.Panel1.ResumeLayout(false)
+        Me.SplitContainer1.Panel1.PerformLayout
+        Me.SplitContainer1.Panel2.ResumeLayout(false)
+        Me.SplitContainer1.Panel2.PerformLayout
+        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitContainer1.ResumeLayout(false)
+        Me.GroupBox_FilterDr.ResumeLayout(false)
+        Me.GroupBox_FilterDr.PerformLayout
+        Me.SplitContainer2.Panel1.ResumeLayout(false)
+        Me.SplitContainer2.Panel2.ResumeLayout(false)
+        CType(Me.SplitContainer2,System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitContainer2.ResumeLayout(false)
+        Me.SplitContainer_TypeToken.Panel1.ResumeLayout(false)
+        Me.SplitContainer_TypeToken.Panel1.PerformLayout
+        Me.SplitContainer_TypeToken.Panel2.ResumeLayout(false)
+        CType(Me.SplitContainer_TypeToken,System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitContainer_TypeToken.ResumeLayout(false)
+        CType(Me.SplitContainer_Token,System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitContainer_Token.ResumeLayout(false)
+        Me.SplitContainer_AttribRelTokenRel.Panel1.ResumeLayout(false)
+        Me.SplitContainer_AttribRelTokenRel.Panel2.ResumeLayout(false)
+        CType(Me.SplitContainer_AttribRelTokenRel,System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitContainer_AttribRelTokenRel.ResumeLayout(false)
+        Me.SplitContainer_AttribRel.Panel1.ResumeLayout(false)
+        Me.SplitContainer_AttribRel.Panel1.PerformLayout
+        CType(Me.SplitContainer_AttribRel,System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitContainer_AttribRel.ResumeLayout(false)
+        Me.SplitContainer_TokAttTokRel.Panel1.ResumeLayout(false)
+        Me.SplitContainer_TokAttTokRel.Panel1.PerformLayout
+        CType(Me.SplitContainer_TokAttTokRel,System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitContainer_TokAttTokRel.ResumeLayout(false)
+        Me.ToolStrip1.ResumeLayout(false)
+        Me.ToolStrip1.PerformLayout
+        Me.MenuStrip1.ResumeLayout(false)
+        Me.MenuStrip1.PerformLayout
+        Me.ContextMenuStrip_TokAtt.ResumeLayout(false)
+        Me.ContextMenuStrip_TokRel.ResumeLayout(false)
+        CType(Me.BindingSource_TokenRel,System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BindingSource_TokenAtt,System.ComponentModel.ISupportInitialize).EndInit
+        Me.ResumeLayout(false)
 
-    End Sub
+End Sub
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
     Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
     Friend WithEvents ToolStripStatusLabel_DatabaseLBL As System.Windows.Forms.ToolStripStatusLabel

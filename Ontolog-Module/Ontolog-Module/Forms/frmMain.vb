@@ -41,6 +41,15 @@ Public Class frmMain
     Private oList_Applied_Simple As List(Of clsOntologyItem)
     Private oList_Applied_ObjRel As List(Of clsObjectRel)
 
+
+    Private sub selected_ObjectNode(OItem_Node As clsOntologyItem) Handles  objUserControl_ObjectTree.selected_Node
+        If Not OItem_Node Is Nothing Then
+            objUserControl_OObjectList.select_Row(OItem_Node)
+
+        End If
+    End Sub
+
+
     Private Sub objUserControl_ObjRel_related_Items() Handles objUserControl_ObjRel.related_Items
         configureRelationLabel()
     End Sub
@@ -48,7 +57,7 @@ Public Class frmMain
     Private Sub configureRelationLabel()
         ToolStripStatusLabel_RelationDone.Text = If(objUserControl_ObjRel.OItem_Left Is Nothing, "-", objUserControl_ObjRel.OItem_Left.Name)
         ToolStripStatusLabel_RelationDone.Text = ToolStripStatusLabel_RelationDone.Text & If(objUserControl_ObjRel.OItem_RelationType Is Nothing, "-", objUserControl_ObjRel.OItem_RelationType.Name)
-        ToolStripStatusLabel_RelationDone.Text = ToolStripStatusLabel_RelationDone.Text & If(objUserControl_ObjRel.OItem_Other.Name Is Nothing, "-", objUserControl_ObjRel.OItem_Other.Name)
+        ToolStripStatusLabel_RelationDone.Text = ToolStripStatusLabel_RelationDone.Text & If(objUserControl_ObjRel.OItem_Other Is Nothing, "-", objUserControl_ObjRel.OItem_Other.Name)
 
     End Sub
 
@@ -114,7 +123,8 @@ Public Class frmMain
     End Sub
 
     Private Sub applied_Objects_Tree() Handles objUserControl_ObjectTree.applied_Objects
-
+        Dim objOList_Objects = objUserControl_ObjectTree.List_Objects
+        objUserControl_ObjRel.applied_Object(objOList_Objects)
     End Sub
 
     Private Sub applied_ListObjects() Handles objUserControl_OObjectList.applied_Items
@@ -217,6 +227,8 @@ Public Class frmMain
 
             objUserControl_ObjAtt.initialize_RelList(objOItem, _
                                                      Nothing)
+
+            objUserControl_ObjectTree.select_Node(objOItem.GUID)
         Else
             'procT_TokenRel_With_Or.Clear()
             'funcT_TokenAttribute_Named_By_GUIDToken.Clear()

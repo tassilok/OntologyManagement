@@ -66,7 +66,7 @@ Public Class UserControl_OItemList
     Public Event applied_Items()
     Public Event counted_Items(ByVal intCount As Integer)
 
-
+    
     Public ReadOnly Property RowName_GUID As String
         Get
             Return strRowName_GUID
@@ -123,6 +123,21 @@ Public Class UserControl_OItemList
             Return DataGridView_Items.SelectedRows
         End Get
     End Property
+
+    Public sub select_Row(OItem_Item As clsOntologyItem)
+        Dim BindingSource_Grid As BindingSource =  DataGridView_Items.DataSource
+
+        If not BindingSource_Grid Is Nothing Then
+            Dim intRowID = BindingSource_Grid.Find(strRowName_GUID, OItem_Item.GUID)
+            If intRowID >-1 Then
+                BindingSource_Grid.Position = intRowID
+                If Not DataGridView_Items.CurrentRow Is Nothing Then
+                    DataGridView_Items.CurrentRow.Selected = True
+                End If
+            End If
+
+        End If
+    End Sub
 
     Public Sub initialize(ByVal OItem_Parent As clsOntologyItem, Optional ByVal oItem_Object As clsOntologyItem = Nothing, Optional ByVal OItem_Direction As clsOntologyItem = Nothing, Optional ByVal OItem_Other As clsOntologyItem = Nothing, Optional ByVal OItem_RelType As clsOntologyItem = Nothing, Optional ByVal boolOR As Boolean = False)
         boolProgChange = True

@@ -1379,6 +1379,8 @@ Public Class clsDBLevel
             objOntologyList_ObjectTree = objElSelector.get_Data_Objects_Tree(objOItem_Class_Par, _
                                                                              objOitem_Class_Child, _
                                                                              objOItem_RelationType)
+            objOntologyList_Objects1 = objElSelector.OntologyList_Objects1
+            objOntologyList_Objects2 = objElSelector.OntologyList_Objects2
 
             If boolTable Then
                 For Each objObjectTree In objOntologyList_ObjectTree

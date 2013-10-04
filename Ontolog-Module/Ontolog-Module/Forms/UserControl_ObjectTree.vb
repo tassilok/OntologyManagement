@@ -5,6 +5,8 @@ Public Class UserControl_ObjectTree
     Private objDBLevel As clsDBLevel
     Private objOItem_Object As clsObjectTree
 
+    Private objFrm_OntologyModule As frmMain
+
     Private objThread As Threading.Thread
     Private objTreeNodes_Thread As New List(Of TreeNode)
 
@@ -18,8 +20,10 @@ Public Class UserControl_ObjectTree
     Private boolTopDown As Boolean
     Private boolDataGet As Boolean
     Private boolApplyable As Boolean
+    Private boolPChange As Boolean
 
     Public Event applied_Objects()
+    Public Event selected_Node(OItem_Node As clsOntologyItem)
 
     Public ReadOnly Property List_Objects As List(Of clsOntologyItem)
         Get
@@ -32,8 +36,22 @@ Public Class UserControl_ObjectTree
         End Get
         Set(ByVal value As Boolean)
             boolApplyable = value
+            ApplyToolStripMenuItem.Enabled = boolApplyable
+            ApplyToolStripMenuItem.Visible = boolApplyable
         End Set
     End Property
+
+    Public sub select_Node(GUID_Node As String)
+        Dim objTreeNodes() = TreeView_Objects.Nodes.Find(GUID_Node,True)
+        If objTreeNodes.Any()
+            boolPChange = True
+            If TreeView_Objects.SelectedNode.Name <> objTreeNodes.First().Name Then
+                TreeView_Objects.SelectedNode = objTreeNodes.First()
+            End If
+            
+            boolPChange = False
+        End If
+    End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
 
@@ -43,8 +61,11 @@ Public Class UserControl_ObjectTree
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = LocalConfig
 
-        objOItem_RelationType = objLocalConfig.Globals.RelationType_contains
-        ToolStripTextBox_RelationType.Text = objOItem_RelationType.Name
+        
+        
+        Set_RelationTypeLabel()
+        
+        
         boolApplyable = True
 
         set_DBConnection()
@@ -80,45 +101,109 @@ Public Class UserControl_ObjectTree
         Dim objOItem As clsObjectTree
         Dim oList_Class As New List(Of clsOntologyItem)
         objDBLevel = New clsDBLevel(objLocalConfig.Globals)
+        
+        set_RelationType()
 
-        If boolTopDown = True Then
-            oList_Class.Add(New clsOntologyItem(Nothing, Nothing, objOItem_Parent.GUID, objLocalConfig.Globals.Field_ID_Object))
+        If Not objOItem_Parent is nothing And Not objOItem_RelationType Is Nothing Then
+            
+            If boolTopDown = True Then
+                oList_Class.Add(New clsOntologyItem(Nothing, Nothing, objOItem_Parent.GUID, objLocalConfig.Globals.Field_ID_Object))
 
-            objDBLevel.get_Data_Objects_Tree(objOItem_Parent, objOItem_Parent, objOItem_RelationType)
-            oItems_No_Parent = From obj In objDBLevel.OList_Objects
-                                 Group Join objPar In objDBLevel.OList_ObjectTree On obj.GUID Equals objPar.ID_Object Into RightTableResult = Group
-                                 From objPar In RightTableResult.DefaultIfEmpty
-                                 Where objPar Is Nothing
-                                 Select Guid = obj.GUID, Name = obj.Name, GUID_Parent = obj.GUID_Parent
-                                 Order By Name
+                objDBLevel.get_Data_Objects_Tree(objOItem_Parent, objOItem_Parent, objOItem_RelationType)
+                oItems_No_Parent = From obj In objDBLevel.OList_Objects
+                                     Group Join objPar In objDBLevel.OList_ObjectTree On obj.GUID Equals objPar.ID_Object Into RightTableResult = Group
+                                     From objPar In RightTableResult.DefaultIfEmpty
+                                     Where objPar Is Nothing
+                                     Select Guid = obj.GUID, Name = obj.Name, GUID_Parent = obj.GUID_Parent
+                                     Order By Name
 
-            intID = 0
-            For Each objItem In oItems_No_Parent
-                objTreeNode.Name = objItem.Guid
-                objTreeNode.Text = objItem.Name
+                intID = 0
+                For Each objItem In oItems_No_Parent
+                    objTreeNode.Name = objItem.Guid
+                    objTreeNode.Text = objItem.Name
                 
-                objTreeNodes_Thread.Add(objTreeNode.Clone)
+                    objTreeNodes_Thread.Add(objTreeNode.Clone)
 
 
-            Next
-
-            For Each objOItem In objDBLevel.OList_ObjectTree
-                objTreeNode.Name = objOItem.ID_Object
-                objTreeNode.Text = objOItem.Name_Object
-
-                Dim objTreeNodes = From obj In objTreeNodes_Thread
-                                   Where obj.Name = objOItem.ID_Object_Parent
-
-                For Each objTreeNode_sub In objTreeNodes
-                    objTreeNode_sub.Nodes.Add(objTreeNode.Clone)
                 Next
-            Next
+
+                For Each objOItem In objDBLevel.OList_ObjectTree
+                    objTreeNode.Name = objOItem.ID_Object
+                    objTreeNode.Text = objOItem.Name_Object
+
+                    Dim objTreeNodes = From obj In objTreeNodes_Thread
+                                       Where obj.Name = objOItem.ID_Object_Parent
+
+                    For Each objTreeNode_sub In objTreeNodes
+                        objTreeNode_sub.Nodes.Add(objTreeNode.Clone)
+                    Next
+                Next
+            End If
         End If
+        
 
         boolDataGet = True
     End Sub
 
+    Private Function set_RelationType() As clsOntologyItem
+        Dim objOItem_Result as clsOntologyItem = objLocalConfig.Globals.LState_Success
+        If Not objOItem_Parent Is Nothing Then
+            
+        
+        Dim objORel_RelationTypeSearch = new clsObjectRel With {.ID_Parent_Object = objOItem_Parent.GUID, _
+                                                                .ID_Parent_Other = objOItem_Parent.GUID }
+
+        Dim objOList_Rel  = New List(Of clsObjectRel)
+        objOList_Rel.Add(objORel_RelationTypeSearch)
+
+        objOItem_Result =  objDBLevel.get_Data_ObjectRel(objOList_Rel,boolIDs := True)
+
+        Dim objList = (From objRelationType In objDBLevel.OList_ObjectRel_ID
+                      group objRelationType By Key = objRelationType.ID_RelationType Into Group _
+                      Order By Group.Count() Descending
+                      Select ID_RelationType = Key, _
+                            Count = Group.Count()).ToList()
+
+
+        If objList.Any() Then
+            objOItem_RelationType = new clsOntologyItem()
+            objOItem_RelationType.GUID = objList.First().ID_RelationType
+            objOList_Rel.Clear()
+            Dim objOList_RelationType As New List(Of clsOntologyItem)
+            objOList_RelationType.Add(objOItem_RelationType)
+            objOItem_Result = objDBLevel.get_Data_RelationTypes(objOList_RelationType)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                If objDBLevel.OList_RelationTypes.Any() Then
+                    objOItem_RelationType = new clsOntologyItem With 
+                                            { .GUID = objDBLevel.OList_RelationTypes.First().GUID, _
+                                              .Name = objDBLevel.OList_RelationTypes.First().Name, _
+                                              .GUID_Parent = objDBLevel.OList_RelationTypes.First().GUID, _
+                                              .Type = objLocalConfig.Globals.Type_RelationType
+                                            }
+
+
+                    End If
+                End If
+
+            End If
+        Else 
+            objOItem_RelationType = Nothing
+        End If
+        
+
+        Return objOItem_Result
+    End Function
+
+    Private sub Set_RelationTypeLabel
+        If objOItem_RelationType Is Nothing Then
+            ToolStripTextBox_RelationType.Text = "-"    
+        Else 
+            ToolStripTextBox_RelationType.Text = objOItem_RelationType.Name    
+        End If
+    End Sub
+
     Public Sub initialize(ByVal OItem_Parent As clsOntologyItem)
+        boolPChange = True
         Timer_Tree.Stop()
         ToolStripProgressBar_List.Visible = True
 
@@ -133,7 +218,7 @@ Public Class UserControl_ObjectTree
         intRowID_No_Parent = 0
         intRowID_Parent = 0
         boolTopDown = True
-        get_RelationType()
+        
         TreeView_Objects.Nodes.Clear()
         objTreeNodes_Thread.Clear()
         objThread = New Threading.Thread(AddressOf get_Tree)
@@ -141,9 +226,7 @@ Public Class UserControl_ObjectTree
         objThread.Start()
     End Sub
 
-    Private Sub get_RelationType()
-
-    End Sub
+    
 
     Private Sub Timer_Tree_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Tree.Tick
         Dim dateNow As Date
@@ -164,7 +247,7 @@ Public Class UserControl_ObjectTree
                     dblPrc = 0
                 End If
 
-                ToolStripLabel_Count.Text = intRowID_No_Parent + intRowID_Parent
+                ToolStripLabel_Count.Text = intAll
                 ToolStripProgressBar_List.Value = dblPrc
                 If intRowID_No_Parent < objTreeNodes_Thread.Count Then
                     If objTreeNodes_Thread(intRowID_No_Parent).Parent Is Nothing Then
@@ -176,9 +259,11 @@ Public Class UserControl_ObjectTree
                 Else
                     
                     Timer_Tree.Stop()
+                    ToolStripLabel_Count.Text = intAll
                     ToolStripProgressBar_List.Value = 0
                     ToolStripProgressBar_List.Visible = False
-
+                    Set_RelationTypeLabel()
+                    boolPChange = False
                 End If
             End While
 
@@ -187,7 +272,8 @@ Public Class UserControl_ObjectTree
     End Sub
 
     Private Sub ToolStripButton_Change_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Change.Click
-
+        objFrm_OntologyModule = new frmMain(objLocalConfig,objLocalConfig.Globals.Type_RelationType)
+        objFrm_OntologyModule.ShowDialog(me)
     End Sub
 
     Private Sub ContextMenuStrip_Tree_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Tree.Opening
@@ -237,7 +323,35 @@ Public Class UserControl_ObjectTree
                 oList_Objects.Add(New clsOntologyItem(objTreeNode_Sub.Name, objTreeNode_Sub.Text, objOItem_Parent.GUID, objLocalConfig.Globals.Type_Object))
 
             End If
-            get_SelectedNodes(objTreeNode)
+            get_SelectedNodes(objTreeNode_Sub)
         Next
+    End Sub
+
+    Private Sub ToolStripButton_Checkboxes_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_Checkboxes.Click
+        ToolStripButton_Checkboxes.Checked = not ToolStripButton_Checkboxes.Checked
+    
+        TreeView_Objects.CheckBoxes = ToolStripButton_Checkboxes.Checked
+    End Sub
+
+    Private Sub TreeView_Objects_AfterSelect( sender As Object,  e As TreeViewEventArgs) Handles TreeView_Objects.AfterSelect
+        If boolPChange=False Then
+            Dim objTreeNode  = TreeView_Objects.SelectedNode
+            Dim objOItem_Selected as clsOntologyItem = Nothing
+
+            If Not objTreeNode Is Nothing Then
+                objOItem_Selected = new clsOntologyItem With {.GUID = objTreeNode.Name, _
+                                                              .Name = objTreeNode.Text, _
+                                                              .GUID_Parent = objOItem_Parent.GUID, _
+                                                              .Type = objLocalConfig.Globals.Type_Object }
+
+
+                RaiseEvent selected_Node(objOItem_Selected)
+            End If    
+        End If
+        
+    End Sub
+
+    Private Sub ToolStripButton_Refresh_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_Refresh.Click
+        initialize(objOItem_Parent)
     End Sub
 End Class
