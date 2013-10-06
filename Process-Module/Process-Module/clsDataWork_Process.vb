@@ -1,5 +1,6 @@
 ﻿Imports Ontolog_Module
 Imports System.Threading
+Imports OntologyClasses.BaseClasses
 
 Public Class clsDataWork_Process
     Private objLocalConfig As clsLocalConfig

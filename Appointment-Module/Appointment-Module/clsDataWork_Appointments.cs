@@ -5,6 +5,7 @@ using System.Text;
 using Ontolog_Module;
 using System.Threading;
 using Structure_Module;
+using OntologyClasses.BaseClasses;
 
 namespace Appointment_Module
 {

@@ -251,6 +251,30 @@ Public Class clsDataWork_MediaItem
         Return objOR_MediaItem_To_Ref
     End Function
 
+    Public Function hasMediaItem(OItem_Ref) As clsOntologyItem
+        Dim objOL_MediaItem_To_Ref As New List(Of clsObjectRel)
+
+        objOL_MediaItem_To_Ref.Add(New clsObjectRel(Nothing, _
+                                                 Nothing, _
+                                                 objLocalConfig.OItem_Type_Media_Item.GUID, _
+                                                 Nothing, _
+                                                 OItem_Ref.GUID, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 objLocalConfig.OItem_RelationType_belongsTo.GUID, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing))
+
+        Dim objOItem_Result = objDBLevel_MediaItems.get_Data_ObjectRel(objOL_MediaItem_To_Ref, doCount:=True)
+
+
+        Return objOItem_Result
+    End Function
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
 

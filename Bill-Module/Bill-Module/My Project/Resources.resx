@@ -118,20 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="arrow_down_purple_benji__01" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arrow-down-purple_benji__01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="arrow_up_blue_benji_park_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arrow-up-blue_benji_park_01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="NewDocumentHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\newdocumenths.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="pulsante_01_architetto_f_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pulsante_01_architetto_f_01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="pulsante_01_architetto_f_01_First" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pulsante_01_architetto_f_01 first.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="appunti_architetto_franc_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\appunti_architetto_franc_01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="pulsante_02_architetto_f_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pulsante_02_architetto_f_01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -139,7 +127,28 @@
   <data name="pulsante_02_architetto_f_01_Last" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pulsante_02_architetto_f_01 last.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="pulsante_01_architetto_f_01_First" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulsante_01_architetto_f_01 first.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="arrow_up_blue_benji_park_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow-up-blue_benji_park_01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="b_plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\b_plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NewDocumentHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\newdocumenths.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulsante_01_architetto_f_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulsante_01_architetto_f_01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="tasto_8_architetto_franc_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tasto_8_architetto_franc_01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="arrow_down_purple_benji__01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow-down-purple_benji__01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="edit-find-replace" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\edit-find-replace.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

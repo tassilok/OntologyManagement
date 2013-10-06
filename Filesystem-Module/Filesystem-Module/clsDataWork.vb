@@ -15,6 +15,7 @@ Public Class clsDataWork
     Private objDBLevel_FolderTree As clsDBLevel
     Private objDBLevel_Files As clsDBLevel
     Private objDBLevel_Hash As clsDBLevel
+    Private objDBLevel_Blobs As clsDBLevel
 
     Protected Overrides Sub Finalize()
         MyBase.Finalize()
@@ -39,6 +40,8 @@ Public Class clsDataWork
         objDBLevel_Files = New clsDBLevel(objLocalConfig.Globals)
 
         objDBLevel_Hash = New clsDBLevel(objLocalConfig.Globals)
+
+        objDBLevel_Blobs = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 
     Public Sub get_Servers(ByVal objTreeNode As TreeNode, ByVal intID_Server As Integer)
@@ -687,7 +690,29 @@ Public Class clsDataWork
         Return objOL_Files
     End Function
 
+    Public Function IsFileCheckedout(OItem_File As clsOntologyItem) As clsOntologyItem
+        Dim objORItem_CheckedOut = New clsObjectRel() With {.ID_Object = OItem_File.GUID, _
+                                                                     .ID_Parent_Object = OItem_File.GUID_Parent, _
+                                                                     .ID_Parent_Other = objLocalConfig.Globals.OItem_Server.GUID_Parent, _
+                                                                     .ID_RelationType = objLocalConfig.OItem_RelationType_is_checkout_by.GUID, _
+                                                                     .Ontology = objLocalConfig.Globals.Type_Object}
 
+        Dim oOList_CheckedOut As New List(Of clsObjectRel)
+
+        oOList_CheckedOut.Add(objORItem_CheckedOut)
+
+        Dim objOItem_Result = objDBLevel_Blobs.get_Data_ObjectRel(oOList_CheckedOut, boolIDs:=False)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_Blobs.OList_ObjectRel.Any Then
+                objOItem_Result = objLocalConfig.Globals.LState_Relation
+                objOItem_Result.Additional1 = objDBLevel_Blobs.OList_ObjectRel.First().Name_Other
+            Else
+                objOItem_Result = objLocalConfig.Globals.LState_Nothing
+            End If
+        End If
+
+        Return objOItem_Result
+    End Function
 
 
 End Class

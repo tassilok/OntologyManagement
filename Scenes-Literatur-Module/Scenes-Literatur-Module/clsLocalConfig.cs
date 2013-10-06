@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ontolog_Module;
+using OntologyClasses.BaseClasses;
 
 namespace Scenes_Literatur_Module
 {

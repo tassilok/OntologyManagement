@@ -31,6 +31,19 @@ Partial Class UserControl_Documents
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripProgressBar_Data = New System.Windows.Forms.ToolStripProgressBar()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel_Title = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripTextBox_Title = New System.Windows.Forms.ToolStripTextBox()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripLabel_Location = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripTextBox_Location = New System.Windows.Forms.ToolStripTextBox()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel_Type = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripComboBox_Type = New System.Windows.Forms.ToolStripComboBox()
+        Me.Timer_Title = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_Data = New System.Windows.Forms.Timer(Me.components)
+        Me.OpenFileDialog_PDF = New System.Windows.Forms.OpenFileDialog()
         Me.ToolStripButton_New = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_MoveFirst = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_MovePrevious = New System.Windows.Forms.ToolStripButton()
@@ -39,19 +52,10 @@ Partial Class UserControl_Documents
         Me.ToolStripButton_Down = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Up = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Del = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripLabel_Title = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripTextBox_Title = New System.Windows.Forms.ToolStripTextBox()
-        Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripLabel_Location = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripTextBox_Location = New System.Windows.Forms.ToolStripTextBox()
+        Me.ToolStripButton_EditDocument = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_AddPDF = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Location = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_DelLocation = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripLabel_Type = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripComboBox_Type = New System.Windows.Forms.ToolStripComboBox()
-        Me.Timer_Title = New System.Windows.Forms.Timer(Me.components)
-        Me.Timer_Data = New System.Windows.Forms.Timer(Me.components)
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -116,11 +120,82 @@ Partial Class UserControl_Documents
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_New, Me.ToolStripButton_MoveFirst, Me.ToolStripButton_MovePrevious, Me.ToolStripButton_MoveNext, Me.ToolStripButton_MoveLast, Me.ToolStripButton_Down, Me.ToolStripButton_Up, Me.ToolStripButton_Del, Me.ToolStripSeparator1, Me.ToolStripLabel_Title, Me.ToolStripTextBox_Title})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_New, Me.ToolStripButton_MoveFirst, Me.ToolStripButton_MovePrevious, Me.ToolStripButton_MoveNext, Me.ToolStripButton_MoveLast, Me.ToolStripButton_Down, Me.ToolStripButton_Up, Me.ToolStripButton_Del, Me.ToolStripSeparator1, Me.ToolStripLabel_Title, Me.ToolStripTextBox_Title, Me.ToolStripButton_EditDocument, Me.ToolStripSeparator4, Me.ToolStripButton_AddPDF})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(528, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(580, 25)
         Me.ToolStrip1.TabIndex = 0
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripLabel_Title
+        '
+        Me.ToolStripLabel_Title.Name = "ToolStripLabel_Title"
+        Me.ToolStripLabel_Title.Size = New System.Drawing.Size(43, 22)
+        Me.ToolStripLabel_Title.Text = "x_Title:"
+        '
+        'ToolStripTextBox_Title
+        '
+        Me.ToolStripTextBox_Title.Name = "ToolStripTextBox_Title"
+        Me.ToolStripTextBox_Title.Size = New System.Drawing.Size(250, 25)
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStrip2
+        '
+        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_Location, Me.ToolStripTextBox_Location, Me.ToolStripButton_Location, Me.ToolStripButton_DelLocation, Me.ToolStripSeparator2, Me.ToolStripLabel_Type, Me.ToolStripComboBox_Type})
+        Me.ToolStrip2.Location = New System.Drawing.Point(3, 25)
+        Me.ToolStrip2.Name = "ToolStrip2"
+        Me.ToolStrip2.Size = New System.Drawing.Size(626, 25)
+        Me.ToolStrip2.TabIndex = 1
+        '
+        'ToolStripLabel_Location
+        '
+        Me.ToolStripLabel_Location.Name = "ToolStripLabel_Location"
+        Me.ToolStripLabel_Location.Size = New System.Drawing.Size(66, 22)
+        Me.ToolStripLabel_Location.Text = "x_Location:"
+        '
+        'ToolStripTextBox_Location
+        '
+        Me.ToolStripTextBox_Location.Enabled = False
+        Me.ToolStripTextBox_Location.Name = "ToolStripTextBox_Location"
+        Me.ToolStripTextBox_Location.Size = New System.Drawing.Size(300, 25)
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripLabel_Type
+        '
+        Me.ToolStripLabel_Type.Name = "ToolStripLabel_Type"
+        Me.ToolStripLabel_Type.Size = New System.Drawing.Size(71, 22)
+        Me.ToolStripLabel_Type.Text = "x_Belegstyp:"
+        '
+        'ToolStripComboBox_Type
+        '
+        Me.ToolStripComboBox_Type.Enabled = False
+        Me.ToolStripComboBox_Type.Name = "ToolStripComboBox_Type"
+        Me.ToolStripComboBox_Type.Size = New System.Drawing.Size(121, 25)
+        '
+        'Timer_Title
+        '
+        Me.Timer_Title.Interval = 300
+        '
+        'Timer_Data
+        '
+        Me.Timer_Data.Interval = 300
+        '
+        'OpenFileDialog_PDF
+        '
+        Me.OpenFileDialog_PDF.Filter = "PDF-Dateien|*.pdf"
         '
         'ToolStripButton_New
         '
@@ -202,42 +277,23 @@ Partial Class UserControl_Documents
         Me.ToolStripButton_Del.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_Del.Text = "ToolStripButton1"
         '
-        'ToolStripSeparator1
+        'ToolStripButton_EditDocument
         '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        Me.ToolStripButton_EditDocument.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_EditDocument.Image = Global.Bill_Module.My.Resources.Resources.edit_find_replace
+        Me.ToolStripButton_EditDocument.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_EditDocument.Name = "ToolStripButton_EditDocument"
+        Me.ToolStripButton_EditDocument.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_EditDocument.Text = "ToolStripButton1"
         '
-        'ToolStripLabel_Title
+        'ToolStripButton_AddPDF
         '
-        Me.ToolStripLabel_Title.Name = "ToolStripLabel_Title"
-        Me.ToolStripLabel_Title.Size = New System.Drawing.Size(43, 22)
-        Me.ToolStripLabel_Title.Text = "x_Title:"
-        '
-        'ToolStripTextBox_Title
-        '
-        Me.ToolStripTextBox_Title.Name = "ToolStripTextBox_Title"
-        Me.ToolStripTextBox_Title.Size = New System.Drawing.Size(250, 25)
-        '
-        'ToolStrip2
-        '
-        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_Location, Me.ToolStripTextBox_Location, Me.ToolStripButton_Location, Me.ToolStripButton_DelLocation, Me.ToolStripSeparator2, Me.ToolStripLabel_Type, Me.ToolStripComboBox_Type})
-        Me.ToolStrip2.Location = New System.Drawing.Point(3, 25)
-        Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(626, 25)
-        Me.ToolStrip2.TabIndex = 1
-        '
-        'ToolStripLabel_Location
-        '
-        Me.ToolStripLabel_Location.Name = "ToolStripLabel_Location"
-        Me.ToolStripLabel_Location.Size = New System.Drawing.Size(66, 22)
-        Me.ToolStripLabel_Location.Text = "x_Location:"
-        '
-        'ToolStripTextBox_Location
-        '
-        Me.ToolStripTextBox_Location.Enabled = False
-        Me.ToolStripTextBox_Location.Name = "ToolStripTextBox_Location"
-        Me.ToolStripTextBox_Location.Size = New System.Drawing.Size(300, 25)
+        Me.ToolStripButton_AddPDF.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_AddPDF.Image = Global.Bill_Module.My.Resources.Resources.b_plus
+        Me.ToolStripButton_AddPDF.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_AddPDF.Name = "ToolStripButton_AddPDF"
+        Me.ToolStripButton_AddPDF.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_AddPDF.Text = "ToolStripButton1"
         '
         'ToolStripButton_Location
         '
@@ -258,31 +314,6 @@ Partial Class UserControl_Documents
         Me.ToolStripButton_DelLocation.Name = "ToolStripButton_DelLocation"
         Me.ToolStripButton_DelLocation.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_DelLocation.Text = "ToolStripButton1"
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripLabel_Type
-        '
-        Me.ToolStripLabel_Type.Name = "ToolStripLabel_Type"
-        Me.ToolStripLabel_Type.Size = New System.Drawing.Size(71, 22)
-        Me.ToolStripLabel_Type.Text = "x_Belegstyp:"
-        '
-        'ToolStripComboBox_Type
-        '
-        Me.ToolStripComboBox_Type.Enabled = False
-        Me.ToolStripComboBox_Type.Name = "ToolStripComboBox_Type"
-        Me.ToolStripComboBox_Type.Size = New System.Drawing.Size(121, 25)
-        '
-        'Timer_Title
-        '
-        Me.Timer_Title.Interval = 300
-        '
-        'Timer_Data
-        '
-        Me.Timer_Data.Interval = 300
         '
         'UserControl_Documents
         '
@@ -334,5 +365,9 @@ Partial Class UserControl_Documents
     Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripProgressBar_Data As System.Windows.Forms.ToolStripProgressBar
     Friend WithEvents Timer_Data As System.Windows.Forms.Timer
+    Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripButton_AddPDF As System.Windows.Forms.ToolStripButton
+    Friend WithEvents OpenFileDialog_PDF As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents ToolStripButton_EditDocument As System.Windows.Forms.ToolStripButton
 
 End Class

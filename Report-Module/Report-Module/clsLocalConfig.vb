@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class clsLocalConfig
     Private cstr_ID_SoftwareDevelopment As String = "f40e5133f87642c7ab40c8c602f8884c"
     Private cstr_ID_Class_SoftwareDevelopment As String = "132a845f849f4f6b86847ab3fd068824"
@@ -105,7 +106,47 @@ Public Class clsLocalConfig
     Private objOItem_Class_Ontology_Join As New clsOntologyItem
     Private objOItem_Class_Ontology_Item As New clsOntologyItem
 
+    Private objOItem_User As clsOntologyItem
 
+    Private strFilter As String
+    Private intFilter As Integer
+    Private strSort As String
+
+    Public Property Filter As String
+        Get
+            Return strFilter
+        End Get
+        Set(ByVal value As String)
+            strFilter = value
+        End Set
+    End Property
+
+    Public Property Filter_Type As Integer
+        Get
+            Return intFilter
+        End Get
+        Set(ByVal value As Integer)
+            intFilter = value
+        End Set
+    End Property
+
+    Public Property Sort As String
+        Get
+            Return strSort
+        End Get
+        Set(ByVal value As String)
+            strSort = value
+        End Set
+    End Property
+
+    Public Property User As clsOntologyItem
+        Get
+            Return objOItem_User
+        End Get
+        Set(value As clsOntologyItem)
+            objOItem_User = value
+        End Set
+    End Property
     
     'Attributes
     Public ReadOnly Property OItem_Attribute_ASC() As clsOntologyItem
@@ -252,6 +293,12 @@ Public Class clsLocalConfig
     Public ReadOnly Property OItem_Object_Field_Type_Text() As clsOntologyItem
         Get
             Return objOItem_Object_Field_Type_Text
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Object_Field_Type_GUID() As clsOntologyItem
+        Get
+            Return objOItem_Object_Field_Type_GUID
         End Get
     End Property
 

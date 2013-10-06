@@ -26,7 +26,7 @@ Public Class UserControl_OntologyRefTree
         TreeView_Ontologies.Nodes.Clear()
 
         Dim objOList_Parent = (From obj In objDataWork_Ontologies.OList_ClassTree
-                              Where obj.GUID_Parent Is Nothing
+                              Where obj.GUID_Parent Is Nothing Or obj.GUID_Parent = ""
                               Select obj).ToList()
         objTreeNode_Root = TreeView_Ontologies.Nodes.Add(objDataWork_Ontologies.LocalConfig.Globals.Root.GUID, _
                                                              objDataWork_Ontologies.LocalConfig.Globals.Root.Name, _

@@ -47,11 +47,11 @@ Partial Class frmReportModule
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(507, 380)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1315, 532)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(507, 405)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(1315, 582)
         Me.ToolStripContainer1.TabIndex = 0
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
@@ -61,7 +61,7 @@ Partial Class frmReportModule
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(59, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(62, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Close
@@ -70,7 +70,7 @@ Partial Class frmReportModule
         Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
         Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
-        Me.ToolStripButton_Close.Size = New System.Drawing.Size(49, 22)
+        Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Close.Text = "x_Close"
         '
         'SplitContainer1
@@ -83,8 +83,8 @@ Partial Class frmReportModule
         'SplitContainer1.Panel1
         '
         Me.SplitContainer1.Panel1.Controls.Add(Me.TreeView_Report)
-        Me.SplitContainer1.Size = New System.Drawing.Size(507, 380)
-        Me.SplitContainer1.SplitterDistance = 169
+        Me.SplitContainer1.Size = New System.Drawing.Size(1315, 532)
+        Me.SplitContainer1.SplitterDistance = 210
         Me.SplitContainer1.TabIndex = 0
         '
         'TreeView_Report
@@ -92,14 +92,14 @@ Partial Class frmReportModule
         Me.TreeView_Report.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TreeView_Report.Location = New System.Drawing.Point(0, 0)
         Me.TreeView_Report.Name = "TreeView_Report"
-        Me.TreeView_Report.Size = New System.Drawing.Size(165, 376)
+        Me.TreeView_Report.Size = New System.Drawing.Size(206, 528)
         Me.TreeView_Report.TabIndex = 1
         '
         'frmReportModule
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(507, 405)
+        Me.ClientSize = New System.Drawing.Size(1315, 582)
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "frmReportModule"
         Me.Text = "x_Report-Module"

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Ontolog_Module;
 using Office_Module;
+using OntologyClasses.BaseClasses;
 
 namespace Scenes_Literatur_Module
 {

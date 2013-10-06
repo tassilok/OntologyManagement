@@ -14,6 +14,12 @@ Public Class frmBlobWatcher
     Private strPathBlobWatcher As String
     Private strBlobFlag As String
 
+    Public ReadOnly Property PathBlobWatcher As String
+        Get
+            Return strPathBlobWatcher
+        End Get
+    End Property
+
     Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
         Me.Dispose()
     End Sub
@@ -222,6 +228,10 @@ Public Class frmBlobWatcher
         End If
 
     End Sub
+
+    Public Function IsFileCheckedout(OItem_File As clsOntologyItem) As clsOntologyItem
+        Return objDataWork.IsFileCheckedout(OItem_File)
+    End Function
 
     Private Sub FileSystemWatcher_BlobDir_Renamed(sender As Object, e As IO.RenamedEventArgs) Handles FileSystemWatcher_BlobDir.Renamed
         boolRegister = True

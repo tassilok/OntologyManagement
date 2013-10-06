@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ontolog_Module;
+using OntologyClasses.BaseClasses;
 
 namespace Change_Module
 {
@@ -215,14 +216,13 @@ namespace Change_Module
                 objOItem_TicketList = OItem_TicketList;
             }
 
-            OList_TicketListToTicketList.Add(new clsObjectRel(objOItem_TicketList_Parent.GUID,
-                                                              null,
-                                                              objOItem_TicketList.GUID,
-                                                              null,
-                                                              objLocalConfig.OItem_RelationType_contains.GUID,
-                                                              objLocalConfig.Globals.Type_Object,
-                                                              null,
-                                                              null));
+            OList_TicketListToTicketList.Add(new clsObjectRel
+            {
+                ID_Object = objOItem_TicketList_Parent.GUID,
+                ID_Other = objOItem_TicketList.GUID,
+                ID_RelationType = objLocalConfig.OItem_RelationType_contains.GUID,
+                Ontology = objLocalConfig.Globals.Type_Object,
+            });
 
             objOItem_Result = objDBLevel_TicketLists.del_ObjectRel(OList_TicketListToTicketList);
 

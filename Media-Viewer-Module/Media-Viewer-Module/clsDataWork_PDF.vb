@@ -110,6 +110,30 @@ Public Class clsDataWork_PDF
         boolLoaded = True
     End Sub
 
+    Public Function hasPdf(OItem_Ref) As clsOntologyItem
+        Dim objOL_PDF_To_Ref As New List(Of clsObjectRel)
+
+        objOL_PDF_To_Ref.Add(New clsObjectRel(Nothing, _
+                                                 Nothing, _
+                                                 objLocalConfig.OItem_Type_PDF_Documents.GUID, _
+                                                 Nothing, _
+                                                 OItem_Ref.GUID, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 objLocalConfig.OItem_RelationType_belongsTo.GUID, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing))
+
+        Dim objOItem_Result = objDBLevel_PDF.get_Data_ObjectRel(objOL_PDF_To_Ref, doCount:=True)
+
+
+        Return objOItem_Result
+    End Function
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
 

@@ -200,7 +200,7 @@ Public Class clsOntologyWork
                             objDBLevel_Joins_OItems.get_Data_ObjectRel(objOList_Joins_Ont)
 
                             If objDBLevel_Joins_OItems.OList_ObjectRel_ID.Count > 0 Then
-                                Dim objL = From objOJoin In objDBLevel_Joins_OItems.OList_ObjectRel_ID
+                                Dim objL = (From objOJoin In objDBLevel_Joins_OItems.OList_ObjectRel_ID
                                            Group Join objAttTyp In objDBLevel_Attributes.OList_ObjectRel On objOJoin.ID_Other Equals objAttTyp.ID_Object Into RightAtt = Group
                                            From objAttTyp In RightAtt.DefaultIfEmpty
                                            Group Join objRelTyp In objDBLevel_RelTypes.OList_ObjectRel On objOJoin.ID_Other Equals objRelTyp.ID_Object Into RightRel = Group
@@ -209,20 +209,21 @@ Public Class clsOntologyWork
                                            From objClass In RightClass.DefaultIfEmpty
                                            Group Join objObj In objDBLevel_Objects.OList_ObjectRel On objOJoin.ID_Other Equals objObj.ID_Object Into RightObject = Group
                                            From objObj In RightObject.DefaultIfEmpty
-                                           Order By objOJoin.OrderID
+                                           Order By objOJoin.OrderID).ToList()
 
 
                                 If objL.Count > 0 Then
                                     If objL.Count = 2 Then
                                         Dim objClass = objL(0)
-                                        Dim objAtt = objL(1)
+                                        Dim objRelOrAtt = objL(1)
 
-                                        objOList_Join.Add(New clsObjectRel(Nothing, _
+                                        If objRelOrAtt.objRelTyp Is Nothing Then
+                                            objOList_Join.Add(New clsObjectRel(Nothing, _
                                                                            Nothing, _
                                                                            objClass.objClass.ID_Other, _
                                                                            objClass.objClass.Name_Other, _
-                                                                           objAtt.objAttTyp.ID_Other, _
-                                                                           objAtt.objAttTyp.Name_Other, _
+                                                                           objRelOrAtt.objAttTyp.ID_Other, _
+                                                                           objRelOrAtt.objAttTyp.Name_Other, _
                                                                            Nothing, _
                                                                            Nothing, _
                                                                            Nothing, _
@@ -231,6 +232,23 @@ Public Class clsOntologyWork
                                                                            Nothing, _
                                                                            Nothing, _
                                                                            Nothing))
+                                        Else
+                                            objOList_Join.Add(New clsObjectRel(Nothing, _
+                                                                           Nothing, _
+                                                                           objClass.objClass.ID_Other, _
+                                                                           objClass.objClass.Name_Other, _
+                                                                           Nothing, _
+                                                                           Nothing, _
+                                                                           Nothing, _
+                                                                           Nothing, _
+                                                                           objRelOrAtt.objRelTyp.ID_Other, _
+                                                                           objRelOrAtt.objRelTyp.Name_Other, _
+                                                                           objLocalConfig.Globals.Type_ClassRel, _
+                                                                           Nothing, _
+                                                                           Nothing, _
+                                                                           Nothing))
+                                        End If
+                                        
 
 
                                     ElseIf objL.Count = 3 Then

@@ -16,11 +16,11 @@ namespace ElasticSearchConnector
     [Flags]
     public enum SortEnum
     {
-        ASC_Name,
-        DESC_Name,
-        NONE,
-        ASC_OrderID,
-        DESC_OrderID
+        ASC_Name = 1,
+        DESC_Name = 2,
+        NONE = 4,
+        ASC_OrderID = 8,
+        DESC_OrderID = 16
     }
 
     public class clsDBSelector
@@ -32,7 +32,7 @@ namespace ElasticSearchConnector
         public int SearchRange { get; private set; }
         public string Session { get; private set; }
 
-        private SortEnum sort;
+        private SortEnum sort = SortEnum.NONE;
 
         public ElasticSearchClient ElConnector { get; private set; }
 
@@ -58,6 +58,21 @@ namespace ElasticSearchConnector
         public List<clsObjectAtt> OntologyList_ObjAtt { get; set; }
         public List<clsOntologyItem> OntologyList_DataTypes { get; set; }
         public List<clsAttribute> OntologyList_Attributes { get; set; }
+
+        public SortEnum Sort 
+        { 
+            get 
+            { 
+                return sort; 
+            }
+            set
+            {
+                sort = value;
+            }
+
+
+        }
+
 
         public BooleanQuery create_BoolQuery_ClassRel(List<clsClassRel> OList_ClassRel, bool boolClear = true )
         {
@@ -1279,6 +1294,10 @@ namespace ElasticSearchConnector
             OntologyList_Classes2.Clear();
             OntologyList_RelationTypes1.Clear();
 
+            switch (sort)
+            {
+            }
+
             var objBoolQuery = create_BoolQuery_ClassRel(OList_ClassRel);
 
             
@@ -1947,7 +1966,7 @@ namespace ElasticSearchConnector
                                                         GUID = objHit.Id,
                                                         Name = objHit.Source[objFields.Name_Item].ToString(),
                                                         GUID_Parent =  objHit.Source[objFields.ID_Class].ToString(),
-                                                        Type = objTypes.DataType
+                                                        Type = objTypes.ObjectType  
                                                     }).ToList());
                 }
                 else
@@ -1958,7 +1977,7 @@ namespace ElasticSearchConnector
                                                         GUID = objHit.Id,
                                                         Name = objHit.Source[objFields.Name_Item].ToString(),
                                                         GUID_Parent = objHit.Source[objFields.ID_Class].ToString(),
-                                                        Type = objTypes.DataType
+                                                        Type = objTypes.ObjectType
                                                     }).ToList());
                 }
 
@@ -2055,7 +2074,7 @@ namespace ElasticSearchConnector
             
 
             string strSort = null;
-            if (sort == SortEnum.DESC_OrderID)
+            if (sort == SortEnum.ASC_OrderID)
             {
                 strSort = "OrderID:asc";
             }

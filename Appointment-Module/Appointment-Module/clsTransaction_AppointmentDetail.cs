@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ontolog_Module;
+using OntologyClasses.BaseClasses;
 
 namespace Appointment_Module
 {
@@ -34,7 +35,7 @@ namespace Appointment_Module
                 ID_DataType = objLocalConfig.Globals.DType_DateTime.GUID,
                 OrderID = 1,
                 Val_Date = dateEnde,
-                val_Named = dateEnde.ToString()
+                Val_Named = dateEnde.ToString()
             };
 
             if (ClearTransactions)
@@ -78,7 +79,7 @@ namespace Appointment_Module
                 ID_DataType = objLocalConfig.Globals.DType_DateTime.GUID,
                 OrderID = 1,
                 Val_Date = dateStart,
-                val_Named = dateStart.ToString()
+                Val_Named = dateStart.ToString()
             };
 
             if (ClearTransactions)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ontolog_Module;
+using OntologyClasses.BaseClasses;
 
 namespace Change_Module
 {
@@ -166,14 +167,13 @@ namespace Change_Module
                 objOItem_Ticket = OItem_Ticket;
             }
 
-            objOList_TicketToGroup.Add(new clsObjectRel(objOItem_Ticket.GUID, 
-                                                        null,
-                                                        objLocalConfig.OItem_Group.GUID,
-                                                        null,
-                                                        objLocalConfig.OItem_RelationType_belongsTo.GUID,
-                                                        objLocalConfig.Globals.Type_Object,
-                                                        null,
-                                                        null));
+            objOList_TicketToGroup.Add(new clsObjectRel
+            {
+                ID_Object = objOItem_Ticket.GUID,
+                ID_Other = objLocalConfig.OItem_Group.GUID,
+                ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                Ontology = objLocalConfig.Globals.Type_Object
+            });
 
             objOItem_Result = objDBLevel_Ticket.del_ObjectRel(objOList_TicketToGroup);
 
@@ -273,14 +273,12 @@ namespace Change_Module
                 objOItem_LogEntry = OItem_LogEntry;
             }
 
-            objOList_TicketToLogentry.Add(new clsObjectRel(objOItem_Ticket.GUID,
-                                                           null,
-                                                           null,
-                                                           objLocalConfig.OItem_Type_LogEntry.GUID,
-                                                           null,
-                                                           objLocalConfig.Globals.Type_Object,
-                                                           null,
-                                                           null));
+            objOList_TicketToLogentry.Add(new clsObjectRel
+            {
+                ID_Object = objOItem_Ticket.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_Type_LogEntry.GUID,
+                Ontology = objLocalConfig.Globals.Type_Object
+            });
 
             objOItem_Result = objDBLevel_Ticket.del_ObjectRel(objOList_TicketToLogentry);
 
@@ -304,14 +302,13 @@ namespace Change_Module
                 objOItem_Ticket = OItem_Ticket;
             }
 
-            objOList_Ticket_To_Process_Search.Add(new clsObjectRel(objOItem_Ticket.GUID, 
-                                                                   null,
-                                                                   null,
-                                                                   objLocalConfig.OItem_Type_Process.GUID,
-                                                                   objLocalConfig.OItem_RelationType_belongsTo.GUID,
-                                                                   objLocalConfig.Globals.Type_Object,
-                                                                   null,
-                                                                   null));
+            objOList_Ticket_To_Process_Search.Add(new clsObjectRel
+            {
+                ID_Object = objOItem_Ticket.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_Type_Process.GUID,
+                ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                Ontology = objLocalConfig.Globals.Type_Object
+            });
 
             objOItem_Result_Search = objDBLevel_Ticket.get_Data_ObjectRel(objOList_Ticket_To_Process_Search);
 
@@ -334,14 +331,12 @@ namespace Change_Module
 
                     foreach (var objDel in objLDel)
                     {
-                        objOList_Ticket_To_Process_Del.Add(new clsObjectRel(objDel.ID_Object,
-                                                                            null,
-                                                                            objDel.ID_Other,
-                                                                            null,
-                                                                            objDel.ID_RelationType,
-                                                                            null,
-                                                                            null,
-                                                                            null));
+                        objOList_Ticket_To_Process_Del.Add(new clsObjectRel
+                        {
+                            ID_Object = objDel.ID_Object,
+                            ID_Other = objDel.ID_Other,
+                            ID_RelationType = objDel.ID_RelationType,
+                        });
 
                     }
 
@@ -391,14 +386,13 @@ namespace Change_Module
 
             }
 
-            objOList_Ticket_To_Process.Add(new clsObjectRel(objOItem_Ticket.GUID,
-                                                            null,
-                                                            null,
-                                                            objLocalConfig.OItem_Type_Process.GUID,
-                                                            objLocalConfig.OItem_RelationType_belongsTo.GUID,
-                                                            objLocalConfig.Globals.Type_Object,
-                                                            null,
-                                                            null));
+            objOList_Ticket_To_Process.Add(new clsObjectRel
+            {
+                ID_Object = objOItem_Ticket.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_Type_Process.GUID,
+                ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                Ontology = objLocalConfig.Globals.Type_Object
+            });
 
             objOItem_Result = objDBLevel_Ticket.del_ObjectRel(objOList_Ticket_To_Process);
 

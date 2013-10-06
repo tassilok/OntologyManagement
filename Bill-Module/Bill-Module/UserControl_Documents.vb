@@ -8,12 +8,17 @@ Public Class UserControl_Documents
     Private objDataWork_PDF As clsDataWork_PDF
 
     Private objTransaction_Documents As clsTransaction
+    Private objTransaction_PDF As clsTransaction_PDF
 
     Private objOLDocuments As List(Of clsDocument)
 
     Private objOItem_FinancialTransaction As clsOntologyItem
 
     Private objFrm_OntologyEditor As frmMain
+
+    Private objFrm_ObjectEditor As frm_ObjectEdit
+
+    Private objLocalConfig_MediaView As Media_Viewer_Module.clsLocalConfig
 
     Private intDocID As Integer
 
@@ -122,12 +127,15 @@ Public Class UserControl_Documents
         objDataWork_Documents = New clsDataWork_Documents(objLocalConfig)
         objDataWork_PDF = New clsDataWork_PDF(objLocalConfig.Globals)
         objTransaction_Documents = New clsTransaction(objLocalConfig.Globals)
+        objLocalConfig_MediaView = New Media_Viewer_Module.clsLocalConfig(objLocalConfig.Globals)
+        objTransaction_PDF = New clsTransaction_PDF(objLocalConfig_MediaView)
     End Sub
 
 
     Private Sub configure_Controls()
         If objOLDocuments.Count > 0 Then
-
+            ToolStripButton_New.Enabled = False
+            ToolStripButton_AddPDF.Enabled = True
             If intDocID < objOLDocuments.Count - 1 Then
                 ToolStripButton_MoveNext.Enabled = True
                 ToolStripButton_MoveLast.Enabled = True
@@ -177,9 +185,12 @@ Public Class UserControl_Documents
             End If
             ToolStripButton_Location.Enabled = True
             ToolStripButton_Location.Enabled = True
+            ToolStripButton_EditDocument.Enabled = True
         Else
             clear_Controls()
             ToolStripButton_New.Enabled = True
+            ToolStripButton_AddPDF.Enabled = False
+            ToolStripButton_EditDocument.Enabled = False
         End If
     End Sub
 
@@ -260,7 +271,7 @@ Public Class UserControl_Documents
                     If objFrm_OntologyEditor.OList_Simple(0).GUID_Parent = objLocalConfig.OItem_Class_Container__physical_.GUID Then
                         objOItem_Container = objFrm_OntologyEditor.OList_Simple(0)
                         objTransaction_Documents.ClearItems()
-                        Dim objOR_Document_To_Container = objDataWork_Documents.Rel_Document_To_Container(objOItem_FinancialTransaction, objOItem_Container)
+                        Dim objOR_Document_To_Container = objDataWork_Documents.Rel_Document_To_Container(objOLDocuments.First().Document, objOItem_Container)
                         objOItem_Result = objTransaction_Documents.do_Transaction(objOR_Document_To_Container)
 
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
@@ -333,5 +344,41 @@ Public Class UserControl_Documents
             MsgBox("Der Beleg konnte nicht erzeugt werden!", MsgBoxStyle.Exclamation)
             clear_Controls()
         End If
+    End Sub
+
+    Private Sub ToolStripButton_AddPDF_Click(sender As Object, e As EventArgs) Handles ToolStripButton_AddPDF.Click
+        If objOLDocuments.Any Then
+            If OpenFileDialog_PDF.ShowDialog(Me) = DialogResult.OK Then
+                Dim strPath = OpenFileDialog_PDF.FileName
+
+                Dim objOItem_File = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
+                                                              .Name = IO.Path.GetFileName(strPath), _
+                                                              .GUID_Parent = objLocalConfig_MediaView.OItem_Type_File.GUID, _
+                                                              .Type = objLocalConfig.Globals.Type_Object}
+
+                Dim objOItem_PDF = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
+                                                             .Name = IO.Path.GetFileName(strPath), _
+                                                             .GUID_Parent = objLocalConfig_MediaView.OItem_Type_PDF_Documents.GUID, _
+                                                             .Type = objLocalConfig.Globals.Type_Object}
+
+                Dim objOItem_Result = objTransaction_PDF.save_PDF(objOItem_PDF, objOItem_File, strPath, objOLDocuments.First.Document)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    initialize_Documents(objOItem_FinancialTransaction)
+                Else
+                    MsgBox("Die PDF-Datei konnte nicht geladen werden!", MsgBoxStyle.Exclamation)
+                End If
+            End If
+        Else
+            ToolStripButton_AddPDF.Enabled = False
+        End If
+    End Sub
+
+    Private Sub ToolStripButton_EditDocument_Click(sender As Object, e As EventArgs) Handles ToolStripButton_EditDocument.Click
+        Dim objOL_Documents = New List(Of clsOntologyItem)
+
+        objOL_Documents.Add(objOLDocuments.First.Document)
+
+        objFrm_ObjectEditor = New frm_ObjectEdit(objLocalConfig.Globals, objOL_Documents, 0, objLocalConfig.Globals.Type_Object, Nothing)
+        objFrm_ObjectEditor.ShowDialog(Me)
     End Sub
 End Class

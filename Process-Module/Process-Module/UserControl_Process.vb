@@ -1,5 +1,6 @@
 ﻿Imports Ontolog_Module
 Imports Media_Viewer_Module
+Imports OntologyClasses.BaseClasses
 Public Class UserControl_Process
     Private _dragdropCopy As Boolean = False
     Private _dragEventArgs As DragEventArgs

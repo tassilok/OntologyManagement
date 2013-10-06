@@ -92,6 +92,7 @@
     <Compile Include="clsDataWork_RefTree.vb" />
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsLogManagement.vb" />
+    <Compile Include="clsMediaItems.vb" />
     <Compile Include="clsMultiMediaItem.vb" />
     <Compile Include="clsTransaction_Bookmarks.vb" />
     <Compile Include="clsTransaction_Image.vb" />

@@ -34,7 +34,7 @@ Public Class clsReport
         sync_SQLDB_Relations()
     End Sub
 
-    Public Sub sync_SQLDB_Relations(Optional ByVal OList_ClassRel As List(Of clsClassRel) = Nothing)
+    Public Sub sync_SQLDB_Relations(Optional ByVal OList_ClassRel As List(Of clsClassRel) = Nothing, Optional boolOR As Boolean = False, Optional boolInitialize As Boolean = True, Optional boolFinalize As Boolean = True)
         Dim objClassRel As clsClassRel
         Dim objOList_Class_Left As New List(Of clsOntologyItem)
         Dim objOList_Class_Right As New List(Of clsOntologyItem)
@@ -50,12 +50,14 @@ Public Class clsReport
         Dim strRelationType As String
         Dim i As Integer
         Dim j As Integer
+        If boolInitialize Then
+            initializeA_Tables.GetData(objLocalConfig.Globals.Type_ObjectRel)
+        End If
 
-        initializeA_Tables.GetData(objLocalConfig.Globals.Type_ObjectRel)
 
-        objDBLevel_ClassRel.get_Data_ClassRel(OList_ClassRel, False, False, False)
+        objDBLevel_ClassRel.get_Data_ClassRel(OList_ClassRel, False, False, boolOR)
 
-        For Each objClassRel In objDBLevel_ClassRel.OList_ClassRel_ID
+        For Each objClassRel In objDBLevel_ClassRel.OList_ClassRel
 
             objOList_ObjecRel.Clear()
             objOList_ObjecRel.Add(New clsObjectRel(Nothing, _
@@ -82,8 +84,12 @@ Public Class clsReport
             strPath = Environment.ExpandEnvironmentVariables(strPath)
 
             i = 0
-            If objDBLevel_ObjectRel.OList_ObjectRel.Count > 0 Then
-                While i < objDBLevel_ObjectRel.OList_ObjectRel.Count
+            Dim objORel = objDBLevel_ObjectRel.OList_ObjectRel.OrderBy(Function(p) p.ID_Parent_Other).ToList()
+            If objORel.Any Then
+                strClass_Left = ""
+                strClass_Right = ""
+                strRelationType = ""
+                While i < objORel.Count
                     objTextWriter = New IO.StreamWriter(strPath, False, System.Text.Encoding.UTF8)
                     strLine = "<?xml version=""1.0"" encoding=""UTF-8""?>"
                     objTextWriter.WriteLine(strLine)
@@ -91,11 +97,41 @@ Public Class clsReport
                     objTextWriter.WriteLine(strLine)
 
                     For j = i To i + 500
-                        If j < objDBLevel_ObjectRel.OList_ObjectRel.Count Then
-                            objOItem_ORel = objDBLevel_ObjectRel.OList_ObjectRel(j)
-                            strClass_Left = objOItem_ORel.Name_Parent_Object
-                            strClass_Right = objOItem_ORel.Name_Parent_Other
-                            strRelationType = objOItem_ORel.Name_RelationType
+                        If j < objORel.Count Then
+                            objOItem_ORel = objORel(j)
+                            If (strClass_Left <> "" And _
+                                strClass_Right <> "" And _
+                                strRelationType <> "") And (strRelationType <> objOItem_ORel.Name_RelationType Or _
+                                                            strClass_Left <> objOItem_ORel.Name_Parent_Object Or _
+                                                            strClass_Right <> objOItem_ORel.Name_Parent_Other) Then
+
+                                strLine = "</root>"
+                                objTextWriter.WriteLine(strLine)
+                                objTextWriter.Close()
+
+                                createA_Table_relT.GetData(objLocalConfig.Globals.Type_ObjectRel, _
+                                                           strClass_Left, _
+                                                           strClass_Right, _
+                                                           strRelationType, _
+                                                           strPath, _
+                                                           True)
+
+                                objTextWriter = New IO.StreamWriter(strPath, False, System.Text.Encoding.UTF8)
+                                strLine = "<?xml version=""1.0"" encoding=""UTF-8""?>"
+                                objTextWriter.WriteLine(strLine)
+                                strLine = "<root>"
+                                objTextWriter.WriteLine(strLine)
+
+                                strClass_Left = objOItem_ORel.Name_Parent_Object
+                                strClass_Right = objOItem_ORel.Name_Parent_Other
+                                strRelationType = objOItem_ORel.Name_RelationType
+                            Else
+
+                                strClass_Left = objOItem_ORel.Name_Parent_Object
+                                strClass_Right = objOItem_ORel.Name_Parent_Other
+                                strRelationType = objOItem_ORel.Name_RelationType
+                            End If
+
 
                             strLine = "<tmptbl>"
                             objTextWriter.WriteLine(strLine)
@@ -164,7 +200,10 @@ Public Class clsReport
             End If
         Next
 
-        finalizeA_Tables.GetData(objLocalConfig.Globals.Type_ObjectRel)
+        If boolFinalize Then
+            finalizeA_Tables.GetData(objLocalConfig.Globals.Type_ObjectRel)
+        End If
+
     End Sub
 
     Public Sub sync_SQLDB_Attributes(Optional ByVal objOItem_Class As clsOntologyItem = Nothing, Optional ByVal objOItem_AttType As clsOntologyItem = Nothing)
@@ -255,10 +294,11 @@ Public Class clsReport
                             If strType = "NVARCHAR" Then
                                 strLine = "<val><![CDATA[" & Web.HttpUtility.HtmlEncode(objOItem_ObjAtt.val_Named) & "]]></val>"
                             ElseIf strType = "Real" Then
-                                strLine = "<val>" & objOItem_ObjAtt.val_Named.Replace(",", ".") & "</val>"
+                                strLine = "<val>" & objOItem_ObjAtt.Val_Named.Replace(",", ".") & "</val>"
+                            ElseIf strType = "DateTime" Then
+                                strLine = "<val>" & objOItem_ObjAtt.Val_Date.Value.ToString("yyyy-MM-dd hh:mm:ss") & "</val>"
                             Else
-
-                                strLine = "<val>" & objOItem_ObjAtt.val_Named & "</val>"
+                                strLine = "<val>" & objOItem_ObjAtt.Val_Named & "</val>"
                             End If
 
                             objTextWriter.WriteLine(strLine)
@@ -280,11 +320,13 @@ Public Class clsReport
 
                     i = j
                 End While
+                finalizeA_Table.GetData("attT_" & objOItem_Class.Name & "_" & objOItem_AttributeType.Name)
             Else
                 createA_Table_attT.GetData(objLocalConfig.Globals.Type_ObjectAtt, objOItem_Class.Name, objOItem_AttributeType.Name, strType, strLength, False, strPath)
+                finalizeA_Table.GetData("attT_" & objOItem_Class.Name & "_" & objOItem_AttributeType.Name)
             End If
 
-            finalizeA_Table.GetData("attT_" & objOItem_Class.Name & "_" & objOItem_AttributeType.Name)
+
         Next
 
 

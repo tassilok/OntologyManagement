@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Ontolog_Module;
 using Security_Module;
+using OntologyClasses.BaseClasses;
 
 namespace Change_Module
 {

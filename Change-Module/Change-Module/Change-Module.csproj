@@ -184,6 +184,10 @@
       <Project>{3F2F6722-C36B-420D-AFE7-B21C19457208}</Project>
       <Name>Ontolog-Module</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
+      <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
+      <Name>OntologyClasses</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Process-Module\Process-Module\Process-Module.vbproj">
       <Project>{E561F46E-D579-4C7D-8692-A0351E0F7069}</Project>
       <Name>Process-Module</Name>

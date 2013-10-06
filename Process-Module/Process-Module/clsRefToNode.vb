@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class clsRefToNode
     Private objOItem_RefType As clsOntologyItem
     Private objOItem_RelType_Ref As clsOntologyItem

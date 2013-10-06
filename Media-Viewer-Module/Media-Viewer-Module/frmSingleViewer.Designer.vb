@@ -22,6 +22,7 @@ Partial Class frmSingleViewer
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_First = New System.Windows.Forms.ToolStripButton()
@@ -32,6 +33,9 @@ Partial Class frmSingleViewer
         Me.ToolStripButton_Playlist = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripTextBox_Sec = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripLabel_secLBL = New System.Windows.Forms.ToolStripLabel()
+        Me.Timer_Data = New System.Windows.Forms.Timer(Me.components)
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripProgressBar_Data = New System.Windows.Forms.ToolStripProgressBar()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
@@ -57,10 +61,10 @@ Partial Class frmSingleViewer
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_First, Me.ToolStripButton_Previous, Me.ToolStripButton_Next, Me.ToolStripButton_Last, Me.ToolStripSeparator1, Me.ToolStripButton_Playlist, Me.ToolStripTextBox_Sec, Me.ToolStripLabel_secLBL})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_First, Me.ToolStripButton_Previous, Me.ToolStripButton_Next, Me.ToolStripButton_Last, Me.ToolStripSeparator1, Me.ToolStripButton_Playlist, Me.ToolStripTextBox_Sec, Me.ToolStripLabel_secLBL, Me.ToolStripSeparator2, Me.ToolStripProgressBar_Data})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(208, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(316, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_First
@@ -132,6 +136,20 @@ Partial Class frmSingleViewer
         Me.ToolStripLabel_secLBL.Size = New System.Drawing.Size(22, 22)
         Me.ToolStripLabel_secLBL.Text = "x_s"
         '
+        'Timer_Data
+        '
+        Me.Timer_Data.Interval = 300
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripProgressBar_Data
+        '
+        Me.ToolStripProgressBar_Data.Name = "ToolStripProgressBar_Data"
+        Me.ToolStripProgressBar_Data.Size = New System.Drawing.Size(100, 22)
+        '
         'frmSingleViewer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -159,4 +177,7 @@ Partial Class frmSingleViewer
     Friend WithEvents ToolStripButton_Playlist As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripTextBox_Sec As System.Windows.Forms.ToolStripTextBox
     Friend WithEvents ToolStripLabel_secLBL As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents Timer_Data As System.Windows.Forms.Timer
+    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripProgressBar_Data As System.Windows.Forms.ToolStripProgressBar
 End Class

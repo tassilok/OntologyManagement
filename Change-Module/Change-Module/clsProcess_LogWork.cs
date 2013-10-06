@@ -5,6 +5,7 @@ using System.Text;
 using Ontolog_Module;
 using System.Windows.Forms;
 using Log_Module;
+using OntologyClasses.BaseClasses;
 
 namespace Change_Module
 {

@@ -13,7 +13,7 @@
     <AssemblyName>Report-Module</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
   </PropertyGroup>
@@ -26,6 +26,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>Report-Module.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -36,6 +37,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>Report-Module.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -159,9 +161,33 @@
     <None Include="Resources\010_LowPriority_32x32_72.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\ClassLibrary_ShellWork.vbproj">
+      <Project>{10bcc346-a390-401c-ba6a-904a8842a40b}</Project>
+      <Name>ClassLibrary_ShellWork</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Filesystem-Module\Filesystem-Module\Filesystem-Module.vbproj">
+      <Project>{f31c8a5a-bb2b-474e-bc1f-a14e805ea2e9}</Project>
+      <Name>Filesystem-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Media-Viewer-Module\Media-Viewer-Module\Media-Viewer-Module.vbproj">
+      <Project>{e5546c53-be08-44e1-b136-d172c3f2fe3e}</Project>
+      <Name>Media-Viewer-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3F2F6722-C36B-420D-AFE7-B21C19457208}</Project>
       <Name>Ontolog-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
+      <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
+      <Name>OntologyClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Security-Module\Security-Module\Security-Module.vbproj">
+      <Project>{c9add5dc-090d-4003-bba9-cf9218c938b2}</Project>
+      <Name>Security-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Structure-Module\Structure-Module\Structure-Module.csproj">
+      <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
+      <Name>Structure-Module</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

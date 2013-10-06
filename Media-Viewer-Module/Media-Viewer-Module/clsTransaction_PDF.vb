@@ -18,7 +18,7 @@ Public Class clsTransaction_PDF
     Private boolNewID As Boolean
     Private lngOrderID As Long
 
-    Public Function save_PDF(OItem_PDF As clsOntologyItem, OItem_File As clsOntologyItem, strPath As String, OItem_Ref As clsOntologyItem, Optional NewID As Boolean = True)
+    Public Function save_PDF(OItem_PDF As clsOntologyItem, OItem_File As clsOntologyItem, strPath As String, OItem_Ref As clsOntologyItem, Optional NewID As Boolean = True) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
 
         objOItem_PDF = OItem_PDF

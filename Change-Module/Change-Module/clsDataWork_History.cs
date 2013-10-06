@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Ontolog_Module;
 using System.Threading;
+using OntologyClasses.BaseClasses;
 
 namespace Change_Module
 {
@@ -167,14 +168,13 @@ namespace Change_Module
 
             objOItem_Result_LogEntries = objLocalConfig.Globals.LState_Nothing;
 
-            objOList_LogEntries.Add(new clsObjectRel(objOItem_TicketProcessLog.GUID,
-                                                     null,
-                                                     null,
-                                                     objLocalConfig.OItem_Type_LogEntry.GUID,
-                                                     objLocalConfig.OItem_RelationType_belonging_Done.GUID,
-                                                     objLocalConfig.Globals.Type_Object,
-                                                     null,
-                                                     null));
+            objOList_LogEntries.Add(new clsObjectRel
+            {
+                ID_Object = objOItem_TicketProcessLog.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_Type_LogEntry.GUID,
+                ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Done.GUID,
+                Ontology = objLocalConfig.Globals.Type_Object
+            });
 
             objOItem_Result_LogEntries = objDBLevel_History_LogEntries.get_Data_ObjectRel(objOList_LogEntries,
                                                                     boolIDs: false);
@@ -255,14 +255,13 @@ namespace Change_Module
 
             foreach (var OItem_LogEntry in objDBLevel_History_LogEntries.OList_ObjectRel)
             {
-                objOList_LogStates.Add(new clsObjectRel(OItem_LogEntry.ID_Other,
-                                                    null,
-                                                    null,
-                                                    objLocalConfig.OItem_type_Logstate.GUID,
-                                                    objLocalConfig.OItem_RelationType_provides.GUID,
-                                                    objLocalConfig.Globals.Type_Object,
-                                                    null,
-                                                    null));
+                objOList_LogStates.Add(new clsObjectRel
+                {
+                    ID_Object = OItem_LogEntry.ID_Other,
+                    ID_Parent_Other = objLocalConfig.OItem_type_Logstate.GUID,
+                    ID_RelationType = objLocalConfig.OItem_RelationType_provides.GUID,
+                    Ontology = objLocalConfig.Globals.Type_Object
+                });
             }
 
 

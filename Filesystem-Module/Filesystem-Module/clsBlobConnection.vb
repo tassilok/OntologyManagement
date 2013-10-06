@@ -515,6 +515,8 @@ Public Class clsBlobConnection
         Return objOItem_Result
     End Function
 
+    
+
     Public Sub New()
         objLocalConfig = New clsLocalConfig(New clsGlobals)
 

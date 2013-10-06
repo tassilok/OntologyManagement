@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class clsDataWork_Report
     Private objLocalConfig As clsLocalConfig
     Private objDBLevel_Report As clsDBLevel
@@ -34,7 +35,7 @@ Public Class clsDataWork_Report
     End Sub
 
     Public Sub initialize_Report(ByVal OItem_Report As clsOntologyItem)
-
+        boolReportFinished = False
         objOItem_Report = OItem_Report
 
         objOItem_ReportType = Report_Type(objOItem_Report)

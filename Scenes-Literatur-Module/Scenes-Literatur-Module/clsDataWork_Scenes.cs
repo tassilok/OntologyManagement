@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Ontolog_Module;
 using System.Threading;
+using OntologyClasses.BaseClasses;
 
 namespace Scenes_Literatur_Module
 {

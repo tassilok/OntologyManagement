@@ -19,6 +19,7 @@ Public Class clsFileWork
     Private objOItem_Share As clsOntologyItem
 
     Private objShellWork As clsShellWork
+    Private objFrmBlobWatcher As frmBlobWatcher
 
     Private boolBlob As Boolean
     Private strSeperator As String
@@ -427,6 +428,78 @@ Public Class clsFileWork
         End If
 
         Return strPath
+    End Function
+
+    Public Function open_FileSystemObject(ByVal objOItem_FileSystemObject As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+
+
+        Select Case objOItem_FileSystemObject.GUID_Parent
+            Case objLocalConfig.OItem_Type_Drive.GUID
+                objOItem_FileSystemObject.Additional1 = get_Path_FileSystemObject(objOItem_FileSystemObject)
+                objOItem_Result = objLocalConfig.Globals.LState_Success
+                objShellWork.start_Process(objOItem_FileSystemObject.Additional1, Nothing, Nothing, False, False)
+            Case objLocalConfig.OItem_type_Folder.GUID
+                objOItem_FileSystemObject.Additional1 = get_Path_FileSystemObject(objOItem_FileSystemObject)
+                objOItem_Result = objLocalConfig.Globals.LState_Success
+                objShellWork.start_Process(objOItem_FileSystemObject.Additional1, Nothing, Nothing, False, False)
+            Case objLocalConfig.OItem_Type_File.GUID
+                objOItem_FileSystemObject.Additional1 = get_Path_FileSystemObject(objOItem_FileSystemObject)
+                If boolBlob = True Then
+                    objOItem_Result = open_BlobFile(objOItem_FileSystemObject)
+                Else
+                    objOItem_Result = objLocalConfig.Globals.LState_Success
+                    objShellWork.start_Process(objOItem_FileSystemObject.Additional1, Nothing, Nothing, False, False)
+                End If
+            Case Else
+                objOItem_Result = objLocalConfig.Globals.LState_Error
+                objOItem_Result.Additional1 = "Beim Öffnen ist ein Fehler aufgetreten!"
+        End Select
+
+        Return objOItem_Result
+    End Function
+
+    Private Function open_BlobFile(ByVal objOItem_File As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objDRC_FileCheckOut As DataRowCollection
+
+        Dim strPath As String
+        Dim strExtension As String
+        Dim boolGoOn As Boolean
+
+        objOItem_Result = objFrmBlobWatcher.IsFileCheckedout(objOItem_File)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+
+            objFrmBlobWatcher = New frmBlobWatcher(objLocalConfig.Globals)
+            objOItem_Result = objFrmBlobWatcher.Initialize_BlobDirWatcher()
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+                strExtension = ""
+                If objOItem_File.Name.Contains(".") Then
+                    strExtension = objOItem_File.Name.Substring(objOItem_File.Name.LastIndexOf("."))
+                End If
+                objOItem_File.Additional1 = merge_paths(objFrmBlobWatcher.PathBlobWatcher, objOItem_File.GUID.ToString & strExtension)
+                objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_File, objOItem_File.Additional1)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    objOItem_Result.Additional1 = "Die Datei kann nicht geöffnet werden!"
+                Else
+                    objShellWork.start_Process(objOItem_File.Additional1, Nothing, Nothing, False, False)
+                End If
+
+            Else
+                objOItem_Result = objLocalConfig.Globals.LState_Error
+                objOItem_Result.Additional1 = "Die Datei kann nicht geöffnet werden, weil der Blob-Watcher nicht startet!"
+
+            End If
+
+
+        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
+
+            objOItem_Result = objLocalConfig.Globals.LState_Error
+            objOItem_Result.Additional1 = "Die Datei ist bereits am Server " & objDRC_FileCheckOut(0).Item("Name_Server") & " geöffnet!"
+        End If
+        Return objOItem_Result
     End Function
 
     Public Sub New(ByVal Globals As clsGlobals)

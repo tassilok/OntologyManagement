@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using OntologyClasses.BaseClasses;
 
 namespace Scenes_Literatur_Module
 {
@@ -37,7 +38,7 @@ namespace Scenes_Literatur_Module
 
         }
 
-        void objUserControl_SceneTree_selectedNode(Ontolog_Module.clsOntologyItem OItem_SelectedNode)
+        void objUserControl_SceneTree_selectedNode(clsOntologyItem OItem_SelectedNode)
         {
             if (OItem_SelectedNode.GUID_Parent != objLocalConfig.OItem_type_szene.GUID)
             {

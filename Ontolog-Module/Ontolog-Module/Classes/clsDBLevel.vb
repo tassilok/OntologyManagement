@@ -8,13 +8,14 @@ Imports Lucene.Net.Index
 Public Class clsDBLevel
     <Flags()>
     Enum SortEnum
-        ASC_Name
-        DESC_Name
-        NONE
-        ASC_OrderID
-        DESC_OrderID
+        ASC_Name = 1
+        DESC_Name = 2
+        NONE = 4
+        ASC_OrderID = 8
+        DESC_OrderID = 16
     End Enum
     
+
 
     Private objOntologyList_Objects1 As New List(Of clsOntologyItem)
     Private objOntologyList_Objects2 As New List(Of clsOntologyItem)
@@ -61,18 +62,19 @@ Public Class clsDBLevel
     Private strSession As String
 
     Private intPackageLength As Integer
-    Private intSort As Integer
+    Private sortE As SortEnum
 
     Private objElSelector as ElasticSearchConnector.clsDBSelector
     Private objElDeletor As ElasticSearchConnector.clsDBDeletor
     Private objElUpdater As ElasticSearchConnector.clsDBUpdater
 
-    Public Property Sort
+    Public Property Sort As SortEnum
         Get
-            Return intSort
+            Return Sort
         End Get
-        Set(value)
-            intSort = value
+        Set(value As SortEnum)
+            sortE = value
+            objElSelector.Sort = sortE
         End Set
     End Property
 
@@ -1733,7 +1735,7 @@ Public Class clsDBLevel
 
         initialize_Client()
         
-        intSort = SortEnum.NONE
+        sort = SortEnum.NONE
     End Sub
 
     Public Sub New(strServer As String, intPort As Integer, strIndex As String, strIndexRep As String, intSearchRange As Integer, strSession As String)
@@ -1749,7 +1751,7 @@ Public Class clsDBLevel
 
         initialize_Client()
         
-        intSort = SortEnum.NONE
+        sort = SortEnum.NONE
     End Sub
 
     Private Sub set_DBConnection()

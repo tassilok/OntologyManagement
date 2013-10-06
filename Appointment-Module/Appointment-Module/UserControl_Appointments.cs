@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Structure_Module;
 using Ontolog_Module;
+using OntologyClasses.BaseClasses;
 
 namespace Appointment_Module
 {

@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class clsDataWork_ReportFields
     Private objLocalConfig As clsLocalConfig
 
@@ -16,6 +17,7 @@ Public Class clsDataWork_ReportFields
     Private objDBLevel_LeadFields As clsDBLevel
     Private objDBLevel_TypeFields As clsDBLevel
     Private objDBLevel_Attributes As clsDBLevel
+    Private objDBLevel_OItems As clsDBLevel
 
     Private objOItem_Report As clsOntologyItem
     Private objOItem_ReportType As clsOntologyItem
@@ -56,8 +58,11 @@ Public Class clsDataWork_ReportFields
         objDBLevel_FieldFormats = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_LeadFields = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_TypeFields = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_OItems = New clsDBLevel(objLocalConfig.Globals)
 
         objDataWork_Report = New clsDataWork_Report(objLocalConfig)
+
+
     End Sub
 
     Public Sub initiaize_ReportFields(ByVal OItem_Report As clsOntologyItem)
@@ -351,25 +356,25 @@ Public Class clsDataWork_ReportFields
         objDBLevel_Columns.get_Data_Objects(objOList_Objects, _
                                             List2:=True)
 
-        Dim objL_Cols = From objLeft In objDBLevel_Report.OList_ObjectRel
+        Dim objL_Cols = (From objLeft In objDBLevel_Report.OList_ObjectRel
                         Join objRel In objDBLevel_Columns.OList_ObjectRel_ID On objLeft.ID_Object Equals objRel.ID_Object
                         Join objRight In objDBLevel_Columns.OList_Objects2 On objRel.ID_Other Equals objRight.GUID
                         Select ID_Field = objLeft.ID_Object, _
                                 ID_Col = objRight.GUID, _
-                                Name_Col = objRight.Name
+                                Name_Col = objRight.Name).ToList
 
         objOList_Objects.Clear()
         objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_DB_Views.GUID, objLocalConfig.Globals.Type_Object))
         objDBLevel_DBItem.get_Data_Objects(objOList_Objects, _
                                            List2:=True)
 
-        Dim objL_DBView = From objLeft In objL_Cols
+        Dim objL_DBView = (From objLeft In objL_Cols
                           Join objRel In objDBLevel_DBItem.OList_ObjectRel_ID On objLeft.ID_Col Equals objRel.ID_Object
                           Join objRight In objDBLevel_DBItem.OList_Objects2 On objRel.ID_Other Equals objRight.GUID
                           Select ID_Field = objLeft.ID_Field, _
                                     ID_Col = objLeft.ID_Col, _
                                     ID_DBView = objRight.GUID, _
-                                    Name_DBView = objRight.Name
+                                    Name_DBView = objRight.Name).ToList
 
 
         objOList_Objects.Clear()
@@ -377,21 +382,21 @@ Public Class clsDataWork_ReportFields
         objDBLevel_DBOnServer.get_Data_Objects(objOList_Objects, _
                                            List2:=True)
 
-        Dim objL_DBOnServer = From objRight In objL_DBView
+        Dim objL_DBOnServer = (From objRight In objL_DBView
                               Join objRel In objDBLevel_DBOnServer.OList_ObjectRel_ID On objRight.ID_DBView Equals objRel.ID_Other
                               Join objLeft In objDBLevel_DBOnServer.OList_Objects2 On objLeft.GUID Equals objRel.ID_Object
                               Select ID_Field = objRight.ID_Field, _
                                         ID_Col = objRight.ID_Col, _
                                         ID_DBView = objRight.ID_DBView, _
                                         ID_DBOnServer = objLeft.GUID, _
-                                        Name_DBOnServer = objLeft.Name
+                                        Name_DBOnServer = objLeft.Name).ToList
 
         objOList_Objects.Clear()
         objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Database.GUID, objLocalConfig.Globals.Type_Object))
         objDBLevel_DataBase.get_Data_Objects(objOList_Objects, _
                                            List2:=True)
 
-        Dim objL_Database = From objLeft In objL_DBOnServer
+        Dim objL_Database = (From objLeft In objL_DBOnServer
                             Join objRel In objDBLevel_DataBase.OList_ObjectRel_ID On objLeft.ID_DBOnServer Equals objRel.ID_Object
                             Join objRight In objDBLevel_DataBase.OList_Objects2 On objRight.GUID Equals objRel.ID_Other
                             Select ID_Field = objLeft.ID_Field, _
@@ -399,14 +404,14 @@ Public Class clsDataWork_ReportFields
                                     ID_DBView = objLeft.ID_DBView, _
                                     ID_DBOnServer = objLeft.ID_DBOnServer, _
                                     ID_Database = objRight.GUID, _
-                                    Name_Database = objRight.Name
+                                    Name_Database = objRight.Name).ToList
 
         objOList_Objects.Clear()
         objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Server.GUID, objLocalConfig.Globals.Type_Object))
         objDBLevel_Server.get_Data_Objects(objOList_Objects, _
                                            List2:=True)
 
-        Dim objL_Server = From objLeft In objL_DBOnServer
+        Dim objL_Server = (From objLeft In objL_DBOnServer
                             Join objRel In objDBLevel_Server.OList_ObjectRel_ID On objLeft.ID_DBOnServer Equals objRel.ID_Object
                             Join objRight In objDBLevel_Server.OList_Objects2 On objRight.GUID Equals objRel.ID_Other
                             Select ID_Field = objLeft.ID_Field, _
@@ -414,18 +419,18 @@ Public Class clsDataWork_ReportFields
                                     ID_DBView = objLeft.ID_DBView, _
                                     ID_DBOnServer = objLeft.ID_DBOnServer, _
                                     ID_Server = objRight.GUID, _
-                                    Name_Server = objRight.Name
+                                    Name_Server = objRight.Name).ToList
 
         objOList_Objects.Clear()
         objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Field_Type.GUID, objLocalConfig.Globals.Type_Object))
         objDBLevel_FieldTypes.get_Data_Objects(objOList_Objects, _
                                                List2:=True)
-        Dim objL_FieldTypes = From objLeft In objDBLevel_Report.OList_ObjectRel
+        Dim objL_FieldTypes = (From objLeft In objDBLevel_Report.OList_ObjectRel
                               Join objRel In objDBLevel_FieldTypes.OList_ObjectRel_ID On objLeft.ID_Object Equals objRel.ID_Object
                               Join objRight In objDBLevel_FieldTypes.OList_Objects2 On objRel.ID_Other Equals objRight.GUID
                               Select ID_Field = objLeft.ID_Object, _
                                         ID_FieldType = objRight.GUID, _
-                                        Name_FieldType = objRight.Name
+                                        Name_FieldType = objRight.Name).ToList
 
 
 
@@ -433,44 +438,44 @@ Public Class clsDataWork_ReportFields
         objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Field_Format.GUID, objLocalConfig.Globals.Type_Object))
         objDBLevel_FieldFormats.get_Data_Objects(objOList_Objects, _
                                                List2:=True)
-        Dim objL_FieldFormats = From objLeft In objDBLevel_Report.OList_ObjectRel
+        Dim objL_FieldFormats = (From objLeft In objDBLevel_Report.OList_ObjectRel
                               Join objRel In objDBLevel_FieldFormats.OList_ObjectRel_ID On objLeft.ID_Object Equals objRel.ID_Object
                               Join objRight In objDBLevel_FieldFormats.OList_Objects2 On objRel.ID_Other Equals objRight.GUID
                               Select ID_Field = objLeft.ID_Object, _
                                         ID_FieldFormat = objRight.GUID, _
-                                        Name_FieldFormat = objRight.Name
+                                        Name_FieldFormat = objRight.Name).ToList
 
         objOList_Objects.Clear()
         objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Report_Field.GUID, objLocalConfig.Globals.Type_Object))
         objDBLevel_Fields.get_Data_Objects(objOList_Objects, _
                                                List2:=True)
-        Dim objL_LeadField = From objLeft In objDBLevel_Report.OList_ObjectRel
-                              Join objRel In objDBLevel_Fields.OList_ObjectRel_ID On objLeft.ID_Object Equals objRel.ID_Object
-                              Join objRight In objDBLevel_Fields.OList_Objects2 On objRel.ID_Other Equals objRight.GUID
+        Dim objL_LeadField = (From objLeft In objDBLevel_Report.OList_ObjectRel
+                              Join objRel In objDBLevel_Fields.OList_ObjectRel_ID On objLeft.ID_Object Equals objRel.ID_Other
+                              Join objRight In objDBLevel_Fields.OList_Objects2 On objRel.ID_Object Equals objRight.GUID
                               Where objRel.ID_RelationType = objLocalConfig.OItem_RelationType_leads.GUID And _
-                                    objLeft.ID_RelationType = objLocalConfig.OItem_RelationType_leads.GUID
+                                    objLeft.ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID
                               Select ID_Field = objLeft.ID_Object, _
                                         ID_LeadField = objRight.GUID, _
-                                        Name_LeadField = objRight.Name
+                                        Name_LeadField = objRight.Name).ToList
 
         objOList_Objects.Clear()
         objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Report_Field.GUID, objLocalConfig.Globals.Type_Object))
         objDBLevel_Fields.get_Data_Objects(objOList_Objects, _
                                                List2:=True, _
                                                ClearObj2:=False)
-        Dim objL_TypeFields = From objLeft In objDBLevel_Report.OList_ObjectRel
-                              Join objRel In objDBLevel_Fields.OList_ObjectRel_ID On objLeft.ID_Object Equals objRel.ID_Object
+        Dim objL_TypeFields = (From objLeft In objDBLevel_Report.OList_ObjectRel
+                              Join objRel In objDBLevel_TypeFields.OList_ObjectRel_ID On objLeft.ID_Object Equals objRel.ID_Object
                               Join objRight In objDBLevel_Fields.OList_Objects2 On objRel.ID_Other Equals objRight.GUID
                               Where objRel.ID_RelationType = objLocalConfig.OItem_RelationType_Type_Field.GUID
-                              Where objLeft.ID_RelationType = objLocalConfig.OItem_RelationType_Type_Field.GUID
+                              Where objLeft.ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID
                               Select ID_Field = objLeft.ID_Object, _
                                         ID_TypeField = objRight.GUID, _
-                                        Name_TypeField = objRight.Name
+                                        Name_TypeField = objRight.Name).ToList
 
 
 
 
-        Dim objLReportFieldstmp = From objFields In objDBLevel_Report.OList_ObjectRel
+        Dim objLReportFieldstmp = (From objFields In objDBLevel_Report.OList_ObjectRel
                            Join objVis In objDBLevel_Attributes.OList_ObjectAtt On objFields.ID_Object Equals objVis.ID_Object
                             Join objRepToView In objDBLevel_ReportsToDBView.OList_ObjectRel_ID On objRepToView.ID_Object Equals objFields.ID_Other
                             Join objCol In objL_Cols On objCol.ID_Field Equals objFields.ID_Object
@@ -481,10 +486,10 @@ Public Class clsDataWork_ReportFields
                             Join objFieldType In objL_FieldTypes On objFieldType.ID_Field Equals objFields.ID_Object
                             Group Join objFieldFormat In objL_FieldFormats On objFields.ID_Other Equals objFieldFormat.ID_Field Into objFieldFormats = Group
                             From objFieldFormat In objFieldFormats.DefaultIfEmpty
-                            Group Join objLeaded In objL_LeadField On objFields.ID_Object Equals objLeaded.ID_LeadField Into objLeadeds = Group
+                            Group Join objLeaded In objL_LeadField On objFields.ID_Object Equals objLeaded.ID_Field Into objLeadeds = Group
                             From objLeaded In objLeadeds.DefaultIfEmpty
-                            Group Join objTypeField In objL_TypeFields On objFields.ID_Object Equals objTypeField.ID_TypeField Into objTypes = Group
-                            From objTypeField In objTypes.DefaultIfEmpty
+                            Group Join objTypeField In objL_TypeFields On objFields.ID_Object Equals objTypeField.ID_Field Into objTypes = Group
+                            From objTypeField In objTypes.DefaultIfEmpty).ToList
 
         objLReportFields.Clear()
         For Each objReportView In objLReportFieldstmp
@@ -539,8 +544,8 @@ Public Class clsDataWork_ReportFields
                                         strName_FieldFormat, _
                                         strID_Lead, _
                                         strName_Lead, _
-                                        strID_Lead, _
-                                        strName_Lead, _
+                                        strID_TypeField, _
+                                        strName_TypeField, _
                                         objReportView.objFields.OrderID))
         Next
 
@@ -586,6 +591,26 @@ Public Class clsDataWork_ReportFields
 
         boolData_ReportFields = True
     End Sub
+
+    Public Function GetOntologyItem(GUID_OItem) As clsOntologyItem
+        Dim objOItem_OntologyItem As clsOntologyItem
+        Dim objOL_OItems = New List(Of clsOntologyItem)
+
+        objOL_OItems.Add(New clsOntologyItem With {.GUID = GUID_OItem})
+
+        objOItem_OntologyItem = objDBLevel_OItems.get_Data_Objects(objOL_OItems)
+
+        If objOItem_OntologyItem.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_OItems.OList_Objects.Any Then
+                objOItem_OntologyItem = objDBLevel_OItems.OList_Objects.First()
+            Else
+                objOItem_OntologyItem = objLocalConfig.Globals.LState_Nothing
+            End If
+        End If
+
+
+        Return objOItem_OntologyItem
+    End Function
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig

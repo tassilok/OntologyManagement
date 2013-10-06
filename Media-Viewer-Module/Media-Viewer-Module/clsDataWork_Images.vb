@@ -157,6 +157,31 @@ Public Class clsDataWork_Images
         boolLoaded = True
     End Sub
 
+
+    Public Function hasImage(OItem_Ref) As clsOntologyItem
+        Dim objOL_Images_To_Ref As New List(Of clsObjectRel)
+
+        objOL_Images_To_Ref.Add(New clsObjectRel(Nothing, _
+                                                 Nothing, _
+                                                 objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                 Nothing, _
+                                                 OItem_Ref.GUID, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 objLocalConfig.OItem_RelationType_belongsTo.GUID, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing, _
+                                                 Nothing))
+
+        Dim objOItem_Result = objDBLevel_Images.get_Data_ObjectRel(objOL_Images_To_Ref, doCount:=True)
+
+
+        Return objOItem_Result
+    End Function
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
         set_DBConnection()

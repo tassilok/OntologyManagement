@@ -192,6 +192,9 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\edit-find-replace.png" />
+    <None Include="Resources\appunti_architetto_franc_01.png" />
+    <None Include="Resources\b_plus.png" />
     <None Include="Resources\pulsante_02_architetto_f_01.png" />
     <None Include="Resources\pulsante_02_architetto_f_01 last.png" />
     <None Include="Resources\pulsante_01_architetto_f_01.png" />

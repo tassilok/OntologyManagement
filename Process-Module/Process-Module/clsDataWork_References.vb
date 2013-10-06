@@ -1,5 +1,7 @@
 ﻿Imports Ontolog_Module
 Imports Filesystem_Module
+Imports OntologyClasses.BaseClasses
+
 Public Class clsDataWork_References
     Private objLocalConfig As clsLocalConfig
 

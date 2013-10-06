@@ -546,25 +546,20 @@ namespace Office_Module
 
             if (OItem_Document == null)
             {
-                objORList_MD_To_DocumentType.Add(new clsObjectRel(null,
-                                                              objLocalConfig.OItem_Type_Managed_Document.GUID,
-                                                              null,
-                                                              objLocalConfig.OItem_Type_Document_Type__managed_.GUID,
-                                                              objLocalConfig.OItem_RelationType_is_of_Type.GUID,
-                                                              objLocalConfig.Globals.Type_Object,
-                                                              null,
-                                                              null));
+                objORList_MD_To_DocumentType.Add(new clsObjectRel { ID_Parent_Object = objLocalConfig.OItem_Type_Managed_Document.GUID,
+                                                                    ID_Parent_Other =  objLocalConfig.OItem_Type_Document_Type__managed_.GUID,
+                                                                    ID_RelationType = objLocalConfig.OItem_RelationType_is_of_Type.GUID,
+                                                                    Ontology = objLocalConfig.Globals.Type_Object });
             }
             else
             {
-                objORList_MD_To_DocumentType.Add(new clsObjectRel(OItem_Document.GUID,
-                                                              null,
-                                                              null,
-                                                              objLocalConfig.OItem_Type_Document_Type__managed_.GUID,
-                                                              objLocalConfig.OItem_RelationType_is_of_Type.GUID,
-                                                              objLocalConfig.Globals.Type_Object,
-                                                              null,
-                                                              null));
+                objORList_MD_To_DocumentType.Add(new clsObjectRel
+                {
+                    ID_Object = OItem_Document.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_Type_Document_Type__managed_.GUID,
+                    ID_RelationType = objLocalConfig.OItem_RelationType_is_of_Type.GUID,
+                    Ontology = objLocalConfig.Globals.Type_Object,
+                });
             }
 
             
@@ -581,25 +576,23 @@ namespace Office_Module
 
             if (OItem_Document == null)
             {
-                objORList_MD_To_File.Add(new clsObjectRel(null,
-                                                      objLocalConfig.OItem_Type_Managed_Document.GUID,
-                                                      null,
-                                                      objLocalConfig.OItem_Type_File.GUID,
-                                                      objLocalConfig.OItem_RelationType_belonging_Document.GUID,
-                                                      objLocalConfig.Globals.Type_Object,
-                                                      null,
-                                                      null));
+                objORList_MD_To_File.Add(new clsObjectRel
+                {
+                    ID_Parent_Object = objLocalConfig.OItem_Type_Managed_Document.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID,
+                    ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Document.GUID,
+                    Ontology = objLocalConfig.Globals.Type_Object,
+                });
             }
             else
             {
-                objORList_MD_To_File.Add(new clsObjectRel(OItem_Document.GUID,
-                                                      null,
-                                                      null,
-                                                      objLocalConfig.OItem_Type_File.GUID,
-                                                      objLocalConfig.OItem_RelationType_belonging_Document.GUID,
-                                                      objLocalConfig.Globals.Type_Object,
-                                                      null,
-                                                      null));
+                objORList_MD_To_File.Add(new clsObjectRel
+                {
+                    ID_Object = OItem_Document.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID,
+                    ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Document.GUID,
+                    Ontology = objLocalConfig.Globals.Type_Object,
+                });
             }
             
 
@@ -615,25 +608,19 @@ namespace Office_Module
 
             if (OItem_Document == null)
             {
-                objORList_MD_To_OItem.Add(new clsObjectRel(null,
-                                                      objLocalConfig.OItem_Type_Managed_Document.GUID,
-                                                      null,
-                                                      null,
-                                                      objLocalConfig.OItem_RelationType_belongsTo.GUID,
-                                                      null,
-                                                      null,
-                                                      null));
+                objORList_MD_To_OItem.Add(new clsObjectRel
+                {
+                    ID_Parent_Object = objLocalConfig.OItem_Type_Managed_Document.GUID,
+                    ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID
+                });
             }
             else
             {
-                objORList_MD_To_OItem.Add(new clsObjectRel(OItem_Document.GUID,
-                                                      null,
-                                                      null,
-                                                      null,
-                                                      objLocalConfig.OItem_RelationType_belongsTo.GUID,
-                                                      null,
-                                                      null,
-                                                      null));
+                objORList_MD_To_OItem.Add(new clsObjectRel
+                {
+                    ID_Object = OItem_Document.GUID,
+                    ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                });
             }
             
 
