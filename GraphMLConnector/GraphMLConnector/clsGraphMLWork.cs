@@ -8,6 +8,7 @@ using System.IO;
 using System.Web;
 using System.IO;
 using ClassLibrary_ShellWork;
+using OntologyClasses.BaseClasses;
 
 namespace GraphMLConnector
 {
@@ -101,8 +102,11 @@ namespace GraphMLConnector
                                                      objExportMode.ID_ExportMode ==
                                                      objLocalConfig.OItem_Object_GrantChildOfItem.GUID
                                                  select
-                                                     new clsOntologyItem(null, null, objClass.GUID,
-                                                                         objLocalConfig.Globals.Type_Object)).ToList();
+                                                     new clsOntologyItem
+                                                     {
+                                                         GUID = objClass.GUID,
+                                                         Type = objLocalConfig.Globals.Type_Object
+                                                     }).ToList();
 
                 objOItem_Result = objLocalConfig.Globals.LState_Success;
                 if (oList_ClassesWithChildren.Any())
@@ -208,7 +212,7 @@ namespace GraphMLConnector
                                                            join objOAtt in objDBLevel1.OList_ObjectAtt_ID on objObject.GUID equals
                                                                objOAtt.ID_Object
                                                            join objAttType in OList_AttributeTypes on objOAtt.ID_AttributeType equals objAttType.GUID
-                                                           select new clsObjectAtt() { ID_Object = objOAtt.ID_Object, val_Named = objOAtt.val_Named, Name_AttributeType = objAttType.Name }).ToList();
+                                                           select new clsObjectAtt() { ID_Object = objOAtt.ID_Object, Val_Named = objOAtt.Val_Named, Name_AttributeType = objAttType.Name }).ToList();
                                         }
                                     }
                                     else
@@ -315,9 +319,9 @@ namespace GraphMLConnector
                                             {
                                                 Caption =
                                         objOAtt.Name_AttributeType + ": " +
-                                        (objOAtt.val_Named.Length > 20
-                                             ? objOAtt.val_Named.Substring(0, 20)
-                                             : objOAtt.val_Named)
+                                        (objOAtt.Val_Named.Length > 20
+                                             ? objOAtt.Val_Named.Substring(0, 20)
+                                             : objOAtt.Val_Named)
                                             };
 
                 foreach (var objOAtt in OList_ObjAtts)

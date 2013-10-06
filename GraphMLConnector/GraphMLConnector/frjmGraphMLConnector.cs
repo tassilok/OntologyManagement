@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Ontolog_Module;
+using OntologyClasses.BaseClasses;
 
 namespace GraphMLConnector
 {

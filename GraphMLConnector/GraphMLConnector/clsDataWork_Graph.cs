@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ontolog_Module;
 using System.Threading;
+using OntologyClasses.BaseClasses;
 
 namespace GraphMLConnector
 {
@@ -125,14 +126,13 @@ namespace GraphMLConnector
 
             var objOLGraph_To_Path = new List<clsObjectRel>();
 
-            objOLGraph_To_Path.Add(new clsObjectRel(this.OItem_Graph.GUID,
-                                                    null,
-                                                    null,
-                                                    objLocalConfig.OItem_Class_Path.GUID, 
-                                                    objLocalConfig.OItem_RelationType_exportTo.GUID,
-                                                    objLocalConfig.Globals.Type_Object,
-                                                    null,
-                                                    null));
+            objOLGraph_To_Path.Add(new clsObjectRel
+            {
+                ID_Object = this.OItem_Graph.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_Class_Path.GUID,
+                ID_RelationType = objLocalConfig.OItem_RelationType_exportTo.GUID,
+                Ontology = objLocalConfig.Globals.Type_Object
+            });
 
 
             objOItem_Result = objDBLevel_GraphPath.get_Data_ObjectRel(objOLGraph_To_Path,
@@ -164,32 +164,27 @@ namespace GraphMLConnector
 
             var objORL_OItems = new List<clsObjectRel>();
 
-            objORL_GraphItems.Add(new clsObjectRel(this.OItem_Graph.GUID, 
-                                               null,
-                                               null,
-                                               objLocalConfig.OItem_Class_GraphItem.GUID,
-                                               objLocalConfig.OItem_RelationType_Contains.GUID,
-                                               objLocalConfig.Globals.Type_Object, 
-                                               null,
-                                               null));
+            objORL_GraphItems.Add(new clsObjectRel
+            {
+                ID_Object = this.OItem_Graph.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_Class_GraphItem.GUID,
+                ID_RelationType = objLocalConfig.OItem_RelationType_Contains.GUID,
+                Ontology = objLocalConfig.Globals.Type_Object
+            });
 
-            objORL_ExportMode.Add(new clsObjectRel(null,
-                                                   objLocalConfig.OItem_Class_GraphItem.GUID,
-                                                   null,
-                                                   objLocalConfig.OItem_Class_ExportMode.GUID,
-                                                   objLocalConfig.OItem_RelationType_isOfType.GUID,
-                                                   objLocalConfig.Globals.Type_Object, 
-                                                   null,
-                                                   null));
+            objORL_ExportMode.Add(new clsObjectRel
+            {
+                ID_Parent_Object = objLocalConfig.OItem_Class_GraphItem.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_Class_ExportMode.GUID,
+                ID_RelationType = objLocalConfig.OItem_RelationType_isOfType.GUID,
+                Ontology = objLocalConfig.Globals.Type_Object
+            });
 
-            objORL_OItems.Add(new clsObjectRel(null,
-                                                   objLocalConfig.OItem_Class_GraphItem.GUID,
-                                                   null,
-                                                   null,
-                                                   objLocalConfig.OItem_RelationType_belongingSemItem.GUID,
-                                                   null,
-                                                   null,
-                                                   null));
+            objORL_OItems.Add(new clsObjectRel
+            {
+                ID_Parent_Object = objLocalConfig.OItem_Class_GraphItem.GUID,
+                ID_RelationType = objLocalConfig.OItem_RelationType_belongingSemItem.GUID
+            });
 
             
             

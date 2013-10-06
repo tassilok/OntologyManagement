@@ -583,7 +583,7 @@ namespace ElasticSearchConnector
 
             if (objBoolQuery.ToString() == "")
             {
-                objBoolQuery.Add(new WildcardQuery(new Term(objFields.ID_Object,strQuery)),BooleanClause.Occur.MUST);
+                objBoolQuery.Add(new WildcardQuery(new Term(objFields.ID_Object,"*")),BooleanClause.Occur.MUST);
             }
 
             return objBoolQuery;

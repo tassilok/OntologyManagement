@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ontolog_Module;
+using OntologyClasses.BaseClasses;
 
 namespace GraphMLConnector
 {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ontolog_Module;
+using OntologyClasses.BaseClasses;
 
 namespace GraphMLConnector
 {
@@ -103,23 +104,18 @@ namespace GraphMLConnector
 
             
 
-            var objOR_GraphItemToRight = new clsObjectRel(OItem_GraphItem.GUID, 
-                                                             null,
-                                                             null,
-                                                             null,
-                                                             null,
-                                                             null,
-                                                             null,
-                                                             null);
+            var objOR_GraphItemToRight = new clsObjectRel 
+            { 
+                ID_Object = OItem_GraphItem.GUID
+            };
 
-            var objOR_GrahToGraphItem = new clsObjectRel(OItem_Graph.GUID,
-                                                         null,
-                                                         OItem_GraphItem.GUID,
-                                                         null,
-                                                         objLocalConfig.OItem_RelationType_Contains.GUID,
-                                                         objLocalConfig.Globals.Type_Object,
-                                                         null,
-                                                         null);
+            var objOR_GrahToGraphItem = new clsObjectRel
+            {
+                ID_Object = OItem_Graph.GUID,
+                ID_Other = OItem_GraphItem.GUID,
+                ID_RelationType = objLocalConfig.OItem_RelationType_Contains.GUID,
+                Ontology = objLocalConfig.Globals.Type_Object
+            };
 
             objTransaction.ClearItems();
             objOItem_Result = objTransaction.do_Transaction(objOR_GraphItemToRight, false, true);
