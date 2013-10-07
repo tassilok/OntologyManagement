@@ -59,7 +59,7 @@ Partial Class frmSecurityModule
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(90, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(62, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Close
@@ -68,7 +68,7 @@ Partial Class frmSecurityModule
         Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
         Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
-        Me.ToolStripButton_Close.Size = New System.Drawing.Size(49, 22)
+        Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Close.Text = "x_Close"
         '
         'SplitContainer1
@@ -87,6 +87,7 @@ Partial Class frmSecurityModule
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(877, 529)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmSecurityModule"
         Me.Text = "x_Security-Module"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)

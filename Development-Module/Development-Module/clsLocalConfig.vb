@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class clsLocalConfig
 
     Private Const cint_ImageID_Root As Integer = 0

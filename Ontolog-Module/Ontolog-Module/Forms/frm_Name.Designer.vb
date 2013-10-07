@@ -22,6 +22,7 @@ Partial Class frm_Name
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frm_Name))
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel_DatabaseLBL = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel_Database = New System.Windows.Forms.ToolStripStatusLabel()
@@ -64,8 +65,8 @@ Partial Class frm_Name
         'ToolStripStatusLabel_Database
         '
         Me.ToolStripStatusLabel_Database.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_Database.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner
         Me.ToolStripStatusLabel_Database.Name = "ToolStripStatusLabel_Database"
         Me.ToolStripStatusLabel_Database.Size = New System.Drawing.Size(16, 19)
@@ -157,7 +158,7 @@ Partial Class frm_Name
         'TextBox_Name
         '
         Me.TextBox_Name.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_Name.Location = New System.Drawing.Point(59, 58)
         Me.TextBox_Name.MaxLength = 255
         Me.TextBox_Name.Name = "TextBox_Name"
@@ -176,7 +177,7 @@ Partial Class frm_Name
         'TextBox_GUID
         '
         Me.TextBox_GUID.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_GUID.Location = New System.Drawing.Point(59, 30)
         Me.TextBox_GUID.MaxLength = 255
         Me.TextBox_GUID.Name = "TextBox_GUID"
@@ -196,7 +197,7 @@ Partial Class frm_Name
         'TextBox_Repeat
         '
         Me.TextBox_Repeat.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_Repeat.Location = New System.Drawing.Point(59, 84)
         Me.TextBox_Repeat.MaxLength = 255
         Me.TextBox_Repeat.Name = "TextBox_Repeat"
@@ -232,6 +233,7 @@ Partial Class frm_Name
         Me.Controls.Add(Me.NumericUpDown_Additional)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.MenuStrip1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frm_Name"
         Me.Text = "frm_Name"

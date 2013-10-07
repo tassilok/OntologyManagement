@@ -1039,4 +1039,98 @@ Public Class UserControl_Report
             End If
         End If
     End Sub
+
+    Private Sub ContextMenuStrip_Reports_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Reports.Opening
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+
+        FilesToolStripMenuItem.Enabled = True
+        CopyNameToolStripMenuItem.Enabled = False
+        CopyGUIDToolStripMenuItem.Enabled = False
+        FilterToolStripMenuItem.Enabled = False
+        If BindingSource_Reports.Filter = "" Then
+            ToolStripTextBox_Filter.Text = ""
+            ClearFilterToolStripMenuItem.Enabled = False
+        Else
+            ClearFilterToolStripMenuItem.Enabled = True
+        End If
+
+        FieldToFilterToolStripMenuItem.Enabled = False
+        FieldToSortToolStripMenuItem.Enabled = False
+
+        If DataGridView_Reports.SelectedCells.Count = 1 Then
+
+            FilterToolStripMenuItem.Enabled = True
+            CopyNameToolStripMenuItem.Enabled = True
+            Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
+            If objLCol.Any() Then
+                If Not IsDBNull(objLCol.First().ID_FieldType) Then
+                    Dim objLType = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_TypeField).ToList()
+
+                    If objLType.Any() Then
+                        objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
+                        objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+                        Select Case objDRV_Selected.Item(objLType.First().Name_Col)
+                            Case objLocalConfig.OItem_Class_File.GUID
+                                FilesToolStripMenuItem.Enabled = True
+
+
+
+                        End Select
+
+                    End If
+                End If
+            End If
+
+
+            FieldToFilterToolStripMenuItem.Enabled = True
+            FieldToSortToolStripMenuItem.Enabled = True
+            If objLCol.Any() Then
+
+                Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
+                If objLLeaded.Any() Then
+                    If objLLeaded.First().ID_FieldType = objLocalConfig.OItem_Object_Field_Type_GUID.GUID Then
+                        CopyGUIDToolStripMenuItem.Enabled = True
+                    End If
+                End If
+
+            End If
+        End If
+    End Sub
+
+    Private Sub EditToolStripMenuItem_DropDownOpening(sender As Object, e As EventArgs) Handles EditToolStripMenuItem.DropDownOpening
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim objDRC_Token As DataRowCollection
+        Dim objGUID_Item As String
+
+        objOItem_Object = Nothing
+        XEditSemItemToolStripMenuItem.Enabled = False
+        If DataGridView_Reports.SelectedCells.Count = 1 Then
+            Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
+
+            If objLCol.Any() Then
+                Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
+                If objLLeaded.Any() Then
+                    If objLLeaded.First.ID_FieldType = objLocalConfig.OItem_Object_Field_Type_GUID.GUID Then
+                        objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
+                        objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+                        If Not IsDBNull(objDRV_Selected.Item(objLLeaded.First.Name_Col)) Then
+                            objGUID_Item = objDRV_Selected.Item(objLLeaded.First.Name_Col)
+                            objOItem_Object = objDataWork_ReportFields.GetOntologyItem(objGUID_Item)
+
+                            If Not objOItem_Object.GUID = objLocalConfig.Globals.LState_Success.GUID And Not objOItem_Object.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+
+
+                                XEditSemItemToolStripMenuItem.Enabled = True
+                            End If
+
+                        End If
+                    End If
+                End If
+            End If
+        End If
+    End Sub
 End Class

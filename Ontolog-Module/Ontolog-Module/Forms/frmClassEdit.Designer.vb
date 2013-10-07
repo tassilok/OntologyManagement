@@ -23,6 +23,7 @@ Partial Class frmClassEdit
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmClassEdit))
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel_Database = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel_DatabaseLBL = New System.Windows.Forms.ToolStripStatusLabel()
@@ -54,26 +55,26 @@ Partial Class frmClassEdit
         'StatusStrip1
         '
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel_Database, Me.ToolStripStatusLabel_DatabaseLBL})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 392)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 390)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(771, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(771, 24)
         Me.StatusStrip1.TabIndex = 0
         Me.StatusStrip1.Text = "StatusStrip1"
         '
         'ToolStripStatusLabel_Database
         '
         Me.ToolStripStatusLabel_Database.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_Database.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner
         Me.ToolStripStatusLabel_Database.Name = "ToolStripStatusLabel_Database"
-        Me.ToolStripStatusLabel_Database.Size = New System.Drawing.Size(15, 17)
+        Me.ToolStripStatusLabel_Database.Size = New System.Drawing.Size(16, 19)
         Me.ToolStripStatusLabel_Database.Text = "-"
         '
         'ToolStripStatusLabel_DatabaseLBL
         '
         Me.ToolStripStatusLabel_DatabaseLBL.Name = "ToolStripStatusLabel_DatabaseLBL"
-        Me.ToolStripStatusLabel_DatabaseLBL.Size = New System.Drawing.Size(57, 17)
+        Me.ToolStripStatusLabel_DatabaseLBL.Size = New System.Drawing.Size(58, 19)
         Me.ToolStripStatusLabel_DatabaseLBL.Text = "Database:"
         '
         'ToolStripContainer1
@@ -82,11 +83,11 @@ Partial Class frmClassEdit
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(771, 367)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(771, 365)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(771, 392)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(771, 390)
         Me.ToolStripContainer1.TabIndex = 1
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
@@ -104,7 +105,7 @@ Partial Class frmClassEdit
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.TabControl1)
-        Me.SplitContainer1.Size = New System.Drawing.Size(771, 367)
+        Me.SplitContainer1.Size = New System.Drawing.Size(771, 365)
         Me.SplitContainer1.SplitterDistance = 384
         Me.SplitContainer1.TabIndex = 0
         '
@@ -117,7 +118,7 @@ Partial Class frmClassEdit
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(379, 363)
+        Me.TabControl1.Size = New System.Drawing.Size(379, 361)
         Me.TabControl1.TabIndex = 0
         '
         'TabPage_Forward
@@ -125,7 +126,7 @@ Partial Class frmClassEdit
         Me.TabPage_Forward.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Forward.Name = "TabPage_Forward"
         Me.TabPage_Forward.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_Forward.Size = New System.Drawing.Size(371, 337)
+        Me.TabPage_Forward.Size = New System.Drawing.Size(371, 335)
         Me.TabPage_Forward.TabIndex = 0
         Me.TabPage_Forward.Text = "x_Forward-Relations"
         Me.TabPage_Forward.UseVisualStyleBackColor = True
@@ -135,7 +136,7 @@ Partial Class frmClassEdit
         Me.TabPage_Backward.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Backward.Name = "TabPage_Backward"
         Me.TabPage_Backward.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_Backward.Size = New System.Drawing.Size(371, 335)
+        Me.TabPage_Backward.Size = New System.Drawing.Size(371, 337)
         Me.TabPage_Backward.TabIndex = 1
         Me.TabPage_Backward.Text = "x_Backward-Relations"
         Me.TabPage_Backward.UseVisualStyleBackColor = True
@@ -145,7 +146,7 @@ Partial Class frmClassEdit
         Me.TabPage_ObjectReferences.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_ObjectReferences.Name = "TabPage_ObjectReferences"
         Me.TabPage_ObjectReferences.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_ObjectReferences.Size = New System.Drawing.Size(371, 335)
+        Me.TabPage_ObjectReferences.Size = New System.Drawing.Size(371, 337)
         Me.TabPage_ObjectReferences.TabIndex = 2
         Me.TabPage_ObjectReferences.Text = "x_Object-References"
         Me.TabPage_ObjectReferences.UseVisualStyleBackColor = True
@@ -156,13 +157,13 @@ Partial Class frmClassEdit
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_ClassLBL, Me.ToolStripTextBox_Name, Me.ToolStripSeparator1, Me.ToolStripLabel_GUIDLBL, Me.ToolStripTextBox_GUID, Me.ToolStripButton_DelClass})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(670, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(639, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_ClassLBL
         '
         Me.ToolStripLabel_ClassLBL.Name = "ToolStripLabel_ClassLBL"
-        Me.ToolStripLabel_ClassLBL.Size = New System.Drawing.Size(48, 22)
+        Me.ToolStripLabel_ClassLBL.Size = New System.Drawing.Size(47, 22)
         Me.ToolStripLabel_ClassLBL.Text = "x_Class:"
         '
         'ToolStripTextBox_Name
@@ -178,7 +179,7 @@ Partial Class frmClassEdit
         'ToolStripLabel_GUIDLBL
         '
         Me.ToolStripLabel_GUIDLBL.Name = "ToolStripLabel_GUIDLBL"
-        Me.ToolStripLabel_GUIDLBL.Size = New System.Drawing.Size(48, 22)
+        Me.ToolStripLabel_GUIDLBL.Size = New System.Drawing.Size(47, 22)
         Me.ToolStripLabel_GUIDLBL.Text = "x_GUID:"
         '
         'ToolStripTextBox_GUID
@@ -207,6 +208,7 @@ Partial Class frmClassEdit
         Me.ClientSize = New System.Drawing.Size(771, 414)
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Controls.Add(Me.StatusStrip1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmClassEdit"
         Me.Text = "frmClassEdit"
         Me.StatusStrip1.ResumeLayout(False)

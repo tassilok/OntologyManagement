@@ -30,15 +30,15 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEsMaintenance));
-            System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem("ClassAtt");
-            System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem("ObjectAttribute");
-            System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem("DataType");
-            System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem("Class");
-            System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem("ClassRel");
-            System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem("AttributeType");
-            System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem("RelationType");
-            System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem("Object");
-            System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem("ObjectRel");
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("ClassAtt");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("ObjectAttribute");
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("DataType");
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Class");
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("ClassRel");
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("AttributeType");
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("RelationType");
+            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem("Object");
+            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem("ObjectRel");
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
@@ -52,12 +52,12 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton_Save = new System.Windows.Forms.ToolStripButton();
             this.dataGridView_Found = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip_Items = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.delToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel_Query = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_Query = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton_Search = new System.Windows.Forms.ToolStripButton();
-            this.contextMenuStrip_Items = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.delToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -72,8 +72,8 @@
             this.toolStripContainer2.SuspendLayout();
             this.toolStrip3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Found)).BeginInit();
-            this.toolStrip2.SuspendLayout();
             this.contextMenuStrip_Items.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -141,15 +141,15 @@
             this.columnHeader_ItemType});
             this.listView_ItemTypes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView_ItemTypes.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem19,
-            listViewItem20,
-            listViewItem21,
-            listViewItem22,
-            listViewItem23,
-            listViewItem24,
-            listViewItem25,
-            listViewItem26,
-            listViewItem27});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3,
+            listViewItem4,
+            listViewItem5,
+            listViewItem6,
+            listViewItem7,
+            listViewItem8,
+            listViewItem9});
             this.listView_ItemTypes.Location = new System.Drawing.Point(0, 0);
             this.listView_ItemTypes.Name = "listView_ItemTypes";
             this.listView_ItemTypes.Size = new System.Drawing.Size(222, 326);
@@ -237,6 +237,21 @@
             this.dataGridView_Found.Size = new System.Drawing.Size(445, 276);
             this.dataGridView_Found.TabIndex = 0;
             // 
+            // contextMenuStrip_Items
+            // 
+            this.contextMenuStrip_Items.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.delToolStripMenuItem});
+            this.contextMenuStrip_Items.Name = "contextMenuStrip_Items";
+            this.contextMenuStrip_Items.Size = new System.Drawing.Size(102, 26);
+            this.contextMenuStrip_Items.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Items_Opening);
+            // 
+            // delToolStripMenuItem
+            // 
+            this.delToolStripMenuItem.Name = "delToolStripMenuItem";
+            this.delToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
+            this.delToolStripMenuItem.Text = "x_Del";
+            this.delToolStripMenuItem.Click += new System.EventHandler(this.delToolStripMenuItem_Click);
+            // 
             // toolStrip2
             // 
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
@@ -270,29 +285,15 @@
             this.toolStripButton_Search.Text = "x_Search";
             this.toolStripButton_Search.Click += new System.EventHandler(this.toolStripButton_Search_Click);
             // 
-            // contextMenuStrip_Items
-            // 
-            this.contextMenuStrip_Items.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.delToolStripMenuItem});
-            this.contextMenuStrip_Items.Name = "contextMenuStrip_Items";
-            this.contextMenuStrip_Items.Size = new System.Drawing.Size(102, 26);
-            this.contextMenuStrip_Items.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Items_Opening);
-            // 
-            // delToolStripMenuItem
-            // 
-            this.delToolStripMenuItem.Name = "delToolStripMenuItem";
-            this.delToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.delToolStripMenuItem.Text = "x_Del";
-            this.delToolStripMenuItem.Click += new System.EventHandler(this.delToolStripMenuItem_Click);
-            // 
             // frmEsMaintenance
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(679, 355);
             this.Controls.Add(this.toolStripContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmEsMaintenance";
-            this.Text = "Form1";
+            this.Text = "x_Elasticsearch-Maintenance";
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
@@ -314,9 +315,9 @@
             this.toolStrip3.ResumeLayout(false);
             this.toolStrip3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Found)).EndInit();
+            this.contextMenuStrip_Items.ResumeLayout(false);
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
-            this.contextMenuStrip_Items.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

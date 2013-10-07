@@ -221,7 +221,7 @@ Public Class clsDataWork
                                          Nothing))
 
             objDBLevel_Files.get_Data_ObjectAtt(oList_ObjAtt, _
-                                        boolIDs:=False, _
+                                        boolIDs:=True, _
                                         doJoin:=True)
 
             Dim objL = From objFile In objDBLevel_Files.OList_Objects
@@ -688,6 +688,18 @@ Public Class clsDataWork
         End If
 
         Return objOL_Files
+    End Function
+
+    Public Function Rel_File_To_Folder(OItem_File As clsOntologyItem, OItem_Folder As clsOntologyItem) As clsObjectRel
+        Dim objORel_File_To_Folder As New clsObjectRel With {.ID_Object = OItem_File.GUID, _
+                                                             .ID_Parent_Object = OItem_File.GUID_Parent, _
+                                                             .ID_RelationType = objLocalConfig.OItem_RelationType_isSubordinated.GUID, _
+                                                             .ID_Other = OItem_Folder.GUID, _
+                                                             .ID_Parent_Other = OItem_Folder.GUID_Parent, _
+                                                             .OrderID = 1, _
+                                                             .Ontology = objLocalConfig.Globals.Type_Object}
+
+        Return objORel_File_To_Folder
     End Function
 
     Public Function IsFileCheckedout(OItem_File As clsOntologyItem) As clsOntologyItem

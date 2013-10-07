@@ -48,9 +48,6 @@ Public Class clsGlobals
     Private objORule_RelationBreak As clsOntologyItem
     Private objORule_OnlyItem As clsOntologyItem
 
-    Private objELSearchResult As ElasticSearch.Client.Domain.SearchResult
-    Private objELQuery As ElasticSearch.Client.QueryDSL.BoolQuery
-
     Private dtblT_Config As New DataSet_Config.dtbl_BaseConfigDataTable
 
     Private GUID_Session As String

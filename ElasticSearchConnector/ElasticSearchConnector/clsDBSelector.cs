@@ -727,12 +727,12 @@ namespace ElasticSearchConnector
                             if (strQuery != "")
                                 strQuery += "\\ OR\\ ";
 
-                            strQuery += name;
+                            strQuery += "*" + name + "*";
                         }
 
                         if (strQuery != "")
                         {
-                            objBoolQuery.Add(new WildcardQuery(new Term(objFields.Name_Item, strQuery)), BooleanClause.Occur.MUST);
+                            objBoolQuery.Add(new TermQuery(new Term(objFields.Name_Item, strQuery)), BooleanClause.Occur.MUST);
                         }
 
                         if (strOntology == objTypes.AttributeType ||
@@ -1719,7 +1719,9 @@ namespace ElasticSearchConnector
             OntologyList_AttributTypes1.Clear();
             OntologyList_Attributes.Clear();
             OntologyList_Classes1.Clear();
-            OntologyList_Objects1.Clear();
+            if (doJoin == false)
+                OntologyList_Objects1.Clear();
+
             OntologyList_DataTypes.Clear();
 
 

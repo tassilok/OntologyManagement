@@ -1,0 +1,27 @@
+<?xml version="1.0" standalone="yes"?>
+<DocumentElement>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Path_Orig</ConfigItem_Name>
+    <ConfigItem_Value>C:\Users\tassilok\Documents\GitHub\SemManager\Application\Bill-Module\Bill-Module\bin\Debug</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Path_Copy</ConfigItem_Name>
+    <ConfigItem_Value>C:\Users\tassilok\Documents\Development\Semantic\Modules\Bill-Management</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>EXE</ConfigItem_Name>
+    <ConfigItem_Value>Bill-Module.exe</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>PluginExe</ConfigItem_Name>
+    <ConfigItem_Value>Bill-Module.exe</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Plugin</ConfigItem_Name>
+    <ConfigItem_Value>True</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Config</ConfigItem_Name>
+    <ConfigItem_Value>False</ConfigItem_Value>
+  </dtbl_BaseConfig>
+</DocumentElement>

@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class UserControl_OntologyConfig
     Private dtblT_OntologyItems As New DataSet_Development.dtbl_OntologyItemsDataTable
 

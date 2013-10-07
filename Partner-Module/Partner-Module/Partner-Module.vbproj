@@ -51,6 +51,9 @@
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>user_frederic_moser_01.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -190,6 +193,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="user_frederic_moser_01.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Media-Viewer-Module\Media-Viewer-Module\Media-Viewer-Module.vbproj">

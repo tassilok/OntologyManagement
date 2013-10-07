@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class UserControl_DevelopmentTree
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_DevTree As clsDataWork_DevTree

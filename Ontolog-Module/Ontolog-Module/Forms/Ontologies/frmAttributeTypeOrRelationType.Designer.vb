@@ -27,19 +27,19 @@ Partial Class frmAttributeTypeOrRelationType
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.Label_AttributeTypes = New System.Windows.Forms.Label()
-        Me.Label_RelationTypes = New System.Windows.Forms.Label()
         Me.Panel_AttributeTypes = New System.Windows.Forms.Panel()
+        Me.Label_AttributeTypes = New System.Windows.Forms.Label()
         Me.Panel_RelationTypes = New System.Windows.Forms.Panel()
-        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout
-        Me.ToolStripContainer1.SuspendLayout
-        Me.ToolStrip1.SuspendLayout
-        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SplitContainer1.Panel1.SuspendLayout
-        Me.SplitContainer1.Panel2.SuspendLayout
-        Me.SplitContainer1.SuspendLayout
-        Me.SuspendLayout
+        Me.Label_RelationTypes = New System.Windows.Forms.Label()
+        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
+        Me.ToolStripContainer1.SuspendLayout()
+        Me.ToolStrip1.SuspendLayout()
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.Panel2.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
+        Me.SuspendLayout()
         '
         'ToolStripContainer1
         '
@@ -51,7 +51,7 @@ Partial Class frmAttributeTypeOrRelationType
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(768, 528)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(768, 503)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
@@ -71,7 +71,7 @@ Partial Class frmAttributeTypeOrRelationType
         'ToolStripButton_Close
         '
         Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"),System.Drawing.Image)
+        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
         Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
         Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
@@ -93,54 +93,55 @@ Partial Class frmAttributeTypeOrRelationType
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.Panel_RelationTypes)
         Me.SplitContainer1.Panel2.Controls.Add(Me.Label_RelationTypes)
-        Me.SplitContainer1.Size = New System.Drawing.Size(768, 528)
+        Me.SplitContainer1.Size = New System.Drawing.Size(768, 503)
         Me.SplitContainer1.SplitterDistance = 382
         Me.SplitContainer1.TabIndex = 0
         '
+        'Panel_AttributeTypes
+        '
+        Me.Panel_AttributeTypes.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Panel_AttributeTypes.Location = New System.Drawing.Point(4, 21)
+        Me.Panel_AttributeTypes.Name = "Panel_AttributeTypes"
+        Me.Panel_AttributeTypes.Size = New System.Drawing.Size(371, 475)
+        Me.Panel_AttributeTypes.TabIndex = 1
+        '
         'Label_AttributeTypes
         '
-        Me.Label_AttributeTypes.AutoSize = true
+        Me.Label_AttributeTypes.AutoSize = True
         Me.Label_AttributeTypes.Location = New System.Drawing.Point(4, 4)
         Me.Label_AttributeTypes.Name = "Label_AttributeTypes"
         Me.Label_AttributeTypes.Size = New System.Drawing.Size(86, 13)
         Me.Label_AttributeTypes.TabIndex = 0
         Me.Label_AttributeTypes.Text = "x_AttributeTypes"
         '
+        'Panel_RelationTypes
+        '
+        Me.Panel_RelationTypes.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Panel_RelationTypes.Location = New System.Drawing.Point(3, 21)
+        Me.Panel_RelationTypes.Name = "Panel_RelationTypes"
+        Me.Panel_RelationTypes.Size = New System.Drawing.Size(371, 475)
+        Me.Panel_RelationTypes.TabIndex = 2
+        '
         'Label_RelationTypes
         '
-        Me.Label_RelationTypes.AutoSize = true
+        Me.Label_RelationTypes.AutoSize = True
         Me.Label_RelationTypes.Location = New System.Drawing.Point(4, 2)
         Me.Label_RelationTypes.Name = "Label_RelationTypes"
         Me.Label_RelationTypes.Size = New System.Drawing.Size(86, 13)
         Me.Label_RelationTypes.TabIndex = 0
         Me.Label_RelationTypes.Text = "x_RelationTypes"
         '
-        'Panel_AttributeTypes
-        '
-        Me.Panel_AttributeTypes.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
-            Or System.Windows.Forms.AnchorStyles.Left)  _
-            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.Panel_AttributeTypes.Location = New System.Drawing.Point(4, 21)
-        Me.Panel_AttributeTypes.Name = "Panel_AttributeTypes"
-        Me.Panel_AttributeTypes.Size = New System.Drawing.Size(371, 500)
-        Me.Panel_AttributeTypes.TabIndex = 1
-        '
-        'Panel_RelationTypes
-        '
-        Me.Panel_RelationTypes.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
-            Or System.Windows.Forms.AnchorStyles.Left)  _
-            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.Panel_RelationTypes.Location = New System.Drawing.Point(3, 21)
-        Me.Panel_RelationTypes.Name = "Panel_RelationTypes"
-        Me.Panel_RelationTypes.Size = New System.Drawing.Size(371, 500)
-        Me.Panel_RelationTypes.TabIndex = 2
-        '
         'frmAttributeTypeOrRelationType
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(768, 553)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmAttributeTypeOrRelationType"
         Me.Text = "x_AttributeType or RelationType"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(false)

@@ -26,10 +26,10 @@ Partial Class frmLogModule
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel_DatabaseLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Database = New System.Windows.Forms.ToolStripTextBox()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -65,7 +65,7 @@ Partial Class frmLogModule
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close, Me.ToolStripSeparator1, Me.ToolStripLabel_DatabaseLBL, Me.ToolStripTextBox_Database})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(369, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(338, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Close
@@ -76,16 +76,6 @@ Partial Class frmLogModule
         Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
         Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Close.Text = "x_Close"
-        '
-        'SplitContainer1
-        '
-        Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Size = New System.Drawing.Size(654, 432)
-        Me.SplitContainer1.SplitterDistance = 218
-        Me.SplitContainer1.TabIndex = 0
         '
         'ToolStripSeparator1
         '
@@ -104,12 +94,23 @@ Partial Class frmLogModule
         Me.ToolStripTextBox_Database.ReadOnly = True
         Me.ToolStripTextBox_Database.Size = New System.Drawing.Size(200, 25)
         '
+        'SplitContainer1
+        '
+        Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Size = New System.Drawing.Size(654, 432)
+        Me.SplitContainer1.SplitterDistance = 218
+        Me.SplitContainer1.TabIndex = 0
+        '
         'frmLogModule
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(654, 457)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmLogModule"
         Me.Text = "x_LogModule"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)

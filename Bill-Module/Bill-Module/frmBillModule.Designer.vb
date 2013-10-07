@@ -26,13 +26,13 @@ Partial Class frmBillModule
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel_DatabaseLBL = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripTextBox_Database = New System.Windows.Forms.ToolStripTextBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage_TransactionDetails = New System.Windows.Forms.TabPage()
         Me.TabPage_Documents = New System.Windows.Forms.TabPage()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripLabel_DatabaseLBL = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripTextBox_Database = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -67,7 +67,7 @@ Partial Class frmBillModule
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close, Me.ToolStripSeparator1, Me.ToolStripLabel_DatabaseLBL, Me.ToolStripTextBox_Database})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(369, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(338, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Close
@@ -78,6 +78,23 @@ Partial Class frmBillModule
         Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
         Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Close.Text = "x_Close"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripLabel_DatabaseLBL
+        '
+        Me.ToolStripLabel_DatabaseLBL.Name = "ToolStripLabel_DatabaseLBL"
+        Me.ToolStripLabel_DatabaseLBL.Size = New System.Drawing.Size(68, 22)
+        Me.ToolStripLabel_DatabaseLBL.Text = "x_Database:"
+        '
+        'ToolStripTextBox_Database
+        '
+        Me.ToolStripTextBox_Database.Name = "ToolStripTextBox_Database"
+        Me.ToolStripTextBox_Database.ReadOnly = True
+        Me.ToolStripTextBox_Database.Size = New System.Drawing.Size(200, 25)
         '
         'SplitContainer1
         '
@@ -124,29 +141,13 @@ Partial Class frmBillModule
         Me.TabPage_Documents.Text = "x_Documents"
         Me.TabPage_Documents.UseVisualStyleBackColor = True
         '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripLabel_DatabaseLBL
-        '
-        Me.ToolStripLabel_DatabaseLBL.Name = "ToolStripLabel_DatabaseLBL"
-        Me.ToolStripLabel_DatabaseLBL.Size = New System.Drawing.Size(68, 22)
-        Me.ToolStripLabel_DatabaseLBL.Text = "x_Database:"
-        '
-        'ToolStripTextBox_Database
-        '
-        Me.ToolStripTextBox_Database.Name = "ToolStripTextBox_Database"
-        Me.ToolStripTextBox_Database.ReadOnly = True
-        Me.ToolStripTextBox_Database.Size = New System.Drawing.Size(200, 25)
-        '
         'frmBillModule
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1069, 529)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmBillModule"
         Me.Text = "x_Bill-Module"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)

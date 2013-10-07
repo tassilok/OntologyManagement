@@ -145,6 +145,7 @@ Partial Class frmOntologyConfigurator
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(723, 459)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmOntologyConfigurator"
         Me.Text = "frmOntologyConfigurator"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)

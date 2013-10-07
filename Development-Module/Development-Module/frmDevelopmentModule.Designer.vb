@@ -65,7 +65,7 @@ Partial Class frmDevelopmentModule
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(59, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(62, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Close
@@ -74,7 +74,7 @@ Partial Class frmDevelopmentModule
         Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
         Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
-        Me.ToolStripButton_Close.Size = New System.Drawing.Size(49, 22)
+        Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Close.Text = "x_Close"
         '
         'SplitContainer1
@@ -133,13 +133,14 @@ Partial Class frmDevelopmentModule
         Me.TabPage_OntologyConfig.Text = "x_Ontology-Config"
         Me.TabPage_OntologyConfig.UseVisualStyleBackColor = True
         '
-        'modDevelopmentModule
+        'frmDevelopmentModule
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(724, 459)
         Me.Controls.Add(Me.ToolStripContainer1)
-        Me.Name = "modDevelopmentModule"
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Name = "frmDevelopmentModule"
         Me.Text = "x_Development-Module"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
         Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()

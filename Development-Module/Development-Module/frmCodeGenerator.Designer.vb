@@ -24,9 +24,9 @@ Partial Class frmCodeGenerator
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmCodeGenerator))
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
-        Me.TextBox_Code = New System.Windows.Forms.TextBox()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
+        Me.TextBox_Code = New System.Windows.Forms.TextBox()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -51,6 +51,24 @@ Partial Class frmCodeGenerator
         Me.ToolStripContainer1.TabIndex = 0
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
+        'ToolStrip1
+        '
+        Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close})
+        Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
+        Me.ToolStrip1.Name = "ToolStrip1"
+        Me.ToolStrip1.Size = New System.Drawing.Size(62, 25)
+        Me.ToolStrip1.TabIndex = 0
+        '
+        'ToolStripButton_Close
+        '
+        Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
+        Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripButton_Close.Text = "x_Close"
+        '
         'TextBox_Code
         '
         Me.TextBox_Code.Dock = System.Windows.Forms.DockStyle.Fill
@@ -61,30 +79,13 @@ Partial Class frmCodeGenerator
         Me.TextBox_Code.Size = New System.Drawing.Size(473, 382)
         Me.TextBox_Code.TabIndex = 1
         '
-        'ToolStrip1
-        '
-        Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close})
-        Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
-        Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(90, 25)
-        Me.ToolStrip1.TabIndex = 0
-        '
-        'ToolStripButton_Close
-        '
-        Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
-        Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
-        Me.ToolStripButton_Close.Size = New System.Drawing.Size(49, 22)
-        Me.ToolStripButton_Close.Text = "x_Close"
-        '
         'frmCodeGenerator
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(473, 432)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmCodeGenerator"
         Me.Text = "frmCodeGenerator"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)

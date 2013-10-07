@@ -1,0 +1,23 @@
+<?xml version="1.0" standalone="yes"?>
+<DocumentElement>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Path_Orig</ConfigItem_Name>
+    <ConfigItem_Value>C:\Users\tassilok\Documents\GitHub\SemManager\Application\Schema-Manager\Schema-Manager\bin\Debug</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Path_Copy</ConfigItem_Name>
+    <ConfigItem_Value>C:\Users\tassilok\Documents\Development\Semantic\Modules\Sem - Schema-Module</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>EXE</ConfigItem_Name>
+    <ConfigItem_Value>Schema-Manager.exe</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Plugin</ConfigItem_Name>
+    <ConfigItem_Value>False</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Config</ConfigItem_Name>
+    <ConfigItem_Value>False</ConfigItem_Value>
+  </dtbl_BaseConfig>
+</DocumentElement>

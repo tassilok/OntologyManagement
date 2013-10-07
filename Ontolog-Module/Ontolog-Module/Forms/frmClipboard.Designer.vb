@@ -23,6 +23,7 @@ Partial Class frmClipboard
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmClipboard))
         Me.Button_Apply = New System.Windows.Forms.Button()
         Me.Button_Clear = New System.Windows.Forms.Button()
         Me.Button_Cancel = New System.Windows.Forms.Button()
@@ -87,6 +88,7 @@ Partial Class frmClipboard
         Me.Controls.Add(Me.Button_Cancel)
         Me.Controls.Add(Me.Button_Clear)
         Me.Controls.Add(Me.Button_Apply)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmClipboard"
         Me.Text = "frmClipboard"
         CType(Me.DataGridView_Items, System.ComponentModel.ISupportInitialize).EndInit()

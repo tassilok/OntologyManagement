@@ -134,8 +134,8 @@ Partial Class frmPLZOrtLand
         'Panel_PLZ
         '
         Me.Panel_PLZ.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_PLZ.Location = New System.Drawing.Point(3, 19)
         Me.Panel_PLZ.Name = "Panel_PLZ"
         Me.Panel_PLZ.Size = New System.Drawing.Size(794, 207)
@@ -174,8 +174,8 @@ Partial Class frmPLZOrtLand
         'Panel_Ort
         '
         Me.Panel_Ort.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_Ort.Location = New System.Drawing.Point(3, 19)
         Me.Panel_Ort.Name = "Panel_Ort"
         Me.Panel_Ort.Size = New System.Drawing.Size(794, 191)
@@ -193,8 +193,8 @@ Partial Class frmPLZOrtLand
         'Panel_Land
         '
         Me.Panel_Land.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_Land.Location = New System.Drawing.Point(3, 20)
         Me.Panel_Land.Name = "Panel_Land"
         Me.Panel_Land.Size = New System.Drawing.Size(794, 140)
@@ -206,6 +206,7 @@ Partial Class frmPLZOrtLand
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(804, 674)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmPLZOrtLand"
         Me.Text = "frmPLZOrtLand"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)

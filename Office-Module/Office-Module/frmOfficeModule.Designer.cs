@@ -177,12 +177,12 @@
             this.ContextMenuStrip_Tree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.NewToolStripMenuItem});
             this.ContextMenuStrip_Tree.Name = "ContextMenuStrip_Tree";
-            this.ContextMenuStrip_Tree.Size = new System.Drawing.Size(153, 48);
+            this.ContextMenuStrip_Tree.Size = new System.Drawing.Size(109, 26);
             // 
             // NewToolStripMenuItem
             // 
             this.NewToolStripMenuItem.Name = "NewToolStripMenuItem";
-            this.NewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.NewToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.NewToolStripMenuItem.Text = "x_New";
             this.NewToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
@@ -242,6 +242,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(785, 515);
             this.Controls.Add(this.toolStripContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmOfficeModule";
             this.Text = "x_Office Module";
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);

@@ -22,6 +22,7 @@ Partial Class frmAuthenticate
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAuthenticate))
         Me.Panel_Authenticate = New System.Windows.Forms.Panel()
         Me.SuspendLayout()
         '
@@ -39,6 +40,7 @@ Partial Class frmAuthenticate
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(646, 481)
         Me.Controls.Add(Me.Panel_Authenticate)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmAuthenticate"
         Me.Text = "frmAuthenticate"
         Me.ResumeLayout(False)

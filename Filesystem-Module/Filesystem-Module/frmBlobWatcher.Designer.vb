@@ -121,6 +121,7 @@ Partial Class frmBlobWatcher
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(545, 321)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmBlobWatcher"
         Me.Text = "frmBlobWatcher"
         Me.ContextMenuStrip_Notify.ResumeLayout(False)

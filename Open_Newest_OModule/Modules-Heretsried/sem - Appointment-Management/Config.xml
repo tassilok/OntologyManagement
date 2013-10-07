@@ -1,0 +1,23 @@
+<?xml version="1.0" standalone="yes"?>
+<DocumentElement>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Path_Orig</ConfigItem_Name>
+    <ConfigItem_Value>C:\Users\tassilok\Documents\GitHub\SemManager\Application\Appointment-Module\Appointment-Module\bin\Debug</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Path_Copy</ConfigItem_Name>
+    <ConfigItem_Value>C:\Users\tassilok\Documents\Development\Semantic\Modules\Sem - Appointment-Module</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>EXE</ConfigItem_Name>
+    <ConfigItem_Value>Appointment-Module.exe</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Plugin</ConfigItem_Name>
+    <ConfigItem_Value>False</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>Config</ConfigItem_Name>
+    <ConfigItem_Value>False</ConfigItem_Value>
+  </dtbl_BaseConfig>
+</DocumentElement>

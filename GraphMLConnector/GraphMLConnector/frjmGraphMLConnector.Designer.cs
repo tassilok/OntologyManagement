@@ -269,7 +269,7 @@
             this.toolStripSplitButton_GlobalExportMode});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(234, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(203, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripButton_Export
@@ -348,6 +348,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(680, 487);
             this.Controls.Add(this.splitContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmGraphMLConnector";
             this.Text = "Graph-ML Connector";
             this.contextMenuStrip_Export.ResumeLayout(false);

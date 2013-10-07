@@ -95,6 +95,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(570, 471);
             this.Controls.Add(this.toolStripContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmScenesLiteraturModule";
             this.Text = "x_Scenes-Literatur-Module";
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);

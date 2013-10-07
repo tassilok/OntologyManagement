@@ -66,7 +66,7 @@ Partial Class frmPartnerModule
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(59, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(62, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Close
@@ -75,7 +75,7 @@ Partial Class frmPartnerModule
         Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
         Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
-        Me.ToolStripButton_Close.Size = New System.Drawing.Size(49, 22)
+        Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Close.Text = "x_Close"
         '
         'SplitContainer1
@@ -110,7 +110,7 @@ Partial Class frmPartnerModule
         Me.TabPage_Address.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Address.Name = "TabPage_Address"
         Me.TabPage_Address.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_Address.Size = New System.Drawing.Size(331, 406)
+        Me.TabPage_Address.Size = New System.Drawing.Size(468, 406)
         Me.TabPage_Address.TabIndex = 0
         Me.TabPage_Address.Text = "x_Address"
         Me.TabPage_Address.UseVisualStyleBackColor = True
@@ -120,7 +120,7 @@ Partial Class frmPartnerModule
         Me.TabPage_PersonalData.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_PersonalData.Name = "TabPage_PersonalData"
         Me.TabPage_PersonalData.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_PersonalData.Size = New System.Drawing.Size(331, 406)
+        Me.TabPage_PersonalData.Size = New System.Drawing.Size(468, 406)
         Me.TabPage_PersonalData.TabIndex = 1
         Me.TabPage_PersonalData.Text = "x_Personal Data"
         Me.TabPage_PersonalData.UseVisualStyleBackColor = True
@@ -130,7 +130,7 @@ Partial Class frmPartnerModule
         Me.TabPage_CommunicationData.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_CommunicationData.Name = "TabPage_CommunicationData"
         Me.TabPage_CommunicationData.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_CommunicationData.Size = New System.Drawing.Size(331, 406)
+        Me.TabPage_CommunicationData.Size = New System.Drawing.Size(468, 406)
         Me.TabPage_CommunicationData.TabIndex = 2
         Me.TabPage_CommunicationData.Text = "x_Communication Data"
         Me.TabPage_CommunicationData.UseVisualStyleBackColor = True
@@ -151,6 +151,7 @@ Partial Class frmPartnerModule
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(725, 486)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmPartnerModule"
         Me.Text = "x_Partner-Module"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)

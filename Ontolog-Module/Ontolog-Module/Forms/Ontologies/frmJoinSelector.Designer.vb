@@ -26,9 +26,9 @@ Partial Class frmJoinSelector
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.ToolStripButton_Apply = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripButton_Apply = New System.Windows.Forms.ToolStripButton()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -61,7 +61,7 @@ Partial Class frmJoinSelector
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Close, Me.ToolStripSeparator1, Me.ToolStripButton_Apply})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(151, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(120, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Close
@@ -73,15 +73,10 @@ Partial Class frmJoinSelector
         Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Close.Text = "x_Close"
         '
-        'SplitContainer1
+        'ToolStripSeparator1
         '
-        Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Size = New System.Drawing.Size(655, 365)
-        Me.SplitContainer1.SplitterDistance = 218
-        Me.SplitContainer1.TabIndex = 0
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
         '
         'ToolStripButton_Apply
         '
@@ -93,10 +88,15 @@ Partial Class frmJoinSelector
         Me.ToolStripButton_Apply.Size = New System.Drawing.Size(52, 22)
         Me.ToolStripButton_Apply.Text = "x_Apply"
         '
-        'ToolStripSeparator1
+        'SplitContainer1
         '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Size = New System.Drawing.Size(655, 365)
+        Me.SplitContainer1.SplitterDistance = 218
+        Me.SplitContainer1.TabIndex = 0
         '
         'frmJoinSelector
         '
@@ -104,6 +104,7 @@ Partial Class frmJoinSelector
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(655, 415)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmJoinSelector"
         Me.Text = "frmJoinSelector"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)

@@ -356,6 +356,7 @@ Partial Class frmFileSync
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1175, 418)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmFileSync"
         Me.Text = "x_FileSync"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)

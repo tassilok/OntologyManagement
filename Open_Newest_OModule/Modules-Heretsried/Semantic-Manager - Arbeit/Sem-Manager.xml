@@ -1,0 +1,2228 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Sem-Manager
+</name>
+</assembly>
+<members>
+<member name="P:Sem_Manager.My.Resources.Resources.ResourceManager">
+	<summary>
+  Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
+</summary>
+</member><member name="P:Sem_Manager.My.Resources.Resources.Culture">
+	<summary>
+  Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
+  Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
+</summary>
+</member><member name="T:Sem_Manager.My.Resources.Resources">
+	<summary>
+  Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
+</summary>
+</member><member name="T:Sem_Manager.ds_Config.dtbl_BaseConfigDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Config.dtbl_BaseConfigRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Config.dtbl_BaseConfigRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Config">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemItems.DataTable_SemItemDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemItems.DataTable_SemItemRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemItems.DataTable_SemItemRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemItems">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.semfunc_Token_AttributeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_BitDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_DateDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_IntDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_RealDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_TimeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_Varchar255DataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_VarcharMAXDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.func_TokenAttribute_NamedDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_DatetimeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.proc_TokenAttribute_By_GUIDType_And_GUIDAttributeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.func_TokenAttribute_Named_By_GUIDTokenDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.semfunc_Token_AttributeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_BitRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_DateRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_IntRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_RealRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_TimeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_Varchar255Row">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_VarcharMAXRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.func_TokenAttribute_NamedRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_DatetimeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.proc_TokenAttribute_By_GUIDType_And_GUIDAttributeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.func_TokenAttribute_Named_By_GUIDTokenRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.semfunc_Token_AttributeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_BitRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_DateRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_IntRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_RealRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_TimeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_Varchar255RowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_VarcharMAXRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.func_TokenAttribute_NamedRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.TokenAttribute_DatetimeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.proc_TokenAttribute_By_GUIDType_And_GUIDAttributeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute.func_TokenAttribute_Named_By_GUIDTokenRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttribute">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttributeTableAdapters.semfunc_Token_AttributeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttributeTableAdapters.TokenAttribute_BitTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttributeTableAdapters.TokenAttribute_DateTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttributeTableAdapters.TokenAttribute_IntTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttributeTableAdapters.TokenAttribute_RealTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttributeTableAdapters.TokenAttribute_TimeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttributeTableAdapters.TokenAttribute_Varchar255TableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttributeTableAdapters.TokenAttribute_VarcharMAXTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttributeTableAdapters.func_TokenAttribute_NamedTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttributeTableAdapters.TokenAttribute_DatetimeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttributeTableAdapters.proc_TokenAttribute_By_GUIDType_And_GUIDAttributeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttributeTableAdapters.func_TokenAttribute_Named_By_GUIDTokenTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="M:Sem_Manager.ds_TokenAttributeTableAdapters.TableAdapterManager.UpdateUpdatedRows(Sem_Manager.ds_TokenAttribute,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Update rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_TokenAttributeTableAdapters.TableAdapterManager.UpdateInsertedRows(Sem_Manager.ds_TokenAttribute,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Insert rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_TokenAttributeTableAdapters.TableAdapterManager.UpdateDeletedRows(Sem_Manager.ds_TokenAttribute,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Delete rows in bottom-up order.
+</summary>
+</member><member name="M:Sem_Manager.ds_TokenAttributeTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member><member name="M:Sem_Manager.ds_TokenAttributeTableAdapters.TableAdapterManager.UpdateAll(Sem_Manager.ds_TokenAttribute)">
+	<summary>
+Update all changes to the dataset.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttributeTableAdapters.TableAdapterManager.UpdateOrderOption">
+	<summary>
+Update Order Option
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttributeTableAdapters.TableAdapterManager.SelfReferenceComparer">
+	<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenAttributeTableAdapters.TableAdapterManager">
+	<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TypeAttributeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_TypeAttributeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TypeRelDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_Type_RelDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_BitDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_DateDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_IntDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_RealDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_TimeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_Varchar255DataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_VarcharMaxDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_AttributeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_TokenAttributeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_AttributeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_DatetimeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_TokenDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_RelationTypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_RelationTypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenRelDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_TokenRelDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_Token_ORDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_Type_ORDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_Type_ORDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_Token_ORDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_TypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TypeAttributeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_TypeAttributeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TypeRelRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_Type_RelRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_BitRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_DateRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_IntRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_RealRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_TimeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_Varchar255Row">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_VarcharMaxRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_AttributeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_TokenAttributeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_AttributeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_DatetimeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_TokenRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_RelationTypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_RelationTypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenRelRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_TokenRelRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_Token_ORRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_Type_ORRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_Type_ORRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_Token_ORRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_TypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TypeAttributeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_TypeAttributeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TypeRelRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_Type_RelRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_BitRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_DateRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_IntRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_RealRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_TimeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_Varchar255RowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_VarcharMaxRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_AttributeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_TokenAttributeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_AttributeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenAttribute_DatetimeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_TokenRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_RelationTypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_RelationTypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_TokenRelRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_TokenRelRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_Token_ORRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Save_Type_ORRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_Type_ORRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_Token_ORRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork.semproc_DBWork_Del_TypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWork">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_TypeAttributeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Del_TypeAttributeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_TypeRelTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Del_Type_RelTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_TokenAttribute_BitTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_TokenAttribute_DateTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_TokenAttribute_IntTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_TokenAttribute_RealTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_TokenAttribute_TimeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_TokenAttribute_Varchar255TableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_TokenAttribute_VarcharMaxTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_AttributeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Del_TokenAttributeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Del_AttributeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_TokenAttribute_DatetimeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Del_TokenTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_TypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_TokenTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_RelationTypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Del_RelationTypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_TokenRelTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Del_TokenRelTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_Token_ORTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Save_Type_ORTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Del_Type_ORTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Del_Token_ORTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.semproc_DBWork_Del_TypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="M:Sem_Manager.ds_DBWorkTableAdapters.TableAdapterManager.UpdateUpdatedRows(Sem_Manager.ds_DBWork,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Update rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_DBWorkTableAdapters.TableAdapterManager.UpdateInsertedRows(Sem_Manager.ds_DBWork,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Insert rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_DBWorkTableAdapters.TableAdapterManager.UpdateDeletedRows(Sem_Manager.ds_DBWork,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Delete rows in bottom-up order.
+</summary>
+</member><member name="M:Sem_Manager.ds_DBWorkTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member><member name="M:Sem_Manager.ds_DBWorkTableAdapters.TableAdapterManager.UpdateAll(Sem_Manager.ds_DBWork)">
+	<summary>
+Update all changes to the dataset.
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.TableAdapterManager.UpdateOrderOption">
+	<summary>
+Update Order Option
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.TableAdapterManager.SelfReferenceComparer">
+	<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member><member name="T:Sem_Manager.ds_DBWorkTableAdapters.TableAdapterManager">
+	<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member><member name="T:Sem_Manager.ds_Type.semproc_Type_with_Path_By_GUIDDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Type.typefunc_Types_With_Attributes_And_TypesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Type.typefunc_Types_RelDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Type.func_TypesTreeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Type.semproc_Type_with_Path_By_GUIDRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Type.typefunc_Types_With_Attributes_And_TypesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Type.typefunc_Types_RelRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Type.func_TypesTreeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Type.semproc_Type_with_Path_By_GUIDRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Type.typefunc_Types_With_Attributes_And_TypesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Type.typefunc_Types_RelRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Type.func_TypesTreeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Type">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TypeTableAdapters.semproc_Type_with_Path_By_GUIDTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TypeTableAdapters.typefunc_Types_With_Attributes_And_TypesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TypeTableAdapters.typefunc_Types_RelTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TypeTableAdapters.func_TypesTreeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="M:Sem_Manager.ds_TypeTableAdapters.TableAdapterManager.UpdateUpdatedRows(Sem_Manager.ds_Type,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Update rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_TypeTableAdapters.TableAdapterManager.UpdateInsertedRows(Sem_Manager.ds_Type,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Insert rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_TypeTableAdapters.TableAdapterManager.UpdateDeletedRows(Sem_Manager.ds_Type,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Delete rows in bottom-up order.
+</summary>
+</member><member name="M:Sem_Manager.ds_TypeTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member><member name="M:Sem_Manager.ds_TypeTableAdapters.TableAdapterManager.UpdateAll(Sem_Manager.ds_Type)">
+	<summary>
+Update all changes to the dataset.
+</summary>
+</member><member name="T:Sem_Manager.ds_TypeTableAdapters.TableAdapterManager.UpdateOrderOption">
+	<summary>
+Update Order Option
+</summary>
+</member><member name="T:Sem_Manager.ds_TypeTableAdapters.TableAdapterManager.SelfReferenceComparer">
+	<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member><member name="T:Sem_Manager.ds_TypeTableAdapters.TableAdapterManager">
+	<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member><member name="T:Sem_Manager.ds_Attribute.Attribute_List_With_TypeNameDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Attribute.Attribute_List_With_TypeNameRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Attribute.Attribute_List_With_TypeNameRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Attribute">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Sem_Manager.ds_AttributeTableAdapters.Attribute_List_With_TypeNameTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="M:Sem_Manager.ds_AttributeTableAdapters.TableAdapterManager.UpdateUpdatedRows(Sem_Manager.ds_Attribute,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Update rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_AttributeTableAdapters.TableAdapterManager.UpdateInsertedRows(Sem_Manager.ds_Attribute,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Insert rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_AttributeTableAdapters.TableAdapterManager.UpdateDeletedRows(Sem_Manager.ds_Attribute,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Delete rows in bottom-up order.
+</summary>
+</member><member name="M:Sem_Manager.ds_AttributeTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member><member name="M:Sem_Manager.ds_AttributeTableAdapters.TableAdapterManager.UpdateAll(Sem_Manager.ds_Attribute)">
+	<summary>
+Update all changes to the dataset.
+</summary>
+</member><member name="T:Sem_Manager.ds_AttributeTableAdapters.TableAdapterManager.UpdateOrderOption">
+	<summary>
+Update Order Option
+</summary>
+</member><member name="T:Sem_Manager.ds_AttributeTableAdapters.TableAdapterManager.SelfReferenceComparer">
+	<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member><member name="T:Sem_Manager.ds_AttributeTableAdapters.TableAdapterManager">
+	<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.func_TokenTokenDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.semfunc_Token_PathDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.func_Direction_LeftRightDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.func_Direction_RightLeftDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.func_Token_ORDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.proc_TokenToken_LeftRight_NoLeftDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.proc_TokenToken_LeftRight_NoRightDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.func_TokenTree_By_GUIDTokenBase_GUIDTokenRel_GUIDRelationType_LevelDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.proc_TokenToken_LeftRight_TreeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.proc_TokenTree_TopDownDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.proc_TokenRel_With_OrDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.func_TokenTokenRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.semfunc_Token_PathRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.func_Direction_LeftRightRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.func_Direction_RightLeftRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.func_Token_ORRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.proc_TokenToken_LeftRight_NoLeftRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.proc_TokenToken_LeftRight_NoRightRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.func_TokenTree_By_GUIDTokenBase_GUIDTokenRel_GUIDRelationType_LevelRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.proc_TokenToken_LeftRight_TreeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.proc_TokenTree_TopDownRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.proc_TokenRel_With_OrRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.func_TokenTokenRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.semfunc_Token_PathRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.func_Direction_LeftRightRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.func_Direction_RightLeftRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.func_Token_ORRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.proc_TokenToken_LeftRight_NoLeftRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.proc_TokenToken_LeftRight_NoRightRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.func_TokenTree_By_GUIDTokenBase_GUIDTokenRel_GUIDRelationType_LevelRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.proc_TokenToken_LeftRight_TreeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.proc_TokenTree_TopDownRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Token.proc_TokenRel_With_OrRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Token">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenTableAdapters.func_TokenTokenTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenTableAdapters.semfunc_Token_PathTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenTableAdapters.func_Direction_LeftRightTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenTableAdapters.func_Direction_RightLeftTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenTableAdapters.func_Token_ORTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenTableAdapters.proc_TokenToken_LeftRight_NoLeftTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenTableAdapters.proc_TokenToken_LeftRight_NoRightTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenTableAdapters.func_TokenTree_By_GUIDTokenBase_GUIDTokenRel_GUIDRelationType_LevelTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenTableAdapters.proc_TokenToken_LeftRight_TreeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenTableAdapters.proc_TokenTree_TopDownTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenTableAdapters.proc_TokenRel_With_OrTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="M:Sem_Manager.ds_TokenTableAdapters.TableAdapterManager.UpdateUpdatedRows(Sem_Manager.ds_Token,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Update rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_TokenTableAdapters.TableAdapterManager.UpdateInsertedRows(Sem_Manager.ds_Token,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Insert rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_TokenTableAdapters.TableAdapterManager.UpdateDeletedRows(Sem_Manager.ds_Token,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Delete rows in bottom-up order.
+</summary>
+</member><member name="M:Sem_Manager.ds_TokenTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member><member name="M:Sem_Manager.ds_TokenTableAdapters.TableAdapterManager.UpdateAll(Sem_Manager.ds_Token)">
+	<summary>
+Update all changes to the dataset.
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenTableAdapters.TableAdapterManager.UpdateOrderOption">
+	<summary>
+Update Order Option
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenTableAdapters.TableAdapterManager.SelfReferenceComparer">
+	<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member><member name="T:Sem_Manager.ds_TokenTableAdapters.TableAdapterManager">
+	<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_AttributeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_AttributeTypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_RelationTypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_TokenDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_AttributeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_BitDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_DateDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_IntDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_RealDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_TimeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_varchar255DataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_varcharMAXDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_TokenDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Type_TypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_TypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Type_AttributeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_attribute_datetimeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_AttributeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_AttributeTypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_RelationTypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_TokenDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_BitDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_DateDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_DatetimeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_IntDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_RealDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_TimeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_Varchar255DataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_VARCHARMAXDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_TokenDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_TypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Type_AttributeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Type_TypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_ORTypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_ORDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_ORDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Type_ORDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_AttributeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_AttributeTypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_RelationTypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_TokenRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_AttributeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_BitRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_DateRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_IntRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_RealRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_TimeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_varchar255Row">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_varcharMAXRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_TokenRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Type_TypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_TypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Type_AttributeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_attribute_datetimeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_AttributeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_AttributeTypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_RelationTypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_TokenRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_BitRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_DateRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_DatetimeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_IntRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_RealRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_TimeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_Varchar255Row">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_VARCHARMAXRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_TokenRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_TypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Type_AttributeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Type_TypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_ORTypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_ORRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_ORRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Type_ORRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_AttributeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_AttributeTypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_RelationTypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_TokenRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_AttributeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_BitRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_DateRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_IntRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_RealRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_TimeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_varchar255RowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_Attribute_varcharMAXRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_TokenRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Type_TypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_TypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Type_AttributeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_attribute_datetimeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_AttributeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_AttributeTypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_RelationTypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_TokenRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_BitRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_DateRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_DatetimeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_IntRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_RealRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_TimeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_Varchar255RowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_Attribute_VARCHARMAXRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Token_TokenRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_TypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Type_AttributeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_OR_Type_TypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_ORTypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_ORRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Token_ORRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB.semtbl_Type_ORRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDB">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_AttributeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_AttributeTypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_RelationTypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_TokenTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_Token_AttributeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_Token_Attribute_BitTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_Token_Attribute_DateTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_Token_Attribute_IntTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_Token_Attribute_RealTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_Token_Attribute_TimeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_Token_Attribute_varchar255TableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_Token_Attribute_varcharMAXTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_Token_TokenTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_Type_TypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_TypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_Type_AttributeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_Token_attribute_datetimeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_OR_AttributeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_OR_AttributeTypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_OR_RelationTypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_OR_TokenTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_OR_Token_Attribute_BitTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_OR_Token_Attribute_DateTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_OR_Token_Attribute_DatetimeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_OR_Token_Attribute_IntTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_OR_Token_Attribute_RealTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_OR_Token_Attribute_TimeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_OR_Token_Attribute_Varchar255TableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_OR_Token_Attribute_VARCHARMAXTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_OR_Token_TokenTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_OR_TypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_OR_Type_AttributeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_OR_Type_TypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_ORTypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_ORTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_Token_ORTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.semtbl_Type_ORTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="M:Sem_Manager.ds_SemDBTableAdapters.TableAdapterManager.UpdateUpdatedRows(Sem_Manager.ds_SemDB,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Update rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_SemDBTableAdapters.TableAdapterManager.UpdateInsertedRows(Sem_Manager.ds_SemDB,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Insert rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_SemDBTableAdapters.TableAdapterManager.UpdateDeletedRows(Sem_Manager.ds_SemDB,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Delete rows in bottom-up order.
+</summary>
+</member><member name="M:Sem_Manager.ds_SemDBTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member><member name="M:Sem_Manager.ds_SemDBTableAdapters.TableAdapterManager.UpdateAll(Sem_Manager.ds_SemDB)">
+	<summary>
+Update all changes to the dataset.
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.TableAdapterManager.UpdateOrderOption">
+	<summary>
+Update Order Option
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.TableAdapterManager.SelfReferenceComparer">
+	<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member><member name="T:Sem_Manager.ds_SemDBTableAdapters.TableAdapterManager">
+	<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member><member name="T:Sem_Manager.ds_Change.chngtbl_DBDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Change.chngproc_Max_Version_TypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Change.chngtbl_DBRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Change.chngproc_Max_Version_TypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_Change.chngtbl_DBRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Change.chngproc_Max_Version_TypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_Change">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ChangeTableAdapters.chngtbl_DBTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ChangeTableAdapters.chngproc_Max_Version_TypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="M:Sem_Manager.ds_ChangeTableAdapters.TableAdapterManager.UpdateUpdatedRows(Sem_Manager.ds_Change,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Update rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_ChangeTableAdapters.TableAdapterManager.UpdateInsertedRows(Sem_Manager.ds_Change,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Insert rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_ChangeTableAdapters.TableAdapterManager.UpdateDeletedRows(Sem_Manager.ds_Change,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Delete rows in bottom-up order.
+</summary>
+</member><member name="M:Sem_Manager.ds_ChangeTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member><member name="M:Sem_Manager.ds_ChangeTableAdapters.TableAdapterManager.UpdateAll(Sem_Manager.ds_Change)">
+	<summary>
+Update all changes to the dataset.
+</summary>
+</member><member name="T:Sem_Manager.ds_ChangeTableAdapters.TableAdapterManager.UpdateOrderOption">
+	<summary>
+Update Order Option
+</summary>
+</member><member name="T:Sem_Manager.ds_ChangeTableAdapters.TableAdapterManager.SelfReferenceComparer">
+	<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member><member name="T:Sem_Manager.ds_ChangeTableAdapters.TableAdapterManager">
+	<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member><member name="T:Sem_Manager.ds_DevelopmentConfig.func_SoftwareDevelopment_ConfigDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DevelopmentConfig.func_SoftwareDevelopment_ConfigRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_DevelopmentConfig.func_SoftwareDevelopment_ConfigRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_DevelopmentConfig">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Sem_Manager.ds_DevelopmentConfigTableAdapters.func_SoftwareDevelopment_ConfigTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="M:Sem_Manager.ds_DevelopmentConfigTableAdapters.TableAdapterManager.UpdateUpdatedRows(Sem_Manager.ds_DevelopmentConfig,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Update rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_DevelopmentConfigTableAdapters.TableAdapterManager.UpdateInsertedRows(Sem_Manager.ds_DevelopmentConfig,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Insert rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_DevelopmentConfigTableAdapters.TableAdapterManager.UpdateDeletedRows(Sem_Manager.ds_DevelopmentConfig,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Delete rows in bottom-up order.
+</summary>
+</member><member name="M:Sem_Manager.ds_DevelopmentConfigTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member><member name="M:Sem_Manager.ds_DevelopmentConfigTableAdapters.TableAdapterManager.UpdateAll(Sem_Manager.ds_DevelopmentConfig)">
+	<summary>
+Update all changes to the dataset.
+</summary>
+</member><member name="T:Sem_Manager.ds_DevelopmentConfigTableAdapters.TableAdapterManager.UpdateOrderOption">
+	<summary>
+Update Order Option
+</summary>
+</member><member name="T:Sem_Manager.ds_DevelopmentConfigTableAdapters.TableAdapterManager.SelfReferenceComparer">
+	<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member><member name="T:Sem_Manager.ds_DevelopmentConfigTableAdapters.TableAdapterManager">
+	<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member><member name="T:Sem_Manager.ds_log.semfunc_LogStatesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_log.semfunc_LogStatesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_log.semfunc_LogStatesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_log">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Sem_Manager.ds_logTableAdapters.semfunc_LogStatesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="M:Sem_Manager.ds_logTableAdapters.TableAdapterManager.UpdateUpdatedRows(Sem_Manager.ds_log,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Update rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_logTableAdapters.TableAdapterManager.UpdateInsertedRows(Sem_Manager.ds_log,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Insert rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_logTableAdapters.TableAdapterManager.UpdateDeletedRows(Sem_Manager.ds_log,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Delete rows in bottom-up order.
+</summary>
+</member><member name="M:Sem_Manager.ds_logTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member><member name="M:Sem_Manager.ds_logTableAdapters.TableAdapterManager.UpdateAll(Sem_Manager.ds_log)">
+	<summary>
+Update all changes to the dataset.
+</summary>
+</member><member name="T:Sem_Manager.ds_logTableAdapters.TableAdapterManager.UpdateOrderOption">
+	<summary>
+Update Order Option
+</summary>
+</member><member name="T:Sem_Manager.ds_logTableAdapters.TableAdapterManager.SelfReferenceComparer">
+	<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member><member name="T:Sem_Manager.ds_logTableAdapters.TableAdapterManager">
+	<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member><member name="T:Sem_Manager.ds_ModuleManagement.func_Modules_With_RelsDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ModuleManagement.func_ModuleActivator_With_RelatedObjectReferencesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ModuleManagement.func_ModuleActivator_With_RelatedObjectReferenceTypesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ModuleManagement.func_Modules_With_RelsRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ModuleManagement.func_ModuleActivator_With_RelatedObjectReferencesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ModuleManagement.func_ModuleActivator_With_RelatedObjectReferenceTypesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ModuleManagement.func_Modules_With_RelsRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_ModuleManagement.func_ModuleActivator_With_RelatedObjectReferencesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_ModuleManagement.func_ModuleActivator_With_RelatedObjectReferenceTypesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_ModuleManagement">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ModuleManagementTableAdapters.func_Modules_With_RelsTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ModuleManagementTableAdapters.func_ModuleActivator_With_RelatedObjectReferencesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ModuleManagementTableAdapters.func_ModuleActivator_With_RelatedObjectReferenceTypesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="M:Sem_Manager.ds_ModuleManagementTableAdapters.TableAdapterManager.UpdateUpdatedRows(Sem_Manager.ds_ModuleManagement,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Update rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_ModuleManagementTableAdapters.TableAdapterManager.UpdateInsertedRows(Sem_Manager.ds_ModuleManagement,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Insert rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_ModuleManagementTableAdapters.TableAdapterManager.UpdateDeletedRows(Sem_Manager.ds_ModuleManagement,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Delete rows in bottom-up order.
+</summary>
+</member><member name="M:Sem_Manager.ds_ModuleManagementTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member><member name="M:Sem_Manager.ds_ModuleManagementTableAdapters.TableAdapterManager.UpdateAll(Sem_Manager.ds_ModuleManagement)">
+	<summary>
+Update all changes to the dataset.
+</summary>
+</member><member name="T:Sem_Manager.ds_ModuleManagementTableAdapters.TableAdapterManager.UpdateOrderOption">
+	<summary>
+Update Order Option
+</summary>
+</member><member name="T:Sem_Manager.ds_ModuleManagementTableAdapters.TableAdapterManager.SelfReferenceComparer">
+	<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member><member name="T:Sem_Manager.ds_ModuleManagementTableAdapters.TableAdapterManager">
+	<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_Type_OR_By_GUIDTypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.func_Token_ORDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.func_Token_OR_Count_By_TypesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_OR_Attribute_By_GUIDObjectReferenceDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_OR_RelationType_By_GUIDObjectReferenceDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_OR_Token_By_GUIDObjectReferenceDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_OR_Type_By_GUIDObjectReferenceDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.semfunc_ObjectReferenceDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_DBWork_Save_OR_AttributeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_DBWork_Save_OR_RelationTypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_DBWork_Save_OR_TokenDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_DBWork_Save_OR_TypeDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_Type_OR_By_GUIDTypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.func_Token_ORRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.func_Token_OR_Count_By_TypesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_OR_Attribute_By_GUIDObjectReferenceRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_OR_RelationType_By_GUIDObjectReferenceRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_OR_Token_By_GUIDObjectReferenceRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_OR_Type_By_GUIDObjectReferenceRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.semfunc_ObjectReferenceRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_DBWork_Save_OR_AttributeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_DBWork_Save_OR_RelationTypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_DBWork_Save_OR_TokenRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_DBWork_Save_OR_TypeRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_Type_OR_By_GUIDTypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.func_Token_ORRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.func_Token_OR_Count_By_TypesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_OR_Attribute_By_GUIDObjectReferenceRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_OR_RelationType_By_GUIDObjectReferenceRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_OR_Token_By_GUIDObjectReferenceRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_OR_Type_By_GUIDObjectReferenceRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.semfunc_ObjectReferenceRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_DBWork_Save_OR_AttributeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_DBWork_Save_OR_RelationTypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_DBWork_Save_OR_TokenRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference.proc_DBWork_Save_OR_TypeRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReference">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReferenceTableAdapters.proc_Type_OR_By_GUIDTypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReferenceTableAdapters.func_Token_ORTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReferenceTableAdapters.func_Token_OR_Count_By_TypesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReferenceTableAdapters.proc_OR_Attribute_By_GUIDObjectReferenceTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReferenceTableAdapters.proc_OR_RelationType_By_GUIDObjectReferenceTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReferenceTableAdapters.proc_OR_Token_By_GUIDObjectReferenceTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReferenceTableAdapters.proc_OR_Type_By_GUIDObjectReferenceTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReferenceTableAdapters.semfunc_ObjectReferenceTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReferenceTableAdapters.proc_DBWork_Save_OR_AttributeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReferenceTableAdapters.proc_DBWork_Save_OR_RelationTypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReferenceTableAdapters.proc_DBWork_Save_OR_TokenTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReferenceTableAdapters.proc_DBWork_Save_OR_TypeTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="M:Sem_Manager.ds_ObjectReferenceTableAdapters.TableAdapterManager.UpdateUpdatedRows(Sem_Manager.ds_ObjectReference,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Update rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_ObjectReferenceTableAdapters.TableAdapterManager.UpdateInsertedRows(Sem_Manager.ds_ObjectReference,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Insert rows in top-down order.
+</summary>
+</member><member name="M:Sem_Manager.ds_ObjectReferenceTableAdapters.TableAdapterManager.UpdateDeletedRows(Sem_Manager.ds_ObjectReference,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Delete rows in bottom-up order.
+</summary>
+</member><member name="M:Sem_Manager.ds_ObjectReferenceTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member><member name="M:Sem_Manager.ds_ObjectReferenceTableAdapters.TableAdapterManager.UpdateAll(Sem_Manager.ds_ObjectReference)">
+	<summary>
+Update all changes to the dataset.
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReferenceTableAdapters.TableAdapterManager.UpdateOrderOption">
+	<summary>
+Update Order Option
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReferenceTableAdapters.TableAdapterManager.SelfReferenceComparer">
+	<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member><member name="T:Sem_Manager.ds_ObjectReferenceTableAdapters.TableAdapterManager">
+	<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member>
+</members>
+</doc>

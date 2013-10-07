@@ -153,7 +153,7 @@
             this.toolStripButton_OpenAll});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(93, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(62, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripButton_OpenAll
@@ -179,6 +179,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(814, 494);
             this.Controls.Add(this.toolStripContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmChangeModule";
             this.Text = "x_Ticket-List";
             this.Load += new System.EventHandler(this.frmChangeModule_Load);

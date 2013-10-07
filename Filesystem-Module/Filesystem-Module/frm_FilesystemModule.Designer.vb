@@ -351,7 +351,7 @@ Partial Class frm_FilesystemModule
         '
         Me.ContextMenuStrip_Tree.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem_Tree, Me.Open_Tree_ToolStripMenuItem1, Me.ApplyToolStripMenuItem, Me.ModuleActionsToolStripMenuItem_Tree})
         Me.ContextMenuStrip_Tree.Name = "ContextMenuStrip_Tree"
-        Me.ContextMenuStrip_Tree.Size = New System.Drawing.Size(171, 114)
+        Me.ContextMenuStrip_Tree.Size = New System.Drawing.Size(171, 92)
         '
         'NewToolStripMenuItem_Tree
         '
@@ -465,7 +465,7 @@ Partial Class frm_FilesystemModule
         '
         Me.ContextMenuStrip_DataGrid.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem_DataGrid, Me.OpenToolStripMenuItem, Me.ApplyFilesToolStripMenuItem, Me.ModuleActionsToolStripMenuItem, Me.EditToolStripMenuItem, Me.BlobsToolStripMenuItem})
         Me.ContextMenuStrip_DataGrid.Name = "ContextMenuStrip_DataGrid"
-        Me.ContextMenuStrip_DataGrid.Size = New System.Drawing.Size(171, 136)
+        Me.ContextMenuStrip_DataGrid.Size = New System.Drawing.Size(171, 158)
         '
         'NewToolStripMenuItem_DataGrid
         '
@@ -508,7 +508,7 @@ Partial Class frm_FilesystemModule
         'CopyPathToolStripMenuItem
         '
         Me.CopyPathToolStripMenuItem.Name = "CopyPathToolStripMenuItem"
-        Me.CopyPathToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
+        Me.CopyPathToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.CopyPathToolStripMenuItem.Text = "x_Copy Path"
         '
         'BlobsToolStripMenuItem
@@ -624,6 +624,7 @@ Partial Class frm_FilesystemModule
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.MenuStrip1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frm_FilesystemModule"
         Me.Text = "x_Filesystem-Module"

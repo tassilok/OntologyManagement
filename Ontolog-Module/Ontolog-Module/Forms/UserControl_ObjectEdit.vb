@@ -10,6 +10,8 @@ Public Class UserControl_ObjectEdit
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
 
+    Private objOntologyClipboard As clsOntologyClipboard
+
     Private objDataGridviewRowCollection_Objects As DataGridViewRowCollection
     Private WithEvents objUserControl_ObjectRelTree As UserControl_ObjectRelTree
     Private WithEvents objUserControl_OItem_List As UserControl_OItemList
@@ -349,6 +351,7 @@ Public Class UserControl_ObjectEdit
     Private Sub set_DBConnection()
         objDBLevel = New clsDBLevel(objLocalConfig.Globals)
         objTransaction = New clsTransaction(objLocalConfig.Globals)
+        objOntologyClipboard = New clsOntologyClipboard(objLocalConfig.Globals)
     End Sub
 
     Private Sub ToolStripTextBox_Name_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripTextBox_Name.TextChanged
@@ -459,6 +462,15 @@ Public Class UserControl_ObjectEdit
         intRowID = RowIdLast()
         initialize()
 
+    End Sub
+
+    Private Sub ToOntologyClipboardToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ToOntologyClipboardToolStripMenuItem.Click
+        
+        Dim objOItem_Result = objOntologyClipboard.addToClipboard(objOItem_Object, False)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            MsgBox("Das Item kann nicht ins Clipboard geschrieben werden!", MsgBoxStyle.Exclamation)
+
+        End If
     End Sub
 End Class
 

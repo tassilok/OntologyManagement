@@ -1,5 +1,6 @@
 ﻿Imports Ontolog_Module
 Imports System.Xml
+Imports OntologyClasses.BaseClasses
 Public Class clsDataWork_CodeGenerator
     Private objLocalConfig As clsLocalConfig
     Private objDBLevel_XML As clsDBLevel

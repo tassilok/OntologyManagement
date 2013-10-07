@@ -107,7 +107,7 @@ Partial Class frmProcessModule
         Me.TabPage_Problems.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Problems.Name = "TabPage_Problems"
         Me.TabPage_Problems.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_Problems.Size = New System.Drawing.Size(649, 381)
+        Me.TabPage_Problems.Size = New System.Drawing.Size(943, 381)
         Me.TabPage_Problems.TabIndex = 1
         Me.TabPage_Problems.Text = "x_Problems"
         Me.TabPage_Problems.UseVisualStyleBackColor = True
@@ -117,7 +117,7 @@ Partial Class frmProcessModule
         Me.TabPage_Services.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Services.Name = "TabPage_Services"
         Me.TabPage_Services.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_Services.Size = New System.Drawing.Size(649, 381)
+        Me.TabPage_Services.Size = New System.Drawing.Size(943, 381)
         Me.TabPage_Services.TabIndex = 2
         Me.TabPage_Services.Text = "x_Services"
         Me.TabPage_Services.UseVisualStyleBackColor = True
@@ -127,7 +127,7 @@ Partial Class frmProcessModule
         Me.TabPage_OrganizationalFunctions.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_OrganizationalFunctions.Name = "TabPage_OrganizationalFunctions"
         Me.TabPage_OrganizationalFunctions.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_OrganizationalFunctions.Size = New System.Drawing.Size(649, 381)
+        Me.TabPage_OrganizationalFunctions.Size = New System.Drawing.Size(943, 381)
         Me.TabPage_OrganizationalFunctions.TabIndex = 3
         Me.TabPage_OrganizationalFunctions.Text = "x_Organizational Functions"
         Me.TabPage_OrganizationalFunctions.UseVisualStyleBackColor = True
@@ -144,6 +144,7 @@ Partial Class frmProcessModule
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(951, 432)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmProcessModule"
         Me.Text = "x_Process-Module"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)

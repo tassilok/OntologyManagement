@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>kexi_kexi_team_01.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -162,6 +165,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="kexi_kexi_team_01.ico" />
     <None Include="Resources\trashcan_full.png" />
     <None Include="Resources\pulsante_02_architetto_f_01 Last.png" />
     <None Include="Resources\pulsante_02_architetto_f_01.png" />

@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class frmCodeGenerator
     Private objDBLevel_Text As clsDBLevel
     Private objLocalConfig As clsLocalConfig

@@ -104,20 +104,21 @@ Partial Class frmReportModule
         '
         Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GetColumnsToolStripMenuItem})
         Me.ContextMenuStrip_Reports.Name = "ContextMenuStrip_Reports"
-        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(153, 48)
+        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(152, 26)
         '
         'GetColumnsToolStripMenuItem
         '
         Me.GetColumnsToolStripMenuItem.Name = "GetColumnsToolStripMenuItem"
-        Me.GetColumnsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.GetColumnsToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.GetColumnsToolStripMenuItem.Text = "x_Get columns"
         '
         'frmReportModule
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1315, 582)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmReportModule"
         Me.Text = "x_Report-Module"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(false)

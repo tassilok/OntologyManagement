@@ -22,6 +22,7 @@ Partial Class frm_ObjectEdit
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frm_ObjectEdit))
         Me.SuspendLayout()
         '
         'frm_ObjectEdit
@@ -29,6 +30,7 @@ Partial Class frm_ObjectEdit
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(673, 452)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frm_ObjectEdit"
         Me.Text = "x_Object-Edit"
         Me.ResumeLayout(False)

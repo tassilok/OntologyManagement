@@ -18,7 +18,7 @@ Public Class frm_FilesystemModule
     Private objFileWork As clsFileWork
 
     Private objDataWork As clsDataWork
-    Private objTransaction_Files As clsTransaction_Files
+    Private objTransaction_Files As clsTransaction
     Private objTransaction_Folders As clsTransaction_Folders
 
     Private objTreeNode_Root As TreeNode
@@ -83,7 +83,7 @@ Public Class frm_FilesystemModule
     Private Sub set_DBConnection()
         objDataWork = New clsDataWork(objLocalConfig)
         objFileWork = New clsFileWork(objLocalConfig)
-        objTransaction_Files = New clsTransaction_Files(objLocalConfig)
+        objTransaction_Files = New clsTransaction(objLocalConfig.Globals)
         objTransaction_Folders = New clsTransaction_Folders(objLocalConfig)
         objBlobConnection = New clsBlobConnection(objLocalConfig)
     End Sub
@@ -473,23 +473,32 @@ Public Class frm_FilesystemModule
 
                                 objOList_FilesToCreate = objDataWork.File_NotExist(objOItem_FileSystemObject, objOList_Files)
                                 If objOList_FilesToCreate.Count > 0 Then
-                                    objOitem_Result = objTransaction_Files.save_001_Files(objOList_FilesToCreate)
-                                    If objOitem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
 
+                                    intToDo = objOList_FilesToCreate.Count
+                                    intDone = 0
+                                    For Each objFile As clsOntologyItem In objOList_FilesToCreate
+                                        objTransaction_Files.ClearItems()
+                                        objOitem_Result = objTransaction_Files.do_Transaction(objFile)
 
-                                        If objOList_FilesToCreate.Count > 0 Then
-                                            objOitem_Result = objTransaction_Files.save_002_File_To_Folder(objOItem_FileSystemObject, objOList_FilesToCreate)
+                                        If objOitem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                            Dim objORel_File_To_Folder = objDataWork.Rel_File_To_Folder(objFile, objOItem_FileSystemObject)
+                                            objOitem_Result = objTransaction_Files.do_Transaction(objORel_File_To_Folder, True)
                                             If objOitem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                get_Files()
-
+                                                intDone = intDone + 1
                                             Else
-                                                objTransaction_Files.del_001_Files()
 
+                                                objTransaction_Files.rollback()
                                             End If
                                         End If
-                                    Else
-                                        MsgBox("Die Dateien konnten nicht erzeugt werden!", MsgBoxStyle.Exclamation)
+                                    Next
+
+                                    If intDone < intToDo Then
+                                        MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Dateien gespeichert werden!", MsgBoxStyle.Exclamation)
+
                                     End If
+
+                                    get_Files()
+                                    
                                 End If
 
                             End If
@@ -710,5 +719,27 @@ Public Class frm_FilesystemModule
 
             End Select
         End If
+    End Sub
+
+    Private Sub CopyPathToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CopyPathToolStripMenuItem.Click
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+
+
+        If DataGridView_Files.SelectedRows.Count = 1 Then
+            objDGVR_Selected = DataGridView_Files.SelectedRows(0)
+            objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+            Dim objOItem_File = New clsOntologyItem With {.GUID = objDRV_Selected.Item("GUID_File"), _
+                                                          .Name = objDRV_Selected.Item("Name_File"), _
+                                                          .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
+                                                          .Type = objLocalConfig.Globals.Type_Object}
+
+            Dim strPath = objFileWork.get_Path_FileSystemObject(objOItem_File, False)
+            Clipboard.SetDataObject(strPath)
+        End If
+
+
+
     End Sub
 End Class

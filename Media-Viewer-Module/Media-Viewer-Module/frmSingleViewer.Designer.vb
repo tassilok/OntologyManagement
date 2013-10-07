@@ -23,6 +23,7 @@ Partial Class frmSingleViewer
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSingleViewer))
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_First = New System.Windows.Forms.ToolStripButton()
@@ -33,9 +34,9 @@ Partial Class frmSingleViewer
         Me.ToolStripButton_Playlist = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripTextBox_Sec = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripLabel_secLBL = New System.Windows.Forms.ToolStripLabel()
-        Me.Timer_Data = New System.Windows.Forms.Timer(Me.components)
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripProgressBar_Data = New System.Windows.Forms.ToolStripProgressBar()
+        Me.Timer_Data = New System.Windows.Forms.Timer(Me.components)
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
@@ -64,7 +65,7 @@ Partial Class frmSingleViewer
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_First, Me.ToolStripButton_Previous, Me.ToolStripButton_Next, Me.ToolStripButton_Last, Me.ToolStripSeparator1, Me.ToolStripButton_Playlist, Me.ToolStripTextBox_Sec, Me.ToolStripLabel_secLBL, Me.ToolStripSeparator2, Me.ToolStripProgressBar_Data})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(316, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(285, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_First
@@ -136,10 +137,6 @@ Partial Class frmSingleViewer
         Me.ToolStripLabel_secLBL.Size = New System.Drawing.Size(22, 22)
         Me.ToolStripLabel_secLBL.Text = "x_s"
         '
-        'Timer_Data
-        '
-        Me.Timer_Data.Interval = 300
-        '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
@@ -150,12 +147,17 @@ Partial Class frmSingleViewer
         Me.ToolStripProgressBar_Data.Name = "ToolStripProgressBar_Data"
         Me.ToolStripProgressBar_Data.Size = New System.Drawing.Size(100, 22)
         '
+        'Timer_Data
+        '
+        Me.Timer_Data.Interval = 300
+        '
         'frmSingleViewer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(628, 455)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmSingleViewer"
         Me.Text = "x_Single Viewer"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
