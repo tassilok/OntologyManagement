@@ -11,7 +11,7 @@ using Lucene.Net.Search;
 using OntologyClasses.BaseClasses;
 using OntologyClasses.DataClasses;
 
-namespace ElasticSearchConnector
+namespace ElasticSearchConnector 
 {
     [Flags]
     public enum SortEnum
@@ -23,7 +23,8 @@ namespace ElasticSearchConnector
         DESC_OrderID = 16
     }
 
-    public class clsDBSelector
+    
+    public class clsDBSelector : IDisposable
     {
         public string Server { get; private set; }
         public int Port { get; private set; }
@@ -2663,5 +2664,12 @@ namespace ElasticSearchConnector
 
         }
 
+        
+
+    
+        public void Dispose()
+        {
+ 	        ElConnector.CloseConnection();
+        }
     }
 }

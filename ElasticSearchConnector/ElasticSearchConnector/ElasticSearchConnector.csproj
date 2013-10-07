@@ -33,9 +33,6 @@
     <Reference Include="Aga.Controls">
       <HintPath>..\..\libs\Aga.Controls.dll</HintPath>
     </Reference>
-    <Reference Include="ElasticSearch.Client">
-      <HintPath>..\..\libs\ElasticSearch.Client.dll</HintPath>
-    </Reference>
     <Reference Include="Json.Net.3.5">
       <HintPath>..\..\libs\Json.Net.3.5.dll</HintPath>
     </Reference>
@@ -86,6 +83,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ElasticSearch.Net\ElasticSearch.Client\ElasticSearch.Client.csproj">
+      <Project>{7dbbc255-bb21-487d-91a7-a3424cb87d97}</Project>
+      <Name>ElasticSearch.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
       <Name>OntologyClasses</Name>

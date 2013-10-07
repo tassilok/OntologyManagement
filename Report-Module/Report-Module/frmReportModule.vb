@@ -13,6 +13,8 @@ Public Class frmReportModule
     Private objLocalConfig As clsLocalConfig
 
     Private objDataWork As clsDataWork_ReportTree
+    Private objDataWork_ReportFields As clsDataWork_ReportFields
+    Private objDataWork_Report As clsDataWork_Report
 
     Private objTreeNode_Root As TreeNode
 
@@ -71,7 +73,8 @@ Public Class frmReportModule
         objUserControl_Report = New UserControl_Report(objLocalConfig)
         objUserControl_Report.Dock = DockStyle.Fill
         SplitContainer1.Panel2.Controls.Add(objUserControl_Report)
-
+        objDataWork_ReportFields = new clsDataWork_ReportFields(objLocalConfig)
+        objDataWork_Report = new clsDataWork_Report(objLocalConfig)
     End Sub
 
 
@@ -137,5 +140,45 @@ Public Class frmReportModule
         If boolOpen = False Then
             Me.Close()
         End If
+    End Sub
+
+    Private Sub ContextMenuStrip_Reports_Opening( sender As Object,  e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Reports.Opening
+        Dim objTreeNode = TreeView_Report.SelectedNode
+
+        GetColumnsToolStripMenuItem.Enabled = False
+
+        If Not objTreeNode is Nothing And objTreeNode.ImageIndex = cint_ImageID_Report Then
+            GetColumnsToolStripMenuItem.Enabled = True    
+        End If
+    End Sub
+
+    Private Sub GetColumnsToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles GetColumnsToolStripMenuItem.Click
+        Dim objTreeNode = TreeView_Report.SelectedNode
+        If Not objTreeNode Is Nothing And objTreeNode.ImageIndex = cint_ImageID_Report Then
+            Dim objOItem_Report= New clsOntologyItem With {.GUID = objTreeNode.Name, _
+                                                           .Name = objTreeNode.Text, _
+                                                           .GUID_Parent = objLocalConfig.OItem_Class_Reports.GUID, _
+                                                           .Type = objLocalConfig.Globals.Type_Object }
+            objDataWork_Report.initialize_Report(objOItem_Report)
+            while Not objDataWork_Report.finished_Data_Report
+
+            End While
+
+            If Not objDataWork_Report.Report Is nothing Then
+                Dim objOItem_Result = objDataWork_ReportFields.get_ColumnsOfReportMSSQL(objDataWork_Report.Report)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objOItem_Result.Max1 = objOItem_Result.Count Then
+                        MsgBox("Die Columns wurden ermittelt!",MsgBoxStyle.Information)
+                    Else 
+                        MsgBox("Es konnten nur " & objOItem_Result.Count & " von " & objOItem_Result.Max1 & " Columns ermittelt werden!",MsgBoxStyle.Exclamation)
+                    End If
+                    
+                Else 
+                    MsgBox("Die Columns konnten nicht ermittelt werden!",MsgBoxStyle.Exclamation)
+                End If
+            End If
+        End If
+        
+        
     End Sub
 End Class

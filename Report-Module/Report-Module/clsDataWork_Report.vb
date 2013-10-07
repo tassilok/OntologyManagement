@@ -1,12 +1,15 @@
 ﻿Imports Ontolog_Module
 Imports OntologyClasses.BaseClasses
+Imports System.Linq
 Public Class clsDataWork_Report
+
     Private objLocalConfig As clsLocalConfig
     Private objDBLevel_Report As clsDBLevel
     Private objDBLevel_DBView As clsDBLevel
     Private objDBLevel_DBOnServer As clsDBLevel
     Private objDBLevel_Database As clsDBLevel
     Private objDBLevel_Server As clsDBLevel
+
 
     Private objReport As clsReports
 
@@ -23,7 +26,9 @@ Public Class clsDataWork_Report
         End Get
     End Property
 
-    Public ReadOnly Property finished_Data_Report As Boolean
+    
+
+        Public ReadOnly Property finished_Data_Report As Boolean
         Get
             Return boolReportFinished
         End Get
@@ -32,6 +37,7 @@ Public Class clsDataWork_Report
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
         set_DBConnection()
+        
     End Sub
 
     Public Sub initialize_Report(ByVal OItem_Report As clsOntologyItem)
@@ -232,11 +238,16 @@ Public Class clsDataWork_Report
         Return objOItem_ReportType
     End Function
 
+    
+
+    
+
     Private Sub set_DBConnection()
         objDBLevel_Report = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_DBView = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_DBOnServer = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Database = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Server = New clsDBLevel(objLocalConfig.Globals)
+        
     End Sub
 End Class
