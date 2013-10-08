@@ -320,10 +320,10 @@ Public Class clsReport
 
                     i = j
                 End While
-                finalizeA_Table.GetData("attT_" & objOItem_Class.Name & "_" & objOItem_AttributeType.Name)
+                finalizeA_Table.GetData("[attT_" & objOItem_Class.Name & "_" & objOItem_AttributeType.Name & "]")
             Else
                 createA_Table_attT.GetData(objLocalConfig.Globals.Type_ObjectAtt, objOItem_Class.Name, objOItem_AttributeType.Name, strType, strLength, False, strPath)
-                finalizeA_Table.GetData("attT_" & objOItem_Class.Name & "_" & objOItem_AttributeType.Name)
+                finalizeA_Table.GetData("[attT_" & objOItem_Class.Name & "_" & objOItem_AttributeType.Name & "]")
             End If
 
 
@@ -403,7 +403,7 @@ Public Class clsReport
             End If
 
 
-            finalizeA_Table.GetData("orgT_" & objOItem_Class.Name)
+            finalizeA_Table.GetData("[orgT_" & objOItem_Class.Name & "]")
         Next
 
         finalizeA_Tables.GetData(objLocalConfig.Globals.Type_Class)

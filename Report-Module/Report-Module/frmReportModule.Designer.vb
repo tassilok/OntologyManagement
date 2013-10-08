@@ -31,6 +31,7 @@ Partial Class frmReportModule
         Me.TreeView_Report = New System.Windows.Forms.TreeView()
         Me.ContextMenuStrip_Reports = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.GetColumnsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NewReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout
         Me.ToolStripContainer1.ContentPanel.SuspendLayout
         Me.ToolStripContainer1.SuspendLayout
@@ -102,9 +103,9 @@ Partial Class frmReportModule
         '
         'ContextMenuStrip_Reports
         '
-        Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GetColumnsToolStripMenuItem})
+        Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewReportToolStripMenuItem, Me.GetColumnsToolStripMenuItem})
         Me.ContextMenuStrip_Reports.Name = "ContextMenuStrip_Reports"
-        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(152, 26)
+        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(153, 70)
         '
         'GetColumnsToolStripMenuItem
         '
@@ -112,13 +113,19 @@ Partial Class frmReportModule
         Me.GetColumnsToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.GetColumnsToolStripMenuItem.Text = "x_Get columns"
         '
+        'NewReportToolStripMenuItem
+        '
+        Me.NewReportToolStripMenuItem.Name = "NewReportToolStripMenuItem"
+        Me.NewReportToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NewReportToolStripMenuItem.Text = "x_New Report"
+        '
         'frmReportModule
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1315, 582)
         Me.Controls.Add(Me.ToolStripContainer1)
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Icon = CType(resources.GetObject("$this.Icon"),System.Drawing.Icon)
         Me.Name = "frmReportModule"
         Me.Text = "x_Report-Module"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(false)
@@ -142,5 +149,6 @@ End Sub
     Friend WithEvents TreeView_Report As System.Windows.Forms.TreeView
     Friend WithEvents ContextMenuStrip_Reports As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents GetColumnsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents NewReportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

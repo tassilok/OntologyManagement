@@ -9,8 +9,11 @@ Public Class frmReportModule
     Private WithEvents objUserControl_Report As UserControl_Report
 
     Private objFrm_Authenticate As frmAuthenticate
+    Private objFrmName As frm_Name
 
     Private objLocalConfig As clsLocalConfig
+
+    Private objTransaction As clsTransaction
 
     Private objDataWork As clsDataWork_ReportTree
     Private objDataWork_ReportFields As clsDataWork_ReportFields
@@ -75,6 +78,7 @@ Public Class frmReportModule
         SplitContainer1.Panel2.Controls.Add(objUserControl_Report)
         objDataWork_ReportFields = new clsDataWork_ReportFields(objLocalConfig)
         objDataWork_Report = new clsDataWork_Report(objLocalConfig)
+        objTransaction = new clsTransaction(objLocalConfig.Globals)
     End Sub
 
 
@@ -180,5 +184,53 @@ Public Class frmReportModule
         End If
         
         
+    End Sub
+
+    Private Sub NewReportToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles NewReportToolStripMenuItem.Click
+        Dim objTreeNode = TreeView_Report.SelectedNode
+        Dim objOItem_Parent as clsOntologyItem
+
+        If Not objTreeNode Is Nothing Then
+            objOItem_Parent = Nothing
+            Select Case objTreeNode.ImageIndex
+                
+                Case cint_ImageID_Report
+                    objOItem_Parent = new clsOntologyItem With {.GUID = objTreeNode.Name, _
+                                                                .Name = objTreeNode.Text, _
+                                                                .GUID_Parent = objLocalConfig.OItem_Class_Reports.GUID, _
+                                                                .Type = objLocalConfig.Globals.Type_Object}
+            End Select
+
+            objFrmName = New frm_Name("New Report",objLocalConfig.Globals)
+            objFrmName.ShowDialog(me)
+            If objFrmName.DialogResult = DialogResult.OK Then
+
+                Dim objTreeNodes = objTreeNode.Nodes.Find(objFrmName.Value1,False)
+                If Not objTreeNodes.Any() Then
+                    Dim objOItem_Report = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
+                                                                .Name = objFrmName.Value1, _
+                                                                .GUID_Parent = objLocalConfig.OItem_Class_Reports.GUID, _
+                                                                .Type = objLocalConfig.Globals.Type_Object}
+
+                    objTransaction.ClearItems()
+                    Dim objOItem_Result = objTransaction.do_Transaction(objOItem_Report)
+
+                    If Not objOItem_Parent Is Nothing Then
+                        Dim objORel_ReportToReport = objDataWork.Rel_Report_To_Report(objOItem_Parent, objOItem_Report)
+                        objOItem_Result = objTransaction.do_Transaction(objORel_ReportToReport,True)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objTreeNode.Nodes.Add(objOItem_Report.GUID, objOItem_Report.Name, cint_ImageID_Report, cint_ImageID_Report)
+                        Else 
+                            MsgBox("Der Report konnte nicht erzeugt werden!",MsgBoxStyle.Exclamation)
+                        End If
+                    End If
+                
+                
+                End If
+            Else 
+                MsgBox("Es gibt bereits einen Report mit dem Namen!",MsgBoxStyle.Information)
+
+            End If
+        End If
     End Sub
 End Class

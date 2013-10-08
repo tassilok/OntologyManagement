@@ -1,4 +1,5 @@
 ﻿Imports Ontolog_Module
+Imports OntologyClasses.BaseClasses
 Public Class clsDataWork_ReportTree
 
 
@@ -60,6 +61,21 @@ Public Class clsDataWork_ReportTree
             getL_SubNodes(objTreeNode_Sub, intImageID_Report)
         Next
     End Sub
+
+    Public Function Rel_Report_To_Report(OItem_Report_Left As clsOntologyItem, OItem_Report_Right As clsOntologyItem) As clsObjectRel
+        
+        Dim objORel_Report_To_Report As New clsObjectRel With {.ID_Object = OItem_Report_Left.GUID, _
+                                                               .ID_Parent_Object = OItem_Report_Left.GUID, _
+                                                               .ID_RelationType = objLocalConfig.OItem_RelationType_contains.GUID, _
+                                                               .ID_Other = OItem_Report_Right.GUID, _
+                                                               .ID_Parent_Other = OItem_Report_Right.GUID, _
+                                                               .OrderID = 1, _
+                                                               .Ontology = objLocalConfig.Globals.Type_Object}
+
+
+
+        Return objORel_Report_To_Report
+    End Function
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
