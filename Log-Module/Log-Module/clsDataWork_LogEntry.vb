@@ -9,6 +9,7 @@ Public Class clsDataWork_LogEntry
     Private objDBLevel_LogState As clsDBLevel
     Private objDBLevel_User_Combo As clsDBLevel
     Private objDBLevel_User As clsDBLevel
+    Private objDBLevel_LogEntryOfRef As clsDBLevel
 
     Private objUserControl_Relations As UserControl_OItemList
 
@@ -161,26 +162,116 @@ Public Class clsDataWork_LogEntry
 
 
 
-    Public Sub get_Data_LogEntry(ByVal OItem_LogEntry As clsOntologyItem)
+    Public function get_Data_LogEntry(ByVal OItem_LogEntry As clsOntologyItem, Optional boolAsynchronous As Boolean = true) As clsOntologyItem
+        Dim objOItem_Result as clsOntologyItem = objLocalConfig.Globals.LState_Success
+
         objOItem_LogEntry = OItem_LogEntry
 
         objOItem_Result_LogState = objLocalConfig.Globals.LState_Nothing
         objOItem_Result_DateTimeStamp = objLocalConfig.Globals.LState_Nothing
         objOItem_Result_Message = objLocalConfig.Globals.LState_Nothing
         objOItem_Result_User = objLocalConfig.Globals.LState_Nothing
+        
+        If Not objOItem_LogEntry Is Nothing Then
+            If boolAsynchronous Then
+                objThread_LogState = New Threading.Thread(AddressOf get_Data_LogState)
+                objThread_LogState.Start()
+                objThread_User = New Threading.Thread(AddressOf get_Data_User)
+                objThread_User.Start()
+                objThread_DateTimeStamp = New Threading.Thread(AddressOf get_Data_DateTimeStamp)
+                objThread_DateTimeStamp.Start()
+                objThread_Message = New Threading.Thread(AddressOf get_Data_Message)
+                objThread_Message.Start()
+            Else 
+                objOItem_Result = objLocalConfig.Globals.LState_Error
+                get_Data_LogState()
+                If objOItem_Result_LogState.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    get_Data_DateTimeStamp()
+                    If objOItem_Result_DateTimeStamp.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        get_Data_User()
+                        If objOItem_Result_User.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            get_Data_Message()
+                            If objOItem_Result_Message.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objOItem_Result = objLocalConfig.Globals.LState_Success
+                            End If
+                        End If
+                    
+                    End If
+                End If
+            
+            
 
-        objThread_LogState = New Threading.Thread(AddressOf get_Data_LogState)
-        objThread_LogState.Start()
-        objThread_User = New Threading.Thread(AddressOf get_Data_User)
-        objThread_User.Start()
-        objThread_DateTimeStamp = New Threading.Thread(AddressOf get_Data_DateTimeStamp)
-        objThread_DateTimeStamp.Start()
-        objThread_Message = New Threading.Thread(AddressOf get_Data_Message)
-        objThread_Message.Start()
 
+            End If    
+        End If
+        
+        
 
-    End Sub
+        Return objOItem_Result
+    End Function
+    Public Function get_Data_LogEntryOfRef(OItem_Ref As clsOntologyItem) As List(Of Dictionary(Of String, Object))
+        Dim OList_LogEntry = new List(Of Dictionary(Of string, Object))
 
+        Dim objOList_Logentries = new List(Of clsObjectRel) 
+
+        objOList_Logentries.Add(New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_LogEntry.GUID,
+                                                       .ID_Other = OItem_Ref.GUID,
+                                                       .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID})
+
+        Dim objOItem_Result = objDBLevel_LogEntryOfRef.get_Data_ObjectRel(objOList_Logentries, boolIDs := False)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            For Each objLogEntry In objDBLevel_LogEntryOfRef.OList_ObjectRel.Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Object, _
+                                                                                                                          .Name = p.Name_Object, _
+                                                                                                                          .GUID_Parent = p.ID_Parent_Object, _
+                                                                                                                          .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+                objOItem_LogEntry = objLogEntry
+                Dim objDict_Logentry = new Dictionary(Of string, Object)
+                objDict_Logentry.Add("Logentry",objLogEntry)
+                get_Data_LogState()
+                objOItem_Result = objLocalConfig.Globals.LState_Error
+                If objOItem_Result_LogState.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    get_Data_DateTimeStamp()
+                    If objOItem_Result_DateTimeStamp.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        If Not objOItem_DateTimeStamp Is Nothing Then
+                            objDict_Logentry.Add("DateTimeStamp",objOItem_DateTimeStamp)
+                        End If
+                        get_Data_Message()
+                        If objOItem_Result_Message.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            If Not objOItem_Message Is Nothing Then
+                                objDict_Logentry.Add("Message",objOItem_Message)
+                            End If
+                            get_Data_User()
+                            If objOItem_Result_User.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                If Not objOItem_User Is Nothing Then
+                                    objDict_Logentry.Add("User",objOItem_User)
+                                End If
+                                get_Data_LogState()
+                                If objOItem_Result_LogState.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    If Not objOItem_LogState Is Nothing Then
+                                        objDict_Logentry.Add("Logstate",objOItem_LogState)
+                                    End If
+                                    objOItem_Result = objLocalConfig.Globals.LState_Success
+                                End If
+                            End If
+                        End If
+                    End If
+
+                End If
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    OList_LogEntry.Add(objDict_Logentry)
+                Else 
+
+                    OList_LogEntry = Nothing
+                    Exit For
+                End If
+            Next
+        Else 
+            OList_LogEntry = Nothing
+        End If
+
+        Return OList_LogEntry
+    End Function
     Private Sub get_Data_User()
         Dim objOList_ObjectRel As New List(Of clsObjectRel)
         objOList_ObjectRel.Add(New clsObjectRel(objOItem_LogEntry.GUID, _
@@ -395,5 +486,6 @@ Public Class clsDataWork_LogEntry
         objDBLevel_TimeStamp = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_User = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_User_Combo = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_LogEntryOfRef = new clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class

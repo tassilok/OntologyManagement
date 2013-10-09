@@ -283,7 +283,7 @@ Public Class UserControl_ClassRel
                         oList_ClassRel.Add(New clsClassRel(objOItem_Class_Left.GUID, _
                                                            Nothing, _
                                                            objOItem_RelationType.GUID, _
-                                                           objLocalConfig.Globals.Type_Class, _
+                                                           objLocalConfig.Globals.Type_Other, _
                                                            lngMin_forw, _
                                                            lngMax_forw, _
                                                            lngMax_backw))

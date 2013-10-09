@@ -5,6 +5,8 @@ Public Class UserControl_DevelopmentTree
     Private objDataWork_DevTree As clsDataWork_DevTree
     Private objTreeNode_Root As TreeNode
 
+    Private objFrm_ObjectEdit As frm_ObjectEdit
+
     Private objOItem_Development As clsOntologyItem
 
     Public Event selected_Node()
@@ -64,6 +66,24 @@ Public Class UserControl_DevelopmentTree
             objOItem_Development.Type = objLocalConfig.Globals.Type_Object
 
             RaiseEvent selected_Node()
+        End If
+    End Sub
+
+    Private Sub TreeView_DevTree_MouseDoubleClick( sender As Object,  e As MouseEventArgs) Handles TreeView_DevTree.MouseDoubleClick
+        Dim objTreeNode = TreeView_DevTree.SelectedNode
+
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = objLocalConfig.ImageID_Folder_Closed Then
+                Dim objOItem_Development = new clsOntologyItem With {.GUID = objTreeNode.Name, _
+                                                                     .Name = objTreeNode.Text, _
+                                                                     .GUID_Parent = objLocalConfig.OItem_Class_SoftwareDevelopment.GUID, _
+                                                                     .Type = objLocalConfig.Globals.Type_Object}
+                Dim objOList_Development = new List(Of clsOntologyItem)
+                objOList_Development.Add(objOItem_Development)
+
+                objFrm_ObjectEdit = new frm_ObjectEdit(objLocalConfig.Globals,objOList_Development,0,objLocalConfig.Globals.Type_Object,Nothing)
+                objFrm_ObjectEdit.ShowDialog(Me)
+            End If
         End If
     End Sub
 End Class

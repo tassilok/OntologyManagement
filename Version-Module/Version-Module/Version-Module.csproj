@@ -44,8 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsDataWork_RefTree.cs" />
+    <Compile Include="clsDataWork_Versions.cs" />
     <Compile Include="clsLocalConfig.cs" />
+    <Compile Include="clsVersion.cs" />
     <Compile Include="frmVersionModule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,6 +60,12 @@
     </Compile>
     <Compile Include="UserControl_RefTree.Designer.cs">
       <DependentUpon>UserControl_RefTree.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_VersionDetails.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_VersionDetails.Designer.cs">
+      <DependentUpon>UserControl_VersionDetails.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="frmVersionModule.resx">
       <DependentUpon>frmVersionModule.cs</DependentUpon>
@@ -74,6 +81,9 @@
     </Compile>
     <EmbeddedResource Include="UserControl_RefTree.resx">
       <DependentUpon>UserControl_RefTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_VersionDetails.resx">
+      <DependentUpon>UserControl_VersionDetails.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Config\ElasticSearch.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -92,6 +102,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Log-Module\Log-Module\Log-Module.vbproj">
+      <Project>{666536bd-fd4a-4bdf-a5bc-572e07d4e27a}</Project>
+      <Name>Log-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3f2f6722-c36b-420d-afe7-b21c19457208}</Project>
       <Name>Ontolog-Module</Name>
@@ -99,6 +113,10 @@
     <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
       <Name>OntologyClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Structure-Module\Structure-Module\Structure-Module.csproj">
+      <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
+      <Name>Structure-Module</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

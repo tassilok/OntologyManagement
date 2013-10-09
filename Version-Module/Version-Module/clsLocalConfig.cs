@@ -40,6 +40,7 @@ namespace Version_Module
     public clsOntologyItem OItem_token_logstate_request { get; set; }
     public clsOntologyItem OItem_token_logstate_versionchanged { get; set; }
     public clsOntologyItem OItem_type_developmentversion { get; set; }
+    public clsOntologyItem OItem_Type_LogEntry { get; set; }
     public clsOntologyItem OItem_type_logstate { get; set; }
 
 
@@ -465,6 +466,27 @@ var objOList_token_logstate_versionchanged = (from obj in objDBLevel_Config2.OLi
   
 	private void get_Config_Classes()
         {
+
+            var objOList_type_logentry = (from obj in objDBLevel_Config2.OList_ObjectRel
+                                                    where (obj.Name_Object.ToLower() == "type_logentry") &&
+                                                          (obj.Ontology == Globals.Type_Class)
+                                                    select obj).ToList();
+
+            if (objOList_type_logentry.Any())
+            {
+                OItem_Type_LogEntry = new clsOntologyItem()
+                {
+                    GUID = objOList_type_logentry[0].ID_Other,
+                    Name = objOList_type_logentry[0].Name_Other,
+                    GUID_Parent = objOList_type_logentry[0].ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
 		var objOList_type_developmentversion = (from obj in objDBLevel_Config2.OList_ObjectRel
                                   where (obj.Name_Object.ToLower() == "type_developmentversion") &&
                                         (obj.Ontology == Globals.Type_Class)

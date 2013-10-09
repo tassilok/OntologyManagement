@@ -51,7 +51,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(571, 455);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(571, 430);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -84,7 +84,7 @@
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Size = new System.Drawing.Size(571, 455);
+            this.splitContainer1.Size = new System.Drawing.Size(571, 430);
             this.splitContainer1.SplitterDistance = 190;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -96,6 +96,7 @@
             this.Controls.Add(this.toolStripContainer1);
             this.Name = "frmVersionModule";
             this.Text = "x_Version-Module";
+            this.Load += new System.EventHandler(this.frmVersionModule_Load);
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);

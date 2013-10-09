@@ -31,20 +31,20 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControl_RefTree));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel_Mark = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox_Mark = new System.Windows.Forms.ToolStripTextBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel_CountCapt = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_Count = new System.Windows.Forms.ToolStripLabel();
             this.treeView_Ref = new System.Windows.Forms.TreeView();
             this.imageList_Ref = new System.Windows.Forms.ImageList(this.components);
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel_Mark = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox_Mark = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -68,28 +68,6 @@
             // toolStripContainer1.TopToolStripPanel
             // 
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel_Mark,
-            this.toolStripTextBox_Mark});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(261, 25);
-            this.toolStrip1.TabIndex = 0;
-            // 
-            // toolStripLabel_Mark
-            // 
-            this.toolStripLabel_Mark.Name = "toolStripLabel_Mark";
-            this.toolStripLabel_Mark.Size = new System.Drawing.Size(47, 22);
-            this.toolStripLabel_Mark.Text = "x_Mark:";
-            // 
-            // toolStripTextBox_Mark
-            // 
-            this.toolStripTextBox_Mark.Name = "toolStripTextBox_Mark";
-            this.toolStripTextBox_Mark.Size = new System.Drawing.Size(200, 25);
             // 
             // toolStrip2
             // 
@@ -117,10 +95,15 @@
             // treeView_Ref
             // 
             this.treeView_Ref.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView_Ref.ImageIndex = 0;
+            this.treeView_Ref.ImageList = this.imageList_Ref;
             this.treeView_Ref.Location = new System.Drawing.Point(0, 0);
             this.treeView_Ref.Name = "treeView_Ref";
+            this.treeView_Ref.SelectedImageIndex = 0;
             this.treeView_Ref.Size = new System.Drawing.Size(566, 463);
             this.treeView_Ref.TabIndex = 0;
+            this.treeView_Ref.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_Ref_AfterSelect);
+            this.treeView_Ref.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.treeView_Ref_MouseDoubleClick);
             // 
             // imageList_Ref
             // 
@@ -134,6 +117,28 @@
             this.imageList_Ref.Images.SetKeyName(5, "RelationTypes gpride_jean_victor_balin_.png");
             this.imageList_Ref.Images.SetKeyName(6, "RelationTypes gpride_jean_victor_balin_.png");
             this.imageList_Ref.Images.SetKeyName(7, "Vogelschwarm.png");
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel_Mark,
+            this.toolStripTextBox_Mark});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(261, 25);
+            this.toolStrip1.TabIndex = 0;
+            // 
+            // toolStripLabel_Mark
+            // 
+            this.toolStripLabel_Mark.Name = "toolStripLabel_Mark";
+            this.toolStripLabel_Mark.Size = new System.Drawing.Size(47, 22);
+            this.toolStripLabel_Mark.Text = "x_Mark:";
+            // 
+            // toolStripTextBox_Mark
+            // 
+            this.toolStripTextBox_Mark.Name = "toolStripTextBox_Mark";
+            this.toolStripTextBox_Mark.Size = new System.Drawing.Size(200, 25);
             // 
             // UserControl_RefTree
             // 
@@ -149,10 +154,10 @@
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
