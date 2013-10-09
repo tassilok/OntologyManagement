@@ -239,13 +239,20 @@ Public Class clsDataWork_MediaItem
         Return objOR_MediaItem_To_File
     End Function
 
-    Public Function Rel_MediaItem_To_Ref(OItem_MediaItem As clsOntologyItem, OItem_Ref As clsOntologyItem) As clsObjectRel
+    Public Function Rel_MediaItem_To_Ref(OItem_MediaItem As clsOntologyItem, OItem_Ref As clsOntologyItem, Optional boolGetNextOrderID As Boolean = True) As clsObjectRel
+
+        Dim intOrderID = OItem_MediaItem.Level
+        If boolGetNextOrderID Then
+            intOrderID = objDBLevel_MediaItems.get_Data_Rel_OrderID(OItem_MediaItem, OItem_Ref, objLocalConfig.OItem_RelationType_belongsTo, False)
+            intOrderID = intOrderID + 1
+        End If
+
         Dim objOR_MediaItem_To_Ref = New clsObjectRel With {.ID_Object = OItem_MediaItem.GUID, _
                                                             .ID_Parent_Object = OItem_MediaItem.GUID_Parent, _
                                                             .ID_Other = OItem_Ref.GUID, _
                                                             .ID_Parent_Other = OItem_Ref.GUID_Parent, _
                                                             .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID, _
-                                                            .OrderID = OItem_MediaItem.Level, _
+                                                            .OrderID = intOrderID, _
                                                             .Ontology = OItem_Ref.Type}
 
         Return objOR_MediaItem_To_Ref
