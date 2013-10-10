@@ -26,6 +26,7 @@ Partial Class UserControl_ObjectEdit
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToOntologyClipboardToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel_Database = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
@@ -45,7 +46,7 @@ Partial Class UserControl_ObjectEdit
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Name = New System.Windows.Forms.ToolStripTextBox()
         Me.Timer_Name_Change = New System.Windows.Forms.Timer(Me.components)
-        Me.ToOntologyClipboardToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
@@ -75,10 +76,16 @@ Partial Class UserControl_ObjectEdit
         '
         'EditToolStripMenuItem
         '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToOntologyClipboardToolStripMenuItem})
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToOntologyClipboardToolStripMenuItem, Me.DeleteToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
         Me.EditToolStripMenuItem.Size = New System.Drawing.Size(49, 20)
         Me.EditToolStripMenuItem.Text = "x_Edit"
+        '
+        'ToOntologyClipboardToolStripMenuItem
+        '
+        Me.ToOntologyClipboardToolStripMenuItem.Name = "ToOntologyClipboardToolStripMenuItem"
+        Me.ToOntologyClipboardToolStripMenuItem.Size = New System.Drawing.Size(208, 22)
+        Me.ToOntologyClipboardToolStripMenuItem.Text = "x_To Ontology-Clipboard"
         '
         'StatusStrip1
         '
@@ -235,11 +242,11 @@ Partial Class UserControl_ObjectEdit
         '
         Me.Timer_Name_Change.Interval = 300
         '
-        'ToOntologyClipboardToolStripMenuItem
+        'DeleteToolStripMenuItem
         '
-        Me.ToOntologyClipboardToolStripMenuItem.Name = "ToOntologyClipboardToolStripMenuItem"
-        Me.ToOntologyClipboardToolStripMenuItem.Size = New System.Drawing.Size(208, 22)
-        Me.ToOntologyClipboardToolStripMenuItem.Text = "x_To Ontology-Clipboard"
+        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(208, 22)
+        Me.DeleteToolStripMenuItem.Text = "x_Delete"
         '
         'UserControl_ObjectEdit
         '
@@ -294,5 +301,6 @@ Partial Class UserControl_ObjectEdit
     Friend WithEvents ToolStripTextBox_Name As System.Windows.Forms.ToolStripTextBox
     Friend WithEvents Timer_Name_Change As System.Windows.Forms.Timer
     Friend WithEvents ToOntologyClipboardToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DeleteToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

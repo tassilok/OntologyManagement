@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace OntologyClasses.BaseClasses
 {
+    [Serializable]
     public class clsOntologyItem
     {
 
@@ -55,6 +58,20 @@ namespace OntologyClasses.BaseClasses
         public clsOntologyItem()
         {
             
+        }
+
+        public clsOntologyItem Clone()
+        {
+            MemoryStream ms = new MemoryStream();
+            BinaryFormatter bf = new BinaryFormatter();
+
+            bf.Serialize(ms, this);
+
+            ms.Position = 0;
+            object obj = bf.Deserialize(ms);
+            ms.Close();
+
+            return obj as clsOntologyItem;
         }
 
         public clsOntologyItem(string GUID_Item, 

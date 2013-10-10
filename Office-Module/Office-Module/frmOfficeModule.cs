@@ -204,7 +204,176 @@ namespace Office_Module
 
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var objTreeNode = treeView_Items.SelectedNode;
 
+            if (objTreeNode != null)
+            {
+                if (objTreeNode.ImageIndex == objLocalConfig.ImageID_Attributes)
+                {
+
+                }
+                else if (objTreeNode.ImageIndex == objLocalConfig.ImageID_RelationTypes)
+                {
+
+                }
+                else if (objTreeNode.ImageIndex == objLocalConfig.ImageID_Open ||
+                         objTreeNode.ImageIndex == objLocalConfig.ImageID_Open_Images ||
+                         objTreeNode.ImageIndex == objLocalConfig.ImageID_Open_Images_SubItems ||
+                         objTreeNode.ImageIndex == objLocalConfig.ImageID_Open_Subitems)
+                {
+
+                }
+                else if (objTreeNode.ImageIndex == objLocalConfig.ImageID_Root)
+                {
+                    objFrmOntologyModule = new frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class);
+                    objFrmOntologyModule.ShowDialog(this);
+                    if (objFrmOntologyModule.DialogResult == DialogResult.OK)
+                    {
+                        if (objFrmOntologyModule.OList_Simple.Count == 1)
+                        {
+                            var objOItem = objFrmOntologyModule.OList_Simple.First();
+
+                            if (objOItem.Type == objLocalConfig.Globals.Type_AttributeType)
+                            {
+                                var objTreeNodes = objTreeNode_Attributes.Nodes.Find(objOItem.GUID, false);
+                                if (!objTreeNodes.Any())
+                                {
+                                    var objTreeNodeNew = objTreeNode_Attributes.Nodes.Add(objOItem.GUID,
+                                                                                       objOItem.Name,
+                                                                                       objLocalConfig.ImageID_Attribute,
+                                                                                       objLocalConfig.ImageID_Attribute);
+                                    treeView_Items.SelectedNode = objTreeNodeNew;
+                                }
+                                else
+                                {
+                                    treeView_Items.SelectedNode = objTreeNodes.First();
+                                }
+                            }
+                            else if (objOItem.Type == objLocalConfig.Globals.Type_Class)
+                            {
+                                var objTreeNodeNew =GetClassNode(objOItem);
+
+                                if (objTreeNodeNew != null)
+                                {
+                                    treeView_Items.SelectedNode = objTreeNodeNew;
+                                }
+                                else
+                                {
+                                    MessageBox.Show(this, "Die Klasse konnte nicht erzeugt werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                            }
+                            else if (objOItem.Type == objLocalConfig.Globals.Type_Object)
+                            {
+                                var objOItem_Class = new clsOntologyItem { GUID = objOItem.GUID_Parent };
+
+                                var objTreeNodeNew = GetClassNode(objOItem_Class);
+
+                                if (objTreeNodeNew != null)
+                                {
+                                    var objTreeNodes = objTreeNodeNew.Nodes.Find(objOItem.GUID, false);
+                                    if (objTreeNodes.Any())
+                                    {
+                                        treeView_Items.SelectedNode = objTreeNodes.First();
+                                    }
+                                    else
+                                    {
+                                        objTreeNodeNew = objTreeNodeNew.Nodes.Add(objOItem.GUID, objOItem.Name,
+                                                                              objLocalConfig.ImageID_Token, objLocalConfig.ImageID_Token);
+                                        treeView_Items.SelectedNode = objTreeNodeNew;
+                                    }
+                                    
+                                }
+                                else
+                                {
+                                    MessageBox.Show(this, "Die Klasse des Objekts konnte nicht erzeugt werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                            }
+                            else if (objOItem.Type == objLocalConfig.Globals.Type_RelationType)
+                            {
+                                
+                                var objTreeNodes = objTreeNode_RelationTypes.Nodes.Find(objOItem.GUID, false);
+                                if (!objTreeNodes.Any())
+                                {
+                                    var objTreeNodeNew = objTreeNode_RelationTypes.Nodes.Add(objOItem.GUID,
+                                                                                       objOItem.Name,
+                                                                                       objLocalConfig.ImageID_RelationTypes,
+                                                                                       objLocalConfig.ImageID_RelationTypes);
+                                    treeView_Items.SelectedNode = objTreeNodeNew;
+                                }
+                                else
+                                {
+                                    treeView_Items.SelectedNode = objTreeNodes.First();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show(this, "Bitte nur ein Item auswählen!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        private TreeNode GetClassNode(clsOntologyItem OItem_Class)
+        {
+            var objTreeNodes = treeView_Items.Nodes.Find(OItem_Class.GUID, true);
+            TreeNode objTreeNode = null;
+            if (!objTreeNodes.Any())
+            {
+                objTreeNodes = treeView_Items.Nodes.Find(OItem_Class.GUID_Parent, true);
+                if (!objTreeNodes.Any())
+                {
+                    var objOList_Classes = objLocalConfig.DataWork_Documents.GetClassParents(OItem_Class);
+                    if (objOList_Classes != null && objOList_Classes.Any())
+                    {
+                        while (objTreeNode == null)
+                        {
+                            var objOList_ClassesLast = objOList_Classes.Join(objOList_Classes, left => left.GUID, right => right.GUID_Parent, (left, right) => left).DefaultIfEmpty().Where(p => p == null).ToList();
+                            if (objOList_ClassesLast.Any())
+                            {
+                                objTreeNodes = treeView_Items.Nodes.Find(objOList_ClassesLast.First().GUID_Parent, true);
+                                if (objTreeNodes.Any())
+                                {
+                                    objTreeNode =  objTreeNodes.First().Nodes.Add(objOList_ClassesLast.First().GUID, objOList_ClassesLast.First().Name,
+                                                                   objLocalConfig.ImageID_Close,
+                                                                   objLocalConfig.ImageID_Open);
+                                }
+
+                                objOList_Classes.Remove(objOList_ClassesLast.First());
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                        
+
+
+                        
+                        
+
+                    }
+                    else
+                    {
+                        objTreeNode = null;
+                    }
+                }
+                else
+                {
+                    objTreeNode =  objTreeNodes.First().Nodes.Add(OItem_Class.GUID, OItem_Class.Name, objLocalConfig.ImageID_Close, objLocalConfig.ImageID_Open);
+
+                }
+            }
+            else
+            {
+                objTreeNode = objTreeNodes.First();
+                treeView_Items.SelectedNode = objTreeNodes.First();
+            }
+
+            return objTreeNode;
         }
     }
 }

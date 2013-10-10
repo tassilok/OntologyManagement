@@ -26,6 +26,8 @@ Public Class UserControl_ObjectEdit
     Private strRowName_Name As String
     Private strRowName_ID_Parent As String
 
+    Public Event deleted_Object()
+
     Private Sub editObject(ByVal strType As String, ByVal objOItem_Direction As clsOntologyItem) Handles objUserControl_OItem_List.edit_Object
         objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig, _
                                                objUserControl_OItem_List.DataGridviewRows, _
@@ -471,6 +473,22 @@ Public Class UserControl_ObjectEdit
             MsgBox("Das Item kann nicht ins Clipboard geschrieben werden!", MsgBoxStyle.Exclamation)
 
         End If
+    End Sub
+
+    Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem.Click
+        Dim objOList_Objects = New List(Of clsOntologyItem)
+        objOList_Objects.Add(objOItem_Object)
+
+        Dim objOItem_Result = objDBLevel.del_Objects(objOList_Objects)
+        If objOItem_Result.Count > 0 Then
+            MsgBox("Das Objekt konnte nicht gelöscht werden!", MsgBoxStyle.Exclamation)
+            Return
+        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            MsgBox("Beim Löschen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+            Return
+        End If
+
+        RaiseEvent deleted_Object()
     End Sub
 End Class
 

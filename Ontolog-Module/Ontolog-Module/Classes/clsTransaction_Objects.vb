@@ -40,17 +40,20 @@ Public Class clsTransaction_Objects
                                                               .Type = objLocalConfig.Globals.Type_Object})
                     Next
                 Else
+
+                    strValue = objFrm_Name.Value1
+
                     If objFrm_Name.TextBox_GUID.Text = "" Then
                         strGUID = Guid.NewGuid.ToString.Replace("-", "")
                     Else
                         strGUID = objFrm_Name.TextBox_GUID.Text
                     End If
                     oList_Objects.Add(New clsOntologyItem(strGUID, _
-                                                          objFrm_Name.Value1, _
+                                                          strValue, _
                                                           strClass, _
                                                           objLocalConfig.Globals.Type_Object))
                     oList_ObjectDbl.Add(New clsOntologyItem(Nothing,
-                                                            objFrm_Name.Value1, _
+                                                            strValue, _
                                                             strClass, _
                                                             objLocalConfig.Globals.Type_Object))
                 End If

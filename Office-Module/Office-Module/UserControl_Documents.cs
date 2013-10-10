@@ -20,6 +20,7 @@ namespace Office_Module
         private clsBlobConnection objBlobConnection;
         private clsFileWork objFileWork;
         private clsDocumentation objDocumentation;
+        private clsTransaction objTransaction_Documents;
         
         public UserControl_Documents(clsLocalConfig LocalConfig)
         {
@@ -110,23 +111,58 @@ namespace Office_Module
         private void button_Open_Click(object sender, EventArgs e)
         {
 
-            
-            var objDGVR = dataGridView_Documents.SelectedRows[0];
-            var objOList_Document = (from objDoc in objLocalConfig.DataWork_Documents.OList_Documents
-                                     where objDoc.ID_Document == objDGVR.Cells["ID_Document"].Value.ToString()
-                                     select objDoc).ToList();
-
-            if (objOList_Document.Any())
+            if (dataGridView_Documents.Rows.Count > 0)
             {
-                var objOItem_Document_Opened = objDocumentation.open_Document(objOList_Document.First());
+                var objDGVR = dataGridView_Documents.SelectedRows[0];
+                var objOList_Document = (from objDoc in objLocalConfig.DataWork_Documents.OList_Documents
+                                         where objDoc.ID_Document == objDGVR.Cells["ID_Document"].Value.ToString()
+                                         select objDoc).ToList();
+
+                if (objOList_Document.Any())
+                {
+                    var objOItem_Document_Opened = objDocumentation.open_Document(objOList_Document.First());
+
+                    if (objOItem_Document_Opened.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                    {
+                        MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
             else
             {
-                MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-            
+                objOItem_Ref = objLocalConfig.DataWork_Documents.GetOntologyItem_Object(objOItem_Ref.GUID);
 
-            
+                if (objOItem_Ref.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
+                {
+                    MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                else if (objOItem_Ref.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                {
+                    MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                else
+                {
+                    var objOItem_Document_Opened = objDocumentation.open_Document(new clsDocument
+                    {
+                        ID_Ref = objOItem_Ref.GUID,
+                        Name_Ref = objOItem_Ref.Name,
+                        ID_Parent_Ref = objOItem_Ref.GUID_Parent,
+                        Ontology_Ref = objOItem_Ref.Type
+                    });
+
+                    if (objOItem_Document_Opened.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                    {
+                        MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                
+            }
+
+            Initialize_Documents(objLocalConfig.DataWork_Documents, objOItem_Ref);
             
         }
 

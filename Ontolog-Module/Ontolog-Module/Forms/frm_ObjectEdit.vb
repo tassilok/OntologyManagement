@@ -3,7 +3,7 @@
 Public Class frm_ObjectEdit
     Private objLocalConfig As clsLocalConfig
 
-    Private objUserControl_TokenEdit As UserControl_ObjectEdit
+    Private WithEvents objUserControl_TokenEdit As UserControl_ObjectEdit
 
     Private objOList_Objects As List(Of clsOntologyItem)
     Private objDGVRS As DataGridViewRowCollection
@@ -15,6 +15,19 @@ Public Class frm_ObjectEdit
     Private strRowName_ID As String
     Private strRowName_Name As String
     Private strRowName_ID_Parent As String
+
+    Private objOItem_Result As clsOntologyItem
+
+    Private Function OItem_Result() As clsOntologyItem
+        Return objOItem_Result
+    End Function
+
+
+    Private Sub deleted_Object() Handles objUserControl_TokenEdit.deleted_Object
+        objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
+
+        Me.Close()
+    End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig, _
                    ByVal oList_Objects As List(Of clsOntologyItem), _
