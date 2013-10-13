@@ -10,6 +10,11 @@ Public Class UserControl_ObjectTree
     Private objThread As Threading.Thread
     Private objTreeNodes_Thread As New List(Of TreeNode)
 
+    Private objTransaction_Objects As clsTransaction_Objects
+    Private objTransaction_ObjectRel As clsTransaction
+
+    Private objFrm_Name As frm_Name
+
     Private objOItem_Parent As clsOntologyItem
     Private objOItem_RelationType As clsOntologyItem
     Private oItems_No_Parent As Object
@@ -24,6 +29,7 @@ Public Class UserControl_ObjectTree
 
     Public Event applied_Objects()
     Public Event selected_Node(OItem_Node As clsOntologyItem)
+    Public Event added_Node(OItem_Node As clsOntologyItem)
 
     Public ReadOnly Property List_Objects As List(Of clsOntologyItem)
         Get
@@ -76,7 +82,8 @@ Public Class UserControl_ObjectTree
     End Sub
 
     Private Sub set_DBConnection()
-
+        objTransaction_Objects = New clsTransaction_Objects(objLocalConfig, Me)
+        objTransaction_ObjectRel = New clsTransaction(objLocalConfig.Globals)
     End Sub
 
     Private Sub fill_Tree()
@@ -203,6 +210,7 @@ Public Class UserControl_ObjectTree
     End Sub
 
     Public Sub initialize(ByVal OItem_Parent As clsOntologyItem)
+
         boolPChange = True
         Timer_Tree.Stop()
         ToolStripProgressBar_List.Visible = True
@@ -218,7 +226,7 @@ Public Class UserControl_ObjectTree
         intRowID_No_Parent = 0
         intRowID_Parent = 0
         boolTopDown = True
-        
+
         TreeView_Objects.Nodes.Clear()
         objTreeNodes_Thread.Clear()
         objThread = New Threading.Thread(AddressOf get_Tree)
@@ -353,5 +361,51 @@ Public Class UserControl_ObjectTree
 
     Private Sub ToolStripButton_Refresh_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_Refresh.Click
         initialize(objOItem_Parent)
+    End Sub
+
+    Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
+        Dim objTreeNode_Obejct As TreeNode
+
+        objTreeNode_Obejct = TreeView_Objects.SelectedNode
+        If Not objTreeNode_Obejct Is Nothing Then
+            Dim objOItem_Object_Selected = New clsOntologyItem With {.GUID = objTreeNode_Obejct.Name, _
+                                                                     .Name = objTreeNode_Obejct.Text, _
+                                                                     .GUID_Parent = objOItem_Parent.GUID, _
+                                                                     .Type = objLocalConfig.Globals.Type_Object}
+
+            Dim objOItem_Result = objTransaction_Objects.save_Object(objOItem_Parent.GUID)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                Dim objOItem_ObjectNew = objTransaction_Objects.OItem_SavedLast
+
+                Dim lngOrderID As Long = 1
+
+                If ToolStripButton_SortedByOrder.Checked Then
+                    lngOrderID = objDBLevel.get_Data_Rel_OrderID(objOItem_Object_Selected, objOItem_Parent, objOItem_RelationType, False)
+                    lngOrderID = lngOrderID + 1
+                End If
+
+                Dim objORel_Object_To_Object = New clsObjectRel With {.ID_Object = objOItem_Object_Selected.GUID, _
+                                                                      .ID_Parent_Object = objOItem_Object_Selected.GUID_Parent, _
+                                                                      .ID_RelationType = objOItem_RelationType.GUID, _
+                                                                      .ID_Other = objOItem_ObjectNew.GUID, _
+                                                                      .ID_Parent_Other = objOItem_ObjectNew.GUID_Parent, _
+                                                                      .OrderID = lngOrderID, _
+                                                                      .Ontology = objLocalConfig.Globals.Type_Object}
+
+                objTransaction_ObjectRel.ClearItems()
+                objOItem_Result = objTransaction_ObjectRel.do_Transaction(objORel_Object_To_Object)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objTreeNode_Obejct.Nodes.Add(objOItem_ObjectNew.GUID, _
+                                                 objOItem_ObjectNew.Name)
+                Else
+                    MsgBox("Die Beziehung im Baum konnte nicht hergestellt werden!", MsgBoxStyle.Exclamation)
+                    RaiseEvent added_Node(objOItem_ObjectNew)
+                End If
+
+
+            End If
+
+
+        End If
     End Sub
 End Class

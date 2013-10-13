@@ -113,6 +113,7 @@
     <Compile Include="Classes\clsTransaction_RelationTypes.vb" />
     <Compile Include="Classes\clsTransaction.vb" />
     <Compile Include="Classes\clsTransactionItem.vb" />
+    <Compile Include="Classes\RefTree\clsDataWork_RefTree.vb" />
     <Compile Include="DataSet_Config.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -245,6 +246,12 @@
       <DependentUpon>UserControl_OntologyTree.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\Ontologies\UserControl_OntologyTree.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\RefTree\UserControl_RefTree.Designer.vb">
+      <DependentUpon>UserControl_RefTree.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RefTree\UserControl_RefTree.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\UserControl_DataSource.Designer.vb">
@@ -407,6 +414,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Ontologies\UserControl_OntologyTree.resx">
       <DependentUpon>UserControl_OntologyTree.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RefTree\UserControl_RefTree.resx">
+      <DependentUpon>UserControl_RefTree.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserControl_DataSource.resx">
       <DependentUpon>UserControl_DataSource.vb</DependentUpon>

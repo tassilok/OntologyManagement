@@ -72,6 +72,7 @@ Partial Class UserControl_OItemList
         Me.BindingSource_Type = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_TokenToken = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_Attribute = New System.Windows.Forms.BindingSource(Me.components)
+        Me.DuplicateItemToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage_List.SuspendLayout()
@@ -179,7 +180,7 @@ Partial Class UserControl_OItemList
         '
         'EditToolStripMenuItem
         '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.ModuleMenuToolStripMenuItem, Me.ModuleEditToolStripMenuItem})
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.DuplicateItemToolStripMenuItem, Me.ModuleMenuToolStripMenuItem, Me.ModuleEditToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
         Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.EditToolStripMenuItem.Text = "x_Edit"
@@ -412,6 +413,12 @@ Partial Class UserControl_OItemList
         '
         Me.Timer_List.Interval = 300
         '
+        'DuplicateItemToolStripMenuItem
+        '
+        Me.DuplicateItemToolStripMenuItem.Name = "DuplicateItemToolStripMenuItem"
+        Me.DuplicateItemToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
+        Me.DuplicateItemToolStripMenuItem.Text = "x_Duplicate Item"
+        '
         'UserControl_OItemList
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -484,5 +491,6 @@ Partial Class UserControl_OItemList
     Friend WithEvents ToolTip_Item As System.Windows.Forms.ToolTip
     Friend WithEvents Timer_List As System.Windows.Forms.Timer
     Friend WithEvents ToolStripProgressBar_List As System.Windows.Forms.ToolStripProgressBar
+    Friend WithEvents DuplicateItemToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

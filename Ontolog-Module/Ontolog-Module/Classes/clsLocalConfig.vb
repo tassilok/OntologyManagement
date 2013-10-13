@@ -8,7 +8,9 @@ Public Class clsLocalConfig
     Private objDBLevel_Config1 As clsDBLevel
     Private objDBLevel_Config2 As clsDBLevel
 
-    Private Const cstr_ID_SoftwareDevelopment As String = "bb96e526e6d7419fadf8fe4fbc12038d"
+
+    'Private Const cstr_ID_SoftwareDevelopment As String = "bb96e526e6d7419fadf8fe4fbc12038d"
+    Private Const cstr_ID_SoftwareDevelopment As String = "fa13314314c34c0ebc85150daf512081"
     Private Const cstr_ID_Class_SoftwareDevelopment As String = "132a845f849f4f6b86847ab3fd068824"
     Private Const cstr_ID_Class_DevelopmentConfig As String = "c6c9bcb80ac947139417eeec1453026c"
     Private Const cstr_ID_Class_ConfigItem As String = "13c09f11175c4eefbc8a0fd8e86d557f"

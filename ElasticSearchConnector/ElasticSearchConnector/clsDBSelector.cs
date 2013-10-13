@@ -2480,7 +2480,7 @@ namespace ElasticSearchConnector
                                         bool doASC = true)
         {
             SearchResult objSearchResult;
-            long lngOrderID = 1;
+            long lngOrderID = 0;
 
             if (doASC)
             {

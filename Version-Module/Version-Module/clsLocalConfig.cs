@@ -53,6 +53,8 @@ namespace Version_Module
         public int ImageID_RelationTypes { get { return 5; } }
         public int ImageID_RelationType { get { return 6; } }
         public int ImageID_Object { get { return 7; } }
+
+        public clsOntologyItem objUser { get; set; }
 	
 private void get_Data_DevelopmentConfig()
         {

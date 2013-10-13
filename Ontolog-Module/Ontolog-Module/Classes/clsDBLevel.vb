@@ -563,7 +563,7 @@ Public Class clsDBLevel
                                          Optional OItem_RelationType As clsOntologyItem = Nothing, _
                                          Optional doASC As Boolean = True) As Long
         
-        Dim lngOrderID As Long = 1
+        Dim lngOrderID As Long = 0
 
         lngOrderID = objElSelector.get_Data_Rel_OrderByVal(OItem_Left,
                                                            OItem_Right,

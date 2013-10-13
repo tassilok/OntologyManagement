@@ -49,6 +49,9 @@ Public Class frmMain
         End If
     End Sub
 
+    Private Sub added_ObjectNode(OItem_Node As clsOntologyItem) Handles objUserControl_ObjectTree.added_Node
+        objUserControl_OObjectList.initialize(objOItem_Class)
+    End Sub
 
     Private Sub objUserControl_ObjRel_related_Items() Handles objUserControl_ObjRel.related_Items
         configureRelationLabel()

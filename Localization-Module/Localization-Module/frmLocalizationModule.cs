@@ -1,0 +1,61 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Ontolog_Module;
+using OntologyClasses.BaseClasses;
+
+namespace Localization_Module
+{
+    public partial class frmLocalizationModule : Form
+    {
+        private UserControl_LocalizationDetails objUserControl_LocalizationDetails;
+        private clsLocalConfig objLocalConfig;
+
+        private UserControl_RefTree objUserControl_RefTree;
+
+        public frmLocalizationModule()
+        {
+            InitializeComponent();
+            objLocalConfig = new clsLocalConfig(new clsGlobals());
+            initialize();
+        }
+
+        private void initialize()
+        {
+            objUserControl_RefTree = new UserControl_RefTree(objLocalConfig.Globals);
+            objUserControl_RefTree.Dock = DockStyle.Fill;
+            splitContainer1.Panel1.Controls.Add(objUserControl_RefTree);
+
+            
+
+            var objOList_Classes = new List<clsOntologyItem> { objLocalConfig.OItem_type_localized_names, objLocalConfig.OItem_type_localizeddescription };
+            var objOList_RelationTypes = new List<clsOntologyItem> { objLocalConfig.OItem_relationtype_alternative_for, objLocalConfig.OItem_relationtype_describes };
+
+            objUserControl_RefTree.initialize_Tree(objOList_Classes, objOList_RelationTypes);
+            objUserControl_RefTree.ItemsLoaded += objUserControl_RefTree_ItemsLoaded;
+            objUserControl_RefTree.selected_Node += objUserControl_RefTree_selected_Node;
+            objUserControl_LocalizationDetails = new UserControl_LocalizationDetails(objLocalConfig);
+            objUserControl_LocalizationDetails.Dock = DockStyle.Fill;
+            splitContainer1.Panel2.Controls.Add(objUserControl_LocalizationDetails);
+            
+        }
+
+        private void objUserControl_RefTree_selected_Node(clsOntologyItem OItem_Selected)
+        {
+            objUserControl_LocalizationDetails.initialize_Tree(OItem_Selected, boolLocalizedNames:true);
+        }
+
+        private void objUserControl_RefTree_ItemsLoaded()
+        {
+            objUserControl_LocalizationDetails.OList_LocalizationToRef = objUserControl_RefTree.OList_Rels;
+        }
+
+
+    }
+}

@@ -926,7 +926,7 @@ Public Class clsDataWork_ReportFields
     End Function
 
     Public Function Rel_ReportField_To_Report(OItem_ReportField As clsOntologyItem, OItem_Report As clsOntologyItem) As clsObjectRel
-        Dim objORel_ReportField_To_Report = new clsObjectRel With 
+        Dim objORel_ReportField_To_Report = New clsObjectRel With
                                             {
                                                 .ID_Object = OItem_ReportField.GUID, _
                                                 .ID_Parent_Object = OItem_ReportField.GUID_Parent, _

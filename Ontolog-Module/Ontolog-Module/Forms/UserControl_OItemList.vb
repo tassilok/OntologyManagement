@@ -1588,6 +1588,7 @@ Public Class UserControl_OItemList
         ToolStripComboBox_ModuleMenu.Items.Clear()
         ToolStripComboBox_ModuleEdit.Enabled = False
         ApplyToolStripMenuItem.Enabled = False
+        DuplicateItemToolStripMenuItem.Enabled = False
         'If objSemItem_Complex_Base Is Nothing Then
         '    objSemItem_ToTest = objSemItem_Parent
         'Else
@@ -1630,7 +1631,11 @@ Public Class UserControl_OItemList
             End If
             If DataGridView_Items.SelectedRows.Count = 1 Then
                 ToolStripComboBox_ModuleEdit.Enabled = True
-
+                If Not objOItem_Parent Is Nothing Then
+                    If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
+                        DuplicateItemToolStripMenuItem.Enabled = True
+                    End If
+                End If
 
 
             End If
@@ -1822,5 +1827,25 @@ Public Class UserControl_OItemList
         Clipboard.SetDataObject(strClipboard)
     End Sub
 
+    Private Sub DuplicateItemToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DuplicateItemToolStripMenuItem.Click
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+
+        objDGVR_Selected = DataGridView_Items.SelectedRows(0)
+        objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+        Dim objOItem_Object = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_Item"), _
+                                                        .Name = objDRV_Selected.Item("Name"), _
+                                                        .GUID_Parent = objDRV_Selected.Item("ID_Parent"), _
+                                                        .Type = objLocalConfig.Globals.Type_Object}
+
+        Dim objOItem_Result = objTransaction_Objects.duplicate_Object(objOItem_Object)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            configure_TabPages()
+            ToolStripTextBox_Filter.Text = objTransaction_Objects.OItem_SavedLast.GUID
+        End If
+
+    End Sub
 End Class
 
