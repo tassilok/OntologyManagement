@@ -28,6 +28,7 @@ namespace Version_Module
         private clsDBLevel objDBLevel_Version__VersionNumbers;
         private clsDBLevel objDBLevel_ClassesOfObjects;
         private clsDBLevel objDBLevel_Classes;
+        private clsDBLevel objDBLevel_VersionsRef;
 
         public List<clsOntologyItem> OList_Versions { get; private set; }
         public List<clsObjectAtt> OList_Version__VersionNumbers { get; private set; }
@@ -81,6 +82,7 @@ namespace Version_Module
 
             var objOList_Ref_To_Version = new List<clsObjectRel> { new clsObjectRel { ID_Parent_Other = objLocalConfig.OItem_type_developmentversion.GUID, 
                                                                                       ID_RelationType = objLocalConfig.OItem_relationtype_isinstate.GUID } };
+            objDBLevel_Refs_To_Versions.Sort = clsDBLevel.SortEnum.DESC_OrderID;
 
             var objOItem_Result = objDBLevel_Refs_To_Versions.get_Data_ObjectRel(objOList_Ref_To_Version, boolIDs: false);
 
@@ -547,6 +549,112 @@ namespace Version_Module
             return objOItem_Result;
         }
 
+        public clsObjectAtt Rel_Version__Major(clsOntologyItem objOItem_Version, long lngMajor)
+        {
+            var objOAVersion__Major = new clsObjectAtt
+            {
+                ID_AttributeType = objLocalConfig.OItem_attribute_major.GUID,
+                ID_Class = objOItem_Version.GUID_Parent,
+                ID_Object = objOItem_Version.GUID,
+                ID_DataType = objLocalConfig.Globals.DType_Int.GUID,
+                OrderID = 1,
+                Val_Named = lngMajor.ToString(),
+                Val_Lng = lngMajor
+            };
+
+            return objOAVersion__Major;
+        }
+
+        public clsObjectAtt Rel_Version__Minor(clsOntologyItem objOItem_Version, long lngMinor)
+        {
+            var objOAVersion__Minor = new clsObjectAtt
+            {
+                ID_AttributeType = objLocalConfig.OItem_attribute_minor.GUID,
+                ID_Class = objOItem_Version.GUID_Parent,
+                ID_Object = objOItem_Version.GUID,
+                ID_DataType = objLocalConfig.Globals.DType_Int.GUID,
+                OrderID = 1,
+                Val_Named = lngMinor.ToString(),
+                Val_Lng = lngMinor
+            };
+
+            return objOAVersion__Minor;
+        }
+
+        public clsObjectAtt Rel_Version__Build(clsOntologyItem objOItem_Version, long lngBuild)
+        {
+            var objOAVersion__Build = new clsObjectAtt
+            {
+                ID_AttributeType = objLocalConfig.OItem_attribute_build.GUID,
+                ID_Class = objOItem_Version.GUID_Parent,
+                ID_Object = objOItem_Version.GUID,
+                ID_DataType = objLocalConfig.Globals.DType_Int.GUID,
+                OrderID = 1,
+                Val_Named = lngBuild.ToString(),
+                Val_Lng = lngBuild
+            };
+
+            return objOAVersion__Build;
+        }
+
+        public clsObjectAtt Rel_Version__Revision(clsOntologyItem objOItem_Version, long lngRevision)
+        {
+            var objOAVersion__Revision = new clsObjectAtt
+            {
+                ID_AttributeType = objLocalConfig.OItem_attribute_revision.GUID,
+                ID_Class = objOItem_Version.GUID_Parent,
+                ID_Object = objOItem_Version.GUID,
+                ID_DataType = objLocalConfig.Globals.DType_Int.GUID,
+                OrderID = 1,
+                Val_Named = lngRevision.ToString(),
+                Val_Lng = lngRevision
+            };
+
+            return objOAVersion__Revision;
+        }
+
+        public clsObjectRel Rel_Version_To_Ref(clsOntologyItem objOItem_Version, clsOntologyItem objOItem_Ref, clsOntologyItem objOItem_RelationType)
+        {
+            clsObjectRel objORel_Version_To_Ref;
+
+            if (objOItem_Ref.Direction == objOItem_Ref.Direction_LeftRight)
+            {
+                var lngOrderID = objDBLevel_VersionsRef.get_Data_Rel_OrderID(new clsOntologyItem {GUID_Parent = objLocalConfig.OItem_type_developmentversion.GUID},
+                                                                             objOItem_Ref,
+                                                                             objOItem_RelationType);
+
+                objORel_Version_To_Ref = new clsObjectRel
+                {
+                    ID_Object = objOItem_Version.GUID,
+                    ID_Parent_Object = objOItem_Version.GUID_Parent,
+                    ID_RelationType = objOItem_RelationType.GUID,
+                    ID_Other = objOItem_Ref.GUID,
+                    ID_Parent_Other = objOItem_Ref.GUID_Parent,
+                    Ontology = objOItem_Ref.Type,
+                    OrderID = lngOrderID
+                };
+            }
+            else
+            {
+                var lngOrderID = objDBLevel_VersionsRef.get_Data_Rel_OrderID(objOItem_Ref,
+                                                                             new clsOntologyItem { GUID_Parent = objLocalConfig.OItem_type_developmentversion.GUID },
+                                                                             objOItem_RelationType);
+
+                objORel_Version_To_Ref = new clsObjectRel
+                {
+                    ID_Object = objOItem_Ref.GUID,
+                    ID_Parent_Object = objOItem_Ref.GUID_Parent,
+                    ID_RelationType = objOItem_RelationType.GUID,
+                    ID_Other = objOItem_Version.GUID,
+                    ID_Parent_Other = objOItem_RelationType.GUID_Parent,
+                    Ontology = objOItem_Ref.Type,
+                    OrderID = lngOrderID
+                };
+            }
+
+            return objORel_Version_To_Ref;
+        }
+
         private void initialize()
         {
             objDBLevel_Versions = new clsDBLevel(objLocalConfig.Globals);
@@ -555,6 +663,7 @@ namespace Version_Module
             objDBLevel_Version__VersionNumbers = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_ClassesOfObjects = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Classes = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_VersionsRef = new clsDBLevel(objLocalConfig.Globals);
 
             objLocalConfig_LogModule = new Log_Module.clsLocalConfig(objLocalConfig.Globals);
 

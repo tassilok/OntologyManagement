@@ -22,6 +22,8 @@ namespace Version_Module
 
         private clsLocalConfig objLocalConfig;
 
+        private clsTransaction objTransaction;
+
         private clsDataWork_Versions objDataWork_Versions;
 
         public dlg_Attribute_String objDlgAttribute_String;
@@ -36,15 +38,143 @@ namespace Version_Module
         {
             var objOItem_Result = get_VersionData();
 
+            var boolSave = false;
+
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                
-            }
-            else
-            {
-                
-            }
+                if (objVersions.Any())
+                {
+                    var objVersion = objVersions.First();
 
+                    if (objVersion.Major != Major ||
+                        objVersion.Minor != Minor ||
+                        objVersion.Build != Build ||
+                        objVersion.Revision != Revision)
+                    {
+                        boolSave = true;
+                    }
+                }
+                else
+                {
+                    boolSave = true;
+                }
+
+                if (boolSave)
+                {
+                    objTransaction.ClearItems();
+                    if (!objVersions.Any())
+                    {
+                        var objVersion = new clsOntologyItem
+                        {
+                            GUID = objLocalConfig.Globals.NewGUID,
+                            Name = Major + "." + Minor + "." + Build + "." + Revision,
+                            GUID_Parent = objLocalConfig.OItem_type_developmentversion.GUID,
+                            Type = objLocalConfig.Globals.Type_Object
+                        };
+
+                        objOItem_Result = objTransaction.do_Transaction(objVersion);
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            var objOAVersion__Major = objDataWork_Versions.Rel_Version__Major(objVersion, Major);
+                            objOItem_Result = objTransaction.do_Transaction(objOAVersion__Major);
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            {
+                                var objOAVersion__Minor = objDataWork_Versions.Rel_Version__Minor(objVersion, Minor);
+                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                {
+                                    var objOAVersion__Build = objDataWork_Versions.Rel_Version__Build(objVersion, Build);
+                                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                    {
+                                        var objOAVersion__Revision = objDataWork_Versions.Rel_Version__Revision(objVersion, Revision);
+                                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                        {
+                                            var Rel_Version_To_Ref = objDataWork_Versions.Rel_Version_To_Ref(objVersion,objOItem_Ref,
+                                        }
+                                    }
+                                    else
+                                    {
+                                        objTransaction.rollback();
+                                    }
+                                }
+                                else
+                                {
+                                    objTransaction.rollback();
+                                }
+                            }
+                            else
+                            {
+                                objTransaction.rollback();
+                            }
+                        }
+
+                    }
+                }
+                else
+                {
+                    var objVersion = new clsOntologyItem {GUID = objVersions.First().ID_Version,
+                                                          Name = objVersions.First().Name_Version,
+                                                          GUID_Parent = objLocalConfig.OItem_type_developmentversion.GUID,
+                                                          Type = objLocalConfig.Globals.Type_Object};
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        if (objVersions.First().Major != Major)
+                        {
+                            var objOAVersion__Major = objDataWork_Versions.Rel_Version__Major(objVersion, Major);
+                            objOItem_Result = objTransaction.do_Transaction(objOAVersion__Major);
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                            {
+                                objTransaction.rollback();
+                            }   
+                        }
+                        
+                    }
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        if (objVersions.First().Minor != Minor)
+                        {
+                            var objOAVersion__Minor = objDataWork_Versions.Rel_Version__Minor(objVersion, Minor);
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                            {
+                                objTransaction.rollback();
+                            }
+                        }
+
+                        
+                    }
+                    
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        if (objVersions.First().Build != Build)
+                        {
+                            var objOAVersion__Build = objDataWork_Versions.Rel_Version__Build(objVersion, Build);
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                            {
+                                objTransaction.rollback();
+                            }
+                        }
+
+                        
+                    }
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        if (objVersions.First().Revision != Revision)
+                        {
+                            var objOAVersion__Revision = objDataWork_Versions.Rel_Version__Revision(objVersion, Revision);
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                            {
+                                objTransaction.rollback();
+                            }
+                        }
+                        
+                    }
+                    
+                    
+                }
+            }
+            
             return objOItem_Result;
         }
 
@@ -110,6 +240,7 @@ namespace Version_Module
         public void initialize()
         {
             objDataWork_Versions = new clsDataWork_Versions(objLocalConfig);
+            objTransaction = new clsTransaction(objLocalConfig.Globals);
         }
 
     }
