@@ -16,6 +16,8 @@ namespace Version_Module
         public long Build { get; set; }
         public long Revision { get; set; }
 
+        private List<clsVersion> objVersions;
+
         private IWin32Window objParWindow;
 
         private clsLocalConfig objLocalConfig;
@@ -32,7 +34,18 @@ namespace Version_Module
    
         public clsOntologyItem save_Version(bool boolDescribe)
         {
+            var objOItem_Result = get_VersionData();
 
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                
+            }
+            else
+            {
+                
+            }
+
+            return objOItem_Result;
         }
 
         public clsOntologyItem get_VersionData()
@@ -41,14 +54,16 @@ namespace Version_Module
             objDataWork_Versions.GetData_Ref_To_Version();
             if (objDataWork_Versions.OItem_Result_Versions_To_Refs.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                objDataWork_Versions.GetVersions(objOItem_Ref);
+                objVersions = objDataWork_Versions.GetVersions(objOItem_Ref);
 
             }
             else
             {
                 objOItem_Result = objLocalConfig.Globals.LState_Error.Clone();
             }
-            
+
+            return objOItem_Result;
+
         }
 
         public string getMessage()

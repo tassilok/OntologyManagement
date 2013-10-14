@@ -362,6 +362,8 @@ Public Class clsDBLevel
 
         Dim objOItem_Result = objLogStates.LogState_Success
 
+        otblT_RelationTypes.Clear()
+
         If doCount Then
             objOItem_Result.Count = objElSelector.get_Data_RelationTypesCount(OList_RelType)
         Else
