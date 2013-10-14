@@ -140,6 +140,8 @@ namespace ElasticSearchConnector
 
             }
 
+            objDBSelector.ElConnector.Flush();
+
             return objOItem_Result;
         }
 
@@ -187,7 +189,7 @@ namespace ElasticSearchConnector
                     objOItem_Result = objLogStates.LogState_Exists;
                 }
 
-
+                objDBSelector.ElConnector.Flush();
             }
 
             if (objOItem_Result.GUID == objLogStates.LogState_Nothing.GUID)
@@ -300,7 +302,8 @@ namespace ElasticSearchConnector
                 objOItem_Result.Min = objOList_ToSave.Count;
                 objOItem_Result.Max1 = OList_ClassAtt.Count;
             }
-            
+
+            objDBSelector.ElConnector.Flush();
 
             return objOItem_Result;
         }
@@ -390,7 +393,8 @@ namespace ElasticSearchConnector
                 objOItem_Result.Min = objOList_ToSave.Count;
                 objOItem_Result.Max1 = OList_ClassRel.Count;
             }
-            
+
+            objDBSelector.ElConnector.Flush();
 
             return objOItem_Result;
         }
@@ -504,8 +508,8 @@ namespace ElasticSearchConnector
                 objOItem_Result.Min = objOList_ToSave.Count;
                 objOItem_Result.Max1 = OList_ObjAtt.Count;
             }
-        
-                                        
+
+            objDBSelector.ElConnector.Flush();                            
 
             return objOItem_Result;
         }
@@ -570,6 +574,8 @@ namespace ElasticSearchConnector
                 objOItem_Result.Min = objOList_ToSave.Count;
                 objOItem_Result.Max1 = OList_Objects.Count;
             }
+
+            objDBSelector.ElConnector.Flush();
 
             return objOItem_Result;
         }
@@ -655,6 +661,8 @@ namespace ElasticSearchConnector
 
 
             }
+
+            objDBSelector.ElConnector.Flush();
 
             return objOItem_Result;
         }
@@ -764,6 +772,7 @@ namespace ElasticSearchConnector
                 objOItem_Result.Max1 = OList_ObjectRel.Count;
             }
 
+            objDBSelector.ElConnector.Flush();
 
             return objOItem_Result;
         }
