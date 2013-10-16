@@ -9,6 +9,7 @@ namespace Version_Module
         private clsDataWork_Versions objDataWork_Versions;
         private SortableBindingList<clsVersion> objVersions;
         private clsOntologyItem objOItem_Ref;
+        private frmVersionEdit objFrmVersionEdit;
 
         public UserControl_VersionDetails(clsDataWork_Versions DataWork_Versions)
         {
@@ -66,6 +67,23 @@ namespace Version_Module
                 
             }
             
+        }
+
+        private void contextMenuStrip_Versions_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            newToolStripMenuItem.Enabled = false;
+
+            if (objOItem_Ref != null)
+            {
+                newToolStripMenuItem.Enabled = true;
+            }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            objFrmVersionEdit = new frmVersionEdit(objOItem_Ref, objDataWork_Versions.LocalConfig);
+            objFrmVersionEdit.ShowDialog(this);
+
         }
     }
 }

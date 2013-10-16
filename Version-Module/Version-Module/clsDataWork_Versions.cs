@@ -299,7 +299,7 @@ namespace Version_Module
                                            ID_Version =  objVersion.ID_Object, 
                                            Name_Version = objVersion.Name_Object,
                                            OrderID = objVersion.OrderID
-                                       }).ToList();
+                                       }).OrderByDescending(p => p.OrderID).ToList();
                 
 
             }
@@ -638,7 +638,7 @@ namespace Version_Module
             {
                 var lngOrderID = objDBLevel_VersionsRef.get_Data_Rel_OrderID(objOItem_Ref,
                                                                              new clsOntologyItem { GUID_Parent = objLocalConfig.OItem_type_developmentversion.GUID },
-                                                                             objOItem_RelationType);
+                                                                             objOItem_RelationType,false);
 
                 objORel_Version_To_Ref = new clsObjectRel
                 {
@@ -646,13 +646,29 @@ namespace Version_Module
                     ID_Parent_Object = objOItem_Ref.GUID_Parent,
                     ID_RelationType = objOItem_RelationType.GUID,
                     ID_Other = objOItem_Version.GUID,
-                    ID_Parent_Other = objOItem_RelationType.GUID_Parent,
+                    ID_Parent_Other = objOItem_Version.GUID_Parent,
                     Ontology = objOItem_Ref.Type,
-                    OrderID = lngOrderID
+                    OrderID = lngOrderID + 1
                 };
             }
 
             return objORel_Version_To_Ref;
+        }
+
+        public clsObjectRel Rel_LogEntry_To_Version(clsOntologyItem OItem_LogEntry, clsOntologyItem OItem_Version)
+        {
+            var objORel_LogEntry_To_Version = new clsObjectRel
+            {
+                ID_Object = OItem_LogEntry.GUID,
+                ID_Parent_Object = OItem_LogEntry.GUID_Parent,
+                ID_RelationType = objLocalConfig.OItem_relationtype_belongsto.GUID,
+                ID_Other = OItem_Version.GUID,
+                ID_Parent_Other = OItem_Version.GUID_Parent,
+                Ontology = objLocalConfig.Globals.Type_Object,
+                OrderID = 1
+            };
+
+            return objORel_LogEntry_To_Version;
         }
 
         private void initialize()

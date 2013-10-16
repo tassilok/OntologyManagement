@@ -96,6 +96,7 @@
             this.ToolStripButton_Apply.Name = "ToolStripButton_Apply";
             this.ToolStripButton_Apply.Size = new System.Drawing.Size(51, 22);
             this.ToolStripButton_Apply.Text = "Apply_f";
+            this.ToolStripButton_Apply.Click += new System.EventHandler(this.ToolStripButton_Apply_Click);
             // 
             // ToolStripButton_Clear
             // 
@@ -106,6 +107,7 @@
             this.ToolStripButton_Clear.Name = "ToolStripButton_Clear";
             this.ToolStripButton_Clear.Size = new System.Drawing.Size(47, 22);
             this.ToolStripButton_Clear.Text = "Clear_f";
+            this.ToolStripButton_Clear.Click += new System.EventHandler(this.ToolStripButton_Clear_Click);
             // 
             // ToolStripButton_Cancel
             // 
@@ -151,6 +153,7 @@
             this.NumericUpDown_Marjor.Name = "NumericUpDown_Marjor";
             this.NumericUpDown_Marjor.Size = new System.Drawing.Size(57, 20);
             this.NumericUpDown_Marjor.TabIndex = 0;
+            this.NumericUpDown_Marjor.ValueChanged += new System.EventHandler(this.NumericUpDown_Marjor_ValueChanged);
             // 
             // NumericUpDown_Minor
             // 
@@ -163,6 +166,7 @@
             this.NumericUpDown_Minor.Name = "NumericUpDown_Minor";
             this.NumericUpDown_Minor.Size = new System.Drawing.Size(57, 20);
             this.NumericUpDown_Minor.TabIndex = 1;
+            this.NumericUpDown_Minor.ValueChanged += new System.EventHandler(this.NumericUpDown_Minor_ValueChanged);
             // 
             // NumericUpDown_Build
             // 
@@ -175,6 +179,7 @@
             this.NumericUpDown_Build.Name = "NumericUpDown_Build";
             this.NumericUpDown_Build.Size = new System.Drawing.Size(57, 20);
             this.NumericUpDown_Build.TabIndex = 2;
+            this.NumericUpDown_Build.ValueChanged += new System.EventHandler(this.NumericUpDown_Build_ValueChanged);
             // 
             // NumericUpDown_Revision
             // 
@@ -187,6 +192,7 @@
             this.NumericUpDown_Revision.Name = "NumericUpDown_Revision";
             this.NumericUpDown_Revision.Size = new System.Drawing.Size(59, 20);
             this.NumericUpDown_Revision.TabIndex = 3;
+            this.NumericUpDown_Revision.ValueChanged += new System.EventHandler(this.NumericUpDown_Revision_ValueChanged);
             // 
             // Label_Major
             // 

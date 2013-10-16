@@ -2481,6 +2481,7 @@ namespace ElasticSearchConnector
         {
             SearchResult objSearchResult;
             long lngOrderID = 0;
+            string strField = strSort;
 
             if (doASC)
             {
@@ -2495,13 +2496,13 @@ namespace ElasticSearchConnector
 
             try
             {
-                objSearchResult = ElConnector.Search(Index, objTypes.ObjectAtt, objBoolQuery.ToString(), strSort, 0, 1);
+                objSearchResult = ElConnector.Search(Index, objTypes.ObjectRel, objBoolQuery.ToString(), strSort, 0, 1);
             }
             catch (Exception)
             {
                 try
                 {
-                    objSearchResult = ElConnector.Search(Index, objTypes.ObjectAtt, objBoolQuery.ToString(), strSort, 0, 1);
+                    objSearchResult = ElConnector.Search(Index, objTypes.ObjectRel, objBoolQuery.ToString(), strSort, 0, 1);
                 }
                 catch (Exception)
                 {
@@ -2514,7 +2515,7 @@ namespace ElasticSearchConnector
             List<ElasticSearch.Client.Domain.Hits>  objList = objSearchResult.GetHits().Hits;
             if (objList.Any())
             {
-                long.TryParse(objList.First().Source[strSort].ToString(),out lngOrderID);
+                long.TryParse(objList.First().Source[strField].ToString(), out lngOrderID);
             }
             
 

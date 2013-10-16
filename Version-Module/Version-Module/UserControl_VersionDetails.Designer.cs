@@ -28,16 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel_CountCapt = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_Count = new System.Windows.Forms.ToolStripLabel();
             this.dataGridView_Versions = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip_Versions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Versions)).BeginInit();
+            this.contextMenuStrip_Versions.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -50,7 +54,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGridView_Versions);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(519, 397);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(519, 372);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -86,12 +90,28 @@
             this.dataGridView_Versions.AllowUserToAddRows = false;
             this.dataGridView_Versions.AllowUserToDeleteRows = false;
             this.dataGridView_Versions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_Versions.ContextMenuStrip = this.contextMenuStrip_Versions;
             this.dataGridView_Versions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView_Versions.Location = new System.Drawing.Point(0, 0);
             this.dataGridView_Versions.Name = "dataGridView_Versions";
             this.dataGridView_Versions.ReadOnly = true;
-            this.dataGridView_Versions.Size = new System.Drawing.Size(519, 397);
+            this.dataGridView_Versions.Size = new System.Drawing.Size(519, 372);
             this.dataGridView_Versions.TabIndex = 0;
+            // 
+            // contextMenuStrip_Versions
+            // 
+            this.contextMenuStrip_Versions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem});
+            this.contextMenuStrip_Versions.Name = "contextMenuStrip_Versions";
+            this.contextMenuStrip_Versions.Size = new System.Drawing.Size(109, 26);
+            this.contextMenuStrip_Versions.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Versions_Opening);
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.newToolStripMenuItem.Text = "x_New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // UserControl_VersionDetails
             // 
@@ -108,6 +128,7 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Versions)).EndInit();
+            this.contextMenuStrip_Versions.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -119,5 +140,7 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel_CountCapt;
         private System.Windows.Forms.ToolStripLabel toolStripLabel_Count;
         private System.Windows.Forms.DataGridView dataGridView_Versions;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Versions;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
     }
 }
