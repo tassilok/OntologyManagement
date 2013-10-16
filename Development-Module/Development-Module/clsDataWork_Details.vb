@@ -10,7 +10,7 @@ Public Class clsDataWork_Details
     Private objDBLevel_StandardLanguage As clsDBLevel
     Private objDBLevel_State As clsDBLevel
     Private objDBLevel_Version As clsDBLevel
-    
+    Private objDBLevel_Languages As clsDBLevel
 
     Private objOItem_Result_Creator As clsOntologyItem
     Private objOItem_Result_Folder As clsOntologyItem
@@ -18,6 +18,7 @@ Public Class clsDataWork_Details
     Private objOItem_Result_StandardLanguage As clsOntologyItem
     Private objOItem_Result_State As clsOntologyItem
     Private objOItem_Result_Version As clsOntologyItem
+    Private objOItem_Result_Languages As clsOntologyItem
 
     Private objUserControl_Languages As UserControl_OItemList
 
@@ -35,6 +36,8 @@ Public Class clsDataWork_Details
     Public Property OItem_State() As clsOntologyItem
     
     Public Property OItem_PLanguage() As clsOntologyItem
+
+    Public Property OList_Languages() As List(Of clsOntologyItem)
     
 
     Public Property OItem_StandardLanguage() As clsOntologyItem
@@ -52,7 +55,14 @@ Public Class clsDataWork_Details
                         GetData_PLanguage()
                         If objOItem_Result_ProgramingLanguage.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             GetData_StandardLanguage()
-                            Return objOItem_Result_StandardLanguage
+                            If objOItem_Result_StandardLanguage.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                GetData_Languages()
+                                Return objOItem_Result_Languages
+                            Else
+                                Return objOItem_Result_StandardLanguage
+
+                            End If
+
                             
                         Else 
                             Return objOItem_Result_ProgramingLanguage
@@ -192,6 +202,27 @@ Public Class clsDataWork_Details
         objOItem_Result_ProgramingLanguage = objOItem_Result
     End Sub
 
+    Public Sub GetData_Languages()
+        OList_Languages = Nothing
+
+        Dim objOList_Dev_To_Languages = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Object = objOItem_Development.GUID, _
+                                                                                              .ID_Parent_Other = objLocalConfig.OItem_Class_Language.GUID, _
+                                                                                              .ID_RelationType = objLocalConfig.Oitem_RelationType_additional.GUID}}
+
+        Dim objOItem_Result = objDBLevel_Languages.get_Data_ObjectRel(objOList_Dev_To_Languages, boolIDs:=False)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_Languages.OList_ObjectRel.Any() Then
+                OList_Languages = objDBLevel_Languages.OList_ObjectRel.Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Other, _
+                                                                                                                                                       .Name = p.Name_Other, _
+                                                                                                                                                       .GUID_Parent = p.ID_Parent_Other, _
+                                                                                                                                                       .Type = p.Ontology}).ToList
+
+            End If
+        End If
+
+        objOItem_Result_Languages = objOItem_Result
+    End Sub
+
     Private sub GetData_StandardLanguage()
         OItem_StandardLanguage = Nothing
 
@@ -276,6 +307,18 @@ Public Class clsDataWork_Details
         Return objORel_Dev_To_StandardLanguage
     End Function
 
+    Public Function Rel_Dev_LogEntry(OItem_Development As clsOntologyItem, OItem_LogEntry As clsOntologyItem) As clsObjectRel
+        Dim objORel_Dev_To_LogEntry = New clsObjectRel With {.ID_Object = OItem_Development.GUID, _
+                                                           .ID_Parent_Object = OItem_Development.GUID_Parent, _
+                                                           .ID_RelationType = objLocalConfig.Oitem_RelationType_Happened.GUID, _
+                                                           .ID_Other = OItem_LogEntry.GUID, _
+                                                           .ID_Parent_Other = OItem_LogEntry.GUID_Parent, _
+                                                           .OrderID = 1, _
+                                                           .Ontology = objLocalConfig.Globals.Type_Object}
+
+        Return objORel_Dev_To_LogEntry
+    End Function
+
     Public Sub New(LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
 
@@ -288,7 +331,8 @@ Public Class clsDataWork_Details
         objDBLevel_ProgramingLanguage = new clsDBLevel(objLocalConfig.Globals)
         objDBLevel_StandardLanguage = new clsDBLevel(objLocalConfig.Globals)
         objDBLevel_State = new clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_Version = new clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Version = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Languages = New clsDBLevel(objLocalConfig.Globals)
 
         objOItem_Result_Creator = objLocalConfig.Globals.LState_Nothing.Clone()
         objOItem_Result_Folder = objLocalConfig.Globals.LState_Nothing.Clone()
@@ -296,6 +340,7 @@ Public Class clsDataWork_Details
         objOItem_Result_StandardLanguage = objLocalConfig.Globals.LState_Nothing.Clone()
         objOItem_Result_State = objLocalConfig.Globals.LState_Nothing.Clone()
         objOItem_Result_Version = objLocalConfig.Globals.LState_Nothing.Clone()
+        objOItem_Result_Languages = objLocalConfig.Globals.LState_Nothing.Clone()
 
         objFileWork = new clsFileWork(objLocalConfig.Globals)
     End Sub

@@ -38,7 +38,7 @@ namespace Version_Module
         public List<clsObjectRel> OList_Refs_Versions_To_AttributeTypes { get; private set; }
         public List<clsObjectRel> OList_Refs_Versions_To_RelationTypes { get; private set; }
 
-        public List<Dictionary<string, object>> OList_Logentries { get; private set; }
+        public List<clsLogEntry> OList_Logentries { get; private set; }
 
         private List<clsOntologyItem> OList_Classes;
         private List<clsOntologyItem> OList_AttributeTypes;
@@ -247,7 +247,7 @@ namespace Version_Module
                         new
                             {
                                 ID_Version = p.ID_Object,
-                                Dictionaries =
+                                LogEntries =
                             objDataWork_LogEntry.get_Data_LogEntryOfRef(new clsOntologyItem
                                 {
                                     GUID = p.ID_Object,
@@ -286,16 +286,16 @@ namespace Version_Module
                                            Build = objVersionBuild.Val_Lng,
                                            ID_Attribute_Revision = objVersionRevision.ID_Attribute,
                                            Revision = objVersionRevision.Val_Lng,
-                                           ID_Attribute_DateTimeStamp = objLogentry != null ? objLogentry.Dictionaries.Count > 0  ? objLogentry.Dictionaries.First() != null ? objLogentry.Dictionaries.First().ContainsKey("DateTimeStamp") ? ((clsObjectAtt)objLogentry.Dictionaries.First()["DateTimeStamp"]).ID_Attribute : null : null : null : null,
-                                           DateTimeStamp = objLogentry != null ? objLogentry.Dictionaries.Count > 0 ? objLogentry.Dictionaries.First() != null ? objLogentry.Dictionaries.First().ContainsKey("DateTimeStamp") ? ((clsObjectAtt)objLogentry.Dictionaries.First()["DateTimeStamp"]).Val_Date : null : null : null : null,
-                                           ID_Attribute_Message = objLogentry != null ? objLogentry.Dictionaries.Count > 0 ? objLogentry.Dictionaries.First() != null ? objLogentry.Dictionaries.First().ContainsKey("Message") ? ((clsObjectAtt)objLogentry.Dictionaries.First()["Message"]).ID_Attribute : null : null : null : null,
-                                           Message = objLogentry != null ? objLogentry.Dictionaries.Count > 0 ? objLogentry.Dictionaries.First() != null ? objLogentry.Dictionaries.First().ContainsKey("Message") ? ((clsObjectAtt)objLogentry.Dictionaries.First()["Message"]).Val_String : null : null : null : null,
-                                           ID_Logentry = objLogentry != null ? objLogentry.Dictionaries.Count > 0 ? objLogentry.Dictionaries.First() != null ? objLogentry.Dictionaries.First().ContainsKey("Logentry") ? ((clsOntologyItem)objLogentry.Dictionaries.First()["Logentry"]).GUID : null : null : null : null,
-                                           Name_Logentry = objLogentry != null ? objLogentry.Dictionaries.Count > 0 ? objLogentry.Dictionaries.First() != null ? objLogentry.Dictionaries.First().ContainsKey("Logentry") ? ((clsOntologyItem)objLogentry.Dictionaries.First()["Logentry"]).Name : null : null : null : null,
-                                           ID_Logstate = objLogentry != null ? objLogentry.Dictionaries.Count > 0 ? objLogentry.Dictionaries.First() != null ? objLogentry.Dictionaries.First().ContainsKey("Logstate") ? ((clsOntologyItem)objLogentry.Dictionaries.First()["Logstate"]).GUID : null : null : null : null,
-                                           Name_Logstate = objLogentry != null ? objLogentry.Dictionaries.Count > 0 ? objLogentry.Dictionaries.First() != null ? objLogentry.Dictionaries.First().ContainsKey("Logstate") ? ((clsOntologyItem)objLogentry.Dictionaries.First()["Logstate"]).Name : null : null : null : null,
-                                           ID_User = objLogentry != null ? objLogentry.Dictionaries.Count > 0 ? objLogentry.Dictionaries.First() != null ? objLogentry.Dictionaries.First().ContainsKey("User") ? ((clsOntologyItem)objLogentry.Dictionaries.First()["User"]).GUID : null : null : null : null,
-                                           Name_User = objLogentry != null ? objLogentry.Dictionaries.Count > 0 ? objLogentry.Dictionaries.First() != null ? objLogentry.Dictionaries.First().ContainsKey("User") ? ((clsOntologyItem)objLogentry.Dictionaries.First()["User"]).Name : null : null : null : null,
+                                           ID_Attribute_DateTimeStamp = objLogentry != null ? objLogentry.LogEntries.Any() ? objLogentry.LogEntries.First().ID_Attribute_DateTimeStamp : null : null,
+                                           DateTimeStamp = objLogentry != null ? objLogentry.LogEntries.Any() ? objLogentry.LogEntries.First().DateTimeStamp : null : null,
+                                           ID_Attribute_Message = objLogentry != null ? objLogentry.LogEntries.Any() ? objLogentry.LogEntries.First().ID_Attribute_Message : null : null,
+                                           Message = objLogentry != null ? objLogentry.LogEntries.Any() ? objLogentry.LogEntries.First().Message : null : null,
+                                           ID_Logentry = objLogentry != null ? objLogentry.LogEntries.Any() ? objLogentry.LogEntries.First().ID_LogEntry : null : null,
+                                           Name_Logentry = objLogentry != null ? objLogentry.LogEntries.Any() ? objLogentry.LogEntries.First().Name_LogEntry : null : null,
+                                           ID_Logstate = objLogentry != null ? objLogentry.LogEntries.Any() ? objLogentry.LogEntries.First().ID_LogState : null : null,
+                                           Name_Logstate = objLogentry != null ? objLogentry.LogEntries.Any() ? objLogentry.LogEntries.First().Name_LogState : null : null,
+                                           ID_User = objLogentry != null ? objLogentry.LogEntries.Any() ? objLogentry.LogEntries.First().ID_User : null : null,
+                                           Name_User = objLogentry != null ? objLogentry.LogEntries.Any() ? objLogentry.LogEntries.First().Name_User : null : null,
                                            ID_Version =  objVersion.ID_Object, 
                                            Name_Version = objVersion.Name_Object,
                                            OrderID = objVersion.OrderID

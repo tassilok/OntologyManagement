@@ -2,12 +2,14 @@
 Imports OntologyClasses.BaseClasses
 Imports Version_Module
 Imports Filesystem_Module
+Imports Localization_Module
 Public Class UserControl_BaseData
 
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_BaseData As clsDataWork_BaseData
     Private objOItem_Dev As clsOntologyItem
     Private WithEvents objUserControl_Languages As UserControl_OItemList
+    Private WithEvents objUserControl_Localization As UserControl_LocalizationDetails
     Private objDataWork_Details As clsDataWork_Details
     Private objTransaction As clsTransaction
     Private objFrm_VersionEdit As frmVersionEdit
@@ -32,6 +34,9 @@ Public Class UserControl_BaseData
         objFileWork = new clsFileWork(objLocalConfig.Globals)
         objUserControl_Languages = new UserControl_OItemList(objLocalConfig.Globals)
         objUserControl_Languages.Dock = DockStyle.Fill
+        objUserControl_Localization = New UserControl_LocalizationDetails(objLocalConfig.Globals)
+        objUserControl_Localization.Dock = DockStyle.Fill
+        SplitContainer1.Panel2.Controls.Add(objUserControl_Localization)
         Panel_Languages.Controls.Add(objUserControl_Languages)
         objDataWork_Details = new clsDataWork_Details(objLocalConfig)
         clear_Controls()
@@ -80,7 +85,10 @@ Public Class UserControl_BaseData
                                              objOItem_Language, _
                                              objLocalConfig.Oitem_RelationType_additional,False)
 
-                objUserControl_Languages.Enabled=True
+                objUserControl_Languages.Enabled = True
+
+                objUserControl_Localization.initialize_Tree(objOItem_Dev, objDataWork_Details.OItem_StandardLanguage, objDataWork_Details.OList_Languages, False)
+                objUserControl_Localization.Enabled = True
             Else 
                 MsgBox("Die Basisdaten konnten nicht geladen werden!",MsgBoxStyle.Exclamation)
             End If
@@ -118,8 +126,22 @@ Public Class UserControl_BaseData
         If objFrm_VersionEdit.DialogResult=DialogResult.OK Then
             If objFrm_VersionEdit.OItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                 If Not objFrm_VersionEdit.OItem_Version Is Nothing Then
-                    objDataWork_Details.OItem_Version = objFrm_VersionEdit.OItem_Version.Clone()
-                    TextBox_Version.Text = objDataWork_Details.OItem_Version.Name
+                    Dim objOItem_LogEntry = objFrm_VersionEdit.OItem_LogEntry
+                    If Not objOItem_LogEntry Is Nothing Then
+                        objTransaction.ClearItems()
+                        Dim objORel_Dev_LogEntry = objDataWork_Details.Rel_Dev_LogEntry(objOItem_Dev, objOItem_LogEntry)
+                        Dim objOItem_Result = objTransaction.do_Transaction(objORel_Dev_LogEntry)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objDataWork_Details.OItem_Version = objFrm_VersionEdit.OItem_Version.Clone()
+                            TextBox_Version.Text = objDataWork_Details.OItem_Version.Name
+                        Else
+                            MsgBox("Die Version konnte nicht verknüpft werden!", MsgBoxStyle.Exclamation)
+                        End If
+                        
+                    Else
+                        MsgBox("Die Version konnte nicht verknüpft werden!", MsgBoxStyle.Exclamation)
+                    End If
+                    
                 End If
             End If
         End If
@@ -199,7 +221,9 @@ Public Class UserControl_BaseData
         Button_Version.Enabled = False
         TextBox_Version.Text = ""
         objUserControl_Languages.clear_Relation()
-        objUserControl_Languages.Enabled=False
+        objUserControl_Languages.Enabled = False
+        objUserControl_Localization.clear_Tree()
+        objUserControl_Localization.Enabled = False
     End Sub
 
     Private sub Configure_StateCombo()

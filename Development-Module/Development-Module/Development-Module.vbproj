@@ -83,6 +83,7 @@
     <Compile Include="clsDataWork_CodeGenerator.vb" />
     <Compile Include="clsDataWork_Details.vb" />
     <Compile Include="clsDataWork_DevTree.vb" />
+    <Compile Include="clsDataWork_LogEntries.vb" />
     <Compile Include="clsDataWork_OntologyConfig.vb" />
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsTransaction_OntologyConfig.vb" />
@@ -131,6 +132,12 @@
     <Compile Include="UserControl_DevelopmentTree.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControl_LogEntries.Designer.vb">
+      <DependentUpon>UserControl_LogEntries.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_LogEntries.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl_OntologyConfig.Designer.vb">
       <DependentUpon>UserControl_OntologyConfig.vb</DependentUpon>
     </Compile>
@@ -156,6 +163,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_DevelopmentTree.resx">
       <DependentUpon>UserControl_DevelopmentTree.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_LogEntries.resx">
+      <DependentUpon>UserControl_LogEntries.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_OntologyConfig.resx">
       <DependentUpon>UserControl_OntologyConfig.vb</DependentUpon>
@@ -202,6 +212,14 @@
       <Project>{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}</Project>
       <Name>Filesystem-Module</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Localization-Module\Localization-Module\Localization-Module.csproj">
+      <Project>{ecd780fd-c4cc-47ac-8e08-7c6a226f28e0}</Project>
+      <Name>Localization-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Log-Module\Log-Module\Log-Module.vbproj">
+      <Project>{666536bd-fd4a-4bdf-a5bc-572e07d4e27a}</Project>
+      <Name>Log-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3F2F6722-C36B-420D-AFE7-B21C19457208}</Project>
       <Name>Ontolog-Module</Name>
@@ -213,6 +231,10 @@
     <ProjectReference Include="..\..\Security-Module\Security-Module\Security-Module.vbproj">
       <Project>{c9add5dc-090d-4003-bba9-cf9218c938b2}</Project>
       <Name>Security-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Structure-Module\Structure-Module\Structure-Module.csproj">
+      <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
+      <Name>Structure-Module</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Version-Module\Version-Module\Version-Module.csproj">
       <Project>{2c81fa5b-9d19-4600-8f52-fcdec5fc8df4}</Project>

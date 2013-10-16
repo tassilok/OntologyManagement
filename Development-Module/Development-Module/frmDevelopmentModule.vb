@@ -8,6 +8,7 @@ Public Class frmDevelopmentModule
 
     Private WithEvents objUserControl_DevTree As UserControl_DevelopmentTree
     Private WithEvents objUserControl_BaseData As UserControl_BaseData
+    Private WithEvents objUserControl_LogEntries As UserControl_LogEntries
 
     Private objUserControl_OntologyConfig As UserControl_OntologyConfig
     Private objFrm_Authenticate As frmAuthenticate
@@ -53,6 +54,10 @@ Public Class frmDevelopmentModule
             objUserControl_BaseData.Dock = DockStyle.Fill
             TabPage_BaseData.Controls.Add(objUserControl_BaseData)
 
+            objUserControl_LogEntries = New UserControl_LogEntries(objLocalConfig)
+            objUserControl_LogEntries.Dock = DockStyle.Fill
+            TabPage_Logentries.Controls.Add(objUserControl_LogEntries)
+
             configure_TabPages()
         End If
         
@@ -64,6 +69,7 @@ Public Class frmDevelopmentModule
             Case TabPage_BaseData.Name
                 objUserControl_BaseData.Initialize_BaseData(objOItem_Development)
             Case TabPage_Logentries.Name
+                objUserControl_LogEntries.Initialize_LogEntries(objOItem_Development)
             Case TabPage_OntologyConfig.Name
                 objUserControl_OntologyConfig.initialize(objOItem_Development)
         End Select

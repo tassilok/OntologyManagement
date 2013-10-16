@@ -136,8 +136,9 @@ namespace Version_Module
                                                 objOItem_Result = objLogManagement.log_Entry(DateTime.Now, objOItem_LogState, objLocalConfig.objUser, strDescription);
                                                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                                 {
-                                                    var objOItem_LogEntry = objLogManagement.OItem_LogEntry;
-                                                    var Rel_LogEntry_To_Version = DataWork_Versions.Rel_LogEntry_To_Version(objOItem_LogEntry, objVersion);
+                                                    OItem_LogEntry = objLogManagement.OItem_LogEntry;
+
+                                                    var Rel_LogEntry_To_Version = DataWork_Versions.Rel_LogEntry_To_Version(OItem_LogEntry, objVersion);
                                                     objOItem_Result = objTransaction.do_Transaction(Rel_LogEntry_To_Version, true);
                                                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                                     {

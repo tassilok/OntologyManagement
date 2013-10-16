@@ -33,6 +33,8 @@ Public Class clsDataWork_LogEntry
     Private objOItem_DateTimeStamp As clsObjectAtt
     Private objOItem_Message As clsObjectAtt
 
+    Private boolList As Boolean
+
     Public ReadOnly Property OItem_Result_LogState As clsOntologyItem
         Get
             Return objOItem_Result_LogState
@@ -122,9 +124,15 @@ Public Class clsDataWork_LogEntry
         set_DBConnection()
     End Sub
 
+    Public Sub New(Globals As clsGlobals)
+        objLocalConfig = New clsLocalConfig(Globals)
+        set_DBConnection()
+    End Sub
+
     Private Sub get_Data_LogState_Combo()
         Dim objOList_LogStates As New List(Of clsOntologyItem)
 
+        
         objOList_LogStates.Add(New clsOntologyItem(Nothing, _
                                                    Nothing, _
                                                    objLocalConfig.OItem_type_Logstate.GUID, _
@@ -166,7 +174,7 @@ Public Class clsDataWork_LogEntry
         Dim objOItem_Result as clsOntologyItem = objLocalConfig.Globals.LState_Success
 
         objOItem_LogEntry = OItem_LogEntry
-
+        boolList = False
         objOItem_Result_LogState = objLocalConfig.Globals.LState_Nothing
         objOItem_Result_DateTimeStamp = objLocalConfig.Globals.LState_Nothing
         objOItem_Result_Message = objLocalConfig.Globals.LState_Nothing
@@ -209,64 +217,64 @@ Public Class clsDataWork_LogEntry
 
         Return objOItem_Result
     End Function
-    Public Function get_Data_LogEntryOfRef(OItem_Ref As clsOntologyItem) As List(Of Dictionary(Of String, Object))
-        Dim OList_LogEntry = new List(Of Dictionary(Of string, Object))
+    Public Function get_Data_LogEntryOfRef(OItem_Ref As clsOntologyItem, Optional OItem_RelationType As clsOntologyItem = Nothing) As List(Of clsLogEntry)
+        Dim OList_LogEntry = New List(Of clsLogEntry)
 
-        Dim objOList_Logentries = new List(Of clsObjectRel) 
-
-        objOList_Logentries.Add(New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_LogEntry.GUID,
+        Dim objOList_Logentries = New List(Of clsObjectRel)
+        boolList = True
+        If OItem_RelationType Is Nothing Then
+            objOList_Logentries.Add(New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_LogEntry.GUID,
                                                        .ID_Other = OItem_Ref.GUID,
                                                        .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID})
 
-        Dim objOItem_Result = objDBLevel_LogEntryOfRef.get_Data_ObjectRel(objOList_Logentries, boolIDs := False)
+        Else
+            objOList_Logentries.Add(New clsObjectRel With {.ID_Object = OItem_Ref.GUID,
+                                                                   .ID_Parent_Other = objLocalConfig.OItem_Type_LogEntry.GUID,
+                                                                   .ID_RelationType = OItem_RelationType.GUID})
+
+        End If
+        
+        Dim objOItem_Result = objDBLevel_LogEntryOfRef.get_Data_ObjectRel(objOList_Logentries, boolIDs:=False)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            For Each objLogEntry In objDBLevel_LogEntryOfRef.OList_ObjectRel.Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Object, _
-                                                                                                                          .Name = p.Name_Object, _
-                                                                                                                          .GUID_Parent = p.ID_Parent_Object, _
-                                                                                                                          .Type = objLocalConfig.Globals.Type_Object}).ToList()
+            Dim objOList_Logentry = New List(Of clsLogEntry)
+            get_Data_LogState()
+            If objOItem_Result_LogState.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                get_Data_DateTimeStamp()
+                If objOItem_Result_DateTimeStamp.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    get_Data_Message()
+                    If objOItem_Result_Message.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        get_Data_User()
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            OList_LogEntry = (From objLogentries In objDBLevel_LogEntryOfRef.OList_ObjectRel
+                                             Join objDateTimeStamp In objDBLevel_TimeStamp.OList_ObjectAtt On If(OItem_RelationType Is Nothing, objLogentries.ID_Object, objLogentries.ID_Other) Equals objDateTimeStamp.ID_Object
+                                             Group Join objMessage In objDBLevel_Message.OList_ObjectAtt On If(OItem_RelationType Is Nothing, objLogentries.ID_Object, objLogentries.ID_Other) Equals objMessage.ID_Object Into objMessages = Group
+                                             From objMessage In objMessages.DefaultIfEmpty()
+                                             Join objLogState In objDBLevel_LogState.OList_ObjectRel On If(OItem_RelationType Is Nothing, objLogentries.ID_Object, objLogentries.ID_Other) Equals objLogState.ID_Object
+                                             Join objUser In objDBLevel_User.OList_ObjectRel On If(OItem_RelationType Is Nothing, objLogentries.ID_Object, objLogentries.ID_Other) Equals objUser.ID_Object
+                                             Select New clsLogEntry With {.ID_LogEntry = If(OItem_RelationType Is Nothing, objLogentries.ID_Object, objLogentries.ID_Other), _
+                                                                          .Name_LogEntry = If(OItem_RelationType Is Nothing, objLogentries.Name_Object, objLogentries.Name_Other), _
+                                                                          .ID_Attribute_DateTimeStamp = objDateTimeStamp.ID_Attribute, _
+                                                                          .DateTimeStamp = objDateTimeStamp.Val_Date, _
+                                                                          .ID_Attribute_Message = If(objMessage Is Nothing, Nothing, objMessage.ID_Attribute), _
+                                                                          .Message = If(objMessage Is Nothing, Nothing, objMessage.Val_String), _
+                                                                          .ID_LogState = objLogState.ID_Other, _
+                                                                          .Name_LogState = objLogState.Name_Other, _
+                                                                          .ID_User = objUser.ID_Other, _
+                                                                          .Name_User = objUser.Name_Other}).ToList()
 
-                objOItem_LogEntry = objLogEntry
-                Dim objDict_Logentry = new Dictionary(Of string, Object)
-                objDict_Logentry.Add("Logentry",objLogEntry)
-                get_Data_LogState()
-                objOItem_Result = objLocalConfig.Globals.LState_Error
-                If objOItem_Result_LogState.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    get_Data_DateTimeStamp()
-                    If objOItem_Result_DateTimeStamp.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        If Not objOItem_DateTimeStamp Is Nothing Then
-                            objDict_Logentry.Add("DateTimeStamp",objOItem_DateTimeStamp)
+                        Else
+                            objOList_Logentry = Nothing
                         End If
-                        get_Data_Message()
-                        If objOItem_Result_Message.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            If Not objOItem_Message Is Nothing Then
-                                objDict_Logentry.Add("Message",objOItem_Message)
-                            End If
-                            get_Data_User()
-                            If objOItem_Result_User.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                If Not objOItem_User Is Nothing Then
-                                    objDict_Logentry.Add("User",objOItem_User)
-                                End If
-                                get_Data_LogState()
-                                If objOItem_Result_LogState.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                    If Not objOItem_LogState Is Nothing Then
-                                        objDict_Logentry.Add("Logstate",objOItem_LogState)
-                                    End If
-                                    objOItem_Result = objLocalConfig.Globals.LState_Success
-                                End If
-                            End If
-                        End If
+                    Else
+                        objOList_Logentry = Nothing
                     End If
-
+                Else
+                    objOList_Logentry = Nothing
                 End If
-                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    OList_LogEntry.Add(objDict_Logentry)
-                Else 
-
-                    OList_LogEntry = Nothing
-                    Exit For
-                End If
-            Next
-        Else 
+            Else
+                objOList_Logentry = Nothing
+            End If
+        Else
             OList_LogEntry = Nothing
         End If
 
@@ -274,7 +282,8 @@ Public Class clsDataWork_LogEntry
     End Function
     Private Sub get_Data_User()
         Dim objOList_ObjectRel As New List(Of clsObjectRel)
-        objOList_ObjectRel.Add(New clsObjectRel(objOItem_LogEntry.GUID, _
+        If boolList = False Then
+            objOList_ObjectRel.Add(New clsObjectRel(objOItem_LogEntry.GUID, _
                                                 Nothing, _
                                                 Nothing, _
                                                 objLocalConfig.OItem_type_User.GUID, _
@@ -282,16 +291,27 @@ Public Class clsDataWork_LogEntry
                                                 objLocalConfig.Globals.Type_Object, _
                                                 Nothing, _
                                                 Nothing))
+        Else
+            objOList_ObjectRel.Add(New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_LogEntry.GUID, _
+                                                          .ID_Parent_Other = objLocalConfig.OItem_type_User.GUID, _
+                                                          .ID_RelationType = objLocalConfig.OItem_RelationType_wasCreatedBy.GUID})
+        End If
+        
 
         objDBLevel_User.get_Data_ObjectRel(objOList_ObjectRel, _
                                            boolIDs:=False)
 
-        If objDBLevel_User.OList_ObjectRel.Count > 0 Then
-            objOItem_User = New clsOntologyItem
-            objOItem_User.GUID = objDBLevel_User.OList_ObjectRel(0).ID_Other
-            objOItem_User.Name = objDBLevel_User.OList_ObjectRel(0).Name_Other
-            objOItem_User.GUID_Parent = objLocalConfig.OItem_type_User.GUID
-            objOItem_User.Type = objLocalConfig.Globals.Type_Object
+        If boolList = False Then
+            If objDBLevel_User.OList_ObjectRel.Count > 0 Then
+
+                objOItem_User = New clsOntologyItem
+                objOItem_User.GUID = objDBLevel_User.OList_ObjectRel(0).ID_Other
+                objOItem_User.Name = objDBLevel_User.OList_ObjectRel(0).Name_Other
+                objOItem_User.GUID_Parent = objLocalConfig.OItem_type_User.GUID
+                objOItem_User.Type = objLocalConfig.Globals.Type_Object
+            Else
+                objOItem_User = Nothing
+            End If
         Else
             objOItem_User = Nothing
         End If
@@ -302,79 +322,102 @@ Public Class clsDataWork_LogEntry
     Private Sub get_Data_DateTimeStamp()
         Dim objOList_DateTimeStamp As New List(Of clsObjectAtt)
 
-        objOList_DateTimeStamp.Add(New clsObjectAtt(Nothing, _
+        If boolList = False Then
+            objOList_DateTimeStamp.Add(New clsObjectAtt(Nothing, _
                                                     objOItem_LogEntry.GUID, _
                                                     Nothing, _
                                                     objLocalConfig.OItem_Attribute_DateTimeStamp.GUID, _
                                                     Nothing))
+        Else
+            objOList_DateTimeStamp.Add(New clsObjectAtt With {.ID_Class = objLocalConfig.OItem_Type_LogEntry.GUID, _
+                                                              .ID_AttributeType = objLocalConfig.OItem_Attribute_DateTimeStamp.GUID})
+        End If
+        
 
         objDBLevel_TimeStamp.get_Data_ObjectAtt(objOList_DateTimeStamp, _
                                                 boolIDs:=False)
 
-        If objDBLevel_TimeStamp.OList_ObjectAtt.Count > 0 Then
-            objOItem_DateTimeStamp = New clsObjectAtt(objDBLevel_TimeStamp.OList_ObjectAtt(0).ID_Attribute, _
-                                                      objDBLevel_TimeStamp.OList_ObjectAtt(0).ID_Object, _
-                                                      objDBLevel_TimeStamp.OList_ObjectAtt(0).Name_Object, _
-                                                      objDBLevel_TimeStamp.OList_ObjectAtt(0).ID_Class, _
-                                                      objDBLevel_TimeStamp.OList_ObjectAtt(0).Name_Class, _
-                                                      objDBLevel_TimeStamp.OList_ObjectAtt(0).ID_AttributeType, _
-                                                      objDBLevel_TimeStamp.OList_ObjectAtt(0).Name_AttributeType, _
-                                                      objDBLevel_TimeStamp.OList_ObjectAtt(0).OrderID, _
-                                                      Nothing, _
-                                                      Nothing, _
-                                                      objDBLevel_TimeStamp.OList_ObjectAtt(0).Val_Date, _
-                                                      Nothing, _
-                                                      Nothing, _
-                                                      Nothing, _
-                                                      objLocalConfig.Globals.DType_DateTime.GUID)
+        If boolList = False Then
+            If objDBLevel_TimeStamp.OList_ObjectAtt.Count > 0 Then
+                objOItem_DateTimeStamp = New clsObjectAtt(objDBLevel_TimeStamp.OList_ObjectAtt(0).ID_Attribute, _
+                                                          objDBLevel_TimeStamp.OList_ObjectAtt(0).ID_Object, _
+                                                          objDBLevel_TimeStamp.OList_ObjectAtt(0).Name_Object, _
+                                                          objDBLevel_TimeStamp.OList_ObjectAtt(0).ID_Class, _
+                                                          objDBLevel_TimeStamp.OList_ObjectAtt(0).Name_Class, _
+                                                          objDBLevel_TimeStamp.OList_ObjectAtt(0).ID_AttributeType, _
+                                                          objDBLevel_TimeStamp.OList_ObjectAtt(0).Name_AttributeType, _
+                                                          objDBLevel_TimeStamp.OList_ObjectAtt(0).OrderID, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          objDBLevel_TimeStamp.OList_ObjectAtt(0).Val_Date, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          objLocalConfig.Globals.DType_DateTime.GUID)
 
 
+            Else
+                objOItem_DateTimeStamp = Nothing
+            End If
         Else
             objOItem_DateTimeStamp = Nothing
         End If
+        
         objOItem_Result_DateTimeStamp = objLocalConfig.Globals.LState_Success
     End Sub
 
     Private Sub get_Data_Message()
         Dim objOList_Message As New List(Of clsObjectAtt)
 
-        objOList_Message.Add(New clsObjectAtt(Nothing, _
+        If boolList = False Then
+            objOList_Message.Add(New clsObjectAtt(Nothing, _
                                                     objOItem_LogEntry.GUID, _
                                                     Nothing, _
                                                     objLocalConfig.OItem_Attribute_Message.GUID, _
                                                     Nothing))
+        Else
+            objOList_Message.Add(New clsObjectAtt With {.ID_Class = objLocalConfig.OItem_Type_LogEntry.GUID, _
+                                                        .ID_AttributeType = objLocalConfig.OItem_Attribute_Message.GUID})
+        End If
+        
 
         objDBLevel_Message.get_Data_ObjectAtt(objOList_Message, _
                                                 boolIDs:=False)
 
-        If objDBLevel_Message.OList_ObjectAtt.Count > 0 Then
-            objOItem_Message = New clsObjectAtt(objDBLevel_Message.OList_ObjectAtt(0).ID_Attribute, _
-                                                      objDBLevel_Message.OList_ObjectAtt(0).ID_Object, _
-                                                      objDBLevel_Message.OList_ObjectAtt(0).Name_Object, _
-                                                      objDBLevel_Message.OList_ObjectAtt(0).ID_Class, _
-                                                      objDBLevel_Message.OList_ObjectAtt(0).Name_Class, _
-                                                      objDBLevel_Message.OList_ObjectAtt(0).ID_AttributeType, _
-                                                      objDBLevel_Message.OList_ObjectAtt(0).Name_AttributeType, _
-                                                      objDBLevel_Message.OList_ObjectAtt(0).OrderID, _
-                                                      Nothing, _
-                                                      Nothing, _
-                                                      Nothing, _
-                                                      Nothing, _
-                                                      Nothing, _
-                                                      objDBLevel_Message.OList_ObjectAtt(0).Val_String, _
-                                                      objLocalConfig.Globals.DType_String.GUID)
+        If boolList = False Then
+            If objDBLevel_Message.OList_ObjectAtt.Count > 0 Then
+                objOItem_Message = New clsObjectAtt(objDBLevel_Message.OList_ObjectAtt(0).ID_Attribute, _
+                                                          objDBLevel_Message.OList_ObjectAtt(0).ID_Object, _
+                                                          objDBLevel_Message.OList_ObjectAtt(0).Name_Object, _
+                                                          objDBLevel_Message.OList_ObjectAtt(0).ID_Class, _
+                                                          objDBLevel_Message.OList_ObjectAtt(0).Name_Class, _
+                                                          objDBLevel_Message.OList_ObjectAtt(0).ID_AttributeType, _
+                                                          objDBLevel_Message.OList_ObjectAtt(0).Name_AttributeType, _
+                                                          objDBLevel_Message.OList_ObjectAtt(0).OrderID, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          objDBLevel_Message.OList_ObjectAtt(0).Val_String, _
+                                                          objLocalConfig.Globals.DType_String.GUID)
 
 
+            Else
+                objOItem_Message = Nothing
+            End If
         Else
             objOItem_Message = Nothing
         End If
+        
         objOItem_Result_Message = objLocalConfig.Globals.LState_Success
     End Sub
 
     Private Sub get_Data_LogState()
         Dim objOList_ObjectRel As New List(Of clsObjectRel)
 
-        objOList_ObjectRel.Add(New clsObjectRel(objOItem_LogEntry.GUID, _
+        If boolList = False Then
+            objOList_ObjectRel.Add(New clsObjectRel(objOItem_LogEntry.GUID, _
                                                 Nothing, _
                                                 Nothing, _
                                                 objLocalConfig.OItem_type_Logstate.GUID, _
@@ -382,19 +425,30 @@ Public Class clsDataWork_LogEntry
                                                 objLocalConfig.Globals.Type_Object, _
                                                 Nothing, _
                                                 Nothing))
+        Else
+            objOList_ObjectRel.Add(New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_LogEntry.GUID, _
+                                                          .ID_Parent_Other = objLocalConfig.OItem_type_Logstate.GUID, _
+                                                          .ID_RelationType = objLocalConfig.OItem_RelationType_provides.GUID})
+        End If
+        
 
         objOItem_Result_LogState = objDBLevel_LogState.get_Data_ObjectRel(objOList_ObjectRel, _
                                                                           boolIDs:=False)
 
-        If objDBLevel_LogState.OList_ObjectRel.Count > 0 Then
-            objOItem_LogState = New clsOntologyItem
-            objOItem_LogState.GUID = objDBLevel_LogState.OList_ObjectRel(0).ID_Other
-            objOItem_LogState.Name = objDBLevel_LogState.OList_ObjectRel(0).Name_Other
-            objOItem_LogState.GUID_Parent = objLocalConfig.OItem_type_Logstate.GUID
-            objOItem_LogState.Type = objLocalConfig.Globals.Type_Object
+        If boolList = False Then
+            If objDBLevel_LogState.OList_ObjectRel.Count > 0 Then
+                objOItem_LogState = New clsOntologyItem
+                objOItem_LogState.GUID = objDBLevel_LogState.OList_ObjectRel(0).ID_Other
+                objOItem_LogState.Name = objDBLevel_LogState.OList_ObjectRel(0).Name_Other
+                objOItem_LogState.GUID_Parent = objLocalConfig.OItem_type_Logstate.GUID
+                objOItem_LogState.Type = objLocalConfig.Globals.Type_Object
+            Else
+                objOItem_LogState = Nothing
+            End If
         Else
             objOItem_LogState = Nothing
         End If
+        
 
         objOItem_Result_LogState = objLocalConfig.Globals.LState_Success
     End Sub

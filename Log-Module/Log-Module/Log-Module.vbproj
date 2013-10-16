@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="clsDataWork_LogEntry.vb" />
     <Compile Include="clsLocalConfig.vb" />
+    <Compile Include="clsLogEntry.vb" />
     <Compile Include="clsLogManagement.vb" />
     <Compile Include="clsTransaction_LogEntry.vb" />
     <Compile Include="frmLogModule.vb">

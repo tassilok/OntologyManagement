@@ -27,6 +27,12 @@ namespace Version_Module
 
         public clsOntologyItem OItem_Version { get; private set; }
 
+        public clsOntologyItem OItem_LogEntry
+        {
+            get { return objVersionWork.OItem_LogEntry; }
+        }
+
+
         public long Major
         {
             get { return userControl_VersionEdit.Major; }

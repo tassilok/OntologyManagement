@@ -21,7 +21,7 @@ namespace Localization_Module
 
         public clsOntologyItem GetData_LocalizationDetail(clsOntologyItem OItem_Ref)
         {
-            var objOList_LocalitionsToRef = objOList_Localization.Where(p => p.ID_Other == OItem_Ref.GUID).ToList();
+            var objOList_LocalitionsToRef = objOList_Localization != null ? objOList_Localization.Where(p => p.ID_Other == OItem_Ref.GUID).ToList() : new List<clsObjectRel>();
             var objOItem_Result = GetData_LanguagesOfLocalization();
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {

@@ -43,6 +43,22 @@ namespace Localization_Module
             
         }
 
+        public UserControl_LocalizationDetails(clsGlobals Globals)
+        {
+            InitializeComponent();
+
+            objLocalConfig = new clsLocalConfig(Globals);
+
+
+        }
+
+        public void clear_Tree()
+        {
+            treeView_Description.Nodes.Clear();
+            textBox_Message.ReadOnly = true;
+            textBox_Message.Text = "";
+        }
+
         public void initialize_Tree(clsOntologyItem OItem_Ref, clsOntologyItem OItem_Language_Standard = null, List<clsOntologyItem> OList_Languages=null, bool boolLocalizedNames = false)
         {
             objOItem_Ref = OItem_Ref;
@@ -154,8 +170,8 @@ namespace Localization_Module
                                                   {
                                                       ID_Language_ToDo = objLanguage_ToDo.GUID,
                                                       Name_Language_ToDo = objLanguage_ToDo.Name,
-                                                      ID_Language_Description = objLanguage_Description.GUID,
-                                                      Name_Language_Description = objLanguage_Description.Name,
+                                                      ID_Language_Description = objLanguage_Description != null ? objLanguage_Description.GUID : null,
+                                                      Name_Language_Description = objLanguage_Description != null ? objLanguage_Description.Name : null,
                                                       Done = objLanguage_Description != null ? true : false
                                                   }).OrderBy(p => p.Name_Language_ToDo).ToList();
                 foreach (var objLanguage in OList_Languages_Additional)
