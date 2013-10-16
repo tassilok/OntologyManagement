@@ -21,6 +21,7 @@ namespace Version_Module
         private long revisionFirst;
 
         public event Applied_Version applied_Version;
+
         public long Major
         {
             get { return long.Parse(NumericUpDown_Marjor.Value.ToString()); }

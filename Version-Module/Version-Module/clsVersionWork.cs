@@ -38,6 +38,8 @@ namespace Version_Module
         private clsLogManagement objLogManagement;
 
         private frmMain objFrmMain;
+
+        public clsOntologyItem objVersion { get; private set; }
    
         public clsOntologyItem save_Version(bool boolDescribe, long major, long minor, long build, long revision)
         {
@@ -100,7 +102,7 @@ namespace Version_Module
                        
                         objTransaction.ClearItems();
                             
-                        var objVersion = new clsOntologyItem
+                        objVersion = new clsOntologyItem
                         {
                             GUID = objLocalConfig.Globals.NewGUID,
                             Name = major + "." + minor + "." + build + "." + revision,
@@ -204,6 +206,13 @@ namespace Version_Module
                     objVersions = DataWork_Versions.GetVersions(objOItem_Ref);
                     if (objVersions.Any())
                     {
+                        objVersion = new clsOntologyItem
+                            {
+                                GUID = objVersions.First().ID_Version,
+                                Name = objVersions.First().Name_Version,
+                                GUID_Parent = objLocalConfig.OItem_type_developmentversion.GUID,
+                                Type = objLocalConfig.Globals.Type_Object
+                            };
                         Major = objVersions.First().Major ?? 0;
                         Minor = objVersions.First().Minor ?? 0;
                         Build = objVersions.First().Build ?? 0;

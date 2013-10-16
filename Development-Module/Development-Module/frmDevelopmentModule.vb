@@ -1,13 +1,20 @@
 ﻿Imports Ontolog_Module
 Imports OntologyClasses.BaseClasses
+Imports Security_Module
 Public Class frmDevelopmentModule
     Private objLocalConfig As clsLocalConfig
 
+    Private objDataWork_BaseData As clsDataWork_BaseData
+
     Private WithEvents objUserControl_DevTree As UserControl_DevelopmentTree
+    Private WithEvents objUserControl_BaseData As UserControl_BaseData
 
     Private objUserControl_OntologyConfig As UserControl_OntologyConfig
+    Private objFrm_Authenticate As frmAuthenticate
 
     Private objOItem_Development As clsOntologyItem
+
+    Private boolOpen As Boolean = false
 
     Private Sub selected_DevNode() Handles objUserControl_DevTree.selected_Node
         objOItem_Development = objUserControl_DevTree.OItem_Development
@@ -26,19 +33,36 @@ Public Class frmDevelopmentModule
     End Sub
 
     Private Sub initialize()
-        objUserControl_DevTree = New UserControl_DevelopmentTree(objLocalConfig)
-        objUserControl_DevTree.Dock = DockStyle.Fill
-        SplitContainer1.Panel1.Controls.Add(objUserControl_DevTree)
 
-        objUserControl_OntologyConfig = New UserControl_OntologyConfig(objLocalConfig)
-        objUserControl_OntologyConfig.Dock = DockStyle.Fill
-        TabPage_OntologyConfig.Controls.Add(objUserControl_OntologyConfig)
+        objFrm_Authenticate = new frmAuthenticate(objLocalConfig.Globals,True,False, frmAuthenticate.ERelateMode.NoRelate)
+        objFrm_Authenticate.ShowDialog(Me)
+        If objFrm_Authenticate.DialogResult=DialogResult.OK Then
+            objLocalConfig.OItem_User = objFrm_Authenticate.OItem_User
+            boolOpen = True
+            objDataWork_BaseData = new clsDataWork_BaseData(objLocalConfig)
+
+            objUserControl_DevTree = New UserControl_DevelopmentTree(objLocalConfig)
+            objUserControl_DevTree.Dock = DockStyle.Fill
+            SplitContainer1.Panel1.Controls.Add(objUserControl_DevTree)
+
+            objUserControl_OntologyConfig = New UserControl_OntologyConfig(objLocalConfig)
+            objUserControl_OntologyConfig.Dock = DockStyle.Fill
+            TabPage_OntologyConfig.Controls.Add(objUserControl_OntologyConfig)
+
+            objUserControl_BaseData = new UserControl_BaseData(objLocalConfig,objDataWork_BaseData)
+            objUserControl_BaseData.Dock = DockStyle.Fill
+            TabPage_BaseData.Controls.Add(objUserControl_BaseData)
+
+            configure_TabPages()
+        End If
+        
     End Sub
 
 
     Private Sub configure_TabPages()
         Select Case TabControl1.SelectedTab.Name
             Case TabPage_BaseData.Name
+                objUserControl_BaseData.Initialize_BaseData(objOItem_Development)
             Case TabPage_Logentries.Name
             Case TabPage_OntologyConfig.Name
                 objUserControl_OntologyConfig.initialize(objOItem_Development)
@@ -51,5 +75,11 @@ Public Class frmDevelopmentModule
 
     Private Sub TabControl1_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TabControl1.SelectedIndexChanged
         configure_TabPages()
+    End Sub
+
+    Private Sub frmDevelopmentModule_Load( sender As Object,  e As EventArgs) Handles MyBase.Load
+        If boolOpen = False Then
+            Me.Close()
+        End If
     End Sub
 End Class

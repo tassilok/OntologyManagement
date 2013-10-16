@@ -119,7 +119,6 @@ Public Class clsLocalConfig
     Private objOItem_Class_Development_Module As New clsOntologyItem
 
     'Objects
-    Private objOitem_Object_User As clsOntologyItem
     Private objOitem_Object_LogState_Active As New clsOntologyItem
     Private objOitem_Object_LogState_Inactive As New clsOntologyItem
     Private objOitem_Object_LogState_Open As New clsOntologyItem
@@ -897,11 +896,8 @@ Public Class clsLocalConfig
         End Get
     End Property
 
-    Public ReadOnly Property Oitem_Object_User As clsOntologyItem
-        Get
-            Return objOitem_Object_User
-        End Get
-    End Property
+    Public Property OItem_User As clsOntologyItem
+        
 
     Public ReadOnly Property Oitem_Object_Variable_List_Declaration_ConfigItems As clsOntologyItem
         Get
@@ -1699,10 +1695,10 @@ Public Class clsLocalConfig
                     Where obj.Name_Object = "RelationType_isInState" And obj.Ontology = objGlobals.Type_RelationType
 
         If objIIS.Count > 0 Then
-            objOItem_RelationType_belongsTo = New clsOntologyItem
-            objOItem_RelationType_belongsTo.GUID = objIIS(0).ID_Other
-            objOItem_RelationType_belongsTo.Name = objIIS(0).Name_Other
-            objOItem_RelationType_belongsTo.Type = objGlobals.Type_RelationType
+            objOItem_RelationType_isInState = New clsOntologyItem
+            objOItem_RelationType_isInState.GUID = objIIS(0).ID_Other
+            objOItem_RelationType_isInState.Name = objIIS(0).Name_Other
+            objOItem_RelationType_isInState.Type = objGlobals.Type_RelationType
         Else
             Err.Raise(1, "config err")
         End If

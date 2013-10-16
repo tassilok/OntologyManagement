@@ -31,15 +31,15 @@ Partial Class frmDevelopmentModule
         Me.TabPage_BaseData = New System.Windows.Forms.TabPage()
         Me.TabPage_Logentries = New System.Windows.Forms.TabPage()
         Me.TabPage_OntologyConfig = New System.Windows.Forms.TabPage()
-        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
-        Me.ToolStripContainer1.SuspendLayout()
-        Me.ToolStrip1.SuspendLayout()
-        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer1.Panel2.SuspendLayout()
-        Me.SplitContainer1.SuspendLayout()
-        Me.TabControl1.SuspendLayout()
-        Me.SuspendLayout()
+        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout
+        Me.ToolStripContainer1.SuspendLayout
+        Me.ToolStrip1.SuspendLayout
+        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitContainer1.Panel2.SuspendLayout
+        Me.SplitContainer1.SuspendLayout
+        Me.TabControl1.SuspendLayout
+        Me.SuspendLayout
         '
         'ToolStripContainer1
         '
@@ -71,7 +71,7 @@ Partial Class frmDevelopmentModule
         'ToolStripButton_Close
         '
         Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"),System.Drawing.Image)
         Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
         Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
@@ -111,7 +111,7 @@ Partial Class frmDevelopmentModule
         Me.TabPage_BaseData.Size = New System.Drawing.Size(467, 379)
         Me.TabPage_BaseData.TabIndex = 0
         Me.TabPage_BaseData.Text = "x_BaseData"
-        Me.TabPage_BaseData.UseVisualStyleBackColor = True
+        Me.TabPage_BaseData.UseVisualStyleBackColor = true
         '
         'TabPage_Logentries
         '
@@ -121,7 +121,7 @@ Partial Class frmDevelopmentModule
         Me.TabPage_Logentries.Size = New System.Drawing.Size(467, 379)
         Me.TabPage_Logentries.TabIndex = 1
         Me.TabPage_Logentries.Text = "x_Logentries"
-        Me.TabPage_Logentries.UseVisualStyleBackColor = True
+        Me.TabPage_Logentries.UseVisualStyleBackColor = true
         '
         'TabPage_OntologyConfig
         '
@@ -131,31 +131,31 @@ Partial Class frmDevelopmentModule
         Me.TabPage_OntologyConfig.Size = New System.Drawing.Size(467, 379)
         Me.TabPage_OntologyConfig.TabIndex = 2
         Me.TabPage_OntologyConfig.Text = "x_Ontology-Config"
-        Me.TabPage_OntologyConfig.UseVisualStyleBackColor = True
+        Me.TabPage_OntologyConfig.UseVisualStyleBackColor = true
         '
         'frmDevelopmentModule
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(724, 459)
         Me.Controls.Add(Me.ToolStripContainer1)
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Icon = CType(resources.GetObject("$this.Icon"),System.Drawing.Icon)
         Me.Name = "frmDevelopmentModule"
         Me.Text = "x_Development-Module"
-        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
-        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.ResumeLayout(False)
-        Me.ToolStripContainer1.PerformLayout()
-        Me.ToolStrip1.ResumeLayout(False)
-        Me.ToolStrip1.PerformLayout()
-        Me.SplitContainer1.Panel2.ResumeLayout(False)
-        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer1.ResumeLayout(False)
-        Me.TabControl1.ResumeLayout(False)
-        Me.ResumeLayout(False)
+        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout
+        Me.ToolStripContainer1.ContentPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.ResumeLayout(false)
+        Me.ToolStripContainer1.PerformLayout
+        Me.ToolStrip1.ResumeLayout(false)
+        Me.ToolStrip1.PerformLayout
+        Me.SplitContainer1.Panel2.ResumeLayout(false)
+        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitContainer1.ResumeLayout(false)
+        Me.TabControl1.ResumeLayout(false)
+        Me.ResumeLayout(false)
 
-    End Sub
+End Sub
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripButton_Close As System.Windows.Forms.ToolStripButton

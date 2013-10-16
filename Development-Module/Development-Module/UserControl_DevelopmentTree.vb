@@ -65,8 +65,9 @@ Public Class UserControl_DevelopmentTree
             objOItem_Development.GUID_Parent = objLocalConfig.OItem_Class_SoftwareDevelopment.GUID
             objOItem_Development.Type = objLocalConfig.Globals.Type_Object
 
-            RaiseEvent selected_Node()
+            
         End If
+        RaiseEvent selected_Node()
     End Sub
 
     Private Sub TreeView_DevTree_MouseDoubleClick( sender As Object,  e As MouseEventArgs) Handles TreeView_DevTree.MouseDoubleClick

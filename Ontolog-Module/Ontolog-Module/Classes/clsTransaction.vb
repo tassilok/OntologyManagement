@@ -26,7 +26,7 @@ Public Class clsTransaction
         Select Case OItem_Item.GetType().Name
             Case objClassTypes.ClassType_ObjectAtt
                 objOItem_TransItem.OItem_ObjectAtt = OItem_Item
-                objOItem_Result = clear_Relations(OItem_Item.GetType().Name, boolRemoveAll:=False)
+                objOItem_Result = clear_Relations(OItem_Item.GetType().Name, boolRemoveAll:=boolRemoveAll)
                 If boolRemoveItem = False Then
                     If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
                         objOL_AItems.Add(OItem_Item)
@@ -42,9 +42,9 @@ Public Class clsTransaction
 
                 objOItem_TransItem.OItem_ObjectRel = OItem_Item
                 If objOItem_TransItem.OItem_ObjectRel.Ontology = objTypes.ObjectType Then
-                    objOItem_Result = clear_Relations(OItem_Item.GetType().Name, boolRemoveAll:=False)
+                    objOItem_Result = clear_Relations(OItem_Item.GetType().Name, boolRemoveAll:=boolRemoveAll)
                 Else
-                    objOItem_Result = clear_Relations(OItem_Item.GetType().Name, boolNeutral:=True, boolRemoveAll:=False)
+                    objOItem_Result = clear_Relations(OItem_Item.GetType().Name, boolNeutral:=True, boolRemoveAll:=boolRemoveAll)
                 End If
 
                 If boolRemoveItem = False Then
@@ -59,7 +59,7 @@ Public Class clsTransaction
             Case objClassTypes.ClassType_ClassAtt
 
                 objOItem_TransItem.OItem_ClassAtt = OItem_Item
-                objOItem_Result = clear_Relations(objClassTypes.ClassType_ObjectAtt, boolRemoveAll:=False)
+                objOItem_Result = clear_Relations(objClassTypes.ClassType_ObjectAtt, boolRemoveAll:=boolRemoveAll)
                 If boolRemoveItem = False Then
                     If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
                         objOL_CLaItems.Add(OItem_Item)
@@ -71,7 +71,7 @@ Public Class clsTransaction
                 objOItem_TransItem.TransactionResult = objOItem_Result
             Case objClassTypes.ClassType_ClassRel
                 objOItem_TransItem.OItem_ClassRel = OItem_Item
-                objOItem_Result = clear_Relations(OItem_Item.GetType().Name, boolRemoveAll:=False)
+                objOItem_Result = clear_Relations(OItem_Item.GetType().Name, boolRemoveAll:=boolRemoveAll)
 
                 If boolRemoveItem = False Then
                     If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
@@ -335,7 +335,7 @@ Public Class clsTransaction
         Select Case strType
             Case objClassTypes.ClassType_ObjectAtt
 
-                If boolRemoveAll = False Then
+                If boolRemoveAll = true Then
                     objOL_ObjAtt_Search.Add(New clsObjectAtt(Nothing, _
                                                   objOItem_TransItem.OItem_ObjectAtt.ID_Object, _
                                                   Nothing, _
@@ -522,13 +522,19 @@ Public Class clsTransaction
                         objOItem_Result = objLogStates.LogState_Error
                     End If
                 Else
-                    objOL_ObjAtt_Del.Add(New clsObjectAtt(objOItem_TransItem.OItem_ObjectAtt.ID_Attribute, _
+                    If Not objOItem_TransItem.OItem_ObjectAtt.ID_Attribute is Nothing And _
+                        Not objOItem_TransItem.OItem_ObjectAtt.ID_Attribute = "" Then
+                        objOL_ObjAtt_Del.Add(New clsObjectAtt(objOItem_TransItem.OItem_ObjectAtt.ID_Attribute, _
                                                           Nothing, _
                                                           Nothing, _
                                                           Nothing, _
                                                           Nothing))
 
-                    objOItem_Result = objDBLevel.del_ObjectAtt(objOL_ObjAtt)
+                        objOItem_Result = objDBLevel.del_ObjectAtt(objOL_ObjAtt)
+                    Else 
+                        objOItem_Result = objLogStates.LogState_Success
+                    End If
+                    
                 End If
 
             Case objClassTypes.ClassType_ObjectRel
