@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Public Class clsLocalConfig
     Private cstr_ID_SoftwareDevelopment As String = "ba3e04f000134c09993dc2dff0312565"

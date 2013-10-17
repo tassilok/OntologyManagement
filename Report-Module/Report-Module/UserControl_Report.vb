@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Imports Media_Viewer_Module
 Imports ClassLibrary_ShellWork
@@ -21,7 +21,7 @@ Public Class UserControl_Report
     Private objLocalConfig_MediaView As Media_Viewer_Module.clsLocalConfig
 
     Private objOntologyWork As clsOntologyWork
-    Private objReport As Ontolog_Module.clsReport
+    Private objReport As Ontology_Module.clsReport
     Private objMediaItem As clsMediaItems
     Private objShell As clsShellWork
     Private objFileWork As clsFileWork
@@ -80,11 +80,11 @@ Public Class UserControl_Report
                             objColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopRight
                         End If
                     End If
-                    
 
-                    
+
+
                 End If
-                
+
 
 
 
@@ -152,8 +152,8 @@ Public Class UserControl_Report
 
         objOItem_Result = objOntologyWork.get_OntologyJoins(objOItem_Report)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            
-            
+
+
 
             For Each objOntJoin In objOntologyWork.OList_JOin
 
@@ -165,7 +165,7 @@ Public Class UserControl_Report
                                                       objOntJoin.Name_Parent_Object, _
                                                       objLocalConfig.Globals.Type_Class))
                 End If
-                
+
 
                 If objOntJoin.Ontology = objLocalConfig.Globals.Type_ClassRel Then
                     Dim LCount2 = From OClass In oList_Classes
@@ -176,7 +176,7 @@ Public Class UserControl_Report
                                                       objOntJoin.Name_Parent_Other, _
                                                       objLocalConfig.Globals.Type_Class))
                     End If
-                    
+
                     oList_ClassRel.Add(New clsClassRel(objOntJoin.ID_Parent_Object, _
                                                        objOntJoin.Name_Parent_Object, _
                                                        objOntJoin.ID_Parent_Other, _
@@ -196,7 +196,7 @@ Public Class UserControl_Report
                                                       objOntJoin.Name_Parent_Other, _
                                                       objLocalConfig.Globals.Type_Class))
                     End If
-                    
+
 
                     objOItem_Class = New clsOntologyItem(objOntJoin.ID_Parent_Object, _
                                                       objOntJoin.Name_Parent_Object, _
@@ -328,7 +328,7 @@ Public Class UserControl_Report
                     BindingNavigator_Reports.BindingSource = BindingSource_Reports
                     configure_DataGridView()
                 End If
-                
+
             End If
         End If
     End Sub
@@ -481,8 +481,8 @@ Public Class UserControl_Report
 
                 End If
             End If
-                
-                
+
+
             If objLocalConfig.Filter <> "" Then
                 If boolNull = True Then
                     If strOperator = "NOT " Then
@@ -704,7 +704,7 @@ Public Class UserControl_Report
     Private Sub ToolStripButton_OpenLink_Click(sender As Object, e As EventArgs) Handles ToolStripButton_OpenLink.Click
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
-        
+
         Dim objOItem_Ref As clsOntologyItem
 
         objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
@@ -918,7 +918,7 @@ Public Class UserControl_Report
                             objFrmSingleViewer.initialize_PDF(objOItem_Ref)
                     End Select
                     objFrmSingleViewer.ShowDialog(Me)
-                    
+
                 End If
             End If
         End If

@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports Microsoft.Synchronization
 Imports Microsoft.Synchronization.Files
 Imports OntologyClasses.BaseClasses

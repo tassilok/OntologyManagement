@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Ontolog_Module;
+using Ontology_Module;
 using Security_Module;
 using OntologyClasses.BaseClasses;
 
@@ -18,11 +18,19 @@ namespace Appointment_Module
         private frmAuthenticate objFrmAuthenticate;
         private UserControl_Appointments objUserControl_Appointments;
 
+        private SplashScreen_OntologyModule SplashScreen;
+        private AboutBox_OntologyItem AboutBox;
+
         private UserControl_AppointmentData objUserControl_AppointmentData;
 
         public frmAppointmentModule()
         {
             InitializeComponent();
+             Application.DoEvents();
+             SplashScreen = new SplashScreen_OntologyModule();
+             SplashScreen.Show();
+             SplashScreen.Refresh();
+
             objLocalConfig = new clsLocalConfig(new clsGlobals());
             objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, 
                                                      true, 
@@ -44,6 +52,10 @@ namespace Appointment_Module
 
         private void frmAppointmentModule_Load(object sender, EventArgs e)
         {
+            if (SplashScreen != null)
+            {
+                SplashScreen.Close();
+            }
             if (objLocalConfig.OItem_User == null)
             {
                 MessageBox.Show("Sie müssen einen User auswählen!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -88,6 +100,12 @@ namespace Appointment_Module
             }
             
             
+        }
+
+        private void infoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox = new AboutBox_OntologyItem();
+            AboutBox.ShowDialog(this);
         }
     }
 }

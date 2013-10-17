@@ -1,6 +1,6 @@
 ﻿Imports OntologyClasses.DataClasses
 Imports OntologyClasses.BaseClasses
-Imports Ontolog_Module
+Imports Ontology_Module
 Public Class clsTransaction
 
     Private objOList_Item As New List(Of clsTransactionItem)

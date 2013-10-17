@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Ontolog_Module;
+using Ontology_Module;
 using OntologyClasses.BaseClasses;
 
 namespace Office_Module
@@ -22,6 +22,10 @@ namespace Office_Module
         //private UserControl_Bookmarks objUserControl_Bookmarks;
 
         private frmMain objFrmOntologyModule;
+
+        private SplashScreen_OntologyModule SplashScreen;
+        private AboutBox_OntologyItem AboutBox;
+
         private UserControl_Documents objUserControl_Documents;
 
 
@@ -36,6 +40,12 @@ namespace Office_Module
         public frmOfficeModule()
         {
             InitializeComponent();
+
+            Application.DoEvents();
+            SplashScreen = new SplashScreen_OntologyModule();
+            SplashScreen.Show();
+            SplashScreen.Refresh();
+
             objLocalConfig = new Office_Module.clsLocalConfig();
             Initialize();
         }
@@ -374,6 +384,20 @@ namespace Office_Module
             }
 
             return objTreeNode;
+        }
+
+        private void frmOfficeModule_Load(object sender, EventArgs e)
+        {
+            if (SplashScreen != null)
+            {
+                SplashScreen.Close();
+            }
+        }
+
+        private void infoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox = new AboutBox_OntologyItem();
+            AboutBox.ShowDialog(this);
         }
     }
 }

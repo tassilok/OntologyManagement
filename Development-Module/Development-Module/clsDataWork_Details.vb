@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Imports Filesystem_Module
 Public Class clsDataWork_Details

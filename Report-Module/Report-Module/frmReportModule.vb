@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Imports Security_Module
 Public Class frmReportModule
@@ -10,6 +10,9 @@ Public Class frmReportModule
 
     Private objFrm_Authenticate As frmAuthenticate
     Private objFrmName As frm_Name
+
+    Private SplashScreen As SplashScreen_OntologyModule
+    Private AboutBox As AboutBox_OntologyItem
 
     Private objLocalConfig As clsLocalConfig
 
@@ -27,6 +30,11 @@ Public Class frmReportModule
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
+
+        Application.DoEvents()
+        SplashScreen = New SplashScreen_OntologyModule()
+        SplashScreen.Show()
+        SplashScreen.Refresh()
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
@@ -141,6 +149,9 @@ Public Class frmReportModule
     End Sub
 
     Private Sub frmReportModule_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Not SplashScreen Is Nothing Then
+            SplashScreen.Close()
+        End If
         If boolOpen = False Then
             Me.Close()
         End If
@@ -232,5 +243,10 @@ Public Class frmReportModule
 
             End If
         End If
+    End Sub
+
+    Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
+        AboutBox = New AboutBox_OntologyItem()
+        AboutBox.ShowDialog(Me)
     End Sub
 End Class

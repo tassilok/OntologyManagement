@@ -16,6 +16,9 @@ Public Class frmMain
     Private objFrm_AttributeTypeEdit As frm_AttributeTypeEdit
     Private objFrm_OntologyConfigurator As frmOntologyConfigurator
 
+    Private SplashScreen As SplashScreen_OntologyModule
+    Private AboutBox As AboutBox_OntologyItem
+
     Private objOItem As clsOntologyItem
 
     Private objOItem_Class As clsOntologyItem
@@ -42,7 +45,7 @@ Public Class frmMain
     Private oList_Applied_ObjRel As List(Of clsObjectRel)
 
 
-    Private sub selected_ObjectNode(OItem_Node As clsOntologyItem) Handles  objUserControl_ObjectTree.selected_Node
+    Private Sub selected_ObjectNode(OItem_Node As clsOntologyItem) Handles objUserControl_ObjectTree.selected_Node
         If Not OItem_Node Is Nothing Then
             objUserControl_OObjectList.select_Row(OItem_Node)
 
@@ -141,7 +144,7 @@ Public Class frmMain
             oList_Applied_Simple = objUserControl_OObjectList.OList_Simple
             objUserControl_ObjRel.applied_Object(oList_Applied_Simple)
         End If
-        
+
     End Sub
 
     Private Sub applied_ListRelTypes() Handles objUserControl_ORelationTypeList.applied_Items
@@ -156,7 +159,7 @@ Public Class frmMain
                 objUserControl_ObjRel.applied_RelType(oList_Applied_Simple(0))
             End If
         End If
-        
+
     End Sub
 
     Private Sub applied_ListAttTypes() Handles objUserControl_OAttributeList.applied_Items
@@ -168,9 +171,9 @@ Public Class frmMain
         Else
 
         End If
-        
+
     End Sub
-   
+
 
     Private Sub selectedClass(ByVal OItem_Class As clsOntologyItem) Handles objUserControl_TypeTree.selected_Class
         objOItem_Class = OItem_Class
@@ -272,6 +275,11 @@ Public Class frmMain
 
         ' This call is required by the designer.
         InitializeComponent()
+
+        Application.DoEvents()
+        SplashScreen = New SplashScreen_OntologyModule()
+        SplashScreen.Show()
+        SplashScreen.Refresh()
 
         ' Add any initialization after the InitializeComponent() call.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
@@ -466,6 +474,9 @@ Public Class frmMain
     End Sub
 
     Private Sub frmMain_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Not SplashScreen Is Nothing Then
+            SplashScreen.Close()
+        End If
         initialize()
     End Sub
 
@@ -490,5 +501,10 @@ Public Class frmMain
         objUserControl_ObjRel.clear_Other()
 
         configureRelationLabel()
+    End Sub
+
+    Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
+        AboutBox = New AboutBox_OntologyItem()
+        AboutBox.ShowDialog(Me)
     End Sub
 End Class

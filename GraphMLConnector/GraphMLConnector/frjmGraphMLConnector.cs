@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Ontolog_Module;
+using Ontology_Module;
 using OntologyClasses.BaseClasses;
 
 namespace GraphMLConnector
@@ -24,6 +24,9 @@ namespace GraphMLConnector
 
         private frm_ObjectEdit objFrmObjectEdit;
 
+        private SplashScreen_OntologyModule SplashScreen;
+        private AboutBox_OntologyItem AboutBox;
+
         private frmMain objFrmOntologyModule;
 
         private TreeNode objTreeNode_Selected;
@@ -31,6 +34,11 @@ namespace GraphMLConnector
         public frmGraphMLConnector()
         {
             InitializeComponent();
+            
+            Application.DoEvents();
+            SplashScreen = new SplashScreen_OntologyModule();
+            SplashScreen.Show();
+            SplashScreen.Refresh();
 
             objLocalConfig = new clsLocalConfig(new clsGlobals());
 
@@ -456,6 +464,25 @@ namespace GraphMLConnector
                                     MessageBoxIcon.Information);
                 }
             }
+        }
+
+        private void frmGraphMLConnector_Load(object sender, EventArgs e)
+        {
+            if (SplashScreen != null)
+            {
+                SplashScreen.Close();
+            }
+        }
+
+        private void infoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox = new AboutBox_OntologyItem();
+            AboutBox.ShowDialog(this);
+        }
+
+        private void toolStripButton_Close_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         

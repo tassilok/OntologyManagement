@@ -41,6 +41,9 @@ Partial Class frmMediaViewerModule
         Me.ToolStripButton_OpenGrid = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_GetMetadata = New System.Windows.Forms.ToolStripButton()
+        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -49,6 +52,7 @@ Partial Class frmMediaViewerModule
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.SuspendLayout()
         Me.ToolStrip2.SuspendLayout()
+        Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -61,11 +65,11 @@ Partial Class frmMediaViewerModule
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(858, 319)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(858, 295)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 24)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(858, 369)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(858, 345)
         Me.ToolStripContainer1.TabIndex = 0
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
@@ -115,7 +119,7 @@ Partial Class frmMediaViewerModule
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Size = New System.Drawing.Size(858, 319)
+        Me.SplitContainer1.Size = New System.Drawing.Size(858, 295)
         Me.SplitContainer1.SplitterDistance = 286
         Me.SplitContainer1.TabIndex = 0
         '
@@ -202,13 +206,37 @@ Partial Class frmMediaViewerModule
         Me.ToolStripButton_GetMetadata.Size = New System.Drawing.Size(92, 22)
         Me.ToolStripButton_GetMetadata.Text = "x_Get Metadata"
         '
+        'MenuStrip1
+        '
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HilfeToolStripMenuItem})
+        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip1.Name = "MenuStrip1"
+        Me.MenuStrip1.Size = New System.Drawing.Size(858, 24)
+        Me.MenuStrip1.TabIndex = 1
+        Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'HilfeToolStripMenuItem
+        '
+        Me.HilfeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoToolStripMenuItem})
+        Me.HilfeToolStripMenuItem.Name = "HilfeToolStripMenuItem"
+        Me.HilfeToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.HilfeToolStripMenuItem.Text = "&Hilfe"
+        '
+        'InfoToolStripMenuItem
+        '
+        Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.InfoToolStripMenuItem.Text = "&Info"
+        '
         'frmMediaViewerModule
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(858, 369)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Controls.Add(Me.MenuStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frmMediaViewerModule"
         Me.Text = "x_Media Viewer Module"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
@@ -224,7 +252,10 @@ Partial Class frmMediaViewerModule
         Me.SplitContainer1.ResumeLayout(False)
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
+        Me.MenuStrip1.ResumeLayout(False)
+        Me.MenuStrip1.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
@@ -245,5 +276,8 @@ Partial Class frmMediaViewerModule
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripLabel_RelatedLastCap As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripLabel_RelatedLast As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
+    Friend WithEvents HilfeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents InfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

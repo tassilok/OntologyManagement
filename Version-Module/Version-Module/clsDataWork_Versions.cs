@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Ontolog_Module;
+using Ontology_Module;
 using OntologyClasses.BaseClasses;
 using System.Threading;
 using Log_Module;

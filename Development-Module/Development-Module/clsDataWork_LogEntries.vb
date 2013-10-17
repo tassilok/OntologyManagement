@@ -1,5 +1,5 @@
 ﻿Imports Log_Module
-Imports Ontolog_Module
+Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Imports Structure_Module
 

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Ontolog_Module;
+using Ontology_Module;
 using Process_Module;
 using OntologyClasses.BaseClasses;
 
@@ -19,6 +19,7 @@ namespace Change_Module
         UserControl_ProcessTree objUserControl_ProcessTree;
         UserControl_History objUserControl_History;
         UserControl_References objUserControl_References;
+        AboutBox_OntologyItem AboutBox;
         clsDataWork_Ticket objDataWork_Ticket;
 
         clsOntologyItem objOItem_TicketDescription;
@@ -577,6 +578,12 @@ namespace Change_Module
                 TextBox_Description_Process.Text = "";
                 MessageBox.Show("Die Beschreibung des Processlogs kann nicht geladen werden!", "Incident", MessageBoxButtons.OK);
             }
+        }
+
+        private void infoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox = new AboutBox_OntologyItem();
+            AboutBox.ShowDialog(this);
         }
 
 

@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Imports Security_Module
 Public Class frmDevelopmentModule
@@ -15,6 +15,9 @@ Public Class frmDevelopmentModule
 
     Private objOItem_Development As clsOntologyItem
 
+    Private SplashScreen As SplashScreen_OntologyModule
+    Private AboutBox As AboutBox_OntologyItem
+
     Private boolOpen As Boolean = false
 
     Private Sub selected_DevNode() Handles objUserControl_DevTree.selected_Node
@@ -26,6 +29,10 @@ Public Class frmDevelopmentModule
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
+        Application.DoEvents()
+        SplashScreen = New SplashScreen_OntologyModule()
+        SplashScreen.Show()
+        SplashScreen.Refresh()
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
@@ -83,9 +90,18 @@ Public Class frmDevelopmentModule
         configure_TabPages()
     End Sub
 
-    Private Sub frmDevelopmentModule_Load( sender As Object,  e As EventArgs) Handles MyBase.Load
+    Private Sub frmDevelopmentModule_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        If Not SplashScreen Is Nothing Then
+            SplashScreen.Close()
+        End If
+
         If boolOpen = False Then
             Me.Close()
         End If
+    End Sub
+
+    Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
+        AboutBox = New AboutBox_OntologyItem
+        AboutBox.ShowDialog(Me)
     End Sub
 End Class

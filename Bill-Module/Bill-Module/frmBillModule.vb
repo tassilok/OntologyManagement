@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Public Class frmBillModule
     Private objLocalConfig As clsLocalConfig
@@ -8,6 +8,8 @@ Public Class frmBillModule
     Private WithEvents objUserControl_TransactionDetail As UserControl_TransactionDetail
     Private WithEvents objUserControl_Documents As UserControl_Documents
     Private objFrm_Name As frm_Name
+    Private SplashScreen As SplashScreen_OntologyModule
+    Private AboutBox As AboutBox_OntologyItem
     Private objOItem_Open As clsOntologyItem
     Private objOItem_FinancialTransaction As clsOntologyItem
 
@@ -159,6 +161,11 @@ Public Class frmBillModule
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
 
+        Application.DoEvents()
+        SplashScreen = New SplashScreen_OntologyModule()
+        SplashScreen.Show()
+        SplashScreen.Refresh()
+
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
 
@@ -206,6 +213,9 @@ Public Class frmBillModule
     End Sub
 
     Private Sub frmBillModule_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Not SplashScreen Is Nothing Then
+            SplashScreen.Close()
+        End If
         If objOItem_Open.GUID = objLocalConfig.Globals.LState_Error.GUID Then
             MsgBox("Die Konfiguration konnte nicht geladen werden!", MsgBoxStyle.Exclamation)
             Me.Close()
@@ -214,5 +224,10 @@ Public Class frmBillModule
 
     Private Sub TabControl1_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TabControl1.SelectedIndexChanged
         configure_TabPages()
+    End Sub
+
+    Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
+        AboutBox = New AboutBox_OntologyItem()
+        AboutBox.ShowDialog(Me)
     End Sub
 End Class

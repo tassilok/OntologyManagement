@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Ontology_Module;
 using OntologyClasses.BaseClasses;
 
 namespace Scenes_Literatur_Module
@@ -17,9 +18,18 @@ namespace Scenes_Literatur_Module
         private UserControl_SceneTree objUserControl_SceneTree;
         private UserControl_SceneDetail objUserControl_SceneDetail;
 
+        private SplashScreen_OntologyModule SplashScreen;
+        private AboutBox_OntologyItem AboutBox;
+
         public frmScenesLiteraturModule()
         {
             InitializeComponent();
+
+            Application.DoEvents();
+            SplashScreen = new SplashScreen_OntologyModule();
+            SplashScreen.Show();
+            SplashScreen.Refresh();
+
             objLocalConfig = new clsLocalConfig();
             initialize();
         }
@@ -51,6 +61,20 @@ namespace Scenes_Literatur_Module
         private void toolStripButton_Close_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void frmScenesLiteraturModule_Load(object sender, EventArgs e)
+        {
+            if (SplashScreen != null)
+            {
+                SplashScreen.Close();
+            }
+        }
+
+        private void infoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox = new AboutBox_OntologyItem();
+            AboutBox.ShowDialog(this);
         }
     }
 }

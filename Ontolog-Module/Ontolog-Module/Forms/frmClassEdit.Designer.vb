@@ -191,7 +191,7 @@ Partial Class frmClassEdit
         'ToolStripButton_DelClass
         '
         Me.ToolStripButton_DelClass.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_DelClass.Image = Global.Ontolog_Module.My.Resources.Resources.tasto_8_architetto_franc_01
+        Me.ToolStripButton_DelClass.Image = Global.Ontology_Module.My.Resources.Resources.tasto_8_architetto_franc_01
         Me.ToolStripButton_DelClass.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_DelClass.Name = "ToolStripButton_DelClass"
         Me.ToolStripButton_DelClass.Size = New System.Drawing.Size(23, 22)

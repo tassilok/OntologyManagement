@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Imports ClassLibrary_ShellWork
 
@@ -28,6 +28,8 @@ Public Class frm_FilesystemModule
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFrm_FileSync As frmFileSync
+    Private SplashScreen As SplashScreen_OntologyModule
+    Private AboutBox As AboutBox_OntologyItem
 
     Private objOLFiles As New List(Of clsOntologyItem)
     Private objOItem_FileSystemObject As clsOntologyItem
@@ -60,6 +62,10 @@ Public Class frm_FilesystemModule
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
+        Application.DoEvents()
+        SplashScreen = New SplashScreen_OntologyModule()
+        SplashScreen.Show()
+        SplashScreen.Refresh()
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
@@ -741,5 +747,16 @@ Public Class frm_FilesystemModule
 
 
 
+    End Sub
+
+    Private Sub frm_FilesystemModule_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Not SplashScreen Is Nothing Then
+            SplashScreen.Close()
+        End If
+    End Sub
+
+    Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
+        AboutBox = New AboutBox_OntologyItem()
+        AboutBox.ShowDialog(Me)
     End Sub
 End Class

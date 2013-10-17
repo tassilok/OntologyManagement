@@ -268,7 +268,7 @@ Partial Class UserControl_ObjectRel
         'ToolStripButton_DelTokenRel
         '
         Me.ToolStripButton_DelTokenRel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_DelTokenRel.Image = Global.Ontolog_Module.My.Resources.Resources.tasto_8_architetto_franc_01
+        Me.ToolStripButton_DelTokenRel.Image = Global.Ontology_Module.My.Resources.Resources.tasto_8_architetto_franc_01
         Me.ToolStripButton_DelTokenRel.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_DelTokenRel.Name = "ToolStripButton_DelTokenRel"
         Me.ToolStripButton_DelTokenRel.Size = New System.Drawing.Size(23, 22)

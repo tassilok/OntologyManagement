@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ontolog_Module;
+using Ontology_Module;
 using OntologyClasses.BaseClasses;
 
 namespace Version_Module

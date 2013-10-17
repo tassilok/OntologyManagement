@@ -1,6 +1,6 @@
 ﻿Imports OntologyClasses.DataClasses
 Imports OntologyClasses.BaseClasses
-Imports Ontolog_Module
+Imports Ontology_Module
 Public Class clsTransactionItem
     Private objOItem_OntologyItem As clsOntologyItem
     Private objOItem_ObjectAtt As clsObjectAtt

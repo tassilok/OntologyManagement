@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ontolog_Module;
+using Ontology_Module;
 using Process_Module;
 using System.Windows.Forms;
 using Log_Module;
 using System.Data;
-using Ontolog_Module;
+using Ontology_Module;
 using OntologyClasses.BaseClasses;
 
 namespace Change_Module

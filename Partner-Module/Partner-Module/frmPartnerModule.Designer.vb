@@ -23,6 +23,7 @@ Partial Class frmPartnerModule
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPartnerModule))
+        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
@@ -32,6 +33,9 @@ Partial Class frmPartnerModule
         Me.TabPage_PersonalData = New System.Windows.Forms.TabPage()
         Me.TabPage_CommunicationData = New System.Windows.Forms.TabPage()
         Me.TabPage_AvailabilityData = New System.Windows.Forms.TabPage()
+        Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuStrip1.SuspendLayout()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -41,6 +45,15 @@ Partial Class frmPartnerModule
         Me.SplitContainer1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.SuspendLayout()
+        '
+        'MenuStrip1
+        '
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HilfeToolStripMenuItem})
+        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip1.Name = "MenuStrip1"
+        Me.MenuStrip1.Size = New System.Drawing.Size(725, 24)
+        Me.MenuStrip1.TabIndex = 0
+        Me.MenuStrip1.Text = "MenuStrip1"
         '
         'ToolStripContainer1
         '
@@ -52,12 +65,12 @@ Partial Class frmPartnerModule
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(725, 436)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(725, 437)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 24)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(725, 486)
-        Me.ToolStripContainer1.TabIndex = 0
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(725, 462)
+        Me.ToolStripContainer1.TabIndex = 1
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
         'ToolStrip1
@@ -88,7 +101,7 @@ Partial Class frmPartnerModule
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.TabControl1)
-        Me.SplitContainer1.Size = New System.Drawing.Size(725, 436)
+        Me.SplitContainer1.Size = New System.Drawing.Size(725, 437)
         Me.SplitContainer1.SplitterDistance = 241
         Me.SplitContainer1.TabIndex = 0
         '
@@ -102,7 +115,7 @@ Partial Class frmPartnerModule
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(476, 432)
+        Me.TabControl1.Size = New System.Drawing.Size(476, 433)
         Me.TabControl1.TabIndex = 0
         '
         'TabPage_Address
@@ -110,7 +123,7 @@ Partial Class frmPartnerModule
         Me.TabPage_Address.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Address.Name = "TabPage_Address"
         Me.TabPage_Address.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_Address.Size = New System.Drawing.Size(468, 406)
+        Me.TabPage_Address.Size = New System.Drawing.Size(468, 407)
         Me.TabPage_Address.TabIndex = 0
         Me.TabPage_Address.Text = "x_Address"
         Me.TabPage_Address.UseVisualStyleBackColor = True
@@ -145,15 +158,32 @@ Partial Class frmPartnerModule
         Me.TabPage_AvailabilityData.Text = "x_Availability Data"
         Me.TabPage_AvailabilityData.UseVisualStyleBackColor = True
         '
+        'HilfeToolStripMenuItem
+        '
+        Me.HilfeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoToolStripMenuItem})
+        Me.HilfeToolStripMenuItem.Name = "HilfeToolStripMenuItem"
+        Me.HilfeToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.HilfeToolStripMenuItem.Text = "&Hilfe"
+        '
+        'InfoToolStripMenuItem
+        '
+        Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.InfoToolStripMenuItem.Text = "&Info"
+        '
         'frmPartnerModule
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(725, 486)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Controls.Add(Me.MenuStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frmPartnerModule"
         Me.Text = "x_Partner-Module"
+        Me.MenuStrip1.ResumeLayout(False)
+        Me.MenuStrip1.PerformLayout()
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
         Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
         Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
@@ -166,8 +196,12 @@ Partial Class frmPartnerModule
         Me.SplitContainer1.ResumeLayout(False)
         Me.TabControl1.ResumeLayout(False)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
+    Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
+    Friend WithEvents HilfeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents InfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripButton_Close As System.Windows.Forms.ToolStripButton

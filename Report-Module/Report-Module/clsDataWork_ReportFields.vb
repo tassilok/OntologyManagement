@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Public Class clsDataWork_ReportFields
     Private dtblA_Columns As New DataSet_ReportsTableAdapters.dtbl_ColumnsTableAdapter

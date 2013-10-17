@@ -1,9 +1,12 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Public Class frmProcessModule
     Private objLocalConfig As clsLocalConfig
 
     Private WithEvents objUserControl_Process As UserControl_Process
+
+    Private SplashScreen As SplashScreen_OntologyModule
+    Private AboutBox As AboutBox_OntologyItem
 
     Private boolApplyable As Boolean
     Private objOLProcesses As List(Of clsOntologyItem)
@@ -35,6 +38,11 @@ Public Class frmProcessModule
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
 
+        Application.DoEvents()
+        SplashScreen = New SplashScreen_OntologyModule()
+        SplashScreen.Show()
+        SplashScreen.Refresh()
+
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(New clsGlobals())
         initialize()
@@ -65,5 +73,16 @@ Public Class frmProcessModule
         objUserControl_Process.Dock = DockStyle.Fill
 
         TabPage_Process.Controls.Add(objUserControl_Process)
+    End Sub
+
+    Private Sub frmProcessModule_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Not SplashScreen Is Nothing Then
+            SplashScreen.Close()
+        End If
+    End Sub
+
+    Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
+        AboutBox = New AboutBox_OntologyItem()
+        AboutBox.ShowDialog(Me)
     End Sub
 End Class

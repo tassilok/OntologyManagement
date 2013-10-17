@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Public Class frmPLZOrtLand
     Private WithEvents objUserControl_PLZ As UserControl_OItemList

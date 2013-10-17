@@ -24,23 +24,54 @@ Partial Class frmReportModule
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmReportModule))
+        Me.ContextMenuStrip_Reports = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.NewReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GetColumnsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeView_Report = New System.Windows.Forms.TreeView()
-        Me.ContextMenuStrip_Reports = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.GetColumnsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.NewReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout
-        Me.ToolStripContainer1.SuspendLayout
-        Me.ToolStrip1.SuspendLayout
-        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SplitContainer1.Panel1.SuspendLayout
-        Me.SplitContainer1.SuspendLayout
-        Me.ContextMenuStrip_Reports.SuspendLayout
-        Me.SuspendLayout
+        Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ContextMenuStrip_Reports.SuspendLayout()
+        Me.MenuStrip1.SuspendLayout()
+        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
+        Me.ToolStripContainer1.SuspendLayout()
+        Me.ToolStrip1.SuspendLayout()
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
+        Me.SuspendLayout()
+        '
+        'ContextMenuStrip_Reports
+        '
+        Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewReportToolStripMenuItem, Me.GetColumnsToolStripMenuItem})
+        Me.ContextMenuStrip_Reports.Name = "ContextMenuStrip_Reports"
+        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(152, 48)
+        '
+        'NewReportToolStripMenuItem
+        '
+        Me.NewReportToolStripMenuItem.Name = "NewReportToolStripMenuItem"
+        Me.NewReportToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
+        Me.NewReportToolStripMenuItem.Text = "x_New Report"
+        '
+        'GetColumnsToolStripMenuItem
+        '
+        Me.GetColumnsToolStripMenuItem.Name = "GetColumnsToolStripMenuItem"
+        Me.GetColumnsToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
+        Me.GetColumnsToolStripMenuItem.Text = "x_Get columns"
+        '
+        'MenuStrip1
+        '
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HilfeToolStripMenuItem})
+        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip1.Name = "MenuStrip1"
+        Me.MenuStrip1.Size = New System.Drawing.Size(1315, 24)
+        Me.MenuStrip1.TabIndex = 1
+        Me.MenuStrip1.Text = "MenuStrip1"
         '
         'ToolStripContainer1
         '
@@ -52,12 +83,12 @@ Partial Class frmReportModule
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1315, 532)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1315, 508)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 24)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(1315, 582)
-        Me.ToolStripContainer1.TabIndex = 0
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(1315, 558)
+        Me.ToolStripContainer1.TabIndex = 2
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
         'ToolStrip1
@@ -72,7 +103,7 @@ Partial Class frmReportModule
         'ToolStripButton_Close
         '
         Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"),System.Drawing.Image)
+        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
         Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
         Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
@@ -88,7 +119,7 @@ Partial Class frmReportModule
         'SplitContainer1.Panel1
         '
         Me.SplitContainer1.Panel1.Controls.Add(Me.TreeView_Report)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1315, 532)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1315, 508)
         Me.SplitContainer1.SplitterDistance = 210
         Me.SplitContainer1.TabIndex = 0
         '
@@ -98,57 +129,60 @@ Partial Class frmReportModule
         Me.TreeView_Report.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TreeView_Report.Location = New System.Drawing.Point(0, 0)
         Me.TreeView_Report.Name = "TreeView_Report"
-        Me.TreeView_Report.Size = New System.Drawing.Size(206, 528)
+        Me.TreeView_Report.Size = New System.Drawing.Size(206, 504)
         Me.TreeView_Report.TabIndex = 1
         '
-        'ContextMenuStrip_Reports
+        'HilfeToolStripMenuItem
         '
-        Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewReportToolStripMenuItem, Me.GetColumnsToolStripMenuItem})
-        Me.ContextMenuStrip_Reports.Name = "ContextMenuStrip_Reports"
-        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(153, 70)
+        Me.HilfeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoToolStripMenuItem})
+        Me.HilfeToolStripMenuItem.Name = "HilfeToolStripMenuItem"
+        Me.HilfeToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.HilfeToolStripMenuItem.Text = "&Hilfe"
         '
-        'GetColumnsToolStripMenuItem
+        'InfoToolStripMenuItem
         '
-        Me.GetColumnsToolStripMenuItem.Name = "GetColumnsToolStripMenuItem"
-        Me.GetColumnsToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
-        Me.GetColumnsToolStripMenuItem.Text = "x_Get columns"
-        '
-        'NewReportToolStripMenuItem
-        '
-        Me.NewReportToolStripMenuItem.Name = "NewReportToolStripMenuItem"
-        Me.NewReportToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.NewReportToolStripMenuItem.Text = "x_New Report"
+        Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.InfoToolStripMenuItem.Text = "&Info"
         '
         'frmReportModule
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1315, 582)
         Me.Controls.Add(Me.ToolStripContainer1)
-        Me.Icon = CType(resources.GetObject("$this.Icon"),System.Drawing.Icon)
+        Me.Controls.Add(Me.MenuStrip1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frmReportModule"
         Me.Text = "x_Report-Module"
-        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout
-        Me.ToolStripContainer1.ContentPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.ResumeLayout(false)
-        Me.ToolStripContainer1.PerformLayout
-        Me.ToolStrip1.ResumeLayout(false)
-        Me.ToolStrip1.PerformLayout
-        Me.SplitContainer1.Panel1.ResumeLayout(false)
-        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).EndInit
-        Me.SplitContainer1.ResumeLayout(false)
-        Me.ContextMenuStrip_Reports.ResumeLayout(false)
-        Me.ResumeLayout(false)
+        Me.ContextMenuStrip_Reports.ResumeLayout(False)
+        Me.MenuStrip1.ResumeLayout(False)
+        Me.MenuStrip1.PerformLayout()
+        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.ResumeLayout(False)
+        Me.ToolStripContainer1.PerformLayout()
+        Me.ToolStrip1.ResumeLayout(False)
+        Me.ToolStrip1.PerformLayout()
+        Me.SplitContainer1.Panel1.ResumeLayout(False)
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer1.ResumeLayout(False)
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
 
 End Sub
+    Friend WithEvents ContextMenuStrip_Reports As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents GetColumnsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents NewReportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripButton_Close As System.Windows.Forms.ToolStripButton
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents TreeView_Report As System.Windows.Forms.TreeView
-    Friend WithEvents ContextMenuStrip_Reports As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents GetColumnsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents NewReportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents HilfeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents InfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

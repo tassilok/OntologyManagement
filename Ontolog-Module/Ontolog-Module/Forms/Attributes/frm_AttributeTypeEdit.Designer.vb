@@ -147,6 +147,7 @@ Partial Class frm_AttributeTypeEdit
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(619, 457)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frm_AttributeTypeEdit"
         Me.Text = "frm_AttributeTypeEdit"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)

@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 
 Public Class frmSecurityModule
@@ -7,6 +7,9 @@ Public Class frmSecurityModule
     Private objFrmAuthenticate As frmAuthenticate
     Private WithEvents objUserControl_PasswordTree As UserControl_PasswordTree
     Private objUserControl_Password As UserControl_Password
+
+    Private SplashScreen As SplashScreen_OntologyModule
+    Private AboutBox As AboutBox_OntologyItem
 
     Private objSecurityWork As clsSecurityWork
     Private boolOpen As Boolean
@@ -19,6 +22,11 @@ Public Class frmSecurityModule
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
+
+        Application.DoEvents()
+        SplashScreen = New SplashScreen_OntologyModule()
+        SplashScreen.Show()
+        SplashScreen.Refresh()
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
@@ -77,6 +85,10 @@ Public Class frmSecurityModule
 
     Private Sub frmSecurityModule_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
+        If Not SplashScreen Is Nothing Then
+            SplashScreen.Close()
+        End If
+
         If boolOpen = False Then
             Me.Close()
         Else
@@ -87,5 +99,10 @@ Public Class frmSecurityModule
 
     Private Sub ToolStripButton_Close_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Close.Click
         Me.Close()
+    End Sub
+
+    Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
+        AboutBox = New AboutBox_OntologyItem()
+        AboutBox.Close()
     End Sub
 End Class

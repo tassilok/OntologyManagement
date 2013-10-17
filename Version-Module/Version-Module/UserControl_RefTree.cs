@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OntologyClasses.BaseClasses;
-using Ontolog_Module;
+using Ontology_Module;
 
 namespace Version_Module
 {

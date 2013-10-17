@@ -182,7 +182,7 @@ Partial Class UserControl_ObjectTree
         '
         Me.ToolStripButton_SortedByOrder.CheckOnClick = true
         Me.ToolStripButton_SortedByOrder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_SortedByOrder.Image = Global.Ontolog_Module.My.Resources.Resources.bb_sort2
+        Me.ToolStripButton_SortedByOrder.Image = Global.Ontology_Module.My.Resources.Resources.bb_sort2
         Me.ToolStripButton_SortedByOrder.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_SortedByOrder.Name = "ToolStripButton_SortedByOrder"
         Me.ToolStripButton_SortedByOrder.Size = New System.Drawing.Size(23, 22)
@@ -190,9 +190,9 @@ Partial Class UserControl_ObjectTree
         '
         'ToolStripButton_TopDown
         '
-        Me.ToolStripButton_TopDown.CheckOnClick = true
+        Me.ToolStripButton_TopDown.CheckOnClick = True
         Me.ToolStripButton_TopDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_TopDown.Image = Global.Ontolog_Module.My.Resources.Resources.tasto_3_architetto_franc_01
+        Me.ToolStripButton_TopDown.Image = Global.Ontology_Module.My.Resources.Resources.tasto_3_architetto_franc_01
         Me.ToolStripButton_TopDown.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_TopDown.Name = "ToolStripButton_TopDown"
         Me.ToolStripButton_TopDown.Size = New System.Drawing.Size(23, 22)
@@ -201,7 +201,7 @@ Partial Class UserControl_ObjectTree
         'ToolStripButton_Refresh
         '
         Me.ToolStripButton_Refresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Refresh.Image = Global.Ontolog_Module.My.Resources.Resources.bb_reload_
+        Me.ToolStripButton_Refresh.Image = Global.Ontology_Module.My.Resources.Resources.bb_reload_
         Me.ToolStripButton_Refresh.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Refresh.Name = "ToolStripButton_Refresh"
         Me.ToolStripButton_Refresh.Size = New System.Drawing.Size(23, 22)
@@ -210,7 +210,7 @@ Partial Class UserControl_ObjectTree
         'ToolStripButton_Checkboxes
         '
         Me.ToolStripButton_Checkboxes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Checkboxes.Image = Global.Ontolog_Module.My.Resources.Resources.base_checkmark_32
+        Me.ToolStripButton_Checkboxes.Image = Global.Ontology_Module.My.Resources.Resources.base_checkmark_32
         Me.ToolStripButton_Checkboxes.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Checkboxes.Name = "ToolStripButton_Checkboxes"
         Me.ToolStripButton_Checkboxes.Size = New System.Drawing.Size(23, 22)

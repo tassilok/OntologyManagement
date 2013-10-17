@@ -33,11 +33,15 @@ Partial Class frmProcessModule
         Me.TabPage_Services = New System.Windows.Forms.TabPage()
         Me.TabPage_OrganizationalFunctions = New System.Windows.Forms.TabPage()
         Me.ImageList_Process = New System.Windows.Forms.ImageList(Me.components)
+        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
+        Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -50,13 +54,13 @@ Partial Class frmProcessModule
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.TabControl1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(951, 407)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(951, 383)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.LeftToolStripPanelVisible = False
-        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 24)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
         Me.ToolStripContainer1.RightToolStripPanelVisible = False
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(951, 432)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(951, 408)
         Me.ToolStripContainer1.TabIndex = 0
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         Me.ToolStripContainer1.TopToolStripPanelVisible = False
@@ -89,7 +93,7 @@ Partial Class frmProcessModule
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(951, 407)
+        Me.TabControl1.Size = New System.Drawing.Size(951, 383)
         Me.TabControl1.TabIndex = 0
         '
         'TabPage_Process
@@ -97,7 +101,7 @@ Partial Class frmProcessModule
         Me.TabPage_Process.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Process.Name = "TabPage_Process"
         Me.TabPage_Process.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_Process.Size = New System.Drawing.Size(943, 381)
+        Me.TabPage_Process.Size = New System.Drawing.Size(943, 357)
         Me.TabPage_Process.TabIndex = 0
         Me.TabPage_Process.Text = "x_Process"
         Me.TabPage_Process.UseVisualStyleBackColor = True
@@ -107,7 +111,7 @@ Partial Class frmProcessModule
         Me.TabPage_Problems.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Problems.Name = "TabPage_Problems"
         Me.TabPage_Problems.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_Problems.Size = New System.Drawing.Size(943, 381)
+        Me.TabPage_Problems.Size = New System.Drawing.Size(943, 357)
         Me.TabPage_Problems.TabIndex = 1
         Me.TabPage_Problems.Text = "x_Problems"
         Me.TabPage_Problems.UseVisualStyleBackColor = True
@@ -117,7 +121,7 @@ Partial Class frmProcessModule
         Me.TabPage_Services.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Services.Name = "TabPage_Services"
         Me.TabPage_Services.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_Services.Size = New System.Drawing.Size(943, 381)
+        Me.TabPage_Services.Size = New System.Drawing.Size(943, 357)
         Me.TabPage_Services.TabIndex = 2
         Me.TabPage_Services.Text = "x_Services"
         Me.TabPage_Services.UseVisualStyleBackColor = True
@@ -127,7 +131,7 @@ Partial Class frmProcessModule
         Me.TabPage_OrganizationalFunctions.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_OrganizationalFunctions.Name = "TabPage_OrganizationalFunctions"
         Me.TabPage_OrganizationalFunctions.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_OrganizationalFunctions.Size = New System.Drawing.Size(943, 381)
+        Me.TabPage_OrganizationalFunctions.Size = New System.Drawing.Size(943, 357)
         Me.TabPage_OrganizationalFunctions.TabIndex = 3
         Me.TabPage_OrganizationalFunctions.Text = "x_Organizational Functions"
         Me.TabPage_OrganizationalFunctions.UseVisualStyleBackColor = True
@@ -138,13 +142,37 @@ Partial Class frmProcessModule
         Me.ImageList_Process.ImageSize = New System.Drawing.Size(16, 16)
         Me.ImageList_Process.TransparentColor = System.Drawing.Color.Transparent
         '
+        'MenuStrip1
+        '
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HilfeToolStripMenuItem})
+        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip1.Name = "MenuStrip1"
+        Me.MenuStrip1.Size = New System.Drawing.Size(951, 24)
+        Me.MenuStrip1.TabIndex = 1
+        Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'HilfeToolStripMenuItem
+        '
+        Me.HilfeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoToolStripMenuItem})
+        Me.HilfeToolStripMenuItem.Name = "HilfeToolStripMenuItem"
+        Me.HilfeToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.HilfeToolStripMenuItem.Text = "&Hilfe"
+        '
+        'InfoToolStripMenuItem
+        '
+        Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.InfoToolStripMenuItem.Text = "&Info"
+        '
         'frmProcessModule
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(951, 432)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Controls.Add(Me.MenuStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frmProcessModule"
         Me.Text = "x_Process-Module"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
@@ -155,7 +183,10 @@ Partial Class frmProcessModule
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
         Me.TabControl1.ResumeLayout(False)
+        Me.MenuStrip1.ResumeLayout(False)
+        Me.MenuStrip1.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
@@ -167,5 +198,8 @@ Partial Class frmProcessModule
     Friend WithEvents TabPage_Services As System.Windows.Forms.TabPage
     Friend WithEvents TabPage_OrganizationalFunctions As System.Windows.Forms.TabPage
     Friend WithEvents ImageList_Process As System.Windows.Forms.ImageList
+    Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
+    Friend WithEvents HilfeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents InfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

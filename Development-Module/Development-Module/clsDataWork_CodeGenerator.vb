@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports System.Xml
 Imports OntologyClasses.BaseClasses
 Public Class clsDataWork_CodeGenerator

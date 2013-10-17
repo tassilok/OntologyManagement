@@ -31,15 +31,20 @@ Partial Class frmDevelopmentModule
         Me.TabPage_BaseData = New System.Windows.Forms.TabPage()
         Me.TabPage_Logentries = New System.Windows.Forms.TabPage()
         Me.TabPage_OntologyConfig = New System.Windows.Forms.TabPage()
-        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout
-        Me.ToolStripContainer1.SuspendLayout
-        Me.ToolStrip1.SuspendLayout
-        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SplitContainer1.Panel2.SuspendLayout
-        Me.SplitContainer1.SuspendLayout
-        Me.TabControl1.SuspendLayout
-        Me.SuspendLayout
+        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
+        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.SuspendLayout()
+        Me.ToolStrip1.SuspendLayout()
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer1.Panel2.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
+        Me.TabControl1.SuspendLayout()
+        Me.MenuStrip1.SuspendLayout()
+        Me.SuspendLayout()
         '
         'ToolStripContainer1
         '
@@ -51,13 +56,17 @@ Partial Class frmDevelopmentModule
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(724, 409)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(724, 410)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
         Me.ToolStripContainer1.Size = New System.Drawing.Size(724, 459)
         Me.ToolStripContainer1.TabIndex = 0
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
+        '
+        'ToolStripContainer1.TopToolStripPanel
+        '
+        Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.MenuStrip1)
         '
         'ToolStrip1
         '
@@ -71,7 +80,7 @@ Partial Class frmDevelopmentModule
         'ToolStripButton_Close
         '
         Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"),System.Drawing.Image)
+        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
         Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
         Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
@@ -87,7 +96,7 @@ Partial Class frmDevelopmentModule
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.TabControl1)
-        Me.SplitContainer1.Size = New System.Drawing.Size(724, 409)
+        Me.SplitContainer1.Size = New System.Drawing.Size(724, 410)
         Me.SplitContainer1.SplitterDistance = 241
         Me.SplitContainer1.TabIndex = 0
         '
@@ -100,7 +109,7 @@ Partial Class frmDevelopmentModule
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(475, 405)
+        Me.TabControl1.Size = New System.Drawing.Size(475, 406)
         Me.TabControl1.TabIndex = 0
         '
         'TabPage_BaseData
@@ -108,10 +117,10 @@ Partial Class frmDevelopmentModule
         Me.TabPage_BaseData.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_BaseData.Name = "TabPage_BaseData"
         Me.TabPage_BaseData.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_BaseData.Size = New System.Drawing.Size(467, 379)
+        Me.TabPage_BaseData.Size = New System.Drawing.Size(467, 380)
         Me.TabPage_BaseData.TabIndex = 0
         Me.TabPage_BaseData.Text = "x_BaseData"
-        Me.TabPage_BaseData.UseVisualStyleBackColor = true
+        Me.TabPage_BaseData.UseVisualStyleBackColor = True
         '
         'TabPage_Logentries
         '
@@ -121,7 +130,7 @@ Partial Class frmDevelopmentModule
         Me.TabPage_Logentries.Size = New System.Drawing.Size(467, 379)
         Me.TabPage_Logentries.TabIndex = 1
         Me.TabPage_Logentries.Text = "x_Logentries"
-        Me.TabPage_Logentries.UseVisualStyleBackColor = true
+        Me.TabPage_Logentries.UseVisualStyleBackColor = True
         '
         'TabPage_OntologyConfig
         '
@@ -131,29 +140,56 @@ Partial Class frmDevelopmentModule
         Me.TabPage_OntologyConfig.Size = New System.Drawing.Size(467, 379)
         Me.TabPage_OntologyConfig.TabIndex = 2
         Me.TabPage_OntologyConfig.Text = "x_Ontology-Config"
-        Me.TabPage_OntologyConfig.UseVisualStyleBackColor = true
+        Me.TabPage_OntologyConfig.UseVisualStyleBackColor = True
+        '
+        'MenuStrip1
+        '
+        Me.MenuStrip1.Dock = System.Windows.Forms.DockStyle.None
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HilfeToolStripMenuItem})
+        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip1.Name = "MenuStrip1"
+        Me.MenuStrip1.Size = New System.Drawing.Size(724, 24)
+        Me.MenuStrip1.TabIndex = 0
+        Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'HilfeToolStripMenuItem
+        '
+        Me.HilfeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoToolStripMenuItem})
+        Me.HilfeToolStripMenuItem.Name = "HilfeToolStripMenuItem"
+        Me.HilfeToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.HilfeToolStripMenuItem.Text = "&Hilfe"
+        '
+        'InfoToolStripMenuItem
+        '
+        Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.InfoToolStripMenuItem.Text = "&Info"
         '
         'frmDevelopmentModule
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(724, 459)
         Me.Controls.Add(Me.ToolStripContainer1)
-        Me.Icon = CType(resources.GetObject("$this.Icon"),System.Drawing.Icon)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmDevelopmentModule"
         Me.Text = "x_Development-Module"
-        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout
-        Me.ToolStripContainer1.ContentPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.ResumeLayout(false)
-        Me.ToolStripContainer1.PerformLayout
-        Me.ToolStrip1.ResumeLayout(false)
-        Me.ToolStrip1.PerformLayout
-        Me.SplitContainer1.Panel2.ResumeLayout(false)
-        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).EndInit
-        Me.SplitContainer1.ResumeLayout(false)
-        Me.TabControl1.ResumeLayout(false)
-        Me.ResumeLayout(false)
+        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.ResumeLayout(False)
+        Me.ToolStripContainer1.PerformLayout()
+        Me.ToolStrip1.ResumeLayout(False)
+        Me.ToolStrip1.PerformLayout()
+        Me.SplitContainer1.Panel2.ResumeLayout(False)
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer1.ResumeLayout(False)
+        Me.TabControl1.ResumeLayout(False)
+        Me.MenuStrip1.ResumeLayout(False)
+        Me.MenuStrip1.PerformLayout()
+        Me.ResumeLayout(False)
 
 End Sub
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
@@ -164,5 +200,8 @@ End Sub
     Friend WithEvents TabPage_BaseData As System.Windows.Forms.TabPage
     Friend WithEvents TabPage_Logentries As System.Windows.Forms.TabPage
     Friend WithEvents TabPage_OntologyConfig As System.Windows.Forms.TabPage
+    Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
+    Friend WithEvents HilfeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents InfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

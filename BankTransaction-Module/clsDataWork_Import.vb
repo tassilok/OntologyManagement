@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports Log_Module
 Imports System.IO
 Imports OntologyClasses.BaseClasses

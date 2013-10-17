@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports Security_Module
 Imports OntologyClasses.BaseClasses
 
@@ -12,6 +12,9 @@ Public Class frmMediaViewerModule
 
     Private objFrmAuthenticate As frmAuthenticate
     Private WithEvents objFrmSingleViewer As frmSingleViewer
+
+    Private SplashScreen As SplashScreen_OntologyModule
+    Private AboutBox As AboutBox_OntologyItem
 
     Private objOItem_MediaType As clsOntologyItem
     Private objOItem_Open As clsOntologyItem
@@ -175,6 +178,11 @@ Public Class frmMediaViewerModule
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
 
+        Application.DoEvents()
+        SplashScreen = New SplashScreen_OntologyModule()
+        SplashScreen.Show()
+        SplashScreen.Refresh()
+
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
 
@@ -243,8 +251,16 @@ Public Class frmMediaViewerModule
     End Sub
 
     Private Sub frmMediaViewerModule_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Not SplashScreen Is Nothing Then
+            SplashScreen.Close()
+        End If
         If Not objOItem_Open.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             Me.Close()
         End If
+    End Sub
+
+    Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
+        AboutBox = New AboutBox_OntologyItem()
+        AboutBox.ShowDialog(Me)
     End Sub
 End Class

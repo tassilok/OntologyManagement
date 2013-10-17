@@ -109,7 +109,7 @@ Partial Class UserControl_ClassAttributeTypes
         'ToolStripButton_Add
         '
         Me.ToolStripButton_Add.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Add.Image = Global.Ontolog_Module.My.Resources.Resources.b_plus
+        Me.ToolStripButton_Add.Image = Global.Ontology_Module.My.Resources.Resources.b_plus
         Me.ToolStripButton_Add.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Add.Name = "ToolStripButton_Add"
         Me.ToolStripButton_Add.Size = New System.Drawing.Size(23, 22)
@@ -118,7 +118,7 @@ Partial Class UserControl_ClassAttributeTypes
         'ToolStripButton_Del
         '
         Me.ToolStripButton_Del.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Del.Image = Global.Ontolog_Module.My.Resources.Resources.b_minus
+        Me.ToolStripButton_Del.Image = Global.Ontology_Module.My.Resources.Resources.b_minus
         Me.ToolStripButton_Del.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Del.Name = "ToolStripButton_Del"
         Me.ToolStripButton_Del.Size = New System.Drawing.Size(23, 22)

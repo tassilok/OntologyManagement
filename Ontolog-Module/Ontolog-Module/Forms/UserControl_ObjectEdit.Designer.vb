@@ -141,7 +141,7 @@ Partial Class UserControl_ObjectEdit
         'ToolStripButton_Nav_First
         '
         Me.ToolStripButton_Nav_First.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Nav_First.Image = Global.Ontolog_Module.My.Resources.Resources.pulsante_01_architetto_f_01_First
+        Me.ToolStripButton_Nav_First.Image = Global.Ontology_Module.My.Resources.Resources.pulsante_01_architetto_f_01_First
         Me.ToolStripButton_Nav_First.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Nav_First.Name = "ToolStripButton_Nav_First"
         Me.ToolStripButton_Nav_First.Size = New System.Drawing.Size(23, 22)
@@ -150,7 +150,7 @@ Partial Class UserControl_ObjectEdit
         'ToolStripButton_Nav_Previous
         '
         Me.ToolStripButton_Nav_Previous.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Nav_Previous.Image = Global.Ontolog_Module.My.Resources.Resources.pulsante_01_architetto_f_01
+        Me.ToolStripButton_Nav_Previous.Image = Global.Ontology_Module.My.Resources.Resources.pulsante_01_architetto_f_01
         Me.ToolStripButton_Nav_Previous.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Nav_Previous.Name = "ToolStripButton_Nav_Previous"
         Me.ToolStripButton_Nav_Previous.Size = New System.Drawing.Size(23, 22)
@@ -159,7 +159,7 @@ Partial Class UserControl_ObjectEdit
         'ToolStripButton_Nav_Next
         '
         Me.ToolStripButton_Nav_Next.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Nav_Next.Image = Global.Ontolog_Module.My.Resources.Resources.pulsante_02_architetto_f_01
+        Me.ToolStripButton_Nav_Next.Image = Global.Ontology_Module.My.Resources.Resources.pulsante_02_architetto_f_01
         Me.ToolStripButton_Nav_Next.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Nav_Next.Name = "ToolStripButton_Nav_Next"
         Me.ToolStripButton_Nav_Next.Size = New System.Drawing.Size(23, 22)
@@ -168,7 +168,7 @@ Partial Class UserControl_ObjectEdit
         'ToolStripButton_Nav_Last
         '
         Me.ToolStripButton_Nav_Last.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Nav_Last.Image = Global.Ontolog_Module.My.Resources.Resources.pulsante_02_architetto_f_01_Last
+        Me.ToolStripButton_Nav_Last.Image = Global.Ontology_Module.My.Resources.Resources.pulsante_02_architetto_f_01_Last
         Me.ToolStripButton_Nav_Last.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Nav_Last.Name = "ToolStripButton_Nav_Last"
         Me.ToolStripButton_Nav_Last.Size = New System.Drawing.Size(23, 22)

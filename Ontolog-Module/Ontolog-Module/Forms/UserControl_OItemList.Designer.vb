@@ -327,7 +327,7 @@ Partial Class UserControl_OItemList
         'ToolStripButton_AddItem
         '
         Me.ToolStripButton_AddItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_AddItem.Image = Global.Ontolog_Module.My.Resources.Resources.b_plus
+        Me.ToolStripButton_AddItem.Image = Global.Ontology_Module.My.Resources.Resources.b_plus
         Me.ToolStripButton_AddItem.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_AddItem.Name = "ToolStripButton_AddItem"
         Me.ToolStripButton_AddItem.Size = New System.Drawing.Size(21, 20)
@@ -336,7 +336,7 @@ Partial Class UserControl_OItemList
         'ToolStripButton_DelItem
         '
         Me.ToolStripButton_DelItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_DelItem.Image = Global.Ontolog_Module.My.Resources.Resources.b_minus
+        Me.ToolStripButton_DelItem.Image = Global.Ontology_Module.My.Resources.Resources.b_minus
         Me.ToolStripButton_DelItem.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_DelItem.Name = "ToolStripButton_DelItem"
         Me.ToolStripButton_DelItem.Size = New System.Drawing.Size(21, 20)
@@ -352,7 +352,7 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_Relate.CheckOnClick = True
         Me.ToolStripButton_Relate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.ToolStripButton_Relate.Enabled = False
-        Me.ToolStripButton_Relate.Image = Global.Ontolog_Module.My.Resources.Resources.RelationTypes_gpride_jean_victor_balin_
+        Me.ToolStripButton_Relate.Image = Global.Ontology_Module.My.Resources.Resources.RelationTypes_gpride_jean_victor_balin_
         Me.ToolStripButton_Relate.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Relate.Name = "ToolStripButton_Relate"
         Me.ToolStripButton_Relate.Size = New System.Drawing.Size(21, 20)
@@ -367,7 +367,7 @@ Partial Class UserControl_OItemList
         'ToolStripButton_Sort
         '
         Me.ToolStripButton_Sort.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Sort.Image = Global.Ontolog_Module.My.Resources.Resources.bb_sort2
+        Me.ToolStripButton_Sort.Image = Global.Ontology_Module.My.Resources.Resources.bb_sort2
         Me.ToolStripButton_Sort.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Sort.Name = "ToolStripButton_Sort"
         Me.ToolStripButton_Sort.Size = New System.Drawing.Size(21, 20)
@@ -376,7 +376,7 @@ Partial Class UserControl_OItemList
         'ToolStripButton_Down
         '
         Me.ToolStripButton_Down.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Down.Image = Global.Ontolog_Module.My.Resources.Resources.tasto_3_architetto_franc_01
+        Me.ToolStripButton_Down.Image = Global.Ontology_Module.My.Resources.Resources.tasto_3_architetto_franc_01
         Me.ToolStripButton_Down.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Down.Name = "ToolStripButton_Down"
         Me.ToolStripButton_Down.Size = New System.Drawing.Size(21, 20)
@@ -385,7 +385,7 @@ Partial Class UserControl_OItemList
         'ToolStripButton_Up
         '
         Me.ToolStripButton_Up.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Up.Image = Global.Ontolog_Module.My.Resources.Resources.tasto_4_architetto_franc_01
+        Me.ToolStripButton_Up.Image = Global.Ontology_Module.My.Resources.Resources.tasto_4_architetto_franc_01
         Me.ToolStripButton_Up.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Up.Name = "ToolStripButton_Up"
         Me.ToolStripButton_Up.Size = New System.Drawing.Size(21, 20)
@@ -399,7 +399,7 @@ Partial Class UserControl_OItemList
         'ToolStripButton_Report
         '
         Me.ToolStripButton_Report.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Report.Image = Global.Ontolog_Module.My.Resources.Resources.appunti_architetto_franc_01
+        Me.ToolStripButton_Report.Image = Global.Ontology_Module.My.Resources.Resources.appunti_architetto_franc_01
         Me.ToolStripButton_Report.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Report.Name = "ToolStripButton_Report"
         Me.ToolStripButton_Report.Size = New System.Drawing.Size(21, 20)

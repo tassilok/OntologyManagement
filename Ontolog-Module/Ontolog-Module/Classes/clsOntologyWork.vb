@@ -233,7 +233,7 @@ Public Class clsOntologyWork
                                                                            Nothing, _
                                                                            Nothing))
                                         Else
-                                            if objClass.objObj.OrderID = 1 Then
+                                            If objClass.objObj Is Nothing Then
                                                 objOList_Join.Add(New clsObjectRel(Nothing, _
                                                                            Nothing, _
                                                                            objClass.objClass.ID_Other, _
@@ -248,8 +248,9 @@ Public Class clsOntologyWork
                                                                            Nothing, _
                                                                            Nothing, _
                                                                            Nothing))
-                                            Else 
-                                                objOList_Join.Add(New clsObjectRel(Nothing, _
+                                            Else
+                                                If objClass.objObj.OrderID = 4 Then
+                                                    objOList_Join.Add(New clsObjectRel(Nothing, _
                                                                            Nothing, _
                                                                            objClass.objClass.ID_Other, _
                                                                            objClass.objClass.Name_Other, _
@@ -263,6 +264,8 @@ Public Class clsOntologyWork
                                                                            Nothing, _
                                                                            Nothing, _
                                                                            Nothing))
+                                                End If
+                                                
                                             End If
                                             
                                         End If

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ontolog_Module;
+using Ontology_Module;
 using System.Xml;
 using OntologyClasses.BaseClasses;
 

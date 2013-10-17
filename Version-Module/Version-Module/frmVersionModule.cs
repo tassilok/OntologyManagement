@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Ontolog_Module;
+using Ontology_Module;
 using OntologyClasses.BaseClasses;
 using Security_Module;
 
@@ -19,15 +19,24 @@ namespace Version_Module
         private clsDataWork_Versions objDataWorkVersions;
 
         //private UserControl_RefTree objUserControl_RefTree;
-        private Ontolog_Module.UserControl_RefTree objUserControl_RefTree;
+        private Ontology_Module.UserControl_RefTree objUserControl_RefTree;
         private UserControl_VersionDetails objUserControl_Versions;
         private frmAuthenticate objFrmAuthenticate;
+
+        private SplashScreen_OntologyModule SplashScreen;
+        private AboutBox_OntologyItem AboutBox;
+
 
         private bool boolOpen;
 
         public frmVersionModule()
         {
             InitializeComponent();
+
+            Application.DoEvents();
+            SplashScreen = new SplashScreen_OntologyModule();
+            SplashScreen.Show();
+            SplashScreen.Refresh();
 
             objLocalConfig = new clsLocalConfig(new clsGlobals());
 
@@ -53,7 +62,7 @@ namespace Version_Module
                     objDataWorkVersions.OItem_Result_Versions__VersionNumbers.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
                     //objUserControl_RefTree = new UserControl_RefTree(objDataWorkVersions) {Dock = DockStyle.Fill};
-                    objUserControl_RefTree = new Ontolog_Module.UserControl_RefTree(objLocalConfig.Globals);
+                    objUserControl_RefTree = new Ontology_Module.UserControl_RefTree(objLocalConfig.Globals);
                     objUserControl_RefTree.Dock = DockStyle.Fill;
                     var objOList_Rels = new List<clsOntologyItem> { objLocalConfig.OItem_type_developmentversion };
                     var objOList_Rels_LeftRight = new List<clsOntologyItem> { objLocalConfig.OItem_relationtype_belongsto };
@@ -82,6 +91,10 @@ namespace Version_Module
 
         private void frmVersionModule_Load(object sender, EventArgs e)
         {
+            if (SplashScreen != null)
+            {
+                SplashScreen.Close();
+            }
             if (!boolOpen)
             {
                 MessageBox.Show(this, "Die notwendigen Daten konnten nicht ermittelt werden!", "Fehler!",
@@ -89,6 +102,17 @@ namespace Version_Module
                 this.Close();
             }
                 
+        }
+
+        private void toolStripButton_Close_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void infoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox = new AboutBox_OntologyItem();
+            AboutBox.ShowDialog(this);
         }
     }
 }

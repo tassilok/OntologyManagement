@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Public Class frmPartnerModule
 
@@ -9,6 +9,9 @@ Public Class frmPartnerModule
     Private WithEvents objUserControl_PersonalData As UserControl_PersonalData
     Private WithEvents objUserControl_ComData As UserControl_CommunicationData
     Private WithEvents objUserControl_AvailabilityData As UserControl_AvailabilityData
+
+    Private SplashScreen As SplashScreen_OntologyModule
+    Private AboutBox As AboutBox_OntologyItem
 
     Private objOItem_Partner As clsOntologyItem
 
@@ -79,7 +82,7 @@ Public Class frmPartnerModule
         End Select
     End Sub
 
-    Private Sub ToolStripButton_Close_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Close.Click
+    Private Sub ToolStripButton_Close_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Me.Close()
     End Sub
 
@@ -87,6 +90,11 @@ Public Class frmPartnerModule
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
+
+        Application.DoEvents()
+        SplashScreen = New SplashScreen_OntologyModule()
+        SplashScreen.Show()
+        SplashScreen.Refresh()
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
@@ -142,7 +150,18 @@ Public Class frmPartnerModule
 
     End Sub
 
-    Private Sub TabControl1_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TabControl1.SelectedIndexChanged
+    Private Sub TabControl1_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
         configure_TabPages()
+    End Sub
+
+    Private Sub frmPartnerModule_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Not SplashScreen Is Nothing Then
+            SplashScreen.Close()
+        End If
+    End Sub
+
+    Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
+        AboutBox = New AboutBox_OntologyItem()
+        AboutBox.ShowDialog(Me)
     End Sub
 End Class

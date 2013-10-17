@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Public Class clsDataWork_BaseConfig
     Private objLocalConfig As clsLocalConfig
 

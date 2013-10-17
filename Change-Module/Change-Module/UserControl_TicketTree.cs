@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Ontolog_Module;
+using Ontology_Module;
 using System.Threading;
 using OntologyClasses.BaseClasses;
 

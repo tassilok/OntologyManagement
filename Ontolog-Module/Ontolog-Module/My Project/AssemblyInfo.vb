@@ -8,10 +8,10 @@ Imports System.Runtime.InteropServices
 
 ' Die Werte der Assemblyattribute überprüfen
 
-<Assembly: AssemblyTitle("Ontolog-Module")> 
-<Assembly: AssemblyDescription("")> 
+<Assembly: AssemblyTitle("Ontology-Module")> 
+<Assembly: AssemblyDescription("Module zur Pflege der OOntologie-Objekte einer ontologischen Datenbank")> 
 <Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("Ontolog-Module")> 
+<Assembly: AssemblyProduct("Ontology-Module")> 
 <Assembly: AssemblyCopyright("Copyright ©  2013")> 
 <Assembly: AssemblyTrademark("")> 
 
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' übernehmen, indem Sie "*" eingeben:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("0.3.0.4")> 
-<Assembly: AssemblyFileVersion("0.3.0.4")> 
+<Assembly: AssemblyVersion("0.3.0.6")> 
+<Assembly: AssemblyFileVersion("0.3.0.6")> 

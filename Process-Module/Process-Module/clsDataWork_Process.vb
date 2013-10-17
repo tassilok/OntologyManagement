@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports System.Threading
 Imports OntologyClasses.BaseClasses
 

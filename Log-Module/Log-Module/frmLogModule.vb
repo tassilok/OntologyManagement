@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports Security_Module
 Imports OntologyClasses.BaseClasses
 
@@ -7,6 +7,10 @@ Public Class frmLogModule
     Private WithEvents objUserControl_LogEntryList As UserControl_OItemList
     Private objUserControl_LogEntry As UserControl_LogEntry
     Private objFrmAuthenticate As frmAuthenticate
+
+    Private SplashScreen As SplashScreen_OntologyModule
+    Private AboutBox As AboutBox_OntologyItem
+
     Private boolOpen As Boolean
 
     Private Sub selected_LogEntry() Handles objUserControl_LogEntryList.Selection_Changed
@@ -36,6 +40,11 @@ Public Class frmLogModule
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
+
+        Application.DoEvents()
+        SplashScreen = New SplashScreen_OntologyModule()
+        SplashScreen.Show()
+        SplashScreen.Refresh()
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
@@ -72,9 +81,19 @@ Public Class frmLogModule
     End Sub
 
     Private Sub frmLogModule_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Not SplashScreen Is Nothing Then
+            SplashScreen.Close()
+        End If
         If boolOpen = False Then
             Me.Close()
+        Else
+            ToolStripTextBox_Database.Text = objLocalConfig.Globals.Index & "@" & objLocalConfig.Globals.Server
         End If
-        ToolStripTextBox_Database.Text = objLocalConfig.Globals.Index & "@" & objLocalConfig.Globals.Server
+
+    End Sub
+
+    Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
+        AboutBox = New AboutBox_OntologyItem()
+        AboutBox.ShowDialog(Me)
     End Sub
 End Class

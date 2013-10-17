@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Public Class clsDataWork_DevTree
     Private objDBLevel_DevTree As clsDBLevel
     Private objLocalConfig As clsLocalConfig

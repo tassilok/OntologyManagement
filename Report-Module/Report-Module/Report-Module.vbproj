@@ -196,7 +196,7 @@
       <Name>Media-Viewer-Module</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
-      <Project>{3F2F6722-C36B-420D-AFE7-B21C19457208}</Project>
+      <Project>{3f2f6722-c36b-420d-afe7-b21c19457208}</Project>
       <Name>Ontolog-Module</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">

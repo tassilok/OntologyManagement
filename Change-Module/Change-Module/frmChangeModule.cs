@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Ontolog_Module;
+using Ontology_Module;
 using Security_Module;
 using OntologyClasses.BaseClasses;
 
@@ -14,7 +14,9 @@ namespace Change_Module
 {
     public partial class frmChangeModule : Form
     {
-        private frmAuthenticate objFrmAuthenticate; 
+        private frmAuthenticate objFrmAuthenticate;
+        private SplashScreen_OntologyModule SplashScreen;
+        private AboutBox_OntologyItem AboutBox;
         private clsLocalConfig objLocalConfig;
         private UserControl_TicketTree objUserControl_TicketTree;
         private UserControl_TicketList objUserContorl_TicketList;
@@ -23,6 +25,12 @@ namespace Change_Module
         public frmChangeModule()
         {
             InitializeComponent();
+            
+            Application.DoEvents();
+            SplashScreen = new SplashScreen_OntologyModule();
+            SplashScreen.Show();
+            SplashScreen.Refresh();
+
             objLocalConfig = new clsLocalConfig(new clsGlobals());
 
             initialize();
@@ -96,6 +104,11 @@ namespace Change_Module
 
         private void frmChangeModule_Load(object sender, EventArgs e)
         {
+            if (SplashScreen != null)
+            {
+                SplashScreen.Close();
+            }
+
             objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, true, frmAuthenticate.ERelateMode.User_To_Group);
             objFrmAuthenticate.ShowDialog(this);
             if (objFrmAuthenticate.DialogResult == DialogResult.OK)
@@ -142,6 +155,12 @@ namespace Change_Module
             {
                 toolStripButton_OpenAll.Text = "x_Open";
             }
+        }
+
+        private void infoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox = new AboutBox_OntologyItem();
+            AboutBox.ShowDialog(this);
         }
 
     }

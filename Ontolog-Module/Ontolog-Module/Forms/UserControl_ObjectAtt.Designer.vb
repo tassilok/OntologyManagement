@@ -139,7 +139,7 @@ Partial Class UserControl_ObjectAtt
         'ToolStripButton_ClearFilter
         '
         Me.ToolStripButton_ClearFilter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_ClearFilter.Image = Global.Ontolog_Module.My.Resources.Resources.tasto_8_architetto_franc_01
+        Me.ToolStripButton_ClearFilter.Image = Global.Ontology_Module.My.Resources.Resources.tasto_8_architetto_franc_01
         Me.ToolStripButton_ClearFilter.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_ClearFilter.Name = "ToolStripButton_ClearFilter"
         Me.ToolStripButton_ClearFilter.Size = New System.Drawing.Size(23, 22)

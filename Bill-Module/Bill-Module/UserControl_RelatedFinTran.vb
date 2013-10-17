@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Public Class UserControl_RelatedFinTran
 
     Private objLocalConfig As clsLocalConfig

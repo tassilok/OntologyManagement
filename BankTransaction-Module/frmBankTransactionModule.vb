@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Public Class frmBankTransactionModule
     Private objLocalConfig As clsLocalConfig
@@ -6,6 +6,8 @@ Public Class frmBankTransactionModule
     Private WithEvents objUserControl_TransactionList As UserControl_TransactionList
     Private objOItem_Partner As clsOntologyItem
     Private objFrmOntologyManager As frmMain
+    Private SplashScreen As SplashScreen_OntologyModule
+    Private AboutBox As AboutBox_OntologyItem
     Private objOList_Transactions As List(Of DataRowView)
     Private boolOpen As Boolean
     Private boolApplyable As Boolean
@@ -26,6 +28,11 @@ Public Class frmBankTransactionModule
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
+
+        Application.DoEvents()
+        SplashScreen = New SplashScreen_OntologyModule()
+        SplashScreen.Show()
+        SplashScreen.Refresh()
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
@@ -94,8 +101,16 @@ Public Class frmBankTransactionModule
     End Sub
 
     Private Sub frmBankTransactionModule_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Not SplashScreen Is Nothing Then
+            SplashScreen.Close()
+        End If
         If boolOpen = False Then
             Me.Close()
         End If
+    End Sub
+
+    Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
+        AboutBox = New AboutBox_OntologyItem()
+        AboutBox.ShowDialog(Me)
     End Sub
 End Class

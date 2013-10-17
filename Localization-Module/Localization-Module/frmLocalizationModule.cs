@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Ontolog_Module;
+using Ontology_Module;
 using OntologyClasses.BaseClasses;
 
 namespace Localization_Module
@@ -19,9 +19,18 @@ namespace Localization_Module
 
         private UserControl_RefTree objUserControl_RefTree;
 
+        private SplashScreen_OntologyModule SplashScreen;
+        private AboutBox_OntologyItem AboutBox;
+
         public frmLocalizationModule()
         {
             InitializeComponent();
+
+            Application.DoEvents();
+            SplashScreen = new SplashScreen_OntologyModule();
+            SplashScreen.Show();
+            SplashScreen.Refresh();
+
             objLocalConfig = new clsLocalConfig(new clsGlobals());
             initialize();
         }
@@ -54,6 +63,20 @@ namespace Localization_Module
         private void objUserControl_RefTree_ItemsLoaded()
         {
             objUserControl_LocalizationDetails.OList_LocalizationToRef = objUserControl_RefTree.OList_Rels;
+        }
+
+        private void infoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox = new AboutBox_OntologyItem();
+            AboutBox.ShowDialog(this);
+        }
+
+        private void frmLocalizationModule_Load(object sender, EventArgs e)
+        {
+            if (SplashScreen != null)
+            {
+                SplashScreen.Close();
+            }
         }
 
 

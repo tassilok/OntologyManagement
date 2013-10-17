@@ -33,6 +33,9 @@ Partial Class frmBillModule
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage_TransactionDetails = New System.Windows.Forms.TabPage()
         Me.TabPage_Documents = New System.Windows.Forms.TabPage()
+        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -41,6 +44,7 @@ Partial Class frmBillModule
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
+        Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -53,11 +57,11 @@ Partial Class frmBillModule
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1069, 479)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1069, 455)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 24)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(1069, 529)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(1069, 505)
         Me.ToolStripContainer1.TabIndex = 0
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
@@ -106,7 +110,7 @@ Partial Class frmBillModule
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.TabControl1)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1069, 479)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1069, 455)
         Me.SplitContainer1.SplitterDistance = 532
         Me.SplitContainer1.TabIndex = 0
         '
@@ -118,7 +122,7 @@ Partial Class frmBillModule
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(529, 475)
+        Me.TabControl1.Size = New System.Drawing.Size(529, 451)
         Me.TabControl1.TabIndex = 1
         '
         'TabPage_TransactionDetails
@@ -126,7 +130,7 @@ Partial Class frmBillModule
         Me.TabPage_TransactionDetails.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_TransactionDetails.Name = "TabPage_TransactionDetails"
         Me.TabPage_TransactionDetails.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_TransactionDetails.Size = New System.Drawing.Size(521, 449)
+        Me.TabPage_TransactionDetails.Size = New System.Drawing.Size(521, 425)
         Me.TabPage_TransactionDetails.TabIndex = 0
         Me.TabPage_TransactionDetails.Text = "x_Transaction-Details"
         Me.TabPage_TransactionDetails.UseVisualStyleBackColor = True
@@ -141,13 +145,37 @@ Partial Class frmBillModule
         Me.TabPage_Documents.Text = "x_Documents"
         Me.TabPage_Documents.UseVisualStyleBackColor = True
         '
+        'MenuStrip1
+        '
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HilfeToolStripMenuItem})
+        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip1.Name = "MenuStrip1"
+        Me.MenuStrip1.Size = New System.Drawing.Size(1069, 24)
+        Me.MenuStrip1.TabIndex = 1
+        Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'HilfeToolStripMenuItem
+        '
+        Me.HilfeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoToolStripMenuItem})
+        Me.HilfeToolStripMenuItem.Name = "HilfeToolStripMenuItem"
+        Me.HilfeToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.HilfeToolStripMenuItem.Text = "&Hilfe"
+        '
+        'InfoToolStripMenuItem
+        '
+        Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.InfoToolStripMenuItem.Text = "&Info"
+        '
         'frmBillModule
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1069, 529)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Controls.Add(Me.MenuStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frmBillModule"
         Me.Text = "x_Bill-Module"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
@@ -161,7 +189,10 @@ Partial Class frmBillModule
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
         Me.TabControl1.ResumeLayout(False)
+        Me.MenuStrip1.ResumeLayout(False)
+        Me.MenuStrip1.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
@@ -174,5 +205,8 @@ Partial Class frmBillModule
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripLabel_DatabaseLBL As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripTextBox_Database As System.Windows.Forms.ToolStripTextBox
+    Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
+    Friend WithEvents HilfeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents InfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

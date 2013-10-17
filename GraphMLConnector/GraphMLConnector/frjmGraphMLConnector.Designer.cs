@@ -34,6 +34,10 @@
             this.addItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setExportModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bindingSource_GraphItems = new System.Windows.Forms.BindingSource(this.components);
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -57,8 +61,9 @@
             this.objectsAndClassesWithRelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bindingSource_GraphItems = new System.Windows.Forms.BindingSource(this.components);
             this.contextMenuStrip_Export.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource_GraphItems)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -74,7 +79,6 @@
             this.toolStripContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Export)).BeginInit();
             this.toolStrip2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource_GraphItems)).BeginInit();
             this.SuspendLayout();
             // 
             // contextMenuStrip_Export
@@ -108,11 +112,36 @@
             this.setExportModeToolStripMenuItem.Text = "Set Export-Mode";
             this.setExportModeToolStripMenuItem.Click += new System.EventHandler(this.setExportModeToolStripMenuItem_Click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hilfeToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(680, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // hilfeToolStripMenuItem
+            // 
+            this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.infoToolStripMenuItem});
+            this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
+            this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.hilfeToolStripMenuItem.Text = "&Hilfe";
+            // 
+            // infoToolStripMenuItem
+            // 
+            this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
+            this.infoToolStripMenuItem.Text = "&Info";
+            this.infoToolStripMenuItem.Click += new System.EventHandler(this.infoToolStripMenuItem_Click);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -122,9 +151,9 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.toolStripContainer1);
-            this.splitContainer1.Size = new System.Drawing.Size(680, 487);
+            this.splitContainer1.Size = new System.Drawing.Size(680, 463);
             this.splitContainer1.SplitterDistance = 226;
-            this.splitContainer1.TabIndex = 1;
+            this.splitContainer1.TabIndex = 2;
             // 
             // toolStripContainer2
             // 
@@ -136,11 +165,11 @@
             // toolStripContainer2.ContentPanel
             // 
             this.toolStripContainer2.ContentPanel.Controls.Add(this.treeView_Graphs);
-            this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(222, 433);
+            this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(222, 409);
             this.toolStripContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer2.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer2.Name = "toolStripContainer2";
-            this.toolStripContainer2.Size = new System.Drawing.Size(222, 483);
+            this.toolStripContainer2.Size = new System.Drawing.Size(222, 459);
             this.toolStripContainer2.TabIndex = 0;
             this.toolStripContainer2.Text = "toolStripContainer2";
             // 
@@ -158,7 +187,7 @@
             this.toolStripLabel_Count});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(133, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(164, 25);
             this.toolStrip1.TabIndex = 3;
             // 
             // toolStripButton_Close
@@ -169,6 +198,7 @@
             this.toolStripButton_Close.Name = "toolStripButton_Close";
             this.toolStripButton_Close.Size = new System.Drawing.Size(50, 22);
             this.toolStripButton_Close.Text = "x_Close";
+            this.toolStripButton_Close.Click += new System.EventHandler(this.toolStripButton_Close_Click);
             // 
             // toolStripSeparator1
             // 
@@ -192,10 +222,9 @@
             this.treeView_Graphs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView_Graphs.Location = new System.Drawing.Point(0, 0);
             this.treeView_Graphs.Name = "treeView_Graphs";
-            this.treeView_Graphs.Size = new System.Drawing.Size(222, 433);
+            this.treeView_Graphs.Size = new System.Drawing.Size(222, 409);
             this.treeView_Graphs.TabIndex = 0;
             this.treeView_Graphs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_Graphs_AfterSelect);
-            this.treeView_Graphs.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_Graphs_NodeMouseDoubleClick);
             // 
             // toolStrip3
             // 
@@ -225,11 +254,11 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGridView_Export);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(446, 458);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(446, 434);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(446, 483);
+            this.toolStripContainer1.Size = new System.Drawing.Size(446, 459);
             this.toolStripContainer1.TabIndex = 1;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -249,9 +278,8 @@
             this.dataGridView_Export.Location = new System.Drawing.Point(0, 0);
             this.dataGridView_Export.Name = "dataGridView_Export";
             this.dataGridView_Export.ReadOnly = true;
-            this.dataGridView_Export.Size = new System.Drawing.Size(446, 458);
+            this.dataGridView_Export.Size = new System.Drawing.Size(446, 434);
             this.dataGridView_Export.TabIndex = 0;
-            this.dataGridView_Export.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Export_ColumnHeaderMouseClick);
             // 
             // ID_Parent
             // 
@@ -348,10 +376,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(680, 487);
             this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmGraphMLConnector";
             this.Text = "Graph-ML Connector";
+            this.Load += new System.EventHandler(this.frmGraphMLConnector_Load);
             this.contextMenuStrip_Export.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource_GraphItems)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -375,8 +408,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Export)).EndInit();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource_GraphItems)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -386,6 +419,10 @@
         private System.Windows.Forms.ToolStripMenuItem addItemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeItemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setExportModeToolStripMenuItem;
+        private System.Windows.Forms.BindingSource bindingSource_GraphItems;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem hilfeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ToolStripContainer toolStripContainer2;
         private System.Windows.Forms.ToolStrip toolStrip1;
@@ -409,7 +446,6 @@
         private System.Windows.Forms.ToolStripMenuItem objectsAndClassesWithRelsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem objectsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gridToolStripMenuItem;
-        private System.Windows.Forms.BindingSource bindingSource_GraphItems;
     }
 }
 

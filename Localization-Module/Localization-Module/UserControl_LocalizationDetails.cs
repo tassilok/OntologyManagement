@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Ontolog_Module;
+using Ontology_Module;
 using OntologyClasses.BaseClasses;
 
 namespace Localization_Module
@@ -27,7 +27,6 @@ namespace Localization_Module
         private List<clsOntologyItem> objOList_Languages_Name;
 
         private clsOntologyItem objOItem_Message;
-
 
         private bool boolLocalizedNames;
 

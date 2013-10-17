@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports ClassLibrary_ShellWork
 Imports OntologyClasses.BaseClasses
 

@@ -1,4 +1,4 @@
-﻿Imports Ontolog_Module
+﻿Imports Ontology_Module
 Imports Filesystem_Module
 Imports OntologyClasses.BaseClasses
 Public Class UserControl_References
