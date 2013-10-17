@@ -580,9 +580,11 @@ Public Class UserControl_MediaItemList
 
     Private Sub ContextMenuStrip_Items_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Items.Opening
         RelateToolStripMenuItem.Enabled = False
+        SaveToolStripMenuItem.Enabled = False
 
         If Not OItem_Relate Is Nothing And DataGridView_MediaItems.SelectedRows.Count > 0 Then
             RelateToolStripMenuItem.Enabled = True
+            SaveToolStripMenuItem.Enabled = True
         End If
     End Sub
 
@@ -653,5 +655,59 @@ Public Class UserControl_MediaItemList
         End If
 
 
+    End Sub
+
+    Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim intToDo As Integer
+        Dim intDone As Integer
+        Dim intExist As Integer
+
+
+        If FolderBrowserDialog_Save.ShowDialog = DialogResult.OK Then
+            intToDo = DataGridView_MediaItems.SelectedRows.Count
+            intDone = 0
+            intExist = 0
+            For Each objDGVR_Selected In DataGridView_MediaItems.SelectedRows
+                objDRV_Selected = objDGVR_Selected.DataBoundItem
+                Dim objOItem_File = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_File"), _
+                                                              .Name = objDRV_Selected.Item("Name_File"), _
+                                                              .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
+                                                              .Type = objLocalConfig.Globals.Type_Object}
+
+                Dim strPath_Dst = FolderBrowserDialog_Save.SelectedPath + IO.Path.DirectorySeparatorChar + objOItem_File.Name
+                If Not IO.File.Exists(strPath_Dst) Then
+                    If objFileWork.is_File_Blob(objOItem_File) Then
+                        Dim objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_File, strPath_Dst, False)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            intDone = intDone + 1
+                        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
+                            intExist = intExist + 1
+                        End If
+                    Else
+                        Dim strPath_Src = objFileWork.get_Path_FileSystemObject(objOItem_File, False)
+                        If IO.File.Exists(strPath_Src) Then
+                            Try
+                                IO.File.Copy(strPath_Src, strPath_Dst)
+                                intDone = intDone + 1
+                            Catch ex As Exception
+
+                            End Try
+
+                        End If
+                    End If
+                Else
+                    intExist = intExist + 1
+                End If
+
+            Next
+
+            If intToDo > intDone Then
+                MsgBox("Es konnten nur " & intDone & " Dateien gespeichert werden. " & intExist & " Dateien existierten bereits.", MsgBoxStyle.Information)
+            End If
+        End If
+
+        
     End Sub
 End Class
