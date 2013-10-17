@@ -297,6 +297,47 @@ Public Class clsDataWork_OntologyConfig
 
     End Sub
 
+    Public function GetOntologyItemByGUIDAndType(GUID_Item As String, Type_Item As String) As clsOntologyItem
+        Dim objOList_OItem = new List(Of clsOntologyItem)
+        Dim objOItem_Result As clsOntologyItem = Nothing
+        Select Case Type_Item
+            Case objLocalConfig.Globals.Type_AttributeType
+                objOList_OItem.Add(New clsOntologyItem With {.GUID = GUID_Item})
+                objOItem_Result = objDBLevel_ConfigItems.get_Data_AttributeType(objOList_OItem)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objDBLevel_ConfigItems.OList_AttributeTypes.Any() Then
+                        objOItem_Result = objDBLevel_ConfigItems.OList_AttributeTypes.First().Clone()
+                    End If
+                End If
+            Case objLocalConfig.Globals.Type_Class
+                objOList_OItem.Add(New clsOntologyItem With {.GUID = GUID_Item})
+                objOItem_Result = objDBLevel_ConfigItems.get_Data_Classes(objOList_OItem)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objDBLevel_ConfigItems.OList_Classes.Any() Then
+                        objOItem_Result = objDBLevel_ConfigItems.OList_Classes.First().Clone()
+                    End If
+                End If
+            Case objLocalConfig.Globals.Type_Object
+                objOList_OItem.Add(New clsOntologyItem With {.GUID = GUID_Item})
+                objOItem_Result = objDBLevel_ConfigItems.get_Data_Objects(objOList_OItem)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objDBLevel_ConfigItems.OList_Objects.Any() Then
+                        objOItem_Result = objDBLevel_ConfigItems.OList_Objects.First().Clone()
+                    End If
+                End If
+            Case objLocalConfig.Globals.Type_RelationType
+                objOList_OItem.Add(New clsOntologyItem With {.GUID = GUID_Item})
+                objOItem_Result = objDBLevel_ConfigItems.get_Data_RelationTypes(objOList_OItem)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objDBLevel_ConfigItems.OList_RelationTypes.Any() Then
+                        objOItem_Result = objDBLevel_ConfigItems.OList_RelationTypes.First().Clone()
+                    End If
+                End If
+        End Select
+
+        Return objOItem_Result
+    End Function
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
 

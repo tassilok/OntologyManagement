@@ -121,4 +121,12 @@ Public Class UserControl_OntologyConfig
             Next
         End If
     End Sub
+
+    Private Sub ToolStripButton_Migrate_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_Migrate.Click
+        Dim objMoveConfigItemsToOntologies As New clsMoveConfigItemsToOntologies(objLocalConfig,objDataWork_OntologyConfig)
+        Dim objOItem_Result = objMoveConfigItemsToOntologies.CopyOntologyItems(objOItem_Development)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            MsgBox("Die Ontology konnte nicht erzeugt werden!")
+        End If
+    End Sub
 End Class

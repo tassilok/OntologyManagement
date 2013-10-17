@@ -123,6 +123,8 @@ Public Class clsTransaction_OntologyConfig
 
         Return objOItem_Result
     End Function
+
+    
     Public Sub New(LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
 

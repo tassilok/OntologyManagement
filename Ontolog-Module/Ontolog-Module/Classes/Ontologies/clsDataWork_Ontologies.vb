@@ -320,6 +320,10 @@ Public Class clsDataWork_Ontologies
     Public Function AddClassToTree(OItem_Class As clsOntologyItem) As clsOntologyItem
 
         Dim objOItem_Result As clsOntologyItem
+        If Not objOList_ClassTree.Any() Then
+            objOList_ClassTree.Add(objLocalConfig.Globals.Root) 
+        End If
+
         Dim objOList_Classes = (From obj In objOList_ClassTree
                                 Where obj.GUID = OItem_Class.GUID
                                 Select obj).ToList
@@ -701,6 +705,7 @@ Public Class clsDataWork_Ontologies
     Public Function GetData_OntologyItemsOfJoinsExplicit(OItem_Ontology As clsOntologyItem, OItem_Left As clsOntologyItem, OItem_Right As clsOntologyItem, OItem_RelationType As clsOntologyItem) As clsOntologyItem
         Dim objOList_OItemsOfJoins = New List(Of clsObjectRel)
         Dim objOItem_Result As clsOntologyItem
+        Dim boolHierarchy As Boolean
 
         GetData_001_OntologyJoinsOfOntologies()
         GetData_002_OntologyItemsOfJoins()
@@ -730,20 +735,36 @@ Public Class clsDataWork_Ontologies
                 If Not OItem_Left Is Nothing And _
                     Not OItem_Right Is Nothing And _
                     Not OItem_RelationType Is Nothing Then
+                    
+                    If OItem_Left.GUID = OItem_Right.GUID Then
+                        boolHierarchy = True
+
+                    Else 
+
+                        boolHierarchy = False
+                        
+                    End If
+
                     Dim objOList_Join2 = (From obj In objOList_Join
                                           Where obj.GUID = OItem_Left.GUID
                                           Select obj).ToList()
+                    Dim objOList_Join3 As List(Of clsOntologyItem)
 
-                    Dim objOList_Join3 = (From obj In objOList_Join
+                    
+
+                    If boolHierarchy = false Then
+                        objOList_Join3 = (From obj In objOList_Join
                                           Where obj.GUID = OItem_Right.GUID
                                           Select obj).ToList()
+                    End If
+                    
 
                     Dim objOList_Join4 = (From obj In objOList_Join
                                           Where obj.GUID = OItem_RelationType.GUID
                                           Select obj).ToList()
 
                     Dim objOList_Join5 = (From obj1 In objOList_Join2
-                                          Join obj2 In objOList_Join3 On obj1.GUID_Related Equals obj2.GUID_Related
+                                          Join obj2 In If(boolhierarchy,objOList_Join2, objOList_Join3) On obj1.GUID_Related Equals obj2.GUID_Related
                                           Join obj3 In objOList_Join4 On obj1.GUID_Related Equals obj3.GUID_Related
                                           Select obj1).ToList
 
@@ -939,12 +960,13 @@ Public Class clsDataWork_Ontologies
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             Dim OList_OItems1 = (From objOItem In objDBLevel_OntologyItemsOfJoins.OList_ObjectRel
                                  Join objRef In objDBLevel_RefsOfOntologyItems.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
-                                 Where objOItem.OrderID = 1
+                                 Where objOItem.OrderID = 1 Or objOItem.OrderID = 4
                                  Select New clsOntologyItem With {.GUID = objRef.ID_Other, _
                                                                   .Name = objRef.Name_Other, _
                                                                   .GUID_Parent = objRef.ID_Parent_Other, _
                                                                   .GUID_Related = objOItem.ID_Object, _
-                                                                  .Type = objRef.Ontology}).ToList()
+                                                                  .Type = objRef.Ontology, _
+                                                                  .Level = objOItem.OrderID}).ToList()
 
             Dim OList_OItems2 = (From objOItem In objDBLevel_OntologyItemsOfJoins.OList_ObjectRel
                                  Join objRef In objDBLevel_RefsOfOntologyItems.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
@@ -966,8 +988,34 @@ Public Class clsDataWork_Ontologies
 
 
             objOList_Joins = New List(Of clsOntologyJoins)((From objJoin In objDBLevel_OntologyJoinsOfOntologies.OList_ObjectRel_ID
-                                                                            Join objOItem1 In OList_OItems1 On objOItem1.GUID_Related Equals objJoin.ID_Other
+                                                                            Join objOItem1 In OList_OItems1.Where(Function(p) p.Level = 1) On objOItem1.GUID_Related Equals objJoin.ID_Other
                                                                             group Join objOItem2 In OList_OItems2 On objOItem2.GUID_Related Equals objJoin.ID_Other Into objOItems2 = Group
+                                                                            From objOItem2 In objOItems2
+                                                                            Group Join objOItem3 In OList_OItems3 On objOItem3.GUID_Related Equals objJoin.ID_Other Into objOItems3 = Group
+                                                                            From objOItem3 In objOItems3.DefaultIfEmpty()
+                                                                            Group Join objOntologRelationRule In objDBLevel_OntologyRelationRules.OList_ObjectRel On objOntologRelationRule.ID_Object Equals objJoin.ID_Other Into objRules = Group
+                                                                            From objOntologyRelationRule In objRules.DefaultIfEmpty()
+                                                                            Select New clsOntologyJoins With {.ID_Ontology = objJoin.ID_Object, _
+                                                                                                              .ID_Join = objJoin.ID_Other, _
+                                                                                                              .Name_Join = objJoin.Name_Other, _
+                                                                                                              .ID_OItem1 = objOItem1.GUID, _
+                                                                                                              .Name_OItem1 = objOItem1.Name, _
+                                                                                                              .ID_ParentOItem1 = objOItem1.GUID_Parent, _
+                                                                                                              .Ontology_OItem1 = objOItem1.Type, _
+                                                                                                              .ID_OItem2 = objOItem2.GUID, _
+                                                                                                              .Name_OItem2 = objOItem2.Name, _
+                                                                                                              .ID_ParentOItem2 = objOItem2.GUID_Parent, _
+                                                                                                              .Ontology_OItem2 = objOItem2.Type, _
+                                                                                                              .ID_OItem3 = GetFieldOfObject(objOItem3, "GUID"), _
+                                                                                                              .Name_OItem3 = GetFieldOfObject(objOItem3, "Name"), _
+                                                                                                              .ID_ParentOItem3 = GetFieldOfObject(objOItem3, "GUID_Parent"), _
+                                                                                                              .Ontology_OItem3 = GetFieldOfObject(objOItem3, "Type"), _
+                                                                                                              .ID_OntologyRelationRule = GetFieldOfObjectRel(objOntologyRelationRule, objFields.ID_Other), _
+                                                                                                              .Name_OntolgyRelationRule = GetFieldOfObjectRel(objOntologyRelationRule, objFields.Name_Other)}).ToList())
+
+            objOList_Joins.AddRange((From objJoin In objDBLevel_OntologyJoinsOfOntologies.OList_ObjectRel_ID
+                                                                            Join objOItem1 In OList_OItems1.Where(Function(p) p.Level = 4) On objOItem1.GUID_Related Equals objJoin.ID_Other
+                                                                            group Join objOItem2 In OList_OItems1.Where(Function(p) p.Level = 4) On objOItem2.GUID_Related Equals objJoin.ID_Other Into objOItems2 = Group
                                                                             From objOItem2 In objOItems2
                                                                             Group Join objOItem3 In OList_OItems3 On objOItem3.GUID_Related Equals objJoin.ID_Other Into objOItems3 = Group
                                                                             From objOItem3 In objOItems3.DefaultIfEmpty()
@@ -1103,6 +1151,25 @@ Public Class clsDataWork_Ontologies
 
     Public Sub New(LocalConfig As clsLocalConfig_Ontologies)
         objLocalConfig = LocalConfig
+
+        objOItem_Result_Ontologies = objLocalConfig.Globals.LState_Nothing
+        objOItem_Result_OntolyRef = objLocalConfig.Globals.LState_Nothing
+        objOItem_Result_OntologyJoins = objLocalConfig.Globals.LState_Nothing
+        objOItem_Result_Classes = objLocalConfig.Globals.LState_Nothing
+        objOItem_Result_OntologyItems = objLocalConfig.Globals.LState_Nothing
+        objOItem_Result_OntologyItemsOfJoins = objLocalConfig.Globals.LState_Nothing
+        objOItem_Result_OntologyItemsOfOntologies = objLocalConfig.Globals.LState_Nothing
+        objOItem_Result_RefsOfOntologyItems = objLocalConfig.Globals.LState_Nothing
+        objOItem_Result_OntologyJoinsOfOntologies = objLocalConfig.Globals.LState_Nothing
+        objOItem_Result_OntologyTree = objLocalConfig.Globals.LState_Nothing
+        objOItem_Result_OntologyRelationRulesOfJoins = objLocalConfig.Globals.LState_Nothing
+        objOItem_OntologyRelationRulesOfOItems = objLocalConfig.Globals.LState_Nothing
+
+        initialize()
+    End Sub
+
+    Public Sub New(Globals As clsGlobals)
+        objLocalConfig = New clsLocalConfig_Ontologies(Globals)
 
         objOItem_Result_Ontologies = objLocalConfig.Globals.LState_Nothing
         objOItem_Result_OntolyRef = objLocalConfig.Globals.LState_Nothing

@@ -233,7 +233,8 @@ Public Class clsOntologyWork
                                                                            Nothing, _
                                                                            Nothing))
                                         Else
-                                            objOList_Join.Add(New clsObjectRel(Nothing, _
+                                            if objClass.objObj.OrderID = 1 Then
+                                                objOList_Join.Add(New clsObjectRel(Nothing, _
                                                                            Nothing, _
                                                                            objClass.objClass.ID_Other, _
                                                                            objClass.objClass.Name_Other, _
@@ -247,6 +248,23 @@ Public Class clsOntologyWork
                                                                            Nothing, _
                                                                            Nothing, _
                                                                            Nothing))
+                                            Else 
+                                                objOList_Join.Add(New clsObjectRel(Nothing, _
+                                                                           Nothing, _
+                                                                           objClass.objClass.ID_Other, _
+                                                                           objClass.objClass.Name_Other, _
+                                                                           Nothing, _
+                                                                           objClass.objClass.ID_Other, _
+                                                                           objClass.objClass.Name_Other, _
+                                                                           Nothing, _
+                                                                           objRelOrAtt.objRelTyp.ID_Other, _
+                                                                           objRelOrAtt.objRelTyp.Name_Other, _
+                                                                           objLocalConfig.Globals.Type_ClassRel, _
+                                                                           Nothing, _
+                                                                           Nothing, _
+                                                                           Nothing))
+                                            End If
+                                            
                                         End If
                                         
 

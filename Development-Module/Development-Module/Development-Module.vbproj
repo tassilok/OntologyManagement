@@ -86,6 +86,7 @@
     <Compile Include="clsDataWork_LogEntries.vb" />
     <Compile Include="clsDataWork_OntologyConfig.vb" />
     <Compile Include="clsLocalConfig.vb" />
+    <Compile Include="clsMoveConfigItemsToOntologies.vb" />
     <Compile Include="clsTransaction_OntologyConfig.vb" />
     <Compile Include="DataSet_Development.Designer.vb">
       <AutoGen>True</AutoGen>

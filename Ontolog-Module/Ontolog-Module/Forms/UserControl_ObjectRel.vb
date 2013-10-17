@@ -190,11 +190,13 @@ Public Class UserControl_ObjectRel
             DataGridView_Relations.Columns(9).Visible = False
 
             DataGridView_Relations.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText
-
+            
             ToolStripProgressBar_TokenRelation.Value = 0
         Else
             ToolStripProgressBar_TokenRelation.Value = 50
         End If
+
+        ToolStripLabel_RelCount.Text = DataGridView_Relations.RowCount
     End Sub
 
     Private Sub DataGridView_Relations_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles DataGridView_Relations.MouseDoubleClick

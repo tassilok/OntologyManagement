@@ -23,6 +23,7 @@ Partial Class UserControl_OntologyConfig
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UserControl_OntologyConfig))
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_CountLBL = New System.Windows.Forms.ToolStripLabel()
@@ -36,16 +37,17 @@ Partial Class UserControl_OntologyConfig
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_View = New System.Windows.Forms.ToolStripButton()
         Me.BindingSource_ConfigItems = New System.Windows.Forms.BindingSource(Me.components)
-        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
-        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer1.SuspendLayout()
-        Me.ToolStrip1.SuspendLayout()
-        CType(Me.DataGridView_ConfigItems, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ContextMenuStrip_OItems.SuspendLayout()
-        Me.ToolStrip2.SuspendLayout()
-        CType(Me.BindingSource_ConfigItems, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SuspendLayout()
+        Me.ToolStripButton_Migrate = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout
+        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout
+        Me.ToolStripContainer1.SuspendLayout
+        Me.ToolStrip1.SuspendLayout
+        CType(Me.DataGridView_ConfigItems,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.ContextMenuStrip_OItems.SuspendLayout
+        Me.ToolStrip2.SuspendLayout
+        CType(Me.BindingSource_ConfigItems,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SuspendLayout
         '
         'ToolStripContainer1
         '
@@ -92,14 +94,14 @@ Partial Class UserControl_OntologyConfig
         '
         'DataGridView_ConfigItems
         '
-        Me.DataGridView_ConfigItems.AllowUserToAddRows = False
-        Me.DataGridView_ConfigItems.AllowUserToDeleteRows = False
+        Me.DataGridView_ConfigItems.AllowUserToAddRows = false
+        Me.DataGridView_ConfigItems.AllowUserToDeleteRows = false
         Me.DataGridView_ConfigItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView_ConfigItems.ContextMenuStrip = Me.ContextMenuStrip_OItems
         Me.DataGridView_ConfigItems.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView_ConfigItems.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_ConfigItems.Name = "DataGridView_ConfigItems"
-        Me.DataGridView_ConfigItems.ReadOnly = True
+        Me.DataGridView_ConfigItems.ReadOnly = true
         Me.DataGridView_ConfigItems.Size = New System.Drawing.Size(443, 414)
         Me.DataGridView_ConfigItems.TabIndex = 1
         '
@@ -111,7 +113,7 @@ Partial Class UserControl_OntologyConfig
         '
         'setExportModeToolStripMenuItem
         '
-        Me.setExportModeToolStripMenuItem.Enabled = False
+        Me.setExportModeToolStripMenuItem.Enabled = false
         Me.setExportModeToolStripMenuItem.Name = "setExportModeToolStripMenuItem"
         Me.setExportModeToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
         Me.setExportModeToolStripMenuItem.Text = "x_set Export-Mode"
@@ -119,16 +121,16 @@ Partial Class UserControl_OntologyConfig
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Remove, Me.ToolStripSeparator1, Me.ToolStripButton_View})
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Remove, Me.ToolStripSeparator1, Me.ToolStripButton_View, Me.ToolStripButton_Migrate})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(118, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(180, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripButton_Add
         '
         Me.ToolStripButton_Add.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Add.Enabled = False
+        Me.ToolStripButton_Add.Enabled = false
         Me.ToolStripButton_Add.Image = Global.Development_Module.My.Resources.Resources.b_plus
         Me.ToolStripButton_Add.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Add.Name = "ToolStripButton_Add"
@@ -138,7 +140,7 @@ Partial Class UserControl_OntologyConfig
         'ToolStripButton_Remove
         '
         Me.ToolStripButton_Remove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Remove.Enabled = False
+        Me.ToolStripButton_Remove.Enabled = false
         Me.ToolStripButton_Remove.Image = Global.Development_Module.My.Resources.Resources.b_minus
         Me.ToolStripButton_Remove.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Remove.Name = "ToolStripButton_Remove"
@@ -153,37 +155,46 @@ Partial Class UserControl_OntologyConfig
         'ToolStripButton_View
         '
         Me.ToolStripButton_View.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_View.Enabled = False
+        Me.ToolStripButton_View.Enabled = false
         Me.ToolStripButton_View.Image = Global.Development_Module.My.Resources.Resources.clipboard_01
         Me.ToolStripButton_View.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_View.Name = "ToolStripButton_View"
         Me.ToolStripButton_View.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_View.Text = "ToolStripButton3"
         '
+        'ToolStripButton_Migrate
+        '
+        Me.ToolStripButton_Migrate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Migrate.Image = CType(resources.GetObject("ToolStripButton_Migrate.Image"),System.Drawing.Image)
+        Me.ToolStripButton_Migrate.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Migrate.Name = "ToolStripButton_Migrate"
+        Me.ToolStripButton_Migrate.Size = New System.Drawing.Size(62, 22)
+        Me.ToolStripButton_Migrate.Text = "x_Migrate"
+        '
         'UserControl_OntologyConfig
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "UserControl_OntologyConfig"
         Me.Size = New System.Drawing.Size(443, 464)
-        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
-        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
-        Me.ToolStripContainer1.ResumeLayout(False)
-        Me.ToolStripContainer1.PerformLayout()
-        Me.ToolStrip1.ResumeLayout(False)
-        Me.ToolStrip1.PerformLayout()
-        CType(Me.DataGridView_ConfigItems, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ContextMenuStrip_OItems.ResumeLayout(False)
-        Me.ToolStrip2.ResumeLayout(False)
-        Me.ToolStrip2.PerformLayout()
-        CType(Me.BindingSource_ConfigItems, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ResumeLayout(False)
+        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout
+        Me.ToolStripContainer1.ContentPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout
+        Me.ToolStripContainer1.ResumeLayout(false)
+        Me.ToolStripContainer1.PerformLayout
+        Me.ToolStrip1.ResumeLayout(false)
+        Me.ToolStrip1.PerformLayout
+        CType(Me.DataGridView_ConfigItems,System.ComponentModel.ISupportInitialize).EndInit
+        Me.ContextMenuStrip_OItems.ResumeLayout(false)
+        Me.ToolStrip2.ResumeLayout(false)
+        Me.ToolStrip2.PerformLayout
+        CType(Me.BindingSource_ConfigItems,System.ComponentModel.ISupportInitialize).EndInit
+        Me.ResumeLayout(false)
 
-    End Sub
+End Sub
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripLabel_CountLBL As System.Windows.Forms.ToolStripLabel
@@ -197,5 +208,6 @@ Partial Class UserControl_OntologyConfig
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents BindingSource_ConfigItems As System.Windows.Forms.BindingSource
     Friend WithEvents ToolStripButton_View As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripButton_Migrate As System.Windows.Forms.ToolStripButton
 
 End Class

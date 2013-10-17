@@ -75,7 +75,8 @@ Public Class UserControl_OntologyJoins
                     objFrmOntologyModule = New frmMain(objDataWork_Ontologies.LocalConfig.Globals,objDataWork_Ontologies.LocalConfig.Globals.Type_Class,objDataWork_Ontologies.LocalConfig.Globals.Class_OntologyRelationRule)
                     objFrmOntologyModule.Applyable = True
                     objFrmOntologyModule.ShowDialog(me)
-                    If objFrmOntologyModule.OList_Simple.Count=1 Then
+                    If objFrmOntologyModule.DialogResult=DialogResult.OK Then
+                        If objFrmOntologyModule.OList_Simple.Count=1 Then
                         If objFrmOntologyModule.OList_Simple.First().Type =objDataWork_Ontologies.LocalConfig.Globals.Type_Object Then
                             If objFrmOntologyModule.OList_Simple.First().GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_OntologyRelationRule.GUID Then
                                 Dim objOItem_Rule = objFrmOntologyModule.OList_Simple.First()
@@ -134,6 +135,8 @@ Public Class UserControl_OntologyJoins
                     Else
                         MsgBox("Bitte nur eine Regel auswählen!", MsgBoxStyle.Exclamation)
                     End If
+                    End If
+                    
 
                 Case "Name_OItem1"
                     objFrmOntologyModule = New frmMain(objDataWork_Ontologies.LocalConfig.Globals, objDataWork_Ontologies.LocalConfig.Globals.Type_Class)
@@ -180,6 +183,7 @@ Public Class UserControl_OntologyJoins
             objFrmJoinSelector = New frmJoinSelector(objDataWork_Ontologies)
             objFrmJoinSelector.ShowDialog(Me)
             If objFrmJoinSelector.DialogResult = DialogResult.OK Then
+               
                 Dim objOItem_Join = objDataWork_Ontologies.GetData_OntologyItemsOfJoinsExplicit(objOItem_Ontology, objFrmJoinSelector.OItem_Left, objFrmJoinSelector.OItem_Right, objFrmJoinSelector.OItem_RelationType)
 
                 If objOItem_Join Is Nothing Then
@@ -213,10 +217,17 @@ Public Class UserControl_OntologyJoins
                         End If
                         
                         If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                            Dim objORel_OntologyJoinToOItemLeft = objDataWork_Ontologies.Rel_OntologyJoinToOItem(objOItem_Join, objOItem_OItemLeft, 1)
+                            Dim boolHierarchy = False
+                            If Not objFrmJoinSelector.OItem_Right Is Nothing Then 
+                                If objFrmJoinSelector.OItem_Left.GUID = objFrmJoinSelector.OItem_Right.GUID Then
+                                    boolHierarchy = True
+                                End If 
+                                
+                            End If
+                            Dim objORel_OntologyJoinToOItemLeft = objDataWork_Ontologies.Rel_OntologyJoinToOItem(objOItem_Join, objOItem_OItemLeft, If(boolHierarchy,4,1))
                             objOItem_Result = objTransaction_Ontologies.do_Transaction(objORel_OntologyJoinToOItemLeft)
                             If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                                If Not objFrmJoinSelector.OItem_Right Is Nothing Then
+                                If Not objFrmJoinSelector.OItem_Right Is Nothing And Not boolHierarchy Then
                                     objOItem_OItemRight = objDataWork_Ontologies.Get_OntologyItemOfOntology(objOItem_Ontology, objFrmJoinSelector.OItem_Right)
                                     If objOItem_OItemRight Is Nothing Then
                                         objOItem_OItemRight = New clsOntologyItem With {.GUID = objDataWork_Ontologies.LocalConfig.Globals.NewGUID, _
@@ -301,10 +312,10 @@ Public Class UserControl_OntologyJoins
                                                                                                                       .Name_OItem1 = objOItem_OItemLeft.Name, _
                                                                                                                       .ID_ParentOItem1 = objOItem_OItemLeft.GUID_Parent, _
                                                                                                                       .Ontology_OItem1 = objOItem_OItemLeft.Type, _
-                                                                                                                      .ID_OItem2 = If(objOItem_OItemRight Is Nothing, Nothing, objOItem_OItemRight.GUID), _
-                                                                                                                      .Name_OItem2 = If(objOItem_OItemRight Is Nothing, Nothing, objOItem_OItemRight.Name), _
-                                                                                                                      .ID_ParentOItem2 = If(objOItem_OItemRight Is Nothing, Nothing, objOItem_OItemRight.GUID_Parent), _
-                                                                                                                      .Ontology_OItem2 = If(objOItem_OItemRight Is Nothing, Nothing, objOItem_OItemRight.Type), _
+                                                                                                                      .ID_OItem2 = If(objOItem_OItemRight Is Nothing, If(boolHierarchy,objOItem_OItemLeft.GUID,nothing), objOItem_OItemRight.GUID), _
+                                                                                                                      .Name_OItem2 = If(objOItem_OItemRight Is Nothing, If(boolHierarchy,objOItem_OItemLeft.Name,nothing), objOItem_OItemRight.Name), _
+                                                                                                                      .ID_ParentOItem2 = If(objOItem_OItemRight Is Nothing, If(boolHierarchy,objOItem_OItemLeft.GUID_Parent,nothing), objOItem_OItemRight.GUID_Parent), _
+                                                                                                                      .Ontology_OItem2 = If(objOItem_OItemRight Is Nothing, If(boolHierarchy,objOItem_OItemLeft.Type,nothing), objOItem_OItemRight.Type), _
                                                                                                                       .ID_OItem3 = If(objOItem_OItemRelationType Is Nothing, Nothing, objOItem_OItemRelationType.GUID), _
                                                                                                                       .Name_OItem3 = If(objOItem_OItemRelationType Is Nothing, Nothing, objOItem_OItemRelationType.Name), _
                                                                                                                       .Ontology_OItem3 = If(objOItem_OItemRelationType Is Nothing, Nothing, objOItem_OItemRelationType.Type), _
