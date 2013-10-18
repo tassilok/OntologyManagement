@@ -2,7 +2,7 @@
 Imports OntologyClasses.BaseClasses
 Public Class clsMoveConfigItemsToOntologies
     
-    Private objDataWork_OntologyConfig As clsDataWork_OntologyConfig
+    Private objDataWork_OntologyConfig As clsDataWork_OntologyConfig_bak
     Private objDataWork_Ontologies As clsDataWork_Ontologies
     Private objLocalConfig As clsLocalConfig
     Private objTransaction As clsTransaction    
@@ -105,7 +105,7 @@ Public Class clsMoveConfigItemsToOntologies
         Return objoiteM_Result
     End Function
 
-    Public Sub New(LocalConfig As clsLocalConfig, DataWork_OntologyConfig As clsDataWork_OntologyConfig)
+    Public Sub New(LocalConfig As clsLocalConfig, DataWork_OntologyConfig As clsDataWork_OntologyConfig_bak)
         objDataWork_OntologyConfig = DataWork_OntologyConfig
         
         objLocalConfig = LocalConfig

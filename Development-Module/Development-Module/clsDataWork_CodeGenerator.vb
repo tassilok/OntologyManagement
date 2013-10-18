@@ -50,11 +50,10 @@ Public Class clsDataWork_CodeGenerator
         Return strXML
     End Function
 
-    Public Function get_Code(ByVal objOItem_Development As clsOntologyItem, ByVal objDGV As DataGridView) As String
+    Public Function get_Code(ByVal objOItem_Development As clsOntologyItem, ByVal objDGVR As DataGridViewRowCollection) As String
         Dim strXML_Config As String
 
         Dim objDGVR_Selected As DataGridViewRow
-        Dim objDRV_Selected As DataRowView
 
         Dim strCode As String
 
@@ -82,24 +81,24 @@ Public Class clsDataWork_CodeGenerator
                                     strList_Initialization_Object = ""
                                     strList_Initialization_RelationType = ""
 
-                                    If objDGV.SelectedRows.Count > 0 Then
-                                        If objDGV.SelectedRows.Count = 0 Then
-                                            For Each objDGVR_Selected In objDGV.Rows
-                                                objDRV_Selected = objDGVR_Selected.DataBoundItem
-                                                get_XML_ConfigItem(objDRV_Selected)
+                                    If objDGVR.Count > 0 Then
+                                        If objDGVR.Count = 0 Then
+                                            For Each objDGVR_Selected In objDGVR
+                                                Dim objOItemOfOntology As clsOntologyItemsOfOntologies = objDGVR_Selected.DataBoundItem
+                                                get_XML_ConfigItem(objOItemOfOntology)
 
                                             Next
                                         Else
-                                            For Each objDGVR_Selected In objDGV.SelectedRows
-                                                objDRV_Selected = objDGVR_Selected.DataBoundItem
-                                                get_XML_ConfigItem(objDRV_Selected)
+                                            For Each objDGVR_Selected In objDGVR
+                                                Dim objOItemOfOntology As clsOntologyItemsOfOntologies = objDGVR_Selected.DataBoundItem
+                                                get_XML_ConfigItem(objOItemOfOntology)
                                             Next
                                         End If
                                         
                                     Else
-                                        For Each objDGVR_Selected In objDGV.Rows
-                                            objDRV_Selected = objDGVR_Selected.DataBoundItem
-                                            get_XML_ConfigItem(objDRV_Selected)
+                                        For Each objDGVR_Selected In objDGVR
+                                            Dim objOItemOfOntology As clsOntologyItemsOfOntologies = objDGVR_Selected.DataBoundItem
+                                            get_XML_ConfigItem(objOItemOfOntology)
                                         Next
                                     End If
                                 End If
@@ -125,22 +124,22 @@ Public Class clsDataWork_CodeGenerator
         Return strCode
     End Function
 
-    Private Sub get_XML_ConfigItem(ByVal objDRV_ConfigItem As DataRowView)
-        strXML_Declaration_List = strXML_Declaration_List & strXML_Declaration.Replace("@" & objLocalConfig.OItem_Token_Variable_Name_ConfigItem.Name & "@", objDRV_ConfigItem.Item("Name_ConfigItem").ToString.ToLower) & vbCrLf
-        strXML_Property_List = strXML_Property_List & strXML_Property.Replace("@" & objLocalConfig.OItem_Token_Variable_Name_ConfigItem.Name & "@", objDRV_ConfigItem.Item("Name_ConfigItem").ToString.ToLower) & vbCrLf & vbCrLf
+    Private Sub get_XML_ConfigItem(ByVal objOItemOfOntology As clsOntologyItemsOfOntologies)
+        strXML_Declaration_List = strXML_Declaration_List & strXML_Declaration.Replace("@" & objLocalConfig.OItem_Token_Variable_Name_ConfigItem.Name & "@", objOItemOfOntology.Name_OntologyItem.ToLower) & vbCrLf
+        strXML_Property_List = strXML_Property_List & strXML_Property.Replace("@" & objLocalConfig.OItem_Token_Variable_Name_ConfigItem.Name & "@", objOItemOfOntology.Name_OntologyItem.ToLower) & vbCrLf & vbCrLf
 
-        Select Case objDRV_ConfigItem.Item("Ontology")
+        Select Case objOItemOfOntology.Type_Ref
             Case objLocalConfig.Globals.Type_AttributeType
-                strList_Initialization_Attribute = strList_Initialization_Attribute & strXML_Initialization_Attribute.Replace("@" & objLocalConfig.OItem_Token_Variable_Name_ConfigItem.Name & "@", objDRV_ConfigItem.Item("Name_ConfigItem").ToString.ToLower) & vbCrLf & vbCrLf
+                strList_Initialization_Attribute = strList_Initialization_Attribute & strXML_Initialization_Attribute.Replace("@" & objLocalConfig.OItem_Token_Variable_Name_ConfigItem.Name & "@", objOItemOfOntology.Name_OntologyItem.ToLower) & vbCrLf & vbCrLf
 
             Case objLocalConfig.Globals.Type_RelationType
-                strList_Initialization_RelationType = strList_Initialization_RelationType & strXML_Initialization_RelationType.Replace("@" & objLocalConfig.OItem_Token_Variable_Name_ConfigItem.Name & "@", objDRV_ConfigItem.Item("Name_ConfigItem").ToString.ToLower) & vbCrLf & vbCrLf
+                strList_Initialization_RelationType = strList_Initialization_RelationType & strXML_Initialization_RelationType.Replace("@" & objLocalConfig.OItem_Token_Variable_Name_ConfigItem.Name & "@", objOItemOfOntology.Name_OntologyItem.ToLower) & vbCrLf & vbCrLf
 
             Case objLocalConfig.Globals.Type_Object
-                strList_Initialization_Object = strList_Initialization_Object & strXML_Initialization_Token.Replace("@" & objLocalConfig.OItem_Token_Variable_Name_ConfigItem.Name & "@", objDRV_ConfigItem.Item("Name_ConfigItem").ToString.ToLower) & vbCrLf & vbCrLf
+                strList_Initialization_Object = strList_Initialization_Object & strXML_Initialization_Token.Replace("@" & objLocalConfig.OItem_Token_Variable_Name_ConfigItem.Name & "@", objOItemOfOntology.Name_OntologyItem.ToLower) & vbCrLf & vbCrLf
 
             Case objLocalConfig.Globals.Type_Class
-                strList_Initialization_Class = strList_Initialization_Class & strXML_Initialization_Type.Replace("@" & objLocalConfig.OItem_Token_Variable_Name_ConfigItem.Name & "@", objDRV_ConfigItem.Item("Name_ConfigItem").ToString.ToLower) & vbCrLf & vbCrLf
+                strList_Initialization_Class = strList_Initialization_Class & strXML_Initialization_Type.Replace("@" & objLocalConfig.OItem_Token_Variable_Name_ConfigItem.Name & "@", objOItemOfOntology.Name_OntologyItem.ToLower) & vbCrLf & vbCrLf
 
         End Select
     End Sub

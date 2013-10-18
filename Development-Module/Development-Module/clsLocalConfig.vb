@@ -73,6 +73,7 @@ Public Class clsLocalConfig
     Private objOitem_RelationType_ignore As New clsOntologyItem
     Private objOitem_RelationType_handles As New clsOntologyItem
     Private objOitem_RelationType_initializing As New clsOntologyItem
+    Private objOitem_RelationType_belongingResource As New clsOntologyItem
 
     'Classes
     Private objOItem_Class_SoftwareDevelopment As New clsOntologyItem
@@ -254,6 +255,12 @@ Public Class clsLocalConfig
     Public ReadOnly Property OItem_RelationType_belongsTo As clsOntologyItem
         Get
             Return objOItem_RelationType_belongsTo
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_RelationType_belongingResource As clsOntologyItem
+        Get
+            Return objOitem_RelationType_belongingResource
         End Get
     End Property
 
@@ -1690,6 +1697,18 @@ Public Class clsLocalConfig
 
     Private Sub get_Config_RelationTypes()
 
+
+        Dim objBelongingResource = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object = "RelationType_belonging_Resource" And obj.Ontology = objGlobals.Type_RelationType
+
+        If objBelongingResource.Count > 0 Then
+            objOitem_RelationType_belongingResource = New clsOntologyItem
+            objOitem_RelationType_belongingResource.GUID = objBelongingResource(0).ID_Other
+            objOitem_RelationType_belongingResource.Name = objBelongingResource(0).Name_Other
+            objOitem_RelationType_belongingResource.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
 
         Dim objIIS = From obj In objDBLevel_Config2.OList_ObjectRel
                     Where obj.Name_Object = "RelationType_isInState" And obj.Ontology = objGlobals.Type_RelationType

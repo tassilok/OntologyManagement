@@ -85,6 +85,7 @@
     <Compile Include="clsDataWork_DevTree.vb" />
     <Compile Include="clsDataWork_LogEntries.vb" />
     <Compile Include="clsDataWork_OntologyConfig.vb" />
+    <Compile Include="clsDataWork_OntologyConfig_bak.vb" />
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsMoveConfigItemsToOntologies.vb" />
     <Compile Include="clsTransaction_OntologyConfig.vb" />
@@ -145,6 +146,12 @@
     <Compile Include="UserControl_OntologyConfig.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControl_OntologyConfig_bak.Designer.vb">
+      <DependentUpon>UserControl_OntologyConfig_bak.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_OntologyConfig_bak.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmCodeGenerator.resx">
@@ -170,6 +177,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_OntologyConfig.resx">
       <DependentUpon>UserControl_OntologyConfig.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_OntologyConfig_bak.resx">
+      <DependentUpon>UserControl_OntologyConfig_bak.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -78,7 +78,7 @@ Public Class frmDevelopmentModule
             Case TabPage_Logentries.Name
                 objUserControl_LogEntries.Initialize_LogEntries(objOItem_Development)
             Case TabPage_OntologyConfig.Name
-                objUserControl_OntologyConfig.initialize(objOItem_Development)
+                objUserControl_OntologyConfig.initialize_OntologyConfig(objOItem_Development)
         End Select
     End Sub
 
