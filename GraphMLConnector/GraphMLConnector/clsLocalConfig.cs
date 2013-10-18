@@ -20,6 +20,10 @@ namespace GraphMLConnector
 
         public clsGlobals Globals { get; set; }
 
+        private clsOntologyItem objOItem_Ontology;
+        private List<clsOntologyItemsOfOntologies> objOList_OntologyItems;
+        private clsDataWork_Ontologies objDataWork_Ontologies;
+
         private clsDBLevel objDBLevel_Config1;
         private clsDBLevel objDBLevel_Config2;
 
@@ -67,13 +71,66 @@ namespace GraphMLConnector
 
         private void set_DBConnection()
         {
+            objDataWork_Ontologies = new clsDataWork_Ontologies(Globals);
             objDBLevel_Config1 = new clsDBLevel(Globals);
             objDBLevel_Config2 = new clsDBLevel(Globals);
         }
 
+        private void get_Data_DevelopmentConfig()
+        {
+            objDataWork_Ontologies.GetData_003_OntologyItemsOfOntologies();
+            if (objDataWork_Ontologies.OItem_Result_OntologyItemsOfOntologies.GUID == Globals.LState_Success.GUID)
+            {
+                objDataWork_Ontologies.GetData_RefsOfOntologyItems();
+                if (objDataWork_Ontologies.OItem_Result_RefsOfOntologyItems.GUID == Globals.LState_Success.GUID)
+                {
+                    objDataWork_Ontologies.GetData_OntologyRefs();
+                    if (objDataWork_Ontologies.OItem_Result_OntologyRels.GUID == Globals.LState_Success.GUID)
+                    {
+                        var objOntologies =
+                            objDataWork_Ontologies.OList_RefsOfOntologies.Where(
+                                p => p.ID_Other == cstr_ID_SoftwareDevelopment).ToList();
+
+                    
+                        if (objOntologies.Any())
+                        {
+                            objOItem_Ontology = new clsOntologyItem
+                                {
+                                    GUID = objOntologies.First().ID_Object,
+                                    Name = objOntologies.First().Name_Object,
+                                    GUID_Parent = Globals.Class_Ontologies.GUID,
+                                    Type = Globals.Type_Object
+                                };
+
+                            objOList_OntologyItems =
+                                objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(
+                                    p => p.ID_Ontology == objOItem_Ontology.GUID).ToList();
+                        }
+                            
+                    }
+                    else
+                    {
+                        throw new Exception("config not set");
+                    }
+                    
+                }
+                else
+                {
+                    throw new Exception("config not set");    
+                }
+                    
+            }
+            else
+            {
+                throw new Exception("config not set");
+            }
+                
+        }
+
         private void get_Config()
         {
-            //get_Data_DevelopmentConfig();
+
+            get_Data_DevelopmentConfig();
             get_Config_Attributes();
             get_Config_RelationTypes();
             get_Config_Classes();
