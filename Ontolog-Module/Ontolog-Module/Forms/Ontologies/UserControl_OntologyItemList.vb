@@ -7,6 +7,21 @@ Public Class UserControl_OntologyItemList
     Private objTransaction As clsTransaction
     Private objOItem_Ontology As clsOntologyItem
 
+    Public Event DataLoaded
+
+
+    Public ReadOnly Property SelectedRows As DataGridViewSelectedRowCollection
+        Get
+            Return DataGridView_OItems.SelectedRows
+        End Get
+    End Property
+
+    Public ReadOnly Property Rows As DataGridViewRowCollection
+        Get
+            Return DataGridView_OItems.Rows
+        End Get
+    End Property
+
     Public Sub New(DataWork_Ontologies As clsDataWork_Ontologies)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
@@ -16,6 +31,41 @@ Public Class UserControl_OntologyItemList
         objDataWork_Ontologies = DataWork_Ontologies
 
         initialize()
+    End Sub
+
+    Public Sub New(Globals As clsGlobals)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objDataWork_Ontologies = New clsDataWork_Ontologies(Globals)
+        objDataWork_Ontologies.GetData_001_OntologyJoinsOfOntologies()
+        If objDataWork_Ontologies.OItem_Result_OntologyJoinsOfOntologies.GUID= objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+            objDataWork_Ontologies.GetData_002_OntologyItemsOfJoins()
+            If objDataWork_Ontologies.OItem_Result_OntologyItemsOfJoins.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID then
+                objDataWork_Ontologies.GetData_003_OntologyItemsOfOntologies()
+                If objDataWork_Ontologies.OItem_Result_OntologyItemsOfOntologies.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                    objDataWork_Ontologies.GetData_OntologyRelationRulesOfOItems()
+                    If objDataWork_Ontologies.OItem_OntologyRelationRulesOfOItems.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                        objDataWork_Ontologies.GetData_RefsOfOntologyItems()
+                        initialize()
+                    Else 
+                        MsgBox("Die Ontology-Items konnten nicht ermittelt werden!",MsgBoxStyle.Critical)
+                    End If
+                Else 
+                    MsgBox("Die Ontology-Items konnten nicht ermittelt werden!",MsgBoxStyle.Critical)
+                End If
+            Else 
+                MsgBox("Die Ontology-Items konnten nicht ermittelt werden!",MsgBoxStyle.Critical)
+            End If
+        Else 
+            MsgBox("Die Ontology-Items konnten nicht ermittelt werden!",MsgBoxStyle.Critical)
+        End If
+        
+        
+        
+        
     End Sub
 
     Private Sub initialize()
@@ -32,27 +82,31 @@ Public Class UserControl_OntologyItemList
             DataGridView_OItems.DataSource = objOList
             DataGridView_OItems.Columns(0).Visible = False
             DataGridView_OItems.Columns(1).Visible = False
-            DataGridView_OItems.Columns(2).Visible = False
-            DataGridView_OItems.Columns(3).Visible = True
-            DataGridView_OItems.Columns(4).Visible = False
-            DataGridView_OItems.Columns(5).Visible = True
-            DataGridView_OItems.Columns(6).Visible = False
-            DataGridView_OItems.Columns(7).Visible = True
+            DataGridView_OItems.Columns(3).Visible = False
+            DataGridView_OItems.Columns(5).Visible = False
+            DataGridView_OItems.Columns(7).Visible = False
+            
             
         Else
             DataGridView_OItems.DataSource = Nothing
         End If
 
         ToolStripLabel_Count.Text = DataGridView_OItems.RowCount
+        RaiseEvent DataLoaded
     End Sub
 
     Private Sub ContextMenuStrip_OItems_Opening( sender As Object,  e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_OItems.Opening
         AddToolStripMenuItem.Enabled = False
         ChangeToolStripMenuItem.Enabled = False
+        RemoveToolStripMenuItem.Enabled = False
         If DataGridView_OItems.SelectedCells.Count =1 Then
             If DataGridView_OItems.Columns(DataGridView_OItems.SelectedCells(0).ColumnIndex).DataPropertyName = "Name_OntologyRelationRule" Then
                 ChangeToolStripMenuItem.Enabled = True
             End If
+        End If
+
+        If DataGridView_OItems.SelectedRows.Count>0 Then
+            RemoveToolStripMenuItem.Enabled = True
         End If
 
         If Not objOItem_Ontology Is Nothing Then

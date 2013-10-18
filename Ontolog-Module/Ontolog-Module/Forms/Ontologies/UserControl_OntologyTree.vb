@@ -23,6 +23,16 @@ Public Class UserControl_OntologyTree
         initialize()
     End Sub
 
+    Public Sub New(Globals As clsGlobals)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objDataWork_Ontologies = new clsDataWork_Ontologies(Globals)
+        initialize()
+    End Sub
+
     Private Sub initialize()
         objTransaction_Ontologies = New clsTransaction(objDataWork_Ontologies.LocalConfig.Globals)
     End Sub

@@ -22,6 +22,23 @@ Public Class UserControl_OntologyRefTree
         initialize()
     End Sub
 
+    Public Sub New(Globals As clsGlobals)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        
+        objDataWork_Ontologies = New clsDataWork_Ontologies(Globals)
+        objDataWork_Ontologies.GetData_RefsOfOntologyItems()
+        If objDataWork_Ontologies.OItem_Result_OntologyRels.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+            initialize()    
+        Else 
+            MsgBox("Der Baum kann nicht erzeugt werden",MsgBoxStyle.Critical)
+        End If
+        
+    End Sub
+
     Private Sub initialize()
         TreeView_Ontologies.Nodes.Clear()
 

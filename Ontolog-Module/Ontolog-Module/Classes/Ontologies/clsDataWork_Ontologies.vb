@@ -218,6 +218,104 @@ Public Class clsDataWork_Ontologies
     End Property
 
 
+    Public function GetData_BaseData() As clsOntologyItem
+        Dim objOItem_Result as clsOntologyItem
+        GetData_Classes()
+        If OItem_Result_Classes.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            GetData_Ontologies()
+            If OItem_Result_Ontologies.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                GetData_OntologyRefs()
+                If OItem_Result_OntologyRels.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objOItem_Result = GetData_ClassTree()
+
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        GetData_OntologyItems()
+                        If OItem_Result_OntologyItems.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            GetData_OntologyJoins()
+                            If OItem_Result_OntologyJoins.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                GetData_001_OntologyJoinsOfOntologies()
+                                If OItem_Result_OntologyJoinsOfOntologies.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    GetData_002_OntologyItemsOfJoins()
+                                    If OItem_Result_OntologyItemsOfJoins.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        GetData_003_OntologyItemsOfOntologies()
+                                        If OItem_Result_OntologyItemsOfOntologies.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                            GetData_OntologyRelationRulesOfOItems()
+                                            If OItem_Result_OntologyRels.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                GetData_RefsOfOntologyItems()
+                                                If OItem_OntologyRelationRulesOfOItems.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                    GetData_OntologyTree()
+                                                    If OItem_Result_OntologyTree.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                        GetData_OntologyRelationRulesOfJoins()
+                                                        If OItem_Result_OntologyRelationRulesOfJoins.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                            objOItem_Result = objLocalConfig.Globals.LState_Success
+                                                            
+                                                        Else
+                                                            objOItem_Result = objLocalConfig.Globals.LState_Error
+                                                            
+                                                        End If
+                                                    
+                                                    Else
+                                                        objOItem_Result = objLocalConfig.Globals.LState_Error
+                                                        
+                                                    End If
+
+                                                Else
+                                                    objOItem_Result = objLocalConfig.Globals.LState_Error
+                                                    
+                                                End If
+                                            Else 
+                                                objOItem_Result = objLocalConfig.Globals.LState_Error
+                                                
+                                            End If
+                                            
+
+                                        Else
+                                            objOItem_Result = objLocalConfig.Globals.LState_Error
+                                            
+                                        End If
+
+                                    Else
+                                        objOItem_Result = objLocalConfig.Globals.LState_Error
+                                        
+                                    End If
+
+                                Else
+                                    objOItem_Result = objLocalConfig.Globals.LState_Error
+                                    
+                                End If
+
+                            Else
+                                objOItem_Result = objLocalConfig.Globals.LState_Error
+                                
+                            End If
+
+                        Else
+                            objOItem_Result = objLocalConfig.Globals.LState_Error
+                            
+
+                        End If
+
+                    Else
+                        
+                    End If
+                Else
+                    objOItem_Result = objLocalConfig.Globals.LState_Error
+                    
+                End If
+            Else
+                objOItem_Result = objLocalConfig.Globals.LState_Error
+                
+            End If
+
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Error
+            
+        End If
+
+        Return objOItem_Result
+    End function
+
+
     Public Sub GetData_Ontologies()
         Dim OList_Ontologies As New List(Of clsOntologyItem)
         Dim objOItem_Result As clsOntologyItem
@@ -905,10 +1003,12 @@ Public Class clsDataWork_Ontologies
                                               ID_Parent_Ref = objRef.ID_Parent_Other, _
                                               Ontology = objRef.Ontology, _
                                               ID_OntologyItem = objRef.ID_Object, _
+                                              Name_OntologyItem = objRef.Name_Object, _
                                               ID_Rule = If(objRule Is Nothing, Nothing, objRule.ID_Other), _
                                               Name_Rule = If(objRule Is Nothing, Nothing, objRule.Name_Other) Into Group
                                     Select New clsOntologyItemsOfOntologies With {.ID_Ontology = ID_Ontology, _
                                                                      .ID_OntologyItem = ID_OntologyItem, _
+                                                                     .Name_OntologyItem = Name_OntologyItem, _
                                                                      .ID_OntologyRelationRule = ID_Rule, _
                                                                      .ID_Parent_Ref = ID_Parent_Ref, _
                                                                      .ID_Ref = ID_Ref, _
@@ -930,10 +1030,12 @@ Public Class clsDataWork_Ontologies
                                               ID_Parent_Ref = objRef.ID_Parent_Other, _
                                               Ontology = objRef.Ontology, _
                                               ID_OntologyItem = objRef.ID_Object, _
+                                              Name_OntologyItem = objRef.Name_Object, _
                                               ID_Rule = If(objRule Is Nothing, Nothing, objRule.ID_Other), _
                                               Name_Rule = If(objRule Is Nothing, Nothing, objRule.Name_Other) Into Group
                                     Select New clsOntologyItemsOfOntologies With {.ID_Ontology = ID_Ontology, _
                                                                      .ID_OntologyItem = ID_OntologyItem, _
+                                                                     .Name_OntologyItem = Name_OntologyItem, _
                                                                      .ID_OntologyRelationRule = ID_Rule, _
                                                                      .ID_Parent_Ref = ID_Parent_Ref, _
                                                                      .ID_Ref = ID_Ref, _

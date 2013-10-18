@@ -29,17 +29,16 @@ Partial Class UserControl_OntologyItemList
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.DataGridView_OItems = New System.Windows.Forms.DataGridView()
         Me.ContextMenuStrip_OItems = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ChangeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.AddToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
-        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer1.SuspendLayout()
-        Me.ToolStrip1.SuspendLayout()
-        CType(Me.DataGridView_OItems, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ContextMenuStrip_OItems.SuspendLayout()
-        Me.SuspendLayout()
+        Me.ChangeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RemoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout
+        Me.ToolStripContainer1.SuspendLayout
+        Me.ToolStrip1.SuspendLayout
+        CType(Me.DataGridView_OItems,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.ContextMenuStrip_OItems.SuspendLayout
+        Me.SuspendLayout
         '
         'ToolStripContainer1
         '
@@ -51,17 +50,13 @@ Partial Class UserControl_OntologyItemList
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.DataGridView_OItems)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(539, 411)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(539, 436)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
         Me.ToolStripContainer1.Size = New System.Drawing.Size(539, 461)
         Me.ToolStripContainer1.TabIndex = 0
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
-        '
-        'ToolStripContainer1.TopToolStripPanel
-        '
-        Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.ToolStrip2)
         '
         'ToolStrip1
         '
@@ -86,22 +81,28 @@ Partial Class UserControl_OntologyItemList
         '
         'DataGridView_OItems
         '
-        Me.DataGridView_OItems.AllowUserToAddRows = False
-        Me.DataGridView_OItems.AllowUserToDeleteRows = False
+        Me.DataGridView_OItems.AllowUserToAddRows = false
+        Me.DataGridView_OItems.AllowUserToDeleteRows = false
         Me.DataGridView_OItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView_OItems.ContextMenuStrip = Me.ContextMenuStrip_OItems
         Me.DataGridView_OItems.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView_OItems.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_OItems.Name = "DataGridView_OItems"
-        Me.DataGridView_OItems.ReadOnly = True
-        Me.DataGridView_OItems.Size = New System.Drawing.Size(539, 411)
+        Me.DataGridView_OItems.ReadOnly = true
+        Me.DataGridView_OItems.Size = New System.Drawing.Size(539, 436)
         Me.DataGridView_OItems.TabIndex = 0
         '
         'ContextMenuStrip_OItems
         '
-        Me.ContextMenuStrip_OItems.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToolStripMenuItem, Me.ChangeToolStripMenuItem})
+        Me.ContextMenuStrip_OItems.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ChangeToolStripMenuItem, Me.AddToolStripMenuItem, Me.RemoveToolStripMenuItem})
         Me.ContextMenuStrip_OItems.Name = "ContextMenuStrip_OItems"
-        Me.ContextMenuStrip_OItems.Size = New System.Drawing.Size(153, 70)
+        Me.ContextMenuStrip_OItems.Size = New System.Drawing.Size(153, 92)
+        '
+        'AddToolStripMenuItem
+        '
+        Me.AddToolStripMenuItem.Name = "AddToolStripMenuItem"
+        Me.AddToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AddToolStripMenuItem.Text = "x_Add"
         '
         'ChangeToolStripMenuItem
         '
@@ -109,19 +110,11 @@ Partial Class UserControl_OntologyItemList
         Me.ChangeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ChangeToolStripMenuItem.Text = "x_Change"
         '
-        'ToolStrip2
+        'RemoveToolStripMenuItem
         '
-        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
-        Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(111, 25)
-        Me.ToolStrip2.TabIndex = 0
-        '
-        'AddToolStripMenuItem
-        '
-        Me.AddToolStripMenuItem.Name = "AddToolStripMenuItem"
-        Me.AddToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.AddToolStripMenuItem.Text = "x_Add"
+        Me.RemoveToolStripMenuItem.Name = "RemoveToolStripMenuItem"
+        Me.RemoveToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.RemoveToolStripMenuItem.Text = "x_Remove"
         '
         'UserControl_OntologyItemList
         '
@@ -133,8 +126,6 @@ Partial Class UserControl_OntologyItemList
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(false)
         Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout
         Me.ToolStripContainer1.ContentPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout
         Me.ToolStripContainer1.ResumeLayout(false)
         Me.ToolStripContainer1.PerformLayout
         Me.ToolStrip1.ResumeLayout(false)
@@ -149,9 +140,9 @@ End Sub
     Friend WithEvents ToolStripLabel_CountLbl As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripLabel_Count As System.Windows.Forms.ToolStripLabel
     Friend WithEvents DataGridView_OItems As System.Windows.Forms.DataGridView
-    Friend WithEvents ToolStrip2 As System.Windows.Forms.ToolStrip
     Friend WithEvents ContextMenuStrip_OItems As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ChangeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AddToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RemoveToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
