@@ -146,6 +146,41 @@ namespace GraphMLConnector
             return objOItem_Result;
         }
 
+        public List<clsOntologyItem> GetData_OntologiesOfGraph(clsOntologyItem OItem_Graph)
+        {
+            var objOList_OntologiesSearch = new List<clsObjectRel>
+                {
+                    new clsObjectRel
+                        {
+                            ID_Object = OItem_Graph.GUID,
+                            ID_Parent_Other = objLocalConfig.Globals.Class_Ontologies.GUID,
+                            ID_RelationType = objLocalConfig.OItem_RelationType_Contains.GUID
+                        }
+                };
+
+            var objOList_Ontologies = new List<clsOntologyItem>();
+
+            var objOItem_Result = objDBLevel_GraphItem.get_Data_ObjectRel(objOList_OntologiesSearch, boolIDs: false);
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                objOList_Ontologies = objDBLevel_GraphItem.OList_ObjectRel.Select(p => new clsOntologyItem
+                    {
+                        GUID = p.ID_Other,
+                        Name = p.Name_Other,
+                        GUID_Parent = p.ID_Parent_Other,
+                        Type = p.Ontology
+                    }).ToList();
+            }
+            else
+            {
+                objOList_Ontologies = null;
+            }
+
+            return objOList_Ontologies;
+
+
+        }
+
         public clsOntologyItem GetData_GraphItems(clsOntologyItem OItem_Graph = null)
         {
             var objOItem_Result_GraphItems = new clsOntologyItem();

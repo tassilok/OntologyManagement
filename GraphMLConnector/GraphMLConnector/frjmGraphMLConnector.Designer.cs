@@ -30,10 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmGraphMLConnector));
-            this.contextMenuStrip_Export = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.addItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.setExportModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingSource_GraphItems = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,8 +46,6 @@
             this.toolStripLabel_Mark = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_Mark = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.dataGridView_Export = new System.Windows.Forms.DataGridView();
-            this.ID_Parent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Export = new System.Windows.Forms.ToolStripButton();
             this.toolStripSplitButton_GlobalExportMode = new System.Windows.Forms.ToolStripSplitButton();
@@ -61,7 +55,12 @@
             this.objectsAndClassesWithRelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip_Export.SuspendLayout();
+            this.BottomToolStripPanel = new System.Windows.Forms.ToolStripPanel();
+            this.TopToolStripPanel = new System.Windows.Forms.ToolStripPanel();
+            this.RightToolStripPanel = new System.Windows.Forms.ToolStripPanel();
+            this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
+            this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_GraphItems)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -77,40 +76,10 @@
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Export)).BeginInit();
             this.toolStrip2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // contextMenuStrip_Export
-            // 
-            this.contextMenuStrip_Export.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addItemToolStripMenuItem,
-            this.removeItemToolStripMenuItem,
-            this.setExportModeToolStripMenuItem});
-            this.contextMenuStrip_Export.Name = "contextMenuStrip_Export";
-            this.contextMenuStrip_Export.Size = new System.Drawing.Size(163, 70);
-            this.contextMenuStrip_Export.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Export_Opening);
-            // 
-            // addItemToolStripMenuItem
-            // 
-            this.addItemToolStripMenuItem.Name = "addItemToolStripMenuItem";
-            this.addItemToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.addItemToolStripMenuItem.Text = "Add Item";
-            this.addItemToolStripMenuItem.Click += new System.EventHandler(this.addItemToolStripMenuItem_Click);
-            // 
-            // removeItemToolStripMenuItem
-            // 
-            this.removeItemToolStripMenuItem.Name = "removeItemToolStripMenuItem";
-            this.removeItemToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.removeItemToolStripMenuItem.Text = "Remove Item";
-            this.removeItemToolStripMenuItem.Click += new System.EventHandler(this.removeItemToolStripMenuItem_Click);
-            // 
-            // setExportModeToolStripMenuItem
-            // 
-            this.setExportModeToolStripMenuItem.Name = "setExportModeToolStripMenuItem";
-            this.setExportModeToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.setExportModeToolStripMenuItem.Text = "Set Export-Mode";
-            this.setExportModeToolStripMenuItem.Click += new System.EventHandler(this.setExportModeToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -187,7 +156,7 @@
             this.toolStripLabel_Count});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(164, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(133, 25);
             this.toolStrip1.TabIndex = 3;
             // 
             // toolStripButton_Close
@@ -253,7 +222,7 @@
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGridView_Export);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer2);
             this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(446, 434);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
@@ -265,29 +234,6 @@
             // toolStripContainer1.TopToolStripPanel
             // 
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
-            // 
-            // dataGridView_Export
-            // 
-            this.dataGridView_Export.AllowUserToAddRows = false;
-            this.dataGridView_Export.AllowUserToDeleteRows = false;
-            this.dataGridView_Export.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_Export.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ID_Parent});
-            this.dataGridView_Export.ContextMenuStrip = this.contextMenuStrip_Export;
-            this.dataGridView_Export.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView_Export.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView_Export.Name = "dataGridView_Export";
-            this.dataGridView_Export.ReadOnly = true;
-            this.dataGridView_Export.Size = new System.Drawing.Size(446, 434);
-            this.dataGridView_Export.TabIndex = 0;
-            // 
-            // ID_Parent
-            // 
-            this.ID_Parent.DataPropertyName = "ID_Parent";
-            this.ID_Parent.HeaderText = "ID_Parent";
-            this.ID_Parent.Name = "ID_Parent";
-            this.ID_Parent.ReadOnly = true;
-            this.ID_Parent.Visible = false;
             // 
             // toolStrip2
             // 
@@ -370,6 +316,52 @@
             this.gridToolStripMenuItem.Text = "x_Grid";
             this.gridToolStripMenuItem.Click += new System.EventHandler(this.gridToolStripMenuItem_Click);
             // 
+            // BottomToolStripPanel
+            // 
+            this.BottomToolStripPanel.Location = new System.Drawing.Point(0, 0);
+            this.BottomToolStripPanel.Name = "BottomToolStripPanel";
+            this.BottomToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.BottomToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.BottomToolStripPanel.Size = new System.Drawing.Size(0, 0);
+            // 
+            // TopToolStripPanel
+            // 
+            this.TopToolStripPanel.Location = new System.Drawing.Point(0, 0);
+            this.TopToolStripPanel.Name = "TopToolStripPanel";
+            this.TopToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.TopToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.TopToolStripPanel.Size = new System.Drawing.Size(0, 0);
+            // 
+            // RightToolStripPanel
+            // 
+            this.RightToolStripPanel.Location = new System.Drawing.Point(0, 0);
+            this.RightToolStripPanel.Name = "RightToolStripPanel";
+            this.RightToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.RightToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.RightToolStripPanel.Size = new System.Drawing.Size(0, 0);
+            // 
+            // LeftToolStripPanel
+            // 
+            this.LeftToolStripPanel.Location = new System.Drawing.Point(0, 0);
+            this.LeftToolStripPanel.Name = "LeftToolStripPanel";
+            this.LeftToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.LeftToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.LeftToolStripPanel.Size = new System.Drawing.Size(0, 0);
+            // 
+            // ContentPanel
+            // 
+            this.ContentPanel.Size = new System.Drawing.Size(222, 409);
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Size = new System.Drawing.Size(446, 434);
+            this.splitContainer2.SplitterDistance = 220;
+            this.splitContainer2.TabIndex = 0;
+            // 
             // frmGraphMLConnector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -381,7 +373,6 @@
             this.Name = "frmGraphMLConnector";
             this.Text = "Graph-ML Connector";
             this.Load += new System.EventHandler(this.frmGraphMLConnector_Load);
-            this.contextMenuStrip_Export.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_GraphItems)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -405,9 +396,10 @@
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Export)).EndInit();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -415,15 +407,21 @@
 
         #endregion
 
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Export;
-        private System.Windows.Forms.ToolStripMenuItem addItemToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem removeItemToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem setExportModeToolStripMenuItem;
         private System.Windows.Forms.BindingSource bindingSource_GraphItems;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem hilfeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.ToolStripContainer toolStripContainer1;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripButton toolStripButton_Export;
+        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton_GlobalExportMode;
+        private System.Windows.Forms.ToolStripMenuItem classesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem classesWithRelsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem objectsAndClassesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem objectsAndClassesWithRelsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem objectsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gridToolStripMenuItem;
         private System.Windows.Forms.ToolStripContainer toolStripContainer2;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton_Close;
@@ -434,18 +432,12 @@
         private System.Windows.Forms.ToolStrip toolStrip3;
         private System.Windows.Forms.ToolStripLabel toolStripLabel_Mark;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox_Mark;
-        private System.Windows.Forms.ToolStripContainer toolStripContainer1;
-        private System.Windows.Forms.DataGridView dataGridView_Export;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ID_Parent;
-        private System.Windows.Forms.ToolStrip toolStrip2;
-        private System.Windows.Forms.ToolStripButton toolStripButton_Export;
-        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton_GlobalExportMode;
-        private System.Windows.Forms.ToolStripMenuItem classesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem classesWithRelsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem objectsAndClassesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem objectsAndClassesWithRelsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem objectsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem gridToolStripMenuItem;
+        private System.Windows.Forms.ToolStripPanel BottomToolStripPanel;
+        private System.Windows.Forms.ToolStripPanel TopToolStripPanel;
+        private System.Windows.Forms.ToolStripPanel RightToolStripPanel;
+        private System.Windows.Forms.ToolStripPanel LeftToolStripPanel;
+        private System.Windows.Forms.ToolStripContentPanel ContentPanel;
+        private System.Windows.Forms.SplitContainer splitContainer2;
     }
 }
 

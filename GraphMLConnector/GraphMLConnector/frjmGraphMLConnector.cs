@@ -24,6 +24,9 @@ namespace GraphMLConnector
 
         private frm_ObjectEdit objFrmObjectEdit;
 
+        private UserControl_OntologyItemList objUserControl_OntologyItemList;
+        private UserControl_OntologyJoins objUserControl_OntologyJoins;
+
         private SplashScreen_OntologyModule SplashScreen;
         private AboutBox_OntologyItem AboutBox;
 
@@ -50,13 +53,18 @@ namespace GraphMLConnector
 
         private void initialize()
         {
+            
             objDataWork_Graph = new clsDataWork_Graph(objLocalConfig);
             objGraphMLWork = new clsGraphMLWork(objLocalConfig);
             objTransaction_Graph = new clsTransaction_Graph(objLocalConfig);
 
+            objUserControl_OntologyItemList = new UserControl_OntologyItemList(objLocalConfig.Globals);
+            objUserControl_OntologyItemList.Dock = DockStyle.Fill;
+            splitContainer2.Panel1.Controls.Add(objUserControl_OntologyItemList);
+
             objDataWork_Graph.GetData_GraphTree();
-            while (objDataWork_Graph.OItem_Result_GraphTree.GUID == objLocalConfig.Globals.LState_Nothing.GUID){}
-            
+            while (objDataWork_Graph.OItem_Result_GraphTree.GUID == objLocalConfig.Globals.LState_Nothing.GUID) { }
+
             fill_Tree_Graphs();
         }
 
@@ -261,117 +269,117 @@ namespace GraphMLConnector
                     {
                         MessageBox.Show("Es konnten nur " + Done.ToString() + " von " + ToDo.ToString() + " Items verknüpft werden!","GraphItems",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
                     }
-                    dataGridView_Export.Refresh();
+                    //dataGridView_Export.Refresh();
                 }
             }
             
         }
 
-        private void contextMenuStrip_Export_Opening(object sender, CancelEventArgs e)
-        {
-            addItemToolStripMenuItem.Enabled = true;
-            removeItemToolStripMenuItem.Enabled = false;
-            setExportModeToolStripMenuItem.Enabled = false;
+        //private void contextMenuStrip_Export_Opening(object sender, CancelEventArgs e)
+        //{
+        //    addItemToolStripMenuItem.Enabled = true;
+        //    removeItemToolStripMenuItem.Enabled = false;
+        //    setExportModeToolStripMenuItem.Enabled = false;
 
-            if (dataGridView_Export.SelectedRows.Count > 0)
-            {
-                removeItemToolStripMenuItem.Enabled = true;
-                setExportModeToolStripMenuItem.Enabled = true;
-            }
+        //    if (dataGridView_Export.SelectedRows.Count > 0)
+        //    {
+        //        removeItemToolStripMenuItem.Enabled = true;
+        //        setExportModeToolStripMenuItem.Enabled = true;
+        //    }
 
-            if (dataGridView_Export.SelectedCells.Count == 1)
-            {
-                if (dataGridView_Export.Columns[dataGridView_Export.SelectedCells[0].ColumnIndex].DataPropertyName ==
-                    "Name_ExportType")
-                {
-                    setExportModeToolStripMenuItem.Enabled = true;
-                }
-            }
-        }
+        //    if (dataGridView_Export.SelectedCells.Count == 1)
+        //    {
+        //        if (dataGridView_Export.Columns[dataGridView_Export.SelectedCells[0].ColumnIndex].DataPropertyName ==
+        //            "Name_ExportType")
+        //        {
+        //            setExportModeToolStripMenuItem.Enabled = true;
+        //        }
+        //    }
+        //}
 
-        private void removeItemToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewRow dataGridViewRow_Selected in dataGridView_Export.SelectedRows)
-            {
-                var objGraphItem = new clsOntologyItem(dataGridViewRow_Selected.Cells["ID_GraphItem"].Value.ToString(),
-                                                   dataGridViewRow_Selected.Cells["Name_GraphItem"].Value.ToString(),
-                                                   objLocalConfig.OItem_Class_GraphItem.GUID,
-                                                   objLocalConfig.Globals.Type_Object);
-                var objOItem_Result = objTransaction_Graph.Remove_GraphItem(objDataWork_Graph.OItem_Graph, objGraphItem);
+        //private void removeItemToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    foreach (DataGridViewRow dataGridViewRow_Selected in dataGridView_Export.SelectedRows)
+        //    {
+        //        var objGraphItem = new clsOntologyItem(dataGridViewRow_Selected.Cells["ID_GraphItem"].Value.ToString(),
+        //                                           dataGridViewRow_Selected.Cells["Name_GraphItem"].Value.ToString(),
+        //                                           objLocalConfig.OItem_Class_GraphItem.GUID,
+        //                                           objLocalConfig.Globals.Type_Object);
+        //        var objOItem_Result = objTransaction_Graph.Remove_GraphItem(objDataWork_Graph.OItem_Graph, objGraphItem);
                 
 
-            }
-            LoadGraphItems();
-        }
+        //    }
+        //    LoadGraphItems();
+        //}
 
         private void toolStripButton_Export_Click(object sender, EventArgs e)
         {
             
-            objGraphMLWork.ClearLists();
-            if (gridToolStripMenuItem.Checked)
-            {
-                foreach (DataGridViewRow dataGridViewRow in dataGridView_Export.Rows)
-                {
-                    if (dataGridViewRow.Cells[7].Value != null)
-                    {
-                        objGraphMLWork.OList_ExportItems.Add(new clsOntologyItem(dataGridViewRow.Cells[5].Value.ToString(), dataGridViewRow.Cells[6].Value.ToString(), dataGridViewRow.Cells[7].Value.ToString(), dataGridViewRow.Cells[8].Value.ToString()));    
-                    }
-                    else
-                    {
-                        objGraphMLWork.OList_ExportItems.Add(new clsOntologyItem(dataGridViewRow.Cells[5].Value.ToString(), dataGridViewRow.Cells[6].Value.ToString(), null, dataGridViewRow.Cells[8].Value.ToString()));
-                    }
+            //objGraphMLWork.ClearLists();
+            //if (gridToolStripMenuItem.Checked)
+            //{
+            //    foreach (DataGridViewRow dataGridViewRow in dataGridView_Export.Rows)
+            //    {
+            //        if (dataGridViewRow.Cells[7].Value != null)
+            //        {
+            //            objGraphMLWork.OList_ExportItems.Add(new clsOntologyItem(dataGridViewRow.Cells[5].Value.ToString(), dataGridViewRow.Cells[6].Value.ToString(), dataGridViewRow.Cells[7].Value.ToString(), dataGridViewRow.Cells[8].Value.ToString()));    
+            //        }
+            //        else
+            //        {
+            //            objGraphMLWork.OList_ExportItems.Add(new clsOntologyItem(dataGridViewRow.Cells[5].Value.ToString(), dataGridViewRow.Cells[6].Value.ToString(), null, dataGridViewRow.Cells[8].Value.ToString()));
+            //        }
                     
-                    if (dataGridViewRow.Cells["ID_ExportType"].Value.ToString() != objLocalConfig.OItem_Object_Normal.GUID)
-                    {
-                        objGraphMLWork.OList_EModes.Add(new clsExportModes() { ID_ExportMode = dataGridViewRow.Cells["ID_ExportType"].Value.ToString(), ID_Item = dataGridViewRow.Cells["ID_OItem"].Value.ToString() });
-                    }
+            //        if (dataGridViewRow.Cells["ID_ExportType"].Value.ToString() != objLocalConfig.OItem_Object_Normal.GUID)
+            //        {
+            //            objGraphMLWork.OList_EModes.Add(new clsExportModes() { ID_ExportMode = dataGridViewRow.Cells["ID_ExportType"].Value.ToString(), ID_Item = dataGridViewRow.Cells["ID_OItem"].Value.ToString() });
+            //        }
 
-                }
+            //    }
 
-                var objOItem_Result = objGraphMLWork.GetItemLists();
-                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                {
-                    objGraphMLWork.ExportItems(objDataWork_Graph.OItem_PathGraph.Name);
-                }
-                else
-                {
-                    MessageBox.Show("The Graph cannot be created!", "Error", MessageBoxButtons.OK);
-                }
-            }
-            else
-            {
-                var boolClasses = false;
-                var boolClassRels = false;
-                var boolObjects = false;
-                var boolObjRels = false;
+            //    var objOItem_Result = objGraphMLWork.GetItemLists();
+            //    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            //    {
+            //        objGraphMLWork.ExportItems(objDataWork_Graph.OItem_PathGraph.Name);
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("The Graph cannot be created!", "Error", MessageBoxButtons.OK);
+            //    }
+            //}
+            //else
+            //{
+            //    var boolClasses = false;
+            //    var boolClassRels = false;
+            //    var boolObjects = false;
+            //    var boolObjRels = false;
 
-                if (classesWithRelsToolStripMenuItem.Checked)
-                {
-                    boolClasses = true;
-                    boolClassRels = true;
-                }
-                if (classesToolStripMenuItem.Checked)
-                {
-                    boolClasses = true;
-                }
+            //    if (classesWithRelsToolStripMenuItem.Checked)
+            //    {
+            //        boolClasses = true;
+            //        boolClassRels = true;
+            //    }
+            //    if (classesToolStripMenuItem.Checked)
+            //    {
+            //        boolClasses = true;
+            //    }
 
-                if (objectsAndClassesToolStripMenuItem.Checked)
-                {
-                    boolObjects = true;
-                    boolClasses = true;
-                }
+            //    if (objectsAndClassesToolStripMenuItem.Checked)
+            //    {
+            //        boolObjects = true;
+            //        boolClasses = true;
+            //    }
 
-                if (objectsAndClassesWithRelsToolStripMenuItem.Checked)
-                {
-                    boolObjRels = true;
-                    boolClassRels = true;
-                    boolClasses = true;
-                    boolObjects = true;
-                }
+            //    if (objectsAndClassesWithRelsToolStripMenuItem.Checked)
+            //    {
+            //        boolObjRels = true;
+            //        boolClassRels = true;
+            //        boolClasses = true;
+            //        boolObjects = true;
+            //    }
 
-                objGraphMLWork.ExportClasses(boolClasses, boolObjects, boolClassRels, boolObjRels, objDataWork_Graph.OItem_PathGraph.Name);
+            //    objGraphMLWork.ExportClasses(boolClasses, boolObjects, boolClassRels, boolObjRels, objDataWork_Graph.OItem_PathGraph.Name);
 
-            }
+            //}
             
         }
 
@@ -379,28 +387,47 @@ namespace GraphMLConnector
         {
             objTreeNode_Selected = e.Node;
 
-            LoadGraphItems();
-            
-        }
-
-        private void LoadGraphItems()
-        {
-            var objOItem_Result = objDataWork_Graph.GetData_GraphNode(new clsOntologyItem(objTreeNode_Selected.Name, objTreeNode_Selected.Text,
-                                                                    objLocalConfig.OItem_Class_Graphs.GUID,
-                                                                    objLocalConfig.Globals.Type_Object));
-            
-            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            if (objTreeNode_Selected != null)
             {
-                SortedBindingList<clsGraphItem> objBindingList = new SortedBindingList<clsGraphItem>(objDataWork_Graph.GraphItems);
+                var objOItem_Graph = new clsOntologyItem
+                    {
+                        GUID = objTreeNode_Selected.Name,
+                        Name = objTreeNode_Selected.Text,
+                        GUID_Parent = objLocalConfig.OItem_Class_Graphs.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
 
-                dataGridView_Export.DataSource = objBindingList;
-                dataGridView_Export.Columns[1].Visible = false;
-                dataGridView_Export.Columns[2].Visible = false;
-                dataGridView_Export.Columns[3].Visible = false;
-                dataGridView_Export.Columns[5].Visible = false;
-                dataGridView_Export.Columns[7].Visible = false;
+                var objOList_Ontologies = objDataWork_Graph.GetData_OntologiesOfGraph(objOItem_Graph);
+                if (objOList_Ontologies.Any())
+                {
+                    objUserControl_OntologyItemList.initialize_List(objOList_Ontologies.First());    
+                }
+                
+
             }
+            
+            //LoadGraphItems();
+            
         }
+
+        //private void LoadGraphItems()
+        //{
+        //    var objOItem_Result = objDataWork_Graph.GetData_GraphNode(new clsOntologyItem(objTreeNode_Selected.Name, objTreeNode_Selected.Text,
+        //                                                            objLocalConfig.OItem_Class_Graphs.GUID,
+        //                                                            objLocalConfig.Globals.Type_Object));
+            
+        //    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+        //    {
+        //        SortedBindingList<clsGraphItem> objBindingList = new SortedBindingList<clsGraphItem>(objDataWork_Graph.GraphItems);
+
+        //        dataGridView_Export.DataSource = objBindingList;
+        //        dataGridView_Export.Columns[1].Visible = false;
+        //        dataGridView_Export.Columns[2].Visible = false;
+        //        dataGridView_Export.Columns[3].Visible = false;
+        //        dataGridView_Export.Columns[5].Visible = false;
+        //        dataGridView_Export.Columns[7].Visible = false;
+        //    }
+        //}
 
         private void treeView_Graphs_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -424,47 +451,47 @@ namespace GraphMLConnector
             
         }
 
-        private void setExportModeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        //private void setExportModeToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
 
-            DataGridViewRow dataGridViewRow_Selected =
-                dataGridView_Export.Rows[dataGridView_Export.SelectedCells[0].RowIndex];
+        //    DataGridViewRow dataGridViewRow_Selected =
+        //        dataGridView_Export.Rows[dataGridView_Export.SelectedCells[0].RowIndex];
 
 
 
             
-            var objGraphItem = new clsOntologyItem(dataGridViewRow_Selected.Cells["ID_GraphItem"].Value.ToString(),
-                                                dataGridViewRow_Selected.Cells["Name_GraphItem"].Value.ToString(),
-                                                objLocalConfig.OItem_Class_GraphItem.GUID,
-                                                objLocalConfig.Globals.Type_Object);
+        //    var objGraphItem = new clsOntologyItem(dataGridViewRow_Selected.Cells["ID_GraphItem"].Value.ToString(),
+        //                                        dataGridViewRow_Selected.Cells["Name_GraphItem"].Value.ToString(),
+        //                                        objLocalConfig.OItem_Class_GraphItem.GUID,
+        //                                        objLocalConfig.Globals.Type_Object);
             
             
-            objFrmOntologyModule = new frmMain(objLocalConfig.Globals,objLocalConfig.Globals.Type_Class,objLocalConfig.OItem_Class_ExportMode);
-            objFrmOntologyModule.Applyable = true;
-            objFrmOntologyModule.ShowDialog(this);
-            if (objFrmOntologyModule.DialogResult == DialogResult.OK)
-            {
-                if (objFrmOntologyModule.Type_Applied == objLocalConfig.Globals.Type_Object)
-                {
-                    if (objFrmOntologyModule.OList_Simple.Count == 1)
-                    {
-                        var objOIem_ExportMode = objFrmOntologyModule.OList_Simple.First();
-                        objTransaction_Graph.save_GraphItem_To_ExportMode(objGraphItem, objOIem_ExportMode);
-                        LoadGraphItems();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Bitte nur einen Export-Mode auswählen!", "Export-Mode", MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Bitte nur einen Export-Mode auswählen!", "Export-Mode", MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
-                }
-            }
-        }
+        //    objFrmOntologyModule = new frmMain(objLocalConfig.Globals,objLocalConfig.Globals.Type_Class,objLocalConfig.OItem_Class_ExportMode);
+        //    objFrmOntologyModule.Applyable = true;
+        //    objFrmOntologyModule.ShowDialog(this);
+        //    if (objFrmOntologyModule.DialogResult == DialogResult.OK)
+        //    {
+        //        if (objFrmOntologyModule.Type_Applied == objLocalConfig.Globals.Type_Object)
+        //        {
+        //            if (objFrmOntologyModule.OList_Simple.Count == 1)
+        //            {
+        //                var objOIem_ExportMode = objFrmOntologyModule.OList_Simple.First();
+        //                objTransaction_Graph.save_GraphItem_To_ExportMode(objGraphItem, objOIem_ExportMode);
+        //                //LoadGraphItems();
+        //            }
+        //            else
+        //            {
+        //                MessageBox.Show("Bitte nur einen Export-Mode auswählen!", "Export-Mode", MessageBoxButtons.OK,
+        //                            MessageBoxIcon.Information);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show("Bitte nur einen Export-Mode auswählen!", "Export-Mode", MessageBoxButtons.OK,
+        //                            MessageBoxIcon.Information);
+        //        }
+        //    }
+        //}
 
         private void frmGraphMLConnector_Load(object sender, EventArgs e)
         {
