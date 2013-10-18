@@ -24,6 +24,9 @@ namespace Appointment_Module
 
         private clsDBLevel objDBLevel_Config1;
         private clsDBLevel objDBLevel_Config2;
+
+        private clsDataWork_Ontologies objDataWork_Ontologies;
+        private List<clsOntologyItemsOfOntologies> objOList_OntologyIems;
 	
 	public clsOntologyItem OItem_attribute_dbpostfix { get; set; }
 public clsOntologyItem OItem_attribute_ende { get; set; }
@@ -171,6 +174,7 @@ private void get_Data_DevelopmentConfig()
   
 	private void set_DBConnection()
         {
+            objDataWork_Ontologies = new clsDataWork_Ontologies(Globals);
 		    objDBLevel_Config1 = new clsDBLevel(Globals);
 		    objDBLevel_Config2 = new clsDBLevel(Globals);
         }
