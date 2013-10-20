@@ -9,7 +9,7 @@ Public Class UserControl_OntologyTree
 
     Private objTreeNode_Root As TreeNode
 
-
+    Private objExport As clsExport
 
     Public Event selected_Ontology(OItem_Ontology As clsOntologyItem)
 
@@ -35,6 +35,7 @@ Public Class UserControl_OntologyTree
 
     Private Sub initialize()
         objTransaction_Ontologies = New clsTransaction(objDataWork_Ontologies.LocalConfig.Globals)
+        objExport = New clsExport(objDataWork_Ontologies.LocalConfig.Globals)
     End Sub
 
     Public Sub initialize_Ontology(OItem_Ref As clsOntologyItem)
@@ -193,5 +194,41 @@ Public Class UserControl_OntologyTree
         End If
 
         
+    End Sub
+
+    Private Sub ContextMenuStrip_Ontologies_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Ontologies.Opening
+        Dim objTreeNode_Ontology As TreeNode
+
+        ExportToolStripMenuItem.Enabled = False
+
+        objTreeNode_Ontology = TreeView_Ontologies.SelectedNode
+
+        If Not objTreeNode_Ontology Is Nothing Then
+            If objTreeNode_Ontology.ImageIndex = objDataWork_Ontologies.LocalConfig.ImageID_OntologyClose Then
+                ExportToolStripMenuItem.Enabled = True
+            End If
+        End If
+    End Sub
+
+    Private Sub ExportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExportToolStripMenuItem.Click
+        Dim objTreeNode_Ontology As TreeNode
+
+        objTreeNode_Ontology = TreeView_Ontologies.SelectedNode
+
+        If Not objTreeNode_Ontology Is Nothing Then
+            If objTreeNode_Ontology.ImageIndex = objDataWork_Ontologies.LocalConfig.ImageID_OntologyClose Then
+                If FolderBrowserDialog_Xml.ShowDialog(Me) = DialogResult.OK Then
+                    Dim strExportPath = FolderBrowserDialog_Xml.SelectedPath
+                    Dim objOItem_Ontology = New clsOntologyItem With {.GUID = objTreeNode_Ontology.Name, _
+                                                                      .Name = objTreeNode_Ontology.Text, _
+                                                                      .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_Ontologies.GUID, _
+                                                                      .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}
+
+                    Dim objOItem_Result = objExport.Export_Ontology(objOItem_Ontology, strExportPath, Nothing, True, True)
+
+
+                End If
+            End If
+        End If
     End Sub
 End Class

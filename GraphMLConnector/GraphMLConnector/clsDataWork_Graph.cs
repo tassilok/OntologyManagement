@@ -29,6 +29,8 @@ namespace GraphMLConnector
 
         public clsOntologyItem OItem_PathGraph { get; set; }
 
+        public List<clsOntologyItem> OList_Ontologies { get; private set; }
+
         public clsDataWork_Graph(clsLocalConfig LocalConfig)
         {
             objLocalConfig = LocalConfig;
@@ -138,7 +140,17 @@ namespace GraphMLConnector
             objOItem_Result = objDBLevel_GraphPath.get_Data_ObjectRel(objOLGraph_To_Path,
                                                                       boolIDs: false);
 
-            if (!objDBLevel_GraphPath.OList_ObjectRel.Any())
+            if (objDBLevel_GraphPath.OList_ObjectRel.Any())
+            {
+                OItem_PathGraph = new clsOntologyItem
+                {
+                    GUID = objDBLevel_GraphPath.OList_ObjectRel.First().ID_Other,
+                    Name = objDBLevel_GraphPath.OList_ObjectRel.First().Name_Other,
+                    GUID_Parent = objDBLevel_GraphPath.OList_ObjectRel.First().ID_Parent_Other,
+                    Type = objDBLevel_GraphPath.OList_ObjectRel.First().Ontology
+                };
+            }
+            else
             {
                 objOItem_Result = objLocalConfig.Globals.LState_Error;
             }
@@ -158,12 +170,11 @@ namespace GraphMLConnector
                         }
                 };
 
-            var objOList_Ontologies = new List<clsOntologyItem>();
 
             var objOItem_Result = objDBLevel_GraphItem.get_Data_ObjectRel(objOList_OntologiesSearch, boolIDs: false);
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                objOList_Ontologies = objDBLevel_GraphItem.OList_ObjectRel.Select(p => new clsOntologyItem
+                OList_Ontologies = objDBLevel_GraphItem.OList_ObjectRel.Select(p => new clsOntologyItem
                     {
                         GUID = p.ID_Other,
                         Name = p.Name_Other,
@@ -173,10 +184,10 @@ namespace GraphMLConnector
             }
             else
             {
-                objOList_Ontologies = null;
+                OList_Ontologies = null;
             }
 
-            return objOList_Ontologies;
+            return OList_Ontologies;
 
 
         }

@@ -29,7 +29,7 @@ Public Class frmMediaViewerModule
                 Case objLocalConfig.OItem_Type_PDF_Documents.GUID
 
                 Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
-
+                    objUserControl_ImageList.objOItem_Relate = OItem_Relate
                 Case objLocalConfig.OItem_Type_Media_Item.GUID
                     objUserControl_MediaItemList.OItem_Relate = OItem_Relate
             End Select
@@ -232,6 +232,8 @@ Public Class frmMediaViewerModule
         Dim objOItem_MediaType As clsOntologyItem
         objOItem_MediaType = ToolStripComboBox_MediaType.SelectedItem
 
+        ToolStripButton_OpenGrid.Enabled = False
+
         SplitContainer1.Panel2.Controls.Clear()
 
         If Not objOItem_MediaType Is Nothing Then
@@ -240,11 +242,14 @@ Public Class frmMediaViewerModule
                 Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
                     SplitContainer1.Panel2.Controls.Add(objUserControl_ImageList)
                     objUserControl_ImageList.initialize_Images(Nothing)
+                    ToolStripButton_OpenGrid.Enabled = True
                 Case objLocalConfig.OItem_Type_Media_Item.GUID
                     SplitContainer1.Panel2.Controls.Add(objUserControl_MediaItemList)
                     objUserControl_ImageList.initialize_Images(Nothing)
+                    ToolStripButton_OpenGrid.Enabled = True
                 Case objLocalConfig.OItem_Type_PDF_Documents.GUID
                     SplitContainer1.Panel2.Controls.Add(objUserControl_PDF)
+                    ToolStripButton_OpenGrid.Enabled = True
             End Select
         End If
 
@@ -262,5 +267,23 @@ Public Class frmMediaViewerModule
     Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
         AboutBox = New AboutBox_OntologyItem()
         AboutBox.ShowDialog(Me)
+    End Sub
+
+    Private Sub ToolStripButton_OpenGrid_Click(sender As Object, e As EventArgs) Handles ToolStripButton_OpenGrid.Click
+        Dim objOItem_MediaType As clsOntologyItem
+        objOItem_MediaType = ToolStripComboBox_MediaType.SelectedItem
+
+        If Not objOItem_MediaType Is Nothing Then
+            Select Case objOItem_MediaType.GUID
+                Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                    objUserControl_ImageList.initialize_AllImages(True)
+
+                Case objLocalConfig.OItem_Type_Media_Item.GUID
+
+
+                Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+
+            End Select
+        End If
     End Sub
 End Class

@@ -582,14 +582,14 @@ Public Class UserControl_MediaItemList
         RelateToolStripMenuItem.Enabled = False
         SaveToolStripMenuItem.Enabled = False
 
-        If Not OItem_Relate Is Nothing And DataGridView_MediaItems.SelectedRows.Count > 0 Then
+        If DataGridView_MediaItems.SelectedRows.Count > 0 Then
             RelateToolStripMenuItem.Enabled = True
             SaveToolStripMenuItem.Enabled = True
         End If
     End Sub
 
     Private Sub RelateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RelateToolStripMenuItem.Click
-        If Not OItem_Relate Is Nothing And DataGridView_MediaItems.SelectedRows.Count > 0 Then
+        If DataGridView_MediaItems.SelectedRows.Count > 0 Then
             Dim objOItem_MediaItem As clsOntologyItem = Nothing
             Dim intToDo = DataGridView_MediaItems.SelectedRows.Count
             Dim intDone = 0
@@ -710,4 +710,6 @@ Public Class UserControl_MediaItemList
 
         
     End Sub
+
+
 End Class

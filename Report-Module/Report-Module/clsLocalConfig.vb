@@ -638,6 +638,7 @@ Public Class clsLocalConfig
     End Property
 
     Private Sub get_Config()
+
         get_Config_AttributeTypes()
         get_Config_RelationTypes()
         get_Config_Classes()

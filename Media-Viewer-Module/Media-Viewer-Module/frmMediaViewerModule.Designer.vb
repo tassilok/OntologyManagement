@@ -129,7 +129,7 @@ Partial Class frmMediaViewerModule
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_MediaType, Me.ToolStripComboBox_MediaType, Me.ToolStripSplitButton_OrderType, Me.ToolStripButton_OpenGrid, Me.ToolStripSeparator1, Me.ToolStripButton_GetMetadata})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(615, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(646, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripLabel_MediaType
@@ -186,6 +186,7 @@ Partial Class frmMediaViewerModule
         'ToolStripButton_OpenGrid
         '
         Me.ToolStripButton_OpenGrid.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_OpenGrid.Enabled = False
         Me.ToolStripButton_OpenGrid.Image = CType(resources.GetObject("ToolStripButton_OpenGrid.Image"), System.Drawing.Image)
         Me.ToolStripButton_OpenGrid.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_OpenGrid.Name = "ToolStripButton_OpenGrid"
@@ -225,7 +226,7 @@ Partial Class frmMediaViewerModule
         'InfoToolStripMenuItem
         '
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(95, 22)
         Me.InfoToolStripMenuItem.Text = "&Info"
         '
         'frmMediaViewerModule

@@ -108,7 +108,9 @@
     <Compile Include="AboutBox_OntologyItem.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Classes\ImportExport\clsExport.vb" />
     <Compile Include="Classes\Ontologies\clsDataWork_Ontologies.vb" />
+    <Compile Include="Classes\Ontologies\clsDataWork_OntologyRels.vb" />
     <Compile Include="Classes\Ontologies\clsLocalConfig_Ontologies.vb" />
     <Compile Include="Classes\Ontologies\clsOntologyItemsOfOntologies.vb" />
     <Compile Include="Classes\Ontologies\clsOntologyJoins.vb" />
@@ -537,6 +539,20 @@
     <None Include="Resources\Vogelschwarm1.png" />
     <None Include="Resources\Ontology-Module2.png" />
     <None Include="Resources\Ontology-Module Block.png" />
+    <EmbeddedResource Include="Config\Templates\ClassAttItem.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Config\Templates\ClassRelItem.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Config\Templates\OntologyItem.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Config\Templates\OntologyItemContainer.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Config\Templates\ObjAttItem.xml" />
+    <EmbeddedResource Include="Config\Templates\ObjRelItem.xml" />
     <Content Include="Vogelschwarm%2520klein.ico" />
     <None Include="Resources\NavForward.png" />
     <None Include="Resources\DoubleRightArrowHS.png" />

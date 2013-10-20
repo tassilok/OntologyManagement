@@ -43,13 +43,9 @@ Public Class clsDataWork_Images
 
         End Try
 
-        If Not objOItem_Ref Is Nothing Then
-            objThread_Images = New Threading.Thread(AddressOf get_Images_Thread)
-            objThread_Images.Start()
-        Else
-            boolLoaded = True
-        End If
 
+        objThread_Images = New Threading.Thread(AddressOf get_Images_Thread)
+        objThread_Images.Start()
 
     End Sub
 
@@ -76,7 +72,7 @@ Public Class clsDataWork_Images
                                                  Nothing, _
                                                  objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
                                                  Nothing, _
-                                                 objOItem_Ref.GUID, _
+                                                 If(objOItem_Ref Is Nothing, Nothing, objOItem_Ref.GUID), _
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing, _
@@ -107,7 +103,7 @@ Public Class clsDataWork_Images
                                                   Nothing))
 
         objDBLevel_Files.get_Data_ObjectRel(objOL_Images_To_File, _
-                                            boolIDs:=True)
+                                            boolIDs:=False)
 
         objOL_CreationDate.Add(New clsObjectAtt(Nothing, _
                                                 Nothing, _
@@ -120,7 +116,7 @@ Public Class clsDataWork_Images
 
         objLImages.Clear()
         objLImages = (From objImg In objDBLevel_Images.OList_ObjectRel
-                         Join objFile In objDBLevel_Files.OList_ObjectRel_ID On objFile.ID_Object Equals objImg.ID_Object
+                         Join objFile In objDBLevel_Files.OList_ObjectRel On objFile.ID_Object Equals objImg.ID_Object
                          Group Join objDate In objDBLevel_CreationDate.OList_ObjectAtt On objDate.ID_Object Equals objImg.ID_Object Into objDates = Group
                          From objDate In objDates.DefaultIfEmpty
                          Order By objImg.OrderID
@@ -141,14 +137,14 @@ Public Class clsDataWork_Images
                                           objImage.Name_Item, _
                                           Nothing, _
                                           objImage.ID_File, _
-                                          Nothing)
+                                          objImage.Name_File)
                 Else
                     dtblT_Images.Rows.Add(objImage.OrderID, _
                                           objImage.ID_Item, _
                                           objImage.Name_Item, _
                                           objImage.OACreate.Val_Date, _
                                           objImage.ID_File, _
-                                          Nothing)
+                                          objImage.Name_File)
                 End If
             Next
         End If
@@ -180,6 +176,25 @@ Public Class clsDataWork_Images
 
 
         Return objOItem_Result
+    End Function
+
+    Public Function Rel_Image_To_Ref(OItem_Image As clsOntologyItem, OItem_Ref As clsOntologyItem, Optional boolGetNextOrderID As Boolean = True) As clsObjectRel
+
+        Dim intOrderID = OItem_Image.Level
+        If boolGetNextOrderID Then
+            intOrderID = objDBLevel_Images.get_Data_Rel_OrderID(OItem_Image, OItem_Ref, objLocalConfig.OItem_RelationType_belongsTo, False)
+            intOrderID = intOrderID + 1
+        End If
+
+        Dim objOR_Image_To_Ref = New clsObjectRel With {.ID_Object = OItem_Image.GUID, _
+                                                            .ID_Parent_Object = OItem_Image.GUID_Parent, _
+                                                            .ID_Other = OItem_Ref.GUID, _
+                                                            .ID_Parent_Other = OItem_Ref.GUID_Parent, _
+                                                            .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID, _
+                                                            .OrderID = intOrderID, _
+                                                            .Ontology = OItem_Ref.Type}
+
+        Return objOR_Image_To_Ref
     End Function
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)

@@ -35,6 +35,8 @@ Partial Class UserControl_OntologyTree
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_Mark = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Mark = New System.Windows.Forms.ToolStripTextBox()
+        Me.ExportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FolderBrowserDialog_Xml = New System.Windows.Forms.FolderBrowserDialog()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -101,14 +103,14 @@ Partial Class UserControl_OntologyTree
         '
         'ContextMenuStrip_Ontologies
         '
-        Me.ContextMenuStrip_Ontologies.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem})
+        Me.ContextMenuStrip_Ontologies.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ExportToolStripMenuItem})
         Me.ContextMenuStrip_Ontologies.Name = "ContextMenuStrip_Ontologies"
-        Me.ContextMenuStrip_Ontologies.Size = New System.Drawing.Size(153, 48)
+        Me.ContextMenuStrip_Ontologies.Size = New System.Drawing.Size(118, 48)
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.NewToolStripMenuItem.Text = "x_New"
         '
         'ImageList_Ontologies
@@ -138,6 +140,12 @@ Partial Class UserControl_OntologyTree
         '
         Me.ToolStripTextBox_Mark.Name = "ToolStripTextBox_Mark"
         Me.ToolStripTextBox_Mark.Size = New System.Drawing.Size(250, 25)
+        '
+        'ExportToolStripMenuItem
+        '
+        Me.ExportToolStripMenuItem.Name = "ExportToolStripMenuItem"
+        Me.ExportToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
+        Me.ExportToolStripMenuItem.Text = "x_Export"
         '
         'UserControl_OntologyTree
         '
@@ -172,5 +180,7 @@ Partial Class UserControl_OntologyTree
     Friend WithEvents ToolStripTextBox_Mark As System.Windows.Forms.ToolStripTextBox
     Friend WithEvents ContextMenuStrip_Ontologies As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents NewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ExportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FolderBrowserDialog_Xml As System.Windows.Forms.FolderBrowserDialog
 
 End Class

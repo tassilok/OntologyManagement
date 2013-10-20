@@ -7,6 +7,14 @@ Public Class UserControl_OntologyItemList
     Private objTransaction As clsTransaction
     Private objOItem_Ontology As clsOntologyItem
 
+    Private objOList_OntologyItems As SortableBindingList(Of clsOntologyItemsOfOntologies)
+
+    Public ReadOnly Property OList_OntologyItems As List(Of clsOntologyItemsOfOntologies)
+        Get
+            Return objOList_OntologyItems.ToList()
+        End Get
+    End Property
+
     Public Event DataLoaded
 
 
@@ -75,11 +83,11 @@ Public Class UserControl_OntologyItemList
     Public Sub initialize_List(OItem_Ontology As clsOntologyItem)
         objOItem_Ontology = OItem_Ontology
         If Not OItem_Ontology Is Nothing Then
-            Dim objOList = New SortableBindingList(Of clsOntologyItemsOfOntologies)((From objOntology In objDataWork_Ontologies.OList_RefsOfOntologyItems
+            objOList_OntologyItems = New SortableBindingList(Of clsOntologyItemsOfOntologies)((From objOntology In objDataWork_Ontologies.OList_RefsOfOntologyItems
                            Where objOntology.ID_Ontology = OItem_Ontology.GUID).ToList())
 
 
-            DataGridView_OItems.DataSource = objOList
+            DataGridView_OItems.DataSource = objOList_OntologyItems
             DataGridView_OItems.Columns(0).Visible = False
             DataGridView_OItems.Columns(1).Visible = False
             DataGridView_OItems.Columns(3).Visible = False

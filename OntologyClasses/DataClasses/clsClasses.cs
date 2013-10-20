@@ -18,6 +18,7 @@ namespace OntologyClasses.DataClasses
         public clsOntologyItem OItem_Class_OntologyRelationRule { get; private set; }
         public clsOntologyItem OItem_Class_OntologyJoin { get; private set; }
         public clsOntologyItem OItem_Class_Server { get; private set; }
+        public clsOntologyItem OItem_Class_Variable { get; private set; }
 
         private clsTypes objTypes = new clsTypes();
 
@@ -32,6 +33,8 @@ namespace OntologyClasses.DataClasses
             OItem_Class_OntologyRelationRule = new clsOntologyItem { GUID = "925f489dec8d4130a418fcb022a4c731", Name = "Ontology-Relation-Rule", GUID_Parent = OItem_Class_Ontologies.GUID, Type = objTypes.ClassType };
             OItem_Class_OntologyJoin = new clsOntologyItem { GUID = "aab30dd04faf4386896016218132b110", Name = "Ontology-Join", GUID_Parent = OItem_Class_Ontologies.GUID, Type = objTypes.ClassType };
             OItem_Class_Server = new clsOntologyItem { GUID = "d7a03a35875142b48e0519fc7a77ee91", Name = "Server", GUID_Parent = OItem_Class_System.GUID, Type = objTypes.ClassType };
+
+            OItem_Class_Variable = new clsOntologyItem { GUID = "4158aad2656a4fb997bf524c6f5fecaa", Name = "Variable", GUID_Parent = OItem_Class_System.GUID, Type = objTypes.ClassType };
         }
     }
 }

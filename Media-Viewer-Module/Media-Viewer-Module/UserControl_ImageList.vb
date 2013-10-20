@@ -9,14 +9,18 @@ Public Class UserControl_ImageList
     Private objFileWork As clsFileWork
 
     Private objTransaction_Image As clsTransaction_Image
+    Private objTransaction_Images As clsTransaction
     Private objBlobConnection As clsBlobConnection
 
     'Private objUserControl_ImageViewer As UserControl_ImageViewer
+
+    Public Property objOItem_Relate As clsOntologyItem
 
     Private objOItem_Ref As clsOntologyItem
     Private boolSelect_First As Boolean
 
     Public Event selected_Image(ByVal OItem_Image As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date)
+    Public Event related_Last(OItem_Image As clsOntologyItem)
 
     Public Function Media_First() As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
@@ -120,6 +124,7 @@ Public Class UserControl_ImageList
         objTransaction_Image = New clsTransaction_Image(objLocalConfig)
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
         objFileWork = New clsFileWork(objLocalConfig.Globals)
+        objTransaction_Images = New clsTransaction(objLocalConfig.Globals)
     End Sub
 
     Public Sub clear_List()
@@ -145,6 +150,18 @@ Public Class UserControl_ImageList
 
             Timer_Images.Start()
         End If
+    End Sub
+
+    Public Sub initialize_AllImages(Optional ByVal select_First As Boolean = False)
+        clear_List()
+
+        boolSelect_First = select_First
+        objOItem_Ref = Nothing
+        Timer_Images.Stop()
+        objDataWork_Images.get_Images(objOItem_Ref)
+
+        Timer_Images.Start()
+
     End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
@@ -446,4 +463,97 @@ Public Class UserControl_ImageList
 
         Return objOItem_Result
     End Function
+
+    Private Sub ContextMenuStrip_Relate_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Relate.Opening
+        RelateToolStripMenuItem.Enabled = False
+        SaveImagesToolStripMenuItem.Enabled = False
+
+        If DataGridView_Images.SelectedRows.Count > 0 Then
+            RelateToolStripMenuItem.Enabled = True
+            SaveImagesToolStripMenuItem.Enabled = True
+        End If
+    End Sub
+
+    Private Sub SaveImagesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveImagesToolStripMenuItem.Click
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim intToDo As Integer
+        Dim intDone As Integer
+        Dim intExist As Integer
+
+
+        If FolderBrowserDialog_Save.ShowDialog = DialogResult.OK Then
+            intToDo = DataGridView_Images.SelectedRows.Count
+            intDone = 0
+            intExist = 0
+            For Each objDGVR_Selected In DataGridView_Images.SelectedRows
+                objDRV_Selected = objDGVR_Selected.DataBoundItem
+                Dim objOItem_File = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_File"), _
+                                                              .Name = objDRV_Selected.Item("Name_Image"), _
+                                                              .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
+                                                              .Type = objLocalConfig.Globals.Type_Object}
+
+                Dim strPath_Dst = FolderBrowserDialog_Save.SelectedPath + IO.Path.DirectorySeparatorChar + objOItem_File.Name
+                If Not IO.File.Exists(strPath_Dst) Then
+                    If objFileWork.is_File_Blob(objOItem_File) Then
+                        Dim objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_File, strPath_Dst, False)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            intDone = intDone + 1
+                        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
+                            intExist = intExist + 1
+                        End If
+                    Else
+                        Dim strPath_Src = objFileWork.get_Path_FileSystemObject(objOItem_File, False)
+                        If IO.File.Exists(strPath_Src) Then
+                            Try
+                                IO.File.Copy(strPath_Src, strPath_Dst)
+                                intDone = intDone + 1
+                            Catch ex As Exception
+
+                            End Try
+
+                        End If
+                    End If
+                Else
+                    intExist = intExist + 1
+                End If
+
+            Next
+
+            If intToDo > intDone Then
+                MsgBox("Es konnten nur " & intDone & " Dateien gespeichert werden. " & intExist & " Dateien existierten bereits.", MsgBoxStyle.Information)
+            End If
+        End If
+    End Sub
+
+    Private Sub RelateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RelateToolStripMenuItem.Click
+        If DataGridView_Images.SelectedRows.Count > 0 Then
+            Dim objOItem_Image As clsOntologyItem = Nothing
+            Dim intToDo = DataGridView_Images.SelectedRows.Count
+            Dim intDone = 0
+
+            objTransaction_Images.ClearItems()
+            For Each objDGVR As DataGridViewRow In DataGridView_Images.SelectedRows
+                Dim objDRV As DataRowView = objDGVR.DataBoundItem
+
+                objOItem_Image = New clsOntologyItem With {.GUID = objDRV.Item("ID_Image"), _
+                                                                   .Name = objDRV.Item("Name_Image"), _
+                                                                   .GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                                   .Type = objLocalConfig.Globals.Type_Object}
+
+                Dim objOR_Image_To_Ref = objDataWork_Images.Rel_Image_To_Ref(objOItem_Image, objOItem_Relate)
+
+                Dim objOItem_Result = objTransaction_Images.do_Transaction(objOR_Image_To_Ref, True)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    intDone = intDone + 1
+                End If
+            Next
+
+            If intDone < intToDo Then
+                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Images verknüpft werden!", MsgBoxStyle.Exclamation)
+            End If
+
+            RaiseEvent related_Last(objOItem_Image)
+        End If
+    End Sub
 End Class

@@ -56,32 +56,49 @@ namespace GraphMLConnector
             OList_RelationTypes.Clear();
         }
 
-        public clsOntologyItem GetItemLists()
+
+        public clsOntologyItem GetItemLists(List<clsOntologyItemsOfOntologies> OList_OntologyItems)
         {
-            OList_Classes = (from objClass in OList_ExportItems
-                                where objClass.Type == objLocalConfig.Globals.Type_Class
-                                select objClass).ToList();
+            OList_AttributeTypes = OList_OntologyItems.Where(p => p.Type_Ref == objLocalConfig.Globals.Type_AttributeType).Select(p => new clsOntologyItem
+            {
+                GUID = p.ID_Ref,
+                Name = p.Name_Ref,
+                GUID_Parent = p.ID_Parent_Ref,
+                Type = objLocalConfig.Globals.Type_AttributeType
+            }).ToList();
 
-            OList_AttributeTypes = (from objAttType in OList_ExportItems
-                                       where objAttType.Type == objLocalConfig.Globals.Type_AttributeType
-                                       select objAttType).ToList();
+            OList_RelationTypes = OList_OntologyItems.Where(p => p.Type_Ref == objLocalConfig.Globals.Type_RelationType).Select(p => new clsOntologyItem
+            {
+                GUID = p.ID_Ref,
+                Name = p.Name_Ref,
+                GUID_Parent = p.ID_Parent_Ref,
+                Type = objLocalConfig.Globals.Type_RelationType
+            }).ToList();
 
-            OList_Objects = (from objObject in OList_ExportItems
-                                       where objObject.Type == objLocalConfig.Globals.Type_Object
-                                       select objObject).ToList();
+            OList_Classes = OList_OntologyItems.Where(p => p.Type_Ref == objLocalConfig.Globals.Type_Class).Select(p => new clsOntologyItem
+            {
+                GUID = p.ID_Ref,
+                Name = p.Name_Ref,
+                GUID_Parent = p.ID_Parent_Ref,
+                Type = objLocalConfig.Globals.Type_Class
+            }).ToList();
 
-            OList_RelationTypes = (from objRelType in OList_ExportItems
-                                       where objRelType.Type == objLocalConfig.Globals.Type_RelationType
-                                       select objRelType).ToList();
+            OList_Objects = OList_OntologyItems.Where(p => p.Type_Ref == objLocalConfig.Globals.Type_Object).Select(p => new clsOntologyItem
+            {
+                GUID = p.ID_Ref,
+                Name = p.Name_Ref,
+                GUID_Parent = p.ID_Parent_Ref,
+                Type = objLocalConfig.Globals.Type_Object
+            }).ToList();
 
 
             var objOItem_Result = objDBLevel1.get_Data_Classes(null, false, false, null, false);
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
                 var oList_ClassesOfObjects = (from objClass in objDBLevel1.OList_Classes
-                                              join objObject in OList_Objects on objClass.GUID equals  objObject.GUID_Parent
+                                              join objObject in OList_Objects on objClass.GUID equals objObject.GUID_Parent
                                               group objClass by objClass.GUID into g
-                                              select new {GUID = g.Key, Classes = g}).ToList();
+                                              select new { GUID = g.Key, Classes = g }).ToList();
 
                 OList_Classes = OList_Classes.Concat((from objClass in oList_ClassesOfObjects
                                                       join objClassExist in OList_Classes on objClass.GUID equals
@@ -114,9 +131,9 @@ namespace GraphMLConnector
                     objOItem_Result = objDBLevel1.get_Data_Objects(oList_ClassesWithChildren);
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
-                        OList_Objects = OList_Objects.Concat(objDBLevel1.OList_Objects).ToList();    
+                        OList_Objects = OList_Objects.Concat(objDBLevel1.OList_Objects).ToList();
                     }
-                    
+
 
                 }
 
@@ -231,10 +248,10 @@ namespace GraphMLConnector
                         }
                     }
                 }
-                
+
             }
 
-            
+
 
             return objOItem_Result;
 

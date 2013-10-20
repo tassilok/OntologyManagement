@@ -38,10 +38,11 @@ Partial Class UserControl_ImageList
         Me.DataGridView_Images = New System.Windows.Forms.DataGridView()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Open = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Paste = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Remove = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Relate = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Meta = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Paste = New System.Windows.Forms.ToolStripButton()
+        Me.FolderBrowserDialog_Save = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip_Relate.SuspendLayout()
         CType(Me.BindingSource_Images, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
@@ -57,27 +58,27 @@ Partial Class UserControl_ImageList
         '
         Me.ContextMenuStrip_Relate.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RelateToolStripMenuItem, Me.RelateAllToolStripMenuItem, Me.SaveImagesToolStripMenuItem})
         Me.ContextMenuStrip_Relate.Name = "ContextMenuStrip_Relate"
-        Me.ContextMenuStrip_Relate.Size = New System.Drawing.Size(150, 70)
+        Me.ContextMenuStrip_Relate.Size = New System.Drawing.Size(153, 92)
         '
         'RelateToolStripMenuItem
         '
         Me.RelateToolStripMenuItem.Enabled = False
         Me.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem"
-        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
+        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.RelateToolStripMenuItem.Text = "x_Relate"
         '
         'RelateAllToolStripMenuItem
         '
         Me.RelateAllToolStripMenuItem.Enabled = False
         Me.RelateAllToolStripMenuItem.Name = "RelateAllToolStripMenuItem"
-        Me.RelateAllToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
+        Me.RelateAllToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.RelateAllToolStripMenuItem.Text = "x_Relate all"
         '
         'SaveImagesToolStripMenuItem
         '
         Me.SaveImagesToolStripMenuItem.Enabled = False
         Me.SaveImagesToolStripMenuItem.Name = "SaveImagesToolStripMenuItem"
-        Me.SaveImagesToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
+        Me.SaveImagesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.SaveImagesToolStripMenuItem.Text = "x_Save Images"
         '
         'Timer_Images
@@ -151,7 +152,7 @@ Partial Class UserControl_ImageList
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Open, Me.ToolStripButton_Paste, Me.ToolStripButton_Remove, Me.ToolStripButton_Relate, Me.ToolStripButton_Meta})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(256, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(225, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripButton_Open
@@ -162,6 +163,15 @@ Partial Class UserControl_ImageList
         Me.ToolStripButton_Open.Name = "ToolStripButton_Open"
         Me.ToolStripButton_Open.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_Open.Text = "ToolStripButton2"
+        '
+        'ToolStripButton_Paste
+        '
+        Me.ToolStripButton_Paste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Paste.Image = Global.Media_Viewer_Module.My.Resources.Resources.Paste
+        Me.ToolStripButton_Paste.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Paste.Name = "ToolStripButton_Paste"
+        Me.ToolStripButton_Paste.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_Paste.Text = "ToolStripButton1"
         '
         'ToolStripButton_Remove
         '
@@ -189,15 +199,6 @@ Partial Class UserControl_ImageList
         Me.ToolStripButton_Meta.Name = "ToolStripButton_Meta"
         Me.ToolStripButton_Meta.Size = New System.Drawing.Size(91, 22)
         Me.ToolStripButton_Meta.Text = "x_get Metadata"
-        '
-        'ToolStripButton_Paste
-        '
-        Me.ToolStripButton_Paste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Paste.Image = Global.Media_Viewer_Module.My.Resources.Resources.Paste
-        Me.ToolStripButton_Paste.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Paste.Name = "ToolStripButton_Paste"
-        Me.ToolStripButton_Paste.Size = New System.Drawing.Size(23, 22)
-        Me.ToolStripButton_Paste.Text = "ToolStripButton1"
         '
         'UserControl_ImageList
         '
@@ -241,5 +242,6 @@ Partial Class UserControl_ImageList
     Friend WithEvents ToolStripButton_Meta As System.Windows.Forms.ToolStripButton
     Friend WithEvents DataGridView_Images As System.Windows.Forms.DataGridView
     Friend WithEvents ToolStripButton_Paste As System.Windows.Forms.ToolStripButton
+    Friend WithEvents FolderBrowserDialog_Save As System.Windows.Forms.FolderBrowserDialog
 
 End Class

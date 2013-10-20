@@ -20,8 +20,6 @@ namespace GraphMLConnector
         private clsTransaction_Graph objTransaction_Graph;
         private clsGraphMLWork objGraphMLWork;
 
-
-
         private frm_ObjectEdit objFrmObjectEdit;
 
         private UserControl_OntologyItemList objUserControl_OntologyItemList;
@@ -53,6 +51,7 @@ namespace GraphMLConnector
 
         private void initialize()
         {
+
             
             objDataWork_Graph = new clsDataWork_Graph(objLocalConfig);
             objGraphMLWork = new clsGraphMLWork(objLocalConfig);
@@ -314,7 +313,54 @@ namespace GraphMLConnector
 
         private void toolStripButton_Export_Click(object sender, EventArgs e)
         {
-            
+            objGraphMLWork.ClearLists();
+            if (gridToolStripMenuItem.Checked)
+            {
+                var objOItem_Result = objGraphMLWork.GetItemLists(objUserControl_OntologyItemList.OList_OntologyItems);
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    objGraphMLWork.ExportItems(objDataWork_Graph.OItem_PathGraph.Name);
+                }
+                else
+                {
+                    MessageBox.Show("The Graph cannot be created!", "Error", MessageBoxButtons.OK);
+                }
+               
+            }
+            else
+            {
+                var boolClasses = false;
+                var boolClassRels = false;
+                var boolObjects = false;
+                var boolObjRels = false;
+
+                if (classesWithRelsToolStripMenuItem.Checked)
+                {
+                    boolClasses = true;
+                    boolClassRels = true;
+                }
+                if (classesToolStripMenuItem.Checked)
+                {
+                    boolClasses = true;
+                }
+
+                if (objectsAndClassesToolStripMenuItem.Checked)
+                {
+                    boolObjects = true;
+                    boolClasses = true;
+                }
+
+                if (objectsAndClassesWithRelsToolStripMenuItem.Checked)
+                {
+                    boolObjRels = true;
+                    boolClassRels = true;
+                    boolClasses = true;
+                    boolObjects = true;
+                }
+
+                objGraphMLWork.ExportClasses(boolClasses, boolObjects, boolClassRels, boolObjRels, objDataWork_Graph.OItem_PathGraph.Name);
+
+            }
             //objGraphMLWork.ClearLists();
             //if (gridToolStripMenuItem.Checked)
             //{
@@ -396,12 +442,16 @@ namespace GraphMLConnector
                         GUID_Parent = objLocalConfig.OItem_Class_Graphs.GUID,
                         Type = objLocalConfig.Globals.Type_Object
                     };
-
-                var objOList_Ontologies = objDataWork_Graph.GetData_OntologiesOfGraph(objOItem_Graph);
-                if (objOList_Ontologies.Any())
+                var objOItem_Result = objDataWork_Graph.GetData_GraphPath(objOItem_Graph);
+                if (objOItem_Result != null)
                 {
-                    objUserControl_OntologyItemList.initialize_List(objOList_Ontologies.First());    
+                    var objOList_Ontologies = objDataWork_Graph.GetData_OntologiesOfGraph(objOItem_Graph);
+                    if (objOList_Ontologies.Any())
+                    {
+                        objUserControl_OntologyItemList.initialize_List(objOList_Ontologies.First());
+                    }
                 }
+                
                 
 
             }

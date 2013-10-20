@@ -35,6 +35,7 @@ Partial Class UserControl_MediaItemList
         Me.DataGridView_MediaItems = New System.Windows.Forms.DataGridView()
         Me.ContextMenuStrip_Items = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.RelateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Add = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Replace = New System.Windows.Forms.ToolStripButton()
@@ -47,7 +48,6 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripButton_Bookmarks = New System.Windows.Forms.ToolStripButton()
         Me.OpenFileDialog_MediaItem = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog_Save = New System.Windows.Forms.FolderBrowserDialog()
-        Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.BindingSource_MediaItems, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -133,13 +133,19 @@ Partial Class UserControl_MediaItemList
         '
         Me.ContextMenuStrip_Items.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RelateToolStripMenuItem, Me.SaveToolStripMenuItem})
         Me.ContextMenuStrip_Items.Name = "ContextMenuStrip_Items"
-        Me.ContextMenuStrip_Items.Size = New System.Drawing.Size(153, 70)
+        Me.ContextMenuStrip_Items.Size = New System.Drawing.Size(117, 48)
         '
         'RelateToolStripMenuItem
         '
         Me.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem"
-        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
         Me.RelateToolStripMenuItem.Text = "x_Relate"
+        '
+        'SaveToolStripMenuItem
+        '
+        Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.SaveToolStripMenuItem.Text = "x_Save"
         '
         'ToolStrip1
         '
@@ -224,12 +230,6 @@ Partial Class UserControl_MediaItemList
         'OpenFileDialog_MediaItem
         '
         Me.OpenFileDialog_MediaItem.FileName = "OpenFileDialog1"
-        '
-        'SaveToolStripMenuItem
-        '
-        Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.SaveToolStripMenuItem.Text = "x_Save"
         '
         'UserControl_MediaItemList
         '
