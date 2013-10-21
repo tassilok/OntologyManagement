@@ -21,6 +21,10 @@ Public Class clsGlobals
 
     Private objDirections As New clsDirections
 
+    Private objVariables As New clsVariables
+
+    Private objOntologyRelationRules As New clsOntologyRelationRules
+
     Private objClassTypes As New clsClassTypes
     
     Private strEL_Server As String
@@ -40,13 +44,6 @@ Public Class clsGlobals
 
 
     Private strRegEx_GUID As String
-
-    Private objORule_ChildObjects As clsOntologyItem
-    Private objORule_LeftOuterJoin As clsOntologyItem
-    Private objORule_NameOfTypeParse As clsOntologyItem
-    Private objORule_ParentClasses As clsOntologyItem
-    Private objORule_RelationBreak As clsOntologyItem
-    Private objORule_OnlyItem As clsOntologyItem
 
     Private dtblT_Config As New DataSet_Config.dtbl_BaseConfigDataTable
 
@@ -624,16 +621,7 @@ Public Class clsGlobals
 
 
 
-    Private Sub set_OntologyRelationRules()
-        objORule_ChildObjects = New clsOntologyItem("5f39c4ce080d4f36b432f83d2892c841", "Child-Token", objClasses.OItem_Class_OntologyRelationRule.GUID, objTypes.DataType)
-        objORule_LeftOuterJoin = New clsOntologyItem("efddfb8176004f6a9d30cf579110771a", "Left Outer Join", objClasses.OItem_Class_OntologyRelationRule.GUID, objTypes.DataType)
-        objORule_LeftOuterJoin = New clsOntologyItem("00b22e07be8e433097558c30c46d76e4", "Inner Join", objClasses.OItem_Class_OntologyRelationRule.GUID, objTypes.DataType)
-        objORule_NameOfTypeParse = New clsOntologyItem("32ccb41b0321465ea94cc5de402c3209", "Name of Type Parse", objClasses.OItem_Class_OntologyRelationRule.GUID, objTypes.DataType)
-        objORule_ParentClasses = New clsOntologyItem("8ff036f7efd64e9fb3bb29c91692ce8b", "Parent-Types", objClasses.OItem_Class_OntologyRelationRule.GUID, objTypes.DataType)
-        objORule_OnlyItem = New clsOntologyItem("16fdf6615bdb4c55bfecd3e55df416fe", "Only Item", objClasses.OItem_Class_OntologyRelationRule.GUID, objTypes.DataType)
-        objORule_RelationBreak = New clsOntologyItem("cbe4408df1734971bfed25a3b7891f88", "Relation-Break", objClasses.OItem_Class_OntologyRelationRule.GUID, objTypes.DataType)
-    End Sub
-
+    
     Public Function is_GUID(ByVal strText As String) As Boolean
         Dim objRegExp As New Regex(strRegEx_GUID)
         If objRegExp.IsMatch(strText) And Not strText = "00000000000000000000000000000000" Then
@@ -717,15 +705,176 @@ Public Class clsGlobals
     Private Sub initialize()
         set_Session()
         get_ConfigData()
-        set_OntologyRelationRules()
 
         objDBLevel1 = New clsDBLevel(Server, Port, Index, Index_Rep, SearchRange, Session)
         objDBLevel2 = New clsDBLevel(Server, Port, Index, Index_Rep, SearchRange, Session)
 
-        objTransaction = New clsTransaction(Server, Port, Index, Index_Rep, SearchRange, Session)
+        Dim objOItem_Result = objLogStates.LogState_Success
+        Try
+            objOItem_Result = test_Existance_OntologyDB()
+        Catch ex As Exception
+           objOItem_Result = objLogStates.LogState_Nothing 
+        End Try
+        
 
-        set_Computer()
+        If objOItem_Result.GUID = objLogStates.LogState_Nothing.GUID Then
+            If MsgBox("Die Datenbank existiert nicht. Soll Sie am Server " & strEL_Server & " erzeugt werden?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes
+                If create_Index().GUID = objLogStates.LogState_Error.GUID Then
+                    MsgBox("Die Datenbank konnte nicht erzeugt werden!",MsgBoxStyle.Critical)
+                    Environment.Exit(0)
+                Else
+                    objOItem_Result = objLogStates.LogState_Success.Clone()
+                End If
+            Else 
+                Environment.Exit(0)
+            End If
+
+        End If
+
+        If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+            objOItem_Result = test_Existance_BaseData()
+            If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+                objTransaction = New clsTransaction(Server, Port, Index, Index_Rep, SearchRange, Session)
+
+                set_Computer()    
+            Else 
+                MsgBox("Die Datenbank ist nicht konsistent! Die Anwendung wird beendet!",MsgBoxStyle.Critical)
+                Environment.Exit(1)
+            End If
+            
+            
+
+            
+        End If
+        
     End Sub
+
+    Private Function test_Existance_BaseData() As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem = objLogStates.LogState_Success
+
+        'DataTypes
+        objOItem_Result =  objDBLevel1.get_Data_DataTyps()
+        If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+            Dim objOList_DType_NotExistant = (from objDataTypeShould In objDataTypes.DataTypes
+                                              Group Join objDataTypeExist in objDBLevel1.OList_DataTypes on objdataTypeShould.GUID Equals objDataTypeExist.GUID Into objDataTypesExist = Group
+                                              From objDataTypeExist in objDataTypesExist.DefaultIfEmpty()
+                                              Where objDataTypesExist Is Nothing
+                                              Select objDataTypeShould).ToList()
+
+            If objOList_DType_NotExistant.Any() Then
+                objOItem_Result =  objDBLevel1.save_DataTypes(objOList_DType_NotExistant)
+            End If
+        End If
+
+        'AttributeTypes
+        If Not objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
+            objOItem_Result = objDBLevel1.get_Data_AttributeType(objAttributeTypes.AttributeTypes)
+            If objOItem_Result.GUID = objLogStates.LogState_Success.GUID then
+                Dim objOList_AttTypes_NotExistant = (From objAttTypeShould In objAttributeTypes.AttributeTypes
+                                                     Group Join objAttTypeExist In objDBLevel1.OList_AttributeTypes on objAttTypeShould.GUID Equals objAttTypeExist.GUID Into objAttTypesExist = group
+                                                     From objAttTypeExist In objAttTypesExist.DefaultIfEmpty()
+                                                     Where objAttTypeExist Is Nothing
+                                                     Select objAttTypeShould).ToList()
+
+                If objOList_AttTypes_NotExistant.Any() Then
+                    For Each objOItem_AttType  In objOList_AttTypes_NotExistant
+                        objOItem_Result = objDBLevel1.save_AttributeType(objOItem_AttType)
+                        If objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
+                            Exit For
+                        End If
+                    Next
+                    
+                End If
+            End If
+        End If
+
+        'RelationTypes
+        If not objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
+            objOItem_Result = objDBLevel1.get_Data_RelationTypes(objRelationTypes.RelationTypes)
+            If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+                Dim objOList_RelTypes_NotExistant = (From objRelTypeShould In objRelationTypes.RelationTypes
+                                                     Group Join objRelTypeExist In objDBLevel1.OList_RelationTypes on objRelTypeShould.GUID Equals objRelTypeExist.GUID Into objRelTypesExist = Group
+                                                     From objRelTypeExist In objRelTypesExist.DefaultIfEmpty()
+                                                     Where objRelTypeExist Is Nothing
+                                                     Select objRelTypeShould).ToList()
+
+                if objOList_RelTypes_NotExistant.Any() Then
+                    For Each objOItem_RelType In objOList_RelTypes_NotExistant
+                        objOItem_Result = objDBLevel1.save_RelationType(objOItem_RelType)
+                        If objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
+                            exit for
+                        End If
+                        
+                    Next
+                    
+                End If
+            End If
+        End If
+
+        'Classes
+        If Not objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
+            objOItem_Result = objDBLevel1.get_Data_Classes(objClasses.OList_Classes,containsRoot := True)
+            If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+                Dim objOList_Classes_NotExistant = (From objClassShould In objClasses.OList_Classes
+                                                    Group Join objClassExist In objDBLevel1.OList_Classes on objClassShould.GUID Equals objClassExist.GUID Into objClassesExist = group
+                                                    From objClassExist in objClassesExist.DefaultIfEmpty()
+                                                    Where objClassExist Is Nothing
+                                                    Select objClassShould).ToList()
+                If objOList_Classes_NotExistant.Any() Then
+                    For Each objClass In objOList_Classes_NotExistant
+                        If objClass.GUID_Parent ="" Then
+                            objOItem_Result =  objDBLevel1.save_Class(objClass,True)    
+                        Else 
+                            objOItem_Result =  objDBLevel1.save_Class(objClass)    
+                        End If
+                        
+                        If objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
+                            Exit For
+                        End If
+                    Next
+                    
+                End If
+            End If
+        End If
+        
+        'Objects
+        If Not objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
+            Dim objOList_Objects = objDirections.Directions.ToList()
+            objOList_Objects.AddRange(objLogStates.LogStates)
+            objOList_Objects.AddRange(objOntologyRelationRules.OntologyRelationRules)
+            objOList_Objects.AddRange(objVariables.Variables)
+            objOItem_Result = objDBLevel1.get_Data_Objects(objOList_Objects)
+            If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+                Dim objOList_Objects_NotExistant = (From objObjectShould In objOList_Objects
+                                                    Group Join objObjectExist in objDBLevel1.OList_Objects on objObjectShould.GUID Equals objObjectExist.GUID Into objObjectsExists = group
+                                                    From objObjectExist in objObjectsExists.DefaultIfEmpty()
+                                                    Where objObjectExist Is Nothing
+                                                    Select objObjectShould).ToList()
+                If objOList_Objects_NotExistant.Any() Then
+                    objOItem_Result = objDBLevel1.save_Objects(objOList_Objects_NotExistant)
+
+                End If
+            End If
+        End If
+
+        Return objOItem_Result
+    End Function
+
+    Private Function test_Existance_OntologyDB() As clsOntologyItem
+        If objDBLevel1.test_Index_Es()
+            Return objLogStates.LogState_Success
+        Else 
+            Return objLogStates.LogState_Nothing
+        End If
+    End Function
+
+    Private Function create_Index() As clsOntologyItem
+        If objDBLevel1.create_Index_Es() Then
+            Return objLogStates.LogState_Success.Clone()
+        Else 
+            Return objLogStates.LogState_Error.Clone()
+        End If
+    End Function
 
     Public Sub New(strPath_Config As String)
         Me.strPath_Config = strPath_Config

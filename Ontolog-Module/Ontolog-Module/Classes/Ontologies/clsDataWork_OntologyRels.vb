@@ -7,6 +7,9 @@ Public Class clsDataWork_OntologyRels
     Private objDBLevel_ClassRel As clsDBLevel
     Private objDBLevel_ObjAtt As clsDBLevel
     Private objDBLevel_ObjRel As clsDBLevel
+    Private objDBLevel_ClassParents As clsDBLevel
+    Private objDBLevel_Objects As clsDBLevel
+    Private objDBLeveL_ClassesOfObjects As clsDBLevel
 
     Private objOItem_Result_ClassAtt As clsOntologyItem
     Private objOItem_Result_ClassRel As clsOntologyItem
@@ -16,11 +19,14 @@ Public Class clsDataWork_OntologyRels
     Private objOList_Classes As List(Of clsOntologyItem)
     Private objOList_AttributeTypes As List(Of clsOntologyItem)
     Private objOList_RelationTypes As List(Of clsOntologyItem)
+    Private objOList_Objects As List(Of clsOntologyItem)
 
     Private objOList_ClassAtt As List(Of clsClassAtt)
     Private objOList_ClassRel As List(Of clsClassRel)
     Private objOList_ObjectAtt As List(Of clsObjectAtt)
     Private objOList_ObjectRel As List(Of clsObjectRel)
+
+    
 
     Public ReadOnly Property OItem_Result_ClassAtt As clsOntologyItem
         Get
@@ -70,6 +76,15 @@ Public Class clsDataWork_OntologyRels
         End Get
         Set(value As List(Of clsOntologyItem))
             objOList_RelationTypes = value
+        End Set
+    End Property
+
+    Public Property OList_Objects As List(Of clsOntologyItem)
+        get
+            Return objOList_Objects
+        End Get
+        Set(value As List(Of clsOntologyItem))
+            objOList_Objects = value
         End Set
     End Property
 
@@ -175,6 +190,31 @@ Public Class clsDataWork_OntologyRels
         objOItem_Result_ObjRel = objOItem_Result
     End Sub
 
+    Public Function GetData_ObjectsOfClasses(OList_ObjectSearch As List(Of clsOntologyItem)) As List(Of clsOntologyItem)
+        Dim OList_Objects = new List(Of clsOntologyItem)
+        Dim objOItem_Result = objDBLevel_Objects.get_Data_Objects(OList_ObjectSearch)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            OList_Objects = objDBLevel_Objects.OList_Objects
+        Else 
+            objOList_Objects = Nothing
+        End If
+
+        Return OList_Objects
+    End Function
+
+    Public Function GetData_ClassesOfObjects(OList_Classes As List(Of clsOntologyItem)) As List(Of clsOntologyItem)
+        Dim objOList_Classes = New List(Of clsOntologyItem)
+
+        Dim objOItem_Result = objDBLeveL_ClassesOfObjects.get_Data_Classes(OList_Classes)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_Classes = objDBLeveL_ClassesOfObjects.OList_Classes
+        Else 
+            objOList_Classes = Nothing
+        End If
+
+        Return objOList_Classes
+    End Function
+
     Public Sub New(LocalConfig As clsLocalConfig_Ontologies)
         objLocalConfig = LocalConfig
 
@@ -192,11 +232,15 @@ Public Class clsDataWork_OntologyRels
         objDBLevel_ClassRel = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_ObjAtt = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_ObjRel = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_ClassParents = new clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Objects = new clsDBLevel(objLocalConfig.Globals)
+        objDBLeveL_ClassesOfObjects = new clsDBLevel(objLocalConfig.Globals)
 
         objOItem_Result_ClassAtt = objLocalConfig.Globals.LState_Nothing
         objOItem_Result_ClassRel = objLocalConfig.Globals.LState_Nothing
         objOItem_Result_ObjAtt = objLocalConfig.Globals.LState_Nothing
         objOItem_Result_ObjRel = objLocalConfig.Globals.LState_Nothing
+
     End Sub
 
 

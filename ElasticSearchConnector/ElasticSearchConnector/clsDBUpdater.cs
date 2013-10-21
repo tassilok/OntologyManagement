@@ -61,7 +61,8 @@ namespace ElasticSearchConnector
                 }
                 else
                 {
-                    objOItem_Result = objLogStates.LogState_Exists;
+                    if (objOList_AttributeTypeNameTest.Any(p => p.Name.ToLower() == objOItem_AttributeType.Name))
+                        objOItem_Result = objLogStates.LogState_Exists;
                 }
                 
             }
@@ -145,7 +146,47 @@ namespace ElasticSearchConnector
             return objOItem_Result;
         }
 
-        public clsOntologyItem save_Class(clsOntologyItem objOItem_Class)
+        public clsOntologyItem save_DataTypes(List<clsOntologyItem> OList_DataType)
+        {
+            OperateResult opResult;
+            objDBSelector.ElConnector.Flush();
+            
+            var objBulkObjects = new List<BulkObject>();
+            var objOItem_Result = objLogStates.LogState_Success;
+            
+
+            foreach (var OItem_DataType  in OList_DataType)
+            {
+                var objDict = new Dictionary<string, object>();
+                objDict.Add(objFields.ID_Item, OItem_DataType.GUID);
+                objDict.Add(objFields.Name_Item, OItem_DataType.Name);
+                objDict.Add("Type", OItem_DataType.Type);
+
+                objBulkObjects.Add(new ElasticSearch.Client.Domain.BulkObject(objDBSelector.Index, objTypes.DataType, OItem_DataType.GUID, objDict));
+            }
+
+            try
+            {
+                opResult = objDBSelector.ElConnector.Bulk(objBulkObjects);
+                objBulkObjects = null;
+                if (opResult.Success)
+                {
+                    objOItem_Result = objLogStates.LogState_Success;
+                }
+                else
+                {
+                    objOItem_Result = objLogStates.LogState_Error;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                objOItem_Result = objLogStates.LogState_Error;
+            }
+            return objOItem_Result;
+        }
+
+        public clsOntologyItem save_Class(clsOntologyItem objOItem_Class, bool boolRoot = false)
         {
             OperateResult opResult;
             objDBSelector.ElConnector.Flush();
@@ -186,7 +227,8 @@ namespace ElasticSearchConnector
                 }
                 else
                 {
-                    objOItem_Result = objLogStates.LogState_Exists;
+                    if (objOList_ClassNameTest.Any(p => p.Name.ToLower() == objOItem_Class.Name))
+                        objOItem_Result = objLogStates.LogState_Exists;
                 }
 
                 objDBSelector.ElConnector.Flush();
@@ -194,12 +236,13 @@ namespace ElasticSearchConnector
 
             if (objOItem_Result.GUID == objLogStates.LogState_Nothing.GUID)
             {
-                if (objOItem_Class.GUID != null && objOItem_Class.Name != null && objOItem_Class.GUID_Parent != null)
+                if (objOItem_Class.GUID != null && objOItem_Class.Name != null && (objOItem_Class.GUID_Parent != null || boolRoot))
                 {
                     var objDict = new Dictionary<string, object>();
                     objDict.Add(objFields.ID_Item, objOItem_Class.GUID);
                     objDict.Add(objFields.Name_Item, objOItem_Class.Name);
-                    objDict.Add(objFields.ID_Parent, objOItem_Class.GUID_Parent);
+                    if (objOItem_Class.GUID_Parent != null)
+                        objDict.Add(objFields.ID_Parent, objOItem_Class.GUID_Parent);
 
 
 
@@ -604,7 +647,8 @@ namespace ElasticSearchConnector
                 }
                 else
                 {
-                    objOItem_Result = objLogStates.LogState_Exists;
+                    if (objOList_RelationTypeNameTest.Any(p => p.Name.ToLower() == objOItem_RelationType.Name.ToLower()))
+                        objOItem_Result = objLogStates.LogState_Exists;
                 }
 
             }

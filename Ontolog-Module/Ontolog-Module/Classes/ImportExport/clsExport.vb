@@ -14,6 +14,15 @@ Public Enum XMLTemplateEnum
     OntologyItem
 End Enum
 
+<Flags()> _
+Public Enum ModeEnum
+    NoRelations = 1
+    OntologyItems = 2
+    OntologyJoins = 4
+    ClassParents = 8
+    AllRelations = 16
+End Enum
+
     Public Class clsExport
 
         Private objGlobals As clsGlobals
@@ -21,6 +30,7 @@ End Enum
     Private objTextWriter As IO.TextWriter
 
     Private objVariables As New clsVariables
+    Private objOntologyRules As New clsOntologyRelationRules
 
     Private objDataWork_Ontologies As clsDataWork_Ontologies
     Private objDataWork_OntologyRels As clsDataWork_OntologyRels
@@ -55,12 +65,15 @@ End Enum
             Return objOItem_Result
         End Function
 
-    Public Function Export_Ontology(OItem_Ontology As clsOntologyItem, strPathDst As String, Optional objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String) = Nothing, Optional boolOnlyItems As Boolean = False, Optional boolRel As Boolean = False) As clsOntologyItem
+    Public Function Export_Ontology(OItem_Ontology As clsOntologyItem, strPathDst As String, mode As ModeEnum, Optional objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String) = Nothing ) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem = objDataWork_Ontologies.LocalConfig.Globals.LState_Error.Clone()
 
-        Dim objOList_Classes As List(Of clsOntologyItem) = New List(Of clsOntologyItem)
-        Dim objOList_AttributeTypes As List(Of clsOntologyItem) = New List(Of clsOntologyItem)
-        Dim objOList_RelationTypes As List(Of clsOntologyItem) = New List(Of clsOntologyItem)
+        Dim objOList_ClassesExtended = New List(Of clsOntologyItemsOfOntologies)
+        Dim objOList_ClassesWithChildren = new List(Of clsOntologyItem)
+        Dim objOList_Objects = new List(Of clsOntologyItem)
+        Dim objOList_Classes = new List(Of clsOntologyItem)
+        Dim objOList_AttributeTypes = New List(Of clsOntologyItem)
+        Dim objOList_RelationTypes = New List(Of clsOntologyItem)
 
         objOItem_Ontology = OItem_Ontology
 
@@ -195,14 +208,54 @@ End Enum
                     Close_XMLWriter()
                 End If
 
-                If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Class).Any Then
+                If mode.HasFlag(ModeEnum.AllRelations) Or mode.HasFlag(ModeEnum.OntologyJoins) Then
+                    objOList_ClassesExtended = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Class).ToList()
+                    objOList_ClassesWithChildren = objOList_ClassesExtended.Where(Function(p) p.ID_OntologyRelationRule = objOntologyRules.Rule_ChildToken.GUID).GroupBy(Function(p) new With {p.ID_Ref, p.Name_Ref, p.ID_Parent_Ref, p.ID_OntologyRelationRule }).Select(Function(p) New clsOntologyItem With {.GUID_Parent = p.Key.ID_Ref}).ToList()
+                    If objOList_ClassesWithChildren.Any() Then
+                        objOList_Objects.AddRange(objDataWork_OntologyRels.GetData_ObjectsOfClasses(objOList_ClassesWithChildren))
+                    End If
+                    
+                End If
+                
+
+                If objOList_Objects.Any Then
+                    Dim strFileName = strPathDst & "\" & "Objects.xml"
+                    objOItem_Result = Open_XMLWriter(strFileName)
+                    If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                        objOList_Classes.AddRange(objDataWork_OntologyRels.GetData_ClassesOfObjects(objOList_Objects.GroupBy(Function(p) p.GUID_Parent).Select(Function(p) New clsOntologyItem With {.GUID = p.Key}).ToList()))
+
+                        Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
+                        objTextWriter.Write(strOutput)
+
+                        For Each objOItem_Object In objOList_Objects
+                            strOutput = objDict_XMLTemplates(XMLTemplateEnum.OntologyItem)
+                            strOutput = strOutput.Replace("@" & objVariables.Variable_ID_ITEM.Name & "@", objOItem_Object.GUID)
+                            strOutput = strOutput.Replace("@" & objVariables.Variable_ID_PARENT.Name & "@", objOItem_Object.GUID_Parent)
+                            strOutput = strOutput.Replace("@" & objVariables.Variable_NAME_ITEM.Name & "@", objOItem_Object.Name)
+
+                            objTextWriter.Write(strOutput)
+                        Next
+
+                        strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@") + ("@" & objVariables.Variable_ITEMLIST.Name & "@").Length)
+                        objTextWriter.Write(strOutput)
+                    End If
+
+                    Close_XMLWriter()
+                End If
+                objOList_Classes.AddRange((from objClassNew In objOList_ClassesExtended
+                                               Group Join objClass In objOList_Classes on objClass.GUID equals objClassNew.ID_Ref Into objClasses = Group
+                                               from objClassOld In objClasses.DefaultIfEmpty()
+                                               Where objClassOld Is Nothing
+                                               Select New clsOntologyItem With {.GUID = objClassNew.ID_Ref, _
+                                                                                .Name = objClassNew.Name_Ref, _
+                                                                                .GUID_Parent = objClassNew.ID_Parent_Ref, _
+                                                                                .Type = objClassNew.Type_Ref}))
+                If objOList_Classes.Any Then
+                    
                     Dim strFileName = strPathDst & "\" & "Classes.xml"
                     objOItem_Result = Open_XMLWriter(strFileName)
                     If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                        objOList_Classes = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Class).Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Ref, _
-                                                                                                                                                                                                                                                                                         .Name = p.Name_Ref, _
-                                                                                                                                                                                                                                                                                         .GUID_Parent = p.ID_Parent_Ref, _
-                                                                                                                                                                                                                                                                                         .Type = objGlobals.Type_Object}).ToList()
+                        
                         Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
                         objTextWriter.Write(strOutput)
 
@@ -221,159 +274,156 @@ End Enum
 
                     Close_XMLWriter()
                 End If
+                 
 
-                If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Object).Any Then
-                    Dim strFileName = strPathDst & "\" & "Objects.xml"
-                    objOItem_Result = Open_XMLWriter(strFileName)
+                If mode.HasFlag(ModeEnum.AllRelations) = True Then
+                    
+                    objDataWork_OntologyRels.OList_Classes = objOList_Classes
+                    objDataWork_OntologyRels.OList_AttributeTypes = objOList_AttributeTypes
+                    objDataWork_OntologyRels.OList_RelationTypes = objOList_RelationTypes
+
+                    objDataWork_OntologyRels.GetData_ClassAtt()
+                    objOItem_Result = objDataWork_OntologyRels.OItem_Result_ClassAtt
                     If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                        objOList_Classes.AddRange(objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Object).GroupBy(Function(p) p.ID_Parent_Ref).Select(Function(p) New clsOntologyItem With {.GUID = p.Key}))
-                        Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
-                        objTextWriter.Write(strOutput)
-
-                        For Each objOItem_Object In objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Object).ToList()
-                            strOutput = objDict_XMLTemplates(XMLTemplateEnum.OntologyItem)
-                            strOutput = strOutput.Replace("@" & objVariables.Variable_ID_ITEM.Name & "@", objOItem_Object.ID_Ref)
-                            strOutput = strOutput.Replace("@" & objVariables.Variable_ID_PARENT.Name & "@", objOItem_Object.ID_Parent_Ref)
-                            strOutput = strOutput.Replace("@" & objVariables.Variable_NAME_ITEM.Name & "@", objOItem_Object.Name_Ref)
-
-                            objTextWriter.Write(strOutput)
-                        Next
-
-                        strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@") + ("@" & objVariables.Variable_ITEMLIST.Name & "@").Length)
-                        objTextWriter.Write(strOutput)
-                    End If
-
-                    Close_XMLWriter()
-                End If
-
-                If boolOnlyItems = True Then
-                    If boolRel = True Then
-                        objDataWork_OntologyRels.OList_Classes = objOList_Classes
-                        objDataWork_OntologyRels.OList_AttributeTypes = objOList_AttributeTypes
-                        objDataWork_OntologyRels.OList_RelationTypes = objOList_RelationTypes
-
-                        objDataWork_OntologyRels.GetData_ClassAtt()
-                        objOItem_Result = objDataWork_OntologyRels.OItem_Result_ClassAtt
+                        objDataWork_OntologyRels.GetData_ClassRel()
+                        objOItem_Result = objDataWork_OntologyRels.OItem_Result_ClassRel
                         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                            objDataWork_OntologyRels.GetData_ClassRel()
-                            objOItem_Result = objDataWork_OntologyRels.OItem_Result_ClassRel
+                            objDataWork_OntologyRels.GetData_ObjectAtt()
+                            objOItem_Result = objDataWork_OntologyRels.OItem_Result_ObjectAtt
                             If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                                objDataWork_OntologyRels.GetData_ObjectAtt()
-                                objOItem_Result = objDataWork_OntologyRels.OItem_Result_ObjectAtt
+                                objDataWork_OntologyRels.GetData_ObjectRel()
+                                objOItem_Result = objDataWork_OntologyRels.OItem_Result_ObjectRel
                                 If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                                    objDataWork_OntologyRels.GetData_ObjectRel()
-                                    objOItem_Result = objDataWork_OntologyRels.OItem_Result_ObjectRel
-                                    If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                                        If objDataWork_OntologyRels.ClassAtt.Any Then
-                                            Dim strFileName = strPathDst & "\" & "ClassAtts.xml"
-                                            objOItem_Result = Open_XMLWriter(strFileName)
-                                            If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                                                Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
+                                    
+                                   
+
+                                    If objDataWork_OntologyRels.ClassAtt.Any Then
+                                        Dim strFileName = strPathDst & "\" & "ClassAtts.xml"
+                                        objOItem_Result = Open_XMLWriter(strFileName)
+                                        If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                                            Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
+                                            objTextWriter.Write(strOutput)
+
+                                            For Each objOItem_ClassAtt In objDataWork_OntologyRels.ClassAtt
+                                                strOutput = objDict_XMLTemplates(XMLTemplateEnum.ClassAtt)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ID_CLASS.Name & "@", objOItem_ClassAtt.ID_Class)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ID_ATTRIBUTETYPE.Name & "@", objOItem_ClassAtt.ID_AttributeType)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ID_DATATYPE.Name & "@", objOItem_ClassAtt.ID_DataType)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_MIN.Name & "@", objOItem_ClassAtt.Min)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_MAX.Name & "@", objOItem_ClassAtt.Max)
+
                                                 objTextWriter.Write(strOutput)
+                                            Next
 
-                                                For Each objOItem_ClassAtt In objDataWork_OntologyRels.ClassAtt
-                                                    strOutput = objDict_XMLTemplates(XMLTemplateEnum.ClassAtt)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ID_CLASS.Name & "@", objOItem_ClassAtt.ID_Class)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ID_ATTRIBUTETYPE.Name & "@", objOItem_ClassAtt.ID_AttributeType)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ID_DATATYPE.Name & "@", objOItem_ClassAtt.ID_DataType)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_MIN.Name & "@", objOItem_ClassAtt.Min)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_MAX.Name & "@", objOItem_ClassAtt.Max)
-
-                                                    objTextWriter.Write(strOutput)
-                                                Next
-
-                                                strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@") + ("@" & objVariables.Variable_ITEMLIST.Name & "@").Length)
-                                                objTextWriter.Write(strOutput)
-                                            End If
+                                            strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@") + ("@" & objVariables.Variable_ITEMLIST.Name & "@").Length)
+                                            objTextWriter.Write(strOutput)
                                         End If
 
-                                        If objDataWork_OntologyRels.ClassRel.Any Then
-                                            Dim strFileName = strPathDst & "\" & "ClassRels.xml"
-                                            objOItem_Result = Open_XMLWriter(strFileName)
-                                            If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                                                Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
+                                        Close_XMLWriter()
+                                    End If
+
+                                    If objDataWork_OntologyRels.ClassRel.Any Then
+                                        Dim strFileName = strPathDst & "\" & "ClassRels.xml"
+                                        objOItem_Result = Open_XMLWriter(strFileName)
+                                        If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                                            Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
+                                            objTextWriter.Write(strOutput)
+
+                                            For Each objOItem_ClassRel In objDataWork_OntologyRels.ClassRel
+                                                strOutput = objDict_XMLTemplates(XMLTemplateEnum.ClassRel)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ID_CLASS_LEFT.Name & "@", objOItem_ClassRel.ID_Class_Left)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ID_CLASS_RIGHT.Name & "@", objOItem_ClassRel.ID_Class_Right)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ID_RELATIONTYPE.Name & "@", objOItem_ClassRel.ID_RelationType)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ONTOLOGY.Name & "@", objOItem_ClassRel.Ontology)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_MIN_FORW.Name & "@", objOItem_ClassRel.Min_Forw)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_MAX_FORW.Name & "@", objOItem_ClassRel.Max_Forw)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_MAX_BACKW.Name & "@", objOItem_ClassRel.Max_Backw)
+
                                                 objTextWriter.Write(strOutput)
+                                            Next
 
-                                                For Each objOItem_ClassRel In objDataWork_OntologyRels.ClassRel
-                                                    strOutput = objDict_XMLTemplates(XMLTemplateEnum.ClassRel)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ID_CLASS_LEFT.Name & "@", objOItem_ClassRel.ID_Class_Left)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ID_CLASS_RIGHT.Name & "@", objOItem_ClassRel.ID_Class_Right)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ID_RELATIONTYPE.Name & "@", objOItem_ClassRel.ID_RelationType)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ONTOLOGY.Name & "@", objOItem_ClassRel.Ontology)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_MIN_FORW.Name & "@", objOItem_ClassRel.Min_Forw)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_MAX_FORW.Name & "@", objOItem_ClassRel.Max_Forw)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_MAX_BACKW.Name & "@", objOItem_ClassRel.Max_Backw)
-
-                                                    objTextWriter.Write(strOutput)
-                                                Next
-
-                                                strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@") + ("@" & objVariables.Variable_ITEMLIST.Name & "@").Length)
-                                                objTextWriter.Write(strOutput)
-                                            End If
+                                            strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@") + ("@" & objVariables.Variable_ITEMLIST.Name & "@").Length)
+                                            objTextWriter.Write(strOutput)
                                         End If
 
-                                        If objDataWork_OntologyRels.ObjectAtt.Any Then
-                                            Dim strFileName = strPathDst & "\" & "ObjectAtt.xml"
-                                            objOItem_Result = Open_XMLWriter(strFileName)
-                                            If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                                                Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
+                                        Close_XMLWriter()
+                                    End If
+
+                                    If objDataWork_OntologyRels.ObjectAtt.Any Then
+                                        Dim strFileName = strPathDst & "\" & "ObjectAtt.xml"
+                                        objOItem_Result = Open_XMLWriter(strFileName)
+                                        If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                                            Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
+                                            objTextWriter.Write(strOutput)
+
+                                            Dim objOList_OAtt = (From objObjAtt in objDataWork_OntologyRels.ObjectAtt
+                                                                    Join objObject In objOList_Objects on objObjAtt.ID_Object equals objObject.GUID
+                                                                    Select objObjAtt).ToList()
+
+                                            For Each objOItem_ObjectAtt In objOList_OAtt
+                                                                                
+                                                strOutput = objDict_XMLTemplates(XMLTemplateEnum.ObjectAtt)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ID_ATTRIBUTE.Name & "@", objOItem_ObjectAtt.ID_Attribute)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ID_ATTRIBUTETYPE.Name & "@", objOItem_ObjectAtt.ID_AttributeType)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ID_DATATYPE.Name & "@", objOItem_ObjectAtt.ID_DataType)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ID_OBJECT.Name & "@", objOItem_ObjectAtt.ID_Object)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ID_CLASS.Name & "@", objOItem_ObjectAtt.ID_Class)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ORDERID.Name & "@", objOItem_ObjectAtt.OrderID)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_NAMED.Name & "@", objOItem_ObjectAtt.Val_Named)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_BIT.Name & "@", If(objOItem_ObjectAtt.Val_Bit Is Nothing, "", objOItem_ObjectAtt.Val_Bit))
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_DATE.Name & "@", If(objOItem_ObjectAtt.Val_Date Is Nothing, "", objOItem_ObjectAtt.Val_Date))
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_DOUBLE.Name & "@", If(objOItem_ObjectAtt.Val_Double Is Nothing, "", objOItem_ObjectAtt.Val_Double))
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_LNG.Name & "@", If(objOItem_ObjectAtt.Val_Lng Is Nothing, "", objOItem_ObjectAtt.Val_Lng))
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_STRING.Name & "@", If(objOItem_ObjectAtt.Val_String Is Nothing, "", objOItem_ObjectAtt.Val_String))
+
                                                 objTextWriter.Write(strOutput)
+                                            Next
 
-                                                For Each objOItem_ObjectAtt In objDataWork_OntologyRels.ObjectAtt
-                                                    strOutput = objDict_XMLTemplates(XMLTemplateEnum.ObjectAtt)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ID_ATTRIBUTE.Name & "@", objOItem_ObjectAtt.ID_Attribute)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ID_ATTRIBUTETYPE.Name & "@", objOItem_ObjectAtt.ID_AttributeType)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ID_DATATYPE.Name & "@", objOItem_ObjectAtt.ID_DataType)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ID_OBJECT.Name & "@", objOItem_ObjectAtt.ID_Object)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ID_CLASS.Name & "@", objOItem_ObjectAtt.ID_Class)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ORDERID.Name & "@", objOItem_ObjectAtt.OrderID)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_NAMED.Name & "@", objOItem_ObjectAtt.Val_Named)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_BIT.Name & "@", If(objOItem_ObjectAtt.Val_Bit Is Nothing, "", objOItem_ObjectAtt.Val_Bit))
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_DATE.Name & "@", If(objOItem_ObjectAtt.Val_Date Is Nothing, "", objOItem_ObjectAtt.Val_Date))
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_DOUBLE.Name & "@", If(objOItem_ObjectAtt.Val_Double Is Nothing, "", objOItem_ObjectAtt.Val_Double))
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_LNG.Name & "@", If(objOItem_ObjectAtt.Val_Lng Is Nothing, "", objOItem_ObjectAtt.Val_Lng))
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_STRING.Name & "@", If(objOItem_ObjectAtt.Val_String Is Nothing, "", objOItem_ObjectAtt.Val_String))
-
-                                                    objTextWriter.Write(strOutput)
-                                                Next
-
-                                                strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@") + ("@" & objVariables.Variable_ITEMLIST.Name & "@").Length)
-                                                objTextWriter.Write(strOutput)
-                                            End If
+                                            strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@") + ("@" & objVariables.Variable_ITEMLIST.Name & "@").Length)
+                                            objTextWriter.Write(strOutput)
                                         End If
 
-                                        If objDataWork_OntologyRels.ObjectRel.Any Then
-                                            Dim strFileName = strPathDst & "\" & "ObjectRel.xml"
-                                            objOItem_Result = Open_XMLWriter(strFileName)
-                                            If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                                                Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
-                                                objTextWriter.Write(strOutput)
+                                        Close_XMLWriter()
+                                    End If
 
-                                                For Each objOItem_ObjectRel In objDataWork_OntologyRels.ObjectRel
-                                                    strOutput = objDict_XMLTemplates(XMLTemplateEnum.ObjectRel)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ID_OBJECT.Name & "@", objOItem_ObjectRel.ID_Object)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ID_PARENT_OBJECT.Name & "@", objOItem_ObjectRel.ID_Parent_Object)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ID_OTHER.Name & "@", objOItem_ObjectRel.ID_Other)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ID_PARENT_OTHER.Name & "@", objOItem_ObjectRel.ID_Parent_Other)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ID_RELATIONTYPE.Name & "@", objOItem_ObjectRel.ID_RelationType)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ORDERID.Name & "@", objOItem_ObjectRel.OrderID)
-                                                    strOutput = strOutput.Replace("@" & objVariables.Variable_ONTOLOGY.Name & "@", objOItem_ObjectRel.Ontology)
+                                    If objDataWork_OntologyRels.ObjectRel.Any Then
+                                        Dim strFileName = strPathDst & "\" & "ObjectRel.xml"
+                                        objOItem_Result = Open_XMLWriter(strFileName)
+                                        If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                                            Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
+                                            objTextWriter.Write(strOutput)
+                                                
+                                            Dim objOList_ORel = (From objObjRel in objDataWork_OntologyRels.ObjectRel
+                                                                    Join objObject In objOList_Objects on objObjRel.ID_Object equals objObject.GUID
+                                                                    Select objObjRel).ToList()
+
+                                            For Each objOItem_ObjectRel In objOList_ORel
+                                                strOutput = objDict_XMLTemplates(XMLTemplateEnum.ObjectRel)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ID_OBJECT.Name & "@", objOItem_ObjectRel.ID_Object)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ID_PARENT_OBJECT.Name & "@", objOItem_ObjectRel.ID_Parent_Object)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ID_OTHER.Name & "@", objOItem_ObjectRel.ID_Other)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ID_PARENT_OTHER.Name & "@", objOItem_ObjectRel.ID_Parent_Other)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ID_RELATIONTYPE.Name & "@", objOItem_ObjectRel.ID_RelationType)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ORDERID.Name & "@", objOItem_ObjectRel.OrderID)
+                                                strOutput = strOutput.Replace("@" & objVariables.Variable_ONTOLOGY.Name & "@", objOItem_ObjectRel.Ontology)
                                                     
-                                                    objTextWriter.Write(strOutput)
-                                                Next
-
-                                                strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@") + ("@" & objVariables.Variable_ITEMLIST.Name & "@").Length)
                                                 objTextWriter.Write(strOutput)
-                                            End If
+                                            Next
+
+                                            strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@") + ("@" & objVariables.Variable_ITEMLIST.Name & "@").Length)
+                                            objTextWriter.Write(strOutput)
                                         End If
+
+                                        Close_XMLWriter()
                                     End If
                                 End If
                             End If
                         End If
                     End If
-
                 End If
+
             End If
+            
 
         End If
 

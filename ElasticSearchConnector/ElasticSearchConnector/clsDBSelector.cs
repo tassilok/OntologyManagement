@@ -727,7 +727,7 @@ namespace ElasticSearchConnector
                             if (strQuery != "")
                                 strQuery += "\\ OR\\ ";
 
-                            strQuery += "*" + name + "*";
+                            strQuery += "*" + name.Replace(" ", "\\ ") + "*";
                         }
 
                         if (strQuery != "")
@@ -1465,7 +1465,8 @@ namespace ElasticSearchConnector
 
         public List<clsOntologyItem> get_Data_Classes(List<clsOntologyItem> OList_Classes = null,
                                                   bool boolClasses_Right = false,
-                                                  string strSort = null)
+                                                  string strSort = null,
+                                                  bool containsRoot = false)
         {
             SearchResult objSearchResult;
 
@@ -1518,14 +1519,17 @@ namespace ElasticSearchConnector
 
                 if (!boolClasses_Right)
                 {
+                    
                     OntologyList_Classes1.AddRange((from objHit in objList
-                                                       select new clsOntologyItem()
-                                                       {
-                                                           GUID = objHit.Id,
-                                                           Name = objHit.Source[objFields.Name_Item].ToString(),
-                                                           GUID_Parent = objHit.Source[objFields.ID_Parent].ToString(),
-                                                           Type = objTypes.ClassType
-                                                       }).ToList());    
+                                                    select new clsOntologyItem()
+                                                    {
+                                                        GUID = objHit.Id,
+                                                        Name = objHit.Source[objFields.Name_Item].ToString(),
+                                                        GUID_Parent = containsRoot ? objHit.Source.ContainsKey(objFields.ID_Parent) ? objHit.Source[objFields.ID_Parent].ToString() : null : objHit.Source[objFields.ID_Parent].ToString(),
+                                                        Type = objTypes.ClassType
+                                                    }).ToList());        
+                    
+                    
                 }
                 else
                 {
@@ -1534,7 +1538,7 @@ namespace ElasticSearchConnector
                                                     {
                                                         GUID = objHit.Id,
                                                         Name = objHit.Source[objFields.Name_Item].ToString(),
-                                                        GUID_Parent = objHit.Source[objFields.ID_Parent].ToString(),
+                                                        GUID_Parent = containsRoot ? objHit.Source.ContainsKey(objFields.ID_Parent) ? objHit.Source[objFields.ID_Parent].ToString() : null : objHit.Source[objFields.ID_Parent].ToString(),
                                                         Type = objTypes.ClassType
                                                     }).ToList());    
                 }

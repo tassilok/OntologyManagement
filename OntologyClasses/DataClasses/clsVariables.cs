@@ -41,6 +41,8 @@ namespace OntologyClasses.DataClasses
         private clsClasses objClasses = new clsClasses();
         private clsTypes objTypes = new clsTypes();
 
+        public List<clsOntologyItem> Variables { get; private set; }
+
         public clsVariables()
         {
             Variable_ID_ITEM = new clsOntologyItem
@@ -275,6 +277,38 @@ namespace OntologyClasses.DataClasses
                 Type = objTypes.ObjectType
             };
 
+
+            Variables = new List<clsOntologyItem>
+                {
+                    Variable_ID_ATTRIBUTE,
+                    Variable_ID_ATTRIBUTETYPE,
+                    Variable_ID_CLASS,
+                    Variable_ID_CLASS_LEFT,
+                    Variable_ID_CLASS_RIGHT,
+                    Variable_ID_DATATYPE,
+                    Variable_ID_ITEM,
+                    Variable_ID_OBJECT,
+                    Variable_ID_OTHER,
+                    Variable_ID_PARENT,
+                    Variable_ID_PARENT_OBJECT,
+                    Variable_ID_PARENT_OTHER,
+                    Variable_ID_RELATIONTYPE,
+                    Variable_ITEMLIST,
+                    Variable_MAX,
+                    Variable_MAX_BACKW,
+                    Variable_MAX_FORW,
+                    Variable_MIN,
+                    Variable_MIN_FORW,
+                    Variable_NAME_ITEM,
+                    Variable_ONTOLOGY,
+                    Variable_ORDERID,
+                    Variable_VAL_BIT,
+                    Variable_VAL_DATE,
+                    Variable_VAL_DOUBLE,
+                    Variable_VAL_LNG,
+                    Variable_VAL_NAMED,
+                    Variable_VAL_STRING
+                };
         }
         
     }

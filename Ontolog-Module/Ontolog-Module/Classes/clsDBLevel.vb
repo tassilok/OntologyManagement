@@ -250,6 +250,12 @@ Public Class clsDBLevel
         End Get
     End Property
 
+    Public Function save_DataTypes(OList_DataTypes As List(Of clsOntologyItem)) As clsOntologyItem
+        Dim objOItem_Result = objElUpdater.save_DataTypes(OList_DataTypes)
+
+        Return objOItem_Result
+    End Function
+
     Public Function save_AttributeType(ByVal oItem_AttributeType As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result = objElUpdater.save_AttributeType(oItem_AttributeType)
 
@@ -327,8 +333,8 @@ Public Class clsDBLevel
         
         Return objOItem_Result
     End Function
-    Public Function save_Class(ByVal objOItem_Class As clsOntologyItem) As clsOntologyItem
-        Dim objOItem_Result = objElUpdater.save_Class(objOItem_Class)
+    Public Function save_Class(ByVal objOItem_Class As clsOntologyItem, Optional  boolRoot As Boolean = false) As clsOntologyItem
+        Dim objOItem_Result = objElUpdater.save_Class(objOItem_Class,boolRoot)
         
         Return objOItem_Result
     End Function
@@ -751,6 +757,28 @@ Public Class clsDBLevel
         Return objOItem_Result
     End Function
 
+    Public Function test_Index_Es() As Boolean
+        Dim strLIndexes = objElSelector.ElConnector.GetIndices()
+        Dim boolExist = False
+        For Each strExistIndex In strLIndexes
+            If strExistIndex.ToLower() = strIndex.ToLower()
+                boolExist = True
+                exit For 
+            End If
+        Next
+
+        Return boolExist
+    End Function
+
+    Public Function create_Index_Es() As Boolean
+        Dim objOPResult =  objElSelector.ElConnector.CreateIndex(strIndex)
+        If objOPResult.Success Then
+            Return True
+        Else 
+            Return False
+        End If
+    End Function
+
     'Public Function create_Report_SQL(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing) As clsOntologyItem
     '    Dim objBoolQuery As New Lucene.Net.Search.BooleanQuery
     '    Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
@@ -820,7 +848,8 @@ Public Class clsDBLevel
                                      Optional ByVal boolTable As Boolean = False, _
                                      Optional ByVal boolClasses_Right As Boolean = False, _
                                      Optional ByVal strSort As String = Nothing, _
-                                     Optional ByVal doCount As Boolean = False) As clsOntologyItem
+                                     Optional ByVal doCount As Boolean = False,
+                                     Optional containsRoot As Boolean = False) As clsOntologyItem
         
         Dim objOItem_Result = objLogStates.LogState_Success
 
@@ -828,7 +857,7 @@ Public Class clsDBLevel
             objOItem_Result.Count = objElSelector.get_Data_ClassesCount(OList_Classes)
         Else 
             If boolClasses_Right=False Then
-                objOntologyList_Classes1 = objElSelector.get_Data_Classes(OList_Classes,boolClasses_Right,strSort)
+                objOntologyList_Classes1 = objElSelector.get_Data_Classes(OList_Classes,boolClasses_Right,strSort, containsRoot)
                 If boolTable Then
                     For Each objClass As clsOntologyItem In objOntologyList_Classes1
                         otblT_Classes.Rows.Add(New clsOntologyItem(objClass.GUID, _
@@ -838,7 +867,7 @@ Public Class clsDBLevel
                     
                 End If
             Else 
-                objOntologyList_Classes2 = objElSelector.get_Data_Classes(OList_Classes,boolClasses_Right,strSort)
+                objOntologyList_Classes2 = objElSelector.get_Data_Classes(OList_Classes,boolClasses_Right,strSort, containsRoot)
                  If boolTable Then
                     For Each objClass As clsOntologyItem In objOntologyList_Classes2
                         otblT_Classes.Rows.Add(New clsOntologyItem(objClass.GUID, _

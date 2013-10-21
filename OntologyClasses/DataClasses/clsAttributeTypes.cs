@@ -14,12 +14,17 @@ namespace OntologyClasses.DataClasses
         public clsOntologyItem OItem_AttributeType_WMI_ProcessorID { get; private set; }
         public clsOntologyItem OITem_AttributeType_WMI_BaseBoardSerial { get; private set; }
 
+        public List<clsOntologyItem> AttributeTypes { get; private set; }
+
         public clsAttributeTypes()
         {
             
+            AttributeTypes = new List<clsOntologyItem>();
             OItem_AttributeType_WMI_ProcessorID = new clsOntologyItem {GUID = "a1b4945219dc4eaea000ef3802de35a9",
                                                                          Name= "ProcessorID",
                                                                        Type = objTypes.AttributeType};
+
+            AttributeTypes.Add(OItem_AttributeType_WMI_ProcessorID);
 
             OITem_AttributeType_WMI_BaseBoardSerial = new clsOntologyItem
                 {
@@ -27,6 +32,9 @@ namespace OntologyClasses.DataClasses
                     Name = "BaseboardSerial",
                     Type = objTypes.AttributeType
                 };
+
+            AttributeTypes.Add(OITem_AttributeType_WMI_BaseBoardSerial);
+            
         }
     }
 }

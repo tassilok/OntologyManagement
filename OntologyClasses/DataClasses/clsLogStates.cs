@@ -23,6 +23,8 @@ namespace OntologyClasses.DataClasses
         private clsClasses objClasses = new clsClasses();
         private clsTypes objTypes = new clsTypes();
 
+        public List<clsOntologyItem> LogStates { get; private set; }
+
         public clsLogStates()
         {
             LogState_Delete = new clsOntologyItem
@@ -80,6 +82,18 @@ namespace OntologyClasses.DataClasses
                     Name = "Update",
                     GUID_Parent = objClasses.OItem_Class_Logstate.GUID,
                     Type = objTypes.ObjectType
+                };
+
+            LogStates = new List<clsOntologyItem>
+                {
+                    LogState_Delete,
+                    LogState_Error,
+                    LogState_Exists,
+                    LogState_Insert,
+                    LogState_Nothing,
+                    LogState_Relation,
+                    LogState_Success,
+                    LogState_Update
                 };
         }
     }

@@ -15,8 +15,12 @@ namespace OntologyClasses.DataClasses
         private clsClasses objClasses = new clsClasses();
         private clsTypes objTypes  = new clsTypes();
 
+        public List<clsOntologyItem> Directions { get; private set; }
+
         public clsDirections()
         {
+            Directions = new List<clsOntologyItem>();
+
             Direction_LeftRight = new clsOntologyItem
                 {
                     GUID = "cc99d5365d564fd29d4f45b48af33029",
@@ -31,6 +35,9 @@ namespace OntologyClasses.DataClasses
                     GUID_Parent = objClasses.OItem_Class_Directions.GUID,
                     Type = objTypes.ObjectType
                 };
+
+            Directions.Add(Direction_LeftRight);
+            Directions.Add(Direction_RightLeft);
         }
     }
 }
