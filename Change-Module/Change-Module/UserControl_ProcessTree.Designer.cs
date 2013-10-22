@@ -107,6 +107,7 @@
             this.ObsoleteToolStripMenuItem.Name = "ObsoleteToolStripMenuItem";
             this.ObsoleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ObsoleteToolStripMenuItem.Text = "x_Obsolete";
+            this.ObsoleteToolStripMenuItem.Click += new System.EventHandler(this.ObsoleteToolStripMenuItem_Click);
             // 
             // NewToolStripMenuItem
             // 

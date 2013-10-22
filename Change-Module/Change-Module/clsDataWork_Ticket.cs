@@ -1038,6 +1038,27 @@ namespace Change_Module
                                              objIncident.Name_Other,
                                              objLocalConfig.Image_Incident,
                                              objLocalConfig.Image_Incident);
+                var objLLogStates = from objLogEntry in objDBLevel_LogentriesOfIncidents.OList_ObjectRel_ID
+                                    join objLogState in objDBLevel_LogStatesOfLogEntries.OList_ObjectRel_ID on objLogEntry.ID_Other equals objLogState.ID_Object
+                                    where objLogEntry.ID_Object == objTreeNode_Sub.Name && objLogEntry.ID_RelationType == objLocalConfig.OItem_RelationType_finished_with.GUID
+                                    select new { objLogEntry, objLogState };
+                
+                if (objLLogStates.Any())
+                {
+
+                    if (objLLogStates.First().objLogState.ID_Other == objLocalConfig.OItem_Token_LogState_Obsolete.GUID)
+                    {
+                        objTreeNode_Sub.BackColor = Color.Gray;
+                        objTreeNode_Sub.ForeColor = Color.White;
+                        objTreeNode_Sub.Checked = true;
+                    }
+                    else
+                    {
+                        objTreeNode_Sub.BackColor = Color.Green;
+                        objTreeNode_Sub.ForeColor = Color.White;
+                        objTreeNode_Sub.Checked = true;
+                    }
+                }
 
                 GetSubIncidents(objTreeNode_Sub);
             

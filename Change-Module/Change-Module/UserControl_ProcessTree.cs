@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Ontology_Module;
 using OntologyClasses.BaseClasses;
+using Log_Module;
 
 namespace Change_Module
 {
@@ -34,6 +35,10 @@ namespace Change_Module
 
         private frm_ObjectEdit objFrmObjectEdit;
 
+        private clsLogManagement objLogManagement;
+
+        private clsTransaction objTransaction;
+
         private Boolean boolPCChange_Process;
 
         public event ChangedEventHandler CloseApplication;
@@ -51,7 +56,10 @@ namespace Change_Module
         private void initialize()
         {
             objProcess_LogWork = new clsProcess_LogWork(objLocalConfig, objDataWork_Ticket, this);
+            objLogManagement = new clsLogManagement(objLocalConfig.Globals);
+            objTransaction = new clsTransaction(objLocalConfig.Globals);
         }
+        
 
         public void initialize(DataGridViewRow DGVR_Selected, TreeNode objTreeNode_Parent = null)
         {
@@ -252,10 +260,239 @@ namespace Change_Module
 
         private void treeView_ProcessTree_BeforeCheck(object sender, TreeViewCancelEventArgs e)
         {
-            
 
+            if (!boolPCChange_Process)
+            {
+                e.Cancel = true;
+                var objTreeNode_Selected = e.Node;
+                var boolChecked = objTreeNode_Selected.Checked;
+                var boolFinish = false;
+                if (objTreeNode_Selected.ImageIndex != objLocalConfig.ImageID_Ticket &&
+                    objTreeNode_Selected.ImageIndex != objLocalConfig.ImageID_Root)
+                {
+                    var objOItem_Ticket = Get_TicketFromNode(objTreeNode_Selected);
+                    if (!boolChecked)
+                    {
+                        boolFinish = true;
+                        foreach (TreeNode objTreeNode_Sub in objTreeNode_Selected.Nodes)
+                        {
+                            if (!objTreeNode_Sub.Checked)
+                            {
+                                boolFinish = false;
+                                break;
+                            }
+                        }
+
+                        if (boolFinish)
+                        {
+                            var objOItem_ProcessLog = new clsOntologyItem
+                            {
+                                GUID = objTreeNode_Selected.Name,
+                                Name = objTreeNode_Selected.Text,
+                                GUID_Parent = objTreeNode_Selected.ImageIndex == objLocalConfig.ImageID_Process ? objLocalConfig.OItem_Type_Process_Log.GUID : objLocalConfig.OItem_Type_Incident.GUID,
+                                Type = objLocalConfig.Globals.Type_Object
+                            };
+
+                            objTransaction.ClearItems();
+                            var objOItem_Result = objLogManagement.log_Entry(DateTime.Now, objLocalConfig.OItem_Token_Logstate_finished, objLocalConfig.OItem_User, "finished");
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            {
+                                var objORel_ProcessLogIncident_To_LogEntry_belongingDone = objDataWork_Ticket.Rel_ProcessLog_To_LogEntry(objOItem_ProcessLog, objLogManagement.OItem_LogEntry, objLocalConfig.OItem_RelationType_belonging_Done);
+                                objOItem_Result = objTransaction.do_Transaction(objORel_ProcessLogIncident_To_LogEntry_belongingDone);
+                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                {
+                                    var objORel_ProcessLogIncident_To_LogEntry_finishedWith = objDataWork_Ticket.Rel_ProcessLog_To_LogEntry(objOItem_ProcessLog, objLogManagement.OItem_LogEntry, objLocalConfig.OItem_RelationType_finished_with);
+                                    objOItem_Result = objTransaction.do_Transaction(objORel_ProcessLogIncident_To_LogEntry_finishedWith, true);
+                                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                    {
+                                        var objORel_Ticket_To_LogEntry_belongingDone = objDataWork_Ticket.Rel_Ticket_To_LogEntry(objOItem_Ticket, objLogManagement.OItem_LogEntry, objLocalConfig.OItem_RelationType_belonging_Done);
+                                        objOItem_Result = objTransaction.do_Transaction(objORel_Ticket_To_LogEntry_belongingDone);
+                                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                        {
+                                            var objORel_Ticket_To_LogEntry_LastDone = objDataWork_Ticket.Rel_Ticket_To_LogEntry(objOItem_Ticket, objLogManagement.OItem_LogEntry, objLocalConfig.OItem_RelationType_Last_Done);
+                                            objOItem_Result = objTransaction.do_Transaction(objORel_Ticket_To_LogEntry_LastDone, true);
+                                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                            {
+                                                e.Cancel = false;
+                                                objTreeNode_Selected.ForeColor = Color.White;
+                                                objTreeNode_Selected.BackColor = Color.Green;
+                                            }
+                                            else
+                                            {
+                                                objOItem_Result = objTransaction.rollback();
+                                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                                {
+                                                    objLogManagement.del_LogEntry(objLogManagement.OItem_LogEntry);
+                                                }
+
+                                                MessageBox.Show(this, "Das Ticket kann nicht abgeschlossen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            objOItem_Result = objTransaction.rollback();
+                                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                            {
+                                                objLogManagement.del_LogEntry(objLogManagement.OItem_LogEntry);
+                                            }
+
+                                            MessageBox.Show(this, "Das Ticket kann nicht abgeschlossen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        objOItem_Result = objTransaction.rollback();
+                                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                        {
+                                            objLogManagement.del_LogEntry(objLogManagement.OItem_LogEntry);
+                                        }
+                                        
+                                        MessageBox.Show(this, "Das Ticket kann nicht abgeschlossen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    }
+                                }
+                                else
+                                {
+                                    objLogManagement.del_LogEntry(objLogManagement.OItem_LogEntry);
+                                    MessageBox.Show(this, "Das Ticket kann nicht abgeschlossen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show(this, "Das Ticket kann nicht abgeschlossen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            }
+
+                        }
+                        else
+                        {
+                            MessageBox.Show(this, "Bitte erst die untergeordneten Prozesse abschließen!", "Bitte abschließen!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+
+                }
+                else
+                {
+                    if (objTreeNode_Selected.ImageIndex == objLocalConfig.ImageID_Ticket)
+                    {
+                        var objOItem_Ticket = new clsOntologyItem
+                        {
+                            GUID = objTreeNode_Selected.Name,
+                            Name = objTreeNode_Selected.Text,
+                            GUID_Parent = objLocalConfig.OItem_Type_Process_Ticket.GUID,
+                            Type = objLocalConfig.Globals.Type_Object
+                        };
+
+                        if (!boolChecked)
+                        {
+                            boolFinish = true;
+                            foreach (TreeNode objTreeNode_Sub in objTreeNode_Selected.Nodes)
+                            {
+                                if (!objTreeNode_Sub.Checked)
+                                {
+                                    boolFinish = false;
+                                    break;
+                                }
+                            }
+
+                            if (boolFinish)
+                            {
+                                var objOItem_Result = objLogManagement.log_Entry(DateTime.Now, objLocalConfig.OItem_Token_Logstate_finished, objLocalConfig.OItem_User, "finished");
+                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                {
+                                    var objORel_Ticket_To_LogEntry_belongingDone = objDataWork_Ticket.Rel_Ticket_To_LogEntry(objOItem_Ticket, objLogManagement.OItem_LogEntry, objLocalConfig.OItem_RelationType_belonging_Done);
+                                    objTransaction.ClearItems();
+                                    objOItem_Result = objTransaction.do_Transaction(objORel_Ticket_To_LogEntry_belongingDone);
+                                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                    {
+                                        var objORel_Ticket_To_LogEntry_finished = objDataWork_Ticket.Rel_Ticket_To_LogEntry(objOItem_Ticket, objLogManagement.OItem_LogEntry, objLocalConfig.OItem_RelationType_finished_with);
+                                        objOItem_Result = objTransaction.do_Transaction(objORel_Ticket_To_LogEntry_finished, true);
+                                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                        {
+                                            var objORel_Ticket_To_LogEntry_LastDone = objDataWork_Ticket.Rel_Ticket_To_LogEntry(objOItem_Ticket, objLogManagement.OItem_LogEntry, objLocalConfig.OItem_RelationType_Last_Done);
+                                            objOItem_Result = objTransaction.do_Transaction(objORel_Ticket_To_LogEntry_LastDone, true);
+                                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                            {
+                                                e.Cancel = false;
+                                                objTreeNode_Selected.ForeColor = Color.White;
+                                                objTreeNode_Selected.BackColor = Color.Green;
+                                            }
+                                            else
+                                            {
+                                                objOItem_Result = objTransaction.rollback();
+                                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                                {
+                                                    objLogManagement.del_LogEntry(objLogManagement.OItem_LogEntry);
+                                                }
+
+                                                MessageBox.Show(this, "Das Ticket kann nicht abgeschlossen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            objOItem_Result = objTransaction.rollback();
+                                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                            {
+                                                objLogManagement.del_LogEntry(objLogManagement.OItem_LogEntry);
+                                            }
+
+                                            MessageBox.Show(this, "Das Ticket kann nicht abgeschlossen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        objOItem_Result = objTransaction.rollback();
+                                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                        {
+                                            objLogManagement.del_LogEntry(objLogManagement.OItem_LogEntry);
+                                        }
+
+                                        MessageBox.Show(this, "Das Ticket kann nicht abgeschlossen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show(this, "Das Ticket kann nicht abgeschlossen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show(this, "Bitte erst die untergeordneten Prozesse abschließen!", "Bitte abschließen!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            }
+                        }
+                    }
+                    
+                }
+            }
             
             
+        }
+
+        private clsOntologyItem Get_TicketFromNode(TreeNode objTreeNode)
+        {
+            clsOntologyItem objOItem_Ticket;
+            var objTreeNode_Parent = objTreeNode;
+            while (objTreeNode_Parent != null && objTreeNode_Parent.ImageIndex != objLocalConfig.ImageID_Ticket)
+            {
+                objTreeNode_Parent = objTreeNode_Parent.Parent;
+            }
+
+            if (objTreeNode_Parent != null)
+            {
+                objOItem_Ticket = new clsOntologyItem
+                {
+                    GUID = objTreeNode_Parent.Name,
+                    Name = objTreeNode_Parent.Text,
+                    GUID_Parent = objLocalConfig.OItem_Type_Process_Ticket.GUID,
+                    Type = objLocalConfig.Globals.Type_Object
+                };
+            }
+            else
+            {
+                objOItem_Ticket = null;
+            }
+
+            return objOItem_Ticket;
         }
 
         private void toggle_StateOfNode(TreeNode objTreeNode, Boolean Check)
@@ -355,6 +592,11 @@ namespace Change_Module
 
                 NewToolStripMenuItem.Enabled = true;
             }
+        }
+
+        private void ObsoleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
         
