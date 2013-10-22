@@ -467,10 +467,14 @@ Public Class UserControl_ImageList
     Private Sub ContextMenuStrip_Relate_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Relate.Opening
         RelateToolStripMenuItem.Enabled = False
         SaveImagesToolStripMenuItem.Enabled = False
+        NameToolStripMenuItem.Enabled = False
+        DateTimeStampToolStripMenuItem.Enabled = False
 
         If DataGridView_Images.SelectedRows.Count > 0 Then
             RelateToolStripMenuItem.Enabled = True
             SaveImagesToolStripMenuItem.Enabled = True
+            NameToolStripMenuItem.Enabled = True
+            DateTimeStampToolStripMenuItem.Enabled = True
         End If
     End Sub
 
@@ -480,7 +484,7 @@ Public Class UserControl_ImageList
         Dim intToDo As Integer
         Dim intDone As Integer
         Dim intExist As Integer
-
+        Dim dateCreated As DateTime
 
         If FolderBrowserDialog_Save.ShowDialog = DialogResult.OK Then
             intToDo = DataGridView_Images.SelectedRows.Count
@@ -488,12 +492,21 @@ Public Class UserControl_ImageList
             intExist = 0
             For Each objDGVR_Selected In DataGridView_Images.SelectedRows
                 objDRV_Selected = objDGVR_Selected.DataBoundItem
+                dateCreated = If(IsDBNull(objDRV_Selected.Item("Date_Create")), Now, objDRV_Selected.Item("Date_Create"))
                 Dim objOItem_File = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_File"), _
                                                               .Name = objDRV_Selected.Item("Name_Image"), _
                                                               .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
                                                               .Type = objLocalConfig.Globals.Type_Object}
+                Dim strExtension = IO.Path.GetExtension(objOItem_File.Name)
+                Dim strFileName = objOItem_File.Name.Substring(0, objOItem_File.Name.Length - strExtension.Length)
 
-                Dim strPath_Dst = FolderBrowserDialog_Save.SelectedPath + IO.Path.DirectorySeparatorChar + objOItem_File.Name
+                Dim strPath_Dst = FolderBrowserDialog_Save.SelectedPath & IO.Path.DirectorySeparatorChar + If(DateTimeStampToolStripMenuItem.Checked, dateCreated.ToString("yyyyMMdd_hhmmss"), strFileName) & strExtension
+                Dim intPostfix As Integer = 1
+                While (IO.File.Exists(strPath_Dst))
+                    strPath_Dst = FolderBrowserDialog_Save.SelectedPath & IO.Path.DirectorySeparatorChar + If(DateTimeStampToolStripMenuItem.Checked, dateCreated.ToString("yyyyMMdd_hhmmss"), strFileName) & intPostfix & strExtension
+                    intPostfix = intPostfix + 1
+                End While
+
                 If Not IO.File.Exists(strPath_Dst) Then
                     If objFileWork.is_File_Blob(objOItem_File) Then
                         Dim objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_File, strPath_Dst, False)
@@ -554,6 +567,27 @@ Public Class UserControl_ImageList
             End If
 
             RaiseEvent related_Last(objOItem_Image)
+        End If
+    End Sub
+
+    Private Sub NameToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NameToolStripMenuItem.Click
+        If NameToolStripMenuItem.Checked Then
+            DateTimeStampToolStripMenuItem.Checked = True
+            NameToolStripMenuItem.Checked = False
+        Else
+            DateTimeStampToolStripMenuItem.Checked = False
+            NameToolStripMenuItem.Checked = True
+
+        End If
+    End Sub
+
+    Private Sub DateTimeStampToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DateTimeStampToolStripMenuItem.Click
+        If DateTimeStampToolStripMenuItem.Checked Then
+            DateTimeStampToolStripMenuItem.Checked = False
+            NameToolStripMenuItem.Checked = True
+        Else
+            DateTimeStampToolStripMenuItem.Checked = True
+            NameToolStripMenuItem.Checked = False
         End If
     End Sub
 End Class

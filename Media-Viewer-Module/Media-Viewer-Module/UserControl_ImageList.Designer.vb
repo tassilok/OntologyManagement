@@ -43,6 +43,8 @@ Partial Class UserControl_ImageList
         Me.ToolStripButton_Relate = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Meta = New System.Windows.Forms.ToolStripButton()
         Me.FolderBrowserDialog_Save = New System.Windows.Forms.FolderBrowserDialog()
+        Me.NameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DateTimeStampToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip_Relate.SuspendLayout()
         CType(Me.BindingSource_Images, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
@@ -76,6 +78,7 @@ Partial Class UserControl_ImageList
         '
         'SaveImagesToolStripMenuItem
         '
+        Me.SaveImagesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NameToolStripMenuItem, Me.DateTimeStampToolStripMenuItem})
         Me.SaveImagesToolStripMenuItem.Enabled = False
         Me.SaveImagesToolStripMenuItem.Name = "SaveImagesToolStripMenuItem"
         Me.SaveImagesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
@@ -200,6 +203,22 @@ Partial Class UserControl_ImageList
         Me.ToolStripButton_Meta.Size = New System.Drawing.Size(91, 22)
         Me.ToolStripButton_Meta.Text = "x_get Metadata"
         '
+        'NameToolStripMenuItem
+        '
+        Me.NameToolStripMenuItem.Checked = True
+        Me.NameToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.NameToolStripMenuItem.Enabled = False
+        Me.NameToolStripMenuItem.Name = "NameToolStripMenuItem"
+        Me.NameToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
+        Me.NameToolStripMenuItem.Text = "x_Name"
+        '
+        'DateTimeStampToolStripMenuItem
+        '
+        Me.DateTimeStampToolStripMenuItem.Enabled = False
+        Me.DateTimeStampToolStripMenuItem.Name = "DateTimeStampToolStripMenuItem"
+        Me.DateTimeStampToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
+        Me.DateTimeStampToolStripMenuItem.Text = "x_DateTimeStamp"
+        '
         'UserControl_ImageList
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -243,5 +262,7 @@ Partial Class UserControl_ImageList
     Friend WithEvents DataGridView_Images As System.Windows.Forms.DataGridView
     Friend WithEvents ToolStripButton_Paste As System.Windows.Forms.ToolStripButton
     Friend WithEvents FolderBrowserDialog_Save As System.Windows.Forms.FolderBrowserDialog
+    Friend WithEvents NameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DateTimeStampToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
