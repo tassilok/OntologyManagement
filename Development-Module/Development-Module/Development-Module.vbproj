@@ -83,11 +83,14 @@
     <Compile Include="clsDataWork_CodeGenerator.vb" />
     <Compile Include="clsDataWork_Details.vb" />
     <Compile Include="clsDataWork_DevTree.vb" />
+    <Compile Include="clsDataWork_Export.vb" />
     <Compile Include="clsDataWork_LogEntries.vb" />
     <Compile Include="clsDataWork_OntologyConfig.vb" />
     <Compile Include="clsDataWork_OntologyConfig_bak.vb" />
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsMoveConfigItemsToOntologies.vb" />
+    <Compile Include="clsOntologyExport.vb" />
+    <Compile Include="clsOntologyFiles.vb" />
     <Compile Include="clsTransaction_OntologyConfig.vb" />
     <Compile Include="DataSet_Development.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -223,6 +226,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\saveHS.png" />
     <None Include="Resources\clipboard_01.png" />
     <None Include="Resources\b_plus.png" />
     <None Include="Resources\b_minus.png" />

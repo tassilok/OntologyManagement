@@ -12,6 +12,7 @@ Public Class frmDevelopmentModule
 
     Private objUserControl_OntologyConfig As UserControl_OntologyConfig
     Private objFrm_Authenticate As frmAuthenticate
+    Private objUserControl_OntologyExport As UserControl_OntologyExport
 
     Private objOItem_Development As clsOntologyItem
 
@@ -65,6 +66,10 @@ Public Class frmDevelopmentModule
             objUserControl_LogEntries.Dock = DockStyle.Fill
             TabPage_Logentries.Controls.Add(objUserControl_LogEntries)
 
+            objUserControl_OntologyExport = new UserControl_OntologyExport(objLocalConfig)
+            objUserControl_OntologyExport.Dock = DockStyle.Fill
+            TabPage_OntologyExport.Controls.Add(objUserControl_OntologyExport)
+
             configure_TabPages()
         End If
         
@@ -79,6 +84,8 @@ Public Class frmDevelopmentModule
                 objUserControl_LogEntries.Initialize_LogEntries(objOItem_Development)
             Case TabPage_OntologyConfig.Name
                 objUserControl_OntologyConfig.initialize_OntologyConfig(objOItem_Development)
+            Case TabPage_OntologyExport.Name
+                objUserControl_OntologyExport.initialize_OntologyExport(objOItem_Development)
         End Select
     End Sub
 
