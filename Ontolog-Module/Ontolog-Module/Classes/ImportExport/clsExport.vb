@@ -25,7 +25,9 @@ End Enum
 
     Public Class clsExport
 
-        Private objGlobals As clsGlobals
+    Private objGlobals As clsGlobals
+
+    Private objRules As New clsOntologyRelationRules
 
     Private objTextWriter As IO.TextWriter
 
@@ -37,7 +39,15 @@ End Enum
 
         Private objOItem_Ontology As clsOntologyItem
 
-        Private strPathDst As String
+    Private strPathDst As String
+
+    Private strFiles As List(Of String) = New List(Of String)
+
+    Public ReadOnly Property Files As List(Of String)
+        Get
+            Return strFiles
+        End Get
+    End Property
 
     Private Function Open_XMLWriter(strFileName As String) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
@@ -65,20 +75,44 @@ End Enum
             Return objOItem_Result
         End Function
 
-    Public Function Export_Ontology(OItem_Ontology As clsOntologyItem, strPathDst As String, mode As ModeEnum, Optional objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String) = Nothing ) As clsOntologyItem
+    Public Function Export_OntologyStructures(OItem_Ontology As clsOntologyItem, strPathDst As String, objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String), Optional boolGetOntology As Boolean = True) As clsOntologyItem
+        Dim objOItem_Result = objGlobals.LState_Success.Clone
+
+        Dim objOList_Objects = New List(Of clsOntologyItem)
+        Dim objOList_Classes = New List(Of clsOntologyItem)
+        Dim objOList_AttributeTypes = New List(Of clsOntologyItem)
+        Dim objOList_RelationTypes = New List(Of clsOntologyItem)
+
+        If boolGetOntology Then
+            objOItem_Result = objDataWork_Ontologies.GetData_BaseData
+            strFiles = New List(Of String)
+        End If
+
+        If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+
+            If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType).Any Then
+                Dim objOList_OItems_AttributeTypes = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType).ToList
+
+            End If
+        End If
+
+        Return objOItem_Result
+    End Function
+
+    Public Function Export_Ontology(OItem_Ontology As clsOntologyItem, strPathDst As String, mode As ModeEnum, Optional objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String) = Nothing, Optional boolOntology As Boolean = False) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem = objDataWork_Ontologies.LocalConfig.Globals.LState_Error.Clone()
 
         Dim objOList_ClassesExtended = New List(Of clsOntologyItemsOfOntologies)
-        Dim objOList_ClassesWithChildren = new List(Of clsOntologyItem)
-        Dim objOList_Objects = new List(Of clsOntologyItem)
-        Dim objOList_Classes = new List(Of clsOntologyItem)
+        Dim objOList_ClassesWithChildren = New List(Of clsOntologyItem)
+        Dim objOList_Objects = New List(Of clsOntologyItem)
+        Dim objOList_Classes = New List(Of clsOntologyItem)
         Dim objOList_AttributeTypes = New List(Of clsOntologyItem)
         Dim objOList_RelationTypes = New List(Of clsOntologyItem)
 
         objOItem_Ontology = OItem_Ontology
 
         Me.strPathDst = strPathDst
-
+        strFiles = New List(Of String)
         If objDict_XMLTemplates Is Nothing Then
             objDict_XMLTemplates = New Dictionary(Of XMLTemplateEnum, String)
 
@@ -156,6 +190,7 @@ End Enum
             If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
                 If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType).Any Then
                     Dim strFileName = strPathDst & "\" & "AttributeTypes.xml"
+                    strFiles.Add(strFileName)
                     objOItem_Result = Open_XMLWriter(strFileName)
                     If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
                         objOList_AttributeTypes = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType).Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Ref, _
@@ -175,6 +210,7 @@ End Enum
                         Next
 
                         strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@") + ("@" & objVariables.Variable_ITEMLIST.Name & "@").Length)
+                        strOutput = strOutput.Replace("@" & objVariables.Variable_ITEMTYPE.Name & "@", objGlobals.Type_AttributeType)
                         objTextWriter.Write(strOutput)
                     End If
 
@@ -182,7 +218,9 @@ End Enum
                 End If
 
                 If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType).Any Then
+
                     Dim strFileName = strPathDst & "\" & "RelationTypes.xml"
+                    strFiles.Add(strFileName)
                     objOItem_Result = Open_XMLWriter(strFileName)
                     If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
                         objOList_RelationTypes = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType).ToList().Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Ref, _
@@ -190,6 +228,7 @@ End Enum
                                                                                                                                                                                                                                                                                          .GUID_Parent = p.ID_Parent_Ref, _
                                                                                                                                                                                                                                                                                          .Type = objGlobals.Type_Object}).ToList()
                         Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
+                        strOutput = strOutput.Replace("@" & objVariables.Variable_ITEMTYPE.Name & "@", objGlobals.Type_RelationType)
                         objTextWriter.Write(strOutput)
 
                         For Each objOItem_RelationType In objOList_RelationTypes
@@ -208,23 +247,25 @@ End Enum
                     Close_XMLWriter()
                 End If
 
-                If mode.HasFlag(ModeEnum.AllRelations) Or mode.HasFlag(ModeEnum.OntologyJoins) Then
+                If mode.HasFlag(ModeEnum.AllRelations) Or mode.HasFlag(ModeEnum.OntologyJoins) Or mode.HasFlag(ModeEnum.OntologyItems) Then
                     objOList_ClassesExtended = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Class).ToList()
-                    objOList_ClassesWithChildren = objOList_ClassesExtended.Where(Function(p) p.ID_OntologyRelationRule = objOntologyRules.Rule_ChildToken.GUID).GroupBy(Function(p) new With {p.ID_Ref, p.Name_Ref, p.ID_Parent_Ref, p.ID_OntologyRelationRule }).Select(Function(p) New clsOntologyItem With {.GUID_Parent = p.Key.ID_Ref}).ToList()
+                    objOList_ClassesWithChildren = objOList_ClassesExtended.Where(Function(p) p.ID_OntologyRelationRule = objOntologyRules.Rule_ChildToken.GUID).GroupBy(Function(p) New With {p.ID_Ref, p.Name_Ref, p.ID_Parent_Ref, p.ID_OntologyRelationRule}).Select(Function(p) New clsOntologyItem With {.GUID_Parent = p.Key.ID_Ref}).ToList()
                     If objOList_ClassesWithChildren.Any() Then
                         objOList_Objects.AddRange(objDataWork_OntologyRels.GetData_ObjectsOfClasses(objOList_ClassesWithChildren))
                     End If
-                    
+
                 End If
-                
+
 
                 If objOList_Objects.Any Then
                     Dim strFileName = strPathDst & "\" & "Objects.xml"
+                    strFiles.Add(strFileName)
                     objOItem_Result = Open_XMLWriter(strFileName)
                     If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
                         objOList_Classes.AddRange(objDataWork_OntologyRels.GetData_ClassesOfObjects(objOList_Objects.GroupBy(Function(p) p.GUID_Parent).Select(Function(p) New clsOntologyItem With {.GUID = p.Key}).ToList()))
 
                         Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
+                        strOutput = strOutput.Replace("@" & objVariables.Variable_ITEMTYPE.Name & "@", objGlobals.Type_Object)
                         objTextWriter.Write(strOutput)
 
                         For Each objOItem_Object In objOList_Objects
@@ -242,21 +283,38 @@ End Enum
 
                     Close_XMLWriter()
                 End If
-                objOList_Classes.AddRange((from objClassNew In objOList_ClassesExtended
-                                               Group Join objClass In objOList_Classes on objClass.GUID equals objClassNew.ID_Ref Into objClasses = Group
-                                               from objClassOld In objClasses.DefaultIfEmpty()
+                objOList_Classes.AddRange((From objClassNew In objOList_ClassesExtended
+                                               Group Join objClass In objOList_Classes On objClass.GUID Equals objClassNew.ID_Ref Into objClasses = Group
+                                               From objClassOld In objClasses.DefaultIfEmpty()
                                                Where objClassOld Is Nothing
                                                Select New clsOntologyItem With {.GUID = objClassNew.ID_Ref, _
                                                                                 .Name = objClassNew.Name_Ref, _
                                                                                 .GUID_Parent = objClassNew.ID_Parent_Ref, _
                                                                                 .Type = objClassNew.Type_Ref}))
                 If objOList_Classes.Any Then
-                    
+
+                    If mode.HasFlag(ModeEnum.ClassParents) Then
+                        Dim intClassCount = 0
+                        Do
+                            intClassCount = objOList_Classes.Count
+                            objOList_Classes.AddRange(From objClassParent In objDataWork_Ontologies.OList_AllCalsses _
+                                                      Join objClassSub In objOList_Classes On objClassParent.GUID Equals objClassSub.GUID_Parent _
+                                                      Group Join objClassOld In objOList_Classes On objClassParent.GUID Equals objClassOld.GUID Into objClassesOld = Group
+                                                      From objClassOld In objClassesOld.DefaultIfEmpty()
+                                                      Where objClassOld Is Nothing
+                                                      Select objClassParent)
+
+
+
+                        Loop Until objOList_Classes.Count - intClassCount = 0
+                    End If
                     Dim strFileName = strPathDst & "\" & "Classes.xml"
+                    strFiles.Add(strFileName)
                     objOItem_Result = Open_XMLWriter(strFileName)
                     If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                        
+
                         Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
+                        strOutput = strOutput.Replace("@" & objVariables.Variable_ITEMTYPE.Name & "@", objGlobals.Type_Class)
                         objTextWriter.Write(strOutput)
 
                         For Each objOItem_Classes In objOList_Classes
@@ -274,10 +332,10 @@ End Enum
 
                     Close_XMLWriter()
                 End If
-                 
+
 
                 If mode.HasFlag(ModeEnum.AllRelations) = True Then
-                    
+
                     objDataWork_OntologyRels.OList_Classes = objOList_Classes
                     objDataWork_OntologyRels.OList_AttributeTypes = objOList_AttributeTypes
                     objDataWork_OntologyRels.OList_RelationTypes = objOList_RelationTypes
@@ -294,14 +352,16 @@ End Enum
                                 objDataWork_OntologyRels.GetData_ObjectRel()
                                 objOItem_Result = objDataWork_OntologyRels.OItem_Result_ObjectRel
                                 If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                                    
-                                   
+
+
 
                                     If objDataWork_OntologyRels.ClassAtt.Any Then
                                         Dim strFileName = strPathDst & "\" & "ClassAtts.xml"
+                                        strFiles.Add(strFileName)
                                         objOItem_Result = Open_XMLWriter(strFileName)
                                         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
                                             Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
+                                            strOutput = strOutput.Replace("@" & objVariables.Variable_ITEMTYPE.Name & "@", objGlobals.Type_ClassAtt)
                                             objTextWriter.Write(strOutput)
 
                                             For Each objOItem_ClassAtt In objDataWork_OntologyRels.ClassAtt
@@ -324,9 +384,11 @@ End Enum
 
                                     If objDataWork_OntologyRels.ClassRel.Any Then
                                         Dim strFileName = strPathDst & "\" & "ClassRels.xml"
+                                        strFiles.Add(strFileName)
                                         objOItem_Result = Open_XMLWriter(strFileName)
                                         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
                                             Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
+                                            strOutput = strOutput.Replace("@" & objVariables.Variable_ITEMTYPE.Name & "@", objGlobals.Type_ClassRel)
                                             objTextWriter.Write(strOutput)
 
                                             For Each objOItem_ClassRel In objDataWork_OntologyRels.ClassRel
@@ -351,17 +413,19 @@ End Enum
 
                                     If objDataWork_OntologyRels.ObjectAtt.Any Then
                                         Dim strFileName = strPathDst & "\" & "ObjectAtt.xml"
+                                        strFiles.Add(strFileName)
                                         objOItem_Result = Open_XMLWriter(strFileName)
                                         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
                                             Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
+                                            strOutput = strOutput.Replace("@" & objVariables.Variable_ITEMTYPE.Name & "@", objGlobals.Type_ObjectAtt)
                                             objTextWriter.Write(strOutput)
 
-                                            Dim objOList_OAtt = (From objObjAtt in objDataWork_OntologyRels.ObjectAtt
-                                                                    Join objObject In objOList_Objects on objObjAtt.ID_Object equals objObject.GUID
+                                            Dim objOList_OAtt = (From objObjAtt In objDataWork_OntologyRels.ObjectAtt
+                                                                    Join objObject In objOList_Objects On objObjAtt.ID_Object Equals objObject.GUID
                                                                     Select objObjAtt).ToList()
 
                                             For Each objOItem_ObjectAtt In objOList_OAtt
-                                                                                
+
                                                 strOutput = objDict_XMLTemplates(XMLTemplateEnum.ObjectAtt)
                                                 strOutput = strOutput.Replace("@" & objVariables.Variable_ID_ATTRIBUTE.Name & "@", objOItem_ObjectAtt.ID_Attribute)
                                                 strOutput = strOutput.Replace("@" & objVariables.Variable_ID_ATTRIBUTETYPE.Name & "@", objOItem_ObjectAtt.ID_AttributeType)
@@ -388,13 +452,15 @@ End Enum
 
                                     If objDataWork_OntologyRels.ObjectRel.Any Then
                                         Dim strFileName = strPathDst & "\" & "ObjectRel.xml"
+                                        strFiles.Add(strFileName)
                                         objOItem_Result = Open_XMLWriter(strFileName)
                                         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
                                             Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
+                                            strOutput = strOutput.Replace("@" & objVariables.Variable_ITEMTYPE.Name & "@", objGlobals.Type_ObjectRel)
                                             objTextWriter.Write(strOutput)
-                                                
-                                            Dim objOList_ORel = (From objObjRel in objDataWork_OntologyRels.ObjectRel
-                                                                    Join objObject In objOList_Objects on objObjRel.ID_Object equals objObject.GUID
+
+                                            Dim objOList_ORel = (From objObjRel In objDataWork_OntologyRels.ObjectRel
+                                                                    Join objObject In objOList_Objects On objObjRel.ID_Object Equals objObject.GUID
                                                                     Select objObjRel).ToList()
 
                                             For Each objOItem_ObjectRel In objOList_ORel
@@ -406,7 +472,7 @@ End Enum
                                                 strOutput = strOutput.Replace("@" & objVariables.Variable_ID_RELATIONTYPE.Name & "@", objOItem_ObjectRel.ID_RelationType)
                                                 strOutput = strOutput.Replace("@" & objVariables.Variable_ORDERID.Name & "@", objOItem_ObjectRel.OrderID)
                                                 strOutput = strOutput.Replace("@" & objVariables.Variable_ONTOLOGY.Name & "@", objOItem_ObjectRel.Ontology)
-                                                    
+
                                                 objTextWriter.Write(strOutput)
                                             Next
 
@@ -423,21 +489,21 @@ End Enum
                 End If
 
             End If
-            
+
 
         End If
 
         Return objOItem_Result
     End Function
 
-        Public Sub New(Globals As clsGlobals)
-            objGlobals = Globals
-            initialize()
-        End Sub
+    Public Sub New(Globals As clsGlobals)
+        objGlobals = Globals
+        initialize()
+    End Sub
 
-        Private Sub initialize()
+    Private Sub initialize()
         objDataWork_Ontologies = New clsDataWork_Ontologies(objGlobals)
         objDataWork_OntologyRels = New clsDataWork_OntologyRels(objGlobals)
-        End Sub
-    End Class
+    End Sub
+End Class
 

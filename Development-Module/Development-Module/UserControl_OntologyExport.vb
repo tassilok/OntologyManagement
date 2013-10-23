@@ -1,13 +1,20 @@
 ﻿imports OntologyClasses.BaseClasses
 Imports Ontology_Module
-Imports  Structure_Module
+Imports Structure_Module
+Imports Filesystem_Module
 Public Class UserControl_OntologyExport
     Private objLocalConfig As clsLocalConfig
     Private oList_OntologyExports As SortableBindingList(Of clsOntologyExport)
     Private oList_OntologyFiles As SortableBindingList(Of clsOntologyFiles)
     Private objDataWork_Export As clsDataWork_Export
+    Private objDataWork_Details As clsDataWork_Details
+    Private objDataWork_OntologyConfig As clsDataWork_OntologyConfig
     Private objOItem_Development As clsOntologyItem
+    Private objExport As clsExport
 
+    Private objTransaction As clsTransaction
+    Private objBlobConnection As clsBlobConnection
+    Private objFileWork As clsFileWork
 
     Public Sub New(LocalConfig As clsLocalConfig)
         
@@ -20,7 +27,13 @@ Public Class UserControl_OntologyExport
     End Sub
 
     Private sub initialize()
-        objDataWork_Export = new clsDataWork_Export(objLocalConfig)
+        objDataWork_Export = New clsDataWork_Export(objLocalConfig)
+        objDataWork_Details = New clsDataWork_Details(objLocalConfig)
+        objDataWork_OntologyConfig = New clsDataWork_OntologyConfig(objLocalConfig)
+        objExport = New clsExport(objLocalConfig.Globals)
+        objTransaction = New clsTransaction(objLocalConfig.Globals)
+        objFileWork = New clsFileWork(objLocalConfig.Globals)
+        objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
     End Sub
 
     Public sub initialize_OntologyExport(Optional OItem_Development As clsOntologyItem = Nothing)
@@ -29,22 +42,61 @@ Public Class UserControl_OntologyExport
         Clear()
         Dim objOItem_Result = objDataWork_Export.OItem_Result_ORels
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            oList_OntologyFiles = new SortableBindingList(Of clsOntologyFiles)
+
+            oList_OntologyFiles = New SortableBindingList(Of clsOntologyFiles)
             If OItem_Development Is Nothing Then
                 oList_OntologyExports = objDataWork_Export.OList_OntologyExports
-                
-            Else 
+
+            Else
                 oList_OntologyExports = New SortableBindingList(Of clsOntologyExport)(objDataWork_Export.OList_OntologyExports.Where(Function(p) p.ID_Development = objOItem_Development.GUID))
 
             End If
 
             DataGridView_Exports.DataSource = oList_OntologyExports
+            DataGridView_Exports.Columns(0).Visible = False
+            DataGridView_Exports.Columns(2).Visible = False
+            DataGridView_Exports.Columns(3).Visible = False
+            DataGridView_Exports.Columns(4).Visible = False
+            DataGridView_Exports.Columns(6).Visible = False
+
             DataGridView_Files.DataSource = oList_OntologyFiles
-        Else 
-            MsgBox("Die Exporte können nicht ermittelt werden!",MsgBoxStyle.Critical)
-            
+            DataGridView_Files.Columns(0).Visible = False
+            DataGridView_Files.Columns(2).Visible = False
+
+            DataGridView_Exports.Enabled = True
+            DataGridView_Files.Enabled = True
+
+            ConfigureCreateButton()
+        Else
+            MsgBox("Die Exporte können nicht ermittelt werden!", MsgBoxStyle.Critical)
+
         End If
-        
+
+    End Sub
+
+    Private Sub ConfigureCreateButton()
+        ToolStripButton_CreateFiles.Enabled = False
+        If Not objOItem_Development Is Nothing Then
+            objDataWork_OntologyConfig.OItem_Development = objOItem_Development
+            objDataWork_OntologyConfig.GetData_OntologyOfDevelopment()
+            objDataWork_Details.OItem_Development = objOItem_Development
+            objDataWork_Details.GetData_Version()
+            If objDataWork_Details.OItem_Result_Version.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                If Not objDataWork_Details.OItem_Version Is Nothing Then
+                    If Not oList_OntologyExports.Any(Function(p) p.ID_DevelopmentVersion = objDataWork_Details.OItem_Version.GUID) Then
+                        ToolStripButton_CreateFiles.Enabled = True
+                    End If
+
+                Else
+
+                    ToolStripButton_CreateFiles.Enabled = True
+                End If
+
+            Else
+                MsgBox("Die Version der Softwareentwicklung kann nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+            End If
+        End If
+
     End Sub
 
     Private sub Clear()
@@ -56,13 +108,152 @@ Public Class UserControl_OntologyExport
         DataGridView_Files.Enabled = False
     End Sub
 
-    Private Sub DataGridView_Exports_SelectionChanged( sender As Object,  e As EventArgs) Handles DataGridView_Exports.SelectionChanged
+    Private Sub DataGridView_Exports_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView_Exports.SelectionChanged
+        ToolStripButton_SaveFiles.Enabled = False
         If DataGridView_Exports.SelectedRows.Count = 1 Then
-            Dim objOntologyExport  As clsOntologyExport = DataGridView_Exports.SelectedRows(0).DataBoundItem
+            Dim objOntologyExport As clsOntologyExport = DataGridView_Exports.SelectedRows(0).DataBoundItem
             oList_OntologyFiles = New SortableBindingList(Of clsOntologyFiles)(objDataWork_Export.OList_OntologyFiles.Where(Function(p) p.ID_OntologyExport = objOntologyExport.ID_OntologyExport))
             DataGridView_Files.DataSource = oList_OntologyFiles
-        Else 
+            DataGridView_Files.Columns(0).Visible = False
+            DataGridView_Files.Columns(2).Visible = False
+            If DataGridView_Files.Rows.Count > 0 Then
+
+                ToolStripButton_SaveFiles.Enabled = True
+
+            End If
+        Else
             DataGridView_Files.DataSource = Nothing
+        End If
+    End Sub
+
+    Private Sub ToolStripButton_CreateFiles_Click(sender As Object, e As EventArgs) Handles ToolStripButton_CreateFiles.Click
+
+        If objDataWork_OntologyConfig.OItem_Result_OntologyOfDevelopment.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim strGUID = objLocalConfig.Globals.NewGUID
+            Dim strPath = "%TEMP%\" & strGUID
+            strPath = Environment.ExpandEnvironmentVariables(strPath)
+
+            IO.Directory.CreateDirectory(strPath)
+
+            Dim objOItem_Result = objExport.Export_Ontology(objDataWork_OntologyConfig.OItem_Ontology, strPath, ModeEnum.AllRelations Or ModeEnum.ClassParents, Nothing, True)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                Dim strFiles = objExport.Files
+                If strFiles.Any Then
+                    Dim objOItem_OntologyExport = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
+                                                                            .Name = objDataWork_Details.OItem_Version.Name, _
+                                                                            .GUID_Parent = objLocalConfig.OItem_type_ontology_export.GUID, _
+                                                                            .Type = objLocalConfig.Globals.Type_Object}
+
+                    objTransaction.ClearItems()
+                    objOItem_Result = objTransaction.do_Transaction(objOItem_OntologyExport)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        Dim objOItem_Files = New List(Of clsOntologyItem)
+                        For Each strFile In strFiles
+                            objOItem_Files.Add(New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
+                                                                          .Name = IO.Path.GetFileName(strFile), _
+                                                                          .GUID_Parent = objLocalConfig.OItem_Class_File.GUID, _
+                                                                          .Type = objLocalConfig.Globals.Type_Object})
+                            objOItem_Result = objTransaction.do_Transaction(objOItem_Files.Last())
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_Files.Last(), strFile)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    Dim objORel_OntologyExport_To_File = objDataWork_Export.Rel_OntologyExport_To_File(objOItem_OntologyExport, objOItem_Files.Last())
+                                    objOItem_Result = objTransaction.do_Transaction(objORel_OntologyExport_To_File)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                        Exit For
+
+                                    End If
+                                End If
+
+                            End If
+                        Next
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            Dim objORel_OntologyExport_To_Ontology = objDataWork_Export.Rel_OntologyExport_To_Ontology(objOItem_OntologyExport, objDataWork_OntologyConfig.OItem_Ontology)
+                            objOItem_Result = objTransaction.do_Transaction(objORel_OntologyExport_To_Ontology)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                Dim objORel_OntologyExport_To_Version = objDataWork_Export.Rel_OntologyExport_To_Version(objOItem_OntologyExport, objDataWork_Details.OItem_Version)
+                                objOItem_Result = objTransaction.do_Transaction(objORel_OntologyExport_To_Version)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    initialize_OntologyExport(objOItem_Development)
+                                Else
+                                    For Each objOItem_File In objOItem_Files
+                                        objOItem_Result = objBlobConnection.del_Blob(objOItem_File)
+                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                            Exit For
+                                        End If
+                                    Next
+
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        objTransaction.rollback()
+                                        MsgBox("Beim Speichern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+                                    End If
+                                End If
+                            Else
+                                For Each objOItem_File In objOItem_Files
+                                    objOItem_Result = objBlobConnection.del_Blob(objOItem_File)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                        Exit For
+                                    End If
+                                Next
+
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objTransaction.rollback()
+                                    MsgBox("Beim Speichern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+                                End If
+                            End If
+                        Else
+
+                            For Each objOItem_File In objOItem_Files
+                                objOItem_Result = objBlobConnection.del_Blob(objOItem_File)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                    Exit For
+                                End If
+                            Next
+
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objTransaction.rollback()
+                                MsgBox("Beim Speichern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+                            End If
+                        End If
+                        
+                    Else
+                        MsgBox("Beim Speichern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+                    End If
+
+                Else
+                    MsgBox("Es wurde nichts exportiert!", MsgBoxStyle.Information)
+                End If
+            Else
+                MsgBox("Die Ontologie konnte nicht exportiert werden!", MsgBoxStyle.Exclamation)
+            End If
+
+        Else
+            MsgBox("Beim Exportieren ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+        End If
+    End Sub
+
+    Private Sub ToolStripButton_SaveFiles_Click(sender As Object, e As EventArgs) Handles ToolStripButton_SaveFiles.Click
+        If FolderBrowserDialog_FileDest.ShowDialog(Me) = DialogResult.OK Then
+            Dim strPath = FolderBrowserDialog_FileDest.SelectedPath
+            Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone
+            For Each objDGVR As DataGridViewRow In DataGridView_Files.Rows
+                Dim objFile As clsOntologyFiles = objDGVR.DataBoundItem
+                Dim objOItem_File = New clsOntologyItem With {.GUID = objFile.ID_File, _
+                                                              .Name = objFile.Name_File, _
+                                                              .GUID_Parent = objLocalConfig.OItem_Class_File.GUID, _
+                                                              .Type = objLocalConfig.Globals.Type_Object}
+
+                objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_File, strPath & IO.Path.DirectorySeparatorChar & objOItem_File.Name, True)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Die Dateien konnten nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                    Exit For
+                End If
+
+            Next
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                MsgBox("Die Dateien wurden exportiert!", MsgBoxStyle.Information)
+            End If
         End If
     End Sub
 End Class

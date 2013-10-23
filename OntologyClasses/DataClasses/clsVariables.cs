@@ -37,6 +37,7 @@ namespace OntologyClasses.DataClasses
         public clsOntologyItem Variable_ID_PARENT_OBJECT { get; private set; }
         public clsOntologyItem Variable_ID_OTHER { get; private set; }
         public clsOntologyItem Variable_ID_PARENT_OTHER { get; private set; }
+        public clsOntologyItem Variable_ITEMTYPE { get; private set; }
 
         private clsClasses objClasses = new clsClasses();
         private clsTypes objTypes = new clsTypes();
@@ -277,6 +278,14 @@ namespace OntologyClasses.DataClasses
                 Type = objTypes.ObjectType
             };
 
+            Variable_ITEMTYPE = new clsOntologyItem
+            {
+                GUID = "b665409bc31b4abcb0dde472b376bd45",
+                Name = "ITEMTYPE",
+                GUID_Parent = objClasses.OItem_Class_Variable.GUID,
+                Type = objTypes.ObjectType
+            };
+
 
             Variables = new List<clsOntologyItem>
                 {
@@ -307,7 +316,8 @@ namespace OntologyClasses.DataClasses
                     Variable_VAL_DOUBLE,
                     Variable_VAL_LNG,
                     Variable_VAL_NAMED,
-                    Variable_VAL_STRING
+                    Variable_VAL_STRING,
+                    Variable_ITEMTYPE
                 };
         }
         

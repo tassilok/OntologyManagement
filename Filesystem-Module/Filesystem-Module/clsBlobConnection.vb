@@ -10,6 +10,7 @@ Public Class clsBlobConnection
     Private objDataWork As clsDataWork
 
     Private objTransaction_Files As clsTransaction_Files
+    Private objTransaction As clsTransaction
 
     Private objFrmBlobWatcher As frmBlobWatcher
 
@@ -59,7 +60,23 @@ Public Class clsBlobConnection
         End If
     End Sub
 
+    Public Function del_Blob(OItem_File As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone
 
+        Try
+            If IO.File.Exists(strPath_Blob & IO.Path.DirectorySeparatorChar & OItem_File.GUID) Then
+                IO.File.Delete(strPath_Blob & IO.Path.DirectorySeparatorChar & OItem_File.GUID)
+            End If
+
+            Dim objOAtt_File__Blob = objDataWork.Rel_File__Blob(OItem_File, True)
+            objTransaction.ClearItems()
+            objOItem_Result = objTransaction.do_Transaction(objOAtt_File__Blob, True, True)
+        Catch ex As Exception
+            objOItem_Result = objLocalConfig.Globals.LState_Error
+        End Try
+
+        Return objOItem_Result
+    End Function
     Private Sub get_BlobPath()
         Dim objLPath As New List(Of clsObjectRel)
 
@@ -547,5 +564,6 @@ Public Class clsBlobConnection
         objDataWork = New clsDataWork(objLocalConfig)
         objDBLevel_Blobs = New clsDBLevel(objLocalConfig.Globals)
         objTransaction_Files = New clsTransaction_Files(objLocalConfig)
+        objTransaction = New clsTransaction(objLocalConfig.Globals)
     End Sub
 End Class

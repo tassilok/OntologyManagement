@@ -27,25 +27,26 @@ Partial Class UserControl_OntologyExport
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_CountLbl = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton_CreateFiles = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_SaveFiles = New System.Windows.Forms.ToolStripButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.DataGridView_Exports = New System.Windows.Forms.DataGridView()
         Me.DataGridView_Files = New System.Windows.Forms.DataGridView()
-        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout
-        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout
-        Me.ToolStripContainer1.SuspendLayout
-        Me.ToolStrip1.SuspendLayout
-        Me.ToolStrip2.SuspendLayout
-        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SplitContainer1.Panel1.SuspendLayout
-        Me.SplitContainer1.Panel2.SuspendLayout
-        Me.SplitContainer1.SuspendLayout
-        CType(Me.DataGridView_Exports,System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.DataGridView_Files,System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SuspendLayout
+        Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButton_CreateFiles = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_SaveFiles = New System.Windows.Forms.ToolStripButton()
+        Me.FolderBrowserDialog_FileDest = New System.Windows.Forms.FolderBrowserDialog()
+        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
+        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.SuspendLayout()
+        Me.ToolStrip1.SuspendLayout()
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.Panel2.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
+        CType(Me.DataGridView_Exports, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DataGridView_Files, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ToolStrip2.SuspendLayout()
+        Me.SuspendLayout()
         '
         'ToolStripContainer1
         '
@@ -90,35 +91,6 @@ Partial Class UserControl_OntologyExport
         Me.ToolStripLabel_Count.Size = New System.Drawing.Size(13, 22)
         Me.ToolStripLabel_Count.Text = "0"
         '
-        'ToolStrip2
-        '
-        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_CreateFiles, Me.ToolStripButton_SaveFiles})
-        Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
-        Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(116, 25)
-        Me.ToolStrip2.TabIndex = 0
-        '
-        'ToolStripButton_CreateFiles
-        '
-        Me.ToolStripButton_CreateFiles.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_CreateFiles.Enabled = false
-        Me.ToolStripButton_CreateFiles.Image = CType(resources.GetObject("ToolStripButton_CreateFiles.Image"),System.Drawing.Image)
-        Me.ToolStripButton_CreateFiles.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_CreateFiles.Name = "ToolStripButton_CreateFiles"
-        Me.ToolStripButton_CreateFiles.Size = New System.Drawing.Size(81, 22)
-        Me.ToolStripButton_CreateFiles.Text = "x_Create Files"
-        '
-        'ToolStripButton_SaveFiles
-        '
-        Me.ToolStripButton_SaveFiles.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_SaveFiles.Enabled = false
-        Me.ToolStripButton_SaveFiles.Image = Global.Development_Module.My.Resources.Resources.saveHS
-        Me.ToolStripButton_SaveFiles.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_SaveFiles.Name = "ToolStripButton_SaveFiles"
-        Me.ToolStripButton_SaveFiles.Size = New System.Drawing.Size(23, 22)
-        Me.ToolStripButton_SaveFiles.Text = "ToolStripButton1"
-        '
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -138,53 +110,82 @@ Partial Class UserControl_OntologyExport
         '
         'DataGridView_Exports
         '
-        Me.DataGridView_Exports.AllowUserToAddRows = false
-        Me.DataGridView_Exports.AllowUserToDeleteRows = false
+        Me.DataGridView_Exports.AllowUserToAddRows = False
+        Me.DataGridView_Exports.AllowUserToDeleteRows = False
         Me.DataGridView_Exports.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView_Exports.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView_Exports.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_Exports.Name = "DataGridView_Exports"
-        Me.DataGridView_Exports.ReadOnly = true
+        Me.DataGridView_Exports.ReadOnly = True
         Me.DataGridView_Exports.Size = New System.Drawing.Size(241, 428)
         Me.DataGridView_Exports.TabIndex = 0
         '
         'DataGridView_Files
         '
-        Me.DataGridView_Files.AllowUserToAddRows = false
-        Me.DataGridView_Files.AllowUserToDeleteRows = false
+        Me.DataGridView_Files.AllowUserToAddRows = False
+        Me.DataGridView_Files.AllowUserToDeleteRows = False
         Me.DataGridView_Files.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView_Files.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView_Files.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_Files.Name = "DataGridView_Files"
-        Me.DataGridView_Files.ReadOnly = true
+        Me.DataGridView_Files.ReadOnly = True
         Me.DataGridView_Files.Size = New System.Drawing.Size(240, 428)
         Me.DataGridView_Files.TabIndex = 0
         '
+        'ToolStrip2
+        '
+        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_CreateFiles, Me.ToolStripButton_SaveFiles})
+        Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
+        Me.ToolStrip2.Name = "ToolStrip2"
+        Me.ToolStrip2.Size = New System.Drawing.Size(116, 25)
+        Me.ToolStrip2.TabIndex = 0
+        '
+        'ToolStripButton_CreateFiles
+        '
+        Me.ToolStripButton_CreateFiles.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_CreateFiles.Enabled = False
+        Me.ToolStripButton_CreateFiles.Image = CType(resources.GetObject("ToolStripButton_CreateFiles.Image"), System.Drawing.Image)
+        Me.ToolStripButton_CreateFiles.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_CreateFiles.Name = "ToolStripButton_CreateFiles"
+        Me.ToolStripButton_CreateFiles.Size = New System.Drawing.Size(81, 22)
+        Me.ToolStripButton_CreateFiles.Text = "x_Create Files"
+        '
+        'ToolStripButton_SaveFiles
+        '
+        Me.ToolStripButton_SaveFiles.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_SaveFiles.Enabled = False
+        Me.ToolStripButton_SaveFiles.Image = Global.Development_Module.My.Resources.Resources.saveHS
+        Me.ToolStripButton_SaveFiles.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_SaveFiles.Name = "ToolStripButton_SaveFiles"
+        Me.ToolStripButton_SaveFiles.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_SaveFiles.Text = "ToolStripButton1"
+        '
         'UserControl_OntologyExport
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "UserControl_OntologyExport"
         Me.Size = New System.Drawing.Size(485, 478)
-        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout
-        Me.ToolStripContainer1.ContentPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout
-        Me.ToolStripContainer1.ResumeLayout(false)
-        Me.ToolStripContainer1.PerformLayout
-        Me.ToolStrip1.ResumeLayout(false)
-        Me.ToolStrip1.PerformLayout
-        Me.ToolStrip2.ResumeLayout(false)
-        Me.ToolStrip2.PerformLayout
-        Me.SplitContainer1.Panel1.ResumeLayout(false)
-        Me.SplitContainer1.Panel2.ResumeLayout(false)
-        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).EndInit
-        Me.SplitContainer1.ResumeLayout(false)
-        CType(Me.DataGridView_Exports,System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.DataGridView_Files,System.ComponentModel.ISupportInitialize).EndInit
-        Me.ResumeLayout(false)
+        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.ResumeLayout(False)
+        Me.ToolStripContainer1.PerformLayout()
+        Me.ToolStrip1.ResumeLayout(False)
+        Me.ToolStrip1.PerformLayout()
+        Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.ResumeLayout(False)
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.DataGridView_Exports, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DataGridView_Files, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ToolStrip2.ResumeLayout(False)
+        Me.ToolStrip2.PerformLayout()
+        Me.ResumeLayout(False)
 
 End Sub
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
@@ -197,5 +198,6 @@ End Sub
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents DataGridView_Exports As System.Windows.Forms.DataGridView
     Friend WithEvents DataGridView_Files As System.Windows.Forms.DataGridView
+    Friend WithEvents FolderBrowserDialog_FileDest As System.Windows.Forms.FolderBrowserDialog
 
 End Class

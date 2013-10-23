@@ -62,8 +62,6 @@ Public Class clsDataWork_Ontologies
 
     End Property
 
-    
-
     Public ReadOnly Property OList_RefsOfOntologyItems As List(Of clsOntologyItemsOfOntologies)
         Get
             Return objOList_RefsOfOntologyItems
@@ -109,6 +107,12 @@ Public Class clsDataWork_Ontologies
     Public ReadOnly Property OList_RefsOfOntologies As List(Of clsObjectRel)
         Get
             Return objDBLevel_OntologyRels.OList_ObjectRel
+        End Get
+    End Property
+
+    Public ReadOnly Property OList_AllCalsses As List(Of clsOntologyItem)
+        Get
+            Return objDBLevel_Classes.OList_Classes
         End Get
     End Property
 

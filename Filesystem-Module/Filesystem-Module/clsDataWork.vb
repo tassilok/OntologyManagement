@@ -726,5 +726,15 @@ Public Class clsDataWork
         Return objOItem_Result
     End Function
 
+    Public Function Rel_File__Blob(OItem_File As clsOntologyItem, boolBlob As Boolean) As clsObjectAtt
+        Dim objOAtt_File__Blob = New clsObjectAtt With {.ID_Object = OItem_File.GUID, _
+                                                        .ID_Class = OItem_File.GUID_Parent, _
+                                                        .ID_DataType = objLocalConfig.Globals.DType_Bool.GUID, _
+                                                        .ID_AttributeType = objLocalConfig.OItem_Attribute_Blob.GUID, _
+                                                        .Val_Bit = boolBlob, _
+                                                        .Val_Named = boolBlob.ToString, _
+                                                        .OrderID = 1}
 
+        Return objOAtt_File__Blob
+    End Function
 End Class
