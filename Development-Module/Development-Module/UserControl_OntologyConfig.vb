@@ -10,7 +10,11 @@ Public Class UserControl_OntologyConfig
     Private WithEvents objUserControl_OntologyItems As UserControl_OntologyItemList
     Private objDataWork_OntologyConfig As clsDataWork_OntologyConfig
 
+    Private objFrmOntologyModule As frmMain
+
     Private objFrmCodeGenerator As frmCodeGenerator
+
+    Private objTransaction As clsTransaction
 
 
     Private sub LoadedData() Handles objUserControl_OntologyItems.DataLoaded
@@ -60,6 +64,7 @@ Public Class UserControl_OntologyConfig
         objUserControl_OntologyItems = new UserControl_OntologyItemList(objDataWork_OntologyConfig.DataWork_Ontology)
         objUserControl_OntologyItems.Dock = DockStyle.Fill
         ToolStripContainer1.ContentPanel.Controls.Add(objUserControl_OntologyItems)
+        objTransaction = New clsTransaction(objLocalConfig.Globals)
     End Sub
 
     Private Sub ToolStripButton_View_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_View.Click
@@ -76,6 +81,56 @@ Public Class UserControl_OntologyConfig
             initialize_OntologyConfig(objOItem_Development)
         Else 
             MsgBox("Die Ontology konnte nicht erzeugt werden!")
+        End If
+    End Sub
+
+    Private Sub ToolStripButton_Add_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_Add.Click
+        objFrmOntologyModule = New frmMain(objLocalConfig.Globals)
+        objFrmOntologyModule.ShowDialog(Me)
+
+
+        Dim intToDo As Integer
+        Dim intDone As Integer
+
+        If objFrmOntologyModule.DialogResult = DialogResult.OK Then
+            Dim objOItem_Ontology = objDataWork_OntologyConfig.OItem_Ontology
+            intToDo = objFrmOntologyModule.OList_Simple.Count
+            intDone = 0
+            For Each objOItem_Item In objFrmOntologyModule.OList_Simple
+                If Not objDataWork_OntologyConfig.DataWork_Ontology.GetData_OntologiesOfRef(objOItem_Item).Any(Function (p) p.GUID = objOItem_Ontology.GUID) Then
+                    Dim objOItem_OntologyItem = new clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
+                                                                          .Name = objOItem_Item.Name, _
+                                                                          .GUID_Parent = objLocalConfig.Globals.Class_OntologyItems.GUID, _
+                                                                          .Type = objLocalConfig.Globals.LState_Success.GUID}
+                    objTransaction.ClearItems()
+
+                    Dim objOItem_Result = objTransaction.do_Transaction(objOItem_OntologyItem)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        Dim objORel_OntologyItem_To_Ref = objDataWork_OntologyConfig.DataWork_Ontology.Rel_OntologyItemToRef(objOItem_OntologyItem,objOItem_Item)
+                        objOItem_Result = objTransaction.do_Transaction(objORel_OntologyItem_To_Ref)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            Dim objORel_Ontology_To_OntologyItem = objDataWork_OntologyConfig.DataWork_Ontology.Rel_Ontology_To_OntologyItem(objOItem_Ontology, objOItem_OntologyItem)
+                            objOItem_Result = objTransaction.do_Transaction(objORel_Ontology_To_OntologyItem)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                intDone = intDone + 1
+                            Else 
+                                objTransaction.rollback()
+                            End If
+                        Else 
+                            objTransaction.rollback()
+                        End If
+
+                    End If
+                Else 
+                    intDone = intDone + 1
+                End If
+            Next
+
+            If intDone < intToDo Then
+                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Items verknüpft werden!",MsgBoxStyle.Exclamation)
+            End If
+
+            initialize_OntologyConfig(objOItem_Development)
         End If
     End Sub
 End Class

@@ -152,6 +152,12 @@
     <Compile Include="UserControl_OntologyConfig_bak.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControl_OntologyExport.Designer.vb">
+      <DependentUpon>UserControl_OntologyExport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_OntologyExport.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmCodeGenerator.resx">
@@ -180,6 +186,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_OntologyConfig_bak.resx">
       <DependentUpon>UserControl_OntologyConfig_bak.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_OntologyExport.resx">
+      <DependentUpon>UserControl_OntologyExport.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -32,9 +32,9 @@ Partial Class UserControl_OntologyConfig
         Me.ToolStripButton_Remove = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_View = New System.Windows.Forms.ToolStripButton()
-        Me.BindingSource_ConfigItems = New System.Windows.Forms.BindingSource(Me.components)
-        Me.ToolStripButton_Migrate = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripButton_Migrate = New System.Windows.Forms.ToolStripButton()
+        Me.BindingSource_ConfigItems = New System.Windows.Forms.BindingSource(Me.components)
         Me.ContextMenuStrip_OItems.SuspendLayout
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout
         Me.ToolStripContainer1.SuspendLayout
@@ -116,6 +116,11 @@ Partial Class UserControl_OntologyConfig
         Me.ToolStripButton_View.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_View.Text = "ToolStripButton3"
         '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
+        '
         'ToolStripButton_Migrate
         '
         Me.ToolStripButton_Migrate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
@@ -124,11 +129,6 @@ Partial Class UserControl_OntologyConfig
         Me.ToolStripButton_Migrate.Name = "ToolStripButton_Migrate"
         Me.ToolStripButton_Migrate.Size = New System.Drawing.Size(62, 22)
         Me.ToolStripButton_Migrate.Text = "x_Migrate"
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
         '
         'UserControl_OntologyConfig
         '

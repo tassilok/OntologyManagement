@@ -12,6 +12,8 @@ Public Class clsDataWork_OntologyConfig
 
     public Property OItem_Ontology() As clsOntologyItem
 
+    
+
     Public ReadOnly Property DataWork_Ontology As clsDataWork_Ontologies
         Get
             Return objDataWork_Ontology

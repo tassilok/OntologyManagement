@@ -118,6 +118,7 @@ Public Class clsLocalConfig
     Private objOItem_Class_Export_Mode As New clsOntologyItem
     Private objOItem_Class_Database_Schema As New clsOntologyItem
     Private objOItem_Class_Development_Module As New clsOntologyItem
+    Private objOItem_type_ontology_export As New clsOntologyItem
 
     'Objects
     Private objOitem_Object_LogState_Active As New clsOntologyItem
@@ -716,6 +717,12 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property OItem_type_ontology_export() As clsOntologyItem
+      Get
+        Return objOItem_type_ontology_export
+      End Get
+    End Property
+
     'Objects
     Public ReadOnly Property Oitem_Object_clsLocalConfig_xml_XML As clsOntologyItem
         Get
@@ -1145,7 +1152,18 @@ Public Class clsLocalConfig
 
     Private Sub get_Config_Classes()
 
+        Dim objOList_type_ontology_export = From obj In objDBLevel_Config2.OList_ObjectRel
+                    Where obj.Name_Object.ToLower = "type_ontology_export" And obj.Ontology = objGlobals.Type_Class
 
+        If objOList_type_ontology_export.Count > 0 Then
+            objOItem_type_ontology_export = New clsOntologyItem
+            objOItem_type_ontology_export.GUID = objOList_type_ontology_export(0).ID_Other
+            objOItem_type_ontology_export.Name = objOList_type_ontology_export(0).Name_Other
+            objOItem_type_ontology_export.GUID_Parent = objOList_type_ontology_export(0).ID_Parent_Other
+            objOItem_type_ontology_export.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
 
         Dim objSD = From obj In objDBLevel_Config2.OList_ObjectRel
                     Where obj.Name_Object = "type_SoftwareDevelopment" And obj.Ontology = objGlobals.Type_Class

@@ -31,8 +31,11 @@ Public Class clsDataWork_Ontologies
     Private objDBLevel_RefsOfOntologyItems As clsDBLevel
     Private objDBLevel_OntologyRelationRules As clsDBLevel
     Private objDBLevel_RefOfOntologyItem As clsDBLevel
+    Private objDBLevel_OntologyOfOntologyItem As clsDBLevel
+    Private objDBLevel_OntologyJoinOfOntologyItem As clsDBLevel
     Private objDBLevel_Ref As clsDBLevel
     Private objDBLevel_OntologyRelationRulesOfOItems As clsDBLevel
+    Private objDBLevel_OntologyOfOntologyJoin As clsDBLevel
 
     Dim objOList_ClassTree As New List(Of clsOntologyItem)
     Dim objOList_Classes As New List(Of clsOntologyItem)
@@ -532,6 +535,78 @@ Public Class clsDataWork_Ontologies
         End If
 
         Return objOItem_Result
+    End Function
+
+    Public Function GetData_OntologiesOfRef(OItem_Ref As clsOntologyItem) As List(Of clsOntologyItem)
+        Dim objOlist_Ontology  = new  List(Of clsOntologyItem)
+        Dim objOItem_OntologyItem = GetData_OntologyItemOfRef(OItem_Ref)
+
+        If objOItem_OntologyItem.GUID_Related = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim objORL_Ontology_To_OntologyItems = new List(Of clsObjectRel) From { New clsObjectRel With {.ID_Parent_Object = objLocalConfig.Globals.Class_Ontologies.GUID, _
+                                                                                                           .ID_Other= objOItem_OntologyItem.GUID, _
+                                                                                                           .ID_RelationType = objLocalConfig.Globals.RelationType_contains.GUID} }
+            Dim objOItem_Result = objDBLevel_OntologyOfOntologyItem.get_Data_ObjectRel(objORL_Ontology_To_OntologyItems,boolIDs := False)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                Dim objOList_OntologyJoins = GetData_OntologyJoinsOfOItem(objOItem_OntologyItem)
+                if Not objOList_OntologyJoins Is Nothing Then
+                    Dim objORL_Ontology_To_OntologyJoin = objOList_OntologyJoins.Select(Function(p) New clsObjectRel With {.ID_Parent_Object = objLocalConfig.Globals.Class_Ontologies.GUID, _
+                                                                                                                           .ID_Other = p.GUID, _
+                                                                                                                           .ID_RelationType = objLocalConfig.Globals.RelationType_contains.GUID})
+                    objOItem_Result = objDBLevel_OntologyOfOntologyJoin.get_Data_ObjectRel(objORL_Ontology_To_OntologyJoin,boolIDs := False)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objOlist_Ontology.AddRange(objDBLevel_OntologyOfOntologyItem.OList_ObjectRel.Select(Function(p) new clsOntologyItem With {.GUID = p.ID_Object, _
+                                                                                                                                   .Name = p.Name_Object, _
+                                                                                                                                   .GUID_Parent = p.ID_Parent_Object, _
+                                                                                                                                   .Type = objLocalConfig.Globals.Type_Object}))
+
+                        objOlist_Ontology.AddRange(From objOntologyNew In objDBLevel_OntologyOfOntologyJoin.OList_ObjectRel
+                                                   group Join objOntology In  objOList_Ontology on objOntologyNew.ID_Object equals objOntology.GUID into objOntologies = group
+                                                   From objOntology In objOntologies.DefaultIfEmpty()
+                                                   Where objOntology Is Nothing
+                                                   select new clsOntologyItem With {.GUID = objOntologyNew.ID_Object, _
+                                                                                    .Name = objOntologyNew.Name_Object, _
+                                                                                    .GUID_Parent = objOntologyNew.ID_Parent_Object, _
+                                                                                    .Type = objLocalConfig.Globals.Type_Object})
+                        
+                    Else 
+                        objOlist_Ontology = Nothing
+                    End If
+                    
+                    
+                Else 
+                    objOlist_Ontology = Nothing
+                End If
+                
+
+
+            Else 
+                objOlist_Ontology = Nothing
+            End If
+        Else 
+            objOlist_Ontology = Nothing
+        End If
+
+        Return objOlist_Ontology
+    End Function
+
+    Public Function GetData_OntologyJoinsOfOItem(OItem_OntologyItem As clsOntologyItem) As List(Of clsOntologyItem)
+        Dim objOList_OntologyJoins = new List(Of clsOntologyItem)
+
+        Dim objORL_OntologyJoins_To_OntologyItems = new List(Of clsObjectRel) From { New clsObjectRel With {.ID_Parent_Object = objLocalConfig.Globals.Class_OntologyJoin.GUID, _
+                                                                                                            .ID_RelationType = objLocalConfig.Globals.RelationType_contains.GUID, _
+                                                                                                            .ID_Other = OItem_OntologyItem.GUID} }
+        Dim objOItem_Result = objDBLevel_OntologyJoinOfOntologyItem.get_Data_ObjectRel(objORL_OntologyJoins_To_OntologyItems, boolIDs := False)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_OntologyJoins.AddRange(objDBLevel_OntologyJoinOfOntologyItem.OList_ObjectRel.Select(Function(p) new clsOntologyItem With {.GUID = p.ID_Object, _
+                                                                                                                                               .Name = p.Name_Object, _
+                                                                                                                                               .GUID_Parent = p.ID_Parent_Object, _
+                                                                                                                                               .Type = objLocalConfig.Globals.Type_Object}))
+
+        Else 
+            objOList_OntologyJoins = Nothing
+        End If
+
+        Return objOList_OntologyJoins
     End Function
 
     Public Function GetData_OntologyItemOfRef(OItem_Ref As clsOntologyItem) As clsOntologyItem
@@ -1306,5 +1381,8 @@ Public Class clsDataWork_Ontologies
         objDBLevel_Ref = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_OntologyRelationRulesOfOItems = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_ClassesByGuid = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_OntologyOfOntologyItem = new clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_OntologyJoinOfOntologyItem = new clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_OntologyOfOntologyJoin = new clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class
