@@ -317,6 +317,12 @@ Public Class clsBlobConnection
 
 
                     Catch ex As Exception
+                        try
+                            objStream_Read.Close()
+                            objStream_Write.Close()
+                        Catch ex1 As Exception
+
+                        End Try
                         objOItem_Result = objLocalConfig.Globals.LState_Error
                     End Try
                 End If

@@ -41,7 +41,7 @@ Public Class UserControl_OntologyConfig
             Dim objOItem_Result =  objDataWork_OntologyConfig.GetData(objOItem_Development)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                 objUserControl_OntologyItems.initialize_List(objDataWork_OntologyConfig.OItem_Ontology)
-
+                ToolStripButton_Add.Enabled = True
             Else 
                 MsgBox("Die Ontology-Items konnten nicht geladen werden!",MsgBoxStyle.Exclamation)
             End If
@@ -99,9 +99,9 @@ Public Class UserControl_OntologyConfig
             For Each objOItem_Item In objFrmOntologyModule.OList_Simple
                 If Not objDataWork_OntologyConfig.DataWork_Ontology.GetData_OntologiesOfRef(objOItem_Item).Any(Function (p) p.GUID = objOItem_Ontology.GUID) Then
                     Dim objOItem_OntologyItem = new clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
-                                                                          .Name = objOItem_Item.Name, _
+                                                                          .Name = objOItem_Item.Type & "_" & objLocalConfig.Globals.GetConfigName1(objOItem_Item.Name), _
                                                                           .GUID_Parent = objLocalConfig.Globals.Class_OntologyItems.GUID, _
-                                                                          .Type = objLocalConfig.Globals.LState_Success.GUID}
+                                                                          .Type = objLocalConfig.Globals.Type_Object}
                     objTransaction.ClearItems()
 
                     Dim objOItem_Result = objTransaction.do_Transaction(objOItem_OntologyItem)

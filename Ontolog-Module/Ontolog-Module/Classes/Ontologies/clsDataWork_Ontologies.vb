@@ -545,7 +545,7 @@ Public Class clsDataWork_Ontologies
         Dim objOlist_Ontology  = new  List(Of clsOntologyItem)
         Dim objOItem_OntologyItem = GetData_OntologyItemOfRef(OItem_Ref)
 
-        If objOItem_OntologyItem.GUID_Related = objLocalConfig.Globals.LState_Success.GUID Then
+        If objOItem_OntologyItem.GUID_Related = objLocalConfig.Globals.LState_Success.GUID Or objOItem_OntologyItem.GUID_Related = objLocalConfig.Globals.LState_Nothing.GUID Then
             Dim objORL_Ontology_To_OntologyItems = new List(Of clsObjectRel) From { New clsObjectRel With {.ID_Parent_Object = objLocalConfig.Globals.Class_Ontologies.GUID, _
                                                                                                            .ID_Other= objOItem_OntologyItem.GUID, _
                                                                                                            .ID_RelationType = objLocalConfig.Globals.RelationType_contains.GUID} }
@@ -555,30 +555,32 @@ Public Class clsDataWork_Ontologies
                 if Not objOList_OntologyJoins Is Nothing Then
                     Dim objORL_Ontology_To_OntologyJoin = objOList_OntologyJoins.Select(Function(p) New clsObjectRel With {.ID_Parent_Object = objLocalConfig.Globals.Class_Ontologies.GUID, _
                                                                                                                            .ID_Other = p.GUID, _
-                                                                                                                           .ID_RelationType = objLocalConfig.Globals.RelationType_contains.GUID})
-                    objOItem_Result = objDBLevel_OntologyOfOntologyJoin.get_Data_ObjectRel(objORL_Ontology_To_OntologyJoin,boolIDs := False)
-                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        objOlist_Ontology.AddRange(objDBLevel_OntologyOfOntologyItem.OList_ObjectRel.Select(Function(p) new clsOntologyItem With {.GUID = p.ID_Object, _
-                                                                                                                                   .Name = p.Name_Object, _
-                                                                                                                                   .GUID_Parent = p.ID_Parent_Object, _
-                                                                                                                                   .Type = objLocalConfig.Globals.Type_Object}))
+                                                                                                                           .ID_RelationType = objLocalConfig.Globals.RelationType_contains.GUID}).ToList()
+                    If objORL_Ontology_To_OntologyJoin.Any  Then
+                        objOItem_Result = objDBLevel_OntologyOfOntologyJoin.get_Data_ObjectRel(objORL_Ontology_To_OntologyJoin,boolIDs := False)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objOlist_Ontology.AddRange(objDBLevel_OntologyOfOntologyJoin.OList_ObjectRel.Select(Function(p) new clsOntologyItem With {.GUID = p.ID_Object, _
+                                                                                                                                       .Name = p.Name_Object, _
+                                                                                                                                       .GUID_Parent = p.ID_Parent_Object, _
+                                                                                                                                       .Type = objLocalConfig.Globals.Type_Object}))
 
-                        objOlist_Ontology.AddRange(From objOntologyNew In objDBLevel_OntologyOfOntologyJoin.OList_ObjectRel
-                                                   group Join objOntology In  objOList_Ontology on objOntologyNew.ID_Object equals objOntology.GUID into objOntologies = group
-                                                   From objOntology In objOntologies.DefaultIfEmpty()
-                                                   Where objOntology Is Nothing
-                                                   select new clsOntologyItem With {.GUID = objOntologyNew.ID_Object, _
-                                                                                    .Name = objOntologyNew.Name_Object, _
-                                                                                    .GUID_Parent = objOntologyNew.ID_Parent_Object, _
-                                                                                    .Type = objLocalConfig.Globals.Type_Object})
+                            objOlist_Ontology.AddRange(From objOntologyNew In objDBLevel_OntologyOfOntologyJoin.OList_ObjectRel
+                                                       group Join objOntology In  objOList_Ontology on objOntologyNew.ID_Object equals objOntology.GUID into objOntologies = group
+                                                       From objOntology In objOntologies.DefaultIfEmpty()
+                                                       Where objOntology Is Nothing
+                                                       select new clsOntologyItem With {.GUID = objOntologyNew.ID_Object, _
+                                                                                        .Name = objOntologyNew.Name_Object, _
+                                                                                        .GUID_Parent = objOntologyNew.ID_Parent_Object, _
+                                                                                        .Type = objLocalConfig.Globals.Type_Object})
                         
-                    Else 
-                        objOlist_Ontology = Nothing
+                        Else 
+                            objOlist_Ontology = Nothing
+                        End If
+                  
                     End If
                     
                     
-                Else 
-                    objOlist_Ontology = Nothing
+                    
                 End If
                 
 

@@ -7,6 +7,10 @@ Public Class clsImport
 
     Private objDBLevel_TestExistance As clsDBLevel
 
+    Public Function ImportTemplates() As clsOntologyItem
+
+    End Function
+
     Public Sub New(Globals As clsGlobals)
 
         objGlobals = Globals

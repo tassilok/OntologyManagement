@@ -1000,6 +1000,20 @@ Public Class clsGlobals
         Return objOItem_Computer
     End Function
 
+    Public Function GetConfigName1(strName As String) As String
+        Dim strResult as String = ""
+        For i = 0 To strName.Length - 1
+            Select Case strName.Substring(i, 1)
+                Case "a" To "z", "A" To "Z", "0" To "9"
+                    strResult = strResult & strName.Substring(i, 1)
+                Case Else
+                    strResult = strResult & "_"
+            End Select
+        Next
+
+        Return strResult
+    End Function
+
 End Class
 
 

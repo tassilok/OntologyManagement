@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="@ITEMTYPE@">
+  <Item Id="ea35460f3e7242e18829aac00e210956" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[Vorname]]></Item>
+<Item Id="450225428e5640ffbd9c8d796980c6c4" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[Postfach]]></Item>
+<Item Id="857268a0d62142319176ec95a497357f" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[Identifkationsnummer (IdNr)]]></Item>
+<Item Id="140c8e90f7d04d398dc9719cba47cd4f" Id_Parent="dd858f27d5e14363a5c33e561e432333"><![CDATA[Nach Vereinbarung]]></Item>
+<Item Id="64cf93ce5b714a5cb2cc1b9638949cfe" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[db_postfix]]></Item>
+<Item Id="2f406bc067f441a1bd2a9b579ea543a0" Id_Parent="905fda81788f4e3d83293e55ae984b9e"><![CDATA[Todesdatum]]></Item>
+<Item Id="9a98e163c6a041738a704b17c14eda2a" Id_Parent="905fda81788f4e3d83293e55ae984b9e"><![CDATA[Timestamp (To)]]></Item>
+<Item Id="20fee56ba0484753bc35fd067b81a85c" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[eTin]]></Item>
+<Item Id="7162ee594baf47aa98b9936f84059143" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[Nachname]]></Item>
+<Item Id="362469eb26eb4cff9c6f995e5aab0da6" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[Sozialversicherungsnummer]]></Item>
+<Item Id="de00093e71844f2f8dc99f4c2ebab3ed" Id_Parent="905fda81788f4e3d83293e55ae984b9e"><![CDATA[Timestamp (from)]]></Item>
+<Item Id="6f236b5862424e1eb6ecc6369511138a" Id_Parent="905fda81788f4e3d83293e55ae984b9e"><![CDATA[Geburtsdatum]]></Item>
+<Item Id="c94590caa8784a69a485e24c96bc2403" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[Straße]]></Item>
+<Item Id="8d2f9b90e41b42d4954bd28b9645803e" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[Zusatz]]></Item>
+
+</Items>
