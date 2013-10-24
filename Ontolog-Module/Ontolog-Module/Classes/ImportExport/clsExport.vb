@@ -91,6 +91,7 @@ End Enum
         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
 
             If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType).Any Then
+                objOList_Objects.Add(OItem_Ontology)
                 objOList_Classes.Add(objGlobals.Class_Ontologies)
                 objOList_Classes.Add(objGlobals.Class_OntologyItems)
                 objOList_Classes.Add(objGlobals.Class_OntologyJoin)
@@ -139,13 +140,13 @@ End Enum
 
                 Next
 
-                For Each objOntologyJoin  In objDataWork_Ontologies.OList_JoinsOfOntologies
+                For Each objOntologyJoin In objDataWork_Ontologies.OList_JoinsOfOntologies.Where(Function(p) p.ID_Object = objOItem_Ontology.GUID).ToList
                     objOList_Objects.Add(New clsOntologyItem With {.GUID = objOntologyJoin.ID_Other, _
                                                                    .Name = objOntologyJoin.Name_Other, _
                                                                    .GUID_Parent = objOntologyJoin.ID_Parent_Other, _
                                                                    .Type = objGlobals.Type_Object})
-                    
-                Next 
+
+                Next
             End If
         End If
 
@@ -257,6 +258,7 @@ End Enum
                                                                                                                                                                                                                                                                                          .GUID_Parent = p.ID_Parent_Ref, _
                                                                                                                                                                                                                                                                                          .Type = objGlobals.Type_Object}))
                         Dim strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(0, objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@"))
+                        strOutput = strOutput.Replace("@" & objVariables.Variable_ITEMTYPE.Name & "@", objGlobals.Type_AttributeType)
                         objTextWriter.Write(strOutput)
 
                         For Each objOItem_AttributeType In objOList_AttributeTypes
@@ -269,7 +271,7 @@ End Enum
                         Next
 
                         strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@") + ("@" & objVariables.Variable_ITEMLIST.Name & "@").Length)
-                        strOutput = strOutput.Replace("@" & objVariables.Variable_ITEMTYPE.Name & "@", objGlobals.Type_AttributeType)
+
                         objTextWriter.Write(strOutput)
                     End If
 
@@ -567,6 +569,9 @@ End Enum
 
                                         objTextWriter.Write(strOutput)
                                     Next
+
+
+
 
                                     strOutput = objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).Substring(objDict_XMLTemplates(XMLTemplateEnum.ItemContainer).IndexOf("@" & objVariables.Variable_ITEMLIST.Name & "@") + ("@" & objVariables.Variable_ITEMLIST.Name & "@").Length)
                                     objTextWriter.Write(strOutput)

@@ -2192,7 +2192,7 @@ namespace ElasticSearchConnector
                 }
 
                 
-                get_Data_Classes();
+                get_Data_Classes(containsRoot:true);
                 
                 get_Data_RelationTypes();
                 

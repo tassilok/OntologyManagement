@@ -196,7 +196,7 @@ namespace ElasticSearchConnector
 
             var OList_ClassNameTest = new List<clsOntologyItem> { new clsOntologyItem { Name = objOItem_Class.Name } };
 
-            var objOList_ClassNameTest = objDBSelector.get_Data_Classes(OList_ClassNameTest);
+            var objOList_ClassNameTest = objDBSelector.get_Data_Classes(OList_ClassNameTest,containsRoot:boolRoot);
 
             objOItem_Result = objLogStates.LogState_Nothing;
 
@@ -718,14 +718,14 @@ namespace ElasticSearchConnector
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;
 
-            var OList_Objects = OList_ObjectRel.GroupBy(p => p.ID_Object).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
+            var OList_Objects = OList_ObjectRel.GroupBy(p => p.ID_Parent_Object).Select(p => new clsOntologyItem { GUID_Parent = p.Key }).ToList();
             var objOList_Objects = objDBSelector.get_Data_Objects(OList_Objects);
 
             var OList_RelationTypes = OList_ObjectRel.GroupBy(p => p.ID_RelationType).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
             var objOList_RelationTypes = objDBSelector.get_Data_RelationTypes(OList_RelationTypes);
 
             var OList_OtherAttributeTypes = OList_ObjectRel.Where(p => p.Ontology == objTypes.AttributeType).GroupBy(p => p.ID_Other).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
-            var OList_OtherObjects = OList_ObjectRel.Where(p => p.Ontology == objTypes.ObjectType).GroupBy(p => p.ID_Other).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
+            var OList_OtherObjects = OList_ObjectRel.Where(p => p.Ontology == objTypes.ObjectType).GroupBy(p => p.ID_Parent_Other).Select(p => new clsOntologyItem { GUID_Parent = p.Key }).ToList();
             var OList_OtherClasses = OList_ObjectRel.Where(p => p.Ontology == objTypes.ClassType).GroupBy(p => p.ID_Other).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
             var OList_OtherRelationTypes = OList_ObjectRel.Where(p => p.Ontology == objTypes.RelationType).GroupBy(p => p.ID_Other).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
 
@@ -737,6 +737,13 @@ namespace ElasticSearchConnector
                 objOList_Other.AddRange(objDBSelector.get_Data_AttributeType(OList_OtherAttributeTypes));
             }
 
+            var objOList_AttTypeToSave = (from objORel in OList_ObjectRel
+                                          join objObject in objOList_Objects on objORel.ID_Object equals objObject.GUID
+                                          join objRelationType in objOList_RelationTypes on objORel.ID_RelationType equals objRelationType.GUID
+                                          join objOther in objOList_Other on objORel.ID_Other equals objOther.GUID
+                                          where objORel.OrderID != null && objORel.Ontology != null
+                                          select objORel).ToList();
+
             if (OList_OtherObjects.Any())
             {
                 objOList_Other.AddRange(objDBSelector.get_Data_Objects(OList_OtherObjects,true,false));
@@ -747,10 +754,12 @@ namespace ElasticSearchConnector
                 objOList_Other.AddRange(objDBSelector.get_Data_Classes(OList_OtherClasses));
             }
 
+            
             if (OList_OtherRelationTypes.Any())
             {
                 objOList_Other.AddRange(objDBSelector.get_Data_RelationTypes(OList_OtherRelationTypes,true));
             }
+            
 
             var objOList_ToSave = (from objORel in OList_ObjectRel
                                    join objObject in objOList_Objects on objORel.ID_Object equals objObject.GUID
