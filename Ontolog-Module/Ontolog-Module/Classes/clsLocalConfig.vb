@@ -356,6 +356,7 @@ Public Class clsLocalConfig
         Dim objOItem_Result = objDBLevel_Config1.get_Data_ObjectRel(objORL_Ontology_To_OntolgyItems, boolIDs:=False)
         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
             If objDBLevel_Config1.OList_ObjectRel.Any Then
+                
                 objORL_Ontology_To_OntolgyItems = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objGlobals.Class_OntologyItems.GUID, _
                                                                                                      .ID_RelationType = objGlobals.RelationType_belongingAttribute.GUID},
                                                                               New clsObjectRel With {.ID_Parent_Object = objGlobals.Class_OntologyItems.GUID, _

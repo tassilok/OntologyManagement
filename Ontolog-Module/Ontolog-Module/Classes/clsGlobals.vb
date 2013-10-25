@@ -756,9 +756,9 @@ Public Class clsGlobals
         objOItem_Result =  objDBLevel1.get_Data_DataTyps()
         If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
             Dim objOList_DType_NotExistant = (from objDataTypeShould In objDataTypes.DataTypes
-                                              Group Join objDataTypeExist in objDBLevel1.OList_DataTypes on objdataTypeShould.GUID Equals objDataTypeExist.GUID Into objDataTypesExist = Group
+                                              Group Join objDataTypeExist in objDBLevel1.OList_DataTypes on objDataTypeExist.GUID Equals objDataTypeShould.GUID Into objDataTypesExist = Group
                                               From objDataTypeExist in objDataTypesExist.DefaultIfEmpty()
-                                              Where objDataTypesExist Is Nothing
+                                              Where objDataTypeExist Is Nothing
                                               Select objDataTypeShould).ToList()
 
             If objOList_DType_NotExistant.Any() Then
