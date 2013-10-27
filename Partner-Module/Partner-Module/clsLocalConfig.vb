@@ -1,5 +1,6 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
+Imports System.Reflection
 Public Class clsLocalConfig
     Private Const cstrID_Ontology As String = "0c5596776b634fc3a9e63858758c8e57"
 
@@ -12,6 +13,8 @@ Public Class clsLocalConfig
 
     Private objDBLevel_FamilienStand As clsDBLevel
     Private objDBLevel_Geschlecht As clsDBLevel
+
+    Private objImport As clsImport
 
     'Attributes
     Private objOItem_attribute_dbPostfix As New clsOntologyItem
@@ -478,7 +481,7 @@ Public Class clsLocalConfig
         objGlobals = Globals
         set_DBConnection()
 
-        get_Data_DevelopmentConfig()
+
         get_Config()
     End Sub
 
@@ -487,19 +490,42 @@ Public Class clsLocalConfig
         objDBLevel_Config2 = New clsDBLevel(objGlobals)
         objDBLevel_FamilienStand = New clsDBLevel(objGlobals)
         objDBLevel_Geschlecht = New clsDBLevel(objGlobals)
+        objImport = New clsImport(objGlobals)
     End Sub
 
     Private Sub get_Config()
         Try
+            get_Data_DevelopmentConfig()
             get_Config_AttributeTypes()
             get_Config_RelationTypes()
             get_Config_Classes()
             get_Config_Objects()
         Catch ex As Exception
+            Dim objAssembly = [Assembly].GetExecutingAssembly()
+            Dim objCustomAttributes() As AssemblyTitleAttribute = objAssembly.GetCustomAttributes(GetType(AssemblyTitleAttribute), False)
+            Dim strTitle = "Unbekannt"
+            If objCustomAttributes.Length = 1 Then
+                strTitle = objCustomAttributes.First().Title
+            End If
+            If MsgBox(strTitle & ": Die notwendigen Basisdaten konnten nicht geladen werden! Soll versucht werden, sie in der Datenbank " & _
+                      objGlobals.Index & "@" & objGlobals.Server & " zu erzeugen?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                Dim objOItem_Result = objImport.ImportTemplates(objAssembly)
+                If Not objOItem_Result.GUID = objGlobals.LState_Error.GUID Then
+                    get_Data_DevelopmentConfig()
+                    get_Config_AttributeTypes()
+                    get_Config_RelationTypes()
+                    get_Config_Classes()
+                    get_Config_Objects()
+                Else
+                    Err.Raise(1, "Config not importable")
+                End If
+            Else
+                Environment.Exit(0)
+            End If
 
         End Try
         
-        get_ComboData()
+
     End Sub
 
     Private Sub get_Config_AttributeTypes()

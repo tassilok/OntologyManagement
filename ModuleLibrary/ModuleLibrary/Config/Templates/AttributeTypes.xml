@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="AttributeType">
+  <Item Id="0b183be9c13d4157989b63b0362aeee6" Id_Parent="3a4f5b7bda754980933efbc33cc51439"><![CDATA[ID]]></Item>
+<Item Id="daf53cbc2cb442ed8722ee85f6b33512" Id_Parent="a1244d0e187f46ee85742fc334077b7d"><![CDATA[Menge]]></Item>
+<Item Id="64cf93ce5b714a5cb2cc1b9638949cfe" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[db_postfix]]></Item>
+
+</Items>

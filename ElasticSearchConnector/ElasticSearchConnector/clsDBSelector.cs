@@ -32,6 +32,8 @@ namespace ElasticSearchConnector
         public string IndexRep { get; private set; }
         public int SearchRange { get; private set; }
         public string Session { get; private set; }
+        public List<string> SpecialCharacters_Write { get; set; }
+        public List<string> SpecialCharacters_Read { get; set; }
 
         private SortEnum sort = SortEnum.NONE;
 
@@ -726,8 +728,12 @@ namespace ElasticSearchConnector
                         {
                             if (strQuery != "")
                                 strQuery += "\\ OR\\ ";
-
-                            strQuery += "*" + name.Replace(" ", "\\ ") + "*";
+                            var nameQuery = name;
+                            foreach (var specialCharacter in SpecialCharacters_Read)
+                            {
+                                nameQuery = nameQuery.Replace(specialCharacter, "\\" + specialCharacter);
+                            }
+                            strQuery += "*" + nameQuery + "*";
                         }
 
                         if (strQuery != "")
@@ -1465,8 +1471,7 @@ namespace ElasticSearchConnector
 
         public List<clsOntologyItem> get_Data_Classes(List<clsOntologyItem> OList_Classes = null,
                                                   bool boolClasses_Right = false,
-                                                  string strSort = null,
-                                                  bool containsRoot = false)
+                                                  string strSort = null)
         {
             SearchResult objSearchResult;
 
@@ -1525,7 +1530,7 @@ namespace ElasticSearchConnector
                                                     {
                                                         GUID = objHit.Id,
                                                         Name = objHit.Source[objFields.Name_Item].ToString(),
-                                                        GUID_Parent = containsRoot ? objHit.Source.ContainsKey(objFields.ID_Parent) ? objHit.Source[objFields.ID_Parent].ToString() : null : objHit.Source[objFields.ID_Parent].ToString(),
+                                                        GUID_Parent = objHit.Source.ContainsKey(objFields.ID_Parent) ? objHit.Source[objFields.ID_Parent].ToString() : null,
                                                         Type = objTypes.ClassType
                                                     }).ToList());        
                     
@@ -1538,7 +1543,7 @@ namespace ElasticSearchConnector
                                                     {
                                                         GUID = objHit.Id,
                                                         Name = objHit.Source[objFields.Name_Item].ToString(),
-                                                        GUID_Parent = containsRoot ? objHit.Source.ContainsKey(objFields.ID_Parent) ? objHit.Source[objFields.ID_Parent].ToString() : null : objHit.Source[objFields.ID_Parent].ToString(),
+                                                        GUID_Parent = objHit.Source.ContainsKey(objFields.ID_Parent) ? objHit.Source[objFields.ID_Parent].ToString() : null,
                                                         Type = objTypes.ClassType
                                                     }).ToList());    
                 }
@@ -2192,7 +2197,7 @@ namespace ElasticSearchConnector
                 }
 
                 
-                get_Data_Classes(containsRoot:true);
+                get_Data_Classes();
                 
                 get_Data_RelationTypes();
                 
@@ -2662,7 +2667,10 @@ namespace ElasticSearchConnector
             this.IndexRep = indexRep;
             this.SearchRange = searchRange;
             this.Session = session;
-
+            
+            //SpecialCharacters = new List<string> {"\\", "+", "-", "&&", "||",  "!", "(", ")", "{", "}", "[", "]", "^" ,"\"", "~", "*", "?", ":"};
+            SpecialCharacters_Write = new List<string> { ":" };
+            SpecialCharacters_Read = new List<string> { " ", ":", "/" };
             initialize_Client();
             sort = SortEnum.NONE;
 

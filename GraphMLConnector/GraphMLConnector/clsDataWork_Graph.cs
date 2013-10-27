@@ -74,9 +74,9 @@ namespace GraphMLConnector
             
             OItem_Result_GraphTree = objLocalConfig.Globals.LState_Nothing;
 
-            var objOItem_Result =  objDBLevel_GraphTree.get_Data_Objects_Tree(objLocalConfig.OItem_Class_Graphs,
-                                                       objLocalConfig.OItem_Class_Graphs,
-                                                       objLocalConfig.OItem_RelationType_Contains);
+            var objOItem_Result =  objDBLevel_GraphTree.get_Data_Objects_Tree(objLocalConfig.OItem_class_graphs,
+                                                       objLocalConfig.OItem_class_graphs,
+                                                       objLocalConfig.OItem_relationtype_contains);
 
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
@@ -103,7 +103,7 @@ namespace GraphMLConnector
                 OItem_PathGraph = new clsOntologyItem();
                 OItem_PathGraph.GUID = objDBLevel_GraphPath.OList_ObjectRel.First().ID_Other;
                 OItem_PathGraph.Name = objDBLevel_GraphPath.OList_ObjectRel.First().Name_Other;
-                OItem_PathGraph.GUID_Parent = objLocalConfig.OItem_Class_Path.GUID;
+                OItem_PathGraph.GUID_Parent = objLocalConfig.OItem_class_path.GUID;
                 OItem_PathGraph.Type = objLocalConfig.Globals.Type_Object;
 
                 objOItem_Result = GetData_GraphItems();
@@ -131,8 +131,8 @@ namespace GraphMLConnector
             objOLGraph_To_Path.Add(new clsObjectRel
             {
                 ID_Object = this.OItem_Graph.GUID,
-                ID_Parent_Other = objLocalConfig.OItem_Class_Path.GUID,
-                ID_RelationType = objLocalConfig.OItem_RelationType_exportTo.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_class_path.GUID,
+                ID_RelationType = objLocalConfig.OItem_relationtype_export_to.GUID,
                 Ontology = objLocalConfig.Globals.Type_Object
             });
 
@@ -166,7 +166,7 @@ namespace GraphMLConnector
                         {
                             ID_Object = OItem_Graph.GUID,
                             ID_Parent_Other = objLocalConfig.Globals.Class_Ontologies.GUID,
-                            ID_RelationType = objLocalConfig.OItem_RelationType_Contains.GUID
+                            ID_RelationType = objLocalConfig.OItem_relationtype_contains.GUID
                         }
                 };
 
@@ -213,23 +213,23 @@ namespace GraphMLConnector
             objORL_GraphItems.Add(new clsObjectRel
             {
                 ID_Object = this.OItem_Graph.GUID,
-                ID_Parent_Other = objLocalConfig.OItem_Class_GraphItem.GUID,
-                ID_RelationType = objLocalConfig.OItem_RelationType_Contains.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_class_graphitem.GUID,
+                ID_RelationType = objLocalConfig.OItem_relationtype_contains.GUID,
                 Ontology = objLocalConfig.Globals.Type_Object
             });
 
             objORL_ExportMode.Add(new clsObjectRel
             {
-                ID_Parent_Object = objLocalConfig.OItem_Class_GraphItem.GUID,
-                ID_Parent_Other = objLocalConfig.OItem_Class_ExportMode.GUID,
-                ID_RelationType = objLocalConfig.OItem_RelationType_isOfType.GUID,
+                ID_Parent_Object = objLocalConfig.OItem_class_graphitem.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_class_export_mode.GUID,
+                ID_RelationType = objLocalConfig.OItem_relationtype_is_of_type.GUID,
                 Ontology = objLocalConfig.Globals.Type_Object
             });
 
             objORL_OItems.Add(new clsObjectRel
             {
-                ID_Parent_Object = objLocalConfig.OItem_Class_GraphItem.GUID,
-                ID_RelationType = objLocalConfig.OItem_RelationType_belongingSemItem.GUID
+                ID_Parent_Object = objLocalConfig.OItem_class_graphitem.GUID,
+                ID_RelationType = objLocalConfig.OItem_relationtype_belonging_sem_item.GUID
             });
 
             

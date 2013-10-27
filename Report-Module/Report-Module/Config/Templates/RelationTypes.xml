@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="RelationType">
+  <Item Id="e971160347db44d8a476fe88290639a4" Id_Parent=""><![CDATA[contains]]></Item>
+<Item Id="796712399c8f493cb5e749700f9543f4" Id_Parent=""><![CDATA[belonging]]></Item>
+<Item Id="9996494aef6a4357a6ef71a92b5ff596" Id_Parent=""><![CDATA[is of Type]]></Item>
+<Item Id="81bbd380e35648a1a4b7fdbaebe7273c" Id_Parent=""><![CDATA[belonging Attribute]]></Item>
+<Item Id="f2b54f82ada5460eafe5551d55629f14" Id_Parent=""><![CDATA[belonging Class]]></Item>
+<Item Id="f68a9438fb8b418d8e0bd9aefc9ecdf3" Id_Parent=""><![CDATA[belonging Object]]></Item>
+<Item Id="4417582dbd6347fbab18770a611917fe" Id_Parent=""><![CDATA[belonging RelationType]]></Item>
+<Item Id="81bbd380e35648a1a4b7fdbaebe7273c" Id_Parent=""><![CDATA[belonging Attribute]]></Item>
+<Item Id="ace00f9767b74177bfe06ac7b3bfd8a5" Id_Parent=""><![CDATA[Formatted by]]></Item>
+<Item Id="a80b1064649b4510980ec28be335956c" Id_Parent=""><![CDATA[belonging Resources]]></Item>
+<Item Id="2abef94e34de45ab80c15d0ad5a006d0" Id_Parent=""><![CDATA[Table-Config]]></Item>
+<Item Id="796712399c8f493cb5e749700f9543f4" Id_Parent=""><![CDATA[belonging]]></Item>
+<Item Id="e971160347db44d8a476fe88290639a4" Id_Parent=""><![CDATA[contains]]></Item>
+<Item Id="0fa056ea474f424fab680a10b57d3a95" Id_Parent=""><![CDATA[leads]]></Item>
+<Item Id="801886c0093847e2945ef3d34f7c68fe" Id_Parent=""><![CDATA[connected by]]></Item>
+<Item Id="439e614dfb8a4ae7b5a27be25a058e6c" Id_Parent=""><![CDATA[located in]]></Item>
+<Item Id="d34d545e9ddf46cebb6f22db1b7bb025" Id_Parent=""><![CDATA[belonging Source]]></Item>
+<Item Id="6edbb77c18d1473692bf7bd5e5dde8b8" Id_Parent=""><![CDATA[Type-Field]]></Item>
+<Item Id="e07469d9766c443e85266d9c684f944f" Id_Parent=""><![CDATA[belongs to]]></Item>
+<Item Id="f7930edf0e8047f8b1a584c4b15366a3" Id_Parent=""><![CDATA[Cell-Config]]></Item>
+<Item Id="3e104b75e01c48a0b04112908fd446a0" Id_Parent=""><![CDATA[is]]></Item>
+<Item Id="66857dbaefd648c9ad5404103f56ab8a" Id_Parent=""><![CDATA[Row-Config]]></Item>
+<Item Id="9996494aef6a4357a6ef71a92b5ff596" Id_Parent=""><![CDATA[is of Type]]></Item>
+
+</Items>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="04466224474e4e9b8559800b56c358a0" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Appointment-Module]]></Item>
+<Item Id="c2847fcc8f1a4b61a4e413aa97f10940" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Ende]]></Item>
+<Item Id="4e93b56404554d0092ab6c560cbc8e20" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[attribute_dbPostfix]]></Item>
+<Item Id="623e3073341a44c98e7efb929a2f7d5f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Start]]></Item>
+<Item Id="5f9f6fb103ec493d9e04bfd13938f79a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongsTo]]></Item>
+<Item Id="aa2653a0d8fa4a4bbf5dd6c68ab9df67" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Watchers]]></Item>
+<Item Id="72656fe22c334d6f81485877103c6a99" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Resources]]></Item>
+<Item Id="aa6d58a8a53948308134ce8ee4e78856" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Contractee]]></Item>
+<Item Id="9b85b067966e40068222f386b003ba0f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_located_at]]></Item>
+<Item Id="8bec5d97eaed48249df8931809a4fc1c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Contractor]]></Item>
+<Item Id="621b1a87305a415bafdc35ef11966b5d" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_located_in]]></Item>
+<Item Id="3e21f7bd181d48e1a88950a028eebdd4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Appointment]]></Item>
+<Item Id="256168f6afde449f98434567721752ce" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Land]]></Item>
+<Item Id="4a81a3a970e64a8493121796f24cb75b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Postleitzahl]]></Item>
+<Item Id="370a77173d7444e5a59b9d654ed91f66" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Ort]]></Item>
+<Item Id="57c5bd3f67e14a77bf27043890a43092" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Raum]]></Item>
+<Item Id="64e503b2584948108593dc08e79e4976" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Address]]></Item>
+<Item Id="c25f772472ac4eb3a56ab15406c9c948" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[type_User]]></Item>
+<Item Id="f312d4f22ce84b93a4c40a943dd4245f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Partner]]></Item>
+
+</Items>

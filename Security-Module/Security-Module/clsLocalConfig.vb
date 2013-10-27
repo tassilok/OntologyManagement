@@ -1,14 +1,9 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
+Imports System.Reflection
 
 Public Class clsLocalConfig
-    Private cstr_ID_SoftwareDevelopment As String = "1886b9082ead4045b7e59a84705e26a8"
-    Private cstr_ID_Class_SoftwareDevelopment As String = "132a845f849f4f6b86847ab3fd068824"
-    Private cstr_ID_Class_DevelopmentConfig As String = "c6c9bcb80ac947139417eeec1453026c"
-    Private cstr_ID_Class_ConfigItem As String = "13c09f11175c4eefbc8a0fd8e86d557f"
-    Private cstr_ID_RelType_needs As String = "fafc1464815f45969737bcbc96bd744a"
-    Private cstr_ID_RelType_contains As String = "e971160347db44d8a476fe88290639a4"
-    Private cstr_ID_RelType_belongsTo As String = "e07469d9766c443e85266d9c684f944f"
+    Private cstrID_Ontology As String = "628efc33b2214d89857ba3e8904a937b"
 
     Private Const cint_ImageID_Root As Integer = 0
     Private Const cint_ImageID_Type_Passwords_Closed As Integer = 1
@@ -17,6 +12,8 @@ Public Class clsLocalConfig
     Private Const cint_ImageID_Type_Related_Closed As Integer = 4
     Private Const cint_ImageID_Type_Related_Open As Integer = 5
     Private Const cint_ImageID_Token As Integer = 6
+
+    Private objImport As clsImport
 
     Private objGlobals As clsGlobals
 
@@ -43,6 +40,7 @@ Public Class clsLocalConfig
     Private objOItem_Token_Search_Template_Name_ As New clsOntologyItem
     Private objOItem_Token_Search_Template_Related_Sem_Item_ As New clsOntologyItem
     Private objOItem_Token_Search_Template_Related_Type_ As New clsOntologyItem
+    Private objOItem_Module As New clsOntologyItem
 
     'Classes
     Private objOItem_Type_Group As New clsOntologyItem
@@ -164,6 +162,12 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property OItem_Module() As clsOntologyItem
+        Get
+            Return objOItem_Module
+        End Get
+    End Property
+
 
     'Classes
     Public ReadOnly Property OItem_Type_Group() As clsOntologyItem
@@ -209,149 +213,69 @@ Public Class clsLocalConfig
     Private Sub get_BaseConfig()
         Dim oList_ObjectRel As New List(Of clsObjectRel)
 
+
+        oList_ObjectRel.Clear()
         oList_ObjectRel.Add(New clsObjectRel(Nothing, _
-                                             Nothing, _
-                                             objOItem_Type_Module.GUID, _
-                                             Nothing, _
-                                             cstr_ID_SoftwareDevelopment, _
-                                             Nothing, _
-                                             Nothing, _
-                                             Nothing, _
-                                             objOItem_RelationType_offered_by.GUID, _
-                                             Nothing, _
-                                             objGlobals.Type_Object, _
-                                             objGlobals.Direction_RightLeft.GUID, _
-                                             Nothing, _
-                                             Nothing))
+                                                Nothing, _
+                                                objOItem_Type_Security_Module.GUID, _
+                                                Nothing, _
+                                                objOItem_Module.GUID, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing, _
+                                                objOItem_RelationType_belongsTo.GUID, _
+                                                Nothing, _
+                                                objGlobals.Type_Object, _
+                                                Nothing, _
+                                                Nothing, _
+                                                Nothing))
 
-        objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel)
+        objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel, _
+                                                boolIDs:=False)
 
-        If objDBLevel_Config1.OList_ObjectRel_ID.Count > 0 Then
-            oList_ObjectRel.Clear()
-            oList_ObjectRel.Add(New clsObjectRel(Nothing, _
-                                                 Nothing, _
-                                                 OItem_Type_Security_Module.GUID, _
-                                                 Nothing, _
-                                                 objDBLevel_Config1.OList_ObjectRel_ID(0).ID_Object, _
-                                                 Nothing, _
-                                                 Nothing, _
-                                                 Nothing, _
-                                                 objOItem_RelationType_belongsTo.GUID, _
-                                                 Nothing, _
-                                                 objGlobals.Type_Object, _
-                                                 Nothing, _
-                                                 Nothing, _
-                                                 Nothing))
-
-            objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel, _
-                                                  boolIDs:=False)
-
-            If objDBLevel_Config1.OList_ObjectRel.Count > 0 Then
-                objOItem_BaseConfig = New clsOntologyItem(objDBLevel_Config1.OList_ObjectRel(0).ID_Object, _
-                                                       objDBLevel_Config1.OList_ObjectRel(0).Name_Object, _
-                                                       objDBLevel_Config1.OList_ObjectRel(0).ID_Parent_Object)
-            Else
-                Err.Raise(1, "Config not set")
-            End If
+        If objDBLevel_Config1.OList_ObjectRel.Any() Then
+            objOItem_BaseConfig = New clsOntologyItem(objDBLevel_Config1.OList_ObjectRel(0).ID_Object, _
+                                                    objDBLevel_Config1.OList_ObjectRel(0).Name_Object, _
+                                                    objDBLevel_Config1.OList_ObjectRel(0).ID_Parent_Object, _
+                                                    objGlobals.Type_Object)
         Else
             Err.Raise(1, "Config not set")
-
         End If
     End Sub
 
     Private Sub get_Data_DevelopmentConfig()
-        Dim objOItem_ObjecRel As clsObjectRel
-        Dim oList_ObjectRel As New List(Of clsObjectRel)
-        Dim oList_ConfigItems As New List(Of clsOntologyItem)
-
-        Dim oList_RelType_contains As New List(Of clsOntologyItem)
-        Dim oList_RelType_belongsTo As New List(Of clsOntologyItem)
-
-        Dim oList_ConfigItem As New List(Of clsOntologyItem)
-
-
-        oList_ObjectRel.Add(New clsObjectRel(cstr_ID_SoftwareDevelopment, _
-                                            Nothing, _
-                                            Nothing, _
-                                            Nothing, _
-                                            Nothing, _
-                                            Nothing, _
-                                            cstr_ID_Class_DevelopmentConfig, _
-                                            Nothing, _
-                                            cstr_ID_RelType_needs, _
-                                            Nothing, _
-                                            objGlobals.Type_Object, _
-                                            Nothing, _
-                                            Nothing, _
-                                            Nothing))
-
-        objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel)
-
-        If objDBLevel_Config1.OList_ObjectRel_ID.Count > 0 Then
-            objOItem_DevConfig.GUID = objDBLevel_Config1.OList_ObjectRel_ID(0).ID_Other
-            objOItem_DevConfig.Name = objDBLevel_Config1.OList_ObjectRel_ID(0).Name_Other
-            objOItem_DevConfig.GUID_Parent = objDBLevel_Config1.OList_ObjectRel_ID(0).ID_Parent_Other
-            objOItem_DevConfig.Type = objDBLevel_Config1.OList_ObjectRel_ID(0).Ontology
-
-            oList_ObjectRel.Clear()
-            oList_ObjectRel.Add(New clsObjectRel(objOItem_DevConfig.GUID, _
-                                                 Nothing, _
-                                                 Nothing, _
-                                                 Nothing, _
-                                                 Nothing, _
-                                                 Nothing, _
-                                                 cstr_ID_Class_ConfigItem, _
-                                                 Nothing, _
-                                                 cstr_ID_RelType_contains, _
-                                                 Nothing, _
-                                                 objGlobals.Type_Object, _
-                                                 Nothing, _
-                                                 Nothing, _
-                                                 Nothing))
-
-            objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel, _
-                                          False, _
-                                          False, _
-                                          False, _
-                                          objGlobals.Direction_LeftRight.Name, _
-                                          True)
-            oList_ObjectRel.Clear()
-            If objDBLevel_Config1.OList_ObjectRel.Count > 0 Then
-                For Each objOItem_ObjecRel In objDBLevel_Config1.OList_ObjectRel
-                    oList_ConfigItems.Add(New clsOntologyItem(objOItem_ObjecRel.ID_Other, _
-                                                              objGlobals.Type_Object))
-
-                    oList_ObjectRel.Add(New clsObjectRel(objOItem_ObjecRel.ID_Other, _
-                                                         Nothing, _
-                                                         Nothing, _
-                                                         Nothing, _
-                                                         Nothing, _
-                                                         Nothing, _
-                                                         Nothing, _
-                                                         Nothing, _
-                                                         cstr_ID_RelType_belongsTo, _
-                                                         Nothing, _
-                                                         Nothing, _
-                                                         objGlobals.Direction_LeftRight.GUID, _
-                                                         objGlobals.Direction_LeftRight.Name, _
-                                                         Nothing))
+        Dim objORL_Ontology_To_OntolgyItems = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Object = cstrID_Ontology, _
+                                                                                             .ID_RelationType = objGlobals.RelationType_contains.GUID, _
+                                                                                             .ID_Parent_Other = objGlobals.Class_OntologyItems.GUID}}
 
 
 
-                Next
+        Dim objOItem_Result = objDBLevel_Config1.get_Data_ObjectRel(objORL_Ontology_To_OntolgyItems, boolIDs:=False)
+        If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+            If objDBLevel_Config1.OList_ObjectRel.Any Then
 
-                objDBLevel_Config2.get_Data_ObjectRel(oList_ObjectRel, _
-                                                         False, _
-                                                         False, _
-                                                         False, _
-                                                         objGlobals.Direction_LeftRight.Name, _
-                                                         False)
+                objORL_Ontology_To_OntolgyItems = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objGlobals.Class_OntologyItems.GUID, _
+                                                                                                     .ID_RelationType = objGlobals.RelationType_belongingAttribute.GUID},
+                                                                              New clsObjectRel With {.ID_Parent_Object = objGlobals.Class_OntologyItems.GUID, _
+                                                                                                     .ID_RelationType = objGlobals.RelationType_belongingClass.GUID},
+                                                                             New clsObjectRel With {.ID_Parent_Object = objGlobals.Class_OntologyItems.GUID, _
+                                                                                                     .ID_RelationType = objGlobals.RelationType_belongingObject.GUID},
+                                                                              New clsObjectRel With {.ID_Parent_Object = objGlobals.Class_OntologyItems.GUID, _
+                                                                                                     .ID_RelationType = objGlobals.RelationType_belongingRelationType.GUID}}
+
+                objOItem_Result = objDBLevel_Config2.get_Data_ObjectRel(objORL_Ontology_To_OntolgyItems, boolIDs:=False)
+                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                    If Not objDBLevel_Config2.OList_ObjectRel.Any Then
+                        Err.Raise(1, "Config-Error")
+                    End If
+                Else
+                    Err.Raise(1, "Config-Error")
+                End If
+
             Else
-                Err.Raise(1, "Config not set!")
+                Err.Raise(1, "Config-Error")
             End If
 
-        Else
-            Err.Raise(1, "Config not set!")
         End If
 
     End Sub
@@ -366,7 +290,7 @@ Public Class clsLocalConfig
         objGlobals = Globals
         set_DBConnection()
 
-        get_Data_DevelopmentConfig()
+
         get_Config()
         get_BaseConfig()
     End Sub
@@ -374,38 +298,72 @@ Public Class clsLocalConfig
     Private Sub set_DBConnection()
         objDBLevel_Config1 = New clsDBLevel(objGlobals)
         objDBLevel_Config2 = New clsDBLevel(objGlobals)
+        objImport = New clsImport(objGlobals)
     End Sub
 
     Private Sub get_Config()
-        get_Config_AttributeTypes()
-        get_Config_RelationTypes()
-        get_Config_Classes()
-        get_Config_Objects()
+        Try
+            get_Data_DevelopmentConfig()
+            get_Config_AttributeTypes()
+            get_Config_RelationTypes()
+            get_Config_Classes()
+            get_Config_Objects()
+        Catch ex As Exception
+            Dim objAssembly = [Assembly].GetExecutingAssembly()
+            Dim objCustomAttributes() As AssemblyTitleAttribute = objAssembly.GetCustomAttributes(GetType(AssemblyTitleAttribute), False)
+            Dim strTitle = "Unbekannt"
+            If objCustomAttributes.Length = 1 Then
+                strTitle = objCustomAttributes.First().Title
+            End If
+            If MsgBox(strTitle & ": Die notwendigen Basisdaten konnten nicht geladen werden! Soll versucht werden, sie in der Datenbank " & _
+                      objGlobals.Index & "@" & objGlobals.Server & " zu erzeugen?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                Dim objOItem_Result = objImport.ImportTemplates(objAssembly)
+                If Not objOItem_Result.GUID = objGlobals.LState_Error.GUID Then
+                    get_Data_DevelopmentConfig()
+                    get_Config_AttributeTypes()
+                    get_Config_RelationTypes()
+                    get_Config_Classes()
+                    get_Config_Objects()
+                    get_BaseConfig()
+                Else
+                    Err.Raise(1, "Config not importable")
+                End If
+            Else
+                Environment.Exit(0)
+            End If
+        End Try
+        
 
     End Sub
 
     Private Sub get_Config_AttributeTypes()
-        Dim objOList_attribute_dbpostfix = From obj In objDBLevel_Config2.OList_ObjectRel
-                                  Where obj.Name_Object.ToLower = "attribute_dbpostfix" And obj.Ontology = objGlobals.Type_AttributeType
+        Dim objOList_attribute_dbpostfix = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "attribute_dbpostfix".ToLower() And objRef.Ontology = objGlobals.Type_AttributeType
+                                           Select objRef).ToList()
 
-        If objOList_attribute_dbpostfix.Count > 0 Then
+        If objOList_attribute_dbpostfix.Any() Then
             objOItem_attribute_dbPostfix = New clsOntologyItem
-            objOItem_attribute_dbPostfix.GUID = objOList_attribute_dbpostfix(0).ID_Other
-            objOItem_attribute_dbPostfix.Name = objOList_attribute_dbpostfix(0).Name_Other
-            objOItem_attribute_dbPostfix.GUID_Parent = objOList_attribute_dbpostfix(0).ID_Parent_Other
+            objOItem_attribute_dbPostfix.GUID = objOList_attribute_dbpostfix.First().ID_Other
+            objOItem_attribute_dbPostfix.Name = objOList_attribute_dbpostfix.First().Name_Other
+            objOItem_attribute_dbPostfix.GUID_Parent = objOList_attribute_dbpostfix.First().ID_Parent_Other
             objOItem_attribute_dbPostfix.Type = objGlobals.Type_AttributeType
         Else
             Err.Raise(1, "config err")
         End If
 
-        Dim objOList_attribute_master_password = From obj In objDBLevel_Config2.OList_ObjectRel
-                                    Where obj.Name_Object.ToLower = "attribute_master_password" And obj.Ontology = objGlobals.Type_AttributeType
+        Dim objOList_attribute_master_password = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "attribute_master_password".ToLower() And objRef.Ontology = objGlobals.Type_AttributeType
+                                           Select objRef).ToList()
 
-        If objOList_attribute_master_password.Count > 0 Then
+        If objOList_attribute_master_password.Any() Then
             objOItem_Attribute_Master_Password = New clsOntologyItem
-            objOItem_Attribute_Master_Password.GUID = objOList_attribute_master_password(0).ID_Other
-            objOItem_Attribute_Master_Password.Name = objOList_attribute_master_password(0).Name_Other
-            objOItem_Attribute_Master_Password.GUID_Parent = objOList_attribute_master_password(0).ID_Parent_Other
+            objOItem_Attribute_Master_Password.GUID = objOList_attribute_master_password.First().ID_Other
+            objOItem_Attribute_Master_Password.Name = objOList_attribute_master_password.First().Name_Other
+            objOItem_Attribute_Master_Password.GUID_Parent = objOList_attribute_master_password.First().ID_Parent_Other
             objOItem_Attribute_Master_Password.Type = objGlobals.Type_AttributeType
         Else
             Err.Raise(1, "config err")
@@ -415,73 +373,91 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_RelationTypes()
-        Dim objOList_relationtype_belonging_endoding_types = From obj In objDBLevel_Config2.OList_ObjectRel
-                          Where obj.Name_Object.ToLower = "relationtype_belonging_endoding_types" And obj.Ontology = objGlobals.Type_RelationType
+        Dim objOList_relationtype_belonging_endoding_types = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_belonging_endoding_types".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                           Select objRef).ToList()
 
-        If objOList_relationtype_belonging_endoding_types.Count > 0 Then
+        If objOList_relationtype_belonging_endoding_types.Any() Then
             objOItem_RelationType_belonging_Endoding_Types = New clsOntologyItem
-            objOItem_RelationType_belonging_Endoding_Types.GUID = objOList_relationtype_belonging_endoding_types(0).ID_Other
-            objOItem_RelationType_belonging_Endoding_Types.Name = objOList_relationtype_belonging_endoding_types(0).Name_Other
+            objOItem_RelationType_belonging_Endoding_Types.GUID = objOList_relationtype_belonging_endoding_types.First().ID_Other
+            objOItem_RelationType_belonging_Endoding_Types.Name = objOList_relationtype_belonging_endoding_types.First().Name_Other
             objOItem_RelationType_belonging_Endoding_Types.Type = objGlobals.Type_RelationType
         Else
             Err.Raise(1, "config err")
         End If
 
-        Dim objOList_relationtype_belongsto = From obj In objDBLevel_Config2.OList_ObjectRel
-                            Where obj.Name_Object.ToLower = "relationtype_belongsto" And obj.Ontology = objGlobals.Type_RelationType
+        Dim objOList_relationtype_belongsto = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_belongsto".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                           Select objRef).ToList()
 
-        If objOList_relationtype_belongsto.Count > 0 Then
+        If objOList_relationtype_belongsto.Any() Then
             objOItem_RelationType_belongsTo = New clsOntologyItem
-            objOItem_RelationType_belongsTo.GUID = objOList_relationtype_belongsto(0).ID_Other
-            objOItem_RelationType_belongsTo.Name = objOList_relationtype_belongsto(0).Name_Other
+            objOItem_RelationType_belongsTo.GUID = objOList_relationtype_belongsto.First().ID_Other
+            objOItem_RelationType_belongsTo.Name = objOList_relationtype_belongsto.First().Name_Other
             objOItem_RelationType_belongsTo.Type = objGlobals.Type_RelationType
         Else
             Err.Raise(1, "config err")
         End If
 
-        Dim objOList_relationtype_contains = From obj In objDBLevel_Config2.OList_ObjectRel
-                            Where obj.Name_Object.ToLower = "relationtype_contains" And obj.Ontology = objGlobals.Type_RelationType
+        Dim objOList_relationtype_contains = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_contains".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                           Select objRef).ToList()
 
-        If objOList_relationtype_contains.Count > 0 Then
+        If objOList_relationtype_contains.Any() Then
             objOItem_RelationType_contains = New clsOntologyItem
-            objOItem_RelationType_contains.GUID = objOList_relationtype_contains(0).ID_Other
-            objOItem_RelationType_contains.Name = objOList_relationtype_contains(0).Name_Other
+            objOItem_RelationType_contains.GUID = objOList_relationtype_contains.First().ID_Other
+            objOItem_RelationType_contains.Name = objOList_relationtype_contains.First().Name_Other
             objOItem_RelationType_contains.Type = objGlobals.Type_RelationType
         Else
             Err.Raise(1, "config err")
         End If
 
-        Dim objOList_relationtype_encoded_by = From obj In objDBLevel_Config2.OList_ObjectRel
-                            Where obj.Name_Object.ToLower = "relationtype_encoded_by" And obj.Ontology = objGlobals.Type_RelationType
+        Dim objOList_relationtype_encoded_by = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_encoded_by".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                           Select objRef).ToList()
 
-        If objOList_relationtype_encoded_by.Count > 0 Then
+        If objOList_relationtype_encoded_by.Any() Then
             objOItem_RelationType_encoded_by = New clsOntologyItem
-            objOItem_RelationType_encoded_by.GUID = objOList_relationtype_encoded_by(0).ID_Other
-            objOItem_RelationType_encoded_by.Name = objOList_relationtype_encoded_by(0).Name_Other
+            objOItem_RelationType_encoded_by.GUID = objOList_relationtype_encoded_by.First().ID_Other
+            objOItem_RelationType_encoded_by.Name = objOList_relationtype_encoded_by.First().Name_Other
             objOItem_RelationType_encoded_by.Type = objGlobals.Type_RelationType
         Else
             Err.Raise(1, "config err")
         End If
 
-        Dim objOList_relationtype_offered_by = From obj In objDBLevel_Config2.OList_ObjectRel
-                            Where obj.Name_Object.ToLower = "relationtype_offered_by" And obj.Ontology = objGlobals.Type_RelationType
+        Dim objOList_relationtype_offered_by = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_offered_by".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                           Select objRef).ToList()
 
-        If objOList_relationtype_offered_by.Count > 0 Then
+        If objOList_relationtype_offered_by.Any() Then
             objOItem_RelationType_offered_by = New clsOntologyItem
-            objOItem_RelationType_offered_by.GUID = objOList_relationtype_offered_by(0).ID_Other
-            objOItem_RelationType_offered_by.Name = objOList_relationtype_offered_by(0).Name_Other
+            objOItem_RelationType_offered_by.GUID = objOList_relationtype_offered_by.First().ID_Other
+            objOItem_RelationType_offered_by.Name = objOList_relationtype_offered_by.First().Name_Other
             objOItem_RelationType_offered_by.Type = objGlobals.Type_RelationType
         Else
             Err.Raise(1, "config err")
         End If
 
-        Dim objOList_relationtype_secured_by = From obj In objDBLevel_Config2.OList_ObjectRel
-                            Where obj.Name_Object.ToLower = "relationtype_secured_by" And obj.Ontology = objGlobals.Type_RelationType
+        Dim objOList_relationtype_secured_by = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_secured_by".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                           Select objRef).ToList()
 
-        If objOList_relationtype_secured_by.Count > 0 Then
+        If objOList_relationtype_secured_by.Any() Then
             objOItem_RelationType_secured_by = New clsOntologyItem
-            objOItem_RelationType_secured_by.GUID = objOList_relationtype_secured_by(0).ID_Other
-            objOItem_RelationType_secured_by.Name = objOList_relationtype_secured_by(0).Name_Other
+            objOItem_RelationType_secured_by.GUID = objOList_relationtype_secured_by.First().ID_Other
+            objOItem_RelationType_secured_by.Name = objOList_relationtype_secured_by.First().Name_Other
             objOItem_RelationType_secured_by.Type = objGlobals.Type_RelationType
         Else
             Err.Raise(1, "config err")
@@ -491,40 +467,66 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Objects()
-        Dim objOList_token_search_template_name_ = From obj In objDBLevel_Config2.OList_ObjectRel
-                          Where obj.Name_Object.ToLower = "token_search_template_name_" And obj.Ontology = objGlobals.Type_Object
 
-        If objOList_token_search_template_name_.Count > 0 Then
+        Dim objOList_Module = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "object_security_module".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                           Select objRef).ToList()
+
+        If objOList_Module.Any() Then
+            objOItem_Module = New clsOntologyItem
+            objOItem_Module.GUID = objOList_Module.First().ID_Other
+            objOItem_Module.Name = objOList_Module.First().Name_Other
+            objOItem_Module.GUID_Parent = objOList_Module.First().ID_Parent_Other
+            objOItem_Module.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_token_search_template_name_ = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "token_search_template_name_".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                           Select objRef).ToList()
+
+        If objOList_token_search_template_name_.Any() Then
             objOItem_Token_Search_Template_Name_ = New clsOntologyItem
-            objOItem_Token_Search_Template_Name_.GUID = objOList_token_search_template_name_(0).ID_Other
-            objOItem_Token_Search_Template_Name_.Name = objOList_token_search_template_name_(0).Name_Other
-            objOItem_Token_Search_Template_Name_.GUID_Parent = objOList_token_search_template_name_(0).ID_Parent_Other
+            objOItem_Token_Search_Template_Name_.GUID = objOList_token_search_template_name_.First().ID_Other
+            objOItem_Token_Search_Template_Name_.Name = objOList_token_search_template_name_.First().Name_Other
+            objOItem_Token_Search_Template_Name_.GUID_Parent = objOList_token_search_template_name_.First().ID_Parent_Other
             objOItem_Token_Search_Template_Name_.Type = objGlobals.Type_Object
         Else
             Err.Raise(1, "config err")
         End If
 
-        Dim objOList_token_search_template_related_sem_item_ = From obj In objDBLevel_Config2.OList_ObjectRel
-                            Where obj.Name_Object.ToLower = "token_search_template_related_sem_item_" And obj.Ontology = objGlobals.Type_Object
+        Dim objOList_token_search_template_related_sem_item_ = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "token_search_template_related_sem_item_".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                           Select objRef).ToList()
 
-        If objOList_token_search_template_related_sem_item_.Count > 0 Then
+        If objOList_token_search_template_related_sem_item_.Any() Then
             objOItem_Token_Search_Template_Related_Sem_Item_ = New clsOntologyItem
-            objOItem_Token_Search_Template_Related_Sem_Item_.GUID = objOList_token_search_template_related_sem_item_(0).ID_Other
-            objOItem_Token_Search_Template_Related_Sem_Item_.Name = objOList_token_search_template_related_sem_item_(0).Name_Other
-            objOItem_Token_Search_Template_Related_Sem_Item_.GUID_Parent = objOList_token_search_template_related_sem_item_(0).ID_Parent_Other
+            objOItem_Token_Search_Template_Related_Sem_Item_.GUID = objOList_token_search_template_related_sem_item_.First().ID_Other
+            objOItem_Token_Search_Template_Related_Sem_Item_.Name = objOList_token_search_template_related_sem_item_.First().Name_Other
+            objOItem_Token_Search_Template_Related_Sem_Item_.GUID_Parent = objOList_token_search_template_related_sem_item_.First().ID_Parent_Other
             objOItem_Token_Search_Template_Related_Sem_Item_.Type = objGlobals.Type_Object
         Else
             Err.Raise(1, "config err")
         End If
 
-        Dim objOList_token_search_template_related_type_ = From obj In objDBLevel_Config2.OList_ObjectRel
-                            Where obj.Name_Object.ToLower = "token_search_template_related_type_" And obj.Ontology = objGlobals.Type_Object
+        Dim objOList_token_search_template_related_type_ = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "token_search_template_related_type_".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                           Select objRef).ToList()
 
-        If objOList_token_search_template_related_type_.Count > 0 Then
+        If objOList_token_search_template_related_type_.Any() Then
             objOItem_Token_Search_Template_Related_Type_ = New clsOntologyItem
-            objOItem_Token_Search_Template_Related_Type_.GUID = objOList_token_search_template_related_type_(0).ID_Other
-            objOItem_Token_Search_Template_Related_Type_.Name = objOList_token_search_template_related_type_(0).Name_Other
-            objOItem_Token_Search_Template_Related_Type_.GUID_Parent = objOList_token_search_template_related_type_(0).ID_Parent_Other
+            objOItem_Token_Search_Template_Related_Type_.GUID = objOList_token_search_template_related_type_.First().ID_Other
+            objOItem_Token_Search_Template_Related_Type_.Name = objOList_token_search_template_related_type_.First().Name_Other
+            objOItem_Token_Search_Template_Related_Type_.GUID_Parent = objOList_token_search_template_related_type_.First().ID_Parent_Other
             objOItem_Token_Search_Template_Related_Type_.Type = objGlobals.Type_Object
         Else
             Err.Raise(1, "config err")
@@ -534,53 +536,65 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Classes()
-        Dim objOList_type_group = From obj In objDBLevel_Config2.OList_ObjectRel
-                          Where obj.Name_Object.ToLower = "type_group" And obj.Ontology = objGlobals.Type_Class
+        Dim objOList_type_group = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "type_group".ToLower() And objRef.Ontology = objGlobals.Type_Class
+                                           Select objRef).ToList()
 
-        If objOList_type_group.Count > 0 Then
+        If objOList_type_group.Any() Then
             objOItem_Type_Group = New clsOntologyItem
-            objOItem_Type_Group.GUID = objOList_type_group(0).ID_Other
-            objOItem_Type_Group.Name = objOList_type_group(0).Name_Other
-            objOItem_Type_Group.GUID_Parent = objOList_type_group(0).ID_Parent_Other
+            objOItem_Type_Group.GUID = objOList_type_group.First().ID_Other
+            objOItem_Type_Group.Name = objOList_type_group.First().Name_Other
+            objOItem_Type_Group.GUID_Parent = objOList_type_group.First().ID_Parent_Other
             objOItem_Type_Group.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
 
-        Dim objOList_type_module = From obj In objDBLevel_Config2.OList_ObjectRel
-                            Where obj.Name_Object.ToLower = "type_module" And obj.Ontology = objGlobals.Type_Class
+        Dim objOList_type_module = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "type_module".ToLower() And objRef.Ontology = objGlobals.Type_Class
+                                           Select objRef).ToList()
 
-        If objOList_type_module.Count > 0 Then
+        If objOList_type_module.Any() Then
             objOItem_Type_Module = New clsOntologyItem
-            objOItem_Type_Module.GUID = objOList_type_module(0).ID_Other
-            objOItem_Type_Module.Name = objOList_type_module(0).Name_Other
-            objOItem_Type_Module.GUID_Parent = objOList_type_module(0).ID_Parent_Other
+            objOItem_Type_Module.GUID = objOList_type_module.First().ID_Other
+            objOItem_Type_Module.Name = objOList_type_module.First().Name_Other
+            objOItem_Type_Module.GUID_Parent = objOList_type_module.First().ID_Parent_Other
             objOItem_Type_Module.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
 
-        Dim objOList_type_security_module = From obj In objDBLevel_Config2.OList_ObjectRel
-                            Where obj.Name_Object.ToLower = "type_security_module" And obj.Ontology = objGlobals.Type_Class
+        Dim objOList_type_security_module = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "type_security_module".ToLower() And objRef.Ontology = objGlobals.Type_Class
+                                           Select objRef).ToList()
 
-        If objOList_type_security_module.Count > 0 Then
+        If objOList_type_security_module.Any() Then
             objOItem_Type_Security_Module = New clsOntologyItem
-            objOItem_Type_Security_Module.GUID = objOList_type_security_module(0).ID_Other
-            objOItem_Type_Security_Module.Name = objOList_type_security_module(0).Name_Other
-            objOItem_Type_Security_Module.GUID_Parent = objOList_type_security_module(0).ID_Parent_Other
+            objOItem_Type_Security_Module.GUID = objOList_type_security_module.First().ID_Other
+            objOItem_Type_Security_Module.Name = objOList_type_security_module.First().Name_Other
+            objOItem_Type_Security_Module.GUID_Parent = objOList_type_security_module.First().ID_Parent_Other
             objOItem_Type_Security_Module.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If
 
-        Dim objOList_type_user = From obj In objDBLevel_Config2.OList_ObjectRel
-                            Where obj.Name_Object.ToLower = "type_user" And obj.Ontology = objGlobals.Type_Class
+        Dim objOList_type_user = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "type_user".ToLower() And objRef.Ontology = objGlobals.Type_Class
+                                           Select objRef).ToList()
 
-        If objOList_type_user.Count > 0 Then
+        If objOList_type_user.Any() Then
             objOItem_type_User = New clsOntologyItem
-            objOItem_type_User.GUID = objOList_type_user(0).ID_Other
-            objOItem_type_User.Name = objOList_type_user(0).Name_Other
-            objOItem_type_User.GUID_Parent = objOList_type_user(0).ID_Parent_Other
+            objOItem_type_User.GUID = objOList_type_user.First().ID_Other
+            objOItem_type_User.Name = objOList_type_user.First().Name_Other
+            objOItem_type_User.GUID_Parent = objOList_type_user.First().ID_Parent_Other
             objOItem_type_User.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")

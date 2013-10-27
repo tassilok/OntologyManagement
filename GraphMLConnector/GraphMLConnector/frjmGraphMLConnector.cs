@@ -81,7 +81,7 @@ namespace GraphMLConnector
                                     where objOTreeParent == null
                                     select
                                         new clsOntologyItem(objOTree.ID_Object_Parent, objOTree.Name_Object_Parent,
-                                                            objLocalConfig.OItem_Class_Graphs.GUID,
+                                                            objLocalConfig.OItem_class_graphs.GUID,
                                                             objLocalConfig.Globals.Type_Object)).ToList();                
             }
             else
@@ -90,7 +90,7 @@ namespace GraphMLConnector
                                   where objOTree.ID_Object_Parent == TreeNode_Parent.Name
                                   select
                                       new clsOntologyItem(objOTree.ID_Object, objOTree.Name_Object,
-                                                          objLocalConfig.OItem_Class_Graphs.GUID,
+                                                          objLocalConfig.OItem_class_graphs.GUID,
                                                           objLocalConfig.Globals.Type_Object)).ToList();
 
             }
@@ -235,19 +235,19 @@ namespace GraphMLConnector
                                 objLocalConfig.Globals.NewGUID,
                                 OItem_Selected.Name,
                                 objLocalConfig
-                                    .OItem_Class_GraphItem.GUID,
+                                    .OItem_class_graphitem.GUID,
                                 objLocalConfig.Globals.Type_Object);
                             objOItem_Result = objTransaction_Graph.save_GraphItem(objDataWork_Graph.OItem_Graph,
                                                                                   OItem_GraphItem,
-                                                                                  objLocalConfig.OItem_Object_Normal,
+                                                                                  objLocalConfig.OItem_object_normal,
                                                                                   OItem_Selected);
 
                             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                             {
                                 objDataWork_Graph.GraphItems.Add(new clsGraphItem() {ID_GraphItem =  OItem_GraphItem.GUID,
                                                                                      Name_GraphItem = OItem_GraphItem.Name, 
-                                                                                     ID_ExportType =  objLocalConfig.OItem_Object_Normal.GUID, 
-                                                                                     Name_ExportType = objLocalConfig.OItem_Object_Normal.Name, 
+                                                                                     ID_ExportType =  objLocalConfig.OItem_object_normal.GUID, 
+                                                                                     Name_ExportType = objLocalConfig.OItem_object_normal.Name, 
                                                                                      ID_OItem = OItem_Selected.GUID, 
                                                                                      Name_OItem =  OItem_Selected.Name, 
                                                                                      ID_OItem_Parent = OItem_Selected.GUID_Parent,
@@ -439,7 +439,7 @@ namespace GraphMLConnector
                     {
                         GUID = objTreeNode_Selected.Name,
                         Name = objTreeNode_Selected.Text,
-                        GUID_Parent = objLocalConfig.OItem_Class_Graphs.GUID,
+                        GUID_Parent = objLocalConfig.OItem_class_graphs.GUID,
                         Type = objLocalConfig.Globals.Type_Object
                     };
                 var objOItem_Result = objDataWork_Graph.GetData_GraphPath(objOItem_Graph);
@@ -489,7 +489,7 @@ namespace GraphMLConnector
                 var oList_Graphs = new List<clsOntologyItem>();
 
                 oList_Graphs.Add(new clsOntologyItem(objTreeNode_Selected.Name, objTreeNode_Selected.Text,
-                                                         objLocalConfig.OItem_Class_Graphs.GUID,
+                                                         objLocalConfig.OItem_class_graphs.GUID,
                                                          objLocalConfig.Globals.Type_Object));
                 objFrmObjectEdit = new frm_ObjectEdit(objLocalConfig.Globals,oList_Graphs,0,objLocalConfig.Globals.Type_Object,null,null,null,null);
                 objFrmObjectEdit.ShowDialog(this);

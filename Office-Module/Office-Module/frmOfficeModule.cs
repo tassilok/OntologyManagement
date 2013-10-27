@@ -81,7 +81,7 @@ namespace Office_Module
 
             boolPChange_Tree = true;
 
-            objTreeNode_Root = treeView_Items.Nodes.Add(objLocalConfig.OItem_Token_Module_Office_Manager.GUID, objLocalConfig.OItem_Token_Module_Office_Manager.Name, objLocalConfig.ImageID_Root, objLocalConfig.ImageID_Root);
+            objTreeNode_Root = treeView_Items.Nodes.Add(objLocalConfig.OItem_Module.GUID, objLocalConfig.OItem_Module.Name, objLocalConfig.ImageID_Root, objLocalConfig.ImageID_Root);
             objTreeNode_Documents = objTreeNode_Root.Nodes.Add(objLocalConfig.OItem_Type_Managed_Document.GUID, objLocalConfig.OItem_Type_Managed_Document.Name, objLocalConfig.ImageID_Root, objLocalConfig.ImageID_Root);
             objTreeNode_ContentItems = objTreeNode_Root.Nodes.Add(objLocalConfig.OItem_Type_ContentObject.GUID, objLocalConfig.OItem_Type_ContentObject.Name, objLocalConfig.ImageID_Root, objLocalConfig.ImageID_Root);
 

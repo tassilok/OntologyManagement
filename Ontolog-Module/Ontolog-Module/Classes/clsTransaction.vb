@@ -530,7 +530,7 @@ Public Class clsTransaction
                                                           Nothing, _
                                                           Nothing))
 
-                        objOItem_Result = objDBLevel.del_ObjectAtt(objOL_ObjAtt)
+                        objOItem_Result = objDBLevel.del_ObjectAtt(objOL_ObjAtt_Del)
                     Else 
                         objOItem_Result = objLogStates.LogState_Success
                     End If

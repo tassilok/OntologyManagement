@@ -21,13 +21,6 @@ Public Class clsDataWork_OntologyRels
     Private objOList_RelationTypes As List(Of clsOntologyItem)
     Private objOList_Objects As List(Of clsOntologyItem)
 
-    Private objOList_ClassAtt As List(Of clsClassAtt)
-    Private objOList_ClassRel As List(Of clsClassRel)
-    Private objOList_ObjectAtt As List(Of clsObjectAtt)
-    Private objOList_ObjectRel As List(Of clsObjectRel)
-
-    
-
     Public ReadOnly Property OItem_Result_ClassAtt As clsOntologyItem
         Get
             Return objOItem_Result_ClassAtt
@@ -88,41 +81,25 @@ Public Class clsDataWork_OntologyRels
         End Set
     End Property
 
-    Public ReadOnly Property ClassAtt As List(Of clsClassAtt)
-        Get
-            Return objOList_ClassAtt
-
-        End Get
-    End Property
-
-    Public ReadOnly Property ClassRel As List(Of clsClassRel)
-        Get
-            Return objOList_ClassRel
-        End Get
-    End Property
-
-    Public ReadOnly Property ObjectAtt As List(Of clsObjectAtt)
-        Get
-            Return objOList_ObjectAtt
-        End Get
-    End Property
-
-    Public ReadOnly Property ObjectRel As List(Of clsObjectRel)
-        Get
-            Return objOList_ObjectRel
-        End Get
-    End Property
+    Public Property ClassAtt As List(Of clsClassAtt)
+        
+    Public Property ClassRel As List(Of clsClassRel)
+        
+    Public Property ObjectAtt As List(Of clsObjectAtt)
+        
+    Public Property ObjectRel As List(Of clsObjectRel)
+        
 
     Public Sub GetData_ClassAtt()
         objOItem_Result_ClassAtt = objLocalConfig.Globals.LState_Nothing
 
         Dim objOItem_Result = objDBLevel_ClassAtt.get_Data_ClassAtt(boolIDs:=False)
         If objOList_Classes.Any Then
-            objOList_ClassAtt = (From objClassAtt In objDBLevel_ClassAtt.OList_ClassAtt
+            ClassAtt = (From objClassAtt In objDBLevel_ClassAtt.OList_ClassAtt
                     Join objClass In objOList_Classes On objClassAtt.ID_Class Equals objClass.GUID
                     Select objClassAtt).ToList
         Else
-            objOList_ClassAtt = objDBLevel_ClassAtt.OList_ClassAtt
+            ClassAtt = objDBLevel_ClassAtt.OList_ClassAtt
         End If
 
         objOItem_Result_ClassAtt = objOItem_Result
@@ -134,11 +111,11 @@ Public Class clsDataWork_OntologyRels
         Dim objOItem_Result = objDBLevel_ClassRel.get_Data_ClassRel(Nothing, boolIDs:=False)
 
         If objOList_Classes.Any Then
-            objOList_ClassRel = (From objClassRel In objDBLevel_ClassRel.OList_ClassRel
+            ClassRel = (From objClassRel In objDBLevel_ClassRel.OList_ClassRel
                     Join objClass In objOList_Classes On objClassRel.ID_Class_Left Equals objClass.GUID
                     Select objClassRel).ToList
         Else
-            objOList_ClassRel = objDBLevel_ClassAtt.OList_ClassRel
+            ClassRel = objDBLevel_ClassAtt.OList_ClassRel
         End If
 
         objOItem_Result_ClassRel = objOItem_Result
@@ -161,7 +138,7 @@ Public Class clsDataWork_OntologyRels
             objOItem_Result = objDBLevel_ObjAtt.get_Data_ObjectAtt(Nothing, boolIDs:=False)
         End If
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            objOList_ObjectAtt = objDBLevel_ObjAtt.OList_ObjectAtt
+            ObjectAtt = objDBLevel_ObjAtt.OList_ObjectAtt
         End If
 
         objOItem_Result_ObjAtt = objOItem_Result
@@ -184,7 +161,7 @@ Public Class clsDataWork_OntologyRels
         End If
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            objOList_ObjectRel = objDBLevel_ObjRel.OList_ObjectRel
+            ObjectRel = objDBLevel_ObjRel.OList_ObjectRel
         End If
 
         objOItem_Result_ObjRel = objOItem_Result
@@ -241,6 +218,10 @@ Public Class clsDataWork_OntologyRels
         objOItem_Result_ObjAtt = objLocalConfig.Globals.LState_Nothing
         objOItem_Result_ObjRel = objLocalConfig.Globals.LState_Nothing
 
+        ClassAtt = New List(Of clsClassAtt)
+        ClassRel = New List(Of clsClassRel)
+        ObjectAtt = New List(Of clsObjectAtt)
+        ObjectRel = New List(Of clsObjectRel)
     End Sub
 
 

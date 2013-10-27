@@ -77,9 +77,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\libs\ElasticSearch.Client.dll</HintPath>
     </Reference>
-    <Reference Include="ElasticSearchConnector">
-      <HintPath>..\..\ElasticSearchConnector\ElasticSearchConnector\bin\Debug\ElasticSearchConnector.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -553,45 +550,45 @@
     <None Include="Resources\Vogelschwarm1.png" />
     <None Include="Resources\Ontology-Module2.png" />
     <None Include="Resources\Ontology-Module Block.png" />
-    <EmbeddedResource Include="Config\OntoogyTemplates\ClassAttItem.xml">
+    <EmbeddedResource Include="Config\OntoogyTemplates\ClassAttItemTemplate.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Config\OntoogyTemplates\ClassRelItem.xml">
+    <EmbeddedResource Include="Config\OntoogyTemplates\ClassRelItemTemplate.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Config\OntoogyTemplates\OntologyItem.xml">
+    <EmbeddedResource Include="Config\OntoogyTemplates\OntologyItemTemplate.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Config\OntoogyTemplates\OntologyItemContainer.xml">
+    <EmbeddedResource Include="Config\OntoogyTemplates\OntologyItemContainerTemplate.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Config\OntoogyTemplates\ObjAttItem.xml" />
-    <EmbeddedResource Include="Config\OntoogyTemplates\ObjRelItem.xml" />
-    <Content Include="Config\Templates\AttributeTypes.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <EmbeddedResource Include="Config\OntoogyTemplates\ObjAttItemTemplate.xml" />
+    <EmbeddedResource Include="Config\OntoogyTemplates\ObjRelItemTemplate.xml" />
+    <EmbeddedResource Include="Config\Templates\AttributeTypes.xml">
       <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Config\Templates\ClassAtts.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Config\Templates\Classes.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Config\Templates\ClassAtts.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Config\Templates\ClassRels.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Config\Templates\Classes.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Config\Templates\ObjectAtt.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Config\Templates\ClassRels.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Config\Templates\ObjectRel.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Config\Templates\ObjectAtt.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Config\Templates\Objects.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Config\Templates\ObjectRel.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Config\Templates\RelationTypes.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Config\Templates\Objects.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Config\Templates\RelationTypes.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="Vogelschwarm%2520klein.ico" />
     <None Include="Resources\NavForward.png" />
     <None Include="Resources\DoubleRightArrowHS.png" />
@@ -651,6 +648,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ElasticSearchConnector\ElasticSearchConnector\ElasticSearchConnector.csproj">
+      <Project>{7085762b-19ce-4125-a52b-4556a96bbba9}</Project>
+      <Name>ElasticSearchConnector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
       <Name>OntologyClasses</Name>

@@ -316,13 +316,7 @@ Public Class UserControl_MediaItemList
         ToolStripButton_Remove.Enabled = False
         ToolStripButton_Replace.Enabled = False
 
-        If Not objOItem_Ref Is Nothing Then
-            DataGridView_MediaItems.Enabled = True
-            ToolStripButton_Add.Enabled = True
-            ToolStripButton_Bookmarks.Enabled = True
-            ToolStripButton_Replace.Enabled = True
-            ToolStripButton_Meta.Enabled = True
-        End If
+        
 
         If DataGridView_MediaItems.SelectedRows.Count > 0 Then
             ToolStripButton_Remove.Enabled = True
@@ -364,6 +358,13 @@ Public Class UserControl_MediaItemList
             End If
             ToolStripProgressBar_MediaItem.Value = 0
             ToolStripLabel_Count.Text = DataGridView_MediaItems.RowCount
+            If Not objOItem_Ref Is Nothing Then
+                DataGridView_MediaItems.Enabled = True
+                ToolStripButton_Add.Enabled = True
+                ToolStripButton_Bookmarks.Enabled = True
+                ToolStripButton_Replace.Enabled = True
+                ToolStripButton_Meta.Enabled = True
+            End If
         Else
 
             ToolStripProgressBar_MediaItem.Value = 50
@@ -466,7 +467,7 @@ Public Class UserControl_MediaItemList
                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                     objOItem_MediaItem.Level = objDataWork_MediaItem.GetNextOrderIDOFRef(objOItem_Ref)
                                     objOItem_MediaItem.Level = objOItem_MediaItem.Level + 1
-                                    Dim objORel_MediaItem_To_Ref = objDataWork_MediaItem.Rel_MediaItem_To_Ref(objOItem_MediaItem, objOItem_Ref)
+                                    Dim objORel_MediaItem_To_Ref = objDataWork_MediaItem.Rel_MediaItem_To_Ref(objOItem_MediaItem, objOItem_Ref, True)
 
                                     objOItem_Result = objTransaction_MediaItems.do_Transaction(objORel_MediaItem_To_Ref)
                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="a720d0ca63194f1f9827f45f0454adca" Id_Parent="403659518d044c109e32d8761c6892b5"><![CDATA[BaseConfig]]></Item>
+<Item Id="d453931eab534a3eb0dcb3498e35c841" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Development-Manager]]></Item>
+<Item Id="c6e43076b0c547d1bf4c9c6dbf5872dc" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Message]]></Item>
+<Item Id="5f35f4e7fd9e45389f47edda0fc8c7b0" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Build]]></Item>
+<Item Id="c19df12c53ed4483a87adecc711e57c8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_XML_Text]]></Item>
+<Item Id="1bbe22055ced47b5905a9809d0a9ab91" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Minor]]></Item>
+<Item Id="4dda6f9d1a7f4dd08792132ec5eff396" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_ImageID]]></Item>
+<Item Id="5e532d699a5d4a35af4df886472c0551" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Grant]]></Item>
+<Item Id="a9c39de6d56f47869eecec677e0f74a7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_caption]]></Item>
+<Item Id="ec0c86f8cefe4130aa4f773a27b03d01" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Revision]]></Item>
+<Item Id="dda19daf27aa4a8d9b680f9a6eb0e4a5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_DateTimeStamp]]></Item>
+<Item Id="050352f081814a84948b92763c2cf5e2" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Major]]></Item>
+<Item Id="a9e134ce9a134f509b1106910022ad2a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[attribute_dbPostfix]]></Item>
+<Item Id="27dc0d9683d44934ad490987214f0c9d" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_needs]]></Item>
+<Item Id="0330fbbff48441218e1c472be24f69a4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_isInState]]></Item>
+<Item Id="2629eb0a013c4c23b10337a65a7b0bfe" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_provides]]></Item>
+<Item Id="d516102ddda741f498b497afa14ba0b8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongsTo]]></Item>
+<Item Id="bf69a90b99f3419cb18be1c94711af82" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_SourcesLocatedIn]]></Item>
+<Item Id="c73bf3c810094e2daddec3b503856f62" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_handles]]></Item>
+<Item Id="b43c877b9dc847288038ff00f6d31731" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[relationtype_wasDevelopedBy]]></Item>
+<Item Id="b4175ca9f5eb4cddaf2d82da3b733273" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_export_to]]></Item>
+<Item Id="029ea9ccd0f84b5ea4a173f409a34082" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is_instance_of]]></Item>
+<Item Id="d1e6e1427cc74f0c8fee0f01e0a478fd" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_invoking_Actor]]></Item>
+<Item Id="6d0059af36574ce4bd84353eca68126e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is_defined_by]]></Item>
+<Item Id="e4abddf09643493ca23beb4719dd5294" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_wasCreatedBy]]></Item>
+<Item Id="05b9d095d3894526a11a7eb965219e44" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Possible]]></Item>
+<Item Id="353eb06bef8e41ada8077805c2943802" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_isWrittenIn]]></Item>
+<Item Id="99a964f5bf024fc598d9be85ef7810e6" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_isSubordinated]]></Item>
+<Item Id="479de91cda144f65b01cb1bd3974c1dd" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Paramter]]></Item>
+<Item Id="68108d6e01b741f499f04c214851c8fe" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_ignore]]></Item>
+<Item Id="4962a0f839434f56868081b62ae1158b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Error_Message]]></Item>
+<Item Id="b64b939ddaa94106b176176ca90d90cc" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_initializing]]></Item>
+<Item Id="c861f49716f34a4693b8295e1eb9e4cf" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_works_off]]></Item>
+<Item Id="3df44fe24eed41a7a4abb49c81eaeaa5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_offers]]></Item>
+<Item Id="04e485b590474850ae1a53cf934e9aaf" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Request]]></Item>
+<Item Id="5d364eb26fff4a7ab3fdf7848fe779c7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_User_Message]]></Item>
+<Item Id="99fd12d3af3347cf862da3bd58e30582" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_directed_by]]></Item>
+<Item Id="c8234290b8c84e9489c0d0da83fa14a3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_invoked_Actor]]></Item>
+<Item Id="8330d24022e24632bb204f888d3255c8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is_of_Type]]></Item>
+<Item Id="8da5c8dfdb3c41c7ae12955da0162757" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Resource]]></Item>
+<Item Id="f91c48905ab446bc979fea3d7aa0db46" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_alternative_for]]></Item>
+<Item Id="5545eadc0eed438483b385d355625a69" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_offered_by]]></Item>
+<Item Id="6a90ff38dc564baaa54a1578d070542a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_contains]]></Item>
+<Item Id="c67d7ea4ac0448609788e1acc58ec461" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_access_by]]></Item>
+<Item Id="3eb148af23f14431a58a3ecb2814f65e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_located_in]]></Item>
+<Item Id="a0cf3675d0174354aa8893d47b303a04" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_superordinate]]></Item>
+<Item Id="f2dc69cd9d3b4ed8a2b0860d0ada1b67" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_isDescribedBy]]></Item>
+<Item Id="4bfdf6c6462b4dcea974b60a10e1a4b0" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Input_Message]]></Item>
+<Item Id="2003ebcbc2a84535a345a9a6f1552fe7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Happened]]></Item>
+<Item Id="d3c1a0241588447cb5ad12fc91f1ce4e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Standard]]></Item>
+<Item Id="c3efb56324e34569b2f1cf1225c7c85e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_describes]]></Item>
+<Item Id="bff30efe37df4037b0d19a1028b62710" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_additional]]></Item>
+<Item Id="f04b8660b55a42109329cd1bbcab466a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Image_Video_Management]]></Item>
+<Item Id="5f14b1ded9e0487197d4a05846b4b0a2" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_ToolTip_Messages]]></Item>
+<Item Id="27f42f518b5f4f1399269885500d5405" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[type_ProgramingLanguage]]></Item>
+<Item Id="9be739c0b2284b08942b14c687fd72a1" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Parameter_Dev_Structure]]></Item>
+<Item Id="94bafd3534fd4c17871f03d18808bc5a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Database]]></Item>
+<Item Id="194786ac4bf443f7b7499906c3c28c46" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_LogEntry]]></Item>
+<Item Id="985d063473f6428cbbf85bade5a3f66a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Dev_Structure__Process_Type_to_Process_]]></Item>
+<Item Id="c5d3d4de31f9429ea8415d4dc346a862" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Development_Structure]]></Item>
+<Item Id="0d023f4e563e4cb1a81cee01ed516ac8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Messages]]></Item>
+<Item Id="1afe681671404f0981cd638be026b237" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Module]]></Item>
+<Item Id="736d867cbb604891bfe1e34f8fd3d033" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_GUI_Caption]]></Item>
+<Item Id="208eacd901ad480e934d0b843c69ec94" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Dev_Structure_Invoke]]></Item>
+<Item Id="6991e55886fd4e4a8e9f3d67d9045fae" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Objects]]></Item>
+<Item Id="33a8bcb9e0324e66ad12e4a74c60effe" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Database_on_Server]]></Item>
+<Item Id="0e050995d8f842dcaef6da0e94b161de" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Development_Libraries]]></Item>
+<Item Id="1b47e7dd86c14326a18f2a3dfb38d479" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Process]]></Item>
+<Item Id="2130322d5c3d4fbd91f9fc28061d877b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Scene]]></Item>
+<Item Id="f047617a2e7e475e8b93f764ea2cb65a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_DB_Schema_Type]]></Item>
+<Item Id="6813d9eef72c41748841e9639901484f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[type_DevelopmentVersion]]></Item>
+<Item Id="33c2b81e63934e1ca654eb8e1def8c45" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_File]]></Item>
+<Item Id="c454892fe5ea430e9996432923316531" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_DBSchema_Of_Application]]></Item>
+<Item Id="8fc833949b014f61a3b62dcda1d7da12" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[type_LocalizedDescription]]></Item>
+<Item Id="19ed3abefc4544ab92a45aaae18b9f72" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Sem_Items_to_expot_with_Children]]></Item>
+<Item Id="080a7a59ae084cf1a143ea22c6cd80c3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Localized_Names]]></Item>
+<Item Id="a223bfcca7614a94aa69132e67294dc0" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Language]]></Item>
+<Item Id="5a873415a71344f297dcee3ee93b0152" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_WIKI_Implementation]]></Item>
+<Item Id="3da4ea9c40654612bc02a3c84962ae6b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_DevelopmentConfigItem]]></Item>
+<Item Id="b7a91cfeed5d441a8f2edaa536052122" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[type_User]]></Item>
+<Item Id="c782a9b8ccfd408da3dc315079351cbe" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Export_Mode]]></Item>
+<Item Id="00841a380cf5427f94263fe6fbfee19f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Localized_Message]]></Item>
+<Item Id="336e32311689499bb5ad990f2b6cb609" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Structure_Type_with_Aspects]]></Item>
+<Item Id="b4b980324ad54256a25f0490d6859798" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Structure_Type]]></Item>
+<Item Id="d298b65e472c4d618e048e8247cc5920" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Ontology_Export]]></Item>
+<Item Id="dbeae4de6d4549b6957b8ed17de120db" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Development_Module]]></Item>
+<Item Id="555c0626f2a646bd840452f810d0196a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_DevelopmentConfig]]></Item>
+<Item Id="563ab022a4164782aa2d4523fd05264f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Directions]]></Item>
+<Item Id="e0fa39551a5e4938ab9b627720e2fa69" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[type_SoftwareDevelopment]]></Item>
+<Item Id="7687cf3726b842ca906603b3d9abd950" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Structure_Validity]]></Item>
+<Item Id="a66975867b4d44ecb03efb1d03269756" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Dev_Structure]]></Item>
+<Item Id="7d05aff4371348c6bf5a47ec10ece0e3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[type_Logstate]]></Item>
+<Item Id="f9d2a5ed12954966b347b836e3a78d68" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_GUI_Entires]]></Item>
+<Item Id="d841b2fba5f643e08fdea06c49ee7a1b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Server]]></Item>
+<Item Id="d5f8380c13b7466183242af1aa98f705" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Database_Schema]]></Item>
+<Item Id="09ff03ebe03e420399aba3205eacd395" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[type_Folder]]></Item>
+<Item Id="10f1e03cf21241c0868db88dd596fe34" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Variable_List_Properties]]></Item>
+<Item Id="bc2860ee5a724faab1a0c9a9a89c7779" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_LogState_Request]]></Item>
+<Item Id="e778d9c033b14dcda2c9012201c7949c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_PossibleStates_DevelopmentStandard]]></Item>
+<Item Id="d234c64eeb1c40688e13917e8e3b966b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[token_LogState_Inactive]]></Item>
+<Item Id="f4d6bbc8cec6415ca0340850f7a87c7a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_XML_Initilize_Attribute__ConfigItem_Ontology_]]></Item>
+<Item Id="b42610b640f94cc49ff942b55c546336" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Dev_Structure_Schleife]]></Item>
+<Item Id="7334bbb5992f433d81ed028fdacdbb16" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_LogState_Information]]></Item>
+<Item Id="2dc8a5663bde45378d2dd17587fd3767" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Variable_List_Initialize_ConfigItems_RelationTypes]]></Item>
+<Item Id="8d23a172414f4c60af1d4509c8d89168" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_LogState_VersionChanged]]></Item>
+<Item Id="f15a90938ab34725a57d5a26c6c97de2" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_LogState_ConfigItemAdded]]></Item>
+<Item Id="f20e26552d374ba9a2ee78b6a7e21310" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Directions_OUT]]></Item>
+<Item Id="d6f40d6fe4974db4804b6bc97451d54b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_XML_Initilize_Type__ConfigItem_Ontology_]]></Item>
+<Item Id="d2d0e4d5f42145458aeeed9e244ac562" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_XML_Property_Ontology_ConfigItem]]></Item>
+<Item Id="baf8d8389017440681c6d39f6b4126fb" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_DB_Schema_Type_Module]]></Item>
+<Item Id="6ea238adb74b4ebb9f84baf87f2c08e6" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_LogState_Open]]></Item>
+<Item Id="cc011f1ef8014d9ba9714f563af410ed" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Variable_List_Initialize_ConfigItems_Attributes]]></Item>
+<Item Id="5752cf07f0284b43ba2e812b1652d7d8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Dev_Structure_Database]]></Item>
+<Item Id="6e403f04d31340cda9ffc650e40dbf40" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Variable_List_Initialize_ConfigItems_Types]]></Item>
+<Item Id="0e8f1ac45bd54b2f9c8c9db84e6ade50" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Export_Mode_Normal]]></Item>
+<Item Id="774a62eae801431eb6373f78b6caed25" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Export_Mode_Grant_Children_of_Item__Token_of_Type_]]></Item>
+<Item Id="20233aad7b4a4b3aac4480a55b030b47" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Declaration_Configitems_XML]]></Item>
+<Item Id="ebd3d6fdf5454908862814e7d4600f03" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Initilize_Type__ConfigItem__XML]]></Item>
+<Item Id="d3728d3331204cd6b3df792402d79edf" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_clsLocalConfig_xml_XML]]></Item>
+<Item Id="c2aaec89c0714af18d69c1fbfcec3c2a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_LogState_Changed]]></Item>
+<Item Id="2312c075b27145809e6b94028ec4cf9e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Dev_Structure_Return]]></Item>
+<Item Id="94e5707e926b45c7a88f4a4c6d135b04" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_DB_Schema_Type_Config]]></Item>
+<Item Id="0752ef5ab4cd4d2db9ae0feae58f2b81" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_XML_Initialize_RelationType__ConfigItem_Ontology_]]></Item>
+<Item Id="5d9c47f5f36747a4a72bc14f542689c2" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Variable_Name_ConfigItem]]></Item>
+<Item Id="72be832e277e403eaeeaf01b36183412" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Variable_List_Declaration_ConfigItems]]></Item>
+<Item Id="2af595ef98554a49b6d2a45c858a703e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Initilize_Attribute__ConfigItem__XML]]></Item>
+<Item Id="7ba33869d17d4fc2ab0aa27d1e3981ae" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_XML_Declaration_Ontology_Configitems]]></Item>
+<Item Id="bedf20d008d741abb08943756647293a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Initialize_Token__ConfigItem__XML]]></Item>
+<Item Id="a44d795cde6b45e1a397cb39e577888d" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Variable_List_Initialize_ConfigItems_Token]]></Item>
+<Item Id="fadc323d53844360b773a1e873dd4cce" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_LogState_Obsolete]]></Item>
+<Item Id="ecc38e0090204dc393e327638baf7508" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Initialize_RelationType__ConfigItem__XML]]></Item>
+<Item Id="a860b6a471844025bbd4782e13784442" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Module_Development_Management]]></Item>
+<Item Id="7fe22427d66f4757a9bb398f26bc15a5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Export_Mode_Deny_Only_Children__Token_of_Type_]]></Item>
+<Item Id="923f2a539e624034838c58fd23868326" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Export_Mode_Deny_Item_with_Children__Type___Token_]]></Item>
+<Item Id="dce33a544242450390743d975526b330" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Directions_IN]]></Item>
+<Item Id="e57d6960d9ad42e8afef478533728531" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_XML_Initialize_Token__ConfigItem_Ontology_]]></Item>
+<Item Id="6a00406135434581a99cf6826d5d6abc" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[token_LogState_Active]]></Item>
+<Item Id="4bc14b4ab2564ed89e64ded61fbdc216" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Property_ConfigItem_XML]]></Item>
+<Item Id="8c0214563ab04a3baf7027c48f723e4c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_XML_clsLocalConfig_ontology_xml]]></Item>
+<Item Id="3673a8b50c52439294af6cdaea5ca1f8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_LogState_Create]]></Item>
+<Item Id="36d9220e4f2b46c998ba0eff17f851a2" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_DB_Schema_Type_User]]></Item>
+<Item Id="76f48558953f4d17beb36a31edaa1060" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Development_Management]]></Item>
+<Item Id="010c941341c04d5f86f3574ba629a909" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[Declaration.Ontology Configitems]]></Item>
+<Item Id="988634b22d9546958a2e2811a424dab9" Id_Parent="8703010b98304113b2e98a4f24b5e99b"><![CDATA[Normal]]></Item>
+<Item Id="46cd2b4cc3174a2c8f75abf23ea6efba" Id_Parent="8703010b98304113b2e98a4f24b5e99b"><![CDATA[Grant Children of Item]]></Item>
+<Item Id="7719e9db9ce44cd4bed8958ac91e58cd" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[Initialize RelationType (ConfigItem.Ontology)]]></Item>
+<Item Id="1468a48205a24fc8b893d552282b1207" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[Name_ConfigItem]]></Item>
+<Item Id="80f0fdf1373e42c8b07e04e4aed313a3" Id_Parent="1d9568afb6da49908f4d907dfdd30749"><![CDATA[Information]]></Item>
+<Item Id="4d2cc4c475f1415bb95503709af32334" Id_Parent="1d9568afb6da49908f4d907dfdd30749"><![CDATA[Create]]></Item>
+<Item Id="737afcf722b44287a641401076c77209" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[List_Properties]]></Item>
+<Item Id="544d3cc70ea2478ea84393a29c8780a3" Id_Parent="071b0a6bf0d641068d018e2eaef79357"><![CDATA[Software-Development (Standard)]]></Item>
+<Item Id="c1897a0f6824462d9dd878d9094efe6f" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[Initilize Attribute (ConfigItem.Ontology)]]></Item>
+<Item Id="c4e87510d6e24d4cb4757e171dea16c6" Id_Parent="1d9568afb6da49908f4d907dfdd30749"><![CDATA[Version Changed]]></Item>
+<Item Id="ecccf54326ff4698a90405db64c518a1" Id_Parent="8a2407981cbf466f95f53b7811b93ab1"><![CDATA[Database]]></Item>
+<Item Id="91248feede394bb28d044916a53b553f" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[Initilize Attribute (ConfigItem)]]></Item>
+<Item Id="532016e993694382b069cd1e7f0d38af" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[List_Initialize_ConfigItems_Types]]></Item>
+<Item Id="2478bf9d00a54bdd8ab0cca9977c48a3" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[Initialize Token (ConfigItem)]]></Item>
+<Item Id="c956e545ea6f44c685a82456bfa1c326" Id_Parent="1d9568afb6da49908f4d907dfdd30749"><![CDATA[Request]]></Item>
+<Item Id="b566810fbd334f63b4b61caef66bf731" Id_Parent="8703010b98304113b2e98a4f24b5e99b"><![CDATA[Deny Item with Children]]></Item>
+<Item Id="1af5b4342b1d48ff900bad3e7fb37b51" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[Initilize Type (ConfigItem.Ontology)]]></Item>
+<Item Id="3273a7e0787146c48cf43e09157d69a3" Id_Parent="1d9568afb6da49908f4d907dfdd30749"><![CDATA[Open]]></Item>
+<Item Id="311cac2c9c5040e0929a7075537b28c6" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[List_Declaration_ConfigItems]]></Item>
+<Item Id="199d11b273144515875fb3b718e70542" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Development-Management]]></Item>
+<Item Id="9832e81c785645b6915dc921e63a17c7" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[Initialize RelationType (ConfigItem)]]></Item>
+<Item Id="e98ae3e658f24e3db88b8c548d2b619b" Id_Parent="8703010b98304113b2e98a4f24b5e99b"><![CDATA[Deny Only Children]]></Item>
+<Item Id="efd9f6ad63fa45b3ab207cf8d6447338" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[Property.Ontology ConfigItem]]></Item>
+<Item Id="ed153cc22aaf4e868af6177dc56f9b74" Id_Parent="1be2abe49dc2441ab1b6282022821c97"><![CDATA[Module]]></Item>
+<Item Id="2b2e93aedf66499a9eab0a1f4122998a" Id_Parent="1d9568afb6da49908f4d907dfdd30749"><![CDATA[Inactive]]></Item>
+<Item Id="70faabbf34834335a008500ae92cf648" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[Initilize Type (ConfigItem)]]></Item>
+<Item Id="d6bc32e29be942419ebbf078d30b6601" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[Declaration Configitems]]></Item>
+<Item Id="60628f3920274a0f9879bce2357a3246" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[clsLocalConfig.xml]]></Item>
+<Item Id="d94eafeac6244230bcf8833ff364f865" Id_Parent="1d9568afb6da49908f4d907dfdd30749"><![CDATA[Changed]]></Item>
+<Item Id="7298c9d1c59b41f58f4d1aef44e813ac" Id_Parent="1be2abe49dc2441ab1b6282022821c97"><![CDATA[Config]]></Item>
+<Item Id="8eb65326165c4141958c7119b9429c4b" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[Property ConfigItem]]></Item>
+<Item Id="32753579fa1243ef9037296b3b5f4d51" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[clsLocalConfig.ontology.xml]]></Item>
+<Item Id="89aced5846094dc4af7cf0e732c7f100" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[List_Initialize_ConfigItems_Attributes]]></Item>
+<Item Id="e71a62bb567546499cdc25bd930cde45" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[List_Initialize_ConfigItems_RelationTypes]]></Item>
+<Item Id="7815748b072c453bb13b1d046a37d288" Id_Parent="12de02469d84416faa45980efcb9db9b"><![CDATA[OUT]]></Item>
+<Item Id="9cd3f3a131fd43e3afb1e7067d07f4e2" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[List_Initialize_ConfigItems_Token]]></Item>
+<Item Id="ef6e7f2dc32548dca2c94c760f9d95e7" Id_Parent="12de02469d84416faa45980efcb9db9b"><![CDATA[IN]]></Item>
+<Item Id="577d72f6a7d046a3a96eab0e0fc757ef" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[Initialize Token (ConfigItem.Ontology)]]></Item>
+<Item Id="aabfd0bc070f43d09ea20f7ba13612ce" Id_Parent="1d9568afb6da49908f4d907dfdd30749"><![CDATA[Active]]></Item>
+<Item Id="9f2bc62dcaa64e37bc1e164044102ee9" Id_Parent="1d9568afb6da49908f4d907dfdd30749"><![CDATA[Obsolete]]></Item>
+<Item Id="0c539cc4bf464bac8f67239f03ddf8d0" Id_Parent="8a2407981cbf466f95f53b7811b93ab1"><![CDATA[Return]]></Item>
+<Item Id="fb74fd67adcc4becae60236e34dabb79" Id_Parent="8a2407981cbf466f95f53b7811b93ab1"><![CDATA[Schleife]]></Item>
+<Item Id="5d4cfb0cc72c45a0b636e485eb84329f" Id_Parent="1be2abe49dc2441ab1b6282022821c97"><![CDATA[User]]></Item>
+<Item Id="34b32bee4afe4c1297744720b6a336a5" Id_Parent="1d9568afb6da49908f4d907dfdd30749"><![CDATA[ConfigItem-Added]]></Item>
+<Item Id="04816070c3d045708e279732f48d1c6d" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Development-Manager]]></Item>
+
+</Items>

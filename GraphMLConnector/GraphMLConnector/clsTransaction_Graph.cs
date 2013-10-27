@@ -28,7 +28,7 @@ namespace GraphMLConnector
                                                             OItem_Graph.GUID_Parent,
                                                             OItem_GraphItem.GUID,
                                                             OItem_GraphItem.GUID_Parent,
-                                                            objLocalConfig.OItem_RelationType_Contains.GUID,
+                                                            objLocalConfig.OItem_relationtype_contains.GUID,
                                                             objLocalConfig.Globals.Type_Object,
                                                             null,
                                                             1);
@@ -40,7 +40,7 @@ namespace GraphMLConnector
                                                                          OItem_GraphItem.GUID_Parent,
                                                                          OItem_ExportMode.GUID,
                                                                          OItem_ExportMode.GUID_Parent,
-                                                                         objLocalConfig.OItem_RelationType_isOfType.GUID,
+                                                                         objLocalConfig.OItem_relationtype_is_of_type.GUID,
                                                                          objLocalConfig.Globals.Type_Object,
                                                                          null,
                                                                          1);
@@ -57,7 +57,7 @@ namespace GraphMLConnector
                                                                       OItem_GraphItem.GUID_Parent,
                                                                       OItem_OItem.GUID,
                                                                       OItem_OItem.GUID_Parent,
-                                                                      objLocalConfig.OItem_RelationType_belongingSemItem
+                                                                      objLocalConfig.OItem_relationtype_belonging_sem_item
                                                                                     .GUID,
                                                                       OItem_OItem.Type,
                                                                       null,
@@ -69,7 +69,7 @@ namespace GraphMLConnector
                                                                       OItem_GraphItem.GUID_Parent,
                                                                       OItem_OItem.GUID,
                                                                       null,
-                                                                      objLocalConfig.OItem_RelationType_belongingSemItem
+                                                                      objLocalConfig.OItem_relationtype_belonging_sem_item
                                                                                     .GUID,
                                                                       OItem_OItem.Type,
                                                                       null,
@@ -113,7 +113,7 @@ namespace GraphMLConnector
             {
                 ID_Object = OItem_Graph.GUID,
                 ID_Other = OItem_GraphItem.GUID,
-                ID_RelationType = objLocalConfig.OItem_RelationType_Contains.GUID,
+                ID_RelationType = objLocalConfig.OItem_relationtype_contains.GUID,
                 Ontology = objLocalConfig.Globals.Type_Object
             };
 
@@ -151,7 +151,7 @@ namespace GraphMLConnector
                                                                OItem_GraphItem.GUID_Parent,
                                                                OItem_ExportMode.GUID,
                                                                OItem_ExportMode.GUID_Parent,
-                                                               objLocalConfig.OItem_RelationType_isOfType.GUID,
+                                                               objLocalConfig.OItem_relationtype_is_of_type.GUID,
                                                                objLocalConfig.Globals.Type_Object,
                                                                null,
                                                                1);

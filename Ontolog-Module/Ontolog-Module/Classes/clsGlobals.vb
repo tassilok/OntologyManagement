@@ -718,14 +718,14 @@ Public Class clsGlobals
         
 
         If objOItem_Result.GUID = objLogStates.LogState_Nothing.GUID Then
-            If MsgBox("Die Datenbank existiert nicht. Soll Sie am Server " & strEL_Server & " erzeugt werden?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes
+            If MsgBox("Die Datenbank " & strEL_Index & "@" & strEL_Server & " existiert nicht. Soll sie erzeugt werden?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
                 If create_Index().GUID = objLogStates.LogState_Error.GUID Then
-                    MsgBox("Die Datenbank konnte nicht erzeugt werden!",MsgBoxStyle.Critical)
+                    MsgBox("Die Datenbank konnte nicht erzeugt werden!", MsgBoxStyle.Critical)
                     Environment.Exit(0)
                 Else
                     objOItem_Result = objLogStates.LogState_Success.Clone()
                 End If
-            Else 
+            Else
                 Environment.Exit(0)
             End If
 
@@ -813,7 +813,7 @@ Public Class clsGlobals
 
         'Classes
         If Not objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
-            objOItem_Result = objDBLevel1.get_Data_Classes(objClasses.OList_Classes,containsRoot := True)
+            objOItem_Result = objDBLevel1.get_Data_Classes(objClasses.OList_Classes)
             If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
                 Dim objOList_Classes_NotExistant = (From objClassShould In objClasses.OList_Classes
                                                     Group Join objClassExist In objDBLevel1.OList_Classes on objClassShould.GUID Equals objClassExist.GUID Into objClassesExist = group

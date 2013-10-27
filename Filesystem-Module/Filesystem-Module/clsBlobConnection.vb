@@ -22,6 +22,15 @@ Public Class clsBlobConnection
     Private boolBlobActive As Boolean
     Private boolBlobWatcherConfigured As Boolean
 
+    Private objFileInfo As IO.FileInfo
+
+    Public ReadOnly Property FileInfoBlob As IO.FileInfo
+        Get
+            Return objFileInfo
+        End Get
+    End Property
+
+
     Public ReadOnly Property Path_Blob As String
         Get
             Return strPath_Blob
@@ -255,7 +264,6 @@ Public Class clsBlobConnection
         Dim objOItem_Result As clsOntologyItem
         Dim objStream_Read As IO.Stream
         Dim objStream_Write As IO.Stream
-        Dim objFileInfo As IO.FileInfo
         Dim strHash As String
         Dim strPath_File_DST As String
         Dim strPath_File_TMP As String
@@ -305,19 +313,19 @@ Public Class clsBlobConnection
                     objOItem_Result = objLocalConfig.Globals.LState_Success
 
                     Try
-                        objFileInfo = New IO.FileInfo(strPath_File)
-                        objStream_Read = New IO.FileStream(strPath_File, IO.FileMode.Open)
+
+                        objStream_Read = New IO.FileStream(strPath_File, IO.FileMode.Open, IO.FileAccess.Read)
                         objStream_Write = New IO.FileStream(strPath_File_DST, IO.FileMode.Create)
                         objStream_Read.CopyTo(objStream_Write)
                         objStream_Read.Close()
                         objStream_Write.Close()
-
+                        objFileInfo = New IO.FileInfo(strPath_File)
                         objOItem_Result = objTransaction_Files.save_003_File__CreationDate(objFileInfo.CreationTime, objOItem_File)
                         objOItem_Result = objTransaction_Files.save_004_File__Blob(True, objOItem_File)
 
 
                     Catch ex As Exception
-                        try
+                        Try
                             objStream_Read.Close()
                             objStream_Write.Close()
                         Catch ex1 As Exception
@@ -538,7 +546,7 @@ Public Class clsBlobConnection
         Return objOItem_Result
     End Function
 
-    
+
 
     Public Sub New()
         objLocalConfig = New clsLocalConfig(New clsGlobals)

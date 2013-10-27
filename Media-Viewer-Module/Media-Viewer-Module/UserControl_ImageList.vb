@@ -212,6 +212,7 @@ Public Class UserControl_ImageList
             End If
 
             ToolStripLabel_Count.Text = DataGridView_Images.RowCount
+            ToolStripButton_Open.Enabled = True
         Else
 
             ToolStripProgressBar_Images.Value = 50
@@ -255,7 +256,108 @@ Public Class UserControl_ImageList
 
 
     Private Sub ToolStripButton_Open_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Open.Click
+        Dim objOItem_File As clsOntologyItem
+        Dim objOItem_Image As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim strPath As String
+        Dim intToDo As Integer
+        Dim intDone As Integer
 
+        If ToolStripButton_Relate.Checked Then
+            If DataGridView_Images.SelectedRows.Count = 1 Then
+
+            Else
+                MsgBox("Sie können nur jeweils ein Media-Item ersetzen!", MsgBoxStyle.Information)
+            End If
+        Else
+            OpenFileDialog_Images.Multiselect = True
+            If OpenFileDialog_Images.ShowDialog(Me) = DialogResult.OK Then
+                intToDo = OpenFileDialog_Images.FileNames.Count
+                intDone = 0
+
+                For Each strPath In OpenFileDialog_Images.FileNames
+                    Try
+                        Dim objImage = New Bitmap(strPath)
+
+                        objOItem_File = objBlobConnection.isFilePresent(strPath)
+                        If objOItem_File Is Nothing Then
+                            objOItem_File = New clsOntologyItem
+                            objOItem_File.GUID = objLocalConfig.Globals.NewGUID
+                            objOItem_File.Name = IO.Path.GetFileName(strPath)
+                            objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
+                            objOItem_File.Type = objLocalConfig.Globals.Type_Object
+
+                            objOItem_Result = objTransaction_Images.do_Transaction(objOItem_File)
+                        Else
+                            objOItem_Result = objLocalConfig.Globals.LState_Success
+                        End If
+
+
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_File, strPath)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objOItem_Image = objDataWork_Images.GetImageItemOfFile(objOItem_File)
+                                If objOItem_Image Is Nothing Then
+                                    objOItem_Image = New clsOntologyItem
+                                    objOItem_Image.GUID = objLocalConfig.Globals.NewGUID
+                                    objOItem_Image.Name = objOItem_File.Name
+                                    objOItem_Image.GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                                    objOItem_Image.Type = objLocalConfig.Globals.Type_Object
+
+                                    objOItem_Result = objTransaction_Images.do_Transaction(objOItem_Image)
+                                Else
+                                    objOItem_Result = objLocalConfig.Globals.LState_Success
+                                End If
+
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    Dim objORel_Image_To_File = objDataWork_Images.Rel_Image_To_File(objOItem_Image, objOItem_File)
+
+                                    objOItem_Result = objTransaction_Images.do_Transaction(objORel_Image_To_File, True)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        objOItem_Image.Level = objDataWork_Images.GetNextOrderIDOFRef(objOItem_Ref)
+                                        objOItem_Image.Level = objOItem_Image.Level + 1
+                                        Dim objORel_Image_To_Ref = objDataWork_Images.Rel_Image_To_Ref(objOItem_Image, objOItem_Ref, True)
+
+                                        objOItem_Result = objTransaction_Images.do_Transaction(objORel_Image_To_Ref)
+                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                            Dim objORel_Image__Taking = objDataWork_Images.Rel_Image__Taking(objOItem_Image, objBlobConnection.FileInfoBlob.CreationTime)
+                                            objOItem_Result = objTransaction_Images.do_Transaction(objORel_Image__Taking)
+                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                intDone = intDone + 1
+                                            Else
+                                                objTransaction_Images.rollback()
+                                            End If
+
+                                        Else
+                                            objTransaction_Images.rollback()
+                                        End If
+                                    End If
+                                Else
+                                    objTransaction_Images.rollback()
+
+                                End If
+                            Else
+                                objTransaction_Images.rollback()
+
+                            End If
+                        End If
+                    Catch ex As Exception
+
+                    End Try
+
+
+
+                Next
+
+                If intDone < intToDo Then
+                    MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Dateien gespeichert werden!", MsgBoxStyle.Exclamation)
+                End If
+
+                initialize_Images(objOItem_Ref)
+            End If
+        End If
     End Sub
 
     Private Sub ToolStripButton_Paste_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Paste.Click

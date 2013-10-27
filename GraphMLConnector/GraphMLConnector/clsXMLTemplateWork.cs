@@ -29,9 +29,9 @@ namespace GraphMLConnector
 
         private void initialize()
         {
-            UML_Container = GetXMLContent(objLocalConfig.OItem_Object_GraphML___Container);
-            UML_Edge = GetXMLContent(objLocalConfig.OItem_Object_GraphML___UML_Edge);
-            UML_ClassNode = GetXMLContent(objLocalConfig.OItem_Object_GraphML___UML_Class_Node);
+            UML_Container = GetXMLContent(objLocalConfig.OItem_object_graphml___container);
+            UML_Edge = GetXMLContent(objLocalConfig.OItem_object_graphml___uml_edge);
+            UML_ClassNode = GetXMLContent(objLocalConfig.OItem_object_graphml___uml_class_node);
         }
 
         private string GetXMLContent(clsOntologyItem OItem_XMLItem)
@@ -45,7 +45,7 @@ namespace GraphMLConnector
             OList_XMLAtt.Add(new clsObjectAtt(null,
                                               OItem_XMLItem.GUID,
                                               null,
-                                              objLocalConfig.OItem_Attribute_XMLText.GUID,
+                                              objLocalConfig.OItem_attributetype_xml_text.GUID,
                                               null));
 
 

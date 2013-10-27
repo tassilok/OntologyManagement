@@ -226,7 +226,31 @@ namespace EsMaintenance
                         dataGridView_Found.DataSource = null;
                     }
                 }
+                else if (objListViewItem.Text == objGlobals.Type_ClassAtt)
+                {
+                    if (objEsMaintenance.GetDataClassAtt(strQuery).GUID == objGlobals.LState_Success.GUID)
+                    {
+                        dataGridView_Found.DataSource = objEsMaintenance.OList_ClassAtt;
+                        foreach (DataGridViewColumn objColumn in dataGridView_Found.Columns)
+                        {
+                            if (objColumn.DataPropertyName == "Name_Class" ||
+                                objColumn.DataPropertyName == "Name_AttributeType" ||
+                                objColumn.DataPropertyName == "Name_DataType")
+                            {
+                                objColumn.Visible = false;
+                            }
+                            else
+                            {
+                                objColumn.Visible = true;
+                            }
 
+                        }
+                    }
+                    else
+                    {
+                        dataGridView_Found.DataSource = null;
+                    }
+                }
                 toolStripLabel_Count.Text = dataGridView_Found.RowCount.ToString();
                 
             }

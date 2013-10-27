@@ -482,6 +482,59 @@ namespace EsMaintenance
             return OItem_Result;
         }
 
+        public clsOntologyItem GetDataClassAtt(string Query)
+        {
+            clsOntologyItem OItem_Result;
+            SearchResult objSearchResult;
+            List<Hits> objList = new List<Hits>();
+
+
+            var objTypes = new clsTypes();
+            var objFields = new clsFields();
+            var intPackageLength = objGlobals.SearchRange;
+            var intCount = intPackageLength;
+            var intPos = 0;
+
+            OList_ClassAtt.Clear();
+
+            try
+            {
+                var objElConn = new ElasticSearch.Client.ElasticSearchClient(objGlobals.Server.ToString(), int.Parse(objGlobals.Port), ElasticSearch.Client.Config.TransportType.Thrift, false);
+                while (intCount > 0)
+                {
+                    intCount = 0;
+                    objSearchResult = objElConn.Search(objGlobals.Index, objTypes.ClassAtt, Query, intPos, intPackageLength);
+                    objList = objSearchResult.GetHits().Hits;
+                    foreach (var objHit in objList)
+                    {
+                        var OItem_ClassAtt = new clsClassAtt();
+
+                        OItem_ClassAtt.ID_AttributeType = (objHit.Source.ContainsKey(objFields.ID_AttributeType) ? (objHit.Source[objFields.ID_AttributeType] != null ? objHit.Source[objFields.ID_AttributeType].ToString() : null) : null);
+                        OItem_ClassAtt.ID_Class = (objHit.Source.ContainsKey(objFields.ID_Class) ? (objHit.Source[objFields.ID_Class] != null ? objHit.Source[objFields.ID_Class].ToString() : null) : null);
+                        OItem_ClassAtt.ID_DataType = (objHit.Source.ContainsKey(objFields.ID_DataType) ? (objHit.Source[objFields.ID_DataType] != null ? objHit.Source[objFields.ID_DataType].ToString() : null) : null);
+                        OItem_ClassAtt.Min = (objHit.Source.ContainsKey(objFields.Min) ? (objHit.Source[objFields.Min] != null ? long.Parse(objHit.Source[objFields.Min].ToString()) : (long?)null) : (long?)null);
+                        OItem_ClassAtt.Max = (objHit.Source.ContainsKey(objFields.Max) ? (objHit.Source[objFields.Max] != null ? long.Parse(objHit.Source[objFields.Max].ToString()) : (long?)null) : (long?)null);
+
+                        OList_ClassAtt.Add(OItem_ClassAtt);
+
+
+                    }
+                    intCount = objList.Count;
+                    intPos = intPos + intCount;
+                }
+
+                OItem_Result = objGlobals.LState_Success;
+            }
+            catch (Exception ex)
+            {
+                OItem_Result = objGlobals.LState_Error;
+            }
+
+
+
+            return OItem_Result;
+        }
+
         public clsOntologyItem GetDataClassRel(string Query)
         {
             clsOntologyItem OItem_Result;

@@ -9,6 +9,8 @@ Public Class UserControl_OntologyItemList
 
     Private objOList_OntologyItems As SortableBindingList(Of clsOntologyItemsOfOntologies)
 
+    Private objFrm_ObjectEdit As frm_ObjectEdit
+
     Public ReadOnly Property OList_OntologyItems As List(Of clsOntologyItemsOfOntologies)
         Get
             Return objOList_OntologyItems.ToList()
@@ -227,5 +229,20 @@ Public Class UserControl_OntologyItemList
 
             Next
         End If
+    End Sub
+
+    Private Sub DataGridView_OItems_RowHeaderMouseDoubleClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView_OItems.RowHeaderMouseDoubleClick
+        Dim objDGVR_Selected As DataGridViewRow
+        objDGVR_Selected = DataGridView_OItems.Rows(e.RowIndex)
+        Dim objOntologyItemOfOntology As clsOntologyItemsOfOntologies = objDGVR_Selected.DataBoundItem
+
+        Dim objOList_Objects = New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID = objOntologyItemOfOntology.ID_OntologyItem, _
+                                                                                            .Name = objOntologyItemOfOntology.Name_OntologyItem, _
+                                                                                            .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_OntologyItems.GUID, _
+                                                                                            .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}}
+
+
+        objFrm_ObjectEdit = New frm_ObjectEdit(objDataWork_Ontologies.LocalConfig.Globals, objOList_Objects, 0, objDataWork_Ontologies.LocalConfig.Globals.Type_Object, Nothing)
+        objFrm_ObjectEdit.ShowDialog(Me)
     End Sub
 End Class

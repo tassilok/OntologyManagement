@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="46ff89f63dcc40cc80a52cab5b8e1329" Id_Parent="9e5083617de64087bdae30933cdb8843"><![CDATA[Base-Config]]></Item>
+<Item Id="733ae7fe72cc495b95004266edcab296" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Bill-Module]]></Item>
+<Item Id="f9ca9209cea94e3c98a56c89be14c3f9" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Transaction_Date]]></Item>
+<Item Id="40d271e349714fb48c69dfcc929b72d9" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_percent]]></Item>
+<Item Id="40d271e349714fb48c69dfcc929b72d9" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_percent]]></Item>
+<Item Id="dab27a17d37543c8962f5564dedc6fa3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[attribute_dbPostfix]]></Item>
+<Item Id="c0a5f8a769314c3d8cf547d58aea7c0e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_part____]]></Item>
+<Item Id="59da6d3530d840769443013b0c98e3d4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Zahlungsausgang]]></Item>
+<Item Id="bc7eb4272a46483d80174ba5a4f42c5a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Gross__Standard_]]></Item>
+<Item Id="9825c731d6604f6aa5a106752a5fe55f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Beg_nstigter_Zahlungspflichtiger]]></Item>
+<Item Id="16627e2b8dcf412bb7362919556f88a4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Transaction_ID]]></Item>
+<Item Id="84e30cb10f8142a0b5b0ec7d618aa74a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_to_Pay]]></Item>
+<Item Id="c5e246637def4cf5970b04b783f437cf" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Menge]]></Item>
+<Item Id="8e3d7d7ec47d429580f939facd66f4de" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_percent]]></Item>
+<Item Id="8e3d7d7ec47d429580f939facd66f4de" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_percent]]></Item>
+<Item Id="c4d672f9856a4066a38ac632b898553f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Valutatag]]></Item>
+<Item Id="31c4fef12f9d44c097b5a501d1e41137" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_gross]]></Item>
+<Item Id="a44decb5b4564dbfa97b91c60c96635a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Amount]]></Item>
+<Item Id="6bd2cb9c36644512b53b1f3d3b62e72e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Betrag]]></Item>
+<Item Id="cde102f18d354dcc92188735805e0508" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Standard]]></Item>
+<Item Id="f464eb1f60db4f2598c7ca5847705f7e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Contractor]]></Item>
+<Item Id="3e2056cc07ae490b854d601028ad7ccc" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_offers]]></Item>
+<Item Id="f801a2a8e9a542a0a34e80583d93a251" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_contains]]></Item>
+<Item Id="dfddae6c02a04f04874b4cf771fb22d4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Currency]]></Item>
+<Item Id="8f510164922545d0819414ed53d30236" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Sem_Item]]></Item>
+<Item Id="7e391db951134fad94e205faf78fb865" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Amount]]></Item>
+<Item Id="a945f97e76d44b0aaec4eb13b8455050" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_isDescribedBy]]></Item>
+<Item Id="de67c093532a4f63bdeefebaa58781ad" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Gegenkonto]]></Item>
+<Item Id="6092ecdeae124ad29ecd8734638db44e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Contractee]]></Item>
+<Item Id="61709f047498449cbac8424c639c4954" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Tax_Rate]]></Item>
+<Item Id="9e7dccad735c4646ac20c71c37cb5b87" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is_of_Type]]></Item>
+<Item Id="b044a17618cb41e38191effa7ef44fcc" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_zugeh_rige_Mandanten]]></Item>
+<Item Id="6a55bb01ed9d431289abb59bc4bf0614" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongsTo]]></Item>
+<Item Id="aeaa73af306a4189a515c487fefd1f09" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Payment]]></Item>
+<Item Id="7329b067fbcb4864a168b9c81c899d09" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_located_in]]></Item>
+<Item Id="bf8e1bebd63949b88c2a41a35e091ced" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_accountings]]></Item>
+<Item Id="a05650a38cc84f6fbed885e6945a3351" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_offered_by]]></Item>
+<Item Id="5a0bf3a8e20c432eb0c6037bb38e282c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Bank_Transaktionen__Sparkasse_]]></Item>
+<Item Id="6386379c57784e069354d38e1b4913c9" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Offset]]></Item>
+<Item Id="19ae76a4142b4790a08e36a997d87cef" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Currencies]]></Item>
+<Item Id="ce4f07f1c93f4408960d5520a3175e78" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Payment]]></Item>
+<Item Id="f02b37a92aeb49e98944d25420c2fc73" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Bill_Module]]></Item>
+<Item Id="42ab398164b44007ab796cc7d26bf45a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Bankleitzahl]]></Item>
+<Item Id="8d12c4ab72c04bc0b157a9b199dde48d" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Module]]></Item>
+<Item Id="b0360003411047459a191101cb5b0d5e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Kontonummer]]></Item>
+<Item Id="a3fdcbe17f054fe3ae0db4420805bfcf" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Menge]]></Item>
+<Item Id="ee69c245a9274988968ca066d5393a59" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Language]]></Item>
+<Item Id="870cc8a1d4644400aecbed59b5876411" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Financial_Transaction]]></Item>
+<Item Id="1bf472feba9c45b2b2275b5892a28328" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Search_Template]]></Item>
+<Item Id="9aa839b2525047b585e0f6e9e0b5616c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Bank_Transaktionen__Sparkasse____Archiv]]></Item>
+<Item Id="2fa7efda24a5409f9febe79c0ed4def3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Einheit]]></Item>
+<Item Id="482c673d6f694265a130258477867431" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Beleg]]></Item>
+<Item Id="a5e467a9f6e341ca8af078475900668b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Belegsart]]></Item>
+<Item Id="27b0b530bf924340af40bfac7ad7f5f5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Container__physical_]]></Item>
+<Item Id="a948004d3f59422e97f3fae1b2a2922f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Partner]]></Item>
+<Item Id="f32ddfa12bed480b9615860d5bd8a0fc" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Financial_Transaction___Archive]]></Item>
+<Item Id="0c4374b9267f429caede140338fae1e9" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Tax_Rates]]></Item>
+<Item Id="4813ffa329e2411bace6f010451e740a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Search_Template_Contractee_Contractor_]]></Item>
+<Item Id="7a714885cd914cf7b307b44caeac9573" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Search_Template_Name_]]></Item>
+<Item Id="5a1ffee69ad14613afd583ace22b26d1" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Search_Template_Transaction_Date_]]></Item>
+<Item Id="1ff3fa3667a84b2a893aaeed1f73ed94" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Search_Template_Related_Sem_Item_]]></Item>
+<Item Id="795566f98fdc4a92b3c180abee0fc50f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Direction_Down]]></Item>
+<Item Id="95fe81998d3c4d92b28643d3edc8d806" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Software_Development_Bill_Module]]></Item>
+<Item Id="b44daba76f054b1d9692b4acd83f7c8a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Search_Template_to_Pay_]]></Item>
+<Item Id="e0d28c03c24442268655b2a87913f4a4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Search_Template_Amount_]]></Item>
+<Item Id="b22c830e6168423a95454ec57b48aa17" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Module_Bill_Module]]></Item>
+<Item Id="7a53b7dacb654b14a1bd59405454a5d6" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Search_Template_Payment_Date_]]></Item>
+<Item Id="c449b44183004840b3c8be7eaacda496" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Direction_Up]]></Item>
+<Item Id="4538d2dad70f464d824853b41148e729" Id_Parent="a2d7d0fe04954afe85e11dcb88a27546"><![CDATA[Familie Koller (Sparmandant Sparkasse)]]></Item>
+<Item Id="6f920ffd427649c1abbb50312626c912" Id_Parent="a2d7d0fe04954afe85e11dcb88a27546"><![CDATA[Rosa Pollerspöck]]></Item>
+<Item Id="ab56adb7965d4f1faa97aabef70af0f5" Id_Parent="a2d7d0fe04954afe85e11dcb88a27546"><![CDATA[Familie Koller]]></Item>
+<Item Id="3624b06d58ce433a81cb047a4bcf8577" Id_Parent="a2d7d0fe04954afe85e11dcb88a27546"><![CDATA[Julia Koller]]></Item>
+<Item Id="dbc3024144a6455ab48cc0cf59ee3c73" Id_Parent="a2d7d0fe04954afe85e11dcb88a27546"><![CDATA[Tassilo Volker Koller]]></Item>
+<Item Id="11d4b43dab784aa7bfdf67d6719e9db0" Id_Parent="a2d7d0fe04954afe85e11dcb88a27546"><![CDATA[Tassilo Koller]]></Item>
+<Item Id="a4782043f60b4f2c9781a10187da32db" Id_Parent="a2d7d0fe04954afe85e11dcb88a27546"><![CDATA[Familie Koller (Sparmandant Raiffeisenbank)]]></Item>
+<Item Id="853055a705d8427ba57cb2e636143e67" Id_Parent="a2d7d0fe04954afe85e11dcb88a27546"><![CDATA[Julia Koller (Barmandant)]]></Item>
+<Item Id="3a9f0178f35a404cbc78b9f7824b1c16" Id_Parent="d88808d004734594a8f96c4cb3439297"><![CDATA[Stück]]></Item>
+<Item Id="4b469beb262c4c709d466e2f0304e92a" Id_Parent="e864f1981df04d53bb87959bc8884919"><![CDATA[€]]></Item>
+<Item Id="fad74770776f44a8bf0ebeb6a070218e" Id_Parent="53aa29b736e14511b9a4a743a5fc4535"><![CDATA[19 %]]></Item>
+<Item Id="63188e160cd7438490a8558b47564b7b" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[English (United States)]]></Item>
+<Item Id="8b1691d9b2964841b01ea7b6452eab2f" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[German (Germany)]]></Item>
+<Item Id="14cc9088fd9845f9957eb4bf519bf6f5" Id_Parent="3d1dc6cfb96449869808f39b7c5c3907"><![CDATA[Up]]></Item>
+<Item Id="ef4192352d554ce7a0f46702ab57fbb7" Id_Parent="3d1dc6cfb96449869808f39b7c5c3907"><![CDATA[Down]]></Item>
+<Item Id="d457a21a30a34751a7d5ad3892145c22" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Bill-Module]]></Item>
+<Item Id="9b0183f0c7874fe8b5bdfe038ccd4a7c" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Bill-Module]]></Item>
+<Item Id="a67061a51e92462596ad5b4f01ba61b7" Id_Parent="499ec20daf6f4e72bf55ffb6eac101bf"><![CDATA[to Pay:]]></Item>
+<Item Id="a030d27fd9204a87a513faaf4ccd2af7" Id_Parent="499ec20daf6f4e72bf55ffb6eac101bf"><![CDATA[Name/GUID:]]></Item>
+<Item Id="1668fb78fdc64618b5cc1be00741a2ab" Id_Parent="499ec20daf6f4e72bf55ffb6eac101bf"><![CDATA[Payment-Date:]]></Item>
+<Item Id="9cff47c63a764c35b0bc8bf26addbd3c" Id_Parent="499ec20daf6f4e72bf55ffb6eac101bf"><![CDATA[Related Sem-Item:]]></Item>
+<Item Id="e7dd29f689664dd78230ea716ada368a" Id_Parent="499ec20daf6f4e72bf55ffb6eac101bf"><![CDATA[Contractee/Contractor:]]></Item>
+<Item Id="2bd1ea49dc70402e90c88267b1c5ca6a" Id_Parent="499ec20daf6f4e72bf55ffb6eac101bf"><![CDATA[Amount:]]></Item>
+<Item Id="47ac1a668e2c4966b1c64b27e829efa6" Id_Parent="499ec20daf6f4e72bf55ffb6eac101bf"><![CDATA[Transaction-Date:]]></Item>
+
+</Items>

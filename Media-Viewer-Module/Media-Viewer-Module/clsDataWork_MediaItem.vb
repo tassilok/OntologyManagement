@@ -243,7 +243,7 @@ Public Class clsDataWork_MediaItem
 
         Dim intOrderID = OItem_MediaItem.Level
         If boolGetNextOrderID Then
-            intOrderID = objDBLevel_MediaItems.get_Data_Rel_OrderID(OItem_MediaItem, OItem_Ref, objLocalConfig.OItem_RelationType_belongsTo, False)
+            intOrderID = objDBLevel_MediaItems.get_Data_Rel_OrderID(New clsOntologyItem With {.GUID_Parent = OItem_MediaItem.GUID_Parent}, OItem_Ref, objLocalConfig.OItem_RelationType_belongsTo, False)
             intOrderID = intOrderID + 1
         End If
 

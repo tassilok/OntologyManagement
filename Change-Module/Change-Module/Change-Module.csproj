@@ -165,6 +165,14 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Config\Templates\AttributeTypes.xml" />
+    <EmbeddedResource Include="Config\Templates\ClassAtts.xml" />
+    <EmbeddedResource Include="Config\Templates\Classes.xml" />
+    <EmbeddedResource Include="Config\Templates\ClassRels.xml" />
+    <EmbeddedResource Include="Config\Templates\ObjectAtt.xml" />
+    <EmbeddedResource Include="Config\Templates\ObjectRel.xml" />
+    <EmbeddedResource Include="Config\Templates\Objects.xml" />
+    <EmbeddedResource Include="Config\Templates\RelationTypes.xml" />
     <Content Include="kexi_kexi_team_01.ico" />
     <None Include="Resources\trashcan_full.png" />
     <None Include="Resources\pulsante_02_architetto_f_01 Last.png" />
@@ -201,6 +209,7 @@
       <Name>Security-Module</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

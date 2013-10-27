@@ -377,9 +377,11 @@ Public Class clsDataWork_Ontologies
             objOList_AttributeTypes = (From obj In (From obj In objDBLevel_OntologyRels.OList_ObjectRel
                                        Where obj.ID_Parent_Other = objLocalConfig.Globals.Type_AttributeType).ToList()
                                       Group By obj.ID_Other, _
-                                               obj.Name_Other Into Group
+                                               obj.Name_Other, _
+                                               obj.ID_Parent_Other Into Group
                                       Select New clsOntologyItem() With {.GUID = ID_Other, _
                                                                          .Name = Name_Other, _
+                                                                         .GUID_Parent = ID_Parent_Other, _
                                                                          .Type = objLocalConfig.Globals.Type_AttributeType}).ToList()
 
             objOList_RelationTypes = (From obj In (From obj In objDBLevel_OntologyRels.OList_ObjectRel
@@ -388,7 +390,7 @@ Public Class clsDataWork_Ontologies
                                                obj.Name_Other Into Group
                                       Select New clsOntologyItem() With {.GUID = ID_Other, _
                                                                          .Name = Name_Other, _
-                                                                         .Type = objLocalConfig.Globals.Type_AttributeType}).ToList()
+                                                                         .Type = objLocalConfig.Globals.Type_RelationType}).ToList()
 
             objOList_Classes = (From obj In (From obj In objDBLevel_OntologyRels.OList_ObjectRel
                                        Where obj.Ontology = objLocalConfig.Globals.Type_Class).ToList()
@@ -398,7 +400,7 @@ Public Class clsDataWork_Ontologies
                                       Select New clsOntologyItem() With {.GUID = ID_Other, _
                                                                          .Name = Name_Other, _
                                                                          .GUID_Parent = ID_Parent_Other, _
-                                                                         .Type = objLocalConfig.Globals.Type_AttributeType}).ToList()
+                                                                         .Type = objLocalConfig.Globals.Type_Class}).ToList()
 
             objOList_Objects = (From obj In (From obj In objDBLevel_OntologyRels.OList_ObjectRel
                                        Where obj.Ontology = objLocalConfig.Globals.Type_Object).ToList()
@@ -408,7 +410,7 @@ Public Class clsDataWork_Ontologies
                                       Select New clsOntologyItem() With {.GUID = ID_Other, _
                                                                          .Name = Name_Other, _
                                                                          .GUID_Parent = ID_Parent_Other, _
-                                                                         .Type = objLocalConfig.Globals.Type_AttributeType}).ToList()
+                                                                         .Type = objLocalConfig.Globals.Type_Object}).ToList()
         End If
 
         objOItem_Result_OntolyRef = objOItem_Result
@@ -1030,7 +1032,14 @@ Public Class clsDataWork_Ontologies
         objOItem_Result_RefsOfOntologyItems = objLocalConfig.Globals.LState_Nothing
         Dim objOList_RefsOfOntologyItems = New List(Of clsObjectRel)
 
-        objOList_RefsOfOntologyItems.Add(New clsObjectRel() With {.ID_Parent_Object = objClasses.OItem_Class_OntologyItems.GUID})
+        objOList_RefsOfOntologyItems.Add(New clsObjectRel() With {.ID_Parent_Object = objClasses.OItem_Class_OntologyItems.GUID,
+                                                                  .ID_RelationType = objLocalConfig.Globals.RelationType_belongingAttribute.GUID})
+        objOList_RefsOfOntologyItems.Add(New clsObjectRel() With {.ID_Parent_Object = objClasses.OItem_Class_OntologyItems.GUID,
+                                                                  .ID_RelationType = objLocalConfig.Globals.RelationType_belongingClass.GUID})
+        objOList_RefsOfOntologyItems.Add(New clsObjectRel() With {.ID_Parent_Object = objClasses.OItem_Class_OntologyItems.GUID,
+                                                                  .ID_RelationType = objLocalConfig.Globals.RelationType_belongingRelationType.GUID})
+        objOList_RefsOfOntologyItems.Add(New clsObjectRel() With {.ID_Parent_Object = objClasses.OItem_Class_OntologyItems.GUID,
+                                                                  .ID_RelationType = objLocalConfig.Globals.RelationType_belongingObject.GUID})
 
         objOItem_Result = objDBLevel_RefsOfOntologyItems.get_Data_ObjectRel(objOList_RefsOfOntologyItems, boolIDs:=False)
 
@@ -1038,9 +1047,10 @@ Public Class clsDataWork_Ontologies
             objOList_Refs = (From obj In objDBLevel_RefsOfOntologyItems.OList_ObjectRel
                             Where obj.ID_RelationType = objRelationTypes.OItem_RelationType_belongingAttribute.GUID And _
                                   obj.Ontology = objLocalConfig.Globals.Type_AttributeType
-                            Group By obj.ID_Other, obj.Name_Other Into Group
+                            Group By obj.ID_Other, obj.Name_Other, obj.ID_Parent_Other Into Group
                             Select New clsOntologyItem() With {.GUID = ID_Other, _
                                                                .Name = Name_Other, _
+                                                               .GUID_Parent = ID_Parent_Other, _
                                                                .Type = objLocalConfig.Globals.Type_AttributeType}).ToList()
 
             objOList_Refs = objOList_Refs.Concat(From obj In objDBLevel_RefsOfOntologyItems.OList_ObjectRel
@@ -1059,7 +1069,6 @@ Public Class clsDataWork_Ontologies
                                                                .Name = Name_Other, _
                                                                .GUID_Parent = ID_Parent_Other, _
                                                                .Type = objLocalConfig.Globals.Type_Class}).tolist()
-
             objOList_Refs = objOList_Refs.Concat(From obj In objDBLevel_RefsOfOntologyItems.OList_ObjectRel
                             Where obj.ID_RelationType = objRelationTypes.OItem_RelationType_belongingObject.GUID And _
                                   obj.Ontology = objLocalConfig.Globals.Type_Object

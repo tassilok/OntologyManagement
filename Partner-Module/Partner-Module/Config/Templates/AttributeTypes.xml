@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Items Type="@ITEMTYPE@">
+<Items Type="AttributeType">
   <Item Id="2f406bc067f441a1bd2a9b579ea543a0" Id_Parent="905fda81788f4e3d83293e55ae984b9e"><![CDATA[Todesdatum]]></Item>
 <Item Id="6f236b5862424e1eb6ecc6369511138a" Id_Parent="905fda81788f4e3d83293e55ae984b9e"><![CDATA[Geburtsdatum]]></Item>
 <Item Id="20fee56ba0484753bc35fd067b81a85c" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[eTin]]></Item>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Class">
+  <Item Id="403659518d044c109e32d8761c6892b5" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Development-Module]]></Item>
+<Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
+<Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
+<Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
+<Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="9d55f7c9d2574d968fca9bfc64b496a4" Id_Parent="105e9a106c414e8e93060bf795bb9b04"><![CDATA[Image/Video-Management]]></Item>
+<Item Id="615792288a424c60adb541a47c8dacbb" Id_Parent="98005f0d3bd14a6eaf922f704071ea29"><![CDATA[ToolTip-Messages]]></Item>
+<Item Id="956a2e59176a4437a8668690616b9da4" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Programing-Language]]></Item>
+<Item Id="46a8db8b320446248e0ffefc613024dc" Id_Parent="231ca55f93f7476daa5b03464996a55a"><![CDATA[Parameter (Dev-Structure)]]></Item>
+<Item Id="f8a525de72bb4904941f63a40ce34234" Id_Parent="132a845f849f4f6b86847ab3fd068824"><![CDATA[Database]]></Item>
+<Item Id="351d45912495450182aba425f5235db9" Id_Parent="53136d10b7e747fc94ad7887a354d6e1"><![CDATA[Logentry]]></Item>
+<Item Id="469bfcede40f4b5fa43220bdb4f77176" Id_Parent="231ca55f93f7476daa5b03464996a55a"><![CDATA[Dev-Structure (Process-Type to Process)]]></Item>
+<Item Id="231ca55f93f7476daa5b03464996a55a" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Development-Structure]]></Item>
+<Item Id="98005f0d3bd14a6eaf922f704071ea29" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Messages]]></Item>
+<Item Id="aa616051e5214facabdbcbba6f8c6e73" Id_Parent="b5224e7f7d0d4beebf8eb9a0eeba5747"><![CDATA[Module]]></Item>
+<Item Id="7a81bf4725194db7ae54d1eb416c46af" Id_Parent="160b2c7d1f3c4608b8b408ace24bc629"><![CDATA[GUI-Caption]]></Item>
+<Item Id="57fd740d88a9409cb510f5d19d645433" Id_Parent="231ca55f93f7476daa5b03464996a55a"><![CDATA[Dev-Structure Invoke]]></Item>
+<Item Id="42c674f8214f4a24bfe4a81ce36995a4" Id_Parent="231ca55f93f7476daa5b03464996a55a"><![CDATA[Objects]]></Item>
+<Item Id="76d12ad6cd514ee78b405e9e6e5a182c" Id_Parent="f8a525de72bb4904941f63a40ce34234"><![CDATA[Database on Server]]></Item>
+<Item Id="7a7f6e5159644bdd8fcca044a5c36207" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Development-Libraries]]></Item>
+<Item Id="2c1f5b9721e544ca95d243008011c14d" Id_Parent="93ec93841a4746cca276208497fb5e80"><![CDATA[Process]]></Item>
+<Item Id="a26790976dbc478287f72952d8c4e567" Id_Parent="665736810b4448e19aa58cdd56248413"><![CDATA[Scene]]></Item>
+<Item Id="1be2abe49dc2441ab1b6282022821c97" Id_Parent="6ffcf7761e4c4497afaa7cff6de69642"><![CDATA[DB-Schema-Type]]></Item>
+<Item Id="f30436d62ffc4071af5e3ce708b8c2d9" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Development-Version]]></Item>
+<Item Id="6eb4fdd32e254886b288e1bfc2857efb" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[File]]></Item>
+<Item Id="6ffcf7761e4c4497afaa7cff6de69642" Id_Parent="801a533366ae4239b43a73cf2cd8f3c4"><![CDATA[DBSchema Of Application]]></Item>
+<Item Id="3d62cd7188e24e3d8a5d9601da17da1d" Id_Parent="7d0178e29c044485b81c6d79253c6f64"><![CDATA[Localized Description]]></Item>
+<Item Id="48230ad503e8495696c6db65edbfc1c9" Id_Parent="6ffcf7761e4c4497afaa7cff6de69642"><![CDATA[Sem-Items to expot with Children]]></Item>
+<Item Id="ac0c99a0d73d4dc7a7893528a76822de" Id_Parent="7d0178e29c044485b81c6d79253c6f64"><![CDATA[Localized Names]]></Item>
+<Item Id="e79ff4de2e394101b5a10055c40f41cd" Id_Parent="7d0178e29c044485b81c6d79253c6f64"><![CDATA[Language]]></Item>
+<Item Id="ef3dcb518e584adabcca2b5939eb4e71" Id_Parent="20f3289f648e4826910d049f12b8ddc2"><![CDATA[WIKI-Implementation]]></Item>
+<Item Id="13c09f11175c4eefbc8a0fd8e86d557f" Id_Parent="c6c9bcb80ac947139417eeec1453026c"><![CDATA[Development-ConfigItem]]></Item>
+<Item Id="c441518dbfe04d55b538df5c5555dd83" Id_Parent="31da809331494400957fa26027fb506e"><![CDATA[user]]></Item>
+<Item Id="8703010b98304113b2e98a4f24b5e99b" Id_Parent="48230ad503e8495696c6db65edbfc1c9"><![CDATA[Export-Mode]]></Item>
+<Item Id="a581af4e1c4d4d93b48958643be19524" Id_Parent="98005f0d3bd14a6eaf922f704071ea29"><![CDATA[Localized Message]]></Item>
+<Item Id="a458355a101540cd9ea496d14d14e9f0" Id_Parent="231ca55f93f7476daa5b03464996a55a"><![CDATA[Structure-Type with Aspects]]></Item>
+<Item Id="18ec3b1b8faf4988b90337ca70c2803d" Id_Parent="231ca55f93f7476daa5b03464996a55a"><![CDATA[Structure-Type]]></Item>
+<Item Id="36c9d45a161f4ae985358210ac5380b2" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Ontology-Export]]></Item>
+<Item Id="c6c9bcb80ac947139417eeec1453026c" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Development-Config]]></Item>
+<Item Id="12de02469d84416faa45980efcb9db9b" Id_Parent="7d0178e29c044485b81c6d79253c6f64"><![CDATA[Directions]]></Item>
+<Item Id="71415eebce464b2cb0a2f72116b55438" Id_Parent="73e32abfe5774d319a46bc07e9e15de3"><![CDATA[Software-Development]]></Item>
+<Item Id="d15326f5e4f1449e91b989c8fdde147d" Id_Parent="231ca55f93f7476daa5b03464996a55a"><![CDATA[Structure-Validity]]></Item>
+<Item Id="8a2407981cbf466f95f53b7811b93ab1" Id_Parent="469bfcede40f4b5fa43220bdb4f77176"><![CDATA[Dev-Structure]]></Item>
+<Item Id="1d9568afb6da49908f4d907dfdd30749" Id_Parent="53136d10b7e747fc94ad7887a354d6e1"><![CDATA[Logstate]]></Item>
+<Item Id="3181a6940ce144cca16c6c19d2b6b5d9" Id_Parent="160b2c7d1f3c4608b8b408ace24bc629"><![CDATA[GUI-Entires]]></Item>
+<Item Id="d7a03a35875142b48e0519fc7a77ee91" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[Server]]></Item>
+<Item Id="801a533366ae4239b43a73cf2cd8f3c4" Id_Parent="132a845f849f4f6b86847ab3fd068824"><![CDATA[Database-Schema]]></Item>
+<Item Id="f47a3e1c50b44666a41de975597c9adb" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[Folder]]></Item>
+<Item Id="2f05c250be334b77ba3cb8a0228821b6" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Filesystem-Management]]></Item>
+<Item Id="665736810b4448e19aa58cdd56248413" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Scenarios]]></Item>
+<Item Id="31da809331494400957fa26027fb506e" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Security-Management]]></Item>
+<Item Id="20f3289f648e4826910d049f12b8ddc2" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Wiki-Management]]></Item>
+<Item Id="b5224e7f7d0d4beebf8eb9a0eeba5747" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Module-Management]]></Item>
+<Item Id="105e9a106c414e8e93060bf795bb9b04" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Document-Management]]></Item>
+<Item Id="160b2c7d1f3c4608b8b408ace24bc629" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[GUI-Items]]></Item>
+<Item Id="132a845f849f4f6b86847ab3fd068824" Id_Parent="73e32abfe5774d319a46bc07e9e15de3"><![CDATA[Database-Management]]></Item>
+<Item Id="93ec93841a4746cca276208497fb5e80" Id_Parent="7c3385f938a44a93903d4b1a8f838034"><![CDATA[Process-Management]]></Item>
+<Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
+<Item Id="73e32abfe5774d319a46bc07e9e15de3" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Software-Management]]></Item>
+<Item Id="53136d10b7e747fc94ad7887a354d6e1" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Log-Management]]></Item>
+<Item Id="7d0178e29c044485b81c6d79253c6f64" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Localization-Management]]></Item>
+<Item Id="7c3385f938a44a93903d4b1a8f838034" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Project-Management]]></Item>
+<Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
+<Item Id="83317bacb4b14db8bf849fca0a93ddd5" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Information-Management]]></Item>
+<Item Id="071b0a6bf0d641068d018e2eaef79357" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Possible-States]]></Item>
+<Item Id="4158aad2656a4fb997bf524c6f5fecaa" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Variable]]></Item>
+<Item Id="327e9773fca6458ca44d338a556e0ad9" Id_Parent="de988c64dd5941f4bf1f4b54c56e8fe7"><![CDATA[XML]]></Item>
+<Item Id="de988c64dd5941f4bf1f4b54c56e8fe7" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Templates]]></Item>
+
+</Items>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="b8339eaefe144f82937b2cb335c473c9" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Scenes_Literature_Module]]></Item>
+<Item Id="dedbb965d9054311a72919db793e66ac" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[attribute_dbPostfix]]></Item>
+<Item Id="e359bc101d7f4066bb3bc234a5155262" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_offered_by]]></Item>
+<Item Id="35425eba5c4f423d96d12f3581eec033" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongsTo]]></Item>
+<Item Id="15ce4d81c13c423e82d27774612b98dc" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is_of_Type]]></Item>
+<Item Id="7b4871fee8e5410c811ae553376897f4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_located_in]]></Item>
+<Item Id="de448da58a9c49f2856f71a18941f6aa" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Document]]></Item>
+<Item Id="4920542f3aa04242befe5fabc7248bae" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Standard]]></Item>
+<Item Id="98f1a3de1aab4555becc1a970a7b31db" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_contains]]></Item>
+<Item Id="f1cfeb6ee9c54c4c8ebfbeadc5d8413a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_offers]]></Item>
+<Item Id="7c4bd532ce3d4c4b81b252c11f2da46e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_repr_sentiert]]></Item>
+<Item Id="5ff64a8c3965455f9a233dd250c0b9ef" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Sem_Item]]></Item>
+<Item Id="fdba9de428cd4865af324a40548d5a30" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_findet_statt_am]]></Item>
+<Item Id="879452dfe478483d89236a22bb201e87" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_literarisches_Datum]]></Item>
+<Item Id="188520cc29a248d7ab95f1e13d610d15" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Search_Template]]></Item>
+<Item Id="f95e86e7a10748b3a91c48d8b4dfb2c3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Literarischer_Ort]]></Item>
+<Item Id="4bf52eb1accd4000b3d19ee9d8c318ce" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_literarischer_Charakter]]></Item>
+<Item Id="b97335b8b797467abb6267f89122e01c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Szenen_auf_Ebenen]]></Item>
+<Item Id="443418ddc51744f1a3383093000e3d21" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Kapitel]]></Item>
+<Item Id="836324ff8a2b4d00ac8cf0d0f75f8859" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Dramaturgische_Ebenen]]></Item>
+<Item Id="07f640aaabf7442abcfb35d2ebe5d9e6" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Managed_Document]]></Item>
+<Item Id="61c6b8d69fa74666856e95ea9fc80659" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Module]]></Item>
+<Item Id="d6ae2d21615a4a61bbbbd64cec4447af" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Szene]]></Item>
+<Item Id="cbcf7b6cdc004959a271cdfeb8bdf3ce" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Eigene_Literatur]]></Item>
+<Item Id="621b2fc2d7b54d0cbb92f9e8658eb777" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_ContentObject]]></Item>
+<Item Id="63d9b356e3684d7787e47c4945ca45da" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Search_Template_Date_]]></Item>
+<Item Id="bab5a2dc00e64091b1613c43e69d6a94" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Search_Template_Location_]]></Item>
+<Item Id="d4eb6874f258481b8ca7b07a5b9bf26d" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Search_Template_Character_]]></Item>
+<Item Id="0b07ae4043504cada5e802fd4e685d75" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Search_Template_Name_]]></Item>
+<Item Id="f60891d64b5b401186871d2de798859f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_ContentType_Bookmark]]></Item>
+<Item Id="bbf0d73ac5774d28af28b6a1d9921880" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Search_Template_dramaturgy_phase_]]></Item>
+<Item Id="d4041508977348e998a6253eb8792a5c" Id_Parent="e84418caa10c4d7bbc7402a6c38c040a"><![CDATA[Bookmark]]></Item>
+<Item Id="22b67037538b4d3490c7a81a5c834306" Id_Parent="499ec20daf6f4e72bf55ffb6eac101bf"><![CDATA[Location:]]></Item>
+<Item Id="a030d27fd9204a87a513faaf4ccd2af7" Id_Parent="499ec20daf6f4e72bf55ffb6eac101bf"><![CDATA[Name/GUID:]]></Item>
+<Item Id="f006b30210924cd4beaa3782981adb6e" Id_Parent="499ec20daf6f4e72bf55ffb6eac101bf"><![CDATA[Character:]]></Item>
+<Item Id="5fdb30dc0f284dd984e071e04c52a5d6" Id_Parent="499ec20daf6f4e72bf55ffb6eac101bf"><![CDATA[Date:]]></Item>
+<Item Id="3c29e68527de4d9584e56e4df3ff3bdf" Id_Parent="499ec20daf6f4e72bf55ffb6eac101bf"><![CDATA[dramaturgy phase:]]></Item>
+
+</Items>

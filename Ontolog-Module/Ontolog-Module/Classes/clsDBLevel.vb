@@ -2,8 +2,6 @@
 Imports OntologyClasses.DataClasses
 Imports OntologyClasses.BaseClasses
 Imports ElasticSearch
-Imports Lucene.Net.Search
-Imports Lucene.Net.Index
 
 Public Class clsDBLevel
     <Flags()>
@@ -848,8 +846,7 @@ Public Class clsDBLevel
                                      Optional ByVal boolTable As Boolean = False, _
                                      Optional ByVal boolClasses_Right As Boolean = False, _
                                      Optional ByVal strSort As String = Nothing, _
-                                     Optional ByVal doCount As Boolean = False,
-                                     Optional containsRoot As Boolean = False) As clsOntologyItem
+                                     Optional ByVal doCount As Boolean = False) As clsOntologyItem
         
         Dim objOItem_Result = objLogStates.LogState_Success
 
@@ -857,7 +854,7 @@ Public Class clsDBLevel
             objOItem_Result.Count = objElSelector.get_Data_ClassesCount(OList_Classes)
         Else 
             If boolClasses_Right=False Then
-                objOntologyList_Classes1 = objElSelector.get_Data_Classes(OList_Classes,boolClasses_Right,strSort, containsRoot)
+                objOntologyList_Classes1 = objElSelector.get_Data_Classes(OList_Classes, boolClasses_Right, strSort)
                 If boolTable Then
                     For Each objClass As clsOntologyItem In objOntologyList_Classes1
                         otblT_Classes.Rows.Add(New clsOntologyItem(objClass.GUID, _
@@ -867,7 +864,7 @@ Public Class clsDBLevel
                     
                 End If
             Else 
-                objOntologyList_Classes2 = objElSelector.get_Data_Classes(OList_Classes,boolClasses_Right,strSort, containsRoot)
+                objOntologyList_Classes2 = objElSelector.get_Data_Classes(OList_Classes, boolClasses_Right, strSort)
                  If boolTable Then
                     For Each objClass As clsOntologyItem In objOntologyList_Classes2
                         otblT_Classes.Rows.Add(New clsOntologyItem(objClass.GUID, _

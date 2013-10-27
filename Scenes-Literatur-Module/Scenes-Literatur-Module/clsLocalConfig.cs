@@ -4,18 +4,15 @@ using System.Linq;
 using System.Text;
 using Ontology_Module;
 using OntologyClasses.BaseClasses;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace Scenes_Literatur_Module
 {
     public class clsLocalConfig
     {
-        private const string cstr_ID_SoftwareDevelopment = "3ffa54398df946ce98804d9c1ee718dd";
-        private const string cstr_ID_Class_SoftwareDevelopment = "132a845f849f4f6b86847ab3fd068824";
-        private const string cstr_ID_Class_DevelopmentConfig = "c6c9bcb80ac947139417eeec1453026c";
-        private const string cstr_ID_Class_ConfigItem = "13c09f11175c4eefbc8a0fd8e86d557f";
-        private const string cstr_ID_RelType_needs = "fafc1464815f45969737bcbc96bd744a";
-        private const string cstr_ID_RelType_contains = "e971160347db44d8a476fe88290639a4";
-        private const string cstr_ID_RelType_belongsTo = "e07469d9766c443e85266d9c684f944f";
+        private const string cstrID_Ontology = "b8339eaefe144f82937b2cb335c473c9";
+        private clsImport objImport;
 
         public int ImageID_Root
         {
@@ -87,106 +84,43 @@ public clsOntologyItem OItem_type_szenen_auf_ebenen { get; set; }
 	
 private void get_Data_DevelopmentConfig()
         {
-            List<clsObjectRel> oList_ObjectRel = new List<clsObjectRel> ();
-            List<clsOntologyItem> oList_ConfigItems = new List<clsOntologyItem> ();
+            var objORL_Ontology_To_OntolgyItems = new List<clsObjectRel> {new clsObjectRel {ID_Object = cstrID_Ontology, 
+                                                                                             ID_RelationType = Globals.RelationType_contains.GUID, 
+                                                                                             ID_Parent_Other = Globals.Class_OntologyItems.GUID}};
 
-            List<clsOntologyItem> oList_RelType_contains = new List<clsOntologyItem> ();
-            List<clsOntologyItem> oList_RelType_belongsTo = new List<clsOntologyItem> ();
-
-            List<clsOntologyItem> oList_ConfigItem = new List<clsOntologyItem>();
-
-            oList_ObjectRel.Add(new clsObjectRel(cstr_ID_SoftwareDevelopment,
-                                            null,
-                                            null,
-                                            null,
-                                            null,
-                                            null,
-                                            cstr_ID_Class_DevelopmentConfig,
-                                            null,
-                                            cstr_ID_RelType_needs,
-                                            null,
-                                            Globals.Type_Object,
-                                            null,
-                                            null,
-                                            null));
-
-            objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel);
-
-            if (objDBLevel_Config1.OList_ObjectRel_ID.Count > 0)
+            var objOItem_Result = objDBLevel_Config1.get_Data_ObjectRel(objORL_Ontology_To_OntolgyItems, boolIDs: false);
+            if (objOItem_Result.GUID == Globals.LState_Success.GUID)
             {
-
-            
-                objOItem_DevConfig.GUID = objDBLevel_Config1.OList_ObjectRel_ID[0].ID_Other;
-                objOItem_DevConfig.Name = objDBLevel_Config1.OList_ObjectRel_ID[0].Name_Other;
-                objOItem_DevConfig.GUID_Parent = objDBLevel_Config1.OList_ObjectRel_ID[0].ID_Parent_Other;
-                objOItem_DevConfig.Type = objDBLevel_Config1.OList_ObjectRel_ID[0].Ontology;
-
-                oList_ObjectRel.Clear();
-                oList_ObjectRel.Add(new clsObjectRel(objOItem_DevConfig.GUID,
-                                                     null,
-                                                     null,
-                                                     null,
-                                                     null,
-                                                     null,
-                                                     cstr_ID_Class_ConfigItem,
-                                                     null,
-                                                     cstr_ID_RelType_contains,
-                                                     null,
-                                                     Globals.Type_Object,
-                                                     null,
-                                                     null,
-                                                     null));
-
-                objDBLevel_Config1.get_Data_ObjectRel(oList_ObjectRel,
-                                              false,
-                                              false,
-                                              false,
-                                              Globals.Direction_LeftRight.Name,
-                                              true);
-                oList_ObjectRel.Clear();
-                if (objDBLevel_Config1.OList_ObjectRel.Count > 0)
+                if (objDBLevel_Config1.OList_ObjectRel.Any())
                 {
-                    foreach (var objOItem_ObjecRel in objDBLevel_Config1.OList_ObjectRel)
+
+                    objORL_Ontology_To_OntolgyItems = new List<clsObjectRel> {new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
+                                                                                                         ID_RelationType = Globals.RelationType_belongingAttribute.GUID},
+                                                                                  new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
+                                                                                                         ID_RelationType = Globals.RelationType_belongingClass.GUID},
+                                                                                 new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
+                                                                                                         ID_RelationType = Globals.RelationType_belongingObject.GUID},
+                                                                                  new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
+                                                                                                         ID_RelationType = Globals.RelationType_belongingRelationType.GUID}};
+
+                    objOItem_Result = objDBLevel_Config2.get_Data_ObjectRel(objORL_Ontology_To_OntolgyItems, boolIDs: false);
+                    if (objOItem_Result.GUID == Globals.LState_Success.GUID)
                     {
-                        oList_ConfigItems.Add(new clsOntologyItem(objOItem_ObjecRel.ID_Other,
-                                                                  Globals.Type_Object));
-
-                        oList_ObjectRel.Add(new clsObjectRel(objOItem_ObjecRel.ID_Other,
-                                                             null,
-                                                             null,
-                                                             null,
-                                                             null,
-                                                             null,
-                                                             null,
-                                                             null,
-                                                             cstr_ID_RelType_belongsTo,
-                                                             null,
-                                                             null,
-                                                             Globals.Direction_LeftRight.GUID,
-                                                             Globals.Direction_LeftRight.Name,
-                                                             null));
+                        if (!objDBLevel_Config2.OList_ObjectRel.Any())
+                        {
+                            throw new Exception("Config-Error");
+                        }
                     }
-                    
-
-
-
-                
-
-                    objDBLevel_Config2.get_Data_ObjectRel(oList_ObjectRel,
-                                                             false,
-                                                             false,
-                                                             false,
-                                                             Globals.Direction_LeftRight.Name,
-                                                             false);
+                    else
+                    {
+                        throw new Exception("Config-Error");
+                    }
                 }
                 else
                 {
-                    throw new Exception("Config not set!");
+                    throw new Exception("Config-Error");
                 }
-            }
-            else
-            {
-                throw new Exception("Config not set!");
+
             }
 
         }
@@ -209,24 +143,60 @@ private void get_Data_DevelopmentConfig()
         {
 		    objDBLevel_Config1 = new clsDBLevel(Globals);
 		    objDBLevel_Config2 = new clsDBLevel(Globals);
+            objImport = new clsImport(Globals);
         }
   
 	private void get_Config()
         {
-            get_Data_DevelopmentConfig();
-            get_Config_AttributeTypes();
-		    get_Config_RelationTypes();
-		    get_Config_Classes();
-            get_Config_Objects();
+            try
+            {
+                get_Data_DevelopmentConfig();
+                get_Config_AttributeTypes();
+                get_Config_RelationTypes();
+                get_Config_Classes();
+                get_Config_Objects();
+            }
+            catch (Exception ex)
+            {
+                var objAssembly = Assembly.GetExecutingAssembly();
+                AssemblyTitleAttribute[] objCustomAttributes = (AssemblyTitleAttribute[])objAssembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+                var strTitle = "Unbekannt";
+                if (objCustomAttributes.Length == 1)
+                {
+                    strTitle = objCustomAttributes.First().Title;
+                }
+                if (MessageBox.Show(strTitle + ": Die notwendigen Basisdaten konnten nicht geladen werden! Soll versucht werden, sie in der Datenbank " +
+                          Globals.Index + "@" + Globals.Server + " zu erzeugen?", "Datenstrukturen", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    var objOItem_Result = objImport.ImportTemplates(objAssembly);
+                    if (objOItem_Result.GUID != Globals.LState_Error.GUID)
+                    {
+                        get_Data_DevelopmentConfig();
+                        get_Config_AttributeTypes();
+                        get_Config_RelationTypes();
+                        get_Config_Classes();
+                        get_Config_Objects();
+                    }
+                    else
+                    {
+                        throw new Exception("Config not importable");
+                    }
+                }
+                else
+                {
+                    Environment.Exit(0);
+                }
+            }
         }
 
   
 	private void get_Config_AttributeTypes()
         {
-		var objOList_attribute_dbpostfix = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "attribute_dbpostfix") &&
-                                        (obj.Ontology == Globals.Type_AttributeType)
-                                  select obj).ToList();
+            var objOList_attribute_dbpostfix = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                where objOItem.ID_Object == cstrID_Ontology
+                                                join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                where objRef.Name_Object.ToLower() == "attribute_dbpostfix".ToLower() && objRef.Ontology == Globals.Type_AttributeType
+                                            select objRef).ToList();
 
             if (objOList_attribute_dbpostfix.Any())
             {
@@ -248,10 +218,11 @@ private void get_Data_DevelopmentConfig()
   
 	private void get_Config_RelationTypes()
         {
-		var objOList_relationtype_belonging_document = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "relationtype_belonging_document") &&
-                                        (obj.Ontology == Globals.Type_RelationType)
-                                  select obj).ToList();
+		var objOList_relationtype_belonging_document = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "relationtype_belonging_document".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                            select objRef).ToList();
 
             if (objOList_relationtype_belonging_document.Any())
             {
@@ -268,10 +239,11 @@ private void get_Data_DevelopmentConfig()
                 throw new Exception("config err");
             }
 
-var objOList_relationtype_belonging_sem_item = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "relationtype_belonging_sem_item") &&
-                                        (obj.Ontology == Globals.Type_RelationType)
-                                  select obj).ToList();
+var objOList_relationtype_belonging_sem_item = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "relationtype_belonging_sem_item".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                            select objRef).ToList();
 
             if (objOList_relationtype_belonging_sem_item.Any())
             {
@@ -288,10 +260,11 @@ var objOList_relationtype_belonging_sem_item = (from obj in objDBLevel_Config2.O
                 throw new Exception("config err");
             }
 
-var objOList_relationtype_belongsto = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "relationtype_belongsto") &&
-                                        (obj.Ontology == Globals.Type_RelationType)
-                                  select obj).ToList();
+var objOList_relationtype_belongsto = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "relationtype_belongsto".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                            select objRef).ToList();
 
             if (objOList_relationtype_belongsto.Any())
             {
@@ -308,10 +281,11 @@ var objOList_relationtype_belongsto = (from obj in objDBLevel_Config2.OList_Obje
                 throw new Exception("config err");
             }
 
-var objOList_relationtype_contains = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "relationtype_contains") &&
-                                        (obj.Ontology == Globals.Type_RelationType)
-                                  select obj).ToList();
+var objOList_relationtype_contains = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "relationtype_contains".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                            select objRef).ToList();
 
             if (objOList_relationtype_contains.Any())
             {
@@ -328,10 +302,11 @@ var objOList_relationtype_contains = (from obj in objDBLevel_Config2.OList_Objec
                 throw new Exception("config err");
             }
 
-var objOList_relationtype_findet_statt_am = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "relationtype_findet_statt_am") &&
-                                        (obj.Ontology == Globals.Type_RelationType)
-                                  select obj).ToList();
+var objOList_relationtype_findet_statt_am = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "relationtype_findet_statt_am".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                            select objRef).ToList();
 
             if (objOList_relationtype_findet_statt_am.Any())
             {
@@ -348,10 +323,11 @@ var objOList_relationtype_findet_statt_am = (from obj in objDBLevel_Config2.OLis
                 throw new Exception("config err");
             }
 
-var objOList_relationtype_is_of_type = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "relationtype_is_of_type") &&
-                                        (obj.Ontology == Globals.Type_RelationType)
-                                  select obj).ToList();
+var objOList_relationtype_is_of_type = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "relationtype_is_of_type".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                            select objRef).ToList();
 
             if (objOList_relationtype_is_of_type.Any())
             {
@@ -368,10 +344,11 @@ var objOList_relationtype_is_of_type = (from obj in objDBLevel_Config2.OList_Obj
                 throw new Exception("config err");
             }
 
-var objOList_relationtype_located_in = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "relationtype_located_in") &&
-                                        (obj.Ontology == Globals.Type_RelationType)
-                                  select obj).ToList();
+var objOList_relationtype_located_in = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "relationtype_located_in".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                            select objRef).ToList();
 
             if (objOList_relationtype_located_in.Any())
             {
@@ -388,10 +365,11 @@ var objOList_relationtype_located_in = (from obj in objDBLevel_Config2.OList_Obj
                 throw new Exception("config err");
             }
 
-var objOList_relationtype_offered_by = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "relationtype_offered_by") &&
-                                        (obj.Ontology == Globals.Type_RelationType)
-                                  select obj).ToList();
+var objOList_relationtype_offered_by = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "relationtype_offered_by".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                            select objRef).ToList();
 
             if (objOList_relationtype_offered_by.Any())
             {
@@ -408,10 +386,11 @@ var objOList_relationtype_offered_by = (from obj in objDBLevel_Config2.OList_Obj
                 throw new Exception("config err");
             }
 
-var objOList_relationtype_offers = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "relationtype_offers") &&
-                                        (obj.Ontology == Globals.Type_RelationType)
-                                  select obj).ToList();
+var objOList_relationtype_offers = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "relationtype_offers".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                            select objRef).ToList();
 
             if (objOList_relationtype_offers.Any())
             {
@@ -428,10 +407,11 @@ var objOList_relationtype_offers = (from obj in objDBLevel_Config2.OList_ObjectR
                 throw new Exception("config err");
             }
 
-var objOList_relationtype_repr_sentiert = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "relationtype_repr_sentiert") &&
-                                        (obj.Ontology == Globals.Type_RelationType)
-                                  select obj).ToList();
+var objOList_relationtype_repr_sentiert = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "relationtype_repr_sentiert".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                            select objRef).ToList();
 
             if (objOList_relationtype_repr_sentiert.Any())
             {
@@ -448,10 +428,11 @@ var objOList_relationtype_repr_sentiert = (from obj in objDBLevel_Config2.OList_
                 throw new Exception("config err");
             }
 
-var objOList_relationtype_standard = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "relationtype_standard") &&
-                                        (obj.Ontology == Globals.Type_RelationType)
-                                  select obj).ToList();
+var objOList_relationtype_standard = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "relationtype_standard".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                            select objRef).ToList();
 
             if (objOList_relationtype_standard.Any())
             {
@@ -473,10 +454,11 @@ var objOList_relationtype_standard = (from obj in objDBLevel_Config2.OList_Objec
   
 	private void get_Config_Objects()
         {
-		var objOList_token_contenttype_bookmark = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "token_contenttype_bookmark") &&
-                                        (obj.Ontology == Globals.Type_Object)
-                                  select obj).ToList();
+		var objOList_token_contenttype_bookmark = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "token_contenttype_bookmark".ToLower() && objRef.Ontology == Globals.Type_Object
+                                            select objRef).ToList();
 
             if (objOList_token_contenttype_bookmark.Any())
             {
@@ -493,10 +475,11 @@ var objOList_relationtype_standard = (from obj in objDBLevel_Config2.OList_Objec
                 throw new Exception("config err");
             }
 
-var objOList_token_search_template_character_ = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "token_search_template_character_") &&
-                                        (obj.Ontology == Globals.Type_Object)
-                                  select obj).ToList();
+var objOList_token_search_template_character_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "token_search_template_character_".ToLower() && objRef.Ontology == Globals.Type_Object
+                                            select objRef).ToList();
 
             if (objOList_token_search_template_character_.Any())
             {
@@ -513,10 +496,11 @@ var objOList_token_search_template_character_ = (from obj in objDBLevel_Config2.
                 throw new Exception("config err");
             }
 
-var objOList_token_search_template_date_ = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "token_search_template_date_") &&
-                                        (obj.Ontology == Globals.Type_Object)
-                                  select obj).ToList();
+var objOList_token_search_template_date_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "token_search_template_date_".ToLower() && objRef.Ontology == Globals.Type_Object
+                                            select objRef).ToList();
 
             if (objOList_token_search_template_date_.Any())
             {
@@ -533,10 +517,11 @@ var objOList_token_search_template_date_ = (from obj in objDBLevel_Config2.OList
                 throw new Exception("config err");
             }
 
-var objOList_token_search_template_dramaturgy_phase_ = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "token_search_template_dramaturgy_phase_") &&
-                                        (obj.Ontology == Globals.Type_Object)
-                                  select obj).ToList();
+var objOList_token_search_template_dramaturgy_phase_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "token_search_template_dramaturgy_phase_".ToLower() && objRef.Ontology == Globals.Type_Object
+                                            select objRef).ToList();
 
             if (objOList_token_search_template_dramaturgy_phase_.Any())
             {
@@ -553,10 +538,11 @@ var objOList_token_search_template_dramaturgy_phase_ = (from obj in objDBLevel_C
                 throw new Exception("config err");
             }
 
-var objOList_token_search_template_location_ = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "token_search_template_location_") &&
-                                        (obj.Ontology == Globals.Type_Object)
-                                  select obj).ToList();
+var objOList_token_search_template_location_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "token_search_template_location_".ToLower() && objRef.Ontology == Globals.Type_Object
+                                            select objRef).ToList();
 
             if (objOList_token_search_template_location_.Any())
             {
@@ -573,10 +559,11 @@ var objOList_token_search_template_location_ = (from obj in objDBLevel_Config2.O
                 throw new Exception("config err");
             }
 
-var objOList_token_search_template_name_ = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "token_search_template_name_") &&
-                                        (obj.Ontology == Globals.Type_Object)
-                                  select obj).ToList();
+var objOList_token_search_template_name_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "token_search_template_name_".ToLower() && objRef.Ontology == Globals.Type_Object
+                                            select objRef).ToList();
 
             if (objOList_token_search_template_name_.Any())
             {
@@ -599,10 +586,11 @@ var objOList_token_search_template_name_ = (from obj in objDBLevel_Config2.OList
 	private void get_Config_Classes()
         {
 
-            var objOList_type_eigene_literatur = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                                  where (obj.Name_Object.ToLower() == "type_eigene_literatur") &&
-                                                        (obj.Ontology == Globals.Type_Class)
-                                                  select obj).ToList();
+            var objOList_type_eigene_literatur = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "type_eigene_literatur".ToLower() && objRef.Ontology == Globals.Type_Class
+                                            select objRef).ToList();
 
             if (objOList_type_eigene_literatur.Any())
             {
@@ -620,10 +608,11 @@ var objOList_token_search_template_name_ = (from obj in objDBLevel_Config2.OList
             }
 
 
-		var objOList_type_contentobject = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "type_contentobject") &&
-                                        (obj.Ontology == Globals.Type_Class)
-                                  select obj).ToList();
+		var objOList_type_contentobject = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == "type_contentobject".ToLower() && objRef.Ontology == Globals.Type_Class
+                                            select objRef).ToList();
 
             if (objOList_type_contentobject.Any())
             {
@@ -640,10 +629,11 @@ var objOList_token_search_template_name_ = (from obj in objDBLevel_Config2.OList
                 throw new Exception("config err");
             }
 
-var objOList_type_dramaturgische_ebenen = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "type_dramaturgische_ebenen") &&
-                                        (obj.Ontology == Globals.Type_Class)
-                                  select obj).ToList();
+var objOList_type_dramaturgische_ebenen = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == "type_dramaturgische_ebenen".ToLower() && objRef.Ontology == Globals.Type_Class
+                                            select objRef).ToList();
 
             if (objOList_type_dramaturgische_ebenen.Any())
             {
@@ -660,10 +650,11 @@ var objOList_type_dramaturgische_ebenen = (from obj in objDBLevel_Config2.OList_
                 throw new Exception("config err");
             }
 
-var objOList_type_kapitel = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "type_kapitel") &&
-                                        (obj.Ontology == Globals.Type_Class)
-                                  select obj).ToList();
+var objOList_type_kapitel = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                             where objRef.Name_Object.ToLower() == "type_kapitel".ToLower() && objRef.Ontology == Globals.Type_Class
+                                            select objRef).ToList();
 
             if (objOList_type_kapitel.Any())
             {
@@ -680,10 +671,11 @@ var objOList_type_kapitel = (from obj in objDBLevel_Config2.OList_ObjectRel
                 throw new Exception("config err");
             }
 
-var objOList_type_literarischer_charakter = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "type_literarischer_charakter") &&
-                                        (obj.Ontology == Globals.Type_Class)
-                                  select obj).ToList();
+var objOList_type_literarischer_charakter = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                             where objRef.Name_Object.ToLower() == "type_literarischer_charakter".ToLower() && objRef.Ontology == Globals.Type_Class
+                                            select objRef).ToList();
 
             if (objOList_type_literarischer_charakter.Any())
             {
@@ -700,10 +692,11 @@ var objOList_type_literarischer_charakter = (from obj in objDBLevel_Config2.OLis
                 throw new Exception("config err");
             }
 
-var objOList_type_literarischer_ort = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "type_literarischer_ort") &&
-                                        (obj.Ontology == Globals.Type_Class)
-                                  select obj).ToList();
+var objOList_type_literarischer_ort = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                       where objRef.Name_Object.ToLower() == "type_literarischer_ort".ToLower() && objRef.Ontology == Globals.Type_Class
+                                            select objRef).ToList();
 
             if (objOList_type_literarischer_ort.Any())
             {
@@ -720,10 +713,11 @@ var objOList_type_literarischer_ort = (from obj in objDBLevel_Config2.OList_Obje
                 throw new Exception("config err");
             }
 
-var objOList_type_literarisches_datum = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "type_literarisches_datum") &&
-                                        (obj.Ontology == Globals.Type_Class)
-                                  select obj).ToList();
+var objOList_type_literarisches_datum = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                         where objRef.Name_Object.ToLower() == "type_literarisches_datum".ToLower() && objRef.Ontology == Globals.Type_Class
+                                            select objRef).ToList();
 
             if (objOList_type_literarisches_datum.Any())
             {
@@ -740,10 +734,11 @@ var objOList_type_literarisches_datum = (from obj in objDBLevel_Config2.OList_Ob
                 throw new Exception("config err");
             }
 
-var objOList_type_managed_document = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "type_managed_document") &&
-                                        (obj.Ontology == Globals.Type_Class)
-                                  select obj).ToList();
+var objOList_type_managed_document = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                      where objRef.Name_Object.ToLower() == "type_managed_document".ToLower() && objRef.Ontology == Globals.Type_Class
+                                            select objRef).ToList();
 
             if (objOList_type_managed_document.Any())
             {
@@ -760,10 +755,11 @@ var objOList_type_managed_document = (from obj in objDBLevel_Config2.OList_Objec
                 throw new Exception("config err");
             }
 
-var objOList_type_module = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "type_module") &&
-                                        (obj.Ontology == Globals.Type_Class)
-                                  select obj).ToList();
+var objOList_type_module = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                            where objRef.Name_Object.ToLower() == "type_module".ToLower() && objRef.Ontology == Globals.Type_Class
+                                            select objRef).ToList();
 
             if (objOList_type_module.Any())
             {
@@ -780,10 +776,11 @@ var objOList_type_module = (from obj in objDBLevel_Config2.OList_ObjectRel
                 throw new Exception("config err");
             }
 
-var objOList_type_search_template = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "type_search_template") &&
-                                        (obj.Ontology == Globals.Type_Class)
-                                  select obj).ToList();
+var objOList_type_search_template = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                     where objRef.Name_Object.ToLower() == "type_search_template".ToLower() && objRef.Ontology == Globals.Type_Class
+                                            select objRef).ToList();
 
             if (objOList_type_search_template.Any())
             {
@@ -800,10 +797,11 @@ var objOList_type_search_template = (from obj in objDBLevel_Config2.OList_Object
                 throw new Exception("config err");
             }
 
-var objOList_type_szene = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "type_szene") &&
-                                        (obj.Ontology == Globals.Type_Class)
-                                  select obj).ToList();
+var objOList_type_szene = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                           where objRef.Name_Object.ToLower() == "type_szene".ToLower() && objRef.Ontology == Globals.Type_Class
+                                            select objRef).ToList();
 
             if (objOList_type_szene.Any())
             {
@@ -820,10 +818,11 @@ var objOList_type_szene = (from obj in objDBLevel_Config2.OList_ObjectRel
                 throw new Exception("config err");
             }
 
-var objOList_type_szenen_auf_ebenen = (from obj in objDBLevel_Config2.OList_ObjectRel
-                                  where (obj.Name_Object.ToLower() == "type_szenen_auf_ebenen") &&
-                                        (obj.Ontology == Globals.Type_Class)
-                                  select obj).ToList();
+var objOList_type_szenen_auf_ebenen = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                       where objRef.Name_Object.ToLower() == "type_szenen_auf_ebenen".ToLower() && objRef.Ontology == Globals.Type_Class
+                                       select objRef).ToList();
 
             if (objOList_type_szenen_auf_ebenen.Any())
             {

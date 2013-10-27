@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="ObjectAttribute">
+  <Item Id_Attribute="496093d4e2484aa79ed8e7fa7e80f943" Id_AttributeType="f9d715658856406db1b71af5a96a680f" Id_DataType="3a4f5b7bda754980933efbc33cc51439" Id_Object="0c539cc4bf464bac8f67239f03ddf8d0" Id_Class="8a2407981cbf466f95f53b7811b93ab1" OrderId="0">
+  <Val_Named><![CDATA[4]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng>4</Val_Lng>
+  <Val_String></Val_String>
+</Item>
+<Item Id_Attribute="f788fa9f600c42fbbb6e19882b6b6896" Id_AttributeType="33adce0832504e8e98b16a152d6cb8cd" Id_DataType="dd858f27d5e14363a5c33e561e432333" Id_Object="46cd2b4cc3174a2c8f75abf23ea6efba" Id_Class="8703010b98304113b2e98a4f24b5e99b" OrderId="0">
+  <Val_Named><![CDATA[True]]></Val_Named>
+  <Val_Bit>True</Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String></Val_String>
+</Item>
+<Item Id_Attribute="7d90c2fbd0504f4793e3205d7b450d2f" Id_AttributeType="f9d715658856406db1b71af5a96a680f" Id_DataType="3a4f5b7bda754980933efbc33cc51439" Id_Object="ecccf54326ff4698a90405db64c518a1" Id_Class="8a2407981cbf466f95f53b7811b93ab1" OrderId="0">
+  <Val_Named><![CDATA[5]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng>5</Val_Lng>
+  <Val_String></Val_String>
+</Item>
+<Item Id_Attribute="46d3388ce809476aaab454cdd42e13d3" Id_AttributeType="33adce0832504e8e98b16a152d6cb8cd" Id_DataType="dd858f27d5e14363a5c33e561e432333" Id_Object="e98ae3e658f24e3db88b8c548d2b619b" Id_Class="8703010b98304113b2e98a4f24b5e99b" OrderId="0">
+  <Val_Named><![CDATA[False]]></Val_Named>
+  <Val_Bit>False</Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String></Val_String>
+</Item>
+<Item Id_Attribute="4783b7ad01e649dca19dd4ca3b4d9155" Id_AttributeType="33adce0832504e8e98b16a152d6cb8cd" Id_DataType="dd858f27d5e14363a5c33e561e432333" Id_Object="b566810fbd334f63b4b61caef66bf731" Id_Class="8703010b98304113b2e98a4f24b5e99b" OrderId="0">
+  <Val_Named><![CDATA[False]]></Val_Named>
+  <Val_Bit>False</Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String></Val_String>
+</Item>
+<Item Id_Attribute="02f5829cbbb049a69d251da67f8b7fcc" Id_AttributeType="f9d715658856406db1b71af5a96a680f" Id_DataType="3a4f5b7bda754980933efbc33cc51439" Id_Object="fb74fd67adcc4becae60236e34dabb79" Id_Class="8a2407981cbf466f95f53b7811b93ab1" OrderId="0">
+  <Val_Named><![CDATA[3]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng>3</Val_Lng>
+  <Val_String></Val_String>
+</Item>
+<Item Id_Attribute="774a3ec151c6470b81ee5841ff779d14" Id_AttributeType="64cf93ce5b714a5cb2cc1b9638949cfe" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[development_manager]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>development_manager</Val_String>
+</Item>
+<Item Id_Attribute="424133fae8c24e3eb9928351a9aa0021" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese</Val_String>
+</Item>
+<Item Id_Attribute="1afca61cafc44a80854bc7e25f56043b" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Di]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Di</Val_String>
+</Item>
+<Item Id_Attribute="62df147aaa09436caf4fdcfb92ecd3cb" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese</Val_String>
+</Item>
+<Item Id_Attribute="c07102a00b0843dbaa802d036421b72b" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese ]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese </Val_String>
+</Item>
+<Item Id_Attribute="58115e00e662409e8d91501340740ae4" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese Software dient zur ]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese Software dient zur </Val_String>
+</Item>
+<Item Id_Attribute="5e24de3fe0494cf6aecbcc624b9dfa53" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese Softwrae]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese Softwrae</Val_String>
+</Item>
+<Item Id_Attribute="cf66a54c622545468629c0b6045c9582" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese Software dient zur Konfiguration der Plugin]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese Software dient zur Konfiguration der Plugin</Val_String>
+</Item>
+<Item Id_Attribute="4bd21b76db654adc84211fd3e67483a7" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese</Val_String>
+</Item>
+<Item Id_Attribute="cc44a0f758404d8e878625c54c2101a7" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese Softwareentwicklung dient zur Konfiguration von ]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese Softwareentwicklung dient zur Konfiguration von </Val_String>
+</Item>
+<Item Id_Attribute="aba61f2db2be4681af372682dcb514d3" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese Software]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese Software</Val_String>
+</Item>
+<Item Id_Attribute="4115593f4e904a3a9020a9f4d598fa7e" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese Software dient zur Konfi]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese Software dient zur Konfi</Val_String>
+</Item>
+<Item Id_Attribute="e7b8526b1ef14c82a1f83cedb66bbac0" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese Software dient zur Konfiguration der Plugins]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese Software dient zur Konfiguration der Plugins</Val_String>
+</Item>
+<Item Id_Attribute="755a66a751704312964956c418d3b01f" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese Softwareentwicklung dient zur Konfiguration von Plugin-Anwendungen.]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese Softwareentwicklung dient zur Konfiguration von Plugin-Anwendungen.</Val_String>
+</Item>
+<Item Id_Attribute="b3a584b6ed5f498990ad053375db9942" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese Software dient zur Konfiguration der Plugins.]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese Software dient zur Konfiguration der Plugins.</Val_String>
+</Item>
+<Item Id_Attribute="8eb573ba4378401e8dbf633afa8f88d3" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese Software Di]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese Software Di</Val_String>
+</Item>
+<Item Id_Attribute="e0b6e7ca114b456d9d2eb444816a1984" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese Softwareentwicklung dient zur ]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese Softwareentwicklung dient zur </Val_String>
+</Item>
+<Item Id_Attribute="36a5dc5d12d54456a661b5bba1331674" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese Software dient]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese Software dient</Val_String>
+</Item>
+<Item Id_Attribute="843664b2624644ab80a507828cdc0beb" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese Software dient zur Konfiguration ]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese Software dient zur Konfiguration </Val_String>
+</Item>
+<Item Id_Attribute="4054e0406ae841cba5577d6451f24670" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese Software]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese Software</Val_String>
+</Item>
+<Item Id_Attribute="2881e3a195a042e89280678046ef536b" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[D]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>D</Val_String>
+</Item>
+<Item Id_Attribute="2433542088be4ee5acc05b26c2ce5be2" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[Diese Softwareentwicklung dient zur Konfiguration von Plugin-]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String>Diese Softwareentwicklung dient zur Konfiguration von Plugin-</Val_String>
+</Item>
+
+</Items>

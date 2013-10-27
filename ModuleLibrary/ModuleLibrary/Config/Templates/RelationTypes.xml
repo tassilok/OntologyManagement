@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="RelationType">
+  <Item Id="e971160347db44d8a476fe88290639a4" Id_Parent=""><![CDATA[contains]]></Item>
+<Item Id="796712399c8f493cb5e749700f9543f4" Id_Parent=""><![CDATA[belonging]]></Item>
+<Item Id="9996494aef6a4357a6ef71a92b5ff596" Id_Parent=""><![CDATA[is of Type]]></Item>
+<Item Id="81bbd380e35648a1a4b7fdbaebe7273c" Id_Parent=""><![CDATA[belonging Attribute]]></Item>
+<Item Id="f2b54f82ada5460eafe5551d55629f14" Id_Parent=""><![CDATA[belonging Class]]></Item>
+<Item Id="f68a9438fb8b418d8e0bd9aefc9ecdf3" Id_Parent=""><![CDATA[belonging Object]]></Item>
+<Item Id="4417582dbd6347fbab18770a611917fe" Id_Parent=""><![CDATA[belonging RelationType]]></Item>
+<Item Id="81bbd380e35648a1a4b7fdbaebe7273c" Id_Parent=""><![CDATA[belonging Attribute]]></Item>
+<Item Id="9996494aef6a4357a6ef71a92b5ff596" Id_Parent=""><![CDATA[is of Type]]></Item>
+<Item Id="b57a0de725b74de2964e0fcf12346028" Id_Parent=""><![CDATA[z]]></Item>
+<Item Id="0330361ac81b4895a0c9498397059368" Id_Parent=""><![CDATA[x]]></Item>
+<Item Id="54aebd259ade45c79f23cd3496e667d0" Id_Parent=""><![CDATA[y]]></Item>
+
+</Items>

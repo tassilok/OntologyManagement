@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="ObjectAttribute">
+  <Item Id_Attribute="8e31154bc54e435081f60b113cdb302b" Id_AttributeType="4e173916e8d746408ef1965b74371124" Id_DataType="3a4f5b7bda754980933efbc33cc51439" Id_Object="8b1691d9b2964841b01ea7b6452eab2f" Id_Class="e79ff4de2e394101b5a10055c40f41cd" OrderId="0">
+  <Val_Named><![CDATA[1031]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng>1031</Val_Lng>
+  <Val_String></Val_String>
+</Item>
+<Item Id_Attribute="04f1d2e931384ef08de1e8b4f23e53c4" Id_AttributeType="4e173916e8d746408ef1965b74371124" Id_DataType="3a4f5b7bda754980933efbc33cc51439" Id_Object="63188e160cd7438490a8558b47564b7b" Id_Class="e79ff4de2e394101b5a10055c40f41cd" OrderId="0">
+  <Val_Named><![CDATA[1033]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng>1033</Val_Lng>
+  <Val_String></Val_String>
+</Item>
+
+</Items>

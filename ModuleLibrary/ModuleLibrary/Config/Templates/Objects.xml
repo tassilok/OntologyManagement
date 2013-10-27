@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="14b08ac522714e7c87e36701bf744cbc" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[ModuleLibrary]]></Item>
+<Item Id="12473dbae7924cc4869ef1d32dec3979" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_ID]]></Item>
+<Item Id="8c49828bb7fa4c4da97de0e58088a28c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Menge]]></Item>
+<Item Id="9b1644c4cd784b4dbb8d5e7a80bc7fba" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[attribute_dbPostfix]]></Item>
+<Item Id="ef58bc64aa1942dfae92c480d84f637a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is_of_Type]]></Item>
+<Item Id="f84458f43b2d46de86fdc339277a8c5a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_z]]></Item>
+<Item Id="536d544fcc584da5b436b209392f2d76" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_x]]></Item>
+<Item Id="c5e31f6a417345f19376e638694a34ed" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_y]]></Item>
+<Item Id="cd8c8edbac2b4e33b1cd71872fe63045" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Month]]></Item>
+<Item Id="002dc122c254459e824d2fbd67060596" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Volumen]]></Item>
+<Item Id="61bcdbfd08954b9fa4c4f6f899059043" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Menge]]></Item>
+<Item Id="f4eea4ff784f448eb04c4e842714ad9a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Fl_che]]></Item>
+<Item Id="0ae5cb01bd60467b978b5d18a1094ff0" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Einheit]]></Item>
+<Item Id="c1739047174f4681814fcc11d17eedc0" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Year]]></Item>
+<Item Id="96914850152141129cdcd1dead326a18" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Day]]></Item>
+<Item Id="c8f0314e36584c519a83f63e85782b42" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Partner]]></Item>
+
+</Items>

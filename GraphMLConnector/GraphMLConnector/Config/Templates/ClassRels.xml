@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="ClassRel">
+  <Item Id_Class_Left="801a533366ae4239b43a73cf2cd8f3c4" Id_Class_Right="1be2abe49dc2441ab1b6282022821c97" Id_RelationType="9996494aef6a4357a6ef71a92b5ff596" Ontology="" Min_Forw="1" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="801a533366ae4239b43a73cf2cd8f3c4" Id_Class_Right="80e59085efb642eebb406c2be93da936" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="801a533366ae4239b43a73cf2cd8f3c4" Id_Class_Right="513ac61a1972422ebea69ecbd12b5743" Id_RelationType="c5462ba3848b490792fee61c56fb4c88" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="801a533366ae4239b43a73cf2cd8f3c4" Id_Class_Right="351d45912495450182aba425f5235db9" Id_RelationType="fb8a3635953242ac98899f116abe6c53" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="801a533366ae4239b43a73cf2cd8f3c4" Id_Class_Right="6eb4fdd32e254886b288e1bfc2857efb" Id_RelationType="aaf3e012a8224ba69d9dd5bb35821757" Ontology="" Min_Forw="1" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="6ffcf7761e4c4497afaa7cff6de69642" Id_Class_Right="1be2abe49dc2441ab1b6282022821c97" Id_RelationType="9996494aef6a4357a6ef71a92b5ff596" Ontology="" Min_Forw="1" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="6ffcf7761e4c4497afaa7cff6de69642" Id_Class_Right="801a533366ae4239b43a73cf2cd8f3c4" Id_RelationType="e07469d9766c443e85266d9c684f944f" Ontology="" Min_Forw="1" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="d3f72a683f6146a48ff381db05997dc8" Id_Class_Right="bb98059cf51f496e950b3d2fc17a16f1" Id_RelationType="9996494aef6a4357a6ef71a92b5ff596" Ontology="" Min_Forw="0" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="30cbc6e89c0f47d6920c97fdc40ea1de" Id_Class_Right="d3f72a683f6146a48ff381db05997dc8" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="30cbc6e89c0f47d6920c97fdc40ea1de" Id_Class_Right="6eb4fdd32e254886b288e1bfc2857efb" Id_RelationType="aaf3e012a8224ba69d9dd5bb35821757" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Class_Right="c441518dbfe04d55b538df5c5555dd83" Id_RelationType="e07469d9766c443e85266d9c684f944f" Ontology="" Min_Forw="1" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Class_Right="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="aab30dd04faf4386896016218132b110" Id_Class_Right="d3f72a683f6146a48ff381db05997dc8" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="1" Max_Forw="3" Max_Backw="-1" />
+<Item Id_Class_Left="6ffcf7761e4c4497afaa7cff6de69642" Id_Class_Right="f8a525de72bb4904941f63a40ce34234" Id_RelationType="e07469d9766c443e85266d9c684f944f" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="30cbc6e89c0f47d6920c97fdc40ea1de" Id_Class_Right="1233afbe60bf40e7922864ca4013b75c" Id_RelationType="439e614dfb8a4ae7b5a27be25a058e6c" Ontology="" Min_Forw="0" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="30cbc6e89c0f47d6920c97fdc40ea1de" Id_Class_Right="8a894710e08c42c5b829ef4809830d33" Id_RelationType="aaf3e012a8224ba69d9dd5bb35821757" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="f15ebc675f084860acd34ba38e763edc" Id_Class_Right="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="48230ad503e8495696c6db65edbfc1c9" Id_Class_Right="13c09f11175c4eefbc8a0fd8e86d557f" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="1" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="48230ad503e8495696c6db65edbfc1c9" Id_Class_Right="8703010b98304113b2e98a4f24b5e99b" Id_RelationType="9996494aef6a4357a6ef71a92b5ff596" Ontology="" Min_Forw="1" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="aab30dd04faf4386896016218132b110" Id_Class_Right="925f489dec8d4130a418fcb022a4c731" Id_RelationType="796712399c8f493cb5e749700f9543f4" Ontology="" Min_Forw="1" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="6ffcf7761e4c4497afaa7cff6de69642" Id_Class_Right="76d12ad6cd514ee78b405e9e6e5a182c" Id_RelationType="e07469d9766c443e85266d9c684f944f" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="d3f72a683f6146a48ff381db05997dc8" Id_Class_Right="942e9002822740fba97b825ad3656ff8" Id_RelationType="361ffcd2ea2440478600aea84ba36c7d" Ontology="" Min_Forw="0" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="30cbc6e89c0f47d6920c97fdc40ea1de" Id_Class_Right="3dd1a15feef349438ce1828e201a3c9d" Id_RelationType="3e104b75e01c48a0b04112908fd446a0" Ontology="" Min_Forw="0" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="30cbc6e89c0f47d6920c97fdc40ea1de" Id_Class_Right="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="30cbc6e89c0f47d6920c97fdc40ea1de" Id_Class_Right="9403650d2a284a0d9a7ff1d893960701" Id_RelationType="3e104b75e01c48a0b04112908fd446a0" Ontology="" Min_Forw="0" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Class_Right="aab30dd04faf4386896016218132b110" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Class_Right="1b1f843c19b74ae1a73f6191585ec5c6" Id_RelationType="e07469d9766c443e85266d9c684f944f" Ontology="" Min_Forw="1" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Class_Right="d3f72a683f6146a48ff381db05997dc8" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="f15ebc675f084860acd34ba38e763edc" Id_Class_Right="8a894710e08c42c5b829ef4809830d33" Id_RelationType="aaf3e012a8224ba69d9dd5bb35821757" Ontology="" Min_Forw="0" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="30cbc6e89c0f47d6920c97fdc40ea1de" Id_Class_Right="1970f7cadcd04e149f507711eb8374a1" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="1" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="801a533366ae4239b43a73cf2cd8f3c4" Id_Class_Right="7f979e4f5f3e42b89c7f2725fcc122ac" Id_RelationType="fafc1464815f45969737bcbc96bd744a" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="801a533366ae4239b43a73cf2cd8f3c4" Id_Class_Right="f30436d62ffc4071af5e3ce708b8c2d9" Id_RelationType="cf27679fcbe74010a3ae472072762b33" Ontology="" Min_Forw="1" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="6ffcf7761e4c4497afaa7cff6de69642" Id_Class_Right="6eb4fdd32e254886b288e1bfc2857efb" Id_RelationType="aaf3e012a8224ba69d9dd5bb35821757" Ontology="" Min_Forw="1" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Class_Right="d92786eea1d64f16b93c8207ee5e5ea1" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Class_Right="925f489dec8d4130a418fcb022a4c731" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="1" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="48230ad503e8495696c6db65edbfc1c9" Id_Class_Right="71415eebce464b2cb0a2f72116b55438" Id_RelationType="e07469d9766c443e85266d9c684f944f" Ontology="" Min_Forw="1" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="801a533366ae4239b43a73cf2cd8f3c4" Id_Class_Right="e79ff4de2e394101b5a10055c40f41cd" Id_RelationType="1700a8b95f3244ec86871c5ddb84e109" Ontology="" Min_Forw="1" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="801a533366ae4239b43a73cf2cd8f3c4" Id_Class_Right="351d45912495450182aba425f5235db9" Id_RelationType="e312a8105c92499fb9f0eaaaa96b3b6f" Ontology="" Min_Forw="1" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="6ffcf7761e4c4497afaa7cff6de69642" Id_Class_Right="71415eebce464b2cb0a2f72116b55438" Id_RelationType="e07469d9766c443e85266d9c684f944f" Ontology="" Min_Forw="1" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="d3f72a683f6146a48ff381db05997dc8" Id_Class_Right="d3f72a683f6146a48ff381db05997dc8" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="d3f72a683f6146a48ff381db05997dc8" Id_Class_Right="925f489dec8d4130a418fcb022a4c731" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="0" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="30cbc6e89c0f47d6920c97fdc40ea1de" Id_Class_Right="30cbc6e89c0f47d6920c97fdc40ea1de" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="30cbc6e89c0f47d6920c97fdc40ea1de" Id_Class_Right="7fd09ae5cfda42ddbbfbed5d1376e4b8" Id_RelationType="9996494aef6a4357a6ef71a92b5ff596" Ontology="" Min_Forw="0" Max_Forw="1" Max_Backw="-1" />
+<Item Id_Class_Left="f15ebc675f084860acd34ba38e763edc" Id_Class_Right="2203d59f09244b0d8a6acf70bd0d0d1d" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+<Item Id_Class_Left="f15ebc675f084860acd34ba38e763edc" Id_Class_Right="f15ebc675f084860acd34ba38e763edc" Id_RelationType="e971160347db44d8a476fe88290639a4" Ontology="" Min_Forw="0" Max_Forw="-1" Max_Backw="-1" />
+
+</Items>

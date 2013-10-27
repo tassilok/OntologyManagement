@@ -153,6 +153,41 @@ Public Class clsDataWork_Images
         boolLoaded = True
     End Sub
 
+    Public Function GetImageItemOfFile(OItem_File As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_MediaItem As clsOntologyItem
+        Dim objOList_MediaItemToFile As New List(Of clsObjectRel)
+
+        objOList_MediaItemToFile.Add(New clsObjectRel(Nothing, _
+                                                      objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                      OItem_File.GUID, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_RelationType_belonging_Source.GUID,
+                                                      objLocalConfig.Globals.Type_Object, _
+                                                      Nothing, _
+                                                      Nothing))
+
+
+        objOItem_Result = objDBLevel_Images.get_Data_ObjectRel(objOList_MediaItemToFile, _
+                                                                          boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_Images.OList_ObjectRel.Any() Then
+                objOItem_MediaItem = New clsOntologyItem(objDBLevel_Images.OList_ObjectRel.First().ID_Object, _
+                                                         objDBLevel_Images.OList_ObjectRel.First().ID_Other, _
+                                                         objDBLevel_Images.OList_ObjectRel.First().ID_Parent_Other, _
+                                                         objLocalConfig.Globals.Type_Object)
+
+
+            Else
+                objOItem_MediaItem = Nothing
+            End If
+        Else
+            objOItem_MediaItem = Nothing
+        End If
+
+        Return objOItem_MediaItem
+    End Function
 
     Public Function hasImage(OItem_Ref) As clsOntologyItem
         Dim objOL_Images_To_Ref As New List(Of clsObjectRel)
@@ -178,11 +213,23 @@ Public Class clsDataWork_Images
         Return objOItem_Result
     End Function
 
+    Public Function Rel_Image_To_File(OItem_Image As clsOntologyItem, OItem_File As clsOntologyItem) As clsObjectRel
+        Dim objOR_Image_To_File = New clsObjectRel With {.ID_Object = OItem_Image.GUID, _
+                                                             .ID_Parent_Object = OItem_Image.GUID_Parent, _
+                                                             .ID_Other = OItem_File.GUID, _
+                                                             .ID_Parent_Other = OItem_File.GUID_Parent, _
+                                                             .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Source.GUID, _
+                                                             .OrderID = 1, _
+                                                             .Ontology = objLocalConfig.Globals.Type_Object}
+
+        Return objOR_Image_To_File
+    End Function
+
     Public Function Rel_Image_To_Ref(OItem_Image As clsOntologyItem, OItem_Ref As clsOntologyItem, Optional boolGetNextOrderID As Boolean = True) As clsObjectRel
 
         Dim intOrderID = OItem_Image.Level
         If boolGetNextOrderID Then
-            intOrderID = objDBLevel_Images.get_Data_Rel_OrderID(OItem_Image, OItem_Ref, objLocalConfig.OItem_RelationType_belongsTo, False)
+            intOrderID = objDBLevel_Images.get_Data_Rel_OrderID(New clsOntologyItem With {.GUID_Parent = OItem_Image.GUID_Parent}, OItem_Ref, objLocalConfig.OItem_RelationType_belongsTo, False)
             intOrderID = intOrderID + 1
         End If
 
@@ -195,6 +242,17 @@ Public Class clsDataWork_Images
                                                             .Ontology = OItem_Ref.Type}
 
         Return objOR_Image_To_Ref
+    End Function
+
+    Public Function Rel_Image__Taking(OItem_Image As clsOntologyItem, dateTaking As DateTime) As clsObjectAtt
+        Dim objOARel_Image__Taking = New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_taking.GUID, _
+                                                            .ID_Object = OItem_Image.GUID, _
+                                                            .ID_Class = OItem_Image.GUID_Parent, _
+                                                            .ID_DataType = objLocalConfig.Globals.DType_DateTime.GUID, _
+                                                            .OrderID = 1, _
+                                                            .Val_Named = dateTaking.ToString, _
+                                                            .Val_Date = dateTaking}
+        Return objOARel_Image__Taking
     End Function
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)

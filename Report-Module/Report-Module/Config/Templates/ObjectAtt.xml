@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="ObjectAttribute">
+  <Item Id_Attribute="c8d4161c7c48449f96c24de97573bea4" Id_AttributeType="f1dd87f2ac534e83a76bfee5bffc6909" Id_DataType="dd858f27d5e14363a5c33e561e432333" Id_Object="d5474c74f70e491698f64e3d3831c1f9" Id_Class="a534dc0ae3c84e059f86faaec798f9cc" OrderId="0">
+  <Val_Named><![CDATA[True]]></Val_Named>
+  <Val_Bit>True</Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String></Val_String>
+</Item>
+<Item Id_Attribute="269a9b57254e4ef296a15ed53b1e7d8e" Id_AttributeType="f1dd87f2ac534e83a76bfee5bffc6909" Id_DataType="dd858f27d5e14363a5c33e561e432333" Id_Object="d5474c74f70e491698f64e3d3831c1f9" Id_Class="a534dc0ae3c84e059f86faaec798f9cc" OrderId="0">
+  <Val_Named><![CDATA[True]]></Val_Named>
+  <Val_Bit>True</Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String></Val_String>
+</Item>
+<Item Id_Attribute="7fbc164749764913ab272e1ce6253430" Id_AttributeType="f1dd87f2ac534e83a76bfee5bffc6909" Id_DataType="dd858f27d5e14363a5c33e561e432333" Id_Object="c17230e2d57a4a11bea314db50a656a6" Id_Class="a534dc0ae3c84e059f86faaec798f9cc" OrderId="0">
+  <Val_Named><![CDATA[False]]></Val_Named>
+  <Val_Bit>False</Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String></Val_String>
+</Item>
+<Item Id_Attribute="faef14fe8a884a359ffa989c6c84e9fd" Id_AttributeType="f1dd87f2ac534e83a76bfee5bffc6909" Id_DataType="dd858f27d5e14363a5c33e561e432333" Id_Object="38090631b0964c3fbe03cf79d6a537ae" Id_Class="a534dc0ae3c84e059f86faaec798f9cc" OrderId="0">
+  <Val_Named><![CDATA[True]]></Val_Named>
+  <Val_Bit>True</Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String></Val_String>
+</Item>
+<Item Id_Attribute="a77ffe0a878b40a986ceb61ce14e77d9" Id_AttributeType="f1dd87f2ac534e83a76bfee5bffc6909" Id_DataType="dd858f27d5e14363a5c33e561e432333" Id_Object="e1ccab17b2c54ff78d671e8b0bd51a91" Id_Class="a534dc0ae3c84e059f86faaec798f9cc" OrderId="0">
+  <Val_Named><![CDATA[True]]></Val_Named>
+  <Val_Bit>True</Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String></Val_String>
+</Item>
+
+</Items>

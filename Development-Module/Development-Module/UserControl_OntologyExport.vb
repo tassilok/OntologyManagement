@@ -12,6 +12,10 @@ Public Class UserControl_OntologyExport
     Private objOItem_Development As clsOntologyItem
     Private objExport As clsExport
 
+    Private objDBLevel_Module As clsDBLevel
+    Private objDBLevel_BaseConfig As clsDBLevel
+    Private objDBLevel_BaseConfigClasse As clsDBLevel
+
     Private objTransaction As clsTransaction
     Private objBlobConnection As clsBlobConnection
     Private objFileWork As clsFileWork
@@ -34,6 +38,10 @@ Public Class UserControl_OntologyExport
         objTransaction = New clsTransaction(objLocalConfig.Globals)
         objFileWork = New clsFileWork(objLocalConfig.Globals)
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
+        objDBLevel_Module = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_BaseConfig = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_BaseConfigClasse = New clsDBLevel(objLocalConfig.Globals)
+
     End Sub
 
     Public sub initialize_OntologyExport(Optional OItem_Development As clsOntologyItem = Nothing)
@@ -134,47 +142,63 @@ Public Class UserControl_OntologyExport
             strPath = Environment.ExpandEnvironmentVariables(strPath)
 
             IO.Directory.CreateDirectory(strPath)
-
-            Dim objOItem_Result = objExport.Export_Ontology(objDataWork_OntologyConfig.OItem_Ontology, strPath, ModeEnum.AllRelations Or ModeEnum.ClassParents, Nothing, True)
+            objExport.Clear()
+            Dim objOItem_Result = GetOntologyStructuresOfBaseConfig()
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                Dim strFiles = objExport.Files
-                If strFiles.Any Then
-                    Dim objOItem_OntologyExport = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
-                                                                            .Name = objDataWork_Details.OItem_Version.Name, _
-                                                                            .GUID_Parent = objLocalConfig.OItem_type_ontology_export.GUID, _
-                                                                            .Type = objLocalConfig.Globals.Type_Object}
 
-                    objTransaction.ClearItems()
-                    objOItem_Result = objTransaction.do_Transaction(objOItem_OntologyExport)
-                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        Dim objOItem_Files = New List(Of clsOntologyItem)
-                        For Each strFile In strFiles
-                            objOItem_Files.Add(New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
-                                                                          .Name = IO.Path.GetFileName(strFile), _
-                                                                          .GUID_Parent = objLocalConfig.OItem_Class_File.GUID, _
-                                                                          .Type = objLocalConfig.Globals.Type_Object})
-                            objOItem_Result = objTransaction.do_Transaction(objOItem_Files.Last())
-                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_Files.Last(), strFile)
-                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                    Dim objORel_OntologyExport_To_File = objDataWork_Export.Rel_OntologyExport_To_File(objOItem_OntologyExport, objOItem_Files.Last())
-                                    objOItem_Result = objTransaction.do_Transaction(objORel_OntologyExport_To_File)
-                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                                        Exit For
+                objOItem_Result = objExport.Export_Ontology(objDataWork_OntologyConfig.OItem_Ontology, strPath, ModeEnum.AllRelations Or ModeEnum.ClassParents Or ModeEnum.OntologyStructures, Nothing, True)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    Dim strFiles = objExport.Files
+                    If strFiles.Any Then
+                        Dim objOItem_OntologyExport = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
+                                                                                .Name = objDataWork_Details.OItem_Version.Name, _
+                                                                                .GUID_Parent = objLocalConfig.OItem_type_ontology_export.GUID, _
+                                                                                .Type = objLocalConfig.Globals.Type_Object}
 
-                                    End If
-                                End If
-
-                            End If
-                        Next
+                        objTransaction.ClearItems()
+                        objOItem_Result = objTransaction.do_Transaction(objOItem_OntologyExport)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            Dim objORel_OntologyExport_To_Ontology = objDataWork_Export.Rel_OntologyExport_To_Ontology(objOItem_OntologyExport, objDataWork_OntologyConfig.OItem_Ontology)
-                            objOItem_Result = objTransaction.do_Transaction(objORel_OntologyExport_To_Ontology)
-                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                Dim objORel_OntologyExport_To_Version = objDataWork_Export.Rel_OntologyExport_To_Version(objOItem_OntologyExport, objDataWork_Details.OItem_Version)
-                                objOItem_Result = objTransaction.do_Transaction(objORel_OntologyExport_To_Version)
+                            Dim objOItem_Files = New List(Of clsOntologyItem)
+                            For Each strFile In strFiles
+                                objOItem_Files.Add(New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
+                                                                              .Name = IO.Path.GetFileName(strFile), _
+                                                                              .GUID_Parent = objLocalConfig.OItem_Class_File.GUID, _
+                                                                              .Type = objLocalConfig.Globals.Type_Object})
+                                objOItem_Result = objTransaction.do_Transaction(objOItem_Files.Last())
                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                    initialize_OntologyExport(objOItem_Development)
+                                    objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_Files.Last(), strFile)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        Dim objORel_OntologyExport_To_File = objDataWork_Export.Rel_OntologyExport_To_File(objOItem_OntologyExport, objOItem_Files.Last())
+                                        objOItem_Result = objTransaction.do_Transaction(objORel_OntologyExport_To_File)
+                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                            Exit For
+
+                                        End If
+                                    End If
+
+                                End If
+                            Next
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                Dim objORel_OntologyExport_To_Ontology = objDataWork_Export.Rel_OntologyExport_To_Ontology(objOItem_OntologyExport, objDataWork_OntologyConfig.OItem_Ontology)
+                                objOItem_Result = objTransaction.do_Transaction(objORel_OntologyExport_To_Ontology)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    Dim objORel_OntologyExport_To_Version = objDataWork_Export.Rel_OntologyExport_To_Version(objOItem_OntologyExport, objDataWork_Details.OItem_Version)
+                                    objOItem_Result = objTransaction.do_Transaction(objORel_OntologyExport_To_Version)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        initialize_OntologyExport(objOItem_Development)
+                                    Else
+                                        For Each objOItem_File In objOItem_Files
+                                            objOItem_Result = objBlobConnection.del_Blob(objOItem_File)
+                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                                Exit For
+                                            End If
+                                        Next
+
+                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                            objTransaction.rollback()
+                                            MsgBox("Beim Speichern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+                                        End If
+                                    End If
                                 Else
                                     For Each objOItem_File In objOItem_Files
                                         objOItem_Result = objBlobConnection.del_Blob(objOItem_File)
@@ -189,6 +213,7 @@ Public Class UserControl_OntologyExport
                                     End If
                                 End If
                             Else
+
                                 For Each objOItem_File In objOItem_Files
                                     objOItem_Result = objBlobConnection.del_Blob(objOItem_File)
                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
@@ -201,36 +226,66 @@ Public Class UserControl_OntologyExport
                                     MsgBox("Beim Speichern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
                                 End If
                             End If
+
                         Else
-
-                            For Each objOItem_File In objOItem_Files
-                                objOItem_Result = objBlobConnection.del_Blob(objOItem_File)
-                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                                    Exit For
-                                End If
-                            Next
-
-                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                objTransaction.rollback()
-                                MsgBox("Beim Speichern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
-                            End If
+                            MsgBox("Beim Speichern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
                         End If
-                        
-                    Else
-                        MsgBox("Beim Speichern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
-                    End If
 
+                    Else
+                        MsgBox("Es wurde nichts exportiert!", MsgBoxStyle.Information)
+                    End If
                 Else
-                    MsgBox("Es wurde nichts exportiert!", MsgBoxStyle.Information)
+                    MsgBox("Die Ontologie konnte nicht exportiert werden!", MsgBoxStyle.Exclamation)
                 End If
             Else
-                MsgBox("Die Ontologie konnte nicht exportiert werden!", MsgBoxStyle.Exclamation)
+                MsgBox("Beim Exportieren ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
             End If
+            
 
         Else
             MsgBox("Beim Exportieren ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
         End If
     End Sub
+
+    Private Function GetOntologyStructuresOfBaseConfig() As clsOntologyItem
+        Dim objORel_Module_To_SoftwareDevelopment = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Other = objOItem_Development.GUID, _
+                                                                                                           .ID_RelationType = objLocalConfig.OItem_RelationType_offered_by.GUID, _
+                                                                                                           .ID_Parent_Object = objLocalConfig.OItem_Class_Module.GUID}}
+        Dim objOItem_Result = objDBLevel_Module.get_Data_ObjectRel(objORel_Module_To_SoftwareDevelopment, boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim objORel_BaseConfigClasses = New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Class_Module.GUID}}
+            If objORel_BaseConfigClasses.Any Then
+                objOItem_Result = objDBLevel_BaseConfigClasse.get_Data_Classes(objORel_BaseConfigClasses)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    Dim objORel_BaseConfig_To_Module = (From objModule In objDBLevel_Module.OList_ObjectRel
+                                                        From objBaseConfigClass In objDBLevel_BaseConfigClasse.OList_Classes
+                                                        Select New clsObjectRel With {.ID_Other = objModule.ID_Object, _
+                                                                                      .ID_Parent_Object = objBaseConfigClass.GUID, _
+                                                                                      .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID}).ToList
+
+                    If objORel_BaseConfig_To_Module.Any() Then
+                        objOItem_Result = objDBLevel_BaseConfig.get_Data_ObjectRel(objORel_BaseConfig_To_Module, boolIDs:=False)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objExport.OList_Classes.AddRange(From objBaseConfig In objDBLevel_BaseConfig.OList_ObjectRel
+                                                             Join objBaseConfigClass In objDBLevel_BaseConfigClasse.OList_Classes On objBaseConfig.ID_Parent_Object Equals objBaseConfigClass.GUID
+                                                             Select objBaseConfigClass)
+
+                            objExport.OList_Objects.AddRange(objDBLevel_BaseConfig.OList_ObjectRel.Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Object, _
+                                                                                                                                                .Name = p.Name_Object, _
+                                                                                                                                                .GUID_Parent = p.ID_Parent_Object, _
+                                                                                                                                                .Type = objLocalConfig.Globals.Type_Object}))
+
+                        End If
+                    End If
+                    
+                End If
+            End If
+            
+        End If
+
+        Return objOItem_Result
+    End Function
 
     Private Sub ToolStripButton_SaveFiles_Click(sender As Object, e As EventArgs) Handles ToolStripButton_SaveFiles.Click
         If FolderBrowserDialog_FileDest.ShowDialog(Me) = DialogResult.OK Then

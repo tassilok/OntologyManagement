@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Class">
+  <Item Id="9e5083617de64087bdae30933cdb8843" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Bill-Module]]></Item>
+<Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
+<Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
+<Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
+<Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="6401e369444549a398221029a4c1b8b8" Id_Parent="f1af959db661491ab4679fd30a165121"><![CDATA[Bank-Transaktionen (Sparkasse)]]></Item>
+<Item Id="51cda3ce2ad846f1a098b7bcf0c2eba2" Id_Parent="4a6430a889f3409b883c3641a8b88898"><![CDATA[Offset]]></Item>
+<Item Id="e864f1981df04d53bb87959bc8884919" Id_Parent="8aa50712fda94222a3506378f36e49f8"><![CDATA[Currencies]]></Item>
+<Item Id="b7ea6186327a43ebbe5b8f39ea599155" Id_Parent="4a6430a889f3409b883c3641a8b88898"><![CDATA[Payment]]></Item>
+<Item Id="b6551e7ab9c84d9894c6076dcf8cd12b" Id_Parent="f1af959db661491ab4679fd30a165121"><![CDATA[Bankinstitut]]></Item>
+<Item Id="aa616051e5214facabdbcbba6f8c6e73" Id_Parent="b5224e7f7d0d4beebf8eb9a0eeba5747"><![CDATA[Module]]></Item>
+<Item Id="d4ef7be6afaf42e2859661d70b886c23" Id_Parent="f1af959db661491ab4679fd30a165121"><![CDATA[Bankkonto]]></Item>
+<Item Id="5f7a0238859e4eec9f693038192cf56f" Id_Parent="8aa50712fda94222a3506378f36e49f8"><![CDATA[Menge]]></Item>
+<Item Id="e79ff4de2e394101b5a10055c40f41cd" Id_Parent="7d0178e29c044485b81c6d79253c6f64"><![CDATA[Language]]></Item>
+<Item Id="4a6430a889f3409b883c3641a8b88898" Id_Parent="fc3872da25164d8aa21b297c6b2b40dd"><![CDATA[Financial-Transaction]]></Item>
+<Item Id="499ec20daf6f4e72bf55ffb6eac101bf" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Search-Templates]]></Item>
+<Item Id="6a812e6c52b1407baceb9412f5c1cfaf" Id_Parent="6401e369444549a398221029a4c1b8b8"><![CDATA[Bank-Transaktionen (Sparkasse) - Archiv]]></Item>
+<Item Id="d88808d004734594a8f96c4cb3439297" Id_Parent="8aa50712fda94222a3506378f36e49f8"><![CDATA[Einheit]]></Item>
+<Item Id="952ba3153c2144fb9bbc2192e971b906" Id_Parent="105e9a106c414e8e93060bf795bb9b04"><![CDATA[Beleg]]></Item>
+<Item Id="3f806e96422c46efb9e5609e91a8c27b" Id_Parent="952ba3153c2144fb9bbc2192e971b906"><![CDATA[Belegsart]]></Item>
+<Item Id="5764200939784db79b38c2a526cdeaee" Id_Parent="7415f32efb564aeba41342e37457fdb7"><![CDATA[Container (Physical)]]></Item>
+<Item Id="a2d7d0fe04954afe85e11dcb88a27546" Id_Parent="2a12701381ca42a4bcf3c3f28d62bf1c"><![CDATA[Partner]]></Item>
+<Item Id="68ca7f8f41724186868795385899783c" Id_Parent="4a6430a889f3409b883c3641a8b88898"><![CDATA[Financial-Transaction - Archive]]></Item>
+<Item Id="53aa29b736e14511b9a4a743a5fc4535" Id_Parent="8aa50712fda94222a3506378f36e49f8"><![CDATA[Tax-Rates]]></Item>
+<Item Id="b5224e7f7d0d4beebf8eb9a0eeba5747" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Module-Management]]></Item>
+<Item Id="105e9a106c414e8e93060bf795bb9b04" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Document-Management]]></Item>
+<Item Id="fc3872da25164d8aa21b297c6b2b40dd" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Financial-Management]]></Item>
+<Item Id="2a12701381ca42a4bcf3c3f28d62bf1c" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Adress-Management]]></Item>
+<Item Id="f1af959db661491ab4679fd30a165121" Id_Parent="fc3872da25164d8aa21b297c6b2b40dd"><![CDATA[Bank]]></Item>
+<Item Id="8aa50712fda94222a3506378f36e49f8" Id_Parent="7d0178e29c044485b81c6d79253c6f64"><![CDATA[Formats]]></Item>
+<Item Id="7415f32efb564aeba41342e37457fdb7" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Media-Management]]></Item>
+<Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
+<Item Id="83317bacb4b14db8bf849fca0a93ddd5" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Information-Management]]></Item>
+<Item Id="7d0178e29c044485b81c6d79253c6f64" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Localization-Management]]></Item>
+<Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
+<Item Id="3d1dc6cfb96449869808f39b7c5c3907" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Direction]]></Item>
+<Item Id="71415eebce464b2cb0a2f72116b55438" Id_Parent="73e32abfe5774d319a46bc07e9e15de3"><![CDATA[Software-Development]]></Item>
+<Item Id="73e32abfe5774d319a46bc07e9e15de3" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Software-Management]]></Item>
+
+</Items>

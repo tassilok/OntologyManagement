@@ -26,6 +26,7 @@ namespace ElasticSearchConnector
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;
             var OList_AttributeTypeNameTest = new List<clsOntologyItem>();
+            
 
             objDBSelector.ElConnector.Flush();
 
@@ -105,6 +106,11 @@ namespace ElasticSearchConnector
                 }
                 if (objOItem_AttributeType.GUID != null && objOItem_AttributeType.Name != null && objOItem_AttributeType.GUID_Parent != null)
                 {
+                    foreach (var specialCharacter in objDBSelector.SpecialCharacters_Write)
+                    {
+                        objOItem_AttributeType.Name = objOItem_AttributeType.Name.Replace(specialCharacter, "\\" + specialCharacter);
+                    }
+
                     var objDict = new Dictionary<string, object>();
                     objDict.Add(objFields.ID_Item, objOItem_AttributeType.GUID);
                     objDict.Add(objFields.Name_Item, objOItem_AttributeType.Name);
@@ -190,13 +196,13 @@ namespace ElasticSearchConnector
         {
             OperateResult opResult;
             objDBSelector.ElConnector.Flush();
-
+            
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;
 
             var OList_ClassNameTest = new List<clsOntologyItem> { new clsOntologyItem { Name = objOItem_Class.Name } };
 
-            var objOList_ClassNameTest = objDBSelector.get_Data_Classes(OList_ClassNameTest,containsRoot:boolRoot);
+            var objOList_ClassNameTest = objDBSelector.get_Data_Classes(OList_ClassNameTest);
 
             objOItem_Result = objLogStates.LogState_Nothing;
 
@@ -238,6 +244,10 @@ namespace ElasticSearchConnector
             {
                 if (objOItem_Class.GUID != null && objOItem_Class.Name != null && (objOItem_Class.GUID_Parent != null || boolRoot))
                 {
+                    foreach (var specialCharacter in objDBSelector.SpecialCharacters_Write)
+                    {
+                        objOItem_Class.Name = objOItem_Class.Name.Replace(specialCharacter, "\\" + specialCharacter);
+                    }
                     var objDict = new Dictionary<string, object>();
                     objDict.Add(objFields.ID_Item, objOItem_Class.GUID);
                     objDict.Add(objFields.Name_Item, objOItem_Class.Name);
@@ -561,7 +571,17 @@ namespace ElasticSearchConnector
         {
             OperateResult opResult;
             objDBSelector.ElConnector.Flush();
-
+            foreach (var specialCharacter in objDBSelector.SpecialCharacters_Write)
+	        {
+                OList_Objects = OList_Objects.Select(p => new clsOntologyItem
+                {
+                    GUID = p.GUID,
+                    Name = p.Name.Replace(specialCharacter, "\\" + specialCharacter),
+                    GUID_Parent = p.GUID_Parent,
+                    Type = p.Type
+                }).ToList();
+	        }
+            
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;
 
@@ -627,7 +647,7 @@ namespace ElasticSearchConnector
         {
             OperateResult opResult;
             objDBSelector.ElConnector.Flush();
-
+            
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;
             var OList_RelationTypeNameTest = new List<clsOntologyItem>();
@@ -671,6 +691,11 @@ namespace ElasticSearchConnector
             {
                 if (objOItem_RelationType.GUID != null && objOItem_RelationType.Name != null)
                 {
+                    foreach (var specialCharacter in objDBSelector.SpecialCharacters_Write)
+                    {
+                        objOItem_RelationType.Name = objOItem_RelationType.Name.Replace(specialCharacter, "\\" + specialCharacter);
+                    }
+
                     var objDict = new Dictionary<string, object>();
                     objDict.Add(objFields.ID_Item, objOItem_RelationType.GUID);
                     objDict.Add(objFields.Name_Item, objOItem_RelationType.Name);

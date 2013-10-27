@@ -223,7 +223,7 @@ Public Class UserControl_OntologyTree
                                                                       .Name = objTreeNode_Ontology.Text, _
                                                                       .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_Ontologies.GUID, _
                                                                       .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}
-
+                    objExport.Clear()
                     Dim objOItem_Result = objExport.Export_Ontology(objOItem_Ontology, strExportPath, ModeEnum.AllRelations Or ModeEnum.ClassParents Or ModeEnum.OntologyStructures)
 
 

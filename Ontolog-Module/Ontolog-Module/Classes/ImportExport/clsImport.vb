@@ -3,6 +3,7 @@ Imports OntologyClasses.DataClasses
 Imports System.Text
 Imports System.Xml
 Imports System.IO
+Imports System.Reflection
 Public Class clsImport
     Private objGlobals As clsGlobals
 
@@ -14,21 +15,23 @@ Public Class clsImport
 
     Private strPath_Templates As String
 
-    Public Function ImportTemplates() As clsOntologyItem
+    Public Function ImportTemplates(objAssembly As Assembly) As clsOntologyItem
         Dim objOItem_Result = objGlobals.LState_Success
         Dim objOList_OItems As New List(Of clsOntologyItem)
+        Dim objOList_Classes As New List(Of clsOntologyItem)
         Dim objOList_ClassAtts As New List(Of clsClassAtt)
         Dim objOList_ClassRel As New List(Of clsClassRel)
         Dim objOList_ObjAtt As New List(Of clsObjectAtt)
         Dim objOList_ObjRel As New List(Of clsObjectRel)
 
-        For Each strFile In IO.Directory.GetFiles(strPath_Templates)
-            If strFile.ToLower().EndsWith(".xml") Then
+        For Each strManifestInfo In objAssembly.GetManifestResourceNames
+
+            If Not strManifestInfo.ToLower().EndsWith("Template.xml") And strManifestInfo.ToLower().EndsWith(".xml") Then
                 Dim strType As String
-                
 
 
-                objXMLReader = New XmlTextReader(strFile)
+                Dim objXMLStream As Stream = objAssembly.GetManifestResourceStream(strManifestInfo)
+                objXMLReader = New XmlTextReader(objXMLStream)
                 objXMLReader.ReadToDescendant("Items")
                 If objXMLReader.LocalName = "Items" Then
                     strType = objXMLReader.GetAttribute("Type")
@@ -60,11 +63,9 @@ Public Class clsImport
                                                                                   .Name = Name, _
                                                                                   .GUID_Parent = If(ID_Parent = "", Nothing, ID_Parent), _
                                                                                   .Type = objGlobals.Type_Class}
+                                    objOList_Classes.Add(objOItem_Item)
 
-                                    objOItem_Result = objDBLevel_TestExistance.save_Class(objOItem_Item, If(ID_Parent = "", True, False))
-                                    If objOItem_Result.GUID = objGlobals.LState_Error.GUID Then
-                                        Exit While
-                                    End If
+
                                 Case objGlobals.Type_Object
                                     Dim ID = objXMLReader.GetAttribute("Id")
                                     Dim ID_Parent = objXMLReader.GetAttribute("Id_Parent")
@@ -133,12 +134,98 @@ Public Class clsImport
                                     Dim Id_Object = objXMLReader.GetAttribute("Id_Object")
                                     Dim Id_Class = objXMLReader.GetAttribute("Id_Class")
                                     Dim OrderId = objXMLReader.GetAttribute("OrderId")
-                                    Dim Val_Named = objXMLReader.GetAttribute("Val_Named")
-                                    Dim Val_Bit As Nullable(Of Boolean) = Boolean.Parse(If(objXMLReader.GetAttribute("Val_Bit") = "", Nothing, objXMLReader.GetAttribute("Val_Bit")))
-                                    Dim Val_Date As Nullable(Of DateTime) = DateTime.Parse(If(objXMLReader.GetAttribute("Val_Date") = "", Nothing, objXMLReader.GetAttribute("Val_Date")))
-                                    Dim Val_Double As Nullable(Of Double) = Double.Parse(If(objXMLReader.GetAttribute("Val_Double") = "", Nothing, objXMLReader.GetAttribute("Val_Double")))
-                                    Dim Val_Lng As Nullable(Of Long) = Long.Parse(If(objXMLReader.GetAttribute("Val_Lng") = "", Nothing, objXMLReader.GetAttribute("Val_Lng")))
-                                    Dim Val_String = objXMLReader.GetAttribute("Val_String")
+                                    Dim Val_Named As String = Nothing
+                                    Dim boolVal As Boolean
+                                    Dim Val_Bit As Nullable(Of Boolean) = Nothing
+                                    Dim dateVal As DateTime
+                                    Dim Val_Date As Nullable(Of DateTime) = Nothing
+                                    Dim dblVal As Double
+                                    Dim Val_Double As Nullable(Of Double) = Nothing
+                                    Dim lngVal As Long
+                                    Dim Val_Lng As Nullable(Of Long) = Nothing
+                                    Dim Val_String As String = Nothing
+                                    If objXMLReader.ReadToDescendant("Val_Named") Then
+
+                                        Val_Named = objXMLReader.ReadElementContentAsString
+                                        If Val_Named = "" Then
+                                            Val_Named = Nothing
+                                        End If
+
+                                    End If
+                                    If objXMLReader.ReadToFollowing("Val_Bit") Then
+                                        Dim strValue = objXMLReader.ReadElementContentAsString
+                                        If strValue <> "" Then
+                                            If Boolean.TryParse(strValue, boolVal) Then
+                                                Val_Bit = boolVal
+                                            Else
+
+                                                Val_Bit = Nothing
+
+                                            End If
+                                        Else
+                                            Val_Bit = Nothing
+                                        End If
+                                        
+                                    End If
+
+                                    If objXMLReader.ReadToFollowing("Val_Date") Then
+
+                                        Dim strValue = objXMLReader.ReadElementContentAsString
+                                        If strValue <> "" Then
+                                            If DateTime.TryParse(strValue, dateVal) Then
+                                                Val_Date = dateVal
+                                            Else
+
+                                                Val_Date = Nothing
+
+                                            End If
+                                        Else
+                                            Val_Date = Nothing
+                                        End If
+
+                                    End If
+
+                                    If objXMLReader.ReadToFollowing("Val_Double") Then
+
+                                        Dim strValue = objXMLReader.ReadElementContentAsString
+                                        If strValue <> "" Then
+                                            If Double.TryParse(strValue, dblVal) Then
+                                                Val_Double = dblVal
+                                            Else
+
+                                                Val_Double = Nothing
+
+                                            End If
+                                        Else
+                                            Val_Double = Nothing
+                                        End If
+
+                                    End If
+
+                                    If objXMLReader.ReadToFollowing("Val_Lng") Then
+
+                                        Dim strValue = objXMLReader.ReadElementContentAsString
+                                        If strValue <> "" Then
+                                            If Long.TryParse(strValue, lngVal) Then
+                                                Val_Lng = lngVal
+                                            Else
+
+                                                Val_Lng = Nothing
+
+                                            End If
+                                        Else
+                                            Val_Lng = Nothing
+                                        End If
+
+                                    End If
+
+                                    If objXMLReader.ReadToFollowing("Val_String") Then
+
+                                        Val_String = objXMLReader.ReadElementContentAsString
+                                        If Val_String = "" Then
+                                            Val_String = Nothing
+                                        End If
+                                    End If
 
                                     objOList_ObjAtt.Add(New clsObjectAtt With {.ID_Attribute = Id_Attribute, _
                                                                                .ID_AttributeType = Id_AttributeType, _
@@ -152,6 +239,9 @@ Public Class clsImport
                                                                                .Val_Double = Val_Double, _
                                                                                .Val_Lng = Val_Lng, _
                                                                                .Val_String = Val_String})
+
+
+
 
 
                                 Case objGlobals.Type_ObjectRel
@@ -174,13 +264,19 @@ Public Class clsImport
                             End Select
                         End While
 
-                        
+
                     End If
                 End If
                 objXMLReader.Close()
             End If
         Next
+
         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+            If objOList_Classes.Any Then
+
+                objOItem_Result = importClasses(objOList_Classes)
+
+            End If
             If objOList_OItems.Any Then
                 objOItem_Result = objDBLevel_TestExistance.save_Objects(objOList_OItems)
             End If
@@ -200,6 +296,22 @@ Public Class clsImport
             If objOList_ObjRel.Any Then
                 objOItem_Result = objDBLevel_TestExistance.save_ObjRel(objOList_ObjRel)
             End If
+        End If
+        Return objOItem_Result
+    End Function
+
+    Private Function importClasses(objOList_Classes As List(Of clsOntologyItem), Optional objOItem_Class As clsOntologyItem = Nothing) As clsOntologyItem
+        Dim objOList_ClassesForImport = objOList_Classes.Where(Function(p) p.GUID_Parent = If(objOItem_Class Is Nothing, "", objOItem_Class.GUID)).ToList
+        Dim objOItem_Result = If(Not objOItem_Class Is Nothing, objDBLevel_TestExistance.save_Class(objOItem_Class, If(objOItem_Class.GUID_Parent = "", True, False)), objGlobals.LState_Success)
+        If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+            For Each objOItem_Class_Sub In objOList_ClassesForImport
+
+
+                objOItem_Result = importClasses(objOList_Classes, objOItem_Class_Sub)
+                If objOItem_Result.GUID = objGlobals.LState_Error.GUID Then
+                    Exit For
+                End If
+            Next
         End If
         Return objOItem_Result
     End Function
