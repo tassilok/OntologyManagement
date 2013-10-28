@@ -45,7 +45,25 @@ Public Class UserControl_RefTree
         objLocalConfig = New clsLocalConfig(Globals)
     End Sub
 
-    Public Sub initialize_Tree(OList_Refs As List(Of clsOntologyItem), OList_RelationTypes_LeftRight As List(Of clsOntologyItem), Optional OList_RelationTypes_RightLeft As List(Of clsOntologyItem) = Nothing)
+    Public Sub initialize_Tree(OList_RefClass As List(Of clsOntologyItem), OList_RelationTypes_LeftRight As List(Of clsOntologyItem), Optional OList_RelationTypes_RightLeft As List(Of clsOntologyItem) = Nothing)
+        boolLoaded = False
+        TreeView_Ref.Nodes.Clear()
+        objOList_Refs = OList_RefClass
+        objOList_RelationTypes_LeftRight = OList_RelationTypes_LeftRight
+        objOList_RelationTypes_RightLeft = OList_RelationTypes_RightLeft
+
+        If Not objOList_Refs Is Nothing And Not objOList_RelationTypes_LeftRight Is Nothing Then
+            objDataWork_RefTree = New clsDataWork_RefTree(objLocalConfig, objOList_Refs, objOList_RelationTypes_LeftRight, objOList_RelationTypes_RightLeft)
+
+            objDataWork_RefTree.GetData(True)
+            Timer_Ref.Start()
+        Else
+            boolLoaded = True
+            RaiseEvent ItemsLoaded()
+        End If
+
+    End Sub
+    Public Sub initialize_Tree(OList_Refs As List(Of clsOntologyItem), OList_RefClass As List(Of clsOntologyItem), OList_RelationTypes_LeftRight As List(Of clsOntologyItem), Optional OList_RelationTypes_RightLeft As List(Of clsOntologyItem) = Nothing)
         boolLoaded = False
         TreeView_Ref.Nodes.Clear()
         objOList_Refs = OList_Refs
@@ -64,8 +82,25 @@ Public Class UserControl_RefTree
 
     End Sub
 
+    Public Sub initialize_Tree(OList_FilterRel As List(Of clsOntologyItem), OList_Refs As List(Of clsOntologyItem), OList_RefClass As List(Of clsOntologyItem), OList_RelationTypes_LeftRight As List(Of clsOntologyItem), Optional OList_RelationTypes_RightLeft As List(Of clsOntologyItem) = Nothing)
+        boolLoaded = False
+        TreeView_Ref.Nodes.Clear()
+        objOList_Refs = OList_Refs
+        objOList_RelationTypes_LeftRight = OList_RelationTypes_LeftRight
+        objOList_RelationTypes_RightLeft = OList_RelationTypes_RightLeft
+
+        If Not objOList_Refs Is Nothing And Not objOList_RelationTypes_LeftRight Is Nothing Then
+            objDataWork_RefTree = New clsDataWork_RefTree(objLocalConfig, objOList_Refs, objOList_RelationTypes_LeftRight, objOList_RelationTypes_RightLeft)
+            objDataWork_RefTree.OList_FilterRefs = OList_FilterRel
+            objDataWork_RefTree.GetData(True)
+            Timer_Ref.Start()
+        Else
+            boolLoaded = True
+            RaiseEvent ItemsLoaded()
+        End If
+
+    End Sub
     Private Sub initialize()
-       
 
     End Sub
 

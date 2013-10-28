@@ -58,7 +58,7 @@ Public Class frmBankTransactionModule
     Private Sub initialize()
         objUserControl_TransactionList = New UserControl_TransactionList(objLocalConfig)
         objUserControl_TransactionList.Dock = DockStyle.Fill
-        Me.Controls.Add(objUserControl_TransactionList)
+        Panel_Transactions.Controls.Add(objUserControl_TransactionList)
         If objOItem_Partner Is Nothing Then
             objFrmOntologyManager = New frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class, objLocalConfig.OItem_Type_Partner)
             objFrmOntologyManager.Applyable = True
@@ -109,7 +109,7 @@ Public Class frmBankTransactionModule
         End If
     End Sub
 
-    Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
+    Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs)
         AboutBox = New AboutBox_OntologyItem()
         AboutBox.ShowDialog(Me)
     End Sub
