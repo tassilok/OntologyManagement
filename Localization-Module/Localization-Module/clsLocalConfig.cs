@@ -22,7 +22,7 @@ namespace Localization_Module
         public int ImageID_LocalizedNames_Done { get { return 8 ; } }
         public int ImageID_LocalizedName { get { return 9 ; } }
 
-        private const string cstrID_Ontology = "b862bb1a4f2e4cf9887c2075dc98fb74";
+        private const string cstrID_Ontology = "7684de35abf6401ea8308da960bda89b";
         private clsImport objImport;
 
         public clsGlobals Globals { get; set; }

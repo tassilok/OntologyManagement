@@ -103,18 +103,18 @@ Partial Class UserControl_DevelopmentTree
         '
         Me.ContextMenuStrip_Development.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ApplyToolStripMenuItem})
         Me.ContextMenuStrip_Development.Name = "ContextMenuStrip_Development"
-        Me.ContextMenuStrip_Development.Size = New System.Drawing.Size(115, 48)
+        Me.ContextMenuStrip_Development.Size = New System.Drawing.Size(153, 70)
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(114, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.NewToolStripMenuItem.Text = "New"
         '
         'ApplyToolStripMenuItem
         '
         Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
-        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(114, 22)
+        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ApplyToolStripMenuItem.Text = "Apply_f"
         Me.ApplyToolStripMenuItem.Visible = false
         '

@@ -110,6 +110,12 @@
       <DependentUpon>frmDevelopmentModule.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmNewSoftwareDevelopment.Designer.vb">
+      <DependentUpon>frmNewSoftwareDevelopment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmNewSoftwareDevelopment.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -168,6 +174,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmDevelopmentModule.resx">
       <DependentUpon>frmDevelopmentModule.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewSoftwareDevelopment.resx">
+      <DependentUpon>frmNewSoftwareDevelopment.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

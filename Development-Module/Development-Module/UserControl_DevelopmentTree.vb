@@ -87,4 +87,13 @@ Public Class UserControl_DevelopmentTree
             End If
         End If
     End Sub
+
+    Private Sub ContextMenuStrip_Development_Opening( sender As Object,  e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Development.Opening
+        NewToolStripMenuItem.Enabled = True
+        
+    End Sub
+
+    Private Sub NewToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles NewToolStripMenuItem.Click
+
+    End Sub
 End Class

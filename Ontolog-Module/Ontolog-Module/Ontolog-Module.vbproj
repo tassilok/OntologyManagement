@@ -582,6 +582,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Config\Templates\ObjectRel.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Config\Templates\Objects.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
