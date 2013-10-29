@@ -143,6 +143,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet_Report.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Forms\AdvancedFilter\frmAdvancedFilter.Designer.vb">
+      <DependentUpon>frmAdvancedFilter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdvancedFilter\frmAdvancedFilter.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AdvancedFilter\UserControl_AdvancedFilter.Designer.vb">
+      <DependentUpon>UserControl_AdvancedFilter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdvancedFilter\UserControl_AdvancedFilter.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Forms\Attributes\dlg_Attribute_Boolean.Designer.vb">
       <DependentUpon>dlg_Attribute_Boolean.vb</DependentUpon>
     </Compile>
@@ -385,6 +397,12 @@
   <ItemGroup>
     <EmbeddedResource Include="AboutBox_OntologyItem.resx">
       <DependentUpon>AboutBox_OntologyItem.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AdvancedFilter\frmAdvancedFilter.resx">
+      <DependentUpon>frmAdvancedFilter.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AdvancedFilter\UserControl_AdvancedFilter.resx">
+      <DependentUpon>UserControl_AdvancedFilter.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Attributes\dlg_Attribute_Boolean.resx">
       <DependentUpon>dlg_Attribute_Boolean.vb</DependentUpon>

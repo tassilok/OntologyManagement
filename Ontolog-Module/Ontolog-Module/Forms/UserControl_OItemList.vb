@@ -20,6 +20,7 @@ Public Class UserControl_OItemList
 
     Private objOItem_Parent As clsOntologyItem
 
+    Private objOItem_Class As New clsOntologyItem
     Private objOItem_RelationType As clsOntologyItem
     Private objOItem_Other As clsOntologyItem
     Private objOItem_Object As clsOntologyItem
@@ -37,6 +38,8 @@ Public Class UserControl_OItemList
 
     Private oList_Selected_Simple As New List(Of clsOntologyItem)
     Private oList_Selected_ObjectRel As New List(Of clsObjectRel)
+
+    Private objFrmAdvancedFilter As frmAdvancedFilter
 
     Private objDlg_Attribute_Boolean As dlg_Attribute_Boolean
     Private objDlg_Attribute_DateTime As dlg_Attribute_DateTime
@@ -272,6 +275,8 @@ Public Class UserControl_OItemList
         Dim oList_ObjAtt As New List(Of clsObjectAtt)
         Dim objOItem_Item As clsOntologyItem
 
+        
+
         If Not objOItem_Parent Is Nothing Then
             If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
                 strGUID_Class = objOItem_Parent.GUID_Parent
@@ -281,8 +286,7 @@ Public Class UserControl_OItemList
             If boolOR = False Then
                 Select Case objOItem_Parent.Type
                     Case objLocalConfig.Globals.Type_Object
-
-
+ 
                         oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
                         objDBLevel.get_Data_Objects(oList_Items, True)
                         'objDBLevel.get_Data_Objects(oList_Items)
@@ -383,7 +387,7 @@ Public Class UserControl_OItemList
     End Sub
 
     Private Sub configure_TabPages()
-
+        ToolStripButton_FilterAdvanced.Enabled = False
         Timer_List.Stop()
         Timer_Filter.Stop()
         Select Case TabControl1.SelectedTab.Name
@@ -1009,7 +1013,7 @@ Public Class UserControl_OItemList
             If Not objOItem_Parent Is Nothing Then
                 Select Case objOItem_Parent.Type
                     Case objLocalConfig.Globals.Type_Object
-
+                        ToolStripButton_FilterAdvanced.Enabled = True
                         BindingSource_Token.DataSource = objDBLevel.tbl_Objects
                         DataGridView_Items.DataSource = BindingSource_Token
                         DataGridView_Items.Columns(0).Visible = False
@@ -1845,6 +1849,26 @@ Public Class UserControl_OItemList
             configure_TabPages()
             ToolStripTextBox_Filter.Text = objTransaction_Objects.OItem_SavedLast.GUID
         End If
+
+    End Sub
+
+    Private Sub ToolStripButton_FilterAdvanced_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_FilterAdvanced.Click
+        
+        If strGUID_Class <>"" Then
+            objOItem_Class.GUID= strGUID_Class
+            objOItem_Class.Type = objLocalConfig.Globals.Type_Class
+
+            objFrmAdvancedFilter = New frmAdvancedFilter(objLocalConfig,objOItem_Class)
+            objFrmAdvancedFilter.ShowDialog(Me)
+            If objFrmAdvancedFilter.DialogResult = DialogResult.OK Then
+                objOItem_Class= objFrmAdvancedFilter.OItem_Class
+                objOItem_Object = objFrmAdvancedFilter.OItem_Object
+                objOItem_RelationType = objFrmAdvancedFilter.OItem_RelationType
+
+                
+            End If
+        End If        
+        
 
     End Sub
 End Class

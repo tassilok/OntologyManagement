@@ -411,7 +411,9 @@ Public Class UserControl_ObjectRelTree
     Private sub fill_BackwardOther()
         Dim objORel_Backward = new List(Of clsObjectRel)
 
+        
         objORel_Backward.Add(New clsObjectRel With {.ID_Other = objOItem_Object.GUID})
+        
 
         Dim objOItem_Result = objDBLevel_ObjectRel.get_Data_ObjectRel(objORel_Backward,boolIDs := False)
         objDBLevel_ObjectRel.OList_ObjectRel.Sort(Function(U1 As clsObjectRel, U2 As clsObjectRel) U1.Name_Other.CompareTo(U2.Name_Other))
