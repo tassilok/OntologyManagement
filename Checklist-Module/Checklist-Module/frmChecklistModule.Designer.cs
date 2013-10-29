@@ -107,6 +107,7 @@
             this.dataGridView_Checklists.ReadOnly = true;
             this.dataGridView_Checklists.Size = new System.Drawing.Size(361, 407);
             this.dataGridView_Checklists.TabIndex = 0;
+            this.dataGridView_Checklists.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Checklists_RowHeaderMouseDoubleClick);
             // 
             // frmChecklistModule
             // 

@@ -217,6 +217,50 @@ Public Class clsDataWork_LogEntry
 
         Return objOItem_Result
     End Function
+
+    Public Function get_Data_LogEntries() As List(Of clsLogEntry)
+        boolList = True
+        Dim objOList_Logentry = New List(Of clsLogEntry)
+        get_Data_LogState()
+        If objOItem_Result_LogState.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            get_Data_DateTimeStamp()
+            If objOItem_Result_DateTimeStamp.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                get_Data_Message()
+                If objOItem_Result_Message.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    get_Data_User()
+                    If objOItem_Result_User.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objOList_Logentry = (From objDateTimeStamp In objDBLevel_TimeStamp.OList_ObjectAtt
+                                         Group Join objMessage In objDBLevel_Message.OList_ObjectAtt On objDateTimeStamp.ID_Object Equals objMessage.ID_Object Into objMessages = Group
+                                         From objMessage In objMessages.DefaultIfEmpty()
+                                         Join objLogState In objDBLevel_LogState.OList_ObjectRel On objDateTimeStamp.ID_Object Equals objLogState.ID_Object
+                                         Join objUser In objDBLevel_User.OList_ObjectRel On objDateTimeStamp.ID_Object Equals objUser.ID_Object
+                                         Select New clsLogEntry With {.ID_LogEntry = objDateTimeStamp.ID_Object, _
+                                                                      .Name_LogEntry = objDateTimeStamp.Name_Object, _
+                                                                      .ID_Attribute_DateTimeStamp = objDateTimeStamp.ID_Attribute, _
+                                                                      .DateTimeStamp = objDateTimeStamp.Val_Date, _
+                                                                      .ID_Attribute_Message = If(objMessage Is Nothing, Nothing, objMessage.ID_Attribute), _
+                                                                      .Message = If(objMessage Is Nothing, Nothing, objMessage.Val_String), _
+                                                                      .ID_LogState = objLogState.ID_Other, _
+                                                                      .Name_LogState = objLogState.Name_Other, _
+                                                                      .ID_User = objUser.ID_Other, _
+                                                                      .Name_User = objUser.Name_Other}).ToList()
+
+                    Else
+                        objOList_Logentry = Nothing
+                    End If
+                Else
+                    objOList_Logentry = Nothing
+                End If
+            Else
+                objOList_Logentry = Nothing
+            End If
+        Else
+            objOList_Logentry = Nothing
+        End If
+
+        Return objOList_Logentry
+    End Function
+
     Public Function get_Data_LogEntryOfRef(OItem_Ref As clsOntologyItem, Optional OItem_RelationType As clsOntologyItem = Nothing) As List(Of clsLogEntry)
         Dim OList_LogEntry = New List(Of clsLogEntry)
 

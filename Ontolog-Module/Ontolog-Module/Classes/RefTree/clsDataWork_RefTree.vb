@@ -211,6 +211,7 @@ Public Class clsDataWork_RefTree
                 Loop Until objOList_Classes.Count - intClassCount = 0
                 objOList_Classes.Sort(Function(LS1 As clsOntologyItem, LS2 As clsOntologyItem) LS1.Name.CompareTo(LS2.Name))
 
+
                 objOList_AttributeTypes = objOList_Rels.Where(Function(p) p.Ontology = objLocalConfig.Globals.Type_AttributeType). _
                                                                                Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Other,
                                                                                                                             .Name = p.Name_Other, _

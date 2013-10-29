@@ -46,6 +46,14 @@
   <ItemGroup>
     <Compile Include="clsDataWork_Checklists.cs" />
     <Compile Include="clsLocalConfig.cs" />
+    <Compile Include="clsLogEntriesOfWorkingListAndRef.cs" />
+    <Compile Include="clsWorkingList.cs" />
+    <Compile Include="frmCheckliste.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCheckliste.Designer.cs">
+      <DependentUpon>frmCheckliste.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmChecklistModule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +62,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmCheckliste.resx">
+      <DependentUpon>frmCheckliste.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmChecklistModule.resx">
       <DependentUpon>frmChecklistModule.cs</DependentUpon>
     </EmbeddedResource>
@@ -65,6 +76,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Config\ElasticSearch.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -83,6 +95,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Log-Module\Log-Module\Log-Module.vbproj">
+      <Project>{666536bd-fd4a-4bdf-a5bc-572e07d4e27a}</Project>
+      <Name>Log-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3f2f6722-c36b-420d-afe7-b21c19457208}</Project>
       <Name>Ontolog-Module</Name>
@@ -99,13 +115,29 @@
       <Project>{c9add5dc-090d-4003-bba9-cf9218c938b2}</Project>
       <Name>Security-Module</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Structure-Module\Structure-Module\Structure-Module.csproj">
+      <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
+      <Name>Structure-Module</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\Config_ont.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Config\Templates\AttributeTypes.xml" />
+    <EmbeddedResource Include="Config\Templates\ClassAtts.xml" />
+    <EmbeddedResource Include="Config\Templates\Classes.xml" />
+    <EmbeddedResource Include="Config\Templates\ClassRels.xml" />
+    <EmbeddedResource Include="Config\Templates\ObjectAtt.xml" />
+    <EmbeddedResource Include="Config\Templates\ObjectRel.xml" />
+    <EmbeddedResource Include="Config\Templates\Objects.xml" />
+    <EmbeddedResource Include="Config\Templates\RelationTypes.xml" />
+    <None Include="Resources\TzeenieWheenie_red_green_OK_not_OK_Icons_1.png" />
+    <None Include="Resources\wm_pause.png" />
+    <None Include="Resources\TzeenieWheenie_red_green_OK_not_OK_Icons_3.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

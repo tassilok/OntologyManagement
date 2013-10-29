@@ -376,15 +376,36 @@ Public Class UserControl_RefTree
     Private Sub TreeView_Ref_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles TreeView_Ref.AfterSelect
         Dim objTreeNode_Selected = TreeView_Ref.SelectedNode
 
+        Dim objOItem_Ref As clsOntologyItem = Nothing
         If Not objTreeNode_Selected Is Nothing Then
-            Dim objOList_Ref = objDataWork_RefTree.OList_Ref.Where(Function(p) p.ID_Other = objTreeNode_Selected.Name).Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Other, _
-                                                                                                                                                                    .Name = p.Name_Other, _
-                                                                                                                                                                    .GUID_Parent = p.ID_Parent_Other, _
-                                                                                                                                                                    .Type = p.Ontology}).ToList()
-            If objOList_Ref.Any Then
-                RaiseEvent selected_Node(objOList_Ref.First())
+            'Dim objOList_Ref = objDataWork_RefTree.OList_Ref.Where(Function(p) p.ID_Other = objTreeNode_Selected.Name).Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Other, _
+            '                                                                                                                                                        .Name = p.Name_Other, _
+            '                                                                                                                                                        .GUID_Parent = p.ID_Parent_Other, _
+            '                                                                                                                                                        .Type = p.Ontology}).ToList()
+
+            If objTreeNode_Selected.ImageIndex = objDataWork_RefTree.ImageID_AttributeType Then
+                objOItem_Ref = New clsOntologyItem With {.GUID = objTreeNode_Selected.Name, _
+                                                         .Name = objTreeNode_Selected.Text, _
+                                                         .Type = objLocalConfig.Globals.Type_AttributeType}
+            ElseIf objTreeNode_Selected.ImageIndex = objDataWork_RefTree.ImageID_Closed Then
+                objOItem_Ref = New clsOntologyItem With {.GUID = objTreeNode_Selected.Name, _
+                                                         .Name = objTreeNode_Selected.Text, _
+                                                         .Type = objLocalConfig.Globals.Type_Class}
+            ElseIf objTreeNode_Selected.ImageIndex = objDataWork_RefTree.ImageID_Object Then
+                objOItem_Ref = New clsOntologyItem With {.GUID = objTreeNode_Selected.Name, _
+                                                         .Name = objTreeNode_Selected.Text, _
+                                                         .Type = objLocalConfig.Globals.Type_Object}
+            ElseIf objTreeNode_Selected.ImageIndex = objDataWork_RefTree.ImageID_RelationType Then
+                objOItem_Ref = New clsOntologyItem With {.GUID = objTreeNode_Selected.Name, _
+                                                         .Name = objTreeNode_Selected.Text, _
+                                                         .Type = objLocalConfig.Globals.Type_RelationType}
+            Else
+
+                objOItem_Ref = Nothing
             End If
+
         End If
+        RaiseEvent selected_Node(objOItem_Ref)
     End Sub
 
     Private Sub TreeView_Ref_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles TreeView_Ref.MouseDoubleClick

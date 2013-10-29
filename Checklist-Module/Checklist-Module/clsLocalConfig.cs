@@ -29,6 +29,11 @@ namespace Checklist_Module
         public clsOntologyItem OItem_class_report { get; set; }
         public clsOntologyItem OItem_class_user { get; set; }
 
+        // Object
+        public clsOntologyItem OItem_object_error { get; set; }
+        public clsOntologyItem OItem_object_pause { get; set; }
+        public clsOntologyItem OItem_object_success { get; set; }
+
         // RelationTypes
         public clsOntologyItem OItem_relationtype_belongs_to { get; set; }
         public clsOntologyItem OItem_relationtype_contains { get; set; }
@@ -218,7 +223,68 @@ var objOList_relationtype_contains = (from objOItem in objDBLevel_Config1.OList_
   
 	private void get_Config_Objects()
         {
-		
+            var objOList_object_error = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                         where objOItem.ID_Object == cstrID_Ontology
+                                         join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                         where objRef.Name_Object.ToLower() == "object_error".ToLower() && objRef.Ontology == Globals.Type_Object
+                                         select objRef).ToList();
+
+            if (objOList_object_error.Any())
+            {
+                OItem_object_error = new clsOntologyItem()
+                {
+                    GUID = objOList_object_error.First().ID_Other,
+                    Name = objOList_object_error.First().Name_Other,
+                    GUID_Parent = objOList_object_error.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_pause = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                         where objOItem.ID_Object == cstrID_Ontology
+                                         join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                         where objRef.Name_Object.ToLower() == "object_pause".ToLower() && objRef.Ontology == Globals.Type_Object
+                                         select objRef).ToList();
+
+            if (objOList_object_pause.Any())
+            {
+                OItem_object_pause = new clsOntologyItem()
+                {
+                    GUID = objOList_object_pause.First().ID_Other,
+                    Name = objOList_object_pause.First().Name_Other,
+                    GUID_Parent = objOList_object_pause.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_success = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == "object_success".ToLower() && objRef.Ontology == Globals.Type_Object
+                                           select objRef).ToList();
+
+            if (objOList_object_success.Any())
+            {
+                OItem_object_success = new clsOntologyItem()
+                {
+                    GUID = objOList_object_success.First().ID_Other,
+                    Name = objOList_object_success.First().Name_Other,
+                    GUID_Parent = objOList_object_success.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
 	}
   
 	private void get_Config_Classes()

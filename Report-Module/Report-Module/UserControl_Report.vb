@@ -49,6 +49,26 @@ Public Class UserControl_Report
 
     Private boolFilterChanged As Boolean
 
+    Public Event DataLoaded()
+    Public Event SelectionChanged()
+
+
+    Public ReadOnly Property DataGridViewRow_Selected As DataGridViewSelectedRowCollection
+        Get
+            Return DataGridView_Reports.SelectedRows
+        End Get
+    End Property
+
+    Public Property DataTableSelected As DataTable
+        Get
+            Return objDataTable
+        End Get
+        Set(value As DataTable)
+            objDataTable = value
+        End Set
+    End Property
+
+
     Private Sub configure_DataGridView()
         Dim objColumn As DataGridViewColumn
         Dim objOList_ReportFields As New List(Of clsReportField)
@@ -265,6 +285,17 @@ Public Class UserControl_Report
         set_DBConnection()
     End Sub
 
+    Public Sub New(Globals As clsGlobals)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = New clsLocalConfig(Globals)
+
+        set_DBConnection()
+    End Sub
+
     Private Sub set_DBConnection()
         objDataWork_ReportTree = New clsDataWork_ReportTree(objLocalConfig)
         objDataWork_ReportFields = New clsDataWork_ReportFields(objLocalConfig)
@@ -326,6 +357,7 @@ Public Class UserControl_Report
 
                     DataGridView_Reports.DataSource = BindingSource_Reports
                     BindingNavigator_Reports.BindingSource = BindingSource_Reports
+                    RaiseEvent DataLoaded()
                     configure_DataGridView()
                 End If
 
@@ -1132,5 +1164,9 @@ Public Class UserControl_Report
                 End If
             End If
         End If
+    End Sub
+
+    Private Sub DataGridView_Reports_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView_Reports.SelectionChanged
+        RaiseEvent SelectionChanged()
     End Sub
 End Class
