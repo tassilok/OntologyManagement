@@ -51,9 +51,14 @@ Public Class UserControl_ObjectTree
         Dim objTreeNodes() = TreeView_Objects.Nodes.Find(GUID_Node,True)
         If objTreeNodes.Any()
             boolPChange = True
-            If TreeView_Objects.SelectedNode.Name <> objTreeNodes.First().Name Then
+            if TreeView_Objects.SelectedNode Is Nothing Then
                 TreeView_Objects.SelectedNode = objTreeNodes.First()
+            Else 
+                If TreeView_Objects.SelectedNode.Name <> objTreeNodes.First().Name Then
+                    TreeView_Objects.SelectedNode = objTreeNodes.First()
+                End If
             End If
+            
             
             boolPChange = False
         End If
