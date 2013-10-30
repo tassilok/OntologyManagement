@@ -27,6 +27,7 @@ namespace Checklist_Module
         private clsDBLevel objDBLevel_WorkingListToReportField;
         private clsDBLevel objDBLevel_WorkingListToLogEntry;
         private clsDBLevel objDBLevel_RefToLogEntry;
+        private clsDBLevel objDBLevel_OntologyItem;
 
         public void GetData_WorkingLists()
         {
@@ -255,6 +256,88 @@ namespace Checklist_Module
             return objOList_LogEntriesToRef;
         }
 
+        public clsOntologyItem GetOntologyItemByGUID(string GUID_Item)
+        {
+            clsOntologyItem objOItem_OntologyItem = null;
+            var objOList_OItem = new List<clsOntologyItem> {new clsOntologyItem {GUID = GUID_Item } };
+            var objOItem_Result =  objDBLevel_OntologyItem.get_Data_AttributeType(objOList_OItem);
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                if (objDBLevel_OntologyItem.OList_AttributeTypes.Any())
+                {
+                    objOItem_OntologyItem = objDBLevel_OntologyItem.OList_AttributeTypes.First();
+                }
+                else
+                {
+                    objOItem_Result = objDBLevel_OntologyItem.get_Data_RelationTypes(objOList_OItem);
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        if (objDBLevel_OntologyItem.OList_RelationTypes.Any())
+                        {
+                            objOItem_OntologyItem = objDBLevel_OntologyItem.OList_RelationTypes.First();
+                        }
+                        else
+                        {
+                            objOItem_Result = objDBLevel_OntologyItem.get_Data_Classes(objOList_OItem);
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            {
+                                if (objDBLevel_OntologyItem.OList_Classes.Any())
+                                {
+                                    objOItem_OntologyItem = objDBLevel_OntologyItem.OList_Classes.First();
+                                }
+                                else
+                                {
+                                    objOItem_Result = objDBLevel_OntologyItem.get_Data_Objects(objOList_OItem);
+                                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                    {
+                                        if (objDBLevel_OntologyItem.OList_Objects.Any())
+                                        {
+                                            objOItem_OntologyItem = objDBLevel_OntologyItem.OList_Objects.First();
+                                        }
+                                    }
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+            }
+
+            return objOItem_OntologyItem;
+        }
+
+        public clsObjectRel Rel_WorkingList_To_LogEntry(clsOntologyItem OItem_WorkingList, clsOntologyItem OItem_LogEntry)
+        {
+            var objORel_WorkingList_To_LogEntry = new clsObjectRel
+            {
+                ID_Object = OItem_WorkingList.GUID,
+                ID_Parent_Object = OItem_WorkingList.GUID_Parent,
+                ID_Other = OItem_LogEntry.GUID,
+                ID_Parent_Other = OItem_LogEntry.GUID_Parent,
+                ID_RelationType = objLocalConfig.OItem_relationtype_contains.GUID,
+                Ontology = objLocalConfig.Globals.Type_Object,
+                OrderID = 1
+            };
+
+            return objORel_WorkingList_To_LogEntry;
+        }
+
+        public clsObjectRel Rel_LogEntry_To_Ref(clsOntologyItem OItem_LogEntry, clsOntologyItem OItem_Ref)
+        {
+            var objORel_WorkingList_To_LogEntry = new clsObjectRel
+            {
+                ID_Object = OItem_LogEntry.GUID,
+                ID_Parent_Object = OItem_LogEntry.GUID_Parent,
+                ID_Other = OItem_Ref.GUID,
+                ID_Parent_Other = OItem_Ref.GUID_Parent,
+                ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID,
+                Ontology = OItem_Ref.Type,
+                OrderID = 1
+            };
+
+            return objORel_WorkingList_To_LogEntry;
+        }
+
         private void Initialize()
         {
             objDBLevel_Report = new clsDBLevel(objLocalConfig.Globals);
@@ -264,6 +347,7 @@ namespace Checklist_Module
             objDBLevel_WorkingListToReportField = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_WorkingListToLogEntry = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_RefToLogEntry = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_OntologyItem = new clsDBLevel(objLocalConfig.Globals);
             OItem_Result_Report = objLocalConfig.Globals.LState_Nothing.Clone();
             OItem_Result_WorkingLists = objLocalConfig.Globals.LState_Nothing.Clone();
 

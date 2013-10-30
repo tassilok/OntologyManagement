@@ -126,7 +126,7 @@ End Enum
 
         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
 
-            If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType).Any Then
+            If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID).Any Then
                 OList_Objects.Add(OItem_Ontology)
                 OList_Classes.Add(objGlobals.Class_Ontologies)
                 OList_Classes.Add(objGlobals.Class_OntologyItems)

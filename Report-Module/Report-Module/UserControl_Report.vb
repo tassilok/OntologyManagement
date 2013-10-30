@@ -1169,4 +1169,22 @@ Public Class UserControl_Report
     Private Sub DataGridView_Reports_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView_Reports.SelectionChanged
         RaiseEvent SelectionChanged()
     End Sub
+
+    Public Function VisibilityColumn(ColumnId As Integer, boolVisible As Boolean) As Boolean
+        If DataGridView_Reports.Columns.Contains(ColumnId) Then
+            DataGridView_Reports.Columns(ColumnId).Visible = boolVisible
+            Return True
+        End If
+
+        Return False
+    End Function
+
+    Public Function VisibilityColumn(ColumnName As String, boolVisible As Boolean) As Boolean
+        If DataGridView_Reports.Columns.Contains(ColumnName) Then
+            DataGridView_Reports.Columns(ColumnName).Visible = boolVisible
+            Return True
+        End If
+
+        Return False
+    End Function
 End Class

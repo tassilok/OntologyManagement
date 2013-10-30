@@ -60,6 +60,12 @@
     <Compile Include="frmChecklistModule.Designer.cs">
       <DependentUpon>frmChecklistModule.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmLogDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLogDialog.Designer.cs">
+      <DependentUpon>frmLogDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmCheckliste.resx">
@@ -67,6 +73,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmChecklistModule.resx">
       <DependentUpon>frmChecklistModule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLogDialog.resx">
+      <DependentUpon>frmLogDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

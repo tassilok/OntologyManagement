@@ -83,7 +83,7 @@
             this.toolStripButton_Error});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(81, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(112, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripButton_Close
@@ -105,6 +105,7 @@
             this.toolStripButton_Success.Name = "toolStripButton_Success";
             this.toolStripButton_Success.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_Success.Text = "toolStripButton1";
+            this.toolStripButton_Success.Click += new System.EventHandler(this.toolStripButton_Success_Click);
             // 
             // toolStripButton_Pause
             // 
@@ -115,6 +116,7 @@
             this.toolStripButton_Pause.Name = "toolStripButton_Pause";
             this.toolStripButton_Pause.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_Pause.Text = "toolStripButton2";
+            this.toolStripButton_Pause.Click += new System.EventHandler(this.toolStripButton_Pause_Click);
             // 
             // toolStripButton_Error
             // 
@@ -125,6 +127,7 @@
             this.toolStripButton_Error.Name = "toolStripButton_Error";
             this.toolStripButton_Error.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_Error.Text = "toolStripButton3";
+            this.toolStripButton_Error.Click += new System.EventHandler(this.toolStripButton_Error_Click);
             // 
             // frmCheckliste
             // 
