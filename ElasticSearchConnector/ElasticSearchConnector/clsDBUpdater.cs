@@ -571,16 +571,16 @@ namespace ElasticSearchConnector
         {
             OperateResult opResult;
             objDBSelector.ElConnector.Flush();
-            foreach (var specialCharacter in objDBSelector.SpecialCharacters_Write)
-	        {
-                OList_Objects = OList_Objects.Select(p => new clsOntologyItem
-                {
-                    GUID = p.GUID,
-                    Name = p.Name.Replace(specialCharacter, "\\" + specialCharacter),
-                    GUID_Parent = p.GUID_Parent,
-                    Type = p.Type
-                }).ToList();
-	        }
+            //foreach (var specialCharacter in objDBSelector.SpecialCharacters_Write)
+            //{
+            //    OList_Objects = OList_Objects.Select(p => new clsOntologyItem
+            //    {
+            //        GUID = p.GUID,
+            //        Name = p.Name.Replace(specialCharacter, "\\" + specialCharacter),
+            //        GUID_Parent = p.GUID_Parent,
+            //        Type = p.Type
+            //    }).ToList();
+            //}
             
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;

@@ -588,7 +588,9 @@ Public Class clsDBLevel
                                        Optional ByVal Direction As String = Nothing, _
                                        Optional ByVal boolClear As Boolean = True, _
                                        Optional ByVal doJoin_Left As Boolean = False, _
-                                       Optional ByVal doJoin_right As Boolean = False) As clsOntologyItem
+                                       Optional ByVal doJoin_right As Boolean = False, _
+                                       Optional boolTable_Objects_Left As Boolean = False, _
+                                       Optional boolTable_Objects_Right As Boolean = False) As clsOntologyItem
 
         Dim objOItem_Result As clsOntologyItem = objLogStates.LogState_Success
 
@@ -601,50 +603,70 @@ Public Class clsDBLevel
             objOItem_Result.Count = objElSelector.get_Data_ObjectRelCount(oList_ObjectRel)
         Else 
             If boolIDs Then
-            objOntologyList_ObjectRel_ID = objElSelector.get_Data_ObjectRel(oList_ObjectRel, boolIDs, doJoin_Left, doJoin_right)
-        Else
-            objOntologyList_ObjectRel = objElSelector.get_Data_ObjectRel(oList_ObjectRel, boolIDs, doJoin_Left, doJoin_right)
-        End If
-
-        If boolTable Then
-
-            If boolIDs Then
-                For Each objObjectRel As clsObjectRel In objOntologyList_ObjectRel_ID
-                    otblT_ObjectRel.Rows.Add(objObjectRel.ID_Object, _
-                                             objObjectRel.Name_Object, _
-                                             objObjectRel.ID_Parent_Object, _
-                                             objObjectRel.Name_Parent_Object, _
-                                             objObjectRel.ID_RelationType, _
-                                             objObjectRel.Name_RelationType, _
-                                             objObjectRel.OrderID, _
-                                             objObjectRel.ID_Other, _
-                                             objObjectRel.Name_Other, _
-                                             objObjectRel.ID_Parent_Other, _
-                                             objObjectRel.Name_Parent_Other, _
-                                             objObjectRel.Ontology, _
-                                             Direction)
-                Next
+                objOntologyList_ObjectRel_ID = objElSelector.get_Data_ObjectRel(oList_ObjectRel, boolIDs, doJoin_Left, doJoin_right)
             Else
-                For Each objObjectRel As clsObjectRel In objOntologyList_ObjectRel
-                    otblT_ObjectRel.Rows.Add(objObjectRel.ID_Object, _
-                                             objObjectRel.Name_Object, _
-                                             objObjectRel.ID_Parent_Object, _
-                                             objObjectRel.Name_Parent_Object, _
-                                             objObjectRel.ID_RelationType, _
-                                             objObjectRel.Name_RelationType, _
-                                             objObjectRel.OrderID, _
-                                             objObjectRel.ID_Other, _
-                                             objObjectRel.Name_Other, _
-                                             objObjectRel.ID_Parent_Other, _
-                                             objObjectRel.Name_Parent_Other, _
-                                             objObjectRel.Ontology, _
-                                             Direction)
-                Next
+                objOntologyList_ObjectRel = objElSelector.get_Data_ObjectRel(oList_ObjectRel, boolIDs, doJoin_Left, doJoin_right)
             End If
+
+            If boolTable Then
+
+                If boolIDs Then
+                    For Each objObjectRel As clsObjectRel In objOntologyList_ObjectRel_ID
+                        otblT_ObjectRel.Rows.Add(objObjectRel.ID_Object, _
+                                                 objObjectRel.Name_Object, _
+                                                 objObjectRel.ID_Parent_Object, _
+                                                 objObjectRel.Name_Parent_Object, _
+                                                 objObjectRel.ID_RelationType, _
+                                                 objObjectRel.Name_RelationType, _
+                                                 objObjectRel.OrderID, _
+                                                 objObjectRel.ID_Other, _
+                                                 objObjectRel.Name_Other, _
+                                                 objObjectRel.ID_Parent_Other, _
+                                                 objObjectRel.Name_Parent_Other, _
+                                                 objObjectRel.Ontology, _
+                                                 Direction)
+                    Next
+                Else
+                    For Each objObjectRel As clsObjectRel In objOntologyList_ObjectRel
+                        otblT_ObjectRel.Rows.Add(objObjectRel.ID_Object, _
+                                                 objObjectRel.Name_Object, _
+                                                 objObjectRel.ID_Parent_Object, _
+                                                 objObjectRel.Name_Parent_Object, _
+                                                 objObjectRel.ID_RelationType, _
+                                                 objObjectRel.Name_RelationType, _
+                                                 objObjectRel.OrderID, _
+                                                 objObjectRel.ID_Other, _
+                                                 objObjectRel.Name_Other, _
+                                                 objObjectRel.ID_Parent_Other, _
+                                                 objObjectRel.Name_Parent_Other, _
+                                                 objObjectRel.Ontology, _
+                                                 Direction)
+                    Next
+                End If
             
 
 
-        End If
+            End If
+
+            If boolTable_Objects_Left Then
+                
+                otblT_Objects.Clear()
+                For Each objOItem As clsOntologyItem In objOntologyList_ObjectRel.Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Object,
+                                                                                                                               .Name = p.Name_Object, 
+                                                                                                                               .GUID_Parent = p.ID_Parent_Object,
+                                                                                                                               .Type = objTypes.ObjectType}).ToList()
+                    otblT_Objects.Rows.Add(objOItem.GUID, objOItem.Name,objOItem.GUID_Parent)
+                Next
+            ElseIf  boolTable_Objects_Right Then
+
+                otblT_Objects.Clear()
+                For Each objOItem As clsOntologyItem In objOntologyList_ObjectRel.Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Other,
+                                                                                                                               .Name = p.Name_Other, 
+                                                                                                                               .GUID_Parent = p.ID_Parent_Other,
+                                                                                                                               .Type = p.Ontology}).ToList()
+                    otblT_Objects.Rows.Add(objOItem.GUID, objOItem.Name,objOItem.GUID_Parent)
+                Next
+            End If
         End If
         
 

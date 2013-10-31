@@ -88,7 +88,7 @@ namespace ElasticSearchConnector
                 }
                 
             }
-
+            objDBSelector.ElConnector.Flush();
             return objOItem_Result;
         }
 
@@ -165,7 +165,7 @@ namespace ElasticSearchConnector
                 }
                 
             }
-
+            objDBSelector.ElConnector.Flush();
             return objOItem_Result;
         }
 
@@ -248,7 +248,7 @@ namespace ElasticSearchConnector
                 }
                 
             }
-
+            objDBSelector.ElConnector.Flush();
             return objOItem_Result;
         }
 
@@ -285,8 +285,8 @@ namespace ElasticSearchConnector
                 objOItem_Result = objLogStates.LogState_Relation;
             }
 
-            
 
+            objDBSelector.ElConnector.Flush();
 
             return objOItem_Result;
         }
@@ -361,7 +361,7 @@ namespace ElasticSearchConnector
                 }
 
             }
-
+            objDBSelector.ElConnector.Flush();
             return objOItem_Result;
         }
 
@@ -382,7 +382,7 @@ namespace ElasticSearchConnector
             {
                 objOItem_Result = objLogStates.LogState_Error;
             }
-
+            objDBSelector.ElConnector.Flush();
             return objOItem_Result;
         }
 
@@ -403,7 +403,7 @@ namespace ElasticSearchConnector
             {
                 objOItem_Result = objLogStates.LogState_Error;
             }
-
+            objDBSelector.ElConnector.Flush();
             return objOItem_Result;
         }
 
@@ -461,8 +461,8 @@ namespace ElasticSearchConnector
                 }
             }
 
-            
 
+            objDBSelector.ElConnector.Flush();
 
 
             return objOItem_Result;

@@ -25,6 +25,12 @@ Public Class UserControl_OItemList
     Private objOItem_Other As clsOntologyItem
     Private objOItem_Object As clsOntologyItem
 
+    Private objOItem_Class_AdvancedFilter As clsOntologyItem
+    Private objOItem_RelationType_AdvancedFilter As clsOntologyItem
+    Private objOItem_Object_AdvancedFilter As clsOntologyItem
+    Private objOItem_Direction_AdvancedFilter As clsOntologyItem
+
+
     Private objThread_List As Threading.Thread
 
     Private boolProgChange As Boolean
@@ -151,6 +157,10 @@ Public Class UserControl_OItemList
 
         strGUID_Filter = ""
         strName_Filter = ""
+        objOItem_Class_AdvancedFilter = Nothing
+        objOItem_RelationType_AdvancedFilter = Nothing
+        objOItem_Object_AdvancedFilter = Nothing
+
         ToolStripTextBox_Filter.ReadOnly = True
         ToolStripTextBox_Filter.Text = ""
         ToolStripButton_Filter.Checked = False
@@ -286,9 +296,32 @@ Public Class UserControl_OItemList
             If boolOR = False Then
                 Select Case objOItem_Parent.Type
                     Case objLocalConfig.Globals.Type_Object
- 
-                        oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
-                        objDBLevel.get_Data_Objects(oList_Items, True)
+    
+                        If Not objOItem_RelationType_AdvancedFilter is Nothing or Not objOItem_Class_AdvancedFilter Is nothing Or Not objOItem_Object_AdvancedFilter Is Nothing Then
+                            Dim objORel_AdvancedFilter = New List(Of clsObjectRel)
+                            If objOItem_Direction_AdvancedFilter.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID
+                                objORel_AdVancedFilter = new List(Of clsObjectRel) From { new clsObjectRel With {.ID_Parent_Object = strGUID_Class, _
+                                                                                                                 .ID_RelationType = If (Not objOItem_RelationType_AdvancedFilter Is Nothing, objOItem_RelationType_AdvancedFilter.GUID, Nothing), _
+                                                                                                                 .ID_Parent_Other = If (Not objOItem_Class_AdvancedFilter Is Nothing, objOItem_Class_AdvancedFilter.GUID, Nothing), _
+                                                                                                                 .ID_Other = if (not objOItem_Object_AdvancedFilter Is Nothing, objOItem_Object_AdvancedFilter.GUID, Nothing) }}
+                                objDBLevel.get_Data_ObjectRel(objORel_AdvancedFilter,boolIDs := False, boolTable := True,boolTable_Objects_Left := True)
+                            Else 
+                                objORel_AdVancedFilter = new List(Of clsObjectRel) From { new clsObjectRel With {.ID_Parent_Other = strGUID_Class, _
+                                                                                                                 .ID_RelationType = If (Not objOItem_RelationType_AdvancedFilter Is Nothing, objOItem_RelationType_AdvancedFilter.GUID, Nothing), _
+                                                                                                                 .ID_Parent_Object = If (Not objOItem_Class_AdvancedFilter Is Nothing, objOItem_Class_AdvancedFilter.GUID, Nothing), _
+                                                                                                                 .ID_Object = if (not objOItem_Object_AdvancedFilter Is Nothing, objOItem_Object_AdvancedFilter.GUID, Nothing) }}
+                                objDBLevel.get_Data_ObjectRel(objORel_AdvancedFilter,boolIDs := False, boolTable := True,boolTable_Objects_Right := True)
+                            End If
+
+                            
+                            
+                        Else 
+                            oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
+                            objDBLevel.get_Data_Objects(oList_Items, True)
+                        End If
+                        
+                        
+                        
                         'objDBLevel.get_Data_Objects(oList_Items)
 
 
@@ -1861,11 +1894,13 @@ Public Class UserControl_OItemList
             objFrmAdvancedFilter = New frmAdvancedFilter(objLocalConfig,objOItem_Class)
             objFrmAdvancedFilter.ShowDialog(Me)
             If objFrmAdvancedFilter.DialogResult = DialogResult.OK Then
-                objOItem_Class= objFrmAdvancedFilter.OItem_Class
-                objOItem_Object = objFrmAdvancedFilter.OItem_Object
-                objOItem_RelationType = objFrmAdvancedFilter.OItem_RelationType
-
+                objOItem_Class_AdvancedFilter= objFrmAdvancedFilter.OItem_Class
+                objOItem_Object_AdvancedFilter = objFrmAdvancedFilter.OItem_Object
+                objOItem_RelationType_AdvancedFilter = objFrmAdvancedFilter.OItem_RelationType
+                objOItem_Direction_AdvancedFilter = objFrmAdvancedFilter.OItem_Direction
                 
+                get_Data()
+                configure_TabPages()
             End If
         End If        
         

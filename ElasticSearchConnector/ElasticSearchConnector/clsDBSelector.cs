@@ -2668,9 +2668,9 @@ namespace ElasticSearchConnector
             this.SearchRange = searchRange;
             this.Session = session;
             
-            //SpecialCharacters = new List<string> {"\\", "+", "-", "&&", "||",  "!", "(", ")", "{", "}", "[", "]", "^" ,"\"", "~", "*", "?", ":"};
-            SpecialCharacters_Write = new List<string> { ":" };
-            SpecialCharacters_Read = new List<string> { " ", ":", "/" };
+            SpecialCharacters_Read = new List<string> {"\\", "+", "-", "&&", "||",  "!", "(", ")", "{", "}", "[", "]", "^" ,"\"", "~", "*", "?", ":"};
+            //SpecialCharacters_Write = new List<string> { ":", "\"" };
+            //SpecialCharacters_Read = new List<string> { " ", ":", "/", "\"" };
             initialize_Client();
             sort = SortEnum.NONE;
 

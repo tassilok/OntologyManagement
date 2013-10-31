@@ -5,6 +5,7 @@ Public Class frmAdvancedFilter
     Private objOItem_Object As clsOntologyItem
     Private objOItem_Class As clsOntologyItem
     Private objOItem_RelationType As clsOntologyItem
+    Private objOItem_Direction As clsOntologyItem
     Private WithEvents objUserControl_ObjectRelTree As UserControl_ObjectRelTree
     Private WithEvents objUserControl_AdvancedFilter As UserControl_AdvancedFilter
     Private objDataWork_ontologies As clsDataWork_Ontologies
@@ -24,6 +25,12 @@ Public Class frmAdvancedFilter
     Public ReadOnly Property OItem_RelationType() As clsOntologyItem
         Get
             Return objOItem_RelationType
+        End Get
+    End Property
+
+    Public ReadOnly Property  OItem_Direction() As clsOntologyItem
+        Get
+            Return objOItem_Direction
         End Get
     End Property
 
@@ -49,7 +56,7 @@ Public Class frmAdvancedFilter
             objOItem_Class = oList_Items(1)
             objOItem_Class = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_Class.GUID, _
                                                                                      objDataWork_Ontologies.LocalConfig.Globals.Type_Class)
-
+            objOItem_Direction = oList_Items(3)
             If objOItem_Class.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
                 If oList_Items(3).GUID = objDataWork_Ontologies.LocalConfig.Globals.Direction_LeftRight.GUID Then
                     
