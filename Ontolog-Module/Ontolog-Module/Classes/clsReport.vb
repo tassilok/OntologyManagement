@@ -13,6 +13,7 @@ Public Class clsReport
     Private createA_Table_orgT As New DataSet_ReportTableAdapters.create_Table_orgTTableAdapter
     Private createA_Table_attT As New DataSet_ReportTableAdapters.create_Table_attTTableAdapter
     Private createA_Table_relT As New DataSet_ReportTableAdapters.create_Table_relTTableAdapter
+    Private createA_Table_relT_Or As New DataSet_ReportTableAdapters.create_Table_relT_ORTableAdapter
 
     Private objDBLevel_Classes As clsDBLevel
     Private objDBLevel_CalssAtt As clsDBLevel
@@ -42,7 +43,9 @@ Public Class clsReport
         Dim objOList_RelTypes As New List(Of clsOntologyItem)
         Dim objOItem_ORel As clsObjectRel
         Dim objTextWriter As IO.TextWriter
+        Dim objTextWriter2 As IO.TextWriter
         Dim strPath As String
+        Dim strPath2 As String
         Dim strLine As String
         Dim strType As String
         Dim strClass_Left As String
@@ -56,7 +59,7 @@ Public Class clsReport
 
 
         objDBLevel_ClassRel.get_Data_ClassRel(OList_ClassRel, False, False, boolOR)
-
+        
         For Each objClassRel In objDBLevel_ClassRel.OList_ClassRel
 
             objOList_ObjecRel.Clear()
@@ -81,7 +84,9 @@ Public Class clsReport
             objDBLevel_ObjectRel.get_Data_ObjectRel(objOList_ObjecRel, False, False)
 
             strPath = "%Temp%\" & Guid.NewGuid().ToString & ".xml"
+            strPath2 = "%Temp%\" & Guid.NewGuid().ToString & ".xml"
             strPath = Environment.ExpandEnvironmentVariables(strPath)
+            strPath2 = Environment.ExpandEnvironmentVariables(strPath2)
 
             i = 0
             Dim objORel = objDBLevel_ObjectRel.OList_ObjectRel.OrderBy(Function(p) p.ID_Parent_Other).ToList()
@@ -91,10 +96,13 @@ Public Class clsReport
                 strRelationType = ""
                 While i < objORel.Count
                     objTextWriter = New IO.StreamWriter(strPath, False, System.Text.Encoding.UTF8)
+                    objTextWriter2 = New IO.StreamWriter(strPath2, False, System.Text.Encoding.UTF8)
                     strLine = "<?xml version=""1.0"" encoding=""UTF-8""?>"
                     objTextWriter.WriteLine(strLine)
+                    objTextWriter2.WriteLine(strLine)
                     strLine = "<root>"
                     objTextWriter.WriteLine(strLine)
+                    objTextWriter2.WriteLine(strLine)
 
                     For j = i To i + 500
                         If j < objORel.Count Then
@@ -107,7 +115,9 @@ Public Class clsReport
 
                                 strLine = "</root>"
                                 objTextWriter.WriteLine(strLine)
+                                objTextWriter2.WriteLine(strLine)
                                 objTextWriter.Close()
+                                objTextWriter2.Close()
 
                                 createA_Table_relT.GetData(objLocalConfig.Globals.Type_ObjectRel, _
                                                            strClass_Left, _
@@ -116,11 +126,20 @@ Public Class clsReport
                                                            strPath, _
                                                            True)
 
+                                createA_Table_relT_Or.GetData(objLocalConfig.Globals.Type_Other, _
+                                                           strClass_Left, _
+                                                           strRelationType, _
+                                                           strPath2, _
+                                                           True)
+
                                 objTextWriter = New IO.StreamWriter(strPath, False, System.Text.Encoding.UTF8)
+                                objTextWriter2 = New IO.StreamWriter(strPath2, False, System.Text.Encoding.UTF8)
                                 strLine = "<?xml version=""1.0"" encoding=""UTF-8""?>"
                                 objTextWriter.WriteLine(strLine)
+                                objTextWriter2.WriteLine(strLine)
                                 strLine = "<root>"
                                 objTextWriter.WriteLine(strLine)
+                                objTextWriter2.WriteLine(strLine)
 
                                 strClass_Left = objOItem_ORel.Name_Parent_Object
                                 strClass_Right = objOItem_ORel.Name_Parent_Other
@@ -135,34 +154,53 @@ Public Class clsReport
 
                             strLine = "<tmptbl>"
                             objTextWriter.WriteLine(strLine)
+                            objTextWriter2.WriteLine(strLine)
 
                             strLine = "<GUID_Object_Left>" & objOItem_ORel.ID_Object & "</GUID_Object_Left>"
                             objTextWriter.WriteLine(strLine)
+                            objTextWriter2.WriteLine(strLine)
                             strLine = "<GUID_Object_Right>" & objOItem_ORel.ID_Other & "</GUID_Object_Right>"
                             objTextWriter.WriteLine(strLine)
+                            strLine = "<GUID_Right>" & objOItem_ORel.ID_Other & "</GUID_Right>"
+                            objTextWriter2.WriteLine(strLine)
+                            strLine = "<Name_Right>" & objOItem_ORel.Name_Other & "</Name_Right>"
+                            objTextWriter2.WriteLine(strLine)
                             strLine = "<GUID_RelationType>" & objOItem_ORel.ID_RelationType & "</GUID_RelationType>"
                             objTextWriter.WriteLine(strLine)
+                            objTextWriter2.WriteLine(strLine)
                             strLine = "<Name_RelationType>" & objOItem_ORel.Name_RelationType & "</Name_RelationType>"
                             objTextWriter.WriteLine(strLine)
+                            objTextWriter2.WriteLine(strLine)
                             strLine = "<OrderID>" & objOItem_ORel.OrderID & "</OrderID>"
                             objTextWriter.WriteLine(strLine)
+                            objTextWriter2.WriteLine(strLine)
                             strLine = "<Exist>1</Exist>"
                             objTextWriter.WriteLine(strLine)
+                            objTextWriter2.WriteLine(strLine)
                             strLine = "</tmptbl>"
                             objTextWriter.WriteLine(strLine)
+                            objTextWriter2.WriteLine(strLine)
                         Else
                             Exit For
                         End If
                     Next
                     strLine = "</root>"
                     objTextWriter.WriteLine(strLine)
+                    objTextWriter2.WriteLine(strLine)
                     objTextWriter.Close()
+                    objTextWriter2.Close()
 
                     createA_Table_relT.GetData(objLocalConfig.Globals.Type_ObjectRel, _
                                                strClass_Left, _
                                                strClass_Right, _
                                                strRelationType, _
                                                strPath, _
+                                               True)
+
+                    createA_Table_relT_Or.GetData(objLocalConfig.Globals.Type_Other, _
+                                               strClass_Left, _
+                                               strRelationType, _
+                                               strPath2, _
                                                True)
 
                     i = j
@@ -194,6 +232,12 @@ Public Class clsReport
                                                    strClass_Right, _
                                                    strRelationType, _
                                                    strPath, _
+                                                   False)
+
+                    createA_Table_relT_OR.GetData(objLocalConfig.Globals.Type_Other, _
+                                                   strClass_Left, _
+                                                   strRelationType, _
+                                                   strPath2, _
                                                    False)
                 End If
 
@@ -433,6 +477,7 @@ Public Class clsReport
         createA_Table_attT.Connection = New SqlClient.SqlConnection(strConnection)
         createA_Table_orgT.Connection = New SqlClient.SqlConnection(strConnection)
         createA_Table_relT.Connection = New SqlClient.SqlConnection(strConnection)
+        createA_Table_relT_Or.Connection = new SqlClient.SqlConnection(strConnection)
 
         initializeA_Tables.Connection = New SqlClient.SqlConnection(strConnection)
         finalizeA_Tables.Connection = New SqlClient.SqlConnection(strConnection)

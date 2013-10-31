@@ -249,4 +249,11 @@ Public Class frmReportModule
         AboutBox = New AboutBox_OntologyItem()
         AboutBox.ShowDialog(Me)
     End Sub
+
+    Private Sub TreeView_Report_KeyDown( sender As Object,  e As KeyEventArgs) Handles TreeView_Report.KeyDown
+        Select Case e.KeyCode
+            Case Keys.F5
+                fill_Tree()
+        End Select
+    End Sub
 End Class

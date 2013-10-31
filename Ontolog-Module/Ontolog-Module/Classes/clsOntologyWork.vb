@@ -43,74 +43,38 @@ Public Class clsOntologyWork
 
         objOList_Join.Clear()
 
-        objOList_Ont_AttTypes.Add(New clsObjectRel(Nothing, _
-                                                                       Nothing, _
-                                                                       objLocalConfig.Globals.Class_OntologyItems.GUID, _
-                                                                       Nothing,
-                                                                       Nothing, _
-                                                                       Nothing, _
-                                                                       Nothing, _
-                                                                       Nothing, _
-                                                                       objLocalConfig.Globals.RelationType_belongingAttribute.GUID, _
-                                                                       Nothing, _
-                                                                       objLocalConfig.Globals.Type_AttributeType, _
-                                                                       Nothing, _
-                                                                       Nothing, _
-                                                                       Nothing))
+        objOList_Ont_AttTypes.Add(New clsObjectRel with { 
+                                                          .ID_Parent_Object = objLocalConfig.Globals.Class_OntologyItems.GUID, _
+                                                          .ID_RelationType = objLocalConfig.Globals.RelationType_belongingAttribute.GUID, _
+                                                          .Ontology = objLocalConfig.Globals.Type_AttributeType
+                                                         })
 
         objDBLevel_Attributes.get_Data_ObjectRel(objOList_Ont_AttTypes, _
                                                  boolIDs:=False)
 
-        objOList_Ont_RelTypes.Add(New clsObjectRel(Nothing, _
-                                                       Nothing, _
-                                                       objLocalConfig.Globals.Class_OntologyItems.GUID, _
-                                                       Nothing,
-                                                       Nothing, _
-                                                       Nothing, _
-                                                       Nothing, _
-                                                       Nothing, _
-                                                       objLocalConfig.Globals.RelationType_belongingRelationType.GUID, _
-                                                       Nothing, _
-                                                       objLocalConfig.Globals.Type_RelationType, _
-                                                       Nothing, _
-                                                       Nothing, _
-                                                       Nothing))
+        objOList_Ont_RelTypes.Add(New clsObjectRel With { 
+                                                          .ID_Parent_Object = objLocalConfig.Globals.Class_OntologyItems.GUID, _
+                                                          .ID_RelationType = objLocalConfig.Globals.RelationType_belongingRelationType.GUID, _
+                                                          .Ontology = objLocalConfig.Globals.Type_RelationType
+                                                        })
 
         objDBLevel_RelTypes.get_Data_ObjectRel(objOList_Ont_RelTypes, _
                                                  boolIDs:=False)
 
-        objOList_Ont_Classes.Add(New clsObjectRel(Nothing, _
-                                                       Nothing, _
-                                                       objLocalConfig.Globals.Class_OntologyItems.GUID, _
-                                                       Nothing,
-                                                       Nothing, _
-                                                       Nothing, _
-                                                       Nothing, _
-                                                       Nothing, _
-                                                       objLocalConfig.Globals.RelationType_belongingClass.GUID, _
-                                                       Nothing, _
-                                                       objLocalConfig.Globals.Type_Class, _
-                                                       Nothing, _
-                                                       Nothing, _
-                                                       Nothing))
+        objOList_Ont_Classes.Add(New clsObjectRel With {
+                                                        .ID_Parent_Object = objLocalConfig.Globals.Class_OntologyItems.GUID, _
+                                                        .ID_RelationType = objLocalConfig.Globals.RelationType_belongingClass.GUID, _
+                                                       .Ontology = objLocalConfig.Globals.Type_Class
+                                                       })
 
         objDBLevel_Classes.get_Data_ObjectRel(objOList_Ont_Classes, _
                                                  boolIDs:=False)
 
-        objOList_Ont_Objects.Add(New clsObjectRel(Nothing, _
-                                                       Nothing, _
-                                                       objLocalConfig.Globals.Class_OntologyItems.GUID, _
-                                                       Nothing,
-                                                       Nothing, _
-                                                       Nothing, _
-                                                       Nothing, _
-                                                       Nothing, _
-                                                       objLocalConfig.Globals.RelationType_belongingObject.GUID, _
-                                                       Nothing, _
-                                                       objLocalConfig.Globals.Type_Object, _
-                                                       Nothing, _
-                                                       Nothing, _
-                                                       Nothing))
+        objOList_Ont_Objects.Add(New clsObjectRel With {
+                                                        .ID_Parent_Object = objLocalConfig.Globals.Class_OntologyItems.GUID, _
+                                                        .ID_RelationType = objLocalConfig.Globals.RelationType_belongingObject.GUID, _
+                                                        .Ontology = objLocalConfig.Globals.Type_Object
+                                                       })
 
         objDBLevel_Objects.get_Data_ObjectRel(objOList_Ont_Objects, _
                                                  boolIDs:=False)
@@ -121,57 +85,33 @@ Public Class clsOntologyWork
             objDBLevel_RelTypes.OList_ObjectRel.Count > 0 Or _
             objDBLevel_Classes.OList_ObjectRel.Count > 0 Or _
             objDBLevel_Objects.OList_ObjectRel.Count > 0 Then
-            objOList_Ont_Ont.Add(New clsObjectRel(OItem_Ontology.GUID, _
-                                             Nothing, _
-                                             OItem_Ontology.GUID_Parent, _
-                                             Nothing, _
-                                             Nothing, _
-                                             Nothing, _
-                                             objLocalConfig.Globals.Class_Ontologies.GUID, _
-                                             Nothing, _
-                                             objLocalConfig.Globals.RelationType_contains.GUID, _
-                                             Nothing, _
-                                             objLocalConfig.Globals.Type_Object, _
-                                             Nothing, _
-                                             Nothing, _
-                                             Nothing))
+            objOList_Ont_Ont.Add(New clsObjectRel With {.ID_Object = OItem_Ontology.GUID, _
+                                                        .ID_Parent_Object = OItem_Ontology.GUID_Parent, _
+                                                        .ID_Parent_Other = objLocalConfig.Globals.Class_Ontologies.GUID, _
+                                                        .ID_RelationType = objLocalConfig.Globals.RelationType_contains.GUID, _
+                                                        .Ontology = objLocalConfig.Globals.Type_Object
+                                                       })
 
             objDBLevel_OItems.get_Data_ObjectRel(objOList_Ont_Ont)
 
             If objDBLevel_OItems.OList_ObjectRel_ID.Count > 0 Then
-                objOList_Ont_Joins.Add(New clsObjectRel(Nothing, _
-                                                        Nothing, _
-                                                        objLocalConfig.Globals.Class_Ontologies.GUID, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        objLocalConfig.Globals.Class_OntologyJoin.GUID, _
-                                                        Nothing, _
-                                                        objLocalConfig.Globals.RelationType_contains.GUID, _
-                                                        Nothing, _
-                                                        objLocalConfig.Globals.Type_Object, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        Nothing))
+                objOList_Ont_Joins.Add(New clsObjectRel With { 
+                                                               .ID_Parent_Object = objLocalConfig.Globals.Class_Ontologies.GUID, _
+                                                               .ID_Parent_Other = objLocalConfig.Globals.Class_OntologyJoin.GUID, _
+                                                               .ID_RelationType = objLocalConfig.Globals.RelationType_contains.GUID, _
+                                                               .Ontology = objLocalConfig.Globals.Type_Object
+                                                             })
 
 
                 objDBLevel_Joins.get_Data_ObjectRel(objOList_Ont_Joins)
 
                 If objDBLevel_Joins.OList_ObjectRel_ID.Count > 0 Then
-                    objOList_Joins_Rule.Add(New clsObjectRel(Nothing, _
-                                                                 Nothing, _
-                                                                 objLocalConfig.Globals.Class_OntologyJoin.GUID, _
-                                                                 Nothing, _
-                                                                 Nothing, _
-                                                                 Nothing, _
-                                                                 objLocalConfig.Globals.Class_OntologyRelationRule.GUID, _
-                                                                 Nothing, _
-                                                                 objLocalConfig.Globals.RelationType_belonging.GUID, _
-                                                                 Nothing, _
-                                                                 objLocalConfig.Globals.Type_Object, _
-                                                                 Nothing, _
-                                                                 Nothing, _
-                                                                 Nothing))
+                    objOList_Joins_Rule.Add(New clsObjectRel  With {
+                                                                    .ID_Parent_Object = objLocalConfig.Globals.Class_OntologyJoin.GUID, _
+                                                                    .ID_Parent_Other = objLocalConfig.Globals.Class_OntologyRelationRule.GUID, _
+                                                                    .ID_RelationType = objLocalConfig.Globals.RelationType_belonging.GUID, _
+                                                                    .Ontology = objLocalConfig.Globals.Type_Object
+                                                                   })
 
                     objDBLevel_ORule.get_Data_ObjectRel(objOList_Joins_Rule)
 
@@ -182,20 +122,12 @@ Public Class clsOntologyWork
                         For Each objJoin In objLJoins
                             objOList_Joins_Ont.Clear()
 
-                            objOList_Joins_Ont.Add(New clsObjectRel(objJoin.objJoin.ID_Other, _
-                                                            Nothing, _
-                                                            Nothing, _
-                                                            Nothing, _
-                                                            Nothing, _
-                                                            Nothing, _
-                                                            objLocalConfig.Globals.Class_OntologyItems.GUID, _
-                                                            Nothing, _
-                                                            objLocalConfig.Globals.RelationType_contains.GUID, _
-                                                            Nothing, _
-                                                            objLocalConfig.Globals.Type_Object, _
-                                                            Nothing, _
-                                                            Nothing, _
-                                                            Nothing))
+                            objOList_Joins_Ont.Add(New clsObjectRel With { 
+                                                                           .ID_Object = objJoin.objJoin.ID_Other, _
+                                                                           .ID_Parent_Other = objLocalConfig.Globals.Class_OntologyItems.GUID, _
+                                                                           .ID_RelationType = objLocalConfig.Globals.RelationType_contains.GUID, _
+                                                                           .Ontology =  objLocalConfig.Globals.Type_Object
+                                                                         })
 
                             objDBLevel_Joins_OItems.get_Data_ObjectRel(objOList_Joins_Ont)
 
@@ -214,61 +146,60 @@ Public Class clsOntologyWork
 
                                 If objL.Count > 0 Then
                                     If objL.Count = 2 Then
-                                        Dim objClass = objL(0)
-                                        Dim objRelOrAtt = objL(1)
-
-                                        If objRelOrAtt.objRelTyp Is Nothing Then
-                                            objOList_Join.Add(New clsObjectRel(Nothing, _
-                                                                           Nothing, _
-                                                                           objClass.objClass.ID_Other, _
-                                                                           objClass.objClass.Name_Other, _
-                                                                           objRelOrAtt.objAttTyp.ID_Other, _
-                                                                           objRelOrAtt.objAttTyp.Name_Other, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           objLocalConfig.Globals.Type_ClassAtt, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing))
-                                        Else
-                                            If objClass.objObj Is Nothing Then
-                                                objOList_Join.Add(New clsObjectRel(Nothing, _
-                                                                           Nothing, _
-                                                                           objClass.objClass.ID_Other, _
-                                                                           objClass.objClass.Name_Other, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           objRelOrAtt.objRelTyp.ID_Other, _
-                                                                           objRelOrAtt.objRelTyp.Name_Other, _
-                                                                           objLocalConfig.Globals.Type_ClassRel, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing))
+                                        If objL(0).objOJoin.OrderID = 1 Then
+                                            Dim objClass = objL(0)
+                                            Dim objRelOrAtt = objL(1)
+                                            If objRelOrAtt.objRelTyp Is Nothing Then
+                                                objOList_Join.Add(New clsObjectRel With {
+                                                                               .ID_Other = objClass.objClass.ID_Other, _
+                                                                               .Name_Other = objClass.objClass.Name_Other, _
+                                                                               .ID_Parent_Other = objRelOrAtt.objAttTyp.ID_Other, _
+                                                                               .Name_Parent_Other = objRelOrAtt.objAttTyp.Name_Other, _
+                                                                               .Ontology = objLocalConfig.Globals.Type_ClassAtt
+                                                                               })
                                             Else
-                                                If objClass.objObj.OrderID = 4 Then
-                                                    objOList_Join.Add(New clsObjectRel(Nothing, _
-                                                                           Nothing, _
-                                                                           objClass.objClass.ID_Other, _
-                                                                           objClass.objClass.Name_Other, _
-                                                                           Nothing, _
-                                                                           objClass.objClass.ID_Other, _
-                                                                           objClass.objClass.Name_Other, _
-                                                                           Nothing, _
-                                                                           objRelOrAtt.objRelTyp.ID_Other, _
-                                                                           objRelOrAtt.objRelTyp.Name_Other, _
-                                                                           objLocalConfig.Globals.Type_ClassRel, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing))
-                                                End If
+                                                If objClass.objObj Is Nothing Then
+                                                    objOList_Join.Add(New clsObjectRel With {
+                                                                               .ID_Parent_Object = objClass.objClass.ID_Other, _
+                                                                               .Name_Parent_Object = objClass.objClass.Name_Other, _
+                                                                               .ID_RelationType = objRelOrAtt.objRelTyp.ID_Other, _
+                                                                               .Name_RelationType = objRelOrAtt.objRelTyp.Name_Other, _
+                                                                               .Ontology = objLocalConfig.Globals.Type_ClassRel
+                                                                                            })
+                                                Else
+                                                    If objClass.objObj.OrderID = 4 Then
+                                                        objOList_Join.Add(New clsObjectRel With {
+                                                                               .ID_Parent_Object = objClass.objClass.ID_Other, _
+                                                                               .Name_Parent_Object = objClass.objClass.Name_Other, _
+                                                                               .ID_Parent_Other = objClass.objClass.ID_Other, _
+                                                                               .Name_Parent_Other = objClass.objClass.Name_Other, _
+                                                                               .ID_RelationType = objRelOrAtt.objRelTyp.ID_Other, _
+                                                                               .Name_RelationType = objRelOrAtt.objRelTyp.Name_Other, _
+                                                                               .Ontology = objLocalConfig.Globals.Type_ClassRel
+                                                                                                })
+                                                    End If
                                                 
-                                            End If
+                                                End If
                                             
+                                            End If
+                                        Else 
+                                            Dim objClass_Left = objL(1)
+                                            Dim objClass_Right = objL(1)
+                                            Dim objRelType = objL(0)
+                                            objOList_Join.Add(New clsObjectRel With {
+                                                                           .ID_Parent_Object =  objClass_Left.objClass.ID_Other, _
+                                                                           .Name_Parent_Object = objClass_Left.objClass.Name_Other, _
+                                                                           .ID_Parent_Other = objClass_Right.objClass.ID_Other, _
+                                                                           .Name_Parent_Other = objClass_Right.objClass.Name_Other, _
+                                                                           .ID_RelationType = objRelType.objRelTyp.ID_Other, _
+                                                                           .Name_RelationType = objRelType.objRelTyp.Name_Other, _
+                                                                           .Ontology = objLocalConfig.Globals.Type_ClassRel
+                                                                                })
                                         End If
+                                        
+                                        
+
+                                        
                                         
 
 
@@ -277,20 +208,15 @@ Public Class clsOntologyWork
                                         Dim objClass_Right = objL(1)
                                         Dim objRelType = objL(2)
 
-                                        objOList_Join.Add(New clsObjectRel(Nothing, _
-                                                                           Nothing, _
-                                                                           objClass_Left.objClass.ID_Other, _
-                                                                           objClass_Left.objClass.Name_Other, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           objClass_Right.objClass.ID_Other, _
-                                                                           objClass_Right.objClass.Name_Other, _
-                                                                           objRelType.objRelTyp.ID_Other, _
-                                                                           objRelType.objRelTyp.Name_Other, _
-                                                                           objLocalConfig.Globals.Type_ClassRel, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing))
+                                        objOList_Join.Add(New clsObjectRel With {
+                                                                           .ID_Parent_Object =  objClass_Left.objClass.ID_Other, _
+                                                                           .Name_Parent_Object = objClass_Left.objClass.Name_Other, _
+                                                                           .ID_Parent_Other = objClass_Right.objClass.ID_Other, _
+                                                                           .Name_Parent_Other = objClass_Right.objClass.Name_Other, _
+                                                                           .ID_RelationType = objRelType.objRelTyp.ID_Other, _
+                                                                           .Name_RelationType = objRelType.objRelTyp.Name_Other, _
+                                                                           .Ontology = objLocalConfig.Globals.Type_ClassRel
+                                                                                })
 
                                     End If
                                 End If

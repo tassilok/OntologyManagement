@@ -106,10 +106,10 @@ namespace ElasticSearchConnector
                 }
                 if (objOItem_AttributeType.GUID != null && objOItem_AttributeType.Name != null && objOItem_AttributeType.GUID_Parent != null)
                 {
-                    foreach (var specialCharacter in objDBSelector.SpecialCharacters_Write)
-                    {
-                        objOItem_AttributeType.Name = objOItem_AttributeType.Name.Replace(specialCharacter, "\\" + specialCharacter);
-                    }
+                    //foreach (var specialCharacter in objDBSelector.SpecialCharacters_Write)
+                    //{
+                    //    objOItem_AttributeType.Name = objOItem_AttributeType.Name.Replace(specialCharacter, "\\" + specialCharacter);
+                    //}
 
                     var objDict = new Dictionary<string, object>();
                     objDict.Add(objFields.ID_Item, objOItem_AttributeType.GUID);
@@ -244,10 +244,10 @@ namespace ElasticSearchConnector
             {
                 if (objOItem_Class.GUID != null && objOItem_Class.Name != null && (objOItem_Class.GUID_Parent != null || boolRoot))
                 {
-                    foreach (var specialCharacter in objDBSelector.SpecialCharacters_Write)
-                    {
-                        objOItem_Class.Name = objOItem_Class.Name.Replace(specialCharacter, "\\" + specialCharacter);
-                    }
+                    //foreach (var specialCharacter in objDBSelector.SpecialCharacters_Write)
+                    //{
+                    //    objOItem_Class.Name = objOItem_Class.Name.Replace(specialCharacter, "\\" + specialCharacter);
+                    //}
                     var objDict = new Dictionary<string, object>();
                     objDict.Add(objFields.ID_Item, objOItem_Class.GUID);
                     objDict.Add(objFields.Name_Item, objOItem_Class.Name);
@@ -691,10 +691,10 @@ namespace ElasticSearchConnector
             {
                 if (objOItem_RelationType.GUID != null && objOItem_RelationType.Name != null)
                 {
-                    foreach (var specialCharacter in objDBSelector.SpecialCharacters_Write)
-                    {
-                        objOItem_RelationType.Name = objOItem_RelationType.Name.Replace(specialCharacter, "\\" + specialCharacter);
-                    }
+                    //foreach (var specialCharacter in objDBSelector.SpecialCharacters_Write)
+                    //{
+                    //    objOItem_RelationType.Name = objOItem_RelationType.Name.Replace(specialCharacter, "\\" + specialCharacter);
+                    //}
 
                     var objDict = new Dictionary<string, object>();
                     objDict.Add(objFields.ID_Item, objOItem_RelationType.GUID);

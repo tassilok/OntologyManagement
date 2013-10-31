@@ -120,6 +120,10 @@ namespace Checklist_Module
             objDataColumnDone.DataType = typeof(Boolean);
             objDataTable.Columns.Add(objDataColumnDone);
 
+            var objDataColumnStarted = new DataColumn("Started");
+            objDataColumnStarted.DataType = typeof(Boolean);
+            objDataTable.Columns.Add(objDataColumnStarted);
+
             if (!boolLogEntry_Succes)
             {
                 var objDataColumn1 = new DataColumn("ID_LogEntry_Success");
@@ -272,6 +276,8 @@ namespace Checklist_Module
                     var dateTimeDone = DateTime.Parse("01.01.1900");
 
                     item["IsDone"] = false;
+                    item["ToDo"] = true;
+                    item["Started"] = false;
                     if (objOList_LogEntries_Success.Any())
                     {
                         item["ID_LogEntry_Success"] = objOList_LogEntries_Success.First().ID_LogEntry;
@@ -287,7 +293,7 @@ namespace Checklist_Module
                         item["Success_Month"] = objOList_LogEntries_Success.First().DateTimeStamp.Value.Month;
                         item["Success_Day"] = objOList_LogEntries_Success.First().DateTimeStamp.Value.Day;
                         item["Success_Week"] = GetCalendarweek(objOList_LogEntries_Success.First().DateTimeStamp.Value);
-
+                        item["Started"] = true;
                     }
 
                     if (objOList_LogEntries_Error.Any())
@@ -302,13 +308,14 @@ namespace Checklist_Module
                         {
                             dateTimeDone = (DateTime)objOList_LogEntries_Error.First().DateTimeStamp;
                             item["IsDone"] = false;
-                            item["ToDo"] = false;
+                            item["ToDo"] = true;
                         }
                             
                         item["Error_Year"] = objOList_LogEntries_Error.First().DateTimeStamp.Value.Year;
                         item["Error_Month"] = objOList_LogEntries_Error.First().DateTimeStamp.Value.Month;
                         item["Error_Day"] = objOList_LogEntries_Error.First().DateTimeStamp.Value.Day;
                         item["Error_Week"] = GetCalendarweek(objOList_LogEntries_Error.First().DateTimeStamp.Value);
+                        item["Started"] = true;
                     }
 
                     if (objOList_LogEntries_Pause.Any())
@@ -320,17 +327,18 @@ namespace Checklist_Module
                                                 objOList_LogEntries_Pause.First().DateTimeStamp.Value.Month * 100 +
                                                 objOList_LogEntries_Pause.First().DateTimeStamp.Value.Day;
 
-                        if (dateTimeDone < (DateTime)objOList_LogEntries_Error.First().DateTimeStamp)
+                        if (dateTimeDone < (DateTime)objOList_LogEntries_Pause.First().DateTimeStamp)
                         {
-                            dateTimeDone = (DateTime)objOList_LogEntries_Error.First().DateTimeStamp;
+                            dateTimeDone = (DateTime)objOList_LogEntries_Pause.First().DateTimeStamp;
                             item["IsDone"] = false;
-                            item["ToDo"] = false;
+                            item["ToDo"] = true;
                         }
 
                         item["Pause_Year"] = objOList_LogEntries_Pause.First().DateTimeStamp.Value.Year;
                         item["Pause_Month"] = objOList_LogEntries_Pause.First().DateTimeStamp.Value.Month;
                         item["Pause_Day"] = objOList_LogEntries_Pause.First().DateTimeStamp.Value.Day;
                         item["Pause_Week"] = GetCalendarweek(objOList_LogEntries_Pause.First().DateTimeStamp.Value);
+                        item["Started"] = true;
                     }
 
                 }
