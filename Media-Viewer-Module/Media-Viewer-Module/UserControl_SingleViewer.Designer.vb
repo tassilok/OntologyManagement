@@ -37,9 +37,15 @@ Partial Class UserControl_SingleViewer
         Me.ToolStripButton_Playlist = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripTextBox_Sec = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripLabel_secLBL = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButton_Add = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Remove = New System.Windows.Forms.ToolStripButton()
+        Me.OpenFileDialog_Media = New System.Windows.Forms.OpenFileDialog()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
+        Me.ToolStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -59,13 +65,17 @@ Partial Class UserControl_SingleViewer
         Me.ToolStripContainer1.TabIndex = 1
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
+        'ToolStripContainer1.TopToolStripPanel
+        '
+        Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.ToolStrip2)
+        '
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_First, Me.ToolStripButton_Previous, Me.ToolStripButton_Next, Me.ToolStripButton_Last, Me.ToolStripSeparator2, Me.ToolStripLabel_CountLBL, Me.ToolStripTextBox_Curr, Me.ToolStripLabel1, Me.ToolStripLabel_Count, Me.ToolStripSeparator1, Me.ToolStripButton_Playlist, Me.ToolStripTextBox_Sec, Me.ToolStripLabel_secLBL})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(314, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(283, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_First
@@ -166,6 +176,39 @@ Partial Class UserControl_SingleViewer
         Me.ToolStripLabel_secLBL.Size = New System.Drawing.Size(22, 22)
         Me.ToolStripLabel_secLBL.Text = "x_s"
         '
+        'ToolStrip2
+        '
+        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Remove})
+        Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
+        Me.ToolStrip2.Name = "ToolStrip2"
+        Me.ToolStrip2.Size = New System.Drawing.Size(89, 25)
+        Me.ToolStrip2.TabIndex = 0
+        '
+        'ToolStripButton_Add
+        '
+        Me.ToolStripButton_Add.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Add.Enabled = False
+        Me.ToolStripButton_Add.Image = Global.Media_Viewer_Module.My.Resources.Resources.b_plus
+        Me.ToolStripButton_Add.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Add.Name = "ToolStripButton_Add"
+        Me.ToolStripButton_Add.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_Add.Text = "ToolStripButton_AddPDF"
+        '
+        'ToolStripButton_Remove
+        '
+        Me.ToolStripButton_Remove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Remove.Enabled = False
+        Me.ToolStripButton_Remove.Image = Global.Media_Viewer_Module.My.Resources.Resources.tasto_8_architetto_franc_01
+        Me.ToolStripButton_Remove.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Remove.Name = "ToolStripButton_Remove"
+        Me.ToolStripButton_Remove.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_Remove.Text = "ToolStripButton_DelPDF"
+        '
+        'OpenFileDialog_Media
+        '
+        Me.OpenFileDialog_Media.FileName = "OpenFileDialog1"
+        '
         'UserControl_SingleViewer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -175,10 +218,14 @@ Partial Class UserControl_SingleViewer
         Me.Size = New System.Drawing.Size(521, 460)
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
         Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
         Me.ToolStripContainer1.ResumeLayout(False)
         Me.ToolStripContainer1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
+        Me.ToolStrip2.ResumeLayout(False)
+        Me.ToolStrip2.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -197,5 +244,9 @@ Partial Class UserControl_SingleViewer
     Friend WithEvents ToolStripTextBox_Curr As System.Windows.Forms.ToolStripTextBox
     Friend WithEvents ToolStripLabel1 As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripLabel_Count As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStrip2 As System.Windows.Forms.ToolStrip
+    Friend WithEvents ToolStripButton_Add As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripButton_Remove As System.Windows.Forms.ToolStripButton
+    Friend WithEvents OpenFileDialog_Media As System.Windows.Forms.OpenFileDialog
 
 End Class

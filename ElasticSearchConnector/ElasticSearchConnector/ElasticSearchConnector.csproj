@@ -66,9 +66,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsUserAppDBSelector.cs" />
+    <Compile Include="clsUserAppDBUpdater.cs" />
     <Compile Include="clsDBDeletor.cs" />
     <Compile Include="clsDBSelector.cs" />
     <Compile Include="clsDBUpdater.cs" />
+    <Compile Include="clsUserAppDBDeletor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

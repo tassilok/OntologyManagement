@@ -21,6 +21,8 @@ Public Class frmMediaViewerModule
 
     Private objOItem_Relate As clsOntologyItem
 
+    Private objOItem_OItemToSelect As clsOntologyItem
+
     Private Sub relate_Item(OItem_Relate As clsOntologyItem) Handles objUserControl_RefTree.relate_Item
         objOItem_Relate = OItem_Relate
 
@@ -190,17 +192,60 @@ Public Class frmMediaViewerModule
         initialize()
     End Sub
 
+    Public Sub New(Globals As clsGlobals, OItem_User As clsOntologyItem)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        Application.DoEvents()
+        SplashScreen = New SplashScreen_OntologyModule()
+        SplashScreen.Show()
+        SplashScreen.Refresh()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = New clsLocalConfig(Globals)
+        objLocalConfig.OItem_User = OItem_User
+        set_DBConnection()
+        initialize()
+    End Sub
+
+    Public Sub Initilize_MediaItem(OItem_RefToSelect)
+        objOItem_OItemToSelect = OItem_RefToSelect
+        ToolStripComboBox_MediaType.SelectedItem = objLocalConfig.OItem_Type_Media_Item
+        objUserControl_RefTree.Select_OItem(objOItem_OItemToSelect)
+    End Sub
+
+    Public Sub Initilize_PDF(OItem_RefToSelect)
+        objOItem_OItemToSelect = OItem_RefToSelect
+        ToolStripComboBox_MediaType.SelectedItem = objLocalConfig.OItem_Type_PDF_Documents
+        objUserControl_RefTree.Select_OItem(objOItem_OItemToSelect)
+    End Sub
+
+    Public Sub Initilize_Image(OItem_RefToSelect)
+        objOItem_OItemToSelect = OItem_RefToSelect
+        ToolStripComboBox_MediaType.SelectedItem = objLocalConfig.OItem_Type_Images__Graphic_
+        objUserControl_RefTree.Select_OItem(objOItem_OItemToSelect)
+    End Sub
+
     Private Sub initialize()
         objOItem_Open = objLocalConfig.Globals.LState_Nothing
-        objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
-        objFrmAuthenticate.ShowDialog(Me)
-        If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
-            objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User
+        If objLocalConfig.OItem_User Is Nothing Then
+            objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
+            objFrmAuthenticate.ShowDialog(Me)
+            If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
+                objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User
+
+            End If
+        End If
+        
+
+        If Not objLocalConfig.OItem_User Is Nothing Then
             objOItem_Open = objLocalConfig.Globals.LState_Success
 
             objUserControl_RefTree = New UserControl_RefTree(objLocalConfig)
             objUserControl_RefTree.Dock = DockStyle.Fill
             SplitContainer1.Panel1.Controls.Add(objUserControl_RefTree)
+
 
             ToolStripComboBox_MediaType.ComboBox.DisplayMember = "Name"
             ToolStripComboBox_MediaType.ComboBox.ValueMember = "GUID"
@@ -218,7 +263,6 @@ Public Class frmMediaViewerModule
             objUserControl_PDF = New UserControl_PDFList(objLocalConfig)
             objUserControl_PDF.Dock = DockStyle.Fill
         End If
-
 
 
 

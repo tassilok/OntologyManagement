@@ -64,6 +64,9 @@ Public Class clsDBLevel
     Private objElDeletor As ElasticSearchConnector.clsDBDeletor
     Private objElUpdater As ElasticSearchConnector.clsDBUpdater
 
+    Public Property OAList_Saved As List(Of clsObjectAtt)
+
+
     Public Property Sort As SortEnum
         Get
             Return Sort
@@ -344,7 +347,13 @@ Public Class clsDBLevel
     End Function
 
     Public Function save_ObjAtt(ByVal oList_ObjAtt As List(Of clsObjectAtt)) As clsOntologyItem
-        Dim objOItem_Result = objElUpdater.save_ObjectAtt(oList_ObjAtt)
+        OAList_Saved = objElUpdater.save_ObjectAtt(oList_ObjAtt)
+        Dim objOItem_Result As clsOntologyItem
+        If (oList_ObjAtt.Count - OAList_Saved.Count) = 0 Then
+            objOItem_Result = objLogStates.LogState_Success.Clone
+        Else
+            objOItem_Result = objLogStates.LogState_Error.Clone
+        End If
         Return objOItem_Result
     End Function
 

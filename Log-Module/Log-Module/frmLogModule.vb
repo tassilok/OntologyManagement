@@ -7,11 +7,19 @@ Public Class frmLogModule
     Private WithEvents objUserControl_LogEntryList As UserControl_OItemList
     Private objUserControl_LogEntry As UserControl_LogEntry
     Private objFrmAuthenticate As frmAuthenticate
+    Private objOList_LogEntries_Applied As List(Of clsOntologyItem)
 
     Private SplashScreen As SplashScreen_OntologyModule
     Private AboutBox As AboutBox_OntologyItem
 
     Private boolOpen As Boolean
+    Private boolApplyable As Boolean
+
+    Public ReadOnly Property OList_LogEntries
+        Get
+            Return objOList_LogEntries_Applied
+        End Get
+    End Property
 
     Private Sub selected_LogEntry() Handles objUserControl_LogEntryList.Selection_Changed
         Dim objDGVR_Selected As DataGridViewRow
@@ -32,12 +40,40 @@ Public Class frmLogModule
         End If
     End Sub
 
+    Private Sub applied_LogEntry() Handles objUserControl_LogEntryList.applied_Items
+        Dim boolApply As Boolean
+
+        objOList_LogEntries_Applied = New List(Of clsOntologyItem)
+
+        boolApply = True
+        For Each objDGVR As DataGridViewRow In objUserControl_LogEntryList.DataGridViewRowCollection_Selected
+            Dim objDRV_Selected As DataRowView = objDGVR.DataBoundItem
+            If Not objDRV_Selected.Item("ID_Parent") = objLocalConfig.OItem_Type_LogEntry.GUID Then
+                boolApply = False
+                Exit For
+            Else
+                objOList_LogEntries_Applied.Add(New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_Item"), _
+                                                                          .Name = objDRV_Selected.Item("Name"), _
+                                                                          .GUID_Parent = objDRV_Selected.Item("ID_Parent"), _
+                                                                          .Type = objLocalConfig.Globals.Type_Object})
+
+            End If
+        Next
+
+        If boolApply Then
+            DialogResult = Windows.Forms.DialogResult.OK
+            Me.Close()
+        Else
+            objOList_LogEntries_Applied = Nothing
+        End If
+
+    End Sub
+
     Private Sub ToolStripButton_Close_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Close.Click
         Me.Close()
     End Sub
 
-    Public Sub New()
-
+    Public Sub New(Globals As clsGlobals, OItem_User As clsOntologyItem)
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
 
@@ -45,15 +81,34 @@ Public Class frmLogModule
         SplashScreen = New SplashScreen_OntologyModule()
         SplashScreen.Show()
         SplashScreen.Refresh()
+        boolApplyable = True
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
-        objLocalConfig = New clsLocalConfig(New clsGlobals)
+        objLocalConfig = New clsLocalConfig(Globals)
+        objLocalConfig.OItem_User = OItem_User
         set_DBConnection()
         initialize()
     End Sub
 
+    Public Sub New()
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        Application.DoEvents()
+        SplashScreen = New SplashScreen_OntologyModule()
+        SplashScreen.Show()
+        SplashScreen.Refresh()
+        boolApplyable = False
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = New clsLocalConfig(New clsGlobals)
+        set_DBConnection()
+        initialize()
+
+    End Sub
+
     Private Sub initialize()
         objUserControl_LogEntryList = New UserControl_OItemList(objLocalConfig.Globals)
+        objUserControl_LogEntryList.Applyable = boolApplyable
         objUserControl_LogEntryList.Dock = DockStyle.Fill
         SplitContainer1.Panel1.Controls.Add(objUserControl_LogEntryList)
 
@@ -66,14 +121,19 @@ Public Class frmLogModule
         objUserControl_LogEntry.Dock = DockStyle.Fill
         SplitContainer1.Panel2.Controls.Add(objUserControl_LogEntry)
 
-        objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
-        objFrmAuthenticate.ShowDialog(Me)
-        boolOpen = False
-        If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
-            objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User
-            boolOpen = True
+        If Not objLocalConfig.OItem_User Is Nothing Then
+            objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
+            objFrmAuthenticate.ShowDialog(Me)
+            boolOpen = False
+            If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
+                objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User
+                boolOpen = True
 
+            End If
+        Else
+            boolOpen = True
         End If
+        
     End Sub
 
     Private Sub set_DBConnection()

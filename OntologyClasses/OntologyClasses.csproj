@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseClasses\clsAppDocuments.cs" />
     <Compile Include="BaseClasses\clsAttribute.cs" />
     <Compile Include="BaseClasses\clsClassAtt.cs" />
     <Compile Include="BaseClasses\clsClassRel.cs" />

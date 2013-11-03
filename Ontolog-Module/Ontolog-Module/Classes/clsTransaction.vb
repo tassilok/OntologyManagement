@@ -11,6 +11,13 @@ Public Class clsTransaction
     Private objTypes As New clsTypes
     Private objDataTypes As New clsDataTypes
 
+    Public ReadOnly Property OItem_Last As clsTransactionItem
+        Get
+            Return objOList_Item.Last()
+        End Get
+    End Property
+
+
     Public Function do_Transaction(OItem_Item As Object, Optional boolRemoveAll As Boolean = False, Optional boolRemoveItem As Boolean = False) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem = objLogStates.LogState_Error
         Dim objOL_Items As New List(Of clsOntologyItem)
@@ -22,15 +29,19 @@ Public Class clsTransaction
         objOItem_TransItem = New clsTransactionItem()
 
         objOItem_TransItem.Removed = boolRemoveItem
-        
+
         Select Case OItem_Item.GetType().Name
             Case objClassTypes.ClassType_ObjectAtt
                 objOItem_TransItem.OItem_ObjectAtt = OItem_Item
                 objOItem_Result = clear_Relations(OItem_Item.GetType().Name, boolRemoveAll:=boolRemoveAll)
                 If boolRemoveItem = False Then
                     If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+
                         objOL_AItems.Add(OItem_Item)
                         objOItem_Result = objDBLevel.save_ObjAtt(objOL_AItems)
+                        If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+                            objOItem_TransItem.OItem_ObjectAtt.ID_Attribute = objDBLevel.OAList_Saved.First().ID_Attribute
+                        End If
                     End If
 
                 End If
@@ -229,6 +240,7 @@ Public Class clsTransaction
         Dim objOLObjAtt As New List(Of clsObjectAtt)
         Dim objOLObjRel As New List(Of clsObjectRel)
         Dim objOLOntologyItem As New List(Of clsOntologyItem)
+        Dim objOLObjAttSaved As New List(Of clsObjectAtt)
 
         Select Case objTransactionItem.savedType
             Case objClassTypes.ClassType_ClassAtt
@@ -271,18 +283,24 @@ Public Class clsTransaction
             Case objClassTypes.ClassType_ObjectAtt
 
                 If objTransactionItem.Removed = False Then
-                    objOLObjAtt.Add(New clsObjectAtt(objTransactionItem.OItem_ObjectAtt.ID_Attribute, _
+                    If Not objTransactionItem.OItem_ObjectAtt.ID_Attribute Is Nothing Then
+                        objOLObjAtt.Add(New clsObjectAtt(objTransactionItem.OItem_ObjectAtt.ID_Attribute, _
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing, _
                                                  Nothing))
 
 
-                    objOItem_Result = objDBLevel.del_ObjectAtt(objOLObjAtt)
+                        objOItem_Result = objDBLevel.del_ObjectAtt(objOLObjAtt)
+                    Else
+                        objOItem_Result = objLogStates.LogState_Success
+                    End If
+
                 Else
                     objOLObjAtt.Add(objTransactionItem.OItem_ObjectAtt)
 
                     objOItem_Result = objDBLevel.save_ObjAtt(objOLObjAtt)
+
                 End If
 
 
@@ -335,7 +353,7 @@ Public Class clsTransaction
         Select Case strType
             Case objClassTypes.ClassType_ObjectAtt
 
-                If boolRemoveAll = true Then
+                If boolRemoveAll = True Then
                     objOL_ObjAtt_Search.Add(New clsObjectAtt(Nothing, _
                                                   objOItem_TransItem.OItem_ObjectAtt.ID_Object, _
                                                   Nothing, _
@@ -417,10 +435,10 @@ Public Class clsTransaction
                                 End If
                             Case objDataTypes.DType_Int.GUID
                                 Dim objLDel = From obj In objDBLevel.OList_ObjectAtt
-                                      Where Not obj.Val_lng = objOItem_TransItem.OItem_ObjectAtt.Val_lng
+                                      Where Not obj.Val_Lng = objOItem_TransItem.OItem_ObjectAtt.Val_Lng
 
                                 Dim objLExist = From obj In objDBLevel.OList_ObjectAtt
-                                                Where obj.Val_lng = objOItem_TransItem.OItem_ObjectAtt.Val_lng
+                                                Where obj.Val_Lng = objOItem_TransItem.OItem_ObjectAtt.Val_Lng
 
 
                                 objOItem_Result = objLogStates.LogState_Nothing
@@ -522,7 +540,7 @@ Public Class clsTransaction
                         objOItem_Result = objLogStates.LogState_Error
                     End If
                 Else
-                    If Not objOItem_TransItem.OItem_ObjectAtt.ID_Attribute is Nothing And _
+                    If Not objOItem_TransItem.OItem_ObjectAtt.ID_Attribute Is Nothing And _
                         Not objOItem_TransItem.OItem_ObjectAtt.ID_Attribute = "" Then
                         objOL_ObjAtt_Del.Add(New clsObjectAtt(objOItem_TransItem.OItem_ObjectAtt.ID_Attribute, _
                                                           Nothing, _
@@ -531,10 +549,10 @@ Public Class clsTransaction
                                                           Nothing))
 
                         objOItem_Result = objDBLevel.del_ObjectAtt(objOL_ObjAtt_Del)
-                    Else 
+                    Else
                         objOItem_Result = objLogStates.LogState_Success
                     End If
-                    
+
                 End If
 
             Case objClassTypes.ClassType_ObjectRel

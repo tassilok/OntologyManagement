@@ -17,6 +17,7 @@ Public Class UserControl_OItemList
     Private objTransaction_RelationTypes As clsTransaction_RelationTypes
     Private objTransaction_AttributeTypes As clsTransaction_AttributeTypes
     Private objTransaction As clsTransaction
+    Private objRelationConfig As clsRelationConfig
 
     Private objOItem_Parent As clsOntologyItem
 
@@ -503,6 +504,7 @@ Public Class UserControl_OItemList
         objTransaction_RelationTypes = New clsTransaction_RelationTypes(objLocalConfig, Me)
         objTransaction = New clsTransaction(objLocalConfig.Globals)
         objOntologyClipboard = New clsOntologyClipboard(objLocalConfig)
+        objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
     End Sub
 
     Private Sub DataGridView_Items_CellDoubleClick(sender As Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles DataGridView_Items.CellDoubleClick
@@ -549,6 +551,7 @@ Public Class UserControl_OItemList
                                                                    objDRV_Selected.Item("Ontology"), _
                                                                    Nothing, _
                                                                    objDlg_Attribute_Long.Value))
+
                             objOItem_Result = objDBLevel.save_ObjRel(objOList_Relation)
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                                 MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
@@ -558,21 +561,14 @@ Public Class UserControl_OItemList
                         Else
                             Select Case objDRV_Selected.Item("ID_DataType")
                                 Case objLocalConfig.Globals.DType_Bool.GUID
-                                    objOLIst_Att.Add(New clsObjectAtt(objDRV_Selected.Item("ID_Attribute"), _
-                                                                      objDRV_Selected.Item("ID_Object"), _
-                                                                      Nothing, _
-                                                                      objDRV_Selected.Item("ID_Class"), _
-                                                                      Nothing, _
-                                                                      objDRV_Selected.Item("ID_AttributeType"), _
-                                                                      Nothing, _
-                                                                      objDlg_Attribute_Long.Value, _
-                                                                      objDRV_Selected.Item("val_named"), _
-                                                                      objDRV_Selected.Item("val_bit"), _
-                                                                      Nothing, _
-                                                                      Nothing, _
-                                                                      Nothing, _
-                                                                      Nothing, _
-                                                                      objDRV_Selected.Item("ID_DataType")))
+                                    objOLIst_Att.Add(New clsObjectAtt With {.ID_Attribute = objDRV_Selected.Item("ID_Attribute"), _
+                                                                      .ID_Object = objDRV_Selected.Item("ID_Object"), _
+                                                                      .ID_Class = objDRV_Selected.Item("ID_Class"), _
+                                                                      .ID_AttributeType = objDRV_Selected.Item("ID_AttributeType"), _
+                                                                      .OrderID = objDlg_Attribute_Long.Value, _
+                                                                      .Val_Named = objDRV_Selected.Item("val_named"), _
+                                                                      .Val_Bit = objDRV_Selected.Item("val_bit"), _
+                                                                      .ID_DataType = objDRV_Selected.Item("ID_DataType")})
 
                                     objOItem_Result = objDBLevel.save_ObjAtt(objOLIst_Att)
                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then

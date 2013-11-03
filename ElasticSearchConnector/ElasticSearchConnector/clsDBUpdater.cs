@@ -452,7 +452,7 @@ namespace ElasticSearchConnector
             return objOItem_Result;
         }
 
-        public clsOntologyItem save_ObjectAtt(List<clsObjectAtt> OList_ObjAtt)
+        public List<clsObjectAtt> save_ObjectAtt(List<clsObjectAtt> OList_ObjAtt)
         {
             OperateResult opResult;
             objDBSelector.ElConnector.Flush();
@@ -562,9 +562,9 @@ namespace ElasticSearchConnector
                 objOItem_Result.Max1 = OList_ObjAtt.Count;
             }
 
-            objDBSelector.ElConnector.Flush();                            
+            objDBSelector.ElConnector.Flush();
 
-            return objOItem_Result;
+            return objOList_ToSave;
         }
 
         public clsOntologyItem save_Objects(List<clsOntologyItem> OList_Objects)

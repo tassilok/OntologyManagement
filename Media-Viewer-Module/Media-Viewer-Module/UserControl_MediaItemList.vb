@@ -11,6 +11,7 @@ Public Class UserControl_MediaItemList
     Private objFileWork As clsFileWork
 
     Private objDLG_Attribute_Double As dlg_Attribute_Double
+    Private objFrm_ObjectEdit As frm_ObjectEdit
 
     Private objOItem_Ref As clsOntologyItem
     Private objOItem_Relate As clsOntologyItem
@@ -622,38 +623,41 @@ Public Class UserControl_MediaItemList
 
 
     Private Sub DataGridView_MediaItems_CellMouseDoubleClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView_MediaItems.CellMouseDoubleClick
-        If DataGridView_MediaItems.Columns(e.ColumnIndex).DataPropertyName = "OrderID" Then
-            Dim objDGVR_Selected = DataGridView_MediaItems.Rows(e.RowIndex)
-            Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
-            Dim objDGVC_Selected = DataGridView_MediaItems.Rows(e.RowIndex).Cells(e.ColumnIndex)
+        If e.ColumnIndex > -1 Then
+            If DataGridView_MediaItems.Columns(e.ColumnIndex).DataPropertyName = "OrderID" Then
+                Dim objDGVR_Selected = DataGridView_MediaItems.Rows(e.RowIndex)
+                Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+                Dim objDGVC_Selected = DataGridView_MediaItems.Rows(e.RowIndex).Cells(e.ColumnIndex)
 
-            objDLG_Attribute_Double = New dlg_Attribute_Double("New OrderID", objLocalConfig.Globals, objDGVC_Selected.Value)
-            objDLG_Attribute_Double.ShowDialog(Me)
-            If objDLG_Attribute_Double.DialogResult = DialogResult.OK Then
-                Dim intOrderID = objDLG_Attribute_Double.Value
-                If intOrderID >= 0 Then
-                    If objDGVC_Selected.Value <> intOrderID Then
-                        Dim objOItem_MediaItem = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_MediaItem"), _
-                                                                           .Name = objDRV_Selected.Item("Name_MediaItem"), _
-                                                                           .GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID, _
-                                                                           .Type = objLocalConfig.Globals.Type_Object, _
-                                                                           .Level = intOrderID}
+                objDLG_Attribute_Double = New dlg_Attribute_Double("New OrderID", objLocalConfig.Globals, objDGVC_Selected.Value)
+                objDLG_Attribute_Double.ShowDialog(Me)
+                If objDLG_Attribute_Double.DialogResult = DialogResult.OK Then
+                    Dim intOrderID = objDLG_Attribute_Double.Value
+                    If intOrderID >= 0 Then
+                        If objDGVC_Selected.Value <> intOrderID Then
+                            Dim objOItem_MediaItem = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_MediaItem"), _
+                                                                               .Name = objDRV_Selected.Item("Name_MediaItem"), _
+                                                                               .GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID, _
+                                                                               .Type = objLocalConfig.Globals.Type_Object, _
+                                                                               .Level = intOrderID}
 
-                        Dim objORel_MediaItem_To_Ref = objDataWork_MediaItem.Rel_MediaItem_To_Ref(objOItem_MediaItem, objOItem_Ref, False)
-                        objTransaction_MediaItems.ClearItems()
-                        Dim objOItem_Result = objTransaction_MediaItems.do_Transaction(objORel_MediaItem_To_Ref)
-                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            objDRV_Selected.Item("OrderID") = intOrderID
-                        Else
-                            MsgBox("Die OrderID konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                            Dim objORel_MediaItem_To_Ref = objDataWork_MediaItem.Rel_MediaItem_To_Ref(objOItem_MediaItem, objOItem_Ref, False)
+                            objTransaction_MediaItems.ClearItems()
+                            Dim objOItem_Result = objTransaction_MediaItems.do_Transaction(objORel_MediaItem_To_Ref)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objDRV_Selected.Item("OrderID") = intOrderID
+                            Else
+                                MsgBox("Die OrderID konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                            End If
                         End If
+                    Else
+                        MsgBox("Bitte nur OrderIDs größer gleich 0 eingeben!", MsgBoxStyle.Information)
                     End If
-                Else
-                    MsgBox("Bitte nur OrderIDs größer gleich 0 eingeben!", MsgBoxStyle.Information)
-                End If
 
+                End If
             End If
         End If
+        
 
 
     End Sub
@@ -713,4 +717,19 @@ Public Class UserControl_MediaItemList
     End Sub
 
 
+    Private Sub DataGridView_MediaItems_RowHeaderMouseDoubleClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView_MediaItems.RowHeaderMouseDoubleClick
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+
+        objDGVR_Selected = DataGridView_MediaItems.Rows(e.RowIndex)
+        objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+        Dim objOItem_MediaItem = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_MediaItem"), _
+                                                           .Name = objDRV_Selected.Item("Name_MediaItem"), _
+                                                           .GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID, _
+                                                           .Type = objLocalConfig.Globals.Type_Object}
+        Dim objOList_Objects = New List(Of clsOntologyItem) From {objOItem_MediaItem}
+        objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList_Objects, 0, objLocalConfig.Globals.Type_Object, Nothing)
+        objFrm_ObjectEdit.ShowDialog(Me)
+    End Sub
 End Class

@@ -163,7 +163,7 @@ Public Class clsReport
                             objTextWriter.WriteLine(strLine)
                             strLine = "<GUID_Right>" & objOItem_ORel.ID_Other & "</GUID_Right>"
                             objTextWriter2.WriteLine(strLine)
-                            strLine = "<Name_Right>" & objOItem_ORel.Name_Other & "</Name_Right>"
+                            strLine = "<Name_Right><![CDATA[" & objOItem_ORel.Name_Other & "]]></Name_Right>"
                             objTextWriter2.WriteLine(strLine)
                             strLine = "<GUID_RelationType>" & objOItem_ORel.ID_RelationType & "</GUID_RelationType>"
                             objTextWriter.WriteLine(strLine)

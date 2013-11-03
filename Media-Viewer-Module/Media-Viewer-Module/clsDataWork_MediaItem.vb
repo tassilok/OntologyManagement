@@ -282,6 +282,17 @@ Public Class clsDataWork_MediaItem
         Return objOItem_Result
     End Function
 
+    Public Function Rel_Bookmark__Position(OItem_Bookmark As clsOntologyItem, strPosition As String) As clsObjectAtt
+        Dim objOA_Bookmark__Position As New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_Media_Position.GUID, _
+                                                               .ID_Object = OItem_Bookmark.GUID, _
+                                                               .ID_Class = OItem_Bookmark.GUID_Parent, _
+                                                               .ID_DataType = objLocalConfig.Globals.DType_String.GUID, _
+                                                               .OrderID = 1, _
+                                                               .Val_Named = strPosition, _
+                                                               .Val_String = strPosition}
+        Return objOA_Bookmark__Position
+    End Function
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
 

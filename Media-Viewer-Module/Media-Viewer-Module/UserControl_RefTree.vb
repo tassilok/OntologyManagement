@@ -19,6 +19,16 @@ Public Class UserControl_RefTree
     Public Event save_Items()
     Public Event relate_Item(OItem_Related As clsOntologyItem)
 
+    Public Sub Select_OItem(OItem_ToSelect As clsOntologyItem)
+        Dim objTreeNodes = TreeView_Ref.Nodes.Find(OItem_ToSelect.GUID, True)
+
+        If objTreeNodes.Any() Then
+            TreeView_Ref.SelectedNode = objTreeNodes(0)
+        Else
+            AddRef(OItem_ToSelect)
+        End If
+    End Sub
+
     Public Sub fill_Tree(ByVal OItem_MediaType As clsOntologyItem)
         Dim objOItem_Result As clsOntologyItem
 
@@ -133,8 +143,8 @@ Public Class UserControl_RefTree
     Private Sub AddToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddToolStripMenuItem.Click
         Dim objTreeNode As TreeNode
         Dim objOItem_Class As clsOntologyItem
-        Dim objTreeNodes() As TreeNode
-        Dim objTreeNode_Added As TreeNode = Nothing
+
+
 
         objTreeNode = TreeView_Ref.SelectedNode
         If Not objTreeNode Is Nothing Then
@@ -145,30 +155,7 @@ Public Class UserControl_RefTree
 
                 If objFrmMain.DialogResult = DialogResult.OK Then
                     For Each objOItem In objFrmMain.OList_Simple
-                        Select Case objOItem.Type
-                            Case objLocalConfig.Globals.Type_AttributeType
-                                objTreeNodes = objDataWork_RefTree.TreeNode_Attributes.Nodes.Find(objOItem.GUID, False)
-                                If Not objTreeNodes.Any() Then
-                                    objDataWork_RefTree.TreeNode_Attributes.Nodes.Add(objOItem.GUID, objOItem.Name, _
-                                                                                      objLocalConfig.ImageID_Attribute, _
-                                                                                      objLocalConfig.ImageID_Attribute)
-                                End If
-                            Case objLocalConfig.Globals.Type_Class
-                                AddClassNode(objOItem)
-
-                            Case objLocalConfig.Globals.Type_Object
-                                objOItem_Class = New clsOntologyItem(objOItem.GUID_Parent, objLocalConfig.Globals.Type_Class)
-                                objTreeNode_Added = AddClassNode(objOItem_Class)
-                                If Not objTreeNode_Added Is Nothing Then
-                                    objTreeNode_Added = objTreeNode_Added.Nodes.Add(objOItem.GUID, _
-                                                                                   objOItem.Name,
-                                                                                   objLocalConfig.ImageID_Token, _
-                                                                                   objLocalConfig.ImageID_Token)
-                                    TreeView_Ref.SelectedNode = objTreeNode_Added
-                                End If
-                            Case objLocalConfig.Globals.Type_RelationType
-
-                        End Select
+                        AddRef(objOItem)
                     Next
                 End If
             ElseIf objTreeNode.ImageIndex = objLocalConfig.ImageID_Close Or _
@@ -184,25 +171,7 @@ Public Class UserControl_RefTree
                 objFrmMain.ShowDialog(Me)
                 If objFrmMain.DialogResult = DialogResult.OK Then
                     For Each objOItem In objFrmMain.OList_Simple
-                        Select Case objOItem.Type
-                            Case objLocalConfig.Globals.Type_AttributeType
-
-                            Case objLocalConfig.Globals.Type_Class
-
-                            Case objLocalConfig.Globals.Type_Object
-                                If objOItem.GUID_Parent = objTreeNode.Name Then
-                                    objTreeNode_Added = objTreeNode.Nodes.Add(objOItem.GUID, _
-                                                                                    objOItem.Name,
-                                                                                    objLocalConfig.ImageID_Token, _
-                                                                                    objLocalConfig.ImageID_Token)
-                                    TreeView_Ref.SelectedNode = objTreeNode_Added
-                                Else
-
-                                End If
-
-                            Case objLocalConfig.Globals.Type_RelationType
-
-                        End Select
+                        AddRef(objOItem, objTreeNode)
                     Next
                 End If
             End If
@@ -210,6 +179,55 @@ Public Class UserControl_RefTree
 
         End If
     End Sub
+
+    Private Sub AddRef(objOItem As clsOntologyItem, Optional objTreeNode_Selected As TreeNode = Nothing)
+        Dim objTreeNodes() As TreeNode
+        Dim objTreeNode_Added As TreeNode = Nothing
+        Dim objOItem_Class As clsOntologyItem
+        Select Case objOItem.Type
+            Case objLocalConfig.Globals.Type_AttributeType
+                If objTreeNode_Selected Is Nothing Then
+                    objTreeNodes = objDataWork_RefTree.TreeNode_Attributes.Nodes.Find(objOItem.GUID, False)
+                    If Not objTreeNodes.Any() Then
+                        objDataWork_RefTree.TreeNode_Attributes.Nodes.Add(objOItem.GUID, objOItem.Name, _
+                                                                          objLocalConfig.ImageID_Attribute, _
+                                                                          objLocalConfig.ImageID_Attribute)
+                    End If
+                Else
+
+                End If
+                
+            Case objLocalConfig.Globals.Type_Class
+                If objTreeNode_Selected Is Nothing Then
+                    AddClassNode(objOItem)
+                End If
+
+
+            Case objLocalConfig.Globals.Type_Object
+                If objTreeNode_Selected Is Nothing Then
+                    objOItem_Class = New clsOntologyItem(objOItem.GUID_Parent, objLocalConfig.Globals.Type_Class)
+                    objTreeNode_Added = AddClassNode(objOItem_Class)
+                    If Not objTreeNode_Added Is Nothing Then
+                        objTreeNode_Added = objTreeNode_Added.Nodes.Add(objOItem.GUID, _
+                                                                       objOItem.Name,
+                                                                       objLocalConfig.ImageID_Token, _
+                                                                       objLocalConfig.ImageID_Token)
+                        TreeView_Ref.SelectedNode = objTreeNode_Added
+                    End If
+                Else
+                    objTreeNode_Added = objTreeNode_Selected.Nodes.Add(objOItem.GUID, _
+                                                                                    objOItem.Name,
+                                                                                    objLocalConfig.ImageID_Token, _
+                                                                                    objLocalConfig.ImageID_Token)
+                    TreeView_Ref.SelectedNode = objTreeNode_Added
+                End If
+                
+            Case objLocalConfig.Globals.Type_RelationType
+
+        End Select
+        
+    End Sub
+
 
     Private Function AddClassNode(objOItem As clsOntologyItem) As TreeNode
         Dim objTreeNodes() As TreeNode

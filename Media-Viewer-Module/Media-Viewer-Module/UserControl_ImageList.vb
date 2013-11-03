@@ -298,7 +298,7 @@ Public Class UserControl_ImageList
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_File, strPath)
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                objOItem_Image = objDataWork_Images.GetImageItemOfFile(objOItem_File)
+                                objOItem_Image = objDataWork_Images.GetImageItemOfFile(objOItem_File, objLocalConfig.OItem_Type_Images__Graphic_)
                                 If objOItem_Image Is Nothing Then
                                     objOItem_Image = New clsOntologyItem
                                     objOItem_Image.GUID = objLocalConfig.Globals.NewGUID

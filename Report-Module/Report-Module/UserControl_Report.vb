@@ -4,6 +4,7 @@ Imports Media_Viewer_Module
 Imports ClassLibrary_ShellWork
 Imports Filesystem_Module
 Imports Security_Module
+Imports Log_Module
 
 Public Class UserControl_Report
     Private frmObjectEdit As frm_ObjectEdit
@@ -19,6 +20,7 @@ Public Class UserControl_Report
 
     Private objLocalConfig As clsLocalConfig
     Private objLocalConfig_MediaView As Media_Viewer_Module.clsLocalConfig
+    Private objLocalConfig_LogEntries As Log_Module.clsLocalConfig
 
     Private objOntologyWork As clsOntologyWork
     Private objReport As Ontology_Module.clsReport
@@ -30,6 +32,8 @@ Public Class UserControl_Report
 
     Private objFrmSingleViewer As frmSingleViewer
     Private objFrmObjectEdit As frm_ObjectEdit
+    Private objFrmLogEntry As frmLogModule
+    Private objFrmMediaViewerModule As frmMediaViewerModule
 
     Private objDataTable As DataTable
     Private objDataAdp As SqlClient.SqlDataAdapter
@@ -44,6 +48,9 @@ Public Class UserControl_Report
     Private objDataWork_ReportFields As clsDataWork_ReportFields
 
     Private objThread_Sync As Threading.Thread
+
+    Private objRelationConfig As clsRelationConfig
+    Private objTransaction As clsTransaction
 
     Private boolSynced As Boolean
 
@@ -308,6 +315,8 @@ Public Class UserControl_Report
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
         objLocalConfig_MediaView = New Media_Viewer_Module.clsLocalConfig(objLocalConfig.Globals)
         objSecurityWork = New clsSecurityWork(objLocalConfig.Globals, Me)
+        objTransaction = New clsTransaction(objLocalConfig.Globals)
+        objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
     End Sub
 
     Private Sub Timer_Sync_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Sync.Tick
@@ -635,6 +644,10 @@ Public Class UserControl_Report
     End Sub
 
     Private Sub DataGridView_Reports_CellMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView_Reports.CellMouseClick
+        Refresh_CellActions()
+    End Sub
+
+    Private Sub Refresh_CellActions()
         Dim objDR_Report As DataRow
         Dim objOItem_Ref As clsOntologyItem
         Dim objDGVR_Selected As DataGridViewRow
@@ -671,7 +684,7 @@ Public Class UserControl_Report
 
                 Dim objLType = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_TypeField).ToList()
 
-                If objLType.any Then
+                If objLType.Any Then
 
 
                     Select Case objDRV_Selected.Item(objLType.First().Name_Col)
@@ -1139,6 +1152,8 @@ Public Class UserControl_Report
 
         objOItem_Object = Nothing
         XEditSemItemToolStripMenuItem.Enabled = False
+        LoggingToolStripMenuItem.Enabled = False
+        MediaToolStripMenuItem.Enabled = False
         If DataGridView_Reports.SelectedCells.Count = 1 Then
             Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
 
@@ -1155,8 +1170,9 @@ Public Class UserControl_Report
 
                             If Not objOItem_Object.GUID = objLocalConfig.Globals.LState_Success.GUID And Not objOItem_Object.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
 
-
+                                LoggingToolStripMenuItem.Enabled = True
                                 XEditSemItemToolStripMenuItem.Enabled = True
+                                MediaToolStripMenuItem.Enabled = True
                             End If
 
                         End If
@@ -1187,4 +1203,67 @@ Public Class UserControl_Report
 
         Return False
     End Function
+
+    Private Sub AddLogentryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddLogentryToolStripMenuItem.Click
+        If Not objOItem_Object Is Nothing Then
+            If objLocalConfig_LogEntries Is Nothing Then
+                objLocalConfig_LogEntries = New Log_Module.clsLocalConfig(objLocalConfig.Globals)
+            End If
+            objFrmLogEntry = New frmLogModule(objLocalConfig.Globals, objLocalConfig.User)
+            objFrmLogEntry.ShowDialog(Me)
+            If objFrmLogEntry.DialogResult = DialogResult.OK Then
+                Dim objOList_LogEntries = objFrmLogEntry.OList_LogEntries
+                For Each objLogEntry In objOList_LogEntries
+                    Dim objORel_LogEntry_To_Object = objRelationConfig.Rel_ObjectRelation(objLogEntry, objOItem_Object, objLocalConfig_LogEntries.OItem_RelationType_belongsTo)
+                    objTransaction.ClearItems()
+                    Dim objOItem_Result = objTransaction.do_Transaction(objORel_LogEntry_To_Object)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        MsgBox("Der Logeintrag konnte leider nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+                    End If
+                Next
+            End If
+        End If
+    End Sub
+
+    Private Sub OpenMediaItemModuleToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenMediaItemModuleToolStripMenuItem.Click
+        If Not objOItem_Object Is Nothing Then
+            If objLocalConfig_LogEntries Is Nothing Then
+                objLocalConfig_LogEntries = New Log_Module.clsLocalConfig(objLocalConfig.Globals)
+            End If
+            objFrmMediaViewerModule = New frmMediaViewerModule(objLocalConfig.Globals, objLocalConfig.User)
+            objFrmMediaViewerModule.Initilize_MediaItem(objOItem_Object)
+            objFrmMediaViewerModule.ShowDialog(Me)
+            If objFrmMediaViewerModule.DialogResult = DialogResult.OK Then
+                Refresh_CellActions()
+            End If
+        End If
+    End Sub
+
+    Private Sub OpenPDFToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenPDFToolStripMenuItem.Click
+        If Not objOItem_Object Is Nothing Then
+            If objLocalConfig_LogEntries Is Nothing Then
+                objLocalConfig_LogEntries = New Log_Module.clsLocalConfig(objLocalConfig.Globals)
+            End If
+            objFrmMediaViewerModule = New frmMediaViewerModule(objLocalConfig.Globals, objLocalConfig.User)
+            objFrmMediaViewerModule.Initilize_PDF(objOItem_Object)
+            objFrmMediaViewerModule.ShowDialog(Me)
+            If objFrmMediaViewerModule.DialogResult = DialogResult.OK Then
+                Refresh_CellActions()
+            End If
+        End If
+    End Sub
+
+    Private Sub OpenImageRefToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenImageRefToolStripMenuItem.Click
+        If Not objOItem_Object Is Nothing Then
+            If objLocalConfig_LogEntries Is Nothing Then
+                objLocalConfig_LogEntries = New Log_Module.clsLocalConfig(objLocalConfig.Globals)
+            End If
+            objFrmMediaViewerModule = New frmMediaViewerModule(objLocalConfig.Globals, objLocalConfig.User)
+            objFrmMediaViewerModule.Initilize_Image(objOItem_Object)
+            objFrmMediaViewerModule.ShowDialog(Me)
+            If objFrmMediaViewerModule.DialogResult = DialogResult.OK Then
+                Refresh_CellActions()
+            End If
+        End If
+    End Sub
 End Class

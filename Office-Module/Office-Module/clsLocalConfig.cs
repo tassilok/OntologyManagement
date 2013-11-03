@@ -127,6 +127,7 @@ namespace Office_Module
         public clsOntologyItem OItem_Token_ContentType_BatItemList { get; set; }
         public clsOntologyItem OItem_Token_Contentformat_MM_yyyy { get; set; }
         public clsOntologyItem OItem_Token_Contentformat_dd_MM_yyyy { get; set; }
+        public clsOntologyItem OItem_object_office_manager { get; set; }
 
         // RelationTypes
         public clsOntologyItem OItem_RelationType_used_for { get; set; }
@@ -253,6 +254,7 @@ namespace Office_Module
                 get_Config_RelationTypes();
                 get_Config_Classes();
                 get_Config_Objects();
+                Get_BaseConfig();
             }
             catch (Exception ex)
             {
@@ -274,6 +276,7 @@ namespace Office_Module
                         get_Config_RelationTypes();
                         get_Config_Classes();
                         get_Config_Objects();
+                        Get_BaseConfig();
                     }
                     else
                     {

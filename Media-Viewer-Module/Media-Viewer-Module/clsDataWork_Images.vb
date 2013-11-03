@@ -153,13 +153,13 @@ Public Class clsDataWork_Images
         boolLoaded = True
     End Sub
 
-    Public Function GetImageItemOfFile(OItem_File As clsOntologyItem) As clsOntologyItem
+    Public Function GetImageItemOfFile(OItem_File As clsOntologyItem, OItem_MediaType As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objOItem_MediaItem As clsOntologyItem
         Dim objOList_MediaItemToFile As New List(Of clsObjectRel)
 
         objOList_MediaItemToFile.Add(New clsObjectRel(Nothing, _
-                                                      objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                      OItem_MediaType.GUID, _
                                                       OItem_File.GUID, _
                                                       Nothing, _
                                                       objLocalConfig.OItem_RelationType_belonging_Source.GUID,

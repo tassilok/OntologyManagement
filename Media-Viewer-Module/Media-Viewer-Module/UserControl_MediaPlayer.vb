@@ -5,13 +5,14 @@ Imports OntologyClasses.BaseClasses
 
 Public Class UserControl_MediaPlayer
     Private objLocalConfig As clsLocalConfig
+    Private objRelationConfig As clsRelationConfig
 
     Private objOItem_File As clsOntologyItem
     Private objOItem_MediaItem As clsOntologyItem
 
     Private objThread_MediaItem As Threading.Thread
 
-    Private objTransaction_Bookmarks As clsTransaction_Bookmarks
+    Private objTransaction_Bookmarks As clsTransaction
     Private objLogManagement As Log_Module.clsLogManagement
 
     Private objBlobConnection As clsBlobConnection
@@ -138,8 +139,9 @@ Public Class UserControl_MediaPlayer
 
     Private Sub set_DBConnection()
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
-        objTransaction_Bookmarks = New clsTransaction_Bookmarks(objLocalConfig)
+        objTransaction_Bookmarks = New clsTransaction(objLocalConfig.Globals)
         objLogManagement = New Log_Module.clsLogManagement(objLocalConfig.Globals)
+        objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
     End Sub
 
     Private Sub initialize()
@@ -193,47 +195,70 @@ Public Class UserControl_MediaPlayer
         objOItem_BookMark.Type = objLocalConfig.Globals.Type_Object
 
         If strPosition <> "" Then
-            objOItem_Result = objTransaction_Bookmarks.save_001_Bookmark(objOItem_BookMark)
+            objTransaction_Bookmarks.ClearItems()
+            objOItem_Result = objTransaction_Bookmarks.do_Transaction(objOItem_BookMark)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-
-                objOItem_Result = objTransaction_Bookmarks.save_002_BookMark__Position(strPosition)
-                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    objOItem_Result = objLogManagement.log_Entry(Now, objOItem_LogState_Player, objLocalConfig.OItem_User)
+                Dim objOA_Bookmark__Position = objRelationConfig.Rel_ObjectAttribute(objOItem_BookMark, _
+                                                                                     objLocalConfig.OItem_Attribute_Media_Position, _
+                                                                                     strPosition)
+                If Not objOA_Bookmark__Position Is Nothing Then
+                    objOItem_Result = objTransaction_Bookmarks.do_Transaction(objOA_Bookmark__Position)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        objOItem_Result = objTransaction_Bookmarks.save_003_BookMark_To_LogEntry(objLogManagement.OItem_LogEntry)
-
+                        objOItem_Result = objLogManagement.log_Entry(Now, objOItem_LogState_Player, objLocalConfig.OItem_User)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            objOItem_Result = objTransaction_Bookmarks.save_004_BookMark_To_MediaItem(objOItem_MediaItem)
-                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                                objOItem_Result = objTransaction_Bookmarks.del_003_BookMark_To_LogEntry()
+                            Dim objORel_Bookmark_To_LogEntry = objRelationConfig.Rel_ObjectRelation(objOItem_BookMark, objLogManagement.OItem_LogEntry, objLocalConfig.OItem_RelationType_belonging_Done)
+                            If Not objORel_Bookmark_To_LogEntry Is Nothing Then
+                                objOItem_Result = objTransaction_Bookmarks.do_Transaction(objORel_Bookmark_To_LogEntry)
                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                    objLogManagement.del_LogEntry(objTransaction_Bookmarks.OItem_LogEntry)
-                                    objOItem_Result = objTransaction_Bookmarks.del_002_BookMark__Position()
-                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                        objTransaction_Bookmarks.del_001_Bookmark()
+                                    Dim objORel_Bookmark_To_MediaItem = objRelationConfig.Rel_ObjectRelation(objOItem_BookMark, objOItem_MediaItem, objLocalConfig.OItem_RelationType_belongsTo)
+                                    If Not objORel_Bookmark_To_LogEntry Is Nothing Then
+                                        objOItem_Result = objTransaction_Bookmarks.do_Transaction(objORel_Bookmark_To_MediaItem)
+                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                            MsgBox("Der Bookmark konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+                                            objTransaction_Bookmarks.rollback()
+                                            objOItem_Result = objLogManagement.del_LogEntry(objLogManagement.OItem_LogEntry)
+
+                                        End If
+
+                                    Else
+                                        MsgBox("Der Bookmark konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+                                        objTransaction_Bookmarks.rollback()
+                                        objOItem_Result = objLogManagement.del_LogEntry(objLogManagement.OItem_LogEntry)
+
                                     End If
+
+                                Else
+                                    MsgBox("Der Bookmark konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+                                    objTransaction_Bookmarks.rollback()
+                                    objOItem_Result = objLogManagement.del_LogEntry(objLogManagement.OItem_LogEntry)
 
                                 End If
 
 
+
+
+                            Else
+                                MsgBox("Der Bookmark konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+                                objTransaction_Bookmarks.rollback()
+                                objOItem_Result = objLogManagement.del_LogEntry(objLogManagement.OItem_LogEntry)
+
                             End If
+
                         Else
-                            objLogManagement.del_LogEntry(objTransaction_Bookmarks.OItem_LogEntry)
-                            objOItem_Result = objTransaction_Bookmarks.del_002_BookMark__Position()
-                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                objTransaction_Bookmarks.del_001_Bookmark()
-                            End If
+                            MsgBox("Der Bookmark konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+                            objTransaction_Bookmarks.rollback()
                         End If
                     Else
-                        objOItem_Result = objTransaction_Bookmarks.del_002_BookMark__Position()
-                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            objTransaction_Bookmarks.del_001_Bookmark()
-                        End If
+                        MsgBox("Der Bookmark konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+                        objTransaction_Bookmarks.rollback()
+
                     End If
                 Else
-                    objTransaction_Bookmarks.del_001_Bookmark()
-
+                    MsgBox("Der Bookmark konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+                    objTransaction_Bookmarks.rollback()
                 End If
+
+
             End If
         End If
 

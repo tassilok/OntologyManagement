@@ -290,7 +290,15 @@ Public Class clsImport
             End If
 
             If objOList_ObjAtt.Any Then
-                objOItem_Result = objDBLevel_TestExistance.save_ObjAtt(objOList_ObjAtt)
+                Dim objOList_OAtt_Saved = objDBLevel_TestExistance.save_ObjAtt(objOList_ObjAtt)
+                Dim lngCount = objOList_ObjAtt.Count - objOList_OAtt_Saved.Count
+
+                If lngCount = 0 Then
+                    objOItem_Result = objGlobals.LState_Success.Clone
+                Else
+                    objOItem_Result = objGlobals.LState_Error.Clone
+                End If
+
             End If
 
             If objOList_ObjRel.Any Then
