@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet_TimeManagement" targetNamespace="http://tempuri.org/DataSet_TimeManagement.xsd" xmlns:mstns="http://tempuri.org/DataSet_TimeManagement.xsd" xmlns="http://tempuri.org/DataSet_TimeManagement.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet_TimeManagement" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet_TimeManagement" msprop:Generator_UserDSName="DataSet_TimeManagement">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtbl_TimeManagement" msprop:Generator_TableClassName="dtbl_TimeManagementDataTable" msprop:Generator_TableVarName="tabledtbl_TimeManagement" msprop:Generator_TablePropName="dtbl_TimeManagement" msprop:Generator_RowDeletingName="dtbl_TimeManagementRowDeleting" msprop:Generator_RowChangingName="dtbl_TimeManagementRowChanging" msprop:Generator_RowEvHandlerName="dtbl_TimeManagementRowChangeEventHandler" msprop:Generator_RowDeletedName="dtbl_TimeManagementRowDeleted" msprop:Generator_UserTableName="dtbl_TimeManagement" msprop:Generator_RowChangedName="dtbl_TimeManagementRowChanged" msprop:Generator_RowEvArgName="dtbl_TimeManagementRowChangeEvent" msprop:Generator_RowClassName="dtbl_TimeManagementRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_TimeManagement" msprop:Generator_ColumnVarNameInTable="columnID_TimeManagement" msprop:Generator_ColumnPropNameInRow="ID_TimeManagement" msprop:Generator_ColumnPropNameInTable="ID_TimeManagementColumn" msprop:Generator_UserColumnName="ID_TimeManagement" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_TimeManagement" msprop:Generator_ColumnVarNameInTable="columnName_TimeManagement" msprop:Generator_ColumnPropNameInRow="Name_TimeManagement" msprop:Generator_ColumnPropNameInTable="Name_TimeManagementColumn" msprop:Generator_UserColumnName="Name_TimeManagement" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_LogState" msprop:Generator_ColumnVarNameInTable="columnID_LogState" msprop:Generator_ColumnPropNameInRow="ID_LogState" msprop:Generator_ColumnPropNameInTable="ID_LogStateColumn" msprop:Generator_UserColumnName="ID_LogState" type="xs:string" minOccurs="0" />
+              <xs:element name="Name_LogState" msprop:Generator_ColumnVarNameInTable="columnName_LogState" msprop:Generator_ColumnPropNameInRow="Name_LogState" msprop:Generator_ColumnPropNameInTable="Name_LogStateColumn" msprop:Generator_UserColumnName="Name_LogState" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_Attribute_Start" msprop:Generator_ColumnVarNameInTable="columnID_Attribute_Start" msprop:Generator_ColumnPropNameInRow="ID_Attribute_Start" msprop:Generator_ColumnPropNameInTable="ID_Attribute_StartColumn" msprop:Generator_UserColumnName="ID_Attribute_Start" type="xs:string" minOccurs="0" />
+              <xs:element name="Start" msprop:Generator_ColumnVarNameInTable="columnStart" msprop:Generator_ColumnPropNameInRow="Start" msprop:Generator_ColumnPropNameInTable="StartColumn" msprop:Generator_UserColumnName="Start" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="WeekDay_Start" msprop:Generator_ColumnVarNameInTable="columnWeekDay_Start" msprop:Generator_ColumnPropNameInRow="WeekDay_Start" msprop:Generator_ColumnPropNameInTable="WeekDay_StartColumn" msprop:Generator_UserColumnName="WeekDay_Start" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_Attribute_Ende" msprop:Generator_ColumnVarNameInTable="columnID_Attribute_Ende" msprop:Generator_ColumnPropNameInRow="ID_Attribute_Ende" msprop:Generator_ColumnPropNameInTable="ID_Attribute_EndeColumn" msprop:Generator_UserColumnName="ID_Attribute_Ende" type="xs:string" minOccurs="0" />
+              <xs:element name="Ende" msprop:Generator_ColumnVarNameInTable="columnEnde" msprop:Generator_ColumnPropNameInRow="Ende" msprop:Generator_ColumnPropNameInTable="EndeColumn" msprop:Generator_UserColumnName="Ende" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="WeekDay_Ende" msprop:Generator_ColumnVarNameInTable="columnWeekDay_Ende" msprop:Generator_ColumnPropNameInRow="WeekDay_Ende" msprop:Generator_ColumnPropNameInTable="WeekDay_EndeColumn" msprop:Generator_UserColumnName="WeekDay_Ende" type="xs:string" minOccurs="0" />
+              <xs:element name="Duration_Hours" msprop:Generator_ColumnVarNameInTable="columnDuration_Hours" msprop:Generator_ColumnPropNameInRow="Duration_Hours" msprop:Generator_ColumnPropNameInTable="Duration_HoursColumn" msprop:Generator_UserColumnName="Duration_Hours" type="xs:double" minOccurs="0" />
+              <xs:element name="Duration_Minutes" msprop:Generator_ColumnVarNameInTable="columnDuration_Minutes" msprop:Generator_ColumnPropNameInRow="Duration_Minutes" msprop:Generator_ColumnPropNameInTable="Duration_MinutesColumn" msprop:Generator_UserColumnName="Duration_Minutes" type="xs:double" minOccurs="0" />
+              <xs:element name="Duration_Hours_Week" msprop:Generator_ColumnVarNameInTable="columnDuration_Hours_Week" msprop:Generator_ColumnPropNameInRow="Duration_Hours_Week" msprop:Generator_ColumnPropNameInTable="Duration_Hours_WeekColumn" msprop:Generator_UserColumnName="Duration_Hours_Week" type="xs:double" minOccurs="0" />
+              <xs:element name="Duration_Minutes_Week" msprop:Generator_ColumnVarNameInTable="columnDuration_Minutes_Week" msprop:Generator_ColumnPropNameInRow="Duration_Minutes_Week" msprop:Generator_ColumnPropNameInTable="Duration_Minutes_WeekColumn" msprop:Generator_UserColumnName="Duration_Minutes_Week" type="xs:double" minOccurs="0" />
+              <xs:element name="ToDo_Hours_Day" msprop:Generator_ColumnVarNameInTable="columnToDo_Hours_Day" msprop:Generator_ColumnPropNameInRow="ToDo_Hours_Day" msprop:Generator_ColumnPropNameInTable="ToDo_Hours_DayColumn" msprop:Generator_UserColumnName="ToDo_Hours_Day" type="xs:double" minOccurs="0" />
+              <xs:element name="ToDo_Minutes_Day" msprop:Generator_ColumnVarNameInTable="columnToDo_Minutes_Day" msprop:Generator_ColumnPropNameInRow="ToDo_Minutes_Day" msprop:Generator_ColumnPropNameInTable="ToDo_Minutes_DayColumn" msprop:Generator_UserColumnName="ToDo_Minutes_Day" type="xs:double" minOccurs="0" />
+              <xs:element name="ToDo_Hours_Week" msprop:Generator_ColumnVarNameInTable="columnToDo_Hours_Week" msprop:Generator_ColumnPropNameInRow="ToDo_Hours_Week" msprop:Generator_ColumnPropNameInTable="ToDo_Hours_WeekColumn" msprop:Generator_UserColumnName="ToDo_Hours_Week" type="xs:double" minOccurs="0" />
+              <xs:element name="ToDo_Minutes_Week" msprop:Generator_ColumnVarNameInTable="columnToDo_Minutes_Week" msprop:Generator_ColumnPropNameInRow="ToDo_Minutes_Week" msprop:Generator_ColumnPropNameInTable="ToDo_Minutes_WeekColumn" msprop:Generator_UserColumnName="ToDo_Minutes_Week" type="xs:double" minOccurs="0" />
+              <xs:element name="ToDo_End" msprop:Generator_ColumnVarNameInTable="columnToDo_End" msprop:Generator_ColumnPropNameInRow="ToDo_End" msprop:Generator_ColumnPropNameInTable="ToDo_EndColumn" msprop:Generator_UserColumnName="ToDo_End" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Year_Start" msprop:Generator_ColumnVarNameInTable="columnYear_Start" msprop:Generator_ColumnPropNameInRow="Year_Start" msprop:Generator_ColumnPropNameInTable="Year_StartColumn" msprop:Generator_UserColumnName="Year_Start" type="xs:long" minOccurs="0" />
+              <xs:element name="Month_Start" msprop:Generator_ColumnVarNameInTable="columnMonth_Start" msprop:Generator_ColumnPropNameInRow="Month_Start" msprop:Generator_ColumnPropNameInTable="Month_StartColumn" msprop:Generator_UserColumnName="Month_Start" type="xs:long" minOccurs="0" />
+              <xs:element name="Day_Start" msprop:Generator_ColumnVarNameInTable="columnDay_Start" msprop:Generator_ColumnPropNameInRow="Day_Start" msprop:Generator_ColumnPropNameInTable="Day_StartColumn" msprop:Generator_UserColumnName="Day_Start" type="xs:long" minOccurs="0" />
+              <xs:element name="Week_Start" msprop:Generator_ColumnVarNameInTable="columnWeek_Start" msprop:Generator_ColumnPropNameInRow="Week_Start" msprop:Generator_ColumnPropNameInTable="Week_StartColumn" msprop:Generator_UserColumnName="Week_Start" type="xs:long" minOccurs="0" />
+              <xs:element name="Year_Ende" msprop:Generator_ColumnVarNameInTable="columnYear_Ende" msprop:Generator_ColumnPropNameInRow="Year_Ende" msprop:Generator_ColumnPropNameInTable="Year_EndeColumn" msprop:Generator_UserColumnName="Year_Ende" type="xs:long" minOccurs="0" />
+              <xs:element name="Month_Ende" msprop:Generator_ColumnVarNameInTable="columnMonth_Ende" msprop:Generator_ColumnPropNameInRow="Month_Ende" msprop:Generator_ColumnPropNameInTable="Month_EndeColumn" msprop:Generator_UserColumnName="Month_Ende" type="xs:long" minOccurs="0" />
+              <xs:element name="Day_Ende" msprop:Generator_ColumnVarNameInTable="columnDay_Ende" msprop:Generator_ColumnPropNameInRow="Day_Ende" msprop:Generator_ColumnPropNameInTable="Day_EndeColumn" msprop:Generator_UserColumnName="Day_Ende" type="xs:long" minOccurs="0" />
+              <xs:element name="Week_Ende" msprop:Generator_ColumnVarNameInTable="columnWeek_Ende" msprop:Generator_ColumnPropNameInRow="Week_Ende" msprop:Generator_ColumnPropNameInTable="Week_EndeColumn" msprop:Generator_UserColumnName="Week_Ende" type="xs:long" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

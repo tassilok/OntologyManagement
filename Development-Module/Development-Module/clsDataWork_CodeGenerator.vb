@@ -50,7 +50,7 @@ Public Class clsDataWork_CodeGenerator
         Return strXML
     End Function
 
-    Public Function get_Code(ByVal objOItem_Development As clsOntologyItem, ByVal objDGVR As DataGridViewRowCollection) As String
+    Public Function get_Code(ByVal objOItem_Development As clsOntologyItem, ByVal objDGVR As DataGridViewRowCollection, objDGVSR As DataGridViewSelectedRowCollection) As String
         Dim strXML_Config As String
 
         Dim objDGVR_Selected As DataGridViewRow
@@ -81,22 +81,15 @@ Public Class clsDataWork_CodeGenerator
                                     strList_Initialization_Object = ""
                                     strList_Initialization_RelationType = ""
 
-                                    If objDGVR.Count > 0 Then
-                                        If objDGVR.Count = 0 Then
-                                            For Each objDGVR_Selected In objDGVR
-                                                Dim objOItemOfOntology As clsOntologyItemsOfOntologies = objDGVR_Selected.DataBoundItem
-                                                get_XML_ConfigItem(objOItemOfOntology)
-
-                                            Next
-                                        Else
-                                            For Each objDGVR_Selected In objDGVR
-                                                Dim objOItemOfOntology As clsOntologyItemsOfOntologies = objDGVR_Selected.DataBoundItem
-                                                get_XML_ConfigItem(objOItemOfOntology)
-                                            Next
-                                        End If
-                                        
-                                    Else
+                                    If Not objDGVR Is Nothing Then
+                                       
                                         For Each objDGVR_Selected In objDGVR
+                                            Dim objOItemOfOntology As clsOntologyItemsOfOntologies = objDGVR_Selected.DataBoundItem
+                                            get_XML_ConfigItem(objOItemOfOntology)
+                                        Next
+
+                                    Else
+                                        For Each objDGVR_Selected In objDGVSR
                                             Dim objOItemOfOntology As clsOntologyItemsOfOntologies = objDGVR_Selected.DataBoundItem
                                             get_XML_ConfigItem(objOItemOfOntology)
                                         Next

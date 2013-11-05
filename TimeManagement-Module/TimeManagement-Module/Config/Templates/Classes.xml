@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Class">
+  <Item Id="4216aeb9c0bd4dab9d38f4257349019e" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[TimeManagement-Module]]></Item>
+<Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
+<Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
+<Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
+<Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="c441518dbfe04d55b538df5c5555dd83" Id_Parent="31da809331494400957fa26027fb506e"><![CDATA[user]]></Item>
+<Item Id="8e34e46a480846fa8d13968a850ba63a" Id_Parent="53136d10b7e747fc94ad7887a354d6e1"><![CDATA[Timemanagement]]></Item>
+<Item Id="1d9568afb6da49908f4d907dfdd30749" Id_Parent="53136d10b7e747fc94ad7887a354d6e1"><![CDATA[Logstate]]></Item>
+<Item Id="31da809331494400957fa26027fb506e" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Security-Management]]></Item>
+<Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
+<Item Id="53136d10b7e747fc94ad7887a354d6e1" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Log-Management]]></Item>
+<Item Id="aa616051e5214facabdbcbba6f8c6e73" Id_Parent="b5224e7f7d0d4beebf8eb9a0eeba5747"><![CDATA[Module]]></Item>
+<Item Id="b5224e7f7d0d4beebf8eb9a0eeba5747" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Module-Management]]></Item>
+<Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
+
+</Items>

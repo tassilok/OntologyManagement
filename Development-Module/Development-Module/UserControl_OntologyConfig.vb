@@ -67,8 +67,14 @@ Public Class UserControl_OntologyConfig
         objTransaction = New clsTransaction(objLocalConfig.Globals)
     End Sub
 
-    Private Sub ToolStripButton_View_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_View.Click
-        objFrmCodeGenerator = New frmCodeGenerator(objLocalConfig, objUserControl_OntologyItems.Rows, objOItem_Development)
+    Private Sub ToolStripButton_View_Click(sender As Object, e As EventArgs) Handles ToolStripButton_View.Click
+        If objUserControl_OntologyItems.SelectedRows.Count > 0 Then
+            objFrmCodeGenerator = New frmCodeGenerator(objLocalConfig, objUserControl_OntologyItems.SelectedRows, objOItem_Development)
+        Else
+            objFrmCodeGenerator = New frmCodeGenerator(objLocalConfig, objUserControl_OntologyItems.Rows, objOItem_Development)
+        End If
+
+
         objFrmCodeGenerator.ShowDialog(Me)
     End Sub
 

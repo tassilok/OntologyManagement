@@ -29,181 +29,221 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControl_OutlookItemList));
+            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel_CountCapt = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel_Count = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel_FilterCapt = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel_Filter = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripButton_ClearFilter = new System.Windows.Forms.ToolStripButton();
             this.dataGridView_OutlookItems = new System.Windows.Forms.DataGridView();
-            this.bindingNavigator_OutlookItems = new System.Windows.Forms.BindingNavigator(this.components);
-            this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
-            this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
-            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
-            this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
+            this.contextMenuStrip_OutlookItems = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.equalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.differentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createOntologyItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.outlookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openMailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
+            this.toolStripContainer1.ContentPanel.SuspendLayout();
+            this.toolStripContainer1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_OutlookItems)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator_OutlookItems)).BeginInit();
-            this.bindingNavigator_OutlookItems.SuspendLayout();
+            this.contextMenuStrip_OutlookItems.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // toolStripContainer1
+            // 
+            // 
+            // toolStripContainer1.BottomToolStripPanel
+            // 
+            this.toolStripContainer1.BottomToolStripPanel.Controls.Add(this.toolStrip1);
+            // 
+            // toolStripContainer1.ContentPanel
+            // 
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGridView_OutlookItems);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(567, 447);
+            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer1.Name = "toolStripContainer1";
+            this.toolStripContainer1.Size = new System.Drawing.Size(567, 497);
+            this.toolStripContainer1.TabIndex = 0;
+            this.toolStripContainer1.Text = "toolStripContainer1";
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel_CountCapt,
+            this.toolStripLabel_Count,
+            this.toolStripSeparator1,
+            this.toolStripLabel_FilterCapt,
+            this.toolStripLabel_Filter,
+            this.toolStripButton_ClearFilter});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(165, 25);
+            this.toolStrip1.TabIndex = 0;
+            // 
+            // toolStripLabel_CountCapt
+            // 
+            this.toolStripLabel_CountCapt.Name = "toolStripLabel_CountCapt";
+            this.toolStripLabel_CountCapt.Size = new System.Drawing.Size(53, 22);
+            this.toolStripLabel_CountCapt.Text = "x_Count:";
+            // 
+            // toolStripLabel_Count
+            // 
+            this.toolStripLabel_Count.Name = "toolStripLabel_Count";
+            this.toolStripLabel_Count.Size = new System.Drawing.Size(13, 22);
+            this.toolStripLabel_Count.Text = "0";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel_FilterCapt
+            // 
+            this.toolStripLabel_FilterCapt.Name = "toolStripLabel_FilterCapt";
+            this.toolStripLabel_FilterCapt.Size = new System.Drawing.Size(46, 22);
+            this.toolStripLabel_FilterCapt.Text = "x_Filter:";
+            // 
+            // toolStripLabel_Filter
+            // 
+            this.toolStripLabel_Filter.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.toolStripLabel_Filter.Name = "toolStripLabel_Filter";
+            this.toolStripLabel_Filter.Size = new System.Drawing.Size(12, 22);
+            this.toolStripLabel_Filter.Text = "-";
+            // 
+            // toolStripButton_ClearFilter
+            // 
+            this.toolStripButton_ClearFilter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_ClearFilter.Image = global::OutlookConnector_Module.Properties.Resources.tasto_8_architetto_franc_01;
+            this.toolStripButton_ClearFilter.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_ClearFilter.Name = "toolStripButton_ClearFilter";
+            this.toolStripButton_ClearFilter.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_ClearFilter.Text = "toolStripButton1";
+            this.toolStripButton_ClearFilter.Click += new System.EventHandler(this.toolStripButton_ClearFilter_Click);
             // 
             // dataGridView_OutlookItems
             // 
-            this.dataGridView_OutlookItems.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView_OutlookItems.AllowUserToAddRows = false;
+            this.dataGridView_OutlookItems.AllowUserToDeleteRows = false;
             this.dataGridView_OutlookItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_OutlookItems.Location = new System.Drawing.Point(3, 0);
+            this.dataGridView_OutlookItems.ContextMenuStrip = this.contextMenuStrip_OutlookItems;
+            this.dataGridView_OutlookItems.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView_OutlookItems.Location = new System.Drawing.Point(0, 0);
             this.dataGridView_OutlookItems.Name = "dataGridView_OutlookItems";
-            this.dataGridView_OutlookItems.Size = new System.Drawing.Size(564, 469);
-            this.dataGridView_OutlookItems.TabIndex = 0;
+            this.dataGridView_OutlookItems.ReadOnly = true;
+            this.dataGridView_OutlookItems.Size = new System.Drawing.Size(567, 447);
+            this.dataGridView_OutlookItems.TabIndex = 1;
+            this.dataGridView_OutlookItems.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_OutlookItems_RowHeaderMouseDoubleClick);
+            this.dataGridView_OutlookItems.SelectionChanged += new System.EventHandler(this.dataGridView_OutlookItems_SelectionChanged);
             // 
-            // bindingNavigator_OutlookItems
+            // contextMenuStrip_OutlookItems
             // 
-            this.bindingNavigator_OutlookItems.AddNewItem = this.bindingNavigatorAddNewItem;
-            this.bindingNavigator_OutlookItems.CountItem = this.bindingNavigatorCountItem;
-            this.bindingNavigator_OutlookItems.DeleteItem = this.bindingNavigatorDeleteItem;
-            this.bindingNavigator_OutlookItems.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.bindingNavigator_OutlookItems.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.bindingNavigatorMoveFirstItem,
-            this.bindingNavigatorMovePreviousItem,
-            this.bindingNavigatorSeparator,
-            this.bindingNavigatorPositionItem,
-            this.bindingNavigatorCountItem,
-            this.bindingNavigatorSeparator1,
-            this.bindingNavigatorMoveNextItem,
-            this.bindingNavigatorMoveLastItem,
-            this.bindingNavigatorSeparator2,
-            this.bindingNavigatorAddNewItem,
-            this.bindingNavigatorDeleteItem});
-            this.bindingNavigator_OutlookItems.Location = new System.Drawing.Point(0, 472);
-            this.bindingNavigator_OutlookItems.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
-            this.bindingNavigator_OutlookItems.MoveLastItem = this.bindingNavigatorMoveLastItem;
-            this.bindingNavigator_OutlookItems.MoveNextItem = this.bindingNavigatorMoveNextItem;
-            this.bindingNavigator_OutlookItems.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
-            this.bindingNavigator_OutlookItems.Name = "bindingNavigator_OutlookItems";
-            this.bindingNavigator_OutlookItems.PositionItem = this.bindingNavigatorPositionItem;
-            this.bindingNavigator_OutlookItems.Size = new System.Drawing.Size(567, 25);
-            this.bindingNavigator_OutlookItems.TabIndex = 1;
-            this.bindingNavigator_OutlookItems.Text = "bindingNavigator1";
+            this.contextMenuStrip_OutlookItems.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.filterToolStripMenuItem,
+            this.editToolStripMenuItem,
+            this.outlookToolStripMenuItem});
+            this.contextMenuStrip_OutlookItems.Name = "contextMenuStrip_OutlookItems";
+            this.contextMenuStrip_OutlookItems.Size = new System.Drawing.Size(128, 70);
+            this.contextMenuStrip_OutlookItems.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_OutlookItems_Opening);
             // 
-            // bindingNavigatorMoveFirstItem
+            // filterToolStripMenuItem
             // 
-            this.bindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
-            this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
-            this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorMoveFirstItem.Text = "Erste verschieben";
+            this.filterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.equalToolStripMenuItem,
+            this.differentToolStripMenuItem});
+            this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
+            this.filterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.filterToolStripMenuItem.Text = "x_Filter";
             // 
-            // bindingNavigatorMovePreviousItem
+            // equalToolStripMenuItem
             // 
-            this.bindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
-            this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
-            this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorMovePreviousItem.Text = "Vorherige verschieben";
+            this.equalToolStripMenuItem.Name = "equalToolStripMenuItem";
+            this.equalToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.equalToolStripMenuItem.Text = "x_equal";
+            this.equalToolStripMenuItem.Click += new System.EventHandler(this.equalToolStripMenuItem_Click);
             // 
-            // bindingNavigatorSeparator
+            // differentToolStripMenuItem
             // 
-            this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 25);
+            this.differentToolStripMenuItem.Name = "differentToolStripMenuItem";
+            this.differentToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.differentToolStripMenuItem.Text = "x_different";
             // 
-            // bindingNavigatorPositionItem
+            // editToolStripMenuItem
             // 
-            this.bindingNavigatorPositionItem.AccessibleName = "Position";
-            this.bindingNavigatorPositionItem.AutoSize = false;
-            this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
-            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 23);
-            this.bindingNavigatorPositionItem.Text = "0";
-            this.bindingNavigatorPositionItem.ToolTipText = "Aktuelle Position";
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createOntologyItemToolStripMenuItem});
+            this.editToolStripMenuItem.Enabled = false;
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editToolStripMenuItem.Text = "x_Edit";
             // 
-            // bindingNavigatorCountItem
+            // createOntologyItemToolStripMenuItem
             // 
-            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(44, 22);
-            this.bindingNavigatorCountItem.Text = "von {0}";
-            this.bindingNavigatorCountItem.ToolTipText = "Die Gesamtanzahl der Elemente.";
+            this.createOntologyItemToolStripMenuItem.Name = "createOntologyItemToolStripMenuItem";
+            this.createOntologyItemToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.createOntologyItemToolStripMenuItem.Text = "x_Create Ontology-Item";
+            this.createOntologyItemToolStripMenuItem.Click += new System.EventHandler(this.createOntologyItemToolStripMenuItem_Click);
             // 
-            // bindingNavigatorSeparator1
+            // outlookToolStripMenuItem
             // 
-            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.outlookToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openMailToolStripMenuItem});
+            this.outlookToolStripMenuItem.Name = "outlookToolStripMenuItem";
+            this.outlookToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.outlookToolStripMenuItem.Text = "x_Outlook";
             // 
-            // bindingNavigatorMoveNextItem
+            // openMailToolStripMenuItem
             // 
-            this.bindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
-            this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
-            this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorMoveNextItem.Text = "Nächste verschieben";
-            // 
-            // bindingNavigatorMoveLastItem
-            // 
-            this.bindingNavigatorMoveLastItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
-            this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
-            this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorMoveLastItem.Text = "Letzte verschieben";
-            // 
-            // bindingNavigatorSeparator2
-            // 
-            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // bindingNavigatorAddNewItem
-            // 
-            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
-            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorAddNewItem.Text = "Neu hinzufügen";
-            // 
-            // bindingNavigatorDeleteItem
-            // 
-            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
-            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorDeleteItem.Text = "Löschen";
+            this.openMailToolStripMenuItem.Name = "openMailToolStripMenuItem";
+            this.openMailToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openMailToolStripMenuItem.Text = "x_Open Mail";
+            this.openMailToolStripMenuItem.Click += new System.EventHandler(this.openMailToolStripMenuItem_Click);
             // 
             // UserControl_OutlookItemList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.bindingNavigator_OutlookItems);
-            this.Controls.Add(this.dataGridView_OutlookItems);
+            this.Controls.Add(this.toolStripContainer1);
             this.Name = "UserControl_OutlookItemList";
             this.Size = new System.Drawing.Size(567, 497);
+            this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
+            this.toolStripContainer1.ContentPanel.ResumeLayout(false);
+            this.toolStripContainer1.ResumeLayout(false);
+            this.toolStripContainer1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_OutlookItems)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator_OutlookItems)).EndInit();
-            this.bindingNavigator_OutlookItems.ResumeLayout(false);
-            this.bindingNavigator_OutlookItems.PerformLayout();
+            this.contextMenuStrip_OutlookItems.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
+        private System.Windows.Forms.ToolStripContainer toolStripContainer1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.DataGridView dataGridView_OutlookItems;
-        private System.Windows.Forms.BindingNavigator bindingNavigator_OutlookItems;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
-        private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorDeleteItem;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveFirstItem;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorMovePreviousItem;
-        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator;
-        private System.Windows.Forms.ToolStripTextBox bindingNavigatorPositionItem;
-        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator1;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
-        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_CountCapt;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_Count;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_FilterCapt;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_Filter;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_OutlookItems;
+        private System.Windows.Forms.ToolStripMenuItem filterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem equalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem differentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton toolStripButton_ClearFilter;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createOntologyItemToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem outlookToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openMailToolStripMenuItem;
+
     }
 }

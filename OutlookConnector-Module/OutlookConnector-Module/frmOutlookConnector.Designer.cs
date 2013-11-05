@@ -28,17 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmOutlookConnector));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.Button_GetMailItems = new System.Windows.Forms.Button();
             this.Button_Refresh = new System.Windows.Forms.Button();
             this.Label_CurrentFolder = new System.Windows.Forms.Label();
             this.Label_Folder = new System.Windows.Forms.Label();
             this.Label_State = new System.Windows.Forms.Label();
             this.Label1 = new System.Windows.Forms.Label();
-            this.Button_GetMailItems = new System.Windows.Forms.Button();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.timer_SelectedRow = new System.Windows.Forms.Timer(this.components);
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -91,6 +93,28 @@
             this.toolStripButton_Close.Text = "x_Close";
             this.toolStripButton_Close.Click += new System.EventHandler(this.toolStripButton_Close_Click);
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer1.Location = new System.Drawing.Point(15, 90);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Size = new System.Drawing.Size(731, 303);
+            this.splitContainer1.SplitterDistance = 242;
+            this.splitContainer1.TabIndex = 12;
+            // 
+            // Button_GetMailItems
+            // 
+            this.Button_GetMailItems.Location = new System.Drawing.Point(15, 60);
+            this.Button_GetMailItems.Name = "Button_GetMailItems";
+            this.Button_GetMailItems.Size = new System.Drawing.Size(115, 23);
+            this.Button_GetMailItems.TabIndex = 11;
+            this.Button_GetMailItems.Text = "Get Mailitems (Current Folder)";
+            this.Button_GetMailItems.UseVisualStyleBackColor = true;
+            this.Button_GetMailItems.Click += new System.EventHandler(this.Button_GetMailItems_Click);
+            // 
             // Button_Refresh
             // 
             this.Button_Refresh.Location = new System.Drawing.Point(165, 5);
@@ -99,6 +123,7 @@
             this.Button_Refresh.TabIndex = 10;
             this.Button_Refresh.Text = "Refresh";
             this.Button_Refresh.UseVisualStyleBackColor = true;
+            this.Button_Refresh.Click += new System.EventHandler(this.Button_Refresh_Click);
             // 
             // Label_CurrentFolder
             // 
@@ -136,26 +161,10 @@
             this.Label1.TabIndex = 6;
             this.Label1.Text = "State:";
             // 
-            // Button_GetMailItems
+            // timer_SelectedRow
             // 
-            this.Button_GetMailItems.Location = new System.Drawing.Point(15, 60);
-            this.Button_GetMailItems.Name = "Button_GetMailItems";
-            this.Button_GetMailItems.Size = new System.Drawing.Size(115, 23);
-            this.Button_GetMailItems.TabIndex = 11;
-            this.Button_GetMailItems.Text = "Get Mailitems (Current Folder)";
-            this.Button_GetMailItems.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer1.Location = new System.Drawing.Point(15, 90);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Size = new System.Drawing.Size(731, 303);
-            this.splitContainer1.SplitterDistance = 243;
-            this.splitContainer1.TabIndex = 12;
+            this.timer_SelectedRow.Interval = 200;
+            this.timer_SelectedRow.Tick += new System.EventHandler(this.timer_SelectedRow_Tick);
             // 
             // frmOutlookConnector
             // 
@@ -163,8 +172,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(758, 458);
             this.Controls.Add(this.toolStripContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmOutlookConnector";
-            this.Text = "Form1";
+            this.Text = "x_Outlook-Connector";
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
@@ -191,6 +201,7 @@
         internal System.Windows.Forms.Label Label_Folder;
         internal System.Windows.Forms.Label Label_State;
         internal System.Windows.Forms.Label Label1;
+        private System.Windows.Forms.Timer timer_SelectedRow;
     }
 }
 

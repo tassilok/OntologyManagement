@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="6f6418ad4f5c4a53baf4f4ae71b48b81" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Outlook-Connector]]></Item>
+<Item Id="490ab58b30a24fbead5717174cd79991" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_sended]]></Item>
+<Item Id="d7babcb2795a454a888f922ab19825e5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[attribute_dbPostfix]]></Item>
+<Item Id="53e27d04030e463ca079382634b86249" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Von]]></Item>
+<Item Id="4c73fb5a4a95484db29fff6b6fc5b28f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_An]]></Item>
+<Item Id="441680152bfd4de5af2cd7999048eef5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is]]></Item>
+<Item Id="d061a59aa4de481691f99dc4a70cd520" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_eMail_Address]]></Item>
+<Item Id="dd3bf4baebaa431fb09b184f9a581996" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Outlook_Item]]></Item>
+<Item Id="b9d884a154344c18a3c5c855e2cf07ef" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_e_Mail]]></Item>
+
+</Items>

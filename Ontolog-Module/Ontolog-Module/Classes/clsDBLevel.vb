@@ -747,7 +747,8 @@ Public Class clsDBLevel
                                      Optional ByVal doCount As Boolean = False, _
                                      Optional ByVal List2 As Boolean = False, _
                                      Optional ByVal ClearObj1 As Boolean = True, _
-                                     Optional ByVal ClearObj2 As Boolean = True) As clsOntologyItem
+                                     Optional ByVal ClearObj2 As Boolean = True, _
+                                     Optional ByVal boolExact As Boolean = False) As clsOntologyItem
 
         Dim objOItem_Result As clsOntologyItem = objLogStates.LogState_Success
 
@@ -757,19 +758,19 @@ Public Class clsDBLevel
 
 
         If Not List2 Then
-            objOntologyList_Objects1 = objElSelector.get_Data_Objects(oList_Objects,False,True,true)
+            objOntologyList_Objects1 = objElSelector.get_Data_Objects(oList_Objects, False, True, True, boolExact)
             If boolTable Then
                 For Each objOItem As clsOntologyItem In objOntologyList_Objects1
-                    otblT_Objects.Rows.Add(objOItem.GUID, objOItem.Name,objOItem.GUID_Parent)
+                    otblT_Objects.Rows.Add(objOItem.GUID, objOItem.Name, objOItem.GUID_Parent)
                 Next
             End If
 
-            
-        Else 
-            objOntologyList_Objects2 = objElSelector.get_Data_Objects(oList_Objects,False,True,true)
+
+        Else
+            objOntologyList_Objects2 = objElSelector.get_Data_Objects(oList_Objects, False, True, True, boolExact)
             If boolTable Then
                 For Each objOItem As clsOntologyItem In objOntologyList_Objects2
-                    otblT_Objects.Rows.Add(objOItem.GUID, objOItem.Name,objOItem.GUID_Parent)
+                    otblT_Objects.Rows.Add(objOItem.GUID, objOItem.Name, objOItem.GUID_Parent)
                 Next
             End If
         End If

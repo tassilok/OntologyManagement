@@ -31,9 +31,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>plastik_icon_v18.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Outlook, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -55,6 +61,12 @@
     <Compile Include="clsDataWork_OutlookItems.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="clsMailItem.cs" />
+    <Compile Include="clsOutlookConnector.cs" />
+    <Compile Include="DataSet_OutlookConnector.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet_OutlookConnector.xsd</DependentUpon>
+    </Compile>
     <Compile Include="frmOutlookConnector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,12 +92,24 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="UserControl_OutlookItemList.resx">
       <DependentUpon>UserControl_OutlookItemList.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Config\ElasticSearch.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="DataSet_OutlookConnector.xsc">
+      <DependentUpon>DataSet_OutlookConnector.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet_OutlookConnector.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet_OutlookConnector.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSet_OutlookConnector.xss">
+      <DependentUpon>DataSet_OutlookConnector.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -106,11 +130,23 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Config\Templates\AttributeTypes.xml" />
+    <EmbeddedResource Include="Config\Templates\ClassAtts.xml" />
+    <EmbeddedResource Include="Config\Templates\Classes.xml" />
+    <EmbeddedResource Include="Config\Templates\ClassRels.xml" />
+    <EmbeddedResource Include="Config\Templates\ObjectAtt.xml" />
+    <EmbeddedResource Include="Config\Templates\ObjectRel.xml" />
+    <EmbeddedResource Include="Config\Templates\Objects.xml" />
+    <EmbeddedResource Include="Config\Templates\RelationTypes.xml" />
+    <Content Include="plastik_icon_v18.ico" />
+    <None Include="Resources\tasto_8_architetto_franc_01.png" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Config\Templates\" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\..\Media-Viewer-Module\Media-Viewer-Module\Media-Viewer-Module.vbproj">
+      <Project>{e5546c53-be08-44e1-b136-d172c3f2fe3e}</Project>
+      <Name>Media-Viewer-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3f2f6722-c36b-420d-afe7-b21c19457208}</Project>
       <Name>Ontolog-Module</Name>

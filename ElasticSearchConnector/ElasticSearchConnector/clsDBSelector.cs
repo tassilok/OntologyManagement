@@ -665,7 +665,7 @@ namespace ElasticSearchConnector
             return objBoolQuery;
         }
 
-        public BooleanQuery create_BoolQuery_Simple(List<clsOntologyItem> OList_Items, string strOntology)
+        public BooleanQuery create_BoolQuery_Simple(List<clsOntologyItem> OList_Items, string strOntology, bool boolExact = false)
         {
             var strQuery = "";
             var strField_IDParent = "";
@@ -733,7 +733,16 @@ namespace ElasticSearchConnector
                             {
                                 nameQuery = nameQuery.Replace(specialCharacter, "\\" + specialCharacter);
                             }
-                            strQuery += "*" + nameQuery + "*";
+
+                            if (!boolExact)
+                            {
+                                strQuery += "*" + nameQuery + "*";
+                            }
+                            else
+                            {
+                                strQuery += nameQuery;
+                            }
+                            
                         }
 
                         if (strQuery != "")
@@ -1917,7 +1926,8 @@ namespace ElasticSearchConnector
         public List<clsOntologyItem> get_Data_Objects(List<clsOntologyItem> OList_Objects = null,
                                                       bool List2 = false,
                                                       bool ClearObj1 = true,
-                                                      bool ClearObj2 = true)
+                                                      bool ClearObj2 = true,
+                                                      bool boolExact = false)
         {
             SearchResult objSearchResult;
 
@@ -1938,7 +1948,7 @@ namespace ElasticSearchConnector
                 if (ClearObj2) OntologyList_Objects2.Clear();
             }
 
-            var objBoolQuery = create_BoolQuery_Simple(OList_Objects, objTypes.ObjectType);
+            var objBoolQuery = create_BoolQuery_Simple(OList_Objects, objTypes.ObjectType, boolExact);
 
             var intCount = SearchRange;
             var intPos = 0;
@@ -2668,7 +2678,7 @@ namespace ElasticSearchConnector
             this.SearchRange = searchRange;
             this.Session = session;
             
-            SpecialCharacters_Read = new List<string> {"\\", "+", "-", "&&", "||",  "!", "(", ")", "{", "}", "[", "]", "^" ,"\"", "~", "*", "?", ":"};
+            SpecialCharacters_Read = new List<string> {"\\", "+", "-", "&&", "||",  "!", "(", ")", "{", "}", "[", "]", "^" ,"\"", "~", "*", "?", ":", "@"};
             //SpecialCharacters_Write = new List<string> { ":", "\"" };
             //SpecialCharacters_Read = new List<string> { " ", ":", "/", "\"" };
             initialize_Client();

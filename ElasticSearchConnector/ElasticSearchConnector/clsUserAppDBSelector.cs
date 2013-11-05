@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ElasticSearch.Client.Domain;
 using ElasticSearch.Client.Config;
+using ElasticSearch.Client.Admin;
 using ElasticSearch.Client;
 using OntologyClasses.BaseClasses;
 
@@ -36,8 +37,7 @@ namespace ElasticSearchConnector
             this.Port = port;
             this.ID_User = ID_user;
             this.App = App;
-            //this.Index = App+ID_User;
-            this.Index = App;
+            this.Index = App+ID_User;
             this.SearchRange = searchRange;
             this.Session = session;
             
@@ -52,6 +52,20 @@ namespace ElasticSearchConnector
 
         }
 
+        public List<string> GetData_Types(string strIndex = null)
+        {
+            ElasticSearch.Client.Domain.SearchResult objSearchResult;
+            List<ElasticSearch.Client.Domain.Hits> objTypes;
+
+            objSearchResult = ElConnector.Search(strIndex ?? Index, "doctypes", "doctype:*", 0, 10000);
+
+            objTypes = objSearchResult.GetHits().Hits;
+
+            var strTypes = objTypes.Select(p => p.Source["doctype"].ToString()).ToList();
+
+            return strTypes;
+        }
+
         private int AddKeyValue(KeyValuePair<string, string> keyValuePair)
         {
             var intIx = FilterItems.Count;
@@ -61,7 +75,7 @@ namespace ElasticSearchConnector
             return intIx;
         }
 
-        public List<clsAppDocuments> GetData_Documents(string strType = null)
+        public List<clsAppDocuments> GetData_Documents(string strIndex = null, string strType = null)
         {
             SearchResult objSearchResult;
 
@@ -75,7 +89,7 @@ namespace ElasticSearchConnector
 
                 try
                 {
-                    objSearchResult = ElConnector.Search(Index, strType ?? App, "*", intPos,
+                    objSearchResult = ElConnector.Search(strIndex ?? Index, strType ?? App, "*", intPos,
                                                        SearchRange);
                 }
                 catch (Exception)

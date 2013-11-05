@@ -21,6 +21,7 @@ Public Class UserControl_SingleViewer
     Public Event Media_Next()
     Public Event Media_Last()
 
+    Private intCount As Integer
     Private intItemID As Integer
     Private boolNavigation As Boolean
 
@@ -173,8 +174,20 @@ Public Class UserControl_SingleViewer
 
     Private Sub configure_List()
 
+        Select Case objOItem_MediaType.GUID
+            Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+                intCount = objDataWork_PDFs.ItemList.Count
+                
+            Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                intCount = objDataWork_Images.ItemList.Count
+                
+            Case objLocalConfig.OItem_Type_Media_Item.GUID
+                intCount = objDataWork_MediaItems.ItemList.Count
+
+        End Select
         ToolStripTextBox_Curr.Text = intItemID + 1
-        ToolStripLabel_Count.Text = objDataWork_Images.ItemList.Count
+
+        ToolStripLabel_Count.Text = intCount
 
         isPossible_Next = False
         isPossible_Previous = False
@@ -185,7 +198,7 @@ Public Class UserControl_SingleViewer
             isPossible_Previous = False
         End If
 
-        If intItemID < objDataWork_Images.ItemList.Count Then
+        If intItemID < intCount - 1 Then
             isPossible_Next = True
         End If
     End Sub
@@ -381,32 +394,36 @@ Public Class UserControl_SingleViewer
     Private Sub ToolStripButton_First_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_First.Click
         RaiseEvent Media_First()
         If boolNavigation Then
+            configure_Viewer(-1 * intItemID)
             configure_List()
-            configure_Viewer()
+
         End If
     End Sub
 
     Private Sub ToolStripButton_Previous_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Previous.Click
         RaiseEvent Media_Previous()
         If boolNavigation Then
+            configure_Viewer(-1)
             configure_List()
-            configure_Viewer()
+
         End If
     End Sub
 
     Private Sub ToolStripButton_Next_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Next.Click
         RaiseEvent Media_Next()
         If boolNavigation Then
+            configure_Viewer(1)
             configure_List()
-            configure_Viewer()
+
         End If
     End Sub
 
     Private Sub ToolStripButton_Last_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Last.Click
         RaiseEvent Media_Last()
         If boolNavigation Then
+            configure_Viewer(intCount - 1)
             configure_List()
-            configure_Viewer()
+
         End If
     End Sub
 

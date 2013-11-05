@@ -63,7 +63,23 @@ Public Class clsAppDBLevel
         initialize_Client()
     End Sub
 
-    Public Function Save_Documents(Documents As List(Of Dictionary(Of String, Object)), Optional strType As String = Nothing) As clsOntologyItem
+    Public Function Copy_Index(strIndexSrc As String, strIndexDst As String) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem = objLogStates.LogState_Success.Clone()
+
+        Dim objDocuments = objAppElSelector.GetData_Documents(strIndexSrc)
+
+        For Each strType In objAppElSelector.GetData_Types(strIndexSrc)
+            objOItem_Result = objAppElUpdater.SaveDoc(objDocuments, strType)
+            If objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
+                Exit For
+            End If
+        Next
+
+
+        Return objOItem_Result
+    End Function
+
+    Public Function Save_Documents(Documents As List(Of clsAppDocuments), Optional strType As String = Nothing) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Do
             Dim objDocumentsPart = Documents.Take(intSearchRange).ToList()
@@ -77,8 +93,14 @@ Public Class clsAppDBLevel
         Return objOItem_Result
     End Function
 
-    Public Function GetData_Documents() As List(Of clsAppDocuments)
-        Dim objDocuments = objAppElSelector.GetData_Documents()
+    Public Function Save_DocType(strType As String) As clsOntologyItem
+        Dim objOItem_Result = objAppElUpdater.SaveDocType(strType)
+
+        Return objOItem_Result
+    End Function
+
+    Public Function GetData_Documents(Optional strIndex As String = Nothing) As List(Of clsAppDocuments)
+        Dim objDocuments = objAppElSelector.GetData_Documents(strIndex)
 
         Return objDocuments
     End Function
