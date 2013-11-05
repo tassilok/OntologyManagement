@@ -16,7 +16,11 @@ namespace OntologyClasses.DataClasses
         public clsOntologyItem OItem_RelationType_belongingObject { get; private set; }
         public clsOntologyItem OItem_RelationType_belonging { get; private set; }
         public clsOntologyItem OItem_RelationType_belongingResource { get; private set; }
+        public clsOntologyItem OItem_RelationType_belongingsTo { get; private set; }
         public clsOntologyItem OItem_RelationType_isOfType { get; private set; }
+        public clsOntologyItem OItem_RelationType_Apply { get; private set; }
+        public clsOntologyItem OItem_RelationType_Src { get; private set; }
+        public clsOntologyItem OItem_RelationType_Dst { get; private set; }
 
         public List<clsOntologyItem> RelationTypes { get; private set; }
 
@@ -88,6 +92,38 @@ namespace OntologyClasses.DataClasses
                     Type = objTypes.RelationType
                 };
             RelationTypes.Add(OItem_RelationType_isOfType);
+
+            OItem_RelationType_Apply = new clsOntologyItem
+            {
+                GUID = "70a11e6243cb41de89f93f681abdee9d",
+                Name = "Apply",
+                Type = objTypes.RelationType
+            };
+            RelationTypes.Add(OItem_RelationType_Apply);
+
+            OItem_RelationType_Src = new clsOntologyItem
+            {
+                GUID = "0820e2c523fe4450986961bb58dc1c22",
+                Name = "src",
+                Type = objTypes.RelationType
+            };
+            RelationTypes.Add(OItem_RelationType_Src);
+
+            OItem_RelationType_Dst = new clsOntologyItem
+            {
+                GUID = "339cf6dce131466cb7b71857f75bb5eb",
+                Name = "dst",
+                Type = objTypes.RelationType
+            };
+            RelationTypes.Add(OItem_RelationType_Dst);
+
+            OItem_RelationType_belongingsTo = new clsOntologyItem
+            {
+                GUID = "e07469d9766c443e85266d9c684f944f",
+                Name = "belongs to",
+                Type = objTypes.RelationType
+            };
+            RelationTypes.Add(OItem_RelationType_belongingsTo);
 
         }
     }

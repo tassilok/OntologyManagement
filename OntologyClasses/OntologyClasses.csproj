@@ -48,12 +48,15 @@
     <Compile Include="BaseClasses\clsObjectTree.cs" />
     <Compile Include="BaseClasses\clsOntologyItem.cs" />
     <Compile Include="DataClasses\clsAttributeTypes.cs" />
+    <Compile Include="DataClasses\clsBaseClassAttributes.cs" />
+    <Compile Include="DataClasses\clsBaseClassRelation.cs" />
     <Compile Include="DataClasses\clsClasses.cs" />
     <Compile Include="DataClasses\clsClassTypes.cs" />
     <Compile Include="DataClasses\clsDataTypes.cs" />
     <Compile Include="DataClasses\clsDirections.cs" />
     <Compile Include="DataClasses\clsFields.cs" />
     <Compile Include="DataClasses\clsLogStates.cs" />
+    <Compile Include="DataClasses\clsMappingRules.cs" />
     <Compile Include="DataClasses\clsOntologyRelationRules.cs" />
     <Compile Include="DataClasses\clsRelationTypes.cs" />
     <Compile Include="DataClasses\clsTypes.cs" />

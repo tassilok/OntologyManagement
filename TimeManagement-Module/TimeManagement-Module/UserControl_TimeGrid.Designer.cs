@@ -47,7 +47,6 @@
             this.ToolStripMenuItem_Calc_Mult = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_CalcAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.DataGridView_LogManagement = new System.Windows.Forms.DataGridView();
-            this.bindingSource_TimeManagement = new System.Windows.Forms.BindingSource(this.components);
             this.ContextMenuStrip_TimeManagement = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.NewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,15 +58,16 @@
             this.LastTwoWeeksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.XThisMonthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bindingSource_TimeManagement = new System.Windows.Forms.BindingSource(this.components);
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_LogManagement)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource_TimeManagement)).BeginInit();
             this.ContextMenuStrip_TimeManagement.SuspendLayout();
             this.toolStrip2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource_TimeManagement)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -190,21 +190,21 @@
             // ToolStripMenuItem_AVG
             // 
             this.ToolStripMenuItem_AVG.Name = "ToolStripMenuItem_AVG";
-            this.ToolStripMenuItem_AVG.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_AVG.Size = new System.Drawing.Size(97, 22);
             this.ToolStripMenuItem_AVG.Text = "AVG";
             this.ToolStripMenuItem_AVG.Click += new System.EventHandler(this.ToolStripMenuItem_AVG_Click);
             // 
             // ToolStripMenuItem_Calc_Mult
             // 
             this.ToolStripMenuItem_Calc_Mult.Name = "ToolStripMenuItem_Calc_Mult";
-            this.ToolStripMenuItem_Calc_Mult.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Calc_Mult.Size = new System.Drawing.Size(97, 22);
             this.ToolStripMenuItem_Calc_Mult.Text = "*";
             this.ToolStripMenuItem_Calc_Mult.Click += new System.EventHandler(this.ToolStripMenuItem_Calc_Mult_Click);
             // 
             // ToolStripMenuItem_CalcAdd
             // 
             this.ToolStripMenuItem_CalcAdd.Name = "ToolStripMenuItem_CalcAdd";
-            this.ToolStripMenuItem_CalcAdd.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_CalcAdd.Size = new System.Drawing.Size(97, 22);
             this.ToolStripMenuItem_CalcAdd.Text = "+";
             this.ToolStripMenuItem_CalcAdd.Click += new System.EventHandler(this.ToolStripMenuItem_CalcAdd_Click);
             // 
@@ -222,6 +222,7 @@
             this.DataGridView_LogManagement.TabIndex = 2;
             this.DataGridView_LogManagement.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_LogManagement_CellClick);
             this.DataGridView_LogManagement.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DataGridView_LogManagement_CellFormatting);
+            this.DataGridView_LogManagement.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_LogManagement_RowHeaderMouseDoubleClick);
             // 
             // ContextMenuStrip_TimeManagement
             // 
@@ -229,13 +230,13 @@
             this.NewToolStripMenuItem,
             this.EditToolStripMenuItem});
             this.ContextMenuStrip_TimeManagement.Name = "ContextMenuStrip_TimeManagement";
-            this.ContextMenuStrip_TimeManagement.Size = new System.Drawing.Size(153, 70);
+            this.ContextMenuStrip_TimeManagement.Size = new System.Drawing.Size(109, 48);
             this.ContextMenuStrip_TimeManagement.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip_TimeManagement_Opening);
             // 
             // NewToolStripMenuItem
             // 
             this.NewToolStripMenuItem.Name = "NewToolStripMenuItem";
-            this.NewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.NewToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.NewToolStripMenuItem.Text = "x_New";
             this.NewToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
@@ -324,10 +325,10 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_LogManagement)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource_TimeManagement)).EndInit();
             this.ContextMenuStrip_TimeManagement.ResumeLayout(false);
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource_TimeManagement)).EndInit();
             this.ResumeLayout(false);
 
         }

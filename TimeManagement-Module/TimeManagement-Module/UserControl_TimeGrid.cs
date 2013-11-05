@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OntologyClasses.BaseClasses;
+using Ontology_Module;
 
 namespace TimeManagement_Module
 {
@@ -17,6 +19,8 @@ namespace TimeManagement_Module
         private clsDataWork_TimeManagement objDataWork_TimeManagement;
 
         private frmTimeManagementEdit objFrmTimeManagementEdit;
+
+        private frm_ObjectEdit objFrmObjectEdit;
 
         public UserControl_TimeGrid(clsLocalConfig LocalConfig)
         {
@@ -314,6 +318,25 @@ namespace TimeManagement_Module
                 ConfigureCalculation();
             }
             
+        }
+
+        private void DataGridView_LogManagement_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridViewRow objDGVR = DataGridView_LogManagement.Rows[e.RowIndex];
+            DataRowView objDRV = (DataRowView)objDGVR.DataBoundItem;
+
+            var objOList_Objects = new List<clsOntologyItem>
+                {
+                    new clsOntologyItem
+                        {
+                            GUID = objDRV["ID_TimeManagement"].ToString(),
+                            Name = objDRV["Name_TimeManagement"].ToString()
+                        }
+                };
+
+            objFrmObjectEdit = new frm_ObjectEdit(objLocalConfig.Globals,objOList_Objects,0,objLocalConfig.Globals.Type_Object,null);
+            objFrmObjectEdit.ShowDialog(this);
+
         }
     }
 }

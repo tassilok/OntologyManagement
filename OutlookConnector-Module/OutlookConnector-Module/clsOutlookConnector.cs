@@ -77,7 +77,7 @@ namespace OutlookConnector_Module
                 
                 for (int i = 1; i <= objFolder.Items.Count; i++)
                 {
-                    var item = (Microsoft.Office.Interop.Outlook.MailItem) objFolder.Items[i];
+                    var item = objFolder.Items[i] as Microsoft.Office.Interop.Outlook.MailItem;
                     if (item != null)
                     {
                         var itemType = item.GetType();
