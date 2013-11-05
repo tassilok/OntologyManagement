@@ -170,14 +170,10 @@ Public Class clsDataWork_Address
         objOItem_Zusatz = Nothing
         objOItem_Postfach = Nothing
 
-        objOList_Address.Add(New clsObjectRel(objOItem_Partner.GUID, _
-                                              Nothing, _
-                                              Nothing, _
-                                              objLocalConfig.OItem_Class_Address.GUID, _
-                                              objLocalConfig.OItem_RelationType_Sitz.GUID, _
-                                              objLocalConfig.Globals.Type_Object, _
-                                              Nothing, _
-                                              Nothing))
+        objOList_Address.Add(New clsObjectRel With {.ID_Object = objOItem_Partner.GUID, _
+                                                    .ID_Parent_Other = objLocalConfig.OItem_Class_Address.GUID, _
+                                                    .ID_RelationType = objLocalConfig.OItem_RelationType_Sitz.GUID, _
+                                                    .Ontology = objLocalConfig.Globals.Type_Object})
 
         objOItem_Result_Address = objDBLevel_Address.get_Data_ObjectRel(objOList_Address)
 

@@ -961,11 +961,11 @@ Public Class clsLocalConfig
                                            Select objRef).ToList()
 
         If objOList_object_partner_management.Count > 0 Then
-            objOItem_Class_Address = New clsOntologyItem
-            objOItem_Class_Address.GUID = objOList_object_partner_management.First().ID_Other
-            objOItem_Class_Address.Name = objOList_object_partner_management.First().Name_Other
-            objOItem_Class_Address.GUID_Parent = objOList_object_partner_management.First().ID_Parent_Other
-            objOItem_Class_Address.Type = objGlobals.Type_Class
+            objOItem_object_partner_management = New clsOntologyItem
+            objOItem_object_partner_management.GUID = objOList_object_partner_management.First().ID_Other
+            objOItem_object_partner_management.Name = objOList_object_partner_management.First().Name_Other
+            objOItem_object_partner_management.GUID_Parent = objOList_object_partner_management.First().ID_Parent_Other
+            objOItem_object_partner_management.Type = objGlobals.Type_Class
         Else
             Err.Raise(1, "config err")
         End If

@@ -33,8 +33,8 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_OK = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
-            this.panel_DateTime = new System.Windows.Forms.Panel();
             this.panel_String = new System.Windows.Forms.Panel();
+            this.panel_DateTime = new System.Windows.Forms.Panel();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -91,15 +91,6 @@
             this.toolStripButton_Close.Text = "x_Close";
             this.toolStripButton_Close.Click += new System.EventHandler(this.toolStripButton_Close_Click);
             // 
-            // panel_DateTime
-            // 
-            this.panel_DateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel_DateTime.Location = new System.Drawing.Point(4, 4);
-            this.panel_DateTime.Name = "panel_DateTime";
-            this.panel_DateTime.Size = new System.Drawing.Size(465, 41);
-            this.panel_DateTime.TabIndex = 0;
-            // 
             // panel_String
             // 
             this.panel_String.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -110,12 +101,22 @@
             this.panel_String.Size = new System.Drawing.Size(462, 249);
             this.panel_String.TabIndex = 1;
             // 
+            // panel_DateTime
+            // 
+            this.panel_DateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel_DateTime.Location = new System.Drawing.Point(4, 4);
+            this.panel_DateTime.Name = "panel_DateTime";
+            this.panel_DateTime.Size = new System.Drawing.Size(465, 41);
+            this.panel_DateTime.TabIndex = 0;
+            // 
             // frmLogDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(469, 353);
             this.Controls.Add(this.toolStripContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmLogDialog";
             this.Text = "frmLogDialog";
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);

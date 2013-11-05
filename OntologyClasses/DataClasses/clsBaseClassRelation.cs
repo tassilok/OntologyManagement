@@ -25,6 +25,7 @@ namespace OntologyClasses.DataClasses
         public clsClassRel Rel_OntologyMappingItems_To_MappingItems { get; private set; }
 
         public List<clsClassRel> ClassRelations { get; private set; }
+        public clsTypes objTypes = new clsTypes();
 
         public clsBaseClassRelation()
         {
@@ -35,7 +36,8 @@ namespace OntologyClasses.DataClasses
                     ID_RelationType = objRelationTypes.OItem_RelationType_Contains.GUID,
                     Min_Forw = 0,
                     Max_Forw = -1,
-                    Max_Backw = -1
+                    Max_Backw = -1,
+                    Ontology = objTypes.ClassType
                 };
 
             Rel_Ontologyies_To_OntologyItems = new clsClassRel
@@ -45,7 +47,8 @@ namespace OntologyClasses.DataClasses
                     ID_RelationType = objRelationTypes.OItem_RelationType_Contains.GUID,
                     Min_Forw = 0,
                     Max_Forw = -1,
-                    Max_Backw = -1
+                    Max_Backw = -1,
+                    Ontology = objTypes.ClassType
                 };
 
             Rel_Ontologyies_To_OntologyJoins = new clsClassRel
@@ -55,7 +58,8 @@ namespace OntologyClasses.DataClasses
                     ID_RelationType = objRelationTypes.OItem_RelationType_Contains.GUID,
                     Min_Forw = 0,
                     Max_Forw = -1,
-                    Max_Backw = -1
+                    Max_Backw = -1,
+                    Ontology = objTypes.ClassType
                 };
 
             Rel_OntologyJoins_To_OntologyItems = new clsClassRel
@@ -65,7 +69,8 @@ namespace OntologyClasses.DataClasses
                     ID_RelationType = objRelationTypes.OItem_RelationType_Contains.GUID,
                     Min_Forw = 0,
                     Max_Forw = -1,
-                    Max_Backw = -1
+                    Max_Backw = -1,
+                    Ontology = objTypes.ClassType
                 };
 
             Rel_OntologyMappings_To_MappingItems_src = new clsClassRel
@@ -75,7 +80,8 @@ namespace OntologyClasses.DataClasses
                     ID_RelationType = objRelationTypes.OItem_RelationType_Src.GUID,
                     Min_Forw = 1,
                     Max_Forw = 1,
-                    Max_Backw = -1
+                    Max_Backw = -1,
+                    Ontology = objTypes.ClassType
                 };
 
             Rel_OntologyMappings_To_MappingItems_dst = new clsClassRel
@@ -85,7 +91,8 @@ namespace OntologyClasses.DataClasses
                     ID_RelationType = objRelationTypes.OItem_RelationType_Dst.GUID,
                     Min_Forw = 1,
                     Max_Forw = 1,
-                    Max_Backw = -1
+                    Max_Backw = -1,
+                    Ontology = objTypes.ClassType
                 };
 
             Rel_OntologyMappings_To_MappingRules = new clsClassRel
@@ -95,7 +102,8 @@ namespace OntologyClasses.DataClasses
                     ID_RelationType = objRelationTypes.OItem_RelationType_Apply.GUID,
                     Min_Forw = 1,
                     Max_Forw = -1,
-                    Max_Backw = -1
+                    Max_Backw = -1,
+                    Ontology = objTypes.ClassType
                 };
 
             Rel_OntologyMappings_To_MappingRules = new clsClassRel
@@ -115,7 +123,8 @@ namespace OntologyClasses.DataClasses
                     ID_RelationType = objRelationTypes.OItem_RelationType_belongingsTo.GUID,
                     Min_Forw = 1,
                     Max_Forw = 1,
-                    Max_Backw = -1
+                    Max_Backw = -1,
+                    Ontology = objTypes.ClassType
                 };
 
             Rel_OntologyMappingItems_To_Direction = new clsClassRel
@@ -125,7 +134,8 @@ namespace OntologyClasses.DataClasses
                     ID_RelationType = objRelationTypes.OItem_RelationType_belonging.GUID,
                     Min_Forw = 1,
                     Max_Forw = 1,
-                    Max_Backw = -1
+                    Max_Backw = -1,
+                    Ontology = objTypes.ClassType
                 };
             Rel_OntologyMappingItems_To_MappingItems = new clsClassRel
                 {
@@ -134,7 +144,8 @@ namespace OntologyClasses.DataClasses
                     ID_RelationType = objRelationTypes.OItem_RelationType_Contains.GUID,
                     Min_Forw = 0,
                     Max_Forw = -1,
-                    Max_Backw = -1
+                    Max_Backw = -1,
+                    Ontology = objTypes.ClassType
                 };
 
             ClassRelations = new List<clsClassRel>

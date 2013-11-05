@@ -896,32 +896,28 @@ Public Class clsGlobals
 
         'ClassRelations
         If Not objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
-            
-            objOItem_Result = objDBLevel1.get_Data_ClassRel(objClassRels.ClassRelations,boolIDs := True)
+
+            objOItem_Result = objDBLevel1.get_Data_ClassRel(objClassRels.ClassRelations, boolIDs:=False)
             If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
 
-                Dim objOList_ClassRels_NotExistant = (From objClassRelShould in objClassRels.ClassRelations
-                                          Group Join objClassRelExist In objDBLevel1.OList_ClassRel_ID on _
-                                          objClassRelShould.ID_Class_Left equals objClassRelExist.ID_Class_Left _
-                                            And objClassRelShould.ID_Class_Right equals objClassRelExist.ID_Class_Right _
-                                            And objClassRelShould.ID_RelationType equals objClassRelExist.ID_RelationType Into objClassRelsExist = Group
+                Dim objOList_ClassRels_NotExistant = (From objClassRelShould In objClassRels.ClassRelations
+                                          Group Join objClassRelExist In objDBLevel1.OList_ClassRel On _
+                                          objClassRelShould.ID_Class_Left Equals objClassRelExist.ID_Class_Left _
+                                            And objClassRelShould.ID_Class_Right Equals objClassRelExist.ID_Class_Right _
+                                            And objClassRelShould.ID_RelationType Equals objClassRelExist.ID_RelationType Into objClassRelsExist = Group
                                           From objClassRelExist In objClassRelsExist.DefaultIfEmpty()
                                           Where objClassRelExist Is Nothing
                                           Select objClassRelShould).ToList()
-                                          
-                                          'Where objClassAttExist Is nothing
-                                          'Select objClassAttShould).tolist()
-               
+
+                'Where objClassAttExist Is nothing
+                'Select objClassAttShould).tolist()
+
                 If objOList_ClassRels_NotExistant.Any() Then
-                    objOItem_Result = objDBLevel1.save_ClassRel(objOList_ClassRels_NotExistant)
+                    objOItem_Result = objDBLevel1.save_ClassRel(objClassRels.ClassRelations)
                 End If
+
             End If
-                                    
-                                    
-                                    
-
         End If
-
         Return objOItem_Result
     End Function
 

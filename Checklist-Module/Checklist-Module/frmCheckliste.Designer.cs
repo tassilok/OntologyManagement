@@ -31,8 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCheckliste));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Success = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Pause = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Error = new System.Windows.Forms.ToolStripButton();
@@ -74,18 +74,6 @@
             this.toolStrip1.Size = new System.Drawing.Size(62, 25);
             this.toolStrip1.TabIndex = 0;
             // 
-            // toolStrip2
-            // 
-            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton_Success,
-            this.toolStripButton_Pause,
-            this.toolStripButton_Error});
-            this.toolStrip2.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(112, 25);
-            this.toolStrip2.TabIndex = 0;
-            // 
             // toolStripButton_Close
             // 
             this.toolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -95,6 +83,18 @@
             this.toolStripButton_Close.Size = new System.Drawing.Size(50, 22);
             this.toolStripButton_Close.Text = "x_Close";
             this.toolStripButton_Close.Click += new System.EventHandler(this.toolStripButton_Close_Click);
+            // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton_Success,
+            this.toolStripButton_Pause,
+            this.toolStripButton_Error});
+            this.toolStrip2.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(81, 25);
+            this.toolStrip2.TabIndex = 0;
             // 
             // toolStripButton_Success
             // 
@@ -135,6 +135,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1093, 453);
             this.Controls.Add(this.toolStripContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmCheckliste";
             this.Text = "frmCheckliste";
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);

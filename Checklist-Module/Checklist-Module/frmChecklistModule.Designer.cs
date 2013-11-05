@@ -115,6 +115,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(586, 461);
             this.Controls.Add(this.toolStripContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmChecklistModule";
             this.Text = "x_Checklist-Module";
             this.Load += new System.EventHandler(this.frmChecklistModule_Load);
