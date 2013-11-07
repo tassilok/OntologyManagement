@@ -27,6 +27,7 @@ Public Class UserControl_ObjectEdit
     Private strRowName_ID_Parent As String
 
     Public Event deleted_Object()
+    Public Event ActivatedItem(intRowID As Integer)
 
     Private Sub editObject(ByVal strType As String, ByVal objOItem_Direction As clsOntologyItem) Handles objUserControl_OItem_List.edit_Object
         objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig, _
@@ -242,7 +243,7 @@ Public Class UserControl_ObjectEdit
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
 
-
+        ToolStripStatusLabel_Database.Text = objLocalConfig.Globals.Index & "@" & objLocalConfig.Globals.Server
 
         If Not objOList_Objects Is Nothing Then
             objOItem_Object = objOList_Objects(intRowID)
@@ -384,7 +385,7 @@ Public Class UserControl_ObjectEdit
 
     Private Sub ToolStripButton_Nav_First_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Nav_First.Click
         intRowID = 0
-
+        RaiseEvent ActivatedItem(intRowID)
         initialize()
     End Sub
 
@@ -451,17 +452,20 @@ Public Class UserControl_ObjectEdit
 
     Private Sub ToolStripButton_Nav_Previous_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Nav_Previous.Click
         intRowID = intRowID - 1
+        RaiseEvent ActivatedItem(intRowID)
         initialize()
 
     End Sub
 
     Private Sub ToolStripButton_Nav_Next_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Nav_Next.Click
         intRowID = intRowID + 1
+        RaiseEvent ActivatedItem(intRowID)
         initialize()
     End Sub
 
     Private Sub ToolStripButton_Nav_Last_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Nav_Last.Click
         intRowID = RowIdLast()
+        RaiseEvent ActivatedItem(intRowID)
         initialize()
 
     End Sub

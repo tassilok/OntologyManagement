@@ -1088,6 +1088,33 @@ Public Class clsDBLevel
         Return objOItem_OItem
     End Function
 
+    Public Function GetClassPath(OItem_Class As clsOntologyItem) As String
+        Dim strPath As String = ""
+        Do
+            If Not OItem_Class.GUID_Parent Is Nothing Then
+                If Not OItem_Class.GUID_Parent = "" Then
+                    strPath = OItem_Class.Name & If(strPath <> "", "\", "") & strPath
+                    Dim objOLRel_ClassParent = New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID = OItem_Class.GUID_Parent}}
+                    Dim OList_Classes = objElSelector.get_Data_Classes(objOLRel_ClassParent)
+                    If OList_Classes.Any Then
+                        OItem_Class = OList_Classes.First()
+
+                    Else
+                        OItem_Class = Nothing
+                    End If
+
+
+                End If
+            End If
+        Loop Until OItem_Class.GUID_Parent Is Nothing
+
+        If Not OItem_Class Is Nothing Then
+            strPath = "\" & OItem_Class.Name & If(strPath <> "", "\", "") & strPath
+        End If
+
+        Return strPath
+    End Function
+
     Public Sub New(ByVal Globals As clsGlobals)
         'objLocalConfig = New clsLocalConfig(Globals)
 
@@ -1100,8 +1127,8 @@ Public Class clsDBLevel
         strSession = Globals.Session
 
         initialize_Client()
-        
-        sort = SortEnum.NONE
+
+        Sort = SortEnum.NONE
     End Sub
 
     Public Sub New(strServer As String, intPort As Integer, strIndex As String, strIndexRep As String, intSearchRange As Integer, strSession As String)
@@ -1116,8 +1143,8 @@ Public Class clsDBLevel
         Me.strSession = strSession
 
         initialize_Client()
-        
-        sort = SortEnum.NONE
+
+        Sort = SortEnum.NONE
     End Sub
 
     Private Sub set_DBConnection()

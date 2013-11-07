@@ -5,6 +5,8 @@ Public Class frm_ObjectEdit
 
     Private WithEvents objUserControl_TokenEdit As UserControl_ObjectEdit
 
+    Private objDBLevel As clsDBLevel
+
     Private objOList_Objects As List(Of clsOntologyItem)
     Private objDGVRS As DataGridViewRowCollection
     Private intRowID As Integer
@@ -22,6 +24,9 @@ Public Class frm_ObjectEdit
         Return objOItem_Result
     End Function
 
+    Private Sub activated_Object() Handles objUserControl_TokenEdit.ActivatedItem
+        RefreshClassPath()
+    End Sub
 
     Private Sub deleted_Object() Handles objUserControl_TokenEdit.deleted_Object
         objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
@@ -150,7 +155,27 @@ Public Class frm_ObjectEdit
     Private Sub initialize()
         Me.Controls.Clear()
         Me.Controls.Add(objUserControl_TokenEdit)
+        objDBLevel = New clsDBLevel(objLocalConfig.Globals)
+        RefreshClassPath()
+    End Sub
 
+    Private Sub RefreshClassPath()
+        Dim strPath = ""
+        If Not objOList_Objects Is Nothing Then
+            Dim objOItem_Object = objOList_Objects(intRowID)
+
+            strPath = objDBLevel.GetClassPath(objOItem_Object)
+        Else
+            Dim objDGVR As DataGridViewRow = objDGVRS(intRowID)
+            Dim objDRV As DataRowView = objDGVR.DataBoundItem
+
+            Dim objOItem_Object = New clsOntologyItem With {.GUID = objDRV.Item(If(strRowName_ID Is Nothing, "ID_Item", strRowName_ID)), _
+                                                            .Name = objDRV.Item(If(strRowName_Name Is Nothing, "Name", strRowName_Name)), _
+                                                            .GUID_Parent = objDRV.Item(If(strRowName_ID_Parent Is Nothing, "ID_Parent", strRowName_ID_Parent))}
+            strPath = objDBLevel.GetClassPath(objOItem_Object)
+        End If
+
+        Me.Text = strPath
     End Sub
 
     Private Sub set_DBConnection()
