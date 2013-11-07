@@ -33,7 +33,7 @@ Public Class clsGlobals
 
     Private objClassTypes As New clsClassTypes
     
-    Private strEL_Server As String
+Private strEL_Server As String
     Private strEL_Port As String
     Private strEL_Index As String
     Private strRep_Index As String
@@ -69,6 +69,20 @@ Public Class clsGlobals
     Public ReadOnly Property OItem_Server As clsOntologyItem
         Get
             Return objOItem_Server
+        End Get
+    End Property
+
+    Public ReadOnly Property AttributeType_Navigation As clsOntologyItem
+        Get
+            Return objAttributeTypes.OITem_AttributeType_Navigation
+
+        End Get
+    End Property
+
+    Public ReadOnly Property AttributeType_OrderID As clsOntologyItem
+        Get
+            Return objAttributeTypes.OITem_AttributeType_OrderID
+
         End Get
     End Property
 
@@ -127,9 +141,33 @@ Public Class clsGlobals
         End Get
     End Property
 
+    Public ReadOnly Property Class_Directions As clsOntologyItem
+        Get
+            Return objClasses.OItem_Class_Directions
+        End Get
+    End Property
+
     Public ReadOnly Property Class_OntologyJoin As clsOntologyItem
         Get
             Return objClasses.OItem_Class_OntologyJoin
+        End Get
+    End Property
+
+    Public ReadOnly Property Class_OntologyMapping As clsOntologyItem
+        Get
+            Return objClasses.OItem_Class_OntologyMapping
+        End Get
+    End Property
+
+    Public ReadOnly Property Class_OntologyMappingItem As clsOntologyItem
+        Get
+            Return objClasses.OItem_Class_OntologyMappingItem
+        End Get
+    End Property
+
+    Public ReadOnly Property Class_MappingRule As clsOntologyItem
+        Get
+            Return objClasses.OItem_Class_MappingRule
         End Get
     End Property
 
@@ -204,6 +242,24 @@ Public Class clsGlobals
     Public ReadOnly Property RelationType_belonging As clsOntologyItem
         Get
             Return objRelationTypes.OItem_RelationType_belonging
+        End Get
+    End Property
+
+    Public ReadOnly Property RelationType_Apply As clsOntologyItem
+        Get
+            Return objRelationTypes.OItem_RelationType_Apply
+        End Get
+    End Property
+
+    Public ReadOnly Property RelationType_Dst As clsOntologyItem
+        Get
+            Return objRelationTypes.OItem_RelationType_Dst
+        End Get
+    End Property
+
+    Public ReadOnly Property RelationType_Src As clsOntologyItem
+        Get
+            Return objRelationTypes.OItem_RelationType_Src
         End Get
     End Property
 
@@ -621,9 +677,23 @@ Public Class clsGlobals
     End Property
 
 
+    Public ReadOnly Property MappingRule_NewItem() As clsOntologyItem
+        Get
+            Return objMappingRules.MappingRule_NewItem
+        End Get
+    End Property
 
+    Public ReadOnly Property MappingRule_RemoveSrc() As clsOntologyItem
+        Get
+            Return objMappingRules.MappingRule_RemoveSrc
+        End Get
+    End Property
 
-    
+    Public ReadOnly Property MappingRule_SrcItemIsDstItem() As clsOntologyItem
+        Get
+            Return objMappingRules.MappingRule_SrcItemIsDstItem
+        End Get
+    End Property
 
 
 

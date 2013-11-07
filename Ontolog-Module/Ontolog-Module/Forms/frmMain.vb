@@ -15,6 +15,9 @@ Public Class frmMain
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFrm_AttributeTypeEdit As frm_AttributeTypeEdit
     Private objFrm_OntologyConfigurator As frmOntologyConfigurator
+    Private objFrm_OntologyItem As frmMain
+
+    Private objMappingWork As clsMappingWork
 
     Private SplashScreen As SplashScreen_OntologyModule
     Private AboutBox As AboutBox_OntologyItem
@@ -506,5 +509,33 @@ Public Class frmMain
     Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
         AboutBox = New AboutBox_OntologyItem()
         AboutBox.ShowDialog(Me)
+    End Sub
+
+    Private Sub ApplyMappingToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles ApplyMappingToolStripMenuItem.Click
+        objFrm_OntologyItem = New frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class, objLocalConfig.Globals.Class_OntologyMapping)
+        objFrm_OntologyItem.Applyable = True
+        objFrm_OntologyItem.ShowDialog(Me)
+        
+        If objFrm_OntologyItem.DialogResult = DialogResult.OK Then
+            If objFrm_OntologyItem.Type_Applied = objLocalConfig.Globals.Type_Object Then
+                If objFrm_OntologyItem.OList_Simple.Count = 1 Then
+                    Dim objOItem_Selected = objFrm_OntologyItem.OList_Simple.First()
+
+                    If objOItem_Selected.GUID_Parent = objLocalConfig.Globals.Class_OntologyMapping.GUID Then
+                        objMappingWork = new clsMappingWork(objLocalConfig.Globals)
+                        objMappingWork.GetData_Mappings(objOItem_Selected)
+                    Else 
+                        MsgBox("Wählen Sie bitte nur ein Mapping-Object aus!",MsgBoxStyle.Information)
+                    End If
+                Else 
+                    MsgBox("Wählen Sie bitte nur ein Mapping-Object aus!",MsgBoxStyle.Information)
+                End If
+            Else 
+                MsgBox("Wählen Sie bitte nur ein Mapping-Object aus!",MsgBoxStyle.Information)
+            End If
+
+        End If
+            
+
     End Sub
 End Class
