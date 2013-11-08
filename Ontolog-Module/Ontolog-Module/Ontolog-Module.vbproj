@@ -116,6 +116,7 @@
     <Compile Include="Classes\Ontologies\clsDataWork_Ontologies.vb" />
     <Compile Include="Classes\Ontologies\clsDataWork_OntologyRels.vb" />
     <Compile Include="Classes\Ontologies\clsLocalConfig_Ontologies.vb" />
+    <Compile Include="Classes\Ontologies\clsMappingItem.vb" />
     <Compile Include="Classes\Ontologies\clsMappingWork.vb" />
     <Compile Include="Classes\Ontologies\clsOntologyItemsOfOntologies.vb" />
     <Compile Include="Classes\Ontologies\clsOntologyJoins.vb" />

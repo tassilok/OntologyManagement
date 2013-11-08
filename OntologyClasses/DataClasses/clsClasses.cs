@@ -37,7 +37,7 @@ namespace OntologyClasses.DataClasses
             OList_Classes.Add(OItem_Class_System);
             OItem_Class_Logstate = new clsOntologyItem { GUID = "1d9568afb6da49908f4d907dfdd30749", Name = "Logstate", GUID_Parent = OItem_Class_System.GUID, Type = objTypes.ClassType };
             OList_Classes.Add(OItem_Class_Logstate);
-            OItem_Class_Directions = new clsOntologyItem { GUID = "12de02469d84416faa45980efcb9db9b", Name = "Directions", GUID_Parent = OItem_Class_System.GUID, Type = objTypes.ClassType };
+            OItem_Class_Directions = new clsOntologyItem { GUID = "3d1dc6cfb96449869808f39b7c5c3907", Name = "Direction", GUID_Parent = OItem_Class_System.GUID, Type = objTypes.ClassType };
             OList_Classes.Add(OItem_Class_Directions);
             OItem_Class_Ontologies = new clsOntologyItem { GUID = "eb411e2ff93d4a5ebbbac0b5d7ec0197", Name = "Ontologies", GUID_Parent = OItem_Class_System.GUID, Type = objTypes.ClassType };
             OList_Classes.Add(OItem_Class_Ontologies);

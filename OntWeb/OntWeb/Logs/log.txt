@@ -1,0 +1,184 @@
+2013-11-08 10:24:24,735 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:24:24,740 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:24:47,999 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:24:47,999 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:25:24,206 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:25:24,206 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:25:39,943 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:25:39,943 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:35:43,503 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:35:43,509 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:39:46,598 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:39:46,603 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:48:48,405 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:48:48,410 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:49:54,941 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:49:54,947 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:50:01,870 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:50:01,870 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:50:39,650 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:50:39,656 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:51:18,770 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:51:18,775 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:53:46,730 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:53:46,736 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:58:19,574 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 10:58:19,579 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:03:18,271 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:03:18,277 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:03:50,776 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:03:50,776 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:05:57,341 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:05:57,347 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:14:26,700 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:14:26,706 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:16:28,441 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:16:28,446 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:16:40,576 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:16:40,576 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:17:59,452 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:17:59,458 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:22:47,540 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:22:47,546 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:24:06,338 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:24:06,338 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:24:30,548 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:24:30,548 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:24:58,867 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:24:58,867 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:26:05,989 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:26:05,994 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:29:01,747 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:29:01,753 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:39:18,849 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:39:18,854 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:39:49,924 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 11:39:49,925 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:15:45,580 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:15:45,586 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:16:34,706 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:16:34,706 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:16:44,154 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:16:44,154 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:16:55,208 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:16:55,208 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:17:24,237 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:17:24,237 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:18:22,100 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:18:22,106 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:20:53,576 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:20:53,582 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:27:15,308 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:27:15,313 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:27:56,113 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:27:56,114 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:28:38,593 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:28:38,593 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:29:05,629 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:29:05,629 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:57:31,972 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 12:57:31,992 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 13:32:43,305 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 13:32:43,325 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 13:33:27,187 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 13:33:27,187 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 13:40:40,665 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 13:40:40,673 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 13:41:15,849 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 13:41:15,849 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 13:41:26,256 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 13:41:26,256 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 13:53:49,836 WARN  Exception - ElasticSearchException
+ElasticSearch.Client.Exception.ElasticSearchException: Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+2013-11-08 13:53:49,856 INFO  Exception - {"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}
+Method:POST,Status:BAD_REQUEST,Url:localhost:9500/reports/,ReqData{    index : {"number_of_shards":5,"number_of_replicas":1} },Response:{"error":"IndexAlreadyExistsException[[reports] Already exists]","status":400}

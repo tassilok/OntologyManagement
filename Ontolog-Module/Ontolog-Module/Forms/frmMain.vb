@@ -523,7 +523,7 @@ Public Class frmMain
 
                     If objOItem_Selected.GUID_Parent = objLocalConfig.Globals.Class_OntologyMapping.GUID Then
                         objMappingWork = new clsMappingWork(objLocalConfig.Globals)
-                        objMappingWork.GetData_Mappings(objOItem_Selected)
+                        dim objOItem_Result =  objMappingWork.MapItems(objOItem_Selected)
                     Else 
                         MsgBox("Wählen Sie bitte nur ein Mapping-Object aus!",MsgBoxStyle.Information)
                     End If
