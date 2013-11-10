@@ -37,6 +37,7 @@ Partial Class UserControl_RefTree
         Me.ToolStripLabel_Mark = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Mark = New System.Windows.Forms.ToolStripTextBox()
         Me.Timer_Ref = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_Mark = New System.Windows.Forms.Timer(Me.components)
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -138,7 +139,7 @@ Partial Class UserControl_RefTree
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_Mark, Me.ToolStripTextBox_Mark})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(261, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(292, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripLabel_Mark
@@ -155,6 +156,10 @@ Partial Class UserControl_RefTree
         'Timer_Ref
         '
         Me.Timer_Ref.Interval = 300
+        '
+        'Timer_Mark
+        '
+        Me.Timer_Mark.Interval = 300
         '
         'UserControl_RefTree
         '
@@ -191,5 +196,6 @@ Partial Class UserControl_RefTree
     Friend WithEvents Timer_Ref As System.Windows.Forms.Timer
     Friend WithEvents ContextMenuStrip_Ref As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents NewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents Timer_Mark As System.Windows.Forms.Timer
 
 End Class

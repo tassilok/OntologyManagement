@@ -5,6 +5,7 @@
       <allow-from http-request-headers="*">
         <domain uri="https://*"/>
         <domain uri="http://*"/>
+	<domain uri="*"/>
       </allow-from>
       <grant-to>
         <resource path="/" include-subpaths="true"/>

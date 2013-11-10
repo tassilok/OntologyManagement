@@ -2678,7 +2678,7 @@ namespace ElasticSearchConnector
             this.SearchRange = searchRange;
             this.Session = session;
             
-            SpecialCharacters_Read = new List<string> {"\\", "+", "-", "&&", "||",  "!", "(", ")", "{", "}", "[", "]", "^" ,"\"", "~", "*", "?", ":", "@"};
+            SpecialCharacters_Read = new List<string> {"\\", "+", "-", "&&", "||",  "!", "(", ")", "{", "}", "[", "]", "^" ,"\"", "~", "*", "?", ":", "@", "/"};
             //SpecialCharacters_Write = new List<string> { ":", "\"" };
             //SpecialCharacters_Read = new List<string> { " ", ":", "/", "\"" };
             initialize_Client();

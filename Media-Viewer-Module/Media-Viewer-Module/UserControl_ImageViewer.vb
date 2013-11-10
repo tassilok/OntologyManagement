@@ -10,6 +10,8 @@ Public Class UserControl_ImageViewer
 
     Private objBlobConnection As clsBlobConnection
 
+    Private objFrm_ObjectEdit As frm_ObjectEdit
+
     Private objThread_ShowImage As Threading.Thread
     Private objStream As IO.Stream
 
@@ -225,6 +227,14 @@ Public Class UserControl_ImageViewer
     End Sub
 
     Private Sub ToolStripButton_Paste_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Paste.Click
+
+    End Sub
+
+    Private Sub ToolStripButton_Edit_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Edit.Click
+        Dim objOList_Images = New List(Of clsOntologyItem) From {objOItem_Image}
+
+        objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList_Images, 0, objLocalConfig.Globals.Type_Object, Nothing)
+        objFrm_ObjectEdit.ShowDialog(Me)
 
     End Sub
 End Class

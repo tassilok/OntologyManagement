@@ -9,7 +9,7 @@ Public Class UserControl_LogEntry
     Private objUserControl_Relations As UserControl_OItemList
 
     Private objDataWork_LogEntry As clsDataWork_LogEntry
-    Private objTransaction_LogEntry As clsTransaction_LogEntry
+    Private objTransaction_LogEntry As clsTransaction
 
     Private objOItem_LogState_Standard As clsOntologyItem
 
@@ -56,7 +56,7 @@ Public Class UserControl_LogEntry
     End Sub
 
     Private Sub initialize()
-        objTransaction_LogEntry = New clsTransaction_LogEntry(objLocalConfig)
+        objTransaction_LogEntry = New clsTransaction(objLocalConfig.Globals)
         objUserControl_Relations = New UserControl_OItemList(objLocalConfig.Globals)
         objUserControl_Relations.Dock = DockStyle.Fill
         Panel_Relations.Controls.Add(objUserControl_Relations)
@@ -123,7 +123,9 @@ Public Class UserControl_LogEntry
                 ComboBox_Logstate.SelectedValue = objDataWork_LogEntry.OItem_LogState.GUID
             Else
                 If Not objOItem_LogState_Standard Is Nothing Then
-                    objOItem_Result = objTransaction_LogEntry.save_002_LogEntry_To_LogState(objOItem_LogState_Standard, objOItem_LogEntry)
+                    Dim objORel_LogEntry_To_LogState = objDataWork_LogEntry.Rel_LogEntry_To_LogState(objOItem_LogEntry, objOItem_LogState_Standard)
+
+                    objOItem_Result = objTransaction_LogEntry.do_Transaction(objORel_LogEntry_To_LogState, True)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                         objDataWork_LogEntry.OItem_LogState = New clsOntologyItem(objOItem_LogState_Standard.GUID, _
                                                                                   objOItem_LogState_Standard.Name, _
@@ -148,7 +150,9 @@ Public Class UserControl_LogEntry
                 If Not objDataWork_LogEntry.OItem_User Is Nothing Then
                     ComboBox_User.SelectedValue = objDataWork_LogEntry.OItem_User.GUID
                 Else
-                    objOItem_Result = objTransaction_LogEntry.save_005_LogEntry_To_User(objLocalConfig.OItem_User, objOItem_LogEntry)
+                    Dim objORel_LogEntry_To_User = objDataWork_LogEntry.Rel_LogEntry_To_User(objOItem_LogEntry, objLocalConfig.OItem_User)
+
+                    objOItem_Result = objTransaction_LogEntry.do_Transaction(objORel_LogEntry_To_User, True)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                         objDataWork_LogEntry.OItem_User = New clsOntologyItem(objLocalConfig.OItem_User.GUID, _
                                                                                   objLocalConfig.OItem_User.Name, _
@@ -238,4 +242,85 @@ Public Class UserControl_LogEntry
     End Sub
 
 
+    Private Sub ComboBox_Logstate_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox_Logstate.SelectedIndexChanged
+        If ComboBox_Logstate.Enabled = True Then
+            If Not ComboBox_Logstate.SelectedItem Is Nothing Then
+                Dim objORel_LogEntry_To_LogState = objDataWork_LogEntry.Rel_LogEntry_To_LogState(objOItem_LogEntry, ComboBox_Logstate.SelectedItem)
+                Dim objOItem_Result = objTransaction_LogEntry.do_Transaction(objORel_LogEntry_To_LogState, True)
+                If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    MsgBox("Der Logstate konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+                    ComboBox_Logstate.Enabled = False
+                End If
+            End If
+        End If
+        
+
+    End Sub
+
+    Private Sub ComboBox_User_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox_User.SelectedIndexChanged
+        If ComboBox_User.Enabled = True Then
+            If Not ComboBox_User.SelectedItem Is Nothing Then
+                Dim objORel_LogEntry_To_User = objDataWork_LogEntry.Rel_LogEntry_To_User(objOItem_LogEntry, ComboBox_User.SelectedItem)
+                Dim objOItem_Result = objTransaction_LogEntry.do_Transaction(objORel_LogEntry_To_User, True)
+                If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    MsgBox("Der User konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+                    ComboBox_User.Enabled = False
+                End If
+            End If
+        End If
+        
+    End Sub
+
+    Private Sub DateTimePicker_DateTimeStamp_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker_DateTimeStamp.ValueChanged
+        If DateTimePicker_DateTimeStamp.Enabled = True Then
+            Dim dateTimeStamp = DateTimePicker_DateTimeStamp.Value
+            Dim objOARel_LogEntry__DateTimeStamp = objDataWork_LogEntry.RelA_LogEntry__DateTimeStamp(objOItem_LogEntry, dateTimeStamp)
+            Dim objOItem_Result = objTransaction_LogEntry.do_Transaction(objOARel_LogEntry__DateTimeStamp, True)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Der Zeitstempel konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+                DateTimePicker_DateTimeStamp.Enabled = False
+            End If
+        End If
+        
+    End Sub
+
+    Private Sub TextBox_Caption_TextChanged(sender As Object, e As EventArgs) Handles TextBox_Caption.TextChanged
+        If TextBox_Caption.ReadOnly = False Then
+            Dim strName = TextBox_Caption.Text
+            If strName = "" Then
+                MsgBox("Der Name muss mindestens ein Zeichen enthalten!", MsgBoxStyle.Information)
+            Else
+                objOItem_LogEntry.Name = strName
+
+                Dim objOItem_Result = objTransaction_LogEntry.do_Transaction(objOItem_LogEntry)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Der Namen konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+
+                End If
+            End If
+
+
+        End If
+    End Sub
+
+    Private Sub TextBox_Message_TextChanged(sender As Object, e As EventArgs) Handles TextBox_Message.TextChanged
+        If TextBox_Message.ReadOnly = False Then
+            If TextBox_Message.Text <> "" Then
+                Dim objOARel_LogEntry__Message = objDataWork_LogEntry.RelA_LogEntry__Message(objOItem_LogEntry, TextBox_Message.Text)
+                Dim objOItem_Result = objTransaction_LogEntry.do_Transaction(objOARel_LogEntry__Message, True)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Die Message konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+                    TextBox_Message.ReadOnly = True
+                End If
+            Else
+                Dim objOARel_LogEntry__Message = objDataWork_LogEntry.RelA_LogEntry__Message(objOItem_LogEntry, TextBox_Message.Text)
+                Dim objOItem_Result = objTransaction_LogEntry.do_Transaction(objOARel_LogEntry__Message, boolRemoveItem:=True)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Die Message konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+                    TextBox_Message.ReadOnly = True
+                End If
+            End If
+
+        End If
+    End Sub
 End Class

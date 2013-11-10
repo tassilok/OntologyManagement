@@ -426,5 +426,75 @@ Public Class UserControl_RefTree
             End If
         End If
     End Sub
+
+    Private Sub Timer_Mark_Tick(sender As Object, e As EventArgs) Handles Timer_Mark.Tick
+        Timer_Mark.Stop()
+        ClearMark()
+        Dim strSearch = ToolStripTextBox_Mark.Text
+        If strSearch <> "" Then
+            SearchNodes(strSearch)
+        End If
+    End Sub
+
+    Private Sub ToolStripTextBox_Mark_TextChanged(sender As Object, e As EventArgs) Handles ToolStripTextBox_Mark.TextChanged
+        Timer_Mark.Stop()
+        Timer_Mark.Start()
+    End Sub
+
+    Private Sub ClearMark(Optional objTreeNode As TreeNode = Nothing)
+        If objTreeNode Is Nothing Then
+            For Each objTreeNode_Sub As TreeNode In TreeView_Ref.Nodes
+                If objTreeNode_Sub.BackColor = Color.Yellow Then
+                    ToggleMarkOfNode(objTreeNode_Sub, False)
+                End If
+                ClearMark(objTreeNode_Sub)
+            Next
+
+        Else
+            For Each objTreeNode_Sub As TreeNode In objTreeNode.Nodes
+                If objTreeNode_Sub.BackColor = Color.Yellow Then
+                    ToggleMarkOfNode(objTreeNode_Sub, False)
+                End If
+                ClearMark(objTreeNode_Sub)
+            Next
+        End If
+    End Sub
+
+    Private Sub ToggleMarkOfNode(objTreeNode As TreeNode, boolMark As Boolean)
+        If boolMark Then
+            objTreeNode.BackColor = Color.Yellow
+        Else
+            objTreeNode.BackColor = Nothing
+        End If
+    End Sub
+
+    Private Sub SearchNodes(strSearch As String, Optional objTreeNode As TreeNode = Nothing)
+        If objTreeNode Is Nothing Then
+            For Each objTreeNode_Sub As TreeNode In TreeView_Ref.Nodes
+                If objTreeNode_Sub.Text.ToLower.Contains(strSearch) Then
+                    ToggleMarkOfNode(objTreeNode_Sub, True)
+                    ExpandParents(objTreeNode_Sub)
+
+                End If
+                SearchNodes(strSearch, objTreeNode_Sub)
+            Next
+        Else
+            For Each objTreeNode_Sub As TreeNode In objTreeNode.Nodes
+                If objTreeNode_Sub.Text.ToLower.Contains(strSearch) Then
+                    ToggleMarkOfNode(objTreeNode_Sub, True)
+                    ExpandParents(objTreeNode_Sub)
+
+                End If
+                SearchNodes(strSearch, objTreeNode_Sub)
+            Next
+        End If
+    End Sub
+
+    Private Sub ExpandParents(objTreeNode As TreeNode)
+        While Not objTreeNode.Parent Is Nothing
+            objTreeNode = objTreeNode.Parent
+            objTreeNode.Expand()
+        End While
+    End Sub
 End Class
 

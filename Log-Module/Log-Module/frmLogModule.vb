@@ -121,7 +121,7 @@ Public Class frmLogModule
         objUserControl_LogEntry.Dock = DockStyle.Fill
         SplitContainer1.Panel2.Controls.Add(objUserControl_LogEntry)
 
-        If Not objLocalConfig.OItem_User Is Nothing Then
+        If objLocalConfig.OItem_User Is Nothing Then
             objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
             objFrmAuthenticate.ShowDialog(Me)
             boolOpen = False

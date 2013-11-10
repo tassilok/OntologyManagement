@@ -137,7 +137,7 @@ Partial Class UserControl_LogEntry
         '
         Me.ContextMenuStrip_User.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenObjectEditUserToolStripMenuItem})
         Me.ContextMenuStrip_User.Name = "ContextMenuStrip_LogState"
-        Me.ContextMenuStrip_User.Size = New System.Drawing.Size(177, 48)
+        Me.ContextMenuStrip_User.Size = New System.Drawing.Size(177, 26)
         '
         'OpenObjectEditUserToolStripMenuItem
         '

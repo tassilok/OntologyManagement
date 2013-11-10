@@ -55,5 +55,75 @@ namespace OntWeb
                 throw se;
             }
         }
+
+        [WebMethod]
+        public List<clsOntologyItem> ObjectsByGuid(string guid)
+        {
+            var oListObjectsSearch = new List<clsOntologyItem> { new clsOntologyItem { GUID = guid } };
+
+            var oItemResult = dbConnector.GetObjects(oListObjectsSearch);
+            if (oItemResult.GUID == Globals.LogStates.LogState_Success.GUID)
+            {
+                return dbConnector.Objects1;
+            }
+            else
+            {
+                SoapException se = new SoapException("Query-Error", SoapException.ClientFaultCode);
+                throw se;
+            }
+        }
+
+        [WebMethod]
+        public List<clsOntologyItem> ObjectsByName(string name, bool exact)
+        {
+            var oListObjectsSearch = new List<clsOntologyItem> { new clsOntologyItem { Name = name} };
+
+            var oItemResult = dbConnector.GetObjects(oListObjectsSearch,exact: exact);
+            if (oItemResult.GUID == Globals.LogStates.LogState_Success.GUID)
+            {
+                return dbConnector.Objects1;
+            }
+            else
+            {
+                SoapException se = new SoapException("Query-Error", SoapException.ClientFaultCode);
+                throw se;
+            }
+        }
+
+        [WebMethod]
+        public List<clsOntologyItem> ObjectsByGuidParent(string guidParent)
+        {
+            var oListObjectsSearch = new List<clsOntologyItem> { new clsOntologyItem { GUID_Parent = guidParent } };
+
+            var oItemResult = dbConnector.GetObjects(oListObjectsSearch);
+            if (oItemResult.GUID == Globals.LogStates.LogState_Success.GUID)
+            {
+                return dbConnector.Objects1;
+            }
+            else
+            {
+                SoapException se = new SoapException("Query-Error", SoapException.ClientFaultCode);
+                throw se;
+            }
+        }
+
+        [WebMethod]
+        public List<clsOntologyItem> ObjectsByGuidParentAndName(string guidParent, string name, bool exact)
+        {
+            var oListObjectsSearch = new List<clsOntologyItem> { new clsOntologyItem { GUID_Parent = guidParent,
+                                                                                       Name = name} };
+
+            var oItemResult = dbConnector.GetObjects(oListObjectsSearch,exact: exact);
+            if (oItemResult.GUID == Globals.LogStates.LogState_Success.GUID)
+            {
+                return dbConnector.Objects1;
+            }
+            else
+            {
+                SoapException se = new SoapException("Query-Error", SoapException.ClientFaultCode);
+                throw se;
+            }
+        }
+
     }
 }

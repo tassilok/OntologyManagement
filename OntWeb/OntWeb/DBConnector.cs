@@ -21,7 +21,11 @@ namespace OntWeb
         public List<clsOntologyItem> AttributeTypes { get; private set; }
         public List<clsOntologyItem> RelationTypes { get; private set; }
         public List<clsOntologyItem> Objects1 { get; private set; }
-        public List<clsOntologyItem> Objects2 { get; private set; } 
+        public List<clsOntologyItem> Objects2 { get; private set; }
+        public List<clsObjectRel> ObjectRelsId { get; private set; }
+        public List<clsObjectRel> ObjectRels { get; private set; }
+        public List<clsObjectAtt> ObjectAtts { get; private set; }
+        public List<clsObjectAtt> ObjectAttsId { get; private set; }
 
         public clsOntologyItem GetClasses(List<clsOntologyItem> classesSearch = null,
                                           bool fillClassesRight = false,
@@ -148,6 +152,63 @@ namespace OntWeb
                     Objects2 = dbSelector.get_Data_Objects(objectsSearch, false, true, true, exact);   
                 }
                  
+            }
+
+            return oItemResult;
+        }
+
+        public clsOntologyItem GetObjectRel(List<clsObjectRel> objectRelsSearch = null,
+                                            bool ids = true,
+                                            bool doCount = false,
+                                            string Direction = null,
+                                            bool clear = true,
+                                            bool doJoinLeft = false,
+                                            bool doJoinRight = false)
+        {
+            var oItemResult = Globals.LogStates.LogState_Success.Clone();
+
+            if (doCount)
+            {
+                oItemResult.Count = dbSelector.get_Data_ObjectRelCount(objectRelsSearch);
+            }
+            else
+            {
+                if (ids)
+                {
+                    ObjectRelsId = dbSelector.get_Data_ObjectRel(objectRelsSearch, ids, doJoinLeft, doJoinRight);
+                }
+                else
+                {
+                    ObjectRels = dbSelector.get_Data_ObjectRel(objectRelsSearch, ids, doJoinLeft, doJoinRight);
+                }
+
+            }
+
+            return oItemResult;
+        }
+
+        public clsOntologyItem GetObjectAtt(List<clsObjectAtt> ObjectAttsSearch = null,
+                                            bool ids = true,
+                                            bool doCount = false,
+                                            bool doJoin = false)
+        {
+            var oItemResult = Globals.LogStates.LogState_Success.Clone();
+
+            if (doCount)
+            {
+                oItemResult.Count = dbSelector.get_Data_ObjectAttCount(ObjectAttsSearch);
+            }
+            else
+            {
+                if (ids)
+                {
+                    ObjectAttsId = dbSelector.get_Data_ObjectAtt(ObjectAttsSearch, ids, doJoin);
+                }
+                else
+                {
+                    ObjectAtts = dbSelector.get_Data_ObjectAtt(ObjectAttsSearch, ids, doJoin);
+                }
+
             }
 
             return oItemResult;

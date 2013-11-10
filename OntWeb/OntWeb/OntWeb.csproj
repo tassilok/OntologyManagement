@@ -60,8 +60,11 @@
     <Content Include="clientaccesspolicy.xml" />
     <Content Include="Config\Config_ont.xml" />
     <Content Include="OServiceAttributeTypes.asmx" />
+    <Content Include="OServiceClassAtt.asmx" />
     <Content Include="OServiceClasses.asmx" />
     <Content Include="OServiceClassRel.asmx" />
+    <Content Include="OServiceObjectAtt.asmx" />
+    <Content Include="OServiceObjectRel.asmx" />
     <Content Include="OServiceObjects.asmx" />
     <Content Include="OServiceRelationTypes.asmx" />
     <Content Include="Web.config" />
@@ -79,12 +82,24 @@
       <DependentUpon>OServiceAttributeTypes.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="OServiceClassAtt.asmx.cs">
+      <DependentUpon>OServiceClassAtt.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="OServiceClasses.asmx.cs">
       <DependentUpon>OServiceClasses.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="OServiceClassRel.asmx.cs">
       <DependentUpon>OServiceClassRel.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="OServiceObjectAtt.asmx.cs">
+      <DependentUpon>OServiceObjectAtt.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="OServiceObjectRel.asmx.cs">
+      <DependentUpon>OServiceObjectRel.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="OServiceObjects.asmx.cs">
