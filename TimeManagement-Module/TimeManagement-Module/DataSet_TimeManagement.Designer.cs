@@ -333,6 +333,10 @@ namespace TimeManagement_Module {
             
             private global::System.Data.DataColumn columnWeek_Ende;
             
+            private global::System.Data.DataColumn columnDateTimeStamp_Start_Seq;
+            
+            private global::System.Data.DataColumn columnDateTimeStamp_End_Seq;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public dtbl_TimeManagementDataTable() {
@@ -584,6 +588,22 @@ namespace TimeManagement_Module {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DateTimeStamp_Start_SeqColumn {
+                get {
+                    return this.columnDateTimeStamp_Start_Seq;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DateTimeStamp_End_SeqColumn {
+                get {
+                    return this.columnDateTimeStamp_End_Seq;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -646,7 +666,9 @@ namespace TimeManagement_Module {
                         long Year_Ende, 
                         long Month_Ende, 
                         long Day_Ende, 
-                        long Week_Ende) {
+                        long Week_Ende, 
+                        long DateTimeStamp_Start_Seq, 
+                        long DateTimeStamp_End_Seq) {
                 dtbl_TimeManagementRow rowdtbl_TimeManagementRow = ((dtbl_TimeManagementRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID_TimeManagement,
@@ -675,7 +697,9 @@ namespace TimeManagement_Module {
                         Year_Ende,
                         Month_Ende,
                         Day_Ende,
-                        Week_Ende};
+                        Week_Ende,
+                        DateTimeStamp_Start_Seq,
+                        DateTimeStamp_End_Seq};
                 rowdtbl_TimeManagementRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowdtbl_TimeManagementRow);
                 return rowdtbl_TimeManagementRow;
@@ -725,6 +749,8 @@ namespace TimeManagement_Module {
                 this.columnMonth_Ende = base.Columns["Month_Ende"];
                 this.columnDay_Ende = base.Columns["Day_Ende"];
                 this.columnWeek_Ende = base.Columns["Week_Ende"];
+                this.columnDateTimeStamp_Start_Seq = base.Columns["DateTimeStamp_Start_Seq"];
+                this.columnDateTimeStamp_End_Seq = base.Columns["DateTimeStamp_End_Seq"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -784,6 +810,10 @@ namespace TimeManagement_Module {
                 base.Columns.Add(this.columnDay_Ende);
                 this.columnWeek_Ende = new global::System.Data.DataColumn("Week_Ende", typeof(long), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnWeek_Ende);
+                this.columnDateTimeStamp_Start_Seq = new global::System.Data.DataColumn("DateTimeStamp_Start_Seq", typeof(long), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDateTimeStamp_Start_Seq);
+                this.columnDateTimeStamp_End_Seq = new global::System.Data.DataColumn("DateTimeStamp_End_Seq", typeof(long), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDateTimeStamp_End_Seq);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1367,6 +1397,40 @@ namespace TimeManagement_Module {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public long DateTimeStamp_Start_Seq {
+                get {
+                    try {
+                        return ((long)(this[this.tabledtbl_TimeManagement.DateTimeStamp_Start_SeqColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DateTimeStamp_Start_Seq\' in table \'dtbl_TimeManagement\' is " +
+                                "DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtbl_TimeManagement.DateTimeStamp_Start_SeqColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public long DateTimeStamp_End_Seq {
+                get {
+                    try {
+                        return ((long)(this[this.tabledtbl_TimeManagement.DateTimeStamp_End_SeqColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DateTimeStamp_End_Seq\' in table \'dtbl_TimeManagement\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtbl_TimeManagement.DateTimeStamp_End_SeqColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsID_TimeManagementNull() {
                 return this.IsNull(this.tabledtbl_TimeManagement.ID_TimeManagementColumn);
             }
@@ -1687,6 +1751,30 @@ namespace TimeManagement_Module {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetWeek_EndeNull() {
                 this[this.tabledtbl_TimeManagement.Week_EndeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsDateTimeStamp_Start_SeqNull() {
+                return this.IsNull(this.tabledtbl_TimeManagement.DateTimeStamp_Start_SeqColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetDateTimeStamp_Start_SeqNull() {
+                this[this.tabledtbl_TimeManagement.DateTimeStamp_Start_SeqColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsDateTimeStamp_End_SeqNull() {
+                return this.IsNull(this.tabledtbl_TimeManagement.DateTimeStamp_End_SeqColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetDateTimeStamp_End_SeqNull() {
+                this[this.tabledtbl_TimeManagement.DateTimeStamp_End_SeqColumn] = global::System.Convert.DBNull;
             }
         }
         

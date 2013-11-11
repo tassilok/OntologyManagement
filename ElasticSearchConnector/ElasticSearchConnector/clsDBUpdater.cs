@@ -460,7 +460,7 @@ namespace ElasticSearchConnector
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;
 
-            var OList_Objects = OList_ObjAtt.GroupBy(p => p.ID_Object).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
+            var OList_Objects = OList_ObjAtt.GroupBy(p => p.ID_Class).Select(p => new clsOntologyItem { GUID_Parent = p.Key }).ToList();
             var OList_AttributeTypes = OList_ObjAtt.GroupBy(p => p.ID_AttributeType).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
 
             var objOList_Objects = objDBSelector.get_Data_Objects(OList_Objects);

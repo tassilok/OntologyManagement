@@ -68,6 +68,9 @@ namespace TimeManagement_Module
                 DataGridView_LogManagement.Columns[25].Visible = true;
                 DataGridView_LogManagement.Columns[26].Visible = true;
 
+
+                FilterView();
+                SortView();
             }
             else
             {
@@ -113,7 +116,7 @@ namespace TimeManagement_Module
                 }
                 else if (ToolStripDropDownButton_Range.Text == XThisMonthToolStripMenuItem.Text)
                 {
-                    strFilter = "DateTimeStamp_Start_Seq>=" + DateTime.Now.Year * 10000 + DateTime.Now.Month * 100 + 1;
+                    strFilter = "DateTimeStamp_Start_Seq>=" + (DateTime.Now.Year * 10000 + DateTime.Now.Month * 100 + 1);
                     toolStripTextBox_Filter.Text = strFilter;
                     FilterView();
                 }
@@ -338,5 +341,61 @@ namespace TimeManagement_Module
             objFrmObjectEdit.ShowDialog(this);
 
         }
+
+        private void DataGridView_LogManagement_KeyDown(object sender, KeyEventArgs e)
+        {
+            
+        }
+
+        private void TodayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripTextBox_Filter.Text = "";
+            ToolStripDropDownButton_Range.Text = TodayToolStripMenuItem.Text;
+            FilterView();
+        }
+
+        private void YesterdayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripTextBox_Filter.Text = "";
+            ToolStripDropDownButton_Range.Text = YesterdayToolStripMenuItem.Text;
+            FilterView();
+        }
+
+        private void XThisWeekToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripTextBox_Filter.Text = "";
+            ToolStripDropDownButton_Range.Text = XThisWeekToolStripMenuItem.Text;
+            FilterView();
+        }
+
+        private void LastTwoWeeksToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripTextBox_Filter.Text = "";
+            ToolStripDropDownButton_Range.Text = LastTwoWeeksToolStripMenuItem.Text;
+            FilterView();
+        }
+
+        private void XThisMonthToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripTextBox_Filter.Text = "";
+            ToolStripDropDownButton_Range.Text = XThisMonthToolStripMenuItem.Text;
+            FilterView();
+        }
+
+        private void AllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripTextBox_Filter.Text = "";
+            ToolStripDropDownButton_Range.Text = AllToolStripMenuItem.Text;
+            FilterView();
+        }
+
+        private void toolStripTextBox_Filter_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                FilterView();
+            }
+        }
+
     }
 }

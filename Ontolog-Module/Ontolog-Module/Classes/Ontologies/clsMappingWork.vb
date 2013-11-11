@@ -98,15 +98,19 @@ Public Class clsMappingWork
                                                                  .Name_OntologyJoin = objOntologyJoin.Name_Other
                                                              }).ToList()    
 
-            Dim objOItem_MappingItem_Src = (From objMapping in objDBLevel_OntologyMapping_To_Rel.OList_ObjectRel.Where(Function(p) p.ID_RelationType = objGlobals.RelationType_Src.GUID).ToList()
+            Dim list_MappingItem_Src = (From objMapping in objDBLevel_OntologyMapping_To_Rel.OList_ObjectRel.Where(Function(p) p.ID_RelationType = objGlobals.RelationType_Src.GUID).ToList()
                                            Join objMappingItem In objMappingItems on objMappingItem.ID_MappingItem equals objMapping.ID_Other
                                            Select objMappingItem).ToList()
 
-            Dim objOItem_MappingItem_Dst = (From objMapping in objDBLevel_OntologyMapping_To_Rel.OList_ObjectRel.Where(Function(p) p.ID_RelationType = objGlobals.RelationType_Dst.GUID).ToList()
+            Dim list_MappingItem_Dst = (From objMapping in objDBLevel_OntologyMapping_To_Rel.OList_ObjectRel.Where(Function(p) p.ID_RelationType = objGlobals.RelationType_Dst.GUID).ToList()
                                            Join objMappingItem In objMappingItems on objMappingItem.ID_MappingItem equals objMapping.ID_Other
                                            Select objMappingItem).ToList()
 
+            If list_MappingItem_Src.Count = 1 And list_MappingItem_Dst.Any()  then
 
+            Else 
+                objOItem_Result = objGlobals.LState_Error.Clone()
+            End If
                                            
         End If
         

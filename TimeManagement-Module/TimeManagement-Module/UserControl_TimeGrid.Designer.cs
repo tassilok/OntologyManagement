@@ -109,7 +109,7 @@
             this.ToolStripDropDownButton_Calc});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(861, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(892, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripLabel_FilterCapt
@@ -122,6 +122,7 @@
             // 
             this.toolStripTextBox_Filter.Name = "toolStripTextBox_Filter";
             this.toolStripTextBox_Filter.Size = new System.Drawing.Size(300, 25);
+            this.toolStripTextBox_Filter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBox_Filter_KeyDown);
             // 
             // toolStripButton_RemoveFilter
             // 
@@ -223,6 +224,7 @@
             this.DataGridView_LogManagement.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_LogManagement_CellClick);
             this.DataGridView_LogManagement.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DataGridView_LogManagement_CellFormatting);
             this.DataGridView_LogManagement.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_LogManagement_RowHeaderMouseDoubleClick);
+            this.DataGridView_LogManagement.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView_LogManagement_KeyDown);
             // 
             // ContextMenuStrip_TimeManagement
             // 
@@ -277,36 +279,42 @@
             this.TodayToolStripMenuItem.Name = "TodayToolStripMenuItem";
             this.TodayToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.TodayToolStripMenuItem.Text = "x_Today";
+            this.TodayToolStripMenuItem.Click += new System.EventHandler(this.TodayToolStripMenuItem_Click);
             // 
             // YesterdayToolStripMenuItem
             // 
             this.YesterdayToolStripMenuItem.Name = "YesterdayToolStripMenuItem";
             this.YesterdayToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.YesterdayToolStripMenuItem.Text = "x_Yesterday";
+            this.YesterdayToolStripMenuItem.Click += new System.EventHandler(this.YesterdayToolStripMenuItem_Click);
             // 
             // XThisWeekToolStripMenuItem
             // 
             this.XThisWeekToolStripMenuItem.Name = "XThisWeekToolStripMenuItem";
             this.XThisWeekToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.XThisWeekToolStripMenuItem.Text = "x_This Week";
+            this.XThisWeekToolStripMenuItem.Click += new System.EventHandler(this.XThisWeekToolStripMenuItem_Click);
             // 
             // LastTwoWeeksToolStripMenuItem
             // 
             this.LastTwoWeeksToolStripMenuItem.Name = "LastTwoWeeksToolStripMenuItem";
             this.LastTwoWeeksToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.LastTwoWeeksToolStripMenuItem.Text = "x_Last two weeks";
+            this.LastTwoWeeksToolStripMenuItem.Click += new System.EventHandler(this.LastTwoWeeksToolStripMenuItem_Click);
             // 
             // XThisMonthToolStripMenuItem
             // 
             this.XThisMonthToolStripMenuItem.Name = "XThisMonthToolStripMenuItem";
             this.XThisMonthToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.XThisMonthToolStripMenuItem.Text = "x_This Month";
+            this.XThisMonthToolStripMenuItem.Click += new System.EventHandler(this.XThisMonthToolStripMenuItem_Click);
             // 
             // AllToolStripMenuItem
             // 
             this.AllToolStripMenuItem.Name = "AllToolStripMenuItem";
             this.AllToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.AllToolStripMenuItem.Text = "x_All";
+            this.AllToolStripMenuItem.Click += new System.EventHandler(this.AllToolStripMenuItem_Click);
             // 
             // UserControl_TimeGrid
             // 

@@ -14,11 +14,12 @@ namespace TimeManagement_Module
 
         private clsDBLevel objDBLevel_Attributes;
         private clsDBLevel objDBLevel_Relations;
+
+        
         public clsOntologyItem OItem_Result_TimeManagement { get; private set; }
         private clsLocalConfig objLocalConfig;
 
         public DataSet_TimeManagement.dtbl_TimeManagementDataTable Tbl_TimeManagement { get; set; }
-
 
         public void GetData_TimeManagement()
         {
@@ -80,7 +81,9 @@ namespace TimeManagement_Module
                                                                Day_Ende = p.Ende.Day,
                                                                Week_Ende = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(p.Ende, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday),
                                                                Duration_Hours = p.Ende.Subtract(p.Start).TotalSeconds / 3600 * (p.ID_LogState == objLocalConfig.OItem_object_private.GUID ? -1 : 1),
-                                                               Duration_Minutes = p.Ende.Subtract(p.Start).TotalSeconds / 60 * (p.ID_LogState == objLocalConfig.OItem_object_private.GUID ? -1 : 1)
+                                                               Duration_Minutes = p.Ende.Subtract(p.Start).TotalSeconds / 60 * (p.ID_LogState == objLocalConfig.OItem_object_private.GUID ? -1 : 1),
+                                                               DateTimeStamp_Start_Seq = p.Start.Year * 10000 + p.Start.Month * 100 + p.Start.Day,
+                                                               DateTimeStamp_Start_End = p.Ende.Year * 10000 + p.Ende.Month * 100 + p.Ende.Day
                                                            }).ToList();
 
                     var objOList_Weeks = (from objTimeManagement in objOList_TimeManagement
@@ -138,7 +141,9 @@ namespace TimeManagement_Module
                                                           Duration_Minutes_Week = objWeek.Duration_Minutes_Week,
                                                           ToDo_Hours_Week = 40 - objWeek.Duration_Hours_Week,
                                                           ToDo_Minutes_Week = (40 * 60) - objWeek.Duration_Minutes_Week,
-                                                          ToDo_End = DateTime.Now.AddMinutes((8 * 60) - objDay.Duration_Minutes_Day)
+                                                          ToDo_End = DateTime.Now.AddMinutes((8 * 60) - objDay.Duration_Minutes_Day),
+                                                          DateTimeStamp_Start_Seq = objTimeManagement.DateTimeStamp_Start_Seq,
+                                                          DateTimeStamp_Ende_Seq = objTimeManagement.DateTimeStamp_Start_End
                                                       }).ToList();
 
 
@@ -170,8 +175,9 @@ namespace TimeManagement_Module
                             objTimeManagement.Year_Ende,
                             objTimeManagement.Month_Ende,
                             objTimeManagement.Day_Ende,
-                            objTimeManagement.Week_Ende);
-
+                            objTimeManagement.Week_Ende,
+                            objTimeManagement.DateTimeStamp_Start_Seq,
+                            objTimeManagement.DateTimeStamp_Start_Seq);
 
                     }
 
