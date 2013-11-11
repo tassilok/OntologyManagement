@@ -135,12 +135,13 @@ Public Class frmSingleViewer
         initialize()
     End Sub
 
-    Public Sub New(Globals As clsGlobals, OItem_MediaType As clsOntologyItem)
+    Public Sub New(Globals As clsGlobals, OItem_MediaType As clsOntologyItem, OItem_User As clsOntologyItem)
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
 
 
         objLocalConfig = New clsLocalConfig(Globals)
+        objLocalConfig.OItem_User = OItem_User
         objOItem_MediaType = OItem_MediaType
         set_DBConnection()
         initialize()

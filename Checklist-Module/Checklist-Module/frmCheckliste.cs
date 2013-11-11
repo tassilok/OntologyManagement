@@ -53,7 +53,7 @@ namespace Checklist_Module
         private void Initialize()
         {
             objDataWork_LogEntry = new clsDataWork_LogEntry(objLocalConfig.Globals);
-            objUserControl_Report = new UserControl_Report(objLocalConfig.Globals);
+            objUserControl_Report = new UserControl_Report(objLocalConfig.Globals, objLocalConfig.User);
             objUserControl_Report.initialize(objOItem_Report);
             objUserControl_Report.Dock = DockStyle.Fill;
             objUserControl_Report.DataLoaded += objUserControl_Report_DataLoaded;
@@ -89,6 +89,7 @@ namespace Checklist_Module
         void objUserControl_Report_DataLoaded()
         {
             var objDataTable = objUserControl_Report.DataTableSelected;
+            var columnList = new List<DataColumn>();
 
             var boolLogEntry_Succes = false;
             var boolLogEntry_Error = false;
@@ -96,6 +97,7 @@ namespace Checklist_Module
 
             foreach (DataColumn column in objDataTable.Columns)
             {
+                columnList.Add(column);
                 if (column.ColumnName.ToLower() == "ID_LogEntry_Success".ToLower())
                 {
                     boolLogEntry_Succes = true;
@@ -112,127 +114,209 @@ namespace Checklist_Module
                 }
             }
 
-            var objDataColumnToDo = new DataColumn("ToDo");
-            objDataColumnToDo.DataType = typeof(Boolean);
-            objDataTable.Columns.Add(objDataColumnToDo);
+            if (!columnList.Any(p => p.ColumnName == "ToDo"))
+            {
+                var objDataColumnToDo = new DataColumn("ToDo");
+                objDataColumnToDo.DataType = typeof(Boolean);
+                objDataTable.Columns.Add(objDataColumnToDo);
+            }
+            
+            if (!columnList.Any(p => p.ColumnName == "IsDone"))
+            {
+                var objDataColumnDone = new DataColumn("IsDone");
+                objDataColumnDone.DataType = typeof(Boolean);
+                objDataTable.Columns.Add(objDataColumnDone);
+            }
 
-            var objDataColumnDone = new DataColumn("IsDone");
-            objDataColumnDone.DataType = typeof(Boolean);
-            objDataTable.Columns.Add(objDataColumnDone);
+            if (!columnList.Any(p => p.ColumnName == "Started"))
+            {
 
-            var objDataColumnStarted = new DataColumn("Started");
-            objDataColumnStarted.DataType = typeof(Boolean);
-            objDataTable.Columns.Add(objDataColumnStarted);
+                var objDataColumnStarted = new DataColumn("Started");
+                objDataColumnStarted.DataType = typeof(Boolean);
+                objDataTable.Columns.Add(objDataColumnStarted);
+            }
 
             if (!boolLogEntry_Succes)
             {
-                var objDataColumn1 = new DataColumn("ID_LogEntry_Success");
-                objDataColumn1.DataType= typeof(string);
-                objDataTable.Columns.Add(objDataColumn1);
-                objUserControl_Report.VisibilityColumn("ID_LogEntry_Success", false);
+                if (!columnList.Any(p => p.ColumnName == "ID_LogEntry_Success"))
+                {
 
-                var objDataColumn2 = new DataColumn("Name_LogEntry_Success");
-                objDataColumn2.DataType = typeof(string);
-                objDataTable.Columns.Add(objDataColumn2);
-                objUserControl_Report.VisibilityColumn("Name_LogEntry_Success", false);
+                    var objDataColumn1 = new DataColumn("ID_LogEntry_Success");
+                    objDataColumn1.DataType = typeof(string);
+                    objDataTable.Columns.Add(objDataColumn1);
+                    objUserControl_Report.VisibilityColumn("ID_LogEntry_Success", false);
+                }
 
-                var objDataColumn3 = new DataColumn("DateTimeStamp_Success");
-                objDataColumn3.DataType = typeof(DateTime);
-                objDataTable.Columns.Add(objDataColumn3);
+                if (!columnList.Any(p => p.ColumnName == "Name_LogEntry_Success"))
+                {
+                    var objDataColumn2 = new DataColumn("Name_LogEntry_Success");
+                    objDataColumn2.DataType = typeof(string);
+                    objDataTable.Columns.Add(objDataColumn2);
+                    objUserControl_Report.VisibilityColumn("Name_LogEntry_Success", false);
+                }
+                if (!columnList.Any(p => p.ColumnName == "DateTimeStamp_Success"))
+                {
+                    var objDataColumn3 = new DataColumn("DateTimeStamp_Success");
+                    objDataColumn3.DataType = typeof(DateTime);
+                    objDataTable.Columns.Add(objDataColumn3);
+                }
 
-                var objDataColumn5 = new DataColumn("DateTimeStamp_Success_Seq");
-                objDataColumn5.DataType = typeof(long);
-                objDataTable.Columns.Add(objDataColumn5);
+                if (!columnList.Any(p => p.ColumnName == "DateTimeStamp_Success_Seq"))
+                {
+                    var objDataColumn5 = new DataColumn("DateTimeStamp_Success_Seq");
+                    objDataColumn5.DataType = typeof(long);
+                    objDataTable.Columns.Add(objDataColumn5);
+                }
 
-                var objDataColumn6 = new DataColumn("Success_Year");
-                objDataColumn6.DataType = typeof(int);
-                objDataTable.Columns.Add(objDataColumn6);
+                if (!columnList.Any(p => p.ColumnName == "Success_Year"))
+                {
+                    var objDataColumn6 = new DataColumn("Success_Year");
+                    objDataColumn6.DataType = typeof(int);
+                    objDataTable.Columns.Add(objDataColumn6);
+                }
 
-                var objDataColumn7 = new DataColumn("Success_Month");
-                objDataColumn7.DataType = typeof(int);
-                objDataTable.Columns.Add(objDataColumn7);
+                if (!columnList.Any(p => p.ColumnName == "Success_Month"))
+                {
+                    var objDataColumn7 = new DataColumn("Success_Month");
+                    objDataColumn7.DataType = typeof(int);
+                    objDataTable.Columns.Add(objDataColumn7);
+                }
 
-                var objDataColumn8 = new DataColumn("Success_Day");
-                objDataColumn8.DataType = typeof(int);
-                objDataTable.Columns.Add(objDataColumn8);
+                if (!columnList.Any(p => p.ColumnName == "Success_Day"))
+                {
+                    var objDataColumn8 = new DataColumn("Success_Day");
+                    objDataColumn8.DataType = typeof(int);
+                    objDataTable.Columns.Add(objDataColumn8);
+                }
 
-                var objDataColumn9 = new DataColumn("Success_Week");
-                objDataColumn9.DataType = typeof(int);
-                objDataTable.Columns.Add(objDataColumn9);
+                if (!columnList.Any(p => p.ColumnName == "Success_Week"))
+                {
+                    var objDataColumn9 = new DataColumn("Success_Week");
+                    objDataColumn9.DataType = typeof(int);
+                    objDataTable.Columns.Add(objDataColumn9);
+                }
             }
 
             if (!boolLogEntry_Error)
             {
-                var objDataColumn1 = new DataColumn("ID_LogEntry_Error");
-                objDataColumn1.DataType = typeof(string);
-                objDataTable.Columns.Add(objDataColumn1);
-                objUserControl_Report.VisibilityColumn("ID_LogEntry_Error", false);
+                if (!columnList.Any(p => p.ColumnName == "ID_LogEntry_Error"))
+                {
+                    var objDataColumn1 = new DataColumn("ID_LogEntry_Error");
+                    objDataColumn1.DataType = typeof(string);
+                    objDataTable.Columns.Add(objDataColumn1);
+                    objUserControl_Report.VisibilityColumn("ID_LogEntry_Error", false);
+                }
 
-                var objDataColumn2 = new DataColumn("Name_LogEntry_Error");
-                objDataColumn2.DataType = typeof(string);
-                objDataTable.Columns.Add(objDataColumn2);
-                objUserControl_Report.VisibilityColumn("Name_LogEntry_Error", false);
+                if (!columnList.Any(p => p.ColumnName == "Name_LogEntry_Error"))
+                {
+                    var objDataColumn2 = new DataColumn("Name_LogEntry_Error");
+                    objDataColumn2.DataType = typeof(string);
+                    objDataTable.Columns.Add(objDataColumn2);
+                    objUserControl_Report.VisibilityColumn("Name_LogEntry_Error", false);
+                }
 
-                var objDataColumn3 = new DataColumn("DateTimeStamp_Error");
-                objDataColumn3.DataType = typeof(DateTime);
-                objDataTable.Columns.Add(objDataColumn3);
+                if (!columnList.Any(p => p.ColumnName == "DateTimeStamp_Error"))
+                {
+                    var objDataColumn3 = new DataColumn("DateTimeStamp_Error");
+                    objDataColumn3.DataType = typeof(DateTime);
+                    objDataTable.Columns.Add(objDataColumn3);
+                }
 
-                var objDataColumn5 = new DataColumn("DateTimeStamp_Error_Seq");
-                objDataColumn5.DataType = typeof(long);
-                objDataTable.Columns.Add(objDataColumn5);
+                if (!columnList.Any(p => p.ColumnName == "DateTimeStamp_Error_Seq"))
+                {
+                    var objDataColumn5 = new DataColumn("DateTimeStamp_Error_Seq");
+                    objDataColumn5.DataType = typeof(long);
+                    objDataTable.Columns.Add(objDataColumn5);
+                }
 
-                var objDataColumn6 = new DataColumn("Error_Year");
-                objDataColumn6.DataType = typeof(int);
-                objDataTable.Columns.Add(objDataColumn6);
+                if (!columnList.Any(p => p.ColumnName == "Error_Year"))
+                {
+                    var objDataColumn6 = new DataColumn("Error_Year");
+                    objDataColumn6.DataType = typeof(int);
+                    objDataTable.Columns.Add(objDataColumn6);
+                }
 
-                var objDataColumn7 = new DataColumn("Error_Month");
-                objDataColumn7.DataType = typeof(int);
-                objDataTable.Columns.Add(objDataColumn7);
+                if (!columnList.Any(p => p.ColumnName == "Error_Month"))
+                {
+                    var objDataColumn7 = new DataColumn("Error_Month");
+                    objDataColumn7.DataType = typeof(int);
+                    objDataTable.Columns.Add(objDataColumn7);
+                }
 
-                var objDataColumn8 = new DataColumn("Error_Day");
-                objDataColumn8.DataType = typeof(int);
-                objDataTable.Columns.Add(objDataColumn8);
+                if (!columnList.Any(p => p.ColumnName == "Error_Day"))
+                {
+                    var objDataColumn8 = new DataColumn("Error_Day");
+                    objDataColumn8.DataType = typeof(int);
+                    objDataTable.Columns.Add(objDataColumn8);
+                }
 
-                var objDataColumn9 = new DataColumn("Error_Week");
-                objDataColumn9.DataType = typeof(int);
-                objDataTable.Columns.Add(objDataColumn9);
+                if (!columnList.Any(p => p.ColumnName == "Error_Week"))
+                {
+                    var objDataColumn9 = new DataColumn("Error_Week");
+                    objDataColumn9.DataType = typeof(int);
+                    objDataTable.Columns.Add(objDataColumn9);
+                }
             }
 
             if (!boolLogEntry_Pause)
             {
-                var objDataColumn1 = new DataColumn("ID_LogEntry_Pause");
-                objDataColumn1.DataType = typeof(string);
-                objDataTable.Columns.Add(objDataColumn1);
-                objUserControl_Report.VisibilityColumn("ID_LogEntry_Pause", false);
+                if (!columnList.Any(p => p.ColumnName == "ID_LogEntry_Pause"))
+                {
+                    var objDataColumn1 = new DataColumn("ID_LogEntry_Pause");
+                    objDataColumn1.DataType = typeof(string);
+                    objDataTable.Columns.Add(objDataColumn1);
+                    objUserControl_Report.VisibilityColumn("ID_LogEntry_Pause", false);
+                }
 
-                var objDataColumn2 = new DataColumn("Name_LogEntry_Pause");
-                objDataColumn2.DataType = typeof(string);
-                objDataTable.Columns.Add(objDataColumn2);
-                objUserControl_Report.VisibilityColumn("Name_LogEntry_Pause", false);
+                if (!columnList.Any(p => p.ColumnName == "Name_LogEntry_Pause"))
+                {
+                    var objDataColumn2 = new DataColumn("Name_LogEntry_Pause");
+                    objDataColumn2.DataType = typeof(string);
+                    objDataTable.Columns.Add(objDataColumn2);
+                    objUserControl_Report.VisibilityColumn("Name_LogEntry_Pause", false);
+                }
 
-                var objDataColumn3 = new DataColumn("DateTimeStamp_Pause");
-                objDataColumn3.DataType = typeof(DateTime);
-                objDataTable.Columns.Add(objDataColumn3);
+                if (!columnList.Any(p => p.ColumnName == "DateTimeStamp_Pause"))
+                {
+                    var objDataColumn3 = new DataColumn("DateTimeStamp_Pause");
+                    objDataColumn3.DataType = typeof(DateTime);
+                    objDataTable.Columns.Add(objDataColumn3);
+                }
 
-                var objDataColumn5 = new DataColumn("DateTimeStamp_Pause_Seq");
-                objDataColumn5.DataType = typeof(long);
-                objDataTable.Columns.Add(objDataColumn5);
+                if (!columnList.Any(p => p.ColumnName == "DateTimeStamp_Pause_Seq"))
+                {
+                    var objDataColumn5 = new DataColumn("DateTimeStamp_Pause_Seq");
+                    objDataColumn5.DataType = typeof(long);
+                    objDataTable.Columns.Add(objDataColumn5);
+                }
 
-                var objDataColumn6 = new DataColumn("Pause_Year");
-                objDataColumn6.DataType = typeof(int);
-                objDataTable.Columns.Add(objDataColumn6);
+                if (!columnList.Any(p => p.ColumnName == "Pause_Year"))
+                {
+                    var objDataColumn6 = new DataColumn("Pause_Year");
+                    objDataColumn6.DataType = typeof(int);
+                    objDataTable.Columns.Add(objDataColumn6);
+                }
 
-                var objDataColumn7 = new DataColumn("Pause_Month");
-                objDataColumn7.DataType = typeof(int);
-                objDataTable.Columns.Add(objDataColumn7);
+                if (!columnList.Any(p => p.ColumnName == "Pause_Month"))
+                {
+                    var objDataColumn7 = new DataColumn("Pause_Month");
+                    objDataColumn7.DataType = typeof(int);
+                    objDataTable.Columns.Add(objDataColumn7);
+                }
 
-                var objDataColumn8 = new DataColumn("Pause_Day");
-                objDataColumn8.DataType = typeof(int);
-                objDataTable.Columns.Add(objDataColumn8);
+                if (!columnList.Any(p => p.ColumnName == "Pause_Day"))
+                {
+                    var objDataColumn8 = new DataColumn("Pause_Day");
+                    objDataColumn8.DataType = typeof(int);
+                    objDataTable.Columns.Add(objDataColumn8);
+                }
 
-                var objDataColumn9 = new DataColumn("Pause_Week");
-                objDataColumn9.DataType = typeof(int);
-                objDataTable.Columns.Add(objDataColumn9);
+                if (!columnList.Any(p => p.ColumnName == "Pause_Week"))
+                {
+                    var objDataColumn9 = new DataColumn("Pause_Week");
+                    objDataColumn9.DataType = typeof(int);
+                    objDataTable.Columns.Add(objDataColumn9);
+                }
             }
             GetDataLogEntries();
         }

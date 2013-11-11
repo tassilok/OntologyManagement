@@ -292,13 +292,14 @@ Public Class UserControl_Report
         set_DBConnection()
     End Sub
 
-    Public Sub New(Globals As clsGlobals)
+    Public Sub New(Globals As clsGlobals, objOItem_User As clsOntologyItem)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(Globals)
+        objLocalConfig.User = objOItem_User
 
         set_DBConnection()
     End Sub
@@ -952,7 +953,7 @@ Public Class UserControl_Report
                     objOItem_Ref.GUID = objDRV_Selected.Item(objLLeaded.First().Name_Col)
                     objOItem_Ref.Name = objDRV_Selected.Item(objLCol.First().Name_Col)
                     objOItem_Ref.GUID_Parent = objOItem_MediaType.GUID
-
+                    objLocalConfig_MediaView.OItem_User = objLocalConfig.User
                     objFrmSingleViewer = New frmSingleViewer(objLocalConfig_MediaView, objOItem_MediaType)
                     Select Case objOItem_MediaType.GUID
                         Case objLocalConfig_MediaView.OItem_Type_Images__Graphic_.GUID
@@ -1265,5 +1266,9 @@ Public Class UserControl_Report
                 Refresh_CellActions()
             End If
         End If
+    End Sub
+
+    Private Sub ToolStripButton_Sync_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Sync.Click
+        initialize(objOItem_Report)
     End Sub
 End Class

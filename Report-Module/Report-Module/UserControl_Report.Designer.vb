@@ -45,6 +45,8 @@ Partial Class UserControl_Report
         Me.AddLogentryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MediaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenMediaItemModuleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenPDFToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenImageRefToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripLabel_Sort = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Sort = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
@@ -83,15 +85,13 @@ Partial Class UserControl_Report
         Me.ToolStripMenuItemCalcMult = New System.Windows.Forms.ToolStripMenuItem()
         Me.AVGToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripProgressBar_Synced = New System.Windows.Forms.ToolStripProgressBar()
         Me.ToolStripLabel_ES = New System.Windows.Forms.ToolStripLabel()
         Me.Timer_Password = New System.Windows.Forms.Timer(Me.components)
         Me.Timer_Data = New System.Windows.Forms.Timer(Me.components)
         Me.Timer_Sync = New System.Windows.Forms.Timer(Me.components)
         Me.BindingSource_Reports = New System.Windows.Forms.BindingSource(Me.components)
-        Me.OpenPDFToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.OpenImageRefToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripButton_Sync = New System.Windows.Forms.ToolStripButton()
         CType(Me.DataGridView_Reports, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip_Reports.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
@@ -122,13 +122,13 @@ Partial Class UserControl_Report
         '
         Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FilesToolStripMenuItem, Me.EditToolStripMenuItem, Me.FilterToolStripMenuItem, Me.LoggingToolStripMenuItem, Me.MediaToolStripMenuItem})
         Me.ContextMenuStrip_Reports.Name = "ContextMenuStrip_Reports"
-        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(153, 136)
+        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(129, 114)
         '
         'FilesToolStripMenuItem
         '
         Me.FilesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.CopyPathToolStripMenuItem})
         Me.FilesToolStripMenuItem.Name = "FilesToolStripMenuItem"
-        Me.FilesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FilesToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
         Me.FilesToolStripMenuItem.Text = "x_Files"
         '
         'OpenToolStripMenuItem
@@ -147,7 +147,7 @@ Partial Class UserControl_Report
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.CopyGUIDToolStripMenuItem, Me.XEditSemItemToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
         Me.EditToolStripMenuItem.Text = "x_Edit"
         '
         'CopyNameToolStripMenuItem
@@ -172,7 +172,7 @@ Partial Class UserControl_Report
         '
         Me.FilterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EqualToolStripMenuItem, Me.DifferentToolStripMenuItem, Me.ContainsToolStripMenuItem, Me.ClearFilterToolStripMenuItem, Me.FieldToFilterToolStripMenuItem, Me.FieldToSortToolStripMenuItem})
         Me.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem"
-        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
         Me.FilterToolStripMenuItem.Text = "x_Filter"
         '
         'EqualToolStripMenuItem
@@ -221,7 +221,7 @@ Partial Class UserControl_Report
         '
         Me.LoggingToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddLogentryToolStripMenuItem})
         Me.LoggingToolStripMenuItem.Name = "LoggingToolStripMenuItem"
-        Me.LoggingToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.LoggingToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
         Me.LoggingToolStripMenuItem.Text = "x_Logging"
         '
         'AddLogentryToolStripMenuItem
@@ -234,7 +234,7 @@ Partial Class UserControl_Report
         '
         Me.MediaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenMediaItemModuleToolStripMenuItem, Me.OpenPDFToolStripMenuItem, Me.OpenImageRefToolStripMenuItem})
         Me.MediaToolStripMenuItem.Name = "MediaToolStripMenuItem"
-        Me.MediaToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.MediaToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
         Me.MediaToolStripMenuItem.Text = "x_Media"
         '
         'OpenMediaItemModuleToolStripMenuItem
@@ -242,6 +242,18 @@ Partial Class UserControl_Report
         Me.OpenMediaItemModuleToolStripMenuItem.Name = "OpenMediaItemModuleToolStripMenuItem"
         Me.OpenMediaItemModuleToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
         Me.OpenMediaItemModuleToolStripMenuItem.Text = "Open MediaItem-Ref"
+        '
+        'OpenPDFToolStripMenuItem
+        '
+        Me.OpenPDFToolStripMenuItem.Name = "OpenPDFToolStripMenuItem"
+        Me.OpenPDFToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
+        Me.OpenPDFToolStripMenuItem.Text = "Open PDF-Ref"
+        '
+        'OpenImageRefToolStripMenuItem
+        '
+        Me.OpenImageRefToolStripMenuItem.Name = "OpenImageRefToolStripMenuItem"
+        Me.OpenImageRefToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
+        Me.OpenImageRefToolStripMenuItem.Text = "Open Image-Ref"
         '
         'ToolStripLabel_Sort
         '
@@ -432,7 +444,7 @@ Partial Class UserControl_Report
         Me.BindingNavigator_Reports.CountItem = Me.BindingNavigatorCountItem
         Me.BindingNavigator_Reports.DeleteItem = Nothing
         Me.BindingNavigator_Reports.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.BindingNavigator_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BindingNavigatorMoveFirstItem, Me.BindingNavigatorMovePreviousItem, Me.BindingNavigatorSeparator, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.BindingNavigatorSeparator1, Me.BindingNavigatorMoveNextItem, Me.BindingNavigatorMoveLastItem, Me.BindingNavigatorSeparator2, Me.ToolStripButton_Filter, Me.ToolStripTextBox_Filter, Me.ToolStripLabel_Sort, Me.ToolStripTextBox_Sort, Me.ToolStripSeparator6, Me.ToolStripLabel_Calculation, Me.ToolStripTextBox_Calculation, Me.ToolStripSplitButton_Calculation, Me.ToolStripSeparator5, Me.ToolStripLabel1, Me.ToolStripProgressBar_Synced, Me.ToolStripLabel_ES})
+        Me.BindingNavigator_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BindingNavigatorMoveFirstItem, Me.BindingNavigatorMovePreviousItem, Me.BindingNavigatorSeparator, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.BindingNavigatorSeparator1, Me.BindingNavigatorMoveNextItem, Me.BindingNavigatorMoveLastItem, Me.BindingNavigatorSeparator2, Me.ToolStripButton_Filter, Me.ToolStripTextBox_Filter, Me.ToolStripLabel_Sort, Me.ToolStripTextBox_Sort, Me.ToolStripSeparator6, Me.ToolStripLabel_Calculation, Me.ToolStripTextBox_Calculation, Me.ToolStripSplitButton_Calculation, Me.ToolStripSeparator5, Me.ToolStripButton_Sync, Me.ToolStripProgressBar_Synced, Me.ToolStripLabel_ES})
         Me.BindingNavigator_Reports.Location = New System.Drawing.Point(0, 446)
         Me.BindingNavigator_Reports.MoveFirstItem = Me.BindingNavigatorMoveFirstItem
         Me.BindingNavigator_Reports.MoveLastItem = Me.BindingNavigatorMoveLastItem
@@ -549,12 +561,6 @@ Partial Class UserControl_Report
         Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
         Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 25)
         '
-        'ToolStripLabel1
-        '
-        Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(45, 22)
-        Me.ToolStripLabel1.Text = "x_Sync:"
-        '
         'ToolStripProgressBar_Synced
         '
         Me.ToolStripProgressBar_Synced.Name = "ToolStripProgressBar_Synced"
@@ -578,17 +584,14 @@ Partial Class UserControl_Report
         '
         Me.Timer_Sync.Interval = 300
         '
-        'OpenPDFToolStripMenuItem
+        'ToolStripButton_Sync
         '
-        Me.OpenPDFToolStripMenuItem.Name = "OpenPDFToolStripMenuItem"
-        Me.OpenPDFToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
-        Me.OpenPDFToolStripMenuItem.Text = "Open PDF-Ref"
-        '
-        'OpenImageRefToolStripMenuItem
-        '
-        Me.OpenImageRefToolStripMenuItem.Name = "OpenImageRefToolStripMenuItem"
-        Me.OpenImageRefToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
-        Me.OpenImageRefToolStripMenuItem.Text = "Open Image-Ref"
+        Me.ToolStripButton_Sync.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Sync.Image = CType(resources.GetObject("ToolStripButton_Sync.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Sync.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Sync.Name = "ToolStripButton_Sync"
+        Me.ToolStripButton_Sync.Size = New System.Drawing.Size(49, 22)
+        Me.ToolStripButton_Sync.Text = "x_Sync:"
         '
         'UserControl_Report
         '
@@ -665,7 +668,6 @@ Partial Class UserControl_Report
     Friend WithEvents Timer_Data As System.Windows.Forms.Timer
     Friend WithEvents BindingSource_Reports As System.Windows.Forms.BindingSource
     Friend WithEvents Timer_Sync As System.Windows.Forms.Timer
-    Friend WithEvents ToolStripLabel1 As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripProgressBar_Synced As System.Windows.Forms.ToolStripProgressBar
     Friend WithEvents ToolStripLabel_ES As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripSeparator6 As System.Windows.Forms.ToolStripSeparator
@@ -682,5 +684,6 @@ Partial Class UserControl_Report
     Friend WithEvents OpenMediaItemModuleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenPDFToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenImageRefToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripButton_Sync As System.Windows.Forms.ToolStripButton
 
 End Class
