@@ -460,7 +460,16 @@ namespace ElasticSearchConnector
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;
 
-            var OList_Objects = OList_ObjAtt.GroupBy(p => p.ID_Class).Select(p => new clsOntologyItem { GUID_Parent = p.Key }).ToList();
+            List<clsOntologyItem> OList_Objects;
+            if (OList_ObjAtt.Count < 1000)
+            {
+                OList_Objects = OList_ObjAtt.GroupBy(p => p.ID_Object).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();    
+            }
+            else
+            {
+                OList_Objects = OList_ObjAtt.GroupBy(p => p.ID_Class).Select(p => new clsOntologyItem { GUID_Parent = p.Key }).ToList();    
+            }
+
             var OList_AttributeTypes = OList_ObjAtt.GroupBy(p => p.ID_AttributeType).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
 
             var objOList_Objects = objDBSelector.get_Data_Objects(OList_Objects);
@@ -743,14 +752,32 @@ namespace ElasticSearchConnector
             var objBulkObjects = new List<BulkObject>();
             var objOItem_Result = objLogStates.LogState_Success;
 
-            var OList_Objects = OList_ObjectRel.GroupBy(p => p.ID_Parent_Object).Select(p => new clsOntologyItem { GUID_Parent = p.Key }).ToList();
+            List<clsOntologyItem> OList_Objects;
+            if (OList_ObjectRel.Count < 1000)
+            {
+                OList_Objects = OList_ObjectRel.GroupBy(p => p.ID_Object).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();    
+            }
+            else
+            {
+                OList_Objects = OList_ObjectRel.GroupBy(p => p.ID_Parent_Object).Select(p => new clsOntologyItem { GUID_Parent = p.Key }).ToList();    
+            }
+            
             var objOList_Objects = objDBSelector.get_Data_Objects(OList_Objects);
 
             var OList_RelationTypes = OList_ObjectRel.GroupBy(p => p.ID_RelationType).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
             var objOList_RelationTypes = objDBSelector.get_Data_RelationTypes(OList_RelationTypes);
 
             var OList_OtherAttributeTypes = OList_ObjectRel.Where(p => p.Ontology == objTypes.AttributeType).GroupBy(p => p.ID_Other).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
-            var OList_OtherObjects = OList_ObjectRel.Where(p => p.Ontology == objTypes.ObjectType).GroupBy(p => p.ID_Parent_Other).Select(p => new clsOntologyItem { GUID_Parent = p.Key }).ToList();
+            List<clsOntologyItem> OList_OtherObjects;
+            if (OList_ObjectRel.Count < 1000)
+            {
+                OList_OtherObjects = OList_ObjectRel.Where(p => p.Ontology == objTypes.ObjectType).GroupBy(p => p.ID_Other).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();    
+            }
+            else
+            {
+                OList_OtherObjects = OList_ObjectRel.Where(p => p.Ontology == objTypes.ObjectType).GroupBy(p => p.ID_Parent_Other).Select(p => new clsOntologyItem { GUID_Parent = p.Key }).ToList();    
+            }
+            
             var OList_OtherClasses = OList_ObjectRel.Where(p => p.Ontology == objTypes.ClassType).GroupBy(p => p.ID_Other).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
             var OList_OtherRelationTypes = OList_ObjectRel.Where(p => p.Ontology == objTypes.RelationType).GroupBy(p => p.ID_Other).Select(p => new clsOntologyItem { GUID = p.Key }).ToList();
 

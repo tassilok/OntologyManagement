@@ -1809,11 +1809,25 @@ namespace ElasticSearchConnector
             {
                 if (!doJoin)
                 {
-                    var oList_OItems = (from objObj in OntologyList_ObjAtt_ID
-                                             group objObj by objObj.ID_Class
-                                             into g
-                                             select
-                                                 new clsOntologyItem {GUID_Parent = g.Key, Type = objTypes.ObjectType}).ToList();
+                    List<clsOntologyItem> oList_OItems;
+                    
+                    if (OntologyList_ObjAtt_ID.Count < 1000)
+                    {
+                        oList_OItems = (from objObj in OntologyList_ObjAtt_ID
+                                            group objObj by objObj.ID_Object
+                                                into g
+                                                select
+                                                    new clsOntologyItem { GUID = g.Key, Type = objTypes.ObjectType }).ToList();
+                    }
+                    else
+                    {
+                        oList_OItems = (from objObj in OntologyList_ObjAtt_ID
+                                            group objObj by objObj.ID_Class
+                                                into g
+                                                select
+                                                    new clsOntologyItem { GUID_Parent = g.Key, Type = objTypes.ObjectType }).ToList();    
+                    }
+                    
                     
                     if (oList_OItems.Any())
                     {
@@ -2194,11 +2208,24 @@ namespace ElasticSearchConnector
             {
                 if (!doJoin_Left)
                 {
-                    var oList_OItems = (from objObj in OntologyList_ObjectRel_ID
+                    List<clsOntologyItem> oList_OItems;
+                    if (OntologyList_ObjectRel_ID.Count < 1000)
+                    {
+                        oList_OItems = (from objObj in OntologyList_ObjectRel_ID
+                                        group objObj by objObj.ID_Object
+                                            into g
+                                            select
+                                                new clsOntologyItem { GUID = g.Key, Type = objTypes.ObjectType }).ToList();    
+                    }
+                    else
+                    {
+                        oList_OItems = (from objObj in OntologyList_ObjectRel_ID
                                         group objObj by objObj.ID_Parent_Object
                                             into g
                                             select
                                                 new clsOntologyItem { GUID_Parent = g.Key, Type = objTypes.ObjectType }).ToList();
+                    }
+                    
 
                     if (oList_OItems.Any())
                     {
@@ -2212,12 +2239,26 @@ namespace ElasticSearchConnector
                 get_Data_RelationTypes();
                 
                 get_Data_AttributeType();
-                          
-                var oList_OtherObjects = (from objClass in OntologyList_ObjectRel_ID
-                                          where objClass.Ontology == objTypes.ObjectType
-                                           group objClass by objClass.ID_Parent_Other
-                                           into g
-                                           select new clsOntologyItem {GUID_Parent = g.Key}).ToList();
+
+                List<clsOntologyItem> oList_OtherObjects;
+                if (OntologyList_ObjectRel_ID.Count < 1000)
+                {
+                    oList_OtherObjects = (from objClass in OntologyList_ObjectRel_ID
+                                              where objClass.Ontology == objTypes.ObjectType
+                                              group objClass by objClass.ID_Other
+                                              into g
+                                              select new clsOntologyItem {GUID = g.Key}).ToList();
+
+                }
+                else
+                {
+                    oList_OtherObjects = (from objClass in OntologyList_ObjectRel_ID
+                                              where objClass.Ontology == objTypes.ObjectType
+                                              group objClass by objClass.ID_Parent_Other
+                                                  into g
+                                                  select new clsOntologyItem { GUID_Parent = g.Key }).ToList();
+                }
+                
                 OntologyList_Objects2 = oList_OtherObjects.Any() ? get_Data_Objects(oList_OtherObjects,List2:true,ClearObj1:false) : new List<clsOntologyItem>();
 
                 OntologyList_DataTypes = get_Data_DataTypes();

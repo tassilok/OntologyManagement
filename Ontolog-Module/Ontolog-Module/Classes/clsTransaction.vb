@@ -354,191 +354,13 @@ Public Class clsTransaction
             Case objClassTypes.ClassType_ObjectAtt
 
                 If boolRemoveAll = True Then
-                    objOL_ObjAtt_Search.Add(New clsObjectAtt(Nothing, _
+                    objOL_ObjAtt_Del.Add(New clsObjectAtt(Nothing, _
                                                   objOItem_TransItem.OItem_ObjectAtt.ID_Object, _
                                                   Nothing, _
                                                   objOItem_TransItem.OItem_ObjectAtt.ID_AttributeType, _
                                                   Nothing))
-
-                    objOItem_Result = objLogStates.LogState_Success
-
-                    objOItem_Result_Search = objDBLevel.get_Data_ObjectAtt(objOL_ObjAtt_Search, _
-                                                                           boolIDs:=False)
-
-                    If objOItem_Result_Search.GUID = objLogStates.LogState_Success.GUID Then
-                        Select Case objOItem_TransItem.OItem_ObjectAtt.ID_DataType
-                            Case objDataTypes.DType_Bool.GUID
-                                Dim objLDel = From obj In objDBLevel.OList_ObjectAtt
-                                      Where Not obj.Val_Bit = objOItem_TransItem.OItem_ObjectAtt.Val_Bit
-
-                                Dim objLExist = From obj In objDBLevel.OList_ObjectAtt
-                                                Where obj.Val_Bit = objOItem_TransItem.OItem_ObjectAtt.Val_Bit
-
-
-                                objOItem_Result = objLogStates.LogState_Nothing
-                                objOItem_Result_Del = objLogStates.LogState_Success
-                                If objLDel.Any() Then
-
-
-                                    For Each objDel In objLDel
-                                        objOL_ObjAtt_Del.Add(New clsObjectAtt(objDel.ID_Attribute, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing))
-
-                                    Next
-
-                                    objOItem_Result_Del = objDBLevel.del_ObjectAtt(objOL_ObjAtt_Del)
-
-                                End If
-
-                                If objOItem_Result_Del.GUID = objLogStates.LogState_Success.GUID Then
-                                    If objLExist.Any() Then
-                                        objOItem_Result = objLogStates.LogState_Success
-                                    End If
-                                Else
-                                    objOItem_Result = objLogStates.LogState_Error
-                                End If
-                            Case objDataTypes.DType_DateTime.GUID
-                                Dim objLDel = From obj In objDBLevel.OList_ObjectAtt
-                                      Where Not obj.Val_Date = objOItem_TransItem.OItem_ObjectAtt.Val_Date
-
-                                Dim objLExist = From obj In objDBLevel.OList_ObjectAtt
-                                                Where obj.Val_Date = objOItem_TransItem.OItem_ObjectAtt.Val_Date
-
-
-                                objOItem_Result = objLogStates.LogState_Nothing
-                                objOItem_Result_Del = objLogStates.LogState_Success
-                                If objLDel.Any() Then
-
-
-                                    For Each objDel In objLDel
-                                        objOL_ObjAtt_Del.Add(New clsObjectAtt(objDel.ID_Attribute, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing))
-
-                                    Next
-
-                                    objOItem_Result_Del = objDBLevel.del_ObjectAtt(objOL_ObjAtt_Del)
-
-                                End If
-
-                                If objOItem_Result_Del.GUID = objLogStates.LogState_Success.GUID Then
-                                    If objLExist.Any() Then
-                                        objOItem_Result = objLogStates.LogState_Success
-                                    End If
-                                Else
-                                    objOItem_Result = objLogStates.LogState_Error
-                                End If
-                            Case objDataTypes.DType_Int.GUID
-                                Dim objLDel = From obj In objDBLevel.OList_ObjectAtt
-                                      Where Not obj.Val_Lng = objOItem_TransItem.OItem_ObjectAtt.Val_Lng
-
-                                Dim objLExist = From obj In objDBLevel.OList_ObjectAtt
-                                                Where obj.Val_Lng = objOItem_TransItem.OItem_ObjectAtt.Val_Lng
-
-
-                                objOItem_Result = objLogStates.LogState_Nothing
-                                objOItem_Result_Del = objLogStates.LogState_Success
-                                If objLDel.Any() Then
-
-
-                                    For Each objDel In objLDel
-                                        objOL_ObjAtt_Del.Add(New clsObjectAtt(objDel.ID_Attribute, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing))
-
-                                    Next
-
-                                    objOItem_Result_Del = objDBLevel.del_ObjectAtt(objOL_ObjAtt_Del)
-
-                                End If
-
-                                If objOItem_Result_Del.GUID = objLogStates.LogState_Success.GUID Then
-                                    If objLExist.Any() Then
-
-                                        objOItem_Result = objLogStates.LogState_Success
-                                    End If
-                                Else
-                                    objOItem_Result = objLogStates.LogState_Error
-                                End If
-                            Case objDataTypes.DType_Real.GUID
-                                Dim objLDel = From obj In objDBLevel.OList_ObjectAtt
-                                      Where Not obj.Val_Double = objOItem_TransItem.OItem_ObjectAtt.Val_Double
-
-                                Dim objLExist = From obj In objDBLevel.OList_ObjectAtt
-                                                Where obj.Val_Double = objOItem_TransItem.OItem_ObjectAtt.Val_Double
-
-
-                                objOItem_Result = objLogStates.LogState_Nothing
-                                objOItem_Result_Del = objLogStates.LogState_Success
-                                If objLDel.Any() Then
-
-
-                                    For Each objDel In objLDel
-                                        objOL_ObjAtt_Del.Add(New clsObjectAtt(objDel.ID_Attribute, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing))
-
-                                    Next
-
-                                    objOItem_Result_Del = objDBLevel.del_ObjectAtt(objOL_ObjAtt_Del)
-
-                                End If
-
-                                If objOItem_Result_Del.GUID = objLogStates.LogState_Success.GUID Then
-                                    If objLExist.Any() Then
-
-                                        objOItem_Result = objLogStates.LogState_Success
-                                    End If
-                                Else
-                                    objOItem_Result = objLogStates.LogState_Error
-                                End If
-                            Case objDataTypes.DType_String.GUID
-                                Dim objLDel = From obj In objDBLevel.OList_ObjectAtt
-                                      Where Not obj.Val_String = objOItem_TransItem.OItem_ObjectAtt.Val_String
-
-                                Dim objLExist = From obj In objDBLevel.OList_ObjectAtt
-                                                Where obj.Val_String = objOItem_TransItem.OItem_ObjectAtt.Val_String
-
-
-                                objOItem_Result = objLogStates.LogState_Nothing
-                                objOItem_Result_Del = objLogStates.LogState_Success
-                                If objLDel.Any() Then
-
-
-                                    For Each objDel In objLDel
-                                        objOL_ObjAtt_Del.Add(New clsObjectAtt(objDel.ID_Attribute, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing, _
-                                                                           Nothing))
-
-                                    Next
-
-                                    objOItem_Result_Del = objDBLevel.del_ObjectAtt(objOL_ObjAtt_Del)
-
-                                End If
-
-                                If objOItem_Result_Del.GUID = objLogStates.LogState_Success.GUID Then
-                                    If objLExist.Any() Then
-                                        objOItem_Result = objLogStates.LogState_Success
-                                    End If
-                                Else
-                                    objOItem_Result = objLogStates.LogState_Error
-                                End If
-                        End Select
-
-                    Else
-                        objOItem_Result = objLogStates.LogState_Error
-                    End If
+                    objOItem_Result = objDBLevel.del_ObjectAtt(objOL_ObjAtt_Del)
+                    
                 Else
                     If Not objOItem_TransItem.OItem_ObjectAtt.ID_Attribute Is Nothing And _
                         Not objOItem_TransItem.OItem_ObjectAtt.ID_Attribute = "" Then
@@ -560,7 +382,7 @@ Public Class clsTransaction
                 If boolRemoveAll = True Then
 
                     If boolNeutral = False Then
-                        objOL_ObjRel_Search.Add(New clsObjectRel(objOItem_TransItem.OItem_ObjectRel.ID_Object, _
+                        objOL_ObjRel_Del.Add(New clsObjectRel(objOItem_TransItem.OItem_ObjectRel.ID_Object, _
                                               Nothing, _
                                               Nothing, _
                                               objOItem_TransItem.OItem_ObjectRel.ID_Parent_Other, _
@@ -569,7 +391,7 @@ Public Class clsTransaction
                                               Nothing, _
                                               Nothing))
                     Else
-                        objOL_ObjRel_Search.Add(New clsObjectRel(objOItem_TransItem.OItem_ObjectRel.ID_Object, _
+                        objOL_ObjRel_Del.Add(New clsObjectRel(objOItem_TransItem.OItem_ObjectRel.ID_Object, _
                                               Nothing, _
                                               Nothing, _
                                               Nothing, _
@@ -579,46 +401,8 @@ Public Class clsTransaction
                                               Nothing))
                     End If
 
-
-                    objOItem_Result_Search = objDBLevel.get_Data_ObjectRel(objOL_ObjRel_Search)
-
-                    If objOItem_Result_Search.GUID = objLogStates.LogState_Success.GUID Then
-                        Dim objLDel = From obj In objDBLevel.OList_ObjectRel_ID
-                                      Where Not obj.ID_Other = objOItem_TransItem.OItem_ObjectRel.ID_Other
-
-                        Dim objLExist = From obj In objDBLevel.OList_ObjectRel_ID
-                                        Where obj.ID_Other = objOItem_TransItem.OItem_ObjectRel.ID_Other
-
-                        objOItem_Result = objLogStates.LogState_Nothing
-                        objOItem_Result_Del = objLogStates.LogState_Success
-
-                        If objLDel.Any() Then
-                            For Each objDel In objLDel
-                                objOL_ObjRel_Del.Add(New clsObjectRel(objDel.ID_Object, _
-                                                                      Nothing, _
-                                                                      objDel.ID_Other, _
-                                                                      Nothing, _
-                                                                      objDel.ID_RelationType, _
-                                                                      Nothing, _
-                                                                      Nothing, _
-                                                                      Nothing))
-
-                            Next
-
-                            objOItem_Result_Del = objDBLevel.del_ObjectRel(objOL_ObjRel_Del)
-                        End If
-
-                        If objOItem_Result_Del.GUID = objLogStates.LogState_Success.GUID Then
-                            If objLExist.Any() Then
-
-                                objOItem_Result = objLogStates.LogState_Success
-                            End If
-                        Else
-                            objOItem_Result = objLogStates.LogState_Error
-                        End If
-                    Else
-                        objOItem_Result = objLogStates.LogState_Error
-                    End If
+                    objOItem_Result = objDBLevel.del_ObjectRel(objOL_ObjRel_Del)
+                    
                 Else
                     objOL_ObjRel_Del.Add(objOItem_TransItem.OItem_ObjectRel)
                     objOItem_Result = objDBLevel.del_ObjectRel(objOL_ObjRel_Del)
