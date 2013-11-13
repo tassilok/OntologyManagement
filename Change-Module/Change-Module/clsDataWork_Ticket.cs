@@ -42,6 +42,8 @@ namespace Change_Module
 
         private clsLocalConfig objLocalConfig;
 
+        private clsRelationConfig objRelationConfig;
+
         private Thread objThread_Tickets;
         private Thread objThread_Group;
         private Thread objThread_User;
@@ -809,10 +811,6 @@ namespace Change_Module
         public clsOntologyItem NewProcessLog(clsOntologyItem OItem_Process, clsOntologyItem OItem_Ticket)
         {
             clsOntologyItem objOItem_Result;
-            List<clsObjectRel> objORList_ProcessLog_To_Process_Save = new List<clsObjectRel>();
-            List<clsObjectRel> objORList_Ticket_To_ProcessLog = new List<clsObjectRel>();
-            List<clsObjectRel> objORList_ProcessLog_To_LogEntry_Start = new List<clsObjectRel>();
-            List<clsObjectRel> objORList_ProcessLog_To_LogEntry_belongingDone = new List<clsObjectRel>();
             clsOntologyItem objOItem_ProcessLog;
             clsOntologyItem objOItem_LogEntry;
             long OrderID;
@@ -825,16 +823,10 @@ namespace Change_Module
             objOItem_Result = objTransaction_ProcessLog.do_Transaction(objOItem_ProcessLog);
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                objORList_ProcessLog_To_Process_Save.Add(new clsObjectRel
-                {
-                    ID_Object = objOItem_ProcessLog.GUID,
-                    ID_Parent_Object = objOItem_ProcessLog.GUID_Parent,
-                    ID_Other = OItem_Process.GUID,
-                    ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
-                    Ontology = objLocalConfig.Globals.Type_Object
-                });
 
-                objOItem_Result = objTransaction_ProcessLog.do_Transaction(objORList_ProcessLog_To_Process_Save, true);
+                var objORel_ProcessLog_To_Process_Save = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessLog, OItem_Process, objLocalConfig.OItem_RelationType_belongsTo);
+
+                objOItem_Result = objTransaction_ProcessLog.do_Transaction(objORel_ProcessLog_To_Process_Save, true);
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
                     OrderID = objDBLevel_ProcessProcessLog.get_Data_Rel_OrderID(OItem_Ticket, 
@@ -847,16 +839,9 @@ namespace Change_Module
 
                     OrderID ++;
 
-                    objORList_Ticket_To_ProcessLog.Add(new clsObjectRel(OItem_Ticket.GUID,
-                                                                        OItem_Ticket.GUID_Parent,
-                                                                        objOItem_ProcessLog.GUID,
-                                                                        objOItem_ProcessLog.GUID_Parent,
-                                                                        objLocalConfig.OItem_RelationType_contains.GUID,
-                                                                        objLocalConfig.Globals.Type_Object,
-                                                                        null,
-                                                                        OrderID));
+                    var objORel_Ticket_To_ProcessLog = objRelationConfig.Rel_ObjectRelation(OItem_Ticket, objOItem_ProcessLog, objLocalConfig.OItem_RelationType_contains, false, OrderID);
 
-                    objOItem_Result = objTransaction_ProcessLog.do_Transaction(objORList_Ticket_To_ProcessLog);
+                    objOItem_Result = objTransaction_ProcessLog.do_Transaction(objORel_Ticket_To_ProcessLog);
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
                         objOItem_LogEntry = objLogManagement.log_Entry(DateTime.Now, 
@@ -864,29 +849,17 @@ namespace Change_Module
                                                                        objLocalConfig.OItem_User, 
                                                                        objLocalConfig.OItem_Token_Logstate_Start.Name);
 
-                        objORList_ProcessLog_To_LogEntry_Start.Add(new clsObjectRel(objOItem_ProcessLog.GUID,
-                                                                                   objOItem_ProcessLog.GUID_Parent,
-                                                                                   objOItem_LogEntry.GUID,
-                                                                                   objOItem_LogEntry.GUID_Parent,
-                                                                                   objLocalConfig.OItem_RelationType_started_with.GUID,
-                                                                                   objLocalConfig.Globals.Type_Object,
-                                                                                   null,
-                                                                                   1));
+                        var objORel_ProcessLog_To_LogEntry_Start = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessLog, objOItem_LogEntry, objLocalConfig.OItem_RelationType_started_with);
 
-                        objOItem_Result = objTransaction_ProcessLog.do_Transaction(objORList_ProcessLog_To_LogEntry_Start);
+
+                        objOItem_Result = objTransaction_ProcessLog.do_Transaction(objORel_ProcessLog_To_LogEntry_Start);
 
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-                            objORList_ProcessLog_To_LogEntry_Start.Add(new clsObjectRel(objOItem_ProcessLog.GUID,
-                                                                                   objOItem_ProcessLog.GUID_Parent,
-                                                                                   objOItem_LogEntry.GUID,
-                                                                                   objOItem_LogEntry.GUID_Parent,
-                                                                                   objLocalConfig.OItem_RelationType_belongsTo.GUID,
-                                                                                   objLocalConfig.Globals.Type_Object,
-                                                                                   null,
-                                                                                   1));
+                            var objORel_ProcessLog_To_LogEntry_BelongingDone = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessLog, objOItem_LogEntry, objLocalConfig.OItem_RelationType_belonging_Done);
 
-                            objOItem_Result = objTransaction_ProcessLog.do_Transaction(objORList_ProcessLog_To_LogEntry_belongingDone);
+
+                            objOItem_Result = objTransaction_ProcessLog.do_Transaction(objORel_ProcessLog_To_LogEntry_BelongingDone);
                             if (objOItem_Result.GUID != objLocalConfig.Globals.LState_Success.GUID)
                             {
                                 objOItem_ProcessLog = null;
@@ -1977,6 +1950,8 @@ namespace Change_Module
             objDBLevel_LogentriesOfIncidents = new clsDBLevel(objLocalConfig.Globals);
 
             objLogManagement = new clsLogManagement(objLocalConfig.Globals);
+
+            objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
         }
     }
 }

@@ -420,7 +420,26 @@ Public Class UserControl_MediaItemList
 
         If ToolStripButton_Replace.Checked Then
             If DataGridView_MediaItems.SelectedRows.Count = 1 Then
+                objDGVR_Selected = DataGridView_MediaItems.SelectedRows(0)
 
+                objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+
+                OpenFileDialog_MediaItem.Multiselect = False
+                If OpenFileDialog_MediaItem.ShowDialog(Me) = DialogResult.OK Then
+                    objOItem_File = New clsOntologyItem
+                    objOItem_File.GUID = objDRV_Selected.Item("ID_File")
+                    objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
+                    objOItem_File.Type = objLocalConfig.Globals.Type_Object
+
+                    strPath = OpenFileDialog_MediaItem.FileName
+                    objOItem_File.Name = IO.Path.GetFileName(strPath)
+                    objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_File, strPath)
+
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        MsgBox("Die Datei konnte nicht ersetzt werden!", MsgBoxStyle.Exclamation)
+                    End If
+                End If
             Else
                 MsgBox("Sie können nur jeweils ein Media-Item ersetzen!", MsgBoxStyle.Information)
             End If

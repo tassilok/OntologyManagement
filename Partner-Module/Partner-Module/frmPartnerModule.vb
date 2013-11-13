@@ -1,5 +1,6 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
+Imports Security_Module
 Public Class frmPartnerModule
 
     Private objLocalConfig As clsLocalConfig
@@ -9,6 +10,8 @@ Public Class frmPartnerModule
     Private WithEvents objUserControl_PersonalData As UserControl_PersonalData
     Private WithEvents objUserControl_ComData As UserControl_CommunicationData
     Private WithEvents objUserControl_AvailabilityData As UserControl_AvailabilityData
+
+    Private objFrmAuthenticate As frmAuthenticate
 
     Private SplashScreen As SplashScreen_OntologyModule
     Private AboutBox As AboutBox_OntologyItem
@@ -103,13 +106,14 @@ Public Class frmPartnerModule
         initialize()
     End Sub
 
-    Public Sub New(ByVal Globals As clsGlobals)
+    Public Sub New(ByVal Globals As clsGlobals, OItem_User As clsOntologyItem)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(Globals)
+        objLocalConfig.OItem_User = OItem_User
 
         set_DBConnection()
         initialize()
@@ -118,32 +122,42 @@ Public Class frmPartnerModule
     Private Sub initialize()
         Dim objOItem_Partner As clsOntologyItem
 
-        objUserControl_PartnerList = New UserControl_OItemList(objLocalConfig.Globals)
-        objUserControl_PartnerList.Dock = DockStyle.Fill
-        SplitContainer1.Panel1.Controls.Add(objUserControl_PartnerList)
+        objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
+        objFrmAuthenticate.ShowDialog(Me)
+        If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
+            objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User
 
-        objUserControl_Address = New UserControl_Address(objLocalConfig)
-        objUserControl_Address.Dock = DockStyle.Fill
-        TabPage_Address.Controls.Add(objUserControl_Address)
+            objUserControl_PartnerList = New UserControl_OItemList(objLocalConfig.Globals)
+            objUserControl_PartnerList.Dock = DockStyle.Fill
+            SplitContainer1.Panel1.Controls.Add(objUserControl_PartnerList)
 
-        objUserControl_PersonalData = New UserControl_PersonalData(objLocalConfig)
-        objUserControl_PersonalData.Dock = DockStyle.Fill
-        TabPage_PersonalData.Controls.Add(objUserControl_PersonalData)
+            objUserControl_Address = New UserControl_Address(objLocalConfig)
+            objUserControl_Address.Dock = DockStyle.Fill
+            TabPage_Address.Controls.Add(objUserControl_Address)
 
-        objUserControl_ComData = New UserControl_CommunicationData(objLocalConfig)
-        objUserControl_ComData.Dock = DockStyle.Fill
-        TabPage_CommunicationData.Controls.Add(objUserControl_ComData)
+            objUserControl_PersonalData = New UserControl_PersonalData(objLocalConfig)
+            objUserControl_PersonalData.Dock = DockStyle.Fill
+            TabPage_PersonalData.Controls.Add(objUserControl_PersonalData)
 
-        objUserControl_AvailabilityData = New UserControl_AvailabilityData(objLocalConfig)
-        objUserControl_AvailabilityData.Dock = DockStyle.Fill
-        TabPage_AvailabilityData.Controls.Add(objUserControl_AvailabilityData)
+            objUserControl_ComData = New UserControl_CommunicationData(objLocalConfig)
+            objUserControl_ComData.Dock = DockStyle.Fill
+            TabPage_CommunicationData.Controls.Add(objUserControl_ComData)
 
-        objOItem_Partner = New clsOntologyItem(Nothing, _
-                                               Nothing, _
-                                               objLocalConfig.OItem_Class_Partner.GUID, _
-                                               objLocalConfig.Globals.Type_Object)
+            objUserControl_AvailabilityData = New UserControl_AvailabilityData(objLocalConfig)
+            objUserControl_AvailabilityData.Dock = DockStyle.Fill
+            TabPage_AvailabilityData.Controls.Add(objUserControl_AvailabilityData)
 
-        objUserControl_PartnerList.initialize(objOItem_Partner)
+            objOItem_Partner = New clsOntologyItem(Nothing, _
+                                                   Nothing, _
+                                                   objLocalConfig.OItem_Class_Partner.GUID, _
+                                                   objLocalConfig.Globals.Type_Object)
+
+            objUserControl_PartnerList.initialize(objOItem_Partner)
+        Else
+            Environment.Exit(0)
+        End If
+
+        
     End Sub
 
     Private Sub set_DBConnection()

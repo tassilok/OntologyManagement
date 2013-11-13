@@ -36,6 +36,7 @@
             this.dataGridView_LiteraturQuellen = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip_Quellen = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.applyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -103,9 +104,11 @@
             // contextMenuStrip_Quellen
             // 
             this.contextMenuStrip_Quellen.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripMenuItem});
+            this.newToolStripMenuItem,
+            this.applyToolStripMenuItem});
             this.contextMenuStrip_Quellen.Name = "contextMenuStrip_Quellen";
-            this.contextMenuStrip_Quellen.Size = new System.Drawing.Size(153, 48);
+            this.contextMenuStrip_Quellen.Size = new System.Drawing.Size(153, 70);
+            this.contextMenuStrip_Quellen.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Quellen_Opening);
             // 
             // newToolStripMenuItem
             // 
@@ -113,6 +116,13 @@
             this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "x_New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            // 
+            // applyToolStripMenuItem
+            // 
+            this.applyToolStripMenuItem.Name = "applyToolStripMenuItem";
+            this.applyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.applyToolStripMenuItem.Text = "x_Apply";
+            this.applyToolStripMenuItem.Click += new System.EventHandler(this.applyToolStripMenuItem_Click);
             // 
             // UserControl_LiteraturQuelle
             // 
@@ -143,5 +153,6 @@
         private System.Windows.Forms.DataGridView dataGridView_LiteraturQuellen;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Quellen;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem applyToolStripMenuItem;
     }
 }

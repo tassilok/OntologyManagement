@@ -22,10 +22,13 @@ namespace LiteraturQuellen_Module
         private clsDBLevel objDBLevel_Config1;
         private clsDBLevel objDBLevel_Config2;
 	
+        // AttributeTypes
 	public clsOntologyItem OItem_attribute_datetimestamp { get; set; }
 public clsOntologyItem OItem_attribute_dbpostfix { get; set; }
 public clsOntologyItem OItem_attribute_real_date { get; set; }
 public clsOntologyItem OItem_attribute_seite { get; set; }
+
+        // RelationTypes
 public clsOntologyItem OItem_relationtype_belonging { get; set; }
 public clsOntologyItem OItem_relationtype_belonging_source { get; set; }
 public clsOntologyItem OItem_relationtype_belongsto { get; set; }
@@ -44,7 +47,13 @@ public clsOntologyItem OItem_relationtype_receipient { get; set; }
 public clsOntologyItem OItem_relationtype_sended { get; set; }
 public clsOntologyItem OItem_relationtype_sender { get; set; }
 public clsOntologyItem OItem_relationtype_verweist_auf { get; set; }
+public clsOntologyItem OItem_relationtype_autor { get; set; }
+public clsOntologyItem OItem_relationtype_broadcasted_in { get; set; }
+
+        // Objects
 public clsOntologyItem OItem_token_logstate_download { get; set; }
+
+        // Classes
 public clsOntologyItem OItem_type_artikel { get; set; }
 public clsOntologyItem OItem_type_audio_quelle { get; set; }
 public clsOntologyItem OItem_type_ausstrahlung { get; set; }
@@ -71,6 +80,8 @@ public clsOntologyItem OItem_type_video { get; set; }
 public clsOntologyItem OItem_type_video_quelle { get; set; }
 public clsOntologyItem OItem_type_zeitschriftenausgabe { get; set; }
 public clsOntologyItem OItem_type_zeitungsquelle { get; set; }
+public clsOntologyItem OItem_class_sendung { get; set; }
+public clsOntologyItem OItem_class_video_sender { get; set; }
 
 public clsOntologyItem User { get; set; }
 	
@@ -272,6 +283,49 @@ var objOList_attribute_seite = (from objOItem in objDBLevel_Config1.OList_Object
   
 	private void get_Config_RelationTypes()
         {
+
+            var objOList_relationtype_broadcasted_in = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                        where objOItem.ID_Object == cstrID_Ontology
+                                                        join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                        where objRef.Name_Object.ToLower() == "relationtype_broadcasted_in".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                                        select objRef).ToList();
+
+            if (objOList_relationtype_broadcasted_in.Any())
+            {
+                OItem_relationtype_broadcasted_in = new clsOntologyItem()
+                {
+                    GUID = objOList_relationtype_broadcasted_in.First().ID_Other,
+                    Name = objOList_relationtype_broadcasted_in.First().Name_Other,
+                    GUID_Parent = objOList_relationtype_broadcasted_in.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_relationtype_autor = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                               where objOItem.ID_Object == cstrID_Ontology
+                                               join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                               where objRef.Name_Object.ToLower() == "relationtype_autor".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                               select objRef).ToList();
+
+            if (objOList_relationtype_autor.Any())
+            {
+                OItem_relationtype_autor = new clsOntologyItem()
+                {
+                    GUID = objOList_relationtype_autor.First().ID_Other,
+                    Name = objOList_relationtype_autor.First().Name_Other,
+                    GUID_Parent = objOList_relationtype_autor.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
 		var objOList_relationtype_belonging = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                            where objOItem.ID_Object == cstrID_Ontology
                                            join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -681,6 +735,49 @@ var objOList_relationtype_verweist_auf = (from objOItem in objDBLevel_Config1.OL
   
 	private void get_Config_Classes()
         {
+
+            var objOList_class_video_sender = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                               where objOItem.ID_Object == cstrID_Ontology
+                                               join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                               where objRef.Name_Object.ToLower() == "class_video_sender".ToLower() && objRef.Ontology == Globals.Type_Class
+                                               select objRef).ToList();
+
+            if (objOList_class_video_sender.Any())
+            {
+                OItem_class_video_sender = new clsOntologyItem()
+                {
+                    GUID = objOList_class_video_sender.First().ID_Other,
+                    Name = objOList_class_video_sender.First().Name_Other,
+                    GUID_Parent = objOList_class_video_sender.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_class_sendung = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                          where objOItem.ID_Object == cstrID_Ontology
+                                          join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                          where objRef.Name_Object.ToLower() == "class_sendung".ToLower() && objRef.Ontology == Globals.Type_Class
+                                          select objRef).ToList();
+
+            if (objOList_class_sendung.Any())
+            {
+                OItem_class_sendung = new clsOntologyItem()
+                {
+                    GUID = objOList_class_sendung.First().ID_Other,
+                    Name = objOList_class_sendung.First().Name_Other,
+                    GUID_Parent = objOList_class_sendung.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
 		var objOList_type_artikel = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                            where objOItem.ID_Object == cstrID_Ontology
                                            join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object

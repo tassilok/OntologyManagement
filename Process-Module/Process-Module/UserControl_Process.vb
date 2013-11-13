@@ -294,15 +294,15 @@ Public Class UserControl_Process
         objUserControl_References.Dock = DockStyle.Fill
         TabPage_References.Controls.Add(objUserControl_References)
 
-        objUserControl_Images = New UserControl_SingleViewer(objLocalConfig.Globals, UserControl_SingleViewer.MediaType.Image)
+        objUserControl_Images = New UserControl_SingleViewer(objLocalConfig.Globals, UserControl_SingleViewer.MediaType.Image, objLocalConfig.OItem_User)
         objUserControl_Images.Dock = DockStyle.Fill
         TabPage_Images.Controls.Add(objUserControl_Images)
 
-        objUserControl_PDFs = New UserControl_SingleViewer(objLocalConfig.Globals, UserControl_SingleViewer.MediaType.Image)
+        objUserControl_PDFs = New UserControl_SingleViewer(objLocalConfig.Globals, UserControl_SingleViewer.MediaType.Image, objLocalConfig.OItem_User)
         objUserControl_PDFs.Dock = DockStyle.Fill
         TabPage_PDF.Controls.Add(objUserControl_PDFs)
 
-        objUserControl_MediaItems = New UserControl_SingleViewer(objLocalConfig.Globals, UserControl_SingleViewer.MediaType.Image)
+        objUserControl_MediaItems = New UserControl_SingleViewer(objLocalConfig.Globals, UserControl_SingleViewer.MediaType.Image, objLocalConfig.OItem_User)
         objUserControl_MediaItems.Dock = DockStyle.Fill
         TabPage_MediaItem.Controls.Add(objUserControl_MediaItems)
 

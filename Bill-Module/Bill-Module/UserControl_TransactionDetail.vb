@@ -665,7 +665,7 @@ Public Class UserControl_TransactionDetail
     Private Sub Button_Contractor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Contractor.Click
         Dim objOItem_Partner As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
-        objFrmPartnerModule = New frmPartnerModule(objLocalConfig.Globals)
+        objFrmPartnerModule = New frmPartnerModule(objLocalConfig.Globals, objLocalConfig.OItem_User)
         objFrmPartnerModule.applyable = True
         objFrmPartnerModule.ShowDialog(Me)
 
@@ -689,7 +689,7 @@ Public Class UserControl_TransactionDetail
     Private Sub Button_Contractee_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Contractee.Click
         Dim objOItem_Partner As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
-        objFrmPartnerModule = New frmPartnerModule(objLocalConfig.Globals)
+        objFrmPartnerModule = New frmPartnerModule(objLocalConfig.Globals, objLocalConfig.OItem_User)
         objFrmPartnerModule.applyable = True
         objFrmPartnerModule.ShowDialog(Me)
         If objFrmPartnerModule.DialogResult = DialogResult.OK Then

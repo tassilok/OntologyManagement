@@ -691,7 +691,20 @@ End Enum
                         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
 
 
-                            OList_Objects.AddRange(From objObject In (From objObjRel In objDataWork_OntologyRels.ObjectRel
+                            'OList_Objects.AddRange(From objObject In (From objObjRel In objDataWork_OntologyRels.ObjectRel
+                            '                        Join objObject In OList_Objects On objObjRel.ID_Object Equals objObject.GUID
+                            '                        Where objObjRel.Ontology = objGlobals.Type_Object
+                            '                        Group Join objObjectOld In OList_Objects On objObjectOld.GUID Equals objObjRel.ID_Other Into objObjects = Group
+                            '                        From objObjectOld In objObjects.DefaultIfEmpty()
+                            '                        Where objObjectOld Is Nothing
+                            '                        Select objObjRel).ToList()
+                            '                     Group By objObject.ID_Other, objObject.Name_Other, objObject.ID_Parent_Other Into Group
+                            '                     Select New clsOntologyItem With {.GUID = ID_Other, _
+                            '                                                      .Name = Name_Other, _
+                            '                                                      .GUID_Parent = ID_Parent_Other, _
+                            '                                                      .Type = objGlobals.Type_Object})
+
+                            OList_Objects.AddRange(From objObject In (From objObjRel In OList_ObjectRel
                                                     Join objObject In OList_Objects On objObjRel.ID_Object Equals objObject.GUID
                                                     Where objObjRel.Ontology = objGlobals.Type_Object
                                                     Group Join objObjectOld In OList_Objects On objObjectOld.GUID Equals objObjRel.ID_Other Into objObjects = Group

@@ -1,5 +1,6 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
+Imports Security_Module
 Public Class frmBillModule
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_BaseConfig As clsDataWork_BaseConfig
@@ -7,6 +8,7 @@ Public Class frmBillModule
     Private WithEvents objUserControl_BillTree As UserControl_BillTree
     Private WithEvents objUserControl_TransactionDetail As UserControl_TransactionDetail
     Private WithEvents objUserControl_Documents As UserControl_Documents
+    Private objFrmAuthenticate As frmAuthenticate
     Private objFrm_Name As frm_Name
     Private SplashScreen As SplashScreen_OntologyModule
     Private AboutBox As AboutBox_OntologyItem
@@ -176,6 +178,15 @@ Public Class frmBillModule
     Private Sub initialize()
         objOItem_Open = objDataWork_BaseConfig.get_Data_BaseConfig()
         If objOItem_Open.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
+            objFrmAuthenticate.ShowDialog(Me)
+            If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
+                objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User
+            Else
+                Environment.Exit(0)
+            End If
+
+
             objUserControl_BillTree = New UserControl_BillTree(objLocalConfig, objDataWork_BaseConfig)
             objUserControl_BillTree.Dock = DockStyle.Fill
             SplitContainer1.Panel1.Controls.Add(objUserControl_BillTree)

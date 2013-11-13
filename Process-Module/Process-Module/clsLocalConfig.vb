@@ -131,6 +131,8 @@ Public Class clsLocalConfig
     Private objOItem_Development As clsOntologyItem
     Private objOItem_BaseConfig As clsOntologyItem
 
+    Public Property OItem_User As clsOntologyItem
+
     Public ReadOnly Property ImageID_Root As Integer
         Get
             Return cint_ImageID_Root

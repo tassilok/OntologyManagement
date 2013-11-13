@@ -15,6 +15,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Log-Module", "..\Log-Module
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Security-Module", "..\Security-Module\Security-Module\Security-Module.vbproj", "{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Partner-Module", "..\Partner-Module\Partner-Module\Partner-Module.vbproj", "{D42C6737-EF33-40D6-8253-173099F93885}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,16 @@ Global
 		{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}.Release|Mixed Platforms.Build.0 = Release|x86
 		{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}.Release|x86.ActiveCfg = Release|x86
 		{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}.Release|x86.Build.0 = Release|x86
+		{D42C6737-EF33-40D6-8253-173099F93885}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{D42C6737-EF33-40D6-8253-173099F93885}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{D42C6737-EF33-40D6-8253-173099F93885}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{D42C6737-EF33-40D6-8253-173099F93885}.Debug|x86.ActiveCfg = Debug|x86
+		{D42C6737-EF33-40D6-8253-173099F93885}.Debug|x86.Build.0 = Debug|x86
+		{D42C6737-EF33-40D6-8253-173099F93885}.Release|Any CPU.ActiveCfg = Release|x86
+		{D42C6737-EF33-40D6-8253-173099F93885}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{D42C6737-EF33-40D6-8253-173099F93885}.Release|Mixed Platforms.Build.0 = Release|x86
+		{D42C6737-EF33-40D6-8253-173099F93885}.Release|x86.ActiveCfg = Release|x86
+		{D42C6737-EF33-40D6-8253-173099F93885}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

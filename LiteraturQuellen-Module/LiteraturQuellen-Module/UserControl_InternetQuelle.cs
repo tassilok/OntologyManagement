@@ -42,7 +42,7 @@ namespace LiteraturQuellen_Module
         private void Initialize()
         {
             objDataWork_InternetQuelle = new clsDataWork_InternetQuelle(objLocalConfig);
-            objUserControl_SingleViewer = new UserControl_SingleViewer(objLocalConfig.Globals,(int)UserControl_SingleViewer.MediaType.PDF);
+            objUserControl_SingleViewer = new UserControl_SingleViewer(objLocalConfig.Globals,(int)UserControl_SingleViewer.MediaType.PDF, objLocalConfig.User);
             objUserControl_SingleViewer.Dock = DockStyle.Fill;
             objUserControl_Begriffe = new UserControl_OItemList(objLocalConfig.Globals);
             objUserControl_Begriffe.Dock = DockStyle.Fill;
@@ -66,44 +66,93 @@ namespace LiteraturQuellen_Module
         private void ConfigureTabPages()
         {
             ClearControls();
-            objTransaction.ClearItems();
-            if (TabControl1.SelectedTab.Name == TabPage_Data.Name)
+            if (objOItem_Quelle != null)
             {
-                objUserControl_Begriffe.initialize(null,
-                        objOItem_Quelle,
-                        objLocalConfig.Globals.Direction_LeftRight,
-                        new clsOntologyItem
-                        {
-                            GUID_Parent = objLocalConfig.OItem_type_begriff.GUID,
-                            Type = objLocalConfig.Globals.Type_Object
-                        },
-                        objLocalConfig.OItem_relationtype_contains);
-
-                objDataWork_InternetQuelle.GetData(objOItem_Quelle);
-                if (objDataWork_InternetQuelle.OItem_Result_InternetQuelle.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                objTransaction.ClearItems();
+                if (TabControl1.SelectedTab.Name == TabPage_Data.Name)
                 {
-                    TextBox_URL.Enabled = true;
-                    Button_AddURL.Enabled = true;
-                    TextBox_Partner.Enabled = true;
-                    Button_AddPartner.Enabled = true;
-                    objUserControl_Begriffe.Enabled = true;
-                    objUserControl_SingleViewer.Enabled = true;
+                    objUserControl_Begriffe.initialize(null,
+                            objOItem_Quelle,
+                            objLocalConfig.Globals.Direction_LeftRight,
+                            new clsOntologyItem
+                            {
+                                GUID_Parent = objLocalConfig.OItem_type_begriff.GUID,
+                                Type = objLocalConfig.Globals.Type_Object
+                            },
+                            objLocalConfig.OItem_relationtype_contains);
 
-                    if (objDataWork_InternetQuelle.OItem_Url != null)
+                    objDataWork_InternetQuelle.GetData(objOItem_Quelle);
+                    if (objDataWork_InternetQuelle.OItem_Result_InternetQuelle.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
-                        TextBox_URL.Text = objDataWork_InternetQuelle.OItem_Url.Name;
-                        
-                    }
+                        TextBox_URL.Enabled = true;
+                        Button_AddURL.Enabled = true;
+                        TextBox_Partner.Enabled = true;
+                        Button_AddPartner.Enabled = true;
+                        objUserControl_Begriffe.Enabled = true;
+                        objUserControl_SingleViewer.Enabled = true;
 
-                    if (objDataWork_InternetQuelle.OItem_Ersteller != null)
-                    {
-                        TextBox_Partner.Text = objDataWork_InternetQuelle.OItem_Ersteller.Name;
-                        
-                    }
+                        if (objDataWork_InternetQuelle.OItem_Url != null)
+                        {
+                            TextBox_URL.Text = objDataWork_InternetQuelle.OItem_Url.Name;
 
-                    if (objDataWork_InternetQuelle.OAItem_LogEntry != null)
-                    {
-                        if (objDataWork_InternetQuelle.OAItem_LogEntry.Val_Date == null)
+                        }
+
+                        if (objDataWork_InternetQuelle.OItem_Ersteller != null)
+                        {
+                            TextBox_Partner.Text = objDataWork_InternetQuelle.OItem_Ersteller.Name;
+
+                        }
+
+                        if (objDataWork_InternetQuelle.OAItem_LogEntry != null)
+                        {
+                            if (objDataWork_InternetQuelle.OAItem_LogEntry.Val_Date == null)
+                            {
+                                var objOItem_Result = objLogManagement.log_Entry(DateTime.Now, objLocalConfig.OItem_token_logstate_download, objLocalConfig.User);
+                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                {
+                                    var objORel_Quelle_To_Logentry = objRelationConfig.Rel_ObjectRelation(objOItem_Quelle, objLogManagement.OItem_LogEntry, objLocalConfig.OItem_relationtype_download);
+                                    objOItem_Result = objTransaction.do_Transaction(objORel_Quelle_To_Logentry, true);
+                                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                    {
+                                        objDataWork_InternetQuelle.OAItem_LogEntry = objLogManagement.OAItem_DateTimeStamp;
+                                        if (objDataWork_InternetQuelle.OAItem_LogEntry.Val_Date != null)
+                                        {
+                                            DateTimePicker_Download.Value = objDataWork_InternetQuelle.OAItem_LogEntry.Val_Date ?? DateTime.Now;
+                                            DateTimePicker_Download.Enabled = true;
+                                            objUserControl_Begriffe.Enabled = true;
+                                            objUserControl_SingleViewer.Enabled = true;
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show(this, "Die Daten konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            ClearControls();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show(this, "Die Daten konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        ClearControls();
+                                    }
+
+
+                                }
+                                else
+                                {
+                                    MessageBox.Show(this, "Die Daten konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    ClearControls();
+                                }
+                            }
+                            else
+                            {
+                                var dateTimeStamp = objDataWork_InternetQuelle.OAItem_LogEntry.Val_Date ?? DateTime.Now;
+                                DateTimePicker_Download.Value = dateTimeStamp;
+                                DateTimePicker_Download.Enabled = true;
+                                objUserControl_Begriffe.Enabled = true;
+                                objUserControl_SingleViewer.Enabled = true;
+                            }
+
+                        }
+                        else
                         {
                             var objOItem_Result = objLogManagement.log_Entry(DateTime.Now, objLocalConfig.OItem_token_logstate_download, objLocalConfig.User);
                             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
@@ -131,8 +180,8 @@ namespace LiteraturQuellen_Module
                                     MessageBox.Show(this, "Die Daten konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     ClearControls();
                                 }
-                                
-                                
+
+
                             }
                             else
                             {
@@ -140,65 +189,20 @@ namespace LiteraturQuellen_Module
                                 ClearControls();
                             }
                         }
-                        else
-                        {
-                            var dateTimeStamp = objDataWork_InternetQuelle.OAItem_LogEntry.Val_Date ?? DateTime.Now;
-                            DateTimePicker_Download.Value = dateTimeStamp;
-                            DateTimePicker_Download.Enabled = true;
-                            objUserControl_Begriffe.Enabled = true;
-                            objUserControl_SingleViewer.Enabled = true;
-                        }
-                        
                     }
                     else
                     {
-                        var objOItem_Result = objLogManagement.log_Entry(DateTime.Now, objLocalConfig.OItem_token_logstate_download, objLocalConfig.User);
-                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                        {
-                            var objORel_Quelle_To_Logentry = objRelationConfig.Rel_ObjectRelation(objOItem_Quelle, objLogManagement.OItem_LogEntry, objLocalConfig.OItem_relationtype_download);
-                            objOItem_Result = objTransaction.do_Transaction(objORel_Quelle_To_Logentry, true);
-                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                            {
-                                objDataWork_InternetQuelle.OAItem_LogEntry = objLogManagement.OAItem_DateTimeStamp;
-                                if (objDataWork_InternetQuelle.OAItem_LogEntry.Val_Date != null)
-                                {
-                                    DateTimePicker_Download.Value = objDataWork_InternetQuelle.OAItem_LogEntry.Val_Date ?? DateTime.Now;
-                                    DateTimePicker_Download.Enabled = true;
-                                    objUserControl_Begriffe.Enabled = true;
-                                    objUserControl_SingleViewer.Enabled = true;
-                                }
-                                else
-                                {
-                                    MessageBox.Show(this, "Die Daten konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    ClearControls();
-                                }
-                            }
-                            else
-                            {
-                                MessageBox.Show(this, "Die Daten konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                ClearControls();
-                            }
-
-
-                        }
-                        else
-                        {
-                            MessageBox.Show(this, "Die Daten konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            ClearControls();
-                        }
+                        MessageBox.Show(this, "Die notwendigen Daten konnten nicht geladen werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ClearControls();
                     }
                 }
-                else
+                else if (TabControl1.SelectedTab.Name == TabPage_PDF.Name)
                 {
-                    MessageBox.Show(this, "Die notwendigen Daten konnten nicht geladen werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    ClearControls();
+                    objUserControl_SingleViewer.initialize_PDF(objOItem_Quelle);
+                    objUserControl_SingleViewer.Enabled = true;
                 }
             }
-            else if (TabControl1.SelectedTab.Name == TabPage_PDF.Name)
-            {
-                objUserControl_SingleViewer.initialize_PDF(objOItem_Quelle);
-                objUserControl_SingleViewer.Enabled = true;
-            }
+            
         }
 
         private void ClearControls()

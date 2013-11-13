@@ -59,7 +59,7 @@ namespace Change_Module
  
             clsOntologyItem objOItem_Process = new clsOntologyItem();
 
-            objFrmProcessModule = new frmProcessModule(objLocalConfig.Globals);
+            objFrmProcessModule = new frmProcessModule(objLocalConfig.Globals, objLocalConfig.OItem_User);
             objFrmProcessModule.applyable = true;
 
             objFrmProcessModule.ShowDialog(objFrmParent);

@@ -84,7 +84,7 @@ Partial Class UserControl_MediaPlayer
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Open, Me.ToolStripSeparator1, Me.ToolStripButton_Bookmarks, Me.ToolStripSeparator2, Me.ToolStripLabel_NameLBL, Me.ToolStripLabel_Name, Me.ToolStripSeparator3, Me.ToolStripLabel_CreatedLBL, Me.ToolStripLabel_Created, Me.ToolStripProgressBar_MediaItem})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(427, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(473, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Open
@@ -93,7 +93,7 @@ Partial Class UserControl_MediaPlayer
         Me.ToolStripButton_Open.Image = CType(resources.GetObject("ToolStripButton_Open.Image"), System.Drawing.Image)
         Me.ToolStripButton_Open.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Open.Name = "ToolStripButton_Open"
-        Me.ToolStripButton_Open.Size = New System.Drawing.Size(49, 22)
+        Me.ToolStripButton_Open.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Open.Text = "x_Open"
         '
         'ToolStripSeparator1
@@ -107,7 +107,7 @@ Partial Class UserControl_MediaPlayer
         Me.ToolStripButton_Bookmarks.Image = CType(resources.GetObject("ToolStripButton_Bookmarks.Image"), System.Drawing.Image)
         Me.ToolStripButton_Bookmarks.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Bookmarks.Name = "ToolStripButton_Bookmarks"
-        Me.ToolStripButton_Bookmarks.Size = New System.Drawing.Size(114, 22)
+        Me.ToolStripButton_Bookmarks.Size = New System.Drawing.Size(123, 22)
         Me.ToolStripButton_Bookmarks.Text = "x_Bookmarks/Ranges"
         '
         'ToolStripSeparator2
@@ -118,13 +118,13 @@ Partial Class UserControl_MediaPlayer
         'ToolStripLabel_NameLBL
         '
         Me.ToolStripLabel_NameLBL.Name = "ToolStripLabel_NameLBL"
-        Me.ToolStripLabel_NameLBL.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripLabel_NameLBL.Size = New System.Drawing.Size(52, 22)
         Me.ToolStripLabel_NameLBL.Text = "x_Name:"
         '
         'ToolStripLabel_Name
         '
         Me.ToolStripLabel_Name.Name = "ToolStripLabel_Name"
-        Me.ToolStripLabel_Name.Size = New System.Drawing.Size(11, 22)
+        Me.ToolStripLabel_Name.Size = New System.Drawing.Size(12, 22)
         Me.ToolStripLabel_Name.Text = "-"
         '
         'ToolStripSeparator3
@@ -135,13 +135,13 @@ Partial Class UserControl_MediaPlayer
         'ToolStripLabel_CreatedLBL
         '
         Me.ToolStripLabel_CreatedLBL.Name = "ToolStripLabel_CreatedLBL"
-        Me.ToolStripLabel_CreatedLBL.Size = New System.Drawing.Size(62, 22)
+        Me.ToolStripLabel_CreatedLBL.Size = New System.Drawing.Size(61, 22)
         Me.ToolStripLabel_CreatedLBL.Text = "x_Created:"
         '
         'ToolStripLabel_Created
         '
         Me.ToolStripLabel_Created.Name = "ToolStripLabel_Created"
-        Me.ToolStripLabel_Created.Size = New System.Drawing.Size(11, 22)
+        Me.ToolStripLabel_Created.Size = New System.Drawing.Size(12, 22)
         Me.ToolStripLabel_Created.Text = "-"
         '
         'ToolStripProgressBar_MediaItem

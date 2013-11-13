@@ -76,6 +76,8 @@ Public Class clsLocalConfig
     Private objOItem_object_partner_management As New clsOntologyItem
 
 
+    Public Property OItem_User As clsOntologyItem
+
     'Attributes
     Public ReadOnly Property OItem_attribute_dbPostfix() As clsOntologyItem
         Get

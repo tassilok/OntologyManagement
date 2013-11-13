@@ -10,10 +10,10 @@
 <Item Id="81bbd380e35648a1a4b7fdbaebe7273c" Id_Parent=""><![CDATA[belonging Attribute]]></Item>
 <Item Id="d34d545e9ddf46cebb6f22db1b7bb025" Id_Parent=""><![CDATA[belonging Source]]></Item>
 <Item Id="408db9f1ae424807b656729270646f0a" Id_Parent=""><![CDATA[is subordinated]]></Item>
+<Item Id="e07469d9766c443e85266d9c684f944f" Id_Parent=""><![CDATA[belongs to]]></Item>
 <Item Id="5c8930809e8c4fe297aa87878d38ac4a" Id_Parent=""><![CDATA[offered by]]></Item>
 <Item Id="9f2b9ce5f48e473583d2a6360ea5ba5e" Id_Parent=""><![CDATA[Receipient]]></Item>
 <Item Id="4e8eaf72a9d0444da8c0e8ec5f985fb3" Id_Parent=""><![CDATA[Sender]]></Item>
-<Item Id="e07469d9766c443e85266d9c684f944f" Id_Parent=""><![CDATA[belongs to]]></Item>
 <Item Id="8ec62d53ea944a7b9004c8dd6e72a331" Id_Parent=""><![CDATA[Erstellungsdatum]]></Item>
 <Item Id="e971160347db44d8a476fe88290639a4" Id_Parent=""><![CDATA[contains]]></Item>
 <Item Id="5f6e40c5c8204a738bb4942ac8a69cc9" Id_Parent=""><![CDATA[verweist auf]]></Item>
@@ -23,6 +23,8 @@
 <Item Id="f81515a057e649eebd6042e84ab33266" Id_Parent=""><![CDATA[Part]]></Item>
 <Item Id="6969423c10cb462d9be1d6b9805b8619" Id_Parent=""><![CDATA[sended]]></Item>
 <Item Id="e6adeb76f33a4ab48856b8f1d1fa93ef" Id_Parent=""><![CDATA[download]]></Item>
+<Item Id="28012f537d874d2aaae95e7db67f7a3a" Id_Parent=""><![CDATA[Autor]]></Item>
+<Item Id="715ff0633024475ca55cf2f854d7e8a1" Id_Parent=""><![CDATA[broadcasted in]]></Item>
 <Item Id="ec06ec43f52c463b8ca467ca12124da9" Id_Parent=""><![CDATA[from]]></Item>
 <Item Id="796712399c8f493cb5e749700f9543f4" Id_Parent=""><![CDATA[belonging]]></Item>
 <Item Id="b18b99bf08fa48cfba51765c0bf5a7b7" Id_Parent=""><![CDATA[offers]]></Item>

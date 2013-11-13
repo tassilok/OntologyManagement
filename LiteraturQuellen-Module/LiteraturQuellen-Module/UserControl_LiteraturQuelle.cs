@@ -14,6 +14,7 @@ using Ontology_Module;
 namespace LiteraturQuellen_Module
 {
     public delegate void SelectedQuelle(clsLiteraturQuelle objLiteraturQuelle);
+    public delegate void AppliedQuelle();
 
     public partial class UserControl_LiteraturQuelle : UserControl
     {
@@ -25,14 +26,30 @@ namespace LiteraturQuellen_Module
         private frmQuellen objFrmQuellen;
 
         public event SelectedQuelle selectedQuelle;
+        public event AppliedQuelle appliedQuelle;
 
         private clsTransaction objTransaction;
         private clsRelationConfig objRelationConfig;
+
+        public List<clsLiteraturQuelle> OList_LiteraturQuellen { get; private set; }
+
+        private bool boolApplyable;
+
+        public bool Applyable 
+        {
+            get { return boolApplyable; }
+            set 
+            { 
+                boolApplyable = value;
+                applyToolStripMenuItem.Enabled = boolApplyable;
+            } 
+        }
 
         public UserControl_LiteraturQuelle(clsLocalConfig LocalConfig)
         {
             InitializeComponent();
             objLocalConfig = LocalConfig;
+            applyToolStripMenuItem.Enabled = boolApplyable;
             Initialize();
         }
 
@@ -146,6 +163,27 @@ namespace LiteraturQuellen_Module
                     MessageBox.Show(this, "Die Quelle konnte nicht gespeichert werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void contextMenuStrip_Quellen_Opening(object sender, CancelEventArgs e)
+        {
+            applyToolStripMenuItem.Enabled = false;
+            if (dataGridView_LiteraturQuellen.SelectedRows.Count > 0)
+            {
+                applyToolStripMenuItem.Enabled = true;
+            }
+        }
+
+        private void applyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OList_LiteraturQuellen = new List<clsLiteraturQuelle>();
+            foreach (DataGridViewRow objDGVR_Selected in dataGridView_LiteraturQuellen.SelectedRows)
+            {
+                OList_LiteraturQuellen.Add((clsLiteraturQuelle)objDGVR_Selected.DataBoundItem);
+                
+            }
+            appliedQuelle();
+
         }
     }
 }

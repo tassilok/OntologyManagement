@@ -1,9 +1,12 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
+Imports Security_Module
 Public Class frmProcessModule
     Private objLocalConfig As clsLocalConfig
 
     Private WithEvents objUserControl_Process As UserControl_Process
+
+    Private objFrmAuthenticate As frmAuthenticate
 
     Private SplashScreen As SplashScreen_OntologyModule
     Private AboutBox As AboutBox_OntologyItem
@@ -58,21 +61,36 @@ Public Class frmProcessModule
         initialize()
     End Sub
 
-    Public Sub New(Globals As clsGlobals)
+    Public Sub New(Globals As clsGlobals, OItem_User As clsOntologyItem)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(Globals)
+        objLocalConfig.OItem_User = OItem_User
         initialize()
     End Sub
 
     Private Sub initialize()
-        objUserControl_Process = New UserControl_Process(objLocalConfig)
-        objUserControl_Process.Dock = DockStyle.Fill
+        If objLocalConfig.OItem_User Is Nothing Then
+            objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
+            objFrmAuthenticate.ShowDialog(Me)
+            If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
+                objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User
 
-        TabPage_Process.Controls.Add(objUserControl_Process)
+            End If
+        End If
+
+        If Not objLocalConfig.OItem_User Is Nothing Then
+            objUserControl_Process = New UserControl_Process(objLocalConfig)
+            objUserControl_Process.Dock = DockStyle.Fill
+
+            TabPage_Process.Controls.Add(objUserControl_Process)
+        Else
+            Environment.Exit(0)
+        End If
+        
     End Sub
 
     Private Sub frmProcessModule_Load(sender As Object, e As EventArgs) Handles Me.Load

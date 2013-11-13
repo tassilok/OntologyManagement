@@ -58,7 +58,7 @@ Public Class UserControl_MediaPlayer
         End Try
     End Sub
 
-    Public Sub initialize_MediaItem(ByVal OItem_MediaItem As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreate As Date)
+    Public Sub initialize_MediaItem(ByVal OItem_MediaItem As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreate As Date, Optional doOpen As Boolean = True)
         objOItem_File = OItem_File
         objOItem_MediaItem = OItem_MediaItem
 
@@ -68,6 +68,7 @@ Public Class UserControl_MediaPlayer
 
 
         If Not OItem_MediaItem Is Nothing Then
+            ToolStripButton_Open.Enabled = True
             ToolStripLabel_Name.Name = objOItem_MediaItem.Name
             If Not dateCreate = Nothing Then
                 ToolStripLabel_Created.Text = dateCreate
@@ -94,7 +95,10 @@ Public Class UserControl_MediaPlayer
 
             If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                 AxWindowsMediaPlayer_MediaItem.URL = ""
-                open_MediaItem()
+                If doOpen Then
+                    open_MediaItem()
+                End If
+
             Else
                 MsgBox("Das Mediaitem konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
             End If
@@ -292,6 +296,7 @@ Public Class UserControl_MediaPlayer
     End Sub
 
     Private Sub ToolStripButton_Open_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Open.Click
+        ToolStripButton_Open.Enabled = False
         play_MediaItem()
     End Sub
 

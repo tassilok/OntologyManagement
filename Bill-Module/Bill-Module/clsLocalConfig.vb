@@ -24,6 +24,8 @@ Public Class clsLocalConfig
     Private objDBLevel_Config1 As clsDBLevel
     Private objDBLevel_Config2 As clsDBLevel
 
+    Public Property OItem_User As clsOntologyItem
+
     'Attributes
     Private objOItem_Attribute_Amount As New clsOntologyItem
     Private objOItem_Attribute_Beg_nstigter_Zahlungspflichtiger As New clsOntologyItem

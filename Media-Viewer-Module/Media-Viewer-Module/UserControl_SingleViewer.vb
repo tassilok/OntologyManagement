@@ -30,6 +30,8 @@ Public Class UserControl_SingleViewer
     Private objTransaction As clsTransaction
     Private objBlobConnection As clsBlobConnection
 
+    Private doOpen As Boolean
+
     <Flags()> _
     Enum MediaType
         Image = 0
@@ -146,7 +148,8 @@ Public Class UserControl_SingleViewer
         configure_Controls()
     End Sub
 
-    Public Sub initialize_MediaItem(ByVal OItem_Ref As clsOntologyItem)
+    Public Sub initialize_MediaItem(ByVal OItem_Ref As clsOntologyItem, Optional doOpen As Boolean = True)
+        Me.doOpen = doOpen
         objOItem_Ref = OItem_Ref
         objDataWork_MediaItems.get_MediaItems(OItem_Ref, False)
         While (Not objDataWork_MediaItems.Loaded)
@@ -259,7 +262,7 @@ Public Class UserControl_SingleViewer
                     objUserControl_ImageViewer.initialize_Image(objMediaItem, objFile, dateCreated)
                 Case objLocalConfig.OItem_Type_Media_Item.GUID
 
-                    objUserControl_MediaPlayer.initialize_MediaItem(objMediaItem, objFile, dateCreated)
+                    objUserControl_MediaPlayer.initialize_MediaItem(objMediaItem, objFile, dateCreated, Me.doOpen)
             End Select
         End If
 
@@ -293,9 +296,10 @@ Public Class UserControl_SingleViewer
         configure_Controls()
     End Sub
 
-    Public Sub initialize_MediaItem(ByVal OItem_MediaItem As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date)
+    Public Sub initialize_MediaItem(ByVal OItem_MediaItem As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date, Optional doOpen As Boolean = True)
         objOItem_Ref = Nothing
-        objUserControl_MediaPlayer.initialize_MediaItem(OItem_MediaItem, OItem_File, dateCreated)
+        Me.doOpen = doOpen
+        objUserControl_MediaPlayer.initialize_MediaItem(OItem_MediaItem, OItem_File, dateCreated, Me.doOpen)
         ToolStripTextBox_Curr.Text = 0
         ToolStripLabel_Count.Text = 0
         ToolStripButton_Playlist.Enabled = True
@@ -303,11 +307,11 @@ Public Class UserControl_SingleViewer
         configure_Controls()
     End Sub
 
-    Public Sub initialize_MediaItem(ByVal objDR_Media As DataRow)
+    Public Sub initialize_MediaItem(ByVal objDR_Media As DataRow, Optional doOpen As Boolean = True)
         Dim objOItem_MediaItem As clsOntologyItem
         Dim objOItem_File As clsOntologyItem
         Dim dateCreated As Date
-
+        Me.doOpen = doOpen
         objOItem_MediaItem = New clsOntologyItem
         objOItem_MediaItem.GUID = objDR_Media.Item("ID_MediaItem")
         objOItem_MediaItem.Name = objDR_Media.Item("Name_MediaItem")
@@ -325,7 +329,7 @@ Public Class UserControl_SingleViewer
             dateCreated = Nothing
         End If
         objOItem_Ref = Nothing
-        objUserControl_MediaPlayer.initialize_MediaItem(objOItem_MediaItem, objOItem_File, dateCreated)
+        objUserControl_MediaPlayer.initialize_MediaItem(objOItem_MediaItem, objOItem_File, dateCreated, Me.doOpen)
         ToolStripTextBox_Curr.Text = 0
         ToolStripLabel_Count.Text = 0
         ToolStripButton_Playlist.Enabled = True
@@ -345,13 +349,14 @@ Public Class UserControl_SingleViewer
         initialize()
     End Sub
 
-    Public Sub New(ByVal Globals As clsGlobals, ByVal intMediaType As Integer)
+    Public Sub New(ByVal Globals As clsGlobals, ByVal intMediaType As Integer, objOItem_User As clsOntologyItem)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(Globals)
+        objLocalConfig.OItem_User = objOItem_User
         Select Case intMediaType
             Case MediaType.Image
                 objOItem_MediaType = objLocalConfig.OItem_Type_Images__Graphic_

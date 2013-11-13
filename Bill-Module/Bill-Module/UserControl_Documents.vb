@@ -99,7 +99,7 @@ Public Class UserControl_Documents
     End Sub
 
     Private Sub initialize()
-        objUserControl_SingleViewer = New UserControl_SingleViewer(objLocalConfig.Globals, UserControl_SingleViewer.MediaType.PDF)
+        objUserControl_SingleViewer = New UserControl_SingleViewer(objLocalConfig.Globals, UserControl_SingleViewer.MediaType.PDF, objLocalConfig.OItem_User)
         objUserControl_SingleViewer.Dock = DockStyle.Fill
 
         ToolStripContainer1.ContentPanel.Controls.Add(objUserControl_SingleViewer)
