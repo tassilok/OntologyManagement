@@ -125,6 +125,10 @@
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
       <Name>OntologyClasses</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Security-Module\Security-Module\Security-Module.vbproj">
+      <Project>{c9add5dc-090d-4003-bba9-cf9218c938b2}</Project>
+      <Name>Security-Module</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\tasto_8_architetto_franc_01.png" />

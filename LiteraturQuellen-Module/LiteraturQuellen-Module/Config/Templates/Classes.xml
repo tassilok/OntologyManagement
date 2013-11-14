@@ -5,6 +5,7 @@
 <Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
 <Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
 <Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="1d9568afb6da49908f4d907dfdd30749" Id_Parent="53136d10b7e747fc94ad7887a354d6e1"><![CDATA[Logstate]]></Item>
 <Item Id="351d45912495450182aba425f5235db9" Id_Parent="53136d10b7e747fc94ad7887a354d6e1"><![CDATA[Logentry]]></Item>
 <Item Id="058145320fe84c7aaaa3b8693c81f4db" Id_Parent="f5f4518028e94cc98c38dc36e376bf4b"><![CDATA[mögliche LiteraturQuellen]]></Item>
 <Item Id="53d9c7c73e62418aa4aceaf95f7a5320" Id_Parent="1e6f3b9d55784859b98227026c2ab6bc"><![CDATA[Zeitschriftenausgabe]]></Item>
@@ -23,7 +24,6 @@
 <Item Id="655f8092cfb04a2e8f58142b28cb45df" Id_Parent="e058d6aeeece4c158497314cecca6699"><![CDATA[Literatur]]></Item>
 <Item Id="57ef854f83fb4bc3a5d0feb1320bce84" Id_Parent="d9d1b297765a4a1eae422c42a00d3eaa"><![CDATA[Zeitungsquelle]]></Item>
 <Item Id="d9d1b297765a4a1eae422c42a00d3eaa" Id_Parent="eaf49d6036ed4a04b44f4b195fd306b8"><![CDATA[literarische Recherche]]></Item>
-<Item Id="1d9568afb6da49908f4d907dfdd30749" Id_Parent="53136d10b7e747fc94ad7887a354d6e1"><![CDATA[Logstate]]></Item>
 <Item Id="60a12cc020b24c8ab03ba4b7c71864de" Id_Parent="d84fa125dbce44b091539abeb66ad27f"><![CDATA[Media-Item Range]]></Item>
 <Item Id="aa616051e5214facabdbcbba6f8c6e73" Id_Parent="b5224e7f7d0d4beebf8eb9a0eeba5747"><![CDATA[Module]]></Item>
 <Item Id="e74a4dab65044dbf9f0252944c7dbcf7" Id_Parent="d9d1b297765a4a1eae422c42a00d3eaa"><![CDATA[Internet-Quellenangabe]]></Item>

@@ -146,7 +146,7 @@ Public Class clsImport
                                     Dim Val_String As String = Nothing
                                     If objXMLReader.ReadToDescendant("Val_Named") Then
 
-                                        Val_Named = objXMLReader.ReadElementContentAsString
+                                        Val_Named = System.Web.HttpUtility.HtmlDecode(objXMLReader.ReadElementContentAsString)
                                         If Val_Named = "" Then
                                             Val_Named = Nothing
                                         End If
@@ -221,7 +221,7 @@ Public Class clsImport
 
                                     If objXMLReader.ReadToFollowing("Val_String") Then
 
-                                        Val_String = objXMLReader.ReadElementContentAsString
+                                        Val_String = System.Web.HttpUtility.HtmlDecode(objXMLReader.ReadElementContentAsString)
                                         If Val_String = "" Then
                                             Val_String = Nothing
                                         End If

@@ -37,15 +37,15 @@ namespace Scenes_Literatur_Module
 
         private void initialize()
         {
-            objUserControl_ImageViewer = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.Image);
+            objUserControl_ImageViewer = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.Image, objLocalConfig.OItem_User);
             objUserControl_ImageViewer.Dock = DockStyle.Fill;
             tabPage_Images.Controls.Add(objUserControl_ImageViewer);
-            
-            objUserControl_MediaPlayer = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.MediaItem);
+
+            objUserControl_MediaPlayer = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.MediaItem, objLocalConfig.OItem_User);
             objUserControl_MediaPlayer.Dock = DockStyle.Fill;
             tabPage_Media.Controls.Add(objUserControl_MediaPlayer);
 
-            objUserControl_PDFViewer = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.PDF);
+            objUserControl_PDFViewer = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.PDF, objLocalConfig.OItem_User);
             objUserControl_PDFViewer.Dock = DockStyle.Fill;
             tabPage_PDF.Controls.Add(objUserControl_PDFViewer);
             

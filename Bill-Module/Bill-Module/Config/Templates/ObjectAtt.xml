@@ -6,15 +6,15 @@
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String></Val_String>
+  <Val_String><![CDATA[]]></Val_String>
 </Item>
-<Item Id_Attribute="57693e62662944158aaa38404d98e0a4" Id_AttributeType="cee3873ec7ae48d5a4b7d4ffd293fe14" Id_DataType="a1244d0e187f46ee85742fc334077b7d" Id_Object="fad74770776f44a8bf0ebeb6a070218e" Id_Class="53aa29b736e14511b9a4a743a5fc4535" OrderId="0">
-  <Val_Named><![CDATA[19]]></Val_Named>
+<Item Id_Attribute="93a909b49cab40d18d1669c3786dbc91" Id_AttributeType="64cf93ce5b714a5cb2cc1b9638949cfe" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="9b0183f0c7874fe8b5bdfe038ccd4a7c" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
+  <Val_Named><![CDATA[bill_module]]></Val_Named>
   <Val_Bit></Val_Bit>
   <Val_Date></Val_Date>
-  <Val_Double>19</Val_Double>
+  <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String></Val_String>
+  <Val_String><![CDATA[bill_module]]></Val_String>
 </Item>
 
 </Items>

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Ontology_Module;
 using OntologyClasses.BaseClasses;
+using Security_Module;
 
 namespace Scenes_Literatur_Module
 {
@@ -17,6 +18,8 @@ namespace Scenes_Literatur_Module
 
         private UserControl_SceneTree objUserControl_SceneTree;
         private UserControl_SceneDetail objUserControl_SceneDetail;
+
+        private frmAuthenticate objFrmAuthenticate;
 
         private SplashScreen_OntologyModule SplashScreen;
         private AboutBox_OntologyItem AboutBox;
@@ -36,15 +39,33 @@ namespace Scenes_Literatur_Module
 
         private void initialize()
         {
-            objLocalConfig.DataWork_Scenes = new clsDataWork_Scenes(objLocalConfig);
-            objUserControl_SceneTree = new UserControl_SceneTree(objLocalConfig);
-            objUserControl_SceneTree.Dock = DockStyle.Fill;
-            splitContainer1.Panel1.Controls.Add(objUserControl_SceneTree);
-            objUserControl_SceneTree.selectedNode += objUserControl_SceneTree_selectedNode;
+            if (objLocalConfig.OItem_User == null)
+            {
+                objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, false, frmAuthenticate.ERelateMode.NoRelate);
+                objFrmAuthenticate.ShowDialog(this);
+                if (objFrmAuthenticate.DialogResult == DialogResult.OK)
+                {
+                    objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User;
+                }
+            }
 
-            objUserControl_SceneDetail = new UserControl_SceneDetail(objLocalConfig);
-            objUserControl_SceneDetail.Dock = DockStyle.Fill;
-            splitContainer1.Panel2.Controls.Add(objUserControl_SceneDetail);
+            if (objLocalConfig.OItem_User != null)
+            {
+                objLocalConfig.DataWork_Scenes = new clsDataWork_Scenes(objLocalConfig);
+                objUserControl_SceneTree = new UserControl_SceneTree(objLocalConfig);
+                objUserControl_SceneTree.Dock = DockStyle.Fill;
+                splitContainer1.Panel1.Controls.Add(objUserControl_SceneTree);
+                objUserControl_SceneTree.selectedNode += objUserControl_SceneTree_selectedNode;
+
+                objUserControl_SceneDetail = new UserControl_SceneDetail(objLocalConfig);
+                objUserControl_SceneDetail.Dock = DockStyle.Fill;
+                splitContainer1.Panel2.Controls.Add(objUserControl_SceneDetail);
+            }
+            else
+            {
+                Environment.Exit(0);
+            }
+            
 
         }
 

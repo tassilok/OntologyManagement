@@ -20,6 +20,8 @@ Public Class UserControl_OntologyExport
     Private objBlobConnection As clsBlobConnection
     Private objFileWork As clsFileWork
 
+    Private objFrm_ObjectEdit As frm_ObjectEdit
+
     Public Sub New(LocalConfig As clsLocalConfig)
         
         ' This call is required by the designer.
@@ -309,6 +311,23 @@ Public Class UserControl_OntologyExport
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                 MsgBox("Die Dateien wurden exportiert!", MsgBoxStyle.Information)
             End If
+        End If
+    End Sub
+
+    Private Sub DataGridView_Exports_RowHeaderMouseDoubleClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView_Exports.RowHeaderMouseDoubleClick
+
+        Dim objOntologyExport As clsOntologyExport = DataGridView_Exports.Rows(e.RowIndex).DataBoundItem
+
+        Dim objOList_Objects = New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID = objOntologyExport.ID_OntologyExport, _
+                                                                                             .Name = objOntologyExport.Name_OntologyExport, _
+                                                                                             .GUID_Parent = objLocalConfig.OItem_type_ontology_export.GUID, _
+                                                                                             .Type = objLocalConfig.Globals.Type_Object}}
+
+        objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList_Objects, 0, objLocalConfig.Globals.Type_Object, Nothing)
+        objFrm_ObjectEdit.ShowDialog(Me)
+
+        If objFrm_ObjectEdit.DialogResult = DialogResult.OK Then
+
         End If
     End Sub
 End Class

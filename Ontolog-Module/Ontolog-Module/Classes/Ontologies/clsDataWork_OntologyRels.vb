@@ -16,10 +16,10 @@ Public Class clsDataWork_OntologyRels
     Private objOItem_Result_ObjAtt As clsOntologyItem
     Private objOItem_Result_ObjRel As clsOntologyItem
 
-    Private objOList_Classes As List(Of clsOntologyItem)
-    Private objOList_AttributeTypes As List(Of clsOntologyItem)
-    Private objOList_RelationTypes As List(Of clsOntologyItem)
-    Private objOList_Objects As List(Of clsOntologyItem)
+    Public Property objOList_Classes As List(Of clsOntologyItem)
+    Public Property objOList_AttributeTypes As List(Of clsOntologyItem)
+    Public Property objOList_RelationTypes As List(Of clsOntologyItem)
+    Public Property objOList_Objects As List(Of clsOntologyItem)
 
     Public ReadOnly Property OItem_Result_ClassAtt As clsOntologyItem
         Get
@@ -138,7 +138,9 @@ Public Class clsDataWork_OntologyRels
             objOItem_Result = objDBLevel_ObjAtt.get_Data_ObjectAtt(Nothing, boolIDs:=False)
         End If
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            ObjectAtt = objDBLevel_ObjAtt.OList_ObjectAtt
+            ObjectAtt = (From objObjAtt In objDBLevel_ObjAtt.OList_ObjectAtt
+                         Join objObject In objOList_Objects On objObjAtt.ID_Object Equals objObject.GUID
+                         Select objObjAtt).ToList()
         End If
 
         objOItem_Result_ObjAtt = objOItem_Result
@@ -153,17 +155,27 @@ Public Class clsDataWork_OntologyRels
             Dim objOList_ObjectRelSearch1 = (From objClass In objOList_Classes
                                             From objRelationType In objOList_RelationTypes
                                             Select New clsObjectRel With {.ID_Parent_Object = objClass.GUID, _
-                                                                          .ID_RelationType = objRelationType.GUID, _
-                                                                          .ID_Parent_Other = objClass.GUID }).ToList()
+                                                                          .ID_RelationType = objRelationType.GUID}).ToList()
 
             objOItem_Result = objDBLevel_ObjRel.get_Data_ObjectRel(objOList_ObjectRelSearch1, boolIDs:=False)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                ObjectRel = (from objORel In objDBLevel_ObjRel.OList_ObjectRel
+                ObjectRel = (From objORel In objDBLevel_ObjRel.OList_ObjectRel
                              Where objORel.Ontology = objLocalConfig.Globals.Type_Object
-                             Join objClass In objOList_Classes on objORel.ID_Parent_Other equals objClass.GUID
+                             Join objObject In objOList_Objects On objORel.ID_Other Equals objObject.GUID
                              Select objORel).ToList()
 
-                ObjectRel.AddRange(objDBLevel_ObjRel.OList_ObjectRel.Where(Function(p) p.Ontology <> objLocalConfig.Globals.Type_Object))
+                ObjectRel.AddRange(From objRel In objDBLevel_ObjRel.OList_ObjectRel
+                                   Join objAttribute In objOList_AttributeTypes On objRel.ID_Other Equals objAttribute.GUID
+                                   Select objRel)
+
+                ObjectRel.AddRange(From objRel In objDBLevel_ObjRel.OList_ObjectRel
+                                   Join objRelationType In objOList_RelationTypes On objRel.ID_Other Equals objRelationType.GUID
+                                   Select objRel)
+
+                ObjectRel.AddRange(From objRel In objDBLevel_ObjRel.OList_ObjectRel
+                                   Join objClass In objOList_Classes On objRel.ID_Other Equals objClass.GUID
+                                   Select objRel)
+
             End If
         Else
             objOItem_Result = objDBLevel_ObjRel.get_Data_ObjectRel(Nothing, boolIDs:=False)

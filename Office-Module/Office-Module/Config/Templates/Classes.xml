@@ -6,17 +6,17 @@
 <Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
 <Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
 <Item Id="e84418caa10c4d7bbc7402a6c38c040a" Id_Parent="acc4ac95f848428c9872b2133e5be843"><![CDATA[ContentType]]></Item>
+<Item Id="8a30bb9cb610406e9ef8c504a1cb2fbd" Id_Parent="105e9a106c414e8e93060bf795bb9b04"><![CDATA[Document-Type (managed)]]></Item>
+<Item Id="aa616051e5214facabdbcbba6f8c6e73" Id_Parent="b5224e7f7d0d4beebf8eb9a0eeba5747"><![CDATA[Module]]></Item>
+<Item Id="6ef5e4573c3c4cd1a5c7bd8dc4cd0438" Id_Parent="acc4ac95f848428c9872b2133e5be843"><![CDATA[Contentformat]]></Item>
+<Item Id="6e31f90520ce4f8fb4016da5ba871ecb" Id_Parent="ba76b764134341d69973ca181c4fabc8"><![CDATA[Extensions]]></Item>
 <Item Id="6eb4fdd32e254886b288e1bfc2857efb" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[File]]></Item>
 <Item Id="e9835aa475d44493880b978c092bef48" Id_Parent="acc4ac95f848428c9872b2133e5be843"><![CDATA[ContentObject]]></Item>
-<Item Id="6e31f90520ce4f8fb4016da5ba871ecb" Id_Parent="ba76b764134341d69973ca181c4fabc8"><![CDATA[Extensions]]></Item>
-<Item Id="6ef5e4573c3c4cd1a5c7bd8dc4cd0438" Id_Parent="acc4ac95f848428c9872b2133e5be843"><![CDATA[Contentformat]]></Item>
 <Item Id="f47a3e1c50b44666a41de975597c9adb" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[Folder]]></Item>
-<Item Id="aa616051e5214facabdbcbba6f8c6e73" Id_Parent="b5224e7f7d0d4beebf8eb9a0eeba5747"><![CDATA[Module]]></Item>
 <Item Id="9928e253553a418db5aadbb6d51bbc2d" Id_Parent="617d2d030f244794be168313c97d2319"><![CDATA[Templatefield]]></Item>
 <Item Id="617d2d030f244794be168313c97d2319" Id_Parent="de988c64dd5941f4bf1f4b54c56e8fe7"><![CDATA[Word-Templates]]></Item>
 <Item Id="acc4ac95f848428c9872b2133e5be843" Id_Parent="105e9a106c414e8e93060bf795bb9b04"><![CDATA[Managed-Document]]></Item>
 <Item Id="ba168c1469dd457f9c6c8f21ca50b29a" Id_Parent="f2355e726fbf4ec397f8c6ee9d41784a"><![CDATA[Word-Management]]></Item>
-<Item Id="8a30bb9cb610406e9ef8c504a1cb2fbd" Id_Parent="105e9a106c414e8e93060bf795bb9b04"><![CDATA[Document-Type (managed)]]></Item>
 <Item Id="ba76b764134341d69973ca181c4fabc8" Id_Parent="6eb4fdd32e254886b288e1bfc2857efb"><![CDATA[Filetypes]]></Item>
 <Item Id="2f05c250be334b77ba3cb8a0228821b6" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Filesystem-Management]]></Item>
 <Item Id="b5224e7f7d0d4beebf8eb9a0eeba5747" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Module-Management]]></Item>

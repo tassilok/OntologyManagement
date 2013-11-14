@@ -56,7 +56,7 @@ namespace OutlookConnector_Module
                 splitContainer1.Panel1.Controls.Add(objUserControl_OutlookItemList);
                 RefreshOutlookState();
 
-                objUserControl_SingleViewer = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.PDF);
+                objUserControl_SingleViewer = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.PDF, objLocalConfig.User);
                 objUserControl_SingleViewer.Dock = DockStyle.Fill;
 
                 splitContainer1.Panel2.Controls.Add(objUserControl_SingleViewer);

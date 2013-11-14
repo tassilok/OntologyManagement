@@ -8,12 +8,12 @@
 <Item Id="212ca6eb3c724cd486090fef351f08cc" Id_Parent="dd858f27d5e14363a5c33e561e432333"><![CDATA[Gross (Standard)]]></Item>
 <Item Id="417f6a60e5d5447088718079c0cac065" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[Begünstigter/Zahlungspflichtiger]]></Item>
 <Item Id="2424da1a59f9463b8d13473377702fc2" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[Transaction-ID]]></Item>
-<Item Id="5d09a3e903fb436c84501a50bf1267b6" Id_Parent="a1244d0e187f46ee85742fc334077b7d"><![CDATA[to Pay]]></Item>
-<Item Id="daf53cbc2cb442ed8722ee85f6b33512" Id_Parent="a1244d0e187f46ee85742fc334077b7d"><![CDATA[Menge]]></Item>
-<Item Id="cee3873ec7ae48d5a4b7d4ffd293fe14" Id_Parent="a1244d0e187f46ee85742fc334077b7d"><![CDATA[percent]]></Item>
 <Item Id="96405d28082640e68e5530d1ecc0542a" Id_Parent="905fda81788f4e3d83293e55ae984b9e"><![CDATA[Valutadatum]]></Item>
 <Item Id="eaf21eed54e04afc8b508497db6e0cdd" Id_Parent="dd858f27d5e14363a5c33e561e432333"><![CDATA[gross]]></Item>
 <Item Id="eb9f0536d97b40b6b7eeb7018f6caa0e" Id_Parent="a1244d0e187f46ee85742fc334077b7d"><![CDATA[Amount]]></Item>
 <Item Id="dc5045bb1b834139b6d4a1a561529dca" Id_Parent="a1244d0e187f46ee85742fc334077b7d"><![CDATA[Betrag]]></Item>
+<Item Id="5d09a3e903fb436c84501a50bf1267b6" Id_Parent="a1244d0e187f46ee85742fc334077b7d"><![CDATA[to Pay]]></Item>
+<Item Id="daf53cbc2cb442ed8722ee85f6b33512" Id_Parent="a1244d0e187f46ee85742fc334077b7d"><![CDATA[Menge]]></Item>
+<Item Id="cee3873ec7ae48d5a4b7d4ffd293fe14" Id_Parent="a1244d0e187f46ee85742fc334077b7d"><![CDATA[percent]]></Item>
 
 </Items>

@@ -3,7 +3,7 @@
   <Item Id="d4c755c14ebe4c1c9be189244e1bf8d3" Id_Parent="3a4f5b7bda754980933efbc33cc51439"><![CDATA[Revision]]></Item>
 <Item Id="e364d837b5d84c04b951e0bd1631334d" Id_Parent="3a4f5b7bda754980933efbc33cc51439"><![CDATA[Build]]></Item>
 <Item Id="6c72b7e7a18241359c4e63c8885b07b8" Id_Parent="3a4f5b7bda754980933efbc33cc51439"><![CDATA[Minor]]></Item>
-<Item Id="64cf93ce5b714a5cb2cc1b9638949cfe" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[db_postfix]]></Item>
 <Item Id="e57ea6f477d54cc79070d0ea3308092f" Id_Parent="3a4f5b7bda754980933efbc33cc51439"><![CDATA[Major]]></Item>
+<Item Id="64cf93ce5b714a5cb2cc1b9638949cfe" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[db_postfix]]></Item>
 
 </Items>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Items Type="AttributeType">
   <Item Id="a8ae51fd05e34056b12fcee70248a6e4" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[SubDirectory_Templates]]></Item>
-<Item Id="bf4b121d4cbc4cb090629fcbdbf4032f" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[Path]]></Item>
 <Item Id="f6cc4523866a4fd8a94d721eb54219a6" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[Seperator]]></Item>
+<Item Id="bf4b121d4cbc4cb090629fcbdbf4032f" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[Path]]></Item>
 <Item Id="42b3dc78e6d6409aa94fd2a9f49617f9" Id_Parent="905fda81788f4e3d83293e55ae984b9e"><![CDATA[DateTimeStamp (Change)]]></Item>
 <Item Id="64cf93ce5b714a5cb2cc1b9638949cfe" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[db_postfix]]></Item>
 

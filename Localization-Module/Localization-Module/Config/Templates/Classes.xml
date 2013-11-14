@@ -9,10 +9,10 @@
 <Item Id="e79ff4de2e394101b5a10055c40f41cd" Id_Parent="7d0178e29c044485b81c6d79253c6f64"><![CDATA[Language]]></Item>
 <Item Id="aa616051e5214facabdbcbba6f8c6e73" Id_Parent="b5224e7f7d0d4beebf8eb9a0eeba5747"><![CDATA[Module]]></Item>
 <Item Id="7a81bf4725194db7ae54d1eb416c46af" Id_Parent="160b2c7d1f3c4608b8b408ace24bc629"><![CDATA[GUI-Caption]]></Item>
-<Item Id="ac0c99a0d73d4dc7a7893528a76822de" Id_Parent="7d0178e29c044485b81c6d79253c6f64"><![CDATA[Localized Names]]></Item>
 <Item Id="3d62cd7188e24e3d8a5d9601da17da1d" Id_Parent="7d0178e29c044485b81c6d79253c6f64"><![CDATA[Localized Description]]></Item>
 <Item Id="3181a6940ce144cca16c6c19d2b6b5d9" Id_Parent="160b2c7d1f3c4608b8b408ace24bc629"><![CDATA[GUI-Entires]]></Item>
 <Item Id="71415eebce464b2cb0a2f72116b55438" Id_Parent="73e32abfe5774d319a46bc07e9e15de3"><![CDATA[Software-Development]]></Item>
+<Item Id="ac0c99a0d73d4dc7a7893528a76822de" Id_Parent="7d0178e29c044485b81c6d79253c6f64"><![CDATA[Localized Names]]></Item>
 <Item Id="b5224e7f7d0d4beebf8eb9a0eeba5747" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Module-Management]]></Item>
 <Item Id="98005f0d3bd14a6eaf922f704071ea29" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Messages]]></Item>
 <Item Id="160b2c7d1f3c4608b8b408ace24bc629" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[GUI-Items]]></Item>

@@ -297,7 +297,7 @@ End Enum
                     OList_AttributeTypes.AddRange(objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType).Where(Function(p) Not p.ID_Parent_Ref Is Nothing).Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Ref, _
                                                                                                                                                                                                                                                                                          .Name = p.Name_Ref, _
                                                                                                                                                                                                                                                                                          .GUID_Parent = p.ID_Parent_Ref, _
-                                                                                                                                                                                                                                                                                         .Type = objGlobals.Type_Object}))
+                                                                                                                                                                                                                                                                                         .Type = objGlobals.Type_AttributeType}))
 
 
                 End If
@@ -305,6 +305,15 @@ End Enum
                 If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType).Any Then
                     'Get RelationTypes
                     OList_RelationTypes.AddRange(objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType).ToList().Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Ref, .Name = p.Name_Ref, _
+                                                                                                                                                                                                                                                                                        .GUID_Parent = p.ID_Parent_Ref, _
+                                                                                                                                                                                                                                                                                        .Type = objGlobals.Type_RelationType}))
+
+
+                End If
+
+                If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Object).Any Then
+                    'Objects
+                    OList_Objects.AddRange(objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Object).ToList().Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Ref, .Name = p.Name_Ref, _
                                                                                                                                                                                                                                                                                         .GUID_Parent = p.ID_Parent_Ref, _
                                                                                                                                                                                                                                                                                         .Type = objGlobals.Type_Object}))
 
@@ -628,12 +637,12 @@ End Enum
                 strOutput = strOutput.Replace("@" & objVariables.Variable_ID_OBJECT.Name & "@", objOItem_ObjectAtt.ID_Object)
                 strOutput = strOutput.Replace("@" & objVariables.Variable_ID_CLASS.Name & "@", objOItem_ObjectAtt.ID_Class)
                 strOutput = strOutput.Replace("@" & objVariables.Variable_ORDERID.Name & "@", objOItem_ObjectAtt.OrderID)
-                strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_NAMED.Name & "@", objOItem_ObjectAtt.Val_Named)
+                strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_NAMED.Name & "@", System.Web.HttpUtility.HtmlEncode(objOItem_ObjectAtt.Val_Named))
                 strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_BIT.Name & "@", If(objOItem_ObjectAtt.Val_Bit Is Nothing, "", objOItem_ObjectAtt.Val_Bit))
                 strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_DATE.Name & "@", If(objOItem_ObjectAtt.Val_Date Is Nothing, "", objOItem_ObjectAtt.Val_Date))
                 strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_DOUBLE.Name & "@", If(objOItem_ObjectAtt.Val_Double Is Nothing, "", objOItem_ObjectAtt.Val_Double))
                 strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_LNG.Name & "@", If(objOItem_ObjectAtt.Val_Lng Is Nothing, "", objOItem_ObjectAtt.Val_Lng))
-                strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_STRING.Name & "@", If(objOItem_ObjectAtt.Val_String Is Nothing, "", objOItem_ObjectAtt.Val_String))
+                strOutput = strOutput.Replace("@" & objVariables.Variable_VAL_STRING.Name & "@", If(objOItem_ObjectAtt.Val_String Is Nothing, "", System.Web.HttpUtility.HtmlEncode(objOItem_ObjectAtt.Val_String)))
 
                 objTextWriter.Write(strOutput)
             Next
@@ -692,6 +701,7 @@ End Enum
             objDataWork_OntologyRels.OList_Classes = OList_Classes
             objDataWork_OntologyRels.OList_AttributeTypes = OList_AttributeTypes
             objDataWork_OntologyRels.OList_RelationTypes = OList_RelationTypes
+            objDataWork_OntologyRels.OList_Objects = OList_Objects
 
             objDataWork_OntologyRels.GetData_ClassAtt()
             objOItem_Result = objDataWork_OntologyRels.OItem_Result_ClassAtt

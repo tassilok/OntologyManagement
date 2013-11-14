@@ -1,4 +1,58 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Items Type="ObjectAttribute">
-  
+  <Item Id_Attribute="1cff98cab7734beca51159c704558965" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="ea90b68291fe468d878782dd86a2d7a8" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;media src=&quot;@URL_MEDIASRC@&quot;/&gt;]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String><![CDATA[&lt;media src=&quot;@URL_MEDIASRC@&quot;/&gt;]]></Val_String>
+</Item>
+<Item Id_Attribute="16c1b9590a3f43f19168a33715c26737" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="db1a6d4ebb724f808c1667d9081cbdc9" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;?wpl version=&quot;1.0&quot;?&gt;
+&lt;smil&gt;
+    &lt;head&gt;
+        &lt;meta name=&quot;Generator&quot; content=&quot;MediaViewer-Moduel&quot;/&gt;
+        &lt;meta name=&quot;ItemCount&quot; content=&quot;@ITEMCOUNT@&quot;/&gt;
+        &lt;meta name=&quot;IsFavorite&quot;/&gt;
+        &lt;meta name=&quot;ContentPartnerListID&quot;/&gt;
+        &lt;meta name=&quot;ContentPartnerNameType&quot;/&gt;
+        &lt;meta name=&quot;ContentPartnerName&quot;/&gt;
+        &lt;meta name=&quot;Subtitle&quot;/&gt;
+        &lt;author/&gt;
+        &lt;title&gt;@title@&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;seq&gt;
+	@MEDIASRC@
+        &lt;/seq&gt;
+    &lt;/body&gt;
+&lt;/smil&gt;
+]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String><![CDATA[&lt;?wpl version=&quot;1.0&quot;?&gt;
+&lt;smil&gt;
+    &lt;head&gt;
+        &lt;meta name=&quot;Generator&quot; content=&quot;MediaViewer-Moduel&quot;/&gt;
+        &lt;meta name=&quot;ItemCount&quot; content=&quot;@ITEMCOUNT@&quot;/&gt;
+        &lt;meta name=&quot;IsFavorite&quot;/&gt;
+        &lt;meta name=&quot;ContentPartnerListID&quot;/&gt;
+        &lt;meta name=&quot;ContentPartnerNameType&quot;/&gt;
+        &lt;meta name=&quot;ContentPartnerName&quot;/&gt;
+        &lt;meta name=&quot;Subtitle&quot;/&gt;
+        &lt;author/&gt;
+        &lt;title&gt;@title@&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;seq&gt;
+	@MEDIASRC@
+        &lt;/seq&gt;
+    &lt;/body&gt;
+&lt;/smil&gt;
+]]></Val_String>
+</Item>
+
 </Items>

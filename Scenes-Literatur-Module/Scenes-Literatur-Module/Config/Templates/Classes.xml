@@ -4,14 +4,15 @@
 <Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
 <Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
 <Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
-<Item Id="342f61afe22c4329aa80d116ed95b7c7" Id_Parent="35325335833e463e9d8cf8cffe99b5c8"><![CDATA[literarisches Datum]]></Item>
 <Item Id="499ec20daf6f4e72bf55ffb6eac101bf" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Search-Templates]]></Item>
-<Item Id="6df34c0cf968475ba05e96f930c9a936" Id_Parent="35325335833e463e9d8cf8cffe99b5c8"><![CDATA[Literarischer Ort]]></Item>
-<Item Id="e8a786d2e7ec4adcaff9e646005e2349" Id_Parent="35325335833e463e9d8cf8cffe99b5c8"><![CDATA[literarischer Charakter]]></Item>
+<Item Id="e84418caa10c4d7bbc7402a6c38c040a" Id_Parent="acc4ac95f848428c9872b2133e5be843"><![CDATA[ContentType]]></Item>
+<Item Id="342f61afe22c4329aa80d116ed95b7c7" Id_Parent="35325335833e463e9d8cf8cffe99b5c8"><![CDATA[literarisches Datum]]></Item>
 <Item Id="91f106260fef412f821cbb630a942522" Id_Parent="272359727ad64a85ae3e47aa537ad8df"><![CDATA[Szenen auf Ebenen]]></Item>
 <Item Id="a47c6de3e732463e8591fa5791b35c63" Id_Parent="35325335833e463e9d8cf8cffe99b5c8"><![CDATA[Kapitel]]></Item>
 <Item Id="272359727ad64a85ae3e47aa537ad8df" Id_Parent="35325335833e463e9d8cf8cffe99b5c8"><![CDATA[Dramaturgische Ebenen]]></Item>
 <Item Id="acc4ac95f848428c9872b2133e5be843" Id_Parent="105e9a106c414e8e93060bf795bb9b04"><![CDATA[Managed-Document]]></Item>
+<Item Id="6df34c0cf968475ba05e96f930c9a936" Id_Parent="35325335833e463e9d8cf8cffe99b5c8"><![CDATA[Literarischer Ort]]></Item>
+<Item Id="e8a786d2e7ec4adcaff9e646005e2349" Id_Parent="35325335833e463e9d8cf8cffe99b5c8"><![CDATA[literarischer Charakter]]></Item>
 <Item Id="aa616051e5214facabdbcbba6f8c6e73" Id_Parent="b5224e7f7d0d4beebf8eb9a0eeba5747"><![CDATA[Module]]></Item>
 <Item Id="ce29760f023043daa19d91c6d82a8437" Id_Parent="35325335833e463e9d8cf8cffe99b5c8"><![CDATA[Szene]]></Item>
 <Item Id="35325335833e463e9d8cf8cffe99b5c8" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Eigene Literatur]]></Item>
@@ -21,6 +22,5 @@
 <Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
 <Item Id="83317bacb4b14db8bf849fca0a93ddd5" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Information-Management]]></Item>
 <Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
-<Item Id="e84418caa10c4d7bbc7402a6c38c040a" Id_Parent="acc4ac95f848428c9872b2133e5be843"><![CDATA[ContentType]]></Item>
 
 </Items>

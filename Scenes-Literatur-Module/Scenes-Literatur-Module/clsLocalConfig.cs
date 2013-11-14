@@ -48,6 +48,7 @@ namespace Scenes_Literatur_Module
 
         private clsDBLevel objDBLevel_Config1;
         private clsDBLevel objDBLevel_Config2;
+
 	
 	public clsOntologyItem OItem_attribute_dbpostfix { get; set; }
 public clsOntologyItem OItem_relationtype_belonging_document { get; set; }
@@ -80,7 +81,8 @@ public clsOntologyItem OItem_type_search_template { get; set; }
 public clsOntologyItem OItem_type_szene { get; set; }
 public clsOntologyItem OItem_type_szenen_auf_ebenen { get; set; }
 
-  
+
+public clsOntologyItem OItem_User { get; set; }
 	
 private void get_Data_DevelopmentConfig()
         {

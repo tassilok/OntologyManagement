@@ -6,7 +6,7 @@
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng>4</Val_Lng>
-  <Val_String></Val_String>
+  <Val_String><![CDATA[]]></Val_String>
 </Item>
 <Item Id_Attribute="f788fa9f600c42fbbb6e19882b6b6896" Id_AttributeType="33adce0832504e8e98b16a152d6cb8cd" Id_DataType="dd858f27d5e14363a5c33e561e432333" Id_Object="46cd2b4cc3174a2c8f75abf23ea6efba" Id_Class="8703010b98304113b2e98a4f24b5e99b" OrderId="0">
   <Val_Named><![CDATA[True]]></Val_Named>
@@ -14,7 +14,7 @@
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String></Val_String>
+  <Val_String><![CDATA[]]></Val_String>
 </Item>
 <Item Id_Attribute="7d90c2fbd0504f4793e3205d7b450d2f" Id_AttributeType="f9d715658856406db1b71af5a96a680f" Id_DataType="3a4f5b7bda754980933efbc33cc51439" Id_Object="ecccf54326ff4698a90405db64c518a1" Id_Class="8a2407981cbf466f95f53b7811b93ab1" OrderId="0">
   <Val_Named><![CDATA[5]]></Val_Named>
@@ -22,7 +22,7 @@
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng>5</Val_Lng>
-  <Val_String></Val_String>
+  <Val_String><![CDATA[]]></Val_String>
 </Item>
 <Item Id_Attribute="46d3388ce809476aaab454cdd42e13d3" Id_AttributeType="33adce0832504e8e98b16a152d6cb8cd" Id_DataType="dd858f27d5e14363a5c33e561e432333" Id_Object="e98ae3e658f24e3db88b8c548d2b619b" Id_Class="8703010b98304113b2e98a4f24b5e99b" OrderId="0">
   <Val_Named><![CDATA[False]]></Val_Named>
@@ -30,7 +30,7 @@
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String></Val_String>
+  <Val_String><![CDATA[]]></Val_String>
 </Item>
 <Item Id_Attribute="4783b7ad01e649dca19dd4ca3b4d9155" Id_AttributeType="33adce0832504e8e98b16a152d6cb8cd" Id_DataType="dd858f27d5e14363a5c33e561e432333" Id_Object="b566810fbd334f63b4b61caef66bf731" Id_Class="8703010b98304113b2e98a4f24b5e99b" OrderId="0">
   <Val_Named><![CDATA[False]]></Val_Named>
@@ -38,7 +38,7 @@
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String></Val_String>
+  <Val_String><![CDATA[]]></Val_String>
 </Item>
 <Item Id_Attribute="02f5829cbbb049a69d251da67f8b7fcc" Id_AttributeType="f9d715658856406db1b71af5a96a680f" Id_DataType="3a4f5b7bda754980933efbc33cc51439" Id_Object="fb74fd67adcc4becae60236e34dabb79" Id_Class="8a2407981cbf466f95f53b7811b93ab1" OrderId="0">
   <Val_Named><![CDATA[3]]></Val_Named>
@@ -46,183 +46,1025 @@
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng>3</Val_Lng>
-  <Val_String></Val_String>
+  <Val_String><![CDATA[]]></Val_String>
 </Item>
-<Item Id_Attribute="774a3ec151c6470b81ee5841ff779d14" Id_AttributeType="64cf93ce5b714a5cb2cc1b9638949cfe" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[development_manager]]></Val_Named>
+<Item Id_Attribute="61a6f75214d4428b846973d1be14f992" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="010c941341c04d5f86f3574ba629a909" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[public clsOntologyItem OItem_@Name_ConfigItem@ { get; set; }]]&gt;
+&lt;/data&gt;]]></Val_Named>
   <Val_Bit></Val_Bit>
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String>development_manager</Val_String>
+  <Val_String><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[public clsOntologyItem OItem_@Name_ConfigItem@ { get; set; }]]&gt;
+&lt;/data&gt;]]></Val_String>
 </Item>
-<Item Id_Attribute="424133fae8c24e3eb9928351a9aa0021" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese]]></Val_Named>
+<Item Id_Attribute="da8aad687f074c2888e6e50968d65160" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="c1897a0f6824462d9dd878d9094efe6f" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[var objOList_@Name_ConfigItem@ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == &quot;@Name_ConfigItem@&quot;.ToLower() &amp;&amp; objRef.Ontology == Globals.Type_AttributeType
+                                           select objRef).ToList();
+
+            if (objOList_@Name_ConfigItem@.Any())
+            {
+                OItem_@Name_ConfigItem@ = new clsOntologyItem()
+                {
+                    GUID = objOList_@Name_ConfigItem@.First().ID_Other,
+                    Name = objOList_@Name_ConfigItem@.First().Name_Other,
+                    GUID_Parent = objOList_@Name_ConfigItem@.First().ID_Parent_Other,
+                    Type = Globals.Type_AttributeType
+                };
+            }
+            else
+            {
+                throw new Exception(&quot;config err&quot;);
+            }]]&gt;
+&lt;/data&gt;]]></Val_Named>
   <Val_Bit></Val_Bit>
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String>Diese</Val_String>
+  <Val_String><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[var objOList_@Name_ConfigItem@ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == &quot;@Name_ConfigItem@&quot;.ToLower() &amp;&amp; objRef.Ontology == Globals.Type_AttributeType
+                                           select objRef).ToList();
+
+            if (objOList_@Name_ConfigItem@.Any())
+            {
+                OItem_@Name_ConfigItem@ = new clsOntologyItem()
+                {
+                    GUID = objOList_@Name_ConfigItem@.First().ID_Other,
+                    Name = objOList_@Name_ConfigItem@.First().Name_Other,
+                    GUID_Parent = objOList_@Name_ConfigItem@.First().ID_Parent_Other,
+                    Type = Globals.Type_AttributeType
+                };
+            }
+            else
+            {
+                throw new Exception(&quot;config err&quot;);
+            }]]&gt;
+&lt;/data&gt;]]></Val_String>
 </Item>
-<Item Id_Attribute="1afca61cafc44a80854bc7e25f56043b" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Di]]></Val_Named>
+<Item Id_Attribute="6dc8c920b78a45169e453666e4ca81c7" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="60628f3920274a0f9879bce2357a3246" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[Imports Sem_Manager
+Public Class clsLocalConfig
+  Private Const cstr_GUIDToken_Development As String = &quot;@GUID_Development@&quot;
+  
+  Private objGlobals As clsGlobals
+  Private objConnection_DB As SqlClient.SqlConnection
+  Private objConnection_Config As SqlClient.SqlConnection
+  Private objConnection_Plugin As SqlClient.SqlConnection
+  
+  Private procA_TokenAttribute_Varchar255 As New ds_TokenAttributeTableAdapters.TokenAttribute_Varchar255TableAdapter
+  
+  Private funcA_SoftwareDevelopment_Config As New ds_DevelopmentConfigTableAdapters.func_SoftwareDevelopment_ConfigTableAdapter
+  Private func_SoftwareDevelopment_Config As New ds_DevelopmentConfig.func_SoftwareDevelopment_ConfigDataTable
+
+   Private procA_OR_Attribute_By_GUIDObjectReference As New ds_ObjectReferenceTableAdapters.proc_OR_Attribute_By_GUIDObjectReferenceTableAdapter
+   Private procA_OR_RelationType_By_GUIDObjectReference As New ds_ObjectReferenceTableAdapters.proc_OR_RelationType_By_GUIDObjectReferenceTableAdapter
+   Private procA_OR_Token_By_GUID As New ds_ObjectReferenceTableAdapters.proc_OR_Token_By_GUIDObjectReferenceTableAdapter
+   Private procA_OR_Type_By_GUID As New ds_ObjectReferenceTableAdapters.proc_OR_Type_By_GUIDObjectReferenceTableAdapter
+
+  
+  Private objGUID_Development As Guid
+  
+  @List_Declaration_ConfigItems@
+  
+  @List_Properties@
+  
+  Public ReadOnly Property Connection_DB() As SqlClient.SqlConnection
+    Get
+      Return objConnection_DB
+    End Get
+  End Property
+
+  Public ReadOnly Property Connection_Plugin() As SqlClient.SqlConnection
+    Get
+      Return objConnection_Plugin
+    End Get
+  End Property
+
+  Public ReadOnly Property Globals() As clsGlobals
+    Get
+      Return objGlobals
+    End Get
+  End Property
+  
+  Public Sub New(ByVal Globals As clsGlobals)
+    objGlobals = Globals
+    objConnection_DB = New SqlClient.SqlConnection(objGlobals.ConnectionString_User)
+    objConnection_Config = New SqlClient.SqlConnection(objGlobals.ConnectionString_System)
+
+    objGUID_Development = New Guid(cstr_GUIDToken_Development)
+
+    set_DBConnection()
+    get_Config()
+  End Sub
+  
+  Private Sub set_DBConnection()
+    funcA_SoftwareDevelopment_Config.Connection = objConnection_Config
+
+    procA_TokenAttribute_Varchar255.Connection = objConnection_Config
+
+    procA_OR_Attribute_By_GUIDObjectReference.Connection = objConnection_Config
+    procA_OR_RelationType_By_GUIDObjectReference.Connection = objConnection_Config
+    procA_OR_Token_By_GUID.Connection = objConnection_Config
+    procA_OR_Type_By_GUID.Connection = objConnection_Config
+  End Sub
+  
+  Private Sub get_Config()
+    Dim objDRC_RelData As DataRowCollection
+    Dim objDRs_ConfigItem() As DataRow
+    Dim objDRC_Ref As DataRowCollection
+    funcA_SoftwareDevelopment_Config.Fill_By_GUIDDevelopment(func_SoftwareDevelopment_Config, objGUID_Development)
+    
+    get_Config_Attributes()
+    get_Config_RelationTypes()
+    get_Config_Token()
+    get_Config_Types()
+        
+    
+  End Sub
+  
+  Private Sub get_Config_Attributes()
+      Dim objDRC_RelData As DataRowCollection
+      Dim objDRs_ConfigItem() As DataRow
+      Dim objDRC_Ref As DataRowCollection
+      
+      @List_Initialize_ConfigItems_Attributes@
+  End Sub
+  
+  Private Sub get_Config_RelationTypes()
+      Dim objDRC_RelData As DataRowCollection
+      Dim objDRs_ConfigItem() As DataRow
+      Dim objDRC_Ref As DataRowCollection
+      
+      @List_Initialize_ConfigItems_RelationTypes@
+  End Sub
+  
+  Private Sub get_Config_Token()
+      Dim objDRC_RelData As DataRowCollection
+      Dim objDRs_ConfigItem() As DataRow
+      Dim objDRC_Ref As DataRowCollection
+      
+      @List_Initialize_ConfigItems_Token@
+  End Sub
+  
+  Private Sub get_Config_Types()
+      Dim objDRC_RelData As DataRowCollection
+      Dim objDRs_ConfigItem() As DataRow
+      Dim objDRC_Ref As DataRowCollection
+      
+      @List_Initialize_ConfigItems_Types@
+  End Sub
+End Class
+  ]]&gt;
+
+&lt;/data&gt;]]></Val_Named>
   <Val_Bit></Val_Bit>
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String>Di</Val_String>
+  <Val_String><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[Imports Sem_Manager
+Public Class clsLocalConfig
+  Private Const cstr_GUIDToken_Development As String = &quot;@GUID_Development@&quot;
+  
+  Private objGlobals As clsGlobals
+  Private objConnection_DB As SqlClient.SqlConnection
+  Private objConnection_Config As SqlClient.SqlConnection
+  Private objConnection_Plugin As SqlClient.SqlConnection
+  
+  Private procA_TokenAttribute_Varchar255 As New ds_TokenAttributeTableAdapters.TokenAttribute_Varchar255TableAdapter
+  
+  Private funcA_SoftwareDevelopment_Config As New ds_DevelopmentConfigTableAdapters.func_SoftwareDevelopment_ConfigTableAdapter
+  Private func_SoftwareDevelopment_Config As New ds_DevelopmentConfig.func_SoftwareDevelopment_ConfigDataTable
+
+   Private procA_OR_Attribute_By_GUIDObjectReference As New ds_ObjectReferenceTableAdapters.proc_OR_Attribute_By_GUIDObjectReferenceTableAdapter
+   Private procA_OR_RelationType_By_GUIDObjectReference As New ds_ObjectReferenceTableAdapters.proc_OR_RelationType_By_GUIDObjectReferenceTableAdapter
+   Private procA_OR_Token_By_GUID As New ds_ObjectReferenceTableAdapters.proc_OR_Token_By_GUIDObjectReferenceTableAdapter
+   Private procA_OR_Type_By_GUID As New ds_ObjectReferenceTableAdapters.proc_OR_Type_By_GUIDObjectReferenceTableAdapter
+
+  
+  Private objGUID_Development As Guid
+  
+  @List_Declaration_ConfigItems@
+  
+  @List_Properties@
+  
+  Public ReadOnly Property Connection_DB() As SqlClient.SqlConnection
+    Get
+      Return objConnection_DB
+    End Get
+  End Property
+
+  Public ReadOnly Property Connection_Plugin() As SqlClient.SqlConnection
+    Get
+      Return objConnection_Plugin
+    End Get
+  End Property
+
+  Public ReadOnly Property Globals() As clsGlobals
+    Get
+      Return objGlobals
+    End Get
+  End Property
+  
+  Public Sub New(ByVal Globals As clsGlobals)
+    objGlobals = Globals
+    objConnection_DB = New SqlClient.SqlConnection(objGlobals.ConnectionString_User)
+    objConnection_Config = New SqlClient.SqlConnection(objGlobals.ConnectionString_System)
+
+    objGUID_Development = New Guid(cstr_GUIDToken_Development)
+
+    set_DBConnection()
+    get_Config()
+  End Sub
+  
+  Private Sub set_DBConnection()
+    funcA_SoftwareDevelopment_Config.Connection = objConnection_Config
+
+    procA_TokenAttribute_Varchar255.Connection = objConnection_Config
+
+    procA_OR_Attribute_By_GUIDObjectReference.Connection = objConnection_Config
+    procA_OR_RelationType_By_GUIDObjectReference.Connection = objConnection_Config
+    procA_OR_Token_By_GUID.Connection = objConnection_Config
+    procA_OR_Type_By_GUID.Connection = objConnection_Config
+  End Sub
+  
+  Private Sub get_Config()
+    Dim objDRC_RelData As DataRowCollection
+    Dim objDRs_ConfigItem() As DataRow
+    Dim objDRC_Ref As DataRowCollection
+    funcA_SoftwareDevelopment_Config.Fill_By_GUIDDevelopment(func_SoftwareDevelopment_Config, objGUID_Development)
+    
+    get_Config_Attributes()
+    get_Config_RelationTypes()
+    get_Config_Token()
+    get_Config_Types()
+        
+    
+  End Sub
+  
+  Private Sub get_Config_Attributes()
+      Dim objDRC_RelData As DataRowCollection
+      Dim objDRs_ConfigItem() As DataRow
+      Dim objDRC_Ref As DataRowCollection
+      
+      @List_Initialize_ConfigItems_Attributes@
+  End Sub
+  
+  Private Sub get_Config_RelationTypes()
+      Dim objDRC_RelData As DataRowCollection
+      Dim objDRs_ConfigItem() As DataRow
+      Dim objDRC_Ref As DataRowCollection
+      
+      @List_Initialize_ConfigItems_RelationTypes@
+  End Sub
+  
+  Private Sub get_Config_Token()
+      Dim objDRC_RelData As DataRowCollection
+      Dim objDRs_ConfigItem() As DataRow
+      Dim objDRC_Ref As DataRowCollection
+      
+      @List_Initialize_ConfigItems_Token@
+  End Sub
+  
+  Private Sub get_Config_Types()
+      Dim objDRC_RelData As DataRowCollection
+      Dim objDRs_ConfigItem() As DataRow
+      Dim objDRC_Ref As DataRowCollection
+      
+      @List_Initialize_ConfigItems_Types@
+  End Sub
+End Class
+  ]]&gt;
+
+&lt;/data&gt;]]></Val_String>
 </Item>
-<Item Id_Attribute="62df147aaa09436caf4fdcfb92ecd3cb" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese]]></Val_Named>
+<Item Id_Attribute="44f7c7590de0490882b5651973e4589f" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="577d72f6a7d046a3a96eab0e0fc757ef" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[var objOList_@Name_ConfigItem@ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == &quot;@Name_ConfigItem@&quot;.ToLower() &amp;&amp; objRef.Ontology == Globals.Type_Object
+                                           select objRef).ToList();
+
+            if (objOList_@Name_ConfigItem@.Any())
+            {
+                OItem_@Name_ConfigItem@ = new clsOntologyItem()
+                {
+                    GUID = objOList_@Name_ConfigItem@.First().ID_Other,
+                    Name = objOList_@Name_ConfigItem@.First().Name_Other,
+                    GUID_Parent = objOList_@Name_ConfigItem@.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception(&quot;config err&quot;);
+            }]]&gt;
+&lt;/data&gt;]]></Val_Named>
   <Val_Bit></Val_Bit>
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String>Diese</Val_String>
+  <Val_String><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[var objOList_@Name_ConfigItem@ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == &quot;@Name_ConfigItem@&quot;.ToLower() &amp;&amp; objRef.Ontology == Globals.Type_Object
+                                           select objRef).ToList();
+
+            if (objOList_@Name_ConfigItem@.Any())
+            {
+                OItem_@Name_ConfigItem@ = new clsOntologyItem()
+                {
+                    GUID = objOList_@Name_ConfigItem@.First().ID_Other,
+                    Name = objOList_@Name_ConfigItem@.First().Name_Other,
+                    GUID_Parent = objOList_@Name_ConfigItem@.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception(&quot;config err&quot;);
+            }]]&gt;
+&lt;/data&gt;]]></Val_String>
 </Item>
-<Item Id_Attribute="c07102a00b0843dbaa802d036421b72b" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese ]]></Val_Named>
+<Item Id_Attribute="1a185f204d314f7ab0e9601e6e755511" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="8eb65326165c4141958c7119b9429c4b" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[Public ReadOnly Property SemItem_@Name_ConfigItem@() As clsSemItem
+  Get
+    Return objSemItem_@Name_ConfigItem@
+  End Get
+End Property]]&gt;
+&lt;/data&gt;]]></Val_Named>
   <Val_Bit></Val_Bit>
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String>Diese </Val_String>
+  <Val_String><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[Public ReadOnly Property SemItem_@Name_ConfigItem@() As clsSemItem
+  Get
+    Return objSemItem_@Name_ConfigItem@
+  End Get
+End Property]]&gt;
+&lt;/data&gt;]]></Val_String>
 </Item>
-<Item Id_Attribute="58115e00e662409e8d91501340740ae4" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese Software dient zur ]]></Val_Named>
+<Item Id_Attribute="009d7d6afd624791857edb8fd1380087" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="9832e81c785645b6915dc921e63a17c7" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[ objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select(&quot;Name_Token_ConfigItem=&#39;@Name_ConfigItem@&#39;&quot;)
+        If objDRs_ConfigItem.Length &gt; 0 Then
+            objDRC_Ref = procA_OR_RelationType_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item(&quot;GUID_ObjectReference&quot;)).Rows
+            If objDRC_Ref.Count &gt; 0 Then
+                objSemItem_@Name_ConfigItem@.GUID = objDRC_Ref(0).Item(&quot;GUID_RelationType&quot;)
+                objSemItem_@Name_ConfigItem@.Name = objDRC_Ref(0).Item(&quot;Name_RelationType&quot;)
+                objSemItem_@Name_ConfigItem@.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
+
+            Else
+                Err.Raise(1, &quot;Config not set&quot;)
+            End If
+
+
+        Else
+            Err.Raise(1, &quot;Config not set&quot;)
+        End If]]&gt;
+&lt;/data&gt;]]></Val_Named>
   <Val_Bit></Val_Bit>
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String>Diese Software dient zur </Val_String>
+  <Val_String><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[ objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select(&quot;Name_Token_ConfigItem=&#39;@Name_ConfigItem@&#39;&quot;)
+        If objDRs_ConfigItem.Length &gt; 0 Then
+            objDRC_Ref = procA_OR_RelationType_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item(&quot;GUID_ObjectReference&quot;)).Rows
+            If objDRC_Ref.Count &gt; 0 Then
+                objSemItem_@Name_ConfigItem@.GUID = objDRC_Ref(0).Item(&quot;GUID_RelationType&quot;)
+                objSemItem_@Name_ConfigItem@.Name = objDRC_Ref(0).Item(&quot;Name_RelationType&quot;)
+                objSemItem_@Name_ConfigItem@.GUID_Type = objGlobals.ObjectReferenceType_RelationType.GUID
+
+            Else
+                Err.Raise(1, &quot;Config not set&quot;)
+            End If
+
+
+        Else
+            Err.Raise(1, &quot;Config not set&quot;)
+        End If]]&gt;
+&lt;/data&gt;]]></Val_String>
 </Item>
-<Item Id_Attribute="5e24de3fe0494cf6aecbcc624b9dfa53" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese Softwrae]]></Val_Named>
+<Item Id_Attribute="2a6721e7659742ea80e3a47e8598bf81" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="efd9f6ad63fa45b3ab207cf8d6447338" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[]]&gt;
+&lt;/data&gt;]]></Val_Named>
   <Val_Bit></Val_Bit>
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String>Diese Softwrae</Val_String>
+  <Val_String><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[]]&gt;
+&lt;/data&gt;]]></Val_String>
 </Item>
-<Item Id_Attribute="cf66a54c622545468629c0b6045c9582" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese Software dient zur Konfiguration der Plugin]]></Val_Named>
+<Item Id_Attribute="dd71687f316c415e8b3af9e5183a7156" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="1af5b4342b1d48ff900bad3e7fb37b51" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[var objOList_@Name_ConfigItem@ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == &quot;@Name_ConfigItem@&quot;.ToLower() &amp;&amp; objRef.Ontology == Globals.Type_Class
+                                           select objRef).ToList();
+
+            if (objOList_@Name_ConfigItem@.Any())
+            {
+                OItem_@Name_ConfigItem@ = new clsOntologyItem()
+                {
+                    GUID = objOList_@Name_ConfigItem@.First().ID_Other,
+                    Name = objOList_@Name_ConfigItem@.First().Name_Other,
+                    GUID_Parent = objOList_@Name_ConfigItem@.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception(&quot;config err&quot;);
+            }]]&gt;
+&lt;/data&gt;]]></Val_Named>
   <Val_Bit></Val_Bit>
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String>Diese Software dient zur Konfiguration der Plugin</Val_String>
+  <Val_String><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[var objOList_@Name_ConfigItem@ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == &quot;@Name_ConfigItem@&quot;.ToLower() &amp;&amp; objRef.Ontology == Globals.Type_Class
+                                           select objRef).ToList();
+
+            if (objOList_@Name_ConfigItem@.Any())
+            {
+                OItem_@Name_ConfigItem@ = new clsOntologyItem()
+                {
+                    GUID = objOList_@Name_ConfigItem@.First().ID_Other,
+                    Name = objOList_@Name_ConfigItem@.First().Name_Other,
+                    GUID_Parent = objOList_@Name_ConfigItem@.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception(&quot;config err&quot;);
+            }]]&gt;
+&lt;/data&gt;]]></Val_String>
 </Item>
-<Item Id_Attribute="4bd21b76db654adc84211fd3e67483a7" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese]]></Val_Named>
+<Item Id_Attribute="c2167b99af1b4db0b152ba4d1aab7fb8" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="d6bc32e29be942419ebbf078d30b6601" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[Private objSemItem_@Name_ConfigItem@ As New clsSemItem]]&gt;
+&lt;/data&gt;]]></Val_Named>
   <Val_Bit></Val_Bit>
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String>Diese</Val_String>
+  <Val_String><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[Private objSemItem_@Name_ConfigItem@ As New clsSemItem]]&gt;
+&lt;/data&gt;]]></Val_String>
 </Item>
-<Item Id_Attribute="cc44a0f758404d8e878625c54c2101a7" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese Softwareentwicklung dient zur Konfiguration von ]]></Val_Named>
+<Item Id_Attribute="bc5ab446a8324ca5b87e23e89766cb3f" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="91248feede394bb28d044916a53b553f" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select(&quot;Name_Token_ConfigItem=&#39;@Name_ConfigItem@&#39;&quot;)
+        If objDRs_ConfigItem.Length &gt; 0 Then
+            objDRC_Ref = procA_OR_Attribute_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item(&quot;GUID_ObjectReference&quot;)).Rows
+            If objDRC_Ref.Count &gt; 0 Then
+                objSemItem_@Name_ConfigItem@.GUID = objDRC_Ref(0).Item(&quot;GUID_Attribute&quot;)
+                objSemItem_@Name_ConfigItem@.Name = objDRC_Ref(0).Item(&quot;Name_Attribute&quot;)
+                objSemItem_@Name_ConfigItem@.GUID_Parent = objDRC_Ref(0).Item(&quot;GUID_AttributeType&quot;)
+                objSemItem_@Name_ConfigItem@.GUID_Type = objGlobals.ObjectReferenceType_Attribute.GUID
+            Else
+                Err.Raise(1, &quot;Config not set&quot;)
+            End If
+            
+
+        Else
+            Err.Raise(1, &quot;Config not set&quot;)
+        End If]]&gt;
+&lt;/data&gt;]]></Val_Named>
   <Val_Bit></Val_Bit>
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String>Diese Softwareentwicklung dient zur Konfiguration von </Val_String>
+  <Val_String><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select(&quot;Name_Token_ConfigItem=&#39;@Name_ConfigItem@&#39;&quot;)
+        If objDRs_ConfigItem.Length &gt; 0 Then
+            objDRC_Ref = procA_OR_Attribute_By_GUIDObjectReference.GetData(objDRs_ConfigItem(0).Item(&quot;GUID_ObjectReference&quot;)).Rows
+            If objDRC_Ref.Count &gt; 0 Then
+                objSemItem_@Name_ConfigItem@.GUID = objDRC_Ref(0).Item(&quot;GUID_Attribute&quot;)
+                objSemItem_@Name_ConfigItem@.Name = objDRC_Ref(0).Item(&quot;Name_Attribute&quot;)
+                objSemItem_@Name_ConfigItem@.GUID_Parent = objDRC_Ref(0).Item(&quot;GUID_AttributeType&quot;)
+                objSemItem_@Name_ConfigItem@.GUID_Type = objGlobals.ObjectReferenceType_Attribute.GUID
+            Else
+                Err.Raise(1, &quot;Config not set&quot;)
+            End If
+            
+
+        Else
+            Err.Raise(1, &quot;Config not set&quot;)
+        End If]]&gt;
+&lt;/data&gt;]]></Val_String>
 </Item>
-<Item Id_Attribute="aba61f2db2be4681af372682dcb514d3" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese Software]]></Val_Named>
+<Item Id_Attribute="3b2932e786ee4604bb2d9cbb492cbe36" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="2478bf9d00a54bdd8ab0cca9977c48a3" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select(&quot;Name_Token_ConfigItem=&#39;@Name_ConfigItem@&#39;&quot;)
+        If objDRs_ConfigItem.Length &gt; 0 Then
+            objDRC_Ref = procA_OR_Token_By_GUID.GetData(objDRs_ConfigItem(0).Item(&quot;GUID_ObjectReference&quot;)).Rows
+            If objDRC_Ref.Count &gt; 0 Then
+                objSemItem_@Name_ConfigItem@.GUID = objDRC_Ref(0).Item(&quot;GUID_Token&quot;)
+                objSemItem_@Name_ConfigItem@.Name = objDRC_Ref(0).Item(&quot;Name_Token&quot;)
+                objSemItem_@Name_ConfigItem@.GUID_Parent = objDRC_Ref(0).Item(&quot;GUID_Type&quot;)
+                objSemItem_@Name_ConfigItem@.GUID_Type = objGlobals.ObjectReferenceType_Token.GUID
+            Else
+                Err.Raise(1, &quot;Config not set&quot;)
+            End If
+
+
+        Else
+            Err.Raise(1, &quot;Config not set&quot;)
+        End If]]&gt;
+&lt;/data&gt;]]></Val_Named>
   <Val_Bit></Val_Bit>
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String>Diese Software</Val_String>
+  <Val_String><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select(&quot;Name_Token_ConfigItem=&#39;@Name_ConfigItem@&#39;&quot;)
+        If objDRs_ConfigItem.Length &gt; 0 Then
+            objDRC_Ref = procA_OR_Token_By_GUID.GetData(objDRs_ConfigItem(0).Item(&quot;GUID_ObjectReference&quot;)).Rows
+            If objDRC_Ref.Count &gt; 0 Then
+                objSemItem_@Name_ConfigItem@.GUID = objDRC_Ref(0).Item(&quot;GUID_Token&quot;)
+                objSemItem_@Name_ConfigItem@.Name = objDRC_Ref(0).Item(&quot;Name_Token&quot;)
+                objSemItem_@Name_ConfigItem@.GUID_Parent = objDRC_Ref(0).Item(&quot;GUID_Type&quot;)
+                objSemItem_@Name_ConfigItem@.GUID_Type = objGlobals.ObjectReferenceType_Token.GUID
+            Else
+                Err.Raise(1, &quot;Config not set&quot;)
+            End If
+
+
+        Else
+            Err.Raise(1, &quot;Config not set&quot;)
+        End If]]&gt;
+&lt;/data&gt;]]></Val_String>
 </Item>
-<Item Id_Attribute="4115593f4e904a3a9020a9f4d598fa7e" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese Software dient zur Konfi]]></Val_Named>
+<Item Id_Attribute="da5320d81ba34876b125ff5896256247" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="70faabbf34834335a008500ae92cf648" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select(&quot;Name_Token_ConfigItem=&#39;@Name_ConfigItem@&#39;&quot;)
+        If objDRs_ConfigItem.Length &gt; 0 Then
+            objDRC_Ref = procA_OR_Type_By_GUID.GetData(objDRs_ConfigItem(0).Item(&quot;GUID_ObjectReference&quot;)).Rows
+            If objDRC_Ref.Count &gt; 0 Then
+                objSemItem_@Name_ConfigItem@.GUID = objDRC_Ref(0).Item(&quot;GUID_Type&quot;)
+                objSemItem_@Name_ConfigItem@.Name = objDRC_Ref(0).Item(&quot;Name_Type&quot;)
+                If Not IsDBNull(objDRC_Ref(0).Item(&quot;GUID_Type_Parent&quot;)) Then
+                    objSemItem_@Name_ConfigItem@.GUID_Parent = objDRC_Ref(0).Item(&quot;GUID_Type_Parent&quot;)
+                End If
+                objSemItem_@Name_ConfigItem@.GUID_Type = objGlobals.ObjectReferenceType_Type.GUID
+            Else
+                Err.Raise(1, &quot;Config not set&quot;)
+            End If
+
+
+        Else
+            Err.Raise(1, &quot;Config not set&quot;)
+        End If]]&gt;
+&lt;/data&gt;]]></Val_Named>
   <Val_Bit></Val_Bit>
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String>Diese Software dient zur Konfi</Val_String>
+  <Val_String><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[objDRs_ConfigItem = func_SoftwareDevelopment_Config.Select(&quot;Name_Token_ConfigItem=&#39;@Name_ConfigItem@&#39;&quot;)
+        If objDRs_ConfigItem.Length &gt; 0 Then
+            objDRC_Ref = procA_OR_Type_By_GUID.GetData(objDRs_ConfigItem(0).Item(&quot;GUID_ObjectReference&quot;)).Rows
+            If objDRC_Ref.Count &gt; 0 Then
+                objSemItem_@Name_ConfigItem@.GUID = objDRC_Ref(0).Item(&quot;GUID_Type&quot;)
+                objSemItem_@Name_ConfigItem@.Name = objDRC_Ref(0).Item(&quot;Name_Type&quot;)
+                If Not IsDBNull(objDRC_Ref(0).Item(&quot;GUID_Type_Parent&quot;)) Then
+                    objSemItem_@Name_ConfigItem@.GUID_Parent = objDRC_Ref(0).Item(&quot;GUID_Type_Parent&quot;)
+                End If
+                objSemItem_@Name_ConfigItem@.GUID_Type = objGlobals.ObjectReferenceType_Type.GUID
+            Else
+                Err.Raise(1, &quot;Config not set&quot;)
+            End If
+
+
+        Else
+            Err.Raise(1, &quot;Config not set&quot;)
+        End If]]&gt;
+&lt;/data&gt;]]></Val_String>
 </Item>
-<Item Id_Attribute="e7b8526b1ef14c82a1f83cedb66bbac0" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese Software dient zur Konfiguration der Plugins]]></Val_Named>
+<Item Id_Attribute="c190036a4ab0498598c406d80163ac41" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="32753579fa1243ef9037296b3b5f4d51" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Ontology_Module;
+using OntologyClasses.BaseClasses;
+using System.Reflection;
+using System.Windows.Forms;
+
+namespace @Name_Space@
+{
+    public class clsLocalConfig
+    {
+        private const string cstrID_Ontology = &quot;@GUID_Ontology@&quot;;
+        private clsImport objImport;
+
+        public clsGlobals Globals { get; set; }
+
+        private clsOntologyItem objOItem_DevConfig = new clsOntologyItem();
+        public clsOntologyItem OItem_BaseConfig { get; set; }
+
+        private clsDBLevel objDBLevel_Config1;
+        private clsDBLevel objDBLevel_Config2;
+	
+	@List_Declaration_ConfigItems@
+  
+	
+private void get_Data_DevelopmentConfig()
+        {
+            var objORL_Ontology_To_OntolgyItems = new List&lt;clsObjectRel&gt; {new clsObjectRel {ID_Object = cstrID_Ontology, 
+                                                                                             ID_RelationType = Globals.RelationType_contains.GUID, 
+                                                                                             ID_Parent_Other = Globals.Class_OntologyItems.GUID}};
+
+            var objOItem_Result = objDBLevel_Config1.get_Data_ObjectRel(objORL_Ontology_To_OntolgyItems, boolIDs:false);
+            if (objOItem_Result.GUID == Globals.LState_Success.GUID)
+            {
+                if (objDBLevel_Config1.OList_ObjectRel.Any())
+                {
+
+                    objORL_Ontology_To_OntolgyItems = new List&lt;clsObjectRel&gt; {new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
+                                                                                                         ID_RelationType = Globals.RelationType_belongingAttribute.GUID},
+                                                                                  new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
+                                                                                                         ID_RelationType = Globals.RelationType_belongingClass.GUID},
+                                                                                 new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
+                                                                                                         ID_RelationType = Globals.RelationType_belongingObject.GUID},
+                                                                                  new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
+                                                                                                         ID_RelationType = Globals.RelationType_belongingRelationType.GUID}};
+
+                    objOItem_Result = objDBLevel_Config2.get_Data_ObjectRel(objORL_Ontology_To_OntolgyItems, boolIDs:false);
+                    if (objOItem_Result.GUID == Globals.LState_Success.GUID)
+                    {
+                        if (!objDBLevel_Config2.OList_ObjectRel.Any())
+                        {
+                            throw new Exception(&quot;Config-Error&quot;);
+                        }
+                    }   
+                    else
+                    {
+                        throw new Exception(&quot;Config-Error&quot;);
+                    }
+                }
+                else
+                {
+                    throw new Exception(&quot;Config-Error&quot;);
+                }
+
+            }
+
+        }
+  
+	public clsLocalConfig()
+        {
+            Globals = new clsGlobals();
+            set_DBConnection();
+            get_Config();
+        }
+
+        public clsLocalConfig(clsGlobals Globals)
+        {
+            this.Globals = Globals;
+            set_DBConnection();
+            get_Config();
+        }
+  
+	private void set_DBConnection()
+        {
+		    objDBLevel_Config1 = new clsDBLevel(Globals);
+		    objDBLevel_Config2 = new clsDBLevel(Globals);
+			objImport = new clsImport(Globals);
+        }
+  
+	private void get_Config()
+        {
+            try
+            {
+                get_Data_DevelopmentConfig();
+                get_Config_AttributeTypes();
+                get_Config_RelationTypes();
+                get_Config_Classes();
+                get_Config_Objects();
+            }
+            catch(Exception ex)
+            {
+                var objAssembly = Assembly.GetExecutingAssembly();
+                AssemblyTitleAttribute[] objCustomAttributes = (AssemblyTitleAttribute[]) objAssembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+                var strTitle = &quot;Unbekannt&quot;;
+                if (objCustomAttributes.Length == 1) 
+                {
+                    strTitle = objCustomAttributes.First().Title;
+                }
+                if (MessageBox.Show(strTitle + &quot;: Die notwendigen Basisdaten konnten nicht geladen werden! Soll versucht werden, sie in der Datenbank &quot; +
+                          Globals.Index + &quot;@&quot; + Globals.Server + &quot; zu erzeugen?&quot;, &quot;Datenstrukturen&quot;,MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    var objOItem_Result = objImport.ImportTemplates(objAssembly);
+                    if (objOItem_Result.GUID != Globals.LState_Error.GUID)
+                    {
+                        get_Data_DevelopmentConfig();
+                        get_Config_AttributeTypes();
+                        get_Config_RelationTypes();
+                        get_Config_Classes();
+                        get_Config_Objects();
+                    }
+                    else
+                    {
+                        throw new Exception(&quot;Config not importable&quot;);
+                    }
+                }
+                else
+                {
+                    Environment.Exit(0);
+                }
+            }
+        }
+  
+	private void get_Config_AttributeTypes()
+        {
+		@List_Initialize_ConfigItems_Attributes@
+	}
+  
+	private void get_Config_RelationTypes()
+        {
+		@List_Initialize_ConfigItems_RelationTypes@
+	}
+  
+	private void get_Config_Objects()
+        {
+		@List_Initialize_ConfigItems_Token@
+	}
+  
+	private void get_Config_Classes()
+        {
+		@List_Initialize_ConfigItems_Types@
+	}
+    }
+
+}]]&gt;
+
+&lt;/data&gt;]]></Val_Named>
   <Val_Bit></Val_Bit>
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String>Diese Software dient zur Konfiguration der Plugins</Val_String>
+  <Val_String><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Ontology_Module;
+using OntologyClasses.BaseClasses;
+using System.Reflection;
+using System.Windows.Forms;
+
+namespace @Name_Space@
+{
+    public class clsLocalConfig
+    {
+        private const string cstrID_Ontology = &quot;@GUID_Ontology@&quot;;
+        private clsImport objImport;
+
+        public clsGlobals Globals { get; set; }
+
+        private clsOntologyItem objOItem_DevConfig = new clsOntologyItem();
+        public clsOntologyItem OItem_BaseConfig { get; set; }
+
+        private clsDBLevel objDBLevel_Config1;
+        private clsDBLevel objDBLevel_Config2;
+	
+	@List_Declaration_ConfigItems@
+  
+	
+private void get_Data_DevelopmentConfig()
+        {
+            var objORL_Ontology_To_OntolgyItems = new List&lt;clsObjectRel&gt; {new clsObjectRel {ID_Object = cstrID_Ontology, 
+                                                                                             ID_RelationType = Globals.RelationType_contains.GUID, 
+                                                                                             ID_Parent_Other = Globals.Class_OntologyItems.GUID}};
+
+            var objOItem_Result = objDBLevel_Config1.get_Data_ObjectRel(objORL_Ontology_To_OntolgyItems, boolIDs:false);
+            if (objOItem_Result.GUID == Globals.LState_Success.GUID)
+            {
+                if (objDBLevel_Config1.OList_ObjectRel.Any())
+                {
+
+                    objORL_Ontology_To_OntolgyItems = new List&lt;clsObjectRel&gt; {new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
+                                                                                                         ID_RelationType = Globals.RelationType_belongingAttribute.GUID},
+                                                                                  new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
+                                                                                                         ID_RelationType = Globals.RelationType_belongingClass.GUID},
+                                                                                 new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
+                                                                                                         ID_RelationType = Globals.RelationType_belongingObject.GUID},
+                                                                                  new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
+                                                                                                         ID_RelationType = Globals.RelationType_belongingRelationType.GUID}};
+
+                    objOItem_Result = objDBLevel_Config2.get_Data_ObjectRel(objORL_Ontology_To_OntolgyItems, boolIDs:false);
+                    if (objOItem_Result.GUID == Globals.LState_Success.GUID)
+                    {
+                        if (!objDBLevel_Config2.OList_ObjectRel.Any())
+                        {
+                            throw new Exception(&quot;Config-Error&quot;);
+                        }
+                    }   
+                    else
+                    {
+                        throw new Exception(&quot;Config-Error&quot;);
+                    }
+                }
+                else
+                {
+                    throw new Exception(&quot;Config-Error&quot;);
+                }
+
+            }
+
+        }
+  
+	public clsLocalConfig()
+        {
+            Globals = new clsGlobals();
+            set_DBConnection();
+            get_Config();
+        }
+
+        public clsLocalConfig(clsGlobals Globals)
+        {
+            this.Globals = Globals;
+            set_DBConnection();
+            get_Config();
+        }
+  
+	private void set_DBConnection()
+        {
+		    objDBLevel_Config1 = new clsDBLevel(Globals);
+		    objDBLevel_Config2 = new clsDBLevel(Globals);
+			objImport = new clsImport(Globals);
+        }
+  
+	private void get_Config()
+        {
+            try
+            {
+                get_Data_DevelopmentConfig();
+                get_Config_AttributeTypes();
+                get_Config_RelationTypes();
+                get_Config_Classes();
+                get_Config_Objects();
+            }
+            catch(Exception ex)
+            {
+                var objAssembly = Assembly.GetExecutingAssembly();
+                AssemblyTitleAttribute[] objCustomAttributes = (AssemblyTitleAttribute[]) objAssembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+                var strTitle = &quot;Unbekannt&quot;;
+                if (objCustomAttributes.Length == 1) 
+                {
+                    strTitle = objCustomAttributes.First().Title;
+                }
+                if (MessageBox.Show(strTitle + &quot;: Die notwendigen Basisdaten konnten nicht geladen werden! Soll versucht werden, sie in der Datenbank &quot; +
+                          Globals.Index + &quot;@&quot; + Globals.Server + &quot; zu erzeugen?&quot;, &quot;Datenstrukturen&quot;,MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    var objOItem_Result = objImport.ImportTemplates(objAssembly);
+                    if (objOItem_Result.GUID != Globals.LState_Error.GUID)
+                    {
+                        get_Data_DevelopmentConfig();
+                        get_Config_AttributeTypes();
+                        get_Config_RelationTypes();
+                        get_Config_Classes();
+                        get_Config_Objects();
+                    }
+                    else
+                    {
+                        throw new Exception(&quot;Config not importable&quot;);
+                    }
+                }
+                else
+                {
+                    Environment.Exit(0);
+                }
+            }
+        }
+  
+	private void get_Config_AttributeTypes()
+        {
+		@List_Initialize_ConfigItems_Attributes@
+	}
+  
+	private void get_Config_RelationTypes()
+        {
+		@List_Initialize_ConfigItems_RelationTypes@
+	}
+  
+	private void get_Config_Objects()
+        {
+		@List_Initialize_ConfigItems_Token@
+	}
+  
+	private void get_Config_Classes()
+        {
+		@List_Initialize_ConfigItems_Types@
+	}
+    }
+
+}]]&gt;
+
+&lt;/data&gt;]]></Val_String>
 </Item>
-<Item Id_Attribute="755a66a751704312964956c418d3b01f" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese Softwareentwicklung dient zur Konfiguration von Plugin-Anwendungen.]]></Val_Named>
+<Item Id_Attribute="1eabfc908bb144118f10ddff63dfe877" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="7719e9db9ce44cd4bed8958ac91e58cd" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[var objOList_@Name_ConfigItem@ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == &quot;@Name_ConfigItem@&quot;.ToLower() &amp;&amp; objRef.Ontology == Globals.Type_RelationType
+                                           select objRef).ToList();
+
+            if (objOList_@Name_ConfigItem@.Any())
+            {
+                OItem_@Name_ConfigItem@ = new clsOntologyItem()
+                {
+                    GUID = objOList_@Name_ConfigItem@.First().ID_Other,
+                    Name = objOList_@Name_ConfigItem@.First().Name_Other,
+                    GUID_Parent = objOList_@Name_ConfigItem@.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception(&quot;config err&quot;);
+            }]]&gt;
+&lt;/data&gt;]]></Val_Named>
   <Val_Bit></Val_Bit>
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
-  <Val_String>Diese Softwareentwicklung dient zur Konfiguration von Plugin-Anwendungen.</Val_String>
-</Item>
-<Item Id_Attribute="b3a584b6ed5f498990ad053375db9942" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese Software dient zur Konfiguration der Plugins.]]></Val_Named>
-  <Val_Bit></Val_Bit>
-  <Val_Date></Val_Date>
-  <Val_Double></Val_Double>
-  <Val_Lng></Val_Lng>
-  <Val_String>Diese Software dient zur Konfiguration der Plugins.</Val_String>
-</Item>
-<Item Id_Attribute="8eb573ba4378401e8dbf633afa8f88d3" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese Software Di]]></Val_Named>
-  <Val_Bit></Val_Bit>
-  <Val_Date></Val_Date>
-  <Val_Double></Val_Double>
-  <Val_Lng></Val_Lng>
-  <Val_String>Diese Software Di</Val_String>
-</Item>
-<Item Id_Attribute="e0b6e7ca114b456d9d2eb444816a1984" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese Softwareentwicklung dient zur ]]></Val_Named>
-  <Val_Bit></Val_Bit>
-  <Val_Date></Val_Date>
-  <Val_Double></Val_Double>
-  <Val_Lng></Val_Lng>
-  <Val_String>Diese Softwareentwicklung dient zur </Val_String>
-</Item>
-<Item Id_Attribute="36a5dc5d12d54456a661b5bba1331674" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese Software dient]]></Val_Named>
-  <Val_Bit></Val_Bit>
-  <Val_Date></Val_Date>
-  <Val_Double></Val_Double>
-  <Val_Lng></Val_Lng>
-  <Val_String>Diese Software dient</Val_String>
-</Item>
-<Item Id_Attribute="843664b2624644ab80a507828cdc0beb" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese Software dient zur Konfiguration ]]></Val_Named>
-  <Val_Bit></Val_Bit>
-  <Val_Date></Val_Date>
-  <Val_Double></Val_Double>
-  <Val_Lng></Val_Lng>
-  <Val_String>Diese Software dient zur Konfiguration </Val_String>
-</Item>
-<Item Id_Attribute="4054e0406ae841cba5577d6451f24670" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese Software]]></Val_Named>
-  <Val_Bit></Val_Bit>
-  <Val_Date></Val_Date>
-  <Val_Double></Val_Double>
-  <Val_Lng></Val_Lng>
-  <Val_String>Diese Software</Val_String>
-</Item>
-<Item Id_Attribute="2881e3a195a042e89280678046ef536b" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[D]]></Val_Named>
-  <Val_Bit></Val_Bit>
-  <Val_Date></Val_Date>
-  <Val_Double></Val_Double>
-  <Val_Lng></Val_Lng>
-  <Val_String>D</Val_String>
-</Item>
-<Item Id_Attribute="2433542088be4ee5acc05b26c2ce5be2" Id_AttributeType="0d2c794d281d44ff9767eb8549d4ad16" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="04816070c3d045708e279732f48d1c6d" Id_Class="71415eebce464b2cb0a2f72116b55438" OrderId="0">
-  <Val_Named><![CDATA[Diese Softwareentwicklung dient zur Konfiguration von Plugin-]]></Val_Named>
-  <Val_Bit></Val_Bit>
-  <Val_Date></Val_Date>
-  <Val_Double></Val_Double>
-  <Val_Lng></Val_Lng>
-  <Val_String>Diese Softwareentwicklung dient zur Konfiguration von Plugin-</Val_String>
+  <Val_String><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+  &lt;![CDATA[var objOList_@Name_ConfigItem@ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == &quot;@Name_ConfigItem@&quot;.ToLower() &amp;&amp; objRef.Ontology == Globals.Type_RelationType
+                                           select objRef).ToList();
+
+            if (objOList_@Name_ConfigItem@.Any())
+            {
+                OItem_@Name_ConfigItem@ = new clsOntologyItem()
+                {
+                    GUID = objOList_@Name_ConfigItem@.First().ID_Other,
+                    Name = objOList_@Name_ConfigItem@.First().Name_Other,
+                    GUID_Parent = objOList_@Name_ConfigItem@.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception(&quot;config err&quot;);
+            }]]&gt;
+&lt;/data&gt;]]></Val_String>
 </Item>
 
 </Items>

@@ -584,7 +584,9 @@
     <EmbeddedResource Include="Config\OntoogyTemplates\OntologyItemContainerTemplate.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Config\OntoogyTemplates\ObjAttItemTemplate.xml" />
+    <EmbeddedResource Include="Config\OntoogyTemplates\ObjAttItemTemplate.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Config\OntoogyTemplates\ObjRelItemTemplate.xml" />
     <EmbeddedResource Include="Config\Templates\AttributeTypes.xml">
       <SubType>Designer</SubType>

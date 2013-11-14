@@ -55,14 +55,6 @@
 <Item Id="a2ac6a4aa5f54d3d8876281ecdfe60a8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Partner]]></Item>
 <Item Id="5e49ad60ebb74cb68790b51f01dc3617" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Video_Sender]]></Item>
 <Item Id="98c450997d0a489b90800644aec44997" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Logstate_Download]]></Item>
-<Item Id="f462f4a73bd24d7cb40f48001bb234fd" Id_Parent="058145320fe84c7aaaa3b8693c81f4db"><![CDATA[Zeitungsquelle]]></Item>
-<Item Id="80ef08e27cf54bb78e090bfdf033749e" Id_Parent="058145320fe84c7aaaa3b8693c81f4db"><![CDATA[Audio-Quelle]]></Item>
-<Item Id="e33cd312756b4c278edd9405bb38cb0c" Id_Parent="058145320fe84c7aaaa3b8693c81f4db"><![CDATA[Internet-Quelle]]></Item>
-<Item Id="fc8981433a62480ca3e7b3198b8f4f57" Id_Parent="058145320fe84c7aaaa3b8693c81f4db"><![CDATA[Buch-Quelle]]></Item>
-<Item Id="c8ed46003c614c8cba32994f90b20752" Id_Parent="058145320fe84c7aaaa3b8693c81f4db"><![CDATA[Video-Quelle]]></Item>
-<Item Id="ce8a97a97805422a97996f116a4be419" Id_Parent="058145320fe84c7aaaa3b8693c81f4db"><![CDATA[Email-Quelle]]></Item>
-<Item Id="f08d264f715e43ac9c5e4404064265ad" Id_Parent="058145320fe84c7aaaa3b8693c81f4db"><![CDATA[Bild-Quelle]]></Item>
 <Item Id="da431a4a568c47088fb7583fd113a7b1" Id_Parent="1d9568afb6da49908f4d907dfdd30749"><![CDATA[Download]]></Item>
-<Item Id="56a6ad2848ed4d9dbc15646ea7ee6f4a" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Literaturquellen-Module]]></Item>
 
 </Items>
