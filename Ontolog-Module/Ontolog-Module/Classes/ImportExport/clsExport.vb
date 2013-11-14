@@ -288,10 +288,12 @@ End Enum
             If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
 
                 If mode.HasFlag(ModeEnum.OntologyStructures) Then
+                    'Get Elements of Ontology-Classes
                     objOItem_Result = Export_OntologyStructures(OItem_Ontology, strPathDst, objDict_XMLTemplates)
                 End If
 
                 If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType).Any Then
+                    'Get AttributeTypes
                     OList_AttributeTypes.AddRange(objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType).Where(Function(p) Not p.ID_Parent_Ref Is Nothing).Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Ref, _
                                                                                                                                                                                                                                                                                          .Name = p.Name_Ref, _
                                                                                                                                                                                                                                                                                          .GUID_Parent = p.ID_Parent_Ref, _
@@ -301,6 +303,7 @@ End Enum
                 End If
 
                 If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType).Any Then
+                    'Get RelationTypes
                     OList_RelationTypes.AddRange(objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType).ToList().Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Ref, .Name = p.Name_Ref, _
                                                                                                                                                                                                                                                                                         .GUID_Parent = p.ID_Parent_Ref, _
                                                                                                                                                                                                                                                                                         .Type = objGlobals.Type_Object}))
@@ -309,8 +312,18 @@ End Enum
                 End If
 
                 If mode.HasFlag(ModeEnum.AllRelations) Or mode.HasFlag(ModeEnum.OntologyJoins) Or mode.HasFlag(ModeEnum.OntologyItems) Then
-                    objOList_ClassesExtended = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Class).ToList()
-                    objOList_ClassesWithChildren = objOList_ClassesExtended.Where(Function(p) p.ID_OntologyRelationRule = objOntologyRules.Rule_ChildToken.GUID).GroupBy(Function(p) New With {p.ID_Ref, p.Name_Ref, p.ID_Parent_Ref, p.ID_OntologyRelationRule}).Select(Function(p) New clsOntologyItem With {.GUID_Parent = p.Key.ID_Ref}).ToList()
+                    'Get Classes of Ontology-Items
+                    objOList_ClassesExtended = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where( _
+                        Function(p) p.ID_Ontology = objOItem_Ontology.GUID _
+                        And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Class).ToList()
+
+                    'Get Classes which Objects have to be added
+                    objOList_ClassesWithChildren = objOList_ClassesExtended.Where( _
+                        Function(p) p.ID_OntologyRelationRule = objOntologyRules.Rule_ChildToken.GUID).GroupBy( _
+                            Function(p) New With {p.ID_Ref, p.Name_Ref, p.ID_Parent_Ref, p.ID_OntologyRelationRule}).Select( _
+                            Function(p) New clsOntologyItem With {.GUID_Parent = p.Key.ID_Ref}).ToList()
+
+                    'Get the Objects of Classes with Children (Rule)
                     If objOList_ClassesWithChildren.Any() Then
                         OList_Objects.AddRange(objDataWork_OntologyRels.GetData_ObjectsOfClasses(objOList_ClassesWithChildren))
                     End If
@@ -319,7 +332,7 @@ End Enum
 
 
                 If OList_Objects.Any Then
-
+                    'Add Classes of Objects which have to be exported
                     OList_Classes.AddRange(From objClass In objDataWork_OntologyRels.GetData_ClassesOfObjects(OList_Objects.GroupBy(Function(p) p.GUID_Parent).Select(Function(p) New clsOntologyItem With {.GUID = p.Key}).ToList())
                                                   Group Join objClassExist In OList_Classes On objClass.GUID Equals objClassExist.GUID Into objClassesExist = Group
                                                   From objClassExist In objClassesExist.DefaultIfEmpty()
@@ -335,6 +348,8 @@ End Enum
 
 
                 End If
+
+                'Add Classes of Ontology-Items
                 OList_Classes.AddRange((From objClassNew In objOList_ClassesExtended
                                                Group Join objClass In OList_Classes On objClass.GUID Equals objClassNew.ID_Ref Into objClasses = Group
                                                From objClassOld In objClasses.DefaultIfEmpty()
@@ -346,6 +361,7 @@ End Enum
                 If OList_Classes.Any Then
 
                     If mode.HasFlag(ModeEnum.ClassParents) Then
+                        'Get Parents for Classes, flag is set
                         Dim intClassCount = 0
                         Do
                             intClassCount = OList_Classes.Count
@@ -360,6 +376,7 @@ End Enum
 
                         Loop Until OList_Classes.Count - intClassCount = 0
                     End If
+                    'Get Classes Distinct
                     OList_Classes = (From objClass In OList_Classes
                                             Group By objClass.GUID, objClass.Name, objClass.GUID_Parent Into Group
                                             Select New clsOntologyItem With {.GUID = GUID, _
@@ -691,20 +708,7 @@ End Enum
                         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
 
 
-                            'OList_Objects.AddRange(From objObject In (From objObjRel In objDataWork_OntologyRels.ObjectRel
-                            '                        Join objObject In OList_Objects On objObjRel.ID_Object Equals objObject.GUID
-                            '                        Where objObjRel.Ontology = objGlobals.Type_Object
-                            '                        Group Join objObjectOld In OList_Objects On objObjectOld.GUID Equals objObjRel.ID_Other Into objObjects = Group
-                            '                        From objObjectOld In objObjects.DefaultIfEmpty()
-                            '                        Where objObjectOld Is Nothing
-                            '                        Select objObjRel).ToList()
-                            '                     Group By objObject.ID_Other, objObject.Name_Other, objObject.ID_Parent_Other Into Group
-                            '                     Select New clsOntologyItem With {.GUID = ID_Other, _
-                            '                                                      .Name = Name_Other, _
-                            '                                                      .GUID_Parent = ID_Parent_Other, _
-                            '                                                      .Type = objGlobals.Type_Object})
-
-                            OList_Objects.AddRange(From objObject In (From objObjRel In OList_ObjectRel
+                            OList_Objects.AddRange(From objObject In (From objObjRel In objDataWork_OntologyRels.ObjectRel
                                                     Join objObject In OList_Objects On objObjRel.ID_Object Equals objObject.GUID
                                                     Where objObjRel.Ontology = objGlobals.Type_Object
                                                     Group Join objObjectOld In OList_Objects On objObjectOld.GUID Equals objObjRel.ID_Other Into objObjects = Group

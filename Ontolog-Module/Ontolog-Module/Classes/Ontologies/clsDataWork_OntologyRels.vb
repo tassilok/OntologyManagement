@@ -150,19 +150,29 @@ Public Class clsDataWork_OntologyRels
         Dim objOItem_Result = objLocalConfig.Globals.LState_Success
 
         If objOList_Classes.Any Or objOList_RelationTypes.Any Then
-            Dim objOList_ObjectRelSearch = (From objClass In objOList_Classes
+            Dim objOList_ObjectRelSearch1 = (From objClass In objOList_Classes
                                             From objRelationType In objOList_RelationTypes
                                             Select New clsObjectRel With {.ID_Parent_Object = objClass.GUID, _
-                                                                          .ID_RelationType = objRelationType.GUID}).ToList()
+                                                                          .ID_RelationType = objRelationType.GUID, _
+                                                                          .ID_Parent_Other = objClass.GUID }).ToList()
 
-            objOItem_Result = objDBLevel_ObjRel.get_Data_ObjectRel(objOList_ObjectRelSearch, boolIDs:=False)
+            objOItem_Result = objDBLevel_ObjRel.get_Data_ObjectRel(objOList_ObjectRelSearch1, boolIDs:=False)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                ObjectRel = (from objORel In objDBLevel_ObjRel.OList_ObjectRel
+                             Where objORel.Ontology = objLocalConfig.Globals.Type_Object
+                             Join objClass In objOList_Classes on objORel.ID_Parent_Other equals objClass.GUID
+                             Select objORel).ToList()
+
+                ObjectRel.AddRange(objDBLevel_ObjRel.OList_ObjectRel.Where(Function(p) p.Ontology <> objLocalConfig.Globals.Type_Object))
+            End If
         Else
             objOItem_Result = objDBLevel_ObjRel.get_Data_ObjectRel(Nothing, boolIDs:=False)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                ObjectRel = objDBLevel_ObjRel.OList_ObjectRel.ToList()
+            End If
         End If
 
-        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            ObjectRel = objDBLevel_ObjRel.OList_ObjectRel
-        End If
+        
 
         objOItem_Result_ObjRel = objOItem_Result
     End Sub
