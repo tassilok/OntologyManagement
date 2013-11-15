@@ -97,6 +97,7 @@ Public Class clsDataWork_OntologyRels
         If objOList_Classes.Any Then
             ClassAtt = (From objClassAtt In objDBLevel_ClassAtt.OList_ClassAtt
                     Join objClass In objOList_Classes On objClassAtt.ID_Class Equals objClass.GUID
+                    Join objAttribute In objOList_AttributeTypes On objClassAtt.ID_AttributeType Equals objAttribute.GUID
                     Select objClassAtt).ToList
         Else
             ClassAtt = objDBLevel_ClassAtt.OList_ClassAtt
@@ -112,10 +113,23 @@ Public Class clsDataWork_OntologyRels
 
         If objOList_Classes.Any Then
             ClassRel = (From objClassRel In objDBLevel_ClassRel.OList_ClassRel
-                    Join objClass In objOList_Classes On objClassRel.ID_Class_Left Equals objClass.GUID
+                    Join objClassLeft In objOList_Classes On objClassRel.ID_Class_Left Equals objClassLeft.GUID
+                    Join objRelationType In objOList_RelationTypes On objClassRel.ID_RelationType Equals objRelationType.GUID
+                    Join objClassRight In objOList_Classes On objClassRel.ID_Class_Right Equals objClassRight.GUID
                     Select objClassRel).ToList
+
+
+            
         Else
-            ClassRel = objDBLevel_ClassAtt.OList_ClassRel
+            ClassRel = objDBLevel_ClassRel.OList_ClassRel
+        End If
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOItem_Result = objDBLevel_ClassRel.get_Data_ClassRel(Nothing, boolIDs:=False, boolOR:=True)
+            ClassRel.AddRange(From objClassRel In objDBLevel_ClassRel.OList_ClassRel
+                              Join objClassLeft In objOList_Classes On objClassRel.ID_Class_Left Equals objClassLeft.GUID
+                              Join objRelationType In objOList_RelationTypes On objClassRel.ID_RelationType Equals objRelationType.GUID
+                              Select objClassRel)
         End If
 
         objOItem_Result_ClassRel = objOItem_Result
