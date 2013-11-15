@@ -13,9 +13,14 @@ namespace OntologyClasses.DataClasses
         private clsClasses objClasses = new clsClasses();
         private clsRelationTypes objRelationTypes = new clsRelationTypes();
 
-        public clsClassRel Rel_Ontologyies_To_Ontologies { get; private set; }
-        public clsClassRel Rel_Ontologyies_To_OntologyItems { get; private set; }
-        public clsClassRel Rel_Ontologyies_To_OntologyJoins { get; private set; }
+        public clsClassRel Rel_Ontologies_To_Ontologies { get; private set; }
+        public clsClassRel Rel_Ontologies_To_OntologyItems { get; private set; }
+        public clsClassRel Rel_Ontologies_To_OntologyJoins { get; private set; }
+        public clsClassRel Rel_Ontologies_To__belongingResources { get; private set; }
+        public clsClassRel Rel_OntologyItems_To__belongingAttributes { get; private set; }
+        public clsClassRel Rel_OntologyItems_To__belongingRelationTypes { get; private set; }
+        public clsClassRel Rel_OntologyItems_To__belongingObjects { get; private set; }
+        public clsClassRel Rel_OntologyItems_To__belongingClasses { get; private set; }
         public clsClassRel Rel_OntologyJoins_To_OntologyItems { get; private set; }
         public clsClassRel Rel_OntologyMappings_To_MappingItems_src { get; private set; }
         public clsClassRel Rel_OntologyMappings_To_MappingItems_dst { get; private set; }
@@ -29,7 +34,7 @@ namespace OntologyClasses.DataClasses
 
         public clsBaseClassRelation()
         {
-            Rel_Ontologyies_To_Ontologies = new clsClassRel
+            Rel_Ontologies_To_Ontologies = new clsClassRel
                 {
                     ID_Class_Left = objClasses.OItem_Class_Ontologies.GUID,
                     ID_Class_Right = objClasses.OItem_Class_Ontologies.GUID,
@@ -40,7 +45,7 @@ namespace OntologyClasses.DataClasses
                     Ontology = objTypes.ClassType
                 };
 
-            Rel_Ontologyies_To_OntologyItems = new clsClassRel
+            Rel_Ontologies_To_OntologyItems = new clsClassRel
                 {
                     ID_Class_Left = objClasses.OItem_Class_Ontologies.GUID,
                     ID_Class_Right = objClasses.OItem_Class_OntologyItems.GUID,
@@ -51,7 +56,7 @@ namespace OntologyClasses.DataClasses
                     Ontology = objTypes.ClassType
                 };
 
-            Rel_Ontologyies_To_OntologyJoins = new clsClassRel
+            Rel_Ontologies_To_OntologyJoins = new clsClassRel
                 {
                     ID_Class_Left = objClasses.OItem_Class_Ontologies.GUID,
                     ID_Class_Right = objClasses.OItem_Class_OntologyJoin.GUID,
@@ -148,6 +153,56 @@ namespace OntologyClasses.DataClasses
                     Ontology = objTypes.ClassType
                 };
 
+            Rel_Ontologies_To__belongingResources = new clsClassRel
+            {
+                ID_Class_Left = objClasses.OItem_Class_Ontologies.GUID,
+                ID_RelationType = objRelationTypes.OItem_RelationType_belongingResource.GUID,
+                Min_Forw = 0,
+                Max_Forw = -1,
+                Max_Backw = -1,
+                Ontology = objTypes.Other
+            };
+
+            Rel_OntologyItems_To__belongingAttributes = new clsClassRel
+            {
+                ID_Class_Left = objClasses.OItem_Class_OntologyItems.GUID,
+                ID_RelationType = objRelationTypes.OItem_RelationType_belongingAttribute.GUID,
+                Min_Forw = 0,
+                Max_Forw = -1,
+                Max_Backw = -1,
+                Ontology = objTypes.Other
+            };
+
+            Rel_OntologyItems_To__belongingRelationTypes = new clsClassRel
+            {
+                ID_Class_Left = objClasses.OItem_Class_OntologyItems.GUID,
+                ID_RelationType = objRelationTypes.OItem_RelationType_belongingRelationType.GUID,
+                Min_Forw = 0,
+                Max_Forw = -1,
+                Max_Backw = -1,
+                Ontology = objTypes.Other
+            };
+
+            Rel_OntologyItems_To__belongingObjects = new clsClassRel
+            {
+                ID_Class_Left = objClasses.OItem_Class_OntologyItems.GUID,
+                ID_RelationType = objRelationTypes.OItem_RelationType_belongingObject.GUID,
+                Min_Forw = 0,
+                Max_Forw = -1,
+                Max_Backw = -1,
+                Ontology = objTypes.Other
+            };
+
+            Rel_OntologyItems_To__belongingClasses = new clsClassRel
+            {
+                ID_Class_Left = objClasses.OItem_Class_OntologyItems.GUID,
+                ID_RelationType = objRelationTypes.OItem_RelationType_belongingClass.GUID,
+                Min_Forw = 0,
+                Max_Forw = -1,
+                Max_Backw = -1,
+                Ontology = objTypes.Other
+            };
+
             ClassRelations = new List<clsClassRel>
                 {
                     Rel_OntologyJoins_To_OntologyItems,
@@ -157,9 +212,14 @@ namespace OntologyClasses.DataClasses
                     Rel_OntologyMappings_To_MappingItems_dst,
                     Rel_OntologyMappings_To_MappingItems_src,
                     Rel_OntologyMappings_To_MappingRules,
-                    Rel_Ontologyies_To_Ontologies,
-                    Rel_Ontologyies_To_OntologyItems,
-                    Rel_Ontologyies_To_OntologyJoins
+                    Rel_Ontologies_To_Ontologies,
+                    Rel_Ontologies_To_OntologyItems,
+                    Rel_Ontologies_To_OntologyJoins,
+                    Rel_Ontologies_To__belongingResources,
+                    Rel_OntologyItems_To__belongingAttributes,
+                    Rel_OntologyItems_To__belongingRelationTypes,
+                    Rel_OntologyItems_To__belongingObjects,
+                    Rel_OntologyItems_To__belongingClasses
                 };
         }
     }

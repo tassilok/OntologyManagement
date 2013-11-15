@@ -18,6 +18,7 @@ namespace SilverOnt
         public MainPage()
         {
             InitializeComponent();
+
         }
 
         // Stellen Sie nach der Navigation durch den Frame sicher, dass der HyperlinkButton, der die aktuelle Seite darstellt, ausgewählt ist

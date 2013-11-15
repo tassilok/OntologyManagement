@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SilverOnt.OServiceClasses;
 
 namespace SilverOnt
 {
@@ -24,5 +25,12 @@ namespace SilverOnt
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
         }
+
+        private void TypeTree_selectedClass_1(object sender, ClassItemSelectedEventArgs e)
+        {
+            objectGrid.IdClass = e.OItemSelected.GUID;
+        }
+
+        
     }
 }
