@@ -274,8 +274,7 @@ namespace Office_Module
                             }
                             else if (objOItem.Type == objLocalConfig.Globals.Type_Object)
                             {
-                                var objOItem_Class = new clsOntologyItem { GUID = objOItem.GUID_Parent };
-
+                                var objOItem_Class = objLocalConfig.DataWork_Documents.GetClassOfObject(objOItem);
                                 var objTreeNodeNew = GetClassNode(objOItem_Class);
 
                                 if (objTreeNodeNew != null)
@@ -328,6 +327,7 @@ namespace Office_Module
 
         private TreeNode GetClassNode(clsOntologyItem OItem_Class)
         {
+            
             var objTreeNodes = treeView_Items.Nodes.Find(OItem_Class.GUID, true);
             TreeNode objTreeNode = null;
             if (!objTreeNodes.Any())
