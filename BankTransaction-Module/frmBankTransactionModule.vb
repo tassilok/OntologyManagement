@@ -89,7 +89,7 @@ Public Class frmBankTransactionModule
             objDataWork_BankTransactions = New clsDataWork_BankTransactions(objLocalConfig, objOItem_Partner)
             objDataWork_BankTransactions.get_ImportSettings()
             objUserControl_TransactionList.Applyable = boolApplyable
-            objUserControl_TransactionList.initialize_BankTransactions(objDataWork_BankTransactions.OItem_Class_Banktransactions, objDataWork_BankTransactions)
+            objUserControl_TransactionList.initialize_BankTransactions(objLocalConfig.OItem_Type_Bank_Transaktionen__Sparkasse_, objDataWork_BankTransactions)
         Else
             boolOpen = False
         End If

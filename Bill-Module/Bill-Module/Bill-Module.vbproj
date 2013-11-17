@@ -87,6 +87,7 @@
     <Compile Include="clsDataWork_Transaction.vb" />
     <Compile Include="clsDataWork_BaseConfig.vb" />
     <Compile Include="clsDocument.vb" />
+    <Compile Include="clsFinancialTransaction.vb" />
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsDataWork_Payments.vb" />
     <Compile Include="clsTransaction_Documents.vb" />
@@ -96,6 +97,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet_BillModule.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="frmArchive.Designer.vb">
+      <DependentUpon>frmArchive.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmArchive.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmBillModule.vb">
       <SubType>Form</SubType>
@@ -118,6 +125,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="UserControl_Archive.Designer.vb">
+      <DependentUpon>UserControl_Archive.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_Archive.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControl_BillTree.Designer.vb">
       <DependentUpon>UserControl_BillTree.vb</DependentUpon>
@@ -145,6 +158,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmArchive.resx">
+      <DependentUpon>frmArchive.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmBillModule.resx">
       <DependentUpon>frmBillModule.vb</DependentUpon>
     </EmbeddedResource>
@@ -153,6 +169,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_Archive.resx">
+      <DependentUpon>UserControl_Archive.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_BillTree.resx">
       <DependentUpon>UserControl_BillTree.vb</DependentUpon>
@@ -200,6 +219,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\sync.png" />
     <EmbeddedResource Include="Config\Templates\AttributeTypes.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -254,6 +274,10 @@
     <ProjectReference Include="..\..\Security-Module\Security-Module\Security-Module.vbproj">
       <Project>{c9add5dc-090d-4003-bba9-cf9218c938b2}</Project>
       <Name>Security-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Structure-Module\Structure-Module\Structure-Module.csproj">
+      <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
+      <Name>Structure-Module</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

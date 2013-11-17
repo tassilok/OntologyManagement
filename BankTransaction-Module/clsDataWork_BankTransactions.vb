@@ -604,6 +604,7 @@ Public Class clsDataWork_BankTransactions
                                    Join objBuchTxt In objDBLevel_BTR_Buchungstext.OList_ObjectAtt On objBTR.GUID Equals objBuchTxt.ID_Object
                                    Join objVerZweck In objDBLevel_BTR_Verwendungszweck.OList_ObjectAtt On objBTR.GUID Equals objVerZweck.ID_Object
                                    Join objAuftragskonto In objDBLevel_BTR_Auftragskonto.OList_ObjectRel On objBTR.GUID Equals objAuftragskonto.ID_Object
+                                   Where objAuftragskonto.Name_Other = objOItem_Konto_Mandant.Name
                                    Join objAuftragsbank In objDBLevel_BTR_BLZ.OList_ObjectRel On objAuftragskonto.ID_Other Equals objAuftragsbank.ID_Object
                                    Join objGegenkonto In objDBLevel_BTR_Gegenkonto.OList_ObjectRel On objBTR.GUID Equals objGegenkonto.ID_Object
                                    Join objGegenbank In objDBLevel_BTR_BLZ.OList_ObjectRel On objGegenkonto.ID_Other Equals objGegenbank.ID_Object

@@ -117,7 +117,7 @@ Partial Class UserControl_PDFList
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Remove})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(89, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(58, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripButton_Add

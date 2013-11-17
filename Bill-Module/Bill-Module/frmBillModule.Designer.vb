@@ -25,7 +25,6 @@ Partial Class frmBillModule
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBillModule))
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel_DatabaseLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Database = New System.Windows.Forms.ToolStripTextBox()
@@ -36,6 +35,9 @@ Partial Class frmBillModule
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripMenuItem_Tools = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ArchiveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -73,15 +75,6 @@ Partial Class frmBillModule
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(338, 25)
         Me.ToolStrip1.TabIndex = 0
-        '
-        'ToolStripButton_Close
-        '
-        Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
-        Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
-        Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
-        Me.ToolStripButton_Close.Text = "x_Close"
         '
         'ToolStripSeparator1
         '
@@ -140,14 +133,14 @@ Partial Class frmBillModule
         Me.TabPage_Documents.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Documents.Name = "TabPage_Documents"
         Me.TabPage_Documents.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_Documents.Size = New System.Drawing.Size(521, 449)
+        Me.TabPage_Documents.Size = New System.Drawing.Size(521, 425)
         Me.TabPage_Documents.TabIndex = 1
         Me.TabPage_Documents.Text = "x_Documents"
         Me.TabPage_Documents.UseVisualStyleBackColor = True
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HilfeToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem_Tools, Me.HilfeToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(1069, 24)
@@ -158,14 +151,36 @@ Partial Class frmBillModule
         '
         Me.HilfeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoToolStripMenuItem})
         Me.HilfeToolStripMenuItem.Name = "HilfeToolStripMenuItem"
-        Me.HilfeToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
-        Me.HilfeToolStripMenuItem.Text = "&Hilfe"
+        Me.HilfeToolStripMenuItem.Size = New System.Drawing.Size(54, 20)
+        Me.HilfeToolStripMenuItem.Text = "x_&Hilfe"
         '
         'InfoToolStripMenuItem
         '
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
         Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.InfoToolStripMenuItem.Text = "&Info"
+        '
+        'ToolStripButton_Close
+        '
+        Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
+        Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripButton_Close.Text = "x_Close"
+        '
+        'ToolStripMenuItem_Tools
+        '
+        Me.ToolStripMenuItem_Tools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArchiveToolStripMenuItem})
+        Me.ToolStripMenuItem_Tools.Name = "ToolStripMenuItem_Tools"
+        Me.ToolStripMenuItem_Tools.Size = New System.Drawing.Size(58, 20)
+        Me.ToolStripMenuItem_Tools.Text = "x_&Tools"
+        '
+        'ArchiveToolStripMenuItem
+        '
+        Me.ArchiveToolStripMenuItem.Name = "ArchiveToolStripMenuItem"
+        Me.ArchiveToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ArchiveToolStripMenuItem.Text = "x_Archive"
         '
         'frmBillModule
         '
@@ -208,5 +223,7 @@ Partial Class frmBillModule
     Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
     Friend WithEvents HilfeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents InfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem_Tools As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ArchiveToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

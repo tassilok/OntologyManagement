@@ -4,6 +4,8 @@ Imports OntologyClasses.BaseClasses
 Public Class UserControl_PDFList
     Private objLocalConfig As clsLocalConfig
 
+    Private objFrm_ObjectEdit As frm_ObjectEdit
+
     Private objDataWork_PDF As clsDataWork_PDF
 
     Private objOItem_Ref As clsOntologyItem
@@ -246,5 +248,22 @@ Public Class UserControl_PDFList
             initialize_PDF(objOItem_Ref)
 
         End If
+    End Sub
+
+    Private Sub DataGridView_PDFList_RowHeaderMouseDoubleClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView_PDFList.RowHeaderMouseDoubleClick
+        Dim objDGVR As DataGridViewRow = DataGridView_PDFList.Rows(e.RowIndex)
+        Dim objDRV As DataRowView = objDGVR.DataBoundItem
+
+        Dim objOItem_PDF = New clsOntologyItem With {.GUID = objDRV.Item("ID_PDFDoc"), _
+                                                     .Name = objDRV.Item("Name_PDFDoc"), _
+                                                     .GUID_Parent = objLocalConfig.OItem_Type_PDF_Documents.GUID, _
+                                                     .Type = objLocalConfig.Globals.Type_Object}
+
+        Dim objOList_Objects = New List(Of clsOntologyItem) From {objOItem_PDF}
+
+        objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList_Objects, 0, objLocalConfig.Globals.Type_Object, Nothing)
+        objFrm_ObjectEdit.ShowDialog(Me)
+
+
     End Sub
 End Class

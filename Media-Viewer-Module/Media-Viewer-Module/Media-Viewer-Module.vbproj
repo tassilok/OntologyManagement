@@ -312,9 +312,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Config\Templates\ClassRels.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Config\Templates\ObjectAtt.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Config\Templates\ObjectRel.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

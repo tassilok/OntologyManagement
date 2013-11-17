@@ -772,7 +772,7 @@ Public Class clsTransaction_FinancialTransaction
         Dim objOList_FinancialTransaction_Search As New List(Of clsObjectRel)
         Dim objOList_FinancialTransaction_Del As New List(Of clsObjectRel)
 
-        objOItem_FinancialTransaction_Parent = objOItem_FinancialTransaction_Parent
+        objOItem_FinancialTransaction_Parent = OItem_FinancialTransaction_Parent
         If Not OItem_FinancialTransaction Is Nothing Then
             objOItem_FinancialTransaction = OItem_FinancialTransaction
         End If

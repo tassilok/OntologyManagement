@@ -8,6 +8,7 @@ Public Class frmBillModule
     Private WithEvents objUserControl_BillTree As UserControl_BillTree
     Private WithEvents objUserControl_TransactionDetail As UserControl_TransactionDetail
     Private WithEvents objUserControl_Documents As UserControl_Documents
+    Private objFrmArchive As frmArchive
     Private objFrmAuthenticate As frmAuthenticate
     Private objFrm_Name As frm_Name
     Private SplashScreen As SplashScreen_OntologyModule
@@ -240,5 +241,10 @@ Public Class frmBillModule
     Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
         AboutBox = New AboutBox_OntologyItem()
         AboutBox.ShowDialog(Me)
+    End Sub
+
+    Private Sub ArchiveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ArchiveToolStripMenuItem.Click
+        objFrmArchive = New frmArchive(objLocalConfig)
+        objFrmArchive.ShowDialog(Me)
     End Sub
 End Class

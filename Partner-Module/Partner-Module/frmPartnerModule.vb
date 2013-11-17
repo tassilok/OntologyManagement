@@ -122,11 +122,14 @@ Public Class frmPartnerModule
     Private Sub initialize()
         Dim objOItem_Partner As clsOntologyItem
 
-        objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
-        objFrmAuthenticate.ShowDialog(Me)
-        If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
-            objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User
-
+        If objLocalConfig.OItem_User Is Nothing Then
+            objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
+            objFrmAuthenticate.ShowDialog(Me)
+            If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
+                objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User
+            End If
+        End If
+        If Not objLocalConfig.OItem_User Is Nothing Then
             objUserControl_PartnerList = New UserControl_OItemList(objLocalConfig.Globals)
             objUserControl_PartnerList.Dock = DockStyle.Fill
             SplitContainer1.Panel1.Controls.Add(objUserControl_PartnerList)
@@ -148,16 +151,16 @@ Public Class frmPartnerModule
             TabPage_AvailabilityData.Controls.Add(objUserControl_AvailabilityData)
 
             objOItem_Partner = New clsOntologyItem(Nothing, _
-                                                   Nothing, _
-                                                   objLocalConfig.OItem_Class_Partner.GUID, _
-                                                   objLocalConfig.Globals.Type_Object)
+                                                    Nothing, _
+                                                    objLocalConfig.OItem_Class_Partner.GUID, _
+                                                    objLocalConfig.Globals.Type_Object)
 
             objUserControl_PartnerList.initialize(objOItem_Partner)
         Else
             Environment.Exit(0)
         End If
 
-        
+
     End Sub
 
     Private Sub set_DBConnection()
