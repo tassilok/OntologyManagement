@@ -1349,7 +1349,8 @@ namespace ElasticSearchConnector
                                                        ID_Class_Right = (objHit.Source.ContainsKey(objFields.ID_Class_Right) ? (objHit.Source[objFields.ID_Class_Right] != null ? objHit.Source[objFields.ID_Class_Right].ToString() : null) : null),
                                                        Min_Forw = (long?) (objHit.Source.ContainsKey(objFields.Min_Forw) ? objHit.Source[objFields.Min_Forw] : objHit.Source["Min_Forw"]),
                                                        Max_Forw = (long?) (objHit.Source.ContainsKey(objFields.Max_Forw) ? objHit.Source[objFields.Max_Forw] : objHit.Source["Max_Forw"]),
-                                                       Max_Backw = (objHit.Source.ContainsKey(objFields.Max_Backw) ? (objHit.Source[objFields.Max_Backw] != null ? (long?)objHit.Source[objFields.Max_Backw] : null) : (objHit.Source.ContainsKey("Max_Backw") ? (objHit.Source["Max_Backw"] != null ? (long?)objHit.Source["Max_Backw"] : null) : null))                                                       
+                                                       Max_Backw = (objHit.Source.ContainsKey(objFields.Max_Backw) ? (objHit.Source[objFields.Max_Backw] != null ? (long?)objHit.Source[objFields.Max_Backw] : null) : (objHit.Source.ContainsKey("Max_Backw") ? (objHit.Source["Max_Backw"] != null ? (long?)objHit.Source["Max_Backw"] : null) : null)),
+                                                       Ontology = objHit.Source[objFields.Ontology].ToString()
                                                    }).ToList());
 
                 if (objList.Count < SearchRange)
