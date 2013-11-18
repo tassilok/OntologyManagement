@@ -140,8 +140,12 @@
     <Content Include="imagebot_com-2012042714194724316.ico" />
     <EmbeddedResource Include="Config\Templates\AttributeTypes.xml" />
     <EmbeddedResource Include="Config\Templates\ClassAtts.xml" />
-    <EmbeddedResource Include="Config\Templates\Classes.xml" />
-    <EmbeddedResource Include="Config\Templates\ClassRels.xml" />
+    <EmbeddedResource Include="Config\Templates\Classes.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Config\Templates\ClassRels.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Config\Templates\ObjectAtt.xml" />
     <EmbeddedResource Include="Config\Templates\ObjectRel.xml" />
     <EmbeddedResource Include="Config\Templates\Objects.xml" />
