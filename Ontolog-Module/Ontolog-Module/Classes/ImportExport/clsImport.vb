@@ -120,7 +120,7 @@ Public Class clsImport
                                     Dim Name = objXMLReader.Value
 
                                     objOList_ClassRel.Add(New clsClassRel With {.ID_Class_Left = ID_Class_Left, _
-                                                                                 .ID_Class_Right = If (ID_Class_Right = "", Nothing, ID_Class_Right), _
+                                                                                 .ID_Class_Right = If(ID_Class_Right = "", Nothing, ID_Class_Right), _
                                                                                  .ID_RelationType = ID_RelationType, _
                                                                                  .Min_Forw = Min_Forw, _
                                                                                  .Max_Forw = Max_Forw, _
@@ -165,7 +165,7 @@ Public Class clsImport
                                         Else
                                             Val_Bit = Nothing
                                         End If
-                                        
+
                                     End If
 
                                     If objXMLReader.ReadToFollowing("Val_Date") Then
@@ -256,7 +256,7 @@ Public Class clsImport
                                     objOList_ObjRel.Add(New clsObjectRel With {.ID_Object = Id_Object, _
                                                                                .ID_Parent_Object = Id_Parent_Object, _
                                                                                .ID_Other = Id_Other, _
-                                                                               .ID_Parent_Other = If(Id_Parent_Other="",Nothing,Id_Parent_Other), _
+                                                                               .ID_Parent_Other = If(Id_Parent_Other = "", Nothing, Id_Parent_Other), _
                                                                                .ID_RelationType = Id_RelationType, _
                                                                                .OrderID = OrderId, _
                                                                                .Ontology = Ontology})
