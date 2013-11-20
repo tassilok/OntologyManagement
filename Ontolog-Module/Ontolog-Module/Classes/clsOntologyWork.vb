@@ -151,10 +151,10 @@ Public Class clsOntologyWork
                                             Dim objRelOrAtt = objL(1)
                                             If objRelOrAtt.objRelTyp Is Nothing Then
                                                 objOList_Join.Add(New clsObjectRel With {
-                                                                               .ID_Other = objClass.objClass.ID_Other, _
-                                                                               .Name_Other = objClass.objClass.Name_Other, _
-                                                                               .ID_Parent_Other = objRelOrAtt.objAttTyp.ID_Other, _
-                                                                               .Name_Parent_Other = objRelOrAtt.objAttTyp.Name_Other, _
+                                                                               .ID_Parent_Object = objClass.objClass.ID_Other, _
+                                                                               .Name_Parent_Object = objClass.objClass.Name_Other, _
+                                                                               .ID_Other = objRelOrAtt.objAttTyp.ID_Other, _
+                                                                               .Name_Other = objRelOrAtt.objAttTyp.Name_Other, _
                                                                                .Ontology = objLocalConfig.Globals.Type_ClassAtt
                                                                                })
                                             Else

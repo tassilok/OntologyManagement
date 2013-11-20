@@ -496,7 +496,7 @@ Public Class UserControl_Report
         End Select
         If DataGridView_Reports.SelectedCells.Count = 1 Then
 
-            Dim objLReportFields = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
+            Dim objLReportFields = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col.ToLower() = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName.ToLower()).ToList
             If objLReportFields.Any() Then
                 If objLReportFields.First().ID_FieldType = objLocalConfig.OItem_Object_Field_Type_Zahl.GUID Then
                     If IsDBNull(DataGridView_Reports.SelectedCells(0)) Then
