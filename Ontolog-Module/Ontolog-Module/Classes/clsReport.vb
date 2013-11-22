@@ -8,8 +8,15 @@ Public Class clsReport
     Private initializeA_Tables As New DataSet_ReportTableAdapters.initialize_TablesTableAdapter
     Private finalizeA_Tables As New DataSet_ReportTableAdapters.finalize_TablesTableAdapter
 
-    Private initializeA_Table As New DataSet_ReportTableAdapters.initialize_TableTableAdapter
-    Private finalizeA_Table As New DataSet_ReportTableAdapters.finalize_TableTableAdapter
+    Private initializeA_Table_attT As New DataSet_ReportTableAdapters.initialize_Table_AttTTableAdapter
+    Private initializeA_Table_orgT As New DataSet_ReportTableAdapters.initialize_Table_orgTTableAdapter
+    Private initializeA_Table_relT As New DataSet_ReportTableAdapters.initialize_Table_relTTableAdapter
+    Private initializeA_Table_relT_Or As New DataSet_ReportTableAdapters.initialize_Table_relT_ORTableAdapter
+
+    Private finalizeA_Table_attT As New DataSet_ReportTableAdapters.finalize_Table_attTTableAdapter
+    Private finalizeA_Table_orgT As New DataSet_ReportTableAdapters.finalize_Table_orgTTableAdapter
+    Private finalizeA_Table_relT As New DataSet_ReportTableAdapters.finalize_Table_relTTableAdapter
+    Private finalizeA_Table_relT_Or As New DataSet_ReportTableAdapters.finalize_Table_relT_ORTableAdapter
     Private createA_Table_orgT As New DataSet_ReportTableAdapters.create_Table_orgTTableAdapter
     Private createA_Table_attT As New DataSet_ReportTableAdapters.create_Table_attTTableAdapter
     Private createA_Table_relT As New DataSet_ReportTableAdapters.create_Table_relTTableAdapter
@@ -119,18 +126,22 @@ Public Class clsReport
                                 objTextWriter.Close()
                                 objTextWriter2.Close()
 
+                                
                                 createA_Table_relT.GetData(objLocalConfig.Globals.Type_ObjectRel, _
                                                            strClass_Left, _
                                                            strClass_Right, _
                                                            strRelationType, _
                                                            strPath, _
                                                            True)
+                                finalizeA_Table_relT.GetData(strClass_Left, strClass_Right, strRelationType)
 
+                                initializeA_Table_relT_Or.GetData(strClass_Left, strRelationType)
                                 createA_Table_relT_Or.GetData(objLocalConfig.Globals.Type_Other, _
                                                            strClass_Left, _
                                                            strRelationType, _
                                                            strPath2, _
                                                            True)
+                                finalizeA_Table_relT_Or.GetData(strClass_Left, strRelationType)
 
                                 objTextWriter = New IO.StreamWriter(strPath, False, System.Text.Encoding.UTF8)
                                 objTextWriter2 = New IO.StreamWriter(strPath2, False, System.Text.Encoding.UTF8)
@@ -190,6 +201,7 @@ Public Class clsReport
                     objTextWriter.Close()
                     objTextWriter2.Close()
 
+                    initializeA_Table_relT.GetData(strClass_Left, strClass_Right, strRelationType)
                     createA_Table_relT.GetData(objLocalConfig.Globals.Type_ObjectRel, _
                                                strClass_Left, _
                                                strClass_Right, _
@@ -197,11 +209,15 @@ Public Class clsReport
                                                strPath, _
                                                True)
 
+                     finalizeA_Table_relT.GetData(strClass_Left, strClass_Right, strRelationType)
+
+                    initializeA_Table_relT_Or.GetData(strClass_Left, strRelationType)
                     createA_Table_relT_Or.GetData(objLocalConfig.Globals.Type_Other, _
                                                strClass_Left, _
                                                strRelationType, _
                                                strPath2, _
                                                True)
+                    finalizeA_Table_relT_Or.GetData(strClass_Left, strRelationType)
 
                     i = j
                 End While
@@ -301,7 +317,7 @@ Public Class clsReport
             oListDataTypes.Add(New clsOntologyItem(objOItem_AttributeType.GUID_Parent, objLocalConfig.Globals.Type_DataType))
             objDBLevel_DataType.get_Data_DataTyps(oListDataTypes, False)
 
-            initializeA_Table.GetData("attT_" & objOItem_Class.Name & "_" & objOItem_AttributeType.Name)
+            
 
             strPath = "%Temp%\" & Guid.NewGuid().ToString & ".xml"
             strPath = Environment.ExpandEnvironmentVariables(strPath)
@@ -309,10 +325,11 @@ Public Class clsReport
             oList_ObjAtt.Add(New clsObjectAtt(Nothing, Nothing, objOItem_Class.GUID, objOItem_AttributeType.GUID, Nothing))
             objDBlevel_ObjAtt.get_Data_ObjectAtt(oList_ObjAtt, False, False)
 
-
+            
             i = 0
 
             If objDBlevel_ObjAtt.OList_ObjectAtt.Count > 0 Then
+                initializeA_Table_attT.GetData(objOItem_Class.Name, objOItem_AttributeType.Name)
                 While i < objDBlevel_ObjAtt.OList_ObjectAtt.Count
                     objTextWriter = New IO.StreamWriter(strPath, False, System.Text.Encoding.UTF8)
                     strLine = "<?xml version=""1.0"" encoding=""UTF-8""?>"
@@ -360,14 +377,16 @@ Public Class clsReport
                     objTextWriter.WriteLine(strLine)
                     objTextWriter.Close()
 
+                    
                     createA_Table_attT.GetData(objLocalConfig.Globals.Type_AttributeType, objOItem_Class.Name, objOItem_AttributeType.Name, strType, strLength, True, strPath)
-
+                    
                     i = j
                 End While
-                finalizeA_Table.GetData("[attT_" & objOItem_Class.Name & "_" & objOItem_AttributeType.Name & "]")
+                finalizeA_Table_attT.GetData(objOItem_Class.Name, objOItem_AttributeType.Name)
             Else
+                initializeA_Table_attT.GetData(objOItem_Class.Name, objOItem_AttributeType.Name)
                 createA_Table_attT.GetData(objLocalConfig.Globals.Type_ObjectAtt, objOItem_Class.Name, objOItem_AttributeType.Name, strType, strLength, False, strPath)
-                finalizeA_Table.GetData("[attT_" & objOItem_Class.Name & "_" & objOItem_AttributeType.Name & "]")
+                finalizeA_Table_attT.GetData(objOItem_Class.Name, objOItem_AttributeType.Name)
             End If
 
 
@@ -392,7 +411,7 @@ Public Class clsReport
         objDBLevel_Classes.get_Data_Classes(OList_Classes, False, False)
         For Each objOItem_Class In objDBLevel_Classes.OList_Classes
 
-            initializeA_Table.GetData("orgT_" & objOItem_Class.Name)
+            
             oList_Objects.Clear()
             oList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objOItem_Class.GUID, objLocalConfig.Globals.Type_Object))
             objDBLevel_Objects.get_Data_Objects(oList_Objects, False)
@@ -400,6 +419,7 @@ Public Class clsReport
             strPath = Environment.ExpandEnvironmentVariables(strPath)
             i = 0
             If objDBLevel_Objects.OList_Objects.Count > 0 Then
+                initializeA_Table_orgT.GetData(objOItem_Class.Name)
                 While i < objDBLevel_Objects.OList_Objects.Count
 
                     objTextWriter = New IO.StreamWriter(strPath, False, System.Text.Encoding.UTF8)
@@ -434,20 +454,23 @@ Public Class clsReport
                     objTextWriter.WriteLine(strLine)
                     objTextWriter.Close()
 
-
+                    
                     createA_Table_orgT.GetData(objLocalConfig.Globals.Type_Class, objOItem_Class.Name, strPath, True)
-
+                    
 
 
 
                     i = j
                 End While
+                finalizeA_Table_orgT.GetData(objOItem_Class.Name)
             Else
+                initializeA_Table_orgT.GetData(objOItem_Class.Name)
                 createA_Table_orgT.GetData(objLocalConfig.Globals.Type_Class, objOItem_Class.Name, strPath, False)
+                finalizeA_Table_orgT.GetData(objOItem_Class.Name)
             End If
 
 
-            finalizeA_Table.GetData("[orgT_" & objOItem_Class.Name & "]")
+           
         Next
 
         finalizeA_Tables.GetData(objLocalConfig.Globals.Type_Class)
@@ -471,8 +494,15 @@ Public Class clsReport
         strConnection = objLocalConfig.Globals.get_ConnectionStr(objLocalConfig.Globals.Rep_Server, _
                                                                  objLocalConfig.Globals.Rep_Instance, _
                                                                  objLocalConfig.Globals.Rep_Database)
-        initializeA_Table.Connection = New SqlClient.SqlConnection(strConnection)
-        finalizeA_Table.Connection = New SqlClient.SqlConnection(strConnection)
+        initializeA_Table_attT.Connection = New SqlClient.SqlConnection(strConnection)
+        initializeA_Table_orgT.Connection = New SqlClient.SqlConnection(strConnection)
+        initializeA_Table_relT.Connection = New SqlClient.SqlConnection(strConnection)
+        initializeA_Table_relT_Or.Connection = New SqlClient.SqlConnection(strConnection)
+
+        finalizeA_Table_attT.Connection = New SqlClient.SqlConnection(strConnection)
+        finalizeA_Table_orgT.Connection = New SqlClient.SqlConnection(strConnection)
+        finalizeA_Table_relT.Connection = New SqlClient.SqlConnection(strConnection)
+        finalizeA_Table_relT_Or.Connection = New SqlClient.SqlConnection(strConnection)
 
         createA_Table_attT.Connection = New SqlClient.SqlConnection(strConnection)
         createA_Table_orgT.Connection = New SqlClient.SqlConnection(strConnection)

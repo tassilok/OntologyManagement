@@ -448,6 +448,8 @@ Public Class clsDBLevel
                                                     objClassAtt.Name_Class, _
                                                     objClassAtt.ID_AttributeType, _
                                                     objClassAtt.Name_AttributeType, _
+                                                    objClassAtt.ID_DataType,
+                                                    objClassAtt.Name_DataType,
                                                     objClassAtt.Min, _
                                                     objClassAtt.Max)
                     Next

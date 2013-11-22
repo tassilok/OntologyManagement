@@ -338,9 +338,15 @@ namespace Office_Module
                     var objOList_Classes = objLocalConfig.DataWork_Documents.GetClassParents(OItem_Class);
                     if (objOList_Classes != null && objOList_Classes.Any())
                     {
-                        while (objTreeNode == null)
+                        while (objOList_Classes.Any())
                         {
-                            var objOList_ClassesLast = objOList_Classes.Join(objOList_Classes, left => left.GUID, right => right.GUID_Parent, (left, right) => left).DefaultIfEmpty().Where(p => p == null).ToList();
+
+                            var objOList_ClassesLast = (from objClass in objOList_Classes
+                                                        join objParentClass in objOList_Classes on objClass.GUID_Parent
+                                                            equals objParentClass.GUID into objParentClasses
+                                                        from objParentClass in objParentClasses.DefaultIfEmpty()
+                                                        where objParentClass == null
+                                                        select objClass).ToList();
                             if (objOList_ClassesLast.Any())
                             {
                                 objTreeNodes = treeView_Items.Nodes.Find(objOList_ClassesLast.First().GUID_Parent, true);

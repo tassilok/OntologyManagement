@@ -42,6 +42,7 @@ Public Class UserControl_ClassAttributeTypes
         DataGridView_AttributeTypes.Columns(0).Visible = False
         DataGridView_AttributeTypes.Columns(1).Visible = False
         DataGridView_AttributeTypes.Columns(2).Visible = False
+        DataGridView_AttributeTypes.Columns(4).Visible = False
     End Sub
 
     Private Sub set_DBConnection()
@@ -172,12 +173,12 @@ Public Class UserControl_ClassAttributeTypes
 
                 
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    objOList_ClAtt.Add(New clsClassAtt(objOItem_AttributeType.GUID, _
-                                                       objOItem_AttributeType.GUID_Parent, _
-                                                       objOItem_Class.GUID, _
-                                                       lngMin_forw, _
-                                                       lngMax_forw))
-
+                    objOList_ClAtt.Add(New clsClassAtt With {.ID_AttributeType = objOItem_AttributeType.GUID, _
+                                                             .ID_Class = objOItem_Class.GUID, _
+                                                             .ID_DataType = objOItem_AttributeType.GUID_Parent, _
+                                                             .Min = lngMin_forw, _
+                                                             .Max = lngMax_forw })
+                                       
 
 
                     objOItem_Result = objDBLevel.save_ClassAttType(objOList_ClAtt)

@@ -844,8 +844,14 @@ namespace Office_Module
                             };
 
                             OList_Classes.Add(objOItem_Class);
-
-                            objOItem_ClassParent = new clsOntologyItem { GUID = objOItem_Class.GUID_Parent };
+                            if (objOItem_Class.GUID_Parent != null)
+                            {
+                                objOItem_ClassParent = new clsOntologyItem { GUID = objOItem_Class.GUID_Parent };
+                            }
+                            else
+                            {
+                                objOItem_ClassParent = null;
+                            }
                         }
                         else
                         {
@@ -860,7 +866,7 @@ namespace Office_Module
                 }
                 
 
-            } while (objOItem_ClassParent == null);
+            } while (objOItem_ClassParent != null);
 
             return OList_Classes;
         }

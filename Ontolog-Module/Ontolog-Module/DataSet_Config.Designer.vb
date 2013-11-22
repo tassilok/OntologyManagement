@@ -3512,6 +3512,10 @@ Partial Public Class DataSet_Config
         
         Private columnName_AttributeType As Global.System.Data.DataColumn
         
+        Private columnID_DataType As Global.System.Data.DataColumn
+        
+        Private columnName_DataType As Global.System.Data.DataColumn
+        
         Private columnMin_forw As Global.System.Data.DataColumn
         
         Private columnMax_forw As Global.System.Data.DataColumn
@@ -3585,6 +3589,22 @@ Partial Public Class DataSet_Config
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property ID_DataTypeColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnID_DataType
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Name_DataTypeColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnName_DataType
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public ReadOnly Property Min_forwColumn() As Global.System.Data.DataColumn
             Get
                 Return Me.columnMin_forw
@@ -3636,9 +3656,9 @@ Partial Public Class DataSet_Config
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function Addotbl_ClassAttRow(ByVal ID_Class As String, ByVal Name_Class As String, ByVal ID_AttributeType As String, ByVal Name_AttributeType As String, ByVal Min_forw As String, ByVal Max_forw As String) As otbl_ClassAttRow
+        Public Overloads Function Addotbl_ClassAttRow(ByVal ID_Class As String, ByVal Name_Class As String, ByVal ID_AttributeType As String, ByVal Name_AttributeType As String, ByVal ID_DataType As String, ByVal Name_DataType As String, ByVal Min_forw As String, ByVal Max_forw As String) As otbl_ClassAttRow
             Dim rowotbl_ClassAttRow As otbl_ClassAttRow = CType(Me.NewRow,otbl_ClassAttRow)
-            Dim columnValuesArray() As Object = New Object() {ID_Class, Name_Class, ID_AttributeType, Name_AttributeType, Min_forw, Max_forw}
+            Dim columnValuesArray() As Object = New Object() {ID_Class, Name_Class, ID_AttributeType, Name_AttributeType, ID_DataType, Name_DataType, Min_forw, Max_forw}
             rowotbl_ClassAttRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowotbl_ClassAttRow)
             Return rowotbl_ClassAttRow
@@ -3665,6 +3685,8 @@ Partial Public Class DataSet_Config
             Me.columnName_Class = MyBase.Columns("Name_Class")
             Me.columnID_AttributeType = MyBase.Columns("ID_AttributeType")
             Me.columnName_AttributeType = MyBase.Columns("Name_AttributeType")
+            Me.columnID_DataType = MyBase.Columns("ID_DataType")
+            Me.columnName_DataType = MyBase.Columns("Name_DataType")
             Me.columnMin_forw = MyBase.Columns("Min_forw")
             Me.columnMax_forw = MyBase.Columns("Max_forw")
         End Sub
@@ -3680,6 +3702,10 @@ Partial Public Class DataSet_Config
             MyBase.Columns.Add(Me.columnID_AttributeType)
             Me.columnName_AttributeType = New Global.System.Data.DataColumn("Name_AttributeType", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnName_AttributeType)
+            Me.columnID_DataType = New Global.System.Data.DataColumn("ID_DataType", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnID_DataType)
+            Me.columnName_DataType = New Global.System.Data.DataColumn("Name_DataType", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnName_DataType)
             Me.columnMin_forw = New Global.System.Data.DataColumn("Min_forw", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnMin_forw)
             Me.columnMax_forw = New Global.System.Data.DataColumn("Max_forw", GetType(String), Nothing, Global.System.Data.MappingType.Element)
@@ -5657,6 +5683,36 @@ Partial Public Class DataSet_Config
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property ID_DataType() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableotbl_ClassAtt.ID_DataTypeColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'ID_DataType' in table 'otbl_ClassAtt' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableotbl_ClassAtt.ID_DataTypeColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Name_DataType() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableotbl_ClassAtt.Name_DataTypeColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Name_DataType' in table 'otbl_ClassAtt' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableotbl_ClassAtt.Name_DataTypeColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Property Min_forw() As String
             Get
                 Try 
@@ -5731,6 +5787,30 @@ Partial Public Class DataSet_Config
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub SetName_AttributeTypeNull()
             Me(Me.tableotbl_ClassAtt.Name_AttributeTypeColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsID_DataTypeNull() As Boolean
+            Return Me.IsNull(Me.tableotbl_ClassAtt.ID_DataTypeColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetID_DataTypeNull()
+            Me(Me.tableotbl_ClassAtt.ID_DataTypeColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsName_DataTypeNull() As Boolean
+            Return Me.IsNull(Me.tableotbl_ClassAtt.Name_DataTypeColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetName_DataTypeNull()
+            Me(Me.tableotbl_ClassAtt.Name_DataTypeColumn) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _

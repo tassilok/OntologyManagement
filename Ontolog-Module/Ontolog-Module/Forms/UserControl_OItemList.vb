@@ -1794,8 +1794,15 @@ Public Class UserControl_OItemList
 
 
                     Case objLocalConfig.Globals.Type_Other
+                        objOItem_ToClipboard = New clsOntologyItem(objDRV_Selected.Item(strRowName_GUID), _
+                                                                   objDRV_Selected.Item(strRowName_Name), _
+                                                                   objDRV_Selected.Item(strRowName_ParentGUID), _
+                                                                   objLocalConfig.Globals.Type_Object)
+                        objOItem_Result = objOntologyClipboard.addToClipboard(objOItem_ToClipboard, False)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                            MsgBox("Das Item kann nicht ins Clipboard geschrieben werden!", MsgBoxStyle.Exclamation)
 
-
+                        End If
                 End Select
 
             End If

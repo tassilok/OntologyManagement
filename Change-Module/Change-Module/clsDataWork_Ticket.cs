@@ -34,6 +34,7 @@ namespace Change_Module
         private clsDBLevel objDBLevel_ProcessLastDoneDetail;
         private clsDBLevel objDBLevel_TicketList;
         private clsDBLevel objDBLevel_TicketListStandard;
+        private clsDBLevel objDBLevel_ProcessLogOfTicket;
 
         private clsDBLevel objDBLevel_TicketListTree;
         private clsDBLevel objDBLevel_Description;
@@ -684,60 +685,68 @@ namespace Change_Module
 
             objOItem_Result = objLocalConfig.Globals.LState_Success;
 
-            foreach (var objSubNode in objLSubNodes)
+            if (objLSubNodes.Any())
             {
-                
-                if (objSubNode.objProcLog == null)
-                {
-                    GUID_ProcessLog = GetGUID_ProcessLog(new clsOntologyItem(objSubNode.obj.ID_Object, 
-                                                                             objSubNode.obj.Name_Object, 
-                                                                             objSubNode.obj.ID_Object_Parent, 
-                                                                             objLocalConfig.Globals.Type_Object),objOItem_Ticket);
-                }
-                else
-                {
-                    GUID_ProcessLog = objSubNode.objProcLog.ID_Object;
-                }
-
-                var objLLogStates = from objLogEntry in objDBLevel_LogentriesOfProcessLogs.OList_ObjectRel_ID
-                                   join objLogState in objDBLevel_LogStatesOfLogEntries.OList_ObjectRel_ID on objLogEntry.ID_Other equals objLogState.ID_Object
-                                   where objLogEntry.ID_Object == GUID_ProcessLog && objLogEntry.ID_RelationType == objLocalConfig.OItem_RelationType_finished_with.GUID
-                                   select new { objLogEntry, objLogState };
-                
-                objTreeNode_Sub = objTreeNode_Parent.Nodes.Add(GUID_ProcessLog,
-                                                               objSubNode.obj.Name_Object,
-                                                               objLocalConfig.ImageID_Process,
-                                                               objLocalConfig.ImageID_Process);
-
-                if (objLLogStates.Any())
+                foreach (var objSubNode in objLSubNodes)
                 {
 
-                    if (objLLogStates.First().objLogState.ID_Other == objLocalConfig.OItem_Token_LogState_Obsolete.GUID)
+                    if (objSubNode.objProcLog == null)
                     {
-                        objTreeNode_Sub.BackColor = Color.Gray;
-                        objTreeNode_Sub.ForeColor = Color.White;
-                        objTreeNode_Sub.Checked = true;
+                        GUID_ProcessLog = GetGUID_ProcessLog(new clsOntologyItem(objSubNode.obj.ID_Object,
+                                                                                 objSubNode.obj.Name_Object,
+                                                                                 objSubNode.obj.ID_Object_Parent,
+                                                                                 objLocalConfig.Globals.Type_Object), objOItem_Ticket);
                     }
                     else
                     {
-                        objTreeNode_Sub.BackColor = Color.Green;
-                        objTreeNode_Sub.ForeColor = Color.White;
-                        objTreeNode_Sub.Checked = true;
+                        GUID_ProcessLog = objSubNode.objProcLog.ID_Object;
+                    }
+
+                    var objLLogStates = from objLogEntry in objDBLevel_LogentriesOfProcessLogs.OList_ObjectRel_ID
+                                        join objLogState in objDBLevel_LogStatesOfLogEntries.OList_ObjectRel_ID on objLogEntry.ID_Other equals objLogState.ID_Object
+                                        where objLogEntry.ID_Object == GUID_ProcessLog && objLogEntry.ID_RelationType == objLocalConfig.OItem_RelationType_finished_with.GUID
+                                        select new { objLogEntry, objLogState };
+
+                    objTreeNode_Sub = objTreeNode_Parent.Nodes.Add(GUID_ProcessLog,
+                                                                   objSubNode.obj.Name_Object,
+                                                                   objLocalConfig.ImageID_Process,
+                                                                   objLocalConfig.ImageID_Process);
+
+                    if (objLLogStates.Any())
+                    {
+
+                        if (objLLogStates.First().objLogState.ID_Other == objLocalConfig.OItem_Token_LogState_Obsolete.GUID)
+                        {
+                            objTreeNode_Sub.BackColor = Color.Gray;
+                            objTreeNode_Sub.ForeColor = Color.White;
+                            objTreeNode_Sub.Checked = true;
+                        }
+                        else
+                        {
+                            objTreeNode_Sub.BackColor = Color.Green;
+                            objTreeNode_Sub.ForeColor = Color.White;
+                            objTreeNode_Sub.Checked = true;
+                        }
+                    }
+
+                    objOItem_Result = GetSubProcesses(objTreeNode_Sub, objSubNode.obj.ID_Object, objOItem_Ticket);
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                    {
+                        break;
+                    }
+
+                    objOItem_Result = GetIncidentsOfProcessLog(objTreeNode_Sub);
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                    {
+                        break;
                     }
                 }
-
-                objOItem_Result = GetSubProcesses(objTreeNode_Sub, objSubNode.obj.ID_Object, objOItem_Ticket);
-                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
-                {
-                    break;
-                }
-
-                objOItem_Result = GetIncidentsOfProcessLog(objTreeNode_Sub);
-                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
-                {
-                    break;
-                }
             }
+            else
+            {
+                objOItem_Result = GetIncidentsOfProcessLog(objTreeNode_Parent);
+            }
+            
 
             return objOItem_Result;
         }
@@ -760,22 +769,45 @@ namespace Change_Module
 
             objOItem_Result = objDBLevel_ProcessProcessLog.get_Data_ObjectRel(objORList_ProcessLog_To_Process);
 
+
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                if (objDBLevel_ProcessProcessLog.OList_ObjectRel_ID.Any())
-                {
-                    GUID_ProcessLog = objDBLevel_ProcessProcessLog.OList_ObjectRel_ID[0].ID_Object;
-                }
-                else
-                {
-                    objOItem_ProcessLog = NewProcessLog(OItem_Process, OItem_Ticket);
-                    if (objOItem_ProcessLog != null)
+
+                var objORList_Ticket_To_ProcessLog = new List<clsObjectRel>
                     {
-                        GUID_ProcessLog = objOItem_ProcessLog.GUID;
+                        new clsObjectRel
+                            {
+                                ID_Object = OItem_Ticket.GUID,
+                                ID_Parent_Other = objLocalConfig.OItem_Type_Process_Log.GUID,
+                                ID_RelationType = objLocalConfig.OItem_RelationType_contains.GUID
+                            }
+                    };
+
+                objOItem_Result = objDBLevel_ProcessLogOfTicket.get_Data_ObjectRel(objORList_Ticket_To_ProcessLog);
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+
+                    var objOList_ProcessLog =
+                        (from objProcessLogOfProcess in objDBLevel_ProcessProcessLog.OList_ObjectRel_ID
+                         join objProcessLogOfTicket in objDBLevel_ProcessLogOfTicket.OList_ObjectRel_ID on
+                             objProcessLogOfProcess.ID_Object equals objProcessLogOfTicket.ID_Other
+                         select objProcessLogOfProcess).ToList();
+                    if (objOList_ProcessLog.Any())
+                    {
+                        GUID_ProcessLog = objOList_ProcessLog.First().ID_Object;
                     }
+                    else
+                    {
+                        objOItem_ProcessLog = NewProcessLog(OItem_Process, OItem_Ticket);
+                        if (objOItem_ProcessLog != null)
+                        {
+                            GUID_ProcessLog = objOItem_ProcessLog.GUID;
+                        }
                     
 
+                    }
                 }
+                
             }
             
             return GUID_ProcessLog;
@@ -1942,8 +1974,11 @@ namespace Change_Module
 
             objDBLevel_IncidentsOfProcessLog = new clsDBLevel(objLocalConfig.Globals);
 
+            objDBLevel_ProcessLogOfTicket = new clsDBLevel(objLocalConfig.Globals);
+
             objTransaction_ProcessLog = new clsTransaction(objLocalConfig.Globals);
 
+            
             objDBLevel_LogStatesOfLogEntries = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_LogentriesOfProcessLogs = new clsDBLevel(objLocalConfig.Globals);
 

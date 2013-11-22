@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="ClassAtt">
+  <Item Id_Class="ecbb85e6d25841f5935e23f6da739046" Id_AttributeType="b4c040b82b424f6bb008cdd041e0a548" Id_DataType="64530b52d96c4df186fe183f44513450" Min="1" Max="1" /><Item Id_Class="7996f98f33d0409aae0abe56b7000397" Id_AttributeType="ac5b4cd58ed34c959352c4f69afedf9f" Id_DataType="64530b52d96c4df186fe183f44513450" Min="0" Max="1" />
+</Items>

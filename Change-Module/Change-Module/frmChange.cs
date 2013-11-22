@@ -14,21 +14,22 @@ namespace Change_Module
 {
     public partial class frmChange : Form
     {
-        clsLocalConfig objLocalConfig;
-        DataGridViewRowCollection objDGVRC;
-        UserControl_ProcessTree objUserControl_ProcessTree;
-        UserControl_History objUserControl_History;
-        UserControl_References objUserControl_References;
-        AboutBox_OntologyItem AboutBox;
-        clsDataWork_Ticket objDataWork_Ticket;
+        private clsLocalConfig objLocalConfig;
+        private DataGridViewRowCollection objDGVRC;
+        private UserControl_ProcessTree objUserControl_ProcessTree;
+        private UserControl_History objUserControl_History;
+        private UserControl_References objUserControl_References;
+        private AboutBox_OntologyItem AboutBox;
+        private clsDataWork_Ticket objDataWork_Ticket;
 
-        clsOntologyItem objOItem_TicketDescription;
-        clsOntologyItem objOItem_ProcessDescription;
-        clsOntologyItem objOItem_ProcessLogDescription;
+        private clsOntologyItem objOItem_TicketDescription;
+        private clsOntologyItem objOItem_ProcessDescription;
+        private clsOntologyItem objOItem_ProcessLogDescription;
 
-        clsOntologyItem objOItem_SelNode;
+        private clsOntologyItem objOItem_SelNode;
 
-        clsTransaction objTransaction_Description;
+        private clsTransaction objTransaction_Description;
+        private clsRelationConfig objRelationConfig;
         int intRowID;
 
 
@@ -47,6 +48,7 @@ namespace Change_Module
 
         private void initialize()
         {
+            objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
             objUserControl_ProcessTree = new UserControl_ProcessTree(objLocalConfig,objDataWork_Ticket);
             objUserControl_ProcessTree.SelectItem += SelectedTreeItem;
             objUserControl_ProcessTree.Dock = DockStyle.Fill;
@@ -514,41 +516,31 @@ namespace Change_Module
         {
             clsObjectAtt objOADescription;
             clsOntologyItem objOItem_Result;
-            Timer_Description_Process.Stop();
+            Timer_Description_ProcessLog.Stop();
 
-            objOItem_ProcessDescription = objDataWork_Ticket.ProcessDescription(objOItem_SelNode);
-            if (objOItem_ProcessDescription.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            objOItem_ProcessLogDescription = objDataWork_Ticket.ProcessLogDescription(objOItem_SelNode);
+            if (objOItem_ProcessLogDescription.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
                 objTransaction_Description = new clsTransaction(objLocalConfig.Globals);
-                if (TextBox_Description_Process.Text != "")
+                if (TextBox_Description_ProcessLog.Text != "")
                 {
-                    if (!objLocalConfig.Globals.is_GUID(objOItem_TicketDescription.GUID_Related))
+                    if (!objLocalConfig.Globals.is_GUID(objOItem_ProcessLogDescription.GUID_Related))
                     {
-                        objOItem_ProcessDescription.GUID_Related = objLocalConfig.Globals.NewGUID;
+                        objOItem_ProcessLogDescription.GUID_Related = objLocalConfig.Globals.NewGUID;
                     }
-                    
-                    objOADescription = new clsObjectAtt(objOItem_TicketDescription.GUID_Related,
-                                                        objOItem_SelNode.GUID,
-                                                        null,
-                                                        objOItem_SelNode.GUID_Parent,
-                                                        null,
-                                                        objLocalConfig.OItem_Attribute_Description.GUID,
-                                                        null,
-                                                        1,
-                                                        TextBox_Description_ProcessLog.Text,
-                                                        null,
-                                                        null,
-                                                        null,
-                                                        null,
-                                                        TextBox_Description_ProcessLog.Text,
-                                                        objLocalConfig.Globals.DType_String.GUID);
 
+                    objOADescription = objRelationConfig.Rel_ObjectAttribute(objOItem_SelNode,
+                                                                             objLocalConfig.OItem_Attribute_Description,
+                                                                             TextBox_Description_ProcessLog.Text, false,
+                                                                             1,
+                                                                             objOItem_ProcessLogDescription.GUID_Related);
+                    
                     objOItem_Result = objTransaction_Description.do_Transaction(objOADescription, true);
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
                     {
                         MessageBox.Show("Die Beschreibung konnte nicht hinzugefügt werden!", "Beschreibung", MessageBoxButtons.OK);
-                        TextBox_Description_Process.ReadOnly = true;
-                        TextBox_Description_Process.Text = "";
+                        TextBox_Description_ProcessLog.ReadOnly = true;
+                        TextBox_Description_ProcessLog.Text = "";
                     }
 
                     
@@ -556,7 +548,7 @@ namespace Change_Module
                 }
                 else
                 {
-                    objOADescription = new clsObjectAtt(objOItem_TicketDescription.GUID_Related,
+                    objOADescription = new clsObjectAtt(objOItem_ProcessLogDescription.GUID_Related,
                                                         null,
                                                         null,
                                                         null,
@@ -566,16 +558,16 @@ namespace Change_Module
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
                     {
                         MessageBox.Show("Die Beschreibung konnte nicht hinzugefügt werden!", "Beschreibung", MessageBoxButtons.OK);
-                        TextBox_Description_Process.ReadOnly = true;
-                        TextBox_Description_Process.Text = "";
+                        TextBox_Description_ProcessLog.ReadOnly = true;
+                        TextBox_Description_ProcessLog.Text = "";
                     }
                 }
 
             }
             else
             {
-                TextBox_Description_Process.ReadOnly = true;
-                TextBox_Description_Process.Text = "";
+                TextBox_Description_ProcessLog.ReadOnly = true;
+                TextBox_Description_ProcessLog.Text = "";
                 MessageBox.Show("Die Beschreibung des Processlogs kann nicht geladen werden!", "Incident", MessageBoxButtons.OK);
             }
         }
