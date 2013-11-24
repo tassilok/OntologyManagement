@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.IO;
 using Structure_Module;
 using System.Text.RegularExpressions;
+using Ontology_Module;
+using OntologyClasses.BaseClasses;
 
 namespace TextParser
 {
@@ -17,11 +19,20 @@ namespace TextParser
     public partial class frmTextParser : Form
     {
         private SortableBindingList<clsSearchItem> searchItems = new SortableBindingList<clsSearchItem>();
-        private SortableBindingList<clsFoundItem> foundItems = new SortableBindingList<clsFoundItem>(); 
+        private SortableBindingList<clsFoundItem> foundItems = new SortableBindingList<clsFoundItem>();
+        private clsLocalConfig objLocalConfig;
+
         public frmTextParser()
         {
             InitializeComponent();
 
+            objLocalConfig = new clsLocalConfig(new clsGlobals());
+
+            Initialize();
+        }
+
+        private void Initialize()
+        {
             dataGridView_SearchParams.DataSource = searchItems;
             dataGridView_SearchParams.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             dataGridView_Found.DataSource = foundItems;

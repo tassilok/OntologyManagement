@@ -37,7 +37,8 @@ Partial Class UserControl_References
         Me.CopyNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CopyGUIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImageList_Reference = New System.Windows.Forms.ImageList(Me.components)
-        Me.Timer_References = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_Process_References = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_ProcessLog_Reference = New System.Windows.Forms.Timer(Me.components)
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -93,13 +94,13 @@ Partial Class UserControl_References
         '
         Me.ContextMenuStrip_References.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.RemoveToolStripMenuItem, Me.EditToolStripMenuItem})
         Me.ContextMenuStrip_References.Name = "ContextMenuStrip_References"
-        Me.ContextMenuStrip_References.Size = New System.Drawing.Size(153, 92)
+        Me.ContextMenuStrip_References.Size = New System.Drawing.Size(128, 70)
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProcessItemToolStripMenuItem, Me.LogItemToolStripMenuItem})
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
         Me.NewToolStripMenuItem.Text = "x_New"
         '
         'ProcessItemToolStripMenuItem
@@ -117,14 +118,14 @@ Partial Class UserControl_References
         'RemoveToolStripMenuItem
         '
         Me.RemoveToolStripMenuItem.Name = "RemoveToolStripMenuItem"
-        Me.RemoveToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.RemoveToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
         Me.RemoveToolStripMenuItem.Text = "x_Remove"
         '
         'EditToolStripMenuItem
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.CopyGUIDToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
         Me.EditToolStripMenuItem.Text = "Edit"
         '
         'CopyNameToolStripMenuItem
@@ -208,9 +209,13 @@ Partial Class UserControl_References
         Me.ImageList_Reference.Images.SetKeyName(62, "construction_hammer_jon__01.png")
         Me.ImageList_Reference.Images.SetKeyName(63, "mattone_poroton_architet_01.png")
         '
-        'Timer_References
+        'Timer_Process_References
         '
-        Me.Timer_References.Interval = 200
+        Me.Timer_Process_References.Interval = 200
+        '
+        'Timer_ProcessLog_Reference
+        '
+        Me.Timer_ProcessLog_Reference.Interval = 200
         '
         'UserControl_References
         '
@@ -242,7 +247,8 @@ Partial Class UserControl_References
     Friend WithEvents CopyNameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CopyGUIDToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ImageList_Reference As System.Windows.Forms.ImageList
-    Friend WithEvents Timer_References As System.Windows.Forms.Timer
+    Friend WithEvents Timer_Process_References As System.Windows.Forms.Timer
     Friend WithEvents TreeView_Refs As System.Windows.Forms.TreeView
+    Friend WithEvents Timer_ProcessLog_Reference As System.Windows.Forms.Timer
 
 End Class
