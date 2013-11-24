@@ -1176,11 +1176,19 @@ Public Class UserControl_OItemList
             Select Case objOItem_Parent.Type
                 Case objLocalConfig.Globals.Type_Object
                     objOItem_Result = objTransaction_Objects.save_Object(objOItem_Parent.GUID_Parent)
+
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        configure_TabPages()
-                        If Not objTransaction_Objects.OItem_SavedLast Is Nothing Then
-                            ToolStripTextBox_Filter.Text = objTransaction_Objects.OItem_SavedLast.GUID
+                        If objTransaction_Objects.Apply = True Then
+                            oList_Selected_Simple.AddRange(objTransaction_Objects.NameObjects)
+
+                            RaiseEvent applied_Items()
+                        Else
+                            configure_TabPages()
+                            If Not objTransaction_Objects.OItem_SavedLast Is Nothing Then
+                                ToolStripTextBox_Filter.Text = objTransaction_Objects.OItem_SavedLast.GUID
+                            End If
                         End If
+                        
                     ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                         MsgBox("Beim Erzeugen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
                     End If

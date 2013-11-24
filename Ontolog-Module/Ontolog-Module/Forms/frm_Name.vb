@@ -15,8 +15,15 @@ Public Class frm_Name
     Private boolShowRepeat As Boolean
     Private strValues() As String
     Private boolEmptyAllowed As Boolean
+    Private boolApply As Boolean
 
     Private objOItem_Result As clsOntologyItem
+
+    Public ReadOnly Property doApply
+        Get
+            Return boolApply
+        End Get
+    End Property
 
     Public ReadOnly Property isList
         Get
@@ -282,5 +289,9 @@ Public Class frm_Name
             
         End If
 
+    End Sub
+
+    Private Sub CheckBox_Apply_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_Apply.CheckedChanged
+        boolApply = CheckBox_Apply.Checked
     End Sub
 End Class

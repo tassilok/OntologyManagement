@@ -12,6 +12,34 @@ Public Class clsTransaction_Objects
 
     Private objTransaction As clsTransaction
 
+    Dim oList_Objects As New List(Of clsOntologyItem)
+    Dim oList_ObjectDbl As New List(Of clsOntologyItem)
+
+    Dim boolApply As Boolean
+
+    Public ReadOnly Property Apply As Boolean
+        Get
+            Return boolApply
+        End Get
+    End Property
+    Public ReadOnly Property NameObjects As List(Of clsOntologyItem)
+        Get
+            If Not oList_Objects Is Nothing Then
+                If oList_Objects.Any Then
+                    Return oList_Objects
+
+                End If
+            End If
+
+            If Not oList_ObjectDbl Is Nothing Then
+                If oList_ObjectDbl.Any Then
+                    Return oList_ObjectDbl
+                End If
+            End If
+
+        End Get
+    End Property
+
     Public ReadOnly Property OItem_SavedLast As clsOntologyItem
         Get
             Return objOItem_Saved_LastItem
@@ -24,6 +52,7 @@ Public Class clsTransaction_Objects
         objFrm_Name = New frm_Name("New Object", objLocalConfig, Nothing, Nothing, Nothing, True, True, False, False, True)
         objFrm_Name.ShowDialog(objfrmParent)
         If objFrm_Name.DialogResult = DialogResult.OK Then
+
             Dim strName = objFrm_Name.Value1
 
             If strName <> "" Then
@@ -132,8 +161,7 @@ Public Class clsTransaction_Objects
     End Function
 
     Public Function save_Object(ByVal strClass As String, Optional ByVal objOItem_Object As clsOntologyItem = Nothing) As clsOntologyItem
-        Dim oList_Objects As New List(Of clsOntologyItem)
-        Dim oList_ObjectDbl As New List(Of clsOntologyItem)
+        
         Dim strGUID As String
         Dim objOItem_Result As clsOntologyItem
         Dim strValue As String
@@ -145,6 +173,7 @@ Public Class clsTransaction_Objects
             objFrm_Name = New frm_Name("New Object", objLocalConfig, Nothing, Nothing, Nothing, True, True, False, False, True)
             objFrm_Name.ShowDialog(objfrmParent)
             If objFrm_Name.DialogResult = DialogResult.OK Then
+                boolApply = objFrm_Name.doApply
                 If objFrm_Name.isList = True Then
                     For Each strValue In objFrm_Name.Values
                         strValue = strValue.Replace(vbLf, "")
