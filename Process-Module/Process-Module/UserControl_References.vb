@@ -11,7 +11,8 @@ Public Class UserControl_References
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFileWork As clsFileWork
     Private objFrmMain As frmMain
-    Private objTransaction_References As clsTransaction_References
+    Private objTransaction_References As clsTransaction
+    Private objRelationConfig As clsRelationConfig
     Private objDataWork_References_Process As clsDataWork_References
     Private objDataWork_References_ProcessLog As clsDataWork_References
 
@@ -125,7 +126,8 @@ Public Class UserControl_References
     Private Sub set_DBConnection()
         objDataWork_References_Process = New clsDataWork_References(objLocalConfig)
         objDataWork_References_ProcessLog = New clsDataWork_References(objLocalConfig)
-        objTransaction_References = New clsTransaction_References(objLocalConfig)
+        objTransaction_References = New clsTransaction(objLocalConfig.Globals)
+        objRelationConfig = new clsRelationConfig(objLocalConfig.Globals)
     End Sub
 
 
@@ -311,7 +313,7 @@ Public Class UserControl_References
             objOItem_Reference.GUID = objTreeNode.Name
             objOItem_Reference.Name = objTreeNode.Text
 
-            
+            objTransaction_References.ClearItems()
 
             objOItem_ProcessRef = get_ProcessReferenceByTreeNode()
             If Not objOItem_ProcessRef Is Nothing Then
@@ -329,9 +331,9 @@ Public Class UserControl_References
                         objOItem_RelationType = New clsOntologyItem
                         objOItem_RelationType.GUID = objLTypes(0).ID_RelationType
 
-                        objOItem_Result = objTransaction_References.del_003_ProcessReference_To_Reference(objOItem_Reference, _
-                                                                                                          objOItem_RelationType, _
-                                                                                                          objOItem_ProcessRef)
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessRef,objOItem_Reference,objOItem_RelationType)
+
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference,False,True)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Remove()
                         Else
@@ -352,9 +354,8 @@ Public Class UserControl_References
                         objOItem_RelationType = New clsOntologyItem
                         objOItem_RelationType.GUID = objLTypes(0).ID_RelationType
 
-                        objOItem_Result = objTransaction_References.del_003_ProcessReference_To_Reference(objOItem_Reference, _
-                                                                                                          objOItem_RelationType, _
-                                                                                                          objOItem_ProcessRef)
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessRef,objOItem_Reference,objOItem_RelationType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Remove()
                         Else
@@ -376,6 +377,7 @@ Public Class UserControl_References
         Dim objOItem_ProcessRef As clsOntologyItem = Nothing
         Dim objOItem_Result As clsOntologyItem
 
+        objTransaction_References.ClearItems()
         If OItem_ProcessOrLog.GUID_Parent = objLocalConfig.OItem_Type_Process.GUID Then
             objOItem_ProcessRef = objDataWork_References_Process.OItem_ProcessRef
 
@@ -385,18 +387,18 @@ Public Class UserControl_References
 
         If objOItem_ProcessRef Is Nothing Then
             objOItem_ProcessRef = New clsOntologyItem(objLocalConfig.Globals.NewGUID, _
-                                                      objOItem_Process.Name, _
+                                                      OItem_ProcessOrLog.Name, _
                                                       objLocalConfig.OItem_Type_Process_References.GUID, _
                                                       objLocalConfig.Globals.Type_Object)
 
-            objOItem_Result = objTransaction_References.save_001_ProcessReference(objOItem_ProcessRef)
+            objOItem_Result = objTransaction_References.do_Transaction(objOItem_ProcessRef)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                objOItem_Result = objTransaction_References.save_002_ProcessOrLog_To_ProcessReference(OItem_ProcessOrLog, _
-                                                                                                      objOItem_ProcessRef)
+                Dim objORel_ProcessOrLog_To_ProcessReference = objRelationConfig.Rel_ObjectRelation(OItem_ProcessOrLog, objOItem_ProcessRef,objLocalConfig.OItem_RelationType_contains)
+                objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessOrLog_To_ProcessReference)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
 
 
-                    objTransaction_References.del_001_ProcessReference()
+                    objTransaction_References.rollback()
                     objOItem_ProcessRef = Nothing
                 End If
             End If
@@ -412,7 +414,7 @@ Public Class UserControl_References
         Dim objOItem_Result As clsOntologyItem
 
         objTreeNode = TreeView_Refs.SelectedNode
-
+        objTransaction_References.ClearItems()
         If Not objTreeNode Is Nothing Then
             If objTreeNode.ImageIndex >= objLocalConfig.ImageID_Ref And objTreeNode.ImageIndex <= objLocalConfig.ImageID_Material Then
                 objOItem_ProcessRef = objDataWork_References_Process.OItem_ProcessRef
@@ -422,14 +424,15 @@ Public Class UserControl_References
                                                               objLocalConfig.OItem_Type_Process_References.GUID, _
                                                               objLocalConfig.Globals.Type_Object)
 
-                    objOItem_Result = objTransaction_References.save_001_ProcessReference(objOItem_ProcessRef)
+                    objOItem_Result = objTransaction_References.do_Transaction(objOItem_ProcessRef)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        objOItem_Result = objTransaction_References.save_002_ProcessOrLog_To_ProcessReference(objOItem_Process, _
-                                                                                                              objOItem_ProcessRef)
+                        Dim objORel_ProcessOrLog_To_ProcessReference = objRelationConfig.Rel_ObjectRelation(objOItem_Process, objOItem_ProcessRef,objLocalConfig.OItem_RelationType_contains)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessOrLog_To_ProcessReference)
+                        
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
 
 
-                            objTransaction_References.del_001_ProcessReference()
+                            objTransaction_References.rollback()
                             objOItem_ProcessRef = Nothing
                         End If
                     End If
@@ -444,13 +447,13 @@ Public Class UserControl_References
                                                               objLocalConfig.OItem_Type_Process_References.GUID, _
                                                               objLocalConfig.Globals.Type_Object)
 
-                    objOItem_Result = objTransaction_References.save_001_ProcessReference(objOItem_ProcessRef)
+                    objOItem_Result = objTransaction_References.do_Transaction(objOItem_ProcessRef)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        objOItem_Result = objTransaction_References.save_002_ProcessOrLog_To_ProcessReference(objOItem_ProcessLog, _
-                                                                                                              objOItem_ProcessRef)
+                        Dim objORel_ProcessOrLog_To_ProcessReference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessLog, objOItem_ProcessRef,objLocalConfig.OItem_RelationType_contains)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessOrLog_To_ProcessReference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
 
-                            objTransaction_References.del_001_ProcessReference()
+                            objTransaction_References.rollback()
                             objOItem_ProcessRef = Nothing
                         End If
                     End If
@@ -471,7 +474,12 @@ Public Class UserControl_References
         objTreeNode = TreeView_Refs.SelectedNode
 
         If Not objTreeNode Is Nothing Then
-            objOItem_ProcessReference = get_ProcessReference(objOItem_Process)
+            if Not objOItem_Process Is Nothing Then
+                objOItem_ProcessReference = get_ProcessReference(objOItem_Process)
+            Else 
+                objOItem_ProcessReference = get_ProcessReference(objOItem_ProcessLog)
+            End If
+            
             If Not objOItem_ProcessReference Is Nothing Then
                 AddReference(objTreeNode, objOItem_ProcessReference, True)
             Else
@@ -487,7 +495,7 @@ Public Class UserControl_References
         Dim intToDo As Integer
         Dim intDone As Integer
         Dim intImageID As Integer
-
+        
         Select Case objTreeNode.ImageIndex
             Case objLocalConfig.ImageID_Applications
                 If boolProcess Then
@@ -504,7 +512,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -534,7 +544,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -563,7 +575,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -592,7 +606,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -626,7 +642,9 @@ Public Class UserControl_References
                         intDone = 0
                         intToDo = objOList_Objects.Count
                         For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                            objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                            objTransaction_References.ClearItems()
+                            Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                            objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
 
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                 objTreeNode.Nodes.Add(objOItem_Object.GUID, _
@@ -667,7 +685,9 @@ Public Class UserControl_References
                         intDone = 0
                         intToDo = objOList_Objects.Count
                         For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                            objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                            objTransaction_References.ClearItems()
+                            Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                            objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
 
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                 objTreeNode.Nodes.Add(objOItem_Object.GUID, _
@@ -700,7 +720,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -729,7 +751,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -758,7 +782,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -787,7 +813,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -816,7 +844,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -845,7 +875,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -874,7 +906,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -904,7 +938,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -933,7 +969,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -962,7 +1000,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -991,7 +1031,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -1020,7 +1062,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -1049,7 +1093,9 @@ Public Class UserControl_References
                     intDone = 0
                     intToDo = objOList_Objects.Count
                     For Each objOItem_Object As clsOntologyItem In objOList_Objects
-                        objOItem_Result = objTransaction_References.save_003_ProcessReference_To_Reference(objOItem_Object, objLRef(0).OItem_Rel_RefType, objOItem_ProcessReference)
+                        objTransaction_References.ClearItems()
+                        Dim objORel_ProcessReference_To_Reference = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessReference,objOItem_Object,objLRef(0).OItem_Rel_RefType)
+                        objOItem_Result = objTransaction_References.do_Transaction(objORel_ProcessReference_To_Reference)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objTreeNode.Nodes.Add(objOItem_Object.GUID, _
                                                       objOItem_Object.Name, _
@@ -1200,7 +1246,7 @@ Public Class UserControl_References
         objTreeNode = TreeView_Refs.SelectedNode
 
         If Not objTreeNode Is Nothing Then
-            objOItem_ProcessReference = get_ProcessReference(objOItem_Process)
+            objOItem_ProcessReference = get_ProcessReference(objOItem_ProcessLog)
             If Not objOItem_ProcessReference Is Nothing Then
                 AddReference(objTreeNode, objOItem_ProcessReference, False)
             Else
