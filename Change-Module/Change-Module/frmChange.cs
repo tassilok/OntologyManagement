@@ -524,10 +524,14 @@ namespace Change_Module
                 objTransaction_Description = new clsTransaction(objLocalConfig.Globals);
                 if (TextBox_Description_ProcessLog.Text != "")
                 {
-                    if (!objLocalConfig.Globals.is_GUID(objOItem_ProcessLogDescription.GUID_Related))
+                    if (objOItem_ProcessLogDescription.GUID_Related != null)
                     {
-                        objOItem_ProcessLogDescription.GUID_Related = objLocalConfig.Globals.NewGUID;
+                        if (!objLocalConfig.Globals.is_GUID(objOItem_ProcessLogDescription.GUID_Related))
+                        {
+                            objOItem_ProcessLogDescription.GUID_Related = objLocalConfig.Globals.NewGUID;
+                        }    
                     }
+                    
 
                     objOADescription = objRelationConfig.Rel_ObjectAttribute(objOItem_SelNode,
                                                                              objLocalConfig.OItem_Attribute_Description,

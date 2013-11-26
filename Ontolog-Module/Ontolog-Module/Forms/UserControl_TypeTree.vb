@@ -209,9 +209,44 @@ Public Class UserControl_TypeTree
     End Sub
 
     Private Sub TreeView_Types_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TreeView_Types.KeyDown
+        Dim objTreeNode as TreeNode
+
+        objTreeNode = TreeView_Types.SelectedNode
+        
+        
         Select Case e.KeyCode
             Case Keys.F5
                 initialize_Tree()
+            Case Keys.Enter
+                if (e.Alt) Then
+                    If Not objTreeNode Is Nothing Then
+                        Dim objOItem_Class As New clsOntologyItem
+
+                        objOItem_Class.GUID = objTreeNode.Name
+                        objOItem_Class.Name = objTreeNode.Text
+                        objOItem_Class.GUID_Parent = objTreeNode.Parent.Name
+                        objOItem_Class.Type = objLocalConfig.Globals.Type_Class
+
+                        objFrm_Class = New frmClassEdit(objLocalConfig, objOItem_Class)
+                        objFrm_Class.ShowDialog(Me)
+
+                        If objFrm_Class.DialogResult = DialogResult.OK Then
+
+                            If objFrm_Class.OItem_Class.deleted = True Then
+                                objTreeNode.Remove()
+                            Else
+                                If objTreeNode.Parent.Name = objFrm_Class.OItem_Class.GUID_Parent Then
+                                    If Not objFrm_Class.OItem_Class.Name = objTreeNode.Text Then
+                                        objTreeNode.Text = objFrm_Class.OItem_Class.Name
+                                    End If
+                                Else
+                                    'New Parent
+                                End If
+
+                            End If
+                        End If
+                    End If
+                End If    
         End Select
     End Sub
 
