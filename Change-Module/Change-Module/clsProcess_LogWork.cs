@@ -17,6 +17,7 @@ namespace Change_Module
         private frm_Name objFrmName;
         private clsTransaction objTransaction_ProcessIncident;
         private clsTransaction objTransaction_ProcessProcess;
+        private clsRelationConfig objRelationConfig;
 
         private clsLogManagement objLogManagement;
 
@@ -154,10 +155,55 @@ namespace Change_Module
                         objOItem_Result = objTransaction_ProcessProcess.do_Transaction(Rel_Process_To_Process(objOItem_Process_Parent, objOItem_Process));
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-                            objTreeNode_Parent.Nodes.Add(objOItem_Process.GUID,
-                                                         objOItem_Process.Name,
-                                                         objLocalConfig.ImageID_Process,
-                                                         objLocalConfig.ImageID_Process);
+                            var objOItem_ProcessLog = new clsOntologyItem
+                                {
+                                    GUID = objLocalConfig.Globals.NewGUID,
+                                    Name = objOItem_Process.Name,
+                                    GUID_Parent = objLocalConfig.OItem_Type_Process_Log.GUID,
+                                    Type = objLocalConfig.Globals.Type_Object
+                                };
+
+                            objOItem_Result = objTransaction_ProcessProcess.do_Transaction(objOItem_ProcessLog);
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            {
+                                var objORel_ProcessLog_To_Process =
+                                    objRelationConfig.Rel_ObjectRelation(objOItem_ProcessLog, objOItem_Process,
+                                                                         objLocalConfig.OItem_RelationType_belongsTo);
+
+                                objOItem_Result =
+                                    objTransaction_ProcessProcess.do_Transaction(objORel_ProcessLog_To_Process, true);
+                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                {
+                                    var objORel_ProcessLog_To_Ticket =
+                                        objRelationConfig.Rel_ObjectRelation(objOItem_Ticket, objOItem_ProcessLog,
+                                                                             objLocalConfig.OItem_RelationType_contains,
+                                                                             true);
+                                    objOItem_Result =
+                                    objTransaction_ProcessProcess.do_Transaction(objORel_ProcessLog_To_Ticket);
+                                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                    {
+                                        objTreeNode_Parent.Nodes.Add(objOItem_ProcessLog.GUID,
+                                                                 objOItem_ProcessLog.Name,
+                                                                 objLocalConfig.ImageID_Process,
+                                                                 objLocalConfig.ImageID_Process); 
+                                    }
+                                       
+                                }
+                                else
+                                {
+                                    objTransaction_ProcessProcess.rollback();
+                                    objOItem_Result = objLocalConfig.Globals.LState_Error;
+                                }
+                                
+    
+
+                            }
+                            else
+                            {
+                                objTransaction_ProcessProcess.rollback();
+                                objOItem_Result = objLocalConfig.Globals.LState_Error;
+                            }
+                            
                         }
                         else
                         {
@@ -360,13 +406,18 @@ namespace Change_Module
                 if (objDLG_Attribute_String.DialogResult == DialogResult.OK)
                 {
                     strMessage = objDLG_Attribute_String.Value;
-                    objOItem_LogEntry =  objLogManagement.log_Entry(DateTime.Now, OItem_LogState, objLocalConfig.OItem_User, strMessage);
-                    var objORel_ProcessLogIncident_To_LogEntry = objDataWork_Ticket.Rel_ProcessLog_To_LogEntry(OItem_Node, objOItem_LogEntry, objLocalConfig.OItem_RelationType_belonging_Done);
-                    objOItem_Result = objTransaction_ProcessIncident.do_Transaction(objORel_ProcessLogIncident_To_LogEntry);
+                    objOItem_Result = objLogManagement.log_Entry(DateTime.Now, OItem_LogState, objLocalConfig.OItem_User, strMessage);
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
+                        objOItem_LogEntry = objLogManagement.OItem_LogEntry;
+                        var objORel_ProcessLogIncident_To_LogEntry = objDataWork_Ticket.Rel_ProcessLog_To_LogEntry(OItem_Node, objOItem_LogEntry, objLocalConfig.OItem_RelationType_belonging_Done);
+                        objOItem_Result = objTransaction_ProcessIncident.do_Transaction(objORel_ProcessLogIncident_To_LogEntry);
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
                         
+                        }    
                     }
+                    
                 }
             }
             else if (OItem_LogState.GUID == objLocalConfig.OItem_Token_LogState_Obsolete.GUID)
@@ -384,6 +435,7 @@ namespace Change_Module
         private void set_DBConnection()
         {
             objLogManagement = new clsLogManagement(objLocalConfig.Globals);
+            objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
         }
     }
 }

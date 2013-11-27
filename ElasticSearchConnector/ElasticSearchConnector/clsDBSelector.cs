@@ -736,7 +736,16 @@ namespace ElasticSearchConnector
 
                             if (!boolExact)
                             {
-                                strQuery += "*" + nameQuery + "*";
+                                if (nameQuery == name)
+                                {
+                                    strQuery += "*" + nameQuery + "*";    
+                                }
+                                else
+                                {
+                                    strQuery += nameQuery;    
+                                }
+                                
+                                
                             }
                             else
                             {

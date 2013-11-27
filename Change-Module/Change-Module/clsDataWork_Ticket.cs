@@ -676,8 +676,18 @@ namespace Change_Module
             TreeNode objTreeNode_Sub;
             string GUID_ProcessLog;
 
+            var objOList_Logs = GetData_ProcessLogOfTicket(objOItem_Ticket);
+
+
+            var objLogs = from obj in objOTree_ProcessTree
+                                 join objProcLog in objDBLevel_ProcessProcessLog.OList_ObjectRel on obj.ID_Object equals
+                                     objProcLog.ID_Other
+                                 join objTicketLog in objOList_Logs on
+                                     objProcLog.ID_Object equals objTicketLog.ID_Other
+                                 select objProcLog;
+
             var objLSubNodes = from obj in objOTree_ProcessTree
-                               join objProcLog in objDBLevel_ProcessProcessLog.OList_ObjectRel on obj.ID_Object equals objProcLog.ID_Other into objProcLogs
+                               join objProcLog in objLogs on obj.ID_Object equals objProcLog.ID_Other into objProcLogs
                                from objProcLog in objProcLogs.DefaultIfEmpty()
                                where obj.ID_Object_Parent == GUID_Process
                                orderby obj.OrderID, obj.Name_Object
@@ -694,7 +704,7 @@ namespace Change_Module
                     {
                         GUID_ProcessLog = GetGUID_ProcessLog(new clsOntologyItem(objSubNode.obj.ID_Object,
                                                                                  objSubNode.obj.Name_Object,
-                                                                                 objSubNode.obj.ID_Object_Parent,
+                                                                                 objSubNode.obj.ID_Parent,
                                                                                  objLocalConfig.Globals.Type_Object), objOItem_Ticket);
                     }
                     else
@@ -846,7 +856,7 @@ namespace Change_Module
             clsOntologyItem objOItem_ProcessLog;
             clsOntologyItem objOItem_LogEntry;
             long OrderID;
-
+            objTransaction_ProcessLog.ClearItems();
             objOItem_ProcessLog = new clsOntologyItem(objLocalConfig.Globals.NewGUID,
                                                         OItem_Process.Name,
                                                         objLocalConfig.OItem_Type_Process_Log.GUID,
@@ -876,23 +886,36 @@ namespace Change_Module
                     objOItem_Result = objTransaction_ProcessLog.do_Transaction(objORel_Ticket_To_ProcessLog);
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
-                        objOItem_LogEntry = objLogManagement.log_Entry(DateTime.Now, 
+                        objOItem_Result = objLogManagement.log_Entry(DateTime.Now, 
                                                                        objLocalConfig.OItem_Token_Logstate_Start, 
                                                                        objLocalConfig.OItem_User, 
                                                                        objLocalConfig.OItem_Token_Logstate_Start.Name);
-
-                        var objORel_ProcessLog_To_LogEntry_Start = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessLog, objOItem_LogEntry, objLocalConfig.OItem_RelationType_started_with);
-
-
-                        objOItem_Result = objTransaction_ProcessLog.do_Transaction(objORel_ProcessLog_To_LogEntry_Start);
-
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-                            var objORel_ProcessLog_To_LogEntry_BelongingDone = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessLog, objOItem_LogEntry, objLocalConfig.OItem_RelationType_belonging_Done);
+                            objOItem_LogEntry = objLogManagement.OItem_LogEntry;
+                            var objORel_ProcessLog_To_LogEntry_Start = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessLog, objOItem_LogEntry, objLocalConfig.OItem_RelationType_started_with);
 
 
-                            objOItem_Result = objTransaction_ProcessLog.do_Transaction(objORel_ProcessLog_To_LogEntry_BelongingDone);
-                            if (objOItem_Result.GUID != objLocalConfig.Globals.LState_Success.GUID)
+                            objOItem_Result = objTransaction_ProcessLog.do_Transaction(objORel_ProcessLog_To_LogEntry_Start);
+
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            {
+                                var objORel_ProcessLog_To_LogEntry_BelongingDone = objRelationConfig.Rel_ObjectRelation(objOItem_ProcessLog, objOItem_LogEntry, objLocalConfig.OItem_RelationType_belonging_Done);
+
+
+                                objOItem_Result = objTransaction_ProcessLog.do_Transaction(objORel_ProcessLog_To_LogEntry_BelongingDone);
+                                if (objOItem_Result.GUID != objLocalConfig.Globals.LState_Success.GUID)
+                                {
+
+                                    objOItem_ProcessLog = null;
+                                    objTransaction_ProcessLog.rollback();
+
+
+
+                                }
+                                
+                            }
+                            else
                             {
                                 objOItem_ProcessLog = null;
                                 objTransaction_ProcessLog.rollback();
@@ -903,6 +926,8 @@ namespace Change_Module
                             objOItem_ProcessLog = null;
                             objTransaction_ProcessLog.rollback();
                         }
+
+                        
                     }
                     else
                     {

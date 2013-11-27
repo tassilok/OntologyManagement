@@ -112,18 +112,28 @@ namespace Change_Module
                 objOItem_Result = objDataWork_Ticket.GetData_IncidentTree();
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    boolPCChange_Process = true;
-                    objOItem_Result = objDataWork_Ticket.GetSubProcesses(objTreeNode_Found, objOItem_Process.GUID, objOItem_Ticket);
-                    boolPCChange_Process = false;
+                    objOItem_Result = objDataWork_Ticket.GetData_ProcessLogOfProcess();
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
+                        boolPCChange_Process = true;
+                        objOItem_Result = objDataWork_Ticket.GetSubProcesses(objTreeNode_Found, objOItem_Process.GUID, objOItem_Ticket);
+                        boolPCChange_Process = false;
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
 
+                        }
+                        else
+                        {
+                            MessageBox.Show("Beim Auslesen des Prozessbaums ist ein Fehler aufgetreten. Die Anwendung wird geschlossen!", "Fehler", MessageBoxButtons.OK);
+                            CloseApplication(this, EventArgs.Empty);
+                        }    
                     }
                     else
                     {
                         MessageBox.Show("Beim Auslesen des Prozessbaums ist ein Fehler aufgetreten. Die Anwendung wird geschlossen!", "Fehler", MessageBoxButtons.OK);
                         CloseApplication(this, EventArgs.Empty);
                     }
+                    
 
                 }
                 else

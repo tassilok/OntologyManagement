@@ -83,7 +83,7 @@ Public Class clsRelationConfig
     Public Function Rel_ObjectRelation(OItem_Left As clsOntologyItem, OItem_Right As clsOntologyItem, OItem_RelationType As clsOntologyItem, Optional boolNextOrderID As Boolean = False, Optional OrderID As Long = 1) As clsObjectRel
         Dim lngOrderID = 0
         If boolNextOrderID Then
-            lngOrderID = objDBLevel_OrderID.get_Data_Rel_OrderID(OItem_Left, OItem_Right, OItem_RelationType, False)
+            lngOrderID = objDBLevel_OrderID.get_Data_Rel_OrderID(OItem_Left, New clsOntologyItem With {.GUID_Parent = OItem_Right.GUID_Parent }, OItem_RelationType, False)
 
         End If
 
