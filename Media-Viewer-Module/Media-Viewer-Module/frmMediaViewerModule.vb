@@ -12,6 +12,7 @@ Public Class frmMediaViewerModule
 
     Private objFrmAuthenticate As frmAuthenticate
     Private WithEvents objFrmSingleViewer As frmSingleViewer
+    Private objFrmListEdit As frmMediaModule_ListEdit
 
     Private SplashScreen As SplashScreen_OntologyModule
     Private AboutBox As AboutBox_OntologyItem
@@ -277,6 +278,7 @@ Public Class frmMediaViewerModule
         objOItem_MediaType = ToolStripComboBox_MediaType.SelectedItem
 
         ToolStripButton_OpenGrid.Enabled = False
+        ToolStripButton_OpenListEdit.Enabled = False
 
         SplitContainer1.Panel2.Controls.Clear()
 
@@ -287,6 +289,7 @@ Public Class frmMediaViewerModule
                     SplitContainer1.Panel2.Controls.Add(objUserControl_ImageList)
                     objUserControl_ImageList.initialize_Images(Nothing)
                     ToolStripButton_OpenGrid.Enabled = True
+                    ToolStripButton_OpenListEdit.Enabled = True
                 Case objLocalConfig.OItem_Type_Media_Item.GUID
                     SplitContainer1.Panel2.Controls.Add(objUserControl_MediaItemList)
                     objUserControl_ImageList.initialize_Images(Nothing)
@@ -329,5 +332,16 @@ Public Class frmMediaViewerModule
 
             End Select
         End If
+    End Sub
+
+    Private Sub ToolStripButton_OpenListEdit_Click(sender As Object, e As EventArgs) Handles ToolStripButton_OpenListEdit.Click
+        Dim objOItem_MediaType = ToolStripComboBox_MediaType.SelectedItem
+
+        If Not objOItem_MediaType Is Nothing Then
+            objFrmListEdit = New frmMediaModule_ListEdit(objLocalConfig, objOItem_MediaType)
+            objFrmListEdit.ShowDialog(Me)
+
+        End If
+
     End Sub
 End Class

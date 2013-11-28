@@ -6,12 +6,52 @@ Public Class clsDataWork_Images
     Private objDBLevel_Images As clsDBLevel
     Private objDBLevel_Files As clsDBLevel
     Private objDBLevel_CreationDate As clsDBLevel
+    Private objDBLevel_ImageObjects_LeftRight As clsDBLevel
+    Private objDBLevel_Ref As clsDBLevel
+
     Private dtblT_Images As New DataSet_Images.dtbl_ImagesDataTable
     Private objThread_Images As Threading.Thread
     Private objOItem_Ref As clsOntologyItem
     Private boolLoaded As Boolean
     Private boolTable As Boolean
     Private objLImages As List(Of clsMultiMediaItem) = New List(Of clsMultiMediaItem)
+
+    Public Property ImageObjectLoaded As Boolean
+
+
+    Public Function OList_ImageObjects(Optional OItem_Image As clsOntologyItem = Nothing) As List(Of clsObjectRel)
+        Dim objOList_ImageObjects As List(Of clsObjectRel)
+
+        If OItem_Image Is Nothing Then
+            objOList_ImageObjects = objDBLevel_ImageObjects_LeftRight.OList_ObjectRel
+        Else
+            objOList_ImageObjects = objDBLevel_ImageObjects_LeftRight.OList_ObjectRel.Where(Function(p) p.ID_Other = OItem_Image.GUID).ToList()
+        End If
+
+        Return objOList_ImageObjects
+    End Function
+
+    Public Function OList_ImageObjects(OItem_Image As clsOntologyItem, GUID_Class As String) As List(Of clsObjectRel)
+        Dim objOList_ImageObjects As List(Of clsObjectRel)
+        objOList_ImageObjects = (From objImageObjectOfImage In objDBLevel_ImageObjects_LeftRight.OList_ObjectRel.Where(Function(p) p.ID_Other = OItem_Image.GUID).ToList()
+                                Join objImageObject In objDBLevel_ImageObjects_LeftRight.OList_ObjectRel.Where(Function(p) p.ID_Parent_Other = GUID_Class).ToList() On objImageObjectOfImage.ID_Object Equals objImageObject.ID_Object
+                                Select objImageObject).ToList()
+
+        Return objOList_ImageObjects
+    End Function
+
+    Public Function OList_RefOfImages(GUID_Class As String, Optional OItem_Image As clsOntologyItem = Nothing) As List(Of clsObjectRel)
+        Dim objOList_Ref As List(Of clsObjectRel)
+
+        If OItem_Image Is Nothing Then
+            objOList_Ref = objDBLevel_Ref.OList_ObjectRel.Where(Function(p) p.ID_Parent_Other = GUID_Class).ToList
+
+        Else
+            objOList_Ref = objDBLevel_Ref.OList_ObjectRel.Where(Function(p) p.ID_Object = OItem_Image.GUID And p.ID_Parent_Other = GUID_Class).ToList()
+        End If
+        Return objOList_Ref
+    End Function
+
 
     Public ReadOnly Property Loaded As Boolean
         Get
@@ -48,6 +88,48 @@ Public Class clsDataWork_Images
         objThread_Images.Start()
 
     End Sub
+
+    Public Function get_Image(OItem_Image As clsOntologyItem) As List(Of clsMultiMediaItem)
+        Dim objOL_Images_To_Ref As New List(Of clsObjectRel)
+        Dim objOL_Images_To_File As New List(Of clsObjectRel)
+        Dim objOL_CreationDate As New List(Of clsObjectAtt)
+        If Not OItem_Image Is Nothing Then
+            objOL_Images_To_File.Add(New clsObjectRel With {.ID_Object = OItem_Image.GUID, _
+                                                        .ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID, _
+                                                  .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Source.GUID
+                                                  })
+
+            objDBLevel_Files.get_Data_ObjectRel(objOL_Images_To_File, _
+                                                boolIDs:=False)
+
+            If objDBLevel_Files.OList_ObjectRel.Any Then
+                objOL_CreationDate = objDBLevel_Files.OList_ObjectRel.Select(Function(p) New clsObjectAtt With { _
+                                                                             .ID_Object = p.ID_Other, _
+                                                                             .ID_AttributeType = objLocalConfig.OItem_Type_Images__Graphic_.GUID _
+                                                                         }).ToList
+
+                objDBLevel_CreationDate.get_Data_ObjectAtt(objOL_CreationDate, _
+                                                           boolIDs:=False)
+
+                objLImages.Clear()
+                objLImages = (From objFile In objDBLevel_Files.OList_ObjectRel
+                                 Group Join objDate In objDBLevel_CreationDate.OList_ObjectAtt On objDate.ID_Object Equals objFile.ID_Other Into objDates = Group
+                                 From objDate In objDates.DefaultIfEmpty
+                                 Select New clsMultiMediaItem(objFile.ID_Object, _
+                                                              objFile.Name_Object, _
+                                                              objFile.ID_Parent_Object, _
+                                                              objFile.ID_Other, _
+                                                              objFile.Name_Other, _
+                                                              objFile.ID_Parent_Other, _
+                                                              objDate, _
+                                                              0)).ToList()
+            End If
+            
+        End If
+        
+
+        Return objLImages
+    End Function
 
     Public Function GetNextOrderIDOFRef(OItem_Ref As clsOntologyItem) As Long
         Dim lngOrderID As Long
@@ -152,6 +234,34 @@ Public Class clsDataWork_Images
 
         boolLoaded = True
     End Sub
+
+    Public Function GetDataObjectsOfImages() As clsOntologyItem
+        Dim objOList_Search_LeftRight = New List(Of clsObjectRel) From {
+            New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_Image_Objects.GUID, _
+                                   .ID_RelationType = objLocalConfig.OItem_RelationType_is.GUID},
+            New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_Image_Objects.GUID, _
+                                   .ID_RelationType = objLocalConfig.OItem_RelationType_located_in.GUID}, _
+            New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_Image_Objects.GUID, _
+                                   .ID_RelationType = objLocalConfig.OItem_RelationType_is.GUID}
+        }
+
+       
+        Dim objOItem_Result = objDBLevel_ImageObjects_LeftRight.get_Data_ObjectRel(objOList_Search_LeftRight, _
+                                                                                   boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim objOList_Refs = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                                                        .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID, _
+                                                                                        .ID_Parent_Other = objLocalConfig.OItem_Type_Wichtige_Ereignisse.GUID}}
+
+            objOItem_Result = objDBLevel_Ref.get_Data_ObjectRel(objOList_Refs)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+            End If
+        End If
+        ImageObjectLoaded = True
+        Return objOItem_Result
+    End Function
 
     Public Function GetImageItemOfFile(OItem_File As clsOntologyItem, OItem_MediaType As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
@@ -269,5 +379,7 @@ Public Class clsDataWork_Images
         objDBLevel_Images = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Files = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_CreationDate = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_ImageObjects_LeftRight = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Ref = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class

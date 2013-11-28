@@ -76,7 +76,22 @@ Public Class UserControl_OItemList
     Public Event applied_Items()
     Public Event counted_Items(ByVal intCount As Integer)
 
-    
+    Public ReadOnly Property SelectedRowIndex As Long
+        Get
+            If DataGridView_Items.SelectedRows.Count > 0 Then
+                Return DataGridView_Items.SelectedRows(0).Index
+            Else
+                Return -1
+            End If
+        End Get
+    End Property
+
+    Public ReadOnly Property ColumnList As DataGridViewColumnCollection
+        Get
+            Return DataGridView_Items.Columns
+        End Get
+    End Property
+
     Public ReadOnly Property RowName_GUID As String
         Get
             Return strRowName_GUID
@@ -144,6 +159,18 @@ Public Class UserControl_OItemList
                 If Not DataGridView_Items.CurrentRow Is Nothing Then
                     DataGridView_Items.CurrentRow.Selected = True
                 End If
+            End If
+
+        End If
+    End Sub
+
+    Public Sub select_Row(index As Long)
+        Dim BindingSource_Grid As BindingSource = DataGridView_Items.DataSource
+
+        If Not BindingSource_Grid Is Nothing Then
+            If index > -1 Then
+                DataGridView_Items.Rows(index).Selected = True
+                BindingSource_Grid.Position = index
             End If
 
         End If

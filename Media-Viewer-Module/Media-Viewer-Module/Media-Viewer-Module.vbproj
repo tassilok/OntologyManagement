@@ -92,17 +92,17 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsDataWork_Images.vb" />
-    <Compile Include="clsDataWork_MediaItem.vb" />
-    <Compile Include="clsDataWork_PDF.vb" />
+    <Compile Include="Images\clsDataWork_Images.vb" />
+    <Compile Include="MediaItems\clsDataWork_MediaItem.vb" />
+    <Compile Include="PDF\clsDataWork_PDF.vb" />
     <Compile Include="clsDataWork_RefTree.vb" />
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsLogManagement.vb" />
     <Compile Include="clsMediaItems.vb" />
     <Compile Include="clsMultiMediaItem.vb" />
-    <Compile Include="clsTransaction_Image.vb" />
-    <Compile Include="clsTransaction_MediaItems.vb" />
-    <Compile Include="clsTransaction_PDF.vb" />
+    <Compile Include="Images\clsTransaction_Image.vb" />
+    <Compile Include="MediaItems\clsTransaction_MediaItems.vb" />
+    <Compile Include="PDF\clsTransaction_PDF.vb" />
     <Compile Include="DataSet_Images.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -118,6 +118,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet_PDF.xsd</DependentUpon>
     </Compile>
+    <Compile Include="frmMediaModule_ListEdit.Designer.vb">
+      <DependentUpon>frmMediaModule_ListEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMediaModule_ListEdit.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmMediaViewerModule.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +136,12 @@
     </Compile>
     <Compile Include="frmSingleViewer.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Images\UserControl_ObjectRelation.Designer.vb">
+      <DependentUpon>UserControl_ObjectRelation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Images\UserControl_ObjectRelation.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -146,40 +158,46 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="UserControl_ImageList.Designer.vb">
+    <Compile Include="Images\UserControl_ImageList.Designer.vb">
       <DependentUpon>UserControl_ImageList.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_ImageList.vb">
+    <Compile Include="Images\UserControl_ImageList.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl_ImageViewer.Designer.vb">
+    <Compile Include="Images\UserControl_ImageRelation.Designer.vb">
+      <DependentUpon>UserControl_ImageRelation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Images\UserControl_ImageRelation.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Images\UserControl_ImageViewer.Designer.vb">
       <DependentUpon>UserControl_ImageViewer.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_ImageViewer.vb">
+    <Compile Include="Images\UserControl_ImageViewer.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl_MediaItemList.Designer.vb">
+    <Compile Include="MediaItems\UserControl_MediaItemList.Designer.vb">
       <DependentUpon>UserControl_MediaItemList.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_MediaItemList.vb">
+    <Compile Include="MediaItems\UserControl_MediaItemList.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl_MediaPlayer.Designer.vb">
+    <Compile Include="MediaItems\UserControl_MediaPlayer.Designer.vb">
       <DependentUpon>UserControl_MediaPlayer.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_MediaPlayer.vb">
+    <Compile Include="MediaItems\UserControl_MediaPlayer.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl_PDFList.Designer.vb">
+    <Compile Include="PDF\UserControl_PDFList.Designer.vb">
       <DependentUpon>UserControl_PDFList.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_PDFList.vb">
+    <Compile Include="PDF\UserControl_PDFList.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl_PDFViewer.Designer.vb">
+    <Compile Include="PDF\UserControl_PDFViewer.Designer.vb">
       <DependentUpon>UserControl_PDFViewer.vb</DependentUpon>
     </Compile>
-    <Compile Include="UserControl_PDFViewer.vb">
+    <Compile Include="PDF\UserControl_PDFViewer.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControl_RefTree.Designer.vb">
@@ -196,11 +214,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmMediaModule_ListEdit.resx">
+      <DependentUpon>frmMediaModule_ListEdit.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMediaViewerModule.resx">
       <DependentUpon>frmMediaViewerModule.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSingleViewer.resx">
       <DependentUpon>frmSingleViewer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\UserControl_ObjectRelation.resx">
+      <DependentUpon>UserControl_ObjectRelation.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -208,22 +232,25 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_ImageList.resx">
+    <EmbeddedResource Include="Images\UserControl_ImageList.resx">
       <DependentUpon>UserControl_ImageList.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_ImageViewer.resx">
+    <EmbeddedResource Include="Images\UserControl_ImageRelation.resx">
+      <DependentUpon>UserControl_ImageRelation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\UserControl_ImageViewer.resx">
       <DependentUpon>UserControl_ImageViewer.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_MediaItemList.resx">
+    <EmbeddedResource Include="MediaItems\UserControl_MediaItemList.resx">
       <DependentUpon>UserControl_MediaItemList.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_MediaPlayer.resx">
+    <EmbeddedResource Include="MediaItems\UserControl_MediaPlayer.resx">
       <DependentUpon>UserControl_MediaPlayer.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_PDFList.resx">
+    <EmbeddedResource Include="PDF\UserControl_PDFList.resx">
       <DependentUpon>UserControl_PDFList.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_PDFViewer.resx">
+    <EmbeddedResource Include="PDF\UserControl_PDFViewer.resx">
       <DependentUpon>UserControl_PDFViewer.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_RefTree.resx">
