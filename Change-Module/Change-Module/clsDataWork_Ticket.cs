@@ -35,6 +35,7 @@ namespace Change_Module
         private clsDBLevel objDBLevel_TicketList;
         private clsDBLevel objDBLevel_TicketListStandard;
         private clsDBLevel objDBLevel_ProcessLogOfTicket;
+        private clsDBLevel objDBLevel_Item;
 
         private clsDBLevel objDBLevel_TicketListTree;
         private clsDBLevel objDBLevel_Description;
@@ -1672,7 +1673,8 @@ namespace Change_Module
                     }
                     else
                     {
-                        objOItem_Result.Additional1 = "";
+                        objOItem_Result.Val_String = "";
+                        objOItem_Result.GUID_Related = null;
                     }
                 }
             }
@@ -1687,7 +1689,8 @@ namespace Change_Module
 
         public clsOntologyItem ProcessLogDescription(clsOntologyItem OItem_Process_Log)
         {
-            clsOntologyItem objOItem_Result = objLocalConfig.Globals.LState_Success;
+            clsOntologyItem objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+            
 
             List<clsObjectAtt> objOAList_Description = new List<clsObjectAtt>();
 
@@ -1710,6 +1713,7 @@ namespace Change_Module
                 else
                 {
                     objOItem_Result.Val_String = "";
+                    objOItem_Result.GUID_Related = null;
                 }
             }
 
@@ -1741,6 +1745,7 @@ namespace Change_Module
                 else
                 {
                     objOItem_Result.Val_String = "";
+                    objOItem_Result.GUID_Related = null;
                 }
                  
             }
@@ -1962,7 +1967,126 @@ namespace Change_Module
 
             return objORel_Ticket_To_Ref;
         }
+
+        
+        public clsOntologyItem GetLogState_Node(TreeNode objTreeNode)
+        {
+            clsOntologyItem objOItem_State = null;
+            var ORel_Node_To_Logentries = new List<clsObjectRel>
+                {
+                    new clsObjectRel
+                        {
+                            ID_Object = objTreeNode.Name,
+                            ID_Parent_Other = objLocalConfig.OItem_Type_LogEntry.GUID,
+                            ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Done.GUID
+                        }
+                };
+
+            var objOItem_Result = objDBLevel_LogentriesOfProcessLogs.get_Data_ObjectRel(ORel_Node_To_Logentries);
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                objOItem_State = objLocalConfig.Globals.LState_Nothing.Clone();
+
+                var ORel_LogEntries_To_LogState =
+                    objDBLevel_LogentriesOfProcessLogs.OList_ObjectRel_ID.Select(p => new clsObjectRel
+                        {
+                            ID_Object = p.ID_Other,
+                            ID_Parent_Other = objLocalConfig.OItem_type_Logstate.GUID,
+                            ID_RelationType = objLocalConfig.OItem_RelationType_provides.GUID
+                        }).ToList();
+
+                objOItem_Result = objDBLevel_LogentriesOfProcessLogs.get_Data_ObjectRel(ORel_LogEntries_To_LogState);
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    var OList_LogEntries_To_LogStates =
+                        objDBLevel_LogentriesOfProcessLogs.OList_ObjectRel_ID.Select(p => p).ToList();
+
+                    var ORel_Node_To_Finished = new List<clsObjectRel>
+                        {
+                            new clsObjectRel
+                                {
+                                    ID_Object = objTreeNode.Name,
+                                    ID_Parent_Other = objLocalConfig.OItem_Type_LogEntry.GUID,
+                                    ID_RelationType = objLocalConfig.OItem_RelationType_finished_with.GUID
+                                }
+                        };
+
+                    objOItem_Result = objDBLevel_LogentriesOfProcessLogs.get_Data_ObjectRel(ORel_Node_To_Finished);
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        if (objDBLevel_LogentriesOfProcessLogs.OList_ObjectRel_ID.Any())
+                        {
+                            var objOList_LogEntries_Finished_Obsolete =
+                                OList_LogEntries_To_LogStates.Join(
+                                    objDBLevel_LogentriesOfProcessLogs.OList_ObjectRel_ID, left => left.ID_Object,
+                                    right => right.ID_Other, (left, right) => left).Where(p => p.ID_Other == objLocalConfig.OItem_Token_LogState_Obsolete.GUID).ToList();
+
+                            if (objOList_LogEntries_Finished_Obsolete.Any())
+                            {
+                                objOItem_State = objLocalConfig.OItem_Token_LogState_Obsolete.Clone();
+                            }
+                            else
+                            {
+                                objOItem_State = objLocalConfig.Globals.LState_Success.Clone();
+                            }
+                            
+                        }
+                    }
+
+                    if (objOItem_State == null)
+                    {
+                        // ToDo: Errors
+                    }
+                }
+            }
+
+            return objOItem_State;
+        }
+
+        public clsOntologyItem GetTicketOfNode(TreeNode objTreeNode)
+        {
+            clsOntologyItem OItem_Ticket = null;
+            if (objTreeNode != null)
+            {
+                if (objTreeNode.ImageIndex == objLocalConfig.ImageID_Ticket)
+                {
+                    OItem_Ticket = new clsOntologyItem(objTreeNode.Name,
+                                                       objTreeNode.Text,
+                                                       objLocalConfig.OItem_Type_Process_Ticket.GUID,
+                                                       objLocalConfig.Globals.Type_Object);
+                    return OItem_Ticket;
+                }
+                else
+                {
+                    OItem_Ticket = GetTicketOfNode(objTreeNode.Parent);
+                    return OItem_Ticket;
+                }    
+            }
+
+            return OItem_Ticket;
+        }
        
+        public clsOntologyItem GetOItemOfNode(TreeNode objTreeNode)
+        {
+            clsOntologyItem OItem_Item = null;
+
+            if (objTreeNode != null)
+            {
+                var objNode_Search = new List<clsOntologyItem> {new clsOntologyItem {GUID = objTreeNode.Name}};
+
+                var objOItem_Result = objDBLevel_Item.get_Data_Objects(objNode_Search);
+
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    if (objDBLevel_Item.OList_Objects.Any())
+                    {
+                        OItem_Item = objDBLevel_Item.OList_Objects.First();
+                    }
+                }
+            }
+
+            return OItem_Item;
+        }
 
         public clsDataWork_Ticket(clsLocalConfig LocalConfig)
         {
@@ -1984,6 +2108,7 @@ namespace Change_Module
             objDBLevel_ProcessLastDoneDetail = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Group = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_TicketList = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_Item = new clsDBLevel(objLocalConfig.Globals);
 
             objDBLevel_TicketListTree = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_TicketListStandard = new clsDBLevel(objLocalConfig.Globals);

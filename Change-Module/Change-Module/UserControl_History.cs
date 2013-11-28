@@ -29,14 +29,21 @@ namespace Change_Module
 
         public void initialize(clsOntologyItem OItem_Selected)
         {
-            clsOntologyItem objOItem_Result;
+            
             objDataWork_History = new clsDataWork_History(objLocalConfig);
 
             objOItem_Selected = OItem_Selected;
 
+            refreshItems();
+            
+        }
+
+        public void refreshItems()
+        {
+            clsOntologyItem objOItem_Result;
             toolStripProgressBar_History.Value = 0;
             timer_History.Stop();
-            
+
             toggleEnable(false);
 
             objOItem_Result = objDataWork_History.GetData(objOItem_Selected);
@@ -48,7 +55,6 @@ namespace Change_Module
             {
                 MessageBox.Show("Die Historie kann nicht ermittelt werden!", "Historie", MessageBoxButtons.OK);
             }
-            
         }
 
         private void timer_History_Tick(object sender, EventArgs e)

@@ -51,6 +51,7 @@ namespace Change_Module
             objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
             objUserControl_ProcessTree = new UserControl_ProcessTree(objLocalConfig,objDataWork_Ticket);
             objUserControl_ProcessTree.SelectItem += SelectedTreeItem;
+            objUserControl_ProcessTree.addLogEntry += objUserControl_ProcessTree_addLogEntry;
             objUserControl_ProcessTree.Dock = DockStyle.Fill;
 
             splitContainer1.Panel1.Controls.Add(objUserControl_ProcessTree);
@@ -66,6 +67,11 @@ namespace Change_Module
             splitContainer5.Panel1.Controls.Add(objUserControl_References);
             
             configure_Controls();
+        }
+
+        void objUserControl_ProcessTree_addLogEntry()
+        {
+            objUserControl_History.refreshItems();
         }
 
         private void SetTicketDescription()
@@ -353,7 +359,7 @@ namespace Change_Module
 
                 if (TicketDescription != "")
                 {
-                    if (!objLocalConfig.Globals.is_GUID(objOItem_TicketDescription.GUID_Related))
+                    if (objOItem_TicketDescription.GUID_Related != null && !objLocalConfig.Globals.is_GUID(objOItem_TicketDescription.GUID_Related))
                     {
                         objOItem_TicketDescription.GUID_Related = objLocalConfig.Globals.NewGUID;
                     }
@@ -428,28 +434,23 @@ namespace Change_Module
                 objTransaction_Description = new clsTransaction(objLocalConfig.Globals);
                 if (TextBox_Description_Process.Text!="")
                 {
-                    if (!objLocalConfig.Globals.is_GUID(objOItem_TicketDescription.GUID_Related))
+                    if (objOItem_TicketDescription.GUID_Related != null && !objLocalConfig.Globals.is_GUID(objOItem_TicketDescription.GUID_Related))
                     {
                         objOItem_ProcessDescription.GUID_Related = objLocalConfig.Globals.NewGUID;
                     }
                     objOItem_Process = objDataWork_Ticket.objOItem_Process;
                     if (objLocalConfig.Globals.is_GUID(objOItem_Process.GUID))
                     {
-                        objOADescription = new clsObjectAtt(objOItem_TicketDescription.GUID_Related,
-                                                            objOItem_Process.GUID,
-                                                            null,
-                                                            objOItem_Process.GUID_Parent,
-                                                            null,
-                                                            objLocalConfig.OItem_Attribute_Description.GUID,
-                                                            null,
-                                                            1, 
-                                                            TextBox_Description_Process.Text,
-                                                            null,
-                                                            null,
-                                                            null,
-                                                            null,
-                                                            TextBox_Description_Process.Text,
-                                                            objLocalConfig.Globals.DType_String.GUID);
+                        objOADescription = objRelationConfig.Rel_ObjectAttribute(objOItem_Process,
+                                                                                 objLocalConfig
+                                                                                     .OItem_Attribute_Description,
+                                                                                 TextBox_Description_Process.Text, false,
+                                                                                 1,
+                                                                                 objOItem_ProcessDescription
+                                                                                     .GUID_Related);
+
+                        
+                        
 
                         objOItem_Result =  objTransaction_Description.do_Transaction(objOADescription, true);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
@@ -524,7 +525,7 @@ namespace Change_Module
                 objTransaction_Description = new clsTransaction(objLocalConfig.Globals);
                 if (TextBox_Description_ProcessLog.Text != "")
                 {
-                    if (objOItem_ProcessLogDescription.GUID_Related != null)
+                    if (objOItem_ProcessLogDescription.GUID_Related != null && objOItem_ProcessLogDescription.GUID_Related != null)
                     {
                         if (!objLocalConfig.Globals.is_GUID(objOItem_ProcessLogDescription.GUID_Related))
                         {

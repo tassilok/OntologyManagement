@@ -333,7 +333,9 @@ namespace TimeManagement_Module
                     new clsOntologyItem
                         {
                             GUID = objDRV["ID_TimeManagement"].ToString(),
-                            Name = objDRV["Name_TimeManagement"].ToString()
+                            Name = objDRV["Name_TimeManagement"].ToString(),
+                            GUID_Parent = objLocalConfig.OItem_class_timemanagement.GUID,
+                            Type =  objLocalConfig.Globals.Type_Object
                         }
                 };
 
@@ -344,7 +346,10 @@ namespace TimeManagement_Module
 
         private void DataGridView_LogManagement_KeyDown(object sender, KeyEventArgs e)
         {
-            
+            if (e.KeyCode == Keys.F5)
+            {
+                Initialize();    
+            }
         }
 
         private void TodayToolStripMenuItem_Click(object sender, EventArgs e)

@@ -379,56 +379,69 @@ namespace Change_Module
             set_DBConnection();
         }
         
-        public clsOntologyItem Log(clsOntologyItem OItem_Node, clsOntologyItem OItem_LogState)
+        public clsOntologyItem Log(clsOntologyItem OItem_Node, clsOntologyItem OItem_Ticket, clsOntologyItem OItem_LogState, string strMessage)
         {
             clsOntologyItem objOItem_Result;
             clsOntologyItem objOItem_LogEntry;
             
-
-            string strMessage;
-
-            if (OItem_LogState.GUID == objLocalConfig.OItem_Token_Logstate_solved.GUID)
+            objTransaction_ProcessIncident.ClearItems();
+            objOItem_Result = objLogManagement.log_Entry(DateTime.Now, OItem_LogState, objLocalConfig.OItem_User, strMessage);
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-
-            }
-            else if (OItem_LogState.GUID == objLocalConfig.OItem_Token_Logstate_Error.GUID)
-            {
-
-            }
-            else if (OItem_LogState.GUID == objLocalConfig.OItem_Token_Logstate_finished.GUID)
-            {
-
-            }
-            else if (OItem_LogState.GUID == objLocalConfig.OItem_Token_LogState_Information.GUID)
-            {
-                
-                objDLG_Attribute_String.ShowDialog(objFrm_Parent);
-                if (objDLG_Attribute_String.DialogResult == DialogResult.OK)
+                objOItem_LogEntry = objLogManagement.OItem_LogEntry;
+                var objORel_ProcessLogIncident_To_LogEntry_belongingDone = objDataWork_Ticket.Rel_ProcessLog_To_LogEntry(OItem_Node, objOItem_LogEntry, objLocalConfig.OItem_RelationType_belonging_Done);
+                objOItem_Result = objTransaction_ProcessIncident.do_Transaction(objORel_ProcessLogIncident_To_LogEntry_belongingDone);
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    strMessage = objDLG_Attribute_String.Value;
-                    objOItem_Result = objLogManagement.log_Entry(DateTime.Now, OItem_LogState, objLocalConfig.OItem_User, strMessage);
+                    var objORel_ProcessLogIncident_To_LogEntry_LastDone =
+                        objRelationConfig.Rel_ObjectRelation(OItem_Node, objOItem_LogEntry,
+                                                             objLocalConfig.OItem_RelationType_Last_Done);
+
+                    objOItem_Result =
+                        objTransaction_ProcessIncident.do_Transaction(objORel_ProcessLogIncident_To_LogEntry_LastDone,
+                                                                      true);
+
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
-                        objOItem_LogEntry = objLogManagement.OItem_LogEntry;
-                        var objORel_ProcessLogIncident_To_LogEntry = objDataWork_Ticket.Rel_ProcessLog_To_LogEntry(OItem_Node, objOItem_LogEntry, objLocalConfig.OItem_RelationType_belonging_Done);
-                        objOItem_Result = objTransaction_ProcessIncident.do_Transaction(objORel_ProcessLogIncident_To_LogEntry);
+                        var objORel_Ticket_To_ProcessLog_belongingDone = objRelationConfig.Rel_ObjectRelation(OItem_Ticket,
+                                                                                                objOItem_LogEntry,
+                                                                                                objLocalConfig
+                                                                                                    .OItem_RelationType_belonging_Done,true);
+
+                        objOItem_Result = objTransaction_ProcessIncident.do_Transaction(objORel_Ticket_To_ProcessLog_belongingDone, true);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-                        
+                            var objORel_Ticket_To_ProcessLog_LastDone =
+                                objRelationConfig.Rel_ObjectRelation(OItem_Ticket,
+                                                                     objOItem_LogEntry,
+                                                                     objLocalConfig.OItem_RelationType_Last_Done, true);
+
+                            objOItem_Result =
+                                objTransaction_ProcessIncident.do_Transaction(objORel_Ticket_To_ProcessLog_LastDone,
+                                                                              true);
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            {
+                                if (OItem_LogState.GUID == objLocalConfig.OItem_Token_LogState_Obsolete.GUID)
+                                {
+                                    var objORel_ProcessLogIncident_To_LogEntry_finishedWith =
+                                        objRelationConfig.Rel_ObjectRelation(OItem_Node,
+                                                                             objOItem_LogEntry,
+                                                                             objLocalConfig
+                                                                                 .OItem_RelationType_finished_with);
+
+                                    objOItem_Result =
+                                        objTransaction_ProcessIncident.do_Transaction(
+                                            objORel_ProcessLogIncident_To_LogEntry_finishedWith,true);
+
+                                    
+                                }
+                            }
                         }    
                     }
                     
-                }
+                }    
             }
-            else if (OItem_LogState.GUID == objLocalConfig.OItem_Token_LogState_Obsolete.GUID)
-            {
-
-            }
-            else if (OItem_LogState.GUID == objLocalConfig.OItem_Token_Logstate_Start.GUID)
-            {
-
-            }
-            objOItem_Result = objLocalConfig.Globals.LState_Success;
+                               
             return objOItem_Result;
         }
 

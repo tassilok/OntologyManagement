@@ -378,6 +378,7 @@
             this.TextBox_Description_Ticket.Multiline = true;
             this.TextBox_Description_Ticket.Name = "TextBox_Description_Ticket";
             this.TextBox_Description_Ticket.ReadOnly = true;
+            this.TextBox_Description_Ticket.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TextBox_Description_Ticket.Size = new System.Drawing.Size(567, 70);
             this.TextBox_Description_Ticket.TabIndex = 1;
             this.TextBox_Description_Ticket.TextChanged += new System.EventHandler(this.TextBox_Description_Ticket_TextChanged_1);
@@ -420,6 +421,7 @@
             this.TextBox_Description_Process.Multiline = true;
             this.TextBox_Description_Process.Name = "TextBox_Description_Process";
             this.TextBox_Description_Process.ReadOnly = true;
+            this.TextBox_Description_Process.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TextBox_Description_Process.Size = new System.Drawing.Size(290, 81);
             this.TextBox_Description_Process.TabIndex = 1;
             this.TextBox_Description_Process.TextChanged += new System.EventHandler(this.TextBox_Description_Process_TextChanged);
@@ -442,6 +444,7 @@
             this.TextBox_Description_ProcessLog.Multiline = true;
             this.TextBox_Description_ProcessLog.Name = "TextBox_Description_ProcessLog";
             this.TextBox_Description_ProcessLog.ReadOnly = true;
+            this.TextBox_Description_ProcessLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TextBox_Description_ProcessLog.Size = new System.Drawing.Size(261, 81);
             this.TextBox_Description_ProcessLog.TabIndex = 1;
             this.TextBox_Description_ProcessLog.TextChanged += new System.EventHandler(this.TextBox_Description_ProcessLog_TextChanged);
@@ -496,7 +499,7 @@
             this.TabPage_Images.Location = new System.Drawing.Point(4, 22);
             this.TabPage_Images.Name = "TabPage_Images";
             this.TabPage_Images.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_Images.Size = new System.Drawing.Size(564, 188);
+            this.TabPage_Images.Size = new System.Drawing.Size(564, 176);
             this.TabPage_Images.TabIndex = 1;
             this.TabPage_Images.Text = "x_Images";
             this.TabPage_Images.UseVisualStyleBackColor = true;
@@ -509,7 +512,7 @@
             this.tabControl2.Location = new System.Drawing.Point(3, 3);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(558, 182);
+            this.tabControl2.Size = new System.Drawing.Size(558, 170);
             this.tabControl2.TabIndex = 0;
             // 
             // TabPage_Process_Images
@@ -517,7 +520,7 @@
             this.TabPage_Process_Images.Location = new System.Drawing.Point(4, 22);
             this.TabPage_Process_Images.Name = "TabPage_Process_Images";
             this.TabPage_Process_Images.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_Process_Images.Size = new System.Drawing.Size(550, 156);
+            this.TabPage_Process_Images.Size = new System.Drawing.Size(550, 144);
             this.TabPage_Process_Images.TabIndex = 0;
             this.TabPage_Process_Images.Text = "x_Process";
             this.TabPage_Process_Images.UseVisualStyleBackColor = true;
@@ -527,7 +530,7 @@
             this.TabPage_ProcessLog_Images.Location = new System.Drawing.Point(4, 22);
             this.TabPage_ProcessLog_Images.Name = "TabPage_ProcessLog_Images";
             this.TabPage_ProcessLog_Images.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_ProcessLog_Images.Size = new System.Drawing.Size(550, 156);
+            this.TabPage_ProcessLog_Images.Size = new System.Drawing.Size(550, 144);
             this.TabPage_ProcessLog_Images.TabIndex = 1;
             this.TabPage_ProcessLog_Images.Text = "x_Process-Log";
             this.TabPage_ProcessLog_Images.UseVisualStyleBackColor = true;
@@ -538,7 +541,7 @@
             this.TabPage_MediaItems.Location = new System.Drawing.Point(4, 22);
             this.TabPage_MediaItems.Name = "TabPage_MediaItems";
             this.TabPage_MediaItems.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_MediaItems.Size = new System.Drawing.Size(564, 188);
+            this.TabPage_MediaItems.Size = new System.Drawing.Size(564, 176);
             this.TabPage_MediaItems.TabIndex = 2;
             this.TabPage_MediaItems.Text = "x_Media-Items";
             this.TabPage_MediaItems.UseVisualStyleBackColor = true;
@@ -551,7 +554,7 @@
             this.tabControl3.Location = new System.Drawing.Point(3, 3);
             this.tabControl3.Name = "tabControl3";
             this.tabControl3.SelectedIndex = 0;
-            this.tabControl3.Size = new System.Drawing.Size(558, 182);
+            this.tabControl3.Size = new System.Drawing.Size(558, 170);
             this.tabControl3.TabIndex = 0;
             // 
             // TabPage_ProcessMediaItem
@@ -559,7 +562,7 @@
             this.TabPage_ProcessMediaItem.Location = new System.Drawing.Point(4, 22);
             this.TabPage_ProcessMediaItem.Name = "TabPage_ProcessMediaItem";
             this.TabPage_ProcessMediaItem.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_ProcessMediaItem.Size = new System.Drawing.Size(550, 156);
+            this.TabPage_ProcessMediaItem.Size = new System.Drawing.Size(550, 144);
             this.TabPage_ProcessMediaItem.TabIndex = 0;
             this.TabPage_ProcessMediaItem.Text = "x_Process";
             this.TabPage_ProcessMediaItem.UseVisualStyleBackColor = true;
@@ -569,7 +572,7 @@
             this.TabPage_ProcessLog_MediaItem.Location = new System.Drawing.Point(4, 22);
             this.TabPage_ProcessLog_MediaItem.Name = "TabPage_ProcessLog_MediaItem";
             this.TabPage_ProcessLog_MediaItem.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_ProcessLog_MediaItem.Size = new System.Drawing.Size(550, 156);
+            this.TabPage_ProcessLog_MediaItem.Size = new System.Drawing.Size(550, 144);
             this.TabPage_ProcessLog_MediaItem.TabIndex = 1;
             this.TabPage_ProcessLog_MediaItem.Text = "x_Process_Log";
             this.TabPage_ProcessLog_MediaItem.UseVisualStyleBackColor = true;
@@ -580,7 +583,7 @@
             this.TabPage_PDF.Location = new System.Drawing.Point(4, 22);
             this.TabPage_PDF.Name = "TabPage_PDF";
             this.TabPage_PDF.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_PDF.Size = new System.Drawing.Size(564, 188);
+            this.TabPage_PDF.Size = new System.Drawing.Size(564, 176);
             this.TabPage_PDF.TabIndex = 3;
             this.TabPage_PDF.Text = "x_PDF";
             this.TabPage_PDF.UseVisualStyleBackColor = true;
@@ -593,7 +596,7 @@
             this.tabControl4.Location = new System.Drawing.Point(3, 3);
             this.tabControl4.Name = "tabControl4";
             this.tabControl4.SelectedIndex = 0;
-            this.tabControl4.Size = new System.Drawing.Size(558, 182);
+            this.tabControl4.Size = new System.Drawing.Size(558, 170);
             this.tabControl4.TabIndex = 0;
             // 
             // TabPage_Process_PDF
@@ -601,7 +604,7 @@
             this.TabPage_Process_PDF.Location = new System.Drawing.Point(4, 22);
             this.TabPage_Process_PDF.Name = "TabPage_Process_PDF";
             this.TabPage_Process_PDF.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_Process_PDF.Size = new System.Drawing.Size(550, 156);
+            this.TabPage_Process_PDF.Size = new System.Drawing.Size(550, 144);
             this.TabPage_Process_PDF.TabIndex = 0;
             this.TabPage_Process_PDF.Text = "x_Process";
             this.TabPage_Process_PDF.UseVisualStyleBackColor = true;
@@ -611,7 +614,7 @@
             this.TabPage_PDF_ProcessLog.Location = new System.Drawing.Point(4, 22);
             this.TabPage_PDF_ProcessLog.Name = "TabPage_PDF_ProcessLog";
             this.TabPage_PDF_ProcessLog.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_PDF_ProcessLog.Size = new System.Drawing.Size(550, 156);
+            this.TabPage_PDF_ProcessLog.Size = new System.Drawing.Size(550, 144);
             this.TabPage_PDF_ProcessLog.TabIndex = 1;
             this.TabPage_PDF_ProcessLog.Text = "x_Process-Log";
             this.TabPage_PDF_ProcessLog.UseVisualStyleBackColor = true;
@@ -808,7 +811,7 @@
             // infoToolStripMenuItem
             // 
             this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
-            this.infoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
             this.infoToolStripMenuItem.Text = "&Info";
             this.infoToolStripMenuItem.Click += new System.EventHandler(this.infoToolStripMenuItem_Click);
             // 

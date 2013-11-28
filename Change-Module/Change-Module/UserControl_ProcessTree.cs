@@ -15,6 +15,7 @@ namespace Change_Module
 
     public delegate void ChangedEventHandler(object sender, EventArgs e);
     public delegate void SelectEventHandler(clsOntologyItem objOItem_Selected);
+    public delegate void AddLogEntry();
    
 
     public partial class UserControl_ProcessTree : UserControl
@@ -34,6 +35,7 @@ namespace Change_Module
         private clsOntologyItem objOItem_Selected;
 
         private frm_ObjectEdit objFrmObjectEdit;
+        private dlg_Attribute_String objDlgAttributeString;
 
         private clsLogManagement objLogManagement;
 
@@ -43,6 +45,7 @@ namespace Change_Module
 
         public event ChangedEventHandler CloseApplication;
         public event SelectEventHandler SelectItem;
+        public event AddLogEntry addLogEntry;
 
         public UserControl_ProcessTree(clsLocalConfig LocalConfig, clsDataWork_Ticket DataWork_Ticket)
         {
@@ -117,16 +120,23 @@ namespace Change_Module
                     {
                         boolPCChange_Process = true;
                         objOItem_Result = objDataWork_Ticket.GetSubProcesses(objTreeNode_Found, objOItem_Process.GUID, objOItem_Ticket);
-                        boolPCChange_Process = false;
+                        
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-
+                            var objOItem_State = objDataWork_Ticket.GetLogState_Node(objTreeNode_Found);
+                            if (objOItem_State.GUID == objLocalConfig.OItem_Token_LogState_Obsolete.GUID)
+                            {
+                                objTreeNode_Found.Checked = true;
+                                objTreeNode_Found.ForeColor = Color.White;
+                                objTreeNode_Found.BackColor = Color.LightGray;
+                            }
                         }
                         else
                         {
                             MessageBox.Show("Beim Auslesen des Prozessbaums ist ein Fehler aufgetreten. Die Anwendung wird geschlossen!", "Fehler", MessageBoxButtons.OK);
                             CloseApplication(this, EventArgs.Empty);
-                        }    
+                        }
+                        boolPCChange_Process = false;
                     }
                     else
                     {
@@ -606,6 +616,49 @@ namespace Change_Module
 
         private void ObsoleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var objTreeNode = treeView_ProcessTree.SelectedNode;
+
+            if (objTreeNode != null)
+            {
+                var objOItem_LogState = objDataWork_Ticket.GetLogState_Node(objTreeNode);
+                if (objOItem_LogState.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
+                {
+                    objDlgAttributeString = new dlg_Attribute_String("Obsolete Log", objLocalConfig.Globals);
+                    objDlgAttributeString.ShowDialog(this);
+                    if (objDlgAttributeString.DialogResult == DialogResult.OK)
+                    {
+                        var objOItem_Item = objDataWork_Ticket.GetOItemOfNode(objTreeNode);
+                        if (objOItem_Item != null)
+                        {
+                            var objOItem_Result = objProcess_LogWork.Log(objOItem_Item, objOItem_Ticket, objLocalConfig.OItem_Token_LogState_Obsolete, objDlgAttributeString.Value);
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            {
+                                objTreeNode_Selected.ForeColor = Color.White;
+                                objTreeNode_Selected.BackColor = Color.LightGray;
+                                boolPCChange_Process = true;
+                                objTreeNode_Selected.Checked = true;
+                                boolPCChange_Process = false;
+                                addLogEntry();
+                            }
+                            else
+                            {
+                                MessageBox.Show(this, "Logentry konnte nicht gesetzt werden!", "LogEntry",
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            }    
+                        }
+                        else
+                        {
+                            MessageBox.Show(this, "Logentry konnte nicht gesetzt werden!", "LogEntry",
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                        
+
+                    }        
+                }
+                
+                
+            }
+            
 
         }
 
