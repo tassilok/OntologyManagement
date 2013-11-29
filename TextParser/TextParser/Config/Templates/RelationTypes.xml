@@ -9,8 +9,12 @@
 <Item Id="4417582dbd6347fbab18770a611917fe" Id_Parent=""><![CDATA[belonging RelationType]]></Item>
 <Item Id="81bbd380e35648a1a4b7fdbaebe7273c" Id_Parent=""><![CDATA[belonging Attribute]]></Item>
 <Item Id="92619f7ecbf342308ca34b7e7e8883f6" Id_Parent=""><![CDATA[belonging Resource]]></Item>
+<Item Id="e07469d9766c443e85266d9c684f944f" Id_Parent=""><![CDATA[belongs to]]></Item>
+<Item Id="d34d545e9ddf46cebb6f22db1b7bb025" Id_Parent=""><![CDATA[belonging Source]]></Item>
 <Item Id="70e0de69d8694ecaa34f06c50236504c" Id_Parent=""><![CDATA[Value]]></Item>
 <Item Id="d6ba58f352904913afa0a5c3bacccaf6" Id_Parent=""><![CDATA[ToDo]]></Item>
+<Item Id="e971160347db44d8a476fe88290639a4" Id_Parent=""><![CDATA[contains]]></Item>
 <Item Id="721ae9855d3e4f85b05b0bc0c6f565d2" Id_Parent=""><![CDATA[Entry]]></Item>
+<Item Id="92a087edcd2e4f5e93b8c42f295be063" Id_Parent=""><![CDATA[located at]]></Item>
 
 </Items>
