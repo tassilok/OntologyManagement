@@ -19,13 +19,26 @@ Public Class clsDataWork_Images
     Public Property ImageObjectLoaded As Boolean
 
 
+    Public Function NoObjects(OItem_Image As clsOntologyItem, OItem_NoObjects As clsOntologyItem) As Boolean
+        Dim objOList_NOObjects = objDBLevel_ImageObjects_LeftRight.OList_ObjectRel.Where(Function(p) p.ID_Other = OItem_NoObjects.GUID).ToList()
+        Dim objOList_ImageObjects = objDBLevel_ImageObjects_LeftRight.OList_ObjectRel.Where(Function(p) p.ID_Other = OItem_Image.GUID Or p.ID_Other = OItem_NoObjects.GUID).ToList()
+        Return (From objImages In objOList_ImageObjects.Where(Function(p) p.ID_Other = OItem_Image.GUID)
+                Join objNoObject In objOList_ImageObjects.Where(Function(p) p.ID_Other = OItem_NoObjects.GUID) On objImages.ID_Object Equals objNoObject.ID_Object
+                Select objImages).Any()
+
+    End Function
+
     Public Function OList_ImageObjects(Optional OItem_Image As clsOntologyItem = Nothing) As List(Of clsObjectRel)
         Dim objOList_ImageObjects As List(Of clsObjectRel)
 
         If OItem_Image Is Nothing Then
             objOList_ImageObjects = objDBLevel_ImageObjects_LeftRight.OList_ObjectRel
         Else
-            objOList_ImageObjects = objDBLevel_ImageObjects_LeftRight.OList_ObjectRel.Where(Function(p) p.ID_Other = OItem_Image.GUID).ToList()
+            Dim objOList_Image = objDBLevel_ImageObjects_LeftRight.OList_ObjectRel.Where(Function(p) p.ID_Other = OItem_Image.GUID).ToList()
+            objOList_ImageObjects = (From objImageObject In objDBLevel_ImageObjects_LeftRight.OList_ObjectRel
+                                         Join objImage In objOList_Image On objImage.ID_Object Equals objImageObject.ID_Object
+                                         Where Not objImageObject.ID_Parent_Other = objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                                         Select objImageObject).ToList
         End If
 
         Return objOList_ImageObjects
@@ -124,9 +137,9 @@ Public Class clsDataWork_Images
                                                               objDate, _
                                                               0)).ToList()
             End If
-            
+
         End If
-        
+
 
         Return objLImages
     End Function
@@ -242,10 +255,10 @@ Public Class clsDataWork_Images
             New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_Image_Objects.GUID, _
                                    .ID_RelationType = objLocalConfig.OItem_RelationType_located_in.GUID}, _
             New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_Image_Objects.GUID, _
-                                   .ID_RelationType = objLocalConfig.OItem_RelationType_is.GUID}
+                                   .ID_RelationType = objLocalConfig.OItem_RelationType_has.GUID}
         }
 
-       
+
         Dim objOItem_Result = objDBLevel_ImageObjects_LeftRight.get_Data_ObjectRel(objOList_Search_LeftRight, _
                                                                                    boolIDs:=False)
 

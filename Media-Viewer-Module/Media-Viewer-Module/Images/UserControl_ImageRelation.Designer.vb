@@ -29,6 +29,8 @@ Partial Class UserControl_ImageRelation
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel_SizeLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_sizeX = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel_sizeY = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel_NameLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Name = New System.Windows.Forms.ToolStripLabel()
@@ -37,6 +39,7 @@ Partial Class UserControl_ImageRelation
         Me.ToolStripLabel_Creation = New System.Windows.Forms.ToolStripLabel()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage_Image = New System.Windows.Forms.TabPage()
+        Me.PictureBox_Image = New System.Windows.Forms.PictureBox()
         Me.TabPage_Persons = New System.Windows.Forms.TabPage()
         Me.TabPage_ImportantEvent = New System.Windows.Forms.TabPage()
         Me.TabPage_Locations = New System.Windows.Forms.TabPage()
@@ -49,31 +52,28 @@ Partial Class UserControl_ImageRelation
         Me.TabPage_ArtWork = New System.Windows.Forms.TabPage()
         Me.TabPage_Others = New System.Windows.Forms.TabPage()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
-        Me.PictureBox_Image = New System.Windows.Forms.PictureBox()
         Me.ToolStripButton_LoadImage = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Copy = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Paste = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripSplitButton_Scale = New System.Windows.Forms.ToolStripSplitButton()
         Me.ToolStripMenuItem_Stretch = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem_Original = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem_Zoom = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_OwnWindow = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_getMeta = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel_sizeY = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout
-        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout
-        Me.ToolStripContainer1.SuspendLayout
-        Me.ToolStrip2.SuspendLayout
-        Me.TabControl1.SuspendLayout
-        Me.TabPage_Image.SuspendLayout
-        Me.ToolStrip1.SuspendLayout
-        CType(Me.PictureBox_Image,System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SuspendLayout
+        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
+        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.SuspendLayout()
+        Me.ToolStrip2.SuspendLayout()
+        Me.TabControl1.SuspendLayout()
+        Me.TabPage_Image.SuspendLayout()
+        CType(Me.PictureBox_Image, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ToolStrip1.SuspendLayout()
+        Me.SuspendLayout()
         '
         'ToolStripContainer1
         '
@@ -103,12 +103,12 @@ Partial Class UserControl_ImageRelation
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Delete, Me.ToolStripSeparator3, Me.ToolStripLabel_SizeLBL, Me.ToolStripLabel_sizeX, Me.ToolStripLabel1, Me.ToolStripLabel_sizeY, Me.ToolStripSeparator6, Me.ToolStripLabel_NameLBL, Me.ToolStripLabel_Name, Me.ToolStripSeparator5, Me.ToolStripLabel_CreationLBL, Me.ToolStripLabel_Creation})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(364, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(333, 25)
         Me.ToolStrip2.TabIndex = 2
         '
         'ToolStripButton_Delete
         '
-        Me.ToolStripButton_Delete.Enabled = false
+        Me.ToolStripButton_Delete.Enabled = False
         Me.ToolStripButton_Delete.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Delete.Name = "ToolStripButton_Delete"
         Me.ToolStripButton_Delete.Size = New System.Drawing.Size(90, 22)
@@ -130,6 +130,18 @@ Partial Class UserControl_ImageRelation
         Me.ToolStripLabel_sizeX.Name = "ToolStripLabel_sizeX"
         Me.ToolStripLabel_sizeX.Size = New System.Drawing.Size(13, 22)
         Me.ToolStripLabel_sizeX.Text = "0"
+        '
+        'ToolStripLabel1
+        '
+        Me.ToolStripLabel1.Name = "ToolStripLabel1"
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(12, 22)
+        Me.ToolStripLabel1.Text = "/"
+        '
+        'ToolStripLabel_sizeY
+        '
+        Me.ToolStripLabel_sizeY.Name = "ToolStripLabel_sizeY"
+        Me.ToolStripLabel_sizeY.Size = New System.Drawing.Size(13, 22)
+        Me.ToolStripLabel_sizeY.Text = "0"
         '
         'ToolStripSeparator6
         '
@@ -181,7 +193,7 @@ Partial Class UserControl_ImageRelation
         Me.TabControl1.Controls.Add(Me.TabPage_Others)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
-        Me.TabControl1.Multiline = true
+        Me.TabControl1.Multiline = True
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(887, 416)
@@ -196,7 +208,17 @@ Partial Class UserControl_ImageRelation
         Me.TabPage_Image.Size = New System.Drawing.Size(879, 390)
         Me.TabPage_Image.TabIndex = 0
         Me.TabPage_Image.Text = "x_Image"
-        Me.TabPage_Image.UseVisualStyleBackColor = true
+        Me.TabPage_Image.UseVisualStyleBackColor = True
+        '
+        'PictureBox_Image
+        '
+        Me.PictureBox_Image.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PictureBox_Image.Location = New System.Drawing.Point(3, 3)
+        Me.PictureBox_Image.Name = "PictureBox_Image"
+        Me.PictureBox_Image.Size = New System.Drawing.Size(873, 384)
+        Me.PictureBox_Image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.PictureBox_Image.TabIndex = 4
+        Me.PictureBox_Image.TabStop = False
         '
         'TabPage_Persons
         '
@@ -206,7 +228,7 @@ Partial Class UserControl_ImageRelation
         Me.TabPage_Persons.Size = New System.Drawing.Size(879, 390)
         Me.TabPage_Persons.TabIndex = 1
         Me.TabPage_Persons.Text = "x_Persons"
-        Me.TabPage_Persons.UseVisualStyleBackColor = true
+        Me.TabPage_Persons.UseVisualStyleBackColor = True
         '
         'TabPage_ImportantEvent
         '
@@ -216,7 +238,7 @@ Partial Class UserControl_ImageRelation
         Me.TabPage_ImportantEvent.Size = New System.Drawing.Size(879, 390)
         Me.TabPage_ImportantEvent.TabIndex = 7
         Me.TabPage_ImportantEvent.Text = "x_Wichtige Ereignisse"
-        Me.TabPage_ImportantEvent.UseVisualStyleBackColor = true
+        Me.TabPage_ImportantEvent.UseVisualStyleBackColor = True
         '
         'TabPage_Locations
         '
@@ -226,7 +248,7 @@ Partial Class UserControl_ImageRelation
         Me.TabPage_Locations.Size = New System.Drawing.Size(879, 390)
         Me.TabPage_Locations.TabIndex = 2
         Me.TabPage_Locations.Text = "x_Orte"
-        Me.TabPage_Locations.UseVisualStyleBackColor = true
+        Me.TabPage_Locations.UseVisualStyleBackColor = True
         '
         'TabPage_Buildings
         '
@@ -236,7 +258,7 @@ Partial Class UserControl_ImageRelation
         Me.TabPage_Buildings.Size = New System.Drawing.Size(879, 390)
         Me.TabPage_Buildings.TabIndex = 4
         Me.TabPage_Buildings.Text = "x_Bauwerke"
-        Me.TabPage_Buildings.UseVisualStyleBackColor = true
+        Me.TabPage_Buildings.UseVisualStyleBackColor = True
         '
         'TabPage_Pets
         '
@@ -245,7 +267,7 @@ Partial Class UserControl_ImageRelation
         Me.TabPage_Pets.Size = New System.Drawing.Size(879, 390)
         Me.TabPage_Pets.TabIndex = 5
         Me.TabPage_Pets.Text = "x_Haustiere"
-        Me.TabPage_Pets.UseVisualStyleBackColor = true
+        Me.TabPage_Pets.UseVisualStyleBackColor = True
         '
         'TabPage_Species
         '
@@ -255,7 +277,7 @@ Partial Class UserControl_ImageRelation
         Me.TabPage_Species.Size = New System.Drawing.Size(879, 390)
         Me.TabPage_Species.TabIndex = 6
         Me.TabPage_Species.Text = "x_Tierarten"
-        Me.TabPage_Species.UseVisualStyleBackColor = true
+        Me.TabPage_Species.UseVisualStyleBackColor = True
         '
         'TabPage_Plants
         '
@@ -265,7 +287,7 @@ Partial Class UserControl_ImageRelation
         Me.TabPage_Plants.Size = New System.Drawing.Size(879, 390)
         Me.TabPage_Plants.TabIndex = 10
         Me.TabPage_Plants.Text = "x_Pflanzenarten"
-        Me.TabPage_Plants.UseVisualStyleBackColor = true
+        Me.TabPage_Plants.UseVisualStyleBackColor = True
         '
         'TabPage_Landscapes
         '
@@ -275,7 +297,7 @@ Partial Class UserControl_ImageRelation
         Me.TabPage_Landscapes.Size = New System.Drawing.Size(879, 390)
         Me.TabPage_Landscapes.TabIndex = 8
         Me.TabPage_Landscapes.Text = "x_Landschaften"
-        Me.TabPage_Landscapes.UseVisualStyleBackColor = true
+        Me.TabPage_Landscapes.UseVisualStyleBackColor = True
         '
         'TabPage_WeatherConditions
         '
@@ -285,7 +307,7 @@ Partial Class UserControl_ImageRelation
         Me.TabPage_WeatherConditions.Size = New System.Drawing.Size(879, 390)
         Me.TabPage_WeatherConditions.TabIndex = 9
         Me.TabPage_WeatherConditions.Text = "x_Wetterlagen"
-        Me.TabPage_WeatherConditions.UseVisualStyleBackColor = true
+        Me.TabPage_WeatherConditions.UseVisualStyleBackColor = True
         '
         'TabPage_ArtWork
         '
@@ -295,7 +317,7 @@ Partial Class UserControl_ImageRelation
         Me.TabPage_ArtWork.Size = New System.Drawing.Size(879, 390)
         Me.TabPage_ArtWork.TabIndex = 11
         Me.TabPage_ArtWork.Text = "x_Kunstwerke"
-        Me.TabPage_ArtWork.UseVisualStyleBackColor = true
+        Me.TabPage_ArtWork.UseVisualStyleBackColor = True
         '
         'TabPage_Others
         '
@@ -305,7 +327,7 @@ Partial Class UserControl_ImageRelation
         Me.TabPage_Others.Size = New System.Drawing.Size(879, 390)
         Me.TabPage_Others.TabIndex = 3
         Me.TabPage_Others.Text = "x_Sonstiges"
-        Me.TabPage_Others.UseVisualStyleBackColor = true
+        Me.TabPage_Others.UseVisualStyleBackColor = True
         '
         'ToolStrip1
         '
@@ -316,35 +338,10 @@ Partial Class UserControl_ImageRelation
         Me.ToolStrip1.Size = New System.Drawing.Size(352, 25)
         Me.ToolStrip1.TabIndex = 2
         '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripSeparator4
-        '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 25)
-        '
-        'PictureBox_Image
-        '
-        Me.PictureBox_Image.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PictureBox_Image.Location = New System.Drawing.Point(3, 3)
-        Me.PictureBox_Image.Name = "PictureBox_Image"
-        Me.PictureBox_Image.Size = New System.Drawing.Size(873, 384)
-        Me.PictureBox_Image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.PictureBox_Image.TabIndex = 4
-        Me.PictureBox_Image.TabStop = false
-        '
         'ToolStripButton_LoadImage
         '
         Me.ToolStripButton_LoadImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_LoadImage.Enabled = false
+        Me.ToolStripButton_LoadImage.Enabled = False
         Me.ToolStripButton_LoadImage.Image = Global.Media_Viewer_Module.My.Resources.Resources.b_plus_with_Folder
         Me.ToolStripButton_LoadImage.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_LoadImage.Name = "ToolStripButton_LoadImage"
@@ -354,7 +351,7 @@ Partial Class UserControl_ImageRelation
         'ToolStripButton_Copy
         '
         Me.ToolStripButton_Copy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Copy.Enabled = false
+        Me.ToolStripButton_Copy.Enabled = False
         Me.ToolStripButton_Copy.Image = Global.Media_Viewer_Module.My.Resources.Resources._1435_ClipBoard
         Me.ToolStripButton_Copy.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Copy.Name = "ToolStripButton_Copy"
@@ -364,19 +361,24 @@ Partial Class UserControl_ImageRelation
         'ToolStripButton_Paste
         '
         Me.ToolStripButton_Paste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Paste.Enabled = false
+        Me.ToolStripButton_Paste.Enabled = False
         Me.ToolStripButton_Paste.Image = Global.Media_Viewer_Module.My.Resources.Resources.Paste
         Me.ToolStripButton_Paste.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Paste.Name = "ToolStripButton_Paste"
         Me.ToolStripButton_Paste.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_Paste.Text = "ToolStripButton2"
         '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
+        '
         'ToolStripSplitButton_Scale
         '
         Me.ToolStripSplitButton_Scale.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.ToolStripSplitButton_Scale.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem_Stretch, Me.ToolStripMenuItem_Original, Me.ToolStripMenuItem_Zoom})
-        Me.ToolStripSplitButton_Scale.Enabled = false
-        Me.ToolStripSplitButton_Scale.Image = CType(resources.GetObject("ToolStripSplitButton_Scale.Image"),System.Drawing.Image)
+        Me.ToolStripSplitButton_Scale.Enabled = False
+        Me.ToolStripSplitButton_Scale.Image = CType(resources.GetObject("ToolStripSplitButton_Scale.Image"), System.Drawing.Image)
         Me.ToolStripSplitButton_Scale.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripSplitButton_Scale.Name = "ToolStripSplitButton_Scale"
         Me.ToolStripSplitButton_Scale.Size = New System.Drawing.Size(60, 22)
@@ -396,67 +398,65 @@ Partial Class UserControl_ImageRelation
         '
         'ToolStripMenuItem_Zoom
         '
-        Me.ToolStripMenuItem_Zoom.Checked = true
+        Me.ToolStripMenuItem_Zoom.Checked = True
         Me.ToolStripMenuItem_Zoom.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ToolStripMenuItem_Zoom.Name = "ToolStripMenuItem_Zoom"
         Me.ToolStripMenuItem_Zoom.Size = New System.Drawing.Size(126, 22)
         Me.ToolStripMenuItem_Zoom.Text = "x_Zoom"
         '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
         'ToolStripButton_OwnWindow
         '
         Me.ToolStripButton_OwnWindow.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_OwnWindow.Enabled = false
-        Me.ToolStripButton_OwnWindow.Image = CType(resources.GetObject("ToolStripButton_OwnWindow.Image"),System.Drawing.Image)
+        Me.ToolStripButton_OwnWindow.Enabled = False
+        Me.ToolStripButton_OwnWindow.Image = CType(resources.GetObject("ToolStripButton_OwnWindow.Image"), System.Drawing.Image)
         Me.ToolStripButton_OwnWindow.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_OwnWindow.Name = "ToolStripButton_OwnWindow"
         Me.ToolStripButton_OwnWindow.Size = New System.Drawing.Size(102, 22)
         Me.ToolStripButton_OwnWindow.Text = "x_Eigenes Fenster"
         '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 25)
+        '
         'ToolStripButton_getMeta
         '
         Me.ToolStripButton_getMeta.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_getMeta.Enabled = false
-        Me.ToolStripButton_getMeta.Image = CType(resources.GetObject("ToolStripButton_getMeta.Image"),System.Drawing.Image)
+        Me.ToolStripButton_getMeta.Enabled = False
+        Me.ToolStripButton_getMeta.Image = CType(resources.GetObject("ToolStripButton_getMeta.Image"), System.Drawing.Image)
         Me.ToolStripButton_getMeta.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_getMeta.Name = "ToolStripButton_getMeta"
         Me.ToolStripButton_getMeta.Size = New System.Drawing.Size(91, 22)
         Me.ToolStripButton_getMeta.Text = "x_get Metadata"
         '
-        'ToolStripLabel1
-        '
-        Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(12, 22)
-        Me.ToolStripLabel1.Text = "/"
-        '
-        'ToolStripLabel_sizeY
-        '
-        Me.ToolStripLabel_sizeY.Name = "ToolStripLabel_sizeY"
-        Me.ToolStripLabel_sizeY.Size = New System.Drawing.Size(13, 22)
-        Me.ToolStripLabel_sizeY.Text = "0"
-        '
         'UserControl_ImageRelation
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "UserControl_ImageRelation"
         Me.Size = New System.Drawing.Size(887, 466)
-        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout
-        Me.ToolStripContainer1.ContentPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout
-        Me.ToolStripContainer1.ResumeLayout(false)
-        Me.ToolStripContainer1.PerformLayout
-        Me.ToolStrip2.ResumeLayout(false)
-        Me.ToolStrip2.PerformLayout
-        Me.TabControl1.ResumeLayout(false)
-        Me.TabPage_Image.ResumeLayout(false)
-        Me.TabPage_Image.PerformLayout
-        Me.ToolStrip1.ResumeLayout(false)
-        Me.ToolStrip1.PerformLayout
-        CType(Me.PictureBox_Image,System.ComponentModel.ISupportInitialize).EndInit
-        Me.ResumeLayout(false)
+        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.ResumeLayout(False)
+        Me.ToolStripContainer1.PerformLayout()
+        Me.ToolStrip2.ResumeLayout(False)
+        Me.ToolStrip2.PerformLayout()
+        Me.TabControl1.ResumeLayout(False)
+        Me.TabPage_Image.ResumeLayout(False)
+        Me.TabPage_Image.PerformLayout()
+        CType(Me.PictureBox_Image, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ToolStrip1.ResumeLayout(False)
+        Me.ToolStrip1.PerformLayout()
+        Me.ResumeLayout(False)
 
 End Sub
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer

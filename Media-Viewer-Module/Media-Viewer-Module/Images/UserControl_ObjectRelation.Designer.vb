@@ -26,9 +26,9 @@ Partial Class UserControl_ObjectRelation
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.DataGridView_RelatedOfImage = New System.Windows.Forms.DataGridView()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton_ToList = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_NoObjects = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_FromList = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_ToList = New System.Windows.Forms.ToolStripButton()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -89,41 +89,41 @@ Partial Class UserControl_ObjectRelation
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton1, Me.ToolStripButton_ToList, Me.ToolStripButton_FromList})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_NoObjects, Me.ToolStripButton_FromList, Me.ToolStripButton_ToList})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 3)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(24, 80)
         Me.ToolStrip1.TabIndex = 0
         '
-        'ToolStripButton_ToList
+        'ToolStripButton_NoObjects
         '
-        Me.ToolStripButton_ToList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_ToList.Enabled = False
-        Me.ToolStripButton_ToList.Image = Global.Media_Viewer_Module.My.Resources.Resources.pulsante_02_architetto_f_01
-        Me.ToolStripButton_ToList.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_ToList.Name = "ToolStripButton_ToList"
-        Me.ToolStripButton_ToList.Size = New System.Drawing.Size(22, 20)
-        Me.ToolStripButton_ToList.Text = "ToolStripButton1"
+        Me.ToolStripButton_NoObjects.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_NoObjects.Enabled = False
+        Me.ToolStripButton_NoObjects.Image = Global.Media_Viewer_Module.My.Resources.Resources.tasto_8_architetto_franc_01
+        Me.ToolStripButton_NoObjects.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_NoObjects.Name = "ToolStripButton_NoObjects"
+        Me.ToolStripButton_NoObjects.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButton_NoObjects.Text = "ToolStripButton1"
         '
         'ToolStripButton_FromList
         '
         Me.ToolStripButton_FromList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.ToolStripButton_FromList.Enabled = False
-        Me.ToolStripButton_FromList.Image = Global.Media_Viewer_Module.My.Resources.Resources.pulsante_01_architetto_f_01
+        Me.ToolStripButton_FromList.Image = Global.Media_Viewer_Module.My.Resources.Resources.pulsante_02_architetto_f_01
         Me.ToolStripButton_FromList.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_FromList.Name = "ToolStripButton_FromList"
-        Me.ToolStripButton_FromList.Size = New System.Drawing.Size(22, 20)
-        Me.ToolStripButton_FromList.Text = "ToolStripButton2"
+        Me.ToolStripButton_FromList.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButton_FromList.Text = "ToolStripButton1"
         '
-        'ToolStripButton1
+        'ToolStripButton_ToList
         '
-        Me.ToolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton1.Enabled = False
-        Me.ToolStripButton1.Image = Global.Media_Viewer_Module.My.Resources.Resources.tasto_8_architetto_franc_01
-        Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton1.Name = "ToolStripButton1"
-        Me.ToolStripButton1.Size = New System.Drawing.Size(22, 20)
-        Me.ToolStripButton1.Text = "ToolStripButton1"
+        Me.ToolStripButton_ToList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_ToList.Enabled = False
+        Me.ToolStripButton_ToList.Image = Global.Media_Viewer_Module.My.Resources.Resources.pulsante_01_architetto_f_01
+        Me.ToolStripButton_ToList.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_ToList.Name = "ToolStripButton_ToList"
+        Me.ToolStripButton_ToList.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButton_ToList.Text = "ToolStripButton2"
         '
         'UserControl_ObjectRelation
         '
@@ -150,8 +150,8 @@ Partial Class UserControl_ObjectRelation
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
     Friend WithEvents DataGridView_RelatedOfImage As System.Windows.Forms.DataGridView
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
-    Friend WithEvents ToolStripButton_ToList As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripButton_FromList As System.Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripButton1 As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripButton_ToList As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripButton_NoObjects As System.Windows.Forms.ToolStripButton
 
 End Class

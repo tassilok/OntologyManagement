@@ -10,6 +10,8 @@ Public Class UserControl_ImageRelation
     Private objImage As Bitmap
     Private objOItem_Image As clsOntologyItem
 
+    Private WithEvents objUserControl_ObjectRelation As UserControl_ObjectRelation
+
     Private objDict As Dictionary(Of String, String)
 
     Public Sub New(LocalConfig As clsLocalConfig, DataWork_Image As clsDataWork_Images)
@@ -27,6 +29,11 @@ Public Class UserControl_ImageRelation
         objDict = New Dictionary(Of String, String)
         objFileWork = New clsFileWork(objLocalConfig.Globals)
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
+
+        objUserControl_ObjectRelation = New UserControl_ObjectRelation(objLocalConfig, objDataWork_Images)
+        objUserControl_ObjectRelation.Dock = DockStyle.Fill
+
+
 
         objDict.Add(TabPage_ArtWork.Name, TabPage_ArtWork.Text)
         objDict.Add(TabPage_Buildings.Name, TabPage_Buildings.Text)
@@ -46,7 +53,8 @@ Public Class UserControl_ImageRelation
         ClearControls()
         objImage = Nothing
         Dim strPathFile As String = ""
-        If Not OItem_Image Is Nothing Then
+        Configure_TabControl()
+        If Not objOItem_Image Is Nothing Then
             Dim objOList_MediaItems = objDataWork_Images.get_Image(objOItem_Image)
             If objOList_MediaItems.Any() Then
                 Dim objOItem_File = New clsOntologyItem With {.GUID = objOList_MediaItems.First().ID_File, _
@@ -95,16 +103,16 @@ Public Class UserControl_ImageRelation
         Dim objOList_Wetterlagen = GetListOfObjectClass(objLocalConfig.OItem_Type_Wetterlage)
         Dim objOList_Kunstwerke = GetListOfObjectClass(objLocalConfig.OItem_Type_Kunst)
 
-        TabPage_ArtWork.Text = objDict(TabPage_ArtWork.Name) & " (" & objOList_Kunstwerke.Count & ")"
-        TabPage_Buildings.Text = objDict(TabPage_Buildings.Name) & " (" & objOList_Bauwerke.Count & ")"
+        TabPage_ArtWork.Text = objDict(TabPage_ArtWork.Name) & " (" & If(objDataWork_Images.NoObjects(objOItem_Image, objLocalConfig.OItem_Token_Image_Objects__No_Objects__no_Artwork), "x", objOList_Kunstwerke.Count) & " / " & ")"
+        TabPage_Buildings.Text = objDict(TabPage_Buildings.Name) & " (" & If(objDataWork_Images.NoObjects(objOItem_Image, objLocalConfig.OItem_Token_Image_Objects__No_Objects__no_Buildings), "x", objOList_Bauwerke.Count) & ")"
         TabPage_ImportantEvent.Text = objDict(TabPage_ImportantEvent.Name) & " (" & objOList_WichtigeEreignisse.Count & ")"
-        TabPage_Landscapes.Text = objDict(TabPage_Landscapes.Name) & " (" & objOList_Landschaften.Count & ")"
-        TabPage_Locations.Text = objDict(TabPage_Locations.Name) & " (" & objOList_Orte.Count & ")"
-        TabPage_Persons.Text = objDict(TabPage_Persons.Name) & " (" & objOList_Partner.Count & ")"
-        TabPage_Pets.Text = objDict(TabPage_Pets.Name) & " (" & objOList_Haustiere.Count & ")"
-        TabPage_Plants.Text = objDict(TabPage_Plants.Name) & " (" & objOList_Pflanzenarten.Count & ")"
-        TabPage_Species.Text = objDict(TabPage_Species.Name) & " (" & objOList_Tierarten.Count & ")"
-        TabPage_WeatherConditions.Text = objDict(TabPage_WeatherConditions.Name) & " (" & objOList_Wetterlagen.Count & ")"
+        TabPage_Landscapes.Text = objDict(TabPage_Landscapes.Name) & " (" & If(objDataWork_Images.NoObjects(objOItem_Image, objLocalConfig.OItem_Token_Image_Objects__No_Objects__no_landscape), "x", objOList_Landschaften.Count) & ")"
+        TabPage_Locations.Text = objDict(TabPage_Locations.Name) & " (" & If(objDataWork_Images.NoObjects(objOItem_Image, objLocalConfig.OItem_Token_Image_Objects__No_Objects__no_Location), "x", objOList_Orte.Count) & ")"
+        TabPage_Persons.Text = objDict(TabPage_Persons.Name) & " (" & If(objDataWork_Images.NoObjects(objOItem_Image, objLocalConfig.OItem_Token_Image_Objects__No_Objects__no_Persons), "x", objOList_Partner.Count) & ")"
+        TabPage_Pets.Text = objDict(TabPage_Pets.Name) & " (" & If(objDataWork_Images.NoObjects(objOItem_Image, objLocalConfig.OItem_Token_Image_Objects__No_Objects__no_Pets), "x", objOList_Haustiere.Count) & ")"
+        TabPage_Plants.Text = objDict(TabPage_Plants.Name) & " (" & If(objDataWork_Images.NoObjects(objOItem_Image, objLocalConfig.OItem_Token_Image_Objects__No_Objects__no_plant_Species), "x", objOList_Pflanzenarten.Count) & ")"
+        TabPage_Species.Text = objDict(TabPage_Species.Name) & " (" & If(objDataWork_Images.NoObjects(objOItem_Image, objLocalConfig.OItem_Token_Image_Objects__No_Objects__no_species), "x", objOList_Tierarten.Count) & ")"
+        TabPage_WeatherConditions.Text = objDict(TabPage_WeatherConditions.Name) & " (" & If(objDataWork_Images.NoObjects(objOItem_Image, objLocalConfig.OItem_Token_Image_Objects__No_Objects__weather_condition), "x", objOList_Wetterlagen.Count) & ")"
     End Sub
 
     Private Function GetListOfObjectClass(OItem_Class As clsOntologyItem) As List(Of clsObjectRel)
@@ -191,5 +199,59 @@ Public Class UserControl_ImageRelation
         ToolStripButton_LoadImage.Enabled = False
         ToolStripButton_OwnWindow.Enabled = False
         ToolStripButton_Paste.Enabled = False
+    End Sub
+
+    Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
+        Configure_TabControl()
+    End Sub
+
+    Private Sub Configure_TabControl()
+        TabPage_ArtWork.Controls.Clear()
+        TabPage_Buildings.Controls.Clear()
+        TabPage_ImportantEvent.Controls.Clear()
+        TabPage_Landscapes.Controls.Clear()
+        TabPage_Locations.Controls.Clear()
+        TabPage_Others.Controls.Clear()
+        TabPage_Persons.Controls.Clear()
+        TabPage_Pets.Controls.Clear()
+        TabPage_Plants.Controls.Clear()
+        TabPage_Species.Controls.Clear()
+        TabPage_WeatherConditions.Controls.Clear()
+
+        Select Case TabControl1.SelectedTab.Name
+            Case TabPage_ArtWork.Name
+                TabPage_ArtWork.Controls.Add(objUserControl_ObjectRelation)
+                objUserControl_ObjectRelation.Initialize_Objects(objOItem_Image, objLocalConfig.OItem_Type_Kunst, objLocalConfig.OItem_Token_Image_Objects__No_Objects__no_Artwork)
+            Case TabPage_Buildings.Name
+                TabPage_Buildings.Controls.Add(objUserControl_ObjectRelation)
+                objUserControl_ObjectRelation.Initialize_Objects(objOItem_Image, objLocalConfig.OItem_Type_Bauwerke, objLocalConfig.OItem_Token_Image_Objects__No_Objects__no_Buildings)
+            Case TabPage_ImportantEvent.Name
+                TabPage_ImportantEvent.Controls.Add(objUserControl_ObjectRelation)
+
+            Case TabPage_Landscapes.Name
+                TabPage_Landscapes.Controls.Add(objUserControl_ObjectRelation)
+                objUserControl_ObjectRelation.Initialize_Objects(objOItem_Image, objLocalConfig.OItem_Type_landscape, objLocalConfig.OItem_Token_Image_Objects__No_Objects__no_landscape)
+            Case TabPage_Locations.Name
+                TabPage_Locations.Controls.Add(objUserControl_ObjectRelation)
+                objUserControl_ObjectRelation.Initialize_Objects(objOItem_Image, objLocalConfig.OItem_Type_Ort, objLocalConfig.OItem_Token_Image_Objects__No_Objects__no_Location)
+            Case TabPage_Others.Name
+                TabPage_Others.Controls.Add(objUserControl_ObjectRelation)
+
+            Case TabPage_Persons.Name
+                TabPage_Persons.Controls.Add(objUserControl_ObjectRelation)
+                objUserControl_ObjectRelation.Initialize_Objects(objOItem_Image, objLocalConfig.OItem_Type_Partner, objLocalConfig.OItem_Token_Image_Objects__No_Objects__no_Persons)
+            Case TabPage_Pets.Name
+                TabPage_Pets.Controls.Add(objUserControl_ObjectRelation)
+                objUserControl_ObjectRelation.Initialize_Objects(objOItem_Image, objLocalConfig.OItem_Type_Haustier, objLocalConfig.OItem_Token_Image_Objects__No_Objects__no_Pets)
+            Case TabPage_Plants.Name
+                TabPage_Plants.Controls.Add(objUserControl_ObjectRelation)
+                objUserControl_ObjectRelation.Initialize_Objects(objOItem_Image, objLocalConfig.OItem_Type_Pflanzenarten, objLocalConfig.OItem_Token_Image_Objects__No_Objects__no_plant_Species)
+            Case TabPage_Species.Name
+                TabPage_Species.Controls.Add(objUserControl_ObjectRelation)
+                objUserControl_ObjectRelation.Initialize_Objects(objOItem_Image, objLocalConfig.OItem_Type_Tierarten, objLocalConfig.OItem_Token_Image_Objects__No_Objects__no_species)
+            Case TabPage_WeatherConditions.Name
+                TabPage_WeatherConditions.Controls.Add(objUserControl_ObjectRelation)
+                objUserControl_ObjectRelation.Initialize_Objects(objOItem_Image, objLocalConfig.OItem_Type_Wetterlage, objLocalConfig.OItem_Token_Image_Objects__No_Objects__weather_condition)
+        End Select
     End Sub
 End Class

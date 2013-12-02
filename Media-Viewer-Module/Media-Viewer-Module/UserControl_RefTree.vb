@@ -368,22 +368,41 @@ Public Class UserControl_RefTree
     End Sub
 
     Private Sub SearchNodes(strSearch As String, Optional objTreeNode As TreeNode = Nothing)
+       
         If objTreeNode Is Nothing Then
             For Each objTreeNode_Sub As TreeNode In TreeView_Ref.Nodes
-                If objTreeNode_Sub.Text.ToLower.Contains(strSearch) Then
-                    ToggleMarkOfNode(objTreeNode_Sub, True)
-                    ExpandParents(objTreeNode_Sub)
+                If objLocalConfig.Globals.is_GUID(strSearch) Then
+                    If objTreeNode_Sub.Name.ToLower.Contains(strSearch) Then
+                        ToggleMarkOfNode(objTreeNode_Sub, True)
+                        ExpandParents(objTreeNode_Sub)
 
+                    End If
+                Else
+                    If objTreeNode_Sub.Text.ToLower.Contains(strSearch) Then
+                        ToggleMarkOfNode(objTreeNode_Sub, True)
+                        ExpandParents(objTreeNode_Sub)
+
+                    End If
                 End If
+               
                 SearchNodes(strSearch, objTreeNode_Sub)
             Next
         Else
             For Each objTreeNode_Sub As TreeNode In objTreeNode.Nodes
-                If objTreeNode_Sub.Text.ToLower.Contains(strSearch) Then
-                    ToggleMarkOfNode(objTreeNode_Sub, True)
-                    ExpandParents(objTreeNode_Sub)
+                If objLocalConfig.Globals.is_GUID(strSearch) Then
+                    If objTreeNode_Sub.Name.ToLower.Contains(strSearch) Then
+                        ToggleMarkOfNode(objTreeNode_Sub, True)
+                        ExpandParents(objTreeNode_Sub)
 
+                    End If
+                Else
+                    If objTreeNode_Sub.Text.ToLower.Contains(strSearch) Then
+                        ToggleMarkOfNode(objTreeNode_Sub, True)
+                        ExpandParents(objTreeNode_Sub)
+
+                    End If
                 End If
+                
                 SearchNodes(strSearch, objTreeNode_Sub)
             Next
         End If
