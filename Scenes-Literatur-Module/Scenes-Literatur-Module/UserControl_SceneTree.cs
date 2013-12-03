@@ -25,6 +25,7 @@ namespace Scenes_Literatur_Module
 
         private TreeNode objTreeNode_Root;
 
+        private clsOntologyClipboard objOntologyClipboard;
 
         private clsDocumentation objDocumentumentation;
         private clsDataWork_Documents objDataWork_Documents;
@@ -59,6 +60,7 @@ namespace Scenes_Literatur_Module
             objTreeNode_Root = treeView_SceneTree.Nodes.Add(objLocalConfig.OItem_type_szene.GUID, objLocalConfig.OItem_type_szene.Name, objLocalConfig.ImageID_Root, objLocalConfig.ImageID_Root);
             objDataWork_Documents = new clsDataWork_Documents(objLocalConfig.Globals);
             objDocumentumentation = new clsDocumentation(objLocalConfig.Globals);
+            objOntologyClipboard = new clsOntologyClipboard(objLocalConfig.Globals);
             addLiteratureNodes();
         }
 
@@ -154,12 +156,17 @@ namespace Scenes_Literatur_Module
             applyToolStripMenuItem.Enabled = false;
             openBelongingDocToolStripMenuItem.Enabled = false;
             insertBookmarkToolStripMenuItem.Enabled = false;
-            activateBookmarkToolStripMenuItem.Enabled = false;  
+            activateBookmarkToolStripMenuItem.Enabled = false;
+            toOntologyClipboardToolStripMenuItem.Enabled = false;
 
             objTreeNode_Selected = treeView_SceneTree.SelectedNode;
 
             if (objTreeNode_Selected != null)
             {
+                if (objTreeNode_Selected.ImageIndex != objLocalConfig.ImageID_Root)
+                {
+                    toOntologyClipboardToolStripMenuItem.Enabled = true;
+                }
                 if (objTreeNode_Selected.ImageIndex == objLocalConfig.ImageiD_Level2Rel_Close)
                 {
                     newToolStripMenuItem.Enabled = true;
@@ -312,6 +319,45 @@ namespace Scenes_Literatur_Module
 
             var objOItem_Result = objDocumentumentation.insert_Bookmark(objLocalConfig.DataWork_Scenes.OItem_Scene_Last);
 
+
+        }
+
+        private void toOntologyClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var objTreeNode = treeView_SceneTree.SelectedNode;
+
+            if (objTreeNode.ImageIndex != objLocalConfig.ImageID_Root)
+            {
+                var objOItem_Item = new clsOntologyItem
+                {
+                    GUID = objTreeNode.Name,
+                    Name = objTreeNode.Text,
+                    Type = objLocalConfig.Globals.Type_Object
+                };
+
+                if (objTreeNode.ImageIndex == objLocalConfig.ImageID_Level1Rel_Close)
+                {
+                    objOItem_Item.GUID_Parent = objLocalConfig.OItem_type_eigene_literatur.GUID;
+                }
+                else if (objTreeNode.ImageIndex == objLocalConfig.ImageiD_Level2Rel_Close)
+                {
+                    objOItem_Item.GUID_Parent = objLocalConfig.OItem_type_kapitel.GUID;
+                }
+                else if (objTreeNode.ImageIndex == objLocalConfig.ImageID_Scene)
+                {
+                    objOItem_Item.GUID_Parent = objLocalConfig.OItem_type_szene.GUID;
+                }
+                else
+                {
+                    objOItem_Item = null;
+                }
+
+                if (objOItem_Item != null)
+                {
+                    objOntologyClipboard.addToClipboard(objOItem_Item);
+                }
+                
+            }
 
         }
     }

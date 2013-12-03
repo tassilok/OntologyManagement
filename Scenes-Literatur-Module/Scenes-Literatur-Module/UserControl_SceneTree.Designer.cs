@@ -53,6 +53,8 @@
             this.ToolStripButton_ClearSearch = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_GetRel = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Search = new System.Windows.Forms.ToolStripButton();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toOntologyClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -146,10 +148,11 @@
             this.contextMenuStrip_Tree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.removeToolStripMenuItem,
+            this.editToolStripMenuItem,
             this.winwordToolStripMenuItem,
             this.applyToolStripMenuItem});
             this.contextMenuStrip_Tree.Name = "contextMenuStrip_Tree";
-            this.contextMenuStrip_Tree.Size = new System.Drawing.Size(153, 114);
+            this.contextMenuStrip_Tree.Size = new System.Drawing.Size(153, 136);
             this.contextMenuStrip_Tree.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Tree_Opening);
             // 
             // newToolStripMenuItem
@@ -265,6 +268,21 @@
             this.toolStripButton_Search.Size = new System.Drawing.Size(56, 22);
             this.toolStripButton_Search.Text = "x_Search";
             // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toOntologyClipboardToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editToolStripMenuItem.Text = "x_Edit";
+            // 
+            // toOntologyClipboardToolStripMenuItem
+            // 
+            this.toOntologyClipboardToolStripMenuItem.Name = "toOntologyClipboardToolStripMenuItem";
+            this.toOntologyClipboardToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.toOntologyClipboardToolStripMenuItem.Text = "x_To Ontology-Clipboard";
+            this.toOntologyClipboardToolStripMenuItem.Click += new System.EventHandler(this.toOntologyClipboardToolStripMenuItem_Click);
+            // 
             // UserControl_SceneTree
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -313,5 +331,7 @@
         private System.Windows.Forms.ToolStripMenuItem openBelongingDocToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insertBookmarkToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem activateBookmarkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toOntologyClipboardToolStripMenuItem;
     }
 }
