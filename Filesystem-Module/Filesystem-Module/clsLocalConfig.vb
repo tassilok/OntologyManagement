@@ -18,6 +18,8 @@ Public Class clsLocalConfig
     Private objOItem_Attribute_Blob As New clsOntologyItem
     Private objOItem_Attribute_Datetimestamp__Create_ As New clsOntologyItem
     Private objOItem_Attribute_Hash As New clsOntologyItem
+    Private objOItem_attributetype_pattern As New clsOntologyItem
+    Private objOItem_attributetype_subitems As New clsOntologyItem
 
     'RelationTypes
     Private objOItem_RelationType_Fileshare As New clsOntologyItem
@@ -31,7 +33,11 @@ Public Class clsLocalConfig
     Private objOItem_RelationType_located_in As New clsOntologyItem
     Private objOItem_RelationType_is_checkout_by As New clsOntologyItem
     Private objOItem_RelationType_belongingSource As New clsOntologyItem
-
+    Private objOItem_relationtype_belonging_resource As New clsOntologyItem
+    Private objOItem_relationtype_connect_to As New clsOntologyItem
+    Private objOItem_relationtype_authorized_by As New clsOntologyItem
+    Private objOItem_relationtype_secured_by As New clsOntologyItem
+    
     'Token
     Private objOItem_Token_Active_Server_State As New clsOntologyItem
     Private objOItem_Token_Fileserver_Server_Type As New clsOntologyItem
@@ -52,7 +58,12 @@ Public Class clsLocalConfig
     Private objOItem_Type_Database_on_Server As New clsOntologyItem
     Private objOItem_Type_Database As New clsOntologyItem
     Private objOItem_Type_Path As New clsOntologyItem
-
+    Private objOItem_class_fileresource As New clsOntologyItem
+    Private objOItem_class_web_connection As New clsOntologyItem
+    Private objOItem_class_url As New clsOntologyItem
+    Private objOItem_class_user_authentication As New clsOntologyItem
+    Private objOItem_class_user As New clsOntologyItem
+    Private objOItem_class_password As New clsOntologyItem
 
     'Attributes
     Public ReadOnly Property OItem_Attribute_Blob() As clsOntologyItem
@@ -72,6 +83,19 @@ Public Class clsLocalConfig
             Return objOItem_Attribute_Hash
         End Get
     End Property
+
+    Public ReadOnly Property OItem_Attribute_Pattern() As clsOntologyItem
+        Get
+            Return objOItem_attributetype_pattern
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Attribute_SubItems() As clsOntologyItem
+        Get
+            Return objOItem_attributetype_subitems
+        End Get
+    End Property
+
 
     'RelationTypes
     Public ReadOnly Property OItem_RelationType_Fileshare() As clsOntologyItem
@@ -136,6 +160,24 @@ Public Class clsLocalConfig
     Public ReadOnly Property OItem_RelationType_belonging_source() As clsOntologyItem
         Get
             Return objOItem_RelationType_belongingSource
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_RelationType_belonging_Resource() As clsOntologyItem
+        Get
+            Return objOItem_relationtype_belonging_resource
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_RelationType_connect_To() As clsOntologyItem
+        Get
+            Return objOItem_relationtype_connect_to
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_RelationType_secured_by() As clsOntologyItem
+        Get
+            Return objOItem_relationtype_secured_by
         End Get
     End Property
 
@@ -242,6 +284,36 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property OItem_Type_FileResource() As clsOntologyItem
+        Get
+            Return objOItem_class_fileresource
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Type_Web_Connection() As clsOntologyItem
+        Get
+            Return objOItem_class_web_connection
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Type_Url() As clsOntologyItem
+        Get
+            Return objOItem_class_url
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Type_User() As clsOntologyItem
+        Get
+            Return objOItem_class_user
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Type_Password() As clsOntologyItem
+        Get
+            Return objOItem_class_password
+        End Get
+    End Property
+
 
     Public ReadOnly Property OItem_BaseConfig As clsOntologyItem
         Get
@@ -288,7 +360,7 @@ Public Class clsLocalConfig
                 Environment.Exit(0)
             End If
         End Try
-        
+
     End Sub
 
     Private Sub get_BaseConfig()
@@ -325,6 +397,43 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_AttributeTypes()
+
+        Dim objOList_attributetype_subitems = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "attributetype_subitems".ToLower() And objRef.Ontology = Globals.Type_AttributeType
+                                           Select objRef).ToList()
+
+        If objOList_attributetype_subitems.Any() Then
+            objOItem_attributetype_subitems = New clsOntologyItem() _
+                With {
+                    .GUID = objOList_attributetype_subitems.First().ID_Other,
+                    .Name = objOList_attributetype_subitems.First().Name_Other,
+                    .GUID_Parent = objOList_attributetype_subitems.First().ID_Parent_Other,
+                    .Type = Globals.Type_AttributeType
+                }
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_attributetype_pattern = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "attributetype_pattern".ToLower() And objRef.Ontology = Globals.Type_AttributeType
+                                           Select objRef).ToList()
+
+        If objOList_attributetype_pattern.Any() Then
+            objOItem_attributetype_pattern = New clsOntologyItem() _
+                With {
+                    .GUID = objOList_attributetype_pattern.First().ID_Other,
+                    .Name = objOList_attributetype_pattern.First().Name_Other,
+                    .GUID_Parent = objOList_attributetype_pattern.First().ID_Parent_Other,
+                    .Type = Globals.Type_AttributeType
+                }
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objABlob = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
@@ -375,7 +484,77 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_RelationTypes()
+        Dim objOList_relationtype_secured_by = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_secured_by".ToLower() And objRef.Ontology = Globals.Type_RelationType
+                                           Select objRef).ToList()
 
+        If objOList_relationtype_secured_by.Any() Then
+            objOItem_relationtype_secured_by = New clsOntologyItem() _
+                With {
+                    .GUID = objOList_relationtype_secured_by.First().ID_Other,
+                    .Name = objOList_relationtype_secured_by.First().Name_Other,
+                    .GUID_Parent = objOList_relationtype_secured_by.First().ID_Parent_Other,
+                    .Type = Globals.Type_RelationType
+                }
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_relationtype_authorized_by = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_authorized_by".ToLower() And objRef.Ontology = Globals.Type_RelationType
+                                           Select objRef).ToList()
+
+        If objOList_relationtype_authorized_by.Any() Then
+            objOItem_relationtype_authorized_by = New clsOntologyItem() _
+                With {
+                    .GUID = objOList_relationtype_authorized_by.First().ID_Other,
+                    .Name = objOList_relationtype_authorized_by.First().Name_Other,
+                    .GUID_Parent = objOList_relationtype_authorized_by.First().ID_Parent_Other,
+                    .Type = Globals.Type_RelationType
+                }
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_relationtype_connect_to = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_connect_to".ToLower() And objRef.Ontology = Globals.Type_RelationType
+                                           Select objRef).ToList()
+
+        If objOList_relationtype_connect_to.Any() Then
+            objOItem_relationtype_connect_to = New clsOntologyItem() _
+                With {
+                        .GUID = objOList_relationtype_connect_to.First().ID_Other,
+                        .Name = objOList_relationtype_connect_to.First().Name_Other,
+                        .GUID_Parent = objOList_relationtype_connect_to.First().ID_Parent_Other,
+                        .Type = Globals.Type_RelationType
+                    }
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_relationtype_belonging_resource = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_belonging_resource".ToLower() And objRef.Ontology = Globals.Type_RelationType
+                                           Select objRef).ToList()
+
+        If objOList_relationtype_belonging_resource.Any() Then
+            objOItem_relationtype_belonging_resource = New clsOntologyItem() _
+                With { _
+                    .GUID = objOList_relationtype_belonging_resource.First().ID_Other, _
+                    .Name = objOList_relationtype_belonging_resource.First().Name_Other, _
+                    .GUID_Parent = objOList_relationtype_belonging_resource.First().ID_Parent_Other, _
+                    .Type = Globals.Type_RelationType
+                }
+        Else
+            Err.Raise(1, "config err")
+        End If
 
         Dim objFS = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
@@ -545,7 +724,113 @@ Public Class clsLocalConfig
 
     Private Sub get_Config_Classes()
 
+        Dim objOList_class_password = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "class_password".ToLower() And objRef.Ontology = Globals.Type_Class
+                                           Select objRef).ToList()
 
+        If objOList_class_password.Any() Then
+            objOItem_class_password = New clsOntologyItem() _
+                With {
+                    .GUID = objOList_class_password.First().ID_Other,
+                    .Name = objOList_class_password.First().Name_Other,
+                    .GUID_Parent = objOList_class_password.First().ID_Parent_Other,
+                    .Type = Globals.Type_Class
+                }
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_class_user = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                                   Where objOItem.ID_Object = cstrID_Ontology
+                                                   Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                                   Where objRef.Name_Object.ToLower() = "class_user".ToLower() And objRef.Ontology = Globals.Type_Class
+                                                   Select objRef).ToList()
+
+        If objOList_class_user.Any() Then
+            objOItem_class_user = New clsOntologyItem() _
+                With {
+                    .GUID = objOList_class_user.First().ID_Other,
+                    .Name = objOList_class_user.First().Name_Other,
+                    .GUID_Parent = objOList_class_user.First().ID_Parent_Other,
+                    .Type = Globals.Type_Class
+                }
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_class_user_authentication = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "class_user_authentication".ToLower() And objRef.Ontology = Globals.Type_Class
+                                           Select objRef).ToList()
+
+        If objOList_class_user_authentication.Any() Then
+            objOItem_class_user_authentication = New clsOntologyItem() _
+                With {
+                    .GUID = objOList_class_user_authentication.First().ID_Other,
+                    .Name = objOList_class_user_authentication.First().Name_Other,
+                    .GUID_Parent = objOList_class_user_authentication.First().ID_Parent_Other,
+                    .Type = Globals.Type_Class
+                }
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_class_url = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "class_url".ToLower() And objRef.Ontology = Globals.Type_Class
+                                           Select objRef).ToList()
+
+        If objOList_class_url.Any() Then
+            objOItem_class_url = New clsOntologyItem() _
+                With {
+                    .GUID = objOList_class_url.First().ID_Other,
+                    .Name = objOList_class_url.First().Name_Other,
+                    .GUID_Parent = objOList_class_url.First().ID_Parent_Other,
+                    .Type = Globals.Type_Class
+                }
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_class_fileresource = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "class_fileresource".ToLower() And objRef.Ontology = Globals.Type_Class
+                                           Select objRef).ToList()
+
+        If objOList_class_fileresource.Any() Then
+            objOItem_class_fileresource = New clsOntologyItem() _
+                With { _
+                    .GUID = objOList_class_fileresource.First().ID_Other,
+                    .Name = objOList_class_fileresource.First().Name_Other,
+                    .GUID_Parent = objOList_class_fileresource.First().ID_Parent_Other,
+                    .Type = Globals.Type_Class
+                }
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_class_web_connection = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                                   Where objOItem.ID_Object = cstrID_Ontology
+                                                   Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                                   Where objRef.Name_Object.ToLower() = "class_web_connection".ToLower() And objRef.Ontology = Globals.Type_Class
+                                                   Select objRef).ToList()
+
+        If objOList_class_web_connection.Any() Then
+            objOItem_class_web_connection = New clsOntologyItem() _
+                 With {
+                    .GUID = objOList_class_web_connection.First().ID_Other,
+                    .Name = objOList_class_web_connection.First().Name_Other,
+                    .GUID_Parent = objOList_class_web_connection.First().ID_Parent_Other,
+                    .Type = Globals.Type_Class
+                }
+        Else
+            Err.Raise(1, "config err")
+        End If
 
         Dim objDR = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology

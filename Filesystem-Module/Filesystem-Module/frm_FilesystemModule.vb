@@ -28,6 +28,7 @@ Public Class frm_FilesystemModule
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFrm_FileSync As frmFileSync
+    Private objFrm_FileResources As frmFileResources
     Private SplashScreen As SplashScreen_OntologyModule
     Private AboutBox As AboutBox_OntologyItem
 
@@ -758,5 +759,10 @@ Public Class frm_FilesystemModule
     Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
         AboutBox = New AboutBox_OntologyItem()
         AboutBox.ShowDialog(Me)
+    End Sub
+
+    Private Sub FileResourcenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FileResourcenToolStripMenuItem.Click
+        objFrm_FileResources = New frmFileResources(objLocalConfig)
+        objFrm_FileResources.ShowDialog(Me)
     End Sub
 End Class

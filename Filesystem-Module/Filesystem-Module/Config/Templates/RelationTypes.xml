@@ -12,12 +12,16 @@
 <Item Id="d34d545e9ddf46cebb6f22db1b7bb025" Id_Parent=""><![CDATA[belonging Source]]></Item>
 <Item Id="408db9f1ae424807b656729270646f0a" Id_Parent=""><![CDATA[is subordinated]]></Item>
 <Item Id="439e614dfb8a4ae7b5a27be25a058e6c" Id_Parent=""><![CDATA[located in]]></Item>
+<Item Id="a778c55c83084033bd3330ebd7347485" Id_Parent=""><![CDATA[secured by]]></Item>
 <Item Id="5c8930809e8c4fe297aa87878d38ac4a" Id_Parent=""><![CDATA[offered by]]></Item>
 <Item Id="e07469d9766c443e85266d9c684f944f" Id_Parent=""><![CDATA[belongs to]]></Item>
 <Item Id="4f8f29b449bb4d85a65f205d2af4f509" Id_Parent=""><![CDATA[is checkout by]]></Item>
 <Item Id="e1cc31b2fdf04e52bdcf34ee60e5be75" Id_Parent=""><![CDATA[Fileshare]]></Item>
+<Item Id="92619f7ecbf342308ca34b7e7e8883f6" Id_Parent=""><![CDATA[belonging Resource]]></Item>
+<Item Id="93bd50594dfe4314a74f49e8b5fb17af" Id_Parent=""><![CDATA[connect to]]></Item>
 <Item Id="cf27679fcbe74010a3ae472072762b33" Id_Parent=""><![CDATA[is in State]]></Item>
 <Item Id="9996494aef6a4357a6ef71a92b5ff596" Id_Parent=""><![CDATA[is of Type]]></Item>
 <Item Id="5621cb25972d41669c77c37ee764a0b7" Id_Parent=""><![CDATA[watch]]></Item>
+<Item Id="95d81974403d456493bbf3487fc8b792" Id_Parent=""><![CDATA[authorized by]]></Item>
 
 </Items>

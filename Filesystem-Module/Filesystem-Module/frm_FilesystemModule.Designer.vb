@@ -46,6 +46,8 @@ Partial Class frm_FilesystemModule
         Me.HashesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GetHashOfFilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SyncFilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel_DBLBL = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel_DBName = New System.Windows.Forms.ToolStripStatusLabel()
@@ -93,8 +95,7 @@ Partial Class frm_FilesystemModule
         Me.OpenFileDialog_Files = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog_Folders = New System.Windows.Forms.FolderBrowserDialog()
         Me.BindingSource_Files = New System.Windows.Forms.BindingSource(Me.components)
-        Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FileResourcenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -184,7 +185,7 @@ Partial Class frm_FilesystemModule
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.BrowseToolStripMenuItem, Me.ObjectToolStripMenuItem, Me.StartBlobdirwatcherToolStripMenuItem, Me.MenuToolStripMenuItem, Me.RefreshToolStripMenuItem, Me.GetHashOfFilesToolStripMenuItem, Me.SyncFilesToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.BrowseToolStripMenuItem, Me.ObjectToolStripMenuItem, Me.StartBlobdirwatcherToolStripMenuItem, Me.MenuToolStripMenuItem, Me.RefreshToolStripMenuItem, Me.GetHashOfFilesToolStripMenuItem, Me.SyncFilesToolStripMenuItem, Me.FileResourcenToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(58, 20)
         Me.ToolsToolStripMenuItem.Text = "x_Tools"
@@ -268,6 +269,19 @@ Partial Class frm_FilesystemModule
         Me.SyncFilesToolStripMenuItem.Name = "SyncFilesToolStripMenuItem"
         Me.SyncFilesToolStripMenuItem.Size = New System.Drawing.Size(196, 22)
         Me.SyncFilesToolStripMenuItem.Text = "x_Sync Files"
+        '
+        'HilfeToolStripMenuItem
+        '
+        Me.HilfeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoToolStripMenuItem})
+        Me.HilfeToolStripMenuItem.Name = "HilfeToolStripMenuItem"
+        Me.HilfeToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.HilfeToolStripMenuItem.Text = "&Hilfe"
+        '
+        'InfoToolStripMenuItem
+        '
+        Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(95, 22)
+        Me.InfoToolStripMenuItem.Text = "&Info"
         '
         'StatusStrip1
         '
@@ -618,18 +632,11 @@ Partial Class frm_FilesystemModule
         Me.OpenFileDialog_Files.FileName = "OpenFileDialog1"
         Me.OpenFileDialog_Files.Multiselect = True
         '
-        'HilfeToolStripMenuItem
+        'FileResourcenToolStripMenuItem
         '
-        Me.HilfeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoToolStripMenuItem})
-        Me.HilfeToolStripMenuItem.Name = "HilfeToolStripMenuItem"
-        Me.HilfeToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
-        Me.HilfeToolStripMenuItem.Text = "&Hilfe"
-        '
-        'InfoToolStripMenuItem
-        '
-        Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.InfoToolStripMenuItem.Text = "&Info"
+        Me.FileResourcenToolStripMenuItem.Name = "FileResourcenToolStripMenuItem"
+        Me.FileResourcenToolStripMenuItem.Size = New System.Drawing.Size(196, 22)
+        Me.FileResourcenToolStripMenuItem.Text = "x_File-Resourcen"
         '
         'frm_FilesystemModule
         '
@@ -748,5 +755,6 @@ Partial Class frm_FilesystemModule
     Friend WithEvents SyncFilesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents HilfeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents InfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FileResourcenToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

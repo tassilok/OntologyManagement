@@ -89,6 +89,8 @@
   <ItemGroup>
     <Compile Include="clsBlobConnection.vb" />
     <Compile Include="clsDataWork.vb" />
+    <Compile Include="clsDataWork_FileResource_Path.vb" />
+    <Compile Include="clsFile.vb" />
     <Compile Include="clsFileWork.vb" />
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsSync.vb" />
@@ -103,6 +105,12 @@
       <DependentUpon>frmBlobWatcher.vb</DependentUpon>
     </Compile>
     <Compile Include="frmBlobWatcher.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFileResources.Designer.vb">
+      <DependentUpon>frmFileResources.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmFileResources.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmFileSync.Designer.vb">
@@ -133,10 +141,25 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="UserControl_FileResource_File.Designer.vb">
+      <DependentUpon>UserControl_FileResource_File.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_FileResource_File.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_FileResource_Path.Designer.vb">
+      <DependentUpon>UserControl_FileResource_Path.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_FileResource_Path.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmBlobWatcher.resx">
       <DependentUpon>frmBlobWatcher.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFileResources.resx">
+      <DependentUpon>frmFileResources.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmFileSync.resx">
       <DependentUpon>frmFileSync.vb</DependentUpon>
@@ -149,6 +172,12 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_FileResource_File.resx">
+      <DependentUpon>UserControl_FileResource_File.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_FileResource_Path.resx">
+      <DependentUpon>UserControl_FileResource_Path.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +218,10 @@
     <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
       <Name>OntologyClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Structure-Module\Structure-Module\Structure-Module.csproj">
+      <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
+      <Name>Structure-Module</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
