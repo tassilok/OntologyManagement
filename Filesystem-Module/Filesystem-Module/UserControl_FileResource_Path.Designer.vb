@@ -25,6 +25,9 @@ Partial Class UserControl_FileResource_Path
         Me.components = New System.ComponentModel.Container()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.ProgressBar_Files = New System.Windows.Forms.ProgressBar()
+        Me.Button_Search = New System.Windows.Forms.Button()
+        Me.CheckBox_SubItems = New System.Windows.Forms.CheckBox()
         Me.TextBox_Pattern = New System.Windows.Forms.TextBox()
         Me.Label_Pattern = New System.Windows.Forms.Label()
         Me.Button_AddPath = New System.Windows.Forms.Button()
@@ -32,14 +35,16 @@ Partial Class UserControl_FileResource_Path
         Me.Label_Path = New System.Windows.Forms.Label()
         Me.DataGridView_Files = New System.Windows.Forms.DataGridView()
         Me.RichTextBox_Preview = New System.Windows.Forms.RichTextBox()
-        Me.TextBox_Regex = New System.Windows.Forms.TextBox()
-        Me.Label_Regex = New System.Windows.Forms.Label()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.TextBox_RegexPre = New System.Windows.Forms.TextBox()
+        Me.Label_RegexPre = New System.Windows.Forms.Label()
+        Me.Button_Preview = New System.Windows.Forms.Button()
         Me.Label_Preview = New System.Windows.Forms.Label()
-        Me.CheckBox_SubItems = New System.Windows.Forms.CheckBox()
-        Me.Button_Search = New System.Windows.Forms.Button()
         Me.Timer_Files = New System.Windows.Forms.Timer(Me.components)
-        Me.ProgressBar_Files = New System.Windows.Forms.ProgressBar()
+        Me.Timer_Regex = New System.Windows.Forms.Timer(Me.components)
+        Me.Label_RegExMain = New System.Windows.Forms.Label()
+        Me.Label_Post = New System.Windows.Forms.Label()
+        Me.TextBox_RegExMain = New System.Windows.Forms.TextBox()
+        Me.TextBox_RegExPost = New System.Windows.Forms.TextBox()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -65,10 +70,14 @@ Partial Class UserControl_FileResource_Path
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.TextBox_RegExPost)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.TextBox_RegExMain)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.Label_Post)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.Label_RegExMain)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RichTextBox_Preview)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.TextBox_Regex)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.Label_Regex)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.Button1)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.TextBox_RegexPre)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.Label_RegexPre)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.Button_Preview)
         Me.SplitContainer1.Panel2.Controls.Add(Me.Label_Preview)
         Me.SplitContainer1.Size = New System.Drawing.Size(555, 424)
         Me.SplitContainer1.SplitterDistance = 185
@@ -98,6 +107,32 @@ Partial Class UserControl_FileResource_Path
         Me.SplitContainer2.Size = New System.Drawing.Size(555, 185)
         Me.SplitContainer2.SplitterDistance = 275
         Me.SplitContainer2.TabIndex = 0
+        '
+        'ProgressBar_Files
+        '
+        Me.ProgressBar_Files.Location = New System.Drawing.Point(147, 75)
+        Me.ProgressBar_Files.Name = "ProgressBar_Files"
+        Me.ProgressBar_Files.Size = New System.Drawing.Size(91, 23)
+        Me.ProgressBar_Files.TabIndex = 7
+        '
+        'Button_Search
+        '
+        Me.Button_Search.Location = New System.Drawing.Point(65, 75)
+        Me.Button_Search.Name = "Button_Search"
+        Me.Button_Search.Size = New System.Drawing.Size(75, 23)
+        Me.Button_Search.TabIndex = 6
+        Me.Button_Search.Text = "x_Search"
+        Me.Button_Search.UseVisualStyleBackColor = True
+        '
+        'CheckBox_SubItems
+        '
+        Me.CheckBox_SubItems.AutoSize = True
+        Me.CheckBox_SubItems.Location = New System.Drawing.Point(65, 52)
+        Me.CheckBox_SubItems.Name = "CheckBox_SubItems"
+        Me.CheckBox_SubItems.Size = New System.Drawing.Size(81, 17)
+        Me.CheckBox_SubItems.TabIndex = 5
+        Me.CheckBox_SubItems.Text = "x_SubItems"
+        Me.CheckBox_SubItems.UseVisualStyleBackColor = True
         '
         'TextBox_Pattern
         '
@@ -163,38 +198,39 @@ Partial Class UserControl_FileResource_Path
         Me.RichTextBox_Preview.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RichTextBox_Preview.Location = New System.Drawing.Point(2, 34)
+        Me.RichTextBox_Preview.Location = New System.Drawing.Point(2, 99)
         Me.RichTextBox_Preview.Name = "RichTextBox_Preview"
-        Me.RichTextBox_Preview.Size = New System.Drawing.Size(546, 194)
+        Me.RichTextBox_Preview.ReadOnly = True
+        Me.RichTextBox_Preview.Size = New System.Drawing.Size(546, 129)
         Me.RichTextBox_Preview.TabIndex = 9
         Me.RichTextBox_Preview.Text = ""
         '
-        'TextBox_Regex
+        'TextBox_RegexPre
         '
-        Me.TextBox_Regex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.TextBox_RegexPre.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_Regex.Location = New System.Drawing.Point(212, 8)
-        Me.TextBox_Regex.Name = "TextBox_Regex"
-        Me.TextBox_Regex.Size = New System.Drawing.Size(336, 20)
-        Me.TextBox_Regex.TabIndex = 8
+        Me.TextBox_RegexPre.Location = New System.Drawing.Point(101, 29)
+        Me.TextBox_RegexPre.Name = "TextBox_RegexPre"
+        Me.TextBox_RegexPre.Size = New System.Drawing.Size(447, 20)
+        Me.TextBox_RegexPre.TabIndex = 8
         '
-        'Label_Regex
+        'Label_RegexPre
         '
-        Me.Label_Regex.AutoSize = True
-        Me.Label_Regex.Location = New System.Drawing.Point(154, 11)
-        Me.Label_Regex.Name = "Label_Regex"
-        Me.Label_Regex.Size = New System.Drawing.Size(52, 13)
-        Me.Label_Regex.TabIndex = 7
-        Me.Label_Regex.Text = "x_Regex:"
+        Me.Label_RegexPre.AutoSize = True
+        Me.Label_RegexPre.Location = New System.Drawing.Point(4, 32)
+        Me.Label_RegexPre.Name = "Label_RegexPre"
+        Me.Label_RegexPre.Size = New System.Drawing.Size(77, 13)
+        Me.Label_RegexPre.TabIndex = 7
+        Me.Label_RegexPre.Text = "x_Regex (Pre):"
         '
-        'Button1
+        'Button_Preview
         '
-        Me.Button1.Location = New System.Drawing.Point(72, 5)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 6
-        Me.Button1.Text = "Vorschau"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.Button_Preview.Location = New System.Drawing.Point(101, 3)
+        Me.Button_Preview.Name = "Button_Preview"
+        Me.Button_Preview.Size = New System.Drawing.Size(75, 23)
+        Me.Button_Preview.TabIndex = 6
+        Me.Button_Preview.Text = "Vorschau"
+        Me.Button_Preview.UseVisualStyleBackColor = True
         '
         'Label_Preview
         '
@@ -205,35 +241,49 @@ Partial Class UserControl_FileResource_Path
         Me.Label_Preview.TabIndex = 5
         Me.Label_Preview.Text = "x_Vorschau:"
         '
-        'CheckBox_SubItems
-        '
-        Me.CheckBox_SubItems.AutoSize = True
-        Me.CheckBox_SubItems.Location = New System.Drawing.Point(65, 52)
-        Me.CheckBox_SubItems.Name = "CheckBox_SubItems"
-        Me.CheckBox_SubItems.Size = New System.Drawing.Size(81, 17)
-        Me.CheckBox_SubItems.TabIndex = 5
-        Me.CheckBox_SubItems.Text = "x_SubItems"
-        Me.CheckBox_SubItems.UseVisualStyleBackColor = True
-        '
-        'Button_Search
-        '
-        Me.Button_Search.Location = New System.Drawing.Point(65, 75)
-        Me.Button_Search.Name = "Button_Search"
-        Me.Button_Search.Size = New System.Drawing.Size(75, 23)
-        Me.Button_Search.TabIndex = 6
-        Me.Button_Search.Text = "x_Search"
-        Me.Button_Search.UseVisualStyleBackColor = True
-        '
         'Timer_Files
         '
         Me.Timer_Files.Interval = 300
         '
-        'ProgressBar_Files
+        'Timer_Regex
         '
-        Me.ProgressBar_Files.Location = New System.Drawing.Point(147, 75)
-        Me.ProgressBar_Files.Name = "ProgressBar_Files"
-        Me.ProgressBar_Files.Size = New System.Drawing.Size(91, 23)
-        Me.ProgressBar_Files.TabIndex = 7
+        Me.Timer_Regex.Interval = 300
+        '
+        'Label_RegExMain
+        '
+        Me.Label_RegExMain.AutoSize = True
+        Me.Label_RegExMain.Location = New System.Drawing.Point(4, 53)
+        Me.Label_RegExMain.Name = "Label_RegExMain"
+        Me.Label_RegExMain.Size = New System.Drawing.Size(85, 13)
+        Me.Label_RegExMain.TabIndex = 10
+        Me.Label_RegExMain.Text = "x_RegEx (Main):"
+        '
+        'Label_Post
+        '
+        Me.Label_Post.AutoSize = True
+        Me.Label_Post.Location = New System.Drawing.Point(4, 76)
+        Me.Label_Post.Name = "Label_Post"
+        Me.Label_Post.Size = New System.Drawing.Size(83, 13)
+        Me.Label_Post.TabIndex = 11
+        Me.Label_Post.Text = "x_RegEx (Post):"
+        '
+        'TextBox_RegExMain
+        '
+        Me.TextBox_RegExMain.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_RegExMain.Location = New System.Drawing.Point(101, 51)
+        Me.TextBox_RegExMain.Name = "TextBox_RegExMain"
+        Me.TextBox_RegExMain.Size = New System.Drawing.Size(447, 20)
+        Me.TextBox_RegExMain.TabIndex = 12
+        '
+        'TextBox_RegExPost
+        '
+        Me.TextBox_RegExPost.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_RegExPost.Location = New System.Drawing.Point(101, 73)
+        Me.TextBox_RegExPost.Name = "TextBox_RegExPost"
+        Me.TextBox_RegExPost.Size = New System.Drawing.Size(447, 20)
+        Me.TextBox_RegExPost.TabIndex = 13
         '
         'UserControl_FileResource_Path
         '
@@ -265,13 +315,18 @@ Partial Class UserControl_FileResource_Path
     Friend WithEvents Label_Path As System.Windows.Forms.Label
     Friend WithEvents DataGridView_Files As System.Windows.Forms.DataGridView
     Friend WithEvents RichTextBox_Preview As System.Windows.Forms.RichTextBox
-    Friend WithEvents TextBox_Regex As System.Windows.Forms.TextBox
-    Friend WithEvents Label_Regex As System.Windows.Forms.Label
-    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents TextBox_RegexPre As System.Windows.Forms.TextBox
+    Friend WithEvents Label_RegexPre As System.Windows.Forms.Label
+    Friend WithEvents Button_Preview As System.Windows.Forms.Button
     Friend WithEvents Label_Preview As System.Windows.Forms.Label
     Friend WithEvents CheckBox_SubItems As System.Windows.Forms.CheckBox
     Friend WithEvents Button_Search As System.Windows.Forms.Button
     Friend WithEvents Timer_Files As System.Windows.Forms.Timer
     Friend WithEvents ProgressBar_Files As System.Windows.Forms.ProgressBar
+    Friend WithEvents Timer_Regex As System.Windows.Forms.Timer
+    Friend WithEvents Label_RegExMain As System.Windows.Forms.Label
+    Friend WithEvents TextBox_RegExPost As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox_RegExMain As System.Windows.Forms.TextBox
+    Friend WithEvents Label_Post As System.Windows.Forms.Label
 
 End Class
