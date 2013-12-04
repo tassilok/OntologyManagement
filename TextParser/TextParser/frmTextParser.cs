@@ -20,6 +20,7 @@ namespace TextParser
         private clsDataWork_BaseData objDataWork_BaseData;
         private frmAuthenticate objFrmAuthenticate;
         private frmTextParser_bak objFrmTextParser_bak;
+        private frmFieldParser objFrmFieldParser;
 
         public frmTextParser()
         {
@@ -62,8 +63,7 @@ namespace TextParser
                                                                    objLocalConfig.OItem_relationtype_belonging_resource
                                                                }, null);
 
-                    objFrmTextParser_bak = new frmTextParser_bak();
-                    objFrmTextParser_bak.ShowDialog(this);
+                    
                 }
                 else
                 {
@@ -81,6 +81,18 @@ namespace TextParser
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void textParserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            objFrmTextParser_bak = new frmTextParser_bak(objLocalConfig);
+            objFrmTextParser_bak.ShowDialog(this);
+        }
+
+        private void fieldParserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            objFrmFieldParser = new frmFieldParser(objLocalConfig);
+            objFrmFieldParser.ShowDialog(this);
         }
     }
 }

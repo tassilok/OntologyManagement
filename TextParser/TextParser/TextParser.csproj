@@ -48,11 +48,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsDataWork_BaseData.cs" />
+    <Compile Include="clsDataWork_FieldParser.cs" />
     <Compile Include="clsDataWork_TextParser.cs" />
     <Compile Include="clsField.cs" />
+    <Compile Include="clsFieldParser.cs" />
     <Compile Include="clsFoundItem.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="clsSearchItem.cs" />
+    <Compile Include="frmFieldParser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFieldParser.Designer.cs">
+      <DependentUpon>frmFieldParser.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmTextParser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +81,9 @@
     <Compile Include="UserControl_TextParsers.Designer.cs">
       <DependentUpon>UserControl_TextParsers.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmFieldParser.resx">
+      <DependentUpon>frmFieldParser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmTextParser.resx">
       <DependentUpon>frmTextParser.cs</DependentUpon>
     </EmbeddedResource>

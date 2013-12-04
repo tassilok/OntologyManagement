@@ -22,11 +22,11 @@ namespace TextParser
         private SortableBindingList<clsFoundItem> foundItems = new SortableBindingList<clsFoundItem>();
         private clsLocalConfig objLocalConfig;
 
-        public frmTextParser_bak()
+        public frmTextParser_bak(clsLocalConfig LocalConfig)
         {
             InitializeComponent();
 
-            objLocalConfig = new clsLocalConfig(new clsGlobals());
+            objLocalConfig = LocalConfig;
 
             Initialize();
         }

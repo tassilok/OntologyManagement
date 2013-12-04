@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TextParser
 {
-    class clsField
+    public class clsField
     {
         public string Name { get; set; }
         public string RegexPre { get; set; }
@@ -14,5 +14,8 @@ namespace TextParser
         public string RegexPost { get; set; }
         public string DataType { get; set; }
         public int PostFound { get; set; }
+        public int OrderId { get; set; }
+        public bool UseOrderId { get; set; }
+        public bool RemoveFromSource { get; set; }
     }
 }
