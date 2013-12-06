@@ -54,12 +54,25 @@
     <Compile Include="clsFieldParser.cs" />
     <Compile Include="clsFoundItem.cs" />
     <Compile Include="clsLocalConfig.cs" />
+    <Compile Include="clsRegExFilter.cs" />
     <Compile Include="clsSearchItem.cs" />
     <Compile Include="frmFieldParser.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmFieldParser.Designer.cs">
       <DependentUpon>frmFieldParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRegExFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRegExFilter.Designer.cs">
+      <DependentUpon>frmRegExFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRegexTester.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRegexTester.Designer.cs">
+      <DependentUpon>frmRegexTester.cs</DependentUpon>
     </Compile>
     <Compile Include="frmTextParser.cs">
       <SubType>Form</SubType>
@@ -75,6 +88,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControl_RegExFilterDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_RegExFilterDetail.Designer.cs">
+      <DependentUpon>UserControl_RegExFilterDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_RegExTester.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_RegExTester.Designer.cs">
+      <DependentUpon>UserControl_RegExTester.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControl_TextParsers.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -83,6 +108,12 @@
     </Compile>
     <EmbeddedResource Include="frmFieldParser.resx">
       <DependentUpon>frmFieldParser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRegExFilter.resx">
+      <DependentUpon>frmRegExFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRegexTester.resx">
+      <DependentUpon>frmRegexTester.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTextParser.resx">
       <DependentUpon>frmTextParser.cs</DependentUpon>
@@ -99,6 +130,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControl_RegExFilterDetail.resx">
+      <DependentUpon>UserControl_RegExFilterDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_RegExTester.resx">
+      <DependentUpon>UserControl_RegExTester.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControl_TextParsers.resx">
       <DependentUpon>UserControl_TextParsers.cs</DependentUpon>
     </EmbeddedResource>

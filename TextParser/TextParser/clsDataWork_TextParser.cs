@@ -24,6 +24,8 @@ namespace TextParser
         private clsDBLevel objDBLevel_EVPAttributes;
         private clsDBLevel objDBLevel_EVPLeftRight;
 
+        
+
         private clsOntologyItem objOItem_TextParser;
         private clsOntologyItem objOItem_EVP;
 
@@ -35,7 +37,7 @@ namespace TextParser
                 {
                     new clsOntologyItem
                         {
-                            GUID = objOItem_TextParser != null ? objOItem_TextParser.GUID,
+                            GUID = objOItem_TextParser != null ? objOItem_TextParser.GUID: null,
                             GUID_Parent = objLocalConfig.OItem_class_textparser.GUID
                         }
                 };
@@ -51,7 +53,7 @@ namespace TextParser
 
         public void GetData_EVPOfTextParser()
         {
-            var objORel_EVP_Of_Textparser
+            
         }
 
         public void GetData_EVP(clsOntologyItem OItem_EVP = null)
@@ -68,6 +70,8 @@ namespace TextParser
         {
             
         }
+
+        
 
         public clsDataWork_TextParser(clsLocalConfig localConfig)
         {
@@ -88,6 +92,8 @@ namespace TextParser
             objDBLevel_EVPAttributes = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_EVPLeftRight = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_EVPOfTextParser = new clsDBLevel(objLocalConfig.Globals);
+
+            
             
         }
     }

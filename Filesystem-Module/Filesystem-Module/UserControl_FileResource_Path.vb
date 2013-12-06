@@ -156,7 +156,7 @@ Public Class UserControl_FileResource_Path
         Timer_Regex.Stop()
         Try
             RichTextBox_Preview.SelectionStart = 0
-            RichTextBox_Preview.SelectionLength = RichTextBox_Preview.TextLength - 1
+            RichTextBox_Preview.SelectionLength = RichTextBox_Preview.TextLength
             RichTextBox_Preview.SelectionBackColor = RichTextBox_Preview.BackColor
 
             Dim objRegEx_Pre As Regex = Nothing
@@ -218,14 +218,14 @@ Public Class UserControl_FileResource_Path
                     Else
                         ixEnd = RichTextBox_Preview.TextLength - 1
                     End If
+                    
                     RichTextBox_Preview.SelectionStart = ixStart
-                    RichTextBox_Preview.SelectionLength = ixEnd - ixStart
-
+                    RichTextBox_Preview.SelectionLength = ixEnd
 
                     If Not objRegEx_Post Is Nothing Then
+                        
 
-
-                        If RichTextBox_Preview.SelectionStart > 0 Then
+                        If RichTextBox_Preview.SelectionLength > 0 Then
                             objRegEx_Post_Matches = objRegEx_Post.Matches(RichTextBox_Preview.SelectedText)
                             If objRegEx_Post_Matches.Count > 0 Then
                                 RichTextBox_Preview.SelectionLength = objRegEx_Post_Matches(0).Index
@@ -239,11 +239,43 @@ Public Class UserControl_FileResource_Path
 
                     End If
 
-                    If RichTextBox_Preview.SelectionStart > 0 Then
+                    If RichTextBox_Preview.SelectionLength > 0 Then
                         If Not objRegEx_Main Is Nothing Then
                             objRegEx_Main_Matches = objRegEx_Main.Matches(RichTextBox_Preview.SelectedText)
                             If objRegEx_Main_Matches.Count > 0 Then
-                                RichTextBox_Preview.SelectionStart = objRegEx_Main_Matches(0).Index
+                                RichTextBox_Preview.SelectionStart = RichTextBox_Preview.SelectionStart + objRegEx_Main_Matches(0).Index
+                                RichTextBox_Preview.SelectionLength = objRegEx_Main_Matches(0).Length
+                            Else
+                                RichTextBox_Preview.SelectionStart = 0
+                                RichTextBox_Preview.SelectionLength = 0
+                            End If
+                            
+                        End If
+                    End If
+
+                    If RichTextBox_Preview.SelectionLength > 0 Then
+                        RichTextBox_Preview.SelectionBackColor = Color.Yellow
+                    End If
+                Next
+            ElseIf Not objRegEx_Post_Matches Is nothing then
+                For i = 0 To objRegEx_Post_Matches.Count - 1
+                    RichTextBox_Preview.SelectionStart = 0
+                    RichTextBox_Preview.SelectionLength = 0
+
+                    Dim ixStart = If(i = 0,0,objRegEx_Post_Matches(i-1).Index + objRegEx_Post_Matches(i-1).Length)
+                    Dim ixEnd = objRegEx_Post_Matches(i).Index
+                    
+                    if (ixStart < ixEnd) then
+                        
+                        RichTextBox_Preview.SelectionStart = ixStart
+                        RichTextBox_Preview.SelectionLength = ixEnd - ixStart        
+                    End If
+                    
+                    If RichTextBox_Preview.SelectionLength > 0 Then
+                        If Not objRegEx_Main Is Nothing Then
+                            objRegEx_Main_Matches = objRegEx_Main.Matches(RichTextBox_Preview.SelectedText)
+                            If objRegEx_Main_Matches.Count > 0 Then
+                                RichTextBox_Preview.SelectionStart = RichTextBox_Preview.SelectionStart + objRegEx_Main_Matches(0).Index
                                 RichTextBox_Preview.SelectionLength = objRegEx_Main_Matches(0).Length
                             Else
                                 RichTextBox_Preview.SelectionStart = 0
@@ -258,11 +290,18 @@ Public Class UserControl_FileResource_Path
                         End If
                     End If
 
-                    If RichTextBox_Preview.SelectionStart > 0 Then
+                    If RichTextBox_Preview.SelectionLength > 0 Then
                         RichTextBox_Preview.SelectionBackColor = Color.Yellow
                     End If
-                Next
 
+                Next
+            ElseIf  Not objRegEx_Main_Matches is Nothing then
+                For i = 0 To objRegEx_Main_Matches.Count - 1
+                    RichTextBox_Preview.SelectionStart = objRegEx_Main_Matches(i).Index
+                    RichTextBox_Preview.SelectionLength = objRegEx_Main_Matches(i).Length
+
+                    RichTextBox_Preview.SelectionBackColor = Color.Yellow
+                Next
             End If
 
             

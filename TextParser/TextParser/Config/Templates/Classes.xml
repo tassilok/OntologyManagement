@@ -10,6 +10,9 @@
 <Item Id="7996f98f33d0409aae0abe56b7000397" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[Fileresource]]></Item>
 <Item Id="8a894710e08c42c5b829ef4809830d33" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[Path]]></Item>
 <Item Id="c441518dbfe04d55b538df5c5555dd83" Id_Parent="31da809331494400957fa26027fb506e"><![CDATA[user]]></Item>
+<Item Id="11ffaa2eb7294991a880b12110f6c18c" Id_Parent="bd8af19406a74130acad0394cab33ee6"><![CDATA[RegEx-Field-Filter]]></Item>
+<Item Id="69e1c4ac593e4ebb907c9b2bcec595de" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[DataTypes]]></Item>
+<Item Id="7e84dc67a1234993b0ea62dffc2b895d" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Regular Expressions]]></Item>
 <Item Id="6eb4fdd32e254886b288e1bfc2857efb" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[File]]></Item>
 <Item Id="bd8af19406a74130acad0394cab33ee6" Id_Parent="f18f0dc8e57b41f0afbf8a0edd4c0fa8"><![CDATA[Field]]></Item>
 <Item Id="83961991c33d4ec7893a2dba0fc4cd69" Id_Parent="fa121432183946629ecfe0deac63ea7c"><![CDATA[Web-Connection]]></Item>

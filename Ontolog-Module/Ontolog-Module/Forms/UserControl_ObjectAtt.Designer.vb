@@ -30,24 +30,25 @@ Partial Class UserControl_ObjectAtt
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripProgressBar_ObjectAtt = New System.Windows.Forms.ToolStripProgressBar()
         Me.DataGridView_ObjectAtt = New System.Windows.Forms.DataGridView()
+        Me.ContextMenuStrip_Items = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.CopyValueToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_FilterLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Filter = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripButton_ClearFilter = New System.Windows.Forms.ToolStripButton()
         Me.BindingSource_ObjectAtt = New System.Windows.Forms.BindingSource(Me.components)
         Me.Timer_ObjectAtt = New System.Windows.Forms.Timer(Me.components)
-        Me.ContextMenuStrip_Items = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.CopyValueToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
-        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer1.SuspendLayout()
-        Me.ToolStrip1.SuspendLayout()
-        CType(Me.DataGridView_ObjectAtt, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ToolStrip2.SuspendLayout()
-        CType(Me.BindingSource_ObjectAtt, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ContextMenuStrip_Items.SuspendLayout()
-        Me.SuspendLayout()
+        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout
+        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout
+        Me.ToolStripContainer1.SuspendLayout
+        Me.ToolStrip1.SuspendLayout
+        CType(Me.DataGridView_ObjectAtt,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.ContextMenuStrip_Items.SuspendLayout
+        Me.ToolStrip2.SuspendLayout
+        CType(Me.BindingSource_ObjectAtt,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SuspendLayout
         '
         'ToolStripContainer1
         '
@@ -104,16 +105,28 @@ Partial Class UserControl_ObjectAtt
         '
         'DataGridView_ObjectAtt
         '
-        Me.DataGridView_ObjectAtt.AllowUserToAddRows = False
-        Me.DataGridView_ObjectAtt.AllowUserToDeleteRows = False
+        Me.DataGridView_ObjectAtt.AllowUserToAddRows = false
+        Me.DataGridView_ObjectAtt.AllowUserToDeleteRows = false
         Me.DataGridView_ObjectAtt.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView_ObjectAtt.ContextMenuStrip = Me.ContextMenuStrip_Items
         Me.DataGridView_ObjectAtt.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView_ObjectAtt.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_ObjectAtt.Name = "DataGridView_ObjectAtt"
-        Me.DataGridView_ObjectAtt.ReadOnly = True
+        Me.DataGridView_ObjectAtt.ReadOnly = true
         Me.DataGridView_ObjectAtt.Size = New System.Drawing.Size(521, 429)
         Me.DataGridView_ObjectAtt.TabIndex = 0
+        '
+        'ContextMenuStrip_Items
+        '
+        Me.ContextMenuStrip_Items.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyValueToolStripMenuItem, Me.DeleteToolStripMenuItem})
+        Me.ContextMenuStrip_Items.Name = "ContextMenuStrip_Items"
+        Me.ContextMenuStrip_Items.Size = New System.Drawing.Size(153, 70)
+        '
+        'CopyValueToolStripMenuItem
+        '
+        Me.CopyValueToolStripMenuItem.Name = "CopyValueToolStripMenuItem"
+        Me.CopyValueToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.CopyValueToolStripMenuItem.Text = "x_Copy Value"
         '
         'ToolStrip2
         '
@@ -149,42 +162,36 @@ Partial Class UserControl_ObjectAtt
         '
         Me.Timer_ObjectAtt.Interval = 300
         '
-        'ContextMenuStrip_Items
+        'DeleteToolStripMenuItem
         '
-        Me.ContextMenuStrip_Items.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyValueToolStripMenuItem})
-        Me.ContextMenuStrip_Items.Name = "ContextMenuStrip_Items"
-        Me.ContextMenuStrip_Items.Size = New System.Drawing.Size(153, 48)
-        '
-        'CopyValueToolStripMenuItem
-        '
-        Me.CopyValueToolStripMenuItem.Name = "CopyValueToolStripMenuItem"
-        Me.CopyValueToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.CopyValueToolStripMenuItem.Text = "x_Copy Value"
+        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DeleteToolStripMenuItem.Text = "x_Delete"
         '
         'UserControl_ObjectAtt
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "UserControl_ObjectAtt"
         Me.Size = New System.Drawing.Size(521, 479)
-        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
-        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
-        Me.ToolStripContainer1.ResumeLayout(False)
-        Me.ToolStripContainer1.PerformLayout()
-        Me.ToolStrip1.ResumeLayout(False)
-        Me.ToolStrip1.PerformLayout()
-        CType(Me.DataGridView_ObjectAtt, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ToolStrip2.ResumeLayout(False)
-        Me.ToolStrip2.PerformLayout()
-        CType(Me.BindingSource_ObjectAtt, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ContextMenuStrip_Items.ResumeLayout(False)
-        Me.ResumeLayout(False)
+        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout
+        Me.ToolStripContainer1.ContentPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout
+        Me.ToolStripContainer1.ResumeLayout(false)
+        Me.ToolStripContainer1.PerformLayout
+        Me.ToolStrip1.ResumeLayout(false)
+        Me.ToolStrip1.PerformLayout
+        CType(Me.DataGridView_ObjectAtt,System.ComponentModel.ISupportInitialize).EndInit
+        Me.ContextMenuStrip_Items.ResumeLayout(false)
+        Me.ToolStrip2.ResumeLayout(false)
+        Me.ToolStrip2.PerformLayout
+        CType(Me.BindingSource_ObjectAtt,System.ComponentModel.ISupportInitialize).EndInit
+        Me.ResumeLayout(false)
 
-    End Sub
+End Sub
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripLabel_CountLBL As System.Windows.Forms.ToolStripLabel
@@ -200,5 +207,6 @@ Partial Class UserControl_ObjectAtt
     Friend WithEvents ToolStripProgressBar_ObjectAtt As System.Windows.Forms.ToolStripProgressBar
     Friend WithEvents ContextMenuStrip_Items As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents CopyValueToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DeleteToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

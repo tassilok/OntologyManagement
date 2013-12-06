@@ -93,8 +93,13 @@ Public Class UserControl_ObjectAtt
 
     Private Sub ContextMenuStrip_Items_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Items.Opening
         CopyValueToolStripMenuItem.Enabled = False
+        DeleteToolStripMenuItem.Enabled = False
         If DataGridView_ObjectAtt.SelectedRows.Count = 1 Then
             CopyValueToolStripMenuItem.Enabled = True
+        End If
+
+        if DataGridView_ObjectAtt.SelectedRows.Count > 0 Then
+            DeleteToolStripMenuItem.Enabled = True
         End If
     End Sub
 
@@ -117,5 +122,19 @@ Public Class UserControl_ObjectAtt
                     Clipboard.SetDataObject(objDRV_Selected.Item(objLocalConfig.Globals.Field_Val_String))
             End Select
         End If
+    End Sub
+
+    Private Sub DeleteToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles DeleteToolStripMenuItem.Click
+        If MsgBox("Wollen Sie wirklich die ausgewählten Attribute löschen!",MsgBoxStyle.YesNo)=MsgBoxResult.Yes Then
+            Dim objOAL_Attributes As List(Of clsObjectAtt) = (From objDGVR_Selected As DataGridViewRow In DataGridView_ObjectAtt.SelectedRows Select objDRV_Selected = objDGVR_Selected.DataBoundItem Select New clsObjectAtt With {.ID_Attribute = DirectCast(objDRV_Selected, DataRowView).Item("ID_ObjectAttribute")}).ToList()
+
+            Dim objOItem_Result = objDBLevel_ObjAtt.del_ObjectAtt(objOAL_Attributes)
+
+            If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                MsgBox("Es konnten nur " & objOItem_Result.Min & " von " & objOItem_Result.Count & " Attribute gelöscht werden!",MsgBoxStyle.Exclamation)
+            End If    
+            initialize_RelList(objOItem_Object, objOItem_AttributeType)
+        End If
+        
     End Sub
 End Class

@@ -37,6 +37,7 @@
             this.toolStripDropDownButton_Test = new System.Windows.Forms.ToolStripDropDownButton();
             this.textParserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fieldParserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.regExTesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -114,7 +115,8 @@
             this.toolStripDropDownButton_Test.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton_Test.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.textParserToolStripMenuItem,
-            this.fieldParserToolStripMenuItem});
+            this.fieldParserToolStripMenuItem,
+            this.regExTesterToolStripMenuItem});
             this.toolStripDropDownButton_Test.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton_Test.Image")));
             this.toolStripDropDownButton_Test.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton_Test.Name = "toolStripDropDownButton_Test";
@@ -134,6 +136,13 @@
             this.fieldParserToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.fieldParserToolStripMenuItem.Text = "x_Field-Parser";
             this.fieldParserToolStripMenuItem.Click += new System.EventHandler(this.fieldParserToolStripMenuItem_Click);
+            // 
+            // regExTesterToolStripMenuItem
+            // 
+            this.regExTesterToolStripMenuItem.Name = "regExTesterToolStripMenuItem";
+            this.regExTesterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.regExTesterToolStripMenuItem.Text = "x_RegEx-Tester";
+            this.regExTesterToolStripMenuItem.Click += new System.EventHandler(this.regExTesterToolStripMenuItem_Click);
             // 
             // frmTextParser
             // 
@@ -170,5 +179,6 @@
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_Test;
         private System.Windows.Forms.ToolStripMenuItem textParserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fieldParserToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem regExTesterToolStripMenuItem;
     }
 }

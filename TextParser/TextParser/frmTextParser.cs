@@ -21,6 +21,7 @@ namespace TextParser
         private frmAuthenticate objFrmAuthenticate;
         private frmTextParser_bak objFrmTextParser_bak;
         private frmFieldParser objFrmFieldParser;
+        private frmRegexTester objFrmRegExTester;
 
         public frmTextParser()
         {
@@ -93,6 +94,12 @@ namespace TextParser
         {
             objFrmFieldParser = new frmFieldParser(objLocalConfig);
             objFrmFieldParser.ShowDialog(this);
+        }
+
+        private void regExTesterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            objFrmRegExTester = new frmRegexTester(objLocalConfig);
+            objFrmRegExTester.ShowDialog(this);
         }
     }
 }
