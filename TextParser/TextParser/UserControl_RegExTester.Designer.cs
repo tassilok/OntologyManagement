@@ -49,6 +49,9 @@
             this.timer_RegExMain = new System.Windows.Forms.Timer(this.components);
             this.timer_RegExPost = new System.Windows.Forms.Timer(this.components);
             this.timer_RegExParse = new System.Windows.Forms.Timer(this.components);
+            this.button_RemoveUnmarked = new System.Windows.Forms.Button();
+            this.button_RemoveMarked = new System.Windows.Forms.Button();
+            this.button_CopyMarked = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -67,6 +70,9 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.button_CopyMarked);
+            this.splitContainer1.Panel1.Controls.Add(this.button_RemoveMarked);
+            this.splitContainer1.Panel1.Controls.Add(this.button_RemoveUnmarked);
             this.splitContainer1.Panel1.Controls.Add(this.button2);
             this.splitContainer1.Panel1.Controls.Add(this.button_AdD);
             this.splitContainer1.Panel1.Controls.Add(this.button_AddRegexPre);
@@ -82,7 +88,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.richTextBox_Text);
-            this.splitContainer1.Size = new System.Drawing.Size(609, 518);
+            this.splitContainer1.Size = new System.Drawing.Size(659, 518);
             this.splitContainer1.SplitterDistance = 112;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -90,7 +96,7 @@
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(268, 51);
+            this.button2.Location = new System.Drawing.Point(318, 51);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(26, 23);
             this.button2.TabIndex = 10;
@@ -101,7 +107,7 @@
             // 
             this.button_AdD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button_AdD.Enabled = false;
-            this.button_AdD.Location = new System.Drawing.Point(268, 26);
+            this.button_AdD.Location = new System.Drawing.Point(318, 26);
             this.button_AdD.Name = "button_AdD";
             this.button_AdD.Size = new System.Drawing.Size(26, 23);
             this.button_AdD.TabIndex = 9;
@@ -112,7 +118,7 @@
             // 
             this.button_AddRegexPre.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button_AddRegexPre.Enabled = false;
-            this.button_AddRegexPre.Location = new System.Drawing.Point(268, 2);
+            this.button_AddRegexPre.Location = new System.Drawing.Point(318, 2);
             this.button_AddRegexPre.Name = "button_AddRegexPre";
             this.button_AddRegexPre.Size = new System.Drawing.Size(26, 23);
             this.button_AddRegexPre.TabIndex = 8;
@@ -123,7 +129,7 @@
             // 
             this.label_Filter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label_Filter.AutoSize = true;
-            this.label_Filter.Location = new System.Drawing.Point(300, 7);
+            this.label_Filter.Location = new System.Drawing.Point(350, 7);
             this.label_Filter.Name = "label_Filter";
             this.label_Filter.Size = new System.Drawing.Size(43, 13);
             this.label_Filter.TabIndex = 7;
@@ -136,7 +142,7 @@
             this.dataGridView_Filter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView_Filter.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_Filter.ContextMenuStrip = this.contextMenuStrip_Filter;
-            this.dataGridView_Filter.Location = new System.Drawing.Point(349, 4);
+            this.dataGridView_Filter.Location = new System.Drawing.Point(399, 4);
             this.dataGridView_Filter.Name = "dataGridView_Filter";
             this.dataGridView_Filter.Size = new System.Drawing.Size(253, 101);
             this.dataGridView_Filter.TabIndex = 6;
@@ -169,7 +175,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_RegExPost.Location = new System.Drawing.Point(87, 53);
             this.textBox_RegExPost.Name = "textBox_RegExPost";
-            this.textBox_RegExPost.Size = new System.Drawing.Size(175, 20);
+            this.textBox_RegExPost.Size = new System.Drawing.Size(225, 20);
             this.textBox_RegExPost.TabIndex = 5;
             this.textBox_RegExPost.TextChanged += new System.EventHandler(this.textBox_RegExPost_TextChanged);
             // 
@@ -188,7 +194,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_RegExMain.Location = new System.Drawing.Point(87, 28);
             this.textBox_RegExMain.Name = "textBox_RegExMain";
-            this.textBox_RegExMain.Size = new System.Drawing.Size(175, 20);
+            this.textBox_RegExMain.Size = new System.Drawing.Size(225, 20);
             this.textBox_RegExMain.TabIndex = 3;
             this.textBox_RegExMain.TextChanged += new System.EventHandler(this.textBox_RegExMain_TextChanged);
             // 
@@ -207,7 +213,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_RegexPre.Location = new System.Drawing.Point(87, 4);
             this.textBox_RegexPre.Name = "textBox_RegexPre";
-            this.textBox_RegexPre.Size = new System.Drawing.Size(175, 20);
+            this.textBox_RegexPre.Size = new System.Drawing.Size(225, 20);
             this.textBox_RegexPre.TabIndex = 1;
             this.textBox_RegexPre.TextChanged += new System.EventHandler(this.textBox_RegexPre_TextChanged);
             // 
@@ -225,7 +231,7 @@
             this.richTextBox_Text.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox_Text.Location = new System.Drawing.Point(0, 0);
             this.richTextBox_Text.Name = "richTextBox_Text";
-            this.richTextBox_Text.Size = new System.Drawing.Size(605, 398);
+            this.richTextBox_Text.Size = new System.Drawing.Size(655, 398);
             this.richTextBox_Text.TabIndex = 0;
             this.richTextBox_Text.Text = "";
             this.richTextBox_Text.TextChanged += new System.EventHandler(this.richTextBox_Text_TextChanged);
@@ -250,13 +256,43 @@
             this.timer_RegExParse.Interval = 300;
             this.timer_RegExParse.Tick += new System.EventHandler(this.timer_RegExParse_Tick);
             // 
+            // button_RemoveUnmarked
+            // 
+            this.button_RemoveUnmarked.Location = new System.Drawing.Point(5, 82);
+            this.button_RemoveUnmarked.Name = "button_RemoveUnmarked";
+            this.button_RemoveUnmarked.Size = new System.Drawing.Size(122, 23);
+            this.button_RemoveUnmarked.TabIndex = 11;
+            this.button_RemoveUnmarked.Text = "x_Remove Unmarked";
+            this.button_RemoveUnmarked.UseVisualStyleBackColor = true;
+            this.button_RemoveUnmarked.Click += new System.EventHandler(this.button_RemoveUnmarked_Click);
+            // 
+            // button_RemoveMarked
+            // 
+            this.button_RemoveMarked.Location = new System.Drawing.Point(133, 82);
+            this.button_RemoveMarked.Name = "button_RemoveMarked";
+            this.button_RemoveMarked.Size = new System.Drawing.Size(122, 23);
+            this.button_RemoveMarked.TabIndex = 12;
+            this.button_RemoveMarked.Text = "x_Remove Marked";
+            this.button_RemoveMarked.UseVisualStyleBackColor = true;
+            this.button_RemoveMarked.Click += new System.EventHandler(this.button_RemoveMarked_Click);
+            // 
+            // button_CopyMarked
+            // 
+            this.button_CopyMarked.Location = new System.Drawing.Point(261, 82);
+            this.button_CopyMarked.Name = "button_CopyMarked";
+            this.button_CopyMarked.Size = new System.Drawing.Size(122, 23);
+            this.button_CopyMarked.TabIndex = 13;
+            this.button_CopyMarked.Text = "x_Copy Marked";
+            this.button_CopyMarked.UseVisualStyleBackColor = true;
+            this.button_CopyMarked.Click += new System.EventHandler(this.button_CopyMarked_Click);
+            // 
             // UserControl_RegExTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Name = "UserControl_RegExTester";
-            this.Size = new System.Drawing.Size(609, 518);
+            this.Size = new System.Drawing.Size(659, 518);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -290,6 +326,9 @@
         private System.Windows.Forms.Timer timer_RegExMain;
         private System.Windows.Forms.Timer timer_RegExPost;
         private System.Windows.Forms.Timer timer_RegExParse;
+        private System.Windows.Forms.Button button_CopyMarked;
+        private System.Windows.Forms.Button button_RemoveMarked;
+        private System.Windows.Forms.Button button_RemoveUnmarked;
 
     }
 }

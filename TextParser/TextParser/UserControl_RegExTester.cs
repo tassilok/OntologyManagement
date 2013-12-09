@@ -32,6 +32,8 @@ namespace TextParser
         private clsTransaction objTransaction;
         private clsRelationConfig objRelationConfig;
 
+        private List<clsSelection> objSelections = new List<clsSelection>();
+
         public UserControl_RegExTester(clsLocalConfig LocalConfig)
         {
             InitializeComponent();
@@ -323,6 +325,8 @@ namespace TextParser
             var boolRegExMain = false;
             var boolRegExPost = false;
 
+            objSelections.Clear();
+
             richTextBox_Text.ReadOnly = true;
             try
             {
@@ -443,6 +447,12 @@ namespace TextParser
                         
                         if (richTextBox_Text.SelectionLength > 0)
                         {
+                            objSelections.Add(new clsSelection
+                            {
+                                SelectionStart = richTextBox_Text.SelectionStart,
+                                SelectionLength = richTextBox_Text.SelectionLength
+                            });
+
                             richTextBox_Text.SelectionBackColor = Color.Yellow;
                         }
                         
@@ -497,6 +507,11 @@ namespace TextParser
                     
                         if (richTextBox_Text.SelectionLength > 0)
                         {
+                            objSelections.Add(new clsSelection
+                            {
+                                SelectionStart = richTextBox_Text.SelectionStart,
+                                SelectionLength = richTextBox_Text.SelectionLength
+                            });
                             richTextBox_Text.SelectionBackColor = Color.Yellow;
                         }
                     }
@@ -509,6 +524,11 @@ namespace TextParser
                         richTextBox_Text.SelectionStart = objRegEx_Main_Matches[i].Index;
                         richTextBox_Text.SelectionLength = objRegEx_Main_Matches[i].Length;
 
+                        objSelections.Add(new clsSelection
+                        {
+                            SelectionStart = richTextBox_Text.SelectionStart,
+                            SelectionLength = richTextBox_Text.SelectionLength
+                        });
                         richTextBox_Text.SelectionBackColor = Color.Yellow;
                     }
                     
@@ -522,9 +542,42 @@ namespace TextParser
             }
 
 
-
             richTextBox_Text.ReadOnly = false;
         
+        }
+
+        private void button_RemoveUnmarked_Click(object sender, EventArgs e)
+        {
+            var objList_Marked = objSelections.OrderByDescending(p => p.SelectionStart).ToList();
+            for (int i = 0; i < objList_Marked.Count-1; i++)
+            {
+                
+            }
+        }
+
+        private void button_RemoveMarked_Click(object sender, EventArgs e)
+        {
+            var objList_Marked = objSelections.OrderByDescending(p => p.SelectionStart).ToList();
+            for (int i = 0; i < objList_Marked.Count; i++)
+            {
+                richTextBox_Text.SelectionStart = objList_Marked[i].SelectionStart;
+                richTextBox_Text.SelectionLength = objList_Marked[i].SelectionLength;
+                richTextBox_Text.SelectedText = "";
+
+            }
+        }
+
+        private void button_CopyMarked_Click(object sender, EventArgs e)
+        {
+            var objList_Marked = objSelections.OrderByDescending(p => p.SelectionStart).ToList();
+            var strToCopy = "";
+            for (int i = 0; i < objList_Marked.Count; i++)
+            {
+                richTextBox_Text.SelectionStart = objList_Marked[i].SelectionStart;
+                richTextBox_Text.SelectionLength = objList_Marked[i].SelectionLength;
+                strToCopy += richTextBox_Text.SelectedText + "\r\n";
+            }
+            Clipboard.SetDataObject(strToCopy);
         }
     }
 }

@@ -56,6 +56,7 @@
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="clsRegExFilter.cs" />
     <Compile Include="clsSearchItem.cs" />
+    <Compile Include="clsSelection.cs" />
     <Compile Include="frmFieldParser.cs">
       <SubType>Form</SubType>
     </Compile>

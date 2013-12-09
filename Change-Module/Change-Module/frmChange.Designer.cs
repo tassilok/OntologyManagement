@@ -61,15 +61,15 @@
             this.TabPage_References_And_Log = new System.Windows.Forms.TabPage();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.TabPage_Images = new System.Windows.Forms.TabPage();
-            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabControl_Image = new System.Windows.Forms.TabControl();
             this.TabPage_Process_Images = new System.Windows.Forms.TabPage();
             this.TabPage_ProcessLog_Images = new System.Windows.Forms.TabPage();
             this.TabPage_MediaItems = new System.Windows.Forms.TabPage();
-            this.tabControl3 = new System.Windows.Forms.TabControl();
+            this.tabControl_MediaItems = new System.Windows.Forms.TabControl();
             this.TabPage_ProcessMediaItem = new System.Windows.Forms.TabPage();
             this.TabPage_ProcessLog_MediaItem = new System.Windows.Forms.TabPage();
             this.TabPage_PDF = new System.Windows.Forms.TabPage();
-            this.tabControl4 = new System.Windows.Forms.TabControl();
+            this.tabControl_PDF = new System.Windows.Forms.TabControl();
             this.TabPage_Process_PDF = new System.Windows.Forms.TabPage();
             this.TabPage_PDF_ProcessLog = new System.Windows.Forms.TabPage();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
@@ -125,11 +125,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
             this.splitContainer5.SuspendLayout();
             this.TabPage_Images.SuspendLayout();
-            this.tabControl2.SuspendLayout();
+            this.tabControl_Image.SuspendLayout();
             this.TabPage_MediaItems.SuspendLayout();
-            this.tabControl3.SuspendLayout();
+            this.tabControl_MediaItems.SuspendLayout();
             this.TabPage_PDF.SuspendLayout();
-            this.tabControl4.SuspendLayout();
+            this.tabControl_PDF.SuspendLayout();
             this.toolStrip3.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -470,6 +470,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(572, 202);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // TabPage_References_And_Log
             // 
@@ -495,7 +496,7 @@
             // 
             // TabPage_Images
             // 
-            this.TabPage_Images.Controls.Add(this.tabControl2);
+            this.TabPage_Images.Controls.Add(this.tabControl_Image);
             this.TabPage_Images.Location = new System.Drawing.Point(4, 22);
             this.TabPage_Images.Name = "TabPage_Images";
             this.TabPage_Images.Padding = new System.Windows.Forms.Padding(3);
@@ -504,16 +505,17 @@
             this.TabPage_Images.Text = "x_Images";
             this.TabPage_Images.UseVisualStyleBackColor = true;
             // 
-            // tabControl2
+            // tabControl_Image
             // 
-            this.tabControl2.Controls.Add(this.TabPage_Process_Images);
-            this.tabControl2.Controls.Add(this.TabPage_ProcessLog_Images);
-            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl2.Location = new System.Drawing.Point(3, 3);
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(558, 170);
-            this.tabControl2.TabIndex = 0;
+            this.tabControl_Image.Controls.Add(this.TabPage_Process_Images);
+            this.tabControl_Image.Controls.Add(this.TabPage_ProcessLog_Images);
+            this.tabControl_Image.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl_Image.Location = new System.Drawing.Point(3, 3);
+            this.tabControl_Image.Name = "tabControl_Image";
+            this.tabControl_Image.SelectedIndex = 0;
+            this.tabControl_Image.Size = new System.Drawing.Size(558, 170);
+            this.tabControl_Image.TabIndex = 0;
+            this.tabControl_Image.SelectedIndexChanged += new System.EventHandler(this.tabControl_Image_SelectedIndexChanged);
             // 
             // TabPage_Process_Images
             // 
@@ -537,7 +539,7 @@
             // 
             // TabPage_MediaItems
             // 
-            this.TabPage_MediaItems.Controls.Add(this.tabControl3);
+            this.TabPage_MediaItems.Controls.Add(this.tabControl_MediaItems);
             this.TabPage_MediaItems.Location = new System.Drawing.Point(4, 22);
             this.TabPage_MediaItems.Name = "TabPage_MediaItems";
             this.TabPage_MediaItems.Padding = new System.Windows.Forms.Padding(3);
@@ -546,16 +548,17 @@
             this.TabPage_MediaItems.Text = "x_Media-Items";
             this.TabPage_MediaItems.UseVisualStyleBackColor = true;
             // 
-            // tabControl3
+            // tabControl_MediaItems
             // 
-            this.tabControl3.Controls.Add(this.TabPage_ProcessMediaItem);
-            this.tabControl3.Controls.Add(this.TabPage_ProcessLog_MediaItem);
-            this.tabControl3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl3.Location = new System.Drawing.Point(3, 3);
-            this.tabControl3.Name = "tabControl3";
-            this.tabControl3.SelectedIndex = 0;
-            this.tabControl3.Size = new System.Drawing.Size(558, 170);
-            this.tabControl3.TabIndex = 0;
+            this.tabControl_MediaItems.Controls.Add(this.TabPage_ProcessMediaItem);
+            this.tabControl_MediaItems.Controls.Add(this.TabPage_ProcessLog_MediaItem);
+            this.tabControl_MediaItems.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl_MediaItems.Location = new System.Drawing.Point(3, 3);
+            this.tabControl_MediaItems.Name = "tabControl_MediaItems";
+            this.tabControl_MediaItems.SelectedIndex = 0;
+            this.tabControl_MediaItems.Size = new System.Drawing.Size(558, 170);
+            this.tabControl_MediaItems.TabIndex = 0;
+            this.tabControl_MediaItems.SelectedIndexChanged += new System.EventHandler(this.tabControl_MediaItems_SelectedIndexChanged);
             // 
             // TabPage_ProcessMediaItem
             // 
@@ -579,7 +582,7 @@
             // 
             // TabPage_PDF
             // 
-            this.TabPage_PDF.Controls.Add(this.tabControl4);
+            this.TabPage_PDF.Controls.Add(this.tabControl_PDF);
             this.TabPage_PDF.Location = new System.Drawing.Point(4, 22);
             this.TabPage_PDF.Name = "TabPage_PDF";
             this.TabPage_PDF.Padding = new System.Windows.Forms.Padding(3);
@@ -588,16 +591,17 @@
             this.TabPage_PDF.Text = "x_PDF";
             this.TabPage_PDF.UseVisualStyleBackColor = true;
             // 
-            // tabControl4
+            // tabControl_PDF
             // 
-            this.tabControl4.Controls.Add(this.TabPage_Process_PDF);
-            this.tabControl4.Controls.Add(this.TabPage_PDF_ProcessLog);
-            this.tabControl4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl4.Location = new System.Drawing.Point(3, 3);
-            this.tabControl4.Name = "tabControl4";
-            this.tabControl4.SelectedIndex = 0;
-            this.tabControl4.Size = new System.Drawing.Size(558, 170);
-            this.tabControl4.TabIndex = 0;
+            this.tabControl_PDF.Controls.Add(this.TabPage_Process_PDF);
+            this.tabControl_PDF.Controls.Add(this.TabPage_PDF_ProcessLog);
+            this.tabControl_PDF.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl_PDF.Location = new System.Drawing.Point(3, 3);
+            this.tabControl_PDF.Name = "tabControl_PDF";
+            this.tabControl_PDF.SelectedIndex = 0;
+            this.tabControl_PDF.Size = new System.Drawing.Size(558, 170);
+            this.tabControl_PDF.TabIndex = 0;
+            this.tabControl_PDF.SelectedIndexChanged += new System.EventHandler(this.tabControl_PDF_SelectedIndexChanged);
             // 
             // TabPage_Process_PDF
             // 
@@ -863,11 +867,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
             this.splitContainer5.ResumeLayout(false);
             this.TabPage_Images.ResumeLayout(false);
-            this.tabControl2.ResumeLayout(false);
+            this.tabControl_Image.ResumeLayout(false);
             this.TabPage_MediaItems.ResumeLayout(false);
-            this.tabControl3.ResumeLayout(false);
+            this.tabControl_MediaItems.ResumeLayout(false);
             this.TabPage_PDF.ResumeLayout(false);
-            this.tabControl4.ResumeLayout(false);
+            this.tabControl_PDF.ResumeLayout(false);
             this.toolStrip3.ResumeLayout(false);
             this.toolStrip3.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -931,15 +935,15 @@
         private System.Windows.Forms.TabPage TabPage_References_And_Log;
         private System.Windows.Forms.SplitContainer splitContainer5;
         private System.Windows.Forms.TabPage TabPage_Images;
-        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabControl tabControl_Image;
         private System.Windows.Forms.TabPage TabPage_Process_Images;
         private System.Windows.Forms.TabPage TabPage_ProcessLog_Images;
         private System.Windows.Forms.TabPage TabPage_MediaItems;
-        private System.Windows.Forms.TabControl tabControl3;
+        private System.Windows.Forms.TabControl tabControl_MediaItems;
         private System.Windows.Forms.TabPage TabPage_ProcessMediaItem;
         private System.Windows.Forms.TabPage TabPage_ProcessLog_MediaItem;
         private System.Windows.Forms.TabPage TabPage_PDF;
-        private System.Windows.Forms.TabControl tabControl4;
+        private System.Windows.Forms.TabControl tabControl_PDF;
         private System.Windows.Forms.TabPage TabPage_Process_PDF;
         private System.Windows.Forms.TabPage TabPage_PDF_ProcessLog;
         private System.Windows.Forms.ToolStripButton toolStripButton_Description;

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Ontology_Module;
 using Process_Module;
 using OntologyClasses.BaseClasses;
+using Media_Viewer_Module;
 
 namespace Change_Module
 {
@@ -19,6 +20,21 @@ namespace Change_Module
         private UserControl_ProcessTree objUserControl_ProcessTree;
         private UserControl_History objUserControl_History;
         private UserControl_References objUserControl_References;
+        private UserControl_SingleViewer objUserControl_PDF_Process;
+        private UserControl_SingleViewer objUserControl_PDF_Log;
+        private UserControl_SingleViewer objUserControl_Image_Process;
+        private UserControl_SingleViewer objUserControl_Image_Log;
+        private UserControl_SingleViewer objUserControl_MediaItem_Process;
+        private UserControl_SingleViewer objUserControl_MediaItem_Log;
+
+        private bool boolRefreshed_Images_Process;
+        private bool boolRefreshed_Images_Log;
+        private bool boolRefreshed_PDF_Process;
+        private bool boolRefreshed_PDF_Log;
+        private bool boolRefreshed_ReferenceHistory;
+        private bool boolRefreshed_MediaItems_Process;
+        private bool boolRefreshed_MediaItems_Log;
+
         private AboutBox_OntologyItem AboutBox;
         private clsDataWork_Ticket objDataWork_Ticket;
 
@@ -53,6 +69,30 @@ namespace Change_Module
             objUserControl_ProcessTree.SelectItem += SelectedTreeItem;
             objUserControl_ProcessTree.addLogEntry += objUserControl_ProcessTree_addLogEntry;
             objUserControl_ProcessTree.Dock = DockStyle.Fill;
+
+            objUserControl_PDF_Process = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.PDF, objLocalConfig.OItem_User);
+            objUserControl_PDF_Process.Dock = DockStyle.Fill;
+            TabPage_Process_PDF.Controls.Add(objUserControl_PDF_Process);
+
+            objUserControl_PDF_Log = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.PDF, objLocalConfig.OItem_User);
+            objUserControl_PDF_Log.Dock = DockStyle.Fill;
+            TabPage_PDF_ProcessLog.Controls.Add(objUserControl_PDF_Log);
+
+            objUserControl_Image_Process = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.Image, objLocalConfig.OItem_User);
+            objUserControl_Image_Process.Dock = DockStyle.Fill;
+            TabPage_Process_Images.Controls.Add(objUserControl_Image_Process);
+
+            objUserControl_Image_Log = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.Image, objLocalConfig.OItem_User);
+            objUserControl_Image_Log.Dock = DockStyle.Fill;
+            TabPage_ProcessLog_Images.Controls.Add(objUserControl_Image_Log);
+
+            objUserControl_MediaItem_Process = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.MediaItem, objLocalConfig.OItem_User);
+            objUserControl_MediaItem_Process.Dock = DockStyle.Fill;
+            TabPage_ProcessMediaItem.Controls.Add(objUserControl_MediaItem_Process);
+
+            objUserControl_MediaItem_Log = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.MediaItem, objLocalConfig.OItem_User);
+            objUserControl_MediaItem_Process.Dock = DockStyle.Fill;
+            TabPage_ProcessLog_MediaItem.Controls.Add(objUserControl_MediaItem_Log);
 
             splitContainer1.Panel1.Controls.Add(objUserControl_ProcessTree);
 
@@ -160,26 +200,19 @@ namespace Change_Module
 
         private void SelectedTreeItem(clsOntologyItem objOItem_Selected)
         {
-            clsOntologyItem objOItem_ProcessLog;
-            clsOntologyItem objOItem_Process;
-            objOItem_SelNode = objOItem_Selected;
-            SetProcessAndLogDescription(objOItem_SelNode);
-            objUserControl_History.initialize(objOItem_SelNode);
-            if (objOItem_Selected.GUID_Parent == objLocalConfig.OItem_Type_Process_Ticket.GUID)
-            {
-                objUserControl_References.fill_Tree_Ref_Process(null, null);
-            }
-            else if (objOItem_Selected.GUID_Parent == objLocalConfig.OItem_Type_Process.GUID)
-            {
-                objOItem_ProcessLog = objDataWork_Ticket.GetData_ProcessLogOfProcess();
-                objUserControl_References.fill_Tree_Ref_Process(objOItem_Selected, objOItem_ProcessLog);
-            }
-            else
-            {
-                objOItem_Process = objDataWork_Ticket.GetData_ProcessOfProcessLog(objOItem_Selected);
-                objUserControl_References.fill_Tree_Ref_Process(objOItem_Process, objOItem_Selected);
-            }
             
+            objOItem_SelNode = objOItem_Selected;
+            boolRefreshed_Images_Process = false;
+            boolRefreshed_Images_Log = false;
+            boolRefreshed_MediaItems_Process = false;
+            boolRefreshed_MediaItems_Log = false;
+            boolRefreshed_PDF_Process = false;
+            boolRefreshed_PDF_Log = false;
+            boolRefreshed_ReferenceHistory = false;
+
+            SetProcessAndLogDescription(objOItem_SelNode);
+
+            Configure_TabPages();
         }
 
         private void configure_Controls()
@@ -583,7 +616,120 @@ namespace Change_Module
             AboutBox.ShowDialog(this);
         }
 
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Configure_TabPages();
+        }
 
+        private void Configure_TabPages()
+        {
+
+            clsOntologyItem objOItem_ProcessLog;
+            clsOntologyItem objOItem_Process;
+
+            if (tabControl1.SelectedTab.Name == TabPage_References_And_Log.Name)
+            {
+                if (!boolRefreshed_ReferenceHistory)
+                {
+                    objUserControl_History.initialize(objOItem_SelNode);
+                    if (objOItem_SelNode.GUID_Parent == objLocalConfig.OItem_Type_Process_Ticket.GUID)
+                    {
+                        objUserControl_References.fill_Tree_Ref_Process(null, null);
+                    }
+                    else if (objOItem_SelNode.GUID_Parent == objLocalConfig.OItem_Type_Process.GUID)
+                    {
+                        objOItem_ProcessLog = objDataWork_Ticket.GetData_ProcessLogOfProcess();
+                        objUserControl_References.fill_Tree_Ref_Process(objOItem_SelNode, objOItem_ProcessLog);
+                    }
+                    else
+                    {
+                        objOItem_Process = objDataWork_Ticket.GetData_ProcessOfProcessLog(objOItem_SelNode);
+                        objUserControl_References.fill_Tree_Ref_Process(objOItem_Process, objOItem_SelNode);
+                    }
+                    boolRefreshed_ReferenceHistory = true;
+                }
+
+            }
+            else if (tabControl1.SelectedTab.Name == TabPage_Images.Name)
+            {
+                if (tabControl_Image.SelectedTab.Name == TabPage_Process_Images.Name)
+                {
+                    if (!boolRefreshed_Images_Process)
+                    {
+                        objUserControl_Image_Process.initialize_Image(objOItem_SelNode);
+                        boolRefreshed_Images_Process = true;
+                    }
+                }
+                else
+                {
+                    if (!boolRefreshed_Images_Log)
+                    {
+                        objUserControl_Image_Log.initialize_Image(objOItem_SelNode);
+                        boolRefreshed_Images_Log = true;
+                    }
+                }
+                
+            }
+            else if (tabControl1.SelectedTab.Name == TabPage_MediaItems.Name)
+            {
+                if (tabControl_MediaItems.SelectedTab.Name == TabPage_ProcessMediaItem.Name)
+                {
+                    if (!boolRefreshed_MediaItems_Process)
+                    {
+                        objUserControl_MediaItem_Process.initialize_MediaItem(objOItem_SelNode);
+                        boolRefreshed_MediaItems_Process = true;
+                    }
+                }
+                else
+                {
+                    if (!boolRefreshed_MediaItems_Log)
+                    {
+                        objUserControl_MediaItem_Log.initialize_MediaItem(objOItem_SelNode);
+                        boolRefreshed_MediaItems_Log = true;
+                    }
+                }
+                
+
+            }
+            else if (tabControl1.SelectedTab.Name == TabPage_PDF.Name)
+            {
+                if (tabControl_PDF.SelectedTab.Name == TabPage_Process_PDF.Name)
+                {
+                    if (!boolRefreshed_PDF_Process)
+                    {
+                        objUserControl_PDF_Process.initialize_PDF(objOItem_SelNode);
+                        boolRefreshed_PDF_Process = true;
+                    }
+                }
+                else
+                {
+                    if (!boolRefreshed_PDF_Log)
+                    {
+
+                        objUserControl_PDF_Log.initialize_PDF(objOItem_SelNode);
+                        boolRefreshed_PDF_Log = true;
+                    }
+                }
+                
+                
+            }            
+            
+        }
+
+        private void tabControl_Image_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Configure_TabPages();
+        }
+
+        private void tabControl_MediaItems_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Configure_TabPages();
+        }
+
+        private void tabControl_PDF_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Configure_TabPages();
+        }
 
 
     }
