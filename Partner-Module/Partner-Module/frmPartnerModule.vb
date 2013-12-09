@@ -5,6 +5,8 @@ Public Class frmPartnerModule
 
     Private objLocalConfig As clsLocalConfig
 
+    Private objRepair As clsRepair
+
     Private WithEvents objUserControl_PartnerList As UserControl_OItemList
     Private WithEvents objUserControl_Address As UserControl_Address
     Private WithEvents objUserControl_PersonalData As UserControl_PersonalData
@@ -164,7 +166,7 @@ Public Class frmPartnerModule
     End Sub
 
     Private Sub set_DBConnection()
-
+        objRepair = New clsRepair(objLocalConfig)
     End Sub
 
     Private Sub TabControl1_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -180,5 +182,18 @@ Public Class frmPartnerModule
     Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
         AboutBox = New AboutBox_OntologyItem()
         AboutBox.ShowDialog(Me)
+    End Sub
+
+    Private Sub RepairAddressesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RepairAddressesToolStripMenuItem.Click
+        Dim objOItem_Result = objRepair.Repair_Address_Kommunikationsangaben
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            MsgBox("Die Kommunikationsangaben wurden repariert!", MsgBoxStyle.Information)
+        Else
+            MsgBox("Die Kommunikationsangaben konnten nicht repariert werden!", MsgBoxStyle.Information)
+        End If
+    End Sub
+
+    Private Sub TabControl1_SelectedIndexChanged1(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
+        configure_TabPages()
     End Sub
 End Class

@@ -5,6 +5,8 @@ Public Class UserControl_Address
 
     Private objDataWork_Address As clsDataWork_Address
     Private objTransaction_Address As clsTransaction_Address
+    Private objTransaction As clsTransaction
+    Private objRelationConfig As clsRelationConfig
 
     Private objFrm_PLZOrtLand As frmPLZOrtLand
     Private objFrm_Name As frm_Name
@@ -58,6 +60,8 @@ Public Class UserControl_Address
     Private Sub set_DBConnection()
         objDataWork_Address = New clsDataWork_Address(objLocalConfig)
         objTransaction_Address = New clsTransaction_Address(objLocalConfig)
+        objTransaction = New clsTransaction(objLocalConfig.Globals)
+        objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
     End Sub
 
     Private Sub Timer_Address_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Address.Tick
@@ -321,9 +325,13 @@ Public Class UserControl_Address
         If objFrm_PLZOrtLand.DialogResult = DialogResult.OK Then
             objOItem_Ort = objFrm_PLZOrtLand.OItem_Ort
             objOItem_PLZ = objFrm_PLZOrtLand.OItem_PLZ
-            objOItem_Result = objTransaction_Address.save_006_Address_To_PLZ(objOItem_PLZ, objDataWork_Address.Address)
+            objTransaction.ClearItems()
+            Dim objORel_Address_To_Plz = objRelationConfig.Rel_ObjectRelation(objDataWork_Address.Address, objOItem_PLZ, objLocalConfig.OItem_RelationType_located_in)
+
+            objOItem_Result = objTransaction.do_Transaction(objORel_Address_To_Plz, True)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                objOItem_Result = objTransaction_Address.save_006_Address_To_PLZ(objOItem_Ort, objDataWork_Address.Address)
+                Dim objORel_Address_To_Ort = objRelationConfig.Rel_ObjectRelation(objDataWork_Address.Address, objOItem_Ort, objLocalConfig.OItem_RelationType_located_in)
+                objOItem_Result = objTransaction.do_Transaction(objORel_Address_To_Ort, True)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     initialize_Address(objOItem_Partner)
                 Else

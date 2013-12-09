@@ -705,8 +705,7 @@ Public Class UserControl_Report
                 Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
 
                 If objLLeaded.Any() Then
-                    If Not IsDBNull(objDRV_Selected.Item(objLLeaded.First().Name_Col))  and _
-                        Not IsDBNull(objDRV_Selected.Item(objLCol.First().Name_Col)) Then
+                    If Not IsDBNull(objDRV_Selected.Item(objLLeaded.First().Name_Col)) Then
                         objOItem_Ref = New clsOntologyItem
                         objOItem_Ref.GUID = objDRV_Selected.Item(objLLeaded.First().Name_Col)
                         objOItem_Ref.Name = objDRV_Selected.Item(objLCol.First().Name_Col)

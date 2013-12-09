@@ -98,6 +98,7 @@
     <Compile Include="frmPLZOrtLand.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Maintenance\clsRepair.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

@@ -1430,17 +1430,38 @@ Public Class UserControl_OItemList
 
                 Case objLocalConfig.Globals.Type_Other
                     If objOItem_Other Is Nothing Then
-                        objFrm_Main = New frmMain(objLocalConfig.Globals)
-                        objFrm_Main.Applyable = True
-                        objFrm_Main.ShowDialog(Me)
-                        If objFrm_Main.DialogResult = DialogResult.OK Then
-                            If objFrm_Main.OList_Simple.Any Then
-                                oList_Simple = objFrm_Main.OList_Simple
-                                boolAdd = True
-                            Else
-                                MsgBox("Bitte ein Element auswählen!", MsgBoxStyle.Information)
+                        objFrm_Clipboard = New frmClipboard(objLocalConfig)
+                        Dim objOLRel As New List(Of clsObjectRel)
+                        If objFrm_Clipboard.containedByClipboard() = True Then
+                            objFrm_Clipboard.ShowDialog(Me)
+                            If objFrm_Clipboard.DialogResult = DialogResult.OK Then
+                                For Each objDGVR_Selected As DataGridViewRow In objFrm_Clipboard.selectedRows
+                                    objOLRel.Add(objDGVR_Selected.DataBoundItem)
+
+                                Next
                             End If
                         End If
+                        If Not objOLRel.Any Then
+                            objFrm_Main = New frmMain(objLocalConfig.Globals)
+                            objFrm_Main.Applyable = True
+                            objFrm_Main.ShowDialog(Me)
+                            If objFrm_Main.DialogResult = DialogResult.OK Then
+                                If objFrm_Main.OList_Simple.Any Then
+                                    oList_Simple = objFrm_Main.OList_Simple
+                                    boolAdd = True
+                                Else
+                                    MsgBox("Bitte ein Element auswählen!", MsgBoxStyle.Information)
+                                End If
+                            End If
+                        Else
+                            oList_Simple = (From objORel In objOLRel
+                                                    Select New clsOntologyItem With {.GUID = objORel.ID_Other, _
+                                                                                     .Name = objORel.Name_Other, _
+                                                                                     .GUID_Parent = objORel.ID_Parent_Other, _
+                                                                                     .Type = objLocalConfig.Globals.Type_Object}).ToList()
+                            boolAdd = True
+                        End If
+                        
                     Else
                         Select Case objOItem_Other.Type
                             Case objLocalConfig.Globals.Type_Object
@@ -1503,7 +1524,7 @@ Public Class UserControl_OItemList
                                                                                      .Type = objLocalConfig.Globals.Type_Object}).ToList()
                                     boolAdd = True
                                 End If
-                                
+
                         End Select
                     End If
 

@@ -1,4 +1,5 @@
 ﻿Imports OntologyClasses.BaseClasses
+Imports Structure_Module
 
 Public Class frmClipboard
 
@@ -11,8 +12,7 @@ Public Class frmClipboard
     End Function
 
     Private Sub initialize()
-        Dim objLClipboard As New List(Of clsObjectRel)
-        objLClipboard = objOntologyClipboard.getFromClipboard(objOItem_Item)
+        Dim objLClipboard As New SortableBindingList(Of clsObjectRel)(objOntologyClipboard.getFromClipboard(objOItem_Item))
         DataGridView_Items.DataSource = objLClipboard
         DataGridView_Items.Columns(0).Visible = False
         DataGridView_Items.Columns(1).Visible = False
@@ -36,7 +36,7 @@ Public Class frmClipboard
 
     End Sub
 
-    Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal OItem_Item As clsOntologyItem)
+    Public Sub New(ByVal LocalConfig As clsLocalConfig, Optional ByVal OItem_Item As clsOntologyItem = Nothing)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
@@ -110,5 +110,32 @@ Public Class frmClipboard
 
     Private Sub Button_Clear_Click(sender As Object, e As EventArgs) Handles Button_Clear.Click
         Dim objOItem_Result = objOntologyClipboard.clear_Clipboard(objOItem_Item)
+        initialize()
+    End Sub
+
+    Private Sub ContextMenuStrip_Main_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Main.Opening
+        RemoveFromClipboardToolStripMenuItem.Enabled = False
+        If DataGridView_Items.SelectedRows.Count > 0 Then
+            RemoveFromClipboardToolStripMenuItem.Enabled = True
+        End If
+    End Sub
+
+    Private Sub RemoveFromClipboardToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RemoveFromClipboardToolStripMenuItem.Click
+        Dim objOList_ToDelete As List(Of clsObjectRel) = New List(Of clsObjectRel)
+        For Each objDGVR_Selected As DataGridViewRow In DataGridView_Items.SelectedRows
+            Dim objDRV_Selected As clsObjectRel = objDGVR_Selected.DataBoundItem
+            objOList_ToDelete.Add(objDRV_Selected)
+
+        Next
+
+        If objOList_ToDelete.Any Then
+            Dim objOItem_Result = objOntologyClipboard.RemoveFromList(objOList_ToDelete)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Es konnten nicht alle Elemente der Liste entfernt werden!", MsgBoxStyle.Exclamation)
+
+            End If
+
+            initialize()
+        End If
     End Sub
 End Class

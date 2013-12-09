@@ -4,6 +4,8 @@ Public Class clsDataWork_CommunicationData
     Private objLocalConfig As clsLocalConfig
 
     Private objTransaction_ComData As clsTransaction_CommunicationData
+    Private objTransaction As clsTransaction
+    Private objRelationConfig As clsRelationConfig
 
     Private objDBLevel_CommunicationData As clsDBLevel
 
@@ -30,16 +32,21 @@ Public Class clsDataWork_CommunicationData
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             If objDBLevel_CommunicationData.OList_ObjectRel.Count = 0 Then
-                objOItem_CommunicationData = New clsOntologyItem(Guid.NewGuid.ToString.Replace("-", ""), _
-                                                                 objOItem_Partner.Name, _
-                                                                 objLocalConfig.OItem_Class_Kommunikationsangaben.GUID, _
-                                                                 objLocalConfig.Globals.Type_Object)
+                objOItem_CommunicationData = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
+                                                                       .Name = objOItem_Partner.Name, _
+                                                                       .GUID_Parent = objLocalConfig.OItem_Class_Kommunikationsangaben.GUID, _
+                                                                       .Type = objLocalConfig.Globals.Type_Object}
 
-                objOItem_Result = objTransaction_ComData.save_001_Kommunikationsangaben(objOItem_CommunicationData)
+                objTransaction.ClearItems()
+                objOItem_Result = objTransaction.do_Transaction(objOItem_CommunicationData)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    objOItem_Result = objTransaction_ComData.save_002_Kommunikationsangaben_To_Partner(objOItem_Partner)
+                    Dim objORel_Kommunikationsangaben_To_Partner = objRelationConfig.Rel_ObjectRelation(objOItem_CommunicationData, _
+                                                                                                        objOItem_Partner, _
+                                                                                                        objLocalConfig.OItem_RelationType_belongsTo)
+
+                    objOItem_Result = objTransaction.do_Transaction(objORel_Kommunikationsangaben_To_Partner, True)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                        objTransaction_ComData.del_001_Kommunikationsangaben(objOItem_CommunicationData)
+                        objTransaction.rollback()
                         objOItem_CommunicationData = Nothing
                     End If
                 Else
@@ -70,5 +77,7 @@ Public Class clsDataWork_CommunicationData
     Private Sub set_DBConnection()
         objTransaction_ComData = New clsTransaction_CommunicationData(objLocalConfig)
         objDBLevel_CommunicationData = New clsDBLevel(objLocalConfig.Globals)
+        objTransaction = New clsTransaction(objLocalConfig.Globals)
+        objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
     End Sub
 End Class

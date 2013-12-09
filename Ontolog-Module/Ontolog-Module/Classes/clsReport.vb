@@ -94,13 +94,17 @@ Public Class clsReport
             strPath2 = "%Temp%\" & Guid.NewGuid().ToString & ".xml"
             strPath = Environment.ExpandEnvironmentVariables(strPath)
             strPath2 = Environment.ExpandEnvironmentVariables(strPath2)
+            strClass_Left = objClassRel.Name_Class_Left
+            strClass_Right = objClassRel.Name_Class_Right
+            strRelationType = objClassRel.Name_RelationType
+
+            initializeA_Table_relT.GetData(strClass_Left, strClass_Right, strRelationType)
+            initializeA_Table_relT_Or.GetData(strClass_Left, strRelationType)
 
             i = 0
             Dim objORel = objDBLevel_ObjectRel.OList_ObjectRel.OrderBy(Function(p) p.ID_Parent_Other).ToList()
             If objORel.Any Then
-                strClass_Left = ""
-                strClass_Right = ""
-                strRelationType = ""
+                
                 While i < objORel.Count
                     objTextWriter = New IO.StreamWriter(strPath, False, System.Text.Encoding.UTF8)
                     objTextWriter2 = New IO.StreamWriter(strPath2, False, System.Text.Encoding.UTF8)
@@ -133,15 +137,14 @@ Public Class clsReport
                                                            strRelationType, _
                                                            strPath, _
                                                            True)
-                                finalizeA_Table_relT.GetData(strClass_Left, strClass_Right, strRelationType)
 
-                                initializeA_Table_relT_Or.GetData(strClass_Left, strRelationType)
+
                                 createA_Table_relT_Or.GetData(objLocalConfig.Globals.Type_Other, _
                                                            strClass_Left, _
                                                            strRelationType, _
                                                            strPath2, _
                                                            True)
-                                finalizeA_Table_relT_Or.GetData(strClass_Left, strRelationType)
+
 
                                 objTextWriter = New IO.StreamWriter(strPath, False, System.Text.Encoding.UTF8)
                                 objTextWriter2 = New IO.StreamWriter(strPath2, False, System.Text.Encoding.UTF8)
@@ -201,7 +204,7 @@ Public Class clsReport
                     objTextWriter.Close()
                     objTextWriter2.Close()
 
-                    initializeA_Table_relT.GetData(strClass_Left, strClass_Right, strRelationType)
+
                     createA_Table_relT.GetData(objLocalConfig.Globals.Type_ObjectRel, _
                                                strClass_Left, _
                                                strClass_Right, _
@@ -209,15 +212,14 @@ Public Class clsReport
                                                strPath, _
                                                True)
 
-                     finalizeA_Table_relT.GetData(strClass_Left, strClass_Right, strRelationType)
 
-                    initializeA_Table_relT_Or.GetData(strClass_Left, strRelationType)
+
+
                     createA_Table_relT_Or.GetData(objLocalConfig.Globals.Type_Other, _
                                                strClass_Left, _
                                                strRelationType, _
                                                strPath2, _
                                                True)
-                    finalizeA_Table_relT_Or.GetData(strClass_Left, strRelationType)
 
                     i = j
                 End While
@@ -239,9 +241,7 @@ Public Class clsReport
                 If objDBLevel_Classes.OList_Classes_Left.Count > 0 And _
                     objDBLevel_Classes.OList_Classes_Right.Count > 0 And _
                     objDBLevel_RelType.OList_RelationTypes.Count > 0 Then
-                    strClass_Left = objDBLevel_Classes.OList_Classes_Left(0).Name
-                    strClass_Right = objDBLevel_Classes.OList_Classes_Right(0).Name
-                    strRelationType = objDBLevel_RelType.OList_RelationTypes(0).Name
+
 
                     createA_Table_relT.GetData(objLocalConfig.Globals.Type_ObjectRel, _
                                                    strClass_Left, _
@@ -258,6 +258,8 @@ Public Class clsReport
                 End If
 
             End If
+            finalizeA_Table_relT.GetData(strClass_Left, strClass_Right, strRelationType)
+            finalizeA_Table_relT_Or.GetData(strClass_Left, strRelationType)
         Next
 
         If boolFinalize Then

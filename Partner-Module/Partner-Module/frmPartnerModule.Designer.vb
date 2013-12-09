@@ -24,6 +24,8 @@ Partial Class frmPartnerModule
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPartnerModule))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
@@ -33,8 +35,8 @@ Partial Class frmPartnerModule
         Me.TabPage_PersonalData = New System.Windows.Forms.TabPage()
         Me.TabPage_CommunicationData = New System.Windows.Forms.TabPage()
         Me.TabPage_AvailabilityData = New System.Windows.Forms.TabPage()
-        Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RepairAddressesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -48,12 +50,25 @@ Partial Class frmPartnerModule
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HilfeToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.HilfeToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(725, 24)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'HilfeToolStripMenuItem
+        '
+        Me.HilfeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoToolStripMenuItem})
+        Me.HilfeToolStripMenuItem.Name = "HilfeToolStripMenuItem"
+        Me.HilfeToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.HilfeToolStripMenuItem.Text = "&Hilfe"
+        '
+        'InfoToolStripMenuItem
+        '
+        Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.InfoToolStripMenuItem.Text = "&Info"
         '
         'ToolStripContainer1
         '
@@ -65,7 +80,7 @@ Partial Class frmPartnerModule
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(725, 437)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(725, 412)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 24)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
@@ -101,7 +116,7 @@ Partial Class frmPartnerModule
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.TabControl1)
-        Me.SplitContainer1.Size = New System.Drawing.Size(725, 437)
+        Me.SplitContainer1.Size = New System.Drawing.Size(725, 412)
         Me.SplitContainer1.SplitterDistance = 241
         Me.SplitContainer1.TabIndex = 0
         '
@@ -115,7 +130,7 @@ Partial Class frmPartnerModule
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(476, 433)
+        Me.TabControl1.Size = New System.Drawing.Size(476, 408)
         Me.TabControl1.TabIndex = 0
         '
         'TabPage_Address
@@ -123,7 +138,7 @@ Partial Class frmPartnerModule
         Me.TabPage_Address.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Address.Name = "TabPage_Address"
         Me.TabPage_Address.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_Address.Size = New System.Drawing.Size(468, 407)
+        Me.TabPage_Address.Size = New System.Drawing.Size(468, 382)
         Me.TabPage_Address.TabIndex = 0
         Me.TabPage_Address.Text = "x_Address"
         Me.TabPage_Address.UseVisualStyleBackColor = True
@@ -133,7 +148,7 @@ Partial Class frmPartnerModule
         Me.TabPage_PersonalData.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_PersonalData.Name = "TabPage_PersonalData"
         Me.TabPage_PersonalData.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_PersonalData.Size = New System.Drawing.Size(468, 406)
+        Me.TabPage_PersonalData.Size = New System.Drawing.Size(468, 382)
         Me.TabPage_PersonalData.TabIndex = 1
         Me.TabPage_PersonalData.Text = "x_Personal Data"
         Me.TabPage_PersonalData.UseVisualStyleBackColor = True
@@ -143,7 +158,7 @@ Partial Class frmPartnerModule
         Me.TabPage_CommunicationData.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_CommunicationData.Name = "TabPage_CommunicationData"
         Me.TabPage_CommunicationData.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_CommunicationData.Size = New System.Drawing.Size(468, 406)
+        Me.TabPage_CommunicationData.Size = New System.Drawing.Size(468, 382)
         Me.TabPage_CommunicationData.TabIndex = 2
         Me.TabPage_CommunicationData.Text = "x_Communication Data"
         Me.TabPage_CommunicationData.UseVisualStyleBackColor = True
@@ -153,23 +168,23 @@ Partial Class frmPartnerModule
         Me.TabPage_AvailabilityData.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_AvailabilityData.Name = "TabPage_AvailabilityData"
         Me.TabPage_AvailabilityData.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_AvailabilityData.Size = New System.Drawing.Size(468, 406)
+        Me.TabPage_AvailabilityData.Size = New System.Drawing.Size(468, 382)
         Me.TabPage_AvailabilityData.TabIndex = 3
         Me.TabPage_AvailabilityData.Text = "x_Availability Data"
         Me.TabPage_AvailabilityData.UseVisualStyleBackColor = True
         '
-        'HilfeToolStripMenuItem
+        'ToolStripMenuItem1
         '
-        Me.HilfeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoToolStripMenuItem})
-        Me.HilfeToolStripMenuItem.Name = "HilfeToolStripMenuItem"
-        Me.HilfeToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
-        Me.HilfeToolStripMenuItem.Text = "&Hilfe"
+        Me.ToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RepairAddressesToolStripMenuItem})
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(48, 20)
+        Me.ToolStripMenuItem1.Text = "&Tools"
         '
-        'InfoToolStripMenuItem
+        'RepairAddressesToolStripMenuItem
         '
-        Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.InfoToolStripMenuItem.Text = "&Info"
+        Me.RepairAddressesToolStripMenuItem.Name = "RepairAddressesToolStripMenuItem"
+        Me.RepairAddressesToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.RepairAddressesToolStripMenuItem.Text = "Repair Addresses"
         '
         'frmPartnerModule
         '
@@ -211,5 +226,7 @@ Partial Class frmPartnerModule
     Friend WithEvents TabPage_PersonalData As System.Windows.Forms.TabPage
     Friend WithEvents TabPage_CommunicationData As System.Windows.Forms.TabPage
     Friend WithEvents TabPage_AvailabilityData As System.Windows.Forms.TabPage
+    Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RepairAddressesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

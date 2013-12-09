@@ -29,8 +29,11 @@ Partial Class frmClipboard
         Me.Button_Cancel = New System.Windows.Forms.Button()
         Me.DataGridView_Items = New System.Windows.Forms.DataGridView()
         Me.BindingSource_Items = New System.Windows.Forms.BindingSource(Me.components)
+        Me.ContextMenuStrip_Main = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.RemoveFromClipboardToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.DataGridView_Items, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingSource_Items, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ContextMenuStrip_Main.SuspendLayout()
         Me.SuspendLayout()
         '
         'Button_Apply
@@ -73,11 +76,24 @@ Partial Class frmClipboard
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView_Items.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView_Items.ContextMenuStrip = Me.ContextMenuStrip_Main
         Me.DataGridView_Items.Location = New System.Drawing.Point(5, 6)
         Me.DataGridView_Items.Name = "DataGridView_Items"
         Me.DataGridView_Items.ReadOnly = True
         Me.DataGridView_Items.Size = New System.Drawing.Size(275, 219)
         Me.DataGridView_Items.TabIndex = 3
+        '
+        'ContextMenuStrip_Main
+        '
+        Me.ContextMenuStrip_Main.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveFromClipboardToolStripMenuItem})
+        Me.ContextMenuStrip_Main.Name = "ContextMenuStrip_Main"
+        Me.ContextMenuStrip_Main.Size = New System.Drawing.Size(210, 48)
+        '
+        'RemoveFromClipboardToolStripMenuItem
+        '
+        Me.RemoveFromClipboardToolStripMenuItem.Name = "RemoveFromClipboardToolStripMenuItem"
+        Me.RemoveFromClipboardToolStripMenuItem.Size = New System.Drawing.Size(209, 22)
+        Me.RemoveFromClipboardToolStripMenuItem.Text = "x_Remove from clipboard"
         '
         'frmClipboard
         '
@@ -93,6 +109,7 @@ Partial Class frmClipboard
         Me.Text = "frmClipboard"
         CType(Me.DataGridView_Items, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BindingSource_Items, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContextMenuStrip_Main.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -101,4 +118,6 @@ Partial Class frmClipboard
     Friend WithEvents Button_Cancel As System.Windows.Forms.Button
     Friend WithEvents DataGridView_Items As System.Windows.Forms.DataGridView
     Friend WithEvents BindingSource_Items As System.Windows.Forms.BindingSource
+    Friend WithEvents ContextMenuStrip_Main As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents RemoveFromClipboardToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

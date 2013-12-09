@@ -11,55 +11,81 @@ Public Class clsOntologyClipboard
         Dim objOItem_Result As clsOntologyItem
         Dim objLBaseConfig_To_Ref As New List(Of clsObjectRel)
 
-        Select Case OItem_Item.Type
-            Case objLocalConfig.Globals.Type_AttributeType
-                objOItem_RelationType = objLocalConfig.Globals.RelationType_belongingAttribute
+        If Not OItem_Item Is Nothing Then
+            Select Case OItem_Item.Type
+                Case objLocalConfig.Globals.Type_AttributeType
+                    objOItem_RelationType = objLocalConfig.Globals.RelationType_belongingAttribute
 
-                objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
-                                                   Nothing, _
-                                                   Nothing, _
-                                                   Nothing, _
-                                                   objOItem_RelationType.GUID, _
-                                                   objLocalConfig.Globals.Type_AttributeType, _
-                                                   Nothing, _
-                                                   Nothing))
-            Case objLocalConfig.Globals.Type_RelationType
-                objOItem_RelationType = objLocalConfig.Globals.RelationType_belongingRelationType
+                    objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
+                                                       Nothing, _
+                                                       Nothing, _
+                                                       Nothing, _
+                                                       objOItem_RelationType.GUID, _
+                                                       objLocalConfig.Globals.Type_AttributeType, _
+                                                       Nothing, _
+                                                       Nothing))
+                Case objLocalConfig.Globals.Type_RelationType
+                    objOItem_RelationType = objLocalConfig.Globals.RelationType_belongingRelationType
 
-                objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
-                                                   Nothing, _
-                                                   Nothing, _
-                                                   Nothing, _
-                                                   objOItem_RelationType.GUID, _
-                                                   objLocalConfig.Globals.Type_RelationType, _
-                                                   Nothing, _
-                                                   Nothing))
-            Case objLocalConfig.Globals.Type_Class
-                objOItem_RelationType = objLocalConfig.Globals.RelationType_belongingClass
+                    objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
+                                                       Nothing, _
+                                                       Nothing, _
+                                                       Nothing, _
+                                                       objOItem_RelationType.GUID, _
+                                                       objLocalConfig.Globals.Type_RelationType, _
+                                                       Nothing, _
+                                                       Nothing))
+                Case objLocalConfig.Globals.Type_Class
+                    objOItem_RelationType = objLocalConfig.Globals.RelationType_belongingClass
 
-                objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
-                                                   Nothing, _
-                                                   Nothing, _
-                                                   Nothing, _
-                                                   objOItem_RelationType.GUID, _
-                                                   objLocalConfig.Globals.Type_Class, _
-                                                   Nothing, _
-                                                   Nothing))
-            Case objLocalConfig.Globals.Type_Object
-                objOItem_RelationType = objLocalConfig.Globals.RelationType_belongingObject
+                    objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
+                                                       Nothing, _
+                                                       Nothing, _
+                                                       Nothing, _
+                                                       objOItem_RelationType.GUID, _
+                                                       objLocalConfig.Globals.Type_Class, _
+                                                       Nothing, _
+                                                       Nothing))
+                Case objLocalConfig.Globals.Type_Object
+                    objOItem_RelationType = objLocalConfig.Globals.RelationType_belongingObject
 
-                objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
-                                                   Nothing, _
-                                                   Nothing, _
-                                                   OItem_Item.GUID_Parent, _
-                                                   objOItem_RelationType.GUID, _
-                                                   objLocalConfig.Globals.Type_Object, _
-                                                   Nothing, _
-                                                   Nothing))
+                    objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
+                                                       Nothing, _
+                                                       Nothing, _
+                                                       OItem_Item.GUID_Parent, _
+                                                       objOItem_RelationType.GUID, _
+                                                       objLocalConfig.Globals.Type_Object, _
+                                                       Nothing, _
+                                                       Nothing))
 
-        End Select
+            End Select
+        Else
+            objLBaseConfig_To_Ref.Add(New clsObjectRel With {.ID_Object = objLocalConfig.OItem_BaseConfig.GUID,
+                                                             .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Attribute.GUID})
+
+            objLBaseConfig_To_Ref.Add(New clsObjectRel With {.ID_Object = objLocalConfig.OItem_BaseConfig.GUID,
+                                                             .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Object.GUID})
+
+            objLBaseConfig_To_Ref.Add(New clsObjectRel With {.ID_Object = objLocalConfig.OItem_BaseConfig.GUID,
+                                                             .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Type.GUID})
+
+            objLBaseConfig_To_Ref.Add(New clsObjectRel With {.ID_Object = objLocalConfig.OItem_BaseConfig.GUID,
+                                                             .ID_RelationType = objLocalConfig.OItem_RelationType_RelationType.GUID})
+        End If
+        
 
         objOItem_Result = objDBLevel.del_ObjectRel(objLBaseConfig_To_Ref)
+
+        Return objOItem_Result
+    End Function
+
+    Public Function RemoveFromList(objOlist_Items As List(Of clsObjectRel)) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem = objLocalConfig.Globals.LState_Nothing.Clone
+
+        If objOlist_Items.Any Then
+            objOItem_Result = objDBLevel.del_ObjectRel(objOlist_Items)
+
+        End If
 
         Return objOItem_Result
     End Function
@@ -68,63 +94,71 @@ Public Class clsOntologyClipboard
         Dim objLBaseConfig_To_Ref As New List(Of clsObjectRel)
         Dim objOItem_Result As clsOntologyItem = Nothing
 
-        Select Case OItem_Item.Type
-            Case objLocalConfig.Globals.Type_AttributeType
-                objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           objLocalConfig.OItem_RelationType_belonging_Attribute.GUID, _
-                                                           objLocalConfig.Globals.Type_AttributeType, _
-                                                           Nothing, _
-                                                           Nothing))
+        If Not OItem_Item Is Nothing Then
+            Select Case OItem_Item.Type
+                Case objLocalConfig.Globals.Type_AttributeType
+                    objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
+                                                               Nothing, _
+                                                               Nothing, _
+                                                               Nothing, _
+                                                               objLocalConfig.OItem_RelationType_belonging_Attribute.GUID, _
+                                                               objLocalConfig.Globals.Type_AttributeType, _
+                                                               Nothing, _
+                                                               Nothing))
 
-                objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
-                                                                doCount:=True)
+                    objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
+                                                                    doCount:=True)
 
-            Case objLocalConfig.Globals.Type_RelationType
-                objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           objLocalConfig.OItem_RelationType_RelationType.GUID, _
-                                                           objLocalConfig.Globals.Type_RelationType, _
-                                                           Nothing, _
-                                                           Nothing))
+                Case objLocalConfig.Globals.Type_RelationType
+                    objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
+                                                               Nothing, _
+                                                               Nothing, _
+                                                               Nothing, _
+                                                               objLocalConfig.OItem_RelationType_RelationType.GUID, _
+                                                               objLocalConfig.Globals.Type_RelationType, _
+                                                               Nothing, _
+                                                               Nothing))
 
-                objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
-                                                                doCount:=True)
-
-
-            Case objLocalConfig.Globals.Type_Object
-                objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           OItem_Item.GUID_Parent, _
-                                                           objLocalConfig.OItem_RelationType_belonging_Object.GUID, _
-                                                           objLocalConfig.Globals.Type_Object, _
-                                                           Nothing, _
-                                                           Nothing))
-
-                objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
-                                                                doCount:=True)
+                    objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
+                                                                    doCount:=True)
 
 
-            Case objLocalConfig.Globals.Type_Class
-                objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           objLocalConfig.OItem_RelationType_belonging_Type.GUID, _
-                                                           objLocalConfig.Globals.Type_Class, _
-                                                           Nothing, _
-                                                           Nothing))
+                Case objLocalConfig.Globals.Type_Object
+                    objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
+                                                               Nothing, _
+                                                               Nothing, _
+                                                               OItem_Item.GUID_Parent, _
+                                                               objLocalConfig.OItem_RelationType_belonging_Object.GUID, _
+                                                               objLocalConfig.Globals.Type_Object, _
+                                                               Nothing, _
+                                                               Nothing))
 
-                objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
-                                                                doCount:=True)
+                    objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
+                                                                    doCount:=True)
 
 
-        End Select
+                Case objLocalConfig.Globals.Type_Class
+                    objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
+                                                               Nothing, _
+                                                               Nothing, _
+                                                               Nothing, _
+                                                               objLocalConfig.OItem_RelationType_belonging_Type.GUID, _
+                                                               objLocalConfig.Globals.Type_Class, _
+                                                               Nothing, _
+                                                               Nothing))
+
+                    objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
+                                                                    doCount:=True)
+
+
+            End Select
+        Else
+            objLBaseConfig_To_Ref.Add(New clsObjectRel With {.ID_Object = objLocalConfig.OItem_BaseConfig.GUID})
+
+            objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
+                                                                    doCount:=True)
+        End If
+        
 
         Return objOItem_Result
     End Function
@@ -318,92 +352,119 @@ Public Class clsOntologyClipboard
         Dim objOItem_Result As clsOntologyItem
         Dim objLResult As New List(Of clsObjectRel)
 
-        Select Case OItem_Item.Type
-            Case objLocalConfig.Globals.Type_AttributeType
-                objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           objLocalConfig.OItem_RelationType_belonging_Attribute.GUID, _
-                                                           objLocalConfig.Globals.Type_AttributeType, _
-                                                           Nothing, _
-                                                           Nothing))
+        If Not OItem_Item Is Nothing Then
+            Select Case OItem_Item.Type
+                Case objLocalConfig.Globals.Type_AttributeType
+                    objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
+                                                               Nothing, _
+                                                               Nothing, _
+                                                               Nothing, _
+                                                               objLocalConfig.OItem_RelationType_belonging_Attribute.GUID, _
+                                                               objLocalConfig.Globals.Type_AttributeType, _
+                                                               Nothing, _
+                                                               Nothing))
 
-                objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
-                                                                boolIDs:=False)
+                    objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
+                                                                    boolIDs:=False)
 
-                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
 
-                    For Each objRef In objDBLevel.OList_ObjectRel
-                        objLResult.Add(objRef)
-                    Next
-                Else
-                    objLResult.Clear()
-                End If
-            Case objLocalConfig.Globals.Type_RelationType
-                objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           objLocalConfig.OItem_RelationType_RelationType.GUID, _
-                                                           objLocalConfig.Globals.Type_RelationType, _
-                                                           Nothing, _
-                                                           Nothing))
+                        For Each objRef In objDBLevel.OList_ObjectRel
+                            objLResult.Add(objRef)
+                        Next
+                    Else
+                        objLResult.Clear()
+                    End If
+                Case objLocalConfig.Globals.Type_RelationType
+                    objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
+                                                               Nothing, _
+                                                               Nothing, _
+                                                               Nothing, _
+                                                               objLocalConfig.OItem_RelationType_RelationType.GUID, _
+                                                               objLocalConfig.Globals.Type_RelationType, _
+                                                               Nothing, _
+                                                               Nothing))
 
-                objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
-                                                                boolIDs:=False)
+                    objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
+                                                                    boolIDs:=False)
 
-                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
 
-                    For Each objRef In objDBLevel.OList_ObjectRel
-                        objLResult.Add(objRef)
-                    Next
-                Else
-                    objLResult.Clear()
-                End If
-            Case objLocalConfig.Globals.Type_Object
-                objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           OItem_Item.GUID_Parent, _
-                                                           objLocalConfig.OItem_RelationType_belonging_Object.GUID, _
-                                                           objLocalConfig.Globals.Type_Object, _
-                                                           Nothing, _
-                                                           Nothing))
+                        For Each objRef In objDBLevel.OList_ObjectRel
+                            objLResult.Add(objRef)
+                        Next
+                    Else
+                        objLResult.Clear()
+                    End If
+                Case objLocalConfig.Globals.Type_Object
+                    objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
+                                                               Nothing, _
+                                                               Nothing, _
+                                                               OItem_Item.GUID_Parent, _
+                                                               objLocalConfig.OItem_RelationType_belonging_Object.GUID, _
+                                                               objLocalConfig.Globals.Type_Object, _
+                                                               Nothing, _
+                                                               Nothing))
 
-                objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
-                                                                boolIDs:=False)
+                    objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
+                                                                    boolIDs:=False)
 
-                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
 
-                    For Each objRef In objDBLevel.OList_ObjectRel
-                        objLResult.Add(objRef)
-                    Next
-                Else
-                    objLResult.Clear()
-                End If
-            Case objLocalConfig.Globals.Type_Class
-                objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           objLocalConfig.OItem_RelationType_belonging_Type.GUID, _
-                                                           objLocalConfig.Globals.Type_Class, _
-                                                           Nothing, _
-                                                           Nothing))
+                        For Each objRef In objDBLevel.OList_ObjectRel
+                            objLResult.Add(objRef)
+                        Next
+                    Else
+                        objLResult.Clear()
+                    End If
+                Case objLocalConfig.Globals.Type_Class
+                    objLBaseConfig_To_Ref.Add(New clsObjectRel(objLocalConfig.OItem_BaseConfig.GUID, _
+                                                               Nothing, _
+                                                               Nothing, _
+                                                               Nothing, _
+                                                               objLocalConfig.OItem_RelationType_belonging_Type.GUID, _
+                                                               objLocalConfig.Globals.Type_Class, _
+                                                               Nothing, _
+                                                               Nothing))
 
-                objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
-                                                                boolIDs:=False)
+                    objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
+                                                                    boolIDs:=False)
 
-                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
 
-                    For Each objBaseConfig_To_Ref In objLBaseConfig_To_Ref
-                        objLResult.Add(objBaseConfig_To_Ref)
-                    Next
-                Else
-                    objLResult.Clear()
-                End If
-        End Select
+                        For Each objBaseConfig_To_Ref In objLBaseConfig_To_Ref
+                            objLResult.Add(objBaseConfig_To_Ref)
+                        Next
+                    Else
+                        objLResult.Clear()
+                    End If
+            End Select
+        Else
+            objLBaseConfig_To_Ref.Add(New clsObjectRel With {.ID_Object = objLocalConfig.OItem_BaseConfig.GUID,
+                                                             .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Attribute.GUID})
+
+            objLBaseConfig_To_Ref.Add(New clsObjectRel With {.ID_Object = objLocalConfig.OItem_BaseConfig.GUID,
+                                                             .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Object.GUID})
+
+            objLBaseConfig_To_Ref.Add(New clsObjectRel With {.ID_Object = objLocalConfig.OItem_BaseConfig.GUID,
+                                                             .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Type.GUID})
+
+            objLBaseConfig_To_Ref.Add(New clsObjectRel With {.ID_Object = objLocalConfig.OItem_BaseConfig.GUID,
+                                                             .ID_RelationType = objLocalConfig.OItem_RelationType_RelationType.GUID})
+
+            objOItem_Result = objDBLevel.get_Data_ObjectRel(objLBaseConfig_To_Ref, _
+                                                                    boolIDs:=False)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+                For Each objRef In objDBLevel.OList_ObjectRel
+                    objLResult.Add(objRef)
+                Next
+            Else
+                objLResult.Clear()
+            End If
+        End If
+        
 
         If boolRemoveFromClipboard = True Then
             clear_Clipboard(OItem_Item)
