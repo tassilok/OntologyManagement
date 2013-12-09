@@ -30,6 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button_AdD = new System.Windows.Forms.Button();
+            this.button_AddRegexPre = new System.Windows.Forms.Button();
             this.label_Filter = new System.Windows.Forms.Label();
             this.dataGridView_Filter = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip_Filter = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -42,12 +45,10 @@
             this.textBox_RegexPre = new System.Windows.Forms.TextBox();
             this.label_RegexPre = new System.Windows.Forms.Label();
             this.richTextBox_Text = new System.Windows.Forms.RichTextBox();
-            this.button_AddRegexPre = new System.Windows.Forms.Button();
-            this.button_AdD = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.timer_RegExPre = new System.Windows.Forms.Timer(this.components);
             this.timer_RegExMain = new System.Windows.Forms.Timer(this.components);
             this.timer_RegExPost = new System.Windows.Forms.Timer(this.components);
+            this.timer_RegExParse = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -84,6 +85,39 @@
             this.splitContainer1.Size = new System.Drawing.Size(609, 518);
             this.splitContainer1.SplitterDistance = 112;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Enabled = false;
+            this.button2.Location = new System.Drawing.Point(268, 51);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(26, 23);
+            this.button2.TabIndex = 10;
+            this.button2.Text = "...";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button_AdD
+            // 
+            this.button_AdD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_AdD.Enabled = false;
+            this.button_AdD.Location = new System.Drawing.Point(268, 26);
+            this.button_AdD.Name = "button_AdD";
+            this.button_AdD.Size = new System.Drawing.Size(26, 23);
+            this.button_AdD.TabIndex = 9;
+            this.button_AdD.Text = "...";
+            this.button_AdD.UseVisualStyleBackColor = true;
+            // 
+            // button_AddRegexPre
+            // 
+            this.button_AddRegexPre.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_AddRegexPre.Enabled = false;
+            this.button_AddRegexPre.Location = new System.Drawing.Point(268, 2);
+            this.button_AddRegexPre.Name = "button_AddRegexPre";
+            this.button_AddRegexPre.Size = new System.Drawing.Size(26, 23);
+            this.button_AddRegexPre.TabIndex = 8;
+            this.button_AddRegexPre.Text = "...";
+            this.button_AddRegexPre.UseVisualStyleBackColor = true;
             // 
             // label_Filter
             // 
@@ -196,36 +230,6 @@
             this.richTextBox_Text.Text = "";
             this.richTextBox_Text.TextChanged += new System.EventHandler(this.richTextBox_Text_TextChanged);
             // 
-            // button_AddRegexPre
-            // 
-            this.button_AddRegexPre.Enabled = false;
-            this.button_AddRegexPre.Location = new System.Drawing.Point(268, 2);
-            this.button_AddRegexPre.Name = "button_AddRegexPre";
-            this.button_AddRegexPre.Size = new System.Drawing.Size(26, 23);
-            this.button_AddRegexPre.TabIndex = 8;
-            this.button_AddRegexPre.Text = "...";
-            this.button_AddRegexPre.UseVisualStyleBackColor = true;
-            // 
-            // button_AdD
-            // 
-            this.button_AdD.Enabled = false;
-            this.button_AdD.Location = new System.Drawing.Point(268, 26);
-            this.button_AdD.Name = "button_AdD";
-            this.button_AdD.Size = new System.Drawing.Size(26, 23);
-            this.button_AdD.TabIndex = 9;
-            this.button_AdD.Text = "...";
-            this.button_AdD.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(268, 51);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(26, 23);
-            this.button2.TabIndex = 10;
-            this.button2.Text = "...";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
             // timer_RegExPre
             // 
             this.timer_RegExPre.Interval = 300;
@@ -234,10 +238,17 @@
             // timer_RegExMain
             // 
             this.timer_RegExMain.Interval = 300;
+            this.timer_RegExMain.Tick += new System.EventHandler(this.timer_RegExMain_Tick);
             // 
             // timer_RegExPost
             // 
             this.timer_RegExPost.Interval = 300;
+            this.timer_RegExPost.Tick += new System.EventHandler(this.timer_RegExPost_Tick);
+            // 
+            // timer_RegExParse
+            // 
+            this.timer_RegExParse.Interval = 300;
+            this.timer_RegExParse.Tick += new System.EventHandler(this.timer_RegExParse_Tick);
             // 
             // UserControl_RegExTester
             // 
@@ -278,6 +289,7 @@
         private System.Windows.Forms.Timer timer_RegExPre;
         private System.Windows.Forms.Timer timer_RegExMain;
         private System.Windows.Forms.Timer timer_RegExPost;
+        private System.Windows.Forms.Timer timer_RegExParse;
 
     }
 }

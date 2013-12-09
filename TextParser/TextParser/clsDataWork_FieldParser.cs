@@ -71,7 +71,7 @@ namespace TextParser
                 {
                     new clsObjectAtt
                         {
-                            ID_AttributeType = objLocalConfig.OItem_attributetype_pattern.GUID,
+                            ID_AttributeType = objLocalConfig.OItem_attributetype_regex.GUID,
                             ID_Class = objLocalConfig.OItem_class_regular_expressions.GUID
                         }
                 };

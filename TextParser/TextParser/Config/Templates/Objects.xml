@@ -36,5 +36,7 @@
 <Item Id="cf7c7e41015045eb95b3dc910fab07fc" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Server_Port]]></Item>
 <Item Id="0b9f57caf12e4a40b561376eaf47d1a3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Port]]></Item>
 <Item Id="cdf2e98450e2480e83f1e95fd7de6a2a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Variable]]></Item>
+<Item Id="596a181c0524432abd272b20e512eecd" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Temporary_Regular_Expression]]></Item>
+<Item Id="f4db3f5e71914d2b8c09bc7fee3cb235" Id_Parent="bd8af19406a74130acad0394cab33ee6"><![CDATA[Temporary Regular Expression]]></Item>
 
 </Items>
