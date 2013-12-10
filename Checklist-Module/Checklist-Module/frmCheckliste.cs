@@ -330,105 +330,109 @@ namespace Checklist_Module
 
             foreach (DataRow item in objUserControl_Report.DataTableSelected.Rows)
             {
-                try
+                if (item["GUID_Working_Lists"].ToString() == objOItem_WorkingList.GUID)
                 {
-                    var objOItem_Ref = new clsOntologyItem { GUID = item[objOItem_ReportField.Name].ToString()};
-
-                    var objOList_LogEntries_To_Ref = objDataWork_Checklists.GetData_LogEntriesToRef(objOItem_Ref);
-
-
-                    var objOList_LogEntries_Success = ((from objLogEntryOfWorkingList in objOList_LogEntries_Show
-                                               join objLogEntryOfRef in objOList_LogEntries_To_Ref on objLogEntryOfWorkingList.ID_LogEntry equals objLogEntryOfRef.ID_Object
-                                                select objLogEntryOfWorkingList)
-                                                .Where(p => p.ID_LogState == objLocalConfig.OItem_object_success.GUID)).ToList()
-                                                .OrderByDescending(p => p.DateTimeStamp)
-                                                .ToList();
-
-                    var objOList_LogEntries_Error = ((from objLogEntryOfWorkingList in objOList_LogEntries_Show
-                                                        join objLogEntryOfRef in objOList_LogEntries_To_Ref on objLogEntryOfWorkingList.ID_LogEntry equals objLogEntryOfRef.ID_Object
-                                                        select objLogEntryOfWorkingList)
-                                                .Where(p => p.ID_LogState == objLocalConfig.OItem_object_error.GUID)).ToList()
-                                                .OrderByDescending(p => p.DateTimeStamp)
-                                                .ToList();
-
-                    var objOList_LogEntries_Pause = ((from objLogEntryOfWorkingList in objOList_LogEntries_Show
-                                                        join objLogEntryOfRef in objOList_LogEntries_To_Ref on objLogEntryOfWorkingList.ID_LogEntry equals objLogEntryOfRef.ID_Object
-                                                        select objLogEntryOfWorkingList)
-                                                .Where(p => p.ID_LogState == objLocalConfig.OItem_object_pause.GUID)).ToList()
-                                                .OrderByDescending(p => p.DateTimeStamp)
-                                                .ToList();
-                    var dateTimeDone = DateTime.Parse("01.01.1900");
-
-                    item["IsDone"] = false;
-                    item["ToDo"] = true;
-                    item["Started"] = false;
-                    if (objOList_LogEntries_Success.Any())
+                    try
                     {
-                        item["ID_LogEntry_Success"] = objOList_LogEntries_Success.First().ID_LogEntry;
-                        item["Name_LogEntry_Success"] = objOList_LogEntries_Success.First().Name_LogEntry;
-                        item["DateTimeStamp_Success"] = objOList_LogEntries_Success.First().DateTimeStamp;
-                        item["DateTimeStamp_Success_Seq"] = (long)objOList_LogEntries_Success.First().DateTimeStamp.Value.Year * 10000 +
-                                                objOList_LogEntries_Success.First().DateTimeStamp.Value.Month * 100 +
-                                                objOList_LogEntries_Success.First().DateTimeStamp.Value.Day;
-                        item["IsDone"] = true;
-                        item["ToDo"] = false;
-                        dateTimeDone = (DateTime)objOList_LogEntries_Success.First().DateTimeStamp;
-                        item["Success_Year"] = objOList_LogEntries_Success.First().DateTimeStamp.Value.Year;
-                        item["Success_Month"] = objOList_LogEntries_Success.First().DateTimeStamp.Value.Month;
-                        item["Success_Day"] = objOList_LogEntries_Success.First().DateTimeStamp.Value.Day;
-                        item["Success_Week"] = GetCalendarweek(objOList_LogEntries_Success.First().DateTimeStamp.Value);
-                        item["Started"] = true;
-                    }
+                        var objOItem_Ref = new clsOntologyItem { GUID = item[objOItem_ReportField.Name].ToString() };
 
-                    if (objOList_LogEntries_Error.Any())
-                    {
-                        item["ID_LogEntry_Error"] = objOList_LogEntries_Error.First().ID_LogEntry;
-                        item["Name_LogEntry_Error"] = objOList_LogEntries_Error.First().Name_LogEntry;
-                        item["DateTimeStamp_Error"] = objOList_LogEntries_Error.First().DateTimeStamp;
-                        item["DateTimeStamp_Error_Seq"] = (long)objOList_LogEntries_Error.First().DateTimeStamp.Value.Year * 10000 +
-                                                objOList_LogEntries_Error.First().DateTimeStamp.Value.Month * 100 +
-                                                objOList_LogEntries_Error.First().DateTimeStamp.Value.Day;
-                        if (dateTimeDone < (DateTime)objOList_LogEntries_Error.First().DateTimeStamp)
+                        var objOList_LogEntries_To_Ref = objDataWork_Checklists.GetData_LogEntriesToRef(objOItem_Ref);
+
+
+                        var objOList_LogEntries_Success = ((from objLogEntryOfWorkingList in objOList_LogEntries_Show
+                                                            join objLogEntryOfRef in objOList_LogEntries_To_Ref on objLogEntryOfWorkingList.ID_LogEntry equals objLogEntryOfRef.ID_Object
+                                                            select objLogEntryOfWorkingList)
+                                                    .Where(p => p.ID_LogState == objLocalConfig.OItem_object_success.GUID)).ToList()
+                                                    .OrderByDescending(p => p.DateTimeStamp)
+                                                    .ToList();
+
+                        var objOList_LogEntries_Error = ((from objLogEntryOfWorkingList in objOList_LogEntries_Show
+                                                          join objLogEntryOfRef in objOList_LogEntries_To_Ref on objLogEntryOfWorkingList.ID_LogEntry equals objLogEntryOfRef.ID_Object
+                                                          select objLogEntryOfWorkingList)
+                                                    .Where(p => p.ID_LogState == objLocalConfig.OItem_object_error.GUID)).ToList()
+                                                    .OrderByDescending(p => p.DateTimeStamp)
+                                                    .ToList();
+
+                        var objOList_LogEntries_Pause = ((from objLogEntryOfWorkingList in objOList_LogEntries_Show
+                                                          join objLogEntryOfRef in objOList_LogEntries_To_Ref on objLogEntryOfWorkingList.ID_LogEntry equals objLogEntryOfRef.ID_Object
+                                                          select objLogEntryOfWorkingList)
+                                                    .Where(p => p.ID_LogState == objLocalConfig.OItem_object_pause.GUID)).ToList()
+                                                    .OrderByDescending(p => p.DateTimeStamp)
+                                                    .ToList();
+                        var dateTimeDone = DateTime.Parse("01.01.1900");
+
+                        item["IsDone"] = false;
+                        item["ToDo"] = true;
+                        item["Started"] = false;
+                        if (objOList_LogEntries_Success.Any())
                         {
-                            dateTimeDone = (DateTime)objOList_LogEntries_Error.First().DateTimeStamp;
-                            item["IsDone"] = false;
-                            item["ToDo"] = true;
-                        }
-                            
-                        item["Error_Year"] = objOList_LogEntries_Error.First().DateTimeStamp.Value.Year;
-                        item["Error_Month"] = objOList_LogEntries_Error.First().DateTimeStamp.Value.Month;
-                        item["Error_Day"] = objOList_LogEntries_Error.First().DateTimeStamp.Value.Day;
-                        item["Error_Week"] = GetCalendarweek(objOList_LogEntries_Error.First().DateTimeStamp.Value);
-                        item["Started"] = true;
-                    }
-
-                    if (objOList_LogEntries_Pause.Any())
-                    {
-                        item["ID_LogEntry_Pause"] = objOList_LogEntries_Pause.First().ID_LogEntry;
-                        item["Name_LogEntry_Pause"] = objOList_LogEntries_Pause.First().Name_LogEntry;
-                        item["DateTimeStamp_Pause"] = objOList_LogEntries_Pause.First().DateTimeStamp;
-                        item["DateTimeStamp_Pause_Seq"] = (long)objOList_LogEntries_Pause.First().DateTimeStamp.Value.Year * 10000 +
-                                                objOList_LogEntries_Pause.First().DateTimeStamp.Value.Month * 100 +
-                                                objOList_LogEntries_Pause.First().DateTimeStamp.Value.Day;
-
-                        if (dateTimeDone < (DateTime)objOList_LogEntries_Pause.First().DateTimeStamp)
-                        {
-                            dateTimeDone = (DateTime)objOList_LogEntries_Pause.First().DateTimeStamp;
-                            item["IsDone"] = false;
-                            item["ToDo"] = true;
+                            item["ID_LogEntry_Success"] = objOList_LogEntries_Success.First().ID_LogEntry;
+                            item["Name_LogEntry_Success"] = objOList_LogEntries_Success.First().Name_LogEntry;
+                            item["DateTimeStamp_Success"] = objOList_LogEntries_Success.First().DateTimeStamp;
+                            item["DateTimeStamp_Success_Seq"] = (long)objOList_LogEntries_Success.First().DateTimeStamp.Value.Year * 10000 +
+                                                    objOList_LogEntries_Success.First().DateTimeStamp.Value.Month * 100 +
+                                                    objOList_LogEntries_Success.First().DateTimeStamp.Value.Day;
+                            item["IsDone"] = true;
+                            item["ToDo"] = false;
+                            dateTimeDone = (DateTime)objOList_LogEntries_Success.First().DateTimeStamp;
+                            item["Success_Year"] = objOList_LogEntries_Success.First().DateTimeStamp.Value.Year;
+                            item["Success_Month"] = objOList_LogEntries_Success.First().DateTimeStamp.Value.Month;
+                            item["Success_Day"] = objOList_LogEntries_Success.First().DateTimeStamp.Value.Day;
+                            item["Success_Week"] = GetCalendarweek(objOList_LogEntries_Success.First().DateTimeStamp.Value);
+                            item["Started"] = true;
                         }
 
-                        item["Pause_Year"] = objOList_LogEntries_Pause.First().DateTimeStamp.Value.Year;
-                        item["Pause_Month"] = objOList_LogEntries_Pause.First().DateTimeStamp.Value.Month;
-                        item["Pause_Day"] = objOList_LogEntries_Pause.First().DateTimeStamp.Value.Day;
-                        item["Pause_Week"] = GetCalendarweek(objOList_LogEntries_Pause.First().DateTimeStamp.Value);
-                        item["Started"] = true;
-                    }
+                        if (objOList_LogEntries_Error.Any())
+                        {
+                            item["ID_LogEntry_Error"] = objOList_LogEntries_Error.First().ID_LogEntry;
+                            item["Name_LogEntry_Error"] = objOList_LogEntries_Error.First().Name_LogEntry;
+                            item["DateTimeStamp_Error"] = objOList_LogEntries_Error.First().DateTimeStamp;
+                            item["DateTimeStamp_Error_Seq"] = (long)objOList_LogEntries_Error.First().DateTimeStamp.Value.Year * 10000 +
+                                                    objOList_LogEntries_Error.First().DateTimeStamp.Value.Month * 100 +
+                                                    objOList_LogEntries_Error.First().DateTimeStamp.Value.Day;
+                            if (dateTimeDone < (DateTime)objOList_LogEntries_Error.First().DateTimeStamp)
+                            {
+                                dateTimeDone = (DateTime)objOList_LogEntries_Error.First().DateTimeStamp;
+                                item["IsDone"] = false;
+                                item["ToDo"] = true;
+                            }
 
+                            item["Error_Year"] = objOList_LogEntries_Error.First().DateTimeStamp.Value.Year;
+                            item["Error_Month"] = objOList_LogEntries_Error.First().DateTimeStamp.Value.Month;
+                            item["Error_Day"] = objOList_LogEntries_Error.First().DateTimeStamp.Value.Day;
+                            item["Error_Week"] = GetCalendarweek(objOList_LogEntries_Error.First().DateTimeStamp.Value);
+                            item["Started"] = true;
+                        }
+
+                        if (objOList_LogEntries_Pause.Any())
+                        {
+                            item["ID_LogEntry_Pause"] = objOList_LogEntries_Pause.First().ID_LogEntry;
+                            item["Name_LogEntry_Pause"] = objOList_LogEntries_Pause.First().Name_LogEntry;
+                            item["DateTimeStamp_Pause"] = objOList_LogEntries_Pause.First().DateTimeStamp;
+                            item["DateTimeStamp_Pause_Seq"] = (long)objOList_LogEntries_Pause.First().DateTimeStamp.Value.Year * 10000 +
+                                                    objOList_LogEntries_Pause.First().DateTimeStamp.Value.Month * 100 +
+                                                    objOList_LogEntries_Pause.First().DateTimeStamp.Value.Day;
+
+                            if (dateTimeDone < (DateTime)objOList_LogEntries_Pause.First().DateTimeStamp)
+                            {
+                                dateTimeDone = (DateTime)objOList_LogEntries_Pause.First().DateTimeStamp;
+                                item["IsDone"] = false;
+                                item["ToDo"] = true;
+                            }
+
+                            item["Pause_Year"] = objOList_LogEntries_Pause.First().DateTimeStamp.Value.Year;
+                            item["Pause_Month"] = objOList_LogEntries_Pause.First().DateTimeStamp.Value.Month;
+                            item["Pause_Day"] = objOList_LogEntries_Pause.First().DateTimeStamp.Value.Day;
+                            item["Pause_Week"] = GetCalendarweek(objOList_LogEntries_Pause.First().DateTimeStamp.Value);
+                            item["Started"] = true;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                    }
                 }
-                catch(Exception ex)
-                {
-                }
+                
                 
             }
         }
@@ -464,86 +468,90 @@ namespace Checklist_Module
                 foreach (DataGridViewRow objViewRow in objUserControl_Report.DataGridViewRow_Selected)
                 {
                     DataRowView objDataRow = (DataRowView)objViewRow.DataBoundItem;
-                    var objOItem_OntologyItem = objDataWork_Checklists.GetOntologyItemByGUID(objDataRow[objOItem_ReportField.Name].ToString());
-                    if (objOItem_OntologyItem != null)
+                    if (objDataRow["GUID_Working_Lists"].ToString() == objOItem_WorkingList.GUID)
                     {
-                        var objOItem_Result = objLogManagement.log_Entry(objFrmLogDialog.DateTimeStamp, OItem_LogState, objLocalConfig.User, objFrmLogDialog.Message);
-                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        var objOItem_OntologyItem = objDataWork_Checklists.GetOntologyItemByGUID(objDataRow[objOItem_ReportField.Name].ToString());
+                        if (objOItem_OntologyItem != null)
                         {
-                            objTransaction.ClearItems();
-                            var objOItem_LogEntry = objLogManagement.OItem_LogEntry;
-                            var ORel_WorkingList_To_LogEntry = objDataWork_Checklists.Rel_WorkingList_To_LogEntry(objOItem_WorkingList, objOItem_LogEntry);
-                            objOItem_Result = objTransaction.do_Transaction(ORel_WorkingList_To_LogEntry);
+                            var objOItem_Result = objLogManagement.log_Entry(objFrmLogDialog.DateTimeStamp, OItem_LogState, objLocalConfig.User, objFrmLogDialog.Message);
                             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                             {
-                                var ORel_LogEntry_To_Rel = objDataWork_Checklists.Rel_LogEntry_To_Ref(objOItem_LogEntry, objOItem_OntologyItem);
-                                objOItem_Result = objTransaction.do_Transaction(ORel_LogEntry_To_Rel);
+                                objTransaction.ClearItems();
+                                var objOItem_LogEntry = objLogManagement.OItem_LogEntry;
+                                var ORel_WorkingList_To_LogEntry = objDataWork_Checklists.Rel_WorkingList_To_LogEntry(objOItem_WorkingList, objOItem_LogEntry);
+                                objOItem_Result = objTransaction.do_Transaction(ORel_WorkingList_To_LogEntry);
                                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                 {
-                                    if (OItem_LogState.GUID == objLocalConfig.OItem_object_success.GUID)
+                                    var ORel_LogEntry_To_Rel = objDataWork_Checklists.Rel_LogEntry_To_Ref(objOItem_LogEntry, objOItem_OntologyItem);
+                                    objOItem_Result = objTransaction.do_Transaction(ORel_LogEntry_To_Rel);
+                                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                     {
-                                        objDataRow["ID_LogEntry_Success"] = objOItem_LogEntry.GUID;
-                                        objDataRow["Name_LogEntry_Success"] = objOItem_LogEntry.Name;
-                                        objDataRow["DateTimeStamp_Success"] = objFrmLogDialog.DateTimeStamp;
-                                        objDataRow["DateTimeStamp_Success_Seq"] = (long)objFrmLogDialog.DateTimeStamp.Year * 10000 +
-                                                                objFrmLogDialog.DateTimeStamp.Month * 100 +
-                                                                objFrmLogDialog.DateTimeStamp.Day;
-                                        objDataRow["IsDone"] = true;
-                                        objDataRow["ToDo"] = false;
-                                        objDataRow["Success_Year"] = objFrmLogDialog.DateTimeStamp.Year;
-                                        objDataRow["Success_Month"] = objFrmLogDialog.DateTimeStamp.Month;
-                                        objDataRow["Success_Day"] = objFrmLogDialog.DateTimeStamp.Day;
-                                        objDataRow["Success_Week"] = GetCalendarweek(objFrmLogDialog.DateTimeStamp);
+                                        if (OItem_LogState.GUID == objLocalConfig.OItem_object_success.GUID)
+                                        {
+                                            objDataRow["ID_LogEntry_Success"] = objOItem_LogEntry.GUID;
+                                            objDataRow["Name_LogEntry_Success"] = objOItem_LogEntry.Name;
+                                            objDataRow["DateTimeStamp_Success"] = objFrmLogDialog.DateTimeStamp;
+                                            objDataRow["DateTimeStamp_Success_Seq"] = (long)objFrmLogDialog.DateTimeStamp.Year * 10000 +
+                                                                    objFrmLogDialog.DateTimeStamp.Month * 100 +
+                                                                    objFrmLogDialog.DateTimeStamp.Day;
+                                            objDataRow["IsDone"] = true;
+                                            objDataRow["ToDo"] = false;
+                                            objDataRow["Success_Year"] = objFrmLogDialog.DateTimeStamp.Year;
+                                            objDataRow["Success_Month"] = objFrmLogDialog.DateTimeStamp.Month;
+                                            objDataRow["Success_Day"] = objFrmLogDialog.DateTimeStamp.Day;
+                                            objDataRow["Success_Week"] = GetCalendarweek(objFrmLogDialog.DateTimeStamp);
+                                        }
+                                        else if (OItem_LogState.GUID == objLocalConfig.OItem_object_error.GUID)
+                                        {
+                                            objDataRow["ID_LogEntry_Error"] = objOItem_LogEntry.GUID;
+                                            objDataRow["Name_LogEntry_Error"] = objOItem_LogEntry.Name;
+                                            objDataRow["DateTimeStamp_Error"] = objFrmLogDialog.DateTimeStamp;
+                                            objDataRow["DateTimeStamp_Error_Seq"] = (long)objFrmLogDialog.DateTimeStamp.Year * 10000 +
+                                                                    objFrmLogDialog.DateTimeStamp.Month * 100 +
+                                                                    objFrmLogDialog.DateTimeStamp.Day;
+                                            objDataRow["IsDone"] = false;
+                                            objDataRow["ToDo"] = true;
+                                            objDataRow["Error_Year"] = objFrmLogDialog.DateTimeStamp.Year;
+                                            objDataRow["Error_Month"] = objFrmLogDialog.DateTimeStamp.Month;
+                                            objDataRow["Error_Day"] = objFrmLogDialog.DateTimeStamp.Day;
+                                            objDataRow["Error_Week"] = GetCalendarweek(objFrmLogDialog.DateTimeStamp);
+                                        }
+                                        else if (OItem_LogState.GUID == objLocalConfig.OItem_object_pause.GUID)
+                                        {
+                                            objDataRow["ID_LogEntry_Pause"] = objOItem_LogEntry.GUID;
+                                            objDataRow["Name_LogEntry_Pause"] = objOItem_LogEntry.Name;
+                                            objDataRow["DateTimeStamp_Pause"] = objFrmLogDialog.DateTimeStamp;
+                                            objDataRow["DateTimeStamp_Pause_Seq"] = (long)objFrmLogDialog.DateTimeStamp.Year * 10000 +
+                                                                    objFrmLogDialog.DateTimeStamp.Month * 100 +
+                                                                    objFrmLogDialog.DateTimeStamp.Day;
+                                            objDataRow["IsDone"] = false;
+                                            objDataRow["ToDo"] = true;
+                                            objDataRow["Pause_Year"] = objFrmLogDialog.DateTimeStamp.Year;
+                                            objDataRow["Pause_Month"] = objFrmLogDialog.DateTimeStamp.Month;
+                                            objDataRow["Pause_Day"] = objFrmLogDialog.DateTimeStamp.Day;
+                                            objDataRow["Pause_Week"] = GetCalendarweek(objFrmLogDialog.DateTimeStamp);
+                                        }
                                     }
-                                    else if (OItem_LogState.GUID == objLocalConfig.OItem_object_error.GUID)
+                                    else
                                     {
-                                        objDataRow["ID_LogEntry_Error"] = objOItem_LogEntry.GUID;
-                                        objDataRow["Name_LogEntry_Error"] = objOItem_LogEntry.Name;
-                                        objDataRow["DateTimeStamp_Error"] = objFrmLogDialog.DateTimeStamp;
-                                        objDataRow["DateTimeStamp_Error_Seq"] = (long)objFrmLogDialog.DateTimeStamp.Year * 10000 +
-                                                                objFrmLogDialog.DateTimeStamp.Month * 100 +
-                                                                objFrmLogDialog.DateTimeStamp.Day;
-                                        objDataRow["IsDone"] = false;
-                                        objDataRow["ToDo"] = true;
-                                        objDataRow["Error_Year"] = objFrmLogDialog.DateTimeStamp.Year;
-                                        objDataRow["Error_Month"] = objFrmLogDialog.DateTimeStamp.Month;
-                                        objDataRow["Error_Day"] = objFrmLogDialog.DateTimeStamp.Day;
-                                        objDataRow["Error_Week"] = GetCalendarweek(objFrmLogDialog.DateTimeStamp);
-                                    }
-                                    else if (OItem_LogState.GUID == objLocalConfig.OItem_object_pause.GUID)
-                                    {
-                                        objDataRow["ID_LogEntry_Pause"] = objOItem_LogEntry.GUID;
-                                        objDataRow["Name_LogEntry_Pause"] = objOItem_LogEntry.Name;
-                                        objDataRow["DateTimeStamp_Pause"] = objFrmLogDialog.DateTimeStamp;
-                                        objDataRow["DateTimeStamp_Pause_Seq"] = (long)objFrmLogDialog.DateTimeStamp.Year * 10000 +
-                                                                objFrmLogDialog.DateTimeStamp.Month * 100 +
-                                                                objFrmLogDialog.DateTimeStamp.Day;
-                                        objDataRow["IsDone"] = false;
-                                        objDataRow["ToDo"] = true;
-                                        objDataRow["Pause_Year"] = objFrmLogDialog.DateTimeStamp.Year;
-                                        objDataRow["Pause_Month"] = objFrmLogDialog.DateTimeStamp.Month;
-                                        objDataRow["Pause_Day"] = objFrmLogDialog.DateTimeStamp.Day;
-                                        objDataRow["Pause_Week"] = GetCalendarweek(objFrmLogDialog.DateTimeStamp);
+                                        MessageBox.Show(this, "Der Eintrag konnte nicht geloggt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                        objTransaction.rollback();
+                                        objLogManagement.del_LogEntry(objOItem_LogEntry);
                                     }
                                 }
                                 else
                                 {
                                     MessageBox.Show(this, "Der Eintrag konnte nicht geloggt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                    objTransaction.rollback();
                                     objLogManagement.del_LogEntry(objOItem_LogEntry);
                                 }
                             }
-                            else
-                            {
-                                MessageBox.Show(this, "Der Eintrag konnte nicht geloggt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                objLogManagement.del_LogEntry(objOItem_LogEntry);
-                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show(this, "Die Referenz konnte nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         }
                     }
-                    else
-                    {
-                        MessageBox.Show(this, "Die Referenz konnte nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    }
+                    
                 }
             }
         }
