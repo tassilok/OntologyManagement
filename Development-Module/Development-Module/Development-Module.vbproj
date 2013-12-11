@@ -79,6 +79,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsCodeTemplate.vb" />
     <Compile Include="clsDataWork_BaseData.vb" />
     <Compile Include="clsDataWork_CodeGenerator.vb" />
     <Compile Include="clsDataWork_Details.vb" />

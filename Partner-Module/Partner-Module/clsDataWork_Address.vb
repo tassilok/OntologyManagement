@@ -7,7 +7,8 @@ Public Class clsDataWork_Address
 
     Private objDBLevel_Address As clsDBLevel
     Private objDBLevel_Strasse As clsDBLevel
-    Private objDBLevel_Zusatz As clsDBLevel
+    Private objDBLevel_Zusatz1 As clsDBLevel
+    Private objDBLevel_Zusatz2 As clsDBLevel
     Private objDBLevel_Postfach As clsDBLevel
     Private objDBLevel_PLZ As clsDBLevel
     Private objDBLevel_Ort As clsDBLevel
@@ -26,7 +27,7 @@ Public Class clsDataWork_Address
 
     Private objOItem_Address As clsOntologyItem
     Private objOItem_Strasse As clsObjectAtt
-    Private objOItem_Zusatz As clsObjectAtt
+    Private objOList_AdressZusaetze As List(Of clsAdderesszusatz)
     Private objOItem_Postfach As clsObjectAtt
     Private objOItem_PLZ As clsOntologyItem
     Private objOItem_Ort As clsOntologyItem
@@ -70,9 +71,9 @@ Public Class clsDataWork_Address
         End Get
     End Property
 
-    Public ReadOnly Property Zusatz As clsObjectAtt
+    Public ReadOnly Property Zusaetze As List(Of clsAdderesszusatz)
         Get
-            Return objOItem_Zusatz
+            Return objOList_AdressZusaetze
         End Get
     End Property
 
@@ -167,7 +168,7 @@ Public Class clsDataWork_Address
         objOItem_Ort = Nothing
         objOItem_Land = Nothing
         objOItem_Strasse = Nothing
-        objOItem_Zusatz = Nothing
+        objOList_AdressZusaetze = New List(Of clsAdderesszusatz)
         objOItem_Postfach = Nothing
 
         objOList_Address.Add(New clsObjectRel With {.ID_Object = objOItem_Partner.GUID, _
@@ -269,37 +270,38 @@ Public Class clsDataWork_Address
 
     Public Sub get_Data_Zusatz()
         Dim objOItem_Result As clsOntologyItem
-        Dim objOList_Zusatz As New List(Of clsObjectAtt)
+
         objOItem_Result_Zusatz = objLocalConfig.Globals.LState_Nothing
 
-        objOList_Zusatz.Add(New clsObjectAtt(Nothing, _
-                                             objOItem_Address.GUID, _
-                                             Nothing, _
-                                             objLocalConfig.OItem_Attribute_Zusatz.GUID, _
-                                             Nothing))
+        
+        Dim objOList_Zusatz_Rel = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Object = objOItem_Address.GUID, _
+                                                                                          .ID_Parent_Other = objLocalConfig.OItem_class_adress_zusatz.GUID, _
+                                                                                          .ID_RelationType = objLocalConfig.OItem_RelationType_belonging.GUID}}
 
-        objOItem_Result = objDBLevel_Zusatz.get_Data_ObjectAtt(objOList_Zusatz, _
+
+        objOItem_Result = objDBLevel_Zusatz1.get_Data_ObjectRel(objOList_Zusatz_Rel, _
                                                                       boolIDs:=False)
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            If objDBLevel_Zusatz.OList_ObjectAtt.Count > 0 Then
-                objOItem_Zusatz = New clsObjectAtt(objDBLevel_Zusatz.OList_ObjectAtt(0).ID_Attribute, _
-                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).ID_Object, _
-                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).Name_Object, _
-                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).ID_Class, _
-                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).Name_Class, _
-                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).ID_AttributeType, _
-                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).Name_AttributeType, _
-                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).OrderID, _
-                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).Val_String, _
-                                                   Nothing, _
-                                                   Nothing, _
-                                                   Nothing, _
-                                                   Nothing, _
-                                                   objDBLevel_Zusatz.OList_ObjectAtt(0).Val_String, _
-                                                   objLocalConfig.Globals.DType_String.GUID)
+            If objDBLevel_Zusatz1.OList_ObjectRel.Count > 0 Then
+                Dim objOList_ZusatzTyp_Rel = (From objZusatz In objDBLevel_Zusatz1.OList_ObjectRel
+                                              Select New clsObjectRel With {.ID_Object = objZusatz.ID_Other, _
+                                                                            .ID_Parent_Other = objLocalConfig.OItem_class_zusatz_typ.GUID, _
+                                                                            .ID_RelationType = objLocalConfig.OItem_relationtype_is_of_type.GUID}).ToList()
+                objOItem_Result = objDBLevel_Zusatz2.get_Data_ObjectRel(objOList_ZusatzTyp_Rel, boolIDs:=False)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objOList_AdressZusaetze = (From objZusatz In objDBLevel_Zusatz1.OList_ObjectRel
+                                               Join objZusatzType In objDBLevel_Zusatz2.OList_ObjectRel On objZusatz.ID_Other Equals objZusatzType.ID_Object
+                                               Select New clsAdderesszusatz With {.ID_AdressZusatz = objZusatz.ID_Other, _
+                                                                                  .Name_AdressZusatz = objZusatz.Name_Other, _
+                                                                                  .ID_ZusatzTyp = objZusatzType.ID_Other, _
+                                                                                  .Name_ZusatzTyp = objZusatzType.Name_Other }).ToList()
+                Else
+                    objOList_AdressZusaetze.Clear()
+                    objOItem_Result_Zusatz = objLocalConfig.Globals.LState_Success
+                End If
             Else
-                objOItem_Zusatz = Nothing
+                objOList_AdressZusaetze.Clear()
             End If
             objOItem_Result_Zusatz = objLocalConfig.Globals.LState_Success
         Else
@@ -439,18 +441,21 @@ Public Class clsDataWork_Address
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
-        set_DBConnection()
+        Initialize()
     End Sub
 
-    Private Sub set_DBConnection()
+    Private Sub Initialize()
         objDBLevel_Address = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_PLZ = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Ort = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Land = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Strasse = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_Zusatz = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Zusatz1 = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Zusatz2 = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Postfach = New clsDBLevel(objLocalConfig.Globals)
 
         objTransaction_Address = New clsTransaction_Address(objLocalConfig)
+
+        objOList_AdressZusaetze = New List(Of clsAdderesszusatz)
     End Sub
 End Class

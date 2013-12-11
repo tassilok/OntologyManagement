@@ -129,6 +129,7 @@ Partial Class UserControl_OntologyConfig
         Me.ToolStripButton_Migrate.Name = "ToolStripButton_Migrate"
         Me.ToolStripButton_Migrate.Size = New System.Drawing.Size(62, 22)
         Me.ToolStripButton_Migrate.Text = "x_Migrate"
+        Me.ToolStripButton_Migrate.Visible = False
         '
         'UserControl_OntologyConfig
         '

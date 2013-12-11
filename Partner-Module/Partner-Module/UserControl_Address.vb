@@ -1,5 +1,6 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
+Imports Structure_Module
 Public Class UserControl_Address
     Private objLocalConfig As clsLocalConfig
 
@@ -11,7 +12,13 @@ Public Class UserControl_Address
     Private objFrm_PLZOrtLand As frmPLZOrtLand
     Private objFrm_Name As frm_Name
 
+    Private objFrm_ObjectEdit As frm_ObjectEdit
+
+    Private objUserControl_Contact As UserControl_OItemList
+
     Private objOItem_Partner As clsOntologyItem
+
+    Private objOList_Zusaetze As SortableBindingList(Of clsAdderesszusatz)
 
     Public Sub initialize_Address(ByVal OItem_Partner As clsOntologyItem)
         objOItem_Partner = OItem_Partner
@@ -26,8 +33,10 @@ Public Class UserControl_Address
     End Sub
 
     Public Sub clear_Controls()
-        TextBox_Zusatz.ReadOnly = True
-        TextBox_Zusatz.Text = ""
+        Button_AddZusatz.Enabled = False
+        Button_DelZusatz.Enabled = False
+        DataGridView_Adresszusatz.Enabled = False
+        DataGridView_Adresszusatz.DataSource = Nothing
         TextBox_Postfach.ReadOnly = True
         TextBox_Postfach.Text = ""
         TextBox_PLZOrtLand.Text = ""
@@ -36,6 +45,9 @@ Public Class UserControl_Address
         Button_addPLZOrtLand.Enabled = False
         Button_DelPLZOrtLand.Enabled = False
         ToolStripButton_Apply.Enabled = False
+        objUserControl_Contact.clear_Relation()
+        objUserControl_Contact.Enabled = False
+
     End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
@@ -62,12 +74,22 @@ Public Class UserControl_Address
         objTransaction_Address = New clsTransaction_Address(objLocalConfig)
         objTransaction = New clsTransaction(objLocalConfig.Globals)
         objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
+
+        objUserControl_Contact = New UserControl_OItemList(objLocalConfig.Globals)
+        objUserControl_Contact.Dock = DockStyle.Fill
+        Panel_Kontakt.Controls.Add(objUserControl_Contact)
     End Sub
 
     Private Sub Timer_Address_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Address.Tick
         Dim boolStop As Boolean = True
 
         If Not objDataWork_Address.Address Is Nothing Then
+            objUserControl_Contact.initialize(Nothing, _
+                                              objDataWork_Address.Address, _
+                                              objLocalConfig.Globals.Direction_LeftRight, _
+                                              New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Class_Partner.GUID, .Type = objLocalConfig.Globals.Type_Object}, _
+                                              objLocalConfig.OItem_RelationType_belonging)
+            objUserControl_Contact.Enabled = True
             If objDataWork_Address.Result_Strasse.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                 If objDataWork_Address.Strasse Is Nothing Then
                     TextBox_Strasse.Text = ""
@@ -85,13 +107,13 @@ Public Class UserControl_Address
 
 
         If objDataWork_Address.Result_Zusatz.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            If objDataWork_Address.Zusatz Is Nothing Then
-                TextBox_Zusatz.Text = ""
-            Else
-                TextBox_Zusatz.Text = objDataWork_Address.Zusatz.Val_String
-            End If
+            objOList_Zusaetze = New SortableBindingList(Of clsAdderesszusatz)(objDataWork_Address.Zusaetze)
 
-            TextBox_Zusatz.ReadOnly = False
+            DataGridView_Adresszusatz.DataSource = objOList_Zusaetze
+            DataGridView_Adresszusatz.Columns(0).Visible = False
+            DataGridView_Adresszusatz.Columns(2).Visible = False
+            DataGridView_Adresszusatz.Enabled = True
+            
         ElseIf objDataWork_Address.Result_Zusatz.GUID = objLocalConfig.Globals.LState_Error.GUID Then
             clear_Controls()
         ElseIf objDataWork_Address.Result_Zusatz.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
@@ -133,44 +155,44 @@ Public Class UserControl_Address
         End If
     End Sub
 
-    Private Sub TextBox_Zusatz_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles TextBox_Zusatz.MouseDoubleClick
-        If TextBox_Strasse.ReadOnly = False Then
-            objFrm_Name = New frm_Name(objLocalConfig.OItem_Attribute_Straße.Name, objLocalConfig.Globals, Value1:=TextBox_Zusatz.Text)
-            objFrm_Name.ShowDialog(Me)
+    Private Sub TextBox_Zusatz_MouseDoubleClick(sender As Object, e As MouseEventArgs)
+        'If TextBox_Strasse.ReadOnly = False Then
+        '    objFrm_Name = New frm_Name(objLocalConfig.OItem_Attribute_Straße.Name, objLocalConfig.Globals, Value1:=TextBox_Zusatz.Text)
+        '    objFrm_Name.ShowDialog(Me)
 
-            If objFrm_Name.DialogResult = DialogResult.OK Then
-                TextBox_Zusatz.Text = objFrm_Name.Value1
-            End If
-        End If
+        '    If objFrm_Name.DialogResult = DialogResult.OK Then
+        '        TextBox_Zusatz.Text = objFrm_Name.Value1
+        '    End If
+        'End If
     End Sub
 
-    Private Sub TextBox_Zusatz_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBox_Zusatz.TextChanged
-        Timer_Zusatz.Stop()
-        If TextBox_Zusatz.ReadOnly = False Then
-            Timer_Zusatz.Start()
-        End If
-    End Sub
+    'Private Sub TextBox_Zusatz_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+    '    Timer_Zusatz.Stop()
+    '    If TextBox_Zusatz.ReadOnly = False Then
+    '        Timer_Zusatz.Start()
+    '    End If
+    'End Sub
 
-    Private Sub Timer_Zusatz_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Zusatz.Tick
-        Dim strZusatz As String
-        Timer_Zusatz.Stop()
+    'Private Sub Timer_Zusatz_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Zusatz.Tick
+    '    Dim strZusatz As String
+    '    Timer_Zusatz.Stop()
 
-        strZusatz = TextBox_Zusatz.Text
-        If strZusatz = "" Then
-            If Not objDataWork_Address.Zusatz Is Nothing Then
-                del_Zusatz()
-            End If
-        Else
-            If Not objDataWork_Address.Zusatz Is Nothing Then
-                If strZusatz <> objDataWork_Address.Zusatz.Val_String Then
-                    save_Zusatz(strZusatz)
-                End If
-            Else
-                save_Zusatz(strZusatz)
-            End If
-            
-        End If
-    End Sub
+    '    strZusatz = TextBox_Zusatz.Text
+    '    If strZusatz = "" Then
+    '        If Not objDataWork_Address.Zusatz Is Nothing Then
+    '            del_Zusatz()
+    '        End If
+    '    Else
+    '        If Not objDataWork_Address.Zusatz Is Nothing Then
+    '            If strZusatz <> objDataWork_Address.Zusatz.Val_String Then
+    '                save_Zusatz(strZusatz)
+    '            End If
+    '        Else
+    '            save_Zusatz(strZusatz)
+    '        End If
+
+    '    End If
+    'End Sub
 
     Private Sub del_Zusatz()
         Dim objOItem_Result As clsOntologyItem
@@ -359,5 +381,71 @@ Public Class UserControl_Address
 
             initialize_Address(objOItem_Partner)
         End If
+    End Sub
+
+    Private Sub DataGridView_Adresszusatz_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView_Adresszusatz.SelectionChanged
+        Button_DelZusatz.Enabled = False
+        If DataGridView_Adresszusatz.SelectedRows.Count > 0 Then
+            Button_DelZusatz.Enabled = True
+        End If
+    End Sub
+
+    Private Sub Button_DelZusatz_Click(sender As Object, e As EventArgs) Handles Button_DelZusatz.Click
+
+        objTransaction.ClearItems()
+        For Each objDGVR_Selected As DataGridViewRow In DataGridView_Adresszusatz.SelectedRows
+            Dim objAddressZusatz = CType(objDGVR_Selected.DataBoundItem, clsAdderesszusatz)
+
+            Dim objORel_AddressZusatz_To_Type = New clsObjectRel With {.ID_Object = objAddressZusatz.ID_AdressZusatz, _
+                                                              .ID_Other = objAddressZusatz.ID_ZusatzTyp, _
+                                                              .ID_RelationType = objLocalConfig.OItem_relationtype_is_of_type.GUID}
+
+            Dim objOItem_Result = objTransaction.do_Transaction(objORel_AddressZusatz_To_Type, False, True)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                Dim objORel_Address_To_Zusatz = New clsObjectRel With {.ID_Object = objDataWork_Address.Address.GUID, _
+                                                              .ID_Other = objAddressZusatz.ID_AdressZusatz, _
+                                                              .ID_RelationType = objLocalConfig.OItem_RelationType_belonging.GUID}
+
+            Else
+                MsgBox("Nicht alle Adresszusätze konnten gelöscht werden!", MsgBoxStyle.Exclamation)
+                Exit For
+            End If
+            
+
+        Next
+
+        
+    End Sub
+
+    Private Sub Button_AddZusatz_Click(sender As Object, e As EventArgs) Handles Button_AddZusatz.Click
+
+    End Sub
+
+    Private Sub DataGridView_Adresszusatz_RowHeaderMouseDoubleClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView_Adresszusatz.RowHeaderMouseDoubleClick
+        Dim objDGVR_Selected = DataGridView_Adresszusatz.Rows(e.RowIndex)
+        Dim objAddrssZusatz As clsAdderesszusatz = objDGVR_Selected.DataBoundItem
+
+        Dim objOList_Objects = New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID = objAddrssZusatz.ID_AdressZusatz, _
+                                                                                             .Name = objAddrssZusatz.Name_AdressZusatz, _
+                                                                                             .GUID_Parent = objLocalConfig.OItem_class_adress_zusatz.GUID, _
+                                                                                             .Type = objLocalConfig.Globals.Type_Object}}
+
+        objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList_Objects, 0, objLocalConfig.Globals.Type_Object, Nothing)
+        objFrm_ObjectEdit.ShowDialog(Me)
+        objDataWork_Address.get_Data_Zusatz()
+        If objDataWork_Address.Result_Zusatz.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_Zusaetze = New SortableBindingList(Of clsAdderesszusatz)(objDataWork_Address.Zusaetze)
+
+            DataGridView_Adresszusatz.DataSource = objOList_Zusaetze
+            DataGridView_Adresszusatz.Columns(0).Visible = False
+            DataGridView_Adresszusatz.Columns(2).Visible = False
+            DataGridView_Adresszusatz.Enabled = True
+
+        ElseIf objDataWork_Address.Result_Zusatz.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            clear_Controls()
+            MsgBox("Die Zusätze können nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+        End If
+
     End Sub
 End Class

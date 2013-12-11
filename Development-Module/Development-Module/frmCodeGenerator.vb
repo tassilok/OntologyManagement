@@ -19,12 +19,33 @@ Public Class frmCodeGenerator
     End Sub
 
     Private Sub initialize()
-        get_Code()
+        Dim objOItem_Result = objData_CodeGenerator.Get_CodeTemplates()
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID And objData_CodeGenerator.OList_CodeTemplates.Any Then
+
+            ToolStripComboBox_Languages.Enabled = False
+            ToolStripComboBox_Languages.ComboBox.DataSource = objData_CodeGenerator.OList_CodeTemplates
+            ToolStripComboBox_Languages.ComboBox.ValueMember = "ID_ProgramingLanguage"
+            ToolStripComboBox_Languages.ComboBox.DisplayMember = "Name_ProgramingLanguage"
+
+            Dim objOList_Standard = objData_CodeGenerator.OList_CodeTemplates.Where(Function(p) p.Standard = True).ToList()
+            If objOList_Standard.Any Then
+                ToolStripComboBox_Languages.ComboBox.SelectedValue = objOList_Standard.First().ID_ProgramingLanguage
+            End If
+            ToolStripComboBox_Languages.Enabled = True
+
+            get_Code()
+        Else
+            MsgBox("Die Code-Templates konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+        End If
+
     End Sub
 
     Private Sub get_Code()
         Dim strCode As String
-        strCode = objData_CodeGenerator.get_Code(objOItem_Development, objDGVRC, objDGVSRC)
+        Dim objOItem_CodeTemplate As clsCodeTemplate
+        objOItem_CodeTemplate = ToolStripComboBox_Languages.ComboBox.SelectedItem
+
+        strCode = objData_CodeGenerator.get_Code(objOItem_Development, objOItem_CodeTemplate, objDGVRC, objDGVSRC)
 
         TextBox_Code.Text = strCode
     End Sub
@@ -60,4 +81,10 @@ Public Class frmCodeGenerator
     End Sub
 
 
+    Private Sub ToolStripComboBox_Languages_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ToolStripComboBox_Languages.SelectedIndexChanged
+        If ToolStripComboBox_Languages.Enabled Then
+            get_Code()
+        End If
+
+    End Sub
 End Class

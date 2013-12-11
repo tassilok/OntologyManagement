@@ -6,6 +6,7 @@ Public Class frmPartnerModule
     Private objLocalConfig As clsLocalConfig
 
     Private objRepair As clsRepair
+    Private objMigrate As clsMigrate
 
     Private WithEvents objUserControl_PartnerList As UserControl_OItemList
     Private WithEvents objUserControl_Address As UserControl_Address
@@ -167,6 +168,7 @@ Public Class frmPartnerModule
 
     Private Sub set_DBConnection()
         objRepair = New clsRepair(objLocalConfig)
+        objMigrate = New clsMigrate(objLocalConfig)
     End Sub
 
     Private Sub TabControl1_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -195,5 +197,14 @@ Public Class frmPartnerModule
 
     Private Sub TabControl1_SelectedIndexChanged1(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
         configure_TabPages()
+    End Sub
+
+    Private Sub MigrateZusatzToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MigrateZusatzToolStripMenuItem.Click
+        Dim objOitem_Result = objMigrate.MigrateZusaetze()
+        If objOitem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            MsgBox("Zusätze wurden migriert!", MsgBoxStyle.Information)
+        Else
+            MsgBox("Zusätze konnten nicht migriert werden!", MsgBoxStyle.Information)
+        End If
     End Sub
 End Class

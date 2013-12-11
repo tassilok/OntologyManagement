@@ -24,6 +24,8 @@ Partial Class frmPartnerModule
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPartnerModule))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RepairAddressesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
@@ -35,8 +37,7 @@ Partial Class frmPartnerModule
         Me.TabPage_PersonalData = New System.Windows.Forms.TabPage()
         Me.TabPage_CommunicationData = New System.Windows.Forms.TabPage()
         Me.TabPage_AvailabilityData = New System.Windows.Forms.TabPage()
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.RepairAddressesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MigrateZusatzToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -56,6 +57,19 @@ Partial Class frmPartnerModule
         Me.MenuStrip1.Size = New System.Drawing.Size(725, 24)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RepairAddressesToolStripMenuItem, Me.MigrateZusatzToolStripMenuItem})
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(48, 20)
+        Me.ToolStripMenuItem1.Text = "&Tools"
+        '
+        'RepairAddressesToolStripMenuItem
+        '
+        Me.RepairAddressesToolStripMenuItem.Name = "RepairAddressesToolStripMenuItem"
+        Me.RepairAddressesToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.RepairAddressesToolStripMenuItem.Text = "Repair Addresses"
         '
         'HilfeToolStripMenuItem
         '
@@ -173,18 +187,11 @@ Partial Class frmPartnerModule
         Me.TabPage_AvailabilityData.Text = "x_Availability Data"
         Me.TabPage_AvailabilityData.UseVisualStyleBackColor = True
         '
-        'ToolStripMenuItem1
+        'MigrateZusatzToolStripMenuItem
         '
-        Me.ToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RepairAddressesToolStripMenuItem})
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(48, 20)
-        Me.ToolStripMenuItem1.Text = "&Tools"
-        '
-        'RepairAddressesToolStripMenuItem
-        '
-        Me.RepairAddressesToolStripMenuItem.Name = "RepairAddressesToolStripMenuItem"
-        Me.RepairAddressesToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
-        Me.RepairAddressesToolStripMenuItem.Text = "Repair Addresses"
+        Me.MigrateZusatzToolStripMenuItem.Name = "MigrateZusatzToolStripMenuItem"
+        Me.MigrateZusatzToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.MigrateZusatzToolStripMenuItem.Text = "Migrate Zusatz"
         '
         'frmPartnerModule
         '
@@ -228,5 +235,6 @@ Partial Class frmPartnerModule
     Friend WithEvents TabPage_AvailabilityData As System.Windows.Forms.TabPage
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RepairAddressesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MigrateZusatzToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
