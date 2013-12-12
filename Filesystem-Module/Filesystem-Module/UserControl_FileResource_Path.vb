@@ -1,13 +1,15 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Imports Structure_Module
-Imports System.Text.RegularExpressions
+Imports TextParser
+
 
 Public Class UserControl_FileResource_Path
 
     Private objLocalConfig As clsLocalConfig
 
     Private objDataWork_FileResource_Path As clsDataWork_FileResource_Path
+    Private objUserControl_RegExTester As UserControl_RegExTester
 
     Private objOItem_FileResource As clsOntologyItem
 
@@ -66,15 +68,18 @@ Public Class UserControl_FileResource_Path
     Private Sub Clear()
         Button_AddPath.Enabled = False
         Button_Search.Enabled = False
-        Button_Preview.Enabled = False
+        
         DataGridView_Files.DataSource = Nothing
-        TextBox_RegexPre.ReadOnly = True
+        ToolStripButton_Open.Enabled = False
         TextBox_Pattern.ReadOnly = True
         Button_AddPath.Enabled = True
     End Sub
 
     Private Sub Initialize()
         objDataWork_FileResource_Path = New clsDataWork_FileResource_Path(objLocalConfig)
+        objUserControl_RegExTester = new UserControl_RegExTester(objLocalConfig.Globals)
+        objUserControl_RegExTester.Dock = DockStyle.Fill
+        ToolStripContainer1.ContentPanel.Controls.Add(objUserControl_RegExTester)
     End Sub
 
 
@@ -122,206 +127,21 @@ Public Class UserControl_FileResource_Path
 
 
     Private Sub DataGridView_Files_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView_Files.SelectionChanged
+        ToolStripButton_Open.Enabled = False
         If DataGridView_Files.SelectedRows.Count = 1 Then
-            Button_Preview.Enabled = True
-            TextBox_RegexPre.ReadOnly = False
+            ToolStripButton_Open.Enabled = True
         End If
     End Sub
 
-    Private Sub Button_Preview_Click(sender As Object, e As EventArgs) Handles Button_Preview.Click
+    
+    Private Sub ToolStripButton_Open_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_Open.Click
         Dim objDGVR_Selected As DataGridViewRow = DataGridView_Files.SelectedRows(0)
         Dim objFile As clsFile = objDGVR_Selected.DataBoundItem
 
         If IO.File.Exists(objFile.FileName) Then
-            Dim objTextReader = IO.File.OpenText(objFile.FileName)
-            RichTextBox_Preview.Text = objTextReader.ReadToEnd
-            objTextReader.Close()
-
+            objUserControl_RegExTester.SetContentByFilePath(objFile.FileName)
         Else
             MsgBox("Die Datei existiert nicht!", MsgBoxStyle.Exclamation)
         End If
-    End Sub
-
-    Private Sub TextBox_Regex_TextChanged(sender As Object, e As EventArgs) Handles TextBox_RegexPre.TextChanged
-        Timer_Regex.Stop()
-        Timer_Regex.Start()
-
-    End Sub
-
-    Private Sub Timer_Regex_Tick(sender As Object, e As EventArgs) Handles Timer_Regex.Tick
-        Dim boolRegExPre As Boolean = False
-        Dim boolRegExMain As Boolean = False
-        Dim boolRegExPost As Boolean = False
-
-        Timer_Regex.Stop()
-        Try
-            RichTextBox_Preview.SelectionStart = 0
-            RichTextBox_Preview.SelectionLength = RichTextBox_Preview.TextLength
-            RichTextBox_Preview.SelectionBackColor = RichTextBox_Preview.BackColor
-
-            Dim objRegEx_Pre As Regex = Nothing
-            Dim objRegEx_Main As Regex = Nothing
-            Dim objRegEx_Post As Regex = Nothing
-
-            Dim objRegEx_Pre_Matches As MatchCollection = Nothing
-            Dim objRegEx_Main_Matches As MatchCollection = Nothing
-            Dim objRegEx_Post_Matches As MatchCollection = Nothing
-            If Not TextBox_RegexPre.Text = "" Then
-                objRegEx_Pre = New Regex(TextBox_RegexPre.Text)
-            End If
-            If Not TextBox_RegExMain.Text = "" Then
-                objRegEx_Main = New Regex(TextBox_RegExMain.Text)
-            End If
-
-            If Not TextBox_RegExPost.Text = "" Then
-                objRegEx_Post = New Regex(TextBox_RegExPost.Text)
-            End If
-
-
-
-            boolRegExPre = True
-            If TextBox_RegexPre.Text <> "" Then
-
-                objRegEx_Pre_Matches = objRegEx_Pre.Matches(RichTextBox_Preview.Text)
-            Else
-                boolRegExMain = True
-                If TextBox_RegExMain.Text <> "" Then
-
-                    objRegEx_Main_Matches = objRegEx_Main.Matches(RichTextBox_Preview.Text)
-
-                End If
-
-                boolRegExPost = True
-                If TextBox_RegExPost.Text <> "" Then
-
-                    objRegEx_Post_Matches = objRegEx_Post.Matches(RichTextBox_Preview.Text)
-                End If
-                
-
-                
-            End If
-
-            
-
-            
-
-            If Not objRegEx_Pre_Matches Is Nothing Then
-                For i = 0 To objRegEx_Pre_Matches.Count - 1
-
-                    RichTextBox_Preview.SelectionStart = 0
-                    RichTextBox_Preview.SelectionLength = 0
-
-                    Dim ixStart = objRegEx_Pre_Matches(i).Index + objRegEx_Pre_Matches(i).Length
-                    Dim ixEnd = ixStart
-                    If i < objRegEx_Pre_Matches.Count Then
-                        ixEnd = objRegEx_Pre_Matches(i + 1).Index
-                    Else
-                        ixEnd = RichTextBox_Preview.TextLength - 1
-                    End If
-                    
-                    RichTextBox_Preview.SelectionStart = ixStart
-                    RichTextBox_Preview.SelectionLength = ixEnd
-
-                    If Not objRegEx_Post Is Nothing Then
-                        
-
-                        If RichTextBox_Preview.SelectionLength > 0 Then
-                            objRegEx_Post_Matches = objRegEx_Post.Matches(RichTextBox_Preview.SelectedText)
-                            If objRegEx_Post_Matches.Count > 0 Then
-                                RichTextBox_Preview.SelectionLength = objRegEx_Post_Matches(0).Index
-                            Else
-                                RichTextBox_Preview.SelectionStart = 0
-                                RichTextBox_Preview.SelectionLength = 0
-                            End If
-                        End If
-
-
-
-                    End If
-
-                    If RichTextBox_Preview.SelectionLength > 0 Then
-                        If Not objRegEx_Main Is Nothing Then
-                            objRegEx_Main_Matches = objRegEx_Main.Matches(RichTextBox_Preview.SelectedText)
-                            If objRegEx_Main_Matches.Count > 0 Then
-                                RichTextBox_Preview.SelectionStart = RichTextBox_Preview.SelectionStart + objRegEx_Main_Matches(0).Index
-                                RichTextBox_Preview.SelectionLength = objRegEx_Main_Matches(0).Length
-                            Else
-                                RichTextBox_Preview.SelectionStart = 0
-                                RichTextBox_Preview.SelectionLength = 0
-                            End If
-                            
-                        End If
-                    End If
-
-                    If RichTextBox_Preview.SelectionLength > 0 Then
-                        RichTextBox_Preview.SelectionBackColor = Color.Yellow
-                    End If
-                Next
-            ElseIf Not objRegEx_Post_Matches Is nothing then
-                For i = 0 To objRegEx_Post_Matches.Count - 1
-                    RichTextBox_Preview.SelectionStart = 0
-                    RichTextBox_Preview.SelectionLength = 0
-
-                    Dim ixStart = If(i = 0,0,objRegEx_Post_Matches(i-1).Index + objRegEx_Post_Matches(i-1).Length)
-                    Dim ixEnd = objRegEx_Post_Matches(i).Index
-                    
-                    if (ixStart < ixEnd) then
-                        
-                        RichTextBox_Preview.SelectionStart = ixStart
-                        RichTextBox_Preview.SelectionLength = ixEnd - ixStart        
-                    End If
-                    
-                    If RichTextBox_Preview.SelectionLength > 0 Then
-                        If Not objRegEx_Main Is Nothing Then
-                            objRegEx_Main_Matches = objRegEx_Main.Matches(RichTextBox_Preview.SelectedText)
-                            If objRegEx_Main_Matches.Count > 0 Then
-                                RichTextBox_Preview.SelectionStart = RichTextBox_Preview.SelectionStart + objRegEx_Main_Matches(0).Index
-                                RichTextBox_Preview.SelectionLength = objRegEx_Main_Matches(0).Length
-                            Else
-                                RichTextBox_Preview.SelectionStart = 0
-                                RichTextBox_Preview.SelectionLength = 0
-                            End If
-                        Else
-                            If objRegEx_Post Is Nothing Then
-                                RichTextBox_Preview.SelectionStart = 0
-                                RichTextBox_Preview.SelectionLength = 0
-                            End If
-                            
-                        End If
-                    End If
-
-                    If RichTextBox_Preview.SelectionLength > 0 Then
-                        RichTextBox_Preview.SelectionBackColor = Color.Yellow
-                    End If
-
-                Next
-            ElseIf  Not objRegEx_Main_Matches is Nothing then
-                For i = 0 To objRegEx_Main_Matches.Count - 1
-                    RichTextBox_Preview.SelectionStart = objRegEx_Main_Matches(i).Index
-                    RichTextBox_Preview.SelectionLength = objRegEx_Main_Matches(i).Length
-
-                    RichTextBox_Preview.SelectionBackColor = Color.Yellow
-                Next
-            End If
-
-            
-        Catch ex As Exception
-            TextBox_RegexPre.BackColor = Color.Yellow
-        End Try
-
-
-
-
-
-    End Sub
-
-    Private Sub TextBox_RegExMain_TextChanged(sender As Object, e As EventArgs) Handles TextBox_RegExMain.TextChanged
-        Timer_Regex.Stop()
-        Timer_Regex.Start()
-    End Sub
-
-    Private Sub TextBox_RegExPost_TextChanged(sender As Object, e As EventArgs) Handles TextBox_RegExPost.TextChanged
-        Timer_Regex.Stop()
-        Timer_Regex.Start()
     End Sub
 End Class

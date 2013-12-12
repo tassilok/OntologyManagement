@@ -11,6 +11,7 @@ using Structure_Module;
 using OntologyClasses.BaseClasses;
 using Ontology_Module;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace TextParser
 {
@@ -34,11 +35,48 @@ namespace TextParser
 
         private List<clsSelection> objSelections = new List<clsSelection>();
 
+        public void SetContentByFileStream(FileStream fs)
+        {
+            TextReader textReader = new StreamReader(fs);
+            richTextBox_Text.Text = textReader.ReadToEnd();
+            textReader.Close();
+        }
+
+        public void SetContent(string content)
+        {
+            richTextBox_Text.Text = content;
+        }
+
+        public void SetContentByFilePath(string path)
+        {
+            try
+            {
+                TextReader textReader = new StreamReader(path);
+                richTextBox_Text.Text = textReader.ReadToEnd();
+                textReader.Close();
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show(this, "Die Datei konnte nicht geöffnet werden!", "Fehler!", MessageBoxButtons.OK,
+                                MessageBoxIcon.Exclamation);
+            }
+            
+        }
+
         public UserControl_RegExTester(clsLocalConfig LocalConfig)
         {
             InitializeComponent();
 
             objLocalConfig = LocalConfig;
+            Initialize();
+        }
+
+        public UserControl_RegExTester(clsGlobals globals)
+        {
+            InitializeComponent();
+
+            objLocalConfig = new clsLocalConfig(globals);
             Initialize();
         }
 

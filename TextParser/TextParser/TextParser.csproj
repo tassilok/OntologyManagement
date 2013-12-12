@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="clsDataWork_BaseData.cs" />
     <Compile Include="clsDataWork_FieldParser.cs" />
+    <Compile Include="clsDatawork_RegExFilter.cs" />
     <Compile Include="clsDataWork_TextParser.cs" />
     <Compile Include="clsField.cs" />
     <Compile Include="clsFieldParser.cs" />

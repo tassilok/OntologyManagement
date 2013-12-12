@@ -19,7 +19,7 @@ Public Class clsRelationConfig
                 If Value.GetType() = System.Type.GetType("System.Boolean") Then
                     With objOA_Object
                         .Val_Named = Value
-                        .Val_String = Value
+                        .Val_Bit = Value
                     End With
                 Else
                     objOA_Object = Nothing

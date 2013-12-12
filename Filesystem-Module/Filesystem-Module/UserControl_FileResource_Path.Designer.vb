@@ -23,6 +23,7 @@ Partial Class UserControl_FileResource_Path
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UserControl_FileResource_Path))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.ProgressBar_Files = New System.Windows.Forms.ProgressBar()
@@ -34,27 +35,23 @@ Partial Class UserControl_FileResource_Path
         Me.TextBox_Path = New System.Windows.Forms.TextBox()
         Me.Label_Path = New System.Windows.Forms.Label()
         Me.DataGridView_Files = New System.Windows.Forms.DataGridView()
-        Me.RichTextBox_Preview = New System.Windows.Forms.RichTextBox()
-        Me.TextBox_RegexPre = New System.Windows.Forms.TextBox()
-        Me.Label_RegexPre = New System.Windows.Forms.Label()
-        Me.Button_Preview = New System.Windows.Forms.Button()
-        Me.Label_Preview = New System.Windows.Forms.Label()
         Me.Timer_Files = New System.Windows.Forms.Timer(Me.components)
-        Me.Timer_Regex = New System.Windows.Forms.Timer(Me.components)
-        Me.Label_RegExMain = New System.Windows.Forms.Label()
-        Me.Label_Post = New System.Windows.Forms.Label()
-        Me.TextBox_RegExMain = New System.Windows.Forms.TextBox()
-        Me.TextBox_RegExPost = New System.Windows.Forms.TextBox()
-        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer1.Panel1.SuspendLayout()
-        Me.SplitContainer1.Panel2.SuspendLayout()
-        Me.SplitContainer1.SuspendLayout()
-        CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer2.Panel1.SuspendLayout()
-        Me.SplitContainer2.Panel2.SuspendLayout()
-        Me.SplitContainer2.SuspendLayout()
-        CType(Me.DataGridView_Files, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SuspendLayout()
+        Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
+        Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButton_Open = New System.Windows.Forms.ToolStripButton()
+        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitContainer1.Panel1.SuspendLayout
+        Me.SplitContainer1.Panel2.SuspendLayout
+        Me.SplitContainer1.SuspendLayout
+        CType(Me.SplitContainer2,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitContainer2.Panel1.SuspendLayout
+        Me.SplitContainer2.Panel2.SuspendLayout
+        Me.SplitContainer2.SuspendLayout
+        CType(Me.DataGridView_Files,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout
+        Me.ToolStripContainer1.SuspendLayout
+        Me.ToolStrip1.SuspendLayout
+        Me.SuspendLayout
         '
         'SplitContainer1
         '
@@ -70,15 +67,7 @@ Partial Class UserControl_FileResource_Path
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.TextBox_RegExPost)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.TextBox_RegExMain)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.Label_Post)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.Label_RegExMain)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.RichTextBox_Preview)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.TextBox_RegexPre)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.Label_RegexPre)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.Button_Preview)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.Label_Preview)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.ToolStripContainer1)
         Me.SplitContainer1.Size = New System.Drawing.Size(555, 424)
         Me.SplitContainer1.SplitterDistance = 185
         Me.SplitContainer1.TabIndex = 0
@@ -122,22 +111,22 @@ Partial Class UserControl_FileResource_Path
         Me.Button_Search.Size = New System.Drawing.Size(75, 23)
         Me.Button_Search.TabIndex = 6
         Me.Button_Search.Text = "x_Search"
-        Me.Button_Search.UseVisualStyleBackColor = True
+        Me.Button_Search.UseVisualStyleBackColor = true
         '
         'CheckBox_SubItems
         '
-        Me.CheckBox_SubItems.AutoSize = True
+        Me.CheckBox_SubItems.AutoSize = true
         Me.CheckBox_SubItems.Location = New System.Drawing.Point(65, 52)
         Me.CheckBox_SubItems.Name = "CheckBox_SubItems"
         Me.CheckBox_SubItems.Size = New System.Drawing.Size(81, 17)
         Me.CheckBox_SubItems.TabIndex = 5
         Me.CheckBox_SubItems.Text = "x_SubItems"
-        Me.CheckBox_SubItems.UseVisualStyleBackColor = True
+        Me.CheckBox_SubItems.UseVisualStyleBackColor = true
         '
         'TextBox_Pattern
         '
-        Me.TextBox_Pattern.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_Pattern.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.TextBox_Pattern.Location = New System.Drawing.Point(65, 25)
         Me.TextBox_Pattern.Name = "TextBox_Pattern"
         Me.TextBox_Pattern.Size = New System.Drawing.Size(173, 20)
@@ -145,7 +134,7 @@ Partial Class UserControl_FileResource_Path
         '
         'Label_Pattern
         '
-        Me.Label_Pattern.AutoSize = True
+        Me.Label_Pattern.AutoSize = true
         Me.Label_Pattern.Location = New System.Drawing.Point(4, 28)
         Me.Label_Pattern.Name = "Label_Pattern"
         Me.Label_Pattern.Size = New System.Drawing.Size(55, 13)
@@ -154,27 +143,27 @@ Partial Class UserControl_FileResource_Path
         '
         'Button_AddPath
         '
-        Me.Button_AddPath.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button_AddPath.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.Button_AddPath.Location = New System.Drawing.Point(242, 3)
         Me.Button_AddPath.Name = "Button_AddPath"
         Me.Button_AddPath.Size = New System.Drawing.Size(26, 23)
         Me.Button_AddPath.TabIndex = 2
         Me.Button_AddPath.Text = "...+"
-        Me.Button_AddPath.UseVisualStyleBackColor = True
+        Me.Button_AddPath.UseVisualStyleBackColor = true
         '
         'TextBox_Path
         '
-        Me.TextBox_Path.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_Path.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.TextBox_Path.Location = New System.Drawing.Point(65, 4)
         Me.TextBox_Path.Name = "TextBox_Path"
-        Me.TextBox_Path.ReadOnly = True
+        Me.TextBox_Path.ReadOnly = true
         Me.TextBox_Path.Size = New System.Drawing.Size(173, 20)
         Me.TextBox_Path.TabIndex = 1
         '
         'Label_Path
         '
-        Me.Label_Path.AutoSize = True
+        Me.Label_Path.AutoSize = true
         Me.Label_Path.Location = New System.Drawing.Point(4, 7)
         Me.Label_Path.Name = "Label_Path"
         Me.Label_Path.Size = New System.Drawing.Size(43, 13)
@@ -183,129 +172,81 @@ Partial Class UserControl_FileResource_Path
         '
         'DataGridView_Files
         '
-        Me.DataGridView_Files.AllowUserToAddRows = False
-        Me.DataGridView_Files.AllowUserToDeleteRows = False
+        Me.DataGridView_Files.AllowUserToAddRows = false
+        Me.DataGridView_Files.AllowUserToDeleteRows = false
         Me.DataGridView_Files.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView_Files.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView_Files.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_Files.Name = "DataGridView_Files"
-        Me.DataGridView_Files.ReadOnly = True
+        Me.DataGridView_Files.ReadOnly = true
         Me.DataGridView_Files.Size = New System.Drawing.Size(272, 181)
         Me.DataGridView_Files.TabIndex = 0
-        '
-        'RichTextBox_Preview
-        '
-        Me.RichTextBox_Preview.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RichTextBox_Preview.Location = New System.Drawing.Point(2, 99)
-        Me.RichTextBox_Preview.Name = "RichTextBox_Preview"
-        Me.RichTextBox_Preview.ReadOnly = True
-        Me.RichTextBox_Preview.Size = New System.Drawing.Size(546, 129)
-        Me.RichTextBox_Preview.TabIndex = 9
-        Me.RichTextBox_Preview.Text = ""
-        '
-        'TextBox_RegexPre
-        '
-        Me.TextBox_RegexPre.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_RegexPre.Location = New System.Drawing.Point(101, 29)
-        Me.TextBox_RegexPre.Name = "TextBox_RegexPre"
-        Me.TextBox_RegexPre.Size = New System.Drawing.Size(447, 20)
-        Me.TextBox_RegexPre.TabIndex = 8
-        '
-        'Label_RegexPre
-        '
-        Me.Label_RegexPre.AutoSize = True
-        Me.Label_RegexPre.Location = New System.Drawing.Point(4, 32)
-        Me.Label_RegexPre.Name = "Label_RegexPre"
-        Me.Label_RegexPre.Size = New System.Drawing.Size(77, 13)
-        Me.Label_RegexPre.TabIndex = 7
-        Me.Label_RegexPre.Text = "x_Regex (Pre):"
-        '
-        'Button_Preview
-        '
-        Me.Button_Preview.Location = New System.Drawing.Point(101, 3)
-        Me.Button_Preview.Name = "Button_Preview"
-        Me.Button_Preview.Size = New System.Drawing.Size(75, 23)
-        Me.Button_Preview.TabIndex = 6
-        Me.Button_Preview.Text = "Vorschau"
-        Me.Button_Preview.UseVisualStyleBackColor = True
-        '
-        'Label_Preview
-        '
-        Me.Label_Preview.AutoSize = True
-        Me.Label_Preview.Location = New System.Drawing.Point(3, 9)
-        Me.Label_Preview.Name = "Label_Preview"
-        Me.Label_Preview.Size = New System.Drawing.Size(66, 13)
-        Me.Label_Preview.TabIndex = 5
-        Me.Label_Preview.Text = "x_Vorschau:"
         '
         'Timer_Files
         '
         Me.Timer_Files.Interval = 300
         '
-        'Timer_Regex
+        'ToolStripContainer1
         '
-        Me.Timer_Regex.Interval = 300
         '
-        'Label_RegExMain
+        'ToolStripContainer1.ContentPanel
         '
-        Me.Label_RegExMain.AutoSize = True
-        Me.Label_RegExMain.Location = New System.Drawing.Point(4, 53)
-        Me.Label_RegExMain.Name = "Label_RegExMain"
-        Me.Label_RegExMain.Size = New System.Drawing.Size(85, 13)
-        Me.Label_RegExMain.TabIndex = 10
-        Me.Label_RegExMain.Text = "x_RegEx (Main):"
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(551, 206)
+        Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.ToolStripContainer1.Name = "ToolStripContainer1"
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(551, 231)
+        Me.ToolStripContainer1.TabIndex = 0
+        Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
-        'Label_Post
+        'ToolStripContainer1.TopToolStripPanel
         '
-        Me.Label_Post.AutoSize = True
-        Me.Label_Post.Location = New System.Drawing.Point(4, 76)
-        Me.Label_Post.Name = "Label_Post"
-        Me.Label_Post.Size = New System.Drawing.Size(83, 13)
-        Me.Label_Post.TabIndex = 11
-        Me.Label_Post.Text = "x_RegEx (Post):"
+        Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.ToolStrip1)
         '
-        'TextBox_RegExMain
+        'ToolStrip1
         '
-        Me.TextBox_RegExMain.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_RegExMain.Location = New System.Drawing.Point(101, 51)
-        Me.TextBox_RegExMain.Name = "TextBox_RegExMain"
-        Me.TextBox_RegExMain.Size = New System.Drawing.Size(447, 20)
-        Me.TextBox_RegExMain.TabIndex = 12
+        Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Open})
+        Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
+        Me.ToolStrip1.Name = "ToolStrip1"
+        Me.ToolStrip1.Size = New System.Drawing.Size(93, 25)
+        Me.ToolStrip1.TabIndex = 0
         '
-        'TextBox_RegExPost
+        'ToolStripButton_Open
         '
-        Me.TextBox_RegExPost.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_RegExPost.Location = New System.Drawing.Point(101, 73)
-        Me.TextBox_RegExPost.Name = "TextBox_RegExPost"
-        Me.TextBox_RegExPost.Size = New System.Drawing.Size(447, 20)
-        Me.TextBox_RegExPost.TabIndex = 13
+        Me.ToolStripButton_Open.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Open.Image = CType(resources.GetObject("ToolStripButton_Open.Image"),System.Drawing.Image)
+        Me.ToolStripButton_Open.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Open.Name = "ToolStripButton_Open"
+        Me.ToolStripButton_Open.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripButton_Open.Text = "x_Open"
         '
         'UserControl_FileResource_Path
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "UserControl_FileResource_Path"
         Me.Size = New System.Drawing.Size(555, 424)
-        Me.SplitContainer1.Panel1.ResumeLayout(False)
-        Me.SplitContainer1.Panel2.ResumeLayout(False)
-        Me.SplitContainer1.Panel2.PerformLayout()
-        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer1.ResumeLayout(False)
-        Me.SplitContainer2.Panel1.ResumeLayout(False)
-        Me.SplitContainer2.Panel1.PerformLayout()
-        Me.SplitContainer2.Panel2.ResumeLayout(False)
-        CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.DataGridView_Files, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ResumeLayout(False)
+        Me.SplitContainer1.Panel1.ResumeLayout(false)
+        Me.SplitContainer1.Panel2.ResumeLayout(false)
+        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitContainer1.ResumeLayout(false)
+        Me.SplitContainer2.Panel1.ResumeLayout(false)
+        Me.SplitContainer2.Panel1.PerformLayout
+        Me.SplitContainer2.Panel2.ResumeLayout(false)
+        CType(Me.SplitContainer2,System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitContainer2.ResumeLayout(false)
+        CType(Me.DataGridView_Files,System.ComponentModel.ISupportInitialize).EndInit
+        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout
+        Me.ToolStripContainer1.ResumeLayout(false)
+        Me.ToolStripContainer1.PerformLayout
+        Me.ToolStrip1.ResumeLayout(false)
+        Me.ToolStrip1.PerformLayout
+        Me.ResumeLayout(false)
 
-    End Sub
+End Sub
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
     Friend WithEvents TextBox_Pattern As System.Windows.Forms.TextBox
@@ -314,19 +255,12 @@ Partial Class UserControl_FileResource_Path
     Friend WithEvents TextBox_Path As System.Windows.Forms.TextBox
     Friend WithEvents Label_Path As System.Windows.Forms.Label
     Friend WithEvents DataGridView_Files As System.Windows.Forms.DataGridView
-    Friend WithEvents RichTextBox_Preview As System.Windows.Forms.RichTextBox
-    Friend WithEvents TextBox_RegexPre As System.Windows.Forms.TextBox
-    Friend WithEvents Label_RegexPre As System.Windows.Forms.Label
-    Friend WithEvents Button_Preview As System.Windows.Forms.Button
-    Friend WithEvents Label_Preview As System.Windows.Forms.Label
     Friend WithEvents CheckBox_SubItems As System.Windows.Forms.CheckBox
     Friend WithEvents Button_Search As System.Windows.Forms.Button
     Friend WithEvents Timer_Files As System.Windows.Forms.Timer
     Friend WithEvents ProgressBar_Files As System.Windows.Forms.ProgressBar
-    Friend WithEvents Timer_Regex As System.Windows.Forms.Timer
-    Friend WithEvents Label_RegExMain As System.Windows.Forms.Label
-    Friend WithEvents TextBox_RegExPost As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox_RegExMain As System.Windows.Forms.TextBox
-    Friend WithEvents Label_Post As System.Windows.Forms.Label
+    Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
+    Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
+    Friend WithEvents ToolStripButton_Open As System.Windows.Forms.ToolStripButton
 
 End Class
