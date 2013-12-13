@@ -30,6 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.button_CopyMarked = new System.Windows.Forms.Button();
+            this.button_RemoveMarked = new System.Windows.Forms.Button();
+            this.button_RemoveUnmarked = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button_AdD = new System.Windows.Forms.Button();
             this.button_AddRegexPre = new System.Windows.Forms.Button();
@@ -49,9 +52,6 @@
             this.timer_RegExMain = new System.Windows.Forms.Timer(this.components);
             this.timer_RegExPost = new System.Windows.Forms.Timer(this.components);
             this.timer_RegExParse = new System.Windows.Forms.Timer(this.components);
-            this.button_RemoveUnmarked = new System.Windows.Forms.Button();
-            this.button_RemoveMarked = new System.Windows.Forms.Button();
-            this.button_CopyMarked = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -91,6 +91,36 @@
             this.splitContainer1.Size = new System.Drawing.Size(659, 518);
             this.splitContainer1.SplitterDistance = 112;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // button_CopyMarked
+            // 
+            this.button_CopyMarked.Location = new System.Drawing.Point(261, 82);
+            this.button_CopyMarked.Name = "button_CopyMarked";
+            this.button_CopyMarked.Size = new System.Drawing.Size(122, 23);
+            this.button_CopyMarked.TabIndex = 13;
+            this.button_CopyMarked.Text = "x_Copy Marked";
+            this.button_CopyMarked.UseVisualStyleBackColor = true;
+            this.button_CopyMarked.Click += new System.EventHandler(this.button_CopyMarked_Click);
+            // 
+            // button_RemoveMarked
+            // 
+            this.button_RemoveMarked.Location = new System.Drawing.Point(133, 82);
+            this.button_RemoveMarked.Name = "button_RemoveMarked";
+            this.button_RemoveMarked.Size = new System.Drawing.Size(122, 23);
+            this.button_RemoveMarked.TabIndex = 12;
+            this.button_RemoveMarked.Text = "x_Remove Marked";
+            this.button_RemoveMarked.UseVisualStyleBackColor = true;
+            this.button_RemoveMarked.Click += new System.EventHandler(this.button_RemoveMarked_Click);
+            // 
+            // button_RemoveUnmarked
+            // 
+            this.button_RemoveUnmarked.Location = new System.Drawing.Point(5, 82);
+            this.button_RemoveUnmarked.Name = "button_RemoveUnmarked";
+            this.button_RemoveUnmarked.Size = new System.Drawing.Size(122, 23);
+            this.button_RemoveUnmarked.TabIndex = 11;
+            this.button_RemoveUnmarked.Text = "x_Remove Unmarked";
+            this.button_RemoveUnmarked.UseVisualStyleBackColor = true;
+            this.button_RemoveUnmarked.Click += new System.EventHandler(this.button_RemoveUnmarked_Click);
             // 
             // button2
             // 
@@ -255,36 +285,6 @@
             // 
             this.timer_RegExParse.Interval = 300;
             this.timer_RegExParse.Tick += new System.EventHandler(this.timer_RegExParse_Tick);
-            // 
-            // button_RemoveUnmarked
-            // 
-            this.button_RemoveUnmarked.Location = new System.Drawing.Point(5, 82);
-            this.button_RemoveUnmarked.Name = "button_RemoveUnmarked";
-            this.button_RemoveUnmarked.Size = new System.Drawing.Size(122, 23);
-            this.button_RemoveUnmarked.TabIndex = 11;
-            this.button_RemoveUnmarked.Text = "x_Remove Unmarked";
-            this.button_RemoveUnmarked.UseVisualStyleBackColor = true;
-            this.button_RemoveUnmarked.Click += new System.EventHandler(this.button_RemoveUnmarked_Click);
-            // 
-            // button_RemoveMarked
-            // 
-            this.button_RemoveMarked.Location = new System.Drawing.Point(133, 82);
-            this.button_RemoveMarked.Name = "button_RemoveMarked";
-            this.button_RemoveMarked.Size = new System.Drawing.Size(122, 23);
-            this.button_RemoveMarked.TabIndex = 12;
-            this.button_RemoveMarked.Text = "x_Remove Marked";
-            this.button_RemoveMarked.UseVisualStyleBackColor = true;
-            this.button_RemoveMarked.Click += new System.EventHandler(this.button_RemoveMarked_Click);
-            // 
-            // button_CopyMarked
-            // 
-            this.button_CopyMarked.Location = new System.Drawing.Point(261, 82);
-            this.button_CopyMarked.Name = "button_CopyMarked";
-            this.button_CopyMarked.Size = new System.Drawing.Size(122, 23);
-            this.button_CopyMarked.TabIndex = 13;
-            this.button_CopyMarked.Text = "x_Copy Marked";
-            this.button_CopyMarked.UseVisualStyleBackColor = true;
-            this.button_CopyMarked.Click += new System.EventHandler(this.button_CopyMarked_Click);
             // 
             // UserControl_RegExTester
             // 

@@ -78,6 +78,7 @@ Public Class UserControl_FileResource_Path
     Private Sub Initialize()
         objDataWork_FileResource_Path = New clsDataWork_FileResource_Path(objLocalConfig)
         objUserControl_RegExTester = new UserControl_RegExTester(objLocalConfig.Globals)
+        objUserControl_RegExTester.Initialize_Field()
         objUserControl_RegExTester.Dock = DockStyle.Fill
         ToolStripContainer1.ContentPanel.Controls.Add(objUserControl_RegExTester)
     End Sub

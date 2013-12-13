@@ -11,8 +11,62 @@ namespace TextParser
     public class clsDatawork_RegExFilter
     {
         private clsLocalConfig objLocalConfig;
+        private clsDBLevel objDBLevel_FilterOfField;
         private clsDBLevel objDBLevel_FilterRel;
+        private clsOntologyItem objOItem_Field;
         private clsOntologyItem objOItem_Filter;
+
+        public List<clsRegExFilter> GetData_FiltersOfField(clsOntologyItem OItem_Field)
+        {
+            
+            objOItem_Field = OItem_Field;
+
+            var objORel_FilterOfField_Search = new List<clsObjectRel>
+                {
+                    new clsObjectRel
+                        {
+                            ID_Object = objOItem_Field.GUID,
+                            ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
+                            ID_Parent_Other = objLocalConfig.OItem_class_regex_field_filter.GUID,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_pre.GUID
+                        },
+                    new clsObjectRel
+                        {
+                            ID_Object = objOItem_Field.GUID,
+                            ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
+                            ID_Parent_Other = objLocalConfig.OItem_class_regex_field_filter.GUID,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_main.GUID
+                        },
+                    new clsObjectRel
+                        {
+                            ID_Object = objOItem_Field.GUID,
+                            ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
+                            ID_Parent_Other = objLocalConfig.OItem_class_regex_field_filter.GUID,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_posts.GUID
+                        }
+                };
+
+            var objOItem_Result = objDBLevel_FilterOfField.get_Data_ObjectRel(objORel_FilterOfField_Search,
+                                                                              boolIDs: false);
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                var regexFilters =
+                    objDBLevel_FilterOfField.OList_ObjectRel.Select(p => GetData_FilterRel(new clsOntologyItem
+                        {
+                            GUID = p.ID_Other,
+                            Name = p.Name_Other,
+                            GUID_Parent = p.ID_Parent_Other,
+                            Type = objLocalConfig.Globals.Type_Object
+                        })).ToList();
+                return regexFilters;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
 
         public clsRegExFilter GetData_FilterRel(clsOntologyItem OItem_Filter)
         {
@@ -80,6 +134,7 @@ namespace TextParser
         private void Initialize()
         {
             objDBLevel_FilterRel = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_FilterOfField = new clsDBLevel(objLocalConfig.Globals);
         }
     }
 }

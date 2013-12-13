@@ -79,7 +79,7 @@
             this.toolStripButton_Apply});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(64, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(95, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButton_Apply
@@ -90,6 +90,7 @@
             this.toolStripButton_Apply.Name = "toolStripButton_Apply";
             this.toolStripButton_Apply.Size = new System.Drawing.Size(52, 22);
             this.toolStripButton_Apply.Text = "x_Apply";
+            this.toolStripButton_Apply.Click += new System.EventHandler(this.toolStripButton_Apply_Click);
             // 
             // comboBox_Relation
             // 
@@ -100,6 +101,7 @@
             this.comboBox_Relation.Name = "comboBox_Relation";
             this.comboBox_Relation.Size = new System.Drawing.Size(311, 21);
             this.comboBox_Relation.TabIndex = 18;
+            this.comboBox_Relation.SelectedIndexChanged += new System.EventHandler(this.comboBox_Relation_SelectedIndexChanged);
             // 
             // label_Relation
             // 

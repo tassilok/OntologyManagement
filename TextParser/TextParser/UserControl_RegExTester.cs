@@ -238,7 +238,13 @@ namespace TextParser
             objFrmRegExFilter.ShowDialog(this);
             if (objFrmRegExFilter.DialogResult == DialogResult.OK)
             {
-                
+                var regExFilter = objFrmRegExFilter.regExFilter;
+
+                if (objOItem_Field != null)
+                {
+                    
+                    var objORel_
+                }
             }
         }
 

@@ -12,6 +12,8 @@ using Ontology_Module;
 
 namespace TextParser
 {
+    public delegate void AppliedFilter();
+
     public partial class UserControl_RegExFilterDetail : UserControl
     {
         private clsLocalConfig objLocalConfig;
@@ -26,6 +28,8 @@ namespace TextParser
         private clsOntologyItem objOItem_Empty;
 
         public clsRegExFilter RegExFilter { get; set; }
+
+        public event AppliedFilter appliedFilter;
 
         public UserControl_RegExFilterDetail(clsLocalConfig LocalConfig)
         {
@@ -49,6 +53,9 @@ namespace TextParser
             comboBox_Relation.Items.Add(objLocalConfig.OItem_relationtype_main);
             comboBox_Relation.Items.Add(objLocalConfig.OItem_relationtype_posts);
             comboBox_Relation.Items.Add(objOItem_Empty);
+
+            comboBox_Relation.DisplayMember = "Name";
+            comboBox_Relation.ValueMember = "GUID";
         }
 
         private void ClearControls()
@@ -168,13 +175,15 @@ namespace TextParser
 
         private void checkBox_Equal_CheckedChanged(object sender, EventArgs e)
         {
-            Save_Equal();
+            if (checkBox_Equal.Enabled) Save_Equal();
+            Configure_Apply();
         }
 
         private void timer_Pattern_Tick(object sender, EventArgs e)
         {
             timer_Pattern.Stop();
             Save_Pattern();
+            Configure_Apply();
         }
 
         private void Save_Pattern()
@@ -250,22 +259,101 @@ namespace TextParser
                 textBox_Pattern.ReadOnly = true;
                 textBox_Pattern.Text = "";
             }
+
+
         }
 
         private void timer_Name_Tick(object sender, EventArgs e)
         {
             timer_Name.Stop();
             Save_Name();
+            Configure_Apply();
         }
 
         private void Save_Equal()
         {
-            
+            if (RegExFilter != null)
+            {
+                if (checkBox_Equal.Checked != RegExFilter.Equal)
+                {
+                    var objOA_Equal = objRelationConfig.Rel_ObjectAttribute(objOItem_Filter,
+                                                                            objLocalConfig.OItem_attributetype_equal,
+                                                                            checkBox_Equal.Checked,
+                                                                            ID_Attribute: RegExFilter.ID_Attribute_Equal);
+
+                    objTransaction.ClearItems();
+                    var objOItem_Result = objTransaction.do_Transaction(objOA_Equal);
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                    {
+                        MessageBox.Show(this, "Equal kann nicht gesetzt werden!", "Fehler",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        checkBox_Equal.Enabled = false;
+                        checkBox_Equal.Checked = RegExFilter.Equal ?? false;
+                    }
+                }
+            }
         }
 
         private void Save_Name()
         {
-            
+            if (RegExFilter != null)
+            {
+                if (textBox_Name.Text == "")
+                {
+                    MessageBox.Show(this, "Sie müssen einen Namen für den Filter vergeben!", "Eingabefehler",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    textBox_Name.ReadOnly = true;
+                    textBox_Name.Text = objOItem_Filter.Name;
+                    textBox_Name.ReadOnly = false;
+                }
+                else
+                {
+                    if (textBox_Name.Text != RegExFilter.Name_Filter)
+                    {
+                        var objOItem_Filter_Save = objOItem_Filter.Clone();
+                        objOItem_Filter_Save.Name = textBox_Name.Text;
+                        objTransaction.ClearItems();
+                        var objOItem_Result = objTransaction.do_Transaction(objOItem_Filter_Save);
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            RegExFilter.Name_Filter = objOItem_Filter_Save.Name;
+                        }
+                        else
+                        {
+                            MessageBox.Show(this, "Der Name konnte nicht gespeichert werden!", "Fehler",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            textBox_Name.ReadOnly = true;
+                            textBox_Name.Text = RegExFilter.Name_Filter;
+                            textBox_Name.ReadOnly = false;
+                        }    
+                    }
+                    
+                }
+            }
+        }
+
+        private void comboBox_Relation_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedRelationType = (clsOntologyItem)comboBox_Relation.SelectedItem;
+            if (selectedRelationType.GUID != objOItem_Empty.GUID)
+            {
+                RegExFilter.ID_Regex_RelationType = selectedRelationType.GUID;
+                RegExFilter.Name_Regex_RelationType = selectedRelationType.Name;
+            }
+            else
+            {
+                RegExFilter.ID_Regex_RelationType = null;
+                RegExFilter.Name_Regex_RelationType = null;
+            }
+            Configure_Apply();
+        }
+
+        private void toolStripButton_Apply_Click(object sender, EventArgs e)
+        {
+            if (RegExFilter != null)
+            {
+                appliedFilter();
+            }
         }
     }
 }

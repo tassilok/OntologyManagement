@@ -17,6 +17,9 @@ namespace TextParser
         private clsLocalConfig objLocalConfig;
         private UserControl_OItemList objUserControl_Filters;
         private UserControl_RegExFilterDetail objUserControl_RegExFilterDetail;
+        public clsRegExFilter RegExFilter { get; private set; }
+
+        public event AppliedFilter appliedFilter;
 
         public frmRegExFilter(clsLocalConfig LocalConfig)
         {
@@ -68,8 +71,16 @@ namespace TextParser
             objUserControl_RegExFilterDetail = new UserControl_RegExFilterDetail(objLocalConfig);
             objUserControl_RegExFilterDetail.Dock = DockStyle.Fill;
             splitContainer1.Panel2.Controls.Add(objUserControl_RegExFilterDetail);
-
+            objUserControl_RegExFilterDetail.appliedFilter += objUserControl_RegExFilterDetail_appliedFilter;
             
+        }
+
+        void objUserControl_RegExFilterDetail_appliedFilter()
+        {
+            RegExFilter = objUserControl_RegExFilterDetail.RegExFilter;
+            appliedFilter();
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }
