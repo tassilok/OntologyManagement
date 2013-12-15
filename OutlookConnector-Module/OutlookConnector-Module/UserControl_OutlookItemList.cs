@@ -20,7 +20,7 @@ namespace OutlookConnector_Module
         private clsLocalConfig objLocalConfig;
         private clsDataWork_OutlookItems objDataWork_OutlookItems;
         private clsDataWork_OutlookConnector objDataWork_OutlookConnector;
-        private List<KeyValuePair<string, string>> Filters = new List<KeyValuePair<string, string>>();
+        private List<clsFilter> Filters = new List<clsFilter>();
         private clsAppDBLevel objAppDBLevel;
         private clsTransaction objTransaction;
         private clsRelationConfig objRelationConfig;
@@ -117,7 +117,7 @@ namespace OutlookConnector_Module
             {
                 var mailItemsFiltered = objDataWork_OutlookItems.MailItems.Where(p => p.Find(Filters));
                 dataGridView_OutlookItems.DataSource =  new SortableBindingList<clsMailItem> (mailItemsFiltered);
-                toolStripLabel_Filter.Text = String.Join(" OR ", Filters.Select(p => p.Key.ToString() + "=" + p.Value).ToArray());
+                toolStripLabel_Filter.Text = String.Join(" OR ", Filters.Select(p => p.key.ToString() + "=" + p.value).ToArray());
             }
             else
             {
@@ -146,7 +146,13 @@ namespace OutlookConnector_Module
         private void equalToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridViewColumn objdGVC = dataGridView_OutlookItems.Columns[dataGridView_OutlookItems.SelectedCells[0].ColumnIndex];
-            Filters.Add(new KeyValuePair<string,string> (objdGVC.DataPropertyName,dataGridView_OutlookItems.SelectedCells[0].Value.ToString()));
+            Filters.Add(new clsFilter
+            {
+                key = objdGVC.DataPropertyName,
+                value = dataGridView_OutlookItems.SelectedCells[0].Value.ToString(),
+                TypeOfFilter = FilterType.contains
+            });
+
             ConfigureGrid();
         }
 
@@ -380,6 +386,40 @@ namespace OutlookConnector_Module
                 objFrmObjectEdit = new frm_ObjectEdit(objLocalConfig.Globals, objOList_Objects, 0, objLocalConfig.Globals.Type_Object, null);
                 objFrmObjectEdit.ShowDialog(this);
             }
+        }
+
+        private void toolStripTextBox_contains_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                DataGridViewColumn objdGVC = dataGridView_OutlookItems.Columns[dataGridView_OutlookItems.SelectedCells[0].ColumnIndex];
+                Filters.Add(new clsFilter 
+                    {
+                        key = objdGVC.DataPropertyName,
+                        value = toolStripTextBox_contains.Text,
+                        TypeOfFilter = FilterType.contains
+                    });
+
+                ConfigureGrid();
+            }
+        }
+
+        private void differentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridViewColumn objdGVC = dataGridView_OutlookItems.Columns[dataGridView_OutlookItems.SelectedCells[0].ColumnIndex];
+            Filters.Add(new clsFilter
+            {
+                key = objdGVC.DataPropertyName,
+                value = dataGridView_OutlookItems.SelectedCells[0].Value.ToString(),
+                TypeOfFilter = FilterType.contains
+            });
+
+            ConfigureGrid();
+        }
+
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Filters.Clear();
         }
     }
 }

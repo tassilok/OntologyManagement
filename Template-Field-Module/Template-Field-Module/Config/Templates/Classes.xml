@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Class">
+  <Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
+<Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
+<Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
+<Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="9928e253553a418db5aadbb6d51bbc2d" Id_Parent="617d2d030f244794be168313c97d2319"><![CDATA[Templatefield]]></Item>
+<Item Id="e9835aa475d44493880b978c092bef48" Id_Parent="acc4ac95f848428c9872b2133e5be843"><![CDATA[ContentObject]]></Item>
+<Item Id="617d2d030f244794be168313c97d2319" Id_Parent="de988c64dd5941f4bf1f4b54c56e8fe7"><![CDATA[Word-Templates]]></Item>
+<Item Id="acc4ac95f848428c9872b2133e5be843" Id_Parent="105e9a106c414e8e93060bf795bb9b04"><![CDATA[Managed-Document]]></Item>
+<Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
+<Item Id="105e9a106c414e8e93060bf795bb9b04" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Document-Management]]></Item>
+<Item Id="de988c64dd5941f4bf1f4b54c56e8fe7" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Templates]]></Item>
+<Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
+<Item Id="83317bacb4b14db8bf849fca0a93ddd5" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Information-Management]]></Item>
+
+</Items>

@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="clsDataWork_OutlookConnector.cs" />
     <Compile Include="clsDataWork_OutlookItems.cs" />
+    <Compile Include="clsFilter.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="clsMailItem.cs" />
     <Compile Include="clsOutlookConnector.cs" />

@@ -10,6 +10,8 @@ Public Class UserControl_PDFViewer
 
     Private objBlobConnection As clsBlobConnection
 
+    Private objFrmObjectEdit As frm_ObjectEdit
+
     Public Sub clear_PDF()
         ToolStripLabel_Name.Text = "-"
         AxFoxitCtl_Main.OpenFile("")
@@ -80,4 +82,17 @@ Public Class UserControl_PDFViewer
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
     End Sub
 
+    Public Sub Edit_MediaItem(objOItem_PDF As clsOntologyItem)
+
+        Dim objOList_PDFs = New List(Of clsOntologyItem) From {objOItem_PDF}
+        objFrmObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
+                                              objOList_PDFs, _
+                                              0, _
+                                              objLocalConfig.Globals.Type_Object, _
+                                              Nothing)
+        objFrmObjectEdit.ShowDialog(Me)
+        If objFrmObjectEdit.DialogResult = DialogResult.OK Then
+
+        End If
+    End Sub
 End Class

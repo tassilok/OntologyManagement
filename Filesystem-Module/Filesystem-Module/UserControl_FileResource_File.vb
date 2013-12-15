@@ -1,5 +1,7 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
+Imports TextParser
+
 Public Class UserControl_FileResource_File
 
     Private objLocalConfig As clsLocalConfig
@@ -7,6 +9,7 @@ Public Class UserControl_FileResource_File
     Private objOItem_FileResource As clsOntologyItem
 
     Private WithEvents objUserControl_Files As UserControl_OItemList
+    Private WithEvents objUserControl_RegExTester As UserControl_RegExTester
 
     Public Sub New(LocalConfig As clsLocalConfig)
 
@@ -22,6 +25,10 @@ Public Class UserControl_FileResource_File
         objUserControl_Files = New UserControl_OItemList(objLocalConfig.Globals)
         objUserControl_Files.Dock = DockStyle.Fill
         SplitContainer1.Panel1.Controls.Add(objUserControl_Files)
+
+        objUserControl_RegExTester = New UserControl_RegExTester(objLocalConfig.Globals)
+        objUserControl_RegExTester.Dock = DockStyle.Fill
+        SplitContainer1.Panel2.Controls.Add(objUserControl_RegExTester)
     End Sub
 
     Public Sub Initialize_File(OItem_FileResource As clsOntologyItem)

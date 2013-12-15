@@ -19,121 +19,288 @@ namespace OutlookConnector_Module
         public Boolean SemItemPresent { get; set; }
 
 
-        public Boolean Find(List<KeyValuePair<string, string>> Filters)
+        public Boolean Find(List<clsFilter> Filters)
         {
             var boolFound = false;
             foreach (var filter in Filters)
             {
-                if (filter.Key.ToLower() == "id_mailitem")
+                if (filter.key.ToString().ToLower() == "id_mailitem")
                 {
-                    if (ID_MailItem.ToLower() == filter.Value.ToLower())
+                    if (filter.TypeOfFilter == FilterType.contains)
                     {
-                        boolFound = true;
-                        break;
+                        if (ID_MailItem.ToString().ToLower() == filter.value.ToString().ToLower())
+                        {
+                            boolFound = true;
+                            break;
+                        }
                     }
+                    else if (filter.TypeOfFilter == FilterType.different)
+                    {
+                        if (ID_MailItem.ToString().ToLower() != filter.value.ToString().ToLower())
+                        {
+                            boolFound = true;
+                            break;
+                        }
+                    }
+                    else if (filter.TypeOfFilter == FilterType.contains)
+                    {
+                        if (ID_MailItem.ToString().ToLower().Contains(filter.value.ToString().ToLower()))
+                        {
+                            boolFound = true;
+                            break;
+                        }
+                    }
+                    
                 }
 
-                if (filter.Key.ToLower() == "entryid")
+                if (filter.key.ToString().ToLower() == "entryid")
                 {
-                    if (EntryID.ToLower() == filter.Value.ToLower())
+                    if (filter.TypeOfFilter == FilterType.equal)
                     {
-                        boolFound = true;
-                        break;
+                        if (EntryID.ToString().ToLower() == filter.value.ToString().ToLower())
+                        {
+                            boolFound = true;
+                            break;
+                        }
                     }
+                    else if (filter.TypeOfFilter == FilterType.different)
+                    {
+                        if (EntryID.ToString().ToLower() != filter.value.ToString().ToLower())
+                        {
+                            boolFound = true;
+                            break;
+                        }
+                    }
+                    else if (filter.TypeOfFilter == FilterType.contains)
+                    {
+                        if (EntryID.ToString().ToLower().Contains(filter.value.ToString().ToLower()))
+                        {
+                            boolFound = true;
+                            break;
+                        }
+                    }
+                    
                 }
 
-                if (filter.Key.ToLower() == "senderemail")
+                if (filter.key.ToString().ToLower() == "senderemail")
                 {
                     if (SenderEmail != null)
                     {
-                        if (SenderEmail.ToLower() == filter.Value.ToLower())
+                        if (filter.TypeOfFilter == FilterType.equal)
                         {
-                            boolFound = true;
-                            break;
+                            if (SenderEmail.ToString().ToLower() == filter.value.ToString().ToLower())
+                            {
+                                boolFound = true;
+                                break;
+                            }
                         }
+                        else if (filter.TypeOfFilter == FilterType.different)
+                        {
+                            if (SenderEmail.ToString().ToLower() != filter.value.ToString().ToLower())
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+                        else if (filter.TypeOfFilter == FilterType.contains)
+                        {
+                            if (SenderEmail.ToString().ToLower().Contains(filter.value.ToString().ToLower()))
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+                        
                     }
                     
                 }
 
-                if (filter.Key.ToLower() == "sendername")
+                if (filter.key.ToString().ToLower() == "sendername")
                 {
                     if (SenderName != null)
                     {
-                        if (SenderName.ToLower() == filter.Value.ToLower())
+                        if (filter.TypeOfFilter == FilterType.equal)
                         {
-                            boolFound = true;
-                            break;
+                            if (SenderName.ToString().ToLower() == filter.value.ToString().ToLower())
+                            {
+                                boolFound = true;
+                                break;
+                            }
                         }
+                        else if (filter.TypeOfFilter == FilterType.different)
+                        {
+                            if (SenderName.ToString().ToLower() != filter.value.ToString().ToLower())
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+                        else if (filter.TypeOfFilter == FilterType.contains)
+                        {
+                            if (SenderName.ToString().ToLower().Contains(filter.value.ToString().ToLower()))
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+                        
                     }
                 }
 
-                if (filter.Key.ToLower() == "to")
+                if (filter.key.ToString().ToLower() == "to")
                 {
                     if (To != null)
                     {
-                        if (To.ToLower() == filter.Value.ToLower())
+                        if (filter.TypeOfFilter == FilterType.equal)
                         {
-                            boolFound = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (filter.Key.ToLower() == "creationdate")
-                {
-                    if (CreationDate != null)
-                    {
-                        DateTime dateValue;
-                        if (DateTime.TryParse(filter.Value, out dateValue))
-                        {
-                            if (CreationDate == dateValue)
+                            if (To.ToString().ToLower() == filter.value.ToString().ToLower())
                             {
                                 boolFound = true;
                                 break;
                             }
+                        }
+                        else if (filter.TypeOfFilter == FilterType.different)
+                        {
+                            if (To.ToString().ToLower() != filter.value.ToString().ToLower())
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+                        else if (filter.TypeOfFilter == FilterType.contains)
+                        {
+                            if (To.ToString().ToLower().Contains(filter.value.ToString().ToLower()))
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+                        
+                    }
+                }
+
+                if (filter.key.ToString().ToLower() == "creationdate")
+                {
+                    if (filter.value is DateTime)
+                    {
+                        var datevalue = (DateTime)filter.value;
+                        if (CreationDate != null)
+                        {
+                            if (filter.TypeOfFilter == FilterType.equal)
+                            {
+                                if (CreationDate == datevalue)
+                                {
+                                    boolFound = true;
+                                    break;
+                                }
+                            }
+                            else if (filter.TypeOfFilter == FilterType.different)
+                            {
+                                if (CreationDate != datevalue)
+                                {
+                                    boolFound = true;
+                                    break;
+                                }
+                            }
+                            
                         }
                     }
                     
+                    
                 }
 
-                if (filter.Key.ToLower() == "subject")
+                if (filter.key.ToString().ToLower() == "subject")
                 {
                     if (Subject != null)
                     {
-                        if (Subject.ToLower() == filter.Value.ToLower())
+                        if (filter.TypeOfFilter == FilterType.equal)
                         {
-                            boolFound = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (filter.Key.ToLower() == "folder")
-                {
-                    if (Folder != null)
-                    {
-                        if (Folder.ToLower() == filter.Value.ToLower())
-                        {
-                            boolFound = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (filter.Key.ToLower() == "semitempresent")
-                {
-                    if (SemItemPresent != null)
-                    {
-                        bool boolValue;
-                        if (bool.TryParse(filter.Value, out boolValue))
-                        {
-                            if (SemItemPresent == boolValue)
+                            if (Subject.ToString().ToLower() == filter.value.ToString().ToLower())
                             {
                                 boolFound = true;
                                 break;
                             }
                         }
+                        else if (filter.TypeOfFilter == FilterType.different)
+                        {
+                            if (Subject.ToString().ToLower() != filter.value.ToString().ToLower())
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+                        else if (filter.TypeOfFilter == FilterType.contains)
+                        {
+                            if (Subject.ToString().ToLower().Contains(filter.value.ToString().ToLower()))
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+                        
                     }
+                }
+
+                if (filter.key.ToString().ToLower() == "folder")
+                {
+                    if (Folder != null)
+                    {
+                        if (filter.TypeOfFilter == FilterType.equal)
+                        {
+                            if (Folder.ToString().ToLower() == filter.value.ToString().ToLower())
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+                        else if (filter.TypeOfFilter == FilterType.different)
+                        {
+                            if (Folder.ToString().ToLower() != filter.value.ToString().ToLower())
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+                        else if (filter.TypeOfFilter == FilterType.contains)
+                        {
+                            if (Folder.ToString().ToLower().Contains(filter.value.ToString().ToLower()))
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+                        
+                    }
+                }
+
+                if (filter.key.ToString().ToLower() == "semitempresent")
+                {
+                    if (filter.value is bool)
+                    {
+                        var boolvalue = (bool)filter.value;
+                        if (SemItemPresent != null)
+                        {
+                            if (filter.TypeOfFilter == FilterType.equal)
+                            {
+                                if (SemItemPresent == boolvalue)
+                                {
+                                    boolFound = true;
+                                    break;
+                                }
+                            }
+                            else if (filter.TypeOfFilter == FilterType.different)
+                            {
+                                if (SemItemPresent != boolvalue)
+                                {
+                                    boolFound = true;
+                                    break;
+                                }
+                            }
+                            
+                            
+                        }
+                    }
+                    
 
                 }
             }

@@ -33,7 +33,7 @@ Public Class frm_AdressZusatz
 
                         Dim objOItem_Result = objTransaction.do_Transaction(objOItem_AdressZusatz)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            Dim objDRV_Selected As DataRow = objUserControl_ZusatzType.DataGridViewRowCollection_Selected(0).DataBoundItem
+                            Dim objDRV_Selected As DataRowView = objUserControl_ZusatzType.DataGridViewRowCollection_Selected(0).DataBoundItem
                             Dim objOItem_Typ = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_Item"), _
                                                                          .Name = objDRV_Selected.Item("Name"), _
                                                                          .GUID_Parent = objDRV_Selected.Item("ID_Parent"), _
@@ -45,8 +45,25 @@ Public Class frm_AdressZusatz
 
                             objOItem_Result = objTransaction.do_Transaction(objORel_AddressZusatz_To_Typ, True)
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                DialogResult = Windows.Forms.DialogResult.OK
-                                Close()
+
+                                Dim objOrel_Addresse_To_Adresszusatz = objRelationConfig.Rel_ObjectRelation(objDataWork_Address.Address, _
+                                                                                                            objOItem_AdressZusatz, _
+                                                                                                            objLocalConfig.OItem_RelationType_belonging)
+
+                                objOItem_Result = objTransaction.do_Transaction(objOrel_Addresse_To_Adresszusatz, True)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objDataWork_Address.Zusaetze.Add(New clsAdderesszusatz With {.ID_AdressZusatz = objOItem_AdressZusatz.GUID, _
+                                                                                             .Name_AdressZusatz = objOItem_AdressZusatz.Name, _
+                                                                                             .ID_ZusatzTyp = objOItem_Typ.GUID, _
+                                                                                             .Name_ZusatzTyp = objOItem_Typ.Name})
+
+                                    DialogResult = Windows.Forms.DialogResult.OK
+                                    Close()
+                                Else
+                                    MsgBox("Beim Speichern ist ein Fehler aufgetraten.", MsgBoxStyle.Exclamation)
+                                End If
+
+                                
                             Else
                                 MsgBox("Beim Speichern ist ein Fehler aufgetraten.", MsgBoxStyle.Exclamation)
                             End If
@@ -96,5 +113,8 @@ Public Class frm_AdressZusatz
         objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
 
         Panel_ZusatzTyp.Controls.Add(objUserControl_ZusatzType)
+        objUserControl_ZusatzType.initialize(New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_class_zusatz_typ.GUID, _
+                                                                       .Type = objLocalConfig.Globals.Type_Object})
+
     End Sub
 End Class

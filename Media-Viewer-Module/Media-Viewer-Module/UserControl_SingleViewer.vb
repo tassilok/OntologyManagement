@@ -24,6 +24,7 @@ Public Class UserControl_SingleViewer
     Private intCount As Integer
     Private intItemID As Integer
     Private boolNavigation As Boolean
+    Private objOItem_PDF As clsOntologyItem
 
     Private objOItem_Ref As clsOntologyItem
     Private objRelationConfig As clsRelationConfig
@@ -94,6 +95,7 @@ Public Class UserControl_SingleViewer
 
     Public Sub initialize_PDF(ByVal OItem_PDF As clsOntologyItem, ByVal OItem_File As clsOntologyItem)
         objOItem_Ref = Nothing
+        objOItem_PDF = OItem_PDF
         objUserControl_PDFViewer.initialize_PDF(OItem_PDF, OItem_File)
         ToolStripTextBox_Curr.Text = 0
         ToolStripLabel_Count.Text = 0
@@ -102,7 +104,7 @@ Public Class UserControl_SingleViewer
     End Sub
 
     Public Sub initialize_PDF(ByVal objDR_Media As DataRow)
-        Dim objOItem_PDF As clsOntologyItem
+
         Dim objOItem_File As clsOntologyItem
 
         objOItem_Ref = Nothing
@@ -211,11 +213,13 @@ Public Class UserControl_SingleViewer
             ToolStrip2.Enabled = True
             ToolStripButton_Add.Enabled = True
             ToolStripButton_Remove.Enabled = True
+            ToolStripButton_Edit.Enabled = True
         Else
             ToolStrip2.Visible = False
             ToolStrip2.Enabled = False
             ToolStripButton_Add.Enabled = False
             ToolStripButton_Remove.Enabled = False
+            ToolStripButton_Edit.Enabled = False
         End If
     End Sub
     Private Sub configure_Viewer(Optional IncrItemID As Integer = 0)
@@ -243,10 +247,13 @@ Public Class UserControl_SingleViewer
         If Not objItem Is Nothing Then
             Dim objMediaItem As clsOntologyItem = New clsOntologyItem(objItem.ID_Item, _
                                                                   objItem.Name_Item, _
-                                                                  objItem.ID_Parent_Item)
+                                                                  objItem.ID_Parent_Item, _
+                                                                  objLocalConfig.Globals.Type_Object)
+
             Dim objFile As clsOntologyItem = New clsOntologyItem(objItem.ID_File, _
                                                                  objItem.Name_File, _
-                                                                 objItem.ID_Parent_File)
+                                                                 objItem.ID_Parent_File, _
+                                                                 objLocalConfig.Globals.Type_Object)
             Dim dateCreated As DateTime
 
             If Not objItem.OACreate Is Nothing Then
@@ -257,7 +264,8 @@ Public Class UserControl_SingleViewer
 
             Select Case objOItem_MediaType.GUID
                 Case objLocalConfig.OItem_Type_PDF_Documents.GUID
-                    objUserControl_PDFViewer.initialize_PDF(objMediaItem, objFile)
+                    objOItem_PDF = objMediaItem
+                    objUserControl_PDFViewer.initialize_PDF(objOItem_PDF, objFile)
                 Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
                     objUserControl_ImageViewer.initialize_Image(objMediaItem, objFile, dateCreated)
                 Case objLocalConfig.OItem_Type_Media_Item.GUID
@@ -555,6 +563,18 @@ Public Class UserControl_SingleViewer
                 initialize_PDF(objOItem_Ref)
             Case objLocalConfig.OItem_Type_Media_Item.GUID
                 initialize_MediaItem(objOItem_Ref)
+        End Select
+    End Sub
+
+    Private Sub ToolStripButton_Edit_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Edit.Click
+        Select Case objOItem_MediaType.GUID
+            Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+
+            Case objLocalConfig.OItem_Type_Media_Item.GUID
+
+            Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+                objOItem_PDF.GUID_Parent = objLocalConfig.OItem_Type_PDF_Documents.GUID
+                objUserControl_PDFViewer.Edit_MediaItem(objOItem_PDF)
         End Select
     End Sub
 End Class

@@ -29,6 +29,7 @@ namespace TextParser
 
         public clsRegExFilter RegExFilter { get; set; }
 
+        public delegate void AppliedFilter();
         public event AppliedFilter appliedFilter;
 
         public UserControl_RegExFilterDetail(clsLocalConfig LocalConfig)

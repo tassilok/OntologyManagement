@@ -22,8 +22,10 @@ namespace TextParser
         private clsLocalConfig objLocalConfig;
 
         private clsDataWork_FieldParser objDataWork_FieldParser;
+        private clsDatawork_RegExFilter objDataWork_RegExFilter;
 
         private frmRegExFilter objFrmRegExFilter;
+        private frmMain objFrmOntologyEditor;
 
         private clsOntologyItem objOItem_Field;
         private clsObjectAtt objOAItem_PrePattern;
@@ -40,11 +42,35 @@ namespace TextParser
             TextReader textReader = new StreamReader(fs);
             richTextBox_Text.Text = textReader.ReadToEnd();
             textReader.Close();
+            parseText();
         }
 
         public void SetContent(string content)
         {
             richTextBox_Text.Text = content;
+            parseText();
+        }
+
+
+        public void ClearControls()
+        {
+            textBox_Field.Text = "";
+            button_AddField.Enabled = false;
+            textBox_RegExMain.ReadOnly = true;
+            textBox_RegExMain.Text = "";
+            button_AdRegexMain.Enabled = false;
+            textBox_RegExPost.ReadOnly = true;
+            textBox_RegExPost.Text = "";
+            button_AddRegExPost.Enabled = false;
+            textBox_RegexPre.ReadOnly = true;
+            textBox_RegexPre.Text = "";
+            button_AddRegexPre.Enabled = false;
+            dataGridView_Filter.Enabled = false;
+            dataGridView_Filter.DataSource = null;
+            richTextBox_Text.ReadOnly = true;
+            button_RemoveMarked.Enabled = false;
+            button_RemoveUnmarked.Enabled = false;
+            button_CopyMarked.Enabled = false;
         }
 
         public void SetContentByFilePath(string path)
@@ -54,6 +80,7 @@ namespace TextParser
                 TextReader textReader = new StreamReader(path);
                 richTextBox_Text.Text = textReader.ReadToEnd();
                 textReader.Close();
+                parseText();
             }
             catch (Exception)
             {
@@ -84,17 +111,45 @@ namespace TextParser
         {
             objOItem_Field = objLocalConfig.OItem_object_temporary_regular_expression.Clone();
             objDataWork_FieldParser = new clsDataWork_FieldParser(objLocalConfig);
+            objDataWork_RegExFilter = new clsDatawork_RegExFilter(objLocalConfig);
 
             objTransaction = new clsTransaction(objLocalConfig.Globals);
             objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
+
+            ClearControls();
+        }
+
+        private void FillFilterGrid()
+        {
+            regExFilters = null;
+            if (objOItem_Field != null)
+            {
+                regExFilters = new SortableBindingList<clsRegExFilter>(objDataWork_RegExFilter.GetData_FiltersOfField(objOItem_Field));
+                dataGridView_Filter.DataSource = regExFilters;
+                dataGridView_Filter.Columns[0].Visible = false;
+                dataGridView_Filter.Columns[2].Visible = false;
+                dataGridView_Filter.Columns[4].Visible = false;
+                dataGridView_Filter.Columns[5].Visible = false;
+                dataGridView_Filter.Columns[6].Visible = false;
+
+            }
+            else
+            {
+                dataGridView_Filter.DataSource = null;
+
+            }
+            
         }
 
         public void Initialize_Field(clsOntologyItem OItem_Field = null)
         {
+            ClearControls();
             if (OItem_Field != null)
             {
                 objOItem_Field = OItem_Field;
             }
+
+            textBox_Field.Text = objOItem_Field.Name;
 
             var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
 
@@ -127,18 +182,23 @@ namespace TextParser
             }
             else
             {
-                textBox_RegexPre.ReadOnly = true;
+                
                 textBox_RegexPre.Text = objOAItem_PrePattern.Val_String;
-                textBox_RegexPre.ReadOnly = false;
-
-                textBox_RegExMain.ReadOnly = true;
                 textBox_RegExMain.Text = objOAItem_MainPattern.Val_String;
-                textBox_RegExMain.ReadOnly = false;
-
-                textBox_RegExPost.ReadOnly = true;
                 textBox_RegExPost.Text = objOAItem_PostPattern.Val_String;
+
+                button_AddField.Enabled = true;
+                textBox_RegExMain.ReadOnly = false;
+                button_AdRegexMain.Enabled = true;
                 textBox_RegExPost.ReadOnly = false;
+                button_AddRegExPost.Enabled = true;
+                textBox_RegexPre.ReadOnly = false;
+                button_AddRegexPre.Enabled = true;
+                dataGridView_Filter.Enabled = true;
+                
             }
+
+            FillFilterGrid();
         }
 
         private clsObjectAtt SyncPatternOfField(clsOntologyItem OItem_RelationType, string pattern, bool boolChange)
@@ -238,12 +298,30 @@ namespace TextParser
             objFrmRegExFilter.ShowDialog(this);
             if (objFrmRegExFilter.DialogResult == DialogResult.OK)
             {
-                var regExFilter = objFrmRegExFilter.regExFilter;
+                var regExFilter = objFrmRegExFilter.RegExFilter;
 
                 if (objOItem_Field != null)
                 {
-                    
-                    var objORel_
+                    var objOItem_Filter = new clsOntologyItem
+                    {
+                        GUID = regExFilter.ID_Filter,
+                        Name = regExFilter.Name_Filter,
+                        GUID_Parent = objLocalConfig.OItem_class_regex_field_filter.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+
+                    var objRelationType = new clsOntologyItem 
+                    {
+                        GUID = regExFilter.ID_Regex_RelationType,
+                        Name = regExFilter.Name_Regex_RelationType,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+
+                    var objField_To_Filter = objRelationConfig.Rel_ObjectRelation(objOItem_Field, objOItem_Filter, objRelationType);
+                    objTransaction.ClearItems();
+                    var objOItem_Result = objTransaction.do_Transaction(objField_To_Filter);
+
+                    FillFilterGrid();
                 }
             }
         }
@@ -374,6 +452,14 @@ namespace TextParser
             richTextBox_Text.ReadOnly = true;
             try
             {
+                regExFilters = (SortableBindingList<clsRegExFilter>) dataGridView_Filter.DataSource;
+                var preEqualFilters = regExFilters.Where(p => p.ID_Regex_RelationType == objLocalConfig.OItem_relationtype_pre.GUID && p.Equal == true).ToList();
+                var preNotEqualFilters = regExFilters.Where(p => p.ID_Regex_RelationType == objLocalConfig.OItem_relationtype_pre.GUID && p.Equal == false).ToList();
+                var mainEqualFilters = regExFilters.Where(p => p.ID_Regex_RelationType == objLocalConfig.OItem_relationtype_main.GUID && p.Equal == true).ToList();
+                var mainNotEqualFilters = regExFilters.Where(p => p.ID_Regex_RelationType == objLocalConfig.OItem_relationtype_main.GUID && p.Equal == false).ToList();
+                var postEqualFilters = regExFilters.Where(p => p.ID_Regex_RelationType == objLocalConfig.OItem_relationtype_posts.GUID && p.Equal == true).ToList();
+                var postNotEqualFilters = regExFilters.Where(p => p.ID_Regex_RelationType == objLocalConfig.OItem_relationtype_posts.GUID && p.Equal == false).ToList();
+
                 richTextBox_Text.SelectionStart = 0;
                 richTextBox_Text.SelectionLength = richTextBox_Text.TextLength;
                 richTextBox_Text.SelectionBackColor = richTextBox_Text.BackColor;
@@ -434,29 +520,67 @@ namespace TextParser
                     {
                         richTextBox_Text.SelectionStart = 0;
                         richTextBox_Text.SelectionLength = 0;
-
-                        var ixStart = objRegEx_Pre_Matches[i].Index + objRegEx_Pre_Matches[i].Length;
-                        var ixEnd = ixStart;
-                        if (i < objRegEx_Pre_Matches.Count)
+                        
+                        var text = richTextBox_Text.Text.Substring(objRegEx_Pre_Matches[i].Index,objRegEx_Pre_Matches[i].Length);
+                        if (!preEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
                         {
-                            ixEnd = objRegEx_Pre_Matches[i + 1].Index;
-                        }
-                        else
-                        {
-                            ixEnd = richTextBox_Text.TextLength - 1;
+                            var parse = true;
+                            if (preNotEqualFilters.Any())
+                            {
+                                if (!preNotEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
+                                {
+                                    parse = false;
+                                }
+                            }
+                            if (parse)
+                            {
+                                var ixStart = objRegEx_Pre_Matches[i].Index + objRegEx_Pre_Matches[i].Length;
+                                var ixEnd = ixStart;
+                                if (i < objRegEx_Pre_Matches.Count)
+                                {
+                                    ixEnd = objRegEx_Pre_Matches[i + 1].Index;
+                                }
+                                else
+                                {
+                                    ixEnd = richTextBox_Text.TextLength - 1;
+                                }
+
+                                richTextBox_Text.SelectionStart = ixStart;
+                                richTextBox_Text.SelectionLength = ixEnd;    
+                            }
+                            
                         }
 
-                        richTextBox_Text.SelectionStart = ixStart;
-                        richTextBox_Text.SelectionLength = ixEnd;
+                        
 
+                        
+                        
                         if (objRegEx_Post != null)
                         {
                             if (richTextBox_Text.SelectionLength > 0)
                             {
+                                
                                 objRegEx_Post_Matches = objRegEx_Post.Matches(richTextBox_Text.SelectedText);
                                 if (objRegEx_Post_Matches.Count > 0)
                                 {
-                                    richTextBox_Text.SelectionLength = objRegEx_Post_Matches[0].Index;
+                                    var text1 = richTextBox_Text.Text.Substring(objRegEx_Post_Matches[0].Index, objRegEx_Post_Matches[0].Length);
+                                    if (!postEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
+                                    {
+                                        var parse = true;
+                                        if (preNotEqualFilters.Any())
+                                        {
+                                            if (!postNotEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
+                                            {
+                                                parse = false;
+                                            }
+                                        }
+                                        if (parse)
+                                        {
+                                            richTextBox_Text.SelectionLength = objRegEx_Post_Matches[0].Index;
+                                        }
+                                        
+                                    }
+                                    
                                 }
                                 else
                                 {
@@ -475,9 +599,25 @@ namespace TextParser
                                 objRegEx_Main_Matches = objRegEx_Main.Matches(richTextBox_Text.SelectedText);
                                 if (objRegEx_Main_Matches.Count > 0)
                                 {
-                                    richTextBox_Text.SelectionStart = richTextBox_Text.SelectionStart +
-                                                                      objRegEx_Main_Matches[0].Index;
-                                    richTextBox_Text.SelectionLength = objRegEx_Main_Matches[0].Length;
+                                    var text1 = richTextBox_Text.Text.Substring(objRegEx_Main_Matches[0].Index, objRegEx_Main_Matches[0].Length);
+                                    if (!mainEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
+                                    {
+                                        var parse = true;
+                                        if (mainNotEqualFilters.Any())
+                                        {
+                                            if (!mainNotEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
+                                            {
+                                                parse = false;
+                                            }
+                                        }
+                                        if (parse)
+                                        {
+                                            richTextBox_Text.SelectionStart = richTextBox_Text.SelectionStart +
+                                                                          objRegEx_Main_Matches[0].Index;
+                                            richTextBox_Text.SelectionLength = objRegEx_Main_Matches[0].Length;
+                                        }
+                                    }
+                                    
                                 }
                                 else
                                 {
@@ -585,18 +725,27 @@ namespace TextParser
                 
             }
 
-
             richTextBox_Text.ReadOnly = false;
+            button_RemoveMarked.Enabled = true;
+            button_RemoveUnmarked.Enabled = true;
+            button_CopyMarked.Enabled = true;
         
         }
 
+        
+
         private void button_RemoveUnmarked_Click(object sender, EventArgs e)
         {
-            var objList_Marked = objSelections.OrderByDescending(p => p.SelectionStart).ToList();
-            for (int i = 0; i < objList_Marked.Count-1; i++)
+            var objList_Marked = objSelections.OrderBy(p => p.SelectionStart).ToList();
+            var strToKeep = "";
+            for (int i = 0; i < objList_Marked.Count; i++)
             {
-                
+                richTextBox_Text.SelectionStart = objList_Marked[i].SelectionStart;
+                richTextBox_Text.SelectionLength = objList_Marked[i].SelectionLength;
+                strToKeep += richTextBox_Text.SelectedText + "\r\n";
             }
+            richTextBox_Text.Text = strToKeep;
+            objSelections.Clear();
         }
 
         private void button_RemoveMarked_Click(object sender, EventArgs e)
@@ -609,11 +758,12 @@ namespace TextParser
                 richTextBox_Text.SelectedText = "";
 
             }
+            objSelections.Clear();
         }
 
         private void button_CopyMarked_Click(object sender, EventArgs e)
         {
-            var objList_Marked = objSelections.OrderByDescending(p => p.SelectionStart).ToList();
+            var objList_Marked = objSelections.OrderBy(p => p.SelectionStart).ToList();
             var strToCopy = "";
             for (int i = 0; i < objList_Marked.Count; i++)
             {
@@ -622,6 +772,39 @@ namespace TextParser
                 strToCopy += richTextBox_Text.SelectedText + "\r\n";
             }
             Clipboard.SetDataObject(strToCopy);
+        }
+
+        private void button_AddField_Click(object sender, EventArgs e)
+        {
+            objFrmOntologyEditor = new frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class, objLocalConfig.OItem_class_field);
+            objFrmOntologyEditor.ShowDialog(this);
+            if (objFrmOntologyEditor.DialogResult == DialogResult.OK)
+            {
+                if (objFrmOntologyEditor.Type_Applied == objLocalConfig.Globals.Type_Object)
+                {
+                    if (objFrmOntologyEditor.OList_Simple.Count == 1)
+                    {
+                        if (objFrmOntologyEditor.OList_Simple.First().GUID_Parent == objLocalConfig.OItem_class_field.GUID)
+                        {
+                            objOItem_Field = objFrmOntologyEditor.OList_Simple.First();
+                            Initialize_Field(objOItem_Field);
+                        }
+                        else
+                        {
+                            MessageBox.Show(this, "Bitte nur ein Feld auswählen!", "Bitte wählen!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, "Bitte nur ein Feld auswählen!", "Bitte wählen!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show(this, "Bitte nur ein Feld auswählen!", "Bitte wählen!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }

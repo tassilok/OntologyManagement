@@ -58,6 +58,10 @@ namespace TextParser
                             Name = p.Name_Other,
                             GUID_Parent = p.ID_Parent_Other,
                             Type = objLocalConfig.Globals.Type_Object
+                        }, new clsOntologyItem
+                        {
+                            GUID = p.ID_RelationType,
+                            Name = p.Name_RelationType
                         })).ToList();
                 return regexFilters;
             }
@@ -68,7 +72,7 @@ namespace TextParser
         }
 
 
-        public clsRegExFilter GetData_FilterRel(clsOntologyItem OItem_Filter)
+        public clsRegExFilter GetData_FilterRel(clsOntologyItem OItem_Filter, clsOntologyItem objOItem_RelationType = null)
         {
             objOItem_Filter = OItem_Filter;
             clsRegExFilter objRegExFilter = null;
@@ -100,6 +104,12 @@ namespace TextParser
                         objRegExFilter.Filter = objLPattern.First().Val_String;
                     }
 
+                }
+
+                if (objOItem_RelationType != null)
+                {
+                    objRegExFilter.ID_Regex_RelationType = objOItem_RelationType.GUID;
+                    objRegExFilter.Name_Regex_RelationType = objOItem_RelationType.Name;
                 }
             }
 

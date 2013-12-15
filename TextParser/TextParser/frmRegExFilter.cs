@@ -19,8 +19,6 @@ namespace TextParser
         private UserControl_RegExFilterDetail objUserControl_RegExFilterDetail;
         public clsRegExFilter RegExFilter { get; private set; }
 
-        public event AppliedFilter appliedFilter;
-
         public frmRegExFilter(clsLocalConfig LocalConfig)
         {
             InitializeComponent();
@@ -78,7 +76,6 @@ namespace TextParser
         void objUserControl_RegExFilterDetail_appliedFilter()
         {
             RegExFilter = objUserControl_RegExFilterDetail.RegExFilter;
-            appliedFilter();
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

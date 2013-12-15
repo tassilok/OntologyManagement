@@ -16,6 +16,8 @@ Public Class UserControl_Address
 
     Private objUserControl_Contact As UserControl_OItemList
 
+    Private objFrmAddressZusatz As frm_AdressZusatz
+
     Private objOItem_Partner As clsOntologyItem
 
     Private objOList_Zusaetze As SortableBindingList(Of clsAdderesszusatz)
@@ -113,7 +115,9 @@ Public Class UserControl_Address
             DataGridView_Adresszusatz.Columns(0).Visible = False
             DataGridView_Adresszusatz.Columns(2).Visible = False
             DataGridView_Adresszusatz.Enabled = True
-            
+
+            DataGridView_Adresszusatz.Enabled = True
+            Button_AddZusatz.Enabled = True
         ElseIf objDataWork_Address.Result_Zusatz.GUID = objLocalConfig.Globals.LState_Error.GUID Then
             clear_Controls()
         ElseIf objDataWork_Address.Result_Zusatz.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
@@ -419,7 +423,11 @@ Public Class UserControl_Address
     End Sub
 
     Private Sub Button_AddZusatz_Click(sender As Object, e As EventArgs) Handles Button_AddZusatz.Click
-
+        objFrmAddressZusatz = New frm_AdressZusatz(objLocalConfig, objDataWork_Address)
+        objFrmAddressZusatz.ShowDialog(Me)
+        If objFrmAddressZusatz.DialogResult = DialogResult.OK Then
+            GetZusaetze()
+        End If
     End Sub
 
     Private Sub DataGridView_Adresszusatz_RowHeaderMouseDoubleClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView_Adresszusatz.RowHeaderMouseDoubleClick
@@ -447,5 +455,17 @@ Public Class UserControl_Address
             MsgBox("Die Zusätze können nicht ermittelt werden!", MsgBoxStyle.Exclamation)
         End If
 
+    End Sub
+
+    Private Sub GetZusaetze()
+        objOList_Zusaetze = New SortableBindingList(Of clsAdderesszusatz)(objDataWork_Address.Zusaetze)
+
+        DataGridView_Adresszusatz.DataSource = objOList_Zusaetze
+        DataGridView_Adresszusatz.Columns(0).Visible = False
+        DataGridView_Adresszusatz.Columns(2).Visible = False
+        DataGridView_Adresszusatz.Enabled = True
+
+        DataGridView_Adresszusatz.Enabled = True
+        Button_AddZusatz.Enabled = True
     End Sub
 End Class

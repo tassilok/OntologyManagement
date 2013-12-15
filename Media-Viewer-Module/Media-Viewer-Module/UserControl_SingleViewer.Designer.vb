@@ -22,6 +22,7 @@ Partial Class UserControl_SingleViewer
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UserControl_SingleViewer))
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_First = New System.Windows.Forms.ToolStripButton()
@@ -41,6 +42,7 @@ Partial Class UserControl_SingleViewer
         Me.ToolStripButton_Add = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Remove = New System.Windows.Forms.ToolStripButton()
         Me.OpenFileDialog_Media = New System.Windows.Forms.OpenFileDialog()
+        Me.ToolStripButton_Edit = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -179,10 +181,10 @@ Partial Class UserControl_SingleViewer
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Remove})
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Remove, Me.ToolStripButton_Edit})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(89, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(130, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripButton_Add
@@ -208,6 +210,16 @@ Partial Class UserControl_SingleViewer
         'OpenFileDialog_Media
         '
         Me.OpenFileDialog_Media.FileName = "OpenFileDialog1"
+        '
+        'ToolStripButton_Edit
+        '
+        Me.ToolStripButton_Edit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Edit.Enabled = False
+        Me.ToolStripButton_Edit.Image = CType(resources.GetObject("ToolStripButton_Edit.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Edit.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Edit.Name = "ToolStripButton_Edit"
+        Me.ToolStripButton_Edit.Size = New System.Drawing.Size(41, 22)
+        Me.ToolStripButton_Edit.Text = "x_Edit"
         '
         'UserControl_SingleViewer
         '
@@ -248,5 +260,6 @@ Partial Class UserControl_SingleViewer
     Friend WithEvents ToolStripButton_Add As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripButton_Remove As System.Windows.Forms.ToolStripButton
     Friend WithEvents OpenFileDialog_Media As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents ToolStripButton_Edit As System.Windows.Forms.ToolStripButton
 
 End Class

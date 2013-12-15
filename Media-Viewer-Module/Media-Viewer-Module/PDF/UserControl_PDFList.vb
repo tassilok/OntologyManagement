@@ -1,4 +1,5 @@
 ﻿Imports Ontology_Module
+Imports Filesystem_Module
 Imports OntologyClasses.BaseClasses
 
 Public Class UserControl_PDFList
@@ -15,6 +16,8 @@ Public Class UserControl_PDFList
     Private dtblT_PDFList As New DataSet_PDF.dtbl_PDFListDataTable
 
     Private objTransaction_PDF As clsTransaction_PDF
+
+    Private objBlobConnection As clsBlobConnection
 
     Private boolSelect_First As Boolean
 
@@ -116,6 +119,7 @@ Public Class UserControl_PDFList
     Private Sub initialize()
         objDataWork_PDF = New clsDataWork_PDF(objLocalConfig)
         objTransaction_PDF = New clsTransaction_PDF(objLocalConfig)
+        objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
     End Sub
 
     Public Sub clear_List()
@@ -160,6 +164,8 @@ Public Class UserControl_PDFList
         Dim objDRV_Selected As DataRowView
         Dim objOItem_File As clsOntologyItem
 
+        ToolStripButton_Replace.Enabled = False
+
         If DataGridView_PDFList.SelectedRows.Count = 1 Then
             objDGVR_Selected = DataGridView_PDFList.SelectedRows(0)
             objDRV_Selected = objDGVR_Selected.DataBoundItem
@@ -176,6 +182,7 @@ Public Class UserControl_PDFList
             objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
             objOItem_File.Type = objLocalConfig.Globals.Type_Object
 
+            ToolStripButton_Replace.Enabled = True
             RaiseEvent selected_PDF(objOItem_PDF, objOItem_File)
         End If
     End Sub
@@ -264,6 +271,38 @@ Public Class UserControl_PDFList
         objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList_Objects, 0, objLocalConfig.Globals.Type_Object, Nothing)
         objFrm_ObjectEdit.ShowDialog(Me)
 
+
+    End Sub
+
+    Private Sub ToolStripButton_Replace_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Replace.Click
+        If DataGridView_PDFList.SelectedRows.Count = 1 Then
+            Dim objDGVR As DataGridViewRow = DataGridView_PDFList.SelectedRows(0)
+            Dim objDRV As DataRowView = objDGVR.DataBoundItem
+
+            Dim objOItem_PDF = New clsOntologyItem
+            objOItem_PDF.GUID = objDRV.Item("ID_PDFDoc")
+            objOItem_PDF.Name = objDRV.Item("Name_PDFDoc")
+            objOItem_PDF.GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID
+            objOItem_PDF.Type = objLocalConfig.Globals.Type_Object
+
+            Dim objOItem_File = New clsOntologyItem
+            objOItem_File.GUID = objDRV.Item("ID_File")
+            objOItem_File.Name = objDRV.Item("Name_File")
+            objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
+            objOItem_File.Type = objLocalConfig.Globals.Type_Object
+
+
+            If OpenFileDialog_PDF.ShowDialog(Me) = DialogResult.OK Then
+                Dim strPath = OpenFileDialog_PDF.FileName
+                Dim objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_File, strPath)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    RaiseEvent selected_PDF(objOItem_PDF, objOItem_File)
+                Else
+                    MsgBox("Die PDF-Datei konnte nicht aktualisiert werden!", MsgBoxStyle.Exclamation)
+                End If
+            End If
+        End If
+        
 
     End Sub
 End Class

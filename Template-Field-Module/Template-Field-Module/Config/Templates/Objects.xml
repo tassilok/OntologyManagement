@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="54fc771af0e946ba9f41064989f2969e" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Template-Field-Module]]></Item>
+<Item Id="3575cd4620bb4d09b3158344d5a5c719" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_Seperator]]></Item>
+<Item Id="eb5d4cbdf97748c5a5080044052a9111" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_contains]]></Item>
+<Item Id="acf4d2a9023b48a19b7572a24917a84c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Token]]></Item>
+<Item Id="5eb67a042bb74f60ab9ca22bfbd3d543" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_RelationType]]></Item>
+<Item Id="133b0e96cf2e4784a8cd9b1688bb0d36" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Type]]></Item>
+<Item Id="c657ae132ebf4ad9b3b0e82079611135" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Attribute]]></Item>
+<Item Id="8835c19e150a4eff87f749d5b622d20d" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Templatefield]]></Item>
+<Item Id="8de458e1f79f4c45821e3358c51aa711" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_ContentObject]]></Item>
+
+</Items>
