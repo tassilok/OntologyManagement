@@ -35,6 +35,10 @@ namespace TextParser
         private clsTransaction objTransaction;
         private clsRelationConfig objRelationConfig;
 
+        private Color colorPre;
+        private Color colorMain;
+        private Color colorPost;
+
         private List<clsSelection> objSelections = new List<clsSelection>();
 
         public void SetContentByFileStream(FileStream fs)
@@ -67,10 +71,16 @@ namespace TextParser
             button_AddRegexPre.Enabled = false;
             dataGridView_Filter.Enabled = false;
             dataGridView_Filter.DataSource = null;
-            richTextBox_Text.ReadOnly = true;
+            richTextBox_Text.ReadOnly = false;
             button_RemoveMarked.Enabled = false;
             button_RemoveUnmarked.Enabled = false;
             button_CopyMarked.Enabled = false;
+            button_Parse.Enabled = false;
+            textBox_Seperator.ReadOnly = true;
+
+            textBox_RegexPre.BackColor = colorPre;
+            textBox_RegExMain.BackColor = colorMain;
+            textBox_RegExPost.BackColor = colorPost;
         }
 
         public void SetContentByFilePath(string path)
@@ -91,20 +101,26 @@ namespace TextParser
             
         }
 
-        public UserControl_RegExTester(clsLocalConfig LocalConfig)
+        public UserControl_RegExTester(clsLocalConfig LocalConfig, string seperator = null)
         {
             InitializeComponent();
 
             objLocalConfig = LocalConfig;
+            if (seperator != null) textBox_Seperator.Text = seperator;
+
             Initialize();
+
         }
 
-        public UserControl_RegExTester(clsGlobals globals)
+        public UserControl_RegExTester(clsGlobals globals, string seperator = null)
         {
             InitializeComponent();
 
             objLocalConfig = new clsLocalConfig(globals);
+            if (seperator != null) textBox_Seperator.Text = seperator;
+
             Initialize();
+
         }
 
         private void Initialize()
@@ -115,6 +131,10 @@ namespace TextParser
 
             objTransaction = new clsTransaction(objLocalConfig.Globals);
             objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
+
+            colorPre = textBox_RegexPre.BackColor;
+            colorMain = textBox_RegExMain.BackColor;
+            colorPost = textBox_RegExPost.BackColor;
 
             ClearControls();
         }
@@ -148,7 +168,7 @@ namespace TextParser
             {
                 objOItem_Field = OItem_Field;
             }
-
+            textBox_Seperator.ReadOnly = false;
             textBox_Field.Text = objOItem_Field.Name;
 
             var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
@@ -283,15 +303,6 @@ namespace TextParser
 
         }
 
-        private void richTextBox_Text_TextChanged(object sender, EventArgs e)
-        {
-            timer_RegExParse.Stop();
-
-            if (richTextBox_Text.ReadOnly) return;
-
-            timer_RegExParse.Start();
-        }
-
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
             objFrmRegExFilter = new frmRegExFilter(objLocalConfig);
@@ -333,119 +344,87 @@ namespace TextParser
 
         private void textBox_RegexPre_TextChanged(object sender, EventArgs e)
         {
-            timer_RegExPre.Stop();
-            timer_RegExParse.Stop();
-            timer_RegExParse.Start();
+            ConfigureParseAndRegexButtons();
+        }
 
-            if (textBox_RegexPre.ReadOnly) return;
+        private void ConfigureParseAndRegexButtons()
+        {
             
-            timer_RegExPre.Start();
+            bool parse = true;
+
+            textBox_RegexPre.BackColor = colorPre;
+            textBox_RegExMain.BackColor = colorMain;
+            textBox_RegExPost.BackColor = colorPost;
+
+
+            if ((textBox_RegexPre.Text != "" || textBox_RegExMain.Text != "" || textBox_RegExPost.Text != "") &&
+                richTextBox_Text.Text != "")
+            {
+                if (textBox_RegexPre.Text != "")
+                {
+                    try
+                    {
+                        var regEx = new Regex(textBox_RegexPre.Text);
+                    }
+                    catch (Exception)
+                    {
+                        textBox_RegexPre.BackColor = Color.Yellow;
+                        parse = false;
+                    }
+                }
+
+                if (textBox_RegExMain.Text != "")
+                {
+                    try
+                    {
+                        var regEx = new Regex(textBox_RegExMain.Text);
+                    }
+                    catch (Exception)
+                    {
+                        textBox_RegExMain.BackColor = Color.Yellow;
+                        parse = false;
+                    }
+                }
+
+                if (textBox_RegExPost.Text != "")
+                {
+                    try
+                    {
+                        var regEx = new Regex(textBox_RegExPost.Text);
+                    }
+                    catch (Exception)
+                    {
+                        textBox_RegExPost.BackColor = Color.Yellow;
+                        parse = false;
+                    }
+                }    
+            }
+            else
+            {
+                parse = false;
+            }
+
+            button_Parse.Enabled = parse;
+
         }
 
         private void textBox_RegExMain_TextChanged(object sender, EventArgs e)
         {
-            timer_RegExMain.Stop();
-            timer_RegExParse.Stop();
-            timer_RegExParse.Start();
-
-            if (textBox_RegExMain.ReadOnly) return;
-
-            timer_RegExMain.Start();
+            ConfigureParseAndRegexButtons();
         }
 
         private void textBox_RegExPost_TextChanged(object sender, EventArgs e)
         {
-            timer_RegExPost.Stop();
-            timer_RegExParse.Stop();
-            timer_RegExParse.Start();
-
-            if (textBox_RegExPost.ReadOnly) return;
-
-            timer_RegExPost.Start();
+            ConfigureParseAndRegexButtons();
         }
 
-        private void timer_RegExPre_Tick(object sender, EventArgs e)
-        {
-            timer_RegExPre.Stop();
-            var objOAItem_Pattern = SyncPatternOfField(objLocalConfig.OItem_relationtype_pre,
-                                                     textBox_RegexPre.Text,
-                                                     true);
-
-            if (objOAItem_Pattern != null)
-            {
-                objOAItem_PrePattern = objOAItem_Pattern;
-            }
-            else
-            {
-                MessageBox.Show(this, "Der Regex konnte nicht gespeichert werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                textBox_RegexPre.ReadOnly = true;
-                textBox_RegexPre.Text = objOAItem_PrePattern.Val_String;
-                textBox_RegexPre.ReadOnly = false;
-            }
-
-        }
-
-        private void timer_RegExMain_Tick(object sender, EventArgs e)
-        {
-            timer_RegExMain.Stop();
-
-            var objOAItem_Pattern = SyncPatternOfField(objLocalConfig.OItem_relationtype_main,
-                                                     textBox_RegExMain.Text,
-                                                     true);
-
-            if (objOAItem_Pattern != null)
-            {
-                objOAItem_MainPattern = objOAItem_Pattern;
-            }
-            else
-            {
-                MessageBox.Show(this, "Der Regex konnte nicht gespeichert werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                textBox_RegExMain.ReadOnly = true;
-                textBox_RegExMain.Text = objOAItem_MainPattern.Val_String;
-                textBox_RegExMain.ReadOnly = false;
-            }
-        }
-
-        private void timer_RegExPost_Tick(object sender, EventArgs e)
-        {
-            timer_RegExPost.Stop();
-
-            var objOAItem_Pattern = SyncPatternOfField(objLocalConfig.OItem_relationtype_posts,
-                                                     textBox_RegExPost.Text,
-                                                     true);
-
-            if (objOAItem_Pattern != null)
-            {
-                objOAItem_PostPattern = objOAItem_Pattern;
-            }
-            else
-            {
-                MessageBox.Show(this, "Der Regex konnte nicht gespeichert werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                textBox_RegExPost.ReadOnly = true;
-                textBox_RegExPost.Text = objOAItem_PostPattern.Val_String;
-                textBox_RegExPost.ReadOnly = false;
-            }
-        }
-
-        private void timer_RegExParse_Tick(object sender, EventArgs e)
-        {
-            timer_RegExParse.Stop();
-
-            if ((textBox_RegexPre.Text != "" ||
-                 textBox_RegExMain.Text != "" ||
-                 textBox_RegExPost.Text != "") &&
-                richTextBox_Text.Text != "")
-            {
-                parseText();
-            }
-            
-        }
-
+        
         private void parseText()
         {
             var boolRegExPre = false;
             var boolRegExMain = false;
             var boolRegExPost = false;
+            var ixNextParse = 0;
 
             objSelections.Clear();
 
@@ -516,129 +495,168 @@ namespace TextParser
 
                 if (objRegEx_Pre_Matches != null)
                 {
-                    for (int i = 0; i < objRegEx_Pre_Matches.Count - 1; i++)
+                    for (int i = 0; i < objRegEx_Pre_Matches.Count; i++)
                     {
-                        richTextBox_Text.SelectionStart = 0;
-                        richTextBox_Text.SelectionLength = 0;
-                        
-                        var text = richTextBox_Text.Text.Substring(objRegEx_Pre_Matches[i].Index,objRegEx_Pre_Matches[i].Length);
-                        if (!preEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
+
+                        objSelections.Add(new clsSelection { SelectionStart = 0, SelectionLength = 0 });
+                        if (objRegEx_Pre_Matches[i].Index >= ixNextParse)
                         {
-                            var parse = true;
-                            if (preNotEqualFilters.Any())
+                            var text = richTextBox_Text.Text.Substring(objRegEx_Pre_Matches[i].Index, objRegEx_Pre_Matches[i].Length);
+                            if (!preEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
                             {
-                                if (!preNotEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
+                                var parse = true;
+                                if (preNotEqualFilters.Any())
                                 {
-                                    parse = false;
+                                    if (!preNotEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
+                                    {
+                                        parse = false;
+                                    }
                                 }
+                                if (parse)
+                                {
+                                    var ixStart = objRegEx_Pre_Matches[i].Index + objRegEx_Pre_Matches[i].Length;
+                                    var ixEnd = ixStart;
+                                    if (i < objRegEx_Pre_Matches.Count)
+                                    {
+                                        ixEnd = objRegEx_Pre_Matches[i + 1].Index;
+                                    }
+                                    else
+                                    {
+                                        ixEnd = richTextBox_Text.TextLength - 1;
+                                    }
+
+                                    //richTextBox_Text.SelectionStart = ixStart;
+                                    //richTextBox_Text.SelectionLength = ixEnd;
+                                    objSelections.Last().SelectionStart = ixStart;
+                                    objSelections.Last().SelectionLength = ixEnd;
+                                }
+
                             }
-                            if (parse)
+
+
+
+
+
+                            if (objRegEx_Post != null)
                             {
-                                var ixStart = objRegEx_Pre_Matches[i].Index + objRegEx_Pre_Matches[i].Length;
-                                var ixEnd = ixStart;
-                                if (i < objRegEx_Pre_Matches.Count)
+                                if (richTextBox_Text.SelectionLength > 0)
                                 {
-                                    ixEnd = objRegEx_Pre_Matches[i + 1].Index;
-                                }
-                                else
-                                {
-                                    ixEnd = richTextBox_Text.TextLength - 1;
+
+                                    objRegEx_Post_Matches = objRegEx_Post.Matches(richTextBox_Text.SelectedText);
+                                    if (objRegEx_Post_Matches.Count > 0)
+                                    {
+                                        var text1 = richTextBox_Text.Text.Substring(objRegEx_Post_Matches[0].Index, objRegEx_Post_Matches[0].Length);
+                                        if (!postEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
+                                        {
+                                            var parse = true;
+                                            if (preNotEqualFilters.Any())
+                                            {
+                                                if (!postNotEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
+                                                {
+                                                    parse = false;
+                                                }
+                                            }
+                                            if (parse)
+                                            {
+                                                richTextBox_Text.SelectionLength = objRegEx_Post_Matches[0].Index;
+                                            }
+
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        richTextBox_Text.SelectionStart = 0;
+                                        richTextBox_Text.SelectionLength = 0;
+                                    }
+
                                 }
 
-                                richTextBox_Text.SelectionStart = ixStart;
-                                richTextBox_Text.SelectionLength = ixEnd;    
+                                
+
                             }
-                            
-                        }
 
-                        
-
-                        
-                        
-                        if (objRegEx_Post != null)
-                        {
                             if (richTextBox_Text.SelectionLength > 0)
                             {
-                                
-                                objRegEx_Post_Matches = objRegEx_Post.Matches(richTextBox_Text.SelectedText);
-                                if (objRegEx_Post_Matches.Count > 0)
+                                if (objRegEx_Main != null)
                                 {
-                                    var text1 = richTextBox_Text.Text.Substring(objRegEx_Post_Matches[0].Index, objRegEx_Post_Matches[0].Length);
-                                    if (!postEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
+                                    objRegEx_Main_Matches = objRegEx_Main.Matches(richTextBox_Text.SelectedText);
+                                    if (objRegEx_Main_Matches.Count > 0)
                                     {
-                                        var parse = true;
-                                        if (preNotEqualFilters.Any())
+                                        var text1 = richTextBox_Text.Text.Substring(objRegEx_Main_Matches[0].Index, objRegEx_Main_Matches[0].Length);
+                                        if (!mainEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
                                         {
-                                            if (!postNotEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
+                                            var parse = true;
+                                            if (mainNotEqualFilters.Any())
                                             {
-                                                parse = false;
+                                                if (!mainNotEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
+                                                {
+                                                    parse = false;
+                                                }
+                                            }
+                                            if (parse)
+                                            {
+                                                richTextBox_Text.SelectionStart = richTextBox_Text.SelectionStart +
+                                                                              objRegEx_Main_Matches[0].Index;
+                                                richTextBox_Text.SelectionLength = objRegEx_Main_Matches[0].Length;
                                             }
                                         }
-                                        if (parse)
-                                        {
-                                            richTextBox_Text.SelectionLength = objRegEx_Post_Matches[0].Index;
-                                        }
-                                        
+
                                     }
+                                    else
+                                    {
+                                        richTextBox_Text.SelectionStart = 0;
+                                        richTextBox_Text.SelectionLength = 0;
+                                    }
+
                                     
-                                }
-                                else
-                                {
-                                    richTextBox_Text.SelectionStart = 0;
-                                    richTextBox_Text.SelectionLength = 0;
+
                                 }
 
                             }
-                            
-                        }
 
-                        if (richTextBox_Text.SelectionLength > 0)
-                        {
-                            if (objRegEx_Main != null)
+                            if (richTextBox_Text.SelectionLength > 0)
                             {
-                                objRegEx_Main_Matches = objRegEx_Main.Matches(richTextBox_Text.SelectedText);
-                                if (objRegEx_Main_Matches.Count > 0)
+                                objSelections.Last().SelectionStart = richTextBox_Text.SelectionStart;
+                                objSelections.Last().SelectionLength = richTextBox_Text.SelectionLength;
+
+                                richTextBox_Text.SelectionBackColor = Color.Yellow;
+                            }
+                            else
+                            {
+                                objSelections.RemoveAt(objSelections.Count-1);
+                            }
+
+                            if (richTextBox_Text.SelectionLength > 0)
+                            {
+                                var offset = 0;
+                                if (textBox_Seperator.Text != "")
                                 {
-                                    var text1 = richTextBox_Text.Text.Substring(objRegEx_Main_Matches[0].Index, objRegEx_Main_Matches[0].Length);
-                                    if (!mainEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
+                                    var seperatorText = textBox_Seperator.Text;
+                                    var charList = new List<char>();
+                                    while (seperatorText.Contains("\\n"))
                                     {
-                                        var parse = true;
-                                        if (mainNotEqualFilters.Any())
-                                        {
-                                            if (!mainNotEqualFilters.Any(p => Regex.Match(text, p.Filter).Success))
-                                            {
-                                                parse = false;
-                                            }
-                                        }
-                                        if (parse)
-                                        {
-                                            richTextBox_Text.SelectionStart = richTextBox_Text.SelectionStart +
-                                                                          objRegEx_Main_Matches[0].Index;
-                                            richTextBox_Text.SelectionLength = objRegEx_Main_Matches[0].Length;
-                                        }
+                                        charList.Add((char)10);
+                                        seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\n"), 2);
+                                    }
+                                    while (seperatorText.Contains("\\r"))
+                                    {
+                                        charList.Add((char)13);
+                                        seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\r"), 2);
+                                    }
+                                    if (charList.Any())
+                                    {
+                                        offset = richTextBox_Text.Find(charList.ToArray(),
+                                                          richTextBox_Text.SelectionStart + richTextBox_Text.SelectionLength);    
                                     }
                                     
                                 }
-                                else
-                                {
-                                    richTextBox_Text.SelectionStart = 0;
-                                    richTextBox_Text.SelectionLength = 0;
-                                }
 
+                                ixNextParse = richTextBox_Text.SelectionStart + richTextBox_Text.SelectionLength + offset > 0 ? offset - 1 : 0;
                             }
-                            
                         }
+
                         
-                        if (richTextBox_Text.SelectionLength > 0)
-                        {
-                            objSelections.Add(new clsSelection
-                            {
-                                SelectionStart = richTextBox_Text.SelectionStart,
-                                SelectionLength = richTextBox_Text.SelectionLength
-                            });
-
-                            richTextBox_Text.SelectionBackColor = Color.Yellow;
-                        }
                         
                     }
                 
@@ -650,54 +668,91 @@ namespace TextParser
                         richTextBox_Text.SelectionStart = 0;
                         richTextBox_Text.SelectionLength = 0;
 
-                        var ixStart = i == 0 ? 0 : objRegEx_Post_Matches[i - 1].Index + objRegEx_Post_Matches[i - 1].Length;
-                        var ixEnd = objRegEx_Post_Matches[i].Index;
+                        objSelections.Add(new clsSelection { SelectionStart = 0, SelectionLength = 0 });
 
-                        if (ixStart < ixEnd)
+                        if (objRegEx_Post_Matches[i].Index >= ixNextParse)
                         {
-                            richTextBox_Text.SelectionStart = ixStart;
-                            richTextBox_Text.SelectionLength = ixEnd - ixStart;
-                        }
-                    
-                        if (richTextBox_Text.SelectionLength > 0)
-                        {
-                            if (objRegEx_Main != null)
+                            var ixStart = i == 0 ? 0 : objRegEx_Post_Matches[i - 1].Index + objRegEx_Post_Matches[i - 1].Length;
+                            var ixEnd = objRegEx_Post_Matches[i].Index;
+
+                            if (ixStart < ixEnd)
                             {
-                                objRegEx_Main_Matches = objRegEx_Main.Matches(richTextBox_Text.SelectedText);
-                                if (objRegEx_Main_Matches.Count > 0)
+                                richTextBox_Text.SelectionStart = ixStart;
+                                richTextBox_Text.SelectionLength = ixEnd - ixStart;
+                            }
+
+                            if (richTextBox_Text.SelectionLength > 0)
+                            {
+                                if (objRegEx_Main != null)
                                 {
-                                    richTextBox_Text.SelectionStart = richTextBox_Text.SelectionStart +
-                                                                      objRegEx_Main_Matches[0].Index;
-                                    richTextBox_Text.SelectionLength = objRegEx_Main_Matches[0].Length;
+                                    objRegEx_Main_Matches = objRegEx_Main.Matches(richTextBox_Text.SelectedText);
+                                    if (objRegEx_Main_Matches.Count > 0)
+                                    {
+                                        richTextBox_Text.SelectionStart = richTextBox_Text.SelectionStart +
+                                                                          objRegEx_Main_Matches[0].Index;
+                                        richTextBox_Text.SelectionLength = objRegEx_Main_Matches[0].Length;
+                                    }
+                                    else
+                                    {
+                                        richTextBox_Text.SelectionStart = 0;
+                                        richTextBox_Text.SelectionLength = 0;
+                                    }
                                 }
                                 else
                                 {
-                                    richTextBox_Text.SelectionStart = 0;
-                                    richTextBox_Text.SelectionLength = 0;
+                                    if (objRegEx_Post == null)
+                                    {
+                                        richTextBox_Text.SelectionStart = 0;
+                                        richTextBox_Text.SelectionLength = 0;
+                                    }
+
                                 }
+
+
+                            }
+
+                            if (richTextBox_Text.SelectionLength > 0)
+                            {
+                                objSelections.Last().SelectionStart = richTextBox_Text.SelectionStart;
+                                objSelections.Last().SelectionLength = richTextBox_Text.SelectionLength;
+                                
+                                richTextBox_Text.SelectionBackColor = Color.Yellow;
                             }
                             else
                             {
-                                if (objRegEx_Post == null)
-                                {
-                                    richTextBox_Text.SelectionStart = 0;
-                                    richTextBox_Text.SelectionLength = 0;
-                                }
-                            
+                                objSelections.RemoveAt(objSelections.Count-1);
                             }
 
-
-                        }
-                    
-                        if (richTextBox_Text.SelectionLength > 0)
-                        {
-                            objSelections.Add(new clsSelection
+                            if (richTextBox_Text.SelectionLength > 0)
                             {
-                                SelectionStart = richTextBox_Text.SelectionStart,
-                                SelectionLength = richTextBox_Text.SelectionLength
-                            });
-                            richTextBox_Text.SelectionBackColor = Color.Yellow;
+                                var offset = 0;
+                                if (textBox_Seperator.Text != "")
+                                {
+                                    var seperatorText = textBox_Seperator.Text;
+                                    var charList = new List<char>();
+                                    while (seperatorText.Contains("\\n"))
+                                    {
+                                        charList.Add((char)10);
+                                        seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\n"), 2);
+                                    }
+                                    while (seperatorText.Contains("\\r"))
+                                    {
+                                        charList.Add((char)13);
+                                        seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\r"), 2);
+                                    }
+                                    if (charList.Any())
+                                    {
+                                        offset = richTextBox_Text.Find(charList.ToArray(),
+                                                          richTextBox_Text.SelectionStart + richTextBox_Text.SelectionLength);
+                                    }
+
+                                    
+                                }
+
+                                ixNextParse = richTextBox_Text.SelectionStart + richTextBox_Text.SelectionLength + offset >0 ? offset -1 : 0;
+                            }
                         }
+                        
                     }
                 
                 }
@@ -705,15 +760,50 @@ namespace TextParser
                 {
                     for (int i = 0; i < objRegEx_Main_Matches.Count; i++)
                     {
-                        richTextBox_Text.SelectionStart = objRegEx_Main_Matches[i].Index;
-                        richTextBox_Text.SelectionLength = objRegEx_Main_Matches[i].Length;
+                        
 
-                        objSelections.Add(new clsSelection
+                        if (objRegEx_Main_Matches[i].Index >= ixNextParse)
                         {
-                            SelectionStart = richTextBox_Text.SelectionStart,
-                            SelectionLength = richTextBox_Text.SelectionLength
-                        });
-                        richTextBox_Text.SelectionBackColor = Color.Yellow;
+                            objSelections.Add(new clsSelection { SelectionStart = 0, SelectionLength = 0 });
+
+                            richTextBox_Text.SelectionStart = objRegEx_Main_Matches[i].Index;
+                            richTextBox_Text.SelectionLength = objRegEx_Main_Matches[i].Length;
+
+                            objSelections.Last().SelectionStart = richTextBox_Text.SelectionStart;
+                            objSelections.Last().SelectionLength = richTextBox_Text.SelectionLength;
+
+                            richTextBox_Text.SelectionBackColor = Color.Yellow;
+
+                            if (richTextBox_Text.SelectionLength > 0)
+                            {
+                                var offset = 0;
+                                if (textBox_Seperator.Text != "")
+                                {
+                                    var seperatorText = textBox_Seperator.Text;
+                                    var charList = new List<char>();
+                                    while (seperatorText.Contains("\\n"))
+                                    {
+                                        charList.Add((char)10);
+                                        seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\n"), 2);
+                                    }
+                                    while (seperatorText.Contains("\\r"))
+                                    {
+                                        charList.Add((char)13);
+                                        seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\r"), 2);
+                                    }
+                                    if (charList.Any())
+                                    {
+                                        offset = richTextBox_Text.Find(charList.ToArray(),
+                                                          richTextBox_Text.SelectionStart + richTextBox_Text.SelectionLength);
+                                    }
+
+                                    
+                                }
+
+                                ixNextParse = richTextBox_Text.SelectionStart + richTextBox_Text.SelectionLength + offset > 0 ? offset - 1 : 0;
+                            }    
+                        }
+                        
                     }
                     
                 }
@@ -805,6 +895,88 @@ namespace TextParser
                     MessageBox.Show(this, "Bitte nur ein Feld auswählen!", "Bitte wählen!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+        }
+
+        private void button_Parse_Click(object sender, EventArgs e)
+        {
+            var parse = true;
+            if (textBox_RegexPre.Text != "")
+            {
+                var objOAItem_Pattern = SyncPatternOfField(objLocalConfig.OItem_relationtype_pre,
+                                                     textBox_RegexPre.Text,
+                                                     true);
+
+                if (objOAItem_Pattern != null)
+                {
+                    objOAItem_PrePattern = objOAItem_Pattern;
+                }
+                else
+                {
+                    parse = false;
+                    MessageBox.Show(this, "Der Pre-Regex konnte nicht gespeichert werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    textBox_RegexPre.ReadOnly = true;
+                    textBox_RegexPre.Text = objOAItem_PrePattern.Val_String;
+                    textBox_RegexPre.ReadOnly = false;
+                }
+            }
+
+            if (textBox_RegExMain.Text != "")
+            {
+                var objOAItem_Pattern = SyncPatternOfField(objLocalConfig.OItem_relationtype_main,
+                                                           textBox_RegExMain.Text,
+                                                           true);
+
+                if (objOAItem_Pattern != null)
+                {
+                    objOAItem_MainPattern = objOAItem_Pattern;
+                }
+                else
+                {
+                    parse = false;
+                    MessageBox.Show(this, "Der Main-Regex konnte nicht gespeichert werden!", "Fehler", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Exclamation);
+                    textBox_RegExMain.ReadOnly = true;
+                    textBox_RegExMain.Text = objOAItem_MainPattern.Val_String;
+                    textBox_RegExMain.ReadOnly = false;
+                }
+            }
+
+            if (textBox_RegExPost.Text != "")
+            {
+                var objOAItem_Pattern = SyncPatternOfField(objLocalConfig.OItem_relationtype_posts,
+                                                     textBox_RegExPost.Text,
+                                                     true);
+
+                if (objOAItem_Pattern != null)
+                {
+                    objOAItem_PostPattern = objOAItem_Pattern;
+                }
+                else
+                {
+                    parse = false;
+                    MessageBox.Show(this, "Der Post-Regex konnte nicht gespeichert werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    textBox_RegExPost.ReadOnly = true;
+                    textBox_RegExPost.Text = objOAItem_PostPattern.Val_String;
+                    textBox_RegExPost.ReadOnly = false;
+                }
+            }
+
+            if (parse)
+            {
+                if ((textBox_RegexPre.Text != "" ||
+                 textBox_RegExMain.Text != "" ||
+                 textBox_RegExPost.Text != "") &&
+                richTextBox_Text.Text != "")
+                {
+                    parseText();
+                }
+            }
+        }
+
+        private void richTextBox_Text_TextChanged(object sender, EventArgs e)
+        {
+            richTextBox_Text.Enabled = true;
+            ConfigureParseAndRegexButtons();
         }
     }
 }
