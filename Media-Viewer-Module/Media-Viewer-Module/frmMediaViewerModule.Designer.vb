@@ -40,12 +40,12 @@ Partial Class frmMediaViewerModule
         Me.NamedSemanticToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripButton_OpenGrid = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripButton_OpenListEdit = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_GetMetadata = New System.Windows.Forms.ToolStripButton()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripButton_OpenListEdit = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -200,6 +200,21 @@ Partial Class frmMediaViewerModule
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
         Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
         '
+        'ToolStripButton_OpenListEdit
+        '
+        Me.ToolStripButton_OpenListEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_OpenListEdit.Enabled = False
+        Me.ToolStripButton_OpenListEdit.Image = CType(resources.GetObject("ToolStripButton_OpenListEdit.Image"), System.Drawing.Image)
+        Me.ToolStripButton_OpenListEdit.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_OpenListEdit.Name = "ToolStripButton_OpenListEdit"
+        Me.ToolStripButton_OpenListEdit.Size = New System.Drawing.Size(64, 22)
+        Me.ToolStripButton_OpenListEdit.Text = "x_List-Edit"
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 25)
+        '
         'ToolStripButton_GetMetadata
         '
         Me.ToolStripButton_GetMetadata.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
@@ -230,21 +245,6 @@ Partial Class frmMediaViewerModule
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
         Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(95, 22)
         Me.InfoToolStripMenuItem.Text = "&Info"
-        '
-        'ToolStripButton_OpenListEdit
-        '
-        Me.ToolStripButton_OpenListEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_OpenListEdit.Enabled = False
-        Me.ToolStripButton_OpenListEdit.Image = CType(resources.GetObject("ToolStripButton_OpenListEdit.Image"), System.Drawing.Image)
-        Me.ToolStripButton_OpenListEdit.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_OpenListEdit.Name = "ToolStripButton_OpenListEdit"
-        Me.ToolStripButton_OpenListEdit.Size = New System.Drawing.Size(64, 22)
-        Me.ToolStripButton_OpenListEdit.Text = "x_List-Edit"
-        '
-        'ToolStripSeparator3
-        '
-        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 25)
         '
         'frmMediaViewerModule
         '

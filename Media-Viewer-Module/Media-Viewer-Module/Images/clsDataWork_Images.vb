@@ -8,6 +8,10 @@ Public Class clsDataWork_Images
     Private objDBLevel_CreationDate As clsDBLevel
     Private objDBLevel_ImageObjects_LeftRight As clsDBLevel
     Private objDBLevel_Ref As clsDBLevel
+    Private objDBLevel_MetaData As clsDBLevel
+    Private objDBLevel_MetaData_To_DateItem As clsDBLevel
+    Private objDBLevel_MetaData_Att As clsDBLevel
+
 
     Private dtblT_Images As New DataSet_Images.dtbl_ImagesDataTable
     Private objThread_Images As Threading.Thread
@@ -63,6 +67,75 @@ Public Class clsDataWork_Images
             objOList_Ref = objDBLevel_Ref.OList_ObjectRel.Where(Function(p) p.ID_Object = OItem_Image.GUID And p.ID_Parent_Other = GUID_Class).ToList()
         End If
         Return objOList_Ref
+    End Function
+
+    Public Function GetData_MetaDataImages() As List(Of clsImage)
+        Dim objList_Images = New List(Of clsImage)
+
+        Dim oList_Images = New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID}}
+
+        Dim objOItem_Result = objDBLevel_MetaData.get_Data_Objects(oList_Images)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim oList_ImageRel = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                                                        .ID_RelationType = objLocalConfig.OItem_RelationType_taking_at.GUID, _
+                                                                                        .ID_Parent_Other = objLocalConfig.OItem_Type_Day.GUID}, _
+                                                                 New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                                                        .ID_RelationType = objLocalConfig.OItem_RelationType_taking_at.GUID, _
+                                                                                        .ID_Parent_Other = objLocalConfig.OItem_Type_Month.GUID}, _
+                                                                 New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                                                        .ID_RelationType = objLocalConfig.OItem_RelationType_taking_at.GUID, _
+                                                                                        .ID_Parent_Other = objLocalConfig.OItem_Type_Year.GUID}}
+
+            objOItem_Result = objDBLevel_MetaData_To_DateItem.get_Data_ObjectRel(oList_ImageRel, boolIDs:=False)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                Dim oList_ImageAtt = New List(Of clsObjectAtt) From {New clsObjectAtt With {.ID_Class = objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                                                             .ID_AttributeType = objLocalConfig.OItem_Attribute_taking.GUID}}
+
+                objOItem_Result = objDBLevel_MetaData_Att.get_Data_ObjectAtt(oList_ImageAtt, _
+                                                                             boolIDs:=False)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objList_Images = (From objImage In objDBLevel_MetaData.OList_Objects
+                                  Group Join objYear In objDBLevel_MetaData_To_DateItem.OList_ObjectRel.Where(Function(p) p.ID_Parent_Other = objLocalConfig.OItem_Type_Year.GUID).ToList On objImage.GUID Equals objYear.ID_Object Into objYears = Group
+                                  From objYear In objYears.DefaultIfEmpty()
+                                  Group Join objMonth In objDBLevel_MetaData_To_DateItem.OList_ObjectRel.Where(Function(p) p.ID_Parent_Other = objLocalConfig.OItem_Type_Month.GUID).ToList On objImage.GUID Equals objMonth.ID_Object Into objMonths = Group
+                                  From objMonth In objMonths.DefaultIfEmpty()
+                                  Group Join objDay In objDBLevel_MetaData_To_DateItem.OList_ObjectRel.Where(Function(p) p.ID_Parent_Other = objLocalConfig.OItem_Type_Day.GUID).ToList On objImage.GUID Equals objDay.ID_Object Into objDays = Group
+                                  From objDay In objDays.DefaultIfEmpty()
+                                  Group Join objTaking In objDBLevel_MetaData_Att.OList_ObjectAtt On objImage.GUID Equals objTaking.ID_Object Into objTakings = Group
+                                  From objTaking In objTakings.DefaultIfEmpty()
+                                  Select New clsImage With {.ID_Image = objImage.GUID, _
+                                                            .Name_Image = objImage.Name, _
+                                                            .ID_Year = If(objYear Is Nothing, Nothing, objYear.ID_Other), _
+                                                            .Name_Year = If(objYear Is Nothing, Nothing, objYear.Name_Other), _
+                                                            .Year = If(objYear Is Nothing, Nothing, Integer.Parse(objYear.Name_Other)), _
+                                                            .ID_Month = If(objMonth Is Nothing, Nothing, objMonth.ID_Other), _
+                                                            .Name_Month = If(objMonth Is Nothing, Nothing, objMonth.Name_Other), _
+                                                            .Month = If(objMonth Is Nothing, Nothing, Integer.Parse(objMonth.Name_Other)), _
+                                                            .ID_Day = If(objDay Is Nothing, Nothing, objDay.ID_Other), _
+                                                            .Name_Day = If(objDay Is Nothing, Nothing, objDay.Name_Other), _
+                                                            .Day = If(objDay Is Nothing, Nothing, Integer.Parse(objDay.Name_Other)), _
+                                                            .ID_Taking = If(objTaking Is Nothing, Nothing, objTaking.ID_Attribute), _
+                                                            .Taking = If(objTaking Is Nothing, Nothing, objTaking.Val_Date)}).ToList()
+                Else
+                    objList_Images = Nothing
+                End If
+
+                
+
+
+
+
+
+
+            Else
+                objList_Images = Nothing
+            End If
+        Else
+            objList_Images = Nothing
+        End If
+
+        Return objList_Images
     End Function
 
 
@@ -394,5 +467,8 @@ Public Class clsDataWork_Images
         objDBLevel_CreationDate = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_ImageObjects_LeftRight = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Ref = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_MetaData = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_MetaData_To_DateItem = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_MetaData_Att = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class

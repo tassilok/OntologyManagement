@@ -92,7 +92,14 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmMetaData_Image.Designer.vb">
+      <DependentUpon>frmMetaData_Image.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMetaData_Image.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Images\clsDataWork_Images.vb" />
+    <Compile Include="Images\clsImage.vb" />
     <Compile Include="MediaItems\clsDataWork_MediaItem.vb" />
     <Compile Include="PDF\clsDataWork_PDF.vb" />
     <Compile Include="clsDataWork_RefTree.vb" />
@@ -220,6 +227,9 @@
     <EmbeddedResource Include="frmMediaViewerModule.resx">
       <DependentUpon>frmMediaViewerModule.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmMetaData_Image.resx">
+      <DependentUpon>frmMetaData_Image.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmSingleViewer.resx">
       <DependentUpon>frmSingleViewer.vb</DependentUpon>
     </EmbeddedResource>
@@ -332,6 +342,11 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\cubo_rosso_architetto_fr_01.png" />
+    <None Include="Resources\cubo_verde_architetto_fr_01.png" />
+    <None Include="Resources\cubo_giallo_architetto_f_01.png" />
+    <None Include="Resources\button-green_benji_park_01.png" />
+    <None Include="Resources\button-yellow_benji_park_01.png" />
     <None Include="Resources\sync.png" />
     <EmbeddedResource Include="Config\Templates\AttributeTypes.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

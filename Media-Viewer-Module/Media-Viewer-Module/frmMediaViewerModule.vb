@@ -14,6 +14,8 @@ Public Class frmMediaViewerModule
     Private WithEvents objFrmSingleViewer As frmSingleViewer
     Private objFrmListEdit As frmMediaModule_ListEdit
 
+    Private objFrmMetaData As frmMetaData_Image
+
     Private SplashScreen As SplashScreen_OntologyModule
     Private AboutBox As AboutBox_OntologyItem
 
@@ -343,5 +345,10 @@ Public Class frmMediaViewerModule
 
         End If
 
+    End Sub
+
+    Private Sub ToolStripButton_GetMetadata_Click(sender As Object, e As EventArgs) Handles ToolStripButton_GetMetadata.Click
+        objFrmMetaData = New frmMetaData_Image(objLocalConfig)
+        objFrmMetaData.ShowDialog(Me)
     End Sub
 End Class
