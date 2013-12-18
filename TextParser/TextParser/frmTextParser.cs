@@ -17,7 +17,9 @@ namespace TextParser
     {
         private clsLocalConfig objLocalConfig;
         private UserControl_RefTree objUserControl_RefTree;
+        private UserControl_TextParser objUserControl_TextParser;
         private clsDataWork_BaseData objDataWork_BaseData;
+        private clsDataWork_TextParser objDataWork_TextParser;
         private frmAuthenticate objFrmAuthenticate;
         private frmTextParser_bak objFrmTextParser_bak;
         private frmFieldParser objFrmFieldParser;
@@ -35,6 +37,7 @@ namespace TextParser
             if (objLocalConfig.OItem_User == null)
             {
                 objDataWork_BaseData = new clsDataWork_BaseData(objLocalConfig);
+                objDataWork_TextParser = new clsDataWork_TextParser(objLocalConfig);
                 objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals,true,false,frmAuthenticate.ERelateMode.NoRelate);
                 objFrmAuthenticate.ShowDialog(this);
                 if (objFrmAuthenticate.DialogResult == DialogResult.OK)
@@ -50,8 +53,14 @@ namespace TextParser
                 if (objOList_TextParsers != null)
                 {
                     objUserControl_RefTree = new UserControl_RefTree(objLocalConfig.Globals);
+                    objUserControl_RefTree.selected_Node += objUserControl_RefTree_selected_Node;
                     objUserControl_RefTree.Dock = DockStyle.Fill;
+
+                    objUserControl_TextParser = new UserControl_TextParser(objLocalConfig);
+                    objUserControl_TextParser.Dock = DockStyle.Fill;
+
                     splitContainer1.Panel1.Controls.Add(objUserControl_RefTree);
+                    splitContainer1.Panel2.Controls.Add(objUserControl_TextParser);
 
                     objUserControl_RefTree.initialize_Tree(objOList_TextParsers,
                                                            new List<clsOntologyItem>
@@ -76,6 +85,11 @@ namespace TextParser
             {
                 Environment.Exit(0);
             }
+            
+        }
+
+        void objUserControl_RefTree_selected_Node(clsOntologyItem OItem_Selected)
+        {
             
         }
 

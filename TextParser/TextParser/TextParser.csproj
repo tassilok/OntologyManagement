@@ -102,6 +102,12 @@
     <Compile Include="UserControl_RegExTester.Designer.cs">
       <DependentUpon>UserControl_RegExTester.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControl_TextParser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_TextParser.Designer.cs">
+      <DependentUpon>UserControl_TextParser.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControl_TextParsers.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -137,6 +143,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_RegExTester.resx">
       <DependentUpon>UserControl_RegExTester.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_TextParser.resx">
+      <DependentUpon>UserControl_TextParser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_TextParsers.resx">
       <DependentUpon>UserControl_TextParsers.cs</DependentUpon>

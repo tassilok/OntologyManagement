@@ -29,15 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControl_RegExTester));
             this.contextMenuStrip_Filter = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button_AddField = new System.Windows.Forms.Button();
             this.textBox_Field = new System.Windows.Forms.TextBox();
             this.label_Field = new System.Windows.Forms.Label();
-            this.button_CopyMarked = new System.Windows.Forms.Button();
-            this.button_RemoveMarked = new System.Windows.Forms.Button();
-            this.button_RemoveUnmarked = new System.Windows.Forms.Button();
             this.button_AddRegExPost = new System.Windows.Forms.Button();
             this.button_AdRegexMain = new System.Windows.Forms.Button();
             this.button_AddRegexPre = new System.Windows.Forms.Button();
@@ -53,8 +51,15 @@
             this.button_Parse = new System.Windows.Forms.Button();
             this.label_Seperator = new System.Windows.Forms.Label();
             this.textBox_Seperator = new System.Windows.Forms.TextBox();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton_RemoveUnmarked = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_removeMarked = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_CopyMarked = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_DoLine = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip_Filter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Filter)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip_Filter
@@ -106,39 +111,6 @@
             this.label_Field.Size = new System.Drawing.Size(43, 13);
             this.label_Field.TabIndex = 31;
             this.label_Field.Text = "x_Field:";
-            // 
-            // button_CopyMarked
-            // 
-            this.button_CopyMarked.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button_CopyMarked.Location = new System.Drawing.Point(260, 492);
-            this.button_CopyMarked.Name = "button_CopyMarked";
-            this.button_CopyMarked.Size = new System.Drawing.Size(122, 23);
-            this.button_CopyMarked.TabIndex = 30;
-            this.button_CopyMarked.Text = "x_Copy Marked";
-            this.button_CopyMarked.UseVisualStyleBackColor = true;
-            this.button_CopyMarked.Click += new System.EventHandler(this.button_CopyMarked_Click);
-            // 
-            // button_RemoveMarked
-            // 
-            this.button_RemoveMarked.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button_RemoveMarked.Location = new System.Drawing.Point(132, 492);
-            this.button_RemoveMarked.Name = "button_RemoveMarked";
-            this.button_RemoveMarked.Size = new System.Drawing.Size(122, 23);
-            this.button_RemoveMarked.TabIndex = 29;
-            this.button_RemoveMarked.Text = "x_Remove Marked";
-            this.button_RemoveMarked.UseVisualStyleBackColor = true;
-            this.button_RemoveMarked.Click += new System.EventHandler(this.button_RemoveMarked_Click);
-            // 
-            // button_RemoveUnmarked
-            // 
-            this.button_RemoveUnmarked.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button_RemoveUnmarked.Location = new System.Drawing.Point(4, 492);
-            this.button_RemoveUnmarked.Name = "button_RemoveUnmarked";
-            this.button_RemoveUnmarked.Size = new System.Drawing.Size(122, 23);
-            this.button_RemoveUnmarked.TabIndex = 28;
-            this.button_RemoveUnmarked.Text = "x_Remove Unmarked";
-            this.button_RemoveUnmarked.UseVisualStyleBackColor = true;
-            this.button_RemoveUnmarked.Click += new System.EventHandler(this.button_RemoveUnmarked_Click);
             // 
             // button_AddRegExPost
             // 
@@ -282,11 +254,74 @@
             this.textBox_Seperator.ReadOnly = true;
             this.textBox_Seperator.Size = new System.Drawing.Size(248, 20);
             this.textBox_Seperator.TabIndex = 40;
+            this.textBox_Seperator.TextChanged += new System.EventHandler(this.textBox_Seperator_TextChanged);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton_RemoveUnmarked,
+            this.toolStripButton_removeMarked,
+            this.toolStripButton_CopyMarked,
+            this.toolStripSeparator1,
+            this.toolStripButton_DoLine});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 493);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(901, 25);
+            this.toolStrip1.TabIndex = 41;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButton_RemoveUnmarked
+            // 
+            this.toolStripButton_RemoveUnmarked.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_RemoveUnmarked.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_RemoveUnmarked.Image")));
+            this.toolStripButton_RemoveUnmarked.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_RemoveUnmarked.Name = "toolStripButton_RemoveUnmarked";
+            this.toolStripButton_RemoveUnmarked.Size = new System.Drawing.Size(121, 22);
+            this.toolStripButton_RemoveUnmarked.Text = "x_Remove unmarked";
+            this.toolStripButton_RemoveUnmarked.Click += new System.EventHandler(this.button_RemoveUnmarked_Click);
+            // 
+            // toolStripButton_removeMarked
+            // 
+            this.toolStripButton_removeMarked.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_removeMarked.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_removeMarked.Image")));
+            this.toolStripButton_removeMarked.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_removeMarked.Name = "toolStripButton_removeMarked";
+            this.toolStripButton_removeMarked.Size = new System.Drawing.Size(107, 22);
+            this.toolStripButton_removeMarked.Text = "x_Remove marked";
+            this.toolStripButton_removeMarked.Click += new System.EventHandler(this.button_RemoveMarked_Click);
+            // 
+            // toolStripButton_CopyMarked
+            // 
+            this.toolStripButton_CopyMarked.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_CopyMarked.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_CopyMarked.Image")));
+            this.toolStripButton_CopyMarked.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_CopyMarked.Name = "toolStripButton_CopyMarked";
+            this.toolStripButton_CopyMarked.Size = new System.Drawing.Size(92, 22);
+            this.toolStripButton_CopyMarked.Text = "x_Copy Marked";
+            this.toolStripButton_CopyMarked.Click += new System.EventHandler(this.button_CopyMarked_Click);
+            // 
+            // toolStripButton_DoLine
+            // 
+            this.toolStripButton_DoLine.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_DoLine.Enabled = false;
+            this.toolStripButton_DoLine.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_DoLine.Image")));
+            this.toolStripButton_DoLine.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_DoLine.Name = "toolStripButton_DoLine";
+            this.toolStripButton_DoLine.Size = new System.Drawing.Size(61, 22);
+            this.toolStripButton_DoLine.Text = "x_Do Line";
+            this.toolStripButton_DoLine.Click += new System.EventHandler(this.toolStripButton_DoLine_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // UserControl_RegExTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.textBox_Seperator);
             this.Controls.Add(this.label_Seperator);
             this.Controls.Add(this.button_Parse);
@@ -295,9 +330,6 @@
             this.Controls.Add(this.button_AddField);
             this.Controls.Add(this.textBox_Field);
             this.Controls.Add(this.label_Field);
-            this.Controls.Add(this.button_CopyMarked);
-            this.Controls.Add(this.button_RemoveMarked);
-            this.Controls.Add(this.button_RemoveUnmarked);
             this.Controls.Add(this.button_AddRegExPost);
             this.Controls.Add(this.button_AdRegexMain);
             this.Controls.Add(this.button_AddRegexPre);
@@ -312,6 +344,8 @@
             this.Size = new System.Drawing.Size(901, 518);
             this.contextMenuStrip_Filter.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Filter)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -325,9 +359,6 @@
         private System.Windows.Forms.Button button_AddField;
         private System.Windows.Forms.TextBox textBox_Field;
         private System.Windows.Forms.Label label_Field;
-        private System.Windows.Forms.Button button_CopyMarked;
-        private System.Windows.Forms.Button button_RemoveMarked;
-        private System.Windows.Forms.Button button_RemoveUnmarked;
         private System.Windows.Forms.Button button_AddRegExPost;
         private System.Windows.Forms.Button button_AdRegexMain;
         private System.Windows.Forms.Button button_AddRegexPre;
@@ -343,6 +374,12 @@
         private System.Windows.Forms.Button button_Parse;
         private System.Windows.Forms.Label label_Seperator;
         private System.Windows.Forms.TextBox textBox_Seperator;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButton_RemoveUnmarked;
+        private System.Windows.Forms.ToolStripButton toolStripButton_removeMarked;
+        private System.Windows.Forms.ToolStripButton toolStripButton_CopyMarked;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton toolStripButton_DoLine;
 
     }
 }

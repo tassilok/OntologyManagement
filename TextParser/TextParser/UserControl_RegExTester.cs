@@ -70,9 +70,10 @@ namespace TextParser
             dataGridView_Filter.Enabled = false;
             dataGridView_Filter.DataSource = null;
             richTextBox_Text.ReadOnly = false;
-            button_RemoveMarked.Enabled = false;
-            button_RemoveUnmarked.Enabled = false;
-            button_CopyMarked.Enabled = false;
+            toolStripButton_removeMarked.Enabled = false;
+            toolStripButton_RemoveUnmarked.Enabled = false;
+            toolStripButton_CopyMarked.Enabled = false;
+            toolStripButton_DoLine.Enabled = false;
             button_Parse.Enabled = false;
             textBox_Seperator.ReadOnly = true;
 
@@ -779,9 +780,9 @@ namespace TextParser
             }
 
             richTextBox_Text.ReadOnly = false;
-            button_RemoveMarked.Enabled = true;
-            button_RemoveUnmarked.Enabled = true;
-            button_CopyMarked.Enabled = true;
+            toolStripButton_removeMarked.Enabled = true;
+            toolStripButton_RemoveUnmarked.Enabled = true;
+            toolStripButton_CopyMarked.Enabled = true;
 
             MarkSelections();
         
@@ -829,24 +830,192 @@ namespace TextParser
         private void button_RemoveUnmarked_Click(object sender, EventArgs e)
         {
             var objList_Marked = objSelections.OrderBy(p => p.SelectionStart).ToList();
+            List<char> lineChars = null;
+            if (toolStripButton_DoLine.Checked)
+            {
+                lineChars = DoLineBreak();    
+            }
+            
             var strToKeep = "";
+
             for (int i = 0; i < objList_Marked.Count; i++)
             {
-                richTextBox_Text.SelectionStart = objList_Marked[i].SelectionStart;
-                richTextBox_Text.SelectionLength = objList_Marked[i].SelectionLength;
+                
+                if (lineChars != null)
+                {
+                 
+                    var ixStart = richTextBox_Text.Find(lineChars.ToArray(),
+                                                        i > 0
+                                                            ? objList_Marked[i - 1].SelectionStart +
+                                                            objList_Marked[i - 1].SelectionLength : 0,
+                                                        objList_Marked[i].SelectionStart);
+
+                    
+                    var boolLast = false;
+                    while ((ixStart < objList_Marked[i].SelectionStart) && !boolLast)
+                    {
+                        var ixFind = richTextBox_Text.Find(lineChars.ToArray(),
+                                                ixStart,
+                                                objList_Marked[i].SelectionStart);
+                        if (ixFind != -1)
+                        {
+                            ixStart = ixFind+2;
+                        }
+                        else
+                        {
+                            boolLast = true;
+                        }
+                    }    
+                    
+
+                    ixStart = ixStart == -1 ? 0 : ixStart+2;
+
+                    richTextBox_Text.SelectionStart = ixStart;
+                    objList_Marked[i].SelectionStart = ixStart;
+
+                    var ixEnd = richTextBox_Text.Find(lineChars.ToArray(),
+                                                       objList_Marked[i].SelectionStart +
+                                                       objList_Marked[i].SelectionLength);
+                    if (ixEnd > 0)
+                    {
+                        var ixWatermark = i < objList_Marked.Count - 1
+                                              ? objList_Marked[i+1].SelectionStart
+                                              : richTextBox_Text.TextLength - 1;
+                        if (ixEnd >= ixWatermark)
+                        {
+                            ixEnd = objList_Marked[i].SelectionLength;
+                        }
+                        else
+                        {
+                            ixEnd = ixEnd - ixStart;
+                        }
+                    }
+                    else
+                    {
+                        ixEnd = objList_Marked[i].SelectionLength;
+                    }
+
+                    richTextBox_Text.SelectionLength = ixEnd;
+                    
+                    objList_Marked[i].SelectionLength = ixEnd;
+                }
+                else
+                {
+                    richTextBox_Text.SelectionLength = objList_Marked[i].SelectionLength;
+                }
+
                 strToKeep += richTextBox_Text.SelectedText + "\r\n";
             }
             richTextBox_Text.Text = strToKeep;
             objSelections.Clear();
         }
 
+
+        private List<char> DoLineBreak()
+        {
+            
+
+            if (textBox_Seperator.Text != null)
+            {
+                var seperatorText = textBox_Seperator.Text;
+                var charList = new List<char>();
+                while (seperatorText.Contains("\\n"))
+                {
+                    charList.Add((char)10);
+                    seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\n"), 2);
+                }
+                while (seperatorText.Contains("\\r"))
+                {
+                    charList.Add((char)13);
+                    seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\r"), 2);
+                }
+
+                if (charList.Count > 0)
+                {
+                    if (richTextBox_Text.Find(charList.ToArray()) > 0)
+                    {
+                        return charList;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+
         private void button_RemoveMarked_Click(object sender, EventArgs e)
         {
             var objList_Marked = objSelections.OrderByDescending(p => p.SelectionStart).ToList();
+            List<char> lineChars = null;
+            if (toolStripButton_DoLine.Checked)
+            {
+                lineChars = DoLineBreak();
+            }
             for (int i = 0; i < objList_Marked.Count; i++)
             {
-                richTextBox_Text.SelectionStart = objList_Marked[i].SelectionStart;
-                richTextBox_Text.SelectionLength = objList_Marked[i].SelectionLength;
+                if (lineChars != null)
+                {
+
+                    var ixStart = richTextBox_Text.Find(lineChars.ToArray(),
+                                                        i > 0
+                                                            ? objList_Marked[i - 1].SelectionStart +
+                                                            objList_Marked[i - 1].SelectionLength : 0,
+                                                        objList_Marked[i].SelectionStart);
+
+
+                    var boolLast = false;
+                    while ((ixStart < objList_Marked[i].SelectionStart) && !boolLast)
+                    {
+                        var ixFind = richTextBox_Text.Find(lineChars.ToArray(),
+                                                ixStart,
+                                                objList_Marked[i].SelectionStart);
+                        if (ixFind != -1)
+                        {
+                            ixStart = ixFind + 2;
+                        }
+                        else
+                        {
+                            boolLast = true;
+                        }
+                    }
+
+
+                    ixStart = ixStart == -1 ? 0 : ixStart + 2;
+
+                    richTextBox_Text.SelectionStart = ixStart;
+                    objList_Marked[i].SelectionStart = ixStart;
+
+                    var ixEnd = richTextBox_Text.Find(lineChars.ToArray(),
+                                                       objList_Marked[i].SelectionStart +
+                                                       objList_Marked[i].SelectionLength);
+                    if (ixEnd > 0)
+                    {
+                        var ixWatermark = i < objList_Marked.Count - 1
+                                              ? objList_Marked[i + 1].SelectionStart
+                                              : richTextBox_Text.TextLength - 1;
+                        if (ixEnd >= ixWatermark)
+                        {
+                            ixEnd = objList_Marked[i].SelectionLength;
+                        }
+                        else
+                        {
+                            ixEnd = ixEnd - ixStart;
+                        }
+                    }
+                    else
+                    {
+                        ixEnd = objList_Marked[i].SelectionLength;
+                    }
+
+                    richTextBox_Text.SelectionLength = ixEnd;
+
+                    objList_Marked[i].SelectionLength = ixEnd;
+                }
+                else
+                {
+                    richTextBox_Text.SelectionLength = objList_Marked[i].SelectionLength;
+                }
+                
                 richTextBox_Text.SelectedText = "";
 
             }
@@ -856,11 +1025,76 @@ namespace TextParser
         private void button_CopyMarked_Click(object sender, EventArgs e)
         {
             var objList_Marked = objSelections.OrderBy(p => p.SelectionStart).ToList();
+            List<char> lineChars = null;
+            if (toolStripButton_DoLine.Checked)
+            {
+                lineChars = DoLineBreak();
+            }
             var strToCopy = "";
             for (int i = 0; i < objList_Marked.Count; i++)
             {
-                richTextBox_Text.SelectionStart = objList_Marked[i].SelectionStart;
-                richTextBox_Text.SelectionLength = objList_Marked[i].SelectionLength;
+                if (lineChars != null)
+                {
+
+                    var ixStart = richTextBox_Text.Find(lineChars.ToArray(),
+                                                        i > 0
+                                                            ? objList_Marked[i - 1].SelectionStart +
+                                                            objList_Marked[i - 1].SelectionLength : 0,
+                                                        objList_Marked[i].SelectionStart);
+
+
+                    var boolLast = false;
+                    while ((ixStart < objList_Marked[i].SelectionStart) && !boolLast)
+                    {
+                        var ixFind = richTextBox_Text.Find(lineChars.ToArray(),
+                                                ixStart,
+                                                objList_Marked[i].SelectionStart);
+                        if (ixFind != -1)
+                        {
+                            ixStart = ixFind + 2;
+                        }
+                        else
+                        {
+                            boolLast = true;
+                        }
+                    }
+
+
+                    ixStart = ixStart == -1 ? 0 : ixStart + 2;
+
+                    richTextBox_Text.SelectionStart = ixStart;
+                    objList_Marked[i].SelectionStart = ixStart;
+
+                    var ixEnd = richTextBox_Text.Find(lineChars.ToArray(),
+                                                       objList_Marked[i].SelectionStart +
+                                                       objList_Marked[i].SelectionLength);
+                    if (ixEnd > 0)
+                    {
+                        var ixWatermark = i < objList_Marked.Count - 1
+                                              ? objList_Marked[i + 1].SelectionStart
+                                              : richTextBox_Text.TextLength - 1;
+                        if (ixEnd >= ixWatermark)
+                        {
+                            ixEnd = objList_Marked[i].SelectionLength;
+                        }
+                        else
+                        {
+                            ixEnd = ixEnd - ixStart;
+                        }
+                    }
+                    else
+                    {
+                        ixEnd = objList_Marked[i].SelectionLength;
+                    }
+
+                    richTextBox_Text.SelectionLength = ixEnd;
+
+                    objList_Marked[i].SelectionLength = ixEnd;
+                }
+                else
+                {
+                    richTextBox_Text.SelectionLength = objList_Marked[i].SelectionLength;
+                }
                 strToCopy += richTextBox_Text.SelectedText + "\r\n";
             }
             Clipboard.SetDataObject(strToCopy);
@@ -979,6 +1213,38 @@ namespace TextParser
         {
             richTextBox_Text.Enabled = true;
             ConfigureParseAndRegexButtons();
+        }
+
+        private void textBox_Seperator_TextChanged(object sender, EventArgs e)
+        {
+
+            toolStripButton_DoLine.Enabled = false;
+            if (textBox_Seperator.Text != "")
+            {
+                toolStripButton_DoLine.Enabled = true;
+
+            }
+        }
+
+        private void toolStripButton_DoLine_Click(object sender, EventArgs e)
+        {
+            if (!toolStripButton_DoLine.Checked)
+            {
+                if (DoLineBreak() != null)
+                {
+                    toolStripButton_DoLine.Checked = true;
+                }
+                else
+                {
+                    MessageBox.Show(this, "Der Text enthält den angegeben Seperator nicht!", "Fehler.",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                toolStripButton_DoLine.Checked = false;
+            }
+            
         }
     }
 }
