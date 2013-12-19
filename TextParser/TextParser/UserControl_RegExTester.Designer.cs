@@ -48,18 +48,34 @@
             this.label_RegexPre = new System.Windows.Forms.Label();
             this.richTextBox_Text = new System.Windows.Forms.RichTextBox();
             this.dataGridView_Filter = new System.Windows.Forms.DataGridView();
-            this.button_Parse = new System.Windows.Forms.Button();
-            this.label_Seperator = new System.Windows.Forms.Label();
-            this.textBox_Seperator = new System.Windows.Forms.TextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_RemoveUnmarked = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_removeMarked = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_CopyMarked = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_DoLine = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel_PosLbl = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel_Pos = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel_SelLbl = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel_Sel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel_SelLengthLbl = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel_SelLength = new System.Windows.Forms.ToolStripLabel();
+            this.checkBox_ContainerField = new System.Windows.Forms.CheckBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton_Parse = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel_LineSeperatorLbl = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox_LineSeperator = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton_DoLine = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel_FoundLbl = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel_Found = new System.Windows.Forms.ToolStripLabel();
             this.contextMenuStrip_Filter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Filter)).BeginInit();
             this.toolStrip1.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip_Filter
@@ -207,11 +223,12 @@
             this.richTextBox_Text.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox_Text.Location = new System.Drawing.Point(4, 171);
+            this.richTextBox_Text.Location = new System.Drawing.Point(4, 186);
             this.richTextBox_Text.Name = "richTextBox_Text";
-            this.richTextBox_Text.Size = new System.Drawing.Size(894, 315);
+            this.richTextBox_Text.Size = new System.Drawing.Size(894, 300);
             this.richTextBox_Text.TabIndex = 34;
             this.richTextBox_Text.Text = "";
+            this.richTextBox_Text.SelectionChanged += new System.EventHandler(this.richTextBox_Text_SelectionChanged);
             this.richTextBox_Text.TextChanged += new System.EventHandler(this.richTextBox_Text_TextChanged);
             // 
             // dataGridView_Filter
@@ -228,34 +245,6 @@
             this.dataGridView_Filter.Size = new System.Drawing.Size(466, 105);
             this.dataGridView_Filter.TabIndex = 37;
             // 
-            // button_Parse
-            // 
-            this.button_Parse.Location = new System.Drawing.Point(8, 142);
-            this.button_Parse.Name = "button_Parse";
-            this.button_Parse.Size = new System.Drawing.Size(75, 23);
-            this.button_Parse.TabIndex = 38;
-            this.button_Parse.Text = "x_Parse";
-            this.button_Parse.UseVisualStyleBackColor = true;
-            this.button_Parse.Click += new System.EventHandler(this.button_Parse_Click);
-            // 
-            // label_Seperator
-            // 
-            this.label_Seperator.AutoSize = true;
-            this.label_Seperator.Location = new System.Drawing.Point(8, 110);
-            this.label_Seperator.Name = "label_Seperator";
-            this.label_Seperator.Size = new System.Drawing.Size(90, 13);
-            this.label_Seperator.TabIndex = 39;
-            this.label_Seperator.Text = "x_Line-Seperator:";
-            // 
-            // textBox_Seperator
-            // 
-            this.textBox_Seperator.Location = new System.Drawing.Point(104, 107);
-            this.textBox_Seperator.Name = "textBox_Seperator";
-            this.textBox_Seperator.ReadOnly = true;
-            this.textBox_Seperator.Size = new System.Drawing.Size(248, 20);
-            this.textBox_Seperator.TabIndex = 40;
-            this.textBox_Seperator.TextChanged += new System.EventHandler(this.textBox_Seperator_TextChanged);
-            // 
             // toolStrip1
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -264,7 +253,15 @@
             this.toolStripButton_removeMarked,
             this.toolStripButton_CopyMarked,
             this.toolStripSeparator1,
-            this.toolStripButton_DoLine});
+            this.toolStripLabel_FoundLbl,
+            this.toolStripLabel_Found,
+            this.toolStripSeparator2,
+            this.toolStripLabel_PosLbl,
+            this.toolStripLabel_Pos,
+            this.toolStripLabel_SelLbl,
+            this.toolStripLabel_Sel,
+            this.toolStripLabel_SelLengthLbl,
+            this.toolStripLabel_SelLength});
             this.toolStrip1.Location = new System.Drawing.Point(0, 493);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(901, 25);
@@ -301,6 +298,114 @@
             this.toolStripButton_CopyMarked.Text = "x_Copy Marked";
             this.toolStripButton_CopyMarked.Click += new System.EventHandler(this.button_CopyMarked_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel_PosLbl
+            // 
+            this.toolStripLabel_PosLbl.Name = "toolStripLabel_PosLbl";
+            this.toolStripLabel_PosLbl.Size = new System.Drawing.Size(39, 22);
+            this.toolStripLabel_PosLbl.Text = "x_Pos:";
+            // 
+            // toolStripLabel_Pos
+            // 
+            this.toolStripLabel_Pos.Name = "toolStripLabel_Pos";
+            this.toolStripLabel_Pos.Size = new System.Drawing.Size(13, 22);
+            this.toolStripLabel_Pos.Text = "0";
+            // 
+            // toolStripLabel_SelLbl
+            // 
+            this.toolStripLabel_SelLbl.Name = "toolStripLabel_SelLbl";
+            this.toolStripLabel_SelLbl.Size = new System.Drawing.Size(35, 22);
+            this.toolStripLabel_SelLbl.Text = "x_Sel:";
+            // 
+            // toolStripLabel_Sel
+            // 
+            this.toolStripLabel_Sel.Name = "toolStripLabel_Sel";
+            this.toolStripLabel_Sel.Size = new System.Drawing.Size(24, 22);
+            this.toolStripLabel_Sel.Text = "0-0";
+            // 
+            // toolStripLabel_SelLengthLbl
+            // 
+            this.toolStripLabel_SelLengthLbl.Name = "toolStripLabel_SelLengthLbl";
+            this.toolStripLabel_SelLengthLbl.Size = new System.Drawing.Size(77, 22);
+            this.toolStripLabel_SelLengthLbl.Text = "x_Sel-Length:";
+            // 
+            // toolStripLabel_SelLength
+            // 
+            this.toolStripLabel_SelLength.Name = "toolStripLabel_SelLength";
+            this.toolStripLabel_SelLength.Size = new System.Drawing.Size(13, 22);
+            this.toolStripLabel_SelLength.Text = "0";
+            // 
+            // checkBox_ContainerField
+            // 
+            this.checkBox_ContainerField.AutoSize = true;
+            this.checkBox_ContainerField.Location = new System.Drawing.Point(104, 108);
+            this.checkBox_ContainerField.Name = "checkBox_ContainerField";
+            this.checkBox_ContainerField.Size = new System.Drawing.Size(107, 17);
+            this.checkBox_ContainerField.TabIndex = 42;
+            this.checkBox_ContainerField.Text = "x_Container-Field";
+            this.checkBox_ContainerField.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.toolStrip2);
+            this.panel1.Location = new System.Drawing.Point(4, 160);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(894, 25);
+            this.panel1.TabIndex = 43;
+            // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton_Parse,
+            this.toolStripSeparator3,
+            this.toolStripLabel_LineSeperatorLbl,
+            this.toolStripTextBox_LineSeperator,
+            this.toolStripSeparator4,
+            this.toolStripButton_DoLine});
+            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(894, 25);
+            this.toolStrip2.TabIndex = 0;
+            this.toolStrip2.Text = "toolStrip2";
+            // 
+            // toolStripButton_Parse
+            // 
+            this.toolStripButton_Parse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Parse.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Parse.Image")));
+            this.toolStripButton_Parse.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Parse.Name = "toolStripButton_Parse";
+            this.toolStripButton_Parse.Size = new System.Drawing.Size(49, 22);
+            this.toolStripButton_Parse.Text = "x_Parse";
+            this.toolStripButton_Parse.Click += new System.EventHandler(this.button_Parse_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel_LineSeperatorLbl
+            // 
+            this.toolStripLabel_LineSeperatorLbl.Name = "toolStripLabel_LineSeperatorLbl";
+            this.toolStripLabel_LineSeperatorLbl.Size = new System.Drawing.Size(97, 22);
+            this.toolStripLabel_LineSeperatorLbl.Text = "x_Line-Seperator:";
+            // 
+            // toolStripTextBox_LineSeperator
+            // 
+            this.toolStripTextBox_LineSeperator.Name = "toolStripTextBox_LineSeperator";
+            this.toolStripTextBox_LineSeperator.Size = new System.Drawing.Size(150, 25);
+            this.toolStripTextBox_LineSeperator.TextChanged += new System.EventHandler(this.toolStripTextBox_LineSeperator_TextChanged);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
             // toolStripButton_DoLine
             // 
             this.toolStripButton_DoLine.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -312,19 +417,30 @@
             this.toolStripButton_DoLine.Text = "x_Do Line";
             this.toolStripButton_DoLine.Click += new System.EventHandler(this.toolStripButton_DoLine_Click);
             // 
-            // toolStripSeparator1
+            // toolStripLabel_FoundLbl
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripLabel_FoundLbl.Name = "toolStripLabel_FoundLbl";
+            this.toolStripLabel_FoundLbl.Size = new System.Drawing.Size(54, 22);
+            this.toolStripLabel_FoundLbl.Text = "x_Found:";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel_Found
+            // 
+            this.toolStripLabel_Found.Name = "toolStripLabel_Found";
+            this.toolStripLabel_Found.Size = new System.Drawing.Size(13, 22);
+            this.toolStripLabel_Found.Text = "0";
             // 
             // UserControl_RegExTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.checkBox_ContainerField);
             this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.textBox_Seperator);
-            this.Controls.Add(this.label_Seperator);
-            this.Controls.Add(this.button_Parse);
             this.Controls.Add(this.dataGridView_Filter);
             this.Controls.Add(this.richTextBox_Text);
             this.Controls.Add(this.button_AddField);
@@ -346,6 +462,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Filter)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -371,15 +491,29 @@
         private System.Windows.Forms.Label label_RegexPre;
         private System.Windows.Forms.RichTextBox richTextBox_Text;
         private System.Windows.Forms.DataGridView dataGridView_Filter;
-        private System.Windows.Forms.Button button_Parse;
-        private System.Windows.Forms.Label label_Seperator;
-        private System.Windows.Forms.TextBox textBox_Seperator;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton_RemoveUnmarked;
         private System.Windows.Forms.ToolStripButton toolStripButton_removeMarked;
         private System.Windows.Forms.ToolStripButton toolStripButton_CopyMarked;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.CheckBox checkBox_ContainerField;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_PosLbl;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_Pos;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_SelLbl;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_Sel;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_SelLengthLbl;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_SelLength;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripButton toolStripButton_Parse;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_LineSeperatorLbl;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox_LineSeperator;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripButton toolStripButton_DoLine;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_FoundLbl;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_Found;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 
     }
 }

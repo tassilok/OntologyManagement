@@ -38,14 +38,18 @@
             this.textParserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fieldParserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.regExTesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -96,8 +100,12 @@
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(792, 539);
-            this.splitContainer1.SplitterDistance = 264;
+            this.splitContainer1.SplitterDistance = 179;
             this.splitContainer1.TabIndex = 0;
             // 
             // toolStrip2
@@ -107,7 +115,7 @@
             this.toolStripDropDownButton_Test});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(95, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(64, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripDropDownButton_Test
@@ -144,6 +152,16 @@
             this.regExTesterToolStripMenuItem.Text = "x_RegEx-Tester";
             this.regExTesterToolStripMenuItem.Click += new System.EventHandler(this.regExTesterToolStripMenuItem_Click);
             // 
+            // splitContainer2
+            // 
+            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Size = new System.Drawing.Size(609, 539);
+            this.splitContainer2.SplitterDistance = 203;
+            this.splitContainer2.TabIndex = 0;
+            // 
             // frmTextParser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -161,10 +179,13 @@
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -180,5 +201,6 @@
         private System.Windows.Forms.ToolStripMenuItem textParserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fieldParserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem regExTesterToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer splitContainer2;
     }
 }
