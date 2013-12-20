@@ -46,6 +46,7 @@ Partial Class UserControl_ImageList
         Me.ToolStripButton_Meta = New System.Windows.Forms.ToolStripButton()
         Me.FolderBrowserDialog_Save = New System.Windows.Forms.FolderBrowserDialog()
         Me.OpenFileDialog_Images = New System.Windows.Forms.OpenFileDialog()
+        Me.Timer_Filter = New System.Windows.Forms.Timer(Me.components)
         Me.ContextMenuStrip_Relate.SuspendLayout()
         CType(Me.BindingSource_Images, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
@@ -224,6 +225,10 @@ Partial Class UserControl_ImageList
         '
         Me.OpenFileDialog_Images.FileName = "OpenFileDialog1"
         '
+        'Timer_Filter
+        '
+        Me.Timer_Filter.Interval = 300
+        '
         'UserControl_ImageList
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -270,5 +275,6 @@ Partial Class UserControl_ImageList
     Friend WithEvents NameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DateTimeStampToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenFileDialog_Images As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents Timer_Filter As System.Windows.Forms.Timer
 
 End Class

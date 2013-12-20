@@ -60,6 +60,17 @@ Public Class frmMediaViewerModule
         End Select
     End Sub
 
+    Private Sub save_ChronoItems() Handles objUserControl_RefTree.save_ChronoItems
+        Select Case objOItem_MediaType.GUID
+            Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+
+            Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                objUserControl_ImageList.Save_Items(True)
+            Case objLocalConfig.OItem_Type_Media_Item.GUID
+
+        End Select
+    End Sub
+
     Private Sub Media_First() Handles objFrmSingleViewer.Media_First
         Select Case objOItem_MediaType.GUID
             Case objLocalConfig.OItem_Type_PDF_Documents.GUID
@@ -178,6 +189,25 @@ Public Class frmMediaViewerModule
 
     End Sub
 
+    Private Sub selected_Date() Handles objUserControl_RefTree.selected_Date
+        Dim intYear = objUserControl_RefTree.Year
+        Dim intMonth = objUserControl_RefTree.Month
+        Dim intDay = objUserControl_RefTree.Day
+        objOItem_MediaType = ToolStripComboBox_MediaType.SelectedItem
+        If Not objOItem_MediaType Is Nothing Then
+            Select objOItem_MediaType.GUID
+                Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                    objUserControl_ImageList.initialize_AllImages()
+                    objUserControl_ImageList.initialize_Images(intYear, intMonth, intDay)
+                Case objLocalConfig.OItem_Type_Media_Item.GUID
+
+                Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+
+            End Select
+
+        End If
+    End Sub
+
     Public Sub New()
 
         ' Dieser Aufruf ist für den Designer erforderlich.
@@ -285,7 +315,16 @@ Public Class frmMediaViewerModule
         SplitContainer1.Panel2.Controls.Clear()
 
         If Not objOItem_MediaType Is Nothing Then
-            objUserControl_RefTree.fill_Tree(objOItem_MediaType)
+            If SemanticToolStripMenuItem.Checked Then
+                objUserControl_RefTree.fill_Tree(objOItem_MediaType, TreeOrga.semantic)
+            ElseIf ChronoToolStripMenuItem.Checked Then
+                objUserControl_RefTree.fill_Tree(objOItem_MediaType, TreeOrga.chrono)
+            ElseIf ChronosemanticToolStripMenuItem.Checked Then
+                objUserControl_RefTree.fill_Tree(objOItem_MediaType, TreeOrga.chronosemantic)
+            ElseIf NamedSemanticToolStripMenuItem.Checked Then
+                objUserControl_RefTree.fill_Tree(objOItem_MediaType, TreeOrga.namedsemantic)
+            End If
+
             Select Case objOItem_MediaType.GUID
                 Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
                     SplitContainer1.Panel2.Controls.Add(objUserControl_ImageList)

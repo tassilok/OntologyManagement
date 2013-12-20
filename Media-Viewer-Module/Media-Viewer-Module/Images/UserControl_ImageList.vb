@@ -22,6 +22,12 @@ Public Class UserControl_ImageList
     Public Event selected_Image(ByVal OItem_Image As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date)
     Public Event related_Last(OItem_Image As clsOntologyItem)
 
+    Private intYear As Integer
+    Private intMonth As Integer
+    Private intDay As Integer
+
+    Private saveItems As Boolean
+
     Public Function Media_First() As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objDGVR_Selected As DataGridViewRow
@@ -143,6 +149,13 @@ Public Class UserControl_ImageList
         clear_List()
         objOItem_Ref = OItem_Ref
 
+        saveItems = False
+        intYear = 0
+        intMonth = 0
+        intDay = 0
+        If Not BindingSource_Images Is Nothing Then
+            BindingSource_Images.RemoveFilter()
+        End If
         boolSelect_First = select_First
         If Not objOItem_Ref Is Nothing Then
             Timer_Images.Stop()
@@ -150,6 +163,19 @@ Public Class UserControl_ImageList
 
             Timer_Images.Start()
         End If
+    End Sub
+
+    Public Sub initialize_Images(intYear As Integer, intMonth As Integer, intDay As Integer, Optional select_First As Boolean = False, Optional saveItems As Boolean = False)
+        clear_List()
+        Me.intYear = intYear
+        Me.intMonth = intMonth
+        Me.intDay = intDay
+
+        Me.saveItems = saveItems
+
+        Timer_Filter.Stop()
+        Timer_Filter.Start()
+
     End Sub
 
     Public Sub initialize_AllImages(Optional ByVal select_First As Boolean = False)
@@ -690,6 +716,115 @@ Public Class UserControl_ImageList
         Else
             DateTimeStampToolStripMenuItem.Checked = True
             NameToolStripMenuItem.Checked = False
+        End If
+    End Sub
+
+    Private Sub Timer_Filter_Tick(sender As Object, e As EventArgs) Handles Timer_Filter.Tick
+        If objDataWork_Images.Loaded = True Then
+            Timer_Filter.Stop()
+
+            Dim strDateStart = intYear.ToString
+            Dim strDateEnd = intYear.ToString
+            If intMonth > 0 Then
+                strDateStart = intMonth & "." & strDateStart
+                strDateEnd = intMonth & "." & strDateEnd
+                If intDay > 0 Then
+                    strDateStart = intDay & "." & strDateStart
+                    Dim dateTest = Date.Parse(strDateStart)
+                    dateTest.AddDays(1)
+                    strDateEnd = dateTest.ToString
+
+                Else
+                    strDateStart = "1." & strDateStart
+                    Dim dateTest = Date.Parse(strDateStart)
+                    dateTest = dateTest.AddDays(1)
+                    strDateEnd = dateTest.ToString
+                End If
+            Else
+                strDateStart = "1.1." & strDateStart
+                Dim dateTest = Date.Parse(strDateStart)
+                dateTest = dateTest.AddYears(1)
+                dateTest = dateTest.AddDays(-1)
+                strDateEnd = dateTest.ToString
+            End If
+
+            
+
+            BindingSource_Images.Filter = "Date_Create >= '" & strDateStart & "' AND Date_Create <= '" & strDateEnd & "'"
+
+            
+        End If
+    End Sub
+
+    Public Sub Save_Items(boolChrono As Boolean)
+        Dim objOItem_File As New clsOntologyItem
+        If boolChrono Then
+            If FolderBrowserDialog_Save.ShowDialog(Me) = DialogResult.OK Then
+                Dim intToDo As Integer
+                Dim intDone As Integer
+
+                intDone = 0
+                intToDo = DataGridView_Images.RowCount
+
+                For Each objDGVR As DataGridViewRow In DataGridView_Images.Rows
+                    Dim objDRV As DataRowView = objDGVR.DataBoundItem
+                    If Not IsDBNull(objDRV.Item("Date_Create")) Then
+                        Dim dateCreate As DateTime = objDRV.Item("Date_Create")
+                        Dim intYear = dateCreate.Year
+                        Dim intMonth = dateCreate.Month
+                        Dim intDay = dateCreate.Day
+
+
+                        Dim strFileName = objDRV.Item("Name_File")
+                        Dim strExtension = IO.Path.GetExtension(strFileName)
+                        strFileName = objDRV.Item("ID_Image") & strExtension
+
+                        Dim strPath = FolderBrowserDialog_Save.SelectedPath
+
+                        strPath = strPath & IO.Path.DirectorySeparatorChar & intYear.ToString
+
+                        If Not IO.Directory.Exists(strPath) Then
+                            Try
+                                IO.Directory.CreateDirectory(strPath)
+                                
+                            Catch ex As Exception
+                                MsgBox("Ein Verzeichnis konnte nicht angelegt werden!", MsgBoxStyle.Exclamation)
+                                strPath = ""
+                                Exit For
+                            End Try
+
+                            
+                        End If
+                        If Not strPath = "" Then
+                            strPath = strPath & IO.Path.DirectorySeparatorChar & intMonth.ToString
+                            If Not IO.Directory.Exists(strPath) Then
+                                Try
+                                    IO.Directory.CreateDirectory(strPath)
+
+                                Catch ex As Exception
+                                    MsgBox("Ein Verzeichnis konnte nicht angelegt werden!", MsgBoxStyle.Exclamation)
+                                    strPath = ""
+                                    Exit For
+                                End Try
+                            End If
+                            If Not strPath = "" Then
+                                strPath = strPath & IO.Path.DirectorySeparatorChar & strFileName
+                                objOItem_File.GUID = objDRV.Item("ID_File")
+                                objOItem_File.Name = objDRV.Item("Name_File")
+                                objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
+                                objOItem_File.Type = objLocalConfig.Globals.Type_Object
+
+                                Dim objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_File, strPath, False)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    intDone = intDone + 1
+                                End If
+                            End If
+                            
+                        End If
+                    End If
+
+                Next
+            End If
         End If
     End Sub
 End Class

@@ -5,6 +5,7 @@ Public Class clsDataWork_RefTree
     Private objLocalConfig As clsLocalConfig
 
     Private objDBLevel_RefItems As clsDBLevel
+    Private objDBLevel_MediaAttribs As clsDBLevel
     Private objDBLevel_Classes As clsDBLevel
     Private objDBLevel_Related As clsDBLevel
     Private objOLClasses_Tree As New List(Of clsOntologyItem)
@@ -14,6 +15,7 @@ Public Class clsDataWork_RefTree
     Private objTreeNode_Root As TreeNode
     Private objTreeNode_Attributes As TreeNode
     Private objTreeNode_RelationTypes As TreeNode
+    Private objList_ChronoBase As List(Of clsChronoMedia)
 
     Public ReadOnly Property TreeNode_Attributes As TreeNode
         Get
@@ -44,6 +46,45 @@ Public Class clsDataWork_RefTree
         add_ObjectNodes()
         Return objTreeNode_Root
     End Function
+
+    Public Function add_SubNodes_Chrono(Optional ByVal objTreeNode As TreeNode = Nothing) As TreeNode
+        get_ChronoBase()
+
+        Dim objList_Years = objList_ChronoBase.GroupBy(Function(p) p.Year).OrderBy(Function(q) q.Key).ToList()
+        objTreeNode_Root = New TreeNode(objLocalConfig.OItem_Type_Images__Graphic_.Name, objLocalConfig.ImageID_Root, objLocalConfig.ImageID_Root)
+
+        For Each objYear In objList_Years
+            Dim objTreeNode_Year = objTreeNode_Root.Nodes.Add(objYear.Key.ToString, objYear.Key.ToString, objLocalConfig.ImageID_Close, objLocalConfig.ImageID_Open)
+
+            Dim objList_Months = objList_ChronoBase.Where(Function(p) p.Year = objYear.Key).GroupBy(Function(q) q.Month).OrderBy(Function(r) r.Key).ToList()
+            For Each objMonth In objList_Months
+                Dim objTreeNode_Month = objTreeNode_Year.Nodes.Add(objMonth.Key.ToString, objMonth.Key.ToString, objLocalConfig.ImageID_Close, objLocalConfig.ImageID_Open)
+
+                Dim objList_Days = objList_ChronoBase.Where(Function(p) p.Year = objYear.Key And p.Month = objMonth.Key).GroupBy(Function(q) q.Day).OrderBy(Function(r) r.Key).ToList()
+
+                For Each objDay In objList_Days
+                    Dim objTreeNode_Day = objTreeNode_Month.Nodes.Add(objDay.Key.ToString, objDay.Key.ToString, objLocalConfig.ImageID_Close, objLocalConfig.ImageID_Open)
+                Next
+            Next
+
+        Next
+
+        Return objTreeNode_Root
+    End Function
+
+    Public Sub get_ChronoBase()
+        objList_ChronoBase = (From objImage In objDBLevel_RefItems.OList_ObjectRel
+                                 Join objCreate In objDBLevel_MediaAttribs.OList_ObjectAtt On objImage.ID_Other Equals objCreate.ID_Object
+                                 Select New clsChronoMedia With {.ID_Media = objImage.ID_Object, _
+                                                                 .Name_Media = objImage.Name_Object, _
+                                                                 .ID_File = objImage.ID_Other, _
+                                                                 .Name_File = objImage.Name_Other, _
+                                                                 .Creation = objCreate.Val_Date.Value, _
+                                                                 .Year = objCreate.Val_Date.Value.Year, _
+                                                                 .Month = objCreate.Val_Date.Value.Month, _
+                                                                 .Day = objCreate.Val_Date.Value.Day}).ToList()
+
+    End Sub
 
     Public Function get_ParentClasses(OItem_Class As clsOntologyItem) As List(Of clsOntologyItem)
         Dim objOItem_Result As clsOntologyItem
@@ -399,6 +440,72 @@ Public Class clsDataWork_RefTree
         Return objOItem_Result
     End Function
 
+    Public Function get_Data_RefItemsOfMedia_Chrono(ByVal objOItem_MediaType As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem = objLocalConfig.Globals.LState_Success
+        Dim objOLMedia As New List(Of clsObjectRel)
+        Dim objOLCreate As New List(Of clsObjectAtt)
+
+
+        Select Case objOItem_MediaType.GUID
+            Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                objOLMedia.Add(New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                      .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Source.GUID, _
+                                                      .ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID})
+
+                objOItem_Result = objDBLevel_RefItems.get_Data_ObjectRel(objOLMedia, _
+                                                       boolIDs:=False)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objOLCreate.Add(New clsObjectAtt With {.ID_Class = objLocalConfig.OItem_Type_File.GUID, _
+                                                           .ID_AttributeType = objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID})
+
+                    objOItem_Result = objDBLevel_MediaAttribs.get_Data_ObjectAtt(objOLCreate, _
+                                                                                 boolIDs:=False)
+
+
+                End If
+            Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+                objOLMedia.Add(New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_PDF_Documents.GUID, _
+                                                      .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Source.GUID, _
+                                                      .ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID})
+
+                objOItem_Result = objDBLevel_RefItems.get_Data_ObjectRel(objOLMedia, _
+                                                       boolIDs:=False)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objOLCreate.Add(New clsObjectAtt With {.ID_Class = objLocalConfig.OItem_Type_File.GUID, _
+                                                           .ID_AttributeType = objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID})
+
+                    objOItem_Result = objDBLevel_MediaAttribs.get_Data_ObjectAtt(objOLCreate, _
+                                                                                 boolIDs:=False)
+
+
+                End If
+
+            Case objLocalConfig.OItem_Type_Media_Item.GUID
+
+                objOLMedia.Add(New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_Media_Item.GUID, _
+                                                      .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Source.GUID, _
+                                                      .ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID})
+
+                objOItem_Result = objDBLevel_RefItems.get_Data_ObjectRel(objOLMedia, _
+                                                       boolIDs:=False)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objOLCreate.Add(New clsObjectAtt With {.ID_Class = objLocalConfig.OItem_Type_File.GUID, _
+                                                           .ID_AttributeType = objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID})
+
+                    objOItem_Result = objDBLevel_MediaAttribs.get_Data_ObjectAtt(objOLCreate, _
+                                                                                 boolIDs:=False)
+
+
+                End If
+        End Select
+
+
+        Return objOItem_Result
+    End Function
+
     Public Function GetOItem(GUID_Item As String, Type_Item As String) As clsOntologyItem
         Return objDBLevel_Related.GetOItem(GUID_Item, Type_Item)
     End Function
@@ -413,5 +520,6 @@ Public Class clsDataWork_RefTree
         objDBLevel_RefItems = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Classes = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Related = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_MediaAttribs = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class
