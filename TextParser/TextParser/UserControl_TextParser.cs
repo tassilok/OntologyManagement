@@ -42,6 +42,39 @@ namespace TextParser
                 if (objDataWork_TextParser.OItem_Result_TextParser.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
                     objDataWork_TextParser.CreateRefItems(objOItem_TextParser);
+                    var objTextParser = objDataWork_TextParser.OItem_EntryValueParser ??
+                                        objDataWork_TextParser.OItem_FieldExtractorParser;
+
+                    if (objTextParser != null)
+                    {
+                        textBox_SubParser.Text = objTextParser.Name;
+                    }
+                    button_SubParser.Enabled = true;
+
+                    if (objDataWork_TextParser.OItem_FileResource != null)
+                    {
+                        textBox_FileResource.Text = objDataWork_TextParser.OItem_FileResource.Name;
+                    }
+                    button_FileResource.Enabled = true;
+
+                    if (objDataWork_TextParser.OItem_Index != null)
+                    {
+                        textBox_Index.Text = objDataWork_TextParser.OItem_Index.Name;
+                    }
+
+                    button_Index.Enabled = true;
+
+                    if (objDataWork_TextParser.OItem_LineSeperator != null)
+                    {
+                        textBox_LineSeperator.Text = objDataWork_TextParser.OItem_LineSeperator.Name;
+                    }
+
+                    button_LineSeperator.Enabled = true;
+
+                    if (objDataWork_TextParser.OItem_User != null)
+                    {
+                        textBox_User.Text = objDataWork_TextParser.OItem_User.Name;
+                    }
                 }
             }
         }

@@ -62,7 +62,125 @@ namespace TextParser
                 OItem_EntryValueParser = objOList_EntryValueParsers.First();
             }
 
+            var objOList_FieldExtractorParser = objDBLevel_TextParser_LeftRight.OList_ObjectRel
+                                                                            .Where(
+                                                                                p =>
+                                                                                p.ID_Object == OItem_TextParser.GUID &&
+                                                                                p.ID_Parent_Other ==
+                                                                                objLocalConfig
+                                                                                    .OItem_class_field_extractor_parser.GUID &&
+                                                                                p.ID_RelationType ==
+                                                                                objLocalConfig.OItem_relationtype_todo
+                                                                                              .GUID)
+                                                                            .Select(p => new clsOntologyItem
+                                                                            {
+                                                                                GUID = p.ID_Other,
+                                                                                Name = p.Name_Other,
+                                                                                GUID_Parent = p.ID_Parent_Other,
+                                                                                Type = p.Ontology
+                                                                            });
 
+            if (objOList_FieldExtractorParser.Any())
+            {
+                OItem_FieldExtractorParser = objOList_FieldExtractorParser.First();
+            }
+
+            var objOList_FileResource = objDBLevel_TextParser_LeftRight.OList_ObjectRel
+                                                                            .Where(
+                                                                                p =>
+                                                                                p.ID_Object == OItem_TextParser.GUID &&
+                                                                                p.ID_Parent_Other ==
+                                                                                objLocalConfig
+                                                                                    .OItem_class_fileresource.GUID &&
+                                                                                p.ID_RelationType ==
+                                                                                objLocalConfig.OItem_relationtype_belonging_resource
+                                                                                              .GUID)
+                                                                            .Select(p => new clsOntologyItem
+                                                                            {
+                                                                                GUID = p.ID_Other,
+                                                                                Name = p.Name_Other,
+                                                                                GUID_Parent = p.ID_Parent_Other,
+                                                                                Type = p.Ontology
+                                                                            });
+
+            if (objOList_FileResource.Any())
+            {
+                OItem_FileResource = objOList_FileResource.First();
+            }
+
+            var objOList_Index = objDBLevel_TextParser_LeftRight.OList_ObjectRel
+                                                                            .Where(
+                                                                                p =>
+                                                                                p.ID_Object == OItem_TextParser.GUID &&
+                                                                                p.ID_Parent_Other ==
+                                                                                objLocalConfig
+                                                                                    .OItem_class_indexes__elastic_search_.GUID &&
+                                                                                p.ID_RelationType ==
+                                                                                objLocalConfig.OItem_relationtype_located_at
+                                                                                              .GUID)
+                                                                            .Select(p => new clsOntologyItem
+                                                                            {
+                                                                                GUID = p.ID_Other,
+                                                                                Name = p.Name_Other,
+                                                                                GUID_Parent = p.ID_Parent_Other,
+                                                                                Type = p.Ontology
+                                                                            });
+
+            if (objOList_Index.Any())
+            {
+                OItem_Index = objOList_Index.First();
+            }
+
+            var objOList_LineSeperator = objDBLevel_TextParser_LeftRight.OList_ObjectRel
+                                                                            .Where(
+                                                                                p =>
+                                                                                p.ID_Object == OItem_TextParser.GUID &&
+                                                                                p.ID_Parent_Other ==
+                                                                                objLocalConfig
+                                                                                    .OItem_class_text_seperators.GUID &&
+                                                                                p.ID_RelationType ==
+                                                                                objLocalConfig.OItem_relationtype_line_seperator
+                                                                                              .GUID)
+                                                                            .Select(p => new clsOntologyItem
+                                                                            {
+                                                                                GUID = p.ID_Other,
+                                                                                Name = p.Name_Other,
+                                                                                GUID_Parent = p.ID_Parent_Other,
+                                                                                Type = p.Ontology
+                                                                            });
+
+            if (objOList_LineSeperator.Any())
+            {
+                OItem_LineSeperator = objOList_LineSeperator.First();
+            }
+
+            var objOList_User = objDBLevel_TextParser_LeftRight.OList_ObjectRel
+                                                                            .Where(
+                                                                                p =>
+                                                                                p.ID_Object == OItem_TextParser.GUID &&
+                                                                                p.ID_Parent_Other ==
+                                                                                objLocalConfig
+                                                                                    .OItem_class_user.GUID &&
+                                                                                p.ID_RelationType ==
+                                                                                objLocalConfig.OItem_relationtype_belongs_to
+                                                                                              .GUID)
+                                                                            .Select(p => new clsOntologyItem
+                                                                            {
+                                                                                GUID = p.ID_Other,
+                                                                                Name = p.Name_Other,
+                                                                                GUID_Parent = p.ID_Parent_Other,
+                                                                                Type = p.Ontology
+                                                                            });
+
+            if (objOList_User.Any())
+            {
+                OItem_User = objOList_User.First();
+            }
+        }
+
+        public void GetData_IndexData(clsOntologyItem OItem_Index)
+        {
+            
         }
 
         public void GetData_TextParser(clsOntologyItem OItem_TextParser = null)
@@ -131,7 +249,7 @@ namespace TextParser
             OItem_Result_TextParser = objOItem_Result;
         }
         
-        public clsOntologyItem GetTextParserByRef(clsOntologyItem OItem_Ref)
+        public List<clsObjectRel> GetTextParserByRef(clsOntologyItem OItem_Ref)
         {
             clsOntologyItem objOItem_TextParser = null;
 
@@ -148,21 +266,10 @@ namespace TextParser
             var objOItem_Result = objDBLevel_TextParserOfRef.get_Data_ObjectRel(objORel_TextParserOfRef, boolIDs: false);
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                var objOList_TextParsers = objDBLevel_TextParserOfRef.OList_ObjectRel.Select(p => new clsOntologyItem
-                    {
-                        GUID = p.ID_Object,
-                        Name = p.Name_Object,
-                        GUID_Parent = p.ID_Parent_Object,
-                        Type = objLocalConfig.Globals.Type_Object
-                    });
-
-                if (objOList_TextParsers.Any())
-                {
-                    objOItem_TextParser = objOList_TextParsers.First();
-                }
+                return objDBLevel_TextParserOfRef.OList_ObjectRel;
             }
 
-            return objOItem_TextParser;
+            return null;
         }
 
         

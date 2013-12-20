@@ -108,6 +108,12 @@
     <Compile Include="UserControl_TextParser.Designer.cs">
       <DependentUpon>UserControl_TextParser.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControl_TextParserList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_TextParserList.Designer.cs">
+      <DependentUpon>UserControl_TextParserList.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControl_TextParsers.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -146,6 +152,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_TextParser.resx">
       <DependentUpon>UserControl_TextParser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_TextParserList.resx">
+      <DependentUpon>UserControl_TextParserList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_TextParsers.resx">
       <DependentUpon>UserControl_TextParsers.cs</DependentUpon>

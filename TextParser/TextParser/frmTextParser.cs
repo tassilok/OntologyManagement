@@ -18,6 +18,7 @@ namespace TextParser
         private clsLocalConfig objLocalConfig;
         private UserControl_RefTree objUserControl_RefTree;
         private UserControl_TextParser objUserControl_TextParser;
+        private UserControl_TextParserList objUserControl_TextParserList;
         private clsDataWork_BaseData objDataWork_BaseData;
         private clsDataWork_TextParser objDataWork_TextParser;
         private frmAuthenticate objFrmAuthenticate;
@@ -56,11 +57,17 @@ namespace TextParser
                     objUserControl_RefTree.selected_Node += objUserControl_RefTree_selected_Node;
                     objUserControl_RefTree.Dock = DockStyle.Fill;
 
+                    objUserControl_TextParserList = new UserControl_TextParserList(objLocalConfig);
+                    objUserControl_TextParserList.selectedTextParser += objUserControl_TextParserList_selectedTextParser;
+                    objUserControl_TextParserList.Dock = DockStyle.Fill;
+
+                    splitContainer2.Panel1.Controls.Add(objUserControl_TextParserList);
+
                     objUserControl_TextParser = new UserControl_TextParser(objLocalConfig);
                     objUserControl_TextParser.Dock = DockStyle.Fill;
 
                     splitContainer1.Panel1.Controls.Add(objUserControl_RefTree);
-                    splitContainer1.Panel2.Controls.Add(objUserControl_TextParser);
+                    splitContainer2.Panel2.Controls.Add(objUserControl_TextParser);
 
                     objUserControl_RefTree.initialize_Tree(objOList_TextParsers,
                                                            new List<clsOntologyItem>
@@ -88,9 +95,17 @@ namespace TextParser
             
         }
 
+        void objUserControl_TextParserList_selectedTextParser()
+        {
+            var objOList_TextParsers = objUserControl_TextParserList.OList_TextParsers;
+            objUserControl_TextParser.InitializeTextParser(objOList_TextParsers.Count == 1
+                                                               ? objOList_TextParsers.First()
+                                                               : null);
+        }
+
         void objUserControl_RefTree_selected_Node(clsOntologyItem OItem_Selected)
         {
-            
+            objUserControl_TextParserList.Initailze_TextParsers(OItem_Selected);
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
