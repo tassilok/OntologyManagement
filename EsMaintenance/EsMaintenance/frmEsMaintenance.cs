@@ -173,32 +173,65 @@ namespace EsMaintenance
                 }
                 else if (objListViewItem.Text == objGlobals.Type_ObjectRel)
                 {
-                    if (objEsMaintenance.GetDataObjectRel(strQuery).GUID == objGlobals.LState_Success.GUID)
+                    if (strQuery.ToLower() == "OrderID is string".ToLower())
                     {
-                        dataGridView_Found.DataSource = objEsMaintenance.OList_ObjectRel;
-                        foreach (DataGridViewColumn objColumn in dataGridView_Found.Columns)
+                        if (objEsMaintenance.GetDataObjectRelOrderIDString().GUID == objGlobals.LState_Success.GUID)
                         {
-                            if (objColumn.DataPropertyName == objGlobals.Field_ID_Object ||
-                                objColumn.DataPropertyName == objGlobals.Field_ID_Parent_Object ||
-                                objColumn.DataPropertyName == objGlobals.Field_ID_Other ||
-                                objColumn.DataPropertyName == objGlobals.Field_ID_Parent_Other ||
-                                objColumn.DataPropertyName == objGlobals.Field_OrderID ||
-                                objColumn.DataPropertyName == objGlobals.Field_Ontology ||
-                                objColumn.DataPropertyName == objGlobals.Field_ID_RelationType)
+                            dataGridView_Found.DataSource = objEsMaintenance.OList_ObjectRel;
+                            foreach (DataGridViewColumn objColumn in dataGridView_Found.Columns)
                             {
-                                objColumn.Visible = true;
-                            }
-                            else
-                            {
-                                objColumn.Visible = false;
-                            }
+                                if (objColumn.DataPropertyName == objGlobals.Field_ID_Object ||
+                                    objColumn.DataPropertyName == objGlobals.Field_ID_Parent_Object ||
+                                    objColumn.DataPropertyName == objGlobals.Field_ID_Other ||
+                                    objColumn.DataPropertyName == objGlobals.Field_ID_Parent_Other ||
+                                    objColumn.DataPropertyName == objGlobals.Field_OrderID ||
+                                    objColumn.DataPropertyName == objGlobals.Field_Ontology ||
+                                    objColumn.DataPropertyName == objGlobals.Field_ID_RelationType)
+                                {
+                                    objColumn.Visible = true;
+                                }
+                                else
+                                {
+                                    objColumn.Visible = false;
+                                }
 
+                            }
+                        }
+                        else
+                        {
+                            dataGridView_Found.DataSource = null;
                         }
                     }
                     else
                     {
-                        dataGridView_Found.DataSource = null;
+                        if (objEsMaintenance.GetDataObjectRel(strQuery).GUID == objGlobals.LState_Success.GUID)
+                        {
+                            dataGridView_Found.DataSource = objEsMaintenance.OList_ObjectRel;
+                            foreach (DataGridViewColumn objColumn in dataGridView_Found.Columns)
+                            {
+                                if (objColumn.DataPropertyName == objGlobals.Field_ID_Object ||
+                                    objColumn.DataPropertyName == objGlobals.Field_ID_Parent_Object ||
+                                    objColumn.DataPropertyName == objGlobals.Field_ID_Other ||
+                                    objColumn.DataPropertyName == objGlobals.Field_ID_Parent_Other ||
+                                    objColumn.DataPropertyName == objGlobals.Field_OrderID ||
+                                    objColumn.DataPropertyName == objGlobals.Field_Ontology ||
+                                    objColumn.DataPropertyName == objGlobals.Field_ID_RelationType)
+                                {
+                                    objColumn.Visible = true;
+                                }
+                                else
+                                {
+                                    objColumn.Visible = false;
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            dataGridView_Found.DataSource = null;
+                        }
                     }
+                    
 
                 }
                 else if (objListViewItem.Text == objGlobals.Type_ClassRel)

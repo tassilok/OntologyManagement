@@ -645,6 +645,63 @@ namespace EsMaintenance
             return OItem_Result;
         }
 
+        public clsOntologyItem GetDataObjectRelOrderIDString()
+        {
+            clsOntologyItem OItem_Result;
+            SearchResult objSearchResult;
+            List<Hits> objList = new List<Hits>();
+
+
+            var objTypes = new clsTypes();
+            var objFields = new clsFields();
+            var intPackageLength = objGlobals.SearchRange;
+            var intCount = intPackageLength;
+            var intPos = 0;
+
+            OList_ObjectRel.Clear();
+
+            try
+            {
+                var objElConn = new ElasticSearch.Client.ElasticSearchClient(objGlobals.Server.ToString(), int.Parse(objGlobals.Port), ElasticSearch.Client.Config.TransportType.Thrift, false);
+                while (intCount > 0)
+                {
+                    intCount = 0;
+                    objSearchResult = objElConn.Search(objGlobals.Index, objTypes.ObjectRel, "OrderID:*", intPos, intPackageLength);
+                    objList = objSearchResult.GetHits().Hits;
+                    var objListOrderIDString = objList.Where(p => p.Source.ContainsKey(objFields.OrderID)).ToList().Where(p => p.Source[objFields.OrderID] is string).ToList();
+
+                    foreach (var objHit in objListOrderIDString)
+                    {
+                        var OItem_ObjectRel = new clsObjectRel();
+
+                        OItem_ObjectRel.ID_Object = (objHit.Source.ContainsKey(objFields.ID_Object) ? (objHit.Source[objFields.ID_Object] != null ? objHit.Source[objFields.ID_Object].ToString() : null) : null);
+                        OItem_ObjectRel.ID_Parent_Object = (objHit.Source.ContainsKey(objFields.ID_Parent_Object) ? (objHit.Source[objFields.ID_Parent_Object] != null ? objHit.Source[objFields.ID_Parent_Object].ToString() : null) : null);
+                        OItem_ObjectRel.ID_Other = (objHit.Source.ContainsKey(objFields.ID_Other) ? (objHit.Source[objFields.ID_Other] != null ? objHit.Source[objFields.ID_Other].ToString() : null) : null);
+                        OItem_ObjectRel.ID_Parent_Other = (objHit.Source.ContainsKey(objFields.ID_Parent_Other) ? (objHit.Source[objFields.ID_Parent_Other] != null ? objHit.Source[objFields.ID_Parent_Other].ToString() : null) : null);
+                        OItem_ObjectRel.ID_RelationType = (objHit.Source.ContainsKey(objFields.ID_RelationType) ? (objHit.Source[objFields.ID_RelationType] != null ? objHit.Source[objFields.ID_RelationType].ToString() : null) : null);
+                        OItem_ObjectRel.OrderID = (objHit.Source.ContainsKey(objFields.OrderID) ? (objHit.Source[objFields.OrderID] != null ? long.Parse(objHit.Source[objFields.OrderID].ToString()) : (long?)null) : (long?)null);
+                        OItem_ObjectRel.Ontology = (objHit.Source.ContainsKey(objFields.Ontology) ? (objHit.Source[objFields.Ontology] != null ? objHit.Source[objFields.Ontology].ToString() : null) : null);
+
+                        OList_ObjectRel.Add(OItem_ObjectRel);
+
+
+                    }
+                    intCount = objList.Count;
+                    intPos = intPos + intCount;
+                }
+
+                OItem_Result = objGlobals.LState_Success;
+            }
+            catch (Exception ex)
+            {
+                OItem_Result = objGlobals.LState_Error;
+            }
+
+
+
+            return OItem_Result;
+        }
+
         public clsOntologyItem GetDataRelationType(string Query)
         {
             clsOntologyItem OItem_Result;
