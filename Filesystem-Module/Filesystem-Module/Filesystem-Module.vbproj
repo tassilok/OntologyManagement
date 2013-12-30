@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsBlobConnection.vb" />
+    <Compile Include="clsBlobFileSync.vb" />
     <Compile Include="clsDataWork.vb" />
     <Compile Include="clsDataWork_FileResource_Path.vb" />
     <Compile Include="clsFile.vb" />
@@ -117,6 +118,12 @@
       <DependentUpon>frmFileSync.vb</DependentUpon>
     </Compile>
     <Compile Include="frmFileSync.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSaveFiles.Designer.vb">
+      <DependentUpon>frmSaveFiles.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmSaveFiles.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frm_FilesystemModule.vb">
@@ -163,6 +170,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmFileSync.resx">
       <DependentUpon>frmFileSync.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSaveFiles.resx">
+      <DependentUpon>frmSaveFiles.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm_FilesystemModule.resx">
       <DependentUpon>frm_FilesystemModule.vb</DependentUpon>
@@ -257,6 +267,9 @@
     <EmbeddedResource Include="Config\Templates\RelationTypes.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Resources\wm_pause.png" />
+    <None Include="Resources\wm_play.png" />
+    <None Include="Resources\icon.multimedia.blue.stop.png" />
     <Content Include="slim_cd_drive_frederic_m_01.ico" />
     <None Include="Resources\sync.png" />
     <None Include="Resources\tasto_7_architetto_franc_01.png" />
