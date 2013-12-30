@@ -21,6 +21,37 @@ namespace Office_Module
         private frmBlobWatcher objFrmBlobWatcher;
         private string strCategory;
 
+        public clsOntologyItem has_Document(clsOntologyItem objOItem_Ref)
+        {
+            
+
+            var OList_Documents = objDataWork_Documents.GetDocumentsByRef(objOItem_Ref);
+            if (OList_Documents == null)
+            {
+                return objLocalConfig.Globals.LState_Error;
+                
+            }
+            else
+            {
+                if (OList_Documents.Any())
+                {
+                    return objLocalConfig.Globals.LState_Success;
+                }
+                else
+                {
+                    return objLocalConfig.Globals.LState_Nothing;
+                }
+            }
+            
+
+            
+        }
+
+        public List<clsOntologyItem> get_DocumentsOfRef(clsOntologyItem objOItem_Ref)
+        {
+            return objDataWork_Documents.GetDocumentsByRef(objOItem_Ref);
+        }
+
         public clsOntologyItem activate_Bookmark(clsDocument objDocument, clsOntologyItem OItem_Bookmark)
         {
             clsOntologyItem objOItem_Result;
@@ -297,6 +328,46 @@ namespace Office_Module
             return objDoc;
         }
 
+        public clsOntologyItem open_Document(clsOntologyItem OITem_Ref)
+        {
+            var objOItem_Result = objDataWork_Documents.GetData(OITem_Ref);
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                var objOItem_Present = objLocalConfig.Globals.LState_Nothing;
+                while ( objOItem_Present.GUID == objLocalConfig.Globals.LState_Nothing.GUID ) 
+                {
+                    objOItem_Present =  objDataWork_Documents.GetData_Documents();
+                };
+
+                if (objOItem_Present.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    var objDocuments = objDataWork_Documents.OList_Documents;
+                    if (objDocuments.Any())
+                    {
+                        var objDocument = objDocuments.First();
+                        objOItem_Result = open_Document(objDocument);
+                    }
+                    else
+                    {
+                        objOItem_Result = objLocalConfig.Globals.LState_Error;
+                    }
+
+
+                }
+                else
+                {
+                    objOItem_Result = objLocalConfig.Globals.LState_Error;
+                }
+                
+            }
+            else
+            {
+                objOItem_Result = objLocalConfig.Globals.LState_Error;
+            }
+
+            return objOItem_Result;
+        }
+
         public clsOntologyItem open_Document(clsDocument objDocument)
         {
             clsOntologyItem objOItem_Result;
@@ -359,7 +430,7 @@ namespace Office_Module
                         if (objFileWork.is_File_Blob(objOItem_Template_File))
                         {
                             objOItem_Template_File.Mark = true;
-                            objOItem_Template_File.Additional1 = "%temp%\\" + objOItem_Template_File.Name;
+                            objOItem_Template_File.Additional1 = "%temp%\\" + objOItem_Template_File.GUID + System.IO.Path.GetExtension(objOItem_Template_File.Name);
                             objOItem_Template_File.Additional1 = Environment.ExpandEnvironmentVariables(objOItem_Template_File.Additional1);
 
                         }
@@ -377,7 +448,7 @@ namespace Office_Module
                             if (objFileWork.is_File_Blob(objOItem_Template_File))
                             {
                                 objOItem_Template_File.Mark = true;
-                                objOItem_Template_File.Additional1 = "%temp%\\" + objOItem_Template_File.Name;
+                                objOItem_Template_File.Additional1 = "%temp%\\" + objOItem_Template_File.GUID + System.IO.Path.GetExtension(objOItem_Template_File.Name);
                                 objOItem_Template_File.Additional1 = Environment.ExpandEnvironmentVariables(objOItem_Template_File.Additional1);
                             }
                             else

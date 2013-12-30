@@ -31,6 +31,15 @@ namespace Office_Module
            
         }
 
+        public UserControl_Documents(clsGlobals objGlobals)
+        {
+            objLocalConfig = new clsLocalConfig(objGlobals);
+            InitializeComponent();
+            initialize();
+            ConfigureControls();
+
+        }
+
         private void initialize()
         {
             objBlobConnection = new clsBlobConnection(objLocalConfig.Globals);

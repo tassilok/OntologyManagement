@@ -60,6 +60,12 @@
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="clsWordDoc.cs" />
     <Compile Include="clsWordWork.cs" />
+    <Compile Include="frmDocumentEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDocumentEdit.Designer.cs">
+      <DependentUpon>frmDocumentEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmOfficeModule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +82,9 @@
     <Compile Include="UserControl_Documents.Designer.cs">
       <DependentUpon>UserControl_Documents.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmDocumentEdit.resx">
+      <DependentUpon>frmDocumentEdit.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmOfficeModule.resx">
       <DependentUpon>frmOfficeModule.cs</DependentUpon>
     </EmbeddedResource>

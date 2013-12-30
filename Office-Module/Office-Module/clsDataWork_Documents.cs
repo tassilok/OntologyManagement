@@ -26,12 +26,14 @@ namespace Office_Module
         private clsDBLevel objDBLevel_Bookmark3;
         private clsDBLevel objDBLevel_NewDocument;
         private clsDBLevel objDBLevel_OItems;
+        private clsDBLevel objDBLevel_DocsOfRef;
 
         private Thread objThread_ManagedDocuments;
         private Thread objThread_MD__DateTimeStampChanged;
         private Thread objThread_MD_To_DocumentType;
         private Thread objThread_MD_To_File;
         private Thread objThread_MD_To_OItem;
+        private clsOntologyItem objOItem_Ref;
 
         public SortableBindingList<clsDocument> OList_Documents { get; set; }
         public List<clsOntologyItem> OList_Classes { get; set; }
@@ -72,6 +74,35 @@ namespace Office_Module
             }
 
             return objOItem_Result;
+        }
+
+        public List<clsOntologyItem> GetDocumentsByRef(clsOntologyItem OItem_Ref)
+        {
+            var ORel_DocumentsOfRef = new List<clsObjectRel> { new clsObjectRel { ID_Other = OItem_Ref.GUID,
+                ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                ID_Parent_Object = objLocalConfig.OItem_Type_Managed_Document.GUID } };
+
+            var objOItem_Result = objDBLevel_DocsOfRef.get_Data_ObjectRel(ORel_DocumentsOfRef, boolIDs: false);
+
+            List<clsOntologyItem> OList_Documents = new List<clsOntologyItem>();
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                OList_Documents = objDBLevel_DocsOfRef.OList_ObjectRel.Select(p => new clsOntologyItem
+                {
+                    GUID = p.ID_Object,
+                    Name = p.Name_Object,
+                    GUID_Parent = p.ID_Parent_Object,
+                    Type = objLocalConfig.Globals.Type_Object
+                }).ToList();
+
+            }
+            else
+            {
+                OList_Documents = null;
+            }
+
+            return OList_Documents;
         }
 
         public clsOntologyItem GetDocumentByFile(clsOntologyItem OItem_File)
@@ -256,7 +287,9 @@ namespace Office_Module
 
             clsOntologyItem objOItem_Result;
 
-            if (isPresent_Documents().GUID == objLocalConfig.Globals.LState_Success.GUID)
+            objOItem_Result = isPresent_Documents();
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
                 OList_Documents = new SortableBindingList<clsDocument>((from ManagedDoc in objDBLevel_ManagementDocuments.OList_Objects
                                    join ChangeDate in objDBLevel_MD__DateTimeStampChanged.OList_ObjectAtt on ManagedDoc.GUID equals ChangeDate.ID_Object into ChangeDates
@@ -287,15 +320,6 @@ namespace Office_Module
 
                 objOItem_Result = objLocalConfig.Globals.LState_Success;
             }
-            else if (isPresent_Documents().GUID == objLocalConfig.Globals.LState_Nothing.GUID)
-            {
-                objOItem_Result = objLocalConfig.Globals.LState_Nothing;
-            }
-            else
-            {
-                objOItem_Result = objLocalConfig.Globals.LState_Error;
-            }
-
 
 
             return objOItem_Result;
@@ -388,9 +412,10 @@ namespace Office_Module
             set_DBConnection();
         }
 
-        public clsOntologyItem GetData()
+        public clsOntologyItem GetData(clsOntologyItem OItem_Ref = null)
         {
             OItem_Document = null;
+            objOItem_Ref = OItem_Ref;
             var objOItem_Result = objLocalConfig.Globals.LState_Success;
 
             try
@@ -496,6 +521,7 @@ namespace Office_Module
             objDBLevel_Templates = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_NewDocument = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_OItems = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_DocsOfRef = new clsDBLevel(objLocalConfig.Globals);
 
             objDBLevel_Bookmark1 = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Bookmark2 = new clsDBLevel(objLocalConfig.Globals);
@@ -620,7 +646,8 @@ namespace Office_Module
                 objORList_MD_To_OItem.Add(new clsObjectRel
                 {
                     ID_Parent_Object = objLocalConfig.OItem_Type_Managed_Document.GUID,
-                    ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID
+                    ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                    ID_Other = objOItem_Ref != null ? objOItem_Ref.GUID : null
                 });
             }
             else
