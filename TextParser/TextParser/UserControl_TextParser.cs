@@ -95,5 +95,86 @@ namespace TextParser
             button_SubParser.Enabled = false;
             button_User.Enabled = false;
         }
+
+        private void textBox_FileResource_TextChanged(object sender, EventArgs e)
+        {
+            timer_FileResources.Stop();
+            
+            
+        }
+
+        private void textBox_Index_TextChanged(object sender, EventArgs e)
+        {
+            timer_Index.Stop();
+
+            if (textBox_Index.Text != "")
+            {
+                if (objDataWork_TextParser.OItem_Index != null)
+                {
+                    var objOItem_Result = objDataWork_TextParser.GetData_IndexData(objDataWork_TextParser.OItem_Index);
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        timer_Index.Start();
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, "Der Index konnte nicht ermittelt werden.", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+            }
+            
+        }
+
+        private void timer_Index_Tick(object sender, EventArgs e)
+        {
+            if (objDataWork_TextParser.OItem_Result_Index.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
+            {
+                progressBar_Index.Value = 50;
+            }
+            else if (objDataWork_TextParser.OItem_Result_Index.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                timer_Index.Stop();
+                textBox_IndexDetails.Text = "Index: ";
+                if (objDataWork_TextParser.OList_Variables.Any())
+                {
+                    var Name_Index = objDataWork_TextParser.OItem_Index.Name;
+                    foreach (var oItem_Variable in objDataWork_TextParser.OList_Variables)
+                    {
+                        if (oItem_Variable.GUID == objLocalConfig.OItem_object_user.GUID)
+                        {
+                            Name_Index = Name_Index.Replace("@" + oItem_Variable.Name + "@", objLocalConfig.OItem_User.GUID);
+                        }
+                    }
+
+                    textBox_IndexDetails.Text += Name_Index;
+
+                }
+
+                textBox_IndexDetails.Text += "\r\n";
+
+                textBox_IndexDetails.Text += "Server: ";
+                if (objDataWork_TextParser.OItem_Server != null)
+                {
+                    textBox_IndexDetails.Text += objDataWork_TextParser.OItem_Server.Name;
+                }
+
+                textBox_IndexDetails.Text += "\r\n";
+
+                textBox_IndexDetails.Text += "Port: ";
+                if (objDataWork_TextParser.OItem_Port != null)
+                {
+                    textBox_IndexDetails.Text += objDataWork_TextParser.OItem_Port.Name;
+                }
+
+                progressBar_Index.Value = 0;
+
+            }
+            else if (objDataWork_TextParser.OItem_Result_Index.GUID == objLocalConfig.Globals.LState_Error.GUID)
+            {
+                timer_Index.Stop();
+                progressBar_Index.Value = 0;
+                MessageBox.Show(this,"Die Index-Details konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
     }
 }

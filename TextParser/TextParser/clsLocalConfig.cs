@@ -72,6 +72,7 @@ public clsOntologyItem OItem_relationtype_line_seperator { get; set; }
 
         // Objects
 public clsOntologyItem OItem_object_temporary_regular_expression { get; set; }
+public clsOntologyItem OItem_object_user { get; set; }
   
 	
 private void get_Data_DevelopmentConfig()
@@ -592,6 +593,26 @@ var objOList_relationtype_value = (from objOItem in objDBLevel_Config1.OList_Obj
   
 	private void get_Config_Objects()
         {
+            var objOList_object_user = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                        where objOItem.ID_Object == cstrID_Ontology
+                                        join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                        where objRef.Name_Object.ToLower() == "object_user".ToLower() && objRef.Ontology == Globals.Type_Object
+                                        select objRef).ToList();
+
+            if (objOList_object_user.Any())
+            {
+                OItem_object_user = new clsOntologyItem()
+                {
+                    GUID = objOList_object_user.First().ID_Other,
+                    Name = objOList_object_user.First().Name_Other,
+                    GUID_Parent = objOList_object_user.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
 
             var objOList_object_temporary_regular_expression = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                                 where objOItem.ID_Object == cstrID_Ontology

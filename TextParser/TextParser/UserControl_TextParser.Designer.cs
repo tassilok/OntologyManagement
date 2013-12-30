@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label_SubParser = new System.Windows.Forms.Label();
             this.textBox_SubParser = new System.Windows.Forms.TextBox();
             this.button_SubParser = new System.Windows.Forms.Button();
@@ -49,6 +50,10 @@
             this.textBox_User = new System.Windows.Forms.TextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripProgressBar_DataLoad = new System.Windows.Forms.ToolStripProgressBar();
+            this.timer_FileResources = new System.Windows.Forms.Timer(this.components);
+            this.timer_Index = new System.Windows.Forms.Timer(this.components);
+            this.progressBar_FileResources = new System.Windows.Forms.ProgressBar();
+            this.progressBar_Index = new System.Windows.Forms.ProgressBar();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,11 +116,12 @@
             this.textBox_FileResource.ReadOnly = true;
             this.textBox_FileResource.Size = new System.Drawing.Size(569, 20);
             this.textBox_FileResource.TabIndex = 4;
+            this.textBox_FileResource.TextChanged += new System.EventHandler(this.textBox_FileResource_TextChanged);
             // 
             // label_Index
             // 
             this.label_Index.AutoSize = true;
-            this.label_Index.Location = new System.Drawing.Point(6, 146);
+            this.label_Index.Location = new System.Drawing.Point(6, 171);
             this.label_Index.Name = "label_Index";
             this.label_Index.Size = new System.Drawing.Size(47, 13);
             this.label_Index.TabIndex = 6;
@@ -125,7 +131,7 @@
             // 
             this.button_Index.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button_Index.Enabled = false;
-            this.button_Index.Location = new System.Drawing.Point(680, 144);
+            this.button_Index.Location = new System.Drawing.Point(680, 169);
             this.button_Index.Name = "button_Index";
             this.button_Index.Size = new System.Drawing.Size(28, 23);
             this.button_Index.TabIndex = 8;
@@ -136,11 +142,12 @@
             // 
             this.textBox_Index.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_Index.Location = new System.Drawing.Point(105, 146);
+            this.textBox_Index.Location = new System.Drawing.Point(105, 171);
             this.textBox_Index.Name = "textBox_Index";
             this.textBox_Index.ReadOnly = true;
             this.textBox_Index.Size = new System.Drawing.Size(569, 20);
             this.textBox_Index.TabIndex = 7;
+            this.textBox_Index.TextChanged += new System.EventHandler(this.textBox_Index_TextChanged);
             // 
             // textBox_FileResourceDetail
             // 
@@ -165,7 +172,7 @@
             // label_IndexDetails
             // 
             this.label_IndexDetails.AutoSize = true;
-            this.label_IndexDetails.Location = new System.Drawing.Point(102, 175);
+            this.label_IndexDetails.Location = new System.Drawing.Point(102, 200);
             this.label_IndexDetails.Name = "label_IndexDetails";
             this.label_IndexDetails.Size = new System.Drawing.Size(48, 13);
             this.label_IndexDetails.TabIndex = 14;
@@ -175,7 +182,7 @@
             // 
             this.textBox_IndexDetails.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_IndexDetails.Location = new System.Drawing.Point(168, 172);
+            this.textBox_IndexDetails.Location = new System.Drawing.Point(168, 197);
             this.textBox_IndexDetails.Multiline = true;
             this.textBox_IndexDetails.Name = "textBox_IndexDetails";
             this.textBox_IndexDetails.ReadOnly = true;
@@ -185,7 +192,7 @@
             // label_LineSeperator
             // 
             this.label_LineSeperator.AutoSize = true;
-            this.label_LineSeperator.Location = new System.Drawing.Point(9, 264);
+            this.label_LineSeperator.Location = new System.Drawing.Point(9, 314);
             this.label_LineSeperator.Name = "label_LineSeperator";
             this.label_LineSeperator.Size = new System.Drawing.Size(90, 13);
             this.label_LineSeperator.TabIndex = 15;
@@ -195,7 +202,7 @@
             // 
             this.button_LineSeperator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button_LineSeperator.Enabled = false;
-            this.button_LineSeperator.Location = new System.Drawing.Point(680, 259);
+            this.button_LineSeperator.Location = new System.Drawing.Point(680, 309);
             this.button_LineSeperator.Name = "button_LineSeperator";
             this.button_LineSeperator.Size = new System.Drawing.Size(28, 23);
             this.button_LineSeperator.TabIndex = 17;
@@ -206,7 +213,7 @@
             // 
             this.textBox_LineSeperator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_LineSeperator.Location = new System.Drawing.Point(105, 261);
+            this.textBox_LineSeperator.Location = new System.Drawing.Point(105, 311);
             this.textBox_LineSeperator.Name = "textBox_LineSeperator";
             this.textBox_LineSeperator.ReadOnly = true;
             this.textBox_LineSeperator.Size = new System.Drawing.Size(569, 20);
@@ -215,7 +222,7 @@
             // label_User
             // 
             this.label_User.AutoSize = true;
-            this.label_User.Location = new System.Drawing.Point(12, 290);
+            this.label_User.Location = new System.Drawing.Point(12, 340);
             this.label_User.Name = "label_User";
             this.label_User.Size = new System.Drawing.Size(43, 13);
             this.label_User.TabIndex = 18;
@@ -225,7 +232,7 @@
             // 
             this.button_User.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button_User.Enabled = false;
-            this.button_User.Location = new System.Drawing.Point(680, 288);
+            this.button_User.Location = new System.Drawing.Point(680, 338);
             this.button_User.Name = "button_User";
             this.button_User.Size = new System.Drawing.Size(28, 23);
             this.button_User.TabIndex = 20;
@@ -236,7 +243,7 @@
             // 
             this.textBox_User.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_User.Location = new System.Drawing.Point(105, 290);
+            this.textBox_User.Location = new System.Drawing.Point(105, 340);
             this.textBox_User.Name = "textBox_User";
             this.textBox_User.ReadOnly = true;
             this.textBox_User.Size = new System.Drawing.Size(569, 20);
@@ -258,10 +265,35 @@
             this.toolStripProgressBar_DataLoad.Name = "toolStripProgressBar_DataLoad";
             this.toolStripProgressBar_DataLoad.Size = new System.Drawing.Size(100, 22);
             // 
+            // timer_FileResources
+            // 
+            this.timer_FileResources.Interval = 300;
+            // 
+            // timer_Index
+            // 
+            this.timer_Index.Interval = 300;
+            this.timer_Index.Tick += new System.EventHandler(this.timer_Index_Tick);
+            // 
+            // progressBar_FileResources
+            // 
+            this.progressBar_FileResources.Location = new System.Drawing.Point(168, 142);
+            this.progressBar_FileResources.Name = "progressBar_FileResources";
+            this.progressBar_FileResources.Size = new System.Drawing.Size(100, 23);
+            this.progressBar_FileResources.TabIndex = 22;
+            // 
+            // progressBar_Index
+            // 
+            this.progressBar_Index.Location = new System.Drawing.Point(168, 282);
+            this.progressBar_Index.Name = "progressBar_Index";
+            this.progressBar_Index.Size = new System.Drawing.Size(100, 23);
+            this.progressBar_Index.TabIndex = 23;
+            // 
             // UserControl_TextParser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.progressBar_Index);
+            this.Controls.Add(this.progressBar_FileResources);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.button_User);
             this.Controls.Add(this.textBox_User);
@@ -314,5 +346,9 @@
         private System.Windows.Forms.TextBox textBox_User;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar_DataLoad;
+        private System.Windows.Forms.Timer timer_FileResources;
+        private System.Windows.Forms.Timer timer_Index;
+        private System.Windows.Forms.ProgressBar progressBar_FileResources;
+        private System.Windows.Forms.ProgressBar progressBar_Index;
     }
 }
