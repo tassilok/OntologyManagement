@@ -130,6 +130,17 @@ Public Class frmAdvancedFilter
         Initialize()
     End Sub
 
+    Public Sub New(Globals As clsGlobals, OItem_Class As clsOntologyItem)
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+        objOItem_Class = OItem_Class
+        objLocalConfig = New clsLocalConfig(Globals)
+        Initialize()
+    End Sub
+
     Private sub Initialize()
         objUserControl_ObjectRelTree = new UserControl_ObjectRelTree(objLocalConfig,Nothing)
         objUserControl_ObjectRelTree.Dock = DockStyle.Fill
