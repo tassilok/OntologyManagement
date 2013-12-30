@@ -213,6 +213,9 @@
         End Set
     End Property
 
+    Public Sub New()
+
+    End Sub
     Public Sub New(ByVal ID_Report As String, ByVal ID_Field As String, ByVal Name_Field As String, _
                    ByVal Visible As Boolean, ByVal ID_Col As String, ByVal Name_Col As String, _
                    ByVal ID_DBView As String, ByVal Name_DBView As String, ByVal ID_DBOnServer As String, _

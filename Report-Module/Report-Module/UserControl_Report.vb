@@ -5,6 +5,7 @@ Imports ClassLibrary_ShellWork
 Imports Filesystem_Module
 Imports Security_Module
 Imports Log_Module
+Imports Office_Module
 
 Public Class UserControl_Report
     Private frmObjectEdit As frm_ObjectEdit
@@ -21,10 +22,12 @@ Public Class UserControl_Report
     Private objLocalConfig As clsLocalConfig
     Private objLocalConfig_MediaView As Media_Viewer_Module.clsLocalConfig
     Private objLocalConfig_LogEntries As Log_Module.clsLocalConfig
+    Private objLocalConfig_OfficeModule As Office_Module.clsLocalConfig
 
     Private objOntologyWork As clsOntologyWork
     Private objReport As Ontology_Module.clsReport
     Private objMediaItem As clsMediaItems
+    Private objDocumentation As clsDocumentation
     Private objShell As clsShellWork
     Private objFileWork As clsFileWork
     Private objBlobConnection As clsBlobConnection
@@ -34,6 +37,7 @@ Public Class UserControl_Report
     Private objFrmObjectEdit As frm_ObjectEdit
     Private objFrmLogEntry As frmLogModule
     Private objFrmMediaViewerModule As frmMediaViewerModule
+    Private objFrmDocumentEdit As Office_Module.frmDocumentEdit
 
     Private objDataTable As DataTable
     Private objDataAdp As SqlClient.SqlDataAdapter
@@ -311,10 +315,12 @@ Public Class UserControl_Report
         objReport = New clsReport(objLocalConfig.Globals)
         objDataWork_Report = New clsDataWork_Report(objLocalConfig)
         objMediaItem = New clsMediaItems(objLocalConfig.Globals)
+        objDocumentation = New clsDocumentation(objLocalConfig.Globals)
         objShell = New clsShellWork()
         objFileWork = New clsFileWork(objLocalConfig.Globals)
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
         objLocalConfig_MediaView = New Media_Viewer_Module.clsLocalConfig(objLocalConfig.Globals)
+        objLocalConfig_OfficeModule = New Office_Module.clsLocalConfig(objLocalConfig.Globals)
         objSecurityWork = New clsSecurityWork(objLocalConfig.Globals, Me)
         objTransaction = New clsTransaction(objLocalConfig.Globals)
         objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
@@ -670,6 +676,9 @@ Public Class UserControl_Report
 
         ToolStripButton_DecodePassword.Enabled = False
 
+        ToolStripButtond_OpenWord_Existing.Enabled = False
+        ToolStripButton_OpenWordMenu.Enabled = True
+
         ToolStripButton_OpenImage.ToolTipText = ""
         ToolStripButton_OpenMedia.ToolTipText = ""
         ToolStripButton_OpenPDF.ToolTipText = ""
@@ -733,6 +742,11 @@ Public Class UserControl_Report
                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID And objOItem_Result.Count > 0 Then
                                     ToolStripButton_OpenPDF.Enabled = True
                                     ToolStripButton_OpenPDF.ToolTipText = objOItem_Result.Count.ToString & " PDFs"
+                                End If
+
+                                objOItem_Result = objDocumentation.has_Document(objOItem_Object)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    ToolStripButtond_OpenWord_Existing.Enabled = True
                                 End If
                             Else
                                 MsgBox("Das zugehörige Objekt konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
@@ -1271,5 +1285,32 @@ Public Class UserControl_Report
 
     Private Sub ToolStripButton_Sync_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Sync.Click
         initialize(objOItem_Report)
+    End Sub
+
+    Private Sub ToolStripButtond_OpenWord_Existing_Click(sender As Object, e As EventArgs) Handles ToolStripButtond_OpenWord_Existing.Click
+        If Not objOItem_Object Is Nothing Then
+            If objLocalConfig_LogEntries Is Nothing Then
+                objLocalConfig_LogEntries = New Log_Module.clsLocalConfig(objLocalConfig.Globals)
+            End If
+
+            Dim objOItem_Result = objDocumentation.open_Document(objOItem_Object)
+
+            If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                Refresh_CellActions()
+            Else
+                MsgBox("Das Dokument konnte nicht geöffnet werden!", MsgBoxStyle.Exclamation)
+            End If
+
+
+
+
+        End If
+    End Sub
+
+    Private Sub ToolStripButton_OpenWordMenu_Click(sender As Object, e As EventArgs) Handles ToolStripButton_OpenWordMenu.Click
+        If Not objOItem_Object Is Nothing Then
+            objFrmDocumentEdit = New frmDocumentEdit(objLocalConfig.Globals, objOItem_Object)
+            objFrmDocumentEdit.ShowDialog(Me)
+        End If
     End Sub
 End Class
