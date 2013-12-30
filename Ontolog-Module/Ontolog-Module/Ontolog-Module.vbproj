@@ -286,6 +286,12 @@
     <Compile Include="Forms\Ontologies\UserControl_OntologyTree.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Forms\frmRefTree.Designer.vb">
+      <DependentUpon>frmRefTree.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmRefTree.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\RefTree\UserControl_RefTree.Designer.vb">
       <DependentUpon>UserControl_RefTree.vb</DependentUpon>
     </Compile>
@@ -470,6 +476,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Ontologies\UserControl_OntologyTree.resx">
       <DependentUpon>UserControl_OntologyTree.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmRefTree.resx">
+      <DependentUpon>frmRefTree.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\RefTree\UserControl_RefTree.resx">
       <DependentUpon>UserControl_RefTree.vb</DependentUpon>

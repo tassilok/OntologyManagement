@@ -15,6 +15,8 @@ Public Class UserControl_ObjectTree
 
     Private objFrm_Name As frm_Name
 
+    Private objFrm_ObjectEdit As frm_ObjectEdit
+
     Private objOItem_Parent As clsOntologyItem
     Private objOItem_RelationType As clsOntologyItem
     Private oItems_No_Parent As Object
@@ -411,6 +413,20 @@ Public Class UserControl_ObjectTree
             End If
 
 
+        End If
+    End Sub
+
+    Private Sub TreeView_Objects_DoubleClick(sender As Object, e As EventArgs) Handles TreeView_Objects.DoubleClick
+        Dim objTreeNode = TreeView_Objects.SelectedNode
+
+        If Not objTreeNode Is Nothing Then
+            Dim objOList_Objects = New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID = objTreeNode.Name,
+                                                                                                 .Name = objTreeNode.Text,
+                                                                                                 .GUID_Parent = objOItem_Parent.GUID,
+                                                                                                 .Type = objLocalConfig.Globals.Type_Object}}
+
+            objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList_Objects, 0, objLocalConfig.Globals.Type_Object, Nothing)
+            objFrm_ObjectEdit.ShowDialog(Me)
         End If
     End Sub
 End Class

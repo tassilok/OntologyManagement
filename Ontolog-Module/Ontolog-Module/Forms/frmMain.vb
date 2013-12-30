@@ -133,7 +133,15 @@ Public Class frmMain
 
     Private Sub applied_Objects_Tree() Handles objUserControl_ObjectTree.applied_Objects
         Dim objOList_Objects = objUserControl_ObjectTree.List_Objects
-        objUserControl_ObjRel.applied_Object(objOList_Objects)
+        If boolApplyable = True Then
+            oList_Applied_Simple = objOList_Objects
+            strType_Applied = objLocalConfig.Globals.Type_Object
+            Me.DialogResult = Windows.Forms.DialogResult.OK
+            Me.Close()
+        Else
+            objUserControl_ObjRel.applied_Object(objOList_Objects)
+        End If
+
     End Sub
 
     Private Sub applied_ListObjects() Handles objUserControl_OObjectList.applied_Items

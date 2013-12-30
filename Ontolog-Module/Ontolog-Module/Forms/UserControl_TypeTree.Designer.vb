@@ -34,12 +34,12 @@ Partial Class UserControl_TypeTree
         Me.TreeView_Types = New System.Windows.Forms.TreeView()
         Me.ContextMenuStrip_Classes = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ApplyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImageList_Classtree = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_Mark = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_MarkTypes = New System.Windows.Forms.ToolStripTextBox()
         Me.Timer_Mark = New System.Windows.Forms.Timer(Me.components)
-        Me.ApplyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -83,7 +83,7 @@ Partial Class UserControl_TypeTree
         'ToolStripLabel_CountLBL
         '
         Me.ToolStripLabel_CountLBL.Name = "ToolStripLabel_CountLBL"
-        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(52, 22)
+        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(53, 22)
         Me.ToolStripLabel_CountLBL.Text = "x_Count:"
         '
         'ToolStripLabel_Count
@@ -100,7 +100,7 @@ Partial Class UserControl_TypeTree
         'ToolStripLabel_ID
         '
         Me.ToolStripLabel_ID.Name = "ToolStripLabel_ID"
-        Me.ToolStripLabel_ID.Size = New System.Drawing.Size(34, 22)
+        Me.ToolStripLabel_ID.Size = New System.Drawing.Size(31, 22)
         Me.ToolStripLabel_ID.Text = "x_ID:"
         '
         'ToolStripTextBox_ID
@@ -126,13 +126,19 @@ Partial Class UserControl_TypeTree
         '
         Me.ContextMenuStrip_Classes.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ApplyToolStripMenuItem})
         Me.ContextMenuStrip_Classes.Name = "ContextMenuStrip_Classes"
-        Me.ContextMenuStrip_Classes.Size = New System.Drawing.Size(153, 70)
+        Me.ContextMenuStrip_Classes.Size = New System.Drawing.Size(116, 48)
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(115, 22)
         Me.NewToolStripMenuItem.Text = "x_New"
+        '
+        'ApplyToolStripMenuItem
+        '
+        Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
+        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(115, 22)
+        Me.ApplyToolStripMenuItem.Text = "x_Apply"
         '
         'ImageList_Classtree
         '
@@ -150,13 +156,13 @@ Partial Class UserControl_TypeTree
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_Mark, Me.ToolStripTextBox_MarkTypes})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(358, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(361, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_Mark
         '
         Me.ToolStripLabel_Mark.Name = "ToolStripLabel_Mark"
-        Me.ToolStripLabel_Mark.Size = New System.Drawing.Size(46, 22)
+        Me.ToolStripLabel_Mark.Size = New System.Drawing.Size(47, 22)
         Me.ToolStripLabel_Mark.Text = "x_Mark:"
         '
         'ToolStripTextBox_MarkTypes
@@ -167,12 +173,6 @@ Partial Class UserControl_TypeTree
         'Timer_Mark
         '
         Me.Timer_Mark.Interval = 300
-        '
-        'ApplyToolStripMenuItem
-        '
-        Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
-        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.ApplyToolStripMenuItem.Text = "x_Apply"
         '
         'UserControl_TypeTree
         '

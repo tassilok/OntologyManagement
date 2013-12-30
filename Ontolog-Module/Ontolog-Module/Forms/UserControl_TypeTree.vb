@@ -250,40 +250,7 @@ Public Class UserControl_TypeTree
         End Select
     End Sub
 
-    Private Sub TreeView_Types_NodeMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles TreeView_Types.NodeMouseDoubleClick
-        Dim objOItem_Class As New clsOntologyItem
-        Dim objTreeNode As TreeNode
-
-        If Not e.Node.Name = objLocalConfig.Globals.Root.GUID Then
-            objTreeNode = e.Node
-            objOItem_Class.GUID = e.Node.Name
-            objOItem_Class.Name = e.Node.Text
-            objOItem_Class.GUID_Parent = e.Node.Parent.Name
-            objOItem_Class.Type = objLocalConfig.Globals.Type_Class
-
-            objFrm_Class = New frmClassEdit(objLocalConfig, objOItem_Class)
-            objFrm_Class.ShowDialog(Me)
-
-            If objFrm_Class.DialogResult = DialogResult.OK Then
-
-                If objFrm_Class.OItem_Class.deleted = True Then
-                    objTreeNode.Remove()
-                Else
-                    If e.Node.Parent.Name = objFrm_Class.OItem_Class.GUID_Parent Then
-                        If Not objFrm_Class.OItem_Class.Name = objTreeNode.Text Then
-                            objTreeNode.Text = objFrm_Class.OItem_Class.Name
-                        End If
-                    Else
-                        'New Parent
-                    End If
-
-                End If
-            End If
-            
-
-        End If
-
-    End Sub
+   
 
     Private Sub ContextMenuStrip_Classes_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Classes.Opening
         Dim objTreeNode As TreeNode
@@ -360,5 +327,42 @@ Public Class UserControl_TypeTree
 
     Protected Overrides Sub Finalize()
         MyBase.Finalize()
+    End Sub
+
+    Private Sub TreeView_Types_DoubleClick(sender As Object, e As EventArgs) Handles TreeView_Types.DoubleClick
+        Dim objOItem_Class As New clsOntologyItem
+        Dim objTreeNode As TreeNode
+        objTreeNode = TreeView_Types.SelectedNode
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = cint_ImageID_Class_Closed Then
+                objOItem_Class.GUID = objTreeNode.Name
+                objOItem_Class.Name = objTreeNode.Text
+                objOItem_Class.GUID_Parent = objTreeNode.Parent.Name
+                objOItem_Class.Type = objLocalConfig.Globals.Type_Class
+
+                objFrm_Class = New frmClassEdit(objLocalConfig, objOItem_Class)
+                objFrm_Class.ShowDialog(Me)
+
+                If objFrm_Class.DialogResult = DialogResult.OK Then
+
+                    If objFrm_Class.OItem_Class.Deleted = True Then
+                        objTreeNode.Remove()
+                    Else
+                        If objTreeNode.Parent.Name = objFrm_Class.OItem_Class.GUID_Parent Then
+                            If Not objFrm_Class.OItem_Class.Name = objTreeNode.Text Then
+                                objTreeNode.Text = objFrm_Class.OItem_Class.Name
+                            End If
+                        Else
+                            'New Parent
+                        End If
+
+                    End If
+                End If
+            End If
+
+            
+
+
+        End If
     End Sub
 End Class

@@ -121,30 +121,30 @@ Partial Class UserControl_ObjectTree
         '
         Me.ContextMenuStrip_Tree.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.FilterToolStripMenuItem, Me.ApplyToolStripMenuItem})
         Me.ContextMenuStrip_Tree.Name = "ContextMenuStrip_Tree"
-        Me.ContextMenuStrip_Tree.Size = New System.Drawing.Size(153, 114)
+        Me.ContextMenuStrip_Tree.Size = New System.Drawing.Size(118, 92)
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.NewToolStripMenuItem.Text = "x_New"
         '
         'DeleteToolStripMenuItem
         '
         Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.DeleteToolStripMenuItem.Text = "x_Delete"
         '
         'FilterToolStripMenuItem
         '
         Me.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem"
-        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.FilterToolStripMenuItem.Text = "x_Filter"
         '
         'ApplyToolStripMenuItem
         '
         Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
-        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.ApplyToolStripMenuItem.Text = "x_Apply"
         Me.ApplyToolStripMenuItem.Visible = False
         '
@@ -166,13 +166,13 @@ Partial Class UserControl_ObjectTree
         'ToolStripTextBox_RelationType
         '
         Me.ToolStripTextBox_RelationType.Name = "ToolStripTextBox_RelationType"
-        Me.ToolStripTextBox_RelationType.ReadOnly = true
+        Me.ToolStripTextBox_RelationType.ReadOnly = True
         Me.ToolStripTextBox_RelationType.Size = New System.Drawing.Size(200, 25)
         '
         'ToolStripButton_Change
         '
         Me.ToolStripButton_Change.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Change.Image = CType(resources.GetObject("ToolStripButton_Change.Image"),System.Drawing.Image)
+        Me.ToolStripButton_Change.Image = CType(resources.GetObject("ToolStripButton_Change.Image"), System.Drawing.Image)
         Me.ToolStripButton_Change.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Change.Name = "ToolStripButton_Change"
         Me.ToolStripButton_Change.Size = New System.Drawing.Size(23, 22)
@@ -180,7 +180,7 @@ Partial Class UserControl_ObjectTree
         '
         'ToolStripButton_SortedByOrder
         '
-        Me.ToolStripButton_SortedByOrder.CheckOnClick = true
+        Me.ToolStripButton_SortedByOrder.CheckOnClick = True
         Me.ToolStripButton_SortedByOrder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.ToolStripButton_SortedByOrder.Image = Global.Ontology_Module.My.Resources.Resources.bb_sort2
         Me.ToolStripButton_SortedByOrder.ImageTransparentColor = System.Drawing.Color.Magenta
