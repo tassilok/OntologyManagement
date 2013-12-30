@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Class">
+  <Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
+<Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
+<Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
+<Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="a2d7d0fe04954afe85e11dcb88a27546" Id_Parent="2a12701381ca42a4bcf3c3f28d62bf1c"><![CDATA[Partner]]></Item>
+<Item Id="1ce9f6b879904138babb8671d1410ef0" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Schriftverkehr]]></Item>
+<Item Id="2186fa5228d64615949a45afa70a6716" Id_Parent="9fdccc47fe8a468b80fc1b0b189bd030"><![CDATA[Telefonnummer]]></Item>
+<Item Id="a9aceffd564e4e5fb0a7a86322b08d5a" Id_Parent="1ce9f6b879904138babb8671d1410ef0"><![CDATA[Schriftverkehrsart]]></Item>
+<Item Id="094d728d6efc463c85c72dcfed903c78" Id_Parent="4b335d37208742f6a680a1b03e35d73c"><![CDATA[Url]]></Item>
+<Item Id="351d45912495450182aba425f5235db9" Id_Parent="53136d10b7e747fc94ad7887a354d6e1"><![CDATA[Logentry]]></Item>
+<Item Id="032e0f8868f441dbbc74d867f1cc27d4" Id_Parent="4b335d37208742f6a680a1b03e35d73c"><![CDATA[eMail-Address]]></Item>
+<Item Id="bee3fac561d5463092dda4e1ed0bc670" Id_Parent="2a12701381ca42a4bcf3c3f28d62bf1c"><![CDATA[Address]]></Item>
+<Item Id="2a12701381ca42a4bcf3c3f28d62bf1c" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Adress-Management]]></Item>
+<Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
+<Item Id="53136d10b7e747fc94ad7887a354d6e1" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Log-Management]]></Item>
+<Item Id="4b335d37208742f6a680a1b03e35d73c" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Web-Management]]></Item>
+<Item Id="9fdccc47fe8a468b80fc1b0b189bd030" Id_Parent="a2d7d0fe04954afe85e11dcb88a27546"><![CDATA[Kommunikationsangaben]]></Item>
+<Item Id="83317bacb4b14db8bf849fca0a93ddd5" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Information-Management]]></Item>
+<Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
+
+</Items>
