@@ -1028,7 +1028,7 @@ Public Class clsDBLevel
         'Return objOItem_Result
     End Function
 
-    Public Function GetOItem(GUID_Item As String, Type_Item As String)
+    Public Function GetOItem(GUID_Item As String, Type_Item As String) As clsOntologyItem
         Dim objOItem_OItem = New clsOntologyItem With {.GUID = GUID_Item, _
                                                        .Type = Type_Item}
 
