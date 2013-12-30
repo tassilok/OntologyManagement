@@ -153,10 +153,12 @@ Public Class UserControl_RefTree
 
         Dim objOList_SubClasses As List(Of clsOntologyItem)
         
-        objOList_SubClasses = objDataWork_RefTree.OList_Classes.Where(Function(p) p.GUID_Parent = objTreeNode_Parent.Name).GroupBy(Function(p) New With {p.GUID, p.Name, p.GUID_Parent, p.Type}).Select(Function(p) New clsOntologyItem With {.GUID = p.Key.GUID, _
-                                                                                                                                                                                                                                               .Name = p.Key.Name, _
-                                                                                                                                                                                                                                               .GUID_Parent = p.Key.GUID_Parent, _
-                                                                                                                                                                                                                                               .Type = p.Key.Type}).ToList()
+        objOList_SubClasses = (From objNode In objDataWork_RefTree.OList_Classes.Where(Function(p) p.GUID_Parent = objTreeNode_Parent.Name)
+                              Group By objNode.GUID, objNode.Name, objNode.GUID_Parent, objNode.Type Into Group
+                              Select New clsOntologyItem With {.GUID = GUID, _
+                                                               .Name = Name, _
+                                                               .GUID_Parent = GUID_Parent, _
+                                                               .Type = Type}).ToList()
         
         For Each objClass In objOList_SubClasses
             intCount = intCount + 1
@@ -178,7 +180,14 @@ Public Class UserControl_RefTree
     End Sub
 
     Public Sub fillObjectTree()
-        For Each objObject In objDataWork_RefTree.OList_Objects
+        Dim objOList_Objects = (From objObject In objDataWork_RefTree.OList_Objects
+                                Group By objObject.GUID, objObject.Name, objObject.GUID_Parent Into Group
+                                Select New clsOntologyItem With {.GUID = GUID, _
+                                                                 .Name = Name, _
+                                                                 .GUID_Parent = GUID_Parent, _
+                                                                 .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+        For Each objObject In objOList_Objects
             Dim objTreeNodes = TreeView_Ref.Nodes.Find(objObject.GUID_Parent, True)
             If objTreeNodes.Any Then
                 intCount = intCount + 1
