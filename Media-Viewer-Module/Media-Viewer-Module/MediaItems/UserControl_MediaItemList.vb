@@ -2,15 +2,23 @@
 Imports Filesystem_Module
 Imports OntologyClasses.BaseClasses
 
+<Flags()> _
+Public Enum ExportOptions
+    name = 0
+    guid = 1
+    orderid = 2
+End Enum
 Public Class UserControl_MediaItemList
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_MediaItem As clsDataWork_MediaItem
     Private objTransaction_MediaItems As clsTransaction
+    Public objRelationConfig As clsRelationConfig
     Private dtblT_MediaItems As New DataSet_MediaItems.dtbl_MediaItemsDataTable
     Private objBlobConnection As clsBlobConnection
     Private objFileWork As clsFileWork
 
     Private objDLG_Attribute_Double As dlg_Attribute_Double
+    Private objDlg_Attribute_Long As dlg_Attribute_Long
     Private objFrm_ObjectEdit As frm_ObjectEdit
 
     Private objOItem_Ref As clsOntologyItem
@@ -52,6 +60,57 @@ Public Class UserControl_MediaItemList
             End If
         End Get
     End Property
+
+    Public Function save_Items(objTreeNode As TreeNode, strPath As String, exportOption As ExportOptions) As clsOntologyItem
+        Dim objDataWork_MediaItem = New clsDataWork_MediaItem(objLocalConfig)
+
+        Dim objList_MediaItems = objDataWork_MediaItem.get_MediaItemsSimple(objTreeNode)
+
+        Dim objOItem_Result As clsOntologyItem
+
+        Dim strFileName As String
+
+        If Not objList_MediaItems Is Nothing Then
+            For Each objMediaItem In objList_MediaItems
+                Dim strExtension = IO.Path.GetExtension(objMediaItem.Name_File)
+                Dim strFileNameWithOutExtension = objMediaItem.Name_File.Substring(0, objMediaItem.Name_File.Length - strExtension.Length)
+
+                If exportOption = ExportOptions.guid Then
+
+                    strFileName = objMediaItem.ID_File & strExtension
+
+                ElseIf exportOption = exportOption.name Then
+
+
+                    strFileName = strFileNameWithOutExtension & strExtension
+
+
+                ElseIf exportOption = ExportOptions.orderid Then
+
+                    strFileName = objMediaItem.OrderID.ToString("00000") & strExtension
+
+                End If
+                Dim strPathFile = strPath & IO.Path.DirectorySeparatorChar & strFileName
+                If Not IO.File.Exists(strPathFile) Then
+                    Dim objOItem_File = New clsOntologyItem With {.GUID = objMediaItem.ID_File, _
+                                                                  .Name = objMediaItem.Name_File, _
+                                                                  .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
+                                                                  .Type = objLocalConfig.Globals.Type_Object}
+
+                    objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_File, strPathFile, False)
+
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        Exit For
+                    End If
+                End If
+            Next
+            
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Error
+        End If
+
+        Return objOItem_Result
+    End Function
 
     Public Sub save_Items(boolAll As Boolean)
 
@@ -280,6 +339,7 @@ Public Class UserControl_MediaItemList
         objDataWork_MediaItem = New clsDataWork_MediaItem(objLocalConfig)
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
         objTransaction_MediaItems = New clsTransaction(objLocalConfig.Globals)
+        objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
         objFileWork = New clsFileWork(objLocalConfig.Globals)
         configure_Controls()
     End Sub
@@ -602,10 +662,12 @@ Public Class UserControl_MediaItemList
     Private Sub ContextMenuStrip_Items_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Items.Opening
         RelateToolStripMenuItem.Enabled = False
         SaveToolStripMenuItem.Enabled = False
+        ChangeOrderIDToolStripMenuItem.Enabled = False
 
         If DataGridView_MediaItems.SelectedRows.Count > 0 Then
             RelateToolStripMenuItem.Enabled = True
             SaveToolStripMenuItem.Enabled = True
+            ChangeOrderIDToolStripMenuItem.Enabled = True
         End If
     End Sub
 
@@ -750,5 +812,46 @@ Public Class UserControl_MediaItemList
         Dim objOList_Objects = New List(Of clsOntologyItem) From {objOItem_MediaItem}
         objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList_Objects, 0, objLocalConfig.Globals.Type_Object, Nothing)
         objFrm_ObjectEdit.ShowDialog(Me)
+    End Sub
+
+    Private Sub IncreasingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles IncreasingToolStripMenuItem.Click
+        ChangeOrderID(True)
+    End Sub
+
+    Private Sub ChangeOrderID(boolIncrease As Boolean)
+        If MsgBox("Wollen Sie wirklich die Order-ID ändern?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            objDlg_Attribute_Long = New dlg_Attribute_Long("Order-ID (start)", objLocalConfig.Globals)
+            objDlg_Attribute_Long.ShowDialog(Me)
+            If objDlg_Attribute_Long.DialogResult = DialogResult.OK Then
+                Dim lngOrderIDStart = objDlg_Attribute_Long.Value
+                For Each objDGVR As DataGridViewRow In DataGridView_MediaItems.SelectedRows.OfType(Of DataGridViewRow).OrderBy(Function(p) p.Index).ToList()
+                    Dim objDRV As DataRowView = objDGVR.DataBoundItem
+
+                    objTransaction_MediaItems.ClearItems()
+                    Dim objOItem_MediaItem = New clsOntologyItem With {.GUID = objDRV.Item("ID_MediaItem"), _
+                                                                        .Name = objDRV.Item("Name_MediaItem"), _
+                                                                        .GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID, _
+                                                                        .Type = objLocalConfig.Globals.Type_Object}
+
+                    Dim objRelA_OrderID = objRelationConfig.Rel_ObjectRelation(objOItem_MediaItem, objOItem_Ref, objLocalConfig.OItem_RelationType_belongsTo, False, lngOrderIDStart)
+
+                    Dim objOItem_Result = objTransaction_MediaItems.do_Transaction(objRelA_OrderID)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        MsgBox("Die OrderID konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                        Exit For
+                    End If
+                    lngOrderIDStart = lngOrderIDStart + If(boolIncrease, 1, -1)
+                Next
+
+                initialize_MediaItems(objOItem_Ref)
+            End If
+
+
+        End If
+
+    End Sub
+
+    Private Sub DecreasingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DecreasingToolStripMenuItem.Click
+        ChangeOrderID(False)
     End Sub
 End Class

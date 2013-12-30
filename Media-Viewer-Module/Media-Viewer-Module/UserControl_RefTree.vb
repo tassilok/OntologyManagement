@@ -21,12 +21,15 @@ Public Class UserControl_RefTree
 
     Private objFrmMain As frmMain
     Private objFrmObjectEdit As frm_ObjectEdit
+    Private objFrmRefTree As frmRefTree
 
     Private treeOrga As TreeOrga
 
+    Private objDBLevel_Parent As clsDBLevel
+
     Public Event selected_Item(ByVal objOItem_Ref As clsOntologyItem)
     Public Event selected_Date()
-    Public Event save_Items()
+    Public Event save_Items(objTreeNode As TreeNode, strPath As String)
     Public Event save_ChronoItems()
     Public Event relate_Item(OItem_Related As clsOntologyItem)
 
@@ -116,7 +119,7 @@ Public Class UserControl_RefTree
 
     Private Sub set_DBConnection()
         objDataWork_RefTree = New clsDataWork_RefTree(objLocalConfig)
-
+        objDBLevel_Parent = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 
     Private Sub TreeView_Ref_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_Ref.AfterSelect
@@ -202,6 +205,7 @@ Public Class UserControl_RefTree
                     objTreeNode.ImageIndex = objLocalConfig.ImageID_Close_Images Or _
                     objTreeNode.ImageIndex = objLocalConfig.ImageID_Open_Images_SubItems Then
 
+                    SaveToolStripMenuItem.Enabled = True
                     AddToolStripMenuItem.Enabled = True
                     RelateToolStripMenuItem.Enabled = True
                 ElseIf objTreeNode.ImageIndex = objLocalConfig.ImageID_Close Or _
@@ -378,7 +382,9 @@ Public Class UserControl_RefTree
                     objTreeNode.ImageIndex = objLocalConfig.ImageID_Token Or _
                     objTreeNode.ImageIndex = objLocalConfig.ImageID_Token_Named Then
 
-                    RaiseEvent save_Items()
+
+                    SaveItems(objTreeNode, ToolStripMenuItem_WithSubItems.Checked)
+
                 End If
             End If
         Else
@@ -388,7 +394,65 @@ Public Class UserControl_RefTree
                 End If
             End If
         End If
-        
+
+    End Sub
+
+    Private Sub SaveItems(objTreeNode As TreeNode, boolSubItems As Boolean)
+        If FolderBrowserDialog_Save.ShowDialog(Me) = DialogResult.OK Then
+            Dim strPath = FolderBrowserDialog_Save.SelectedPath
+            Dim boolSave As Boolean
+            strPath = strPath & IO.Path.DirectorySeparatorChar & objTreeNode.Text
+
+            For Each invalidChar In IO.Path.GetInvalidPathChars
+                strPath = strPath.Replace(invalidChar, "_")
+            Next
+            boolSave = True
+            If Not IO.Directory.Exists(strPath) Then
+                Try
+                    IO.Directory.CreateDirectory(strPath)
+
+                    
+                Catch ex As Exception
+                    boolSave = False
+                End Try
+            End If
+
+            RaiseEvent save_Items(objTreeNode, strPath)
+            If boolSubItems = True Then
+
+                For Each objTreeNode_Sub In objTreeNode.Nodes
+                    SaveItemsSub(objTreeNode_Sub, strPath)
+                Next
+            End If
+        End If
+    End Sub
+
+    Private Sub SaveItemsSub(objTreeNode As TreeNode, strPath As String)
+        Dim strPathSub As String
+        strPathSub = strPath & IO.Path.DirectorySeparatorChar & objTreeNode.Text
+
+        For Each invalidChar In IO.Path.GetInvalidPathChars
+            strPathSub = strPathSub.Replace(invalidChar, "_")
+
+            Try
+                IO.Directory.CreateDirectory(strPathSub)
+
+                RaiseEvent save_Items(objTreeNode, strPathSub)
+
+
+
+
+
+            Catch ex As Exception
+
+            End Try
+        Next
+
+        For Each objTreeNode_Sub As TreeNode In objTreeNode.Nodes
+
+
+            SaveItemsSub(objTreeNode_Sub, strPathSub)
+        Next
     End Sub
 
     Private Sub TreeView_Ref_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles TreeView_Ref.MouseDoubleClick
@@ -518,5 +582,166 @@ Public Class UserControl_RefTree
         Else
             objTreeNode.BackColor = Nothing
         End If
+    End Sub
+
+    Private Sub ChangeParentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ChangeParentToolStripMenuItem.Click
+        Dim objTreeNode = TreeView_Ref.SelectedNode
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = objLocalConfig.ImageID_Token Then
+
+                Dim objOItem_Class = New clsOntologyItem()
+                If objTreeNode.ImageIndex = objLocalConfig.ImageID_Token Then
+                    Dim objOItem_Object = New clsOntologyItem With {.GUID = objTreeNode.Name, _
+                                                                    .Name = objTreeNode.Text, _
+                                                                    .Type = objLocalConfig.Globals.Type_Object}
+
+                    objOItem_Class = objDataWork_RefTree.GetClassOfObject(objOItem_Object)
+                Else
+                    objOItem_Class.GUID = objTreeNode.Name
+                    objOItem_Class.Name = objTreeNode.Text
+                    objOItem_Class.Type = objLocalConfig.Globals.Type_Class
+                End If
+
+                If Not objOItem_Class Is Nothing Then
+                    objFrmRefTree = New frmRefTree(objLocalConfig.Globals, objOItem_Class)
+                    objFrmRefTree.ShowDialog(Me)
+                    If objFrmRefTree.DialogResult = DialogResult.OK Then
+                        Dim objOList_Objects = New List(Of clsOntologyItem)
+
+                        For Each objTreeNodeSub As TreeNode In objTreeNode.Parent.Nodes
+
+
+                            objOList_Objects.Add(New clsOntologyItem With {.GUID = objTreeNodeSub.Name, _
+                                                                       .Name = objTreeNodeSub.Text, _
+                                                                       .GUID_Parent = objOItem_Class.GUID, _
+                                                                       .Type = objLocalConfig.Globals.Type_Object})
+
+
+                        Next
+
+                        
+
+                        If objOList_Objects.Any Then
+                            Dim objOItem_Left = objFrmRefTree.OItem_Left
+                            Dim objOItem_Right = objFrmRefTree.OItem_Right
+                            Dim objOItem_RelationType = objFrmRefTree.OItem_RelationType
+
+                            If objOItem_Left.GUID = objOItem_Class.GUID Then
+                                Dim objORel_Parent = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objOItem_Left.GUID, _
+                                                                                                             .ID_Parent_Other = objOItem_Right.GUID, _
+                                                                                                             .ID_RelationType = objOItem_RelationType.GUID}}
+
+                                Dim objOItem_Result = objDBLevel_Parent.get_Data_ObjectRel(objORel_Parent, boolIDs:=False)
+
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    Dim objOList_Parents = (From objChild In objOList_Objects
+                                                            Join objParent In objDBLevel_Parent.OList_ObjectRel On objChild.GUID Equals objParent.ID_Object
+                                                            Order By objParent.Name_Other
+                                                            Group By objParent.ID_Other, objParent.Name_Other, objParent.ID_Parent_Other Into Group
+                                                            Select New clsOntologyItem With {.GUID = ID_Other, _
+                                                                                             .Name = Name_Other, _
+                                                                                             .GUID_Parent = ID_Parent_Other, _
+                                                                                             .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+                                    Dim objTreeNode_Parent = objTreeNode.Parent
+                                    objTreeNode_Parent.Nodes.Clear()
+                                    For Each objParent In objOList_Parents
+                                        Dim objTreeNode_Sub = objTreeNode_Parent.Nodes.Add(objParent.GUID, _
+                                                                     objParent.Name, _
+                                                                     objLocalConfig.ImageID_Token, _
+                                                                     objLocalConfig.ImageID_Token)
+
+                                        Dim objOList_Childs = (From objChild In objDBLevel_Parent.OList_ObjectRel.Where(Function(p) p.ID_Other = objParent.GUID).ToList()
+                                                              Group By objChild.ID_Object, objChild.Name_Object Into Group
+                                                              Select New With {ID_Object, Name_Object}).ToList
+
+                                        For Each objChild In objOList_Childs
+                                            objTreeNode_Sub.Nodes.Add(objChild.ID_Object, _
+                                                                      objChild.Name_Object, _
+                                                                      objLocalConfig.ImageID_Token, _
+                                                                      objLocalConfig.ImageID_Token)
+
+                                        Next
+                                    Next
+
+                                    Dim objOList_ObjectsNoParent = (From objObject In objOList_Objects
+                                                                    Group Join objParent In objDBLevel_Parent.OList_ObjectRel On objObject.GUID Equals objParent.ID_Object Into objParents = Group
+                                                                    From objParent In objParents.DefaultIfEmpty()
+                                                                    Where objParent Is Nothing
+                                                                    Select objObject).ToList()
+
+                                    If objOList_ObjectsNoParent.Any() Then
+                                        Dim objTreeNode_Unknown = objTreeNode_Parent.Nodes.Add(objLocalConfig.Globals.LState_Nothing.GUID, "Unknown", objLocalConfig.ImageID_Close, objLocalConfig.ImageID_Close)
+                                        For Each objObject In objOList_ObjectsNoParent
+                                            objTreeNode_Unknown.Nodes.Add(objObject.GUID, _
+                                                                         objObject.Name, _
+                                                                         objLocalConfig.ImageID_Token, _
+                                                                         objLocalConfig.ImageID_Token)
+                                        Next
+                                    End If
+                                End If
+                            Else
+                                Dim objORel_Parent = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Other = objOItem_Left.GUID, _
+                                                                                                             .ID_Parent_Object = objOItem_Right.GUID, _
+                                                                                                             .ID_RelationType = objOItem_RelationType.GUID}}
+
+                                Dim objOItem_Result = objDBLevel_Parent.get_Data_ObjectRel(objORel_Parent, boolIDs:=False)
+
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    Dim objOList_Parents = (From objChild In objOList_Objects
+                                                            Join objParent In objDBLevel_Parent.OList_ObjectRel On objChild.GUID Equals objParent.ID_Other
+                                                            Order By objParent.Name_Object
+                                                            Group By objParent.ID_Object, objParent.Name_Object, objParent.ID_Parent_Object Into Group
+                                                            Select New clsOntologyItem With {.GUID = ID_Object, _
+                                                                                             .Name = Name_Object, _
+                                                                                             .GUID_Parent = ID_Parent_Object, _
+                                                                                             .Type = objLocalConfig.Globals.Type_Object}).ToList()
+                                    Dim objTreeNode_Parent = objTreeNode.Parent
+                                    objTreeNode_Parent.Nodes.Clear()
+                                    For Each objParent In objOList_Parents
+                                        Dim objTreeNode_Sub = objTreeNode_Parent.Nodes.Add(objParent.GUID, _
+                                                                     objParent.Name, _
+                                                                     objLocalConfig.ImageID_Token, _
+                                                                     objLocalConfig.ImageID_Token)
+
+                                        Dim objOList_Childs = (From objChild In objDBLevel_Parent.OList_ObjectRel.Where(Function(p) p.ID_Object = objParent.GUID).ToList()
+                                                             Group By objChild.ID_Other, objChild.Name_Other Into Group
+                                                             Select New With {ID_Other, Name_Other}).ToList
+
+                                        For Each objChild In objOList_Childs
+                                            objTreeNode_Sub.Nodes.Add(objChild.ID_Other, _
+                                                                      objChild.Name_Other, _
+                                                                      objLocalConfig.ImageID_Token, _
+                                                                      objLocalConfig.ImageID_Token)
+                                        Next
+                                    Next
+
+                                    Dim objOList_ObjectsNoParent = (From objObject In objOList_Objects
+                                                                    Group Join objParent In objDBLevel_Parent.OList_ObjectRel On objObject.GUID Equals objParent.ID_Other Into objParents = Group
+                                                                    From objParent In objParents.DefaultIfEmpty()
+                                                                    Where objParent Is Nothing
+                                                                    Select objObject).ToList()
+
+                                    If objOList_ObjectsNoParent.Any() Then
+                                        Dim objTreeNode_Unknown = objTreeNode_Parent.Nodes.Add(objLocalConfig.Globals.LState_Nothing.GUID, "Unknown", objLocalConfig.ImageID_Close, objLocalConfig.ImageID_Close)
+                                        For Each objObject In objOList_ObjectsNoParent
+                                            objTreeNode_Unknown.Nodes.Add(objObject.GUID, _
+                                                                         objObject.Name, _
+                                                                         objLocalConfig.ImageID_Token, _
+                                                                         objLocalConfig.ImageID_Token)
+                                        Next
+                                    End If
+                                End If
+                            End If
+                        End If
+                        
+                    End If
+                Else
+                    MsgBox("Die Klasse konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+                End If
+                
+            End If
+        End If
+
     End Sub
 End Class

@@ -30,6 +30,8 @@ Partial Class UserControl_ImageList
         Me.SaveImagesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DateTimeStampToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PrintImagesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CreatePDFToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Timer_Images = New System.Windows.Forms.Timer(Me.components)
         Me.BindingSource_Images = New System.Windows.Forms.BindingSource(Me.components)
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
@@ -47,6 +49,12 @@ Partial Class UserControl_ImageList
         Me.FolderBrowserDialog_Save = New System.Windows.Forms.FolderBrowserDialog()
         Me.OpenFileDialog_Images = New System.Windows.Forms.OpenFileDialog()
         Me.Timer_Filter = New System.Windows.Forms.Timer(Me.components)
+        Me.PrintDialog_Selection = New System.Windows.Forms.PrintDialog()
+        Me.PrintDocument_Image = New System.Drawing.Printing.PrintDocument()
+        Me.SaveFileDialog_PDF = New System.Windows.Forms.SaveFileDialog()
+        Me.ChangeOrderIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.IncreasingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DecreasingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip_Relate.SuspendLayout()
         CType(Me.BindingSource_Images, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
@@ -60,22 +68,22 @@ Partial Class UserControl_ImageList
         '
         'ContextMenuStrip_Relate
         '
-        Me.ContextMenuStrip_Relate.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RelateToolStripMenuItem, Me.RelateAllToolStripMenuItem, Me.SaveImagesToolStripMenuItem})
+        Me.ContextMenuStrip_Relate.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RelateToolStripMenuItem, Me.RelateAllToolStripMenuItem, Me.SaveImagesToolStripMenuItem, Me.PrintImagesToolStripMenuItem, Me.CreatePDFToolStripMenuItem, Me.ChangeOrderIDToolStripMenuItem})
         Me.ContextMenuStrip_Relate.Name = "ContextMenuStrip_Relate"
-        Me.ContextMenuStrip_Relate.Size = New System.Drawing.Size(150, 70)
+        Me.ContextMenuStrip_Relate.Size = New System.Drawing.Size(175, 158)
         '
         'RelateToolStripMenuItem
         '
         Me.RelateToolStripMenuItem.Enabled = False
         Me.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem"
-        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
+        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
         Me.RelateToolStripMenuItem.Text = "x_Relate"
         '
         'RelateAllToolStripMenuItem
         '
         Me.RelateAllToolStripMenuItem.Enabled = False
         Me.RelateAllToolStripMenuItem.Name = "RelateAllToolStripMenuItem"
-        Me.RelateAllToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
+        Me.RelateAllToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
         Me.RelateAllToolStripMenuItem.Text = "x_Relate all"
         '
         'SaveImagesToolStripMenuItem
@@ -83,7 +91,7 @@ Partial Class UserControl_ImageList
         Me.SaveImagesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NameToolStripMenuItem, Me.DateTimeStampToolStripMenuItem})
         Me.SaveImagesToolStripMenuItem.Enabled = False
         Me.SaveImagesToolStripMenuItem.Name = "SaveImagesToolStripMenuItem"
-        Me.SaveImagesToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
+        Me.SaveImagesToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
         Me.SaveImagesToolStripMenuItem.Text = "x_Save Images"
         '
         'NameToolStripMenuItem
@@ -101,6 +109,20 @@ Partial Class UserControl_ImageList
         Me.DateTimeStampToolStripMenuItem.Name = "DateTimeStampToolStripMenuItem"
         Me.DateTimeStampToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
         Me.DateTimeStampToolStripMenuItem.Text = "x_DateTimeStamp"
+        '
+        'PrintImagesToolStripMenuItem
+        '
+        Me.PrintImagesToolStripMenuItem.Enabled = False
+        Me.PrintImagesToolStripMenuItem.Name = "PrintImagesToolStripMenuItem"
+        Me.PrintImagesToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.PrintImagesToolStripMenuItem.Text = "x_Print Images"
+        '
+        'CreatePDFToolStripMenuItem
+        '
+        Me.CreatePDFToolStripMenuItem.Enabled = False
+        Me.CreatePDFToolStripMenuItem.Name = "CreatePDFToolStripMenuItem"
+        Me.CreatePDFToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.CreatePDFToolStripMenuItem.Text = "x_Create PDF"
         '
         'Timer_Images
         '
@@ -229,6 +251,37 @@ Partial Class UserControl_ImageList
         '
         Me.Timer_Filter.Interval = 300
         '
+        'PrintDialog_Selection
+        '
+        Me.PrintDialog_Selection.UseEXDialog = True
+        '
+        'PrintDocument_Image
+        '
+        '
+        'SaveFileDialog_PDF
+        '
+        Me.SaveFileDialog_PDF.Filter = "PDF-Documents|*.pdf"
+        '
+        'ChangeOrderIDToolStripMenuItem
+        '
+        Me.ChangeOrderIDToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IncreasingToolStripMenuItem, Me.DecreasingToolStripMenuItem})
+        Me.ChangeOrderIDToolStripMenuItem.Enabled = False
+        Me.ChangeOrderIDToolStripMenuItem.Name = "ChangeOrderIDToolStripMenuItem"
+        Me.ChangeOrderIDToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.ChangeOrderIDToolStripMenuItem.Text = "x_Change Order-ID"
+        '
+        'IncreasingToolStripMenuItem
+        '
+        Me.IncreasingToolStripMenuItem.Name = "IncreasingToolStripMenuItem"
+        Me.IncreasingToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.IncreasingToolStripMenuItem.Text = "x_Increasing"
+        '
+        'DecreasingToolStripMenuItem
+        '
+        Me.DecreasingToolStripMenuItem.Name = "DecreasingToolStripMenuItem"
+        Me.DecreasingToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DecreasingToolStripMenuItem.Text = "x_Decreasing"
+        '
         'UserControl_ImageList
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -276,5 +329,13 @@ Partial Class UserControl_ImageList
     Friend WithEvents DateTimeStampToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenFileDialog_Images As System.Windows.Forms.OpenFileDialog
     Friend WithEvents Timer_Filter As System.Windows.Forms.Timer
+    Friend WithEvents PrintDialog_Selection As System.Windows.Forms.PrintDialog
+    Friend WithEvents PrintDocument_Image As System.Drawing.Printing.PrintDocument
+    Friend WithEvents PrintImagesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CreatePDFToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SaveFileDialog_PDF As System.Windows.Forms.SaveFileDialog
+    Friend WithEvents ChangeOrderIDToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents IncreasingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DecreasingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

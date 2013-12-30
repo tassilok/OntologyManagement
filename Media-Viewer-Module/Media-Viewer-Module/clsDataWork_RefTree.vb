@@ -8,6 +8,7 @@ Public Class clsDataWork_RefTree
     Private objDBLevel_MediaAttribs As clsDBLevel
     Private objDBLevel_Classes As clsDBLevel
     Private objDBLevel_Related As clsDBLevel
+    Private objDBLevel_ClassOfObject As clsDBLevel
     Private objOLClasses_Tree As New List(Of clsOntologyItem)
     Private objOLClasses_Mark As New List(Of clsOntologyItem)
     Private oLClasses As Object
@@ -45,6 +46,31 @@ Public Class clsDataWork_RefTree
         add_SubNodes_Loc()
         add_ObjectNodes()
         Return objTreeNode_Root
+    End Function
+
+
+    Public Function GetClassOfObject(OItem_Object As clsOntologyItem) As clsOntologyItem
+        Dim objRel_Object = New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID = OItem_Object.GUID}}
+        Dim objOItem_Result = objDBLevel_ClassOfObject.get_Data_Objects(objRel_Object)
+
+        Dim objOItem_Class As clsOntologyItem = Nothing
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_ClassOfObject.OList_Objects.Any Then
+                Dim objOItem_Object = objDBLevel_ClassOfObject.OList_Objects.First()
+                Dim objRel_Class = New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID = objOItem_Object.GUID_Parent}}
+
+                objOItem_Result = objDBLevel_ClassOfObject.get_Data_Classes(objRel_Class)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objDBLevel_ClassOfObject.OList_Classes.Any Then
+                        objOItem_Class = objDBLevel_ClassOfObject.OList_Classes.First()
+                    End If
+                End If
+            End If
+        End If
+
+        Return objOItem_Class
     End Function
 
     Public Function add_SubNodes_Chrono(Optional ByVal objTreeNode As TreeNode = Nothing) As TreeNode
@@ -521,5 +547,6 @@ Public Class clsDataWork_RefTree
         objDBLevel_Classes = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Related = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_MediaAttribs = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_ClassOfObject = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class

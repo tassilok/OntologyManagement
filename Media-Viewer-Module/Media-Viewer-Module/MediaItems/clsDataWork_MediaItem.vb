@@ -87,6 +87,42 @@ Public Class clsDataWork_MediaItem
         Return lngOrderID
     End Function
 
+    Public Function get_MediaItemsSimple(objTreeNode As TreeNode) As List(Of clsMultiMediaItem)
+        Dim objORel_RefToMediaItem = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Other = objTreeNode.Name, _
+                                                                                             .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID, _
+                                                                                             .ID_Parent_Object = objLocalConfig.OItem_Type_Media_Item.GUID}}
+
+        Dim objList_MediaItems = New List(Of clsMultiMediaItem)
+
+        Dim objOItem_Result = objDBLevel_MediaItems.get_Data_ObjectRel(objORel_RefToMediaItem, boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim objOrel_MediaItemToFile = objDBLevel_MediaItems.OList_ObjectRel.Select(Function(p) New clsObjectRel With {.ID_Object = p.ID_Object, _
+                                                                                                                          .ID_Parent_Object = p.ID_Parent_Object, _
+                                                                                                                          .ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID, _
+                                                                                                                          .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Source.GUID}).ToList()
+            If objOrel_MediaItemToFile.Any Then
+                objOItem_Result = objDBLevel_Files.get_Data_ObjectRel(objOrel_MediaItemToFile, boolIDs:=False)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objList_MediaItems = (From objMediaItem In objDBLevel_MediaItems.OList_ObjectRel
+                                          Join objFile In objDBLevel_Files.OList_ObjectRel On objMediaItem.ID_Object Equals objFile.ID_Object
+                                          Select New clsMultiMediaItem With {.ID_Item = objMediaItem.ID_Object, _
+                                                                             .Name_Item = objMediaItem.Name_Object, _
+                                                                             .ID_File = objFile.ID_Other, _
+                                                                             .Name_File = objFile.Name_Other, _
+                                                                             .OrderID = objMediaItem.OrderID}).ToList()
+
+                End If
+
+            End If
+
+        Else
+            objList_MediaItems = Nothing
+        End If
+
+        Return objList_MediaItems
+    End Function
+
     Public Sub get_MediaItems(ByVal OItem_Ref As clsOntologyItem, Optional boolTable As Boolean = True)
         objOItem_Ref = OItem_Ref
         dtblT_MediaItems.Clear()

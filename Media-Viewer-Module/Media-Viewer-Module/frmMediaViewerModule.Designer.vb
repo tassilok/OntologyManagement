@@ -46,6 +46,11 @@ Partial Class frmMediaViewerModule
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExportOptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem_GUID = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem_Name = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OrderIDFilenameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -158,7 +163,6 @@ Partial Class frmMediaViewerModule
         'SemanticToolStripMenuItem
         '
         Me.SemanticToolStripMenuItem.Checked = True
-        Me.SemanticToolStripMenuItem.CheckOnClick = True
         Me.SemanticToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.SemanticToolStripMenuItem.Name = "SemanticToolStripMenuItem"
         Me.SemanticToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
@@ -166,21 +170,18 @@ Partial Class frmMediaViewerModule
         '
         'ChronoToolStripMenuItem
         '
-        Me.ChronoToolStripMenuItem.CheckOnClick = True
         Me.ChronoToolStripMenuItem.Name = "ChronoToolStripMenuItem"
         Me.ChronoToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.ChronoToolStripMenuItem.Text = "x_chrono"
         '
         'ChronosemanticToolStripMenuItem
         '
-        Me.ChronosemanticToolStripMenuItem.CheckOnClick = True
         Me.ChronosemanticToolStripMenuItem.Name = "ChronosemanticToolStripMenuItem"
         Me.ChronosemanticToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.ChronosemanticToolStripMenuItem.Text = "x_chrono-semantic"
         '
         'NamedSemanticToolStripMenuItem
         '
-        Me.NamedSemanticToolStripMenuItem.CheckOnClick = True
         Me.NamedSemanticToolStripMenuItem.Name = "NamedSemanticToolStripMenuItem"
         Me.NamedSemanticToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.NamedSemanticToolStripMenuItem.Text = "x_named semantic"
@@ -226,7 +227,7 @@ Partial Class frmMediaViewerModule
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HilfeToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HilfeToolStripMenuItem, Me.ToolStripMenuItem1})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(858, 24)
@@ -237,14 +238,48 @@ Partial Class frmMediaViewerModule
         '
         Me.HilfeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoToolStripMenuItem})
         Me.HilfeToolStripMenuItem.Name = "HilfeToolStripMenuItem"
-        Me.HilfeToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
-        Me.HilfeToolStripMenuItem.Text = "&Hilfe"
+        Me.HilfeToolStripMenuItem.Size = New System.Drawing.Size(54, 20)
+        Me.HilfeToolStripMenuItem.Text = "x_&Hilfe"
         '
         'InfoToolStripMenuItem
         '
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(95, 22)
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.InfoToolStripMenuItem.Text = "&Info"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExportOptionsToolStripMenuItem})
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(59, 20)
+        Me.ToolStripMenuItem1.Text = "x_&Extras"
+        '
+        'ExportOptionsToolStripMenuItem
+        '
+        Me.ExportOptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem_GUID, Me.ToolStripMenuItem_Name, Me.OrderIDFilenameToolStripMenuItem})
+        Me.ExportOptionsToolStripMenuItem.Name = "ExportOptionsToolStripMenuItem"
+        Me.ExportOptionsToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
+        Me.ExportOptionsToolStripMenuItem.Text = "x_Export-Options"
+        '
+        'ToolStripMenuItem_GUID
+        '
+        Me.ToolStripMenuItem_GUID.Checked = True
+        Me.ToolStripMenuItem_GUID.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ToolStripMenuItem_GUID.Name = "ToolStripMenuItem_GUID"
+        Me.ToolStripMenuItem_GUID.Size = New System.Drawing.Size(184, 22)
+        Me.ToolStripMenuItem_GUID.Text = "x_GUID (Filename)"
+        '
+        'ToolStripMenuItem_Name
+        '
+        Me.ToolStripMenuItem_Name.Name = "ToolStripMenuItem_Name"
+        Me.ToolStripMenuItem_Name.Size = New System.Drawing.Size(184, 22)
+        Me.ToolStripMenuItem_Name.Text = "x_Name (Filename)"
+        '
+        'OrderIDFilenameToolStripMenuItem
+        '
+        Me.OrderIDFilenameToolStripMenuItem.Name = "OrderIDFilenameToolStripMenuItem"
+        Me.OrderIDFilenameToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.OrderIDFilenameToolStripMenuItem.Text = "x_OrderID (Filename)"
         '
         'frmMediaViewerModule
         '
@@ -299,5 +334,10 @@ Partial Class frmMediaViewerModule
     Friend WithEvents InfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripButton_OpenListEdit As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ExportOptionsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem_GUID As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem_Name As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OrderIDFilenameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

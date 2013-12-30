@@ -1,6 +1,8 @@
 ﻿Imports Ontology_Module
 Imports Filesystem_Module
 Imports OntologyClasses.BaseClasses
+Imports System.Drawing.Drawing2D
+Imports PdfSharp.Drawing
 
 Public Class UserControl_ImageList
     Private objLocalConfig As clsLocalConfig
@@ -8,13 +10,21 @@ Public Class UserControl_ImageList
     Private dtblT_Images As New DataSet_Images.dtbl_ImagesDataTable
     Private objFileWork As clsFileWork
 
+    Private pdfDocument As PdfSharp.Pdf.PdfDocument
+
     Private objTransaction_Image As clsTransaction_Image
     Private objTransaction_Images As clsTransaction
     Private objBlobConnection As clsBlobConnection
 
+    Private objDlg_Attribute_Long As dlg_Attribute_Long
+
+    Private objFrmSaveFiles As frmSaveFiles
+
     'Private objUserControl_ImageViewer As UserControl_ImageViewer
 
     Public Property objOItem_Relate As clsOntologyItem
+
+    Public objRelationConfig As clsRelationConfig
 
     Private objOItem_Ref As clsOntologyItem
     Private boolSelect_First As Boolean
@@ -27,6 +37,8 @@ Public Class UserControl_ImageList
     Private intDay As Integer
 
     Private saveItems As Boolean
+
+    Private objImage As Bitmap
 
     Public Function Media_First() As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
@@ -131,6 +143,7 @@ Public Class UserControl_ImageList
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
         objFileWork = New clsFileWork(objLocalConfig.Globals)
         objTransaction_Images = New clsTransaction(objLocalConfig.Globals)
+        objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
     End Sub
 
     Public Sub clear_List()
@@ -306,7 +319,7 @@ Public Class UserControl_ImageList
                 For Each strPath In OpenFileDialog_Images.FileNames
                     Try
                         Dim objImage = New Bitmap(strPath)
-
+                        Application.DoEvents()
                         objOItem_File = objBlobConnection.isFilePresent(strPath)
                         If objOItem_File Is Nothing Then
                             objOItem_File = New clsOntologyItem
@@ -597,12 +610,18 @@ Public Class UserControl_ImageList
         SaveImagesToolStripMenuItem.Enabled = False
         NameToolStripMenuItem.Enabled = False
         DateTimeStampToolStripMenuItem.Enabled = False
+        PrintImagesToolStripMenuItem.Enabled = False
+        CreatePDFToolStripMenuItem.Enabled = False
+        ChangeOrderIDToolStripMenuItem.Enabled = False
 
         If DataGridView_Images.SelectedRows.Count > 0 Then
             RelateToolStripMenuItem.Enabled = True
             SaveImagesToolStripMenuItem.Enabled = True
             NameToolStripMenuItem.Enabled = True
             DateTimeStampToolStripMenuItem.Enabled = True
+            PrintImagesToolStripMenuItem.Enabled = True
+            CreatePDFToolStripMenuItem.Enabled = True
+            ChangeOrderIDToolStripMenuItem.Enabled = True
         End If
     End Sub
 
@@ -748,16 +767,17 @@ Public Class UserControl_ImageList
                 strDateEnd = dateTest.ToString
             End If
 
-            
+
 
             BindingSource_Images.Filter = "Date_Create >= '" & strDateStart & "' AND Date_Create <= '" & strDateEnd & "'"
 
-            
+
         End If
     End Sub
 
     Public Sub Save_Items(boolChrono As Boolean)
-        Dim objOItem_File As New clsOntologyItem
+        Dim objFileList As New List(Of clsOntologyItem)
+
         If boolChrono Then
             If FolderBrowserDialog_Save.ShowDialog(Me) = DialogResult.OK Then
                 Dim intToDo As Integer
@@ -781,50 +801,169 @@ Public Class UserControl_ImageList
 
                         Dim strPath = FolderBrowserDialog_Save.SelectedPath
 
-                        strPath = strPath & IO.Path.DirectorySeparatorChar & intYear.ToString
+                        strPath = strPath & IO.Path.DirectorySeparatorChar & intYear.ToString & IO.Path.DirectorySeparatorChar & intMonth.ToString("00")
 
-                        If Not IO.Directory.Exists(strPath) Then
-                            Try
-                                IO.Directory.CreateDirectory(strPath)
-                                
-                            Catch ex As Exception
-                                MsgBox("Ein Verzeichnis konnte nicht angelegt werden!", MsgBoxStyle.Exclamation)
-                                strPath = ""
-                                Exit For
-                            End Try
-
-                            
-                        End If
                         If Not strPath = "" Then
-                            strPath = strPath & IO.Path.DirectorySeparatorChar & intMonth.ToString
-                            If Not IO.Directory.Exists(strPath) Then
-                                Try
-                                    IO.Directory.CreateDirectory(strPath)
-
-                                Catch ex As Exception
-                                    MsgBox("Ein Verzeichnis konnte nicht angelegt werden!", MsgBoxStyle.Exclamation)
-                                    strPath = ""
-                                    Exit For
-                                End Try
-                            End If
-                            If Not strPath = "" Then
-                                strPath = strPath & IO.Path.DirectorySeparatorChar & strFileName
-                                objOItem_File.GUID = objDRV.Item("ID_File")
-                                objOItem_File.Name = objDRV.Item("Name_File")
-                                objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
-                                objOItem_File.Type = objLocalConfig.Globals.Type_Object
-
-                                Dim objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_File, strPath, False)
-                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                    intDone = intDone + 1
-                                End If
-                            End If
-                            
+                            strPath = strPath & IO.Path.DirectorySeparatorChar & strFileName
+                            objFileList.Add(New clsOntologyItem With {.GUID = objDRV.Item("ID_File"),
+                                                                        .Name = objDRV.Item("Name_File"),
+                                                                        .GUID_Parent = objLocalConfig.OItem_Type_File.GUID,
+                                                                        .Additional1 = strPath,
+                                                                        .Type = objLocalConfig.Globals.Type_Object})
                         End If
+
+
+
                     End If
 
                 Next
+
+                If objFileList.Any Then
+                    objFrmSaveFiles = New frmSaveFiles(objLocalConfig.Globals, objFileList)
+                    objFrmSaveFiles.ShowDialog(Me)
+
+                Else
+                    MsgBox("Die Dateien konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+                End If
             End If
         End If
+    End Sub
+
+    Private Sub PrintImagesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintImagesToolStripMenuItem.Click
+
+        If PrintDialog_Selection.ShowDialog(Me) = DialogResult.OK Then
+            PrintDocument_Image.PrinterSettings = PrintDialog_Selection.PrinterSettings
+            For Each objDGVR As DataGridViewRow In DataGridView_Images.SelectedRows
+                Dim objDRV As DataRowView = objDGVR.DataBoundItem
+                Dim objOItem_File As clsOntologyItem = New clsOntologyItem With {.GUID = objDRV.Item("ID_File"), _
+                                                                                 .Name = objDRV.Item("Name_File"), _
+                                                                                 .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
+                                                                                .Type = objLocalConfig.Globals.Type_Object}
+
+                Dim strPath = "%TEMP%\" & objLocalConfig.Globals.NewGUID & IO.Path.GetExtension(objOItem_File.Name)
+
+                strPath = Environment.ExpandEnvironmentVariables(strPath)
+
+                Dim objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_File, strPath)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objImage = New System.Drawing.Bitmap(strPath)
+                    PrintDocument_Image.Print()
+                    objImage = Nothing
+                Else
+                    MsgBox("Die Images konnten nicht gedruckt werden!", MsgBoxStyle.Exclamation)
+                End If
+
+            Next
+        End If
+
+    End Sub
+
+    Private Sub PrintDocument_Image_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintDocument_Image.PrintPage
+        Dim objImageZoom = ResizeImage(objImage, New System.Drawing.Size(e.MarginBounds.Width, e.MarginBounds.Height))
+
+
+        e.Graphics.DrawImage(objImageZoom, e.MarginBounds.Left, e.MarginBounds.Top)
+    End Sub
+
+    Public Shared Function ResizeImage(ByVal image As Image, _
+        ByVal size As Size, Optional ByVal preserveAspectRatio As Boolean = True) As Image
+        Dim newWidth As Integer
+        Dim newHeight As Integer
+        If preserveAspectRatio Then
+            Dim originalWidth As Integer = image.Width
+            Dim originalHeight As Integer = image.Height
+            Dim percentWidth As Single = CSng(size.Width) / CSng(originalWidth)
+            Dim percentHeight As Single = CSng(size.Height) / CSng(originalHeight)
+            Dim percent As Single = If(percentHeight < percentWidth,
+                    percentHeight, percentWidth)
+            newWidth = CInt(originalWidth * percent)
+            newHeight = CInt(originalHeight * percent)
+        Else
+            newWidth = size.Width
+            newHeight = size.Height
+        End If
+        Dim newImage As Image = New Bitmap(newWidth, newHeight)
+        Using graphicsHandle As Graphics = Graphics.FromImage(newImage)
+            graphicsHandle.InterpolationMode = InterpolationMode.HighQualityBicubic
+            graphicsHandle.DrawImage(image, 0, 0, newWidth, newHeight)
+        End Using
+        Return newImage
+    End Function
+
+    Private Sub CreatePDFToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CreatePDFToolStripMenuItem.Click
+        pdfDocument = New PdfSharp.Pdf.PdfDocument
+        If SaveFileDialog_PDF.ShowDialog(Me) = DialogResult.OK Then
+            Dim strPath_PDF = SaveFileDialog_PDF.FileName
+            For Each objDGVR As DataGridViewRow In DataGridView_Images.SelectedRows.OfType(Of DataGridViewRow).OrderBy(Function(p) p.Index).ToList()
+                Dim objDRV As DataRowView = objDGVR.DataBoundItem
+                Dim objOItem_File As clsOntologyItem = New clsOntologyItem With {.GUID = objDRV.Item("ID_File"), _
+                                                                                 .Name = objDRV.Item("Name_File"), _
+                                                                                 .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
+                                                                                .Type = objLocalConfig.Globals.Type_Object}
+
+                Dim strPath = "%TEMP%\" & objLocalConfig.Globals.NewGUID & IO.Path.GetExtension(objOItem_File.Name)
+
+                strPath = Environment.ExpandEnvironmentVariables(strPath)
+
+                Dim objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_File, strPath)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    Application.DoEvents()
+                    objImage = New System.Drawing.Bitmap(strPath)
+                    Dim page As PdfSharp.Pdf.PdfPage = pdfDocument.AddPage
+                    Dim graphics As XGraphics = XGraphics.FromPdfPage(page)
+                    Dim objImageZoom = ResizeImage(objImage, New System.Drawing.Size(page.Width, page.Height))
+                    graphics.DrawImage(objImageZoom, 0, 0)
+
+                    objImage = Nothing
+                Else
+                    pdfDocument = Nothing
+                    MsgBox("Die Images konnten nicht gedruckt werden!", MsgBoxStyle.Exclamation)
+                End If
+
+            Next
+
+            If Not pdfDocument Is Nothing Then
+                pdfDocument.Save(strPath_PDF)
+                MsgBox("Das Pdf-Dokument wurde gespeichert!", MsgBoxStyle.Information)
+            End If
+        End If
+        
+    End Sub
+
+    Private Sub IncreasingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles IncreasingToolStripMenuItem.Click
+        ChangeOrderID(True)
+    End Sub
+
+    Private Sub ChangeOrderID(boolIncrease As Boolean)
+        If MsgBox("Wollen Sie wirklich die Order-ID ändern?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            objDlg_Attribute_Long = New dlg_Attribute_Long("Order-ID (start)", objLocalConfig.Globals)
+            objDlg_Attribute_Long.ShowDialog(Me)
+            If objDlg_Attribute_Long.DialogResult = DialogResult.OK Then
+                Dim lngOrderIDStart = objDlg_Attribute_Long.Value
+                For Each objDGVR As DataGridViewRow In DataGridView_Images.SelectedRows.OfType(Of DataGridViewRow).OrderBy(Function(p) p.Index).ToList()
+                    Dim objDRV As DataRowView = objDGVR.DataBoundItem
+
+                    objTransaction_Images.ClearItems()
+                    Dim objOItem_MediaItem = New clsOntologyItem With {.GUID = objDRV.Item("ID_Image"), _
+                                                                        .Name = objDRV.Item("Name_Image"), _
+                                                                        .GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                                        .Type = objLocalConfig.Globals.Type_Object}
+
+                    Dim objRelA_OrderID = objRelationConfig.Rel_ObjectRelation(objOItem_MediaItem, objOItem_Ref, objLocalConfig.OItem_RelationType_belongsTo, False, lngOrderIDStart)
+
+                    Dim objOItem_Result = objTransaction_Images.do_Transaction(objRelA_OrderID)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        MsgBox("Die OrderID konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                        Exit For
+                    End If
+                    lngOrderIDStart = lngOrderIDStart + If(boolIncrease, 1, -1)
+                Next
+
+                initialize_Images(objOItem_Ref)
+            End If
+
+
+        End If
+        
     End Sub
 End Class

@@ -48,6 +48,9 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripButton_Bookmarks = New System.Windows.Forms.ToolStripButton()
         Me.OpenFileDialog_MediaItem = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog_Save = New System.Windows.Forms.FolderBrowserDialog()
+        Me.ChangeOrderIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.IncreasingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DecreasingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.BindingSource_MediaItems, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -131,20 +134,20 @@ Partial Class UserControl_MediaItemList
         '
         'ContextMenuStrip_Items
         '
-        Me.ContextMenuStrip_Items.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RelateToolStripMenuItem, Me.SaveToolStripMenuItem})
+        Me.ContextMenuStrip_Items.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RelateToolStripMenuItem, Me.SaveToolStripMenuItem, Me.ChangeOrderIDToolStripMenuItem})
         Me.ContextMenuStrip_Items.Name = "ContextMenuStrip_Items"
-        Me.ContextMenuStrip_Items.Size = New System.Drawing.Size(117, 48)
+        Me.ContextMenuStrip_Items.Size = New System.Drawing.Size(175, 92)
         '
         'RelateToolStripMenuItem
         '
         Me.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem"
-        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
         Me.RelateToolStripMenuItem.Text = "x_Relate"
         '
         'SaveToolStripMenuItem
         '
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
         Me.SaveToolStripMenuItem.Text = "x_Save"
         '
         'ToolStrip1
@@ -231,6 +234,26 @@ Partial Class UserControl_MediaItemList
         '
         Me.OpenFileDialog_MediaItem.FileName = "OpenFileDialog1"
         '
+        'ChangeOrderIDToolStripMenuItem
+        '
+        Me.ChangeOrderIDToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IncreasingToolStripMenuItem, Me.DecreasingToolStripMenuItem})
+        Me.ChangeOrderIDToolStripMenuItem.Enabled = False
+        Me.ChangeOrderIDToolStripMenuItem.Name = "ChangeOrderIDToolStripMenuItem"
+        Me.ChangeOrderIDToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.ChangeOrderIDToolStripMenuItem.Text = "x_Change Order-ID"
+        '
+        'IncreasingToolStripMenuItem
+        '
+        Me.IncreasingToolStripMenuItem.Name = "IncreasingToolStripMenuItem"
+        Me.IncreasingToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.IncreasingToolStripMenuItem.Text = "x_Increasing"
+        '
+        'DecreasingToolStripMenuItem
+        '
+        Me.DecreasingToolStripMenuItem.Name = "DecreasingToolStripMenuItem"
+        Me.DecreasingToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DecreasingToolStripMenuItem.Text = "x_Decreasing"
+        '
         'UserControl_MediaItemList
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -279,5 +302,8 @@ Partial Class UserControl_MediaItemList
     Friend WithEvents ContextMenuStrip_Items As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents RelateToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SaveToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ChangeOrderIDToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents IncreasingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DecreasingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

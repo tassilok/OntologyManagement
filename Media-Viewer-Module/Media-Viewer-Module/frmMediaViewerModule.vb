@@ -49,14 +49,23 @@ Public Class frmMediaViewerModule
         ToolStripLabel_RelatedLast.Text = objOItem_Relate.Name & " / " & OItem_MediaItem.Name
     End Sub
 
-    Private Sub save_Items() Handles objUserControl_RefTree.save_Items
+    Private Sub save_Items(objTreeNode As TreeNode, strPath As String) Handles objUserControl_RefTree.save_Items
         Select Case objOItem_MediaType.GUID
             Case objLocalConfig.OItem_Type_PDF_Documents.GUID
 
             Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
 
             Case objLocalConfig.OItem_Type_Media_Item.GUID
-                objUserControl_MediaItemList.save_Items(True)
+                Dim exportOption As ExportOptions
+                If ToolStripMenuItem_GUID.Checked Then
+                    exportOption = ExportOptions.guid
+                ElseIf ToolStripMenuItem_Name.Checked Then
+                    exportOption = ExportOptions.name
+                ElseIf OrderIDFilenameToolStripMenuItem.Checked Then
+                    exportOption = ExportOptions.orderid
+                End If
+                objUserControl_MediaItemList.save_Items(objTreeNode, strPath, exportOption)
+
         End Select
     End Sub
 
@@ -389,5 +398,68 @@ Public Class frmMediaViewerModule
     Private Sub ToolStripButton_GetMetadata_Click(sender As Object, e As EventArgs) Handles ToolStripButton_GetMetadata.Click
         objFrmMetaData = New frmMetaData_Image(objLocalConfig)
         objFrmMetaData.ShowDialog(Me)
+    End Sub
+
+    Private Sub ToolStripMenuItem_GUID_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem_GUID.Click
+        If Not ToolStripMenuItem_GUID.Checked Then
+            ToolStripMenuItem_GUID.Checked = True
+            ToolStripMenuItem_Name.Checked = False
+            OrderIDFilenameToolStripMenuItem.Checked = False
+
+        End If
+    End Sub
+
+    Private Sub ToolStripMenuItem_Name_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem_Name.Click
+        If Not ToolStripMenuItem_Name.Checked Then
+            ToolStripMenuItem_GUID.Checked = False
+            ToolStripMenuItem_Name.Checked = True
+            OrderIDFilenameToolStripMenuItem.Checked = False
+
+        End If
+    End Sub
+
+    Private Sub OrderIDFilenameToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OrderIDFilenameToolStripMenuItem.Click
+        If Not OrderIDFilenameToolStripMenuItem.Checked Then
+            ToolStripMenuItem_GUID.Checked = False
+            ToolStripMenuItem_Name.Checked = False
+            OrderIDFilenameToolStripMenuItem.Checked = True
+
+        End If
+    End Sub
+
+    Private Sub SemanticToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SemanticToolStripMenuItem.Click
+        If Not SemanticToolStripMenuItem.Checked Then
+            SemanticToolStripMenuItem.Checked = True
+            ChronoToolStripMenuItem.Checked = False
+            ChronosemanticToolStripMenuItem.Checked = False
+            NamedSemanticToolStripMenuItem.Checked = False
+        End If
+    End Sub
+
+    Private Sub ChronoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ChronoToolStripMenuItem.Click
+        If Not ChronoToolStripMenuItem.Checked Then
+            SemanticToolStripMenuItem.Checked = False
+            ChronoToolStripMenuItem.Checked = True
+            ChronosemanticToolStripMenuItem.Checked = False
+            NamedSemanticToolStripMenuItem.Checked = False
+        End If
+    End Sub
+
+    Private Sub ChronosemanticToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ChronosemanticToolStripMenuItem.Click
+        If Not ChronosemanticToolStripMenuItem.Checked Then
+            SemanticToolStripMenuItem.Checked = False
+            ChronoToolStripMenuItem.Checked = False
+            ChronosemanticToolStripMenuItem.Checked = True
+            NamedSemanticToolStripMenuItem.Checked = False
+        End If
+    End Sub
+
+    Private Sub NamedSemanticToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NamedSemanticToolStripMenuItem.Click
+        If Not NamedSemanticToolStripMenuItem.Checked Then
+            SemanticToolStripMenuItem.Checked = False
+            ChronoToolStripMenuItem.Checked = False
+            ChronosemanticToolStripMenuItem.Checked = False
+            NamedSemanticToolStripMenuItem.Checked = True
+        End If
     End Sub
 End Class

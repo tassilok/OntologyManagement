@@ -37,12 +37,15 @@ Partial Class UserControl_RefTree
         Me.ContextMenuStrip_Ref = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.AddToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem_WithSubItems = New System.Windows.Forms.ToolStripMenuItem()
         Me.RelateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ChangeParentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImageList_RelatedItems = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_Mark = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Mark = New System.Windows.Forms.ToolStripTextBox()
         Me.Timer_Search = New System.Windows.Forms.Timer(Me.components)
+        Me.FolderBrowserDialog_Save = New System.Windows.Forms.FolderBrowserDialog()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -138,27 +141,41 @@ Partial Class UserControl_RefTree
         '
         'ContextMenuStrip_Ref
         '
-        Me.ContextMenuStrip_Ref.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToolStripMenuItem, Me.SaveToolStripMenuItem, Me.RelateToolStripMenuItem})
+        Me.ContextMenuStrip_Ref.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToolStripMenuItem, Me.SaveToolStripMenuItem, Me.RelateToolStripMenuItem, Me.ChangeParentToolStripMenuItem})
         Me.ContextMenuStrip_Ref.Name = "ContextMenuStrip_Ref"
-        Me.ContextMenuStrip_Ref.Size = New System.Drawing.Size(117, 70)
+        Me.ContextMenuStrip_Ref.Size = New System.Drawing.Size(163, 92)
         '
         'AddToolStripMenuItem
         '
         Me.AddToolStripMenuItem.Name = "AddToolStripMenuItem"
-        Me.AddToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.AddToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
         Me.AddToolStripMenuItem.Text = "x_Add"
         '
         'SaveToolStripMenuItem
         '
+        Me.SaveToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem_WithSubItems})
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
         Me.SaveToolStripMenuItem.Text = "x_Save"
+        '
+        'ToolStripMenuItem_WithSubItems
+        '
+        Me.ToolStripMenuItem_WithSubItems.CheckOnClick = True
+        Me.ToolStripMenuItem_WithSubItems.Name = "ToolStripMenuItem_WithSubItems"
+        Me.ToolStripMenuItem_WithSubItems.Size = New System.Drawing.Size(158, 22)
+        Me.ToolStripMenuItem_WithSubItems.Text = "x_WithSubItems"
         '
         'RelateToolStripMenuItem
         '
         Me.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem"
-        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
         Me.RelateToolStripMenuItem.Text = "x_Relate"
+        '
+        'ChangeParentToolStripMenuItem
+        '
+        Me.ChangeParentToolStripMenuItem.Name = "ChangeParentToolStripMenuItem"
+        Me.ChangeParentToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.ChangeParentToolStripMenuItem.Text = "x_Change Parent"
         '
         'ImageList_RelatedItems
         '
@@ -247,5 +264,8 @@ Partial Class UserControl_RefTree
     Friend WithEvents SaveToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RelateToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Timer_Search As System.Windows.Forms.Timer
+    Friend WithEvents ChangeParentToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FolderBrowserDialog_Save As System.Windows.Forms.FolderBrowserDialog
+    Friend WithEvents ToolStripMenuItem_WithSubItems As System.Windows.Forms.ToolStripMenuItem
 
 End Class
