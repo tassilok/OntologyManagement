@@ -35,6 +35,28 @@ Public Class clsDataWork_Address
 
     Private objOItem_Partner As clsOntologyItem
 
+    Public ReadOnly Property Result_Address As clsOntologyItem
+        Get
+            If objOItem_Result_Address.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                If objOItem_Result_PLZOrtLand.GUID = objLocalConfig.Globals.LState_Nothing.GUID Or _
+                    objOItem_Result_Postfach.GUID = objLocalConfig.Globals.LState_Nothing.GUID Or _
+                    objOItem_Result_Strasse.GUID = objLocalConfig.Globals.LState_Nothing.GUID Or _
+                    objOItem_Result_Zusatz.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+                    Return objLocalConfig.Globals.LState_Nothing.Clone
+                ElseIf objOItem_Result_PLZOrtLand.GUID = objLocalConfig.Globals.LState_Error.GUID Or _
+                    objOItem_Result_Postfach.GUID = objLocalConfig.Globals.LState_Error.GUID Or _
+                    objOItem_Result_Strasse.GUID = objLocalConfig.Globals.LState_Error.GUID Or _
+                    objOItem_Result_Zusatz.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    Return objLocalConfig.Globals.LState_Error.Clone
+                Else
+                    Return objLocalConfig.Globals.LState_Success.Clone
+                End If
+            Else
+                Return objLocalConfig.Globals.LState_Error.Clone
+            End If
+        End Get
+    End Property
+
     Public ReadOnly Property Result_Strasse As clsOntologyItem
         Get
             Return objOItem_Result_Strasse
@@ -129,7 +151,53 @@ Public Class clsDataWork_Address
         End Get
     End Property
 
-    Public Sub get_Data_Address(ByVal OItem_Partner As clsOntologyItem)
+    Public Function GetAddress(Optional ID_ZusatzTyp As String = Nothing, Optional OItem_Contact As clsOntologyItem = Nothing) As String
+        Dim strAddress As String = ""
+
+        If Not objOItem_Partner Is Nothing Then
+            strAddress = objOItem_Partner.Name
+        Else
+            If Not objOItem_Address Is Nothing Then
+                strAddress = objOItem_Address.Name
+            End If
+        End If
+
+        If Not OItem_Contact Is Nothing Then
+            strAddress = strAddress & vbCrLf & OItem_Contact.Name
+        End If
+
+        If ID_ZusatzTyp Is Nothing Then
+            If Zusaetze.Any() Then
+                strAddress = strAddress & vbCrLf & Zusaetze.First().Name_AdressZusatz
+            End If
+        Else
+            Dim zusaetzeFound = Zusaetze.Where(Function(z) z.ID_ZusatzTyp = ID_ZusatzTyp).ToList()
+            If zusaetzeFound.Any() Then
+                strAddress = strAddress & vbCrLf & zusaetzeFound.First().Name_AdressZusatz
+            End If
+        End If
+
+        If Not Postfach Is Nothing Then
+            If Not Postfach.Val_String = "" Then
+                strAddress = strAddress & vbCrLf & "Postfach " & Postfach.Val_String
+            End If
+        Else
+            If Not Strasse Is Nothing Then
+                If Not Strasse.Val_String = "" Then
+                    strAddress = strAddress & vbCrLf & Strasse.Val_String
+                End If
+            End If
+        End If
+
+        Dim strPlzOrtLand = PLZOrtLand
+        If Not strPlzOrtLand = "" Then
+            strAddress = strAddress & vbCrLf & strPlzOrtLand
+        End If
+
+        Return strAddress
+    End Function
+    
+    Public Sub get_Data_Address(ByVal OItem_Partner As clsOntologyItem, Optional OItem_Address As clsOntologyItem = Nothing)
         Dim objOList_Address As New List(Of clsObjectRel)
         Dim objOItem_Result As clsOntologyItem
 
@@ -171,60 +239,59 @@ Public Class clsDataWork_Address
         objOList_AdressZusaetze = New List(Of clsAdderesszusatz)
         objOItem_Postfach = Nothing
 
-        objOList_Address.Add(New clsObjectRel With {.ID_Object = objOItem_Partner.GUID, _
-                                                    .ID_Parent_Other = objLocalConfig.OItem_Class_Address.GUID, _
-                                                    .ID_RelationType = objLocalConfig.OItem_RelationType_Sitz.GUID, _
-                                                    .Ontology = objLocalConfig.Globals.Type_Object})
+        If OItem_Address Is Nothing Then
+            objOList_Address.Add(New clsObjectRel With {.ID_Object = objOItem_Partner.GUID, _
+                                            .ID_Parent_Other = objLocalConfig.OItem_Class_Address.GUID, _
+                                            .ID_RelationType = objLocalConfig.OItem_RelationType_Sitz.GUID, _
+                                            .Ontology = objLocalConfig.Globals.Type_Object})
 
-        objOItem_Result_Address = objDBLevel_Address.get_Data_ObjectRel(objOList_Address)
+            objOItem_Result_Address = objDBLevel_Address.get_Data_ObjectRel(objOList_Address)
 
-        If objOItem_Result_Address.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            If objDBLevel_Address.OList_ObjectRel_ID.Count = 0 Then
-                objOList_Address.Clear()
-                objOItem_Address = New clsOntologyItem(Guid.NewGuid.ToString.Replace("-", ""), _
-                                                       objOItem_Partner.Name, _
-                                                       objLocalConfig.OItem_Class_Address.GUID, _
-                                                       objLocalConfig.Globals.Type_Object)
+            If objOItem_Result_Address.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                If objDBLevel_Address.OList_ObjectRel_ID.Count = 0 Then
+                    objOList_Address.Clear()
+                    objOItem_Address = New clsOntologyItem(Guid.NewGuid.ToString.Replace("-", ""), _
+                                                           objOItem_Partner.Name, _
+                                                           objLocalConfig.OItem_Class_Address.GUID, _
+                                                           objLocalConfig.Globals.Type_Object)
 
-                objOItem_Result = objTransaction_Address.save_001_Address(objOItem_Address)
-                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    objOItem_Result = objTransaction_Address.save_002_Partner_To_Address(objOItem_Partner)
+                    objOItem_Result = objTransaction_Address.save_001_Address(objOItem_Address)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        objThread_PLZOrtLand = New Threading.Thread(AddressOf get_Data_PLZOrtLand)
-                        objThread_PLZOrtLand.Start()
-                        objThread_Strasse = New Threading.Thread(AddressOf get_Data_Strasse)
-                        objThread_Strasse.Start()
-                        objThread_Zusatz = New Threading.Thread(AddressOf get_Data_Zusatz)
-                        objThread_Zusatz.Start()
-                        objThread_Postfach = New Threading.Thread(AddressOf get_Data_Postfach)
-                        objThread_Postfach.Start()
+                        objOItem_Result = objTransaction_Address.save_002_Partner_To_Address(objOItem_Partner)
+
+
                     Else
-                        objTransaction_Address.del_001_Address()
                         objOItem_Result_Address = objLocalConfig.Globals.LState_Error
                     End If
-
                 Else
-                    objOItem_Result_Address = objLocalConfig.Globals.LState_Error
+                    objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
+                    objOItem_Address = New clsOntologyItem(objDBLevel_Address.OList_ObjectRel_ID(0).ID_Other, _
+                                                           Nothing, _
+                                                           objDBLevel_Address.OList_ObjectRel_ID(0).ID_Parent_Other, _
+                                                           objLocalConfig.Globals.Type_Object)
                 End If
-            Else
-                objOItem_Address = New clsOntologyItem(objDBLevel_Address.OList_ObjectRel_ID(0).ID_Other, _
-                                                       Nothing, _
-                                                       objDBLevel_Address.OList_ObjectRel_ID(0).ID_Parent_Other, _
-                                                       objLocalConfig.Globals.Type_Object)
 
-                objThread_PLZOrtLand = New Threading.Thread(AddressOf get_Data_PLZOrtLand)
-                objThread_PLZOrtLand.Start()
-                objThread_Strasse = New Threading.Thread(AddressOf get_Data_Strasse)
-                objThread_Strasse.Start()
-                objThread_Zusatz = New Threading.Thread(AddressOf get_Data_Zusatz)
-                objThread_Zusatz.Start()
-                objThread_Postfach = New Threading.Thread(AddressOf get_Data_Postfach)
-                objThread_Postfach.Start()
             End If
-            
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
+            objOItem_Address = OItem_Address
         End If
 
-        
+
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objThread_PLZOrtLand = New Threading.Thread(AddressOf get_Data_PLZOrtLand)
+            objThread_PLZOrtLand.Start()
+            objThread_Strasse = New Threading.Thread(AddressOf get_Data_Strasse)
+            objThread_Strasse.Start()
+            objThread_Zusatz = New Threading.Thread(AddressOf get_Data_Zusatz)
+            objThread_Zusatz.Start()
+            objThread_Postfach = New Threading.Thread(AddressOf get_Data_Postfach)
+            objThread_Postfach.Start()
+        Else
+            objTransaction_Address.del_001_Address()
+            objOItem_Result_Address = objLocalConfig.Globals.LState_Error
+        End If
     End Sub
 
     Public Sub get_Data_Strasse()
@@ -265,7 +332,7 @@ Public Class clsDataWork_Address
         Else
             objOItem_Result_Strasse = objLocalConfig.Globals.LState_Error
         End If
-        
+
     End Sub
 
     Public Sub get_Data_Zusatz()
@@ -273,7 +340,7 @@ Public Class clsDataWork_Address
 
         objOItem_Result_Zusatz = objLocalConfig.Globals.LState_Nothing
 
-        
+
         Dim objOList_Zusatz_Rel = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Object = objOItem_Address.GUID, _
                                                                                           .ID_Parent_Other = objLocalConfig.OItem_class_adress_zusatz.GUID, _
                                                                                           .ID_RelationType = objLocalConfig.OItem_RelationType_belonging.GUID}}
@@ -295,7 +362,7 @@ Public Class clsDataWork_Address
                                                Select New clsAdderesszusatz With {.ID_AdressZusatz = objZusatz.ID_Other, _
                                                                                   .Name_AdressZusatz = objZusatz.Name_Other, _
                                                                                   .ID_ZusatzTyp = objZusatzType.ID_Other, _
-                                                                                  .Name_ZusatzTyp = objZusatzType.Name_Other }).ToList()
+                                                                                  .Name_ZusatzTyp = objZusatzType.Name_Other}).ToList()
                 Else
                     objOList_AdressZusaetze.Clear()
                     objOItem_Result_Zusatz = objLocalConfig.Globals.LState_Success
@@ -307,7 +374,7 @@ Public Class clsDataWork_Address
         Else
             objOItem_Result_Zusatz = objLocalConfig.Globals.LState_Error
         End If
-        
+
     End Sub
 
     Public Sub get_Data_Postfach()
@@ -348,7 +415,7 @@ Public Class clsDataWork_Address
         Else
             objOItem_Result_Postfach = objLocalConfig.Globals.LState_Error
         End If
-        
+
     End Sub
 
     Public Sub get_Data_PLZOrtLand()
@@ -441,6 +508,11 @@ Public Class clsDataWork_Address
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
+        Initialize()
+    End Sub
+
+    Public Sub New(ByVal Globals As clsGlobals)
+        objLocalConfig = New clsLocalConfig(Globals)
         Initialize()
     End Sub
 
