@@ -33,6 +33,8 @@ namespace LiteraturQuellen_Module
 
         public List<clsLiteraturQuelle> OList_LiteraturQuellen { get; private set; }
 
+        private clsOntologyItem objOItem_Filter;
+
         private bool boolApplyable;
 
         public bool Applyable 
@@ -65,21 +67,55 @@ namespace LiteraturQuellen_Module
             dataGridView_LiteraturQuellen.DataSource = null;
             objDataWork_LiteraturQuelle = new clsDataWork_LiteraturQuelle(objLocalConfig);
             objDataWork_LiteraturQuelle.GetData_LiteraturQuellen();
-            if (objDataWork_LiteraturQuelle.OItem_Result_LiteraturQuellen.GUID == objLocalConfig.Globals.LState_Success.GUID)
-            {
-                OList_LiteraturList = objDataWork_LiteraturQuelle.OList_LiteraturQuellen;
-                dataGridView_LiteraturQuellen.DataSource = OList_LiteraturList;
-                dataGridView_LiteraturQuellen.Columns[0].Visible = false;
-                dataGridView_LiteraturQuellen.Columns[2].Visible = false;
-                dataGridView_LiteraturQuellen.Columns[4].Visible = false;
+            List<clsOntologyItem> objOList_LiteraturQuellen = new List<clsOntologyItem>();
 
-                toolStripLabel_Count.Text = dataGridView_LiteraturQuellen.RowCount.ToString();
+            if (objOItem_Filter != null)
+            {
+                objOList_LiteraturQuellen = objDataWork_LiteraturQuelle.getFilterQuellen(objOItem_Filter);
+            }
+
+            if (objOList_LiteraturQuellen != null)
+            {
+                if (objDataWork_LiteraturQuelle.OItem_Result_LiteraturQuellen.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+
+                    if (objOList_LiteraturQuellen.Any())
+                    {
+                        var oList_LiteraturList = new SortableBindingList<clsLiteraturQuelle>((from objLiteraturQuellen in objDataWork_LiteraturQuelle.OList_LiteraturQuellen
+                                                                                               join literaturQuelleFilter in objOList_LiteraturQuellen on objLiteraturQuellen.ID_LiteraturQuelle equals literaturQuelleFilter.GUID
+                                                                                               select objLiteraturQuellen));
+
+                        dataGridView_LiteraturQuellen.DataSource = oList_LiteraturList;
+                    }
+                    else
+                    {
+                        OList_LiteraturList = objDataWork_LiteraturQuelle.OList_LiteraturQuellen;
+                        dataGridView_LiteraturQuellen.DataSource = OList_LiteraturList;
+                    }
+                    
+                    
+
+                    
+                    dataGridView_LiteraturQuellen.Columns[0].Visible = false;
+                    dataGridView_LiteraturQuellen.Columns[2].Visible = false;
+                    dataGridView_LiteraturQuellen.Columns[4].Visible = false;
+
+                    toolStripLabel_Count.Text = dataGridView_LiteraturQuellen.RowCount.ToString();
+                }
+                else
+                {
+                    MessageBox.Show(this, "Die Literaturliste konnte nicht initialisiert werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Environment.Exit(-1);
+                }
             }
             else
             {
                 MessageBox.Show(this, "Die Literaturliste konnte nicht initialisiert werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(-1);
             }
+            
+
+            
         }
 
         private void dataGridView_LiteraturQuellen_SelectionChanged(object sender, EventArgs e)
@@ -185,5 +221,141 @@ namespace LiteraturQuellen_Module
             appliedQuelle();
 
         }
+
+        private void toolStripMenuItem_Literatur_Click(object sender, EventArgs e)
+        {
+            checkMenuitem(sender.ToString());
+        }
+
+        private void checkMenuitem(string menuItemName)
+        {
+            toolStripMenuItem_Literatur.Checked = toolStripMenuItem_Literatur.Text == menuItemName ? true : false;
+            seiteToolStripMenuItem.Checked = seiteToolStripMenuItem.Text == menuItemName ? true : false;
+            urlToolStripMenuItem.Checked = urlToolStripMenuItem.Text == menuItemName ? true : false;
+            mediaItemToolStripMenuItem.Checked = mediaItemToolStripMenuItem.Text == menuItemName ? true : false;
+            videoToolStripMenuItem.Checked = videoToolStripMenuItem.Text == menuItemName ? true : false;
+            imageToolStripMenuItem.Checked = imageToolStripMenuItem.Text == menuItemName ? true : false;
+            emailToolStripMenuItem.Checked = emailToolStripMenuItem.Text == menuItemName ? true : false;
+            zeitschriftenausgabeToolStripMenuItem.Checked = zeitschriftenausgabeToolStripMenuItem.Text == menuItemName ? true : false;
+            zeitschriftToolStripMenuItem.Checked = zeitschriftToolStripMenuItem.Text == menuItemName ? true : false;
+
+            toolStripSplitButton_FilterTyp.Text = menuItemName;
+
+            toolStripButton_AddFilter.Enabled = !seiteToolStripMenuItem.Checked;
+        }
+
+        private void seiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkMenuitem(sender.ToString());
+        }
+
+        private void urlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkMenuitem(sender.ToString());
+        }
+
+        private void mediaItemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkMenuitem(sender.ToString());
+        }
+
+        private void imageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkMenuitem(sender.ToString());
+        }
+
+        private void emailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkMenuitem(sender.ToString());
+        }
+
+        private void zeitschriftToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkMenuitem(sender.ToString());
+        }
+
+        private void zeitschriftenausgabeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkMenuitem(sender.ToString());
+        }
+
+        private void toolStripTextBox_Filter_TextChanged(object sender, EventArgs e)
+        {
+            timer_Filter.Stop();
+            if (!toolStripTextBox_Filter.ReadOnly)
+            {
+                timer_Filter.Start();
+            }
+            
+        }
+
+        private void videoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkMenuitem(sender.ToString());
+        }
+
+        private void timer_Filter_Tick(object sender, EventArgs e)
+        {
+            timer_Filter.Stop();
+            objOItem_Filter = new clsOntologyItem();
+
+            if (toolStripMenuItem_Literatur.Checked)
+            {
+                objOItem_Filter.Name = toolStripTextBox_Filter.Text;
+                objOItem_Filter.GUID_Parent = objLocalConfig.OItem_type_literatur.GUID;
+            }
+            else if (seiteToolStripMenuItem.Checked)
+            {
+                objOItem_Filter.Name = toolStripTextBox_Filter.Text;
+                objOItem_Filter.GUID_Parent = objLocalConfig.OItem_attribute_seite.GUID;
+            }
+            else if (urlToolStripMenuItem.Checked)
+            {
+                objOItem_Filter.Name = toolStripTextBox_Filter.Text;
+                objOItem_Filter.GUID_Parent = objLocalConfig.OItem_type_url.GUID;
+            }
+            else if (mediaItemToolStripMenuItem.Checked)
+            {
+                objOItem_Filter.Name = toolStripTextBox_Filter.Text;
+                objOItem_Filter.GUID_Parent = objLocalConfig.OItem_class_media_item.GUID;
+            }
+            else if (videoToolStripMenuItem.Checked)
+            {
+                objOItem_Filter.Name = toolStripTextBox_Filter.Text;
+                objOItem_Filter.GUID_Parent = objLocalConfig.OItem_type_video.GUID;
+            }
+            else if (imageToolStripMenuItem.Checked)
+            {
+                objOItem_Filter.Name = toolStripTextBox_Filter.Text;
+                objOItem_Filter.GUID_Parent = objLocalConfig.OItem_class_images__graphic_.GUID;
+            }
+            else if (emailToolStripMenuItem.Checked)
+            {
+                objOItem_Filter.Name = toolStripTextBox_Filter.Text;
+                objOItem_Filter.GUID_Parent = objLocalConfig.OItem_class_e_mail.GUID;
+            }
+            else if (zeitschriftenausgabeToolStripMenuItem.Checked)
+            {
+                objOItem_Filter.Name = toolStripTextBox_Filter.Text;
+                objOItem_Filter.GUID_Parent = objLocalConfig.OItem_type_zeitschriftenausgabe.GUID;
+            }
+            else if (zeitschriftToolStripMenuItem.Checked)
+            {
+                objOItem_Filter.Name = toolStripTextBox_Filter.Text;
+                objOItem_Filter.GUID_Parent = objLocalConfig.OItem_class_zeitschrift.GUID;
+            }
+            else
+            {
+                objOItem_Filter = null;
+            }
+
+            if (objOItem_Filter != null)
+            {
+                FillDataGridView();
+            }
+
+        }
+
+        
     }
 }

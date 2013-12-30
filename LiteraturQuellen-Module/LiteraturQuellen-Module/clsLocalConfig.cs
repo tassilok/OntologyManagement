@@ -53,6 +53,7 @@ public clsOntologyItem OItem_relationtype_broadcasted_in { get; set; }
         // Objects
 public clsOntologyItem OItem_token_logstate_download { get; set; }
 
+
         // Classes
 public clsOntologyItem OItem_type_artikel { get; set; }
 public clsOntologyItem OItem_type_audio_quelle { get; set; }
@@ -82,6 +83,10 @@ public clsOntologyItem OItem_type_zeitschriftenausgabe { get; set; }
 public clsOntologyItem OItem_type_zeitungsquelle { get; set; }
 public clsOntologyItem OItem_class_sendung { get; set; }
 public clsOntologyItem OItem_class_video_sender { get; set; }
+public clsOntologyItem OItem_class_images__graphic_ { get; set; }
+public clsOntologyItem OItem_class_media_item { get; set; }
+public clsOntologyItem OItem_class_e_mail { get; set; }
+public clsOntologyItem OItem_class_zeitschrift { get; set; }
 
 public clsOntologyItem User { get; set; }
 	
@@ -709,6 +714,8 @@ var objOList_relationtype_verweist_auf = (from objOItem in objDBLevel_Config1.OL
   
 	private void get_Config_Objects()
         {
+            
+
 		var objOList_token_logstate_download = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                            where objOItem.ID_Object == cstrID_Ontology
                                            join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -735,6 +742,90 @@ var objOList_relationtype_verweist_auf = (from objOItem in objDBLevel_Config1.OL
   
 	private void get_Config_Classes()
         {
+
+            var objOList_class_zeitschrift = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                              where objOItem.ID_Object == cstrID_Ontology
+                                              join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                              where objRef.Name_Object.ToLower() == "class_zeitschrift".ToLower() && objRef.Ontology == Globals.Type_Class
+                                              select objRef).ToList();
+
+            if (objOList_class_zeitschrift.Any())
+            {
+                OItem_class_zeitschrift = new clsOntologyItem()
+                {
+                    GUID = objOList_class_zeitschrift.First().ID_Other,
+                    Name = objOList_class_zeitschrift.First().Name_Other,
+                    GUID_Parent = objOList_class_zeitschrift.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_class_e_mail = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                         where objOItem.ID_Object == cstrID_Ontology
+                                         join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                         where objRef.Name_Object.ToLower() == "class_e_mail".ToLower() && objRef.Ontology == Globals.Type_Class
+                                         select objRef).ToList();
+
+            if (objOList_class_e_mail.Any())
+            {
+                OItem_class_e_mail = new clsOntologyItem()
+                {
+                    GUID = objOList_class_e_mail.First().ID_Other,
+                    Name = objOList_class_e_mail.First().Name_Other,
+                    GUID_Parent = objOList_class_e_mail.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_class_images__graphic_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                   where objOItem.ID_Object == cstrID_Ontology
+                                                   join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                   where objRef.Name_Object.ToLower() == "class_images__graphic_".ToLower() && objRef.Ontology == Globals.Type_Class
+                                                   select objRef).ToList();
+
+            if (objOList_class_images__graphic_.Any())
+            {
+                OItem_class_images__graphic_ = new clsOntologyItem()
+                {
+                    GUID = objOList_class_images__graphic_.First().ID_Other,
+                    Name = objOList_class_images__graphic_.First().Name_Other,
+                    GUID_Parent = objOList_class_images__graphic_.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_class_media_item = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                             where objOItem.ID_Object == cstrID_Ontology
+                                             join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                             where objRef.Name_Object.ToLower() == "class_media_item".ToLower() && objRef.Ontology == Globals.Type_Class
+                                             select objRef).ToList();
+
+            if (objOList_class_media_item.Any())
+            {
+                OItem_class_media_item = new clsOntologyItem()
+                {
+                    GUID = objOList_class_media_item.First().ID_Other,
+                    Name = objOList_class_media_item.First().Name_Other,
+                    GUID_Parent = objOList_class_media_item.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
 
             var objOList_class_video_sender = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                where objOItem.ID_Object == cstrID_Ontology
