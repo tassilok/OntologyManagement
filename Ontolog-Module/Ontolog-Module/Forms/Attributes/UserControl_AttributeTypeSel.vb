@@ -88,7 +88,7 @@
     Private Sub RadioButton_Real_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles RadioButton_Real.CheckedChanged
         If boolPChange = False Then
             If RadioButton_Real.Checked = True Then
-                RaiseEvent selected_Type(objLocalConfig.Globals.DType_Int.Name)
+                RaiseEvent selected_Type(objLocalConfig.Globals.DType_Real.Name)
             End If
         End If
         
