@@ -82,6 +82,7 @@
             this.Controls.Add(this.toolStripContainer1);
             this.Name = "SchriftverkehrsModule";
             this.Text = "x_Schriftverkehrs-Module";
+            this.Load += new System.EventHandler(this.SchriftverkehrsModule_Load);
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);

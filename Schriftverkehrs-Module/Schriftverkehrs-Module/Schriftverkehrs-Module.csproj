@@ -128,6 +128,10 @@
       <Project>{f6793b25-149b-441d-8d34-acb522be9071}</Project>
       <Name>Report-Module</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Security-Module\Security-Module\Security-Module.vbproj">
+      <Project>{c9add5dc-090d-4003-bba9-cf9218c938b2}</Project>
+      <Name>Security-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Structure-Module\Structure-Module\Structure-Module.csproj">
       <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
       <Name>Structure-Module</Name>
@@ -138,6 +142,10 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\pulsante_02_architetto_f_01.png" />
+    <None Include="Resources\pulsante_02_architetto_f_01 Last.png" />
+    <None Include="Resources\pulsante_01_architetto_f_01.png" />
+    <None Include="Resources\pulsante_01_architetto_f_01 First1.png" />
     <None Include="Resources\appunti_architetto_franc_01.png" />
     <None Include="Resources\b_plus.png" />
     <None Include="Resources\TzeenieWheenie_red_green_OK_not_OK_Icons_1.png" />

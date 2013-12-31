@@ -18,12 +18,33 @@ namespace Schriftverkehrs_Module
         private clsDBLevel dbLevel_Schriftverkehr_Rel;
         private clsDBLevel dbLevel_Schriftverkehr_FilterRel;
 
+        private clsDBLevel dbLevel_SchriftverkehrsArt;
+
         public List<clsSchriftverkehr> SchriftverkehrsDaten { get; set; }
 
         private clsDataWork_LogEntry objDataWork_LogEntry;
         private clsDataWork_Address objDataWork_Address;
 
         private clsOntologyItem objOItem_Schriftverkehr;
+
+        public List<clsOntologyItem> GetBaseData_SchriftverkehrsTyp()
+        {
+            var OList_SchriftverkehrsTyp = new List<clsOntologyItem>();
+
+            var objORel_SchriftverkehrsTyp = new List<clsOntologyItem> { new clsOntologyItem { GUID_Parent = objLocalConfig.OItem_class_schriftverkehrsart.GUID } };
+
+            var objOItem_Result = dbLevel_SchriftverkehrsArt.get_Data_Objects(objORel_SchriftverkehrsTyp);
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                OList_SchriftverkehrsTyp = dbLevel_SchriftverkehrsArt.OList_Objects;
+            }
+            else
+            {
+                OList_SchriftverkehrsTyp = null;
+            }
+
+            return OList_SchriftverkehrsTyp;
+        }
 
         public clsOntologyItem GetData_Schriftverkehr(string ID_Schriftverkehr = null)
         {
@@ -197,6 +218,10 @@ namespace Schriftverkehrs_Module
                                                        Where(sf => sf.ID_Parent_Other == objLocalConfig.OItem_class_url.GUID).ToList()
                                                        on objSchriftverkehr.GUID equals url.ID_Object into urls
                                                     from url in urls.DefaultIfEmpty()
+                                                    join address in dbLevel_Schriftverkehr_Rel.OList_ObjectRel.
+                                                        Where(sf => sf.ID_Parent_Other == objLocalConfig.OItem_class_address.GUID).ToList()
+                                                        on objSchriftverkehr.GUID equals address.ID_Object into addresses
+                                                    from address in addresses.DefaultIfEmpty()
                                                     join addressZusatz in dbLevel_Schriftverkehr_Rel.OList_ObjectRel.
                                                        Where(sf => sf.ID_Parent_Other == objLocalConfig.OItem_class_adress_zusatz.GUID).ToList()
                                                        on objSchriftverkehr.GUID equals addressZusatz.ID_Object into addressZusatzs
@@ -221,7 +246,9 @@ namespace Schriftverkehrs_Module
                                                         ID_Url = url != null ? url.ID_Other : null,
                                                         Name_Url = url != null ? url.Name_Other : null,
                                                         ID_AddressZusatz = addressZusatz != null ? addressZusatz.ID_Other : null,
-                                                        Name_AddressZusatz = addressZusatz != null ? addressZusatz.Name_Other : null
+                                                        Name_AddressZusatz = addressZusatz != null ? addressZusatz.Name_Other : null,
+                                                        ID_Address = address != null ? address.ID_Other : null,
+                                                        Name_Address = address != null ? address.Name_Other : null
                                                     }).ToList();
                         }
                         
@@ -309,6 +336,7 @@ namespace Schriftverkehrs_Module
             dbLevel_Schriftverkehr_AttRel = new clsDBLevel(objLocalConfig.Globals);
             dbLevel_Schriftverkehr_Rel = new clsDBLevel(objLocalConfig.Globals);
             dbLevel_Schriftverkehr_FilterRel = new clsDBLevel(objLocalConfig.Globals);
+            dbLevel_SchriftverkehrsArt = new clsDBLevel(objLocalConfig.Globals);
 
             objDataWork_LogEntry = new clsDataWork_LogEntry(objLocalConfig.Globals);
             objDataWork_Address = new clsDataWork_Address(objLocalConfig.Globals);

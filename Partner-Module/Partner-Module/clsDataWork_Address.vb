@@ -151,7 +151,7 @@ Public Class clsDataWork_Address
         End Get
     End Property
 
-    Public Function GetAddress(Optional ID_ZusatzTyp As String = Nothing, Optional OItem_Contact As clsOntologyItem = Nothing) As String
+    Public Function GetAddress(Optional ID_ZusatzTyp As String = Nothing, Optional strContact As String = Nothing, Optional strZusatz As String = Nothing) As String
         Dim strAddress As String = ""
 
         If Not objOItem_Partner Is Nothing Then
@@ -162,19 +162,27 @@ Public Class clsDataWork_Address
             End If
         End If
 
-        If Not OItem_Contact Is Nothing Then
-            strAddress = strAddress & vbCrLf & OItem_Contact.Name
+        If Not strContact Is Nothing Then
+            strAddress = strAddress & vbCrLf & strContact
         End If
 
         If ID_ZusatzTyp Is Nothing Then
-            If Zusaetze.Any() Then
-                strAddress = strAddress & vbCrLf & Zusaetze.First().Name_AdressZusatz
+            If strZusatz Is Nothing Then
+                If Zusaetze.Any() Then
+                    strAddress = strAddress & vbCrLf & Zusaetze.First().Name_AdressZusatz
+                End If
+            Else
+                strAddress = strAddress & vbCrLf & strZusatz
             End If
         Else
             Dim zusaetzeFound = Zusaetze.Where(Function(z) z.ID_ZusatzTyp = ID_ZusatzTyp).ToList()
             If zusaetzeFound.Any() Then
                 strAddress = strAddress & vbCrLf & zusaetzeFound.First().Name_AdressZusatz
             End If
+
+
+
+
         End If
 
         If Not Postfach Is Nothing Then
@@ -288,6 +296,7 @@ Public Class clsDataWork_Address
             objThread_Zusatz.Start()
             objThread_Postfach = New Threading.Thread(AddressOf get_Data_Postfach)
             objThread_Postfach.Start()
+            objOItem_Result_Address = objOItem_Result
         Else
             objTransaction_Address.del_001_Address()
             objOItem_Result_Address = objLocalConfig.Globals.LState_Error
@@ -529,5 +538,6 @@ Public Class clsDataWork_Address
         objTransaction_Address = New clsTransaction_Address(objLocalConfig)
 
         objOList_AdressZusaetze = New List(Of clsAdderesszusatz)
+        objOItem_Result_Address = objLocalConfig.Globals.LState_Nothing
     End Sub
 End Class

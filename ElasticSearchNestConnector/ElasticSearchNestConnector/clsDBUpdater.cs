@@ -108,28 +108,29 @@ namespace ElasticSearchNestConnector
                     objDict.Add(objFields.ID_DataType, objOItem_AttributeType.GUID_Parent);
 
 
+                    objDBSelector.ElConnector.Bulk(b => b.Index<Dictionary<string, object>>(i => i.Object(objDict)));
 
-                    objBulkObjects.Add(new ElasticSearch.Client.Domain.BulkObject(objDBSelector.Index, objTypes.AttributeType, objOItem_AttributeType.GUID, objDict));
+                    //objBulkObjects.Add(new ElasticSearch.Client.Domain.BulkObject(objDBSelector.Index, objTypes.AttributeType, objOItem_AttributeType.GUID, objDict));
 
-                    try
-                    {
-                        objDBSelector.ElConnector.Bulk(b => b.Index(
-                        opResult = objDBSelector.ElConnector.Bulk(objBulkObjects);
-                        objBulkObjects = null;
-                        if (opResult.Success)
-                        {
-                            objOItem_Result = objLogStates.LogState_Success;
-                        }
-                        else
-                        {
-                            objOItem_Result = objLogStates.LogState_Error;
-                        }
+                    //try
+                    //{
+                    //    objDBSelector.ElConnector.Bulk(b => b.Index(
+                    //    opResult = objDBSelector.ElConnector.Bulk(objBulkObjects);
+                    //    objBulkObjects = null;
+                    //    if (opResult.Success)
+                    //    {
+                    //        objOItem_Result = objLogStates.LogState_Success;
+                    //    }
+                    //    else
+                    //    {
+                    //        objOItem_Result = objLogStates.LogState_Error;
+                    //    }
 
-                    }
-                    catch (Exception ex)
-                    {
-                        objOItem_Result = objLogStates.LogState_Error;
-                    }
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    objOItem_Result = objLogStates.LogState_Error;
+                    //}
                 }
                 else
                 {

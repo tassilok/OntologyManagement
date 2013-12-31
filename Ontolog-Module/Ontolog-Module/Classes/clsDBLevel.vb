@@ -570,7 +570,7 @@ Public Class clsDBLevel
         
         
         Dim lngOrderID = objElSelector.get_Data_Att_OrderByVal(strOrderField,OItem_Object,OItem_AttributeType,doASC)
-        
+
         Return lngOrderID
 
     End Function
@@ -1153,6 +1153,10 @@ Public Class clsDBLevel
 
 
 
+    End Sub
+
+    Private Sub Finalize_Client()
+        objElSelector.Dispose()
     End Sub
 
     Protected Overrides Sub Finalize()

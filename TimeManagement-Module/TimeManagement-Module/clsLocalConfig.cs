@@ -23,24 +23,36 @@ namespace TimeManagement_Module
         private clsDBLevel objDBLevel_Config2;
 
         public clsOntologyItem User { get; set; }
+        public clsOntologyItem Group { get; set; }
+
+        public double StandardHours { get; set; }
+        public double StandardDayCount { get; set; }
 	
         // AttributeTypes
 	public clsOntologyItem OItem_attributetype_ende { get; set; }
 public clsOntologyItem OItem_attributetype_start { get; set; }
+public clsOntologyItem OItem_attributetype_hours { get; set; }
+public clsOntologyItem OItem_attributetype_workdays { get; set; }
 
         // Classes
 public clsOntologyItem OItem_class_timemanagement { get; set; }
 public clsOntologyItem OItem_class_user { get; set; }
 public clsOntologyItem OItem_class_logstate { get; set; }
-
+public clsOntologyItem OItem_class_work_day { get; set; }
+public clsOntologyItem OItem_class_user_work_config { get; set; }
 
         // Objects
 public clsOntologyItem OItem_object_krank { get; set; }
 public clsOntologyItem OItem_object_private { get; set; }
 public clsOntologyItem OItem_object_urlaub { get; set; }
 public clsOntologyItem OItem_object_work { get; set; }
+public clsOntologyItem OItem_class_weekdays { get; set; }
+
+        // Relationtype
 public clsOntologyItem OItem_relationtype_is_in_state { get; set; }
 public clsOntologyItem OItem_relationtype_was_created_by { get; set; }
+public clsOntologyItem OItem_relationtype_belongs_to { get; set; }
+public clsOntologyItem OItem_relationtype_defines { get; set; }
 	
 private void get_Data_DevelopmentConfig()
         {
@@ -151,6 +163,49 @@ private void get_Data_DevelopmentConfig()
   
 	private void get_Config_AttributeTypes()
         {
+
+            var objOList_attributetype_workdays = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                   where objOItem.ID_Object == cstrID_Ontology
+                                                   join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                   where objRef.Name_Object.ToLower() == "attributetype_workdays".ToLower() && objRef.Ontology == Globals.Type_AttributeType
+                                                   select objRef).ToList();
+
+            if (objOList_attributetype_workdays.Any())
+            {
+                OItem_attributetype_workdays = new clsOntologyItem()
+                {
+                    GUID = objOList_attributetype_workdays.First().ID_Other,
+                    Name = objOList_attributetype_workdays.First().Name_Other,
+                    GUID_Parent = objOList_attributetype_workdays.First().ID_Parent_Other,
+                    Type = Globals.Type_AttributeType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_attributetype_hours = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                where objOItem.ID_Object == cstrID_Ontology
+                                                join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                where objRef.Name_Object.ToLower() == "attributetype_hours".ToLower() && objRef.Ontology == Globals.Type_AttributeType
+                                                select objRef).ToList();
+
+            if (objOList_attributetype_hours.Any())
+            {
+                OItem_attributetype_hours = new clsOntologyItem()
+                {
+                    GUID = objOList_attributetype_hours.First().ID_Other,
+                    Name = objOList_attributetype_hours.First().Name_Other,
+                    GUID_Parent = objOList_attributetype_hours.First().ID_Parent_Other,
+                    Type = Globals.Type_AttributeType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
 		var objOList_attributetype_ende = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                            where objOItem.ID_Object == cstrID_Ontology
                                            join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -198,6 +253,48 @@ var objOList_attributetype_start = (from objOItem in objDBLevel_Config1.OList_Ob
   
 	private void get_Config_RelationTypes()
         {
+            var objOList_relationtype_defines = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                 where objOItem.ID_Object == cstrID_Ontology
+                                                 join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                 where objRef.Name_Object.ToLower() == "relationtype_defines".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                                 select objRef).ToList();
+
+            if (objOList_relationtype_defines.Any())
+            {
+                OItem_relationtype_defines = new clsOntologyItem()
+                {
+                    GUID = objOList_relationtype_defines.First().ID_Other,
+                    Name = objOList_relationtype_defines.First().Name_Other,
+                    GUID_Parent = objOList_relationtype_defines.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_relationtype_belongs_to = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                    where objOItem.ID_Object == cstrID_Ontology
+                                                    join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                    where objRef.Name_Object.ToLower() == "relationtype_belongs_to".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                                    select objRef).ToList();
+
+            if (objOList_relationtype_belongs_to.Any())
+            {
+                OItem_relationtype_belongs_to = new clsOntologyItem()
+                {
+                    GUID = objOList_relationtype_belongs_to.First().ID_Other,
+                    Name = objOList_relationtype_belongs_to.First().Name_Other,
+                    GUID_Parent = objOList_relationtype_belongs_to.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_relationtype_was_created_by = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                         where objOItem.ID_Object == cstrID_Ontology
                                                         join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -334,6 +431,68 @@ var objOList_object_work = (from objOItem in objDBLevel_Config1.OList_ObjectRel
   
 	private void get_Config_Classes()
         {
+            var objOList_class_weekdays = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == "class_weekdays".ToLower() && objRef.Ontology == Globals.Type_Class
+                                           select objRef).ToList();
+
+            if (objOList_class_weekdays.Any())
+            {
+                OItem_class_weekdays = new clsOntologyItem()
+                {
+                    GUID = objOList_class_weekdays.First().ID_Other,
+                    Name = objOList_class_weekdays.First().Name_Other,
+                    GUID_Parent = objOList_class_weekdays.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_class_work_day = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == "class_work_day".ToLower() && objRef.Ontology == Globals.Type_Class
+                                           select objRef).ToList();
+
+            if (objOList_class_work_day.Any())
+            {
+                OItem_class_work_day = new clsOntologyItem()
+                {
+                    GUID = objOList_class_work_day.First().ID_Other,
+                    Name = objOList_class_work_day.First().Name_Other,
+                    GUID_Parent = objOList_class_work_day.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_class_user_work_config = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                   where objOItem.ID_Object == cstrID_Ontology
+                                                   join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                   where objRef.Name_Object.ToLower() == "class_user_work_config".ToLower() && objRef.Ontology == Globals.Type_Class
+                                                   select objRef).ToList();
+
+            if (objOList_class_user_work_config.Any())
+            {
+                OItem_class_user_work_config = new clsOntologyItem()
+                {
+                    GUID = objOList_class_user_work_config.First().ID_Other,
+                    Name = objOList_class_user_work_config.First().Name_Other,
+                    GUID_Parent = objOList_class_user_work_config.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
 
             var objOList_class_logstate = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                            where objOItem.ID_Object == cstrID_Ontology

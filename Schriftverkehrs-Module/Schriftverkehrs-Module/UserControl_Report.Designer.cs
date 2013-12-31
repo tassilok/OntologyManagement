@@ -33,22 +33,22 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel_CountLbl = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_Count = new System.Windows.Forms.ToolStripLabel();
-            this.dataGridView_Report = new System.Windows.Forms.DataGridView();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_Filter = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_ClearFilter = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_AddFilter = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_AddSchriftverkehr = new System.Windows.Forms.ToolStripButton();
+            this.dataGridView_Report = new System.Windows.Forms.DataGridView();
+            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_ShowDetails = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_AddSchriftverkehr = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Report)).BeginInit();
             this.toolStrip2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Report)).BeginInit();
             this.toolStrip3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -98,25 +98,13 @@
             this.toolStripLabel_Count.Size = new System.Drawing.Size(13, 22);
             this.toolStripLabel_Count.Text = "0";
             // 
-            // dataGridView_Report
-            // 
-            this.dataGridView_Report.AllowUserToAddRows = false;
-            this.dataGridView_Report.AllowUserToDeleteRows = false;
-            this.dataGridView_Report.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_Report.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView_Report.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView_Report.Name = "dataGridView_Report";
-            this.dataGridView_Report.ReadOnly = true;
-            this.dataGridView_Report.Size = new System.Drawing.Size(847, 500);
-            this.dataGridView_Report.TabIndex = 0;
-            // 
             // toolStrip2
             // 
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this.toolStripTextBox_Filter,
-            this.toolStripButton1,
+            this.toolStripButton_ClearFilter,
             this.toolStripButton_AddFilter});
             this.toolStrip2.Location = new System.Drawing.Point(83, 0);
             this.toolStrip2.Name = "toolStrip2";
@@ -135,26 +123,15 @@
             this.toolStripTextBox_Filter.ReadOnly = true;
             this.toolStripTextBox_Filter.Size = new System.Drawing.Size(200, 25);
             // 
-            // toolStrip3
+            // toolStripButton_ClearFilter
             // 
-            this.toolStrip3.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton_ShowDetails,
-            this.toolStripButton_AddSchriftverkehr});
-            this.toolStrip3.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(89, 25);
-            this.toolStrip3.TabIndex = 0;
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::Schriftverkehrs_Module.Properties.Resources.TzeenieWheenie_red_green_OK_not_OK_Icons_1;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "x_Clear";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.toolStripButton_ClearFilter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_ClearFilter.Image = global::Schriftverkehrs_Module.Properties.Resources.TzeenieWheenie_red_green_OK_not_OK_Icons_1;
+            this.toolStripButton_ClearFilter.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_ClearFilter.Name = "toolStripButton_ClearFilter";
+            this.toolStripButton_ClearFilter.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_ClearFilter.Text = "x_Clear";
+            this.toolStripButton_ClearFilter.Click += new System.EventHandler(this.toolStripButton_ClearFilter_Click);
             // 
             // toolStripButton_AddFilter
             // 
@@ -166,14 +143,30 @@
             this.toolStripButton_AddFilter.Text = "...";
             this.toolStripButton_AddFilter.Click += new System.EventHandler(this.toolStripButton_AddFilter_Click);
             // 
-            // toolStripButton_AddSchriftverkehr
+            // dataGridView_Report
             // 
-            this.toolStripButton_AddSchriftverkehr.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_AddSchriftverkehr.Image = global::Schriftverkehrs_Module.Properties.Resources.b_plus;
-            this.toolStripButton_AddSchriftverkehr.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_AddSchriftverkehr.Name = "toolStripButton_AddSchriftverkehr";
-            this.toolStripButton_AddSchriftverkehr.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_AddSchriftverkehr.Text = "toolStripButton2";
+            this.dataGridView_Report.AllowUserToAddRows = false;
+            this.dataGridView_Report.AllowUserToDeleteRows = false;
+            this.dataGridView_Report.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_Report.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView_Report.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_Report.Name = "dataGridView_Report";
+            this.dataGridView_Report.ReadOnly = true;
+            this.dataGridView_Report.Size = new System.Drawing.Size(847, 500);
+            this.dataGridView_Report.TabIndex = 0;
+            this.dataGridView_Report.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Report_RowHeaderMouseDoubleClick);
+            this.dataGridView_Report.SelectionChanged += new System.EventHandler(this.dataGridView_Report_SelectionChanged);
+            // 
+            // toolStrip3
+            // 
+            this.toolStrip3.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton_ShowDetails,
+            this.toolStripButton_AddSchriftverkehr});
+            this.toolStrip3.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip3.Name = "toolStrip3";
+            this.toolStrip3.Size = new System.Drawing.Size(58, 25);
+            this.toolStrip3.TabIndex = 0;
             // 
             // toolStripButton_ShowDetails
             // 
@@ -184,6 +177,16 @@
             this.toolStripButton_ShowDetails.Name = "toolStripButton_ShowDetails";
             this.toolStripButton_ShowDetails.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_ShowDetails.Text = "toolStripButton2";
+            // 
+            // toolStripButton_AddSchriftverkehr
+            // 
+            this.toolStripButton_AddSchriftverkehr.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_AddSchriftverkehr.Image = global::Schriftverkehrs_Module.Properties.Resources.b_plus;
+            this.toolStripButton_AddSchriftverkehr.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_AddSchriftverkehr.Name = "toolStripButton_AddSchriftverkehr";
+            this.toolStripButton_AddSchriftverkehr.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_AddSchriftverkehr.Text = "toolStripButton2";
+            this.toolStripButton_AddSchriftverkehr.Click += new System.EventHandler(this.toolStripButton_AddSchriftverkehr_Click);
             // 
             // UserControl_Report
             // 
@@ -201,9 +204,9 @@
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Report)).EndInit();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Report)).EndInit();
             this.toolStrip3.ResumeLayout(false);
             this.toolStrip3.PerformLayout();
             this.ResumeLayout(false);
@@ -220,7 +223,7 @@
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox_Filter;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton toolStripButton_ClearFilter;
         private System.Windows.Forms.ToolStripButton toolStripButton_AddFilter;
         private System.Windows.Forms.ToolStrip toolStrip3;
         private System.Windows.Forms.ToolStripButton toolStripButton_AddSchriftverkehr;

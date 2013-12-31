@@ -14,6 +14,8 @@ namespace TimeManagement_Module
 
         private clsDBLevel objDBLevel_Attributes;
         private clsDBLevel objDBLevel_Relations;
+        private clsDBLevel objDBLevel_UserWorkConfig;
+        private clsDBLevel objDBLevel_Attributes2;
 
         
         public clsOntologyItem OItem_Result_TimeManagement { get; private set; }
@@ -37,7 +39,10 @@ namespace TimeManagement_Module
                     ID_Parent_Other = objLocalConfig.OItem_class_logstate.GUID },
                 new clsObjectRel {ID_Parent_Object = objLocalConfig.OItem_class_timemanagement.GUID,
                     ID_RelationType = objLocalConfig.OItem_relationtype_was_created_by.GUID,
-                    ID_Parent_Other = objLocalConfig.User.GUID_Parent} };
+                    ID_Parent_Other = objLocalConfig.User.GUID_Parent},
+                new clsObjectRel {ID_Parent_Object = objLocalConfig.OItem_class_timemanagement.GUID,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID,
+                    ID_Parent_Other = objLocalConfig.Group.GUID_Parent}};
 
             var objOItem_Result = objDBLevel_Attributes.get_Data_ObjectAtt(objOAL_TimeManagement, boolIDs: false);
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
@@ -49,6 +54,7 @@ namespace TimeManagement_Module
                                                    join objEnde in objDBLevel_Attributes.OList_ObjectAtt.Where(p => p.ID_AttributeType == objLocalConfig.OItem_attributetype_ende.GUID).ToList() on objStart.ID_Object equals objEnde.ID_Object
                                                    join objState in objDBLevel_Relations.OList_ObjectRel.Where(p => p.ID_Parent_Other == objLocalConfig.OItem_class_logstate.GUID).ToList() on objStart.ID_Object equals objState.ID_Object
                                                    join objUser in objDBLevel_Relations.OList_ObjectRel.Where(p => p.ID_Other == objLocalConfig.User.GUID).ToList() on objStart.ID_Object equals objUser.ID_Object
+                                                   join objGroup in objDBLevel_Relations.OList_ObjectRel.Where(p => p.ID_Other == objLocalConfig.Group.GUID).ToList() on objStart.ID_Object equals objGroup.ID_Object
                                                    select new
                                                    {
                                                        ID_TimeManagement = objStart.ID_Object,
@@ -135,13 +141,13 @@ namespace TimeManagement_Module
                                                           Week_Ende = objTimeManagement.Week_Ende,
                                                           Duration_Hours = objTimeManagement.Duration_Hours,
                                                           Duration_Minutes = objTimeManagement.Duration_Minutes,
-                                                          ToDo_Hours_Day = 8 - objDay.Duration_Hours_Day,
-                                                          ToDo_Minutes_Day = (8 * 60) - objDay.Duration_Minutes_Day,
+                                                          ToDo_Hours_Day = objLocalConfig.StandardHours - objDay.Duration_Hours_Day,
+                                                          ToDo_Minutes_Day = (objLocalConfig.StandardHours * 60) - objDay.Duration_Minutes_Day,
                                                           Duration_Hours_Week = objWeek.Duration_Hours_Week,
                                                           Duration_Minutes_Week = objWeek.Duration_Minutes_Week,
-                                                          ToDo_Hours_Week = 40 - objWeek.Duration_Hours_Week,
-                                                          ToDo_Minutes_Week = (40 * 60) - objWeek.Duration_Minutes_Week,
-                                                          ToDo_End = DateTime.Now.AddMinutes((8 * 60) - objDay.Duration_Minutes_Day),
+                                                          ToDo_Hours_Week = objLocalConfig.StandardHours * objLocalConfig.StandardDayCount - objWeek.Duration_Hours_Week,
+                                                          ToDo_Minutes_Week = (objLocalConfig.StandardHours * objLocalConfig.StandardDayCount * 60) - objWeek.Duration_Minutes_Week,
+                                                          ToDo_End = DateTime.Now.AddMinutes((objLocalConfig.StandardHours * 60) - objDay.Duration_Minutes_Day),
                                                           DateTimeStamp_Start_Seq = objTimeManagement.DateTimeStamp_Start_Seq,
                                                           DateTimeStamp_Ende_Seq = objTimeManagement.DateTimeStamp_Start_End
                                                       }).ToList();
@@ -196,6 +202,95 @@ namespace TimeManagement_Module
 
         }
 
+        public clsOntologyItem GetData_BaseConfig()
+        {
+            var objORel_UserWorkConfig_To_UserGroup = new List<clsObjectRel> 
+            { 
+                new clsObjectRel 
+                {
+                    ID_Parent_Other = objLocalConfig.Group.GUID_Parent,
+                    ID_Parent_Object = objLocalConfig.OItem_class_user_work_config.GUID,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID
+                },
+                new clsObjectRel
+                {
+                    ID_Parent_Other = objLocalConfig.Group.GUID_Parent,
+                    ID_Parent_Object = objLocalConfig.OItem_class_user_work_config.GUID,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID
+                }
+            };
+
+            var objOItem_Result = objDBLevel_UserWorkConfig.get_Data_ObjectRel(objORel_UserWorkConfig_To_UserGroup, boolIDs: true);
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                var oList_UserGroupConfig = (from objUser in objDBLevel_UserWorkConfig.OList_ObjectRel.Where(uw => uw.ID_Other == objLocalConfig.User.GUID).ToList()
+                                             join objGroup in objDBLevel_UserWorkConfig.OList_ObjectRel.Where(uw => uw.ID_Other == objLocalConfig.Group.GUID).ToList() on objUser.ID_Object equals objGroup.ID_Object
+                                             select objUser).ToList();
+
+                if (oList_UserGroupConfig.Any())
+                {
+                    var objOARel_StandardHours = oList_UserGroupConfig.Select(ugc => new clsObjectAtt
+                    {
+                        ID_Object = ugc.ID_Object,
+                        ID_AttributeType = objLocalConfig.OItem_attributetype_hours.GUID
+                    }).ToList();
+
+                    objOARel_StandardHours.AddRange(oList_UserGroupConfig.Select(ugc => new clsObjectAtt
+                    {
+                        ID_Object = ugc.ID_Object,
+                        ID_AttributeType = objLocalConfig.OItem_attributetype_workdays.GUID
+                    }));
+
+                    if (objOARel_StandardHours.Any())
+                    {
+                        objOItem_Result = objDBLevel_Attributes2.get_Data_ObjectAtt(objOARel_StandardHours, boolIDs: false);
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            var objOList_Hours = objDBLevel_Attributes2.OList_ObjectAtt.Where(h => h.ID_AttributeType == objLocalConfig.OItem_attributetype_hours.GUID).ToList();
+                            var objOList_DayCount = objDBLevel_Attributes2.OList_ObjectAtt.Where(h => h.ID_AttributeType == objLocalConfig.OItem_attributetype_workdays.GUID).ToList();
+                            if (objOList_Hours.Any() &&
+                                objOList_DayCount.Any() )
+                            {
+                                
+                                if (objOList_Hours.First().Val_Double != null)
+                                {
+                                    objLocalConfig.StandardHours = objOList_Hours.First().Val_Double != null ? (double)objOList_Hours.First().Val_Double : 8;
+                                    if (objOList_DayCount.First().Val_Double != null)
+                                    {
+                                        objLocalConfig.StandardDayCount = objOList_DayCount.First().Val_Double != null ? (double)objOList_DayCount.First().Val_Double : 5;
+                                    }
+                                    else
+                                    {
+                                        objOItem_Result = objLocalConfig.Globals.LState_Error;
+                                    }
+                                }
+                                else
+                                {
+                                    objOItem_Result = objLocalConfig.Globals.LState_Error;
+                                }
+                                
+                            }
+                            else
+                            {
+                                objOItem_Result = objLocalConfig.Globals.LState_Error;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        objOItem_Result = objLocalConfig.Globals.LState_Error;
+                    }
+                    
+                }
+                
+                
+            }
+
+            return objOItem_Result;
+
+        }
+
         public clsDataWork_TimeManagement(clsLocalConfig LocalConfig)
         {
             objLocalConfig = LocalConfig;
@@ -205,6 +300,8 @@ namespace TimeManagement_Module
         {
             objDBLevel_Attributes = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Relations = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_UserWorkConfig = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_Attributes2 = new clsDBLevel(objLocalConfig.Globals);
 
             OItem_Result_TimeManagement = objLocalConfig.Globals.LState_Nothing.Clone();
 

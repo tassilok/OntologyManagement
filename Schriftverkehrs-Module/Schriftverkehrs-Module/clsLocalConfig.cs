@@ -21,6 +21,8 @@ namespace Schriftverkehrs_Module
 
         private clsDBLevel objDBLevel_Config1;
         private clsDBLevel objDBLevel_Config2;
+
+        public clsOntologyItem User { get; set; }
 	
 	public clsOntologyItem OItem_attributetype_abgeschickt_am { get; set; }
 public clsOntologyItem OItem_attributetype_erhalten_am { get; set; }

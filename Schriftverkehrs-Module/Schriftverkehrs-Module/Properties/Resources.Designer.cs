@@ -83,6 +83,46 @@ namespace Schriftverkehrs_Module.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap pulsante_01_architetto_f_01 {
+            get {
+                object obj = ResourceManager.GetObject("pulsante_01_architetto_f_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pulsante_01_architetto_f_01_First1 {
+            get {
+                object obj = ResourceManager.GetObject("pulsante_01_architetto_f_01 First1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pulsante_02_architetto_f_01 {
+            get {
+                object obj = ResourceManager.GetObject("pulsante_02_architetto_f_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pulsante_02_architetto_f_01_Last {
+            get {
+                object obj = ResourceManager.GetObject("pulsante_02_architetto_f_01 Last", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap TzeenieWheenie_red_green_OK_not_OK_Icons_1 {
             get {
                 object obj = ResourceManager.GetObject("TzeenieWheenie_red_green_OK_not_OK_Icons_1", resourceCulture);

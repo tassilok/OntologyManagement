@@ -1453,6 +1453,8 @@ Public Class UserControl_OItemList
                                     MsgBox("Bitte ein Element auswählen!", MsgBoxStyle.Information)
                                 End If
                             End If
+
+                            objFrm_Main.Dispose()
                         Else
                             oList_Simple = (From objORel In objOLRel
                                                     Select New clsOntologyItem With {.GUID = objORel.ID_Other, _
@@ -1516,6 +1518,8 @@ Public Class UserControl_OItemList
 
 
                                     End If
+
+                                    objFrm_Main.Dispose()
                                 Else
                                     oList_Simple = (From objORel In objOLRel
                                                     Select New clsOntologyItem With {.GUID = objORel.ID_Other, _

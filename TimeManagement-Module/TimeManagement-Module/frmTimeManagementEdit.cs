@@ -142,11 +142,22 @@ namespace TimeManagement_Module
                             {
                                 var objOR_TimeManagement_To_User = objRelationConfig.Rel_ObjectRelation(objOItem_TimeManagement, objLocalConfig.User, objLocalConfig.OItem_relationtype_was_created_by);
                                 OItem_Result = objTransaction.do_Transaction(objOR_TimeManagement_To_User,true);
-                                if (OItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                                if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                {
+                                    var objOR_TimeManagement_To_Group = objRelationConfig.Rel_ObjectRelation(objOItem_TimeManagement, objLocalConfig.Group, objLocalConfig.OItem_relationtype_belongs_to);
+                                    OItem_Result = objTransaction.do_Transaction(objOR_TimeManagement_To_Group, true);
+                                    if (OItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                                    {
+                                        objTransaction.rollback();
+                                        OItem_Result = objLocalConfig.Globals.LState_Error.Clone();
+                                    }
+                                }
+                                else
                                 {
                                     objTransaction.rollback();
                                     OItem_Result = objLocalConfig.Globals.LState_Error.Clone();
                                 }
+                                
                             }
                             else
                             {
