@@ -759,34 +759,36 @@ namespace ElasticSearchConnector
                             objBoolQuery.Add(new TermQuery(new Term(objFields.Name_Item, strQuery)), BooleanClause.Occur.MUST);
                         }
 
-                        if (strOntology == objTypes.AttributeType ||
+                        
+                    }
+
+                    if (strOntology == objTypes.AttributeType ||
                             strOntology == objTypes.ClassType ||
                             strOntology == objTypes.ObjectType)
+                    {
+                        strQuery = "";
+                        var oL_IDParent = (from obj in OList_Items
+                                           where obj.GUID_Parent != null & obj.GUID_Parent != ""
+                                           group obj by obj.GUID_Parent
+                                               into g
+                                               select g.Key).ToList();
+
+
+
+                        foreach (var idParent in oL_IDParent)
                         {
-                            strQuery = "";
-                            var oL_IDParent = (from obj in OList_Items
-                                         where obj.GUID_Parent != null & obj.GUID_Parent != ""
-                                         group obj by obj.GUID_Parent
-                                             into g
-                                             select g.Key).ToList();
-
-
-
-                            foreach (var idParent in oL_IDParent)
-                            {
-                                if (strQuery != "")
-                                    strQuery += "\\ OR\\ ";
-
-                                strQuery += idParent;
-                            }
-
                             if (strQuery != "")
-                            {
-                                boolID = true;
-                                objBoolQuery.Add(new TermQuery(new Term(strField_IDParent, strQuery)), BooleanClause.Occur.MUST);
-                            }
+                                strQuery += "\\ OR\\ ";
 
+                            strQuery += idParent;
                         }
+
+                        if (strQuery != "")
+                        {
+                            boolID = true;
+                            objBoolQuery.Add(new TermQuery(new Term(strField_IDParent, strQuery)), BooleanClause.Occur.MUST);
+                        }
+
                     }
                 }
             }
