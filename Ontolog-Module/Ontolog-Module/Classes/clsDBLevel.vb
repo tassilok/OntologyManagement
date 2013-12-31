@@ -777,7 +777,6 @@ Public Class clsDBLevel
             End If
         End If
 
-
         Return objOItem_Result
     End Function
 
