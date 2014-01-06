@@ -346,6 +346,8 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Blu-RayMovieDisk.png" />
+    <None Include="Resources\XSDSchema_SequenceIcon.png" />
     <None Include="Resources\cubo_rosso_architetto_fr_01.png" />
     <None Include="Resources\cubo_verde_architetto_fr_01.png" />
     <None Include="Resources\cubo_giallo_architetto_f_01.png" />

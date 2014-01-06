@@ -6,6 +6,7 @@ using Ontology_Module;
 using Filesystem_Module;
 using System.IO;
 using OntologyClasses.BaseClasses;
+using System.Diagnostics;
 
 namespace Office_Module
 {
@@ -35,7 +36,9 @@ namespace Office_Module
             {
                 if (OList_Documents.Any())
                 {
-                    return objLocalConfig.Globals.LState_Success;
+                    var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+                    objOItem_Result.Count = OList_Documents.Count;
+                    return objOItem_Result;
                 }
                 else
                 {
@@ -349,14 +352,22 @@ namespace Office_Module
                     }
                     else
                     {
-                        objOItem_Result = objLocalConfig.Globals.LState_Error;
+                        objOItem_Result = open_Document(new clsDocument
+                        {
+                            ID_Ref = OITem_Ref.GUID,
+                            Name_Ref = OITem_Ref.Name,
+                            ID_Parent_Ref = OITem_Ref.GUID_Parent,
+                            Ontology_Ref = OITem_Ref.Type
+                        });
+                        
                     }
 
 
                 }
                 else
                 {
-                    objOItem_Result = objLocalConfig.Globals.LState_Error;
+                    objOItem_Result = objLocalConfig.Globals.LState_Error;    
+                    
                 }
                 
             }
@@ -516,6 +527,7 @@ namespace Office_Module
 
 
                                 objOItem_Document.GUID_Related = objWordWork.openDocument(objOItem_File_Document.Additional1, strCategory, objDocument.Name_Ref, objOItem_Template_File.Additional1);
+                                objWordWork.Visible = true;
                                 if (objOItem_Document.GUID_Related == null)
                                 {
                                     objOItem_Result = objLocalConfig.Globals.LState_Error;

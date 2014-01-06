@@ -83,6 +83,16 @@ namespace Schriftverkehrs_Module.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap it_word_icon_Open_Doc {
+            get {
+                object obj = ResourceManager.GetObject("it-word-icon Open Doc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pulsante_01_architetto_f_01 {
             get {
                 object obj = ResourceManager.GetObject("pulsante_01_architetto_f_01", resourceCulture);

@@ -39,6 +39,13 @@ namespace LiteraturQuellen_Module
             Initialize();
         }
 
+        public UserControl_InternetQuelle(clsGlobals objGlobals)
+        {
+            InitializeComponent();
+            objLocalConfig = new clsLocalConfig(objGlobals);
+            Initialize();
+        }
+
         private void Initialize()
         {
             objDataWork_InternetQuelle = new clsDataWork_InternetQuelle(objLocalConfig);

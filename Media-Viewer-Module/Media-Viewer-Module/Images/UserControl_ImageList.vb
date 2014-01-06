@@ -265,6 +265,12 @@ Public Class UserControl_ImageList
         Dim objOItem_Image As clsOntologyItem
         Dim dateCreated As Date
 
+        ToolStripButton_Remove.Enabled = False
+
+        If DataGridView_Images.SelectedRows.Count > 0 Then
+            ToolStripButton_Remove.Enabled = True
+        End If
+
         If DataGridView_Images.SelectedRows.Count = 1 Then
             objDGVR_Selected = DataGridView_Images.SelectedRows(0)
             objDRV_Selected = objDGVR_Selected.DataBoundItem
@@ -963,6 +969,61 @@ Public Class UserControl_ImageList
             End If
 
 
+        End If
+        
+    End Sub
+
+    Private Sub ToolStripButton_Remove_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Remove.Click
+        Dim intDone As Integer
+        Dim intToDo As Integer
+        Dim intError As Integer
+
+        intToDo = DataGridView_Images.SelectedRows.Count
+        intDone = 0
+        intError = 0
+
+        If MsgBox("Wollen Sie wirklich " & intToDo & " Images löschen?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            objTransaction_Image.clear_dellists_image()
+
+            For Each objDGVR_Selected As DataGridViewRow In DataGridView_Images.SelectedRows
+                Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+
+                Dim objOItem_Image = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_Image"), _
+                                                               .Name = objDRV_Selected.Item("Name_Image"), _
+                                                               .GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                               .Type = objLocalConfig.Globals.Type_Object}
+
+                Dim objOItem_File = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_File"), _
+                                                              .Name = objDRV_Selected.Item("Name_File"), _
+                                                              .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
+                                                              .Type = objLocalConfig.Globals.Type_Object}
+
+                Dim objOItem_Result = objDataWork_Images.HasCriticalRelations(objOItem_Image, objOItem_File)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objOItem_Result = objBlobConnection.del_Blob(objOItem_File)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objTransaction_Image.add_image_to_dellist(objOItem_Image, objOItem_File)
+                    End If
+
+                ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    intError = intError + 1
+                End If
+            Next
+
+            If objTransaction_Image.olist_del_fileatts.Any And _
+                objTransaction_Image.olist_del_files.Any And _
+                objTransaction_Image.olist_del_imageatts.Any And _
+                objTransaction_Image.olist_del_imagerels.Any And _
+                objTransaction_Image.olist_del_images.Any Then
+
+                Dim objOItem_Result = objTransaction_Image.del_ImageList()
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Leider konnten nicht alle Elemente gelöscht werden!", MsgBoxStyle.Exclamation)
+
+                End If
+            End If
+            initialize_Images(objOItem_Ref)
         End If
         
     End Sub

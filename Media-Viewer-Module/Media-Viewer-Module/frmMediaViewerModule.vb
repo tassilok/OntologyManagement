@@ -462,4 +462,15 @@ Public Class frmMediaViewerModule
             NamedSemanticToolStripMenuItem.Checked = True
         End If
     End Sub
+
+
+    Private Sub ToolStripButton_RefTree_CheckStateChanged(sender As Object, e As EventArgs) Handles ToolStripButton_RefTree.CheckStateChanged
+        SplitContainer1.Panel1Collapsed = Not ToolStripButton_RefTree.Checked
+
+    End Sub
+
+
+    Private Sub ToolStripButton_MediaViewer_CheckStateChanged(sender As Object, e As EventArgs) Handles ToolStripButton_MediaViewer.CheckStateChanged
+        SplitContainer1.Panel2Collapsed = Not ToolStripButton_MediaViewer.Checked
+    End Sub
 End Class

@@ -10,6 +10,65 @@ Public Class clsTransaction_Image
     Private objOItem_File As clsOntologyItem
     Private lngOrderID As Long
 
+    Public Property olist_del_imagerels As list(Of clsobjectrel)
+    Public Property olist_del_imageatts As List(Of clsObjectAtt)
+    Public Property olist_del_fileatts As List(Of clsObjectAtt)
+    Public Property olist_del_images As list(Of clsontologyitem)
+    Public Property olist_del_files As list(Of clsontologyitem)
+
+    Public Sub clear_dellists_image()
+        olist_del_imageatts = New list(Of clsobjectatt)
+        olist_del_imagerels = New List(Of clsObjectRel)
+        olist_del_fileatts = New List(Of clsObjectAtt)
+        olist_del_images = New list(Of clsontologyitem)
+        olist_del_files = New list(Of clsontologyitem)
+    End Sub
+
+    Public Sub add_image_to_dellist(oitem_image As clsontologyitem, oitem_file As clsontologyitem)
+        olist_del_imagerels.Add(New clsObjectRel With {.ID_Object = oitem_image.GUID})
+        olist_del_imageatts.Add(New clsObjectAtt With {.ID_Object = oitem_image.GUID})
+        olist_del_images.Add(oitem_image)
+        olist_del_fileatts.Add(New clsObjectAtt With {.ID_Object = oitem_file.GUID})
+        olist_del_files.Add(oitem_file)
+    End Sub
+
+    Public Function del_ImageList() As clsOntologyItem
+        Dim objDBLevel_Del_images = New clsDBLevel(objLocalConfig.Globals)
+
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone
+
+        Dim objOItem_Result_Del = objDBLevel_Del_images.del_ObjectAtt(olist_del_imageatts)
+
+        If objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+            objOItem_Result_Del = objDBLevel_Del_images.del_ObjectRel(olist_del_imagerels)
+            If objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                objOItem_Result_Del = objDBLevel_Del_images.del_ObjectAtt(olist_del_fileatts)
+                If objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objOItem_Result_Del = objDBLevel_Del_images.del_Objects(olist_del_files)
+                    If objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objOItem_Result = objDBLevel_Del_images.del_Objects(olist_del_images)
+
+                    Else
+                        objOItem_Result = objLocalConfig.Globals.LState_Error.Clone
+                    End If
+                Else
+                    objOItem_Result = objLocalConfig.Globals.LState_Error.Clone
+                End If
+            Else
+                objOItem_Result = objLocalConfig.Globals.LState_Error.Clone
+            End If
+
+
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Error.Clone
+        End If
+
+        objDBLevel_Del_images = Nothing
+
+        Return objOItem_Result
+    End Function
+
     Public Function SaveImage(OItem_Image As clsOntologyItem, Optional ClearTransaction As Boolean = False) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
 

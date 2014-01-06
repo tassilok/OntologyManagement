@@ -24,9 +24,12 @@ namespace Schriftverkehrs_Module
 
         public clsOntologyItem User { get; set; }
 	
+        // Attributes
 	public clsOntologyItem OItem_attributetype_abgeschickt_am { get; set; }
 public clsOntologyItem OItem_attributetype_erhalten_am { get; set; }
 public clsOntologyItem OItem_attributetype_schriftst_ck_datum { get; set; }
+
+        // Classes
 public clsOntologyItem OItem_class_address { get; set; }
 public clsOntologyItem OItem_class_email_address { get; set; }
 public clsOntologyItem OItem_class_logentry { get; set; }
@@ -36,6 +39,10 @@ public clsOntologyItem OItem_class_schriftverkehrsart { get; set; }
 public clsOntologyItem OItem_class_telefonnummer { get; set; }
 public clsOntologyItem OItem_class_url { get; set; }
 public clsOntologyItem OItem_class_adress_zusatz { get; set; }
+public clsOntologyItem OItem_relationtype_belonging_document { get; set; }
+public clsOntologyItem OItem_class_document { get; set; }
+
+        // RelationTypes
 public clsOntologyItem OItem_relationtype_belonging_done { get; set; }
 public clsOntologyItem OItem_relationtype_belongs_to { get; set; }
 public clsOntologyItem OItem_relationtype_contact { get; set; }
@@ -221,6 +228,27 @@ var objOList_attributetype_schriftst_ck_datum = (from objOItem in objDBLevel_Con
   
 	private void get_Config_RelationTypes()
         {
+            var objOList_relationtype_belonging_document = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                            where objOItem.ID_Object == cstrID_Ontology
+                                                            join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                            where objRef.Name_Object.ToLower() == "relationtype_belonging_document".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                                            select objRef).ToList();
+
+            if (objOList_relationtype_belonging_document.Any())
+            {
+                OItem_relationtype_belonging_document = new clsOntologyItem()
+                {
+                    GUID = objOList_relationtype_belonging_document.First().ID_Other,
+                    Name = objOList_relationtype_belonging_document.First().Name_Other,
+                    GUID_Parent = objOList_relationtype_belonging_document.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
 		var objOList_relationtype_belonging_done = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                            where objOItem.ID_Object == cstrID_Ontology
                                            join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -336,6 +364,27 @@ var objOList_relationtype_senden_an = (from objOItem in objDBLevel_Config1.OList
   
 	private void get_Config_Classes()
         {
+
+            var objOList_class_document = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == "class_document".ToLower() && objRef.Ontology == Globals.Type_Class
+                                           select objRef).ToList();
+
+            if (objOList_class_document.Any())
+            {
+                OItem_class_document = new clsOntologyItem()
+                {
+                    GUID = objOList_class_document.First().ID_Other,
+                    Name = objOList_class_document.First().Name_Other,
+                    GUID_Parent = objOList_class_document.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
 
             var objOList_class_adress_zusatz = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                 where objOItem.ID_Object == cstrID_Ontology

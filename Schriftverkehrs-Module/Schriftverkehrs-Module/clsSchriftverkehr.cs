@@ -132,12 +132,22 @@ namespace Schriftverkehrs_Module
         public string Name_Url { get; set; }
 
         [GridAttribute(Show = true)]
+        [VisibilityAttribute(Visible = true)]
+        [ColumnAttribute(ColumnHeader = "Pdf", DisplayIx = 13)]
+        public bool PdfExist { get; set; }
+
+        [GridAttribute(Show = true)]
+        [VisibilityAttribute(Visible = true)]
+        [ColumnAttribute(ColumnHeader = "DocumentCounts", DisplayIx = 14)]
+        public int DocumentCount { get; set; }
+
+        [GridAttribute(Show = true)]
         [VisibilityAttribute(Visible = false)]
         public string ID_AddressZusatz { get; set; }
 
         [GridAttribute(Show = true)]
         [VisibilityAttribute(Visible = false)]
-        [ColumnAttribute(ColumnHeader = "Addresszusatz", DisplayIx = 13)]
+        [ColumnAttribute(ColumnHeader = "Addresszusatz", DisplayIx = 14)]
         public string Name_AddressZusatz { get; set; }
 
         [GridAttribute(Show = false)]

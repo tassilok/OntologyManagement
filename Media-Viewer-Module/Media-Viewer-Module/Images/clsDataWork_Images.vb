@@ -12,7 +12,6 @@ Public Class clsDataWork_Images
     Private objDBLevel_MetaData_To_DateItem As clsDBLevel
     Private objDBLevel_MetaData_Att As clsDBLevel
 
-
     Private dtblT_Images As New DataSet_Images.dtbl_ImagesDataTable
     Private objThread_Images As Threading.Thread
     Private objOItem_Ref As clsOntologyItem
@@ -22,6 +21,31 @@ Public Class clsDataWork_Images
 
     Public Property ImageObjectLoaded As Boolean
 
+
+    Public Function HasCriticalRelations(OItem_Image As clsOntologyItem, OItem_File As clsOntologyItem) As clsOntologyItem
+        Dim objDBLevel_CriticalRelations = New clsDBLevel(objLocalConfig.Globals)
+
+        Dim objORel_CriticalRelations = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Other = OItem_Image.GUID}}
+        Dim objOItem_Result = objDBLevel_CriticalRelations.get_Data_ObjectRel(objORel_CriticalRelations)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_CriticalRelations.OList_ObjectRel_ID.Any() Then
+                objOItem_Result = objLocalConfig.Globals.LState_Relation.Clone
+            Else
+                objORel_CriticalRelations = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Other = OItem_File.GUID}}
+                objOItem_Result = objDBLevel_CriticalRelations.get_Data_ObjectRel(objORel_CriticalRelations)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objDBLevel_CriticalRelations.OList_ObjectRel_ID.Any(Function(p) Not p.ID_Object = OItem_Image.GUID) Then
+                        objOItem_Result = objLocalConfig.Globals.LState_Relation.Clone
+                    End If
+                End If
+            End If
+        End If
+
+        objDBLevel_CriticalRelations = Nothing
+
+        Return objOItem_Result
+    End Function
 
     Public Function NoObjects(OItem_Image As clsOntologyItem, OItem_NoObjects As clsOntologyItem) As Boolean
         Dim objOList_NOObjects = objDBLevel_ImageObjects_LeftRight.OList_ObjectRel.Where(Function(p) p.ID_Other = OItem_NoObjects.GUID).ToList()
@@ -470,5 +494,6 @@ Public Class clsDataWork_Images
         objDBLevel_MetaData = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_MetaData_To_DateItem = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_MetaData_Att = New clsDBLevel(objLocalConfig.Globals)
+
     End Sub
 End Class

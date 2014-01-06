@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using Ontology_Module;
 using OntologyClasses.BaseClasses;
 using Partner_Module;
+using Media_Viewer_Module;
+using Office_Module;
 
 namespace Schriftverkehrs_Module
 {
@@ -20,8 +22,6 @@ namespace Schriftverkehrs_Module
         private clsDataWork_Schriftverkehr objDataWork_Schriftverkehr;
 
         private clsDataWork_Address objDataWork_Address;
-
-        private clsOntologyItem objOItem_Schriftverkehr;
 
         private clsOntologyItem objOItem_Empty;
 
@@ -37,6 +37,12 @@ namespace Schriftverkehrs_Module
         private frmMain objFrmOntologyModule;
 
         private dlg_Attribute_DateTime objDlg_Attribute_DateTime;
+
+        private UserControl_SingleViewer objUserControl_SingleViewer;
+
+        private UserControl_OItemList objUserControl_Documents;
+
+        private clsDocumentation objDocumentation;
 
         private bool boolOpen;
 
@@ -78,17 +84,37 @@ namespace Schriftverkehrs_Module
             }
         }
 
-        public void MoveNext(clsOntologyItem oItem_Schriftverkehr)
-        {
-            Initialize(oItem_Schriftverkehr);
-        }
-
         public frmSchriftverkehrsDetail(clsLocalConfig LocalConfig)
         {
             InitializeComponent();
 
             objLocalConfig = LocalConfig;
 
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            objUserControl_SingleViewer = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.PDF, objLocalConfig.User);
+            objUserControl_SingleViewer.Dock = DockStyle.Fill;
+            splitContainer1.Panel1.Controls.Add(objUserControl_SingleViewer);
+
+            objUserControl_Documents = new UserControl_OItemList(objLocalConfig.Globals);
+            objUserControl_Documents.Dock = DockStyle.Fill;
+            toolStripContainer_Office.ContentPanel.Controls.Add(objUserControl_Documents);
+
+            objUserControl_Documents.Selection_Changed += objUserControl_Documents_Selection_Changed;
+
+            objDocumentation = new clsDocumentation(objLocalConfig.Globals);
+        }
+
+        void objUserControl_Documents_Selection_Changed()
+        {
+            toolStripButton_WordOpen.Enabled = false;
+            if (objUserControl_Documents.DataGridViewRowCollection_Selected.Count == 1)
+            {
+                toolStripButton_WordOpen.Enabled = true;
+            }
         }
 
         private void configureNavigation()
@@ -107,14 +133,14 @@ namespace Schriftverkehrs_Module
 
             if (PreviousAllowed)
             {
-                toolStripButton_First.Enabled = false;
-                toolStripButton_Previous.Enabled = false;
+                toolStripButton_First.Enabled = true;
+                toolStripButton_Previous.Enabled = true;
             }
         }
 
-        public void Initialize(clsOntologyItem OItem_Schriftverkehr)
+        public void Initialize_Schriftverkehr(clsDataWork_Schriftverkehr objDataWork_Schriftverkehr, string ID_Schriftverkehr)
         {
-            objOItem_Schriftverkehr = OItem_Schriftverkehr;
+            
             ClearControls();
 
             objTransaction = new clsTransaction(objLocalConfig.Globals);
@@ -128,7 +154,6 @@ namespace Schriftverkehrs_Module
                 Type = objLocalConfig.Globals.Type_Object
             };
 
-            objDataWork_Schriftverkehr = new clsDataWork_Schriftverkehr(objLocalConfig);
             objDataWork_Address = new clsDataWork_Address(objLocalConfig.Globals);
 
             var objORel_Arten = objDataWork_Schriftverkehr.GetBaseData_SchriftverkehrsTyp();
@@ -139,113 +164,133 @@ namespace Schriftverkehrs_Module
 
             boolOpen = true;
 
-            var objOItem_Result = objDataWork_Schriftverkehr.GetData_Schriftverkehr(objOItem_Schriftverkehr.GUID);
+            var schriftverkehre = objDataWork_Schriftverkehr.SchriftverkehrsDaten.Where(sv => sv.ID_Schriftverkehr == ID_Schriftverkehr);
 
-            configureNavigation();
+            
 
-            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            
+
+            if (schriftverkehre.Any())
             {
-                if (objDataWork_Schriftverkehr.SchriftverkehrsDaten.Any())
+                schriftverkehr = schriftverkehre.First();
+                var objOItem_Schriftverkehr = new clsOntologyItem
                 {
-                    schriftverkehr = objDataWork_Schriftverkehr.SchriftverkehrsDaten.First();
+                    GUID = schriftverkehr.ID_Schriftverkehr,
+                    Name = schriftverkehr.Name_Schriftverkehr,
+                    GUID_Parent = objLocalConfig.OItem_class_schriftverkehr.GUID,
+                    Type = objLocalConfig.Globals.Type_Object
+                };
 
-                    textBox_Name.ReadOnly = true;
-                    textBox_Name.Text = schriftverkehr.Name_Schriftverkehr;
-                    textBox_Name.ReadOnly = false;
+                objUserControl_Documents.initialize(null, objOItem_Schriftverkehr, objLocalConfig.Globals.Direction_LeftRight, new clsOntologyItem { GUID_Parent = objLocalConfig.OItem_class_document.GUID, Type = objLocalConfig.Globals.Type_Object }, objLocalConfig.OItem_relationtype_belonging_document);
 
-                    if (schriftverkehr.SchriftstueckDatum != null)
-                    {
-                        textBox_DateTime.Text = schriftverkehr.SchriftstueckDatum.ToString();
-                    }
+                objUserControl_Documents.Enabled = true;
 
-                    button_DateTime.Enabled = true;
+                configureNavigation();
+                
 
-                    if (schriftverkehr.AbgeschicktAm != null)
-                    {
-                        textBox_abgeschicktAm.Text = schriftverkehr.AbgeschicktAm.ToString();
-                    }
+                var objOItem_SchriftverkehrPdf = new clsOntologyItem
+                {
+                    GUID = schriftverkehr.ID_Schriftverkehr,
+                    Name = schriftverkehr.Name_Schriftverkehr,
+                    GUID_Parent = objLocalConfig.OItem_class_schriftverkehr.GUID,
+                    Type = objLocalConfig.Globals.Type_Object
+                };
 
-                    button_abgeschicktAm.Enabled = true;
+                objUserControl_SingleViewer.initialize_PDF(objOItem_Schriftverkehr);
+                objUserControl_SingleViewer.Enabled = true;
 
-                    if (schriftverkehr.ErhaltenAm != null)
-                    {
-                        textBox_erhaltenAm.Text = schriftverkehr.ErhaltenAm.ToString();
+                textBox_Name.ReadOnly = true;
+                textBox_Name.Text = schriftverkehr.Name_Schriftverkehr;
+                textBox_Name.ReadOnly = false;
 
-                    }
+                if (schriftverkehr.SchriftstueckDatum != null)
+                {
+                    textBox_DateTime.Text = schriftverkehr.SchriftstueckDatum.ToString();
+                }
 
-                    button_erhaltenAm.Enabled = true;
+                button_DateTime.Enabled = true;
 
-                    if (schriftverkehr.ID_Partner != null)
-                    {
-                        textBox_Partner.Text = schriftverkehr.Name_Partner;
-                    }
+                if (schriftverkehr.AbgeschicktAm != null)
+                {
+                    textBox_abgeschicktAm.Text = schriftverkehr.AbgeschicktAm.ToString();
+                }
+
+                button_abgeschicktAm.Enabled = true;
+
+                if (schriftverkehr.ErhaltenAm != null)
+                {
+                    textBox_erhaltenAm.Text = schriftverkehr.ErhaltenAm.ToString();
+
+                }
+
+                button_erhaltenAm.Enabled = true;
+
+                if (schriftverkehr.ID_Partner != null)
+                {
+                    textBox_Partner.Text = schriftverkehr.Name_Partner;
+                }
 
 
-                    button_Partner.Enabled = true;
+                button_Partner.Enabled = true;
 
-                    if (schriftverkehr.ID_Contact != null)
-                    {
-                        button_ClearContact.Enabled = true;
-                        textBox_Contact.Text = schriftverkehr.Name_Contact;
-                    }
+                if (schriftverkehr.ID_Contact != null)
+                {
+                    button_ClearContact.Enabled = true;
+                    textBox_Contact.Text = schriftverkehr.Name_Contact;
+                }
 
-                    button_Contact.Enabled = true;
+                button_Contact.Enabled = true;
 
-                    if (schriftverkehr.ID_Schriftverkehrsart != null)
-                    {
-                        comboBox_Type.SelectedValue = schriftverkehr.ID_Schriftverkehrsart;
-                    }
-                    else
-                    {
-                        comboBox_Type.SelectedValue = objOItem_Empty.GUID;
-                    }
-
-                    comboBox_Type.Enabled = true;
-
-                    if (schriftverkehr.ID_Address != null)
-                    {
-                        textBox_Address.Text = schriftverkehr.Name_Address;
-                        
-                    }
-
-                    button_Address.Enabled = true;
-
-                    if (schriftverkehr.ID_AddressZusatz != null)
-                    {
-                        textBox_AdressZusatz.Text = schriftverkehr.Name_AddressZusatz;
-                        
-                    }
-
-                    button_AdressZusatz.Enabled = true;
-
-                    FillAddress();
-
-                    if (schriftverkehr.ID_EmailAddress != null)
-                    {
-                        textBox_Email.Text = schriftverkehr.Name_EmailAddress;
-                    }
-
-                    button_Email.Enabled = true;
-
-                    if (schriftverkehr.ID_Telefonnummer != null)
-                    {
-                        textBox_Telefon.Text = schriftverkehr.Name_Telefonnummer;
-                    }
-
-                    button_Telephone.Enabled = true;
-
-                    if (schriftverkehr.ID_Url != null)
-                    {
-                        textBox_Url.Text = schriftverkehr.Name_Url;
-                    }
-
-                    button_Url.Enabled = true;
+                if (schriftverkehr.ID_Schriftverkehrsart != null)
+                {
+                    comboBox_Type.SelectedValue = schriftverkehr.ID_Schriftverkehrsart;
                 }
                 else
                 {
-                    MessageBox.Show(this, "Die Daten konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    boolOpen = false;
+                    comboBox_Type.SelectedValue = objOItem_Empty.GUID;
                 }
+
+                comboBox_Type.Enabled = true;
+
+                if (schriftverkehr.ID_Address != null)
+                {
+                    textBox_Address.Text = schriftverkehr.Name_Address;
+                        
+                }
+
+                button_Address.Enabled = true;
+
+                if (schriftverkehr.ID_AddressZusatz != null)
+                {
+                    textBox_AdressZusatz.Text = schriftverkehr.Name_AddressZusatz;
+                        
+                }
+
+                button_AdressZusatz.Enabled = true;
+
+                FillAddress();
+
+                if (schriftverkehr.ID_EmailAddress != null)
+                {
+                    textBox_Email.Text = schriftverkehr.Name_EmailAddress;
+                }
+
+                button_Email.Enabled = true;
+
+                if (schriftverkehr.ID_Telefonnummer != null)
+                {
+                    textBox_Telefon.Text = schriftverkehr.Name_Telefonnummer;
+                }
+
+                button_Telephone.Enabled = true;
+
+                if (schriftverkehr.ID_Url != null)
+                {
+                    textBox_Url.Text = schriftverkehr.Name_Url;
+                }
+
+                button_Url.Enabled = true;
+                
             }
             else
             {
@@ -319,6 +364,14 @@ namespace Schriftverkehrs_Module
             button_ClearContact.Enabled = false;
             textBox_AdressZusatz.Text = "";
             button_AdressZusatz.Enabled = false;
+
+            objUserControl_SingleViewer.clear_Media();
+            objUserControl_SingleViewer.Enabled = false;
+
+            objUserControl_Documents.clear_Relation();
+            objUserControl_Documents.Enabled = false;
+
+            toolStripButton_WordOpen.Enabled = false;
         }
 
         private void toolStripContainer1_ContentPanel_Load(object sender, EventArgs e)
@@ -386,6 +439,14 @@ namespace Schriftverkehrs_Module
 
             if (comboBox_Type.Enabled)
             {
+                var objOItem_Schriftverkehr = new clsOntologyItem
+                {
+                    GUID = schriftverkehr.ID_Schriftverkehr,
+                    Name = schriftverkehr.Name_Schriftverkehr,
+                    GUID_Parent = objLocalConfig.OItem_class_schriftverkehr.GUID,
+                    Type = objLocalConfig.Globals.Type_Object
+                };
+
                 objTransaction.ClearItems();
                 var objOItem_Typ = (clsOntologyItem)comboBox_Type.SelectedItem;
                 if (objOItem_Typ.GUID == objOItem_Empty.GUID)
@@ -448,6 +509,14 @@ namespace Schriftverkehrs_Module
         private void button_Partner_Click(object sender, EventArgs e)
         {
             clsOntologyItem oItem_Partner = null;
+            var objOItem_Schriftverkehr = new clsOntologyItem
+            {
+                GUID = schriftverkehr.ID_Schriftverkehr,
+                Name = schriftverkehr.Name_Schriftverkehr,
+                GUID_Parent = objLocalConfig.OItem_class_schriftverkehr.GUID,
+                Type = objLocalConfig.Globals.Type_Object
+            };
+
             objFrm_Clipboard = new frmClipboard(objLocalConfig.Globals, new clsOntologyItem
             {
                 GUID_Parent = objLocalConfig.OItem_class_partner.GUID,
@@ -554,6 +623,14 @@ namespace Schriftverkehrs_Module
 
         private void button_Contact_Click(object sender, EventArgs e)
         {
+            var objOItem_Schriftverkehr = new clsOntologyItem
+            {
+                GUID = schriftverkehr.ID_Schriftverkehr,
+                Name = schriftverkehr.Name_Schriftverkehr,
+                GUID_Parent = objLocalConfig.OItem_class_schriftverkehr.GUID,
+                Type = objLocalConfig.Globals.Type_Object
+            };
+
             clsOntologyItem oItem_Partner = null;
             objFrm_Clipboard = new frmClipboard(objLocalConfig.Globals, new clsOntologyItem
             {
@@ -662,6 +739,14 @@ namespace Schriftverkehrs_Module
 
         private void button_ClearContact_Click(object sender, EventArgs e)
         {
+            var objOItem_Schriftverkehr = new clsOntologyItem
+            {
+                GUID = schriftverkehr.ID_Schriftverkehr,
+                Name = schriftverkehr.Name_Schriftverkehr,
+                GUID_Parent = objLocalConfig.OItem_class_schriftverkehr.GUID,
+                Type = objLocalConfig.Globals.Type_Object
+            };
+
             if (schriftverkehr.ID_Contact != null)
             {
                 var objOItem_Contact = new clsOntologyItem
@@ -699,6 +784,14 @@ namespace Schriftverkehrs_Module
 
         private void button_DateTime_Click(object sender, EventArgs e)
         {
+            var objOItem_Schriftverkehr = new clsOntologyItem
+            {
+                GUID = schriftverkehr.ID_Schriftverkehr,
+                Name = schriftverkehr.Name_Schriftverkehr,
+                GUID_Parent = objLocalConfig.OItem_class_schriftverkehr.GUID,
+                Type = objLocalConfig.Globals.Type_Object
+            };
+
             objDlg_Attribute_DateTime = new dlg_Attribute_DateTime("Schriftstück-Datum", objLocalConfig.Globals);
             objDlg_Attribute_DateTime.ShowDialog(this);
 
@@ -721,6 +814,14 @@ namespace Schriftverkehrs_Module
 
         private void button_Address_Click(object sender, EventArgs e)
         {
+            var objOItem_Schriftverkehr = new clsOntologyItem
+            {
+                GUID = schriftverkehr.ID_Schriftverkehr,
+                Name = schriftverkehr.Name_Schriftverkehr,
+                GUID_Parent = objLocalConfig.OItem_class_schriftverkehr.GUID,
+                Type = objLocalConfig.Globals.Type_Object
+            };
+
             objFrmOntologyModule = new frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class, objLocalConfig.OItem_class_address);
             objFrmOntologyModule.Applyable = true;
             objFrmOntologyModule.ShowDialog(this);
@@ -760,6 +861,14 @@ namespace Schriftverkehrs_Module
 
         private void button_AdressZusatz_Click(object sender, EventArgs e)
         {
+            var objOItem_Schriftverkehr = new clsOntologyItem
+            {
+                GUID = schriftverkehr.ID_Schriftverkehr,
+                Name = schriftverkehr.Name_Schriftverkehr,
+                GUID_Parent = objLocalConfig.OItem_class_schriftverkehr.GUID,
+                Type = objLocalConfig.Globals.Type_Object
+            };
+
             objFrmOntologyModule = new frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class, objLocalConfig.OItem_class_adress_zusatz);
             objFrmOntologyModule.Applyable = true;
             objFrmOntologyModule.ShowDialog(this);
@@ -816,6 +925,30 @@ namespace Schriftverkehrs_Module
         private void toolStripButton_Last_Click(object sender, EventArgs e)
         {
             lastItem();
+        }
+
+        private void toolStripButton_WordOpen_Click(object sender, EventArgs e)
+        {
+            if (objUserControl_Documents.DataGridViewRowCollection_Selected.Count == 1)
+            {
+                DataGridViewRow objDGVR_Selected = objUserControl_Documents.DataGridViewRowCollection_Selected[0];
+                DataRowView objDRV_Selected = (DataRowView) objDGVR_Selected.DataBoundItem;
+
+                var objOItem_Document = new clsOntologyItem
+                {
+                    GUID = objDRV_Selected["ID_Other"].ToString(),
+                    Name = objDRV_Selected["Name_Other"].ToString(),
+                    GUID_Parent = objLocalConfig.OItem_class_document.GUID,
+                    Type = objLocalConfig.Globals.Type_Object
+                };
+
+                var objOItem_Result = objDocumentation.open_Document(objOItem_Document);
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                {
+                    MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
         }
     }
 }

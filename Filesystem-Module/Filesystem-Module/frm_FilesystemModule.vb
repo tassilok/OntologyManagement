@@ -616,6 +616,8 @@ Public Class frm_FilesystemModule
         If intCount_ToDo - intCount_Done > 0 Then
             MsgBox("Es konnten nur " & intCount_Done & " von " & intCount_ToDo & " Dateien in die Datenbank integriert werden!", MsgBoxStyle.Exclamation)
         End If
+
+        get_Files()
     End Sub
 
     Private Sub HashesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HashesToolStripMenuItem.Click
@@ -764,5 +766,65 @@ Public Class frm_FilesystemModule
     Private Sub FileResourcenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FileResourcenToolStripMenuItem.Click
         objFrm_FileResources = New frmFileResources(objLocalConfig)
         objFrm_FileResources.ShowDialog(Me)
+    End Sub
+
+    Private Sub XputBackToFSToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles XputBackToFSToolStripMenuItem.Click
+        Dim intDone = 0
+        Dim intToDo = DataGridView_Files.SelectedRows.Count
+        Dim intError = 0
+        Dim intExist = 0
+        Dim intPathIncorrect = 0
+        Dim intNoBlob = 0
+
+        If MsgBox("Wollen Sie die Datei(en) wirklich aus dem Ontology-Netz entfernen?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            For Each objDGVR As DataGridViewRow In DataGridView_Files.SelectedRows
+                Dim objDRV As DataRowView = objDGVR.DataBoundItem
+
+                Dim objOItem_File As clsOntologyItem = New clsOntologyItem With {.GUID = objDRV.Item("GUID_File"), _
+                                                                                 .Name = objDRV.Item("Name_File"), _
+                                                                                 .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
+                                                                                 .Type = objLocalConfig.Globals.Type_Object}
+
+                objOItem_File.Additional1 = objFileWork.get_Path_FileSystemObject(objOItem_File, False)
+
+                Dim strPath = objOItem_File.Additional1.Substring(0, objOItem_File.Additional1.Length - IO.Path.GetFileName(objOItem_File.Additional1).Length)
+
+                If IO.Directory.Exists(strPath) Then
+                    If IO.File.Exists(objOItem_File.Additional1) Then
+                        intExist = intExist + 1
+                    Else
+                        If objFileWork.is_File_Blob(objOItem_File) Then
+                            Dim objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_File, objOItem_File.Additional1, False)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objOItem_Result = objBlobConnection.del_Blob(objOItem_File)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    intDone = intDone + 1
+                                Else
+                                    intError = intError + 1
+                                End If
+                            Else
+                                intError = intError + 1
+                            End If
+
+                        Else
+                            intNoBlob = intNoBlob + 1
+                        End If
+
+                    End If
+                Else
+                    intPathIncorrect = intPathIncorrect + 1
+                End If
+
+                
+            Next
+            Dim strResult = "Ergebnis der Aktion: " & vbCrLf & _
+                "Insgesamt:" & vbTab & intToDo & _
+                "Erfolgreich:" & vbTab & intDone & _
+                "Existierend:" & vbTab & intExist & _
+                "Fehlerhafte Pfade:" & vbTab & intPathIncorrect & _
+                "Nich im O-Netz:" & vbTab & intNoBlob
+
+            get_Files()
+        End If
     End Sub
 End Class

@@ -194,7 +194,7 @@ namespace Schriftverkehrs_Module
         {
             if (!pChange)
             {
-                if (dataGridView_Report.SelectedRows.Count>0)
+                if (dataGridView_Report.SelectedRows.Count==1)
                 {
                     var objDGVR = (DataGridViewRow)dataGridView_Report.SelectedRows[0];
                     
@@ -209,7 +209,7 @@ namespace Schriftverkehrs_Module
                     {
                         objFrmSchriftverkehrsDetail = new frmSchriftverkehrsDetail(objLocalConfig);
                     }
-                    objFrmSchriftverkehrsDetail.Initialize(objOITem_Schriftverkehr);
+                    objFrmSchriftverkehrsDetail.Initialize_Schriftverkehr(objDataWork_Schriftverkehr, objOITem_Schriftverkehr.GUID);
                     
                     if (objDGVR.Index == 0)
                     {
@@ -232,9 +232,10 @@ namespace Schriftverkehrs_Module
                     objFrmSchriftverkehrsDetail.previousItem += objFrmSchriftverkehrsDetail_previousItem;
                     objFrmSchriftverkehrsDetail.nextItem += objFrmSchriftverkehrsDetail_nextItem;
                     objFrmSchriftverkehrsDetail.lastItem += objFrmSchriftverkehrsDetail_lastItem;
+                    objFrmSchriftverkehrsDetail.FormClosed += objFrmSchriftverkehrsDetail_FormClosed;
                     if (objFrmSchriftverkehrsDetail.IsHandleCreated == false)
                     {
-                        objFrmSchriftverkehrsDetail.ShowDialog(this);
+                        objFrmSchriftverkehrsDetail.Show();
                     }
                     
 
@@ -242,6 +243,11 @@ namespace Schriftverkehrs_Module
                 }
                 
             }
+        }
+
+        void objFrmSchriftverkehrsDetail_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            objFrmSchriftverkehrsDetail = null;
         }
 
         void objFrmSchriftverkehrsDetail_lastItem()

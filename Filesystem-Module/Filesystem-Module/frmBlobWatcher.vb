@@ -7,7 +7,7 @@ Public Class frmBlobWatcher
     Private objFileWork As clsFileWork
     Private objDataWork As clsDataWork
     Private objTransaction As clsTransaction
-
+    Private objFileStream_BlobFlag As IO.FileStream
 
     Private boolUpdate As Boolean
     Private boolRegister As Boolean
@@ -304,17 +304,26 @@ Public Class frmBlobWatcher
     ''' <remarks></remarks>
     Private Function testBlobWatcherIsRunning() As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
-        Dim objFileStream As IO.FileStream
 
         strBlobFlag = "%temp%\BlobDirWatcher.flg"
         strBlobFlag = Environment.ExpandEnvironmentVariables(strBlobFlag)
 
-        Try
-            objFileStream = New IO.FileStream(strBlobFlag, IO.FileMode.OpenOrCreate)
-            objOItem_Result = objLocalConfig.Globals.LState_Success
-        Catch ex As Exception
-            objOItem_Result = objLocalConfig.Globals.LState_Relation
-        End Try
+        If IO.File.Exists(strBlobFlag) Then
+            Try
+                IO.File.Delete(strBlobFlag)
+                objOItem_Result = objLocalConfig.Globals.LState_Success
+            Catch ex As Exception
+                objOItem_Result = objLocalConfig.Globals.LState_Relation
+            End Try
+        Else
+            Try
+                objFileStream_BlobFlag = New IO.FileStream(strBlobFlag, IO.FileMode.Create)
+                objOItem_Result = objLocalConfig.Globals.LState_Success
+            Catch ex As Exception
+                objOItem_Result = objLocalConfig.Globals.LState_Relation
+            End Try
+        End If
+        
 
         Return objOItem_Result
     End Function
@@ -338,4 +347,13 @@ Public Class frmBlobWatcher
 
         Return boolResult
     End Function
+
+    Protected Overrides Sub Finalize()
+        Try
+            objFileStream_BlobFlag.Close()
+        Catch ex As Exception
+
+        End Try
+        MyBase.Finalize()
+    End Sub
 End Class

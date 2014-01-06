@@ -7,6 +7,7 @@ using OntologyClasses.BaseClasses;
 using Ontology_Module;
 using Log_Module;
 using Partner_Module;
+using Media_Viewer_Module;
 
 namespace Schriftverkehrs_Module
 {
@@ -17,8 +18,11 @@ namespace Schriftverkehrs_Module
         private clsDBLevel dbLevel_Schriftverkehr_AttRel;
         private clsDBLevel dbLevel_Schriftverkehr_Rel;
         private clsDBLevel dbLevel_Schriftverkehr_FilterRel;
+        private clsDBLevel dbLevel_Schriftverkehr_Documents;
 
         private clsDBLevel dbLevel_SchriftverkehrsArt;
+
+        private clsMediaItems objMediaItems;
 
         public List<clsSchriftverkehr> SchriftverkehrsDaten { get; set; }
 
@@ -26,6 +30,7 @@ namespace Schriftverkehrs_Module
         private clsDataWork_Address objDataWork_Address;
 
         private clsOntologyItem objOItem_Schriftverkehr;
+
 
         public List<clsOntologyItem> GetBaseData_SchriftverkehrsTyp()
         {
@@ -177,7 +182,14 @@ namespace Schriftverkehrs_Module
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
 
-                        
+                        var objORel_Schriftverkehr_To_Documents = new List<clsObjectRel> {new clsObjectRel {ID_Parent_Object = objLocalConfig.OItem_class_schriftverkehr.GUID,
+                            ID_Object = ID_Schriftverkehr,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_belonging_document.GUID, 
+                            ID_Parent_Other = objLocalConfig.OItem_class_document.GUID}};
+
+
+                        objOItem_Result = dbLevel_Schriftverkehr_Documents.get_Data_ObjectRel(objORel_Schriftverkehr_To_Documents, boolIDs: true);
+
 
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
@@ -226,6 +238,11 @@ namespace Schriftverkehrs_Module
                                                        Where(sf => sf.ID_Parent_Other == objLocalConfig.OItem_class_adress_zusatz.GUID).ToList()
                                                        on objSchriftverkehr.GUID equals addressZusatz.ID_Object into addressZusatzs
                                                     from addressZusatz in addressZusatzs.DefaultIfEmpty()
+                                                    join emailAddress in dbLevel_Schriftverkehr_Rel.OList_ObjectRel.
+                                                        Where(sf => sf.ID_Parent_Other == objLocalConfig.OItem_class_email_address.GUID).ToList()
+                                                        on objSchriftverkehr.GUID equals emailAddress.ID_Object into emailAddresses
+                                                    from emailAddress in emailAddresses.DefaultIfEmpty()
+                                                    join document in dbLevel_Schriftverkehr_Documents.OList_ObjectRel_ID on objSchriftverkehr.GUID equals document.ID_Object into documents
                                                     select new clsSchriftverkehr
                                                     {
                                                         ID_Schriftverkehr = objSchriftverkehr.GUID,
@@ -248,8 +265,27 @@ namespace Schriftverkehrs_Module
                                                         ID_AddressZusatz = addressZusatz != null ? addressZusatz.ID_Other : null,
                                                         Name_AddressZusatz = addressZusatz != null ? addressZusatz.Name_Other : null,
                                                         ID_Address = address != null ? address.ID_Other : null,
-                                                        Name_Address = address != null ? address.Name_Other : null
+                                                        Name_Address = address != null ? address.Name_Other : null,
+                                                        ID_EmailAddress = emailAddress != null ? emailAddress.ID_Other : null,
+                                                        Name_EmailAddress = emailAddress != null ? emailAddress.Name_Other : null,
+                                                        DocumentCount = documents.Count()
                                                     }).ToList();
+
+                            foreach (var schriftverkehr in SchriftverkehrsDaten)
+                            {
+                                var objOItem_SchriftverkehrPDF = new clsOntologyItem {GUID = schriftverkehr.ID_Schriftverkehr,
+                                    Name = schriftverkehr.Name_Schriftverkehr,
+                                    GUID_Parent = objLocalConfig.OItem_class_schriftverkehr.GUID,
+                                    Type = objLocalConfig.Globals.Type_Object};
+
+                                objOItem_Result = objMediaItems.has_PDFs(objOItem_SchriftverkehrPDF);
+
+                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID && objOItem_Result.Count > 0 )
+                                {
+                                    schriftverkehr.PdfExist = true;
+                                }
+
+                            }
                         }
                         
                     }
@@ -337,10 +373,12 @@ namespace Schriftverkehrs_Module
             dbLevel_Schriftverkehr_Rel = new clsDBLevel(objLocalConfig.Globals);
             dbLevel_Schriftverkehr_FilterRel = new clsDBLevel(objLocalConfig.Globals);
             dbLevel_SchriftverkehrsArt = new clsDBLevel(objLocalConfig.Globals);
+            dbLevel_Schriftverkehr_Documents = new clsDBLevel(objLocalConfig.Globals);
 
             objDataWork_LogEntry = new clsDataWork_LogEntry(objLocalConfig.Globals);
             objDataWork_Address = new clsDataWork_Address(objLocalConfig.Globals);
-            
+
+            objMediaItems = new clsMediaItems(objLocalConfig.Globals);
         }
     }
 }

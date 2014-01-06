@@ -32,9 +32,23 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSchriftverkehrsDetail));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton_First = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_Previous = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_Next = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_Last = new System.Windows.Forms.ToolStripButton();
+            this.button_ClearContact = new System.Windows.Forms.Button();
+            this.imageList_Schriftverkehr = new System.Windows.Forms.ImageList(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.toolStripContainer_Office = new System.Windows.Forms.ToolStripContainer();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton_WordOpen = new System.Windows.Forms.ToolStripButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage_Address = new System.Windows.Forms.TabPage();
+            this.button_AdressZusatz = new System.Windows.Forms.Button();
+            this.textBox_AdressZusatz = new System.Windows.Forms.TextBox();
+            this.label_Zusatz = new System.Windows.Forms.Label();
             this.label_Detail = new System.Windows.Forms.Label();
             this.textBox_AddressDetail = new System.Windows.Forms.TextBox();
             this.button_Address = new System.Windows.Forms.Button();
@@ -72,23 +86,16 @@
             this.textBox_Name = new System.Windows.Forms.TextBox();
             this.label_Name = new System.Windows.Forms.Label();
             this.timer_Name = new System.Windows.Forms.Timer(this.components);
-            this.imageList_Schriftverkehr = new System.Windows.Forms.ImageList(this.components);
-            this.label_Zusatz = new System.Windows.Forms.Label();
-            this.button_AdressZusatz = new System.Windows.Forms.Button();
-            this.textBox_AdressZusatz = new System.Windows.Forms.TextBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_First = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_Previous = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_Next = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_Last = new System.Windows.Forms.ToolStripButton();
-            this.button_ClearContact = new System.Windows.Forms.Button();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.toolStripContainer_Office.TopToolStripPanel.SuspendLayout();
+            this.toolStripContainer_Office.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage_Address.SuspendLayout();
             this.tabPage_Email.SuspendLayout();
@@ -151,6 +158,78 @@
             this.toolStrip1.Size = new System.Drawing.Size(191, 25);
             this.toolStrip1.TabIndex = 0;
             // 
+            // toolStripButton_Close
+            // 
+            this.toolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Close.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Close.Image")));
+            this.toolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Close.Name = "toolStripButton_Close";
+            this.toolStripButton_Close.Size = new System.Drawing.Size(50, 22);
+            this.toolStripButton_Close.Text = "x_Close";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton_First
+            // 
+            this.toolStripButton_First.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_First.Image = global::Schriftverkehrs_Module.Properties.Resources.pulsante_01_architetto_f_01_First1;
+            this.toolStripButton_First.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_First.Name = "toolStripButton_First";
+            this.toolStripButton_First.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_First.Text = "toolStripButton1";
+            this.toolStripButton_First.Click += new System.EventHandler(this.toolStripButton_First_Click);
+            // 
+            // toolStripButton_Previous
+            // 
+            this.toolStripButton_Previous.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Previous.Image = global::Schriftverkehrs_Module.Properties.Resources.pulsante_01_architetto_f_01;
+            this.toolStripButton_Previous.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Previous.Name = "toolStripButton_Previous";
+            this.toolStripButton_Previous.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_Previous.Text = "toolStripButton2";
+            this.toolStripButton_Previous.Click += new System.EventHandler(this.toolStripButton_Previous_Click);
+            // 
+            // toolStripButton_Next
+            // 
+            this.toolStripButton_Next.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Next.Image = global::Schriftverkehrs_Module.Properties.Resources.pulsante_02_architetto_f_01;
+            this.toolStripButton_Next.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Next.Name = "toolStripButton_Next";
+            this.toolStripButton_Next.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_Next.Text = "toolStripButton3";
+            this.toolStripButton_Next.Click += new System.EventHandler(this.toolStripButton_Next_Click);
+            // 
+            // toolStripButton_Last
+            // 
+            this.toolStripButton_Last.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Last.Image = global::Schriftverkehrs_Module.Properties.Resources.pulsante_02_architetto_f_01_Last;
+            this.toolStripButton_Last.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Last.Name = "toolStripButton_Last";
+            this.toolStripButton_Last.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_Last.Text = "toolStripButton4";
+            this.toolStripButton_Last.Click += new System.EventHandler(this.toolStripButton_Last_Click);
+            // 
+            // button_ClearContact
+            // 
+            this.button_ClearContact.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_ClearContact.ImageIndex = 0;
+            this.button_ClearContact.ImageList = this.imageList_Schriftverkehr;
+            this.button_ClearContact.Location = new System.Drawing.Point(751, 123);
+            this.button_ClearContact.Name = "button_ClearContact";
+            this.button_ClearContact.Size = new System.Drawing.Size(32, 23);
+            this.button_ClearContact.TabIndex = 22;
+            this.button_ClearContact.UseVisualStyleBackColor = true;
+            this.button_ClearContact.Click += new System.EventHandler(this.button_ClearContact_Click);
+            // 
+            // imageList_Schriftverkehr
+            // 
+            this.imageList_Schriftverkehr.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList_Schriftverkehr.ImageStream")));
+            this.imageList_Schriftverkehr.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList_Schriftverkehr.Images.SetKeyName(0, "TzeenieWheenie_red_green_OK_not_OK_Icons_1.png");
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -159,9 +238,54 @@
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.splitContainer1.Location = new System.Drawing.Point(4, 360);
             this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.toolStripContainer_Office);
             this.splitContainer1.Size = new System.Drawing.Size(816, 144);
             this.splitContainer1.SplitterDistance = 404;
             this.splitContainer1.TabIndex = 21;
+            // 
+            // toolStripContainer_Office
+            // 
+            this.toolStripContainer_Office.BottomToolStripPanelVisible = false;
+            // 
+            // toolStripContainer_Office.ContentPanel
+            // 
+            this.toolStripContainer_Office.ContentPanel.Size = new System.Drawing.Size(404, 115);
+            this.toolStripContainer_Office.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolStripContainer_Office.LeftToolStripPanelVisible = false;
+            this.toolStripContainer_Office.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer_Office.Name = "toolStripContainer_Office";
+            this.toolStripContainer_Office.RightToolStripPanelVisible = false;
+            this.toolStripContainer_Office.Size = new System.Drawing.Size(404, 140);
+            this.toolStripContainer_Office.TabIndex = 0;
+            this.toolStripContainer_Office.Text = "toolStripContainer2";
+            // 
+            // toolStripContainer_Office.TopToolStripPanel
+            // 
+            this.toolStripContainer_Office.TopToolStripPanel.Controls.Add(this.toolStrip2);
+            // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton_WordOpen});
+            this.toolStrip2.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(35, 25);
+            this.toolStrip2.TabIndex = 0;
+            // 
+            // toolStripButton_WordOpen
+            // 
+            this.toolStripButton_WordOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_WordOpen.Enabled = false;
+            this.toolStripButton_WordOpen.Image = global::Schriftverkehrs_Module.Properties.Resources.it_word_icon_Open_Doc;
+            this.toolStripButton_WordOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_WordOpen.Name = "toolStripButton_WordOpen";
+            this.toolStripButton_WordOpen.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_WordOpen.Text = "toolStripButton1";
+            this.toolStripButton_WordOpen.Click += new System.EventHandler(this.toolStripButton_WordOpen_Click);
             // 
             // tabControl1
             // 
@@ -194,6 +318,36 @@
             this.tabPage_Address.TabIndex = 0;
             this.tabPage_Address.Text = "x_Address";
             this.tabPage_Address.UseVisualStyleBackColor = true;
+            // 
+            // button_AdressZusatz
+            // 
+            this.button_AdressZusatz.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_AdressZusatz.Location = new System.Drawing.Point(767, 28);
+            this.button_AdressZusatz.Name = "button_AdressZusatz";
+            this.button_AdressZusatz.Size = new System.Drawing.Size(36, 23);
+            this.button_AdressZusatz.TabIndex = 7;
+            this.button_AdressZusatz.Text = "...";
+            this.button_AdressZusatz.UseVisualStyleBackColor = true;
+            this.button_AdressZusatz.Click += new System.EventHandler(this.button_AdressZusatz_Click);
+            // 
+            // textBox_AdressZusatz
+            // 
+            this.textBox_AdressZusatz.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox_AdressZusatz.Location = new System.Drawing.Point(72, 30);
+            this.textBox_AdressZusatz.Name = "textBox_AdressZusatz";
+            this.textBox_AdressZusatz.ReadOnly = true;
+            this.textBox_AdressZusatz.Size = new System.Drawing.Size(689, 20);
+            this.textBox_AdressZusatz.TabIndex = 6;
+            // 
+            // label_Zusatz
+            // 
+            this.label_Zusatz.AutoSize = true;
+            this.label_Zusatz.Location = new System.Drawing.Point(7, 33);
+            this.label_Zusatz.Name = "label_Zusatz";
+            this.label_Zusatz.Size = new System.Drawing.Size(53, 13);
+            this.label_Zusatz.TabIndex = 5;
+            this.label_Zusatz.Text = "x_Zusatz:";
             // 
             // label_Detail
             // 
@@ -561,108 +715,6 @@
             this.timer_Name.Interval = 300;
             this.timer_Name.Tick += new System.EventHandler(this.timer_Name_Tick);
             // 
-            // imageList_Schriftverkehr
-            // 
-            this.imageList_Schriftverkehr.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList_Schriftverkehr.ImageStream")));
-            this.imageList_Schriftverkehr.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList_Schriftverkehr.Images.SetKeyName(0, "TzeenieWheenie_red_green_OK_not_OK_Icons_1.png");
-            // 
-            // label_Zusatz
-            // 
-            this.label_Zusatz.AutoSize = true;
-            this.label_Zusatz.Location = new System.Drawing.Point(7, 33);
-            this.label_Zusatz.Name = "label_Zusatz";
-            this.label_Zusatz.Size = new System.Drawing.Size(53, 13);
-            this.label_Zusatz.TabIndex = 5;
-            this.label_Zusatz.Text = "x_Zusatz:";
-            // 
-            // button_AdressZusatz
-            // 
-            this.button_AdressZusatz.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_AdressZusatz.Location = new System.Drawing.Point(767, 28);
-            this.button_AdressZusatz.Name = "button_AdressZusatz";
-            this.button_AdressZusatz.Size = new System.Drawing.Size(36, 23);
-            this.button_AdressZusatz.TabIndex = 7;
-            this.button_AdressZusatz.Text = "...";
-            this.button_AdressZusatz.UseVisualStyleBackColor = true;
-            this.button_AdressZusatz.Click += new System.EventHandler(this.button_AdressZusatz_Click);
-            // 
-            // textBox_AdressZusatz
-            // 
-            this.textBox_AdressZusatz.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_AdressZusatz.Location = new System.Drawing.Point(72, 30);
-            this.textBox_AdressZusatz.Name = "textBox_AdressZusatz";
-            this.textBox_AdressZusatz.ReadOnly = true;
-            this.textBox_AdressZusatz.Size = new System.Drawing.Size(689, 20);
-            this.textBox_AdressZusatz.TabIndex = 6;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButton_Close
-            // 
-            this.toolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_Close.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Close.Image")));
-            this.toolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Close.Name = "toolStripButton_Close";
-            this.toolStripButton_Close.Size = new System.Drawing.Size(50, 22);
-            this.toolStripButton_Close.Text = "x_Close";
-            // 
-            // toolStripButton_First
-            // 
-            this.toolStripButton_First.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_First.Image = global::Schriftverkehrs_Module.Properties.Resources.pulsante_01_architetto_f_01_First1;
-            this.toolStripButton_First.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_First.Name = "toolStripButton_First";
-            this.toolStripButton_First.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_First.Text = "toolStripButton1";
-            this.toolStripButton_First.Click += new System.EventHandler(this.toolStripButton_First_Click);
-            // 
-            // toolStripButton_Previous
-            // 
-            this.toolStripButton_Previous.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_Previous.Image = global::Schriftverkehrs_Module.Properties.Resources.pulsante_01_architetto_f_01;
-            this.toolStripButton_Previous.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Previous.Name = "toolStripButton_Previous";
-            this.toolStripButton_Previous.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_Previous.Text = "toolStripButton2";
-            this.toolStripButton_Previous.Click += new System.EventHandler(this.toolStripButton_Previous_Click);
-            // 
-            // toolStripButton_Next
-            // 
-            this.toolStripButton_Next.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_Next.Image = global::Schriftverkehrs_Module.Properties.Resources.pulsante_02_architetto_f_01;
-            this.toolStripButton_Next.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Next.Name = "toolStripButton_Next";
-            this.toolStripButton_Next.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_Next.Text = "toolStripButton3";
-            this.toolStripButton_Next.Click += new System.EventHandler(this.toolStripButton_Next_Click);
-            // 
-            // toolStripButton_Last
-            // 
-            this.toolStripButton_Last.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_Last.Image = global::Schriftverkehrs_Module.Properties.Resources.pulsante_02_architetto_f_01_Last;
-            this.toolStripButton_Last.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Last.Name = "toolStripButton_Last";
-            this.toolStripButton_Last.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_Last.Text = "toolStripButton4";
-            this.toolStripButton_Last.Click += new System.EventHandler(this.toolStripButton_Last_Click);
-            // 
-            // button_ClearContact
-            // 
-            this.button_ClearContact.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_ClearContact.ImageIndex = 0;
-            this.button_ClearContact.ImageList = this.imageList_Schriftverkehr;
-            this.button_ClearContact.Location = new System.Drawing.Point(751, 123);
-            this.button_ClearContact.Name = "button_ClearContact";
-            this.button_ClearContact.Size = new System.Drawing.Size(32, 23);
-            this.button_ClearContact.TabIndex = 22;
-            this.button_ClearContact.UseVisualStyleBackColor = true;
-            this.button_ClearContact.Click += new System.EventHandler(this.button_ClearContact_Click);
-            // 
             // frmSchriftverkehrsDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -680,8 +732,15 @@
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.toolStripContainer_Office.TopToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer_Office.TopToolStripPanel.PerformLayout();
+            this.toolStripContainer_Office.ResumeLayout(false);
+            this.toolStripContainer_Office.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage_Address.ResumeLayout(false);
             this.tabPage_Address.PerformLayout();
@@ -750,5 +809,8 @@
         private System.Windows.Forms.ToolStripButton toolStripButton_Previous;
         private System.Windows.Forms.ToolStripButton toolStripButton_Next;
         private System.Windows.Forms.ToolStripButton toolStripButton_Last;
+        private System.Windows.Forms.ToolStripContainer toolStripContainer_Office;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripButton toolStripButton_WordOpen;
     }
 }

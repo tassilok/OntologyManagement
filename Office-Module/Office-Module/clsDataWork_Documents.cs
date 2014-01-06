@@ -6,6 +6,7 @@ using System.Threading;
 using Ontology_Module;
 using OntologyClasses.BaseClasses;
 using System.IO;
+using System.Diagnostics;
 
 namespace Office_Module
 {
@@ -60,17 +61,22 @@ namespace Office_Module
             {
                 objOItem_Result = objLocalConfig.Globals.LState_Success;
             }
-            else if (OItem_Result_ManagedDocuments.GUID == objLocalConfig.Globals.LState_Nothing.GUID ||
-                OItem_Result_MD__DateTimeStampChanged.GUID == objLocalConfig.Globals.LState_Nothing.GUID ||
-                OItem_Result_MD_To_File.GUID == objLocalConfig.Globals.LState_Nothing.GUID ||
-                OItem_Result_MD_To_OItem.GUID == objLocalConfig.Globals.LState_Nothing.GUID ||
-                OItem_Result_MD_To_DocumentType.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
+            else if (OItem_Result_ManagedDocuments.GUID == objLocalConfig.Globals.LState_Error.GUID ||
+                OItem_Result_MD__DateTimeStampChanged.GUID == objLocalConfig.Globals.LState_Error.GUID ||
+                OItem_Result_MD_To_File.GUID == objLocalConfig.Globals.LState_Error.GUID ||
+                OItem_Result_MD_To_OItem.GUID == objLocalConfig.Globals.LState_Error.GUID ||
+                OItem_Result_MD_To_DocumentType.GUID == objLocalConfig.Globals.LState_Error.GUID)
             {
-                objOItem_Result = objLocalConfig.Globals.LState_Nothing;
+                objOItem_Result = objLocalConfig.Globals.LState_Error;
             }
             else
             {
-                objOItem_Result = objLocalConfig.Globals.LState_Error;
+                //Debug.Print("ManagedDocuments: " + OItem_Result_ManagedDocuments.Name + "\n" +
+                //            "DateTimeStamp: " + OItem_Result_MD__DateTimeStampChanged.Name + "\n" +
+                //            "File: " + OItem_Result_MD_To_File.Name + "\n" +
+                //            "OItem: " + OItem_Result_MD_To_OItem.Name + "\n" +
+                //            "DocumentType: " + OItem_Result_MD_To_DocumentType.Name);
+                objOItem_Result = objLocalConfig.Globals.LState_Nothing;
             }
 
             return objOItem_Result;
@@ -910,7 +916,7 @@ namespace Office_Module
             {
                 objORel_Templates.Add(new clsObjectRel()
                 {
-                    ID_Parent_Object = objOItem_RefForTemplate.GUID,
+                    ID_Parent_Object = objLocalConfig.OItem_Type_Word_Templates.GUID,
                     ID_Other = objOItem_RefForTemplate.GUID,
                     ID_RelationType = objLocalConfig.OItem_RelationType_used_for.GUID
                 });
@@ -920,12 +926,12 @@ namespace Office_Module
 
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    if (objDBLevel_Templates.OList_ClassRel.Any())
+                    if (objDBLevel_Templates.OList_ObjectRel_ID.Any())
                     {
                         objORel_Templates.Clear();
                         objORel_Templates.Add(new clsObjectRel()
                         {
-                            ID_Object = objDBLevel_Classes.OList_ObjectRel.First().ID_Object,
+                            ID_Object = objDBLevel_Templates.OList_ObjectRel_ID.First().ID_Object,
                             ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID,
                             ID_RelationType = objLocalConfig.OItem_RelationType_is.GUID
                         });

@@ -24,7 +24,8 @@ Public Class frm_ObjectEdit
         Return objOItem_Result
     End Function
 
-    Private Sub activated_Object() Handles objUserControl_TokenEdit.ActivatedItem
+    Private Sub activated_Object(intRowId As Integer) Handles objUserControl_TokenEdit.ActivatedItem
+        Me.intRowID = intRowId
         RefreshClassPath()
     End Sub
 
