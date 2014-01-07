@@ -73,9 +73,11 @@
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ElasticSearch.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\libs\ElasticSearch.Client.dll</HintPath>
+    <Reference Include="Nest">
+      <HintPath>..\packages\NEST.0.12.0.0\lib\NET4\Nest.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -578,6 +580,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="packages.config" />
     <None Include="Resources\Vogelschwarm1.png" />
     <None Include="Resources\Ontology-Module2.png" />
     <None Include="Resources\Ontology-Module Block.png" />
@@ -682,9 +685,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ElasticSearchConnector\ElasticSearchConnector\ElasticSearchConnector.csproj">
-      <Project>{7085762b-19ce-4125-a52b-4556a96bbba9}</Project>
-      <Name>ElasticSearchConnector</Name>
+    <ProjectReference Include="..\..\ElasticSearchNestConnector\ElasticSearchNestConnector\ElasticSearchNestConnector.csproj">
+      <Project>{47208cae-f413-4c25-a184-14f1140ca081}</Project>
+      <Name>ElasticSearchNestConnector</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>

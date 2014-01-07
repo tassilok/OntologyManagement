@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Nest;
+using Newtonsoft.Json.Linq;
 using OntologyClasses.BaseClasses;
 
 namespace ElasticSearchNestConnector
@@ -103,15 +104,12 @@ namespace ElasticSearchNestConnector
             {
                 intCount = 0;
 
-                var result = ElConnector.Search(s => s.Index(Index).Type(strType).QueryString("*").From(intPos).Size(SearchRange));
-
-                Documents.AddRange(result.Documents.Select(d =>
-                                                          new clsAppDocuments
-                                                          {
-                                                              Id = d["_id"],
-                                                              Dict = d
-                                                          }));
+                var result = ElConnector.Search(s => s.Index(Index).Type(strType ?? App).QueryString("*").From(intPos).Size(SearchRange));
                 
+                Documents.AddRange(
+                    result.Documents.Select(
+                        d => new clsAppDocuments {Dict = new JObject(d).ToObject<Dictionary<string, object>>(), Id = d["Id"]}));
+
 
             }
 

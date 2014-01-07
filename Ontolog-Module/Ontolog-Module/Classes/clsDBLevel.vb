@@ -1,7 +1,7 @@
-﻿Imports ElasticSearchConnector
+﻿Imports ElasticSearchNestConnector
 Imports OntologyClasses.DataClasses
 Imports OntologyClasses.BaseClasses
-Imports ElasticSearch
+Imports Nest
 
 Public Class clsDBLevel
     <Flags()>
@@ -60,9 +60,9 @@ Public Class clsDBLevel
     Private intPackageLength As Integer
     Private sortE As SortEnum
 
-    Private objElSelector as ElasticSearchConnector.clsDBSelector
-    Private objElDeletor As ElasticSearchConnector.clsDBDeletor
-    Private objElUpdater As ElasticSearchConnector.clsDBUpdater
+    Private objElSelector as ElasticSearchNestConnector.clsDBSelector
+    Private objElDeletor As ElasticSearchNestConnector.clsDBDeletor
+    Private objElUpdater As ElasticSearchNestConnector.clsDBUpdater
 
     Public Property OAList_Saved As List(Of clsObjectAtt)
 
@@ -365,7 +365,7 @@ Public Class clsDBLevel
 
     Private Sub initialize_Client()
         intPackageLength = intSearchRange
-        objElSelector = New ElasticSearchConnector.clsDBSelector(strServer,intPort,strIndex,strIndexRep,intSearchRange,strSession)
+        objElSelector = New ElasticSearchNestConnector.clsDBSelector(strServer,intPort,strIndex,strIndexRep,intSearchRange,strSession)
         objElDeletor = new clsDBDeletor(objElSelector)
         objElUpdater = new clsDBUpdater(objElSelector)
     End Sub
@@ -789,25 +789,16 @@ Public Class clsDBLevel
     End Function
 
     Public Function test_Index_Es() As Boolean
-        Dim strLIndexes = objElSelector.ElConnector.GetIndices()
-        Dim boolExist = False
-        For Each strExistIndex In strLIndexes
-            If strExistIndex.ToLower() = strIndex.ToLower()
-                boolExist = True
-                exit For 
-            End If
-        Next
 
-        Return boolExist
+        return objElSelector.ElConnector.IndexExists(strIndex).Exists
+        
     End Function
 
     Public Function create_Index_Es() As Boolean
-        Dim objOPResult =  objElSelector.ElConnector.CreateIndex(strIndex)
-        If objOPResult.Success Then
-            Return True
-        Else 
-            Return False
-        End If
+        Dim indexSettings = new IndexSettings()
+        Dim objOPResult =  objElSelector.ElConnector.CreateIndex(strIndex,indexSettings)
+        return objOPResult.OK
+            
     End Function
 
     'Public Function create_Report_SQL(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing) As clsOntologyItem
@@ -1154,9 +1145,7 @@ Public Class clsDBLevel
 
     End Sub
 
-    Private Sub Finalize_Client()
-        objElSelector.Dispose()
-    End Sub
+    
 
     Protected Overrides Sub Finalize()
         MyBase.Finalize()

@@ -1,13 +1,12 @@
-﻿Imports ElasticSearchConnector
+﻿Imports ElasticSearchNestConnector
 Imports OntologyClasses.DataClasses
 Imports OntologyClasses.BaseClasses
-Imports ElasticSearch
 
 
 Public Class clsAppDBLevel
-    Private objAppElSelector As ElasticSearchConnector.clsUserAppDBSelector
-    Private objAppElDeletor As ElasticSearchConnector.clsUserAppDBDeletor
-    Private objAppElUpdater As ElasticSearchConnector.clsUserAppDBUpdater
+    Private objAppElSelector As clsUserAppDBSelector
+    Private objAppElDeletor As clsUserAppDBDeletor
+    Private objAppElUpdater As clsUserAppDBUpdater
 
     Private strServer As String
     Private strIndex As String

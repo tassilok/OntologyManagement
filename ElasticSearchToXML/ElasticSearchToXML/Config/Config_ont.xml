@@ -6,7 +6,7 @@
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>Port</ConfigItem_Name>
-    <ConfigItem_Value>9500</ConfigItem_Value>
+    <ConfigItem_Value>9200</ConfigItem_Value>
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>server</ConfigItem_Name>

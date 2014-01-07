@@ -88,7 +88,7 @@ namespace Appointment_Module
                     var objAppointment = new clsAppointment() { ID_Appointment = DGVR_SelectedRows[0].Cells["ID_Appointment"].Value.ToString(),
                                                                 Name_Appointment = DGVR_SelectedRows[0].Cells["Name_Appointment"].Value.ToString(),
                                                                 OItem_User = (clsOntologyItem) DGVR_SelectedRows[0].Cells["OItem_User"].Value,
-                                                                ID_Attribute_Start = DGVR_SelectedRows[0].Cells["ID_Attribute_Start"].Value.ToString(),
+                                                                ID_Attribute_Start = (DGVR_SelectedRows[0].Cells["ID_Attribute_Start"].Value) != null ? DGVR_SelectedRows[0].Cells["ID_Attribute_Start"].Value.ToString() : null,
                                                                 ID_Attribute_Ende = (DGVR_SelectedRows[0].Cells["ID_Attribute_Ende"].Value != null ? DGVR_SelectedRows[0].Cells["ID_Attribute_Ende"].Value.ToString() : null),
                                                                 Val_Start = (DateTime?) DGVR_SelectedRows[0].Cells["Val_Start"].Value,
                                                                 Val_Ende = (DGVR_SelectedRows[0].Cells["Val_Ende"].Value != null ? (DateTime?) DGVR_SelectedRows[0].Cells["Val_Ende"].Value : null)};

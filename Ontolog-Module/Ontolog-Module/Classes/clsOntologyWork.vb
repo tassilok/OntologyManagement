@@ -116,8 +116,8 @@ Public Class clsOntologyWork
                     objDBLevel_ORule.get_Data_ObjectRel(objOList_Joins_Rule)
 
                     If objDBLevel_ORule.OList_ObjectRel_ID.Count > 0 Then
-                        Dim objLJoins = From objJoin In objDBLevel_Joins.OList_ObjectRel_ID
-                                        Join objItem In objDBLevel_OItems.OList_ObjectRel_ID On objItem.ID_Other Equals objJoin.ID_Object
+                        Dim objLJoins = (From objJoin In objDBLevel_Joins.OList_ObjectRel_ID
+                                        Join objItem In objDBLevel_OItems.OList_ObjectRel_ID On objItem.ID_Other Equals objJoin.ID_Object).ToList()
 
                         For Each objJoin In objLJoins
                             objOList_Joins_Ont.Clear()
