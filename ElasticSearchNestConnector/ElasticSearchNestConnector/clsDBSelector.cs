@@ -81,7 +81,6 @@ namespace ElasticSearchNestConnector
                 
                 if (OList_ClassRel.Any())
                 {
-                    strQuery = "";
 
                     var oL_ID_Left = (from obj in OList_ClassRel
                                       where obj.ID_Class_Left != null
@@ -90,16 +89,19 @@ namespace ElasticSearchNestConnector
                                           select g.Key).ToList();
 
 
-
-                    foreach (var ID_Left in oL_ID_Left)
+                    if (oL_ID_Left.Any())
                     {
-                        if (strQuery != "")
-                            strQuery += "\\ OR\\ ";
+                        if (strQuery != "") strQuery += "\\ AND\\ ";
+                        strQuery += "(";
+                        for (var i = 0; i < oL_ID_Left.Count;i++ )
+                        {
+                            if (i>0) strQuery += "\\ OR\\ ";
 
-                        strQuery += objFields.ID_Class_Left + ":" + ID_Left;
+                            strQuery += objFields.ID_Class_Left + ":" + oL_ID_Left[i];
+                        }
+                        strQuery += ")";
                     }
-
-                    strQuery = "";
+                    
 
                     var oL_ID_Right = (from obj in OList_ClassRel
                                        where obj.ID_Class_Right != null
@@ -107,17 +109,21 @@ namespace ElasticSearchNestConnector
                                            into g
                                            select g.Key).ToList();
 
-
-
-                    foreach (var ID_Right in oL_ID_Right)
+                    if (oL_ID_Right.Any())
                     {
-                        if (strQuery != "")
-                            strQuery += "\\ OR\\ ";
+                        if (strQuery != "") strQuery += "\\ AND\\ ";
+                        strQuery += "(";
+                        for (var i = 0; i < oL_ID_Right.Count; i++ )
+                        {
+                            if (i>0) strQuery += "\\ OR\\ ";
 
-                        strQuery += objFields.ID_Class_Right + ":" + ID_Right;
+                            strQuery += objFields.ID_Class_Right + ":" + oL_ID_Right[i];
+                        }
+                        strQuery += ")";
                     }
 
-                    strQuery = "";
+                    
+
 
                     var oL_ID_RelationType = (from obj in OList_ClassRel
                                               where obj.ID_RelationType != null
@@ -126,14 +132,19 @@ namespace ElasticSearchNestConnector
                                                   select g.Key).ToList();
 
 
-
-                    foreach (var ID_RelationType in oL_ID_RelationType)
+                    if (oL_ID_RelationType.Any())
                     {
-                        if (strQuery != "")
-                            strQuery += "\\ OR\\ ";
+                        if (strQuery != "") strQuery += "\\ AND\\ ";
+                        strQuery += "(";
+                        for (var i = 0; i < oL_ID_RelationType.Count;i++ )
+                        {
+                            if (i>0) strQuery += "\\ OR\\ ";
 
-                        strQuery += objFields.ID_RelationType + ":" + ID_RelationType;
+                            strQuery += objFields.ID_RelationType + ":" + oL_ID_RelationType[i];
+                        }
+                        strQuery += ")";
                     }
+                    
 
                 }
             }
@@ -152,7 +163,6 @@ namespace ElasticSearchNestConnector
             var strQuery = "";
             if (OList_ObjectAtt != null)
             {
-                strQuery = "";
 
                 var oL_ID_Attribute = (from obj in OList_ObjectAtt
                                        where obj.ID_Attribute != null
@@ -161,16 +171,22 @@ namespace ElasticSearchNestConnector
                                            select g.Key).ToList();
 
 
-
-                foreach (var ID_Attribute in oL_ID_Attribute)
+                if (oL_ID_Attribute.Any())
                 {
-                    if (strQuery != "")
-                        strQuery += "\\ OR\\ ";
+                    strQuery += "(";
 
-                    strQuery += objFields.ID_Attribute + ":" + ID_Attribute;
+                    foreach (var ID_Attribute in oL_ID_Attribute)
+                    {
+                        if (strQuery != "")
+                            strQuery += "\\ OR\\ ";
+
+                        strQuery += objFields.ID_Attribute + ":" + ID_Attribute;
+                    }
+
+                    strQuery += ")";
                 }
 
-                strQuery = "";
+                
 
                 var oL_ID_AttributeType = (from obj in OList_ObjectAtt
                                            where obj.ID_AttributeType != null
@@ -179,16 +195,21 @@ namespace ElasticSearchNestConnector
                                                select g.Key).ToList();
 
 
-
-                foreach (var ID_AttributeType in oL_ID_AttributeType)
+                if (oL_ID_AttributeType.Any())
                 {
-                    if (strQuery != "")
-                        strQuery += "\\ OR\\ ";
-
-                    strQuery += objFields.ID_AttributeType + ":" + ID_AttributeType;
+                    if (strQuery != "") strQuery += "\\ AND\\ ";    
+                    strQuery += "(";
+                    for (int i = 0; i < oL_ID_AttributeType.Count; i++)
+                    {
+                        if (i > 0) strQuery += "\\ OR\\ ";
+                        strQuery += objFields.ID_AttributeType + ":" + oL_ID_AttributeType[i];
+                    }
+                    
+                    strQuery += ")";
                 }
+                
 
-                strQuery = "";
+                
 
                 var oL_ID_Object = (from obj in OList_ObjectAtt
                                     where obj.ID_Object != null
@@ -196,17 +217,23 @@ namespace ElasticSearchNestConnector
                                         into g
                                         select g.Key).ToList();
 
-
-
-                foreach (var ID_Object in oL_ID_Object)
+                if (oL_ID_Object.Any())
                 {
-                    if (strQuery != "")
-                        strQuery += "\\ OR\\ ";
+                    if (strQuery != "") strQuery += "\\ AND\\ ";    
+                    strQuery += "(";
+                    for (int i = 0; i < oL_ID_Object.Count;i++)
+                    {
+                        if (i>0)
+                            strQuery += "\\ OR\\ ";
 
-                    strQuery += objFields.ID_Object + ":" + ID_Object;
+                        strQuery += objFields.ID_Object + ":" + oL_ID_Object[i];
+                    }
+                    strQuery += ")";
                 }
 
-                strQuery = "";
+                
+
+                
 
                 var oL_ID_Class = (from obj in OList_ObjectAtt
                                    where obj.ID_Class != null
@@ -215,16 +242,22 @@ namespace ElasticSearchNestConnector
                                        select g.Key).ToList();
 
 
-
-                foreach (var ID_Class in oL_ID_Class)
+                if (oL_ID_Class.Any())
                 {
-                    if (strQuery != "")
-                        strQuery += "\\ OR\\ ";
+                    if (strQuery != "") strQuery += "\\ AND\\ ";    
+                    strQuery += "(";
+                    for (var i = 0; i < oL_ID_Class.Count;i++ )
+                    {
+                        if (strQuery != "")
+                            strQuery += "\\ OR\\ ";
 
-                    strQuery += objFields.ID_Class + ":" + ID_Class;
+                        strQuery += objFields.ID_Class + ":" + oL_ID_Class[i];
+                    }
+                    strQuery += ")";
                 }
+                
 
-                strQuery = "";
+                
 
                 var oL_ID_DataType = (from obj in OList_ObjectAtt
                                       where obj.ID_DataType != null
@@ -233,52 +266,65 @@ namespace ElasticSearchNestConnector
                                           select g.Key).ToList();
 
 
-
-                foreach (var ID_DataType in oL_ID_DataType)
+                if (oL_ID_DataType.Any())
                 {
-                    if (strQuery != "")
-                        strQuery += "\\ OR\\ ";
+                    if (strQuery != "") strQuery += "\\ AND\\ ";    
+                    strQuery += "(";
+                    for (var i = 0; i < oL_ID_DataType.Count; i++ )
+                    {
+                        if (i>0) strQuery += "\\ OR\\ ";
 
-                    strQuery += objFields.ID_DataType + ":" + ID_DataType;
+                        strQuery += objFields.ID_DataType + ":" + oL_ID_DataType[i];
+                    }
+                    strQuery += ")";
                 }
 
-                strQuery = "";
 
+                
                 var oL_Bit = (from obj in OList_ObjectAtt
                               where obj.Val_Bit != null
                               group obj by obj.Val_Bit
                                   into g
                                   select g.Key).ToList();
 
-
-
-                foreach (var Val_Bit in oL_Bit)
+                if (oL_Bit.Any())
                 {
-                    if (strQuery != "")
-                        strQuery += "\\ OR\\ ";
+                    if (strQuery != "") strQuery += "\\ AND\\ ";    
+                    strQuery += "(";
+                    for (var i = 0; i < oL_Bit.Count; i++ )
+                    {
+                        if (i>0) strQuery += "\\ OR\\ ";
 
-                    strQuery += objFields.Val_Bool + ":" + Val_Bit.ToString();
+                        strQuery += objFields.Val_Bool + ":" + oL_Bit[0].ToString();
+                    }
+                    strQuery += ")";
                 }
 
-                strQuery = "";
 
+
+                
                 var oL_Date = (from obj in OList_ObjectAtt
                                where obj.Val_Date != null
                                group obj by obj.Val_Date
                                    into g
                                    select g.Key).ToList();
 
-
-
-                foreach (var Val_Date in oL_Date)
+                if (oL_Date.Any())
                 {
-                    if (strQuery != "")
-                        strQuery += "\\ OR\\ ";
+                    if (strQuery != "") strQuery += "\\ AND\\ ";    
+                    strQuery += "(";
+                    for (var i = 0; i < oL_Date.Count; i++)
+                    {
+                        if (i > 0) strQuery += "\\ OR\\ ";
 
-                    strQuery += objFields.Val_Datetime + ":" + Val_Date.ToString();
+                        strQuery += objFields.Val_Datetime + ":" + oL_Date[i].ToString();
+                    }
+                    strQuery += ")";
                 }
 
-                strQuery = "";
+
+
+                
 
                 var oL_Dbl = (from obj in OList_ObjectAtt
                               where obj.Val_Double != null
@@ -286,17 +332,20 @@ namespace ElasticSearchNestConnector
                                   into g
                                   select g.Key).ToList();
 
-
-
-                foreach (var Val_Dbl in oL_Dbl)
+                if (oL_Dbl.Any())
                 {
-                    if (strQuery != "")
-                        strQuery += "\\ OR\\ ";
+                    if (strQuery != "") strQuery += "\\ AND\\ ";
+                    strQuery += "(";
+                    for (var i = 0; i < oL_Dbl.Count; i++)
+                    {
+                        if (i > 0) strQuery += "\\ OR\\ ";
 
-                    strQuery += objFields.Val_Real + ":" + Val_Dbl.ToString();
+                        strQuery += objFields.Val_Real + ":" + oL_Dbl[i].ToString();
+                    }
+                    strQuery += ")";
                 }
 
-                strQuery = "";
+                
 
                 var oL_Lng = (from obj in OList_ObjectAtt
                               where obj.Val_Lng != null
@@ -304,17 +353,20 @@ namespace ElasticSearchNestConnector
                                   into g
                                   select g.Key).ToList();
 
-
-
-                foreach (var Val_Lng in oL_Lng)
+                if (oL_Lng.Any())
                 {
-                    if (strQuery != "")
-                        strQuery += "\\ OR\\ ";
+                    if (strQuery != "") strQuery += "\\ AND\\ ";
+                    strQuery += "(";
+                    for (var i = 0; i < oL_Lng.Count; i++)
+                    {
+                        if (i > 0) strQuery += "\\ OR\\ ";
 
-                    strQuery += objFields.Val_Int + ":" + Val_Lng.ToString();
+                        strQuery += objFields.Val_Int + ":" + oL_Lng[i].ToString();
+                    }
+                    strQuery += ")";
                 }
 
-                strQuery = "";
+                
 
                 var oL_Str = (from obj in OList_ObjectAtt
                               where obj.Val_String != null
@@ -323,21 +375,27 @@ namespace ElasticSearchNestConnector
                                   select g.Key).ToList();
 
 
-
-                foreach (var Val_Str in oL_Str)
+                if (oL_Str.Any())
                 {
-                    if (strQuery != "")
-                        strQuery += "\\ OR\\ ";
+                    if (strQuery != "") strQuery += "\\ AND\\ ";
+                    strQuery += "(";
+                    for (var i = 0; i < oL_Str.Count; i++)
+                    {
+                        if (i > 0) strQuery += "\\ OR\\ ";
 
-                    strQuery += objFields.Val_String + ":" + Val_Str;
+                        strQuery += objFields.Val_String + ":" + oL_Str[i];
+                    }
+                    strQuery += ")";
                 }
+
+                
 
 
             }
 
             if (doJoin)
             {
-                strQuery = "";
+                
 
                 var objLClasses = (from obj in OntologyList_Objects1
                                    where obj.GUID_Parent != null
@@ -345,13 +403,19 @@ namespace ElasticSearchNestConnector
                                        into g
                                        select g.Key).ToList();
 
-                foreach (var objClass in objLClasses)
+                if (objLClasses.Any())
                 {
-                    if (strQuery != "")
-                        strQuery += "\\ OR\\ ";
+                    if (strQuery != "") strQuery += "\\ AND\\ ";
+                    strQuery += "(";
+                    for (var i = 0; i < objLClasses.Count; i++)
+                    {
+                        if (i > 0) strQuery += "\\ OR\\ ";
 
-                    strQuery += objFields.ID_Class + ":" + objClass;
+                        strQuery += objFields.ID_Class + ":" + objLClasses[i];
+                    }
+                    strQuery += ")";
                 }
+                
 
             }
 
@@ -371,7 +435,6 @@ namespace ElasticSearchNestConnector
             {
                 if (OList_ObjectRel.Any())
                 {
-                    strQuery = "";
 
                     var oL_IDObject = (from obj in OList_ObjectRel
                                        where obj.ID_Object != null && obj.ID_Object != ""
@@ -379,17 +442,19 @@ namespace ElasticSearchNestConnector
                                            into g
                                            select g.Key).ToList();
 
-
-
-                    foreach (var ID_Object in oL_IDObject)
+                    if (oL_IDObject.Any())
                     {
-                        if (strQuery != "")
-                            strQuery += "\\ OR\\ ";
+                        strQuery += "(";
+                        for (var i = 0; i < oL_IDObject.Count; i++ )
+                        {
+                            if (i > 0) strQuery += "\\ OR\\ ";
 
-                        strQuery += objFields.ID_Object + ":" + ID_Object;
+                            strQuery += objFields.ID_Object + ":" + oL_IDObject[i];
+                        }
+                        strQuery += ")";
                     }
 
-                    strQuery = "";
+                    
 
                     var oL_IDParentObject = (from obj in OList_ObjectRel
                                              where obj.ID_Parent_Object != null && obj.ID_Parent_Object != ""
@@ -397,17 +462,22 @@ namespace ElasticSearchNestConnector
                                                  into g
                                                  select g.Key).ToList();
 
-
-
-                    foreach (var ID_ParentObject in oL_IDParentObject)
+                    if (oL_IDParentObject.Any())
                     {
-                        if (strQuery != "")
-                            strQuery += "\\ OR\\ ";
+                        if (strQuery != "") strQuery += "\\ AND\\ ";
+                        strQuery += "(";
+                        for (var i = 0; i<oL_IDParentObject.Count;i++)
+                        {
+                            if (i > 0) strQuery += "\\ OR\\ ";
 
-                        strQuery += objFields.ID_Parent_Object + ":" + ID_ParentObject;
+                            strQuery += objFields.ID_Parent_Object + ":" + oL_IDParentObject[i];
+                        }
+                        strQuery += ")";
                     }
 
-                    strQuery = "";
+                    
+
+                    
 
                     var oL_IDOther = (from obj in OList_ObjectRel
                                       where obj.ID_Other != null && obj.ID_Other != ""
@@ -415,35 +485,43 @@ namespace ElasticSearchNestConnector
                                           into g
                                           select g.Key).ToList();
 
-
-
-                    foreach (var ID_Other in oL_IDOther)
+                    if (oL_IDOther.Any())
                     {
-                        if (strQuery != "")
-                            strQuery += "\\ OR\\ ";
+                        if (strQuery != "") strQuery += "\\ AND\\ ";
+                        strQuery += "(";
+                        for (var i = 0; i < oL_IDOther.Count;i++ )
+                        {
+                            if (i > 0) strQuery += "\\ OR\\ ";
 
-                        strQuery += objFields.ID_Other + ":" + ID_Other;
+                            strQuery += objFields.ID_Other + ":" + oL_IDOther[i];
+                        }
+                        strQuery += ")";
                     }
 
-                    strQuery = "";
+                    
 
-                    var oL_IDParentOther = (from obj in OList_ObjectRel
+                   var oL_IDParentOther = (from obj in OList_ObjectRel
                                             where obj.ID_Parent_Other != null && obj.ID_Parent_Other != ""
                                             group obj by obj.ID_Parent_Other
                                                 into g
                                                 select g.Key).ToList();
 
 
-
-                    foreach (var ID_ParentOther in oL_IDParentOther)
+                    if (oL_IDParentOther.Any())
                     {
-                        if (strQuery != "")
-                            strQuery += "\\ OR\\ ";
+                        if (strQuery != "") strQuery += "\\ AND\\ ";
+                        strQuery += "(";
+                        for (var i = 0; i < oL_IDParentOther.Count;i++ )
+                        {
+                            if (i > 0) strQuery += "\\ OR\\ ";
 
-                        strQuery += objFields.ID_Parent_Other + ":" + ID_ParentOther;
+                            strQuery += objFields.ID_Parent_Other + ":" + oL_IDParentOther[i];
+                        }
+                        strQuery += ")";
                     }
+                    
 
-                    strQuery = "";
+                    
 
                     var oL_IDRelationType = (from obj in OList_ObjectRel
                                              where obj.ID_RelationType != null && obj.ID_RelationType != ""
@@ -452,16 +530,23 @@ namespace ElasticSearchNestConnector
                                                  select g.Key).ToList();
 
 
-
-                    foreach (var ID_RelationType in oL_IDRelationType)
+                    if (oL_IDRelationType.Any())
                     {
-                        if (strQuery != "")
-                            strQuery += "\\ OR\\ ";
+                        if (strQuery != "") strQuery += "\\ AND\\ ";
+                        strQuery += "(";
+                        for (var i = 0; i < oL_IDRelationType.Count;i++ )
+                        {
+                            if (i>0) strQuery += "\\ OR\\ ";
 
-                        strQuery += objFields.ID_RelationType + ":" + ID_RelationType;
+                            strQuery += objFields.ID_RelationType + ":" + oL_IDRelationType[i];
+                        }
+                        strQuery += ")";
+
                     }
 
-                    strQuery = "";
+                    
+
+                    
 
                     var oL_Ontology = (from obj in OList_ObjectRel
                                        where obj.Ontology != null && obj.Ontology != ""
@@ -470,14 +555,19 @@ namespace ElasticSearchNestConnector
                                            select g.Key).ToList();
 
 
-
-                    foreach (var ontology in oL_Ontology)
+                    if (oL_Ontology.Any())
                     {
-                        if (strQuery != "")
-                            strQuery += "\\ OR\\ ";
+                        if (strQuery != "") strQuery += "\\ AND\\ ";
+                        strQuery += "(";
+                        for (var i = 0; i < oL_Ontology.Count;i++ )
+                        {
+                            if (i>0) strQuery += "\\ OR\\ ";
 
-                        strQuery += objFields.Ontology + ":" + ontology;
+                            strQuery += objFields.Ontology + ":" + oL_Ontology[i];
+                        }
+                        strQuery += ")";
                     }
+                    
 
                 }
             }
@@ -500,7 +590,7 @@ namespace ElasticSearchNestConnector
             {
                 if (OList_Classes.Any())
                 {
-                    strQuery = "";
+                    
 
                     var oL_ID = (from obj in OList_Classes
                                  where obj.GUID != null
@@ -509,14 +599,19 @@ namespace ElasticSearchNestConnector
                                      select g.Key).ToList();
 
 
-
-                    foreach (var id in oL_ID)
+                    if (oL_ID.Any())
                     {
-                        if (strQuery != "")
-                            strQuery += "\\ OR\\ ";
+                        if (strQuery != "") strQuery += "\\ AND\\ ";
+                        strQuery += "(";
+                        for (var i = 0; i < oL_ID.Count;i++ )
+                        {
+                            if (i>0) strQuery += "\\ OR\\ ";
 
-                        strQuery += objFields.ID_Class + ":" + id;
+                            strQuery += objFields.ID_Class + ":" + oL_ID[i];
+                        }
+                        strQuery += ")";
                     }
+                    
 
                 }
             }
@@ -525,7 +620,6 @@ namespace ElasticSearchNestConnector
             {
                 if (OList_AttributeTypes.Any())
                 {
-                    strQuery = "";
 
                     var oL_ID = (from obj in OList_AttributeTypes
                                  where obj.GUID != null
@@ -534,14 +628,20 @@ namespace ElasticSearchNestConnector
                                      select g.Key).ToList();
 
 
-
-                    foreach (var id in oL_ID)
+                    if (oL_ID.Any())
                     {
-                        if (strQuery != "")
-                            strQuery += "\\ OR\\ ";
+                        if (strQuery != "") strQuery += "\\ AND\\ ";
+                        strQuery += "(";
+                        foreach (var id in oL_ID)
+                        {
+                            if (strQuery != "")
+                                strQuery += "\\ OR\\ ";
 
-                        strQuery += objFields.ID_AttributeType + ":" + id;
+                            strQuery += objFields.ID_AttributeType + ":" + id;
+                        }
+                        strQuery += ")";
                     }
+                    
 
                 }
             }
@@ -697,7 +797,6 @@ namespace ElasticSearchNestConnector
             {
                 if (OList_Items.Any())
                 {
-                    strQuery = "";
                     var boolID = false;
                     var oL_ID = (from obj in OList_Items
                                  where obj.GUID != null && obj.GUID != ""
@@ -705,15 +804,20 @@ namespace ElasticSearchNestConnector
                                      into g
                                      select g.Key).ToList();
 
-
-
-                    foreach (var id in oL_ID)
+                    if (oL_ID.Any())
                     {
-                        if (strQuery != "")
-                            strQuery += "\\ OR\\ ";
+                        if (strQuery != "") strQuery += "\\ AND\\ ";
+                        strQuery += "(";
+                        for (var i = 0; i < oL_ID.Count;i++ )
+                        {
+                            if (i>0) strQuery += "\\ OR\\ ";
 
-                        strQuery += objFields.ID_Item + ":" + id;
+                            strQuery += objFields.ID_Item + ":" + oL_ID[i];
+                        }
+                        strQuery += "(";
                     }
+
+                    
 
                     if (strQuery != "")
                     {
@@ -730,36 +834,41 @@ namespace ElasticSearchNestConnector
                                            select g.Key).ToList();
 
 
-
-                        foreach (var name in oL_Name)
+                        if (oL_Name.Any())
                         {
-                            if (strQuery != "")
-                                strQuery += "\\ OR\\ ";
-                            var nameQuery = name;
-                            foreach (var specialCharacter in SpecialCharacters_Read)
+                            if (strQuery != "") strQuery += "\\ AND\\ ";
+                            strQuery += "(";
+                            for (var i = 0; i < oL_Name.Count; i++ )
                             {
-                                nameQuery = nameQuery.Replace(specialCharacter, "\\" + specialCharacter);
-                            }
-
-                            if (!boolExact)
-                            {
-                                if (nameQuery == name)
+                                if (i > 0) strQuery += "\\ OR\\ ";
+                                var nameQuery = oL_Name[i];
+                                foreach (var specialCharacter in SpecialCharacters_Read)
                                 {
-                                    strQuery +=  objFields.Name_Item + ":*" + nameQuery + "*";
+                                    nameQuery = nameQuery.Replace(specialCharacter, "\\" + specialCharacter);
+                                }
+
+                                if (!boolExact)
+                                {
+                                    if (nameQuery == oL_Name[i])
+                                    {
+                                        strQuery += objFields.Name_Item + ":*" + nameQuery + "*";
+                                    }
+                                    else
+                                    {
+                                        strQuery += nameQuery;
+                                    }
+
+
                                 }
                                 else
                                 {
                                     strQuery += nameQuery;
                                 }
 
-
                             }
-                            else
-                            {
-                                strQuery += nameQuery;
-                            }
-
+                            strQuery += ")";
                         }
+                        
 
 
                         if (strOntology == objTypes.AttributeType ||
@@ -774,14 +883,19 @@ namespace ElasticSearchNestConnector
                                                    select g.Key).ToList();
 
 
-
-                            foreach (var idParent in oL_IDParent)
+                            if (oL_IDParent.Any())
                             {
-                                if (strQuery != "")
-                                    strQuery += "\\ OR\\ ";
+                                if (strQuery != "") strQuery += "\\ AND\\ ";
+                                strQuery += "(";
+                                for (var i = 0; i < oL_IDParent.Count;i++ )
+                                {
+                                    if (i > 0) strQuery += "\\ OR\\ ";
 
-                                strQuery += strField_IDParent + ":"  + idParent;
+                                    strQuery += strField_IDParent + ":" + oL_IDParent[i];
+                                }
+                                strQuery += ")";
                             }
+                            
 
 
                         }
@@ -810,7 +924,7 @@ namespace ElasticSearchNestConnector
                 ElConnector.CreateIndex(IndexRep, indexSettings);
                 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw new Exception("Report index!");
@@ -1291,7 +1405,7 @@ namespace ElasticSearchNestConnector
                                                     {
                                                         GUID = d[objFields.ID_Item],
                                                         Name = d[objFields.Name_Item],
-                                                        GUID_Parent = d.ContainsKey(objFields.ID_Parent) ? d[objFields.ID_Parent] : null,
+                                                        GUID_Parent = d[objFields.ID_Parent],
                                                         Type = objTypes.ClassType
                                                     }));
 
@@ -1454,13 +1568,13 @@ namespace ElasticSearchNestConnector
                                                      ID_Object = d[objFields.ID_Object],
                                                      ID_Class = d[objFields.ID_Class],
                                                      ID_DataType = d[objFields.ID_DataType],
-                                                     Val_Bit = (d.ContainsKey(objFields.Val_Bool) ? (d[objFields.Val_Bool] != null ? (bool?)d[objFields.Val_Bool] : null) : null),
-                                                     Val_Date = (d.ContainsKey(objFields.Val_Datetime) ? (d[objFields.Val_Datetime] != null ? (DateTime?)d[objFields.Val_Datetime] : null) : null),
-                                                     Val_Double = (d.ContainsKey(objFields.Val_Real) ? (d[objFields.Val_Real] != null ? (double?)d[objFields.Val_Real] : null) : null),
-                                                     Val_Lng = (d.ContainsKey(objFields.Val_Int) ? (d[objFields.Val_Int] != null ? (long?)d[objFields.Val_Int] : null) : null),
-                                                     Val_Named = (d.ContainsKey(objFields.Val_Name) ? (d[objFields.Val_Name] != null ? d[objFields.Val_Name] : null) : null),
-                                                     Val_String = (d.ContainsKey(objFields.Val_String) ? (d[objFields.Val_String] != null ? d[objFields.Val_String] : null) : null),
-                                                     OrderID = (long?)d[objFields.OrderID]
+                                                     Val_Bit = d[objFields.Val_Bool],
+                                                     Val_Date = d[objFields.Val_Datetime],
+                                                     Val_Double = d[objFields.Val_Real],
+                                                     Val_Lng = d[objFields.Val_Int],
+                                                     Val_Named = d[objFields.Val_Name],
+                                                     Val_String = d[objFields.Val_String],
+                                                     OrderID = d[objFields.OrderID]
                                                  }));
 
                 if (result.Documents.Count() < SearchRange)
@@ -1748,10 +1862,10 @@ namespace ElasticSearchNestConnector
                                                             ID_Object = d[objFields.ID_Object],
                                                             ID_Other = d[objFields.ID_Other],
                                                             ID_Parent_Object = d[objFields.ID_Parent_Object],
-                                                            ID_Parent_Other = (d.ContainsKey(objFields.ID_Parent_Other) ? (d[objFields.ID_Parent_Other] != null ? d[objFields.ID_Parent_Other].ToString() : null) : null),
+                                                            ID_Parent_Other = d[objFields.ID_Parent_Other],
                                                             ID_RelationType = d[objFields.ID_RelationType],
                                                             OrderID = ((d[objFields.OrderID] as long?) ?? 0),
-                                                            Ontology = d[objFields.Ontology].ToString()
+                                                            Ontology = d[objFields.Ontology]
                                                         }));
 
                     if (result.Documents.Count() < SearchRange)

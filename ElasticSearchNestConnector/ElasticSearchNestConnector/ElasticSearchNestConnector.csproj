@@ -36,6 +36,10 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="OntologyClasses, Version=0.0.1.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OntologyClasses\bin\Debug\OntologyClasses.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,16 +52,13 @@
     <Compile Include="clsDBDeletor.cs" />
     <Compile Include="clsDBSelector.cs" />
     <Compile Include="clsDBUpdater.cs" />
+    <Compile Include="clsUserAppDBDeletor.cs" />
+    <Compile Include="clsUserAppDBSelector.cs" />
+    <Compile Include="clsUserAppDBUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
-      <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
-      <Name>OntologyClasses</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
