@@ -33,6 +33,7 @@
 <Item Id="e55c4c5c31cf46e09e8db66ab8533d59" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Textparser]]></Item>
 <Item Id="5f23482060e24cd78667bd73b0f80884" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Indexes__Elastic_Search_]]></Item>
 <Item Id="f1681817675f4a69aad019b094758ae3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Server]]></Item>
+<Item Id="8b663ab3fa1f4fb084756db1c7a88ff3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Field_Extractor_Parser]]></Item>
 <Item Id="e70dac50338441d88062babd0849341c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Entry_Value_Parser]]></Item>
 <Item Id="3001fe2ae3714b70a4539526344216b8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Url]]></Item>
 <Item Id="cf7c7e41015045eb95b3dc910fab07fc" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Server_Port]]></Item>

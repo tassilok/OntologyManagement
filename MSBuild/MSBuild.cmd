@@ -25,3 +25,4 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Docume
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\SemToOntMigration\SemToOntMigration.sln
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\TextParser\TextParser.sln
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Template-Field-Module\Template-Field-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Schriftverkehrs-Module\Schriftverkehrs-Module.sln
