@@ -1429,11 +1429,13 @@ Public Class UserControl_OItemList
 
 
                 Case objLocalConfig.Globals.Type_Other
+                    Dim boolOrderID = False
                     If objOItem_Other Is Nothing Then
                         objFrm_Clipboard = New frmClipboard(objLocalConfig)
                         Dim objOLRel As New List(Of clsObjectRel)
                         If objFrm_Clipboard.containedByClipboard() = True Then
                             objFrm_Clipboard.ShowDialog(Me)
+                            boolOR = objFrm_Clipboard.OrderID
                             If objFrm_Clipboard.DialogResult = DialogResult.OK Then
                                 For Each objDGVR_Selected As DataGridViewRow In objFrm_Clipboard.selectedRows
                                     objOLRel.Add(objDGVR_Selected.DataBoundItem)
@@ -1460,10 +1462,12 @@ Public Class UserControl_OItemList
                                                     Select New clsOntologyItem With {.GUID = objORel.ID_Other, _
                                                                                      .Name = objORel.Name_Other, _
                                                                                      .GUID_Parent = objORel.ID_Parent_Other, _
-                                                                                     .Type = objLocalConfig.Globals.Type_Object}).ToList()
+                                                                                     .Type = objLocalConfig.Globals.Type_Object, _
+                                                                                     .Level = objORel.OrderID, _
+                                                                                     .Mark = boolOrderID}).ToList()
                             boolAdd = True
                         End If
-                        
+
                     Else
                         Select Case objOItem_Other.Type
                             Case objLocalConfig.Globals.Type_Object
@@ -1486,6 +1490,7 @@ Public Class UserControl_OItemList
                                 Dim objOLRel As New List(Of clsObjectRel)
                                 If objFrm_Clipboard.containedByClipboard() = True Then
                                     objFrm_Clipboard.ShowDialog(Me)
+                                    boolOrderID = objFrm_Clipboard.OrderID
                                     If objFrm_Clipboard.DialogResult = DialogResult.OK Then
                                         For Each objDGVR_Selected As DataGridViewRow In objFrm_Clipboard.selectedRows
                                             objOLRel.Add(objDGVR_Selected.DataBoundItem)
@@ -1525,7 +1530,9 @@ Public Class UserControl_OItemList
                                                     Select New clsOntologyItem With {.GUID = objORel.ID_Other, _
                                                                                      .Name = objORel.Name_Other, _
                                                                                      .GUID_Parent = objORel.ID_Parent_Other, _
-                                                                                     .Type = objLocalConfig.Globals.Type_Object}).ToList()
+                                                                                     .Type = objLocalConfig.Globals.Type_Object, _
+                                                                                     .Level = objORel.OrderID, _
+                                                                                     .Mark = boolOrderID}).ToList()
                                     boolAdd = True
                                 End If
 
@@ -1536,10 +1543,10 @@ Public Class UserControl_OItemList
                     If boolAdd = True Then
                         For Each oItem_Obj In oList_Simple
                             If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
-                                oList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, objOItem_Object.GUID_Parent, oItem_Obj.GUID, oItem_Obj.GUID_Parent, objOItem_RelationType.GUID, oItem_Obj.Type, Nothing, 1))
+                                oList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, objOItem_Object.GUID_Parent, oItem_Obj.GUID, oItem_Obj.GUID_Parent, objOItem_RelationType.GUID, oItem_Obj.Type, Nothing, If(oItem_Obj.Mark, oItem_Obj.Level, 1)))
 
                             Else
-                                oList_ObjRel.Add(New clsObjectRel(oItem_Obj.GUID, oItem_Obj.GUID_Parent, objOItem_Other.GUID, objOItem_Other.GUID_Parent, objOItem_RelationType.GUID, oItem_Obj.Type, Nothing, 1))
+                                oList_ObjRel.Add(New clsObjectRel(oItem_Obj.GUID, oItem_Obj.GUID_Parent, objOItem_Other.GUID, objOItem_Other.GUID_Parent, objOItem_RelationType.GUID, oItem_Obj.Type, Nothing, If(oItem_Obj.Mark, oItem_Obj.Level, 1)))
 
                             End If
                         Next

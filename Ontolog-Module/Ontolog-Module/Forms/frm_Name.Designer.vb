@@ -43,9 +43,12 @@ Partial Class frm_Name
         Me.TextBox_Repeat = New System.Windows.Forms.TextBox()
         Me.Label_Repeat = New System.Windows.Forms.Label()
         Me.CheckBox_Apply = New System.Windows.Forms.CheckBox()
+        Me.NumericUpDown_OrderID_Start = New System.Windows.Forms.NumericUpDown()
+        Me.CheckBox_OrderID = New System.Windows.Forms.CheckBox()
         Me.StatusStrip1.SuspendLayout()
         CType(Me.NumericUpDown_Additional, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
+        CType(Me.NumericUpDown_OrderID_Start, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'StatusStrip1
@@ -53,7 +56,7 @@ Partial Class frm_Name
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel_DatabaseLBL, Me.ToolStripStatusLabel_Database, Me.ToolStripStatusLabel_LengthLBL, Me.ToolStripStatusLabel_Length})
         Me.StatusStrip1.Location = New System.Drawing.Point(0, 126)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(413, 24)
+        Me.StatusStrip1.Size = New System.Drawing.Size(542, 24)
         Me.StatusStrip1.TabIndex = 0
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -88,7 +91,7 @@ Partial Class frm_Name
         'NumericUpDown_Additional
         '
         Me.NumericUpDown_Additional.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NumericUpDown_Additional.Location = New System.Drawing.Point(199, 130)
+        Me.NumericUpDown_Additional.Location = New System.Drawing.Point(328, 129)
         Me.NumericUpDown_Additional.Name = "NumericUpDown_Additional"
         Me.NumericUpDown_Additional.Size = New System.Drawing.Size(50, 20)
         Me.NumericUpDown_Additional.TabIndex = 1
@@ -98,7 +101,7 @@ Partial Class frm_Name
         '
         Me.CheckBox_Additional.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CheckBox_Additional.AutoSize = True
-        Me.CheckBox_Additional.Location = New System.Drawing.Point(255, 132)
+        Me.CheckBox_Additional.Location = New System.Drawing.Point(384, 132)
         Me.CheckBox_Additional.Name = "CheckBox_Additional"
         Me.CheckBox_Additional.Size = New System.Drawing.Size(83, 17)
         Me.CheckBox_Additional.TabIndex = 2
@@ -110,7 +113,7 @@ Partial Class frm_Name
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(413, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(542, 24)
         Me.MenuStrip1.TabIndex = 3
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -130,7 +133,7 @@ Partial Class frm_Name
         'Button_OK
         '
         Me.Button_OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_OK.Location = New System.Drawing.Point(248, 95)
+        Me.Button_OK.Location = New System.Drawing.Point(377, 95)
         Me.Button_OK.Name = "Button_OK"
         Me.Button_OK.Size = New System.Drawing.Size(75, 23)
         Me.Button_OK.TabIndex = 4
@@ -140,7 +143,7 @@ Partial Class frm_Name
         'Button1
         '
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button1.Location = New System.Drawing.Point(329, 95)
+        Me.Button1.Location = New System.Drawing.Point(458, 95)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 23)
         Me.Button1.TabIndex = 5
@@ -163,7 +166,7 @@ Partial Class frm_Name
         Me.TextBox_Name.Location = New System.Drawing.Point(59, 58)
         Me.TextBox_Name.MaxLength = 255
         Me.TextBox_Name.Name = "TextBox_Name"
-        Me.TextBox_Name.Size = New System.Drawing.Size(342, 20)
+        Me.TextBox_Name.Size = New System.Drawing.Size(471, 20)
         Me.TextBox_Name.TabIndex = 7
         '
         'Label_GUID
@@ -183,12 +186,13 @@ Partial Class frm_Name
         Me.TextBox_GUID.MaxLength = 255
         Me.TextBox_GUID.Name = "TextBox_GUID"
         Me.TextBox_GUID.ReadOnly = True
-        Me.TextBox_GUID.Size = New System.Drawing.Size(281, 20)
+        Me.TextBox_GUID.Size = New System.Drawing.Size(410, 20)
         Me.TextBox_GUID.TabIndex = 9
         '
         'Button_NewGUID
         '
-        Me.Button_NewGUID.Location = New System.Drawing.Point(321, 29)
+        Me.Button_NewGUID.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button_NewGUID.Location = New System.Drawing.Point(472, 28)
         Me.Button_NewGUID.Name = "Button_NewGUID"
         Me.Button_NewGUID.Size = New System.Drawing.Size(58, 23)
         Me.Button_NewGUID.TabIndex = 10
@@ -202,7 +206,7 @@ Partial Class frm_Name
         Me.TextBox_Repeat.Location = New System.Drawing.Point(59, 84)
         Me.TextBox_Repeat.MaxLength = 255
         Me.TextBox_Repeat.Name = "TextBox_Repeat"
-        Me.TextBox_Repeat.Size = New System.Drawing.Size(342, 20)
+        Me.TextBox_Repeat.Size = New System.Drawing.Size(471, 20)
         Me.TextBox_Repeat.TabIndex = 12
         Me.TextBox_Repeat.Visible = False
         '
@@ -220,18 +224,40 @@ Partial Class frm_Name
         '
         Me.CheckBox_Apply.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CheckBox_Apply.AutoSize = True
-        Me.CheckBox_Apply.Location = New System.Drawing.Point(335, 132)
+        Me.CheckBox_Apply.Location = New System.Drawing.Point(464, 132)
         Me.CheckBox_Apply.Name = "CheckBox_Apply"
         Me.CheckBox_Apply.Size = New System.Drawing.Size(63, 17)
         Me.CheckBox_Apply.TabIndex = 13
         Me.CheckBox_Apply.Text = "x_Apply"
         Me.CheckBox_Apply.UseVisualStyleBackColor = True
         '
+        'NumericUpDown_OrderID_Start
+        '
+        Me.NumericUpDown_OrderID_Start.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NumericUpDown_OrderID_Start.Location = New System.Drawing.Point(208, 129)
+        Me.NumericUpDown_OrderID_Start.Name = "NumericUpDown_OrderID_Start"
+        Me.NumericUpDown_OrderID_Start.Size = New System.Drawing.Size(36, 20)
+        Me.NumericUpDown_OrderID_Start.TabIndex = 14
+        Me.NumericUpDown_OrderID_Start.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'CheckBox_OrderID
+        '
+        Me.CheckBox_OrderID.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CheckBox_OrderID.AutoSize = True
+        Me.CheckBox_OrderID.Location = New System.Drawing.Point(251, 131)
+        Me.CheckBox_OrderID.Name = "CheckBox_OrderID"
+        Me.CheckBox_OrderID.Size = New System.Drawing.Size(74, 17)
+        Me.CheckBox_OrderID.TabIndex = 15
+        Me.CheckBox_OrderID.Text = "x_OrderID"
+        Me.CheckBox_OrderID.UseVisualStyleBackColor = True
+        '
         'frm_Name
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(413, 150)
+        Me.ClientSize = New System.Drawing.Size(542, 150)
+        Me.Controls.Add(Me.CheckBox_OrderID)
+        Me.Controls.Add(Me.NumericUpDown_OrderID_Start)
         Me.Controls.Add(Me.CheckBox_Apply)
         Me.Controls.Add(Me.TextBox_Repeat)
         Me.Controls.Add(Me.Label_Repeat)
@@ -255,6 +281,7 @@ Partial Class frm_Name
         CType(Me.NumericUpDown_Additional, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
+        CType(Me.NumericUpDown_OrderID_Start, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -279,4 +306,6 @@ Partial Class frm_Name
     Friend WithEvents TextBox_Repeat As System.Windows.Forms.TextBox
     Friend WithEvents Label_Repeat As System.Windows.Forms.Label
     Friend WithEvents CheckBox_Apply As System.Windows.Forms.CheckBox
+    Friend WithEvents NumericUpDown_OrderID_Start As System.Windows.Forms.NumericUpDown
+    Friend WithEvents CheckBox_OrderID As System.Windows.Forms.CheckBox
 End Class

@@ -7,6 +7,12 @@ Public Class frmClipboard
     Private objOntologyClipboard As clsOntologyClipboard
     Private objOItem_Item As clsOntologyItem
 
+    Public ReadOnly Property OrderID As Boolean
+        Get
+            Return CheckBox_OrderID.Checked
+        End Get
+    End Property
+
     Public Function selectedRows() As DataGridViewSelectedRowCollection
         Return DataGridView_Items.SelectedRows
     End Function

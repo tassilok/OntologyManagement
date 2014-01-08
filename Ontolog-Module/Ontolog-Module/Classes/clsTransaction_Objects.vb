@@ -166,6 +166,8 @@ Public Class clsTransaction_Objects
         Dim objOItem_Result As clsOntologyItem
         Dim strValue As String
         Dim boolSave As Boolean
+        Dim boolOrderID As Boolean
+        Dim intOrderID_Start As Integer
 
         objOItem_Saved_LastItem = Nothing
 
@@ -174,14 +176,21 @@ Public Class clsTransaction_Objects
             objFrm_Name.ShowDialog(objfrmParent)
             If objFrm_Name.DialogResult = DialogResult.OK Then
                 boolApply = objFrm_Name.doApply
+                boolOrderID = objFrm_Name.OrderID
+                intOrderID_Start = objFrm_Name.OrderID_Start
+
                 If objFrm_Name.isList = True Then
                     For Each strValue In objFrm_Name.Values
                         strValue = strValue.Replace(vbLf, "")
                         strValue = strValue.Replace(vbCr, "")
+
                         oList_Objects.Add(New clsOntologyItem With {.GUID = Guid.NewGuid.ToString.Replace("-", ""), _
                                                               .Name = strValue, _
                                                               .GUID_Parent = strClass, _
-                                                              .Type = objLocalConfig.Globals.Type_Object})
+                                                              .Type = objLocalConfig.Globals.Type_Object, _
+                                                              .Level = intOrderID_Start, _
+                                                              .Mark = boolOrderID})
+                        intOrderID_Start = intOrderID_Start + 1
                     Next
                 Else
 
@@ -192,14 +201,17 @@ Public Class clsTransaction_Objects
                     Else
                         strGUID = objFrm_Name.TextBox_GUID.Text
                     End If
-                    oList_Objects.Add(New clsOntologyItem(strGUID, _
-                                                          strValue, _
-                                                          strClass, _
-                                                          objLocalConfig.Globals.Type_Object))
-                    oList_ObjectDbl.Add(New clsOntologyItem(Nothing,
-                                                            strValue, _
-                                                            strClass, _
-                                                            objLocalConfig.Globals.Type_Object))
+                    oList_Objects.Add(New clsOntologyItem With {.GUID = strGUID, _
+                                                          .Name = strValue, _
+                                                          .GUID_Parent = strClass, _
+                                                          .Type = objLocalConfig.Globals.Type_Object, _
+                                                          .Level = intOrderID_Start, _
+                                                          .Mark = boolOrderID})
+                    oList_ObjectDbl.Add(New clsOntologyItem With {.Name = strValue, _
+                                                            .GUID_Parent = strClass, _
+                                                            .Type = objLocalConfig.Globals.Type_Object, _
+                                                            .Level = intOrderID_Start, _
+                                                            .Mark = boolOrderID})
                 End If
                 If objFrm_Name.More = True Then
 

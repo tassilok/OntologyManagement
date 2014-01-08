@@ -41,16 +41,17 @@ namespace ElasticSearchNestConnector
             var objOItem_Result = objLogStates.LogState_Success;
 
             objUserAppDBSelector.ElConnector.Flush();
-            var objBulkObjectPre = Documents.Select(p => new {ID = p.Id,
-                Dict = p.Dict
-            }).ToList();
 
             var objBulkDescriptor = new BulkDescriptor();
-            objBulkObjectPre.Select(
-                bp =>
-                objBulkDescriptor.Index<Dictionary<string, object>>(
-                    i => i.Id(bp.ID).Object(bp.Dict).Type(strType ?? objUserAppDBSelector.App)));
-            
+
+            foreach (var objDocument in Documents)
+            {
+                if (objDocument.Id == null) objDocument.Id = Guid.NewGuid().ToString();
+
+                objBulkDescriptor.Index<Dictionary<string, object>>(i => i.Id(objDocument.Id).Object(objDocument.Dict).Type(strType ?? objUserAppDBSelector.App));
+
+            }
+
             var bulkResult = objUserAppDBSelector.ElConnector.Bulk(objBulkDescriptor);
             objOItem_Result = bulkResult.Items.Any(it => it.Error != null) ? objLogStates.LogState_Error : objLogStates.LogState_Success;
 

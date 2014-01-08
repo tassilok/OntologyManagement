@@ -272,7 +272,7 @@ namespace OutlookConnector_Module
                                             objOItem_EmailAddress = new clsOntologyItem
                                             {
                                                 GUID = objLocalConfig.Globals.NewGUID,
-                                                Name = mailItem.SenderEmail,
+                                                Name = mailItem.To,
                                                 GUID_Parent = objLocalConfig.OItem_type_email_address.GUID,
                                                 Type = objLocalConfig.Globals.Type_Object
                                             };

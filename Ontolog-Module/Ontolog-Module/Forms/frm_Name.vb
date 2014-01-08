@@ -71,8 +71,19 @@ Public Class frm_Name
         End Get
     End Property
 
-    
+    Public ReadOnly Property OrderID_Start As Integer
+        Get
+            Return NumericUpDown_OrderID_Start.Value
+        End Get
+    End Property
 
+    Public ReadOnly Property OrderID As Boolean
+        Get
+            Return CheckBox_OrderID.Checked
+        End Get
+    End Property
+
+   
     Public Sub New(ByVal Caption As String, _
                    ByVal Globals As clsGlobals, _
                    Optional ByVal strGUID As String = Nothing, _
@@ -201,6 +212,7 @@ Public Class frm_Name
     Private Sub TextBox_Name_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBox_Name.TextChanged
         If TextBox_Name.ReadOnly = False Then
             strValue1 = TextBox_Name.Text
+            ToolStripStatusLabel_Length.Text = TextBox_Name.Text.Length
         End If
     End Sub
 
