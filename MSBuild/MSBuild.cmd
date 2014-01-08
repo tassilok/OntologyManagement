@@ -1,6 +1,6 @@
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Structure-Module\Structure-Module.sln
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\OntologyClasses\OntologyClasses.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\ElasticSearchConnector\ElasticSearchConnector.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\ElasticSearchNestConnector\ElasticSearchNestConnector.sln
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Ontolog-Module\Ontolog-Module.sln
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Filesystem-Module\Filesystem-Module.exe
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Security-Module\Security-Module.sln
