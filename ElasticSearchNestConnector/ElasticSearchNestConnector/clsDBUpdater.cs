@@ -697,7 +697,7 @@ namespace ElasticSearchNestConnector
                     objDict.Add(objFields.Name_Item, objOItem_RelationType.Name);
 
 
-                    var bulkResult = objDBSelector.ElConnector.Bulk(b => b.Index<Dictionary<string, object>>(i => i.Id(objOItem_RelationType.GUID).Object(objDict).Type(objTypes.AttributeType)));
+                    var bulkResult = objDBSelector.ElConnector.Bulk(b => b.Index<Dictionary<string, object>>(i => i.Id(objOItem_RelationType.GUID).Object(objDict).Type(objTypes.RelationType)));
                     objOItem_Result = bulkResult.Items.Any(it => it.Error != null) ? objLogStates.LogState_Error : objLogStates.LogState_Success;
                     
                 }

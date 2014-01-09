@@ -946,7 +946,7 @@ namespace ElasticSearchNestConnector
                 var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectAtt).QueryString(strQuery).From(0).Size(1).Sort(p => p.OnField(strOrderField).Ascending()));
                 if (result.Documents.Any())
                 {
-                    lngOrderID = long.TryParse(result.Documents.First()[strOrderField], out lngOrderID);
+                    lngOrderID = result.Documents.First()[strOrderField];
                 }
             }
             else
@@ -954,7 +954,7 @@ namespace ElasticSearchNestConnector
                 var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectAtt).QueryString(strQuery).From(0).Size(1).Sort(p => p.OnField(strOrderField).Descending()));
                 if (result.Documents.Any())
                 {
-                    lngOrderID = long.TryParse(result.Documents.First()[strOrderField], out lngOrderID);
+                    lngOrderID = result.Documents.First()[strOrderField];
                 }
             }
             
@@ -2249,18 +2249,18 @@ namespace ElasticSearchNestConnector
 
             if (doASC)
             {
-                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.RelationType).QueryString(strQuery).From(0).Size(1).SortAscending(strSort));
+                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(0).Size(1).SortAscending(strSort));
                 if (result.Documents.Any())
                 {
-                    long.TryParse(result.Documents.First()[strField], out lngOrderID);
+                    lngOrderID = result.Documents.First()[strField];
                 }
             }
             else
             {
-                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.RelationType).QueryString(strQuery).From(0).Size(1).SortDescending(strSort));
+                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(0).Size(1).SortDescending(strSort));
                 if (result.Documents.Any())
                 {
-                    long.TryParse(result.Documents.First()[strField], out lngOrderID);
+                    lngOrderID = result.Documents.First()[strField];
                 }
             }
 

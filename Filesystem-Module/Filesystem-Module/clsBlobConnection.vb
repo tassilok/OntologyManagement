@@ -320,7 +320,7 @@ Public Class clsBlobConnection
                         objStream_Read.Close()
                         objStream_Write.Close()
                         objFileInfo = New IO.FileInfo(strPath_File)
-                        objOItem_Result = objTransaction_Files.save_003_File__CreationDate(objFileInfo.CreationTime, objOItem_File)
+                        objOItem_Result = objTransaction_Files.save_003_File__CreationDate(objFileInfo.LastWriteTime, objOItem_File)
                         objOItem_Result = objTransaction_Files.save_004_File__Blob(True, objOItem_File)
 
 
