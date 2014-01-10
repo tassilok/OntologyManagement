@@ -111,7 +111,7 @@ Public Class UserControl_ObjectTree
 
     Private Sub get_Tree()
         Dim intID As Integer
-        Dim objTreeNode As New TreeNode
+        
         Dim objOItem As clsObjectTree
         Dim oList_Class As New List(Of clsOntologyItem)
         objDBLevel = New clsDBLevel(objLocalConfig.Globals)
@@ -133,30 +133,28 @@ Public Class UserControl_ObjectTree
 
                 intID = 0
                 For Each objItem In oItems_No_Parent
+                    Dim objTreeNode as New TreeNode
                     objTreeNode.Name = objItem.Guid
                     objTreeNode.Text = objItem.Name
                 
-                    objTreeNodes_Thread.Add(objTreeNode.Clone)
-
+                    objTreeNodes_Thread.Add(objTreeNode)
+                    FillSubNodes(objTreeNode)
 
                 Next
 
-                For Each objOItem In objDBLevel.OList_ObjectTree
-                    objTreeNode.Name = objOItem.ID_Object
-                    objTreeNode.Text = objOItem.Name_Object
-
-                    Dim objTreeNodes = From obj In objTreeNodes_Thread
-                                       Where obj.Name = objOItem.ID_Object_Parent
-
-                    For Each objTreeNode_sub In objTreeNodes
-                        objTreeNode_sub.Nodes.Add(objTreeNode.Clone)
-                    Next
-                Next
             End If
         End If
         
 
         boolDataGet = True
+    End Sub
+
+    Private sub FillSubNodes(objTreeNode_Parent As TreeNode)
+        Dim objOList_Nodes = objDBLevel.OList_ObjectTree.Where(Function(p) p.ID_Object_Parent = objTreeNode_Parent.Name).OrderBy(Function(p) If(ToolStripButton_SortedByOrder.Checked,p.OrderID,p.Name_Object))
+        For Each oItem_Node  In objOList_Nodes
+            Dim objTreeNode_Sub = objTreeNode_Parent.Nodes.Add(oItem_Node.ID_Object, oItem_Node.Name_Object)
+            FillSubNodes(objTreeNode_Sub)
+        Next
     End Sub
 
     Private Function set_RelationType() As clsOntologyItem
@@ -387,7 +385,7 @@ Public Class UserControl_ObjectTree
                 Dim lngOrderID As Long = 1
 
                 If ToolStripButton_SortedByOrder.Checked Then
-                    lngOrderID = objDBLevel.get_Data_Rel_OrderID(objOItem_Object_Selected, objOItem_Parent, objOItem_RelationType, False)
+                    lngOrderID = objDBLevel.get_Data_Rel_OrderID(objOItem_Object_Selected, New clsOntologyItem With {.GUID_Parent =  objOItem_Parent.GUID} , objOItem_RelationType, False)
                     lngOrderID = lngOrderID + 1
                 End If
 

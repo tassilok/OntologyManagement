@@ -566,7 +566,7 @@ namespace Change_Module
         {
             if (objOItem_Selected.GUID_Parent == objLocalConfig.OItem_Type_Process_Log.GUID || objOItem_Selected.GUID_Parent == objLocalConfig.OItem_Type_Incident.GUID)
             {
-                     
+                CreateLog(objLocalConfig.OItem_Token_LogState_Information);
             }
             
                         
@@ -616,6 +616,13 @@ namespace Change_Module
 
         private void ObsoleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            CreateLog(objLocalConfig.OItem_Token_LogState_Obsolete);
+            
+
+        }
+
+        private void CreateLog(clsOntologyItem OItem_LogState)
+        {
             var objTreeNode = treeView_ProcessTree.SelectedNode;
 
             if (objTreeNode != null)
@@ -623,46 +630,46 @@ namespace Change_Module
                 var objOItem_LogState = objDataWork_Ticket.GetLogState_Node(objTreeNode);
                 if (objOItem_LogState.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
                 {
-                    objDlgAttributeString = new dlg_Attribute_String("Obsolete Log", objLocalConfig.Globals);
+                    objDlgAttributeString = new dlg_Attribute_String(OItem_LogState.Name, objLocalConfig.Globals);
                     objDlgAttributeString.ShowDialog(this);
                     if (objDlgAttributeString.DialogResult == DialogResult.OK)
                     {
                         var objOItem_Item = objDataWork_Ticket.GetOItemOfNode(objTreeNode);
                         if (objOItem_Item != null)
                         {
-                            var objOItem_Result = objProcess_LogWork.Log(objOItem_Item, objOItem_Ticket, objLocalConfig.OItem_Token_LogState_Obsolete, objDlgAttributeString.Value);
+                            var objOItem_Result = objProcess_LogWork.Log(objOItem_Item, objOItem_Ticket, OItem_LogState, objDlgAttributeString.Value);
                             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                             {
-                                objTreeNode_Selected.ForeColor = Color.White;
-                                objTreeNode_Selected.BackColor = Color.LightGray;
-                                boolPCChange_Process = true;
-                                objTreeNode_Selected.Checked = true;
-                                boolPCChange_Process = false;
+                                if (OItem_LogState.GUID == objLocalConfig.OItem_Token_LogState_Obsolete.GUID)
+                                {
+                                    objTreeNode_Selected.ForeColor = Color.White;
+                                    objTreeNode_Selected.BackColor = Color.LightGray;
+                                    boolPCChange_Process = true;
+                                    objTreeNode_Selected.Checked = true;
+                                    boolPCChange_Process = false;    
+                                }
+                                
                                 addLogEntry();
                             }
                             else
                             {
                                 MessageBox.Show(this, "Logentry konnte nicht gesetzt werden!", "LogEntry",
                                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            }    
+                            }
                         }
                         else
                         {
                             MessageBox.Show(this, "Logentry konnte nicht gesetzt werden!", "LogEntry",
                                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         }
-                        
 
-                    }        
+
+                    }
                 }
-                
-                
+
+
             }
-            
-
         }
-
-        
         
     }
 }

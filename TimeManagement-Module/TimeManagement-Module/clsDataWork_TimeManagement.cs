@@ -147,7 +147,9 @@ namespace TimeManagement_Module
                                                           Duration_Minutes_Week = objWeek.Duration_Minutes_Week,
                                                           ToDo_Hours_Week = objLocalConfig.StandardHours * objLocalConfig.StandardDayCount - objWeek.Duration_Hours_Week,
                                                           ToDo_Minutes_Week = (objLocalConfig.StandardHours * objLocalConfig.StandardDayCount * 60) - objWeek.Duration_Minutes_Week,
-                                                          ToDo_End = DateTime.Now.AddMinutes((objLocalConfig.StandardHours * 60) - objDay.Duration_Minutes_Day),
+                                                          ToDo_End = ((DateTime)objTimeManagement.Ende).DayOfYear == DateTime.Now.DayOfYear && ((DateTime)objTimeManagement.Ende).Year == DateTime.Now.Year ?  
+                                                                DateTime.Now.AddMinutes((objLocalConfig.StandardHours * 60) - objDay.Duration_Minutes_Day) :
+                                                                objTimeManagement.Ende,
                                                           DateTimeStamp_Start_Seq = objTimeManagement.DateTimeStamp_Start_Seq,
                                                           DateTimeStamp_Ende_Seq = objTimeManagement.DateTimeStamp_Start_End
                                                       }).ToList();
@@ -214,13 +216,13 @@ namespace TimeManagement_Module
                 },
                 new clsObjectRel
                 {
-                    ID_Parent_Other = objLocalConfig.Group.GUID_Parent,
+                    ID_Parent_Other = objLocalConfig.User.GUID_Parent,
                     ID_Parent_Object = objLocalConfig.OItem_class_user_work_config.GUID,
                     ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID
                 }
             };
 
-            var objOItem_Result = objDBLevel_UserWorkConfig.get_Data_ObjectRel(objORel_UserWorkConfig_To_UserGroup, boolIDs: true);
+            var objOItem_Result = objDBLevel_UserWorkConfig.get_Data_ObjectRel(objORel_UserWorkConfig_To_UserGroup, boolIDs: false);
 
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
