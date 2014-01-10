@@ -58,7 +58,7 @@ Public Class UserControl_OntologyTree
                                  Group Join objChildren In objDataWork_Ontologies.OList_OntologyTree On objChildren.ID_Object_Parent Equals objParent.GUID Into objChilds = Group
                                  From objChildren In objChilds.DefaultIfEmpty
                                  Where objChildren Is Nothing
-                                 Select objParent).ToList()
+                                 Select objParent).OrderBy(Function(p) p.Name).ToList()
 
 
             Else
@@ -67,7 +67,7 @@ Public Class UserControl_OntologyTree
                                   Select New clsOntologyItem With {.GUID = objOntology.ID_Object, _
                                                                    .Name = objOntology.Name_Object, _
                                                                    .GUID_Parent = objOntology.ID_Parent_Object, _
-                                                                   .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}).ToList()
+                                                                   .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}).OrderBy(Function(p) p.Name).ToList()
 
             End If
         Else
@@ -76,7 +76,7 @@ Public Class UserControl_OntologyTree
                               Select New clsOntologyItem With {.GUID = objOntology.ID_Object_Parent, _
                                                                .Name = objOntology.Name_Object_Parent, _
                                                                .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_Ontologies.GUID, _
-                                                               .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}).ToList()
+                                                               .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}).OrderBy(Function(p) p.Name).ToList()
         End If
 
         For Each OItem_Ont As clsOntologyItem In objOList_Nodes
