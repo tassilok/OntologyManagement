@@ -43,6 +43,7 @@ Partial Class UserControl_BillTree
         Me.ToolStripTextBox_Search = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripButton_SemItem = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Filter = New System.Windows.Forms.ToolStripButton()
+        Me.Timer_Filter = New System.Windows.Forms.Timer(Me.components)
         Me.ToolStripContainer2.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer2.ContentPanel.SuspendLayout()
         Me.ToolStripContainer2.TopToolStripPanel.SuspendLayout()
@@ -111,7 +112,7 @@ Partial Class UserControl_BillTree
         '
         Me.ContextMenuStrip_FinancialTransaction.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewTransactionToolStripMenuItem, Me.NewFromBankToolStripMenuItem, Me.NewFromParentToolStripMenuItem, Me.RemoveTransactionToolStripMenuItem, Me.RemoveFromTreeToolStripMenuItem, Me.DetailsToBillsToolStripMenuItem, Me.ApplyToolStripMenuItem})
         Me.ContextMenuStrip_FinancialTransaction.Name = "ContextMenuStrip_FinancialTransaction"
-        Me.ContextMenuStrip_FinancialTransaction.Size = New System.Drawing.Size(185, 180)
+        Me.ContextMenuStrip_FinancialTransaction.Size = New System.Drawing.Size(185, 158)
         '
         'NewTransactionToolStripMenuItem
         '
@@ -183,7 +184,7 @@ Partial Class UserControl_BillTree
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_SearchTemplates, Me.ToolStripTextBox_Search, Me.ToolStripButton_SemItem, Me.ToolStripButton_Filter})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(407, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(438, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripComboBox_SearchTemplates
@@ -215,6 +216,10 @@ Partial Class UserControl_BillTree
         Me.ToolStripButton_Filter.Name = "ToolStripButton_Filter"
         Me.ToolStripButton_Filter.Size = New System.Drawing.Size(47, 22)
         Me.ToolStripButton_Filter.Text = "x_Filter"
+        '
+        'Timer_Filter
+        '
+        Me.Timer_Filter.Interval = 300
         '
         'UserControl_BillTree
         '
@@ -257,5 +262,6 @@ Partial Class UserControl_BillTree
     Friend WithEvents RemoveFromTreeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DetailsToBillsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ApplyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents Timer_Filter As System.Windows.Forms.Timer
 
 End Class

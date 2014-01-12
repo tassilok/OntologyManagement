@@ -87,6 +87,8 @@
     <Compile Include="clsDataWork_Transaction.vb" />
     <Compile Include="clsDataWork_BaseConfig.vb" />
     <Compile Include="clsDocument.vb" />
+    <Compile Include="clsFilter.vb" />
+    <Compile Include="clsFilterAmount.vb" />
     <Compile Include="clsFinancialTransaction.vb" />
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsDataWork_Payments.vb" />

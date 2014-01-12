@@ -35,49 +35,9 @@ Public Class clsTransaction_Amount
         objOItem_Amount = Nothing
         objOItem_Result = objDataWork_Amount.get_Data_Amounts(OItem_Unit:=OItem_Unit, dblAmount:=dblAmount)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            If objDataWork_Amount.Amount_Rels.Count > 0 Then
-                objOItem_Amount = New clsOntologyItem(objDataWork_Amount.Amount_Rels(0).ID_Object, _
-                                                  objDataWork_Amount.Amount_Rels(0).Name_Object, _
-                                                  objLocalConfig.OItem_Type_Menge.GUID, _
-                                                  objLocalConfig.Globals.Type_Object)
-
-                objOItem_Unit = New clsOntologyItem(objDataWork_Amount.Amount_Rels(0).ID_Other, _
-                                                    objDataWork_Amount.Amount_Rels(0).Name_Other, _
-                                                    objLocalConfig.OItem_Type_Einheit.GUID, _
-                                                    objLocalConfig.Globals.Type_Object)
-            End If
-            
-            If objDataWork_Amount.Amount_Atts.Count > 0 Then
-
-                objOItem_Amount = New clsOntologyItem(objDataWork_Amount.Amount_Atts(0).ID_Object, _
-                                                  objDataWork_Amount.Amount_Atts(0).Name_Object, _
-                                                  objLocalConfig.OItem_Type_Menge.GUID, _
-                                                  objLocalConfig.Globals.Type_Object)
-
-                objOAItem_Amount = New clsObjectAtt(objDataWork_Amount.Amount_Atts(0).ID_Attribute, _
-                                                objDataWork_Amount.Amount_Atts(0).ID_Object, _
-                                                Nothing, _
-                                                objLocalConfig.OItem_Type_Menge.GUID, _
-                                                Nothing, _
-                                                objLocalConfig.OItem_Attribute_Menge.GUID, _
-                                                Nothing, _
-                                                1, _
-                                                objDataWork_Amount.Amount_Atts(0).Val_Double.ToString, _
-                                                Nothing, _
-                                                Nothing, _
-                                                Nothing, _
-                                                objDataWork_Amount.Amount_Atts(0).Val_Double, _
-                                                Nothing, _
-                                                objLocalConfig.Globals.DType_Real.GUID)
-            End If
-            
-
-            If objOItem_Amount.Name <> dblAmount.ToString & " " & objOItem_Unit.Name Then
-                objOItem_Amount.Name = dblAmount.ToString & " " & objOItem_Unit.Name
-                objLOItemAmount.Clear()
-                objLOItemAmount.Add(objOItem_Amount)
-                objOItem_Result = objDBLevel_Amount.save_Objects(objLOItemAmount)
-            End If
+            objOItem_Amount = objDataWork_Amount.Amount
+            objOAItem_Amount = objDataWork_Amount.Amount_Amount
+            objOItem_Unit = objDataWork_Amount.Amount_Unit
         End If
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then

@@ -40,6 +40,7 @@ Public Class frmClipboard
             Button_Clear.Enabled = True
         End If
 
+        Label_Count.Text = DataGridView_Items.RowCount
     End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig, Optional ByVal OItem_Item As clsOntologyItem = Nothing)

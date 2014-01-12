@@ -360,6 +360,8 @@ Public Class clsReport
                                 strLine = "<val>" & objOItem_ObjAtt.Val_Named.Replace(",", ".") & "</val>"
                             ElseIf strType = "DateTime" Then
                                 strLine = "<val>" & objOItem_ObjAtt.Val_Date.Value.ToString("yyyy-MM-dd hh:mm:ss") & "</val>"
+                            ElseIf strType = "Bit" Then
+                                strLine = "<val>" & If(objOItem_ObjAtt.Val_Bit, 1, 0) & "</val>"
                             Else
                                 strLine = "<val>" & objOItem_ObjAtt.Val_Named & "</val>"
                             End If

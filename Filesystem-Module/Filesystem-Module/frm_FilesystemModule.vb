@@ -12,6 +12,7 @@ Public Class frm_FilesystemModule
 
     Private objLocalConfig As clsLocalConfig
 
+    Private objDBLevel_Repair As clsDBLevel
 
     Private objBlobConnection As clsBlobConnection
 
@@ -826,5 +827,43 @@ Public Class frm_FilesystemModule
 
             get_Files()
         End If
+    End Sub
+
+    Private Sub RepairBlobsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RepairBlobsToolStripMenuItem.Click
+
+        If MsgBox("Wollen Sie wirklich das Blob-Flag neu setzen lassen?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            Dim strPath = objBlobConnection.Path_Blob
+
+            objDBLevel_Repair = New clsDBLevel(objLocalConfig.Globals)
+
+            Dim objOList_BlobFiles = New List(Of clsObjectAtt) From {New clsObjectAtt With {.ID_Class = objLocalConfig.OItem_Type_File.GUID, _
+                                                                                             .ID_AttributeType = objLocalConfig.OItem_Attribute_Blob.GUID}}
+
+            Dim objOItem_Result = objDBLevel_Repair.get_Data_ObjectAtt(objOList_BlobFiles, boolIDs:=False)
+
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                For Each objFile In objDBLevel_Repair.OList_ObjectAtt
+                    If IO.File.Exists(objBlobConnection.Path_Blob & IO.Path.DirectorySeparatorChar & objFile.ID_Object) Then
+                        objFile.Val_Bit = True
+                        objFile.Val_Named = objFile.Val_Bit.ToString
+                    Else
+                        objFile.Val_Bit = False
+                        objFile.Val_Named = objFile.Val_Bit.ToString
+
+                    End If
+                Next
+            End If
+
+            objOItem_Result = objDBLevel_Repair.save_ObjAtt(objDBLevel_Repair.OList_ObjectAtt)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                MsgBox("Flag wurde neu gesetzt!", MsgBoxStyle.Information)
+            Else
+                MsgBox("Das Flag konnte nicht gesetzt werden!", MsgBoxStyle.Exclamation)
+            End If
+        End If
+
+        
     End Sub
 End Class

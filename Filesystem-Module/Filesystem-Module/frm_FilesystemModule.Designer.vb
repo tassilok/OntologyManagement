@@ -96,6 +96,7 @@ Partial Class frm_FilesystemModule
         Me.OpenFileDialog_Files = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog_Folders = New System.Windows.Forms.FolderBrowserDialog()
         Me.BindingSource_Files = New System.Windows.Forms.BindingSource(Me.components)
+        Me.RepairBlobsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -185,7 +186,7 @@ Partial Class frm_FilesystemModule
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.BrowseToolStripMenuItem, Me.ObjectToolStripMenuItem, Me.StartBlobdirwatcherToolStripMenuItem, Me.MenuToolStripMenuItem, Me.RefreshToolStripMenuItem, Me.GetHashOfFilesToolStripMenuItem, Me.SyncFilesToolStripMenuItem, Me.FileResourcenToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.BrowseToolStripMenuItem, Me.ObjectToolStripMenuItem, Me.StartBlobdirwatcherToolStripMenuItem, Me.MenuToolStripMenuItem, Me.RefreshToolStripMenuItem, Me.GetHashOfFilesToolStripMenuItem, Me.SyncFilesToolStripMenuItem, Me.FileResourcenToolStripMenuItem, Me.RepairBlobsToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(58, 20)
         Me.ToolsToolStripMenuItem.Text = "x_Tools"
@@ -487,7 +488,7 @@ Partial Class frm_FilesystemModule
         '
         Me.ContextMenuStrip_DataGrid.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem_DataGrid, Me.OpenToolStripMenuItem, Me.ApplyFilesToolStripMenuItem, Me.ModuleActionsToolStripMenuItem, Me.EditToolStripMenuItem, Me.BlobsToolStripMenuItem})
         Me.ContextMenuStrip_DataGrid.Name = "ContextMenuStrip_DataGrid"
-        Me.ContextMenuStrip_DataGrid.Size = New System.Drawing.Size(171, 158)
+        Me.ContextMenuStrip_DataGrid.Size = New System.Drawing.Size(171, 136)
         '
         'NewToolStripMenuItem_DataGrid
         '
@@ -638,6 +639,12 @@ Partial Class frm_FilesystemModule
         Me.OpenFileDialog_Files.FileName = "OpenFileDialog1"
         Me.OpenFileDialog_Files.Multiselect = True
         '
+        'RepairBlobsToolStripMenuItem
+        '
+        Me.RepairBlobsToolStripMenuItem.Name = "RepairBlobsToolStripMenuItem"
+        Me.RepairBlobsToolStripMenuItem.Size = New System.Drawing.Size(196, 22)
+        Me.RepairBlobsToolStripMenuItem.Text = "x_Repair Blobs"
+        '
         'frm_FilesystemModule
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -756,5 +763,6 @@ Partial Class frm_FilesystemModule
     Friend WithEvents HilfeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents InfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FileResourcenToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RepairBlobsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

@@ -367,7 +367,7 @@ Public Class UserControl_ImageList
 
                                         objOItem_Result = objTransaction_Images.do_Transaction(objORel_Image_To_Ref)
                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                            Dim objORel_Image__Taking = objDataWork_Images.Rel_Image__Taking(objOItem_Image, objBlobConnection.FileInfoBlob.CreationTime)
+                                            Dim objORel_Image__Taking = objDataWork_Images.Rel_Image__Taking(objOItem_Image, objBlobConnection.FileInfoBlob.LastWriteTime)
                                             objOItem_Result = objTransaction_Images.do_Transaction(objORel_Image__Taking)
                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                                 intDone = intDone + 1

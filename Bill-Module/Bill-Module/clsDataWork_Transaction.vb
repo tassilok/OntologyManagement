@@ -46,6 +46,12 @@ Public Class clsDataWork_Transaction
 
     Public Property FinancialTransactionList As SortableBindingList(Of clsFinancialTransaction)
 
+    Public WriteOnly Property OItem_Class_FinancialTransaction As clsOntologyItem
+        Set(value As clsOntologyItem)
+            objOItem_Class_FinancialTransaction = value
+        End Set
+    End Property
+
     Public ReadOnly Property OItem_Result_Contractee As clsOntologyItem
         Get
             Return objOItem_Result_Contractee
@@ -419,24 +425,32 @@ Public Class clsDataWork_Transaction
                                                                     boolIDs:=False)
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            If objDBLevel_Menge.OList_ObjectRel.Count > 0 Then
-                objOList_Menge_Unit.Add(New clsObjectRel With {.ID_Object = objDBLevel_Menge.OList_ObjectRel(0).ID_Other, _
-                                                 .ID_Parent_Other = objLocalConfig.OItem_Class_Einheit.GUID, _
-                                                 .ID_RelationType = objLocalConfig.OItem_RelationType_is_of_Type.GUID, _
-                                                 .Ontology = objLocalConfig.Globals.Type_Object})
 
+            objOList_Menge_Unit.Add(New clsObjectRel With {.ID_Object = If(objDBLevel_Menge.OList_ObjectRel.Count = 1, objDBLevel_Menge.OList_ObjectRel(0).ID_Other, Nothing), _
+                                             .ID_Parent_Other = objLocalConfig.OItem_Class_Einheit.GUID, _
+                                             .ID_RelationType = objLocalConfig.OItem_RelationType_is_of_Type.GUID, _
+                                             .Ontology = objLocalConfig.Globals.Type_Object})
+            If objDBLevel_Menge.OList_ObjectRel.Any Then
                 objOItem_Result = objDBLevel_Menge_Unit.get_Data_ObjectRel(objOList_Menge_Unit, _
-                                                         boolIDs:=False)
+                                                     boolIDs:=False)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    objOList_Menge_Value.Add(New clsObjectAtt With {.ID_Object = objDBLevel_Menge.OList_ObjectRel(0).ID_Other, _
+                    objOList_Menge_Value.Add(New clsObjectAtt With {.ID_Object = If(objDBLevel_Menge.OList_ObjectRel.Count = 1, objDBLevel_Menge.OList_ObjectRel(0).ID_Other, Nothing), _
+                                                                    .ID_Class = objLocalConfig.OItem_Class_Menge.GUID, _
                                                               .ID_AttributeType = objLocalConfig.OItem_Attribute_Menge.GUID})
 
-                    objOItem_Result = objDBLevel_Menge_Value.get_Data_ObjectAtt(objOList_Menge_Value, _
+                    If objOList_Menge_Value.Any Then
+                        objOItem_Result = objDBLevel_Menge_Value.get_Data_ObjectAtt(objOList_Menge_Value, _
                                                                                       boolIDs:=False)
+                    End If
+
 
 
                 End If
+            Else
+                objDBLevel_Menge_Unit.OList_ObjectRel.Clear()
+                objDBLevel_Menge_Value.OList_ObjectAtt.Clear()
             End If
+            
 
         End If
 
@@ -485,7 +499,7 @@ Public Class clsDataWork_Transaction
                                                                                     boolIDs:=False)
     End Sub
 
-    Private Sub get_Data_TransactionDate()
+    Public Sub get_Data_TransactionDate()
         Dim objOList_TransactionDate As New List(Of clsObjectAtt)
 
         objOItem_Result_TransactionDate = objLocalConfig.Globals.LState_Nothing
@@ -516,7 +530,7 @@ Public Class clsDataWork_Transaction
 
     End Sub
 
-    Private Sub get_Data_Contractor()
+    Public Sub get_Data_Contractor()
         Dim objOList_Contractor As New List(Of clsObjectRel)
 
         objOItem_Result_Contractor = objLocalConfig.Globals.LState_Nothing

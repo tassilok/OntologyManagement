@@ -16,7 +16,10 @@ Public Class UserControl_BillTree
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
 
+    Private objFilter As clsFilter
+
     Private objFrm_BankTransactions As frmBankTransactionModule
+    Private objOItem_FilterItem As clsOntologyItem
 
     Public Event selected_FinancialTransactions(ByVal OItem_FinancialTransaction)
 
@@ -35,13 +38,19 @@ Public Class UserControl_BillTree
     End Sub
 
     Private Sub initialize()
+        TreeView_Transactions.Nodes.Clear()
         objTreeNode_Root = TreeView_Transactions.Nodes.Add(objLocalConfig.OItem_Class_Financial_Transaction.GUID, _
                                                            objLocalConfig.OItem_Class_Financial_Transaction.Name, _
                                                            objLocalConfig.ImageID_Root, _
                                                            objLocalConfig.ImageID_Root)
 
-        objDataWork_BillTree.fill_Search_Combo(ToolStripComboBox_SearchTemplates)
-        objDataWork_BillTree.fill_BillTree(objTreeNode_Root)
+        If ToolStripComboBox_SearchTemplates.ComboBox.Items.Count = 0 Then
+            ToolStripTextBox_Search.ReadOnly = True
+            objDataWork_BillTree.fill_Search_Combo(ToolStripComboBox_SearchTemplates)
+            ToolStripTextBox_Search.ReadOnly = False
+        End If
+
+        objDataWork_BillTree.fill_BillTree(objTreeNode_Root, objFilter)
 
         objTreeNode_Root.Expand()
     End Sub
@@ -657,6 +666,77 @@ Public Class UserControl_BillTree
             End If
         Else
             MsgBox("Sie müssen entweder einen Mandanten oder einen untergeordneten Ast auswählen!", MsgBoxStyle.Information)
+        End If
+    End Sub
+
+    Private Sub ToolStripTextBox_Search_TextChanged(sender As Object, e As EventArgs) Handles ToolStripTextBox_Search.TextChanged
+        Timer_Filter.Stop()
+        If ToolStripTextBox_Search.ReadOnly = False Then
+            Timer_Filter.Start()
+        End If
+
+    End Sub
+
+    Private Sub Timer_Filter_Tick(sender As Object, e As EventArgs) Handles Timer_Filter.Tick
+        
+        Filter()
+
+
+    End Sub
+
+    Private Sub Filter()
+        Timer_Filter.Stop()
+
+        objFilter = Nothing
+
+        If ToolStripButton_Filter.Checked Then
+            Dim filter = ToolStripTextBox_Search.Text
+
+            If filter <> "" Then
+                objFilter = New clsFilter(objLocalConfig)
+                objFilter.OItem_FilterItem = objOItem_FilterItem
+
+                Select Case ToolStripComboBox_SearchTemplates.ComboBox.SelectedValue
+                    Case objLocalConfig.OItem_Object_Search_Template_Amount_.GUID
+                        objFilter.OItem_FilterType = objLocalConfig.OItem_Object_Search_Template_Amount_
+                    Case objLocalConfig.OItem_Object_Search_Template_Contractee_Contractor_.GUID
+                        objFilter.OItem_FilterType = objLocalConfig.OItem_Object_Search_Template_Contractee_Contractor_
+                    Case objLocalConfig.OItem_Object_Search_Template_Name_.GUID
+                        objFilter.OItem_FilterType = objLocalConfig.OItem_Object_Search_Template_Name_
+                    Case objLocalConfig.OItem_Object_Search_Template_Payment_Date_.GUID
+                        objFilter.OItem_FilterType = objLocalConfig.OItem_Object_Search_Template_Payment_Date_
+                    Case objLocalConfig.OItem_Object_Search_Template_Related_Sem_Item_.GUID
+                        objFilter.OItem_FilterType = objLocalConfig.OItem_Object_Search_Template_Related_Sem_Item_
+                    Case objLocalConfig.OItem_Object_Search_Template_to_Pay_.GUID
+                        objFilter.OItem_FilterType = objLocalConfig.OItem_Object_Search_Template_to_Pay_
+                End Select
+                objFilter.Filter = filter
+
+                If objFilter.ParseError Or objFilter.NoFilterType Then
+                    MsgBox("Der Filter kann nicht interpretiert werden?", MsgBoxStyle.OkOnly)
+                    objFilter = Nothing
+                End If
+            Else
+
+                objOItem_FilterItem = Nothing
+            End If
+
+
+            initialize()
+        End If
+    End Sub
+
+    Private Sub ToolStripTextBox_Search_DoubleClick(sender As Object, e As EventArgs) Handles ToolStripTextBox_Search.DoubleClick
+        objFrmName = New frm_Name("Search-Filter", objLocalConfig.Globals)
+        objFrmName.ShowDialog(Me)
+        ToolStripTextBox_Search.Text = objFrmName.Value1
+
+    End Sub
+
+    Private Sub ToolStripComboBox_SearchTemplates_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ToolStripComboBox_SearchTemplates.SelectedIndexChanged
+        If ToolStripTextBox_Search.ReadOnly = False And ToolStripTextBox_Search.Text <> "" Then
+            ToolStripTextBox_Search.Text = ""
+            objOItem_FilterItem = Nothing
         End If
     End Sub
 End Class

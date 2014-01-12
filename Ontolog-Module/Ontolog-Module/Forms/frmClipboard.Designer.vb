@@ -32,6 +32,8 @@ Partial Class frmClipboard
         Me.RemoveFromClipboardToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BindingSource_Items = New System.Windows.Forms.BindingSource(Me.components)
         Me.CheckBox_OrderID = New System.Windows.Forms.CheckBox()
+        Me.Label_CountLbl = New System.Windows.Forms.Label()
+        Me.Label_Count = New System.Windows.Forms.Label()
         CType(Me.DataGridView_Items, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip_Main.SuspendLayout()
         CType(Me.BindingSource_Items, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -41,7 +43,7 @@ Partial Class frmClipboard
         '
         Me.Button_Apply.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button_Apply.Enabled = False
-        Me.Button_Apply.Location = New System.Drawing.Point(136, 231)
+        Me.Button_Apply.Location = New System.Drawing.Point(194, 231)
         Me.Button_Apply.Name = "Button_Apply"
         Me.Button_Apply.Size = New System.Drawing.Size(75, 23)
         Me.Button_Apply.TabIndex = 0
@@ -52,7 +54,7 @@ Partial Class frmClipboard
         '
         Me.Button_Clear.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button_Clear.Enabled = False
-        Me.Button_Clear.Location = New System.Drawing.Point(217, 231)
+        Me.Button_Clear.Location = New System.Drawing.Point(275, 231)
         Me.Button_Clear.Name = "Button_Clear"
         Me.Button_Clear.Size = New System.Drawing.Size(75, 23)
         Me.Button_Clear.TabIndex = 1
@@ -62,7 +64,7 @@ Partial Class frmClipboard
         'Button_Cancel
         '
         Me.Button_Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_Cancel.Location = New System.Drawing.Point(298, 231)
+        Me.Button_Cancel.Location = New System.Drawing.Point(356, 231)
         Me.Button_Cancel.Name = "Button_Cancel"
         Me.Button_Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Button_Cancel.TabIndex = 2
@@ -81,7 +83,7 @@ Partial Class frmClipboard
         Me.DataGridView_Items.Location = New System.Drawing.Point(5, 6)
         Me.DataGridView_Items.Name = "DataGridView_Items"
         Me.DataGridView_Items.ReadOnly = True
-        Me.DataGridView_Items.Size = New System.Drawing.Size(368, 219)
+        Me.DataGridView_Items.Size = New System.Drawing.Size(426, 219)
         Me.DataGridView_Items.TabIndex = 3
         '
         'ContextMenuStrip_Main
@@ -98,19 +100,42 @@ Partial Class frmClipboard
         '
         'CheckBox_OrderID
         '
+        Me.CheckBox_OrderID.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CheckBox_OrderID.AutoSize = True
-        Me.CheckBox_OrderID.Location = New System.Drawing.Point(5, 233)
+        Me.CheckBox_OrderID.Location = New System.Drawing.Point(114, 235)
         Me.CheckBox_OrderID.Name = "CheckBox_OrderID"
         Me.CheckBox_OrderID.Size = New System.Drawing.Size(74, 17)
         Me.CheckBox_OrderID.TabIndex = 4
         Me.CheckBox_OrderID.Text = "x_OrderID"
         Me.CheckBox_OrderID.UseVisualStyleBackColor = True
         '
+        'Label_CountLbl
+        '
+        Me.Label_CountLbl.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label_CountLbl.AutoSize = True
+        Me.Label_CountLbl.Location = New System.Drawing.Point(5, 235)
+        Me.Label_CountLbl.Name = "Label_CountLbl"
+        Me.Label_CountLbl.Size = New System.Drawing.Size(49, 13)
+        Me.Label_CountLbl.TabIndex = 5
+        Me.Label_CountLbl.Text = "x_Count:"
+        '
+        'Label_Count
+        '
+        Me.Label_Count.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label_Count.AutoSize = True
+        Me.Label_Count.Location = New System.Drawing.Point(60, 235)
+        Me.Label_Count.Name = "Label_Count"
+        Me.Label_Count.Size = New System.Drawing.Size(13, 13)
+        Me.Label_Count.TabIndex = 6
+        Me.Label_Count.Text = "0"
+        '
         'frmClipboard
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(377, 262)
+        Me.ClientSize = New System.Drawing.Size(435, 262)
+        Me.Controls.Add(Me.Label_Count)
+        Me.Controls.Add(Me.Label_CountLbl)
         Me.Controls.Add(Me.CheckBox_OrderID)
         Me.Controls.Add(Me.DataGridView_Items)
         Me.Controls.Add(Me.Button_Cancel)
@@ -134,4 +159,6 @@ Partial Class frmClipboard
     Friend WithEvents ContextMenuStrip_Main As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents RemoveFromClipboardToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CheckBox_OrderID As System.Windows.Forms.CheckBox
+    Friend WithEvents Label_CountLbl As System.Windows.Forms.Label
+    Friend WithEvents Label_Count As System.Windows.Forms.Label
 End Class

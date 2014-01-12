@@ -23,6 +23,70 @@ Public Class clsDataWork_Amount
         End Get
     End Property
 
+    Public ReadOnly Property Amount As clsOntologyItem
+        Get
+            If Not objOItem_Unit Is Nothing Then
+                Dim objOList_Amount = (From objAmount In objDBLevel_Amount_Att.OList_ObjectAtt
+                                   Join objUnit In objDBLevel_Amount_Rel.OList_ObjectRel On objAmount.ID_Object Equals objUnit.ID_Object
+                                   Where objAmount.Val_Double = dblAmount And objUnit.ID_Other = objOItem_Unit.GUID
+                                   Select objUnit).ToList()
+
+                If objOList_Amount.Any Then
+                    Return New clsOntologyItem With {.GUID = objOList_Amount.First().ID_Object, _
+                                                     .Name = objOList_Amount.First().Name_Object, _
+                                                     .GUID_Parent = objOList_Amount.First().ID_Parent_Object, _
+                                                     .Type = objLocalConfig.Globals.Type_Object}
+                Else
+                    Return Nothing
+                End If
+            Else
+                Return Nothing
+            End If
+            
+        End Get
+    End Property
+
+    Public ReadOnly Property Amount_Amount As clsObjectAtt
+        Get
+            If Not objOItem_Unit Is Nothing Then
+                Dim objOList_Amount = (From objAmount In objDBLevel_Amount_Att.OList_ObjectAtt
+                                   Join objUnit In objDBLevel_Amount_Rel.OList_ObjectRel On objAmount.ID_Object Equals objUnit.ID_Object
+                                   Where objAmount.Val_Double = dblAmount And objUnit.ID_Other = objOItem_Unit.GUID
+                                   Select objAmount).ToList()
+
+                If objOList_Amount.Any Then
+                    Return objOList_Amount.First()
+                Else
+                    Return Nothing
+                End If
+            Else
+                Return Nothing
+            End If
+        End Get
+    End Property
+
+    Public ReadOnly Property Amount_Unit As clsOntologyItem
+        Get
+            If Not objOItem_Unit Is Nothing Then
+                Dim objOList_Unit = (From objAmount In objDBLevel_Amount_Att.OList_ObjectAtt
+                                   Join objUnit In objDBLevel_Amount_Rel.OList_ObjectRel On objAmount.ID_Object Equals objUnit.ID_Object
+                                   Where objAmount.Val_Double = dblAmount And objUnit.ID_Other = objOItem_Unit.GUID
+                                   Select objUnit).ToList()
+
+                If objOList_Unit.Any Then
+                    Return New clsOntologyItem With {.GUID = objOList_Unit.First().ID_Other, _
+                                                     .Name = objOList_Unit.First().Name_Other, _
+                                                     .GUID_Parent = objOList_Unit.First().ID_Parent_Other, _
+                                                     .Type = objLocalConfig.Globals.Type_Object}
+                Else
+                    Return Nothing
+                End If
+            Else
+                Return Nothing
+            End If
+        End Get
+    End Property
+
     Public Function get_Data_Units() As List(Of clsOntologyItem)
         Dim objLUnits As New List(Of clsOntologyItem)
         Dim objOItem_Result As clsOntologyItem

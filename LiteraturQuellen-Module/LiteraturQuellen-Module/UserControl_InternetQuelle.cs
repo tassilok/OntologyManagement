@@ -291,7 +291,16 @@ namespace LiteraturQuellen_Module
                 objTransaction.ClearItems();
                 if (objDataWork_InternetQuelle.OAItem_LogEntry != null)
                 {
-                    var objOAR_LogEntry__DateTimeStamp = objRelationConfig.Rel_ObjectAttribute(objOItem_Quelle, objLocalConfig.OItem_attribute_datetimestamp, DateTimePicker_Download.Value, false, 1, objDataWork_InternetQuelle.OAItem_LogEntry.ID_Attribute);
+
+                    var objOItem_LogEntry = new clsOntologyItem
+                    {
+                        GUID = objDataWork_InternetQuelle.OAItem_LogEntry.ID_Object,
+                        Name = objDataWork_InternetQuelle.OAItem_LogEntry.Name_Object,
+                        GUID_Parent = objLocalConfig.OItem_type_logentry.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+
+                    var objOAR_LogEntry__DateTimeStamp = objRelationConfig.Rel_ObjectAttribute(objOItem_LogEntry, objLocalConfig.OItem_attribute_datetimestamp, DateTimePicker_Download.Value, false, 1, objDataWork_InternetQuelle.OAItem_LogEntry.ID_Attribute);
                     var objOItem_Result = objTransaction.do_Transaction(objOAR_LogEntry__DateTimeStamp, true);
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
