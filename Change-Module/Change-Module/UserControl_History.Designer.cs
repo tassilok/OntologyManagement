@@ -33,9 +33,7 @@
             this.bindingSource_History = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.bindingNavigator_History = new System.Windows.Forms.BindingNavigator(this.components);
-            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
-            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
@@ -44,9 +42,8 @@
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.dataGridView_History = new System.Windows.Forms.DataGridView();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripProgressBar_History = new System.Windows.Forms.ToolStripProgressBar();
+            this.dataGridView_History = new System.Windows.Forms.DataGridView();
             this.timer_History = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_History)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -72,10 +69,10 @@
             // 
             // bindingNavigator_History
             // 
-            this.bindingNavigator_History.AddNewItem = this.bindingNavigatorAddNewItem;
+            this.bindingNavigator_History.AddNewItem = null;
             this.bindingNavigator_History.BindingSource = this.bindingSource_History;
             this.bindingNavigator_History.CountItem = this.bindingNavigatorCountItem;
-            this.bindingNavigator_History.DeleteItem = this.bindingNavigatorDeleteItem;
+            this.bindingNavigator_History.DeleteItem = null;
             this.bindingNavigator_History.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bindingNavigatorMoveFirstItem,
             this.bindingNavigatorMovePreviousItem,
@@ -86,9 +83,6 @@
             this.bindingNavigatorMoveNextItem,
             this.bindingNavigatorMoveLastItem,
             this.bindingNavigatorSeparator2,
-            this.bindingNavigatorAddNewItem,
-            this.bindingNavigatorDeleteItem,
-            this.toolStripSeparator1,
             this.toolStripProgressBar_History});
             this.bindingNavigator_History.Location = new System.Drawing.Point(0, 344);
             this.bindingNavigator_History.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
@@ -101,30 +95,12 @@
             this.bindingNavigator_History.TabIndex = 0;
             this.bindingNavigator_History.Text = "bindingNavigator1";
             // 
-            // bindingNavigatorAddNewItem
-            // 
-            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
-            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorAddNewItem.Text = "Neu hinzufügen";
-            // 
             // bindingNavigatorCountItem
             // 
             this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(44, 22);
-            this.bindingNavigatorCountItem.Text = "von {0}";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 22);
+            this.bindingNavigatorCountItem.Text = "of {0}";
             this.bindingNavigatorCountItem.ToolTipText = "Die Gesamtanzahl der Elemente.";
-            // 
-            // bindingNavigatorDeleteItem
-            // 
-            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
-            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorDeleteItem.Text = "Löschen";
             // 
             // bindingNavigatorMoveFirstItem
             // 
@@ -186,6 +162,11 @@
             this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
             this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
+            // toolStripProgressBar_History
+            // 
+            this.toolStripProgressBar_History.Name = "toolStripProgressBar_History";
+            this.toolStripProgressBar_History.Size = new System.Drawing.Size(100, 22);
+            // 
             // dataGridView_History
             // 
             this.dataGridView_History.AllowUserToAddRows = false;
@@ -197,16 +178,6 @@
             this.dataGridView_History.ReadOnly = true;
             this.dataGridView_History.Size = new System.Drawing.Size(657, 338);
             this.dataGridView_History.TabIndex = 1;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripProgressBar_History
-            // 
-            this.toolStripProgressBar_History.Name = "toolStripProgressBar_History";
-            this.toolStripProgressBar_History.Size = new System.Drawing.Size(100, 22);
             // 
             // timer_History
             // 
@@ -236,9 +207,7 @@
         private System.Windows.Forms.BindingSource bindingSource_History;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.BindingNavigator bindingNavigator_History;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
         private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorDeleteItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveFirstItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMovePreviousItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator;
@@ -248,7 +217,6 @@
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
         private System.Windows.Forms.DataGridView dataGridView_History;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar_History;
         private System.Windows.Forms.Timer timer_History;
 

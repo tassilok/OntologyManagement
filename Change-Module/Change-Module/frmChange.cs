@@ -49,14 +49,20 @@ namespace Change_Module
         int intRowID;
 
 
-        public frmChange(int rowID,DataGridViewRowCollection DGVRC, clsLocalConfig LocalConfig, clsDataWork_Ticket DataWork_Ticket)
+        public frmChange()
         {
             InitializeComponent();
+            
+        }
+
+        public void InitializeTicket(int rowID, DataGridViewRowCollection DGVRC, clsLocalConfig LocalConfig,
+                                      clsDataWork_Ticket DataWork_Ticket)
+        {
             objLocalConfig = LocalConfig;
             intRowID = rowID;
             objDGVRC = DGVRC;
             objDataWork_Ticket = DataWork_Ticket;
-            
+
 
 
             initialize();
@@ -65,46 +71,37 @@ namespace Change_Module
         private void initialize()
         {
             objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
-            objUserControl_ProcessTree = new UserControl_ProcessTree(objLocalConfig,objDataWork_Ticket);
-            objUserControl_ProcessTree.SelectItem += SelectedTreeItem;
-            objUserControl_ProcessTree.addLogEntry += objUserControl_ProcessTree_addLogEntry;
-            objUserControl_ProcessTree.Dock = DockStyle.Fill;
+            if (objUserControl_ProcessTree == null)
+            {
+                objUserControl_ProcessTree = new UserControl_ProcessTree(objLocalConfig, objDataWork_Ticket);
+                objUserControl_ProcessTree.SelectItem += SelectedTreeItem;
+                objUserControl_ProcessTree.addLogEntry += objUserControl_ProcessTree_addLogEntry;
+                objUserControl_ProcessTree.Dock = DockStyle.Fill;
+                splitContainer1.Panel1.Controls.Add(objUserControl_ProcessTree);
+            }
+            
 
-            objUserControl_PDF_Process = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.PDF, objLocalConfig.OItem_User);
-            objUserControl_PDF_Process.Dock = DockStyle.Fill;
-            TabPage_Process_PDF.Controls.Add(objUserControl_PDF_Process);
+            
 
-            objUserControl_PDF_Log = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.PDF, objLocalConfig.OItem_User);
-            objUserControl_PDF_Log.Dock = DockStyle.Fill;
-            TabPage_PDF_ProcessLog.Controls.Add(objUserControl_PDF_Log);
+            
 
-            objUserControl_Image_Process = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.Image, objLocalConfig.OItem_User);
-            objUserControl_Image_Process.Dock = DockStyle.Fill;
-            TabPage_Process_Images.Controls.Add(objUserControl_Image_Process);
+            if (objUserControl_History == null)
+            {
+                objUserControl_History = new UserControl_History(objLocalConfig);
+                objUserControl_History.Dock = DockStyle.Fill;
 
-            objUserControl_Image_Log = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.Image, objLocalConfig.OItem_User);
-            objUserControl_Image_Log.Dock = DockStyle.Fill;
-            TabPage_ProcessLog_Images.Controls.Add(objUserControl_Image_Log);
+                splitContainer5.Panel2.Controls.Add(objUserControl_History);
+    
+            }
 
-            objUserControl_MediaItem_Process = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.MediaItem, objLocalConfig.OItem_User);
-            objUserControl_MediaItem_Process.Dock = DockStyle.Fill;
-            TabPage_ProcessMediaItem.Controls.Add(objUserControl_MediaItem_Process);
+            if (objUserControl_References == null)
+            {
+                objUserControl_References = new UserControl_References(objLocalConfig.Globals);
+                objUserControl_References.Dock = DockStyle.Fill;
 
-            objUserControl_MediaItem_Log = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.MediaItem, objLocalConfig.OItem_User);
-            objUserControl_MediaItem_Process.Dock = DockStyle.Fill;
-            TabPage_ProcessLog_MediaItem.Controls.Add(objUserControl_MediaItem_Log);
-
-            splitContainer1.Panel1.Controls.Add(objUserControl_ProcessTree);
-
-            objUserControl_History = new UserControl_History(objLocalConfig);
-            objUserControl_History.Dock = DockStyle.Fill;
-
-            splitContainer5.Panel2.Controls.Add(objUserControl_History);
-
-            objUserControl_References = new UserControl_References(objLocalConfig.Globals);
-            objUserControl_References.Dock = DockStyle.Fill;
-
-            splitContainer5.Panel1.Controls.Add(objUserControl_References);
+                splitContainer5.Panel1.Controls.Add(objUserControl_References);    
+            }
+            
             
             configure_Controls();
         }
@@ -654,6 +651,13 @@ namespace Change_Module
             {
                 if (tabControl_Image.SelectedTab.Name == TabPage_Process_Images.Name)
                 {
+                    if (objUserControl_Image_Process == null)
+                    {
+                        objUserControl_Image_Process = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.Image, objLocalConfig.OItem_User);
+                        objUserControl_Image_Process.Dock = DockStyle.Fill;
+                        TabPage_Process_Images.Controls.Add(objUserControl_Image_Process);
+                    }
+                    
                     if (!boolRefreshed_Images_Process)
                     {
                         objUserControl_Image_Process.initialize_Image(objOItem_SelNode);
@@ -662,6 +666,13 @@ namespace Change_Module
                 }
                 else
                 {
+                    if (objUserControl_Image_Log == null)
+                    {
+                        objUserControl_Image_Log = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.Image, objLocalConfig.OItem_User);
+                        objUserControl_Image_Log.Dock = DockStyle.Fill;
+                        TabPage_ProcessLog_Images.Controls.Add(objUserControl_Image_Log);    
+                    }
+                    
                     if (!boolRefreshed_Images_Log)
                     {
                         objUserControl_Image_Log.initialize_Image(objOItem_SelNode);
@@ -674,6 +685,14 @@ namespace Change_Module
             {
                 if (tabControl_MediaItems.SelectedTab.Name == TabPage_ProcessMediaItem.Name)
                 {
+                    if (objUserControl_MediaItem_Process == null)
+                    {
+                        objUserControl_MediaItem_Process = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.MediaItem, objLocalConfig.OItem_User);
+                        objUserControl_MediaItem_Process.Dock = DockStyle.Fill;
+                        TabPage_ProcessMediaItem.Controls.Add(objUserControl_MediaItem_Process);    
+                    }
+                    
+
                     if (!boolRefreshed_MediaItems_Process)
                     {
                         objUserControl_MediaItem_Process.initialize_MediaItem(objOItem_SelNode);
@@ -682,6 +701,13 @@ namespace Change_Module
                 }
                 else
                 {
+                    if (objUserControl_MediaItem_Log == null)
+                    {
+                        objUserControl_MediaItem_Log = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.MediaItem, objLocalConfig.OItem_User);
+                        objUserControl_MediaItem_Process.Dock = DockStyle.Fill;
+                        TabPage_ProcessLog_MediaItem.Controls.Add(objUserControl_MediaItem_Log);    
+                    }
+                    
                     if (!boolRefreshed_MediaItems_Log)
                     {
                         objUserControl_MediaItem_Log.initialize_MediaItem(objOItem_SelNode);
@@ -693,8 +719,17 @@ namespace Change_Module
             }
             else if (tabControl1.SelectedTab.Name == TabPage_PDF.Name)
             {
+
                 if (tabControl_PDF.SelectedTab.Name == TabPage_Process_PDF.Name)
                 {
+                    if (objUserControl_PDF_Process == null)
+                    {
+                        objUserControl_PDF_Process = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.PDF, objLocalConfig.OItem_User);
+                        objUserControl_PDF_Process.Dock = DockStyle.Fill;
+                        TabPage_Process_PDF.Controls.Add(objUserControl_PDF_Process);    
+                    }
+
+                    
                     if (!boolRefreshed_PDF_Process)
                     {
                         objUserControl_PDF_Process.initialize_PDF(objOItem_SelNode);
@@ -703,6 +738,14 @@ namespace Change_Module
                 }
                 else
                 {
+                    if (objUserControl_PDF_Log == null)
+                    {
+                        objUserControl_PDF_Log = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.PDF, objLocalConfig.OItem_User);
+                        objUserControl_PDF_Log.Dock = DockStyle.Fill;
+                        TabPage_PDF_ProcessLog.Controls.Add(objUserControl_PDF_Log);    
+                    }
+                    
+
                     if (!boolRefreshed_PDF_Log)
                     {
 

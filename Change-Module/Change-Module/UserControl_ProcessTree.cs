@@ -71,6 +71,8 @@ namespace Change_Module
             TreeNode objTreeNode_Found;
             clsOntologyItem objOItem_Result;
 
+            treeView_ProcessTree.Nodes.Clear();
+
             objDGVR_Selected = DGVR_Selected;
             objOItem_Ticket = new clsOntologyItem();
             objOItem_Ticket.GUID = objDGVR_Selected.Cells["GUID_Ticket"].Value.ToString();

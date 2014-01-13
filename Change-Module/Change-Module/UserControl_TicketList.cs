@@ -189,17 +189,27 @@ namespace Change_Module
             if (dataGridView_TicketLists.SelectedRows.Count == 1)
             {
                 objDGVR_Selected = dataGridView_TicketLists.SelectedRows[0];
-                objFrmChange = new frmChange(objDGVR_Selected.Index, dataGridView_TicketLists.Rows, objLocalConfig,objDataWork_Ticket);
-                objFrmChange.ShowDialog(this);
+                if (objFrmChange == null || !objFrmChange.IsHandleCreated)
+                {
+                    objFrmChange = new frmChange();
+                }
+                
+                objFrmChange.InitializeTicket(objDGVR_Selected.Index, dataGridView_TicketLists.Rows, objLocalConfig, objDataWork_Ticket);
+                
+                if (!objFrmChange.IsHandleCreated) objFrmChange.Show();
 
             }
         }
 
         private void dataGridView_TicketLists_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-                        
-            objFrmChange = new frmChange(e.RowIndex, dataGridView_TicketLists.Rows, objLocalConfig, objDataWork_Ticket);
-            objFrmChange.ShowDialog(this);
+
+            if (objFrmChange == null || !objFrmChange.IsHandleCreated)
+            {
+                objFrmChange = new frmChange();
+            }
+            objFrmChange.InitializeTicket(e.RowIndex, dataGridView_TicketLists.Rows, objLocalConfig, objDataWork_Ticket);
+            if (!objFrmChange.IsHandleCreated) objFrmChange.Show();
 
         }
 
