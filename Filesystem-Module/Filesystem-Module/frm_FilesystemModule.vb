@@ -1,6 +1,7 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Imports ClassLibrary_ShellWork
+Imports Security_Module
 
 Public Class frm_FilesystemModule
     Private Const cint_ImageID_Root As Integer = 7
@@ -36,10 +37,17 @@ Public Class frm_FilesystemModule
     Private objOLFiles As New List(Of clsOntologyItem)
     Private objOItem_FileSystemObject As clsOntologyItem
     Private objOItem_Class_Applied As clsOntologyItem
+    Private objFrm_Authentication As frmAuthenticate
 
     Private objFrmBlobWatcher As frmBlobWatcher
 
     Private objShellWork As clsShellWork
+
+    Public ReadOnly Property LocalConfig As clsLocalConfig
+        Get
+            Return objLocalConfig
+        End Get
+    End Property
 
     Public ReadOnly Property OItem_Class_Applied As clsOntologyItem
         Get
@@ -69,20 +77,25 @@ Public Class frm_FilesystemModule
         SplashScreen.Show()
         SplashScreen.Refresh()
 
+
+
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
+
+        
 
         set_DBConnection()
         initialize()
     End Sub
 
-    Public Sub New(Globals As clsGlobals)
+    Public Sub New(Globals As clsGlobals, Optional OItem_User As clsOntologyItem = Nothing)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(Globals)
+        objLocalConfig.OItem_User = OItem_User
 
         set_DBConnection()
         initialize()
@@ -144,14 +157,27 @@ Public Class frm_FilesystemModule
     End Sub
 
     Private Sub initialize()
-        objShellWork = New clsShellWork()
 
-        TreeView_Folder.Nodes.Clear()
-        objTreeNode_Root = TreeView_Folder.Nodes.Add(objLocalConfig.OItem_Type_Filesystem_Management.GUID.ToString, objLocalConfig.OItem_Type_Filesystem_Management.Name, cint_ImageID_Root, cint_ImageID_Root)
-        objTreeNode_ParentLessFiles = objTreeNode_Root.Nodes.Add(objLocalConfig.OItem_Type_File.GUID.ToString, " " & objLocalConfig.OItem_Type_File.Name & " (All)", cint_ImageID_ParentLessFiles, cint_ImageID_ParentLessFiles)
-        load_Server_With_Drives_And_Shares(objTreeNode_Root)
-        objTreeNode_Root.Expand()
-        TreeView_Folder.Sort()
+        If objLocalConfig.OItem_User Is Nothing Then
+            objFrm_Authentication = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
+            objFrm_Authentication.ShowDialog(Me)
+            If objFrm_Authentication.DialogResult = Windows.Forms.DialogResult.OK Then
+                objLocalConfig.OItem_User = objFrm_Authentication.OItem_User
+            End If
+        End If
+        
+
+        If Not objLocalConfig.OItem_User Is Nothing Then
+            objShellWork = New clsShellWork()
+
+            TreeView_Folder.Nodes.Clear()
+            objTreeNode_Root = TreeView_Folder.Nodes.Add(objLocalConfig.OItem_Type_Filesystem_Management.GUID.ToString, objLocalConfig.OItem_Type_Filesystem_Management.Name, cint_ImageID_Root, cint_ImageID_Root)
+            objTreeNode_ParentLessFiles = objTreeNode_Root.Nodes.Add(objLocalConfig.OItem_Type_File.GUID.ToString, " " & objLocalConfig.OItem_Type_File.Name & " (All)", cint_ImageID_ParentLessFiles, cint_ImageID_ParentLessFiles)
+            load_Server_With_Drives_And_Shares(objTreeNode_Root)
+            objTreeNode_Root.Expand()
+            TreeView_Folder.Sort()
+        End If
+        
     End Sub
 
     Private Sub test_FSO()
@@ -754,6 +780,9 @@ Public Class frm_FilesystemModule
     End Sub
 
     Private Sub frm_FilesystemModule_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If objLocalConfig.OItem_User Is Nothing Then
+            Application.Exit()
+        End If
         If Not SplashScreen Is Nothing Then
             SplashScreen.Close()
         End If

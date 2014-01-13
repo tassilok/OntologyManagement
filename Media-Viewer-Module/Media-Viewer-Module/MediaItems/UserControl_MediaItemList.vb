@@ -20,11 +20,16 @@ Public Class UserControl_MediaItemList
     Private objDLG_Attribute_Double As dlg_Attribute_Double
     Private objDlg_Attribute_Long As dlg_Attribute_Long
     Private objFrm_ObjectEdit As frm_ObjectEdit
+    Private objFrm_FileSystemManagement As frm_FilesystemModule
+
+    Private objFileBlobSync As clsFileBlobSync
 
     Private objOItem_Ref As clsOntologyItem
     Private objOItem_Relate As clsOntologyItem
 
     Private boolSelect_First As Boolean
+
+    Private objExportOption As ExportOptions
 
     Public Event selected_MediaItem(ByVal OItem_MediaItem As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal Created As Date)
     Public Event related_Last(OItem_MediaItem As clsOntologyItem)
@@ -79,7 +84,7 @@ Public Class UserControl_MediaItemList
 
                     strFileName = objMediaItem.ID_File & strExtension
 
-                ElseIf exportOption = exportOption.name Then
+                ElseIf exportOption = ExportOptions.name Then
 
 
                     strFileName = strFileNameWithOutExtension & strExtension
@@ -341,6 +346,7 @@ Public Class UserControl_MediaItemList
         objTransaction_MediaItems = New clsTransaction(objLocalConfig.Globals)
         objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
         objFileWork = New clsFileWork(objLocalConfig.Globals)
+        objFileBlobSync = New clsFileBlobSync(objLocalConfig.Globals, objLocalConfig.OItem_User)
         configure_Controls()
     End Sub
 
@@ -354,10 +360,11 @@ Public Class UserControl_MediaItemList
 
     End Sub
 
-    Public Sub initialize_MediaItems(ByVal OItem_Ref As clsOntologyItem, Optional ByVal select_First As Boolean = False)
+    Public Sub initialize_MediaItems(ByVal OItem_Ref As clsOntologyItem, exportOption As ExportOptions, Optional ByVal select_First As Boolean = False)
         objOItem_Ref = OItem_Ref
         clear_List()
         boolSelect_First = select_First
+        objExportOption = exportOption
 
         If Not objOItem_Ref Is Nothing Then
             Timer_MediaItems.Stop()
@@ -573,7 +580,7 @@ Public Class UserControl_MediaItemList
                     MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Dateien gespeichert werden!", MsgBoxStyle.Exclamation)
                 End If
 
-                initialize_MediaItems(objOItem_Ref)
+                initialize_MediaItems(objOItem_Ref, objExportOption)
             End If
         End If
     End Sub
@@ -663,11 +670,13 @@ Public Class UserControl_MediaItemList
         RelateToolStripMenuItem.Enabled = False
         SaveToolStripMenuItem.Enabled = False
         ChangeOrderIDToolStripMenuItem.Enabled = False
+        AddToSyncToolStripMenuItem.Enabled = False
 
         If DataGridView_MediaItems.SelectedRows.Count > 0 Then
             RelateToolStripMenuItem.Enabled = True
             SaveToolStripMenuItem.Enabled = True
             ChangeOrderIDToolStripMenuItem.Enabled = True
+            AddToSyncToolStripMenuItem.Enabled = True
         End If
     End Sub
 
@@ -843,7 +852,7 @@ Public Class UserControl_MediaItemList
                     lngOrderIDStart = lngOrderIDStart + If(boolIncrease, 1, -1)
                 Next
 
-                initialize_MediaItems(objOItem_Ref)
+                initialize_MediaItems(objOItem_Ref, objExportOption)
             End If
 
 
@@ -853,5 +862,72 @@ Public Class UserControl_MediaItemList
 
     Private Sub DecreasingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DecreasingToolStripMenuItem.Click
         ChangeOrderID(False)
+    End Sub
+
+    Private Sub AddToSyncToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddToSyncToolStripMenuItem.Click
+        Dim intToDo = 0
+        Dim intDone = 0
+
+        If MsgBox("Wollen Sie wirklich die Dateien für den Sync anmelden?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            objFrm_FileSystemManagement = New frm_FilesystemModule(objLocalConfig.Globals, objLocalConfig.OItem_User)
+
+            objFrm_FileSystemManagement.ShowDialog(Me)
+            If objFrm_FileSystemManagement.DialogResult = DialogResult.OK Then
+                Dim objOItem_Folder = objFrm_FileSystemManagement.OItem_FileSystemObject
+
+                If Not objOItem_Folder Is Nothing Then
+                    If objOItem_Folder.GUID_Parent = objFrm_FileSystemManagement.LocalConfig.OItem_type_Folder.GUID Then
+                        intToDo = DataGridView_MediaItems.SelectedRows.Count
+                        For Each objDGVR_Selected As DataGridViewRow In DataGridView_MediaItems.SelectedRows
+                            Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+
+                            Dim strExtension = IO.Path.GetExtension(objDRV_Selected.Item("Name_File"))
+                            Dim strFileNameWithOutExtension = objDRV_Selected.Item("Name_File").Substring(0, objDRV_Selected.Item("Name_File").Length - strExtension.Length)
+
+                            Dim objOItem_File = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_File"), _
+                                                                          .Name = objDRV_Selected.Item("Name_File"), _
+                                                                          .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
+                                                                          .Type = objLocalConfig.Globals.Type_Object}
+                            Dim strFileName = ""
+
+                            If objExportOption = ExportOptions.guid Then
+
+                                strFileName = objOItem_File.GUID & strExtension
+
+                            ElseIf objExportOption = ExportOptions.name Then
+
+
+                                strFileName = strFileNameWithOutExtension & strExtension
+
+
+                            ElseIf objExportOption = ExportOptions.orderid Then
+
+                                strFileName = Format(objDRV_Selected.Item("OrderID"), "00000") & strExtension
+
+                            End If
+
+
+
+                            Dim objOItem_Result = objFileBlobSync.AddFileSync(objOItem_File, objOItem_Folder, strFileName)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                intDone = intDone + 1
+                            End If
+                        Next
+
+                        If intToDo = intDone Then
+                            MsgBox("Alle Dateien wurden für den Sync angemeldet.", MsgBoxStyle.Information)
+                        Else
+                            MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Dateien zum Sync angemeldet werden!", MsgBoxStyle.Exclamation)
+                        End If
+                    Else
+                        MsgBox("Wählen Sie bitte einen Ordner aus!", MsgBoxStyle.Information)
+                    End If
+                Else
+                    MsgBox("Wählen Sie bitte einen Ordner aus!", MsgBoxStyle.Information)
+                End If
+            End If
+        End If
+        
+        
     End Sub
 End Class

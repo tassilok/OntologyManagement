@@ -185,12 +185,22 @@ Public Class frmMediaViewerModule
     Private Sub selected_Node(ByVal objOItem_Ref As clsOntologyItem) Handles objUserControl_RefTree.selected_Item
         objOItem_MediaType = ToolStripComboBox_MediaType.SelectedItem
 
+        Dim objExportOption As ExportOptions
+
+        If ToolStripMenuItem_GUID.Checked Then
+            objExportOption = ExportOptions.guid
+        ElseIf ToolStripMenuItem_Name.Checked Then
+            objExportOption = ExportOptions.name
+        Else
+            objExportOption = ExportOptions.orderid
+        End If
+
         If Not objOItem_MediaType Is Nothing Then
             Select Case objOItem_MediaType.GUID
                 Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
                     objUserControl_ImageList.initialize_Images(objOItem_Ref)
                 Case objLocalConfig.OItem_Type_Media_Item.GUID
-                    objUserControl_MediaItemList.initialize_MediaItems(objOItem_Ref)
+                    objUserControl_MediaItemList.initialize_MediaItems(objOItem_Ref, objExportOption)
                 Case objLocalConfig.OItem_Type_PDF_Documents.GUID
                     objUserControl_PDF.initialize_PDF(objOItem_Ref)
             End Select

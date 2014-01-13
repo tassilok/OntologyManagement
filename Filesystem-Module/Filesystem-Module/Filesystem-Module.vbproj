@@ -92,6 +92,8 @@
     <Compile Include="clsDataWork.vb" />
     <Compile Include="clsDataWork_FileResource_Path.vb" />
     <Compile Include="clsFile.vb" />
+    <Compile Include="FileBlobSync\clsDataWork_FileBlobSync.vb" />
+    <Compile Include="FileBlobSync\clsFileBlobSync.vb" />
     <Compile Include="clsFileWork.vb" />
     <Compile Include="clsLocalConfig.vb" />
     <Compile Include="clsSync.vb" />
@@ -221,6 +223,10 @@
       <Project>{10bcc346-a390-401c-ba6a-904a8842a40b}</Project>
       <Name>ClassLibrary_ShellWork</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Log-Module\Log-Module\Log-Module.vbproj">
+      <Project>{666536bd-fd4a-4bdf-a5bc-572e07d4e27a}</Project>
+      <Name>Log-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3F2F6722-C36B-420D-AFE7-B21C19457208}</Project>
       <Name>Ontolog-Module</Name>
@@ -228,6 +234,10 @@
     <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
       <Name>OntologyClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Security-Module\Security-Module\Security-Module.vbproj">
+      <Project>{c9add5dc-090d-4003-bba9-cf9218c938b2}</Project>
+      <Name>Security-Module</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Structure-Module\Structure-Module\Structure-Module.csproj">
       <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>

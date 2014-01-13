@@ -36,6 +36,9 @@ Partial Class UserControl_MediaItemList
         Me.ContextMenuStrip_Items = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.RelateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ChangeOrderIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.IncreasingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DecreasingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Add = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Replace = New System.Windows.Forms.ToolStripButton()
@@ -48,9 +51,7 @@ Partial Class UserControl_MediaItemList
         Me.ToolStripButton_Bookmarks = New System.Windows.Forms.ToolStripButton()
         Me.OpenFileDialog_MediaItem = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog_Save = New System.Windows.Forms.FolderBrowserDialog()
-        Me.ChangeOrderIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.IncreasingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DecreasingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AddToSyncToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.BindingSource_MediaItems, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -134,9 +135,9 @@ Partial Class UserControl_MediaItemList
         '
         'ContextMenuStrip_Items
         '
-        Me.ContextMenuStrip_Items.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RelateToolStripMenuItem, Me.SaveToolStripMenuItem, Me.ChangeOrderIDToolStripMenuItem})
+        Me.ContextMenuStrip_Items.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RelateToolStripMenuItem, Me.SaveToolStripMenuItem, Me.ChangeOrderIDToolStripMenuItem, Me.AddToSyncToolStripMenuItem})
         Me.ContextMenuStrip_Items.Name = "ContextMenuStrip_Items"
-        Me.ContextMenuStrip_Items.Size = New System.Drawing.Size(175, 92)
+        Me.ContextMenuStrip_Items.Size = New System.Drawing.Size(175, 114)
         '
         'RelateToolStripMenuItem
         '
@@ -149,6 +150,26 @@ Partial Class UserControl_MediaItemList
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
         Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
         Me.SaveToolStripMenuItem.Text = "x_Save"
+        '
+        'ChangeOrderIDToolStripMenuItem
+        '
+        Me.ChangeOrderIDToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IncreasingToolStripMenuItem, Me.DecreasingToolStripMenuItem})
+        Me.ChangeOrderIDToolStripMenuItem.Enabled = False
+        Me.ChangeOrderIDToolStripMenuItem.Name = "ChangeOrderIDToolStripMenuItem"
+        Me.ChangeOrderIDToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.ChangeOrderIDToolStripMenuItem.Text = "x_Change Order-ID"
+        '
+        'IncreasingToolStripMenuItem
+        '
+        Me.IncreasingToolStripMenuItem.Name = "IncreasingToolStripMenuItem"
+        Me.IncreasingToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.IncreasingToolStripMenuItem.Text = "x_Increasing"
+        '
+        'DecreasingToolStripMenuItem
+        '
+        Me.DecreasingToolStripMenuItem.Name = "DecreasingToolStripMenuItem"
+        Me.DecreasingToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.DecreasingToolStripMenuItem.Text = "x_Decreasing"
         '
         'ToolStrip1
         '
@@ -234,25 +255,11 @@ Partial Class UserControl_MediaItemList
         '
         Me.OpenFileDialog_MediaItem.FileName = "OpenFileDialog1"
         '
-        'ChangeOrderIDToolStripMenuItem
+        'AddToSyncToolStripMenuItem
         '
-        Me.ChangeOrderIDToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IncreasingToolStripMenuItem, Me.DecreasingToolStripMenuItem})
-        Me.ChangeOrderIDToolStripMenuItem.Enabled = False
-        Me.ChangeOrderIDToolStripMenuItem.Name = "ChangeOrderIDToolStripMenuItem"
-        Me.ChangeOrderIDToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
-        Me.ChangeOrderIDToolStripMenuItem.Text = "x_Change Order-ID"
-        '
-        'IncreasingToolStripMenuItem
-        '
-        Me.IncreasingToolStripMenuItem.Name = "IncreasingToolStripMenuItem"
-        Me.IncreasingToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.IncreasingToolStripMenuItem.Text = "x_Increasing"
-        '
-        'DecreasingToolStripMenuItem
-        '
-        Me.DecreasingToolStripMenuItem.Name = "DecreasingToolStripMenuItem"
-        Me.DecreasingToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.DecreasingToolStripMenuItem.Text = "x_Decreasing"
+        Me.AddToSyncToolStripMenuItem.Name = "AddToSyncToolStripMenuItem"
+        Me.AddToSyncToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.AddToSyncToolStripMenuItem.Text = "x_Add To Sync"
         '
         'UserControl_MediaItemList
         '
@@ -305,5 +312,6 @@ Partial Class UserControl_MediaItemList
     Friend WithEvents ChangeOrderIDToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents IncreasingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DecreasingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AddToSyncToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
