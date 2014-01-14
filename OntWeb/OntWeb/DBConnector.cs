@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using ElasticSearchNestConnector;
 using OntologyClasses.BaseClasses;
 using OntologyClasses.DataClasses;
-using ElasticSearchConnector;
 
 namespace OntWeb
 {

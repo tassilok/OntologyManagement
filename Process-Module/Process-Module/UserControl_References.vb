@@ -402,8 +402,6 @@ Public Class UserControl_References
                     objOItem_ProcessRef = Nothing
                 End If
             End If
-        Else
-            objOItem_ProcessRef = objDataWork_References_Process.OItem_ProcessRef
         End If
 
         Return objOItem_ProcessRef
@@ -1218,9 +1216,11 @@ Public Class UserControl_References
                         objOItem_ProcessReference = get_ProcessReference(objOItem_ProcessLog)
 
                         If Not objOItem_ProcessReference Is Nothing Then
-                            objOList_ProcessReferences.Add(objOItem_ProcessReference)
-                            objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList_ProcessReferences, 0, objLocalConfig.Globals.Type_Object, Nothing)
-                            objFrm_ObjectEdit.ShowDialog(Me)
+                            if objOItem_ProcessReference.Type = objLocalConfig.Globals.Type_Object
+                                objOList_ProcessReferences.Add(objOItem_ProcessReference)
+                                objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList_ProcessReferences, 0, objLocalConfig.Globals.Type_Object, Nothing)
+                                objFrm_ObjectEdit.ShowDialog(Me)
+                            end if
                         Else
                             MsgBox("Es konnte nicht ermittelt werden, ob Prozessreferenzen existieren!", MsgBoxStyle.Information)
                         End If
