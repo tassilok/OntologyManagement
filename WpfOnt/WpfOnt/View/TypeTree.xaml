@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="WpfOnt.View.TypeTree"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModel="clr-namespace:WpfOnt.ViewModel"
+             xmlns:ViewModelUtils="clr-namespace:WpfOnt.ViewModelUtils"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <viewModel:TypeTreeModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.Resources>
+            <HierarchicalDataTemplate 
+                x:Key="TreeTemplate" 
+                ItemsSource="{Binding Nodes}">
+                <StackPanel>
+                    <TextBlock 
+                            Visibility="Collapsed" 
+                            Text="{Binding Id}" />
+                    <TextBlock 
+                            Text="{Binding Name}" />
+                </StackPanel>
+            </HierarchicalDataTemplate>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="{Binding MarkLbl}"/>
+        <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
+        <TreeView Grid.Row="1" Grid.ColumnSpan="2" ItemTemplate="{StaticResource TreeTemplate}" ItemsSource="{Binding Nodes}" ViewModelUtils:TreeViewHelper.SelectedItem="{Binding CurrSelItem}"  ViewModelUtils:TreeViewHelper.SelectedItemChanged="{Binding MySelItemChgCmd}" SelectedItemChanged="TreeView_OnSelectedItemChanged">
+            
+            
+        </TreeView>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="{Binding ItemCountLbl}"/>
+        <Label Grid.Row="2" Grid.Column="1" Content="{Binding ItemCount}"/>
+    </Grid>
+</UserControl>
