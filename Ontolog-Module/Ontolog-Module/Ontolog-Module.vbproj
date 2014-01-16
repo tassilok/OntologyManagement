@@ -210,6 +210,12 @@
       <DependentUpon>frmMain.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmReplace.Designer.vb">
+      <DependentUpon>frmReplace.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmReplace.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Ontologies\frmAttributeTypeOrRelationType.Designer.vb">
       <DependentUpon>frmAttributeTypeOrRelationType.vb</DependentUpon>
     </Compile>
@@ -316,6 +322,12 @@
       <DependentUpon>UserControl_OntologyRefTree.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\Ontologies\UserControl_OntologyRefTree.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControl_Replace.Designer.vb">
+      <DependentUpon>UserControl_Replace.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControl_Replace.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -440,6 +452,9 @@
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmReplace.resx">
+      <DependentUpon>frmReplace.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Ontologies\frmAttributeTypeOrRelationType.resx">
       <DependentUpon>frmAttributeTypeOrRelationType.vb</DependentUpon>
     </EmbeddedResource>
@@ -493,6 +508,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Ontologies\UserControl_OntologyRefTree.resx">
       <DependentUpon>UserControl_OntologyRefTree.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControl_Replace.resx">
+      <DependentUpon>UserControl_Replace.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -626,6 +644,7 @@
     <EmbeddedResource Include="Config\Templates\RelationTypes.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Resources\edit-find-replace.png" />
     <Content Include="Vogelschwarm%2520klein.ico" />
     <None Include="Resources\NavForward.png" />
     <None Include="Resources\DoubleRightArrowHS.png" />

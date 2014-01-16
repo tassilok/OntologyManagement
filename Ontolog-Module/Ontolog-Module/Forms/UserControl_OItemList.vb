@@ -12,6 +12,7 @@ Public Class UserControl_OItemList
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFrm_AttributeTypeEdit As frm_AttributeTypeEdit
     Private objFrm_Clipboard As frmClipboard
+    Private objFrm_Replace As frmReplace
 
     Private objTransaction_Objects As clsTransaction_Objects
     Private objTransaction_RelationTypes As clsTransaction_RelationTypes
@@ -939,6 +940,7 @@ Public Class UserControl_OItemList
         Dim objDGVR As DataGridViewRow
         Dim objDRV As DataRowView
 
+        ToolStripButton_Replace.Enabled = False
         If DataGridView_Items.SelectedRows.Count = 1 Then
 
             objDGVR = DataGridView_Items.SelectedRows(0)
@@ -947,6 +949,10 @@ Public Class UserControl_OItemList
 
         Else
             ToolStripTextBox_GUID.Clear()
+        End If
+
+        If DataGridView_Items.SelectedRows.Count > 0 And strType = objLocalConfig.Globals.Type_Object then
+            ToolStripButton_Replace.Enabled = True
         End If
         If boolProgChange = False Then
             RaiseEvent Selection_Changed()
@@ -1975,6 +1981,24 @@ Public Class UserControl_OItemList
         End If        
         
 
+    End Sub
+
+    Private Sub ToolStripButton_Replace_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_Replace.Click
+        If strType = objLocalConfig.Globals.Type_Object Then
+            Dim objObjectList as List(Of clsOntologyItem) = (From objDGVR As DataGridViewRow In DataGridView_Items.SelectedRows Select objDRV = objDGVR.DataBoundItem Select New clsOntologyItem With {.GUID = DirectCast(objDRV, DataRowView).Item("ID_Item"), _
+                    .Name = DirectCast(objDRV, DataRowView).Item("Name"), _
+                    .GUID_Parent = DirectCast(objDRV, DataRowView).Item("ID_Parent"), _
+                    .Type = objLocalConfig.Globals.Type_Object }).ToList()
+
+            If objObjectList.Any() Then
+                objFrm_Replace = New frmReplace(objLocalConfig,objObjectList)
+                objFrm_Replace.ShowDialog(Me)
+                If objFrm_Replace.DialogResult=DialogResult.OK Then
+                    get_Data()
+                End If
+                
+            End If
+        End If
     End Sub
 End Class
 

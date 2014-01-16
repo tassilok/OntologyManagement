@@ -177,7 +177,7 @@
             this.ToolStripLabel_TicketCount});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(400, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(431, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // ToolStripButton_Close
@@ -260,6 +260,7 @@
             this.ToolStripButton_MoveFirst.Name = "ToolStripButton_MoveFirst";
             this.ToolStripButton_MoveFirst.Size = new System.Drawing.Size(23, 22);
             this.ToolStripButton_MoveFirst.Text = "ToolStripButton1";
+            this.ToolStripButton_MoveFirst.Click += new System.EventHandler(this.ToolStripButton_MoveFirst_Click);
             // 
             // ToolStripButton_MovePrevious
             // 
@@ -270,6 +271,7 @@
             this.ToolStripButton_MovePrevious.Name = "ToolStripButton_MovePrevious";
             this.ToolStripButton_MovePrevious.Size = new System.Drawing.Size(23, 22);
             this.ToolStripButton_MovePrevious.Text = "ToolStripButton2";
+            this.ToolStripButton_MovePrevious.Click += new System.EventHandler(this.ToolStripButton_MovePrevious_Click);
             // 
             // ToolStripButton_MoveNext
             // 
@@ -291,6 +293,7 @@
             this.ToolStripButton_MoveLast.Name = "ToolStripButton_MoveLast";
             this.ToolStripButton_MoveLast.Size = new System.Drawing.Size(23, 22);
             this.ToolStripButton_MoveLast.Text = "ToolStripButton4";
+            this.ToolStripButton_MoveLast.Click += new System.EventHandler(this.ToolStripButton_MoveLast_Click);
             // 
             // ToolStripLabel_TicketCount
             // 

@@ -351,7 +351,7 @@ namespace Change_Module
             if (intRowID < objDGVRC.Count - 1)
             {
                 intRowID = intRowID + 1;
-
+                initialize();
             }
         }
 
@@ -772,6 +772,30 @@ namespace Change_Module
         private void tabControl_PDF_SelectedIndexChanged(object sender, EventArgs e)
         {
             Configure_TabPages();
+        }
+
+        private void ToolStripButton_MoveFirst_Click(object sender, EventArgs e)
+        {
+            intRowID = 0;
+            initialize();
+        }
+
+        private void ToolStripButton_MovePrevious_Click(object sender, EventArgs e)
+        {
+            if (intRowID > 0)
+            {
+                intRowID--;
+                initialize();
+            }
+        }
+
+        private void ToolStripButton_MoveLast_Click(object sender, EventArgs e)
+        {
+            if (intRowID < objDGVRC.Count - 1)
+            {
+                intRowID = objDGVRC.Count - 1;
+                initialize();
+            }
         }
 
 

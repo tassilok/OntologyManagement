@@ -43,10 +43,8 @@ Partial Class UserControl_OItemList
         Me.ToClipboardToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabPage_Tree = New System.Windows.Forms.TabPage()
         Me.ToolStrip_Filter = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton_Filter = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripTextBox_Filter = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripButton_FilterAdvanced = New System.Windows.Forms.ToolStripButton()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_CountLbl = New System.Windows.Forms.ToolStripLabel()
@@ -55,19 +53,22 @@ Partial Class UserControl_OItemList
         Me.ToolStripTextBox_GUID = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripProgressBar_List = New System.Windows.Forms.ToolStripProgressBar()
         Me.ToolStrip_Edit = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton_AddItem = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_DelItem = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripButton_Relate = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripButton_Sort = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Down = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Up = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripButton_Report = New System.Windows.Forms.ToolStripButton()
         Me.Timer_Filter = New System.Windows.Forms.Timer(Me.components)
         Me.ToolTip_Item = New System.Windows.Forms.ToolTip(Me.components)
         Me.Timer_List = New System.Windows.Forms.Timer(Me.components)
+        Me.ToolStripButton_Filter = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_FilterAdvanced = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_AddItem = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_DelItem = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Relate = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Sort = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Down = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Up = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Report = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Replace = New System.Windows.Forms.ToolStripButton()
         Me.BindingSource_Token = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_RelationType = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_Type = New System.Windows.Forms.BindingSource(Me.components)
@@ -247,15 +248,6 @@ Partial Class UserControl_OItemList
         Me.ToolStrip_Filter.TabIndex = 0
         Me.ToolStrip_Filter.Text = "ToolStrip1"
         '
-        'ToolStripButton_Filter
-        '
-        Me.ToolStripButton_Filter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Filter.Image = CType(resources.GetObject("ToolStripButton_Filter.Image"),System.Drawing.Image)
-        Me.ToolStripButton_Filter.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Filter.Name = "ToolStripButton_Filter"
-        Me.ToolStripButton_Filter.Size = New System.Drawing.Size(50, 22)
-        Me.ToolStripButton_Filter.Text = "x_Filter:"
-        '
         'ToolStripTextBox_Filter
         '
         Me.ToolStripTextBox_Filter.Name = "ToolStripTextBox_Filter"
@@ -265,16 +257,6 @@ Partial Class UserControl_OItemList
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
         Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripButton_FilterAdvanced
-        '
-        Me.ToolStripButton_FilterAdvanced.CheckOnClick = true
-        Me.ToolStripButton_FilterAdvanced.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_FilterAdvanced.Image = CType(resources.GetObject("ToolStripButton_FilterAdvanced.Image"),System.Drawing.Image)
-        Me.ToolStripButton_FilterAdvanced.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_FilterAdvanced.Name = "ToolStripButton_FilterAdvanced"
-        Me.ToolStripButton_FilterAdvanced.Size = New System.Drawing.Size(112, 22)
-        Me.ToolStripButton_FilterAdvanced.Text = "x_Advanced Filter..."
         '
         'ToolStrip2
         '
@@ -323,12 +305,54 @@ Partial Class UserControl_OItemList
         'ToolStrip_Edit
         '
         Me.ToolStrip_Edit.Dock = System.Windows.Forms.DockStyle.Right
-        Me.ToolStrip_Edit.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_AddItem, Me.ToolStripButton_DelItem, Me.ToolStripSeparator1, Me.ToolStripButton_Relate, Me.ToolStripSeparator5, Me.ToolStripButton_Sort, Me.ToolStripButton_Down, Me.ToolStripButton_Up, Me.ToolStripSeparator2, Me.ToolStripButton_Report})
-        Me.ToolStrip_Edit.Location = New System.Drawing.Point(680, 25)
+        Me.ToolStrip_Edit.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_AddItem, Me.ToolStripButton_DelItem, Me.ToolStripSeparator1, Me.ToolStripButton_Relate, Me.ToolStripSeparator5, Me.ToolStripButton_Sort, Me.ToolStripButton_Down, Me.ToolStripButton_Up, Me.ToolStripSeparator2, Me.ToolStripButton_Report, Me.ToolStripButton_Replace})
+        Me.ToolStrip_Edit.Location = New System.Drawing.Point(674, 25)
         Me.ToolStrip_Edit.Name = "ToolStrip_Edit"
-        Me.ToolStrip_Edit.Size = New System.Drawing.Size(24, 467)
+        Me.ToolStrip_Edit.Size = New System.Drawing.Size(30, 467)
         Me.ToolStrip_Edit.TabIndex = 2
         Me.ToolStrip_Edit.Text = "ToolStrip3"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(29, 6)
+        '
+        'ToolStripSeparator5
+        '
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(29, 6)
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(29, 6)
+        '
+        'Timer_Filter
+        '
+        Me.Timer_Filter.Interval = 500
+        '
+        'Timer_List
+        '
+        Me.Timer_List.Interval = 300
+        '
+        'ToolStripButton_Filter
+        '
+        Me.ToolStripButton_Filter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Filter.Image = CType(resources.GetObject("ToolStripButton_Filter.Image"),System.Drawing.Image)
+        Me.ToolStripButton_Filter.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Filter.Name = "ToolStripButton_Filter"
+        Me.ToolStripButton_Filter.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripButton_Filter.Text = "x_Filter:"
+        '
+        'ToolStripButton_FilterAdvanced
+        '
+        Me.ToolStripButton_FilterAdvanced.CheckOnClick = true
+        Me.ToolStripButton_FilterAdvanced.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_FilterAdvanced.Image = CType(resources.GetObject("ToolStripButton_FilterAdvanced.Image"),System.Drawing.Image)
+        Me.ToolStripButton_FilterAdvanced.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_FilterAdvanced.Name = "ToolStripButton_FilterAdvanced"
+        Me.ToolStripButton_FilterAdvanced.Size = New System.Drawing.Size(112, 22)
+        Me.ToolStripButton_FilterAdvanced.Text = "x_Advanced Filter..."
         '
         'ToolStripButton_AddItem
         '
@@ -336,7 +360,7 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_AddItem.Image = Global.Ontology_Module.My.Resources.Resources.b_plus
         Me.ToolStripButton_AddItem.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_AddItem.Name = "ToolStripButton_AddItem"
-        Me.ToolStripButton_AddItem.Size = New System.Drawing.Size(21, 20)
+        Me.ToolStripButton_AddItem.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_AddItem.Text = "ToolStripButton1"
         '
         'ToolStripButton_DelItem
@@ -345,13 +369,8 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_DelItem.Image = Global.Ontology_Module.My.Resources.Resources.b_minus
         Me.ToolStripButton_DelItem.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_DelItem.Name = "ToolStripButton_DelItem"
-        Me.ToolStripButton_DelItem.Size = New System.Drawing.Size(21, 20)
+        Me.ToolStripButton_DelItem.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_DelItem.Text = "ToolStripButton2"
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(21, 6)
         '
         'ToolStripButton_Relate
         '
@@ -361,14 +380,9 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_Relate.Image = Global.Ontology_Module.My.Resources.Resources.RelationTypes_gpride_jean_victor_balin_
         Me.ToolStripButton_Relate.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Relate.Name = "ToolStripButton_Relate"
-        Me.ToolStripButton_Relate.Size = New System.Drawing.Size(21, 20)
+        Me.ToolStripButton_Relate.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_Relate.Text = "ToolStripButton1"
         Me.ToolStripButton_Relate.ToolTipText = "Relate Items"
-        '
-        'ToolStripSeparator5
-        '
-        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(21, 6)
         '
         'ToolStripButton_Sort
         '
@@ -376,7 +390,7 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_Sort.Image = Global.Ontology_Module.My.Resources.Resources.bb_sort2
         Me.ToolStripButton_Sort.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Sort.Name = "ToolStripButton_Sort"
-        Me.ToolStripButton_Sort.Size = New System.Drawing.Size(21, 20)
+        Me.ToolStripButton_Sort.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_Sort.Text = "ToolStripButton1"
         '
         'ToolStripButton_Down
@@ -385,7 +399,7 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_Down.Image = Global.Ontology_Module.My.Resources.Resources.tasto_3_architetto_franc_01
         Me.ToolStripButton_Down.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Down.Name = "ToolStripButton_Down"
-        Me.ToolStripButton_Down.Size = New System.Drawing.Size(21, 20)
+        Me.ToolStripButton_Down.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_Down.Text = "ToolStripButton1"
         '
         'ToolStripButton_Up
@@ -394,13 +408,8 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_Up.Image = Global.Ontology_Module.My.Resources.Resources.tasto_4_architetto_franc_01
         Me.ToolStripButton_Up.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Up.Name = "ToolStripButton_Up"
-        Me.ToolStripButton_Up.Size = New System.Drawing.Size(21, 20)
+        Me.ToolStripButton_Up.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_Up.Text = "ToolStripButton1"
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(21, 6)
         '
         'ToolStripButton_Report
         '
@@ -408,16 +417,17 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_Report.Image = Global.Ontology_Module.My.Resources.Resources.appunti_architetto_franc_01
         Me.ToolStripButton_Report.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Report.Name = "ToolStripButton_Report"
-        Me.ToolStripButton_Report.Size = New System.Drawing.Size(21, 20)
+        Me.ToolStripButton_Report.Size = New System.Drawing.Size(29, 20)
         Me.ToolStripButton_Report.Text = "ToolStripButton1"
         '
-        'Timer_Filter
+        'ToolStripButton_Replace
         '
-        Me.Timer_Filter.Interval = 500
-        '
-        'Timer_List
-        '
-        Me.Timer_List.Interval = 300
+        Me.ToolStripButton_Replace.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Replace.Image = Global.Ontology_Module.My.Resources.Resources.edit_find_replace
+        Me.ToolStripButton_Replace.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Replace.Name = "ToolStripButton_Replace"
+        Me.ToolStripButton_Replace.Size = New System.Drawing.Size(29, 20)
+        Me.ToolStripButton_Replace.Text = "ToolStripButton1"
         '
         'UserControl_OItemList
         '
@@ -492,5 +502,6 @@ End Sub
     Friend WithEvents Timer_List As System.Windows.Forms.Timer
     Friend WithEvents ToolStripProgressBar_List As System.Windows.Forms.ToolStripProgressBar
     Friend WithEvents DuplicateItemToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripButton_Replace As System.Windows.Forms.ToolStripButton
 
 End Class
