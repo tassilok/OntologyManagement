@@ -219,7 +219,7 @@ Public Class UserControl_ClassRel
             objDGVR_Selected = DataGridView_Relations.Rows(e.RowIndex)
             objDRV_Selected = objDGVR_Selected.DataBoundItem
 
-            objDlg_Attribute_Long = New dlg_Attribute_Long(objLocalConfig.Globals.Field_OrderID, objLocalConfig, objDRV_Selected.Item(objLocalConfig.Globals.Field_Min_forw))
+            objDlg_Attribute_Long = New dlg_Attribute_Long(objLocalConfig.Globals.Field_OrderID, objLocalConfig, If(IsDBNull(objDRV_Selected.Item(objLocalConfig.Globals.Field_Min_forw)), 1, objDRV_Selected.Item(objLocalConfig.Globals.Field_Min_forw)))
             objDlg_Attribute_Long.ShowDialog(Me)
             If objDlg_Attribute_Long.DialogResult = DialogResult.OK Then
                 lngValue = objDlg_Attribute_Long.Value
@@ -228,9 +228,19 @@ Public Class UserControl_ClassRel
                 Select Case DataGridView_Relations.Columns(e.ColumnIndex).DataPropertyName
                     Case objLocalConfig.Globals.Field_Min_forw
 
-                        lngMax_forw = objDRV_Selected.Item("Max_forw")
+                        If IsDBNull(objDRV_Selected.Item("Max_forw")) Then
+                            lngMax_forw = -1
+                        Else
+                            lngMax_forw = objDRV_Selected.Item("Max_forw")
+                        End If
 
-                        lngMax_backw = objDRV_Selected.Item("Max_backw")
+
+                        If IsDBNull(objDRV_Selected.Item("Max_backw")) Then
+                            lngMax_backw = -1
+                        Else
+                            lngMax_backw = objDRV_Selected.Item("Max_backw")
+                        End If
+
                         If (lngMax_forw >= lngValue Or lngMax_forw = -1) And _
                             lngValue >= 0 Then
                             lngMin_forw = lngValue
@@ -239,17 +249,37 @@ Public Class UserControl_ClassRel
 
 
                     Case objLocalConfig.Globals.Field_Max_forw
-                        lngMin_forw = objDRV_Selected.Item("Min_forw")
+                        If IsDBNull(objDRV_Selected.Item("Min_forw")) Then
+                            lngMin_forw = 0
+                        Else
+                            lngMin_forw = objDRV_Selected.Item("Min_forw")
+                        End If
+
                         If (lngValue = -1 Or lngValue >= lngMin_forw) And _
                             lngValue <> 0 Then
                             lngMax_forw = lngValue
                             objOItem_Result = objLocalConfig.Globals.LState_Success
                         End If
 
-                        lngMax_backw = objDRV_Selected.Item("Max_backw")
+                        If IsDBNull(objDRV_Selected.Item("Max_backw")) Then
+                            lngMax_backw = -1
+                        Else
+                            lngMax_backw = objDRV_Selected.Item("Max_backw")
+                        End If
+
                     Case objLocalConfig.Globals.Field_Max_backw
-                        lngMin_forw = objDRV_Selected.Item("Min_forw")
-                        lngMax_forw = objDRV_Selected.Item("Max_forw")
+                        If IsDBNull(objDRV_Selected.Item("Min_forw")) Then
+                            lngMin_forw = 0
+                        Else
+                            lngMin_forw = objDRV_Selected.Item("Min_forw")
+                        End If
+
+                        If IsDBNull(objDRV_Selected.Item("Max_forw")) Then
+                            lngMax_forw = -1
+                        Else
+                            lngMax_forw = objDRV_Selected.Item("Max_forw")
+                        End If
+
                         If lngValue = -1 Or lngValue > 0 Then
                             lngMax_backw = lngValue
                         End If

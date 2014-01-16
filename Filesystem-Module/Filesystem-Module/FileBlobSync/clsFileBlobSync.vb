@@ -12,9 +12,23 @@ Public Class clsFileBlobSync
 
     Private objLogManagement As clsLogManagement
 
-    Public Function AddFileSync(OItem_File As clsOntologyItem, OItem_Folder As clsOntologyItem, strFileName_Dst As String) As clsOntologyItem
+    Private objOItem_Direction As clsOntologyItem
 
-        Dim objOItem_Result = objDataWork_FileBlobSync.GetData()
+    Public ReadOnly Property OItem_Direction_BlobToFile As clsOntologyItem
+        Get
+            Return objLocalConfig.OItem_object_blob_to_file
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Direction_FileToBlob As clsOntologyItem
+        Get
+            Return objLocalConfig.OItem_object_file_to_blob
+        End Get
+    End Property
+
+    Public Function AddFileSync(OItem_File As clsOntologyItem, OItem_Folder As clsOntologyItem, strFileName_Dst As String, OItem_Direction As clsOntologyItem) As clsOntologyItem
+
+        Dim objOItem_Result = objDataWork_FileBlobSync.GetData_SyncAdd()
         objTransaction.ClearItems()
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             objOItem_Result = objDataWork_FileBlobSync.isFileSyncPresent(OItem_File, OItem_Folder, strFileName_Dst)
@@ -58,7 +72,10 @@ Public Class clsFileBlobSync
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                 Dim objORel_FileSync_To_LogEntry = objRelationConfig.Rel_ObjectRelation(objFileSync, objLogManagement.OItem_LogEntry, objLocalConfig.OItem_relationtype_belonging_done)
                                 objOItem_Result = objTransaction.do_Transaction(objORel_FileSync_To_LogEntry)
-
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    Dim objORel_FileSync_To_Direction = objRelationConfig.Rel_ObjectRelation(objFileSync, OItem_Direction, objLocalConfig.OItem_relationtype_belonging)
+                                    objOItem_Result = objTransaction.do_Transaction(objORel_FileSync_To_Direction)
+                                End If
                             End If
                         End If
                     End If
@@ -66,14 +83,14 @@ Public Class clsFileBlobSync
 
                 End If
 
-                
+
             End If
 
-            
+
 
         End If
 
-        
+
         Return objOItem_Result
     End Function
 

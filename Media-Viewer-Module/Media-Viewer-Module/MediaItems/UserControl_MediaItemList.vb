@@ -908,7 +908,7 @@ Public Class UserControl_MediaItemList
 
 
 
-                            Dim objOItem_Result = objFileBlobSync.AddFileSync(objOItem_File, objOItem_Folder, strFileName)
+                            Dim objOItem_Result = objFileBlobSync.AddFileSync(objOItem_File, objOItem_Folder, strFileName, objFileBlobSync.OItem_Direction_BlobToFile)
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                 intDone = intDone + 1
                             End If

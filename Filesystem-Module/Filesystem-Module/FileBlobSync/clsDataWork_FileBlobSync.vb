@@ -4,17 +4,26 @@ Public Class clsDataWork_FileBlobSync
 
     Private objOItem_FileDst As clsOntologyItem
 
+    Private objFileWork As clsFileWork
+
+    Private objLocalConfig As clsLocalConfig
+    Private objDBLevel_FileSync As clsDBLevel
+    Private objDBLevel_FileSync_Rel As clsDBLevel
+    Private objDBLevel_FileSync_File_Rel As clsDBLevel
+    Private objDBLevel_FileToFolder As clsDBLevel
+    Private objDBLevel_FileSync_To_LogEntry As clsDBLevel
+    Private objDBLevel_LogEntry_To_DateTimeStamp As clsDBLevel
+    Private objDBLevel_LogEntry_To_LogState As clsDBLevel
+    Private objDBLevel_Folder As clsDBLevel
+
+    Public Property ItemList As List(Of clsBlobSyncItem)
+
+
     Public ReadOnly Property OItem_FileDst As clsOntologyItem
         Get
             Return objOItem_FileDst
         End Get
     End Property
-
-    Private objLocalConfig As clsLocalConfig
-    Private objDBLevel_FileSync As clsDBLevel
-    Private objDBLevel_FileSync_Rel As clsDBLevel
-    Private objDBLevel_FileToFolder As clsDBLevel
-    Private objFileWork As clsFileWork
 
     Public Function isFileSyncPresent(OItem_FileSrc As clsOntologyItem, OItem_Folder As clsOntologyItem, strFileNameDst As String) As clsOntologyItem
 
@@ -49,7 +58,7 @@ Public Class clsDataWork_FileBlobSync
         Return objOItem_Result
     End Function
 
-    Public Function GetData() As clsOntologyItem
+    Public Function GetData_SyncAdd() As clsOntologyItem
         Dim objOList_FileSync = New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_class_filesync.GUID}}
 
         Dim objOItem_Result = objDBLevel_FileSync.get_Data_Objects(objOList_FileSync)
@@ -70,6 +79,104 @@ Public Class clsDataWork_FileBlobSync
         Return objOItem_Result
     End Function
 
+    Public Function GetData_SyncList() As clsOntologyItem
+        Dim objOList_FileSync = New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_class_filesync.GUID}}
+
+        Dim objOItem_Result = objDBLevel_FileSync.get_Data_Objects(objOList_FileSync)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim objOList_FileSync_Rel = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_class_filesync.GUID, _
+                                                                                                .ID_RelationType = objLocalConfig.OItem_relationtype_belonging.GUID, _
+                                                                                                .ID_Parent_Other = objLocalConfig.OItem_class_blobsyncdirection.GUID}, _
+                                                                        New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_class_filesync.GUID, _
+                                                                                               .ID_RelationType = objLocalConfig.OItem_relationtype_src.GUID, _
+                                                                                               .ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID}, _
+                                                                        New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_class_filesync.GUID, _
+                                                                                               .ID_RelationType = objLocalConfig.OItem_relationtype_dst.GUID, _
+                                                                                               .ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID}}
+
+            objOItem_Result = objDBLevel_FileSync_Rel.get_Data_ObjectRel(objOList_FileSync_Rel, boolIDs:=False)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                Dim objOList_FileSync_Logentry = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_class_filesync.GUID, _
+                                                                                                        .ID_RelationType = objLocalConfig.OItem_relationtype_belonging_done.GUID, _
+                                                                                                        .ID_Parent_Other = objLocalConfig.OItem_class_logentry.GUID}}
+
+                objOItem_Result = objDBLevel_FileSync_To_LogEntry.get_Data_ObjectRel(objOList_FileSync_Logentry, boolIDs:=False)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    Dim objOList_LogEntry_DateTimeStamp = New List(Of clsObjectAtt) From {New clsObjectAtt With {.ID_Class = objLocalConfig.OItem_class_logentry.GUID, _
+                                                                                                                  .ID_AttributeType = objLocalConfig.OItem_attributetype_datetimestamp.GUID}}
+                    objOItem_Result = objDBLevel_LogEntry_To_DateTimeStamp.get_Data_ObjectAtt(objOList_LogEntry_DateTimeStamp, boolIDs:=False)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        Dim objOList_LogEntry_LogState = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_class_filesync.GUID, _
+                                                                                                                .ID_RelationType = objLocalConfig.OItem_relationtype_provides.GUID, _
+                                                                                                                .ID_Parent_Other = objLocalConfig.OItem_class_logstate.GUID}}
+
+                        objOItem_Result = objDBLevel_LogEntry_To_LogState.get_Data_ObjectRel(objOList_LogEntry_LogState, boolIDs:=False)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            Dim objOList_FileDst_To_Folder = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_File.GUID, _
+                                                                                                                     .ID_RelationType = objLocalConfig.OItem_RelationType_isSubordinated.GUID, _
+                                                                                                                     .ID_Parent_Other = objLocalConfig.OItem_type_Folder.GUID}}
+
+                            objOItem_Result = objDBLevel_FileToFolder.get_Data_ObjectRel(objOList_FileDst_To_Folder, boolIDs:=False)
+
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                
+
+                                ItemList = (From objFileSync In objDBLevel_FileSync.OList_Objects
+                                        Join objBlobSyncDir In objDBLevel_FileSync_Rel.OList_ObjectRel.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_belonging.GUID And _
+                                                                                                                         p.ID_Parent_Other = objLocalConfig.OItem_class_blobsyncdirection.GUID).ToList() On objFileSync.GUID Equals objBlobSyncDir.ID_Object
+                                        Join objFileSrc In objDBLevel_FileSync_Rel.OList_ObjectRel.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_src.GUID And _
+                                                                                                                     p.ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID).ToList() On objFileSync.GUID Equals objFileSrc.ID_Object
+                                        Join objFileDst In objDBLevel_FileSync_Rel.OList_ObjectRel.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_dst.GUID And _
+                                                                                                                     p.ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID).ToList() On objFileSync.GUID Equals objFileDst.ID_Object
+                                        Join objFolder In objDBLevel_FileToFolder.OList_ObjectRel On objFileDst.ID_Other Equals objFolder.ID_Object
+                                        Select New clsBlobSyncItem With {.ID_FileSync = objFileSync.GUID, _
+                                                                         .Name_FileSync = objFileSync.Name, _
+                                                                         .ID_Direction = objBlobSyncDir.ID_Other, _
+                                                                         .Name_Direction = objBlobSyncDir.Name_Other, _
+                                                                         .ID_File_Src = objFileSrc.ID_Other, _
+                                                                         .Name_File_Src = objFileSrc.Name_Other, _
+                                                                         .ID_File_Dst = objFileDst.ID_Other, _
+                                                                         .Name_File_Dst = objFileDst.Name_Other, _
+                                                                         .ID_Folder_Dst = objFolder.ID_Other}).ToList()
+
+                                Dim FolderList = (From objFolder In ItemList
+                                                  Group By objFolder.ID_Folder_Dst Into Group
+                                                  Select New clsOntologyItem With {.GUID = ID_Folder_Dst, _
+                                                                                   .GUID_Parent = objLocalConfig.OItem_type_Folder.GUID, _
+                                                                                   .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+                                Dim PathList = FolderList.Select(Function(p) New clsOntologyItem With {.GUID = p.GUID, _
+                                                                                                       .Additional1 = objFileWork.get_Path_FileSystemObject(p, False), _
+                                                                                                       .GUID_Parent = objLocalConfig.OItem_type_Folder.GUID, _
+                                                                                                       .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+
+
+                                ItemList = (From objItem In ItemList
+                                            Group Join objPath In PathList On objItem.ID_Folder_Dst Equals objPath.GUID Into objPaths = Group
+                                            From objPath In objPaths.DefaultIfEmpty()
+                                            Select New clsBlobSyncItem With {.ID_FileSync = objItem.ID_FileSync, _
+                                                                             .Name_FileSync = objItem.Name_FileSync, _
+                                                                             .ID_Direction = objItem.ID_Direction, _
+                                                                             .Name_Direction = objItem.Name_Direction, _
+                                                                             .ID_File_Src = objItem.ID_File_Src, _
+                                                                             .Name_File_Src = objItem.Name_File_Src, _
+                                                                             .ID_File_Dst = objItem.ID_File_Dst, _
+                                                                             .Name_File_Dst = objItem.Name_File_Dst, _
+                                                                             .ID_Folder_Dst = objItem.ID_Folder_Dst, _
+                                                                             .Path_File_Dst = If(objPath Is Nothing, Nothing, objPath.Additional1)}).ToList()
+                            End If
+                            
+                        End If
+                    End If
+                End If
+            End If
+        End If
+
+        Return objOItem_Result
+    End Function
+
     Public Sub New(LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
 
@@ -80,7 +187,14 @@ Public Class clsDataWork_FileBlobSync
         objDBLevel_FileSync = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_FileSync_Rel = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_FileToFolder = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_FileSync_File_Rel = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_FileSync_To_LogEntry = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_LogEntry_To_DateTimeStamp = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_LogEntry_To_LogState = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Folder = New clsDBLevel(objLocalConfig.Globals)
 
+        objFileWork = New clsFileWork(objLocalConfig)
+        ItemList = New List(Of clsBlobSyncItem)
         objFileWork = New clsFileWork(objLocalConfig)
     End Sub
 End Class

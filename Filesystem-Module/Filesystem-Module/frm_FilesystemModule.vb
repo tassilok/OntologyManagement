@@ -31,6 +31,7 @@ Public Class frm_FilesystemModule
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFrm_FileSync As frmFileSync
     Private objFrm_FileResources As frmFileResources
+    Private objFrm_FileBlobSync As frmFileBlobSync
     Private SplashScreen As SplashScreen_OntologyModule
     Private AboutBox As AboutBox_OntologyItem
 
@@ -894,5 +895,10 @@ Public Class frm_FilesystemModule
         End If
 
         
+    End Sub
+
+    Private Sub SyncBlobFilesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SyncBlobFilesToolStripMenuItem.Click
+        objFrm_FileBlobSync = New frmFileBlobSync(objLocalConfig)
+        objFrm_FileBlobSync.ShowDialog(Me)
     End Sub
 End Class

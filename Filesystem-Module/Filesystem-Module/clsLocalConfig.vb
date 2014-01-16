@@ -22,6 +22,7 @@ Public Class clsLocalConfig
     Private objOItem_Attribute_Hash As New clsOntologyItem
     Private objOItem_attributetype_pattern As New clsOntologyItem
     Private objOItem_attributetype_subitems As New clsOntologyItem
+    Private objOItem_attributetype_datetimestamp As clsOntologyItem
 
     'RelationTypes
     Private objOItem_RelationType_Fileshare As New clsOntologyItem
@@ -42,6 +43,8 @@ Public Class clsLocalConfig
     Private objOItem_relationtype_src As clsOntologyItem
     Private objOItem_relationtype_dst As clsOntologyItem
     Private objOItem_relationtype_belonging_done As clsOntologyItem
+    Private objOItem_relationtype_belonging As clsOntologyItem
+    Private objOItem_relationtype_provides As clsOntologyItem
 
     'Token
     Private objOItem_Token_Active_Server_State As New clsOntologyItem
@@ -49,6 +52,8 @@ Public Class clsLocalConfig
     Private objOItem_token_LogState_Active As New clsOntologyItem
     Private objOItem_Module As New clsOntologyItem
     Private objOItem_object_create As clsOntologyItem
+    Private objOItem_object_file_to_blob As clsOntologyItem
+    Private objOItem_object_blob_to_file As clsOntologyItem
 
     'Types
     Private objOItem_Type_Filesystem_Management As New clsOntologyItem
@@ -71,6 +76,9 @@ Public Class clsLocalConfig
     Private objOItem_class_user As New clsOntologyItem
     Private objOItem_class_password As New clsOntologyItem
     Private objOItem_class_filesync As clsOntologyItem
+    Private objOItem_class_blobsyncdirection As clsOntologyItem
+    Private objOItem_class_logentry As clsOntologyItem
+    Private objOItem_class_logstate As clsOntologyItem
 
     'Attributes
     Public ReadOnly Property OItem_Attribute_Blob() As clsOntologyItem
@@ -100,6 +108,12 @@ Public Class clsLocalConfig
     Public ReadOnly Property OItem_Attribute_SubItems() As clsOntologyItem
         Get
             Return objOItem_attributetype_subitems
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_attributetype_datetimestamp As clsOntologyItem
+        Get
+            Return objOItem_attributetype_datetimestamp
         End Get
     End Property
 
@@ -206,6 +220,19 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property OItem_relationtype_belonging As clsOntologyItem
+        Get
+            Return objOItem_relationtype_belonging
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_relationtype_provides As clsOntologyItem
+        Get
+            Return objOItem_relationtype_provides
+        End Get
+    End Property
+
+
     'Token
     Public ReadOnly Property OItem_Token_Active_Server_State() As clsOntologyItem
         Get
@@ -234,6 +261,18 @@ Public Class clsLocalConfig
     Public ReadOnly Property OItem_object_create As clsOntologyItem
         Get
             Return objOItem_object_create
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_object_file_to_blob As clsOntologyItem
+        Get
+            Return objOItem_object_file_to_blob
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_object_blob_to_file As clsOntologyItem
+        Get
+            Return objOItem_object_blob_to_file
         End Get
     End Property
 
@@ -351,6 +390,24 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property OItem_class_blobsyncdirection As clsOntologyItem
+        Get
+            Return objOItem_class_blobsyncdirection
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_class_logentry As clsOntologyItem
+        Get
+            Return objOItem_class_logentry
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_class_logstate As clsOntologyItem
+        Get
+            Return objOItem_class_logstate
+        End Get
+    End Property
+
 
     Public ReadOnly Property OItem_BaseConfig As clsOntologyItem
         Get
@@ -434,6 +491,21 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_AttributeTypes()
+        Dim objOList_attributetype_datetimestamp = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "attributetype_datetimestamp".ToLower() And objRef.Ontology = objGlobals.Type_AttributeType
+                                           Select objRef).ToList()
+
+        If objOList_attributetype_datetimestamp.Count > 0 Then
+            objOItem_attributetype_datetimestamp = New clsOntologyItem
+            objOItem_attributetype_datetimestamp.GUID = objOList_attributetype_datetimestamp.First().ID_Other
+            objOItem_attributetype_datetimestamp.Name = objOList_attributetype_datetimestamp.First().Name_Other
+            objOItem_attributetype_datetimestamp.GUID_Parent = objOList_attributetype_datetimestamp.First().ID_Parent_Other
+            objOItem_attributetype_datetimestamp.Type = objGlobals.Type_AttributeType
+        Else
+            Err.Raise(1, "config err")
+        End If
 
         Dim objOList_attributetype_subitems = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
@@ -521,6 +593,38 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_RelationTypes()
+        Dim objOList_relationtype_provides = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_provides".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                           Select objRef).ToList()
+
+        If objOList_relationtype_provides.Count > 0 Then
+            objOItem_relationtype_provides = New clsOntologyItem
+            objOItem_relationtype_provides.GUID = objOList_relationtype_provides.First().ID_Other
+            objOItem_relationtype_provides.Name = objOList_relationtype_provides.First().Name_Other
+            objOItem_relationtype_provides.GUID_Parent = objOList_relationtype_provides.First().ID_Parent_Other
+            objOItem_relationtype_provides.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_relationtype_belonging = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_belonging".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                           Select objRef).ToList()
+
+        If objOList_relationtype_belonging.Count > 0 Then
+            objOItem_relationtype_belonging = New clsOntologyItem
+            objOItem_relationtype_belonging.GUID = objOList_relationtype_belonging.First().ID_Other
+            objOItem_relationtype_belonging.Name = objOList_relationtype_belonging.First().Name_Other
+            objOItem_relationtype_belonging.GUID_Parent = objOList_relationtype_belonging.First().ID_Parent_Other
+            objOItem_relationtype_belonging.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_relationtype_belonging_done = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
@@ -807,6 +911,53 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Classes()
+        Dim objOList_class_logstate = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "class_logstate".ToLower() And objRef.Ontology = objGlobals.Type_Class
+                                           Select objRef).ToList()
+
+        If objOList_class_logstate.Count > 0 Then
+            objOItem_class_logstate = New clsOntologyItem
+            objOItem_class_logstate.GUID = objOList_class_logstate.First().ID_Other
+            objOItem_class_logstate.Name = objOList_class_logstate.First().Name_Other
+            objOItem_class_logstate.GUID_Parent = objOList_class_logstate.First().ID_Parent_Other
+            objOItem_class_logstate.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_class_logentry = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "class_logentry".ToLower() And objRef.Ontology = objGlobals.Type_Class
+                                           Select objRef).ToList()
+
+        If objOList_class_logentry.Count > 0 Then
+            objOItem_class_logentry = New clsOntologyItem
+            objOItem_class_logentry.GUID = objOList_class_logentry.First().ID_Other
+            objOItem_class_logentry.Name = objOList_class_logentry.First().Name_Other
+            objOItem_class_logentry.GUID_Parent = objOList_class_logentry.First().ID_Parent_Other
+            objOItem_class_logentry.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_class_blobsyncdirection = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "class_blobsyncdirection".ToLower() And objRef.Ontology = objGlobals.Type_Class
+                                           Select objRef).ToList()
+
+        If objOList_class_blobsyncdirection.Count > 0 Then
+            objOItem_class_blobsyncdirection = New clsOntologyItem
+            objOItem_class_blobsyncdirection.GUID = objOList_class_blobsyncdirection.First().ID_Other
+            objOItem_class_blobsyncdirection.Name = objOList_class_blobsyncdirection.First().Name_Other
+            objOItem_class_blobsyncdirection.GUID_Parent = objOList_class_blobsyncdirection.First().ID_Parent_Other
+            objOItem_class_blobsyncdirection.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
 
         Dim objOList_class_filesync = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
@@ -1142,6 +1293,38 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Objects()
+        Dim objOList_object_file_to_blob = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "object_file_to_blob".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                           Select objRef).ToList()
+
+        If objOList_object_file_to_blob.Count > 0 Then
+            objOItem_object_file_to_blob = New clsOntologyItem
+            objOItem_object_file_to_blob.GUID = objOList_object_file_to_blob.First().ID_Other
+            objOItem_object_file_to_blob.Name = objOList_object_file_to_blob.First().Name_Other
+            objOItem_object_file_to_blob.GUID_Parent = objOList_object_file_to_blob.First().ID_Parent_Other
+            objOItem_object_file_to_blob.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_object_blob_to_file = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                                   Where objOItem.ID_Object = cstrID_Ontology
+                                                   Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                                   Where objRef.Name_Object.ToLower() = "object_blob_to_file".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                                   Select objRef).ToList()
+
+        If objOList_object_blob_to_file.Count > 0 Then
+            objOItem_object_blob_to_file = New clsOntologyItem
+            objOItem_object_blob_to_file.GUID = objOList_object_blob_to_file.First().ID_Other
+            objOItem_object_blob_to_file.Name = objOList_object_blob_to_file.First().Name_Other
+            objOItem_object_blob_to_file.GUID_Parent = objOList_object_blob_to_file.First().ID_Parent_Other
+            objOItem_object_blob_to_file.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_object_create = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object

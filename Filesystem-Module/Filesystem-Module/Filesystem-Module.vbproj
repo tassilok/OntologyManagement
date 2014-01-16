@@ -92,6 +92,7 @@
     <Compile Include="clsDataWork.vb" />
     <Compile Include="clsDataWork_FileResource_Path.vb" />
     <Compile Include="clsFile.vb" />
+    <Compile Include="FileBlobSync\clsBlobSyncItem.vb" />
     <Compile Include="FileBlobSync\clsDataWork_FileBlobSync.vb" />
     <Compile Include="FileBlobSync\clsFileBlobSync.vb" />
     <Compile Include="clsFileWork.vb" />
@@ -108,6 +109,12 @@
       <DependentUpon>frmBlobWatcher.vb</DependentUpon>
     </Compile>
     <Compile Include="frmBlobWatcher.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFileBlobSync.Designer.vb">
+      <DependentUpon>frmFileBlobSync.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmFileBlobSync.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmFileResources.Designer.vb">
@@ -150,6 +157,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="UserControl_FileBlobSync.Designer.vb">
+      <DependentUpon>UserControl_FileBlobSync.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_FileBlobSync.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl_FileResource_File.Designer.vb">
       <DependentUpon>UserControl_FileResource_File.vb</DependentUpon>
     </Compile>
@@ -166,6 +179,9 @@
   <ItemGroup>
     <EmbeddedResource Include="frmBlobWatcher.resx">
       <DependentUpon>frmBlobWatcher.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFileBlobSync.resx">
+      <DependentUpon>frmFileBlobSync.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmFileResources.resx">
       <DependentUpon>frmFileResources.vb</DependentUpon>
@@ -184,6 +200,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_FileBlobSync.resx">
+      <DependentUpon>UserControl_FileBlobSync.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_FileResource_File.resx">
       <DependentUpon>UserControl_FileResource_File.vb</DependentUpon>
