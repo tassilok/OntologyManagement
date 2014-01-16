@@ -38,6 +38,7 @@ namespace WpfOnt
 
             var model = (MainWindowModel) DataContext;
             model.ParentClass = oClass;
+            
         }
     }
 }

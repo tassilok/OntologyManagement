@@ -16,7 +16,7 @@
             <View:TypeTree Grid.Column="0" SelectedNode="TypeTree_OnSelectedNode"/>
         </Border>
         <Border BorderBrush="Black" BorderThickness="2" Grid.Column="1">
-            <View:OItemList Grid.Column="1" ParentClass="{Binding Path=ParentClass}"></View:OItemList>
+            <View:OItemList Grid.Column="1" ParentClass="{Binding ParentClass}"></View:OItemList>
         </Border>
     </Grid>
 </Window>
