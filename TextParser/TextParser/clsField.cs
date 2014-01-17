@@ -8,14 +8,28 @@ namespace TextParser
 {
     public class clsField
     {
-        public string Name { get; set; }
+        public long OrderId { get; set; }
+        public string ID_FieldParser { get; set; }
+        public string Name_FieldParser { get; set; }
+        public string ID_Field { get; set; }
+        public string Name_Field { get; set; }
+        public string ID_MetaField { get; set; }
+        public string Name_MetaField { get; set; }
+        public bool IsMeta { get; set; }
+        public string ID_RegExPre { get; set; }
+        public string ID_Attribute_RegExPreVal { get; set; }
         public string RegexPre { get; set; }
+        public string ID_RegExMain { get; set; }
+        public string ID_Attribute_RegExMainVal { get; set; }
         public string Regex { get; set; }
+        public string ID_RegExPost { get; set; }
+        public string ID_Attribute_RegExPostVal { get; set; }
         public string RegexPost { get; set; }
+        public string ID_DataType { get; set; }
         public string DataType { get; set; }
-        public int PostFound { get; set; }
-        public int OrderId { get; set; }
+        public string ID_Attribute_UseOrderID { get; set; }
         public bool UseOrderId { get; set; }
+        public string ID_Attribute_RemoveFromSource { get; set; }
         public bool RemoveFromSource { get; set; }
     }
 }

@@ -35,10 +35,20 @@ Partial Class UserControl_FileResource_Path
         Me.TextBox_Path = New System.Windows.Forms.TextBox()
         Me.Label_Path = New System.Windows.Forms.Label()
         Me.DataGridView_Files = New System.Windows.Forms.DataGridView()
-        Me.Timer_Files = New System.Windows.Forms.Timer(Me.components)
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Open = New System.Windows.Forms.ToolStripButton()
+        Me.Timer_Files = New System.Windows.Forms.Timer(Me.components)
+        Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButton_CountLbl = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel_LineCountLbl = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel_LineCount = New System.Windows.Forms.ToolStripLabel()
+        Me.ContextMenuStrip_Files = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.XCountLineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripProgressBar_LineCount = New System.Windows.Forms.ToolStripProgressBar()
+        Me.Timer_LineCount = New System.Windows.Forms.Timer(Me.components)
         CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).BeginInit
         Me.SplitContainer1.Panel1.SuspendLayout
         Me.SplitContainer1.Panel2.SuspendLayout
@@ -51,6 +61,8 @@ Partial Class UserControl_FileResource_Path
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout
         Me.ToolStripContainer1.SuspendLayout
         Me.ToolStrip1.SuspendLayout
+        Me.ToolStrip2.SuspendLayout
+        Me.ContextMenuStrip_Files.SuspendLayout
         Me.SuspendLayout
         '
         'SplitContainer1
@@ -92,6 +104,7 @@ Partial Class UserControl_FileResource_Path
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.ToolStrip2)
         Me.SplitContainer2.Panel2.Controls.Add(Me.DataGridView_Files)
         Me.SplitContainer2.Size = New System.Drawing.Size(555, 185)
         Me.SplitContainer2.SplitterDistance = 275
@@ -174,24 +187,23 @@ Partial Class UserControl_FileResource_Path
         '
         Me.DataGridView_Files.AllowUserToAddRows = false
         Me.DataGridView_Files.AllowUserToDeleteRows = false
+        Me.DataGridView_Files.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.DataGridView_Files.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView_Files.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView_Files.ContextMenuStrip = Me.ContextMenuStrip_Files
         Me.DataGridView_Files.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_Files.Name = "DataGridView_Files"
         Me.DataGridView_Files.ReadOnly = true
-        Me.DataGridView_Files.Size = New System.Drawing.Size(272, 181)
+        Me.DataGridView_Files.Size = New System.Drawing.Size(272, 153)
         Me.DataGridView_Files.TabIndex = 0
-        '
-        'Timer_Files
-        '
-        Me.Timer_Files.Interval = 300
         '
         'ToolStripContainer1
         '
         '
         'ToolStripContainer1.ContentPanel
         '
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(551, 206)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(551, 181)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
@@ -209,7 +221,7 @@ Partial Class UserControl_FileResource_Path
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Open})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(93, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(62, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Open
@@ -220,6 +232,73 @@ Partial Class UserControl_FileResource_Path
         Me.ToolStripButton_Open.Name = "ToolStripButton_Open"
         Me.ToolStripButton_Open.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Open.Text = "x_Open"
+        '
+        'Timer_Files
+        '
+        Me.Timer_Files.Interval = 300
+        '
+        'ToolStrip2
+        '
+        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_CountLbl, Me.ToolStripLabel_Count, Me.ToolStripSeparator1, Me.ToolStripLabel_LineCountLbl, Me.ToolStripLabel_LineCount, Me.ToolStripProgressBar_LineCount})
+        Me.ToolStrip2.Location = New System.Drawing.Point(0, 156)
+        Me.ToolStrip2.Name = "ToolStrip2"
+        Me.ToolStrip2.Size = New System.Drawing.Size(272, 25)
+        Me.ToolStrip2.TabIndex = 1
+        Me.ToolStrip2.Text = "ToolStrip2"
+        '
+        'ToolStripButton_CountLbl
+        '
+        Me.ToolStripButton_CountLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_CountLbl.Image = CType(resources.GetObject("ToolStripButton_CountLbl.Image"),System.Drawing.Image)
+        Me.ToolStripButton_CountLbl.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_CountLbl.Name = "ToolStripButton_CountLbl"
+        Me.ToolStripButton_CountLbl.Size = New System.Drawing.Size(57, 22)
+        Me.ToolStripButton_CountLbl.Text = "x_Count:"
+        '
+        'ToolStripLabel_Count
+        '
+        Me.ToolStripLabel_Count.Name = "ToolStripLabel_Count"
+        Me.ToolStripLabel_Count.Size = New System.Drawing.Size(13, 22)
+        Me.ToolStripLabel_Count.Text = "0"
+        '
+        'ToolStripLabel_LineCountLbl
+        '
+        Me.ToolStripLabel_LineCountLbl.Name = "ToolStripLabel_LineCountLbl"
+        Me.ToolStripLabel_LineCountLbl.Size = New System.Drawing.Size(47, 22)
+        Me.ToolStripLabel_LineCountLbl.Text = "x-Lines:"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripLabel_LineCount
+        '
+        Me.ToolStripLabel_LineCount.Name = "ToolStripLabel_LineCount"
+        Me.ToolStripLabel_LineCount.Size = New System.Drawing.Size(13, 22)
+        Me.ToolStripLabel_LineCount.Text = "0"
+        '
+        'ContextMenuStrip_Files
+        '
+        Me.ContextMenuStrip_Files.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.XCountLineToolStripMenuItem})
+        Me.ContextMenuStrip_Files.Name = "ContextMenuStrip_Files"
+        Me.ContextMenuStrip_Files.Size = New System.Drawing.Size(148, 26)
+        '
+        'XCountLineToolStripMenuItem
+        '
+        Me.XCountLineToolStripMenuItem.Name = "XCountLineToolStripMenuItem"
+        Me.XCountLineToolStripMenuItem.Size = New System.Drawing.Size(147, 22)
+        Me.XCountLineToolStripMenuItem.Text = "x_Count Lines"
+        '
+        'ToolStripProgressBar_LineCount
+        '
+        Me.ToolStripProgressBar_LineCount.Name = "ToolStripProgressBar_LineCount"
+        Me.ToolStripProgressBar_LineCount.Size = New System.Drawing.Size(100, 22)
+        '
+        'Timer_LineCount
+        '
+        Me.Timer_LineCount.Interval = 300
         '
         'UserControl_FileResource_Path
         '
@@ -235,6 +314,7 @@ Partial Class UserControl_FileResource_Path
         Me.SplitContainer2.Panel1.ResumeLayout(false)
         Me.SplitContainer2.Panel1.PerformLayout
         Me.SplitContainer2.Panel2.ResumeLayout(false)
+        Me.SplitContainer2.Panel2.PerformLayout
         CType(Me.SplitContainer2,System.ComponentModel.ISupportInitialize).EndInit
         Me.SplitContainer2.ResumeLayout(false)
         CType(Me.DataGridView_Files,System.ComponentModel.ISupportInitialize).EndInit
@@ -244,6 +324,9 @@ Partial Class UserControl_FileResource_Path
         Me.ToolStripContainer1.PerformLayout
         Me.ToolStrip1.ResumeLayout(false)
         Me.ToolStrip1.PerformLayout
+        Me.ToolStrip2.ResumeLayout(false)
+        Me.ToolStrip2.PerformLayout
+        Me.ContextMenuStrip_Files.ResumeLayout(false)
         Me.ResumeLayout(false)
 
 End Sub
@@ -262,5 +345,15 @@ End Sub
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripButton_Open As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStrip2 As System.Windows.Forms.ToolStrip
+    Friend WithEvents ToolStripButton_CountLbl As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripLabel_Count As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripLabel_LineCountLbl As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripLabel_LineCount As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ContextMenuStrip_Files As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents XCountLineToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripProgressBar_LineCount As System.Windows.Forms.ToolStripProgressBar
+    Friend WithEvents Timer_LineCount As System.Windows.Forms.Timer
 
 End Class

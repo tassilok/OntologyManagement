@@ -251,7 +251,7 @@ namespace TextParser
                             ID_Parent_Other = objLocalConfig.OItem_class_port.GUID,
                             ID_RelationType = objLocalConfig.OItem_relationtype_belonging_source.GUID
                         }).ToList();
-                relS_ServerPort_Rel.AddRange(objDBLevel_ServerPort_Rel.OList_ObjectRel.Where(p => p.ID_Parent_Other == objLocalConfig.OItem_class_server_port.GUID)
+                relS_ServerPort_Rel.AddRange(objDBLevel_Index_To_Rel.OList_ObjectRel.Where(p => p.ID_Parent_Other == objLocalConfig.OItem_class_server_port.GUID)
                         .Select(p => new clsObjectRel
                         {
                             ID_Object = p.ID_Other,

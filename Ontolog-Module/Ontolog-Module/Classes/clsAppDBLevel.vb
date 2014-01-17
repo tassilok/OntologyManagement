@@ -27,9 +27,36 @@ Public Class clsAppDBLevel
         End Set
     End Property
 
+    Public ReadOnly Property PageCount As Integer
+        Get
+            Return objAppElSelector.PageCount
+        End Get
+    End Property
+
+    Public ReadOnly Property CurrPage As Integer
+        Get
+            Return objAppElSelector.CurPage
+        End Get
+    End Property
+
+    Public ReadOnly Property LastPos As Integer
+        Get
+            Return objAppElSelector.LastPos
+        End Get
+    End Property
+
+    Public Property Paging As Boolean
+        get
+            Return objAppElSelector.Paging
+        End Get
+        Set(value As Boolean)
+            objAppElSelector.Paging = value
+        End Set
+    End Property
+
 
     Private Sub initialize_Client()
-        objAppElSelector = New clsUserAppDBSelector(strServer, intPort, objOItem_Ontology.GUID, objOItem_User.GUID, intSearchRange, strSession)
+        
         objAppElDeletor = New clsUserAppDBDeletor(objAppElSelector)
         objAppElUpdater = New clsUserAppDBUpdater(objAppElSelector)
     End Sub
@@ -41,6 +68,8 @@ Public Class clsAppDBLevel
         intSearchRange = Globals.SearchRange
         strSession = Globals.Session
 
+        objAppElSelector = New clsUserAppDBSelector(strServer, intPort, objOItem_Ontology.GUID, objOItem_User.GUID, intSearchRange, strSession)
+
         objOItem_Ontology = OItem_Ontology
         objOItem_User = OItem_User
 
@@ -50,16 +79,30 @@ Public Class clsAppDBLevel
 
     Public Sub New(strServer As String, intPort As Integer, OItem_Ontology As clsOntologyItem, OItem_User As clsOntologyItem, intSearchRange As Integer, strSession As String)
 
-        Me.strIndex = strIndex
         Me.strServer = strServer
         Me.intPort = intPort
         Me.intSearchRange = intSearchRange
+        Me.objOItem_User = OItem_User
+        Me.objOItem_Ontology = OItem_Ontology
         Me.strSession = strSession
+
+        objAppElSelector = New clsUserAppDBSelector(strServer, intPort, objOItem_Ontology.GUID, objOItem_User.GUID, intSearchRange, strSession)
 
         objOItem_Ontology = OItem_Ontology
         objOItem_User = OItem_User
 
         initialize_Client()
+    End Sub
+
+    Public Sub New (strServer As String, intPort As Integer, strIndex As string, intSearchRange As Integer, strSession As String)
+
+        Me.strServer = strServer
+        Me.intPort = intPort
+        Me.intSearchRange = intSearchRange
+        Me.strIndex = strIndex
+        Me.strSession = strSession
+
+        objAppElSelector = New clsUserAppDBSelector(strServer, intPort, Me.strIndex, intSearchRange, strSession)
     End Sub
 
     Public Function Copy_Index(strIndexSrc As String, strIndexDst As String) As clsOntologyItem
@@ -78,8 +121,9 @@ Public Class clsAppDBLevel
         Return objOItem_Result
     End Function
 
-    Public Function Save_Documents(Documents As List(Of clsAppDocuments), Optional strType As String = Nothing) As clsOntologyItem
+    Public Function Save_Documents(Documents As List(Of clsAppDocuments), Optional strType As String = Nothing, Optional strIndex As String = Nothing) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
+        objAppElSelector.Index = strIndex
         Do
             Dim objDocumentsPart = Documents.Take(intSearchRange).ToList()
             objOItem_Result = objAppElUpdater.SaveDoc(objDocumentsPart, strType)
@@ -98,8 +142,8 @@ Public Class clsAppDBLevel
         Return objOItem_Result
     End Function
 
-    Public Function GetData_Documents(Optional strIndex As String = Nothing) As List(Of clsAppDocuments)
-        Dim objDocuments = objAppElSelector.GetData_Documents(strIndex)
+    Public Function GetData_Documents(Optional strIndex As String = Nothing, Optional strType As String = Nothing, Optional paging As Boolean = false, Optional lastPos  As Integer = 0) As List(Of clsAppDocuments)
+        Dim objDocuments = objAppElSelector.GetData_Documents(strIndex,strType,paging,lastPos)
 
         Return objDocuments
     End Function

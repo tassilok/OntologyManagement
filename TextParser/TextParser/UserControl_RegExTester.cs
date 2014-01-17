@@ -708,7 +708,7 @@ namespace TextParser
                                     objRegEx_Post_Matches = objRegEx_Post.Matches(text);
                                     if (objRegEx_Post_Matches.Count > 0)
                                     {
-                                        var textTest = text.Substring(0, objRegEx_Post_Matches[0].Index - 1);
+                                        var textTest = text.Substring(0, objRegEx_Post_Matches[0].Index);
                                         if (postEqualFilters.Any(p => Regex.Match(textTest, p.Filter).Success))
                                         {
                                             boolParse = false;
@@ -718,7 +718,7 @@ namespace TextParser
                                         {
                                             if (!toolStripButton_DoLine.Checked)
                                             {
-                                                text = text.Substring(0, objRegEx_Post_Matches[0].Index - 1);
+                                                text = text.Substring(0, objRegEx_Post_Matches[0].Index);
                                                 ixSelLength = objRegEx_Post_Matches[0].Index - 1;
                                             }
                                         }

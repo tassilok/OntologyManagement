@@ -11,14 +11,35 @@ namespace ElasticSearchNestConnector
 {
     public class clsUserAppDBSelector
     {
+
+        private string strIndex;
+
         public string Server { get; private set; }
         public int Port { get; private set; }
-        public string Index { get; private set; }
+        public string Index
+        {
+            get { return strIndex;  }
+            set
+            {
+                if (strIndex != value)
+                {
+                    strIndex = value;
+                    initialize_Client();    
+                }
+                
+            }
+        }
         public string App { get; private set; }
         public string ID_User { get; private set; }
         public int SearchRange { get; private set; }
         public string Session { get; private set; }
         public List<string> SpecialCharacters_Read { get; set; }
+
+        public bool Paging { get; set; }
+        public int LastPos { get; set; }
+        public int PageCount { get; set; }
+        public int CurPage { get; set; }
+
 
         public ElasticClient ElConnector { get; private set; }
 
@@ -35,18 +56,42 @@ namespace ElasticSearchNestConnector
             this.Port = port;
             this.ID_User = ID_user;
             this.App = App;
-            this.Index = App + ID_User;
             this.SearchRange = searchRange;
             this.Session = session;
+            this.Index = App + ID_User;
 
 
             SpecialCharacters_Read = new List<string> { "\\", "+", "-", "&&", "||", "!", "(", ")", "{", "}", "[", "]", "^", "\"", "~", "*", "?", ":" };
             //SpecialCharacters_Write = new List<string> { ":", "\"" };
             //SpecialCharacters_Read = new List<string> { " ", ":", "/", "\"" };
-            initialize_Client();
+
+
+            LastPos = 0;
+
+        }
+
+        public clsUserAppDBSelector(string server,
+                          int port,
+                          string index,
+                          int searchRange,
+                          string session)
+        {
+            this.Server = server;
+            this.Port = port;
+            this.ID_User = null;
+            this.App = null;
+            this.SearchRange = searchRange;
+            this.Session = session;
+            this.Index = index;
+
+
+            SpecialCharacters_Read = new List<string> { "\\", "+", "-", "&&", "||", "!", "(", ")", "{", "}", "[", "]", "^", "\"", "~", "*", "?", ":" };
+            //SpecialCharacters_Write = new List<string> { ":", "\"" };
 
 
 
+
+            LastPos = 0;
 
         }
 
@@ -93,12 +138,14 @@ namespace ElasticSearchNestConnector
             return intIx;
         }
 
-        public List<clsAppDocuments> GetData_Documents(string strIndex = null, string strType = null)
+        public List<clsAppDocuments> GetData_Documents(string strIndex = null, string strType = null, bool paging = false, int lastPos = 0)
         {
+            LastPos = lastPos;
+            Paging = paging;
 
             var Documents = new List<clsAppDocuments>();
             var intCount = SearchRange;
-            var intPos = 0;
+            var intPos = LastPos;
 
             while (intCount > 0)
             {
@@ -110,7 +157,14 @@ namespace ElasticSearchNestConnector
                     result.Documents.Select(
                         d => new clsAppDocuments {Dict = new JObject(d).ToObject<Dictionary<string, object>>(), Id = d["Id"]}));
 
-
+                if (Paging)
+                {
+                    var pageCount = (double)result.Total / SearchRange;
+                    PageCount = (int)Math.Ceiling(pageCount);
+                    CurPage = LastPos / SearchRange;
+                    LastPos += SearchRange;
+                    break;
+                }
             }
 
             return Documents;

@@ -49,12 +49,14 @@
   <ItemGroup>
     <Compile Include="clsDataWork_BaseData.cs" />
     <Compile Include="clsDataWork_FieldParser.cs" />
+    <Compile Include="clsDataWork_FileResources.cs" />
     <Compile Include="clsDatawork_RegExFilter.cs" />
     <Compile Include="clsDataWork_TextParser.cs" />
     <Compile Include="clsField.cs" />
     <Compile Include="clsFieldParser.cs" />
     <Compile Include="clsFoundItem.cs" />
     <Compile Include="clsLocalConfig.cs" />
+    <Compile Include="clsRegExField.cs" />
     <Compile Include="clsRegExFilter.cs" />
     <Compile Include="clsSearchItem.cs" />
     <Compile Include="clsSelection.cs" />
@@ -90,6 +92,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControl_FieldParserView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_FieldParserView.Designer.cs">
+      <DependentUpon>UserControl_FieldParserView.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControl_RegExFilterDetail.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -143,7 +151,11 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UserControl_FieldParserView.resx">
+      <DependentUpon>UserControl_FieldParserView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControl_RegExFilterDetail.resx">
       <DependentUpon>UserControl_RegExFilterDetail.cs</DependentUpon>
     </EmbeddedResource>
@@ -198,6 +210,10 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\pulsante_02_architetto_f_01.png" />
+    <None Include="Resources\pulsante_02_architetto_f_01 Last.png" />
+    <None Include="Resources\pulsante_01_architetto_f_01.png" />
+    <None Include="Resources\pulsante_01_architetto_f_01 First1.png" />
     <EmbeddedResource Include="Config\Templates\AttributeTypes.xml" />
     <EmbeddedResource Include="Config\Templates\ClassAtts.xml" />
     <EmbeddedResource Include="Config\Templates\Classes.xml" />

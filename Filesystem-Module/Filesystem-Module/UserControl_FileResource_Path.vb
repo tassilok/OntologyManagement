@@ -2,6 +2,7 @@
 Imports OntologyClasses.BaseClasses
 Imports Structure_Module
 Imports TextParser
+Imports System.Threading
 
 
 Public Class UserControl_FileResource_Path
@@ -14,8 +15,13 @@ Public Class UserControl_FileResource_Path
     Private objOItem_FileResource As clsOntologyItem
 
     Private objThread_Files As Threading.Thread
+    Private objThread_LineCount As Threading.Thread
+
+    Private lngLineCount As Long = 0 
 
     Private objFileList As SortableBindingList(Of clsFile)
+
+    Private objOItem_Result_FileCount As clsOntologyItem
 
     Public Sub New(LocalConfig As clsLocalConfig)
 
@@ -91,10 +97,12 @@ Public Class UserControl_FileResource_Path
 
         End Try
         Timer_Files.Stop()
+        Timer_LineCount.Stop()
         Button_Search.Enabled = False
-        objThread_Files = New Threading.Thread(AddressOf GetFiles)
+        objThread_Files = New Thread(AddressOf GetFiles)
         objThread_Files.Start()
         Timer_Files.Start()
+        
     End Sub
 
     Private Sub GetFiles()
@@ -107,6 +115,7 @@ Public Class UserControl_FileResource_Path
             ProgressBar_Files.Value = 50
             objFileList = New SortableBindingList(Of clsFile)(objDataWork_FileResource_Path.FileList)
             DataGridView_Files.DataSource = objFileList
+            
         ElseIf objDataWork_FileResource_Path.OItem_Result_FileResult.GUID = objLocalConfig.Globals.LState_Error.GUID Then
             Timer_Files.Stop()
             ProgressBar_Files.Value = 0
@@ -123,6 +132,23 @@ Public Class UserControl_FileResource_Path
             DataGridView_Files.DataSource = objFileList
             ProgressBar_Files.Value = 0
             Button_Search.Enabled = True
+
+            ToolStripLabel_Count.Text = DataGridView_Files.RowCount
+
+            ToolStripProgressBar_LineCount.Value = 0
+            
+            
+            Try
+                objThread_Files.Abort()
+            Catch ex As Exception
+
+            End Try
+            objOItem_Result_FileCount = objLocalConfig.Globals.LState_Nothing.Clone()
+            lngLineCount = 0
+            objThread_LineCount = new Thread(AddressOf GetLineCount)
+            objThread_LineCount.Start()
+
+            Timer_LineCount.Start()
         End If
     End Sub
 
@@ -143,6 +169,38 @@ Public Class UserControl_FileResource_Path
             objUserControl_RegExTester.SetContentByFilePath(objFile.FileName)
         Else
             MsgBox("Die Datei existiert nicht!", MsgBoxStyle.Exclamation)
+        End If
+    End Sub
+
+    
+    Private sub GetLineCount()
+        
+        For Each objDGVR As DataGridViewRow In DataGridView_Files.Rows
+            Dim objFile As clsFile = objDGVR.DataBoundItem
+
+            Try
+                lngLineCount = lngLineCount + IO.File.ReadAllLines(objFile.FileName).Length
+
+            Catch ex As Exception
+                objOItem_Result_FileCount = objLocalConfig.Globals.LState_Error.Clone()
+                Exit For
+            End Try
+        Next
+        If objOItem_Result_FileCount.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+            objOItem_Result_FileCount = objLocalConfig.Globals.LState_Success.Clone()
+        End If
+    End Sub
+
+    
+
+    Private Sub Timer_LineCount_Tick( sender As Object,  e As EventArgs) Handles Timer_LineCount.Tick
+        If objOItem_Result_FileCount.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+            ToolStripProgressBar_LineCount.Value = 50
+        Else 
+            ToolStripLabel_LineCount.Text =  lngLineCount
+            ToolStripProgressBar_LineCount.Value = 0
+
+            Timer_LineCount.Stop()
         End If
     End Sub
 End Class

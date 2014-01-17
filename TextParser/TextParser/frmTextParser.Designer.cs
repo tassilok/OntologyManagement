@@ -33,12 +33,15 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton_Test = new System.Windows.Forms.ToolStripDropDownButton();
             this.textParserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fieldParserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.regExTesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage_ParserDetail = new System.Windows.Forms.TabPage();
+            this.tabPage_ParserView = new System.Windows.Forms.TabPage();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -47,9 +50,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -108,6 +113,20 @@
             this.splitContainer1.SplitterDistance = 179;
             this.splitContainer1.TabIndex = 0;
             // 
+            // splitContainer2
+            // 
+            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.tabControl1);
+            this.splitContainer2.Size = new System.Drawing.Size(609, 539);
+            this.splitContainer2.SplitterDistance = 203;
+            this.splitContainer2.TabIndex = 0;
+            // 
             // toolStrip2
             // 
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
@@ -152,15 +171,37 @@
             this.regExTesterToolStripMenuItem.Text = "x_RegEx-Tester";
             this.regExTesterToolStripMenuItem.Click += new System.EventHandler(this.regExTesterToolStripMenuItem_Click);
             // 
-            // splitContainer2
+            // tabControl1
             // 
-            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Size = new System.Drawing.Size(609, 539);
-            this.splitContainer2.SplitterDistance = 203;
-            this.splitContainer2.TabIndex = 0;
+            this.tabControl1.Controls.Add(this.tabPage_ParserDetail);
+            this.tabControl1.Controls.Add(this.tabPage_ParserView);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(398, 535);
+            this.tabControl1.TabIndex = 0;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            // 
+            // tabPage_ParserDetail
+            // 
+            this.tabPage_ParserDetail.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_ParserDetail.Name = "tabPage_ParserDetail";
+            this.tabPage_ParserDetail.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_ParserDetail.Size = new System.Drawing.Size(390, 509);
+            this.tabPage_ParserDetail.TabIndex = 0;
+            this.tabPage_ParserDetail.Text = "x_ParserDetail";
+            this.tabPage_ParserDetail.UseVisualStyleBackColor = true;
+            // 
+            // tabPage_ParserView
+            // 
+            this.tabPage_ParserView.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_ParserView.Name = "tabPage_ParserView";
+            this.tabPage_ParserView.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_ParserView.Size = new System.Drawing.Size(390, 509);
+            this.tabPage_ParserView.TabIndex = 1;
+            this.tabPage_ParserView.Text = "x_ParserView";
+            this.tabPage_ParserView.UseVisualStyleBackColor = true;
             // 
             // frmTextParser
             // 
@@ -182,10 +223,12 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
+            this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -202,5 +245,8 @@
         private System.Windows.Forms.ToolStripMenuItem fieldParserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem regExTesterToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage_ParserDetail;
+        private System.Windows.Forms.TabPage tabPage_ParserView;
     }
 }

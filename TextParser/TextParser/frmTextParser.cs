@@ -19,6 +19,7 @@ namespace TextParser
         private UserControl_RefTree objUserControl_RefTree;
         private UserControl_TextParser objUserControl_TextParser;
         private UserControl_TextParserList objUserControl_TextParserList;
+        private UserControl_FieldParserView objUserControl_FieldParserView;
         private clsDataWork_BaseData objDataWork_BaseData;
         private clsDataWork_TextParser objDataWork_TextParser;
         private frmAuthenticate objFrmAuthenticate;
@@ -67,7 +68,7 @@ namespace TextParser
                     objUserControl_TextParser.Dock = DockStyle.Fill;
 
                     splitContainer1.Panel1.Controls.Add(objUserControl_RefTree);
-                    splitContainer2.Panel2.Controls.Add(objUserControl_TextParser);
+                    tabPage_ParserDetail.Controls.Add(objUserControl_TextParser);
 
                     objUserControl_RefTree.initialize_Tree(objOList_TextParsers,
                                                            new List<clsOntologyItem>
@@ -80,6 +81,8 @@ namespace TextParser
                                                                    objLocalConfig.OItem_relationtype_belonging_resource
                                                                }, null);
 
+                    objUserControl_FieldParserView = new UserControl_FieldParserView(objLocalConfig);
+                    objUserControl_FieldParserView.Dock=DockStyle.Fill;
                     
                 }
                 else
@@ -97,10 +100,49 @@ namespace TextParser
 
         void objUserControl_TextParserList_selectedTextParser()
         {
-            var objOList_TextParsers = objUserControl_TextParserList.OList_TextParsers;
-            objUserControl_TextParser.InitializeTextParser(objOList_TextParsers.Count == 1
-                                                               ? objOList_TextParsers.First()
-                                                               : null);
+            ConfigureTabPages();
+            
+        }
+
+        private void ConfigureTabPages()
+        {
+            tabPage_ParserView.Controls.Clear();
+            if (tabControl1.SelectedTab.Name == tabPage_ParserDetail.Name)
+            {
+                var objOList_TextParsers = objUserControl_TextParserList.OList_TextParsers;
+                objUserControl_TextParser.InitializeTextParser(objOList_TextParsers.Count == 1
+                                                                   ? objOList_TextParsers.First()
+                                                                   : null);
+            }
+            else if (tabControl1.SelectedTab.Name == tabPage_ParserView.Name)
+            {
+                var objOList_TextParsers = objUserControl_TextParserList.OList_TextParsers;
+                if (objOList_TextParsers.Count == 1)
+                {
+
+                    objDataWork_TextParser.GetData_TextParser(objOList_TextParsers.First());
+                    if (objDataWork_TextParser.OItem_Result_TextParser.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        objDataWork_TextParser.CreateRefItems(objOList_TextParsers.First());
+                        if (objDataWork_TextParser.OItem_EntryValueParser != null)
+                        {
+                            var objTextParser = objDataWork_TextParser.OItem_EntryValueParser;
+                        }
+                        else
+                        {
+                            var objTextParser = objDataWork_TextParser.OItem_FieldExtractorParser;
+                            tabPage_ParserView.Controls.Add(objUserControl_FieldParserView);
+                            objUserControl_FieldParserView.InitializeView(objTextParser, objOList_TextParsers.First());
+                        }
+
+
+
+                    }
+                }
+
+
+
+            }
         }
 
         void objUserControl_RefTree_selected_Node(clsOntologyItem OItem_Selected)
@@ -129,6 +171,11 @@ namespace TextParser
         {
             objFrmRegExTester = new frmRegexTester(objLocalConfig);
             objFrmRegExTester.ShowDialog(this);
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ConfigureTabPages();
         }
     }
 }

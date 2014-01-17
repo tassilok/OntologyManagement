@@ -90,6 +90,7 @@
     <Compile Include="clsBlobConnection.vb" />
     <Compile Include="clsBlobFileSync.vb" />
     <Compile Include="clsDataWork.vb" />
+    <Compile Include="clsDataWork_FileResources.vb" />
     <Compile Include="clsDataWork_FileResource_Path.vb" />
     <Compile Include="clsFile.vb" />
     <Compile Include="FileBlobSync\clsBlobSyncItem.vb" />
