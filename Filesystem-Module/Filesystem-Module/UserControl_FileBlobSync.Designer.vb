@@ -22,20 +22,25 @@ Partial Class UserControl_FileBlobSync
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
-        Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton_Sync = New System.Windows.Forms.ToolStripButton()
-        Me.DataGridView_Items = New System.Windows.Forms.DataGridView()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_CountLbl = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButton_Sync = New System.Windows.Forms.ToolStripButton()
+        Me.DataGridView_Items = New System.Windows.Forms.DataGridView()
+        Me.ToolStripButton_Abort = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripProgressBar_Sync = New System.Windows.Forms.ToolStripProgressBar()
+        Me.Timer_Sync = New System.Windows.Forms.Timer(Me.components)
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
+        Me.ToolStrip2.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         CType(Me.DataGridView_Items, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ToolStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -60,13 +65,34 @@ Partial Class UserControl_FileBlobSync
         '
         Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.ToolStrip1)
         '
+        'ToolStrip2
+        '
+        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLbl, Me.ToolStripLabel_Count, Me.ToolStripSeparator1, Me.ToolStripProgressBar_Sync})
+        Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
+        Me.ToolStrip2.Name = "ToolStrip2"
+        Me.ToolStrip2.Size = New System.Drawing.Size(186, 25)
+        Me.ToolStrip2.TabIndex = 0
+        '
+        'ToolStripLabel_CountLbl
+        '
+        Me.ToolStripLabel_CountLbl.Name = "ToolStripLabel_CountLbl"
+        Me.ToolStripLabel_CountLbl.Size = New System.Drawing.Size(53, 22)
+        Me.ToolStripLabel_CountLbl.Text = "x_Count:"
+        '
+        'ToolStripLabel_Count
+        '
+        Me.ToolStripLabel_Count.Name = "ToolStripLabel_Count"
+        Me.ToolStripLabel_Count.Size = New System.Drawing.Size(13, 22)
+        Me.ToolStripLabel_Count.Text = "0"
+        '
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Sync})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Sync, Me.ToolStripButton_Abort})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(35, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(58, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_Sync
@@ -90,26 +116,29 @@ Partial Class UserControl_FileBlobSync
         Me.DataGridView_Items.Size = New System.Drawing.Size(770, 409)
         Me.DataGridView_Items.TabIndex = 0
         '
-        'ToolStrip2
+        'ToolStripButton_Abort
         '
-        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLbl, Me.ToolStripLabel_Count})
-        Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
-        Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(78, 25)
-        Me.ToolStrip2.TabIndex = 0
+        Me.ToolStripButton_Abort.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Abort.Enabled = False
+        Me.ToolStripButton_Abort.Image = Global.Filesystem_Module.My.Resources.Resources.tasto_11_architetto_fran_01
+        Me.ToolStripButton_Abort.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Abort.Name = "ToolStripButton_Abort"
+        Me.ToolStripButton_Abort.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton_Abort.Text = "ToolStripButton1"
         '
-        'ToolStripLabel_CountLbl
+        'ToolStripSeparator1
         '
-        Me.ToolStripLabel_CountLbl.Name = "ToolStripLabel_CountLbl"
-        Me.ToolStripLabel_CountLbl.Size = New System.Drawing.Size(53, 22)
-        Me.ToolStripLabel_CountLbl.Text = "x_Count:"
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
         '
-        'ToolStripLabel_Count
+        'ToolStripProgressBar_Sync
         '
-        Me.ToolStripLabel_Count.Name = "ToolStripLabel_Count"
-        Me.ToolStripLabel_Count.Size = New System.Drawing.Size(13, 22)
-        Me.ToolStripLabel_Count.Text = "0"
+        Me.ToolStripProgressBar_Sync.Name = "ToolStripProgressBar_Sync"
+        Me.ToolStripProgressBar_Sync.Size = New System.Drawing.Size(100, 22)
+        '
+        'Timer_Sync
+        '
+        Me.Timer_Sync.Interval = 300
         '
         'UserControl_FileBlobSync
         '
@@ -125,11 +154,11 @@ Partial Class UserControl_FileBlobSync
         Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
         Me.ToolStripContainer1.ResumeLayout(False)
         Me.ToolStripContainer1.PerformLayout()
+        Me.ToolStrip2.ResumeLayout(False)
+        Me.ToolStrip2.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
         CType(Me.DataGridView_Items, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ToolStrip2.ResumeLayout(False)
-        Me.ToolStrip2.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -140,5 +169,9 @@ Partial Class UserControl_FileBlobSync
     Friend WithEvents ToolStripLabel_CountLbl As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripLabel_Count As System.Windows.Forms.ToolStripLabel
     Friend WithEvents DataGridView_Items As System.Windows.Forms.DataGridView
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripProgressBar_Sync As System.Windows.Forms.ToolStripProgressBar
+    Friend WithEvents ToolStripButton_Abort As System.Windows.Forms.ToolStripButton
+    Friend WithEvents Timer_Sync As System.Windows.Forms.Timer
 
 End Class

@@ -98,7 +98,7 @@ Public Class clsDataWork_FileBlobSync
             objOItem_Result = objDBLevel_FileSync_Rel.get_Data_ObjectRel(objOList_FileSync_Rel, boolIDs:=False)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                 Dim objOList_FileSync_Logentry = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_class_filesync.GUID, _
-                                                                                                        .ID_RelationType = objLocalConfig.OItem_relationtype_belonging_done.GUID, _
+                                                                                                        .ID_RelationType = objLocalConfig.OItem_relationtype_last_done.GUID, _
                                                                                                         .ID_Parent_Other = objLocalConfig.OItem_class_logentry.GUID}}
 
                 objOItem_Result = objDBLevel_FileSync_To_LogEntry.get_Data_ObjectRel(objOList_FileSync_Logentry, boolIDs:=False)
@@ -107,7 +107,7 @@ Public Class clsDataWork_FileBlobSync
                                                                                                                   .ID_AttributeType = objLocalConfig.OItem_attributetype_datetimestamp.GUID}}
                     objOItem_Result = objDBLevel_LogEntry_To_DateTimeStamp.get_Data_ObjectAtt(objOList_LogEntry_DateTimeStamp, boolIDs:=False)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        Dim objOList_LogEntry_LogState = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_class_filesync.GUID, _
+                        Dim objOList_LogEntry_LogState = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_class_logentry.GUID, _
                                                                                                                 .ID_RelationType = objLocalConfig.OItem_relationtype_provides.GUID, _
                                                                                                                 .ID_Parent_Other = objLocalConfig.OItem_class_logstate.GUID}}
 
@@ -120,7 +120,17 @@ Public Class clsDataWork_FileBlobSync
                             objOItem_Result = objDBLevel_FileToFolder.get_Data_ObjectRel(objOList_FileDst_To_Folder, boolIDs:=False)
 
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                
+                                Dim LogEntries = (From objLogEntry In objDBLevel_FileSync_To_LogEntry.OList_ObjectRel
+                                                  Join objDateTime In objDBLevel_LogEntry_To_DateTimeStamp.OList_ObjectAtt On objLogEntry.ID_Other Equals objDateTime.ID_Object
+                                                  Join objLogState In objDBLevel_LogEntry_To_LogState.OList_ObjectRel On objLogEntry.ID_Other Equals objLogState.ID_Object
+                                                  Select New With
+                                                  {.ID_FileSync = objLogEntry.ID_Object, _
+                                                    .ID_LogEntry = objLogEntry.ID_Other, _
+                                                    .Name_LogEntry = objLogEntry.Name_Other, _
+                                                    .ID_Attribute_DateTimeStamp = objDateTime.ID_Attribute, _
+                                                    .DateTimeStamp = objDateTime.Val_Date, _
+                                                    .ID_LogState = objLogState.ID_Other, _
+                                                    .Name_LogState = objLogState.Name_Other}).ToList()
 
                                 ItemList = (From objFileSync In objDBLevel_FileSync.OList_Objects
                                         Join objBlobSyncDir In objDBLevel_FileSync_Rel.OList_ObjectRel.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_belonging.GUID And _
@@ -138,11 +148,13 @@ Public Class clsDataWork_FileBlobSync
                                                                          .Name_File_Src = objFileSrc.Name_Other, _
                                                                          .ID_File_Dst = objFileDst.ID_Other, _
                                                                          .Name_File_Dst = objFileDst.Name_Other, _
-                                                                         .ID_Folder_Dst = objFolder.ID_Other}).ToList()
+                                                                         .ID_Folder_Dst = objFolder.ID_Other, _
+                                                                         .Name_Folder_Dst = objFolder.Name_Other}).ToList()
 
                                 Dim FolderList = (From objFolder In ItemList
-                                                  Group By objFolder.ID_Folder_Dst Into Group
+                                                  Group By objFolder.ID_Folder_Dst, objFolder.Name_Folder_Dst Into Group
                                                   Select New clsOntologyItem With {.GUID = ID_Folder_Dst, _
+                                                                                   .Name = Name_Folder_Dst, _
                                                                                    .GUID_Parent = objLocalConfig.OItem_type_Folder.GUID, _
                                                                                    .Type = objLocalConfig.Globals.Type_Object}).ToList()
 
@@ -156,6 +168,8 @@ Public Class clsDataWork_FileBlobSync
                                 ItemList = (From objItem In ItemList
                                             Group Join objPath In PathList On objItem.ID_Folder_Dst Equals objPath.GUID Into objPaths = Group
                                             From objPath In objPaths.DefaultIfEmpty()
+                                            Group Join objLogEntry In LogEntries On objItem.ID_FileSync Equals objLogEntry.ID_FileSync Into objLogEntries = Group
+                                            From objLogEntry In objLogEntries.DefaultIfEmpty()
                                             Select New clsBlobSyncItem With {.ID_FileSync = objItem.ID_FileSync, _
                                                                              .Name_FileSync = objItem.Name_FileSync, _
                                                                              .ID_Direction = objItem.ID_Direction, _
@@ -165,7 +179,11 @@ Public Class clsDataWork_FileBlobSync
                                                                              .ID_File_Dst = objItem.ID_File_Dst, _
                                                                              .Name_File_Dst = objItem.Name_File_Dst, _
                                                                              .ID_Folder_Dst = objItem.ID_Folder_Dst, _
-                                                                             .Path_File_Dst = If(objPath Is Nothing, Nothing, objPath.Additional1)}).ToList()
+                                                                             .Path_File_Dst = If(objPath Is Nothing, Nothing, objPath.Additional1), _
+                                                                             .ID_LogEntry_Last = If(objLogEntry Is Nothing, Nothing, objLogEntry.ID_LogEntry), _
+                                                                             .DateTime_Last = If(objLogEntry Is Nothing, Nothing, objLogEntry.DateTimeStamp), _
+                                                                             .ID_LogState_Last = If(objLogEntry Is Nothing, Nothing, objLogEntry.ID_LogState), _
+                                                                             .Name_LogState_Last = If(objLogEntry Is Nothing, Nothing, objLogEntry.Name_LogState)}).ToList()
                             End If
                             
                         End If

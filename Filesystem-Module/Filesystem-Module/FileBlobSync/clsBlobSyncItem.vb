@@ -8,10 +8,13 @@
     Public Property ID_File_Dst As String
     Public Property Name_File_Dst As String
     Public Property ID_Folder_Dst As String
+    Public Property Name_Folder_Dst As String
     Public Property Path_File_Dst As String
     Public Property ID_SyncLog As String
     Public Property Name_SyncLog As String
-    Public Property DateTime_Sync As DateTime
+    Public Property DateTime_Sync As Nullable(Of DateTime)
     Public Property ID_LogEntry_Last As String
-    Public Property DateTime_Last As DateTime
+    Public Property DateTime_Last As Nullable(Of DateTime)
+    Public Property ID_LogState_Last As String
+    Public Property Name_LogState_Last As String
 End Class

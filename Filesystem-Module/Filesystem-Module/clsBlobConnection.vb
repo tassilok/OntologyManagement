@@ -11,6 +11,7 @@ Public Class clsBlobConnection
 
     Private objTransaction_Files As clsTransaction_Files
     Private objTransaction As clsTransaction
+    Private objRelationConfig As clsRelationConfig
 
     Private objFrmBlobWatcher As frmBlobWatcher
 
@@ -501,14 +502,14 @@ Public Class clsBlobConnection
         Return strHash
     End Function
 
-    Private Function get_Hash_Of_DBFile(ByVal objOItem_File As clsOntologyItem) As clsOntologyItem
+    Public Function get_Hash_Of_DBFile(ByVal objOItem_File As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
         Dim objOLObjectAtt As New List(Of clsObjectAtt)
 
         objOLObjectAtt.Add(New clsObjectAtt(Nothing, _
                                             objOItem_File.GUID, _
-                                            objLocalConfig.OItem_Attribute_Hash.GUID, _
                                             Nothing, _
+                                            objLocalConfig.OItem_Attribute_Hash.GUID, _
                                             Nothing))
 
         objDBLevel_Blobs.get_Data_ObjectAtt(objOLObjectAtt, _
@@ -518,10 +519,33 @@ Public Class clsBlobConnection
             objOItem_Result = objLocalConfig.Globals.LState_Success
             objOItem_Result.Additional1 = objDBLevel_Blobs.OList_ObjectAtt(0).Val_String
         Else
-            objOItem_Result = objLocalConfig.Globals.LState_Nothing
+            objOItem_Result = save_Hash_Of_DBFile(objOItem_File)
         End If
 
         Return objOItem_Result
+    End Function
+
+    Public Function save_Hash_Of_DBFile(objOItem_File As clsOntologyItem) As clsOntologyItem
+        Dim strPath = "%TEMP%\" & objLocalConfig.Globals.NewGUID.ToString
+        strPath = Environment.ExpandEnvironmentVariables(strPath)
+
+        Dim objOItem_Result = save_Blob_To_File(objOItem_File, strPath, True)
+
+
+        objTransaction.ClearItems()
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim strHash = get_Hash_Of_File(strPath)
+            Dim objOARel_File__Hash = objRelationConfig.Rel_ObjectAttribute(objOItem_File, _
+                                                                            objLocalConfig.OItem_Attribute_Hash, _
+                                                                            strHash)
+
+            objOItem_Result = objTransaction.do_Transaction(objOARel_File__Hash, True)
+            objOItem_Result.Additional1 = strHash
+
+        End If
+
+        Return objOItem_Result
+
     End Function
 
     Public Function compare_Files(ByVal strFilePath_SRC As String, ByVal strFilePath_DST As String) As clsOntologyItem
@@ -563,6 +587,7 @@ Public Class clsBlobConnection
     End Sub
 
     Private Sub initialize()
+        objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
         get_BlobPath()
         get_BlobDirWatcherPath()
     End Sub
