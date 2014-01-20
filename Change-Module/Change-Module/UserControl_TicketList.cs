@@ -21,6 +21,20 @@ namespace Change_Module
         private frmChange objFrmChange;
         private string filterBase;
         private Boolean showAll;
+        private clsOntologyItem oItem_TicketList_Relate;
+
+        private clsTransaction objTransaction;
+        private clsRelationConfig objRelationConfig;
+
+        public clsOntologyItem OItem_TicketList_Relate
+        {
+            get { return oItem_TicketList_Relate; }
+            set 
+            { 
+                oItem_TicketList_Relate = value;
+                toolStripLabel_Relation.Text = oItem_TicketList_Relate.Name + ": ";
+            }
+        }
 
         public Boolean ShowAll
         {
@@ -32,13 +46,22 @@ namespace Change_Module
             } 
         }
 
-        public clsOntologyItem SetTicketList(clsOntologyItem OItem_TicketList)
+        public clsOntologyItem SetTicketList(clsOntologyItem OItem_TicketList = null)
         {
             clsOntologyItem objOItem_Result = objLocalConfig.Globals.LState_Success;
 
             objOItem_TicketList = OItem_TicketList;
 
-            filter_TicketList();
+            if (OItem_TicketList == null)
+            {
+                filter_TicketList();    
+            }
+            else
+            {
+                filter_TicketList();    
+            }
+
+            
 
             return objOItem_Result;
         }
@@ -53,7 +76,7 @@ namespace Change_Module
             {
                 strFilter += " AND " + "GUID_TicketList='" + objOItem_TicketList.GUID + "'";
             }
-
+            
             if (!showAll)
             {
                 strFilter += " AND " + "GUID_LogEntry_Finished IS NULL";
@@ -87,7 +110,8 @@ namespace Change_Module
 
         public void initialize()
         {
-            
+            objTransaction = new clsTransaction(objLocalConfig.Globals);
+            objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
 
             
             bindingSource_Tickets.DataSource = objDataWork_Ticket.chngview_TicketList;
@@ -118,7 +142,7 @@ namespace Change_Module
 
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            objTicketWork.NewTicket();
+            objTicketWork.NewTicket(objOItem_TicketList);
 
             refresh_TicketList();
         }
@@ -211,6 +235,72 @@ namespace Change_Module
             objFrmChange.InitializeTicket(e.RowIndex, dataGridView_TicketLists.Rows, objLocalConfig, objDataWork_Ticket);
             if (!objFrmChange.IsHandleCreated) objFrmChange.Show();
 
+        }
+
+        private void RelateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var tickets = "";
+            var ticketsError = "";
+            if (oItem_TicketList_Relate != null)
+            {
+                if (
+                    MessageBox.Show(this, "Wollen Sie die Tickets wirklich der Ticketliste hinzufügen?", "hinzufügen?",
+                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    foreach (DataGridViewRow dgvrSelected in dataGridView_TicketLists.SelectedRows)
+                    {
+                        var dvrSelected = (DataRowView) dgvrSelected.DataBoundItem;
+                        var objOItem_Ticket = new clsOntologyItem
+                            {
+                                GUID = dvrSelected["GUID_Ticket"].ToString(),
+                                Name = dvrSelected["Name_Ticket"].ToString(),
+                                GUID_Parent = objLocalConfig.OItem_Type_Process_Ticket.GUID,
+                                Type = objLocalConfig.Globals.Type_Object
+                            };
+
+                        var objORel_TicketList_To_Ticket = objRelationConfig.Rel_ObjectRelation(OItem_TicketList_Relate,
+                                                                                                objOItem_Ticket,
+                                                                                                objLocalConfig
+                                                                                                    .OItem_RelationType_contains);
+
+                        objTransaction.ClearItems();
+                        var objOItem_Result = objTransaction.do_Transaction(objORel_TicketList_To_Ticket);
+
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            if (tickets != "")
+                                tickets += ", ";
+
+                            tickets = tickets + dvrSelected["ID"].ToString();
+                        }
+                        else
+                        {
+                            if (ticketsError != "")
+                                ticketsError += ", ";
+
+                            ticketsError = ticketsError + dvrSelected["ID"].ToString();
+                        }
+                    }
+
+                    toolStripLabel_Relation.Text += tickets;
+
+                    if (ticketsError != "")
+                    {
+                        toolStripLabel_Relation.Text += " | Not Related: " + ticketsError;
+                    }
+
+                    refresh_TicketList();
+                }
+
+
+                
+            }
+            else
+            {
+                MessageBox.Show(this, "Es ist keine Ticketliste ausgewählt!", "Ticketliste auswählen.", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+            }
+            
         }
 
 

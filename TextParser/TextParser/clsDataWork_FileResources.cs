@@ -12,6 +12,8 @@ namespace TextParser
     {
         private clsLocalConfig objLocalConfig;
 
-        
+        private clsDBLevel objDBLevel_FileResourceRel;
+        private clsDBLevel objDBLevel_FileResourceAtt;
+        private clsDBLevel objDBLevel_FileResource;
     }
 }

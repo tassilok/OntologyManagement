@@ -110,7 +110,7 @@ Public Class UserControl_FileResource_Path
     End Sub
 
     Private Sub Timer_Files_Tick(sender As Object, e As EventArgs) Handles Timer_Files.Tick
-
+        Timer_LineCount.Stop()
         If objDataWork_FileResource_Path.OItem_Result_FileResult.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
             ProgressBar_Files.Value = 50
             objFileList = New SortableBindingList(Of clsFile)(objDataWork_FileResource_Path.FileList)
@@ -139,7 +139,7 @@ Public Class UserControl_FileResource_Path
             
             
             Try
-                objThread_Files.Abort()
+                objThread_LineCount.Abort()
             Catch ex As Exception
 
             End Try

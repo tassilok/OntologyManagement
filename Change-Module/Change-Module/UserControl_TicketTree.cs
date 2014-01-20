@@ -15,7 +15,7 @@ namespace Change_Module
     public delegate void sel_TicketList(clsOntologyItem OItem_TicketList);
     public delegate void applied_TicketList(TreeNode objTreeNode_Selected);
     public delegate void clear_List();
-    public delegate void related();
+    public delegate void relate(clsOntologyItem OItem_TicketList);
 
     public partial class UserControl_TicketTree : UserControl
     {
@@ -46,7 +46,7 @@ namespace Change_Module
         public event sel_TicketList SelTicketList;
         public event applied_TicketList AppliedTicketList;
         public event clear_List ClearList;
-        public event related Related;
+        public event relate Relate;
 
         public Boolean All { get; set; }
         public Boolean DoRelation { get; set; }
@@ -126,23 +126,7 @@ namespace Change_Module
 
             if (objDataWork_Ticket.OItem_Result_TicketListTree.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                var OList_NoParent = from TicketList in objDataWork_Ticket.OList_TicketLists
-                            join TicketListParent in objDataWork_Ticket.OList_TicketListTree on TicketList.GUID equals TicketListParent.ID_Object into TicketListsParent
-                            from TicketListParent in TicketListsParent.DefaultIfEmpty()
-                            where TicketListParent == null
-                            join TicketListStandard in objDataWork_Ticket.OAList_TicketListsStandard on TicketList.GUID equals TicketListStandard.ID_Object into TicketListsStandard
-                            from TicketListStandard in TicketListsStandard.DefaultIfEmpty()
-                            where TicketListStandard == null
-                            orderby TicketList.Name
-                            select TicketList;
-
-                foreach (var NoParent in OList_NoParent)
-                {
-                    objTreeNode_TicketList_TicketList.Nodes.Add(NoParent.GUID,
-                                                     NoParent.Name,
-                                                     objLocalConfig.ImageID_TicketList,
-                                                     objLocalConfig.ImageID_TicketList);
-                }
+                fillListTree();
 
                 boolStop = true;
             }
@@ -162,6 +146,50 @@ namespace Change_Module
             }
         }
 
+        private void fillListTree(TreeNode treeNodeParent = null)
+        {
+            if (treeNodeParent == null)
+            {
+                var OList_NoParent = from TicketList in objDataWork_Ticket.OList_TicketLists
+                                     join TicketListParent in objDataWork_Ticket.OList_TicketListTree on TicketList.GUID equals TicketListParent.ID_Object into TicketListsParent
+                                     from TicketListParent in TicketListsParent.DefaultIfEmpty()
+                                     where TicketListParent == null
+                                     join TicketListStandard in objDataWork_Ticket.OAList_TicketListsStandard on TicketList.GUID equals TicketListStandard.ID_Object into TicketListsStandard
+                                     from TicketListStandard in TicketListsStandard.DefaultIfEmpty()
+                                     where TicketListStandard == null
+                                     orderby TicketList.Name
+                                     select TicketList;
+
+                foreach (var NoParent in OList_NoParent)
+                {
+
+                    var objTreeNode = objTreeNode_TicketList_TicketList.Nodes.Add(NoParent.GUID,
+                                                      NoParent.Name,
+                                                      objLocalConfig.ImageID_TicketList,
+                                                      objLocalConfig.ImageID_TicketList);
+
+                    fillListTree(objTreeNode);
+                }    
+            }
+            else
+            {
+                var oList_Nodes = from ticketList in objDataWork_Ticket.OList_TicketListTree
+                                  where ticketList.ID_Object_Parent == treeNodeParent.Name
+                                  select ticketList;
+
+                foreach (var ticketListNode in oList_Nodes)
+                {
+                    var objTreeNode = treeNodeParent.Nodes.Add(ticketListNode.ID_Object,
+                                                      ticketListNode.Name_Object,
+                                                      objLocalConfig.ImageID_TicketList,
+                                                      objLocalConfig.ImageID_TicketList);
+
+                    fillListTree(objTreeNode);
+                }
+            }
+            
+        }
+
         private void treeView_Lists_AfterSelect(object sender, TreeViewEventArgs e)
         {
             TreeNode objTreeNode;
@@ -171,7 +199,7 @@ namespace Change_Module
 
             if (objTreeNode.ImageIndex == objLocalConfig.ImageID_Tickets && objTreeNode.Name == objTreeNode_TicketList_TicketList.Name)
             {
-                
+                SelTicketList(null);
             }
             else if (objTreeNode.ImageIndex == objLocalConfig.ImageID_TicketList)
             {
@@ -190,7 +218,7 @@ namespace Change_Module
 
             CreateToolStripMenuItem.Enabled = false;
             RemoveToolStripMenuItem.Enabled = false;
-            ApplyToolStripMenuItem.Enabled = false;
+            xRelateToolStripMenuItem.Enabled = false;
 
             objTreeNode = treeView_Lists.SelectedNode;
 
@@ -200,7 +228,7 @@ namespace Change_Module
                 {
                     CreateToolStripMenuItem.Enabled = true;
                     RemoveToolStripMenuItem.Enabled = true;
-                    ApplyToolStripMenuItem.Enabled = true;
+                    xRelateToolStripMenuItem.Enabled = true;
                 }
                 else if (objTreeNode.ImageIndex == objLocalConfig.ImageID_TicketList_Root)
                 {
@@ -311,6 +339,24 @@ namespace Change_Module
                     }
                 }
 
+            }
+        }
+
+        private void xRelateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var treeNode = treeView_Lists.SelectedNode;
+
+            if (treeNode != null && treeNode.ImageIndex == objLocalConfig.ImageID_TicketList)
+            {
+                var objOItem_TicketList = new clsOntologyItem
+                    {
+                        GUID = treeNode.Name,
+                        Name = treeNode.Text,
+                        GUID_Parent = objLocalConfig.OItem_Type_Process_Ticket_Lists.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+
+                Relate(objOItem_TicketList);
             }
         }
         

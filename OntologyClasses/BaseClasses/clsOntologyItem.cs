@@ -52,6 +52,8 @@ namespace OntologyClasses.BaseClasses
 
         public void add_OItem(clsOntologyItem OItem)
         {
+            if (OList_Rel == null)
+                OList_Rel = new List<clsOntologyItem>();
             OList_Rel.Add(OItem);
         }
 

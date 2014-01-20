@@ -42,6 +42,7 @@ namespace Change_Module
         private clsObjectRel objORel_Ticket_To_Ref;
         private clsObjectRel objORel_Ticket_To_ProcessLog;
         private clsOntologyItem objOItem_Ticket;
+        private clsRelationConfig objRelationConfig;
 
 
         public clsTicketWork(clsLocalConfig LocalConfig, IWin32Window FrmParent, clsDataWork_Ticket DataWork_Ticket)
@@ -54,7 +55,7 @@ namespace Change_Module
         }
 
 
-        public void NewTicket()
+        public void NewTicket(clsOntologyItem OItem_TicketList)
         {
  
             clsOntologyItem objOItem_Process = new clsOntologyItem();
@@ -75,7 +76,18 @@ namespace Change_Module
                     {
                         if (objFrmMain.OList_Simple.Any())
                         {
-                            CreateTickets(objFrmMain.OList_Simple, objOItem_Process);
+                            var objOItem_Result = CreateTickets(objFrmMain.OList_Simple, objOItem_Process, OItem_TicketList);
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            {
+                                if (objOItem_Result.Count > 0)
+                                {
+                                    MessageBox.Show(objFrmParent, "Die Tickets konnten nicht der Ticketliste zugeordnet werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show(objFrmParent, "Die Tickets konnten nicht erzeugt werden!", "Fehler!", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                            }
                             
                         }
                         else
@@ -95,20 +107,45 @@ namespace Change_Module
         
         }
 
-        public clsOntologyItem CreateTickets(List<clsOntologyItem> OList_Ref, clsOntologyItem objOItem_Process)
+        public clsOntologyItem CreateTickets(List<clsOntologyItem> OList_Ref, clsOntologyItem objOItem_Process, clsOntologyItem OItem_TicketList = null)
         {
             clsOntologyItem objOItem_Result;
+            var intTicketListErr = 0;
 
             objOItem_Result = objLocalConfig.Globals.LState_Nothing;
 
             foreach (var objOItem_Ref in OList_Ref)
             {
                 objOItem_Result = CreateTicket(objOItem_Ref, objOItem_Process);
-                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                if (OItem_TicketList != null)
                 {
-                    break;
-                }
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        var objORel_Ticket_To_TicketList = objRelationConfig.Rel_ObjectRelation(OItem_TicketList,
+                                                                                                objOItem_Result
+                                                                                                    .OList_Rel.First(),
+                                                                                                objLocalConfig
+                                                                                                    .OItem_RelationType_contains);
+                        objTransaction_Ticket.ClearItems();
 
+                        objOItem_Result = objTransaction_Ticket.do_Transaction(objORel_Ticket_To_TicketList);
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                        {
+                            intTicketListErr++;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }    
+                }
+                
+
+            }
+
+            if (intTicketListErr > 0)
+            {
+                objOItem_Result.Count = intTicketListErr;
             }
 
             return objOItem_Result;
@@ -305,7 +342,18 @@ namespace Change_Module
                                                                                         // Ticket To Ref
                                                                                         objOItem_Result = objTransaction_Ticket.do_Transaction(objORel_Ticket_To_Ref, true);
 
-                                                                                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                                                                                        if (objOItem_Result.GUID ==
+                                                                                            objLocalConfig.Globals
+                                                                                                          .LState_Success
+                                                                                                          .GUID)
+                                                                                        {
+                                                                                            objOItem_Result =
+                                                                                                objLocalConfig.Globals
+                                                                                                              .LState_Success
+                                                                                                              .Clone();
+                                                                                            objOItem_Result.add_OItem(objOItem_Ticket);  
+                                                                                        }
+                                                                                        else
                                                                                         {
                                                                                             objTransaction_Ticket.rollback();
                                                                                             objOItem_Result = objLocalConfig.Globals.LState_Error;
@@ -535,6 +583,7 @@ namespace Change_Module
         {
             //objTransaction_Ticket = new clsTransaction_Ticket(objLocalConfig);
             objTransaction_Ticket = new clsTransaction(objLocalConfig.Globals);
+            objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
             
             //objTicketWork = new clsTicketWork(objLocalConfig, objFrmParent);
         }

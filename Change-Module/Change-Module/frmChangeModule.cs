@@ -120,6 +120,7 @@ namespace Change_Module
                 objUserControl_TicketTree.Dock = DockStyle.Fill;
 
                 objUserControl_TicketTree.SelTicketList += SelectedTicketList;
+                objUserControl_TicketTree.Relate += objUserControl_TicketTree_Relate;
 
                 splitContainer1.Panel1.Controls.Add(objUserControl_TicketTree);
                 objUserContorl_TicketList = new UserControl_TicketList(objLocalConfig, objDataWork_Ticket, null);
@@ -132,6 +133,11 @@ namespace Change_Module
             {
                 this.Close();
             }            
+        }
+
+        void objUserControl_TicketTree_Relate(clsOntologyItem OItem_TicketList)
+        {
+            objUserContorl_TicketList.OItem_TicketList_Relate = OItem_TicketList;
         }
 
         private void SelectedTicketList(clsOntologyItem OItem_TicketList)

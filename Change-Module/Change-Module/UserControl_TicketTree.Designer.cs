@@ -42,7 +42,7 @@
             this.ContextMenuStrip_TicketTree = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CreateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RemoveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ApplyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.xRelateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -91,6 +91,7 @@
             // 
             // treeView_Lists
             // 
+            this.treeView_Lists.ContextMenuStrip = this.ContextMenuStrip_TicketTree;
             this.treeView_Lists.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView_Lists.ImageIndex = 0;
             this.treeView_Lists.ImageList = this.ImageList_Main;
@@ -149,7 +150,7 @@
             this.ContextMenuStrip_TicketTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CreateToolStripMenuItem,
             this.RemoveToolStripMenuItem,
-            this.ApplyToolStripMenuItem});
+            this.xRelateToolStripMenuItem});
             this.ContextMenuStrip_TicketTree.Name = "ContextMenuStrip_TicketTree";
             this.ContextMenuStrip_TicketTree.Size = new System.Drawing.Size(153, 92);
             this.ContextMenuStrip_TicketTree.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip_TicketTree_Opening);
@@ -167,12 +168,12 @@
             this.RemoveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.RemoveToolStripMenuItem.Text = "x_Remove";
             // 
-            // ApplyToolStripMenuItem
+            // xRelateToolStripMenuItem
             // 
-            this.ApplyToolStripMenuItem.Enabled = false;
-            this.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem";
-            this.ApplyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.ApplyToolStripMenuItem.Text = "x_Apply";
+            this.xRelateToolStripMenuItem.Name = "xRelateToolStripMenuItem";
+            this.xRelateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.xRelateToolStripMenuItem.Text = "x_Relate";
+            this.xRelateToolStripMenuItem.Click += new System.EventHandler(this.xRelateToolStripMenuItem_Click);
             // 
             // UserControl_TicketTree
             // 
@@ -211,6 +212,6 @@
         internal System.Windows.Forms.ContextMenuStrip ContextMenuStrip_TicketTree;
         internal System.Windows.Forms.ToolStripMenuItem CreateToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem RemoveToolStripMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem ApplyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem xRelateToolStripMenuItem;
     }
 }
