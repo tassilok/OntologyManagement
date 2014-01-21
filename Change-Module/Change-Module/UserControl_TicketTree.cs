@@ -17,6 +17,8 @@ namespace Change_Module
     public delegate void clear_List();
     public delegate void relate(clsOntologyItem OItem_TicketList);
 
+    
+
     public partial class UserControl_TicketTree : UserControl
     {
         private clsLocalConfig objLocalConfig;
@@ -52,7 +54,7 @@ namespace Change_Module
         public Boolean DoRelation { get; set; }
 
 
-        
+        private bool boolPCChange;
 
         public UserControl_TicketTree(clsLocalConfig LocalConfig, clsDataWork_Ticket DataWork_Ticket, Boolean boolAll)
         {
@@ -75,7 +77,7 @@ namespace Change_Module
 
         private void initialize()
         {
-
+            boolPCChange = true;
             objTreeNode_Root = treeView_Lists.Nodes.Add(objLocalConfig.OItem_Type_Process_Ticket.GUID, objLocalConfig.OItem_Type_Process_Ticket.Name, objLocalConfig.ImageID_Root, objLocalConfig.ImageID_Root);
 
             objTreeNode_TicketList_TicketList = objTreeNode_Root.Nodes.Add(objLocalConfig.OItem_Token_Process_Ticket_Lists_ProcessTicketList.GUID, objLocalConfig.OItem_Token_Process_Ticket_Lists_ProcessTicketList.Name, objLocalConfig.ImageID_Tickets, objLocalConfig.ImageID_Tickets);
@@ -127,21 +129,25 @@ namespace Change_Module
             if (objDataWork_Ticket.OItem_Result_TicketListTree.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
                 fillListTree();
-
+                
                 boolStop = true;
             }
             else if (objDataWork_Ticket.OItem_Result_TicketListTree.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
             {
+
                 boolStop = false;
             }
             else if (objDataWork_Ticket.OItem_Result_TicketListTree.GUID == objLocalConfig.Globals.LState_Error.GUID)
             {
+
                 MessageBox.Show("Die Ticketlisten konnten nicht ermittelt werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
                 boolStop = true;
             }
 
             if (boolStop)
             {
+                boolPCChange = false;
                 timerRelated.Stop();
             }
         }
@@ -195,21 +201,26 @@ namespace Change_Module
             TreeNode objTreeNode;
             clsOntologyItem objOItem_TicketList;
 
-            objTreeNode = e.Node;
-
-            if (objTreeNode.ImageIndex == objLocalConfig.ImageID_Tickets && objTreeNode.Name == objTreeNode_TicketList_TicketList.Name)
+            if (!boolPCChange)
             {
-                SelTicketList(null);
-            }
-            else if (objTreeNode.ImageIndex == objLocalConfig.ImageID_TicketList)
-            {
-                objOItem_TicketList = new clsOntologyItem(objTreeNode.Name,
-                                                          objTreeNode.Text,
-                                                          objLocalConfig.OItem_Type_Process_Ticket_Lists.GUID,
-                                                          objLocalConfig.Globals.Type_Object);
+                objTreeNode = e.Node;
 
-                SelTicketList(objOItem_TicketList);
+                if (objTreeNode.ImageIndex == objLocalConfig.ImageID_Tickets && objTreeNode.Name == objTreeNode_TicketList_TicketList.Name)
+                {
+                    SelTicketList(null);
+                }
+                else if (objTreeNode.ImageIndex == objLocalConfig.ImageID_TicketList)
+                {
+                    objOItem_TicketList = new clsOntologyItem(objTreeNode.Name,
+                                                              objTreeNode.Text,
+                                                              objLocalConfig.OItem_Type_Process_Ticket_Lists.GUID,
+                                                              objLocalConfig.Globals.Type_Object);
+
+                    SelTicketList(objOItem_TicketList);
+                }
             }
+
+            
         }
 
         private void ContextMenuStrip_TicketTree_Opening(object sender, CancelEventArgs e)
