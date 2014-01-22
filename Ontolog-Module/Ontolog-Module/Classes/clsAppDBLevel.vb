@@ -67,6 +67,8 @@ Public Class clsAppDBLevel
         intPort = Globals.Port
         intSearchRange = Globals.SearchRange
         strSession = Globals.Session
+        objOItem_User = OItem_User
+        objOItem_Ontology = OItem_Ontology
 
         objAppElSelector = New clsUserAppDBSelector(strServer, intPort, objOItem_Ontology.GUID, objOItem_User.GUID, intSearchRange, strSession)
 
@@ -125,7 +127,10 @@ Public Class clsAppDBLevel
 
     Public Function Save_Documents(Documents As List(Of clsAppDocuments), Optional strType As String = Nothing, Optional strIndex As String = Nothing) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
-        objAppElSelector.Index = strIndex
+        If strIndex <> "" Then
+            objAppElSelector.Index = strIndex
+        End If
+
         Do
             Dim objDocumentsPart = Documents.Take(intSearchRange).ToList()
             objOItem_Result = objAppElUpdater.SaveDoc(objDocumentsPart, strType)
