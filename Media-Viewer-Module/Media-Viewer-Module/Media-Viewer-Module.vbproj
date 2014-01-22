@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsChronoMedia.vb" />
+    <Compile Include="clsModule.vb" />
     <Compile Include="frmMetaData_Image.Designer.vb">
       <DependentUpon>frmMetaData_Image.vb</DependentUpon>
     </Compile>

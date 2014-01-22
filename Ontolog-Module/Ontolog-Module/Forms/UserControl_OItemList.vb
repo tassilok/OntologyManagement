@@ -1684,59 +1684,18 @@ Public Class UserControl_OItemList
     End Sub
 
     Private Sub ContextMenuStrip_SemList_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_SemList.Opening
-        'Dim objModule As clsModule
-        'Dim objModules_Show() As clsModule
-        'Dim objSemItem_ToTest As New clsSemItem
         Dim i As Integer
         Dim boolFillCombo As Boolean = False
 
         ToClipboardToolStripMenuItem.Enabled = False
-        ToolStripComboBox_ModuleMenu.Items.Clear()
-        ToolStripComboBox_ModuleEdit.Enabled = False
         ApplyToolStripMenuItem.Enabled = False
         DuplicateItemToolStripMenuItem.Enabled = False
-        'If objSemItem_Complex_Base Is Nothing Then
-        '    objSemItem_ToTest = objSemItem_Parent
-        'Else
-        '    objSemItem_ToTest.GUID = objSemItem_Complex_Base.GUID_Related
-        '    objSemItem_ToTest.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
-        'End If
-        'If Not objLocalConfig.Globals.loaded_Modules Is Nothing Then
-        '    i = 0
-        '    For Each objModule In objLocalConfig.Globals.loaded_Modules
-        '        If objModule.Active = True And objModule.Valid = True Then
-        '            If objModule.Object_OK(objSemItem_ToTest, True) Then
-        '                ReDim Preserve objModules_Show(i)
-        '                objModules_Show(i) = objModule
-        '                boolFillCombo = True
-        '                i = i + 1
-
-        '            End If
-        '        End If
-        '    Next
-
-        '    If boolFillCombo = True Then
-        '        ToolStripComboBox_ModuleEdit.Items.Clear()
-        '        For Each objModule In objModules_Show
-        '            ToolStripComboBox_ModuleMenu.Items.Add(objModule)
-        '            If objModule.loaded_Module.TokenEdit = True Then
-
-        '                ToolStripComboBox_ModuleEdit.Items.Add(objModule)
-        '                ToolStripComboBox_ModuleEdit.ComboBox.ValueMember = "GUID_LoadedModule"
-        '                ToolStripComboBox_ModuleEdit.ComboBox.DisplayMember = "Name_LoadedModule"
-        '            End If
-        '        Next
-        '        ToolStripComboBox_ModuleMenu.ComboBox.ValueMember = "GUID_LoadedModule"
-        '        ToolStripComboBox_ModuleMenu.ComboBox.DisplayMember = "Name_LoadedModule"
-        '    End If
-        'End If
-        ToolStripComboBox_ModuleEdit.Enabled = False
+        
         If DataGridView_Items.SelectedRows.Count > 0 Then
             If boolApplyable = True Then
                 ApplyToolStripMenuItem.Enabled = True
             End If
             If DataGridView_Items.SelectedRows.Count = 1 Then
-                ToolStripComboBox_ModuleEdit.Enabled = True
                 If Not objOItem_Parent Is Nothing Then
                     If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
                         DuplicateItemToolStripMenuItem.Enabled = True
@@ -1999,6 +1958,12 @@ Public Class UserControl_OItemList
                 
             End If
         End If
+    End Sub
+
+    Private Sub ModuleMenuToolStripMenuItem_DropDownOpening(sender As Object, e As EventArgs) Handles ModuleMenuToolStripMenuItem.DropDownOpening
+       
+
+        
     End Sub
 End Class
 

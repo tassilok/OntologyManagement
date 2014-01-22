@@ -2,6 +2,7 @@
 Imports System.Management
 Imports OntologyClasses.DataClasses
 Imports OntologyClasses.BaseClasses
+Imports System.Reflection
 
 Public Class clsGlobals
 
@@ -32,6 +33,8 @@ Public Class clsGlobals
     Private objOntologyRelationRules As New clsOntologyRelationRules
 
     Private objClassTypes As New clsClassTypes
+
+    Private strModulePath As String
     
 Private strEL_Server As String
     Private strEL_Port As String
@@ -44,7 +47,6 @@ Private strEL_Server As String
 
     Private cintSearchRange As Integer = 20000
 
-    
 
     
 
@@ -65,6 +67,20 @@ Private strEL_Server As String
     Private objDBLevel2 As clsDBLevel
 
     Private objTransaction As clsTransaction
+
+    Private objModuleList As List(Of clsModuleConfig)
+
+    Public ReadOnly Property ModuleList As List(Of clsModuleConfig)
+        Get
+            Return objModuleList
+        End Get
+    End Property
+
+    Public ReadOnly Property ModulePath As String
+        Get
+            Return strModulePath
+        End Get
+    End Property
 
     Public ReadOnly Property OItem_Server As clsOntologyItem
         Get
@@ -767,24 +783,70 @@ Private strEL_Server As String
                 Err.Raise(1, "Config")
             End If
 
+            objDRs_ConfigItem = dtblT_Config.Select("ConfigItem_Name='ModulePath'")
+            If objDRs_ConfigItem.Count > 0 Then
+                strModulePath = objDRs_ConfigItem(0).Item("ConfigItem_Value")
+                strModulePath = Environment.ExpandEnvironmentVariables(strModulePath)
+                If Not IO.Directory.Exists(strModulePath) Then
+                    strModulePath = Nothing
+                End If
+            Else
+                strModulePath = Nothing
+            End If
+
         Else
             Err.Raise(1, "Config")
         End If
     End Sub
 
+    Private Sub LoadModules()
+        objModuleList = New List(Of clsModuleConfig)
+
+        If Not strModulePath Is Nothing Then
+            For Each strFolder As String In IO.Directory.GetDirectories(strModulePath)
+                For Each strFile As String In IO.Directory.GetFiles(strFolder)
+                    If strFile.ToLower.EndsWith(".exe") Then
+                        Try
+                            Dim objAssembly = Assembly.LoadFile(strFile)
+                            Dim objTypes = objAssembly.GetTypes()
+                            Dim intModuleCount = objModuleList.Count
+                            Dim objModuleConfig = New clsModuleConfig With {.Assembly = objAssembly}
+
+                            If Not objModuleConfig.Instance Is Nothing Then
+
+                                objModuleConfig.Instance.Initialize()
+
+                                ModuleList.Add(objModuleConfig)
+                            End If
+
+                            If objModuleList.Count - intModuleCount > 0 Then
+                                Exit For
+                            End If
+
+                        Catch ex As Exception
+
+                        End Try
+                    End If
+
+                Next
+            Next
+        End If
+    End Sub
+
     
-    Public Sub New()
+    Public Sub New(Optional ModuleLoad As Boolean = True)
         strPath_Config = ""
         strRegEx_GUID = "[A-Za-z0-9]{8}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9]{12}"
-        
 
 
-        
-        initialize()
+
+
+        initialize(ModuleLoad)
 
     End Sub
 
-    Private Sub initialize()
+
+    Private Sub initialize(ModuleLoad As Boolean)
         set_Session()
         get_ConfigData()
 
@@ -795,9 +857,9 @@ Private strEL_Server As String
         Try
             objOItem_Result = test_Existance_OntologyDB()
         Catch ex As Exception
-           objOItem_Result = objLogStates.LogState_Nothing 
+            objOItem_Result = objLogStates.LogState_Nothing
         End Try
-        
+
 
         If objOItem_Result.GUID = objLogStates.LogState_Nothing.GUID Then
             If MsgBox("Die Datenbank " & strEL_Index & "@" & strEL_Server & " existiert nicht. Soll sie erzeugt werden?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
@@ -818,17 +880,23 @@ Private strEL_Server As String
             If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
                 objTransaction = New clsTransaction(Server, Port, Index, Index_Rep, SearchRange, Session)
 
-                set_Computer()    
-            Else 
-                MsgBox("Die Datenbank ist nicht konsistent! Die Anwendung wird beendet!",MsgBoxStyle.Critical)
+                set_Computer()
+            Else
+                MsgBox("Die Datenbank ist nicht konsistent! Die Anwendung wird beendet!", MsgBoxStyle.Critical)
                 Environment.Exit(1)
             End If
-            
-            
 
-            
+
+            If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+                If ModuleLoad = True Then
+                    LoadModules()
+                End If
+
+            End If
+
         End If
-        
+
+
     End Sub
 
     Private Function test_Existance_BaseData() As clsOntologyItem

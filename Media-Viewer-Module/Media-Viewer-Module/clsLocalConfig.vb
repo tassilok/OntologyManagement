@@ -853,6 +853,13 @@ Public Class clsLocalConfig
         get_Config()
     End Sub
 
+    Public Sub New()
+        objGlobals = New clsGlobals
+        set_DBConnection()
+
+        get_Config()
+    End Sub
+
     Private Sub set_DBConnection()
         objDBLevel_Config1 = New clsDBLevel(objGlobals)
         objDBLevel_Config2 = New clsDBLevel(objGlobals)

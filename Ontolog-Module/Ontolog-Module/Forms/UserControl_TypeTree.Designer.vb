@@ -40,6 +40,8 @@ Partial Class UserControl_TypeTree
         Me.ToolStripLabel_Mark = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_MarkTypes = New System.Windows.Forms.ToolStripTextBox()
         Me.Timer_Mark = New System.Windows.Forms.Timer(Me.components)
+        Me.ModulesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ShowModuleConfigToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -124,20 +126,20 @@ Partial Class UserControl_TypeTree
         '
         'ContextMenuStrip_Classes
         '
-        Me.ContextMenuStrip_Classes.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ApplyToolStripMenuItem})
+        Me.ContextMenuStrip_Classes.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ApplyToolStripMenuItem, Me.ModulesToolStripMenuItem})
         Me.ContextMenuStrip_Classes.Name = "ContextMenuStrip_Classes"
-        Me.ContextMenuStrip_Classes.Size = New System.Drawing.Size(116, 48)
+        Me.ContextMenuStrip_Classes.Size = New System.Drawing.Size(131, 70)
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(115, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.NewToolStripMenuItem.Text = "x_New"
         '
         'ApplyToolStripMenuItem
         '
         Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
-        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(115, 22)
+        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ApplyToolStripMenuItem.Text = "x_Apply"
         '
         'ImageList_Classtree
@@ -173,6 +175,19 @@ Partial Class UserControl_TypeTree
         'Timer_Mark
         '
         Me.Timer_Mark.Interval = 300
+        '
+        'ModulesToolStripMenuItem
+        '
+        Me.ModulesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowModuleConfigToolStripMenuItem})
+        Me.ModulesToolStripMenuItem.Name = "ModulesToolStripMenuItem"
+        Me.ModulesToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
+        Me.ModulesToolStripMenuItem.Text = "x_Modules"
+        '
+        'ShowModuleConfigToolStripMenuItem
+        '
+        Me.ShowModuleConfigToolStripMenuItem.Name = "ShowModuleConfigToolStripMenuItem"
+        Me.ShowModuleConfigToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.ShowModuleConfigToolStripMenuItem.Text = "x_Show Module-Config"
         '
         'UserControl_TypeTree
         '
@@ -212,5 +227,7 @@ Partial Class UserControl_TypeTree
     Friend WithEvents ContextMenuStrip_Classes As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents NewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ApplyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ModulesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShowModuleConfigToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

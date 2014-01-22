@@ -365,4 +365,82 @@ Public Class UserControl_TypeTree
 
         End If
     End Sub
+
+    Private Sub ModulesToolStripMenuItem_DropDownOpened(sender As Object, e As EventArgs) Handles ModulesToolStripMenuItem.DropDownOpened
+        Dim objTreeNode = TreeView_Types.SelectedNode
+
+        If Not objTreeNode Is Nothing And _
+            (objTreeNode.ImageIndex = cint_ImageID_Attribute Or _
+             objTreeNode.ImageIndex = cint_ImageID_Class_Closed Or _
+             objTreeNode.ImageIndex = cint_ImageID_RelationType) Then
+
+            For Each objModule In objLocalConfig.Globals.ModuleList
+                Dim objOItem_Class = New clsOntologyItem With {.GUID = objTreeNode.Name, _
+                                                               .Name = objTreeNode.Text, _
+                                                               .GUID_Parent = objTreeNode.Parent.Name, _
+                                                               .Type = objLocalConfig.Globals.Type_Class}
+
+                Dim objMenuItems = objModule.GetMenuItems(objOItem_Class)
+                If Not objMenuItems Is Nothing Then
+                    Dim objToolStrip_Root As ToolStripMenuItem
+                    For i As Integer = 0 To objMenuItems.Count - 1
+                        If i = 0 Then
+                            If ModulesToolStripMenuItem.DropDownItems.Count = 1 Then
+                                objToolStrip_Root = ModulesToolStripMenuItem.DropDownItems.Add(objMenuItems(i).Name, Nothing)
+                            Else
+                                objToolStrip_Root = ModulesToolStripMenuItem.DropDownItems(0)
+                            End If
+
+                        Else
+                            Dim boolAdd = True
+                            For Each objToolStripItem As ToolStripItem In objToolStrip_Root.DropDownItems
+                                If objToolStripItem.Text = objMenuItems(i).Name Then
+                                    boolAdd = False
+                                End If
+                            Next
+
+                            If boolAdd Then
+                                objToolStrip_Root.DropDownItems.Add(objMenuItems(i).Name, Nothing, New EventHandler(AddressOf ModuleExecutor))
+                            End If
+                        End If
+
+
+                    Next
+
+                End If
+            Next
+        End If
+        
+    End Sub
+
+    Private Sub ModuleExecutor(sender As Object, e As EventArgs)
+        Dim objMenuItem As ToolStripMenuItem = sender
+        
+        Dim objTreeNode = TreeView_Types.SelectedNode
+
+        If Not objTreeNode Is Nothing And _
+            (objTreeNode.ImageIndex = cint_ImageID_Attribute Or _
+             objTreeNode.ImageIndex = cint_ImageID_Class_Closed Or _
+             objTreeNode.ImageIndex = cint_ImageID_RelationType) Then
+
+            For Each objModule In objLocalConfig.Globals.ModuleList
+                Dim objOItem_Class = New clsOntologyItem With {.GUID = objTreeNode.Name, _
+                                                               .Name = objTreeNode.Text, _
+                                                               .GUID_Parent = objTreeNode.Parent.Name, _
+                                                               .Type = objLocalConfig.Globals.Type_Class}
+
+                Dim objMenuItems = objModule.GetMenuItems(objOItem_Class)
+                If objMenuItems.Any Then
+                    If objMenuItems(0).Name = objMenuItem.OwnerItem.Text Then
+                        Dim objMenuItemsSel = objMenuItems.Where(Function(m) m.Name = objMenuItem.Text).ToList()
+                        If objMenuItemsSel.Any() Then
+                            Dim objOItem_MenuItem = objMenuItemsSel.First()
+                            objModule.Instance.Open_Viewer(objOItem_Class, objOItem_MenuItem)
+                        End If
+
+                    End If
+                End If
+            Next
+        End If
+    End Sub
 End Class
