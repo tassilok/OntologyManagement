@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OntologyClasses.BaseClasses;
 using Ontology_Module;
+using Filesystem_Module;
 
 namespace TextParser
 {
@@ -17,6 +18,8 @@ namespace TextParser
         private clsLocalConfig objLocalConfig;
         private clsDataWork_TextParser objDataWork_TextParser;
         private clsOntologyItem objOItem_TextParser;
+        private clsDataWork_FileResources objDataWork_FileResources;
+        private clsDataWork_FileResource_Path objDataWork_FileResource_Path;
 
         public UserControl_TextParser(clsLocalConfig LocalConfig)
         {
@@ -28,6 +31,10 @@ namespace TextParser
         private void Initialize()
         {
             objDataWork_TextParser = new clsDataWork_TextParser(objLocalConfig);
+            objDataWork_FileResources = new clsDataWork_FileResources(objLocalConfig.Globals);
+            objDataWork_FileResource_Path = new clsDataWork_FileResource_Path(objLocalConfig.Globals);
+
+
         }
 
         public void InitializeTextParser(clsOntologyItem OItem_TextParser)
@@ -99,7 +106,67 @@ namespace TextParser
         private void textBox_FileResource_TextChanged(object sender, EventArgs e)
         {
             timer_FileResources.Stop();
-            
+            if (textBox_FileResource.Text != "")
+            {
+                if (objDataWork_TextParser.OItem_FileResource != null)
+                {
+                    var objOItem_Type =
+                        objDataWork_FileResources.GetResourceType(objDataWork_TextParser.OItem_FileResource);
+
+                    if (objOItem_Type.GUID == objDataWork_FileResources.OItem_Class_File.GUID)
+                    {
+                        textBox_FileResourceDetail.Text = "Type - File: Not Implemented";
+                    }
+                    else if (objOItem_Type.GUID == objDataWork_FileResources.OItem_Class_Path.GUID)
+                    {
+                        objDataWork_FileResource_Path.GetData_Attributes(objDataWork_TextParser.OItem_FileResource);
+                        var objOItem_Result = objDataWork_FileResource_Path.OItem_Result_Attributes;
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            
+                            objDataWork_FileResource_Path.GetData_Relations(
+                                objDataWork_TextParser.OItem_FileResource);
+                            objOItem_Result = objDataWork_FileResource_Path.OItem_Result_Relations;
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            {
+                                
+                                
+                                textBox_FileResourceDetail.Text = objDataWork_FileResource_Path.objOAItem_Pattern !=
+                                                                    null
+                                                                        ? "Pattern: " + objDataWork_FileResource_Path
+                                                                            .objOAItem_Pattern.Val_String
+                                                                        : "";
+
+                                if (textBox_FileResourceDetail.Text != "")
+                                {
+                                    textBox_FileResourceDetail.Text += "\r\n";
+                                }
+
+                                textBox_FileResourceDetail.Text += "Path: " + objDataWork_FileResource_Path.Path;
+
+                                
+                            }
+                            else
+                            {
+                                textBox_FileResourceDetail.Text = "Error";
+                            }
+
+                        }
+                        else
+                        {
+                            textBox_FileResourceDetail.Text = "Error";
+                        }
+                    }
+                    else if (objOItem_Type.GUID == objDataWork_FileResources.OItem_Class_WebConnection.GUID)
+                    {
+                        textBox_FileResourceDetail.Text = "Type - File: Not Implemented";
+                    }
+                    else
+                    {
+                        textBox_FileResourceDetail.Text = "Error";
+                    }
+                }
+            }
             
         }
 
@@ -175,6 +242,11 @@ namespace TextParser
                 progressBar_Index.Value = 0;
                 MessageBox.Show(this,"Die Index-Details konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
+        }
+
+        private void timer_FileResources_Tick(object sender, EventArgs e)
+        {
+
         }
     }
 }

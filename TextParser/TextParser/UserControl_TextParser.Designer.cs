@@ -268,6 +268,7 @@
             // timer_FileResources
             // 
             this.timer_FileResources.Interval = 300;
+            this.timer_FileResources.Tick += new System.EventHandler(this.timer_FileResources_Tick);
             // 
             // timer_Index
             // 

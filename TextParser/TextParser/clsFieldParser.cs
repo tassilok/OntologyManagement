@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using OntologyClasses.BaseClasses;
 using Ontology_Module;
+using Filesystem_Module;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace TextParser
 {
@@ -14,10 +17,20 @@ namespace TextParser
         private clsLocalConfig objLocalConfig;
         private List<clsField> ParseFieldList;
         private clsOntologyItem objOItem_TextParser;
+        private clsDataWork_FileResources objDataWork_FileResource;
+        private clsDataWork_FileResource_Path objDataWork_FileResource_Path;
 
         private clsDataWork_TextParser objDataWork_TextParser;
 
+
         private clsAppDBLevel objAppDBLevel;
+
+        private List<clsOntologyItem> OList_Variables;
+
+        private int port;
+        private string index;
+        private string server;
+        private List<clsFile> fileList;
 
         public clsFieldParser(clsLocalConfig LocalConfig, List<clsField> ParseFieldList, clsOntologyItem OItem_TextParser)
         {
@@ -33,6 +46,8 @@ namespace TextParser
         private clsOntologyItem Initialize()
         {
             
+            objDataWork_FileResource = new clsDataWork_FileResources(objLocalConfig.Globals);
+            objDataWork_FileResource_Path = new clsDataWork_FileResource_Path(objLocalConfig.Globals);
             objDataWork_TextParser = new clsDataWork_TextParser(objLocalConfig);
             objDataWork_TextParser.GetData_TextParser(objOItem_TextParser);
             var objOItem_Result = objDataWork_TextParser.OItem_Result_TextParser;
@@ -46,9 +61,81 @@ namespace TextParser
 
                 if (objDataWork_TextParser.OItem_Result_Index.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    var port = int.Parse(objDataWork_TextParser.OItem_Port.Name);
                     
+                    if (objDataWork_TextParser.OItem_FileResource != null)
+                    {
+                        port = int.Parse(objDataWork_TextParser.OItem_Port.Name);
+                        server = objDataWork_TextParser.OItem_Server.Name;
+                        index = "";
+                        if (objDataWork_TextParser.OItem_Index != null)
+                        {
+                            index = objDataWork_TextParser.OItem_Index.Name;
+                        }
+
+                        if (objDataWork_TextParser.OList_Variables != null)
+                        {
+                            OList_Variables = objDataWork_TextParser.OList_Variables;
+                        }
+
+                        if (objDataWork_TextParser.OItem_FileResource != null)
+                        {
+                            var objOItem_ResourceType =
+                                objDataWork_FileResource.GetResourceType(objDataWork_TextParser.OItem_FileResource);
+
+                            if (objOItem_ResourceType.GUID == objDataWork_FileResource.OItem_Class_File.GUID)
+                            {
+                                objOItem_Result = objLocalConfig.Globals.LState_Relation;
+
+                            }
+                            else if (objOItem_ResourceType.GUID == objDataWork_FileResource.OItem_Class_Path.GUID)
+                            {
+                                objDataWork_FileResource_Path.GetData_Attributes(objDataWork_TextParser.OItem_FileResource);
+                                if (objDataWork_FileResource_Path.OItem_Result_Attributes.GUID ==
+                                    objLocalConfig.Globals.LState_Success.GUID)
+                                {
+                                    objDataWork_FileResource_Path.GetData_Relations(objDataWork_TextParser.OItem_FileResource);    
+                                    if (objDataWork_FileResource_Path.OItem_Result_Relations.GUID ==
+                                        objLocalConfig.Globals.LState_Success.GUID)
+                                    {
+                                        objDataWork_FileResource_Path.GetFiles();
+                                        if (objDataWork_FileResource_Path.OItem_Result_FileResult.GUID ==
+                                            objLocalConfig.Globals.LState_Success.GUID)
+                                        {
+                                            objAppDBLevel = new clsAppDBLevel(server, port, index,
+                                                                              objLocalConfig.Globals.SearchRange,
+                                                                              objLocalConfig.Globals.Session);
+                                            fileList = objDataWork_FileResource_Path.FileList;
+                                            
+                                        }
+                                    }
+                                }
+                                
+                            }
+                            else if (objOItem_ResourceType.GUID ==
+                                     objDataWork_FileResource.OItem_Class_WebConnection.GUID)
+                            {
+                                objOItem_Result = objLocalConfig.Globals.LState_Relation;
+                            }
+                            else
+                            {
+                                objOItem_Result = objLocalConfig.Globals.LState_Error;
+                            }
+                        }
+                        else
+                        {
+                            objOItem_Result = objLocalConfig.Globals.LState_Error.Clone();
+                        }
+                        
+                    }
+                    else
+                    {
+                        objOItem_Result = objLocalConfig.Globals.LState_Error.Clone();
+                    }
+
                     
+
+
+
                 }
                 
                 
@@ -57,12 +144,272 @@ namespace TextParser
             return objOItem_Result;
         }
 
-
-
-        public clsOntologyItem ParseFiles()
+        public clsOntologyItem Parse()
         {
+            var fileDate_Create = false;
+            var fileDate_LastChange = false;
+            var docCount = 0;
+            
+            if (OList_Variables != null && OList_Variables.Any())
+            {
+                foreach (var oItem_Variable in OList_Variables)
+                {
+                    if (oItem_Variable.GUID == objLocalConfig.OItem_object_user.GUID)
+                    {
+                        index = index.Replace("@" + oItem_Variable.Name + "@", objLocalConfig.OItem_User.Name);
+                    }
+                    else if (oItem_Variable.GUID == objLocalConfig.OItem_object_filedate_create.GUID)
+                    {
+                        fileDate_Create = true;
+                    }
+                    else if (oItem_Variable.GUID == objLocalConfig.OItem_object_filedate_lastchange.GUID)
+                    {
+                        fileDate_LastChange = true;
+                    }
+                }
+            }
 
-            return new clsOntologyItem();
+            foreach (var file in fileList)
+            {
+                
+                if (fileDate_Create)
+                {
+                    index = index.Replace("@" + objLocalConfig.OItem_object_filedate_create.Name + "@", File.GetCreationTime(file.FileName).ToString("yyyyMMdd"));
+
+                }
+                if (fileDate_LastChange)
+                {
+                    index = index.Replace("@" + objLocalConfig.OItem_object_filedate_lastchange.Name + "@", File.GetCreationTime(file.FileName).ToString("yyyyMMdd"));
+                }
+
+                
+                try
+                {
+                    
+                    var textReader = new StreamReader(file.FileName);
+
+
+                    var dictList = new List<clsAppDocuments>();
+                    
+                    while (!textReader.EndOfStream)
+                    {
+                        var parse = true;
+                        var add = false;
+                        var dict = new Dictionary<string, object>();
+                        var text = textReader.ReadLine();
+                        var textParse = text;
+                        var Id = objLocalConfig.Globals.NewGUID;
+                        var ixStart = 0;
+                        foreach (var field in ParseFieldList.OrderBy(p => p.OrderId))
+                        {
+                            
+                            var getIxStart = true;
+                            if (field.IsMeta)
+                            {
+                                if (field.ID_MetaField == objLocalConfig.OItem_object_message.GUID)
+                                {
+                                    dict.Add(field.Name_MetaField,text);
+                                }
+                                else if (field.ID_MetaField == objLocalConfig.OItem_object_filepath.GUID)
+                                {
+                                    dict.Add(field.Name_MetaField, file.FileName);
+                                }
+                                else if (field.ID_MetaField == objLocalConfig.OItem_object_filename.GUID)
+                                {
+                                    dict.Add(field.Name_MetaField, Path.GetFileName(file.FileName));
+                                }
+                                else if (field.ID_MetaField == objLocalConfig.OItem_object_guid.GUID)
+                                {
+                                    Id = objLocalConfig.Globals.NewGUID;
+                                    dict.Add(field.Name_MetaField, Id);
+                                }
+                                else if (field.ID_MetaField == objLocalConfig.OItem_object_date.GUID)
+                                {
+                                    dict.Add(field.Name_MetaField, DateTime.Now.ToString("yyyyMMdd"));
+                                }
+                                else if (field.ID_MetaField == objLocalConfig.OItem_object_datetimestamp.GUID)
+                                {
+                                    dict.Add(field.Name_MetaField, DateTime.Now.ToString("yyyyMMdd hhmm"));
+                                }
+                            }
+                            else
+                            {
+                                if (field.ID_RegExPre != null && field.ID_RegExPre != objLocalConfig.OItem_object_empty.GUID)
+                                {
+                                    var objRegExPre = new Regex(field.RegexPre);
+                                    var objMatches = objRegExPre.Matches(textParse);
+                                    if (objMatches.Count > 0)
+                                    {
+                                        textParse =
+                                            textParse.Substring(objMatches[0].Index +
+                                                           objMatches[0].Length);
+
+                                        ixStart = ixStart + objMatches[0].Index +
+                                                  objMatches[0].Length-1;
+
+                                        parse = true;
+                                    }
+                                    else
+                                    {
+                                        parse = false;
+                                    }
+                                }
+                                else
+                                {
+                                    parse = true;
+                                }
+
+                                if (parse)
+                                {
+                                    if (field.ID_RegExPost != null && field.ID_RegExPost != objLocalConfig.OItem_object_empty.GUID)
+                                    {
+                                        var objRegExPost = new Regex(field.RegexPost);
+                                        var objMatches = objRegExPost.Matches(textParse);
+
+                                        if (objMatches.Count > 0)
+                                        {
+                                            textParse = textParse.Substring(0, objMatches[0].Index);
+                                            ixStart += objMatches[0].Index + objMatches[0].Length-1;
+                                            getIxStart = false;
+                                        }
+                                        else
+                                        {
+                                            parse = false;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        parse = true;
+                                    }
+                                }
+
+                                if (parse)
+                                {
+                                    if (field.ID_RegExMain != null && field.ID_RegExMain != objLocalConfig.OItem_object_empty.GUID)
+                                    {
+                                        var objRegEx = new Regex(field.Regex);
+                                        var objMatches = objRegEx.Matches(textParse);
+
+                                        if (objMatches.Count > 0)
+                                        {
+                                            textParse = textParse.Substring(objMatches[0].Index, objMatches[0].Length);
+                                            if (getIxStart) ixStart += objMatches[0].Index + objMatches[0].Length-1;
+                                            
+                                        }
+                                        else
+                                        {
+                                            parse = false;
+                                        }
+                                    }
+                                }
+
+                                if (parse)
+                                {
+                                    if (field.ID_DataType == objLocalConfig.OItem_object_string.GUID)
+                                    {
+                                        dict.Add(field.Name_Field, textParse);
+                                    }
+                                    else if (field.ID_DataType == objLocalConfig.OItem_object_bit.GUID)
+                                    {
+                                        var value = true;
+
+                                        if (bool.TryParse(textParse, out value))
+                                        {
+                                            dict.Add(field.Name_Field, value);
+                                        }
+                                        else
+                                        {
+                                            parse = false;
+                                        }
+                                    }
+                                    else if (field.ID_DataType == objLocalConfig.OItem_object_int.GUID)
+                                    {
+                                        var value = 0;
+
+                                        if (int.TryParse(textParse, out value))
+                                        {
+                                            dict.Add(field.Name_Field, value);
+                                        }
+                                        else
+                                        {
+                                            parse = false;
+                                        }
+                                    }
+                                    else if (field.ID_DataType == objLocalConfig.OItem_object_datetime.GUID)
+                                    {
+                                        DateTime value;
+                                        if (DateTime.TryParse(textParse, out value))
+                                        {
+                                            dict.Add(field.Name_Field, value);
+                                        }
+                                        else
+                                        {
+                                            parse = false;
+                                        }
+                                    }
+                                }
+
+                                add = parse;
+
+                                if (field.RemoveFromSource)
+                                {
+                                    textParse = text.Substring(ixStart);
+                                }
+                            }
+                        
+                            if (!field.RemoveFromSource)
+                            {
+                                textParse = text;
+                            }
+                            
+                        }
+
+                        if (add)
+                        {
+                            var objDoc = new clsAppDocuments { Id = Id, Dict = dict };
+                            dictList.Add(objDoc);
+                            docCount = docCount + 1;
+                            if (docCount == objLocalConfig.Globals.SearchRange)
+                            {
+                                var objOItem_Result = objAppDBLevel.Save_Documents(dictList, "Doc", index);
+                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                                {
+                                    return objOItem_Result;
+                                }
+                                dictList.Clear();
+                            }    
+                        }
+                        else
+                        {
+                            textParse = text;
+                        }
+                        
+                        
+                    }
+                    
+                    if (dictList.Count > 0)
+                    {
+                        var objOItem_Result = objAppDBLevel.Save_Documents(dictList, "Doc", index);
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                        {
+                            return objOItem_Result;
+                        }
+                    }
+                    textReader.Close();
+                }
+                catch (Exception ex)
+                {
+
+                    return objLocalConfig.Globals.LState_Error.Clone();
+                }
+                
+
+                
+            }
+
+            return objLocalConfig.Globals.LState_Success.Clone();
         }
+
+       
     }
 }

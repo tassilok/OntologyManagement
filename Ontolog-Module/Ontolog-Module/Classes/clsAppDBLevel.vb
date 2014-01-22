@@ -103,6 +103,8 @@ Public Class clsAppDBLevel
         Me.strSession = strSession
 
         objAppElSelector = New clsUserAppDBSelector(strServer, intPort, Me.strIndex, intSearchRange, strSession)
+
+        initialize_Client()
     End Sub
 
     Public Function Copy_Index(strIndexSrc As String, strIndexDst As String) As clsOntologyItem

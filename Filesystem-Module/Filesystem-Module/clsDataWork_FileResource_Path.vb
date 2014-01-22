@@ -12,12 +12,20 @@ Public Class clsDataWork_FileResource_Path
     Private objOItem_Result_Relations As clsOntologyItem
     Private objOItem_Result_FileResult As clsOntologyItem
 
+    Private strPath As String
+
     Public Property FileList As List(Of clsFile)
 
     Public Property objOAItem_Pattern As clsObjectAtt
     Public Property objOAItem_SubItems As clsObjectAtt
 
     Public Property objORItem_Path As clsObjectRel
+
+    Public ReadOnly Property Path As String
+        Get
+            Return strPath
+        End Get
+    End Property
 
     Public ReadOnly Property OItem_Result_FileResult As clsOntologyItem
         Get
@@ -99,6 +107,9 @@ Public Class clsDataWork_FileResource_Path
                                                         .OrderID = objDBLevel_Relations.OList_ObjectRel.First().OrderID, _
                                                         .Ontology = objDBLevel_Relations.OList_ObjectRel.First().Ontology}
 
+                strPath = objORItem_Path.Name_Other
+                strPath = Environment.ExpandEnvironmentVariables(strPath)
+
             End If
         End If
 
@@ -109,7 +120,7 @@ Public Class clsDataWork_FileResource_Path
         FileList = New List(Of clsFile)
 
         If Not objORItem_Path Is Nothing Then
-            Dim strPath = objORItem_Path.Name_Other
+            strPath = objORItem_Path.Name_Other
             strPath = Environment.ExpandEnvironmentVariables(strPath)
 
             Dim boolSubItems As Boolean
@@ -170,6 +181,12 @@ Public Class clsDataWork_FileResource_Path
 
     Public Sub New(LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
+
+        Initialize()
+    End Sub
+
+    Public Sub New(Globals As clsGlobals)
+        objLocalConfig = New clsLocalConfig(Globals)
 
         Initialize()
     End Sub

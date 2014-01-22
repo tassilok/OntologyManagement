@@ -42,18 +42,34 @@
 <Item Id="e70dac50338441d88062babd0849341c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Entry_Value_Parser]]></Item>
 <Item Id="f684b99ff71a45b3b81448e585e994f5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Metadata__Parser_]]></Item>
 <Item Id="45c77a82a8244bbeba2a814ccbf0cc53" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Message]]></Item>
+<Item Id="8352c394cf714753b7298d73819193c5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_bit]]></Item>
 <Item Id="596a181c0524432abd272b20e512eecd" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Temporary_Regular_Expression]]></Item>
 <Item Id="d14e9b6e924b487291ef3723f278d927" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_FileName]]></Item>
 <Item Id="f605d13ccc794fd5b17abfd63148eb21" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_FilePath]]></Item>
+<Item Id="5db78b1c3986449e9d1403efa5c5dc85" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_int]]></Item>
 <Item Id="9d953dcc22164408b5a57a8cff30b0f6" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_user]]></Item>
+<Item Id="a8004af7312b494f8cb25c5529729331" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_empty]]></Item>
+<Item Id="50c486a559ca4cf6b2fa96dd958f5947" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_FILEDATE_CREATE]]></Item>
+<Item Id="b78f91c74f7c4b07b7e61521a06f8042" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_FILEDATE_LASTCHANGE]]></Item>
+<Item Id="5600aef2d206452a86f663880c5c6262" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Guid]]></Item>
+<Item Id="32ad5019db92478bbec9873caaf51fb8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_datetime]]></Item>
 <Item Id="fc08af9ed00c4ccc9cf82bb71ec35aa6" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_DateTimeStamp]]></Item>
 <Item Id="d0af07f28db64513b2c4977070c09060" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Date]]></Item>
+<Item Id="5eadc0ea3eef4096bf1a2e378eef751f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_string]]></Item>
 <Item Id="2f45e7c7ef384c0a9e8316f080fff381" Id_Parent="2113a7daad084cbc87e2e88fd0b70812"><![CDATA[Message]]></Item>
+<Item Id="0f7cbdaef27c4f998bcbf6d4659120f0" Id_Parent="69e1c4ac593e4ebb907c9b2bcec595de"><![CDATA[bit]]></Item>
 <Item Id="f4db3f5e71914d2b8c09bc7fee3cb235" Id_Parent="bd8af19406a74130acad0394cab33ee6"><![CDATA[Temporary Regular Expression]]></Item>
 <Item Id="831cd882de9c4588848bdd1bc35ddae7" Id_Parent="2113a7daad084cbc87e2e88fd0b70812"><![CDATA[FileName]]></Item>
 <Item Id="b2c8a23adfd54ff1a1e1c9859f744fe3" Id_Parent="2113a7daad084cbc87e2e88fd0b70812"><![CDATA[FilePath]]></Item>
+<Item Id="0da2776e471540088097111de9d3ca30" Id_Parent="69e1c4ac593e4ebb907c9b2bcec595de"><![CDATA[int]]></Item>
 <Item Id="13eb9163e4a04f74b84d39a1fef133a2" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[user]]></Item>
+<Item Id="85094e2d484b48cb800f90f588fc474a" Id_Parent="7e84dc67a1234993b0ea62dffc2b895d"><![CDATA[empty]]></Item>
+<Item Id="b2297f5ddbd7419f9bc9d78394c74d1e" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[FILEDATE_CREATE]]></Item>
+<Item Id="7d168eb4c67e4189806fb972f5c65f2d" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[FILEDATE_LASTCHANGE]]></Item>
+<Item Id="ebea70d9b621409f8e366bb1bc42b980" Id_Parent="2113a7daad084cbc87e2e88fd0b70812"><![CDATA[Guid]]></Item>
+<Item Id="704bad09434e4ee4ad9b4d2ac28ac1cd" Id_Parent="69e1c4ac593e4ebb907c9b2bcec595de"><![CDATA[datetime]]></Item>
 <Item Id="5595f54345f8428b93bc9a159d2b9925" Id_Parent="2113a7daad084cbc87e2e88fd0b70812"><![CDATA[DateTimeStamp]]></Item>
 <Item Id="1d342efd4a1d4c8f952fa65df85a2e33" Id_Parent="2113a7daad084cbc87e2e88fd0b70812"><![CDATA[Date]]></Item>
+<Item Id="f9fcc62c61ea4ea3ba206c61610f8604" Id_Parent="69e1c4ac593e4ebb907c9b2bcec595de"><![CDATA[string]]></Item>
 
 </Items>

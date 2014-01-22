@@ -35,6 +35,9 @@
     <StartupObject>TextParser.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Filesystem-Module">
+      <HintPath>..\..\Filesystem-Module\Filesystem-Module\bin\Debug\Filesystem-Module.exe</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,7 +52,6 @@
   <ItemGroup>
     <Compile Include="clsDataWork_BaseData.cs" />
     <Compile Include="clsDataWork_FieldParser.cs" />
-    <Compile Include="clsDataWork_FileResources.cs" />
     <Compile Include="clsDatawork_RegExFilter.cs" />
     <Compile Include="clsDataWork_TextParser.cs" />
     <Compile Include="clsField.cs" />

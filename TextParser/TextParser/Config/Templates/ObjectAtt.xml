@@ -16,5 +16,13 @@
   <Val_Lng></Val_Lng>
   <Val_String><![CDATA[]]></Val_String>
 </Item>
+<Item Id_Attribute="76f1c739d32d45418842e6d6aa9879b3" Id_AttributeType="22e93da2894a45d497d15e1711aa5657" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="85094e2d484b48cb800f90f588fc474a" Id_Class="7e84dc67a1234993b0ea62dffc2b895d" OrderId="1">
+  <Val_Named><![CDATA[]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String><![CDATA[]]></Val_String>
+</Item>
 
 </Items>
