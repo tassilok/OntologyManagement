@@ -34,14 +34,18 @@
             this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridView_Checklists = new System.Windows.Forms.DataGridView();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton_Active = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
+            this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Checklists)).BeginInit();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -61,6 +65,10 @@
             this.toolStripContainer1.Size = new System.Drawing.Size(586, 461);
             this.toolStripContainer1.TabIndex = 0;
             this.toolStripContainer1.Text = "toolStripContainer1";
+            // 
+            // toolStripContainer1.TopToolStripPanel
+            // 
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
             // 
             // toolStrip1
             // 
@@ -109,6 +117,29 @@
             this.dataGridView_Checklists.TabIndex = 0;
             this.dataGridView_Checklists.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Checklists_RowHeaderMouseDoubleClick);
             // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton_Active});
+            this.toolStrip2.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(97, 25);
+            this.toolStrip2.TabIndex = 0;
+            // 
+            // toolStripButton_Active
+            // 
+            this.toolStripButton_Active.Checked = true;
+            this.toolStripButton_Active.CheckOnClick = true;
+            this.toolStripButton_Active.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripButton_Active.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Active.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Active.Image")));
+            this.toolStripButton_Active.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Active.Name = "toolStripButton_Active";
+            this.toolStripButton_Active.Size = new System.Drawing.Size(54, 22);
+            this.toolStripButton_Active.Text = "x_Active";
+            this.toolStripButton_Active.CheckStateChanged += new System.EventHandler(this.toolStripButton_Active_CheckStateChanged);
+            // 
             // frmChecklistModule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -122,6 +153,8 @@
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
+            this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -130,6 +163,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Checklists)).EndInit();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -141,6 +176,8 @@
         private System.Windows.Forms.ToolStripButton toolStripButton_Close;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView dataGridView_Checklists;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripButton toolStripButton_Active;
     }
 }
 

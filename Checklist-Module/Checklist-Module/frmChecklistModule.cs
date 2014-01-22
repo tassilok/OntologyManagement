@@ -22,11 +22,14 @@ namespace Checklist_Module
         private frmCheckliste objFrmChecklist;
         private clsDataWork_Checklists objDataWork_Checklists;
 
+        private clsOntologyItem objOItem_LogState;
+
         private bool boolOpen;
 
         public frmChecklistModule()
         {
             InitializeComponent();
+            objLocalConfig = new clsLocalConfig(new clsGlobals());
             Initialize();
         }
 
@@ -38,15 +41,24 @@ namespace Checklist_Module
         private void Initialize()
         {
             boolOpen = false;
-            objLocalConfig = new clsLocalConfig(new clsGlobals());
+            
+            SetLogState();
             objDataWork_Checklists = new clsDataWork_Checklists(objLocalConfig);
-            objAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, false, frmAuthenticate.ERelateMode.NoRelate);
-            objAuthenticate.ShowDialog(this);
-            if (objAuthenticate.DialogResult == DialogResult.OK)
+            if (objLocalConfig.User == null)
             {
-                boolOpen = true;
-                objLocalConfig.User = objAuthenticate.OItem_User;
-                objDataWork_Checklists.GetData_WorkingLists();
+                objAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, false, frmAuthenticate.ERelateMode.NoRelate);
+                objAuthenticate.ShowDialog(this);
+                if (objAuthenticate.DialogResult == DialogResult.OK)
+                {
+                    boolOpen = true;
+                    objLocalConfig.User = objAuthenticate.OItem_User;
+                }
+            }
+                
+            if (objLocalConfig.User != null)
+            {
+                
+                objDataWork_Checklists.GetData_WorkingLists(objOItem_LogState);
                 if (objDataWork_Checklists.OItem_Result_WorkingLists.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
                     objUserControl_RefTree = new UserControl_RefTree(objLocalConfig.Globals);
@@ -76,7 +88,7 @@ namespace Checklist_Module
         void objUserControl_RefTree_selected_Node(clsOntologyItem OItem_Selected)
         {
             dataGridView_Checklists.DataSource = null;
-            var objOList_WorkingList = objDataWork_Checklists.GetData_WorkingListsOfRef(OItem_Selected);
+            var objOList_WorkingList = objDataWork_Checklists.GetData_WorkingListsOfRef(OItem_Selected, objOItem_LogState);
             dataGridView_Checklists.DataSource = objOList_WorkingList;
             dataGridView_Checklists.Columns[0].Visible = false;
             dataGridView_Checklists.Columns[2].Visible = false;
@@ -135,7 +147,25 @@ namespace Checklist_Module
             {
                 MessageBox.Show(this, "Bitte erst die Checkliste vollständig definieren!", "Vollständigkeit", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            
+
+        }
+
+        private void SetLogState()
+        {
+            if (toolStripButton_Active.Checked)
+            {
+                objOItem_LogState = objLocalConfig.OItem_object_active;
+            }
+            else
+            {
+                objOItem_LogState = objLocalConfig.OItem_object_inactive;
+            }
+        }
+
+        private void toolStripButton_Active_CheckStateChanged(object sender, EventArgs e)
+        {
+            SetLogState();
+            Initialize();
         }
     }
 }

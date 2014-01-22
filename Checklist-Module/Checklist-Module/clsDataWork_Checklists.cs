@@ -28,8 +28,9 @@ namespace Checklist_Module
         private clsDBLevel objDBLevel_WorkingListToLogEntry;
         private clsDBLevel objDBLevel_RefToLogEntry;
         private clsDBLevel objDBLevel_OntologyItem;
+        private clsDBLevel objDBLevel_LogState;
 
-        public void GetData_WorkingLists()
+        public void GetData_WorkingLists(clsOntologyItem OItem_Status)
         {
             OItem_Result_WorkingLists = objLocalConfig.Globals.LState_Nothing.Clone();
             var objOLRel_WorkingList_To_User = new List<clsObjectRel> {new clsObjectRel {ID_Other = objLocalConfig.User.GUID, 
@@ -38,14 +39,37 @@ namespace Checklist_Module
             var objOItem_Result = objDBLevel_Report.get_Data_ObjectRel(objOLRel_WorkingList_To_User, boolIDs : false);
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                OList_WorkingLists = objDBLevel_Report.OList_ObjectRel.Select(p => new clsOntologyItem
+                var objOLRel_WorkingList_To_LogState = new List<clsObjectRel>
+                    {
+                        new clsObjectRel
+                            {
+                                ID_Parent_Object = objLocalConfig.OItem_class_working_lists.GUID,
+                                ID_Parent_Other = objLocalConfig.OItem_class_logstate.GUID,
+                                ID_Other = OItem_Status != null ? OItem_Status.GUID : null,
+                                ID_RelationType = objLocalConfig.OItem_relationtype_is_in_state.GUID
+                            }
+                    };
+
+                objOItem_Result = objDBLevel_LogState.get_Data_ObjectRel(objOLRel_WorkingList_To_LogState,
+                                                                         boolIDs: false);
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    GUID = p.ID_Object,
-                    Name = p.Name_Object,
-                    GUID_Parent = p.ID_Parent_Object,
-                    Type = objLocalConfig.Globals.Type_Object
-                }).ToList();
-                OItem_Result_WorkingLists = objLocalConfig.Globals.LState_Success.Clone();
+                    OList_WorkingLists = (from objWorkList in objDBLevel_Report.OList_ObjectRel 
+                                          join objLogState in objDBLevel_LogState.OList_ObjectRel on objWorkList.ID_Object equals objLogState.ID_Object
+                                          select new clsOntologyItem
+                                            {
+                                                GUID = objWorkList.ID_Object,
+                                                Name = objWorkList.Name_Object,
+                                                GUID_Parent = objWorkList.ID_Parent_Object,
+                                                Type = objLocalConfig.Globals.Type_Object
+                                            }).ToList();
+                    OItem_Result_WorkingLists = objLocalConfig.Globals.LState_Success.Clone();
+                }
+                else
+                {
+                    OItem_Result_WorkingLists = objLocalConfig.Globals.LState_Error.Clone();
+                }
+                
             }
             else
             {
@@ -62,7 +86,7 @@ namespace Checklist_Module
 
         }
 
-        public SortableBindingList<clsWorkingList> GetData_WorkingListsOfRef(clsOntologyItem OItem_Ref)
+        public SortableBindingList<clsWorkingList> GetData_WorkingListsOfRef(clsOntologyItem OItem_Ref, clsOntologyItem OItem_LogState)
         {
             SortableBindingList<clsWorkingList> objOList_WorkingLists = new SortableBindingList<clsWorkingList>();
 
@@ -162,26 +186,52 @@ namespace Checklist_Module
 
                             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                             {
-                                objOList_WorkingLists = new SortableBindingList<clsWorkingList>((from objWorkingList in objDBLevel_WorkingListsOfRef.OList_ObjectRel
-                                                                                                 join objReport in objDBLevel_WorkingListToReport.OList_ObjectRel on objWorkingList.ID_Object equals objReport.ID_Object into objReports
-                                                                                                 from objReport in objReports.DefaultIfEmpty()
-                                                                                                 join objUser in objDBLevel_WorkingListToUser.OList_ObjectRel on objWorkingList.ID_Object equals objUser.ID_Object
-                                                                                                 where objUser.ID_Other == objLocalConfig.User.GUID
-                                                                                                 join objReportField in objDBLevel_WorkingListToReportField.OList_ObjectRel on objWorkingList.ID_Object equals objReportField.ID_Object into objReportFields
-                                                                                                 from objReportField in objReportFields.DefaultIfEmpty()
-                                                                                                 select new clsWorkingList
-                                                                                                 {
-                                                                                                     ID_WorkingList = objWorkingList.ID_Object,
-                                                                                                     Name_WorkingList = objWorkingList.Name_Object,
-                                                                                                     ID_Resource = objWorkingList.ID_Other,
-                                                                                                     Name_Resource = objWorkingList.Name_Other,
-                                                                                                     ID_Report = objReport.ID_Other,
-                                                                                                     Name_Report = objReport.Name_Other,
-                                                                                                     ID_ReportField = objReportField.ID_Other,
-                                                                                                     Name_ReportField = objReportField.Name_Other,
-                                                                                                     ID_User = objUser.ID_Other,
-                                                                                                     Name_User = objUser.Name_Other
-                                                                                                 }));
+                                var objORel_WorkingList_To_LogState = new List<clsObjectRel>
+                                    {
+                                        new clsObjectRel
+                                            {
+                                                ID_Parent_Object = objLocalConfig.OItem_class_working_lists.GUID,
+                                                ID_Parent_Other = objLocalConfig.OItem_class_logstate.GUID,
+                                                ID_Other = OItem_LogState != null ? OItem_LogState.GUID : null,
+                                                ID_RelationType = objLocalConfig.OItem_relationtype_is_in_state.GUID
+
+                                            }
+                                    };
+
+                                objOItem_Result = objDBLevel_LogState.get_Data_ObjectRel(
+                                    objORel_WorkingList_To_LogState, boolIDs: false);
+
+                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                {
+                                    objOList_WorkingLists = new SortableBindingList<clsWorkingList>((from objWorkingList in objDBLevel_WorkingListsOfRef.OList_ObjectRel
+                                                                                                     join objReport in objDBLevel_WorkingListToReport.OList_ObjectRel on objWorkingList.ID_Object equals objReport.ID_Object into objReports
+                                                                                                     from objReport in objReports.DefaultIfEmpty()
+                                                                                                     join objUser in objDBLevel_WorkingListToUser.OList_ObjectRel on objWorkingList.ID_Object equals objUser.ID_Object
+                                                                                                     where objUser.ID_Other == objLocalConfig.User.GUID
+                                                                                                     join objReportField in objDBLevel_WorkingListToReportField.OList_ObjectRel on objWorkingList.ID_Object equals objReportField.ID_Object into objReportFields
+                                                                                                     from objReportField in objReportFields.DefaultIfEmpty()
+                                                                                                     join objLogState in objDBLevel_LogState.OList_ObjectRel on objWorkingList.ID_Object equals objLogState.ID_Object
+                                                                                                     select new clsWorkingList
+                                                                                                     {
+                                                                                                         ID_WorkingList = objWorkingList.ID_Object,
+                                                                                                         Name_WorkingList = objWorkingList.Name_Object,
+                                                                                                         ID_Resource = objWorkingList.ID_Other,
+                                                                                                         Name_Resource = objWorkingList.Name_Other,
+                                                                                                         ID_Report = objReport.ID_Other,
+                                                                                                         Name_Report = objReport.Name_Other,
+                                                                                                         ID_ReportField = objReportField.ID_Other,
+                                                                                                         Name_ReportField = objReportField.Name_Other,
+                                                                                                         ID_User = objUser.ID_Other,
+                                                                                                         Name_User = objUser.Name_Other,
+                                                                                                         ID_LogState = objLogState.ID_Other,
+                                                                                                         Name_LogState = objLogState.Name_Other
+                                                                                                     }));
+                                }
+                                else
+                                {
+                                    
+                                }
+                                
                             }
                             else
                             {
@@ -348,6 +398,7 @@ namespace Checklist_Module
             objDBLevel_WorkingListToLogEntry = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_RefToLogEntry = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_OntologyItem = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_LogState = new clsDBLevel(objLocalConfig.Globals);
             OItem_Result_Report = objLocalConfig.Globals.LState_Nothing.Clone();
             OItem_Result_WorkingLists = objLocalConfig.Globals.LState_Nothing.Clone();
 

@@ -251,8 +251,11 @@ Public Class clsDataWork_ReportFields
         Dim objOItem_Result = objDBLevel_Column.get_Data_Objects(objOLColumn)
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            If objDBLevel_Column.OList_Objects.Any() Then
-                objOItem_Result = objDBLevel_Column.OList_Objects.First()
+            dim objColumnsExact = objDBLevel_Column.OList_Objects.Where(Function(p) p.Name.ToLower() = Name_Column.ToLower()).ToList()
+
+
+            If objColumnsExact.Any() Then
+                objOItem_Result = objColumnsExact.First()
             Else 
                 objOItem_Result = Nothing
             End If

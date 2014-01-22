@@ -18,5 +18,7 @@ namespace Checklist_Module
         public string Name_User { get; set; }
         public string ID_Resource { get; set; }
         public string Name_Resource { get; set; }
+        public string ID_LogState { get; set; }
+        public string Name_LogState { get; set; }
     }
 }
