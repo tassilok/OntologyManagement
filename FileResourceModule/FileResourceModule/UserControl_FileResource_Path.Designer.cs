@@ -74,6 +74,7 @@
             // Timer_LineCount
             // 
             this.Timer_LineCount.Interval = 300;
+            this.Timer_LineCount.Tick += new System.EventHandler(this.Timer_LineCount_Tick);
             // 
             // ToolStripButton_Open
             // 
@@ -92,7 +93,7 @@
             this.ToolStripButton_Open});
             this.ToolStrip1.Location = new System.Drawing.Point(3, 0);
             this.ToolStrip1.Name = "ToolStrip1";
-            this.ToolStrip1.Size = new System.Drawing.Size(93, 25);
+            this.ToolStrip1.Size = new System.Drawing.Size(62, 25);
             this.ToolStrip1.TabIndex = 0;
             // 
             // ToolStripContainer1

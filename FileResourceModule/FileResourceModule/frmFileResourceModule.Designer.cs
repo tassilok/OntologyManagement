@@ -83,6 +83,7 @@
             this.ToolStripButton_Close.Name = "ToolStripButton_Close";
             this.ToolStripButton_Close.Size = new System.Drawing.Size(50, 22);
             this.ToolStripButton_Close.Text = "x_Close";
+            this.ToolStripButton_Close.Click += new System.EventHandler(this.ToolStripButton_Close_Click);
             // 
             // SplitContainer1
             // 
@@ -109,6 +110,7 @@
             this.TabControl1.SelectedIndex = 0;
             this.TabControl1.Size = new System.Drawing.Size(427, 362);
             this.TabControl1.TabIndex = 0;
+            this.TabControl1.SelectedIndexChanged += new System.EventHandler(this.TabControl1_SelectedIndexChanged);
             // 
             // TabPage_File
             // 
@@ -125,7 +127,7 @@
             this.TabPage_Path.Location = new System.Drawing.Point(4, 22);
             this.TabPage_Path.Name = "TabPage_Path";
             this.TabPage_Path.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_Path.Size = new System.Drawing.Size(345, 380);
+            this.TabPage_Path.Size = new System.Drawing.Size(419, 336);
             this.TabPage_Path.TabIndex = 1;
             this.TabPage_Path.Text = "x_Path";
             this.TabPage_Path.UseVisualStyleBackColor = true;
@@ -135,7 +137,7 @@
             this.TabPage_WebConnection.Location = new System.Drawing.Point(4, 22);
             this.TabPage_WebConnection.Name = "TabPage_WebConnection";
             this.TabPage_WebConnection.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_WebConnection.Size = new System.Drawing.Size(345, 380);
+            this.TabPage_WebConnection.Size = new System.Drawing.Size(419, 336);
             this.TabPage_WebConnection.TabIndex = 2;
             this.TabPage_WebConnection.Text = "x_Web-Connection";
             this.TabPage_WebConnection.UseVisualStyleBackColor = true;

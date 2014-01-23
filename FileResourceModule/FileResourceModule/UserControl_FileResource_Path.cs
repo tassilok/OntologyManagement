@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using TextParser;
 using OntologyClasses.BaseClasses;
 using Structure_Module;
+using System.IO;
 
 namespace FileResourceModule
 {
@@ -36,6 +37,8 @@ namespace FileResourceModule
             InitializeComponent();
 
             objLocalConfig = LocalConfig;
+
+            Initialize();
         }
 
         public void Initialize_Path(clsOntologyItem OItem_FileResource)
@@ -50,6 +53,7 @@ namespace FileResourceModule
                 if (objDatawork_FileResource_Path.OItem_Result_Attributes.GUID ==
                     objLocalConfig.Globals.LState_Success.GUID)
                 {
+                    objDatawork_FileResource_Path.GetData_Relations(objOItem_FileResource);
                     if (objDatawork_FileResource_Path.OItem_Result_Relations.GUID ==
                         objLocalConfig.Globals.LState_Success.GUID)
                     {
@@ -217,7 +221,46 @@ namespace FileResourceModule
             }
             else
             {
-                MessageBoxButtons
+                MessageBox.Show(this, "Die Datei existiert nicht!", "Dateifehler!",MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void GetLineCount()
+        {
+            foreach (DataGridViewRow dgvrSel in DataGridView_Files.Rows)
+            {
+                var objFile = (clsFile) dgvrSel.DataBoundItem;
+
+                try
+                {
+                    lngLineCount = lngLineCount + File.ReadAllLines(objFile.FileName).Length;
+                }
+                catch (Exception)
+                {
+                    objOItem_Result_Filecount = objLocalConfig.Globals.LState_Error.Clone();
+                    break;
+
+                }
+            }
+            if (objOItem_Result_Filecount.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
+            {
+                objOItem_Result_Filecount = objLocalConfig.Globals.LState_Success.Clone();
+            }
+        }
+
+        private void Timer_LineCount_Tick(object sender, EventArgs e)
+        {
+            if (objOItem_Result_Filecount.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
+            {
+                ToolStripProgressBar_LineCount.Value = 50;
+            }
+            else
+            {
+                ToolStripLabel_LineCount.Text = lngLineCount.ToString();
+
+                ToolStripProgressBar_LineCount.Value = 0;
+
+                Timer_LineCount.Stop();
             }
         }
 

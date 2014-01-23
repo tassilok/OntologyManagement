@@ -109,16 +109,25 @@ namespace FileResourceModule
             var objOItem_Result = objDBLevel_Relations.get_Data_ObjectRel(objORelS_Relations, boolIDs: false);
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                objORItem_Path = new clsObjectRel
+                if (objDBLevel_Relations.OList_ObjectRel.Any())
+                {
+                    objORItem_Path = new clsObjectRel
                     {
-                        ID_Object = objDBLevel_Attributes.OList_ObjectRel.First().ID_Object,
-                        ID_Parent_Object = objDBLevel_Attributes.OList_ObjectRel.First().ID_Parent_Object,
-                        ID_Other = objDBLevel_Attributes.OList_ObjectRel.First().ID_Other,
-                        ID_Parent_Other = objDBLevel_Attributes.OList_ObjectRel.First().ID_Parent_Other,
-                        ID_RelationType = objDBLevel_Attributes.OList_ObjectRel.First().ID_RelationType,
-                        OrderID = objDBLevel_Attributes.OList_ObjectRel.First().OrderID,
-                        Ontology = objDBLevel_Attributes.OList_ObjectRel.First().Ontology
-                    };
+                        ID_Object = objDBLevel_Relations.OList_ObjectRel.First().ID_Object,
+                        ID_Parent_Object = objDBLevel_Relations.OList_ObjectRel.First().ID_Parent_Object,
+                        ID_Other = objDBLevel_Relations.OList_ObjectRel.First().ID_Other,
+                        Name_Other = objDBLevel_Relations.OList_ObjectRel.First().Name_Other,
+                        ID_Parent_Other = objDBLevel_Relations.OList_ObjectRel.First().ID_Parent_Other,
+                        ID_RelationType = objDBLevel_Relations.OList_ObjectRel.First().ID_RelationType,
+                        OrderID = objDBLevel_Relations.OList_ObjectRel.First().OrderID,
+                        Ontology = objDBLevel_Relations.OList_ObjectRel.First().Ontology
+                    };    
+                }
+                else
+                {
+                    objORItem_Path = null;
+                }
+                
 
 
             }
