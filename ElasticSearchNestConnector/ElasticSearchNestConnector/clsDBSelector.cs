@@ -917,17 +917,21 @@ namespace ElasticSearchNestConnector
             var settings = new ConnectionSettings(uri).SetDefaultIndex(Index);
             ElConnector = new ElasticClient(settings);
 
-            try
+            if (IndexRep != null)
             {
-                var indexSettings = new IndexSettings();
-                ElConnector.CreateIndex(IndexRep, indexSettings);
-                
-            }
-            catch (Exception ex)
-            {
+                try
+                {
+                    var indexSettings = new IndexSettings();
+                    ElConnector.CreateIndex(IndexRep, indexSettings);
 
-                throw new Exception("Report index!");
+                }
+                catch (Exception ex)
+                {
+
+                    throw new Exception("Report index!");
+                }    
             }
+            
         }
 
         public long get_Data_Att_OrderByVal(string strOrderField,
@@ -2154,9 +2158,19 @@ namespace ElasticSearchNestConnector
             return lngCount;
         }
 
+        public List<string> IndexList(string server, int port)
+        {
+            var uri = new Uri("http://" + server + ":" + port.ToString());
+
+            var settings = new ConnectionSettings(uri);
+            var objElConnector = new ElasticClient(settings);
+            var dictIndex = objElConnector.Stats().Indices;
+            return dictIndex.Keys.ToList();
+        }
+
         public List<clsOntologyItem> get_Data_RelationTypes(List<clsOntologyItem> OList_RelType = null, bool List2 = false)
         {
-
+            
             if (OntologyList_RelationTypes1 == null)
             {
                 OntologyList_RelationTypes1 = new List<clsOntologyItem>();
@@ -2374,6 +2388,13 @@ namespace ElasticSearchNestConnector
             sort = SortEnum.NONE;
 
 
+
+
+        }
+
+        public clsDBSelector()
+        {
+            
 
 
         }

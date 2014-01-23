@@ -39,6 +39,7 @@ namespace ElasticSearchNestConnector
         public int LastPos { get; set; }
         public int PageCount { get; set; }
         public int CurPage { get; set; }
+        public int Total { get; set; }
 
 
         public ElasticClient ElConnector { get; private set; }
@@ -138,7 +139,7 @@ namespace ElasticSearchNestConnector
             return intIx;
         }
 
-        public List<clsAppDocuments> GetData_Documents(string strIndex = null, string strType = null, bool paging = false, int lastPos = 0)
+        public List<clsAppDocuments> GetData_Documents(string strIndex = null, string strType = null, bool paging = false, int lastPos = 0, string query = null)
         {
             LastPos = lastPos;
             Paging = paging;
@@ -147,12 +148,13 @@ namespace ElasticSearchNestConnector
             var intCount = SearchRange;
             var intPos = LastPos;
 
+
             while (intCount > 0)
             {
                 intCount = 0;
 
-                var result = ElConnector.Search(s => s.Index(Index).Type(strType ?? App).QueryString("*").From(intPos).Size(SearchRange));
-                
+                var result = ElConnector.Search(s => s.Index(strIndex ?? Index).Type(strType ?? App).QueryString(query ?? "*").From(intPos).Size(SearchRange));
+                Total = result.Total;
                 Documents.AddRange(
                     result.Documents.Select(
                         d => new clsAppDocuments {Dict = new JObject(d).ToObject<Dictionary<string, object>>(), Id = d["Id"]}));

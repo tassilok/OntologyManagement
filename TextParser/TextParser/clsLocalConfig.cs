@@ -88,6 +88,12 @@ public clsOntologyItem OItem_object_int { get; set; }
 public clsOntologyItem OItem_object_datetime { get; set; }
 public clsOntologyItem OItem_object_bit { get; set; }
 public clsOntologyItem OItem_object_empty { get; set; }
+public clsOntologyItem OItem_object_double { get; set; }
+public clsOntologyItem OItem_object_filedate__last_change_ { get; set; }
+public clsOntologyItem OItem_object_filedate__create_ { get; set; }
+public clsOntologyItem OItem_object_fileline { get; set; }
+public clsOntologyItem OItem_object_filedatetime__last_change_ { get; set; }
+public clsOntologyItem OItem_object_filedatetime__create_ { get; set; }
   
 	
 private void get_Data_DevelopmentConfig()
@@ -629,6 +635,133 @@ var objOList_relationtype_value = (from objOItem in objDBLevel_Config1.OList_Obj
   
 	private void get_Config_Objects()
         {
+
+            var objOList_object_fileline = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                            where objOItem.ID_Object == cstrID_Ontology
+                                            join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "object_fileline".ToLower() && objRef.Ontology == Globals.Type_Object
+                                            select objRef).ToList();
+
+            if (objOList_object_fileline.Any())
+            {
+                OItem_object_fileline = new clsOntologyItem()
+                {
+                    GUID = objOList_object_fileline.First().ID_Other,
+                    Name = objOList_object_fileline.First().Name_Other,
+                    GUID_Parent = objOList_object_fileline.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_filedatetime__last_change_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                              where objOItem.ID_Object == cstrID_Ontology
+                                                              join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                              where objRef.Name_Object.ToLower() == "object_filedatetime__last_change_".ToLower() && objRef.Ontology == Globals.Type_Object
+                                                              select objRef).ToList();
+
+            if (objOList_object_filedatetime__last_change_.Any())
+            {
+                OItem_object_filedatetime__last_change_ = new clsOntologyItem()
+                {
+                    GUID = objOList_object_filedatetime__last_change_.First().ID_Other,
+                    Name = objOList_object_filedatetime__last_change_.First().Name_Other,
+                    GUID_Parent = objOList_object_filedatetime__last_change_.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_filedatetime__create_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                         where objOItem.ID_Object == cstrID_Ontology
+                                                         join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                         where objRef.Name_Object.ToLower() == "object_filedatetime__create_".ToLower() && objRef.Ontology == Globals.Type_Object
+                                                         select objRef).ToList();
+
+            if (objOList_object_filedatetime__create_.Any())
+            {
+                OItem_object_filedatetime__create_ = new clsOntologyItem()
+                {
+                    GUID = objOList_object_filedatetime__create_.First().ID_Other,
+                    Name = objOList_object_filedatetime__create_.First().Name_Other,
+                    GUID_Parent = objOList_object_filedatetime__create_.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_filedate__last_change_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                          where objOItem.ID_Object == cstrID_Ontology
+                                                          join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                          where objRef.Name_Object.ToLower() == "object_filedate__last_change_".ToLower() && objRef.Ontology == Globals.Type_Object
+                                                          select objRef).ToList();
+
+            if (objOList_object_filedate__last_change_.Any())
+            {
+                OItem_object_filedate__last_change_ = new clsOntologyItem()
+                {
+                    GUID = objOList_object_filedate__last_change_.First().ID_Other,
+                    Name = objOList_object_filedate__last_change_.First().Name_Other,
+                    GUID_Parent = objOList_object_filedate__last_change_.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_filedate__create_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                     where objOItem.ID_Object == cstrID_Ontology
+                                                     join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                     where objRef.Name_Object.ToLower() == "object_filedate__create_".ToLower() && objRef.Ontology == Globals.Type_Object
+                                                     select objRef).ToList();
+
+            if (objOList_object_filedate__create_.Any())
+            {
+                OItem_object_filedate__create_ = new clsOntologyItem()
+                {
+                    GUID = objOList_object_filedate__create_.First().ID_Other,
+                    Name = objOList_object_filedate__create_.First().Name_Other,
+                    GUID_Parent = objOList_object_filedate__create_.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_double = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                          where objOItem.ID_Object == cstrID_Ontology
+                                          join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                          where objRef.Name_Object.ToLower() == "object_double".ToLower() && objRef.Ontology == Globals.Type_Object
+                                          select objRef).ToList();
+
+            if (objOList_object_double.Any())
+            {
+                OItem_object_double = new clsOntologyItem()
+                {
+                    GUID = objOList_object_double.First().ID_Other,
+                    Name = objOList_object_double.First().Name_Other,
+                    GUID_Parent = objOList_object_double.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_object_empty = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                          where objOItem.ID_Object == cstrID_Ontology
                                          join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object

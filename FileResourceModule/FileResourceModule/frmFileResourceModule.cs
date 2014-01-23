@@ -38,6 +38,14 @@ namespace FileResourceModule
             Initialize();
         }
 
+        public frmFileResourceModule(clsGlobals Globals)
+        {
+            InitializeComponent();
+
+            objLocalConfig = new clsLocalConfig(Globals);
+            Initialize();
+        }
+
         private void Initialize()
         {
             objLocalConfig = new clsLocalConfig(new clsGlobals());

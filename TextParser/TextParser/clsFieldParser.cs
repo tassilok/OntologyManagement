@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using OntologyClasses.BaseClasses;
 using Ontology_Module;
-using Filesystem_Module;
 using System.IO;
 using System.Text.RegularExpressions;
+using Filesystem_Module;
 
 namespace TextParser
 {
@@ -69,7 +69,7 @@ namespace TextParser
                         index = "";
                         if (objDataWork_TextParser.OItem_Index != null)
                         {
-                            index = objDataWork_TextParser.OItem_Index.Name;
+                            index = objDataWork_TextParser.OItem_Index.Name.ToLower();
                         }
 
                         if (objDataWork_TextParser.OList_Variables != null)
@@ -101,7 +101,7 @@ namespace TextParser
                                         if (objDataWork_FileResource_Path.OItem_Result_FileResult.GUID ==
                                             objLocalConfig.Globals.LState_Success.GUID)
                                         {
-                                            objAppDBLevel = new clsAppDBLevel(server, port, index,
+                                            objAppDBLevel = new clsAppDBLevel(server, port, index.ToLower(),
                                                                               objLocalConfig.Globals.SearchRange,
                                                                               objLocalConfig.Globals.Session);
                                             fileList = objDataWork_FileResource_Path.FileList;
@@ -149,6 +149,7 @@ namespace TextParser
             var fileDate_Create = false;
             var fileDate_LastChange = false;
             var docCount = 0;
+            long fileLine = 0;
             
             if (OList_Variables != null && OList_Variables.Any())
             {
@@ -156,7 +157,7 @@ namespace TextParser
                 {
                     if (oItem_Variable.GUID == objLocalConfig.OItem_object_user.GUID)
                     {
-                        index = index.Replace("@" + oItem_Variable.Name + "@", objLocalConfig.OItem_User.Name);
+                        index = index.Replace("@" + oItem_Variable.Name.ToLower() + "@", objLocalConfig.OItem_User.GUID.ToLower());
                     }
                     else if (oItem_Variable.GUID == objLocalConfig.OItem_object_filedate_create.GUID)
                     {
@@ -171,15 +172,15 @@ namespace TextParser
 
             foreach (var file in fileList)
             {
-                
+                fileLine = 0;
                 if (fileDate_Create)
                 {
-                    index = index.Replace("@" + objLocalConfig.OItem_object_filedate_create.Name + "@", File.GetCreationTime(file.FileName).ToString("yyyyMMdd"));
+                    index = index.Replace("@" + objLocalConfig.OItem_object_filedate_create.Name.ToLower() + "@", File.GetCreationTime(file.FileName).ToString("yyyyMMdd"));
 
                 }
                 if (fileDate_LastChange)
                 {
-                    index = index.Replace("@" + objLocalConfig.OItem_object_filedate_lastchange.Name + "@", File.GetCreationTime(file.FileName).ToString("yyyyMMdd"));
+                    index = index.Replace("@" + objLocalConfig.OItem_object_filedate_lastchange.Name.ToLower() + "@", File.GetLastWriteTime(file.FileName).ToString("yyyyMMdd"));
                 }
 
                 
@@ -195,46 +196,76 @@ namespace TextParser
                     {
                         var parse = true;
                         var add = false;
-                        var dict = new Dictionary<string, object>();
+                        var dontAddUser = false;
+                        var dictMeta = new Dictionary<string, object>();
+                        var dictUser = new Dictionary<string, object>();
+
                         var text = textReader.ReadLine();
                         var textParse = text;
                         var Id = objLocalConfig.Globals.NewGUID;
                         var ixStart = 0;
+                        var fieldNotFound = false;
+                        fileLine ++;
                         foreach (var field in ParseFieldList.OrderBy(p => p.OrderId))
                         {
-                            
+                            fieldNotFound = false;
                             var getIxStart = true;
                             if (field.IsMeta)
                             {
                                 if (field.ID_MetaField == objLocalConfig.OItem_object_message.GUID)
                                 {
-                                    dict.Add(field.Name_MetaField,text);
+                                    dictMeta.Add(field.Name_MetaField, text);
                                 }
                                 else if (field.ID_MetaField == objLocalConfig.OItem_object_filepath.GUID)
                                 {
-                                    dict.Add(field.Name_MetaField, file.FileName);
+                                    dictMeta.Add(field.Name_MetaField, file.FileName);
                                 }
                                 else if (field.ID_MetaField == objLocalConfig.OItem_object_filename.GUID)
                                 {
-                                    dict.Add(field.Name_MetaField, Path.GetFileName(file.FileName));
+                                    dictMeta.Add(field.Name_Field, Path.GetFileName(file.FileName));
                                 }
                                 else if (field.ID_MetaField == objLocalConfig.OItem_object_guid.GUID)
                                 {
                                     Id = objLocalConfig.Globals.NewGUID;
-                                    dict.Add(field.Name_MetaField, Id);
+                                    dictMeta.Add(field.Name_Field, Id);
                                 }
                                 else if (field.ID_MetaField == objLocalConfig.OItem_object_date.GUID)
                                 {
-                                    dict.Add(field.Name_MetaField, DateTime.Now.ToString("yyyyMMdd"));
+                                    dictMeta.Add(field.Name_Field, DateTime.Now.Date);
                                 }
                                 else if (field.ID_MetaField == objLocalConfig.OItem_object_datetimestamp.GUID)
                                 {
-                                    dict.Add(field.Name_MetaField, DateTime.Now.ToString("yyyyMMdd hhmm"));
+                                    dictMeta.Add(field.Name_Field, DateTime.Now);
+                                }
+                                else if (field.ID_MetaField == objLocalConfig.OItem_object_filedate__create_.GUID)
+                                {
+                                    dictMeta.Add(field.Name_Field, File.GetCreationTime(file.FileName).Date);
+                                }
+                                else if (field.ID_MetaField == objLocalConfig.OItem_object_filedate__last_change_.GUID)
+                                {
+                                    dictMeta.Add(field.Name_Field, File.GetLastWriteTime(file.FileName).Date);
+                                }
+                                else if (field.ID_MetaField == objLocalConfig.OItem_object_filedatetime__create_.GUID)
+                                {
+                                    dictMeta.Add(field.Name_Field, File.GetCreationTime(file.FileName));
+                                }
+                                else if (field.ID_MetaField ==
+                                         objLocalConfig.OItem_object_filedatetime__last_change_.GUID)
+                                {
+                                    dictMeta.Add(field.Name_Field, File.GetLastWriteTime(file.FileName));
+                                }
+                                else if (field.ID_MetaField == objLocalConfig.OItem_object_fileline.GUID)
+                                {
+                                    dictMeta.Add(field.Name_Field, fileLine);
                                 }
                             }
                             else
                             {
-                                if (field.ID_RegExPre != null && field.ID_RegExPre != objLocalConfig.OItem_object_empty.GUID)
+
+
+
+                                if (field.ID_RegExPre != null &&
+                                    field.ID_RegExPre != objLocalConfig.OItem_object_empty.GUID)
                                 {
                                     var objRegExPre = new Regex(field.RegexPre);
                                     var objMatches = objRegExPre.Matches(textParse);
@@ -242,10 +273,10 @@ namespace TextParser
                                     {
                                         textParse =
                                             textParse.Substring(objMatches[0].Index +
-                                                           objMatches[0].Length);
+                                                                objMatches[0].Length);
 
                                         ixStart = ixStart + objMatches[0].Index +
-                                                  objMatches[0].Length-1;
+                                                    objMatches[0].Length - 1;
 
                                         parse = true;
                                     }
@@ -261,7 +292,8 @@ namespace TextParser
 
                                 if (parse)
                                 {
-                                    if (field.ID_RegExPost != null && field.ID_RegExPost != objLocalConfig.OItem_object_empty.GUID)
+                                    if (field.ID_RegExPost != null &&
+                                        field.ID_RegExPost != objLocalConfig.OItem_object_empty.GUID)
                                     {
                                         var objRegExPost = new Regex(field.RegexPost);
                                         var objMatches = objRegExPost.Matches(textParse);
@@ -269,7 +301,7 @@ namespace TextParser
                                         if (objMatches.Count > 0)
                                         {
                                             textParse = textParse.Substring(0, objMatches[0].Index);
-                                            ixStart += objMatches[0].Index + objMatches[0].Length-1;
+                                            ixStart += objMatches[0].Index + objMatches[0].Length - 1;
                                             getIxStart = false;
                                         }
                                         else
@@ -285,16 +317,19 @@ namespace TextParser
 
                                 if (parse)
                                 {
-                                    if (field.ID_RegExMain != null && field.ID_RegExMain != objLocalConfig.OItem_object_empty.GUID)
+                                    if (field.ID_RegExMain != null &&
+                                        field.ID_RegExMain != objLocalConfig.OItem_object_empty.GUID)
                                     {
                                         var objRegEx = new Regex(field.Regex);
                                         var objMatches = objRegEx.Matches(textParse);
 
                                         if (objMatches.Count > 0)
                                         {
-                                            textParse = textParse.Substring(objMatches[0].Index, objMatches[0].Length);
-                                            if (getIxStart) ixStart += objMatches[0].Index + objMatches[0].Length-1;
-                                            
+                                            textParse = textParse.Substring(objMatches[0].Index,
+                                                                            objMatches[0].Length);
+                                            if (getIxStart)
+                                                ixStart += objMatches[0].Index + objMatches[0].Length - 1;
+
                                         }
                                         else
                                         {
@@ -307,7 +342,7 @@ namespace TextParser
                                 {
                                     if (field.ID_DataType == objLocalConfig.OItem_object_string.GUID)
                                     {
-                                        dict.Add(field.Name_Field, textParse);
+                                        dictUser.Add(field.Name_Field, textParse);
                                     }
                                     else if (field.ID_DataType == objLocalConfig.OItem_object_bit.GUID)
                                     {
@@ -315,7 +350,7 @@ namespace TextParser
 
                                         if (bool.TryParse(textParse, out value))
                                         {
-                                            dict.Add(field.Name_Field, value);
+                                            dictUser.Add(field.Name_Field, value);
                                         }
                                         else
                                         {
@@ -328,7 +363,7 @@ namespace TextParser
 
                                         if (int.TryParse(textParse, out value))
                                         {
-                                            dict.Add(field.Name_Field, value);
+                                            dictUser.Add(field.Name_Field, value);
                                         }
                                         else
                                         {
@@ -340,7 +375,19 @@ namespace TextParser
                                         DateTime value;
                                         if (DateTime.TryParse(textParse, out value))
                                         {
-                                            dict.Add(field.Name_Field, value);
+                                            dictUser.Add(field.Name_Field, value);
+                                        }
+                                        else
+                                        {
+                                            parse = false;
+                                        }
+                                    }
+                                    else if (field.ID_DataType == objLocalConfig.OItem_object_double.GUID)
+                                    {
+                                        double value;
+                                        if (double.TryParse(textParse, out value))
+                                        {
+                                            dictUser.Add(field.Name_Field, value);
                                         }
                                         else
                                         {
@@ -349,29 +396,32 @@ namespace TextParser
                                     }
                                 }
 
-                                add = parse;
+                                
+                                if (!parse) dontAddUser = true;
 
                                 if (field.RemoveFromSource)
                                 {
                                     textParse = text.Substring(ixStart);
                                 }
+
+                         
+                                
                             }
-                        
-                            if (!field.RemoveFromSource)
-                            {
-                                textParse = text;
-                            }
-                            
+
+
+
                         }
 
-                        if (add)
+                        if (!dontAddUser || dictMeta.Any())
                         {
-                            var objDoc = new clsAppDocuments { Id = Id, Dict = dict };
+                            if (dontAddUser) dictUser.Clear();
+                            dictUser =  dictUser.Union(dictMeta).ToDictionary(pair => pair.Key, pair => pair.Value);
+                            var objDoc = new clsAppDocuments { Id = Id, Dict = dictUser };
                             dictList.Add(objDoc);
                             docCount = docCount + 1;
                             if (docCount == objLocalConfig.Globals.SearchRange)
                             {
-                                var objOItem_Result = objAppDBLevel.Save_Documents(dictList, "Doc", index);
+                                var objOItem_Result = objAppDBLevel.Save_Documents(dictList, "Doc", index.ToLower());
                                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
                                 {
                                     return objOItem_Result;

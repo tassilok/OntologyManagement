@@ -12,6 +12,7 @@ using TextParser;
 using OntologyClasses.BaseClasses;
 using Structure_Module;
 using System.IO;
+using Filesystem_Module;
 
 namespace FileResourceModule
 {
@@ -109,7 +110,7 @@ namespace FileResourceModule
 
         private void Initialize()
         {
-            objDatawork_FileResource_Path = new clsDataWork_FileResource_Path(objLocalConfig);
+            objDatawork_FileResource_Path = new clsDataWork_FileResource_Path(objLocalConfig.Globals);
             objUserControl_RegExTester = new UserControl_RegExTester(objLocalConfig.Globals);
             objUserControl_RegExTester.Initialize_Field();
             objUserControl_RegExTester.Dock = DockStyle.Fill;

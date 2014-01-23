@@ -44,8 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsDataWork_FileResource_Path.cs" />
-    <Compile Include="clsFile.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="frmFileResourceModule.cs">
       <SubType>Form</SubType>
@@ -103,6 +101,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Filesystem-Module\Filesystem-Module\Filesystem-Module.vbproj">
+      <Project>{f31c8a5a-bb2b-474e-bc1f-a14e805ea2e9}</Project>
+      <Name>Filesystem-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3f2f6722-c36b-420d-afe7-b21c19457208}</Project>
       <Name>Ontolog-Module</Name>
@@ -110,6 +112,10 @@
     <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
       <Name>OntologyClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Security-Module\Security-Module\Security-Module.vbproj">
+      <Project>{c9add5dc-090d-4003-bba9-cf9218c938b2}</Project>
+      <Name>Security-Module</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Structure-Module\Structure-Module\Structure-Module.csproj">
       <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>

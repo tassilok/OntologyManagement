@@ -251,6 +251,10 @@ Public Class clsDBLevel
         End Get
     End Property
 
+    Public Function IndexList(strServer As String, intPort As Integer) As List(Of String)
+        Return objElSelector.IndexList(strServer, intPort)
+    End Function
+
     Public Function save_DataTypes(OList_DataTypes As List(Of clsOntologyItem)) As clsOntologyItem
         Dim objOItem_Result = objElUpdater.save_DataTypes(OList_DataTypes)
 
@@ -1137,6 +1141,10 @@ Public Class clsDBLevel
         initialize_Client()
 
         Sort = SortEnum.NONE
+    End Sub
+
+    public Sub New()
+        objElSelector = New clsDBSelector()
     End Sub
 
     Private Sub set_DBConnection()

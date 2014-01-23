@@ -12,6 +12,7 @@ using OntologyClasses.BaseClasses;
 using Structure_Module;
 using Filesystem_Module;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace TextParser
 {
@@ -29,7 +30,14 @@ namespace TextParser
 
         private clsAppDBLevel objAppDBLevel;
 
+        private clsDBLevel objDBLevel_Indexes;
+
         private clsFieldParser objFieldParser;
+
+        private SortableBindingList<clsField> fieldList;
+
+        private DataTable dataTable;
+
 
         private int page = 0;
         private int pages = 0;
@@ -37,7 +45,10 @@ namespace TextParser
 
         private int port = 0;
         private string server = "";
+        private string index = "";
         private List<string> indexes = new List<string>();
+        private List<clsOntologyItem> OList_Variables;
+        private bool pIndexFill = false;
 
         public UserControl_FieldParserView(clsLocalConfig LocalConfig)
         {
@@ -51,30 +62,16 @@ namespace TextParser
 
         public void InitializeView(clsOntologyItem OItem_FieldParser, clsOntologyItem OItem_TextParser)
         {
+            OList_Variables = new List<clsOntologyItem>();
+            var fileList = new List<clsFile>();
+
             objOItem_Parser = OItem_FieldParser;
             objOItem_TextParser = OItem_TextParser;
             toolStripTextBox_Parser.Text = objOItem_Parser.Name;
 
-
-
-            GetFields();
-        }
-
-        private void Initialize()
-        {
-            
-            var OList_Variables=new List<clsOntologyItem>();
-            var fileList = new List<clsFile>();
-
-            indexes.Clear();
-
-            objDataWork_FieldParser = new clsDataWork_FieldParser(objLocalConfig);
-
-            objDataWork_TextParser = new clsDataWork_TextParser(objLocalConfig);
-            objDataWork_FileResource = new clsDataWork_FileResources(objLocalConfig.Globals);
-            objDataWork_FileResource_Path = new clsDataWork_FileResource_Path(objLocalConfig.Globals);
-
             objDataWork_TextParser.GetData_TextParser(objOItem_TextParser);
+            page = 0;
+            pages = 0;
             var objOItem_Result = objDataWork_TextParser.OItem_Result_TextParser;
 
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
@@ -89,7 +86,7 @@ namespace TextParser
 
                     if (objDataWork_TextParser.OItem_FileResource != null)
                     {
-                        var index = "";
+                        index = "";
                         port = int.Parse(objDataWork_TextParser.OItem_Port.Name);
                         server = objDataWork_TextParser.OItem_Server.Name;
                         if (objDataWork_TextParser.OItem_Index != null)
@@ -128,7 +125,7 @@ namespace TextParser
                                         {
                                             var fileDate_Create = false;
                                             var fileDate_LastChange = false;
-                                            
+
                                             fileList = objDataWork_FileResource_Path.FileList;
                                             if (OList_Variables != null && OList_Variables.Any())
                                             {
@@ -136,8 +133,8 @@ namespace TextParser
                                                 {
                                                     if (oItem_Variable.GUID == objLocalConfig.OItem_object_user.GUID)
                                                     {
-                                                        index = index.Replace("@" + oItem_Variable.Name + "@",
-                                                                              objLocalConfig.OItem_User.Name);
+                                                        index = index.Replace("@" + oItem_Variable.Name.ToLower() + "@",
+                                                                              objLocalConfig.OItem_User.GUID);
                                                     }
                                                     else if (oItem_Variable.GUID ==
                                                              objLocalConfig.OItem_object_filedate_create.GUID)
@@ -152,14 +149,16 @@ namespace TextParser
                                                 }
                                             }
 
-                                            
+
                                             objAppDBLevel = new clsAppDBLevel(server, port, index,
                                                                               objLocalConfig.Globals.SearchRange,
                                                                               objLocalConfig.Globals.Session);
 
-                                            
+                                            pIndexFill = true;
+                                            GetIndexes();
+                                            pIndexFill = false;
                                         }
-                                    
+
                                     }
                                 }
 
@@ -193,15 +192,33 @@ namespace TextParser
 
 
             }
+
+
+            GetFields();
         }
 
+        private void Initialize()
+        {
+            
+            indexes.Clear();
+
+            objDataWork_FieldParser = new clsDataWork_FieldParser(objLocalConfig);
+
+            objDataWork_TextParser = new clsDataWork_TextParser(objLocalConfig);
+            objDataWork_FileResource = new clsDataWork_FileResources(objLocalConfig.Globals);
+            objDataWork_FileResource_Path = new clsDataWork_FileResource_Path(objLocalConfig.Globals);
+
+            
+        }
+
+       
         private void GetFields()
         {
             var objOItem_Result = objDataWork_FieldParser.GetData_FieldsOfFieldParser();
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                var FieldList = new SortableBindingList<clsField>(objDataWork_FieldParser.FieldList.Where(p => p.ID_FieldParser == objOItem_Parser.GUID).OrderBy(f => f.OrderId).ThenBy(f => f.Name_Field));
-                dataGridView_Fields.DataSource = FieldList;
+                fieldList = new SortableBindingList<clsField>(objDataWork_FieldParser.FieldList.Where(p => p.ID_FieldParser == objOItem_Parser.GUID).OrderBy(f => f.OrderId).ThenBy(f => f.Name_Field));
+                dataGridView_Fields.DataSource = fieldList;
                 foreach (DataGridViewColumn column in dataGridView_Fields.Columns)
                 {
                     if (column.Name == "ID_FieldParser" ||
@@ -232,7 +249,97 @@ namespace TextParser
 
         private void GetPage()
         {
-             
+            pos = page*objLocalConfig.Globals.SearchRange;
+            if (toolStripComboBox_Indexes.SelectedItem != null)
+            {
+                var index = toolStripComboBox_Indexes.SelectedItem.ToString();
+
+                if (index != "")
+                {
+                    var Docs = objAppDBLevel.GetData_Documents(index, "Doc", true, pos, toolStripTextBox_Query.Text == "" ? null : toolStripTextBox_Query.Text).Select(d => d.Dict).ToList();
+                    CreateDataTable();
+
+                    foreach (var doc in Docs)
+                    {
+                        var row = dataTable.Rows.Add();
+                        for(int i = 0;i<fieldList.Count;i++)
+                        {
+                            if (doc.ContainsKey(fieldList[i].Name_Field))
+                                row[i] = doc[fieldList[i].Name_Field];
+                        }
+
+                    }
+                    bindingSource_Items.DataSource = dataTable;
+                    dataGridView_IndexView.DataSource = bindingSource_Items;
+                    pos = objAppDBLevel.LastPos;
+                    pages = objAppDBLevel.PageCount;
+                    page = objAppDBLevel.CurrPage;
+
+                    if (objAppDBLevel.Total > objLocalConfig.Globals.SearchRange)
+                    {
+                        toolStripLabel_Count.Text = ((page * objLocalConfig.Globals.SearchRange)+1).ToString() + "-" + ((page+1) * objLocalConfig.Globals.SearchRange).ToString() + "/" + objAppDBLevel.Total.ToString();
+                    }
+                    else
+                    {
+                        toolStripLabel_Count.Text = objAppDBLevel.Total.ToString() + "/" +
+                                                    objAppDBLevel.Total.ToString();
+                    }
+                    toolStripLabel_PageCur.Text = (page + 1) .ToString() + "/" + pages.ToString();
+                    ConfigureNavigation();
+                }    
+            }
+            
+        }
+
+        private void ConfigureNavigation()
+        {
+            toolStripButton_PageFirst.Enabled = false;
+            toolStripButton_PageLast.Enabled = false;
+            if (page > 0)
+            {
+                toolStripButton_PageFirst.Enabled = true;
+                
+            }
+
+            if (page < pages)
+            {
+                toolStripButton_PageLast.Enabled = true;
+            }
+
+            toolStripButton_PagePrevious.Enabled = toolStripButton_PageFirst.Enabled;
+            toolStripButton_PageNext.Enabled = toolStripButton_PageLast.Enabled;
+        }
+
+        private void CreateDataTable()
+        {
+            dataTable = new DataTable();
+            foreach (var field in fieldList)
+            {
+                if (field.DataType == objLocalConfig.OItem_object_bit.Name)
+                {
+                    dataTable.Columns.Add(field.Name_Field, typeof (bool));
+
+
+                }
+                else if (field.DataType == objLocalConfig.OItem_object_int.Name)
+                {
+                    dataTable.Columns.Add(field.Name_Field, typeof(int));
+                }
+                else if (field.DataType == objLocalConfig.OItem_object_datetime.Name)
+                {
+                    dataTable.Columns.Add(field.Name_Field, typeof(DateTime));
+                }
+                else if (field.DataType == objLocalConfig.OItem_object_double.Name)
+                {
+                    dataTable.Columns.Add(field.Name_Field, typeof(double));
+                }
+                else if (field.DataType == objLocalConfig.OItem_object_string.Name)
+                {
+                    dataTable.Columns.Add(field.Name_Field, typeof(string));
+                }
+            }
+            
+            
         }
 
         private void toolStripButton_Parse_Click(object sender, EventArgs e)
@@ -243,7 +350,86 @@ namespace TextParser
                 objFieldParser = new clsFieldParser(objLocalConfig,fieldList.ToList(),objOItem_TextParser);
                 objFieldParser.Parse();
             }
+            GetIndexes();
         }
 
+        private void GetIndexes()
+        {
+            objDBLevel_Indexes = new clsDBLevel();
+            toolStripComboBox_Indexes.ComboBox.DataSource = null;
+            var indexList = objDBLevel_Indexes.IndexList(server, port);
+            foreach (var oItemVariable in OList_Variables)
+            {
+                index = index.Replace("@" + oItemVariable.Name + "@", ".*");
+            }
+
+            var ixList = indexList.Where(i => IsValidIndex(i, index)).OrderBy(p => p).ToList();
+            ixList.Insert(0,"");
+            toolStripComboBox_Indexes.ComboBox.DataSource = ixList;
+            toolStripComboBox_Indexes.SelectedIndex = 0;
+        }
+
+
+        private bool IsValidIndex(string index, string indexPattern)
+        {
+            var objRegEx = new Regex(indexPattern.ToLower());
+            return objRegEx.Match(index.ToLower()).Success;
+        }
+
+        private void toolStripComboBox_Indexes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!pIndexFill)
+            {
+                page = 0;
+                pages = 0;
+                pos = 0;
+                
+            }
+        }
+
+        private void toolStripButton_Search_Click(object sender, EventArgs e)
+        {
+            GetPage();
+        }
+
+        private void toolStripTextBox_Query_TextChanged(object sender, EventArgs e)
+        {
+            page = 0;
+            pages = 0;
+            pos = 0;
+        }
+
+        private void toolStripButton_PageNext_Click(object sender, EventArgs e)
+        {
+            if (page < pages)
+            {
+                page++;
+                GetPage();
+            }
+        }
+
+        private void toolStripButton_PageFirst_Click(object sender, EventArgs e)
+        {
+            page = 0;
+            GetPage();
+        }
+
+        private void toolStripButton_PagePrevious_Click(object sender, EventArgs e)
+        {
+            if (page > 0)
+            {
+                page--;
+                GetPage();
+            }
+        }
+
+        private void toolStripButton_PageLast_Click(object sender, EventArgs e)
+        {
+            if (page < pages)
+            {
+                page = pages;
+                GetPage();
+            }
+        }
     }
 }

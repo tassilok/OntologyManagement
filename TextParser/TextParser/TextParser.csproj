@@ -35,9 +35,6 @@
     <StartupObject>TextParser.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Filesystem-Module">
-      <HintPath>..\..\Filesystem-Module\Filesystem-Module\bin\Debug\Filesystem-Module.exe</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -190,6 +187,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Filesystem-Module\Filesystem-Module\Filesystem-Module.vbproj">
+      <Project>{f31c8a5a-bb2b-474e-bc1f-a14e805ea2e9}</Project>
+      <Name>Filesystem-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3f2f6722-c36b-420d-afe7-b21c19457208}</Project>
       <Name>Ontolog-Module</Name>

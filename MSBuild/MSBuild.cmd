@@ -7,6 +7,7 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Docume
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Log-Module\Log-Module.sln
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Localization-Module\Localization-Module.sln
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\ModuleLibrary\ModuleLibrary.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\FileResourceModule\FileResourceModule.sln
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Appointment-Module\Appointment-Module.sln
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Bill-Module\Bill-Module.sln
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Change-Module\Change-Module.sln

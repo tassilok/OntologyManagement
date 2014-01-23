@@ -45,6 +45,12 @@ Public Class clsAppDBLevel
         End Get
     End Property
 
+    Public ReadOnly Property Total As integer
+        Get
+            Return objAppElSelector.Total
+        End Get
+    End Property
+
     Public Property Paging As Boolean
         get
             Return objAppElSelector.Paging
@@ -149,8 +155,8 @@ Public Class clsAppDBLevel
         Return objOItem_Result
     End Function
 
-    Public Function GetData_Documents(Optional strIndex As String = Nothing, Optional strType As String = Nothing, Optional paging As Boolean = false, Optional lastPos  As Integer = 0) As List(Of clsAppDocuments)
-        Dim objDocuments = objAppElSelector.GetData_Documents(strIndex,strType,paging,lastPos)
+    Public Function GetData_Documents(Optional strIndex As String = Nothing, Optional strType As String = Nothing, Optional paging As Boolean = false, Optional lastPos  As Integer = 0, optional strQuery As String = Nothing) As List(Of clsAppDocuments)
+        Dim objDocuments = objAppElSelector.GetData_Documents(strIndex,strType,paging,lastPos,strQuery)
 
         Return objDocuments
     End Function

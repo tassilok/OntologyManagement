@@ -118,12 +118,6 @@
     <Compile Include="frmFileBlobSync.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmFileResources.Designer.vb">
-      <DependentUpon>frmFileResources.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmFileResources.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="frmFileSync.Designer.vb">
       <DependentUpon>frmFileSync.vb</DependentUpon>
     </Compile>
@@ -164,18 +158,6 @@
     <Compile Include="UserControl_FileBlobSync.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl_FileResource_File.Designer.vb">
-      <DependentUpon>UserControl_FileResource_File.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControl_FileResource_File.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControl_FileResource_Path.Designer.vb">
-      <DependentUpon>UserControl_FileResource_Path.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UserControl_FileResource_Path.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmBlobWatcher.resx">
@@ -183,9 +165,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmFileBlobSync.resx">
       <DependentUpon>frmFileBlobSync.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmFileResources.resx">
-      <DependentUpon>frmFileResources.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmFileSync.resx">
       <DependentUpon>frmFileSync.vb</DependentUpon>
@@ -204,12 +183,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_FileBlobSync.resx">
       <DependentUpon>UserControl_FileBlobSync.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_FileResource_File.resx">
-      <DependentUpon>UserControl_FileResource_File.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControl_FileResource_Path.resx">
-      <DependentUpon>UserControl_FileResource_Path.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -262,10 +235,6 @@
     <ProjectReference Include="..\..\Structure-Module\Structure-Module\Structure-Module.csproj">
       <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
       <Name>Structure-Module</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\TextParser\TextParser\TextParser.csproj">
-      <Project>{24685e6b-0e58-4333-9557-4872943a8715}</Project>
-      <Name>TextParser</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

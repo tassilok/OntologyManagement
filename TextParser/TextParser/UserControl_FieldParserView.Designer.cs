@@ -28,40 +28,54 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControl_FieldParserView));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox_Parser = new System.Windows.Forms.ToolStripTextBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_PagesLbl = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripLabel_PageCur = new System.Windows.Forms.ToolStripLabel();
             this.toolStripButton_PageFirst = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_PagePrevious = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_PageNext = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_PageLast = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel_PageCur = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_CountLbl = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_Count = new System.Windows.Forms.ToolStripLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridView_Fields = new System.Windows.Forms.DataGridView();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
+            this.dataGridView_IndexView = new System.Windows.Forms.DataGridView();
+            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripComboBox_Indexes = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripLabel_Query = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox_Query = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox_Parser = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton_Parse = new System.Windows.Forms.ToolStripButton();
+            this.bindingSource_Items = new System.Windows.Forms.BindingSource(this.components);
+            this.toolStripButton_Search = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Fields)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.toolStripContainer2.ContentPanel.SuspendLayout();
+            this.toolStripContainer2.TopToolStripPanel.SuspendLayout();
+            this.toolStripContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_IndexView)).BeginInit();
+            this.toolStrip3.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource_Items)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -86,29 +100,6 @@
             // 
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
             // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel1,
-            this.toolStripTextBox_Parser,
-            this.toolStripButton_Parse});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(446, 25);
-            this.toolStrip1.TabIndex = 0;
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(52, 22);
-            this.toolStripLabel1.Text = "x_Parser:";
-            // 
-            // toolStripTextBox_Parser
-            // 
-            this.toolStripTextBox_Parser.Name = "toolStripTextBox_Parser";
-            this.toolStripTextBox_Parser.Size = new System.Drawing.Size(300, 25);
-            // 
             // toolStrip2
             // 
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
@@ -127,7 +118,7 @@
             this.toolStripLabel_Count});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(555, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(586, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripLabel2
@@ -153,12 +144,6 @@
             this.toolStripLabel_PagesLbl.Size = new System.Drawing.Size(51, 22);
             this.toolStripLabel_PagesLbl.Text = "x-Pages:";
             // 
-            // toolStripLabel_PageCur
-            // 
-            this.toolStripLabel_PageCur.Name = "toolStripLabel_PageCur";
-            this.toolStripLabel_PageCur.Size = new System.Drawing.Size(24, 22);
-            this.toolStripLabel_PageCur.Text = "0/0";
-            // 
             // toolStripButton_PageFirst
             // 
             this.toolStripButton_PageFirst.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -167,6 +152,7 @@
             this.toolStripButton_PageFirst.Name = "toolStripButton_PageFirst";
             this.toolStripButton_PageFirst.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_PageFirst.Text = "toolStripButton1";
+            this.toolStripButton_PageFirst.Click += new System.EventHandler(this.toolStripButton_PageFirst_Click);
             // 
             // toolStripButton_PagePrevious
             // 
@@ -176,6 +162,7 @@
             this.toolStripButton_PagePrevious.Name = "toolStripButton_PagePrevious";
             this.toolStripButton_PagePrevious.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_PagePrevious.Text = "toolStripButton2";
+            this.toolStripButton_PagePrevious.Click += new System.EventHandler(this.toolStripButton_PagePrevious_Click);
             // 
             // toolStripButton_PageNext
             // 
@@ -185,6 +172,7 @@
             this.toolStripButton_PageNext.Name = "toolStripButton_PageNext";
             this.toolStripButton_PageNext.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_PageNext.Text = "toolStripButton3";
+            this.toolStripButton_PageNext.Click += new System.EventHandler(this.toolStripButton_PageNext_Click);
             // 
             // toolStripButton_PageLast
             // 
@@ -194,6 +182,13 @@
             this.toolStripButton_PageLast.Name = "toolStripButton_PageLast";
             this.toolStripButton_PageLast.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_PageLast.Text = "toolStripButton4";
+            this.toolStripButton_PageLast.Click += new System.EventHandler(this.toolStripButton_PageLast_Click);
+            // 
+            // toolStripLabel_PageCur
+            // 
+            this.toolStripLabel_PageCur.Name = "toolStripLabel_PageCur";
+            this.toolStripLabel_PageCur.Size = new System.Drawing.Size(24, 22);
+            this.toolStripLabel_PageCur.Text = "0/0";
             // 
             // toolStripSeparator2
             // 
@@ -226,7 +221,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
+            this.splitContainer1.Panel2.Controls.Add(this.toolStripContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(750, 516);
             this.splitContainer1.SplitterDistance = 162;
             this.splitContainer1.TabIndex = 0;
@@ -243,17 +238,99 @@
             this.dataGridView_Fields.Size = new System.Drawing.Size(746, 158);
             this.dataGridView_Fields.TabIndex = 0;
             // 
-            // dataGridView1
+            // toolStripContainer2
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(746, 346);
-            this.dataGridView1.TabIndex = 0;
+            this.toolStripContainer2.BottomToolStripPanelVisible = false;
+            // 
+            // toolStripContainer2.ContentPanel
+            // 
+            this.toolStripContainer2.ContentPanel.Controls.Add(this.dataGridView_IndexView);
+            this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(746, 321);
+            this.toolStripContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolStripContainer2.LeftToolStripPanelVisible = false;
+            this.toolStripContainer2.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer2.Name = "toolStripContainer2";
+            this.toolStripContainer2.RightToolStripPanelVisible = false;
+            this.toolStripContainer2.Size = new System.Drawing.Size(746, 346);
+            this.toolStripContainer2.TabIndex = 0;
+            this.toolStripContainer2.Text = "toolStripContainer2";
+            // 
+            // toolStripContainer2.TopToolStripPanel
+            // 
+            this.toolStripContainer2.TopToolStripPanel.Controls.Add(this.toolStrip3);
+            // 
+            // dataGridView_IndexView
+            // 
+            this.dataGridView_IndexView.AllowUserToAddRows = false;
+            this.dataGridView_IndexView.AllowUserToDeleteRows = false;
+            this.dataGridView_IndexView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_IndexView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView_IndexView.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_IndexView.Name = "dataGridView_IndexView";
+            this.dataGridView_IndexView.ReadOnly = true;
+            this.dataGridView_IndexView.Size = new System.Drawing.Size(746, 321);
+            this.dataGridView_IndexView.TabIndex = 0;
+            // 
+            // toolStrip3
+            // 
+            this.toolStrip3.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel3,
+            this.toolStripComboBox_Indexes,
+            this.toolStripLabel_Query,
+            this.toolStripTextBox_Query,
+            this.toolStripButton_Search});
+            this.toolStrip3.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip3.Name = "toolStrip3";
+            this.toolStrip3.Size = new System.Drawing.Size(672, 25);
+            this.toolStrip3.TabIndex = 0;
+            // 
+            // toolStripLabel3
+            // 
+            this.toolStripLabel3.Name = "toolStripLabel3";
+            this.toolStripLabel3.Size = new System.Drawing.Size(48, 22);
+            this.toolStripLabel3.Text = "x_Index:";
+            // 
+            // toolStripComboBox_Indexes
+            // 
+            this.toolStripComboBox_Indexes.Name = "toolStripComboBox_Indexes";
+            this.toolStripComboBox_Indexes.Size = new System.Drawing.Size(200, 25);
+            this.toolStripComboBox_Indexes.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBox_Indexes_SelectedIndexChanged);
+            // 
+            // toolStripLabel_Query
+            // 
+            this.toolStripLabel_Query.Name = "toolStripLabel_Query";
+            this.toolStripLabel_Query.Size = new System.Drawing.Size(52, 22);
+            this.toolStripLabel_Query.Text = "x_Query:";
+            // 
+            // toolStripTextBox_Query
+            // 
+            this.toolStripTextBox_Query.Name = "toolStripTextBox_Query";
+            this.toolStripTextBox_Query.Size = new System.Drawing.Size(300, 25);
+            this.toolStripTextBox_Query.TextChanged += new System.EventHandler(this.toolStripTextBox_Query_TextChanged);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
+            this.toolStripTextBox_Parser,
+            this.toolStripButton_Parse});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(415, 25);
+            this.toolStrip1.TabIndex = 0;
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(52, 22);
+            this.toolStripLabel1.Text = "x_Parser:";
+            // 
+            // toolStripTextBox_Parser
+            // 
+            this.toolStripTextBox_Parser.Name = "toolStripTextBox_Parser";
+            this.toolStripTextBox_Parser.Size = new System.Drawing.Size(300, 25);
             // 
             // toolStripButton_Parse
             // 
@@ -264,6 +341,16 @@
             this.toolStripButton_Parse.Size = new System.Drawing.Size(49, 22);
             this.toolStripButton_Parse.Text = "x_Parse";
             this.toolStripButton_Parse.Click += new System.EventHandler(this.toolStripButton_Parse_Click);
+            // 
+            // toolStripButton_Search
+            // 
+            this.toolStripButton_Search.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Search.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Search.Image")));
+            this.toolStripButton_Search.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Search.Name = "toolStripButton_Search";
+            this.toolStripButton_Search.Size = new System.Drawing.Size(56, 22);
+            this.toolStripButton_Search.Text = "x_Search";
+            this.toolStripButton_Search.Click += new System.EventHandler(this.toolStripButton_Search_Click);
             // 
             // UserControl_FieldParserView
             // 
@@ -279,8 +366,6 @@
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -288,7 +373,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Fields)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.toolStripContainer2.ContentPanel.ResumeLayout(false);
+            this.toolStripContainer2.TopToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer2.TopToolStripPanel.PerformLayout();
+            this.toolStripContainer2.ResumeLayout(false);
+            this.toolStripContainer2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_IndexView)).EndInit();
+            this.toolStrip3.ResumeLayout(false);
+            this.toolStrip3.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource_Items)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -314,7 +409,15 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel_Count;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView dataGridView_Fields;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolStripButton toolStripButton_Parse;
+        private System.Windows.Forms.ToolStripContainer toolStripContainer2;
+        private System.Windows.Forms.DataGridView dataGridView_IndexView;
+        private System.Windows.Forms.ToolStrip toolStrip3;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBox_Indexes;
+        private System.Windows.Forms.BindingSource bindingSource_Items;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_Query;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox_Query;
+        private System.Windows.Forms.ToolStripButton toolStripButton_Search;
     }
 }
