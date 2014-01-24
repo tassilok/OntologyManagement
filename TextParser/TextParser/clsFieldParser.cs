@@ -27,14 +27,17 @@ namespace TextParser
 
         private List<clsOntologyItem> OList_Variables;
 
+        private clsOntologyItem objOItem_Type;
+
         private int port;
         private string index;
         private string server;
         private List<clsFile> fileList;
 
-        public clsFieldParser(clsLocalConfig LocalConfig, List<clsField> ParseFieldList, clsOntologyItem OItem_TextParser)
+        public clsFieldParser(clsLocalConfig LocalConfig, List<clsField> ParseFieldList, clsOntologyItem OItem_TextParser, clsOntologyItem OITem_Type)
         {
             objLocalConfig = LocalConfig;
+            objOItem_Type = OITem_Type;
             this.ParseFieldList = ParseFieldList;
             objOItem_TextParser = OItem_TextParser;
             if (Initialize().GUID == objLocalConfig.Globals.LState_Error.GUID)
@@ -206,7 +209,7 @@ namespace TextParser
                         var ixStart = 0;
                         var fieldNotFound = false;
                         fileLine ++;
-                        foreach (var field in ParseFieldList.OrderBy(p => p.OrderId))
+                        foreach (var field in ParseFieldList.OrderBy(p => p.IsMeta).ThenBy(p => p.OrderId).ToList())
                         {
                             fieldNotFound = false;
                             var getIxStart = true;
@@ -439,7 +442,7 @@ namespace TextParser
                     
                     if (dictList.Count > 0)
                     {
-                        var objOItem_Result = objAppDBLevel.Save_Documents(dictList, "Doc", index);
+                        var objOItem_Result = objAppDBLevel.Save_Documents(dictList, objOItem_Type != null ? objOItem_Type.Name : objOItem_Type != null ? objOItem_Type.Name : "Doc", index);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
                         {
                             return objOItem_Result;

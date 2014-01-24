@@ -47,6 +47,8 @@ namespace TextParser
 
         public clsOntologyItem OItem_Server { get; set; }
 
+        public clsOntologyItem OITem_Type { get; set; }
+
         private clsOntologyItem objOItem_Index;
 
         private Thread thread_Index;
@@ -354,10 +356,40 @@ namespace TextParser
                         ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID
                     }));
 
+                objOList_TextParsersRelS.AddRange(objDBLevel_TextParser.OList_Objects.Select(p => new clsObjectRel
+                {
+                    ID_Object = p.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_class_types__elastic_search_.GUID,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belonging.GUID
+                }));
+
                 
                 objOItem_Result = objDBLevel_TextParser_LeftRight.get_Data_ObjectRel(objOList_TextParsersRelS,
                                                                                      boolIDs: false);
 
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID && OItem_TextParser != null)
+                {
+                    var objOList_Types = objDBLevel_TextParser_LeftRight.OList_ObjectRel.Where(p => p.ID_Parent_Other == objLocalConfig.OItem_class_types__elastic_search_.GUID &&
+                        p.ID_RelationType == objLocalConfig.OItem_relationtype_belonging.GUID).Select(p => new clsOntologyItem {GUID = p.ID_Other, 
+                            Name = p.Name_Other, 
+                            GUID_Parent = p.ID_Parent_Other, 
+                            Type = objLocalConfig.Globals.Type_Object}).ToList();
+
+                    if (objOList_Types.Any())
+                    {
+                        OITem_Type = objOList_Types.First();
+                    }
+                    else
+                    {
+                        OITem_Type = null;
+                    }
+
+
+                }
+                    else
+                    {
+                        OITem_Type = null;
+                    }
             }
 
             OItem_Result_TextParser = objOItem_Result;

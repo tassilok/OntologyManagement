@@ -216,6 +216,10 @@ namespace TextParser
                     textBox_IndexDetails.Text += Name_Index;
 
                 }
+                else
+                {
+                    textBox_IndexDetails.Text = objDataWork_TextParser.OItem_Index.Name;
+                }
 
                 textBox_IndexDetails.Text += "\r\n";
 

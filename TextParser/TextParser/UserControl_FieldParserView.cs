@@ -83,24 +83,58 @@ namespace TextParser
 
                 if (objDataWork_TextParser.OItem_Result_Index.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
+                    index = "";
+                    port = int.Parse(objDataWork_TextParser.OItem_Port.Name);
+                    server = objDataWork_TextParser.OItem_Server.Name;
+                    if (objDataWork_TextParser.OItem_Index != null)
+                    {
+                        index = objDataWork_TextParser.OItem_Index.Name;
+                    }
+
+                    if (objDataWork_TextParser.OList_Variables != null)
+                    {
+                        OList_Variables = objDataWork_TextParser.OList_Variables;
+                    }
+
+                    if (OList_Variables != null && OList_Variables.Any())
+                    {
+                        var fileDate_Create = false;
+                        var fileDate_LastChange = false;
+                        foreach (var oItem_Variable in OList_Variables)
+                        {
+                            if (oItem_Variable.GUID == objLocalConfig.OItem_object_user.GUID)
+                            {
+                                index = index.Replace("@" + oItem_Variable.Name.ToLower() + "@",
+                                                      objLocalConfig.OItem_User.GUID);
+                            }
+                            else if (oItem_Variable.GUID ==
+                                     objLocalConfig.OItem_object_filedate_create.GUID)
+                            {
+                                fileDate_Create = true;
+                            }
+                            else if (oItem_Variable.GUID ==
+                                     objLocalConfig.OItem_object_filedate_lastchange.GUID)
+                            {
+                                fileDate_LastChange = true;
+                            }
+                        }
+                    }
+
+                    objAppDBLevel = new clsAppDBLevel(server, port, index,
+                                                             objLocalConfig.Globals.SearchRange,
+                                                             objLocalConfig.Globals.Session);
 
                     if (objDataWork_TextParser.OItem_FileResource != null)
                     {
-                        index = "";
-                        port = int.Parse(objDataWork_TextParser.OItem_Port.Name);
-                        server = objDataWork_TextParser.OItem_Server.Name;
-                        if (objDataWork_TextParser.OItem_Index != null)
-                        {
-                            index = objDataWork_TextParser.OItem_Index.Name;
-                        }
-
-                        if (objDataWork_TextParser.OList_Variables != null)
-                        {
-                            OList_Variables = objDataWork_TextParser.OList_Variables;
-                        }
+                        
 
                         if (objDataWork_TextParser.OItem_FileResource != null)
                         {
+                            
+
+                           
+
+
                             var objOItem_ResourceType =
                                 objDataWork_FileResource.GetResourceType(objDataWork_TextParser.OItem_FileResource);
 
@@ -123,37 +157,10 @@ namespace TextParser
                                         if (objDataWork_FileResource_Path.OItem_Result_FileResult.GUID ==
                                             objLocalConfig.Globals.LState_Success.GUID)
                                         {
-                                            var fileDate_Create = false;
-                                            var fileDate_LastChange = false;
+                                            
 
                                             fileList = objDataWork_FileResource_Path.FileList;
-                                            if (OList_Variables != null && OList_Variables.Any())
-                                            {
-                                                foreach (var oItem_Variable in OList_Variables)
-                                                {
-                                                    if (oItem_Variable.GUID == objLocalConfig.OItem_object_user.GUID)
-                                                    {
-                                                        index = index.Replace("@" + oItem_Variable.Name.ToLower() + "@",
-                                                                              objLocalConfig.OItem_User.GUID);
-                                                    }
-                                                    else if (oItem_Variable.GUID ==
-                                                             objLocalConfig.OItem_object_filedate_create.GUID)
-                                                    {
-                                                        fileDate_Create = true;
-                                                    }
-                                                    else if (oItem_Variable.GUID ==
-                                                             objLocalConfig.OItem_object_filedate_lastchange.GUID)
-                                                    {
-                                                        fileDate_LastChange = true;
-                                                    }
-                                                }
-                                            }
-
-
-                                            objAppDBLevel = new clsAppDBLevel(server, port, index,
-                                                                              objLocalConfig.Globals.SearchRange,
-                                                                              objLocalConfig.Globals.Session);
-
+                                            
                                             pIndexFill = true;
                                             GetIndexes();
                                             pIndexFill = false;
@@ -181,7 +188,11 @@ namespace TextParser
                     }
                     else
                     {
-                        objOItem_Result = objLocalConfig.Globals.LState_Error.Clone();
+                        pIndexFill = true;
+                        GetIndexes();
+                        pIndexFill = false;
+                        toolStripButton_Parse.Enabled = false;
+                        objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
                     }
 
 
@@ -256,7 +267,7 @@ namespace TextParser
 
                 if (index != "")
                 {
-                    var Docs = objAppDBLevel.GetData_Documents(index, "Doc", true, pos, toolStripTextBox_Query.Text == "" ? null : toolStripTextBox_Query.Text).Select(d => d.Dict).ToList();
+                    var Docs = objAppDBLevel.GetData_Documents(index, objDataWork_TextParser.OITem_Type != null ? objDataWork_TextParser.OITem_Type.Name : "Doc", true, pos, toolStripTextBox_Query.Text == "" ? null : toolStripTextBox_Query.Text).Select(d => d.Dict).ToList();
                     CreateDataTable();
 
                     foreach (var doc in Docs)
@@ -265,7 +276,7 @@ namespace TextParser
                         for(int i = 0;i<fieldList.Count;i++)
                         {
                             if (doc.ContainsKey(fieldList[i].Name_Field))
-                                row[i] = doc[fieldList[i].Name_Field];
+                                row[fieldList[i].Name_Field] = doc[fieldList[i].Name_Field];
                         }
 
                     }
@@ -313,27 +324,27 @@ namespace TextParser
         private void CreateDataTable()
         {
             dataTable = new DataTable();
-            foreach (var field in fieldList)
+            foreach (var field in fieldList.OrderBy(f => f.IsMeta).ThenBy(f => f.OrderId).ToList())
             {
-                if (field.DataType == objLocalConfig.OItem_object_bit.Name)
+                if (field.ID_DataType == objLocalConfig.OItem_object_bit.GUID)
                 {
                     dataTable.Columns.Add(field.Name_Field, typeof (bool));
 
 
                 }
-                else if (field.DataType == objLocalConfig.OItem_object_int.Name)
+                else if (field.ID_DataType == objLocalConfig.OItem_object_int.GUID)
                 {
                     dataTable.Columns.Add(field.Name_Field, typeof(int));
                 }
-                else if (field.DataType == objLocalConfig.OItem_object_datetime.Name)
+                else if (field.ID_DataType == objLocalConfig.OItem_object_datetime.GUID)
                 {
                     dataTable.Columns.Add(field.Name_Field, typeof(DateTime));
                 }
-                else if (field.DataType == objLocalConfig.OItem_object_double.Name)
+                else if (field.ID_DataType == objLocalConfig.OItem_object_double.GUID)
                 {
                     dataTable.Columns.Add(field.Name_Field, typeof(double));
                 }
-                else if (field.DataType == objLocalConfig.OItem_object_string.Name)
+                else if (field.ID_DataType == objLocalConfig.OItem_object_string.GUID)
                 {
                     dataTable.Columns.Add(field.Name_Field, typeof(string));
                 }
@@ -347,7 +358,7 @@ namespace TextParser
             var fieldList = (SortableBindingList<clsField>) dataGridView_Fields.DataSource;
             if (fieldList.Any())
             {
-                objFieldParser = new clsFieldParser(objLocalConfig,fieldList.ToList(),objOItem_TextParser);
+                objFieldParser = new clsFieldParser(objLocalConfig,fieldList.ToList(),objOItem_TextParser, objDataWork_TextParser.OITem_Type);
                 objFieldParser.Parse();
             }
             GetIndexes();
