@@ -194,7 +194,7 @@ namespace OutlookConnector_Module
                     var objOItem_Mail = new clsOntologyItem
                     {
                         GUID = objLocalConfig.Globals.NewGUID,
-                        Name = mailItem.Subject,
+                        Name = mailItem.Subject ?? "",
                         GUID_Parent = objLocalConfig.OItem_type_e_mail.GUID,
                         Type = objLocalConfig.Globals.Type_Object
                     };
