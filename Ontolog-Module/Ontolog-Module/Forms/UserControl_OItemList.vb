@@ -1961,9 +1961,263 @@ Public Class UserControl_OItemList
     End Sub
 
     Private Sub ModuleMenuToolStripMenuItem_DropDownOpening(sender As Object, e As EventArgs) Handles ModuleMenuToolStripMenuItem.DropDownOpening
-       
 
-        
+        If Not objOItem_Parent Is Nothing Then
+            If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
+                If DataGridView_Items.SelectedRows.Count = 1 Then
+                    Dim objDGVR_Selected As DataGridViewRow = DataGridView_Items.SelectedRows(0)
+                    Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+
+                    Dim objOItem_Object = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_Item"), _
+                                                                    .Name = objDRV_Selected.Item("Name"), _
+                                                                    .GUID_Parent = objDRV_Selected.Item("ID_Parent"), _
+                                                                    .Type = objLocalConfig.Globals.Type_Object}
+
+
+                    For Each objModule In objLocalConfig.Globals.ModuleList
+
+                        Dim objMenuItems = objModule.GetMenuItems(objOItem_Object)
+                        If Not objMenuItems Is Nothing Then
+                            Dim objToolStrip_Root As ToolStripMenuItem
+                            For i As Integer = 0 To objMenuItems.Count - 1
+                                If i = 0 Then
+                                    If ModuleMenuToolStripMenuItem.DropDownItems.Count = 1 Then
+                                        objToolStrip_Root = ModuleMenuToolStripMenuItem.DropDownItems.Add(objMenuItems(i).Name, Nothing)
+                                    Else
+                                        objToolStrip_Root = ModuleMenuToolStripMenuItem.DropDownItems(0)
+                                    End If
+
+                                Else
+                                    Dim boolAdd = True
+                                    For Each objToolStripItem As ToolStripItem In objToolStrip_Root.DropDownItems
+                                        If objToolStripItem.Text = objMenuItems(i).Name Then
+                                            boolAdd = False
+                                        End If
+                                    Next
+
+                                    If boolAdd Then
+                                        objToolStrip_Root.DropDownItems.Add(objMenuItems(i).Name, Nothing, New EventHandler(AddressOf ModuleExecutor))
+                                    End If
+                                End If
+
+
+                            Next
+
+                        End If
+                    Next
+                ElseIf DataGridView_Items.SelectedRows.Count > 1 Then
+
+                End If
+            End If
+            
+        ElseIf objOItem_Parent Is Nothing And Not objOItem_Other Is Nothing Then
+            If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                If DataGridView_Items.SelectedRows.Count = 1 Then
+                    Dim objDGVR_Selected As DataGridViewRow = DataGridView_Items.SelectedRows(0)
+                    Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+
+                    Dim objOItem_Object = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_Other"), _
+                                                                    .Name = objDRV_Selected.Item("Name_Other"), _
+                                                                    .GUID_Parent = objDRV_Selected.Item("ID_Parent_Other"), _
+                                                                    .Type = objDRV_Selected.Item("Ontology")}
+
+
+                    For Each objModule In objLocalConfig.Globals.ModuleList
+
+                        Dim objMenuItems = objModule.GetMenuItems(objOItem_Object)
+                        If Not objMenuItems Is Nothing Then
+                            Dim objToolStrip_Root As ToolStripMenuItem
+                            For i As Integer = 0 To objMenuItems.Count - 1
+                                If i = 0 Then
+                                    If ModuleMenuToolStripMenuItem.DropDownItems.Count = 1 Then
+                                        objToolStrip_Root = ModuleMenuToolStripMenuItem.DropDownItems.Add(objMenuItems(i).Name, Nothing)
+                                    Else
+                                        objToolStrip_Root = ModuleMenuToolStripMenuItem.DropDownItems(0)
+                                    End If
+
+                                Else
+                                    Dim boolAdd = True
+                                    For Each objToolStripItem As ToolStripItem In objToolStrip_Root.DropDownItems
+                                        If objToolStripItem.Text = objMenuItems(i).Name Then
+                                            boolAdd = False
+                                        End If
+                                    Next
+
+                                    If boolAdd Then
+                                        objToolStrip_Root.DropDownItems.Add(objMenuItems(i).Name, Nothing, New EventHandler(AddressOf ModuleExecutor))
+                                    End If
+                                End If
+
+
+                            Next
+
+                        End If
+                    Next
+                ElseIf DataGridView_Items.SelectedRows.Count > 1 Then
+
+
+                End If
+            Else
+                If DataGridView_Items.SelectedRows.Count = 1 Then
+                    Dim objDGVR_Selected As DataGridViewRow = DataGridView_Items.SelectedRows(0)
+                    Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+
+                    Dim objOItem_Object = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_Object"), _
+                                                                    .Name = objDRV_Selected.Item("Name_Object"), _
+                                                                    .GUID_Parent = objDRV_Selected.Item("ID_Parent_Object"), _
+                                                                    .Type = objDRV_Selected.Item("Ontology")}
+
+
+                    For Each objModule In objLocalConfig.Globals.ModuleList
+
+                        Dim objMenuItems = objModule.GetMenuItems(objOItem_Object)
+                        If Not objMenuItems Is Nothing Then
+                            Dim objToolStrip_Root As ToolStripMenuItem
+                            For i As Integer = 0 To objMenuItems.Count - 1
+                                If i = 0 Then
+                                    If ModuleMenuToolStripMenuItem.DropDownItems.Count = 1 Then
+                                        objToolStrip_Root = ModuleMenuToolStripMenuItem.DropDownItems.Add(objMenuItems(i).Name, Nothing)
+                                    Else
+                                        objToolStrip_Root = ModuleMenuToolStripMenuItem.DropDownItems(0)
+                                    End If
+
+                                Else
+                                    Dim boolAdd = True
+                                    For Each objToolStripItem As ToolStripItem In objToolStrip_Root.DropDownItems
+                                        If objToolStripItem.Text = objMenuItems(i).Name Then
+                                            boolAdd = False
+                                        End If
+                                    Next
+
+                                    If boolAdd Then
+                                        objToolStrip_Root.DropDownItems.Add(objMenuItems(i).Name, Nothing, New EventHandler(AddressOf ModuleExecutor))
+                                    End If
+                                End If
+
+
+                            Next
+
+                        End If
+                    Next
+                ElseIf DataGridView_Items.SelectedRows.Count > 1 Then
+
+
+                End If
+            End If
+
+        End If
+
+
+
+
+
+
+
+
     End Sub
+
+    Private Sub ModuleExecutor(sender As Object, e As EventArgs)
+
+        If Not objOItem_Parent Is Nothing Then
+            If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
+                If DataGridView_Items.SelectedRows.Count = 1 Then
+                    Dim objMenuItem As ToolStripMenuItem = sender
+
+                    Dim objDGVR_Selected As DataGridViewRow = DataGridView_Items.SelectedRows(0)
+                    Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+
+                    Dim objOItem_Object = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_Item"), _
+                                                                    .Name = objDRV_Selected.Item("Name"), _
+                                                                    .GUID_Parent = objDRV_Selected.Item("ID_Parent"), _
+                                                                    .Type = objLocalConfig.Globals.Type_Object}
+
+                    For Each objModule In objLocalConfig.Globals.ModuleList
+
+
+                        Dim objMenuItems = objModule.GetMenuItems(objOItem_Object)
+                        If objMenuItems.Any Then
+                            If objMenuItems(0).Name = objMenuItem.OwnerItem.Text Then
+                                Dim objMenuItemsSel = objMenuItems.Where(Function(m) m.Name = objMenuItem.Text).ToList()
+                                If objMenuItemsSel.Any() Then
+                                    Dim objOItem_MenuItem = objMenuItemsSel.First()
+                                    objModule.Instance.Open_Viewer(objOItem_Object, objOItem_MenuItem)
+                                End If
+
+                            End If
+                        End If
+                    Next
+
+                ElseIf DataGridView_Items.SelectedRows.Count > 1 Then
+
+                End If
+
+            End If
+        ElseIf objOItem_Parent Is Nothing And Not objOItem_Other Is Nothing Then
+            If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                If DataGridView_Items.SelectedRows.Count = 1 Then
+                    Dim objMenuItem As ToolStripMenuItem = sender
+
+                    Dim objDGVR_Selected As DataGridViewRow = DataGridView_Items.SelectedRows(0)
+                    Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+
+                    Dim objOItem_Object = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_Other"), _
+                                                                    .Name = objDRV_Selected.Item("Name_Other"), _
+                                                                    .GUID_Parent = objDRV_Selected.Item("ID_Parent_Other"), _
+                                                                    .Type = objDRV_Selected.Item("Ontology")}
+
+                    For Each objModule In objLocalConfig.Globals.ModuleList
+
+
+                        Dim objMenuItems = objModule.GetMenuItems(objOItem_Object)
+                        If objMenuItems.Any Then
+                            If objMenuItems(0).Name = objMenuItem.OwnerItem.Text Then
+                                Dim objMenuItemsSel = objMenuItems.Where(Function(m) m.Name = objMenuItem.Text).ToList()
+                                If objMenuItemsSel.Any() Then
+                                    Dim objOItem_MenuItem = objMenuItemsSel.First()
+                                    objModule.Instance.Open_Viewer(objOItem_Object, objOItem_MenuItem)
+                                End If
+
+                            End If
+                        End If
+                    Next
+
+                ElseIf DataGridView_Items.SelectedRows.Count > 1 Then
+
+                End If
+            Else
+                If DataGridView_Items.SelectedRows.Count = 1 Then
+                    Dim objMenuItem As ToolStripMenuItem = sender
+
+                    Dim objDGVR_Selected As DataGridViewRow = DataGridView_Items.SelectedRows(0)
+                    Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+
+                    Dim objOItem_Object = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_Object"), _
+                                                                    .Name = objDRV_Selected.Item("Name_Object"), _
+                                                                    .GUID_Parent = objDRV_Selected.Item("ID_Parent_Object"), _
+                                                                    .Type = objLocalConfig.Globals.Type_Object}
+
+                    For Each objModule In objLocalConfig.Globals.ModuleList
+
+
+                        Dim objMenuItems = objModule.GetMenuItems(objOItem_Object)
+                        If objMenuItems.Any Then
+                            If objMenuItems(0).Name = objMenuItem.OwnerItem.Text Then
+                                Dim objMenuItemsSel = objMenuItems.Where(Function(m) m.Name = objMenuItem.Text).ToList()
+                                If objMenuItemsSel.Any() Then
+                                    Dim objOItem_MenuItem = objMenuItemsSel.First()
+                                    objModule.Instance.Open_Viewer(objOItem_Object, objOItem_MenuItem)
+                                End If
+
+                            End If
+                        End If
+                    Next
+
+                ElseIf DataGridView_Items.SelectedRows.Count > 1 Then
+
+                End If
+            End If
+        End If
+    End Sub
+
 End Class
 

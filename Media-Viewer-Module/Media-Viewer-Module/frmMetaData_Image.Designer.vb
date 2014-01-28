@@ -100,7 +100,7 @@ Partial Class frmMetaData_Image
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Start, Me.ToolStripButton_Suspend, Me.ToolStripButton_Abort})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(112, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(81, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripButton_Start
@@ -135,6 +135,10 @@ Partial Class frmMetaData_Image
         Me.ToolStripButton_Abort.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_Abort.Text = "ToolStripButton3"
         Me.ToolStripButton_Abort.ToolTipText = "Abort"
+        '
+        'Timer_Metadata
+        '
+        Me.Timer_Metadata.Interval = 300
         '
         'frmMetaData_Image
         '

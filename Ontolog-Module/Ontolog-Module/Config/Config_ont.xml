@@ -28,8 +28,4 @@
     <ConfigItem_Name>ReportIndex</ConfigItem_Name>
     <ConfigItem_Value>Reports</ConfigItem_Value>
   </dtbl_BaseConfig>
-  <dtbl_BaseConfig>
-    <ConfigItem_Name>ModulePath</ConfigItem_Name>
-    <ConfigItem_Value>J:\Application\OModules</ConfigItem_Value>
-  </dtbl_BaseConfig>
 </DocumentElement>

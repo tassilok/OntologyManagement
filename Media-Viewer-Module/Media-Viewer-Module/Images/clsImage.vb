@@ -12,4 +12,9 @@
     Public Property ID_Year As String
     Public Property Name_Year As String
     Public Property Year As Integer
+    Public Property ID_File As String
+    Public Property Name_File As String
+    Public Property MetaSuccess As Boolean
+    Public Property MetaError As Boolean
+    Public Property MetaChanged As Boolean
 End Class

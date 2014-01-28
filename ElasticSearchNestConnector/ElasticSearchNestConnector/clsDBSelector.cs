@@ -855,14 +855,14 @@ namespace ElasticSearchNestConnector
                                     }
                                     else
                                     {
-                                        strQuery += nameQuery;
+                                        strQuery += objFields.Name_Item + ":\"" +  nameQuery + "\"";
                                     }
 
 
                                 }
                                 else
                                 {
-                                    strQuery += nameQuery;
+                                    strQuery += objFields + ":" + nameQuery;
                                 }
 
                             }

@@ -33,8 +33,6 @@ Public Class clsGlobals
     Private objOntologyRelationRules As New clsOntologyRelationRules
 
     Private objClassTypes As New clsClassTypes
-
-    Private strModulePath As String
     
 Private strEL_Server As String
     Private strEL_Port As String
@@ -73,12 +71,6 @@ Private strEL_Server As String
     Public ReadOnly Property ModuleList As List(Of clsModuleConfig)
         Get
             Return objModuleList
-        End Get
-    End Property
-
-    Public ReadOnly Property ModulePath As String
-        Get
-            Return strModulePath
         End Get
     End Property
 
@@ -783,17 +775,6 @@ Private strEL_Server As String
                 Err.Raise(1, "Config")
             End If
 
-            objDRs_ConfigItem = dtblT_Config.Select("ConfigItem_Name='ModulePath'")
-            If objDRs_ConfigItem.Count > 0 Then
-                strModulePath = objDRs_ConfigItem(0).Item("ConfigItem_Value")
-                strModulePath = Environment.ExpandEnvironmentVariables(strModulePath)
-                If Not IO.Directory.Exists(strModulePath) Then
-                    strModulePath = Nothing
-                End If
-            Else
-                strModulePath = Nothing
-            End If
-
         Else
             Err.Raise(1, "Config")
         End If
@@ -802,35 +783,31 @@ Private strEL_Server As String
     Private Sub LoadModules()
         objModuleList = New List(Of clsModuleConfig)
 
-        If Not strModulePath Is Nothing Then
-            For Each strFolder As String In IO.Directory.GetDirectories(strModulePath)
-                For Each strFile As String In IO.Directory.GetFiles(strFolder)
-                    If strFile.ToLower.EndsWith(".exe") Then
-                        Try
-                            Dim objAssembly = Assembly.LoadFile(strFile)
-                            Dim objTypes = objAssembly.GetTypes()
-                            Dim intModuleCount = objModuleList.Count
-                            Dim objModuleConfig = New clsModuleConfig With {.Assembly = objAssembly}
 
-                            If Not objModuleConfig.Instance Is Nothing Then
+        For Each strFile As String In IO.Directory.GetFiles(IO.Path.GetDirectoryName(Application.ExecutablePath))
+            If strFile.ToLower.EndsWith(".exe") Then
+                Try
+                    Dim objAssembly = Assembly.LoadFile(strFile)
+                    Dim objTypes = objAssembly.GetTypes()
+                    Dim intModuleCount = objModuleList.Count
+                    Dim objModuleConfig = New clsModuleConfig With {.Assembly = objAssembly}
 
-                                objModuleConfig.Instance.Initialize()
+                    If Not objModuleConfig.Instance Is Nothing Then
 
-                                ModuleList.Add(objModuleConfig)
-                            End If
-
-                            If objModuleList.Count - intModuleCount > 0 Then
-                                Exit For
-                            End If
-
-                        Catch ex As Exception
-
-                        End Try
+                        ModuleList.Add(objModuleConfig)
                     End If
 
-                Next
-            Next
-        End If
+                    If objModuleList.Count - intModuleCount > 0 Then
+                        Exit For
+                    End If
+
+                Catch ex As Exception
+
+                End Try
+            End If
+
+        Next
+
     End Sub
 
     

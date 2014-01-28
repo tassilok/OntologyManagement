@@ -268,15 +268,11 @@ Public Class UserControl_ObjectRelTree
                 objTreeNode = objTreeNode_RelBackward.Nodes.Add(objItem.ID_Class_Left & "_" & objItem.ID_RelationType, objItem.Name_Class_Left & " / " & objItem.Name_RelationType)
 
                 objTreeNode.Text = objTreeNode.Text & " (" & objItem.Min_Forw & " / " & intCount & " / " & objItem.Max_Forw & ")"
-                objTreeNode.ForeColor = Color.Green
-                If intCount < objItem.Min_Forw Then
+                objTreeNode.ForeColor = Color.Black
+                If objItem.Max_Backw > -1 And intCount > objItem.Max_Backw Then
                     objTreeNode.ForeColor = Color.SandyBrown
-                Else
-                    If intCount > objItem.Max_Forw And objItem.Max_Forw > -1 Then
-                        objTreeNode.ForeColor = Color.SandyBrown
-                    End If
                 End If
-
+                
                 If intCount > 0 Then
                     objTreeNode.ImageIndex = 1
                     objTreeNode.SelectedImageIndex = 1

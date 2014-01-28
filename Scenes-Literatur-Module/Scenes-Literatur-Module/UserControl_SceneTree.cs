@@ -75,7 +75,7 @@ namespace Scenes_Literatur_Module
 
             if (objLocalConfig.DataWork_Scenes.OItem_Result_Literature.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                foreach (var OItem_Literature in objLocalConfig.DataWork_Scenes.OList_Literature)
+                foreach (var OItem_Literature in objLocalConfig.DataWork_Scenes.OList_Literature.OrderBy(s => s.Name))
                 {
                     var objTreeNode_Literatrue =  objTreeNode_Root.Nodes.Add(OItem_Literature.GUID,
                                                OItem_Literature.Name,

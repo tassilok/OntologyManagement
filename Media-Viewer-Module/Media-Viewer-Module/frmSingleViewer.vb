@@ -1,5 +1,6 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
+Imports Security_Module
 
 Public Class frmSingleViewer
     Private objLocalConfig As clsLocalConfig
@@ -132,6 +133,15 @@ Public Class frmSingleViewer
         objLocalConfig = LocalConfig
         objOItem_MediaType = OItem_MediaType
         set_DBConnection()
+        If objLocalConfig.OItem_User Is Nothing Then
+            Dim objAuthenticator = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
+            objAuthenticator.ShowDialog(Me)
+            If objAuthenticator.DialogResult = Windows.Forms.DialogResult.OK Then
+                objLocalConfig.OItem_User = objAuthenticator.OItem_User
+                initialize()
+            End If
+        End If
+        
         initialize()
     End Sub
 
@@ -144,7 +154,14 @@ Public Class frmSingleViewer
         objLocalConfig.OItem_User = OItem_User
         objOItem_MediaType = OItem_MediaType
         set_DBConnection()
-        initialize()
+
+        Dim objAuthenticator = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
+        objAuthenticator.ShowDialog(Me)
+        If objAuthenticator.DialogResult = Windows.Forms.DialogResult.OK Then
+            objLocalConfig.OItem_User = objAuthenticator.OItem_User
+            initialize()
+        End If
+
     End Sub
 
     Private Sub set_DBConnection()
@@ -291,5 +308,16 @@ Public Class frmSingleViewer
                 Timer_Data.Stop()
                 ToolStripProgressBar_Data.Value = 0
         End Select
+    End Sub
+
+    Private Sub frmSingleViewer_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If objLocalConfig.OItem_User Is Nothing Then
+            Close()
+
+        End If
+    End Sub
+
+    Protected Overrides Sub Finalize()
+        MyBase.Finalize()
     End Sub
 End Class

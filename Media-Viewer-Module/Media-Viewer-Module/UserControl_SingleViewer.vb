@@ -132,6 +132,7 @@ Public Class UserControl_SingleViewer
     Public Sub initialize_Image(ByVal OItem_Image As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date)
         objOItem_Ref = Nothing
         objUserControl_ImageViewer.initialize_Image(OItem_Image, OItem_File, dateCreated)
+        objUserControl_ImageViewer.OItem_Ref = objOItem_Ref
         ToolStripTextBox_Curr.Text = 0
         ToolStripLabel_Count.Text = 0
         boolNavigation = False
@@ -214,12 +215,14 @@ Public Class UserControl_SingleViewer
             ToolStripButton_Add.Enabled = True
             ToolStripButton_Remove.Enabled = True
             ToolStripButton_Edit.Enabled = True
+            ToolStripButton_Paste.Enabled = True
         Else
             ToolStrip2.Visible = False
             ToolStrip2.Enabled = False
             ToolStripButton_Add.Enabled = False
             ToolStripButton_Remove.Enabled = False
             ToolStripButton_Edit.Enabled = False
+            ToolStripButton_Paste.Enabled = False
         End If
     End Sub
     Private Sub configure_Viewer(Optional IncrItemID As Integer = 0)
@@ -576,5 +579,34 @@ Public Class UserControl_SingleViewer
                 objOItem_PDF.GUID_Parent = objLocalConfig.OItem_Type_PDF_Documents.GUID
                 objUserControl_PDFViewer.Edit_MediaItem(objOItem_PDF)
         End Select
+    End Sub
+
+    Private Sub ToolStripButton_Paste_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Paste.Click
+        Select Case objOItem_MediaType.GUID
+            Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                Try
+                    If Clipboard.ContainsImage Then
+                        Dim objImage As Bitmap
+                        objImage = Clipboard.GetData(System.Windows.Forms.DataFormats.Bitmap)
+                        If Not (objImage Is Nothing) Then
+                            Dim strPath As String = "%temp%\" & objLocalConfig.Globals.NewGUID & ".bmp"
+                            strPath = Environment.ExpandEnvironmentVariables(strPath)
+                            Dim strPaths(0) As String
+                            strPaths(0) = strPath
+                            objImage.Save(strPath)
+                            AddMedia(strPaths)
+                        End If
+                    Else
+                        MsgBox("Die Ziwschenablage enthält kein Bild.", MsgBoxStyle.Information)
+                    End If
+                Catch ex As Exception
+                    MsgBox("Beim Einfügen des Bildes ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+                End Try
+            Case objLocalConfig.OItem_Type_Media_Item.GUID
+                MsgBox("Not implemented", MsgBoxStyle.Information)
+            Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+                MsgBox("Not implemented", MsgBoxStyle.Information)
+        End Select
+        
     End Sub
 End Class

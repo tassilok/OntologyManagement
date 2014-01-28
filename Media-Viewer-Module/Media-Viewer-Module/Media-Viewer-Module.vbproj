@@ -62,14 +62,17 @@
       <SpecificVersion>False</SpecificVersion>
       <ExecutableExtension>.exe</ExecutableExtension>
       <HintPath>..\..\Log-Module\Log-Module\bin\Debug\Log-Module.exe</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PdfSharp">
       <HintPath>..\..\libs\PDFSharp\PdfSharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Security-Module, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <ExecutableExtension>.exe</ExecutableExtension>
       <HintPath>..\..\Security-Module\Security-Module\bin\Debug\Security-Module.exe</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -101,6 +104,12 @@
       <DependentUpon>frmMetaData_Image.vb</DependentUpon>
     </Compile>
     <Compile Include="frmMetaData_Image.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSingleViewEmbedded.Designer.vb">
+      <DependentUpon>frmSingleViewEmbedded.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmSingleViewEmbedded.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Images\clsDataWork_Images.vb" />
@@ -235,6 +244,9 @@
     <EmbeddedResource Include="frmMetaData_Image.resx">
       <DependentUpon>frmMetaData_Image.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmSingleViewEmbedded.resx">
+      <DependentUpon>frmSingleViewEmbedded.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmSingleViewer.resx">
       <DependentUpon>frmSingleViewer.vb</DependentUpon>
     </EmbeddedResource>
@@ -328,18 +340,23 @@
     <ProjectReference Include="..\..\Filesystem-Module\Filesystem-Module\Filesystem-Module.vbproj">
       <Project>{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}</Project>
       <Name>Filesystem-Module</Name>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3F2F6722-C36B-420D-AFE7-B21C19457208}</Project>
       <Name>Ontolog-Module</Name>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
       <Name>OntologyClasses</Name>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\Structure-Module\Structure-Module\Structure-Module.csproj">
       <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
       <Name>Structure-Module</Name>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -406,6 +423,7 @@
       <Lcid>0</Lcid>
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
+      <Private>True</Private>
     </COMReference>
     <COMReference Include="AxWMPLib">
       <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
@@ -414,24 +432,7 @@
       <Lcid>0</Lcid>
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
-    </COMReference>
-    <COMReference Include="FOXITREADERLib">
-      <Guid>{3A8BD65E-9922-4162-A649-83F2D5326BBE}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="WMPLib">
-      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <Private>True</Private>
     </COMReference>
   </ItemGroup>
   <ItemGroup />

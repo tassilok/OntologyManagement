@@ -244,6 +244,19 @@ Public Class frmMediaViewerModule
         initialize()
     End Sub
 
+    Private Sub TestModuleMenu()
+        Dim objModule As New clsModule()
+        objModule.Initialize()
+
+        objModule.GetMenuEntries(objLocalConfig.OItem_Type_Image_Module)
+
+        objModule.Open_Viewer(New clsOntologyItem With {.GUID = "1be4213038f644f3bf0591f4db7ed4f9", _
+                                                        .Name = "Semantisch.Net", _
+                                                        .GUID_Parent = objLocalConfig.OItem_Type_PDF_Documents.GUID, _
+                                                        .Type = objLocalConfig.Globals.Type_Object}, objModule.OItem_MenuItem_Viewer_PDF)
+
+    End Sub
+
     Public Sub New(Globals As clsGlobals, OItem_User As clsOntologyItem)
 
         ' Dieser Aufruf ist für den Designer erforderlich.

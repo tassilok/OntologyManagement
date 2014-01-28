@@ -12,12 +12,21 @@ Public Class UserControl_ImageViewer
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
 
+    Private objDataWork_Images As clsDataWork_Images
+
     Private objThread_ShowImage As Threading.Thread
     Private objStream As IO.Stream
 
+    Private objTransaction As clsTransaction
+
     Private objImage As Image
+
+    Private dateCreate As Date
+
     Private boolImageFinished As Boolean
 
+    Public Property OItem_Ref As clsOntologyItem
+        
     Public Sub clear_Image()
 
         objImage = Nothing
@@ -43,7 +52,7 @@ Public Class UserControl_ImageViewer
         objOItem_File = OItem_File
         objOItem_Image = OItem_Image
 
-
+        Me.dateCreate = dateCreate
         Try
             objThread_ShowImage.Abort()
         Catch ex As Exception
@@ -164,6 +173,8 @@ Public Class UserControl_ImageViewer
 
     Private Sub set_DBConnection()
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
+        objDataWork_Images = New clsDataWork_Images(objLocalConfig)
+        objTransaction = New clsTransaction(objLocalConfig.Globals)
     End Sub
 
     Private Sub initialize()
@@ -227,8 +238,77 @@ Public Class UserControl_ImageViewer
     End Sub
 
     Private Sub ToolStripButton_Paste_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Paste.Click
-
+        
+        
     End Sub
+
+    Private Function AddImage(strPath As String) As clsOntologyItem
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Nothing.Clone
+        If Not OItem_Ref Is Nothing Then
+            objOItem_File = objBlobConnection.isFilePresent(strPath)
+            If objOItem_File Is Nothing Then
+                objOItem_File = New clsOntologyItem
+                objOItem_File.GUID = objLocalConfig.Globals.NewGUID
+                objOItem_File.Name = IO.Path.GetFileName(strPath)
+                objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
+                objOItem_File.Type = objLocalConfig.Globals.Type_Object
+
+                objOItem_Result = objTransaction.do_Transaction(objOItem_File)
+            Else
+                objOItem_Result = objLocalConfig.Globals.LState_Success
+            End If
+
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_File, strPath)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objOItem_Image = objDataWork_Images.GetImageItemOfFile(objOItem_File, objLocalConfig.OItem_Type_Images__Graphic_)
+                    If objOItem_Image Is Nothing Then
+                        objOItem_Image = New clsOntologyItem
+                        objOItem_Image.GUID = objLocalConfig.Globals.NewGUID
+                        objOItem_Image.Name = objOItem_File.Name
+                        objOItem_Image.GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                        objOItem_Image.Type = objLocalConfig.Globals.Type_Object
+
+                        objOItem_Result = objTransaction.do_Transaction(objOItem_Image)
+                    Else
+                        objOItem_Result = objLocalConfig.Globals.LState_Success
+                    End If
+
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        Dim objORel_Image_To_File = objDataWork_Images.Rel_Image_To_File(objOItem_Image, objOItem_File)
+
+                        objOItem_Result = objTransaction.do_Transaction(objORel_Image_To_File, True)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objOItem_Image.Level = objDataWork_Images.GetNextOrderIDOFRef(OItem_Ref)
+                            objOItem_Image.Level = objOItem_Image.Level + 1
+                            Dim objORel_Image_To_Ref = objDataWork_Images.Rel_Image_To_Ref(objOItem_Image, OItem_Ref, True)
+
+                            objOItem_Result = objTransaction.do_Transaction(objORel_Image_To_Ref)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                Dim objORel_Image__Taking = objDataWork_Images.Rel_Image__Taking(objOItem_Image, objBlobConnection.FileInfoBlob.CreationTime)
+                                objOItem_Result = objTransaction.do_Transaction(objORel_Image__Taking)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                    objTransaction.rollback()
+                                End If
+
+                            Else
+                                objTransaction.rollback()
+                            End If
+                        End If
+                    Else
+                        objTransaction.rollback()
+
+                    End If
+                Else
+                    objTransaction.rollback()
+
+                End If
+            End If
+        End If
+
+        Return objOItem_Result
+    End Function
 
     Private Sub ToolStripButton_Edit_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Edit.Click
         Dim objOList_Images = New List(Of clsOntologyItem) From {objOItem_Image}
