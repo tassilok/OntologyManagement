@@ -9,6 +9,7 @@ namespace OutlookConnector_Module
     public class clsMailItem
     {
         public string ID_MailItem { get; set; }
+        public Boolean SemItemPresent { get; set; }
         public string EntryID { get; set; }
         public string SenderEmail { get; set; }
         public string SenderName { get; set; }
@@ -16,7 +17,8 @@ namespace OutlookConnector_Module
         public DateTime CreationDate { get; set; }
         public string Subject { get; set; }
         public string Folder { get; set; }
-        public Boolean SemItemPresent { get; set; }
+        public string ID_OItem { get; set; }
+        public string Name_OItem { get; set; }
 
 
         public Boolean Find(List<clsFilter> Filters)
@@ -51,9 +53,7 @@ namespace OutlookConnector_Module
                         }
                     }
                     
-                }
-
-                if (filter.key.ToString().ToLower() == "entryid")
+                } else if (filter.key.ToString().ToLower() == "entryid")
                 {
                     if (filter.TypeOfFilter == FilterType.equal)
                     {
@@ -80,9 +80,7 @@ namespace OutlookConnector_Module
                         }
                     }
                     
-                }
-
-                if (filter.key.ToString().ToLower() == "senderemail")
+                } else if (filter.key.ToString().ToLower() == "senderemail")
                 {
                     if (SenderEmail != null)
                     {
@@ -113,9 +111,7 @@ namespace OutlookConnector_Module
                         
                     }
                     
-                }
-
-                if (filter.key.ToString().ToLower() == "sendername")
+                } else if (filter.key.ToString().ToLower() == "sendername")
                 {
                     if (SenderName != null)
                     {
@@ -145,9 +141,7 @@ namespace OutlookConnector_Module
                         }
                         
                     }
-                }
-
-                if (filter.key.ToString().ToLower() == "to")
+                } else if (filter.key.ToString().ToLower() == "to")
                 {
                     if (To != null)
                     {
@@ -177,9 +171,7 @@ namespace OutlookConnector_Module
                         }
                         
                     }
-                }
-
-                if (filter.key.ToString().ToLower() == "creationdate")
+                } else if (filter.key.ToString().ToLower() == "creationdate")
                 {
                     if (filter.value is DateTime)
                     {
@@ -207,9 +199,7 @@ namespace OutlookConnector_Module
                     }
                     
                     
-                }
-
-                if (filter.key.ToString().ToLower() == "subject")
+                } else if (filter.key.ToString().ToLower() == "subject")
                 {
                     if (Subject != null)
                     {
@@ -239,9 +229,7 @@ namespace OutlookConnector_Module
                         }
                         
                     }
-                }
-
-                if (filter.key.ToString().ToLower() == "folder")
+                } else if (filter.key.ToString().ToLower() == "folder")
                 {
                     if (Folder != null)
                     {
@@ -271,9 +259,7 @@ namespace OutlookConnector_Module
                         }
                         
                     }
-                }
-
-                if (filter.key.ToString().ToLower() == "semitempresent")
+                } else if (filter.key.ToString().ToLower() == "semitempresent")
                 {
                     if (filter.value is bool)
                     {
@@ -300,10 +286,71 @@ namespace OutlookConnector_Module
                             
                         }
                     }
-                    
 
+
+                } else if (filter.key.ToString().ToLower() == "id_oitem")
+                {
+                    if (ID_OItem != null)
+                    {
+                        if (filter.TypeOfFilter == FilterType.equal)
+                        {
+                            if (ID_OItem.ToLower() == filter.value.ToString().ToLower())
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+                        else if (filter.TypeOfFilter == FilterType.different)
+                        {
+                            if (ID_OItem.ToLower() != filter.value.ToString().ToLower())
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+                        else if (filter.TypeOfFilter == FilterType.contains)
+                        {
+                            if (ID_OItem.ToString().ToLower().Contains(filter.value.ToString().ToLower()))
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+
+                    }
                 }
-            }
+                else if (filter.key.ToString().ToLower() == "name_oitem")
+                {
+                    if (Name_OItem != null)
+                    {
+                        if (filter.TypeOfFilter == FilterType.equal)
+                        {
+                            if (Name_OItem.ToLower() == filter.value.ToString().ToLower())
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+                        else if (filter.TypeOfFilter == FilterType.different)
+                        {
+                            if (Name_OItem.ToLower() != filter.value.ToString().ToLower())
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+                        else if (filter.TypeOfFilter == FilterType.contains)
+                        {
+                            if (Name_OItem.ToString().ToLower().Contains(filter.value.ToString().ToLower()))
+                            {
+                                boolFound = true;
+                                break;
+                            }
+                        }
+
+                    }
+                }
+            } 
             
             return boolFound;
         }

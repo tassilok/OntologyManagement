@@ -126,6 +126,8 @@ namespace OutlookConnector_Module
             }
             
             dataGridView_OutlookItems.Columns[0].Visible = false;
+            dataGridView_OutlookItems.Columns[9].Visible = false;
+            dataGridView_OutlookItems.Columns[10].Visible = false;
         }
 
         private void contextMenuStrip_OutlookItems_Opening(object sender, CancelEventArgs e)
@@ -311,6 +313,8 @@ namespace OutlookConnector_Module
                                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                         {
                                             mailItem.SemItemPresent = true;
+                                            mailItem.ID_OItem = objOItem_Mail.GUID;
+                                            mailItem.Name_OItem = objOItem_Mail.Name;
                                             selectedRows();
                                         }
                                         else
@@ -377,15 +381,22 @@ namespace OutlookConnector_Module
         {
             DataGridViewRow objDGVR = dataGridView_OutlookItems.Rows[e.RowIndex];
             clsMailItem mailItem = (clsMailItem)objDGVR.DataBoundItem;
-            var objOItem_Mail = objDataWork_OutlookItems.GetOItemByEntryID(mailItem.EntryID);
 
-            if (objOItem_Mail != null)
-            {
-                var objOList_Objects = new List<clsOntologyItem> { objOItem_Mail };
 
-                objFrmObjectEdit = new frm_ObjectEdit(objLocalConfig.Globals, objOList_Objects, 0, objLocalConfig.Globals.Type_Object, null);
-                objFrmObjectEdit.ShowDialog(this);
-            }
+            var objOList_Objects = new List<clsOntologyItem> 
+            { 
+                new clsOntologyItem 
+                {
+                    GUID = mailItem.ID_OItem, 
+                    Name = mailItem.Name_OItem,
+                    GUID_Parent = objLocalConfig.OItem_type_e_mail.GUID,
+                    Type = objLocalConfig.Globals.Type_Object
+                }
+            };
+
+            objFrmObjectEdit = new frm_ObjectEdit(objLocalConfig.Globals, objOList_Objects, 0, objLocalConfig.Globals.Type_Object, null);
+            objFrmObjectEdit.ShowDialog(this);
+            
         }
 
         private void toolStripTextBox_contains_KeyDown(object sender, KeyEventArgs e)

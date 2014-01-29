@@ -122,7 +122,9 @@ namespace OutlookConnector_Module
                                         SenderName = objDoc.Dict["SenderName"] != null ? objDoc.Dict["SenderName"].ToString() : null,
                                         Subject = objDoc.Dict["Subject"] != null ? objDoc.Dict["Subject"].ToString() : null,
                                         To = objDoc.Dict["To"] != null ? objDoc.Dict["To"].ToString() : null,
-                                        SemItemPresent = objOutlookItem != null ? true : false
+                                        SemItemPresent = objOutlookItem != null ? true : false,
+                                        ID_OItem = objOutlookItem != null ? objOutlookItem.ID_Other : null,
+                                        Name_OItem = objOutlookItem != null ? objOutlookItem.Name_Other : null
                                     }).ToList();    
 
                 
