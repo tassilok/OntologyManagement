@@ -47,6 +47,7 @@
     <Compile Include="BaseClasses\clsObjectRel.cs" />
     <Compile Include="BaseClasses\clsObjectTree.cs" />
     <Compile Include="BaseClasses\clsOntologyItem.cs" />
+    <Compile Include="BaseClasses\RandomPassword.cs" />
     <Compile Include="DataClasses\clsAttributeTypes.cs" />
     <Compile Include="DataClasses\clsBaseClassAttributes.cs" />
     <Compile Include="DataClasses\clsBaseClassRelation.cs" />

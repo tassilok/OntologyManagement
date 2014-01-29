@@ -306,4 +306,18 @@ Public Class frm_Name
     Private Sub CheckBox_Apply_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_Apply.CheckedChanged
         boolApply = CheckBox_Apply.Checked
     End Sub
+
+    Private Sub MenuStrip1_ItemClicked( sender As Object,  e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
+        SicheresPasswordToolStripMenuItem.Enabled = False
+        if boolSecure Then
+            SicheresPasswordToolStripMenuItem.Enabled = True
+        End If
+    End Sub
+
+    Private Sub SicheresPasswordToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles SicheresPasswordToolStripMenuItem.Click
+        Dim password = RandomPassword.Generate(15,15)
+
+        TextBox_Name.Text = password
+        TextBox_Repeat.Text = password
+    End Sub
 End Class
