@@ -771,7 +771,28 @@ Public Class UserControl_MediaItemList
                                                               .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
                                                               .Type = objLocalConfig.Globals.Type_Object}
 
-                Dim strPath_Dst = FolderBrowserDialog_Save.SelectedPath + IO.Path.DirectorySeparatorChar + objOItem_File.Name
+                Dim strExtension = IO.Path.GetExtension(objDRV_Selected.Item("Name_File"))
+                Dim strFileNameWithOutExtension = objDRV_Selected.Item("Name_File").Substring(0, objDRV_Selected.Item("Name_File").Length - strExtension.Length)
+
+                Dim strFileName = ""
+
+                If objExportOption = ExportOptions.guid Then
+
+                    strFileName = objOItem_File.GUID & strExtension
+
+                ElseIf objExportOption = ExportOptions.name Then
+
+
+                    strFileName = strFileNameWithOutExtension & strExtension
+
+
+                ElseIf objExportOption = ExportOptions.orderid Then
+
+                    strFileName = Format(objDRV_Selected.Item("OrderID"), "00000") & strExtension
+
+                End If
+
+                Dim strPath_Dst = FolderBrowserDialog_Save.SelectedPath + IO.Path.DirectorySeparatorChar + strFileName
                 If Not IO.File.Exists(strPath_Dst) Then
                     If objFileWork.is_File_Blob(objOItem_File) Then
                         Dim objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_File, strPath_Dst, False)
