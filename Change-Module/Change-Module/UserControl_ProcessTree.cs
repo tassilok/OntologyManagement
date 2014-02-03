@@ -103,7 +103,7 @@ namespace Change_Module
                 CloseApplication(this, EventArgs.Empty);
             }
 
-            objOItem_Result = objDataWork_Ticket.GetLogEntriesOfProcessLog();
+            objOItem_Result = objDataWork_Ticket.GetLogEntriesOfProcessLog(objOItem_Ticket);
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
             {
                 MessageBox.Show("Beim Auslesen des Prozessbaums ist ein Fehler aufgetreten. Die Anwendung wird geschlossen!", "Fehler", MessageBoxButtons.OK);

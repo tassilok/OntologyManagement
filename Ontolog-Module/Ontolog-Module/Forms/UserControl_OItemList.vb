@@ -1195,6 +1195,7 @@ Public Class UserControl_OItemList
         Dim oItem_Obj As clsOntologyItem
         Dim objOItem_ClipBoardEntry As clsOntologyItem
         Dim boolAdd As Boolean
+        Dim boolCancel As Boolean
 
         Dim boolValue As Boolean
         Dim dateValue As Date
@@ -1435,6 +1436,7 @@ Public Class UserControl_OItemList
 
 
                 Case objLocalConfig.Globals.Type_Other
+                    boolCancel = False
                     Dim boolOrderID = False
                     If objOItem_Other Is Nothing Then
                         objFrm_Clipboard = New frmClipboard(objLocalConfig)
@@ -1449,30 +1451,38 @@ Public Class UserControl_OItemList
                                 Next
                             End If
                         End If
-                        If Not objOLRel.Any Then
-                            objFrm_Main = New frmMain(objLocalConfig.Globals)
-                            objFrm_Main.Applyable = True
-                            objFrm_Main.ShowDialog(Me)
-                            If objFrm_Main.DialogResult = DialogResult.OK Then
-                                If objFrm_Main.OList_Simple.Any Then
-                                    oList_Simple = objFrm_Main.OList_Simple
-                                    boolAdd = True
-                                Else
-                                    MsgBox("Bitte ein Element auswählen!", MsgBoxStyle.Information)
-                                End If
-                            End If
 
-                            objFrm_Main.Dispose()
+                        If objFrm_Clipboard.Cntrl = False Then
+                            If Not objOLRel.Any Then
+                                objFrm_Main = New frmMain(objLocalConfig.Globals)
+                                objFrm_Main.Applyable = True
+                                objFrm_Main.ShowDialog(Me)
+                                If objFrm_Main.DialogResult = DialogResult.OK Then
+                                    If objFrm_Main.OList_Simple.Any Then
+                                        oList_Simple = objFrm_Main.OList_Simple
+                                        boolAdd = True
+                                    Else
+                                        MsgBox("Bitte ein Element auswählen!", MsgBoxStyle.Information)
+                                    End If
+                                Else
+                                    boolCancel = True
+                                End If
+
+                                objFrm_Main.Dispose()
+                            Else
+                                oList_Simple = (From objORel In objOLRel
+                                                        Select New clsOntologyItem With {.GUID = objORel.ID_Other, _
+                                                                                         .Name = objORel.Name_Other, _
+                                                                                         .GUID_Parent = objORel.ID_Parent_Other, _
+                                                                                         .Type = objLocalConfig.Globals.Type_Object, _
+                                                                                         .Level = objORel.OrderID, _
+                                                                                         .Mark = boolOrderID}).ToList()
+                                boolAdd = True
+                            End If
                         Else
-                            oList_Simple = (From objORel In objOLRel
-                                                    Select New clsOntologyItem With {.GUID = objORel.ID_Other, _
-                                                                                     .Name = objORel.Name_Other, _
-                                                                                     .GUID_Parent = objORel.ID_Parent_Other, _
-                                                                                     .Type = objLocalConfig.Globals.Type_Object, _
-                                                                                     .Level = objORel.OrderID, _
-                                                                                     .Mark = boolOrderID}).ToList()
-                            boolAdd = True
+                            boolCancel = True
                         End If
+                        
 
                     Else
                         Select Case objOItem_Other.Type
@@ -1505,42 +1515,48 @@ Public Class UserControl_OItemList
                                     End If
                                 End If
 
-                                If Not objOLRel.Any Then
-                                    objFrm_Main = New frmMain(objLocalConfig, objLocalConfig.Globals.Type_Class, objOItem_Class)
-                                    objFrm_Main.ShowDialog(Me)
-                                    If objFrm_Main.DialogResult = DialogResult.OK Then
-                                        If objFrm_Main.Type_Applied = objLocalConfig.Globals.Type_Object Then
-                                            oList_Simple = objFrm_Main.OList_Simple
-                                            boolAdd = True
+                                If objFrm_Clipboard.Cntrl = False Then
+                                    If Not objOLRel.Any Then
+                                        objFrm_Main = New frmMain(objLocalConfig, objLocalConfig.Globals.Type_Class, objOItem_Class)
+                                        objFrm_Main.ShowDialog(Me)
+                                        If objFrm_Main.DialogResult = DialogResult.OK Then
+                                            If objFrm_Main.Type_Applied = objLocalConfig.Globals.Type_Object Then
+                                                oList_Simple = objFrm_Main.OList_Simple
+                                                boolAdd = True
 
-                                            Dim oLSel = From obj In oList_Simple
-                                                        Group By obj.GUID_Parent Into Group
+                                                Dim oLSel = From obj In oList_Simple
+                                                            Group By obj.GUID_Parent Into Group
 
-                                            For Each oSel In oLSel
-                                                If Not oSel.GUID_Parent = objOItem_Class.GUID Then
-                                                    boolAdd = False
-                                                    Exit For
-                                                End If
-                                            Next
+                                                For Each oSel In oLSel
+                                                    If Not oSel.GUID_Parent = objOItem_Class.GUID Then
+                                                        boolAdd = False
+                                                        Exit For
+                                                    End If
+                                                Next
+
+                                            Else
+                                                MsgBox("Bitte nur Objekte auswählen!", MsgBoxStyle.Information)
+                                            End If
 
                                         Else
-                                            MsgBox("Bitte nur Objekte auswählen!", MsgBoxStyle.Information)
+                                            boolCancel = True
                                         End If
 
-
+                                        objFrm_Main.Dispose()
+                                    Else
+                                        oList_Simple = (From objORel In objOLRel
+                                                        Select New clsOntologyItem With {.GUID = objORel.ID_Other, _
+                                                                                         .Name = objORel.Name_Other, _
+                                                                                         .GUID_Parent = objORel.ID_Parent_Other, _
+                                                                                         .Type = objLocalConfig.Globals.Type_Object, _
+                                                                                         .Level = objORel.OrderID, _
+                                                                                         .Mark = boolOrderID}).ToList()
+                                        boolAdd = True
                                     End If
-
-                                    objFrm_Main.Dispose()
                                 Else
-                                    oList_Simple = (From objORel In objOLRel
-                                                    Select New clsOntologyItem With {.GUID = objORel.ID_Other, _
-                                                                                     .Name = objORel.Name_Other, _
-                                                                                     .GUID_Parent = objORel.ID_Parent_Other, _
-                                                                                     .Type = objLocalConfig.Globals.Type_Object, _
-                                                                                     .Level = objORel.OrderID, _
-                                                                                     .Mark = boolOrderID}).ToList()
-                                    boolAdd = True
+                                    boolCancel = True
                                 End If
+                                
 
                         End Select
                     End If
@@ -1566,7 +1582,10 @@ Public Class UserControl_OItemList
                         End If
                         configure_TabPages()
                     Else
-                        MsgBox("Sie haben Objekte der falschen Klasse ausgewählt!", MsgBoxStyle.Exclamation)
+                        If boolCancel = False Then
+                            MsgBox("Sie haben Objekte der falschen Klasse ausgewählt!", MsgBoxStyle.Exclamation)
+                        End If
+
                     End If
 
 
@@ -1638,13 +1657,46 @@ Public Class UserControl_OItemList
                     End If
                     get_Data()
                 ElseIf oList_Simple(0).Type = objLocalConfig.Globals.Type_Object Then
-                    objOItem_Result = objDBLevel.del_Objects(oList_Simple)
-                    If objOItem_Result.Count > 0 Then
-                        MsgBox("Es konnten nur " & objOItem_Result.Min & " von " & objOItem_Result.Max1 & " Items gelöscht werden!", MsgBoxStyle.Information)
-                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                        MsgBox("Beim Löschen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+                    If Control.ModifierKeys = Keys.Control Then
+                        If MsgBox("Wollen Sie wirklich alle markierten Elemente einschließlich derer Beziehungen löschen?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                            Dim objOList_AttributesDel = oList_Simple.Select(Function(o) New clsObjectAtt With {.ID_Object = o.GUID}).ToList()
+                            Dim objOList_ObjectsForw = oList_Simple.Select(Function(o) New clsObjectRel With {.ID_Object = o.GUID}).ToList()
+                            Dim objOList_ObjectsBackw = oList_Simple.Select(Function(o) New clsObjectRel With {.ID_Other = o.GUID}).ToList()
+
+                            objOItem_Result = objDBLevel.del_ObjectAtt(objOList_AttributesDel)
+                            If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                objOItem_Result = objDBLevel.del_ObjectRel(objOList_ObjectsForw)
+                                If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                    objOItem_Result = objDBLevel.del_ObjectRel(objOList_ObjectsBackw)
+                                    If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                        objOItem_Result = objDBLevel.del_Objects(oList_Simple)
+                                        If objOItem_Result.Count > 0 Then
+                                            MsgBox("Es konnten nur " & objOItem_Result.Min & " von " & objOItem_Result.Max1 & " Items gelöscht werden!", MsgBoxStyle.Information)
+                                        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                            MsgBox("Beim Löschen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+                                        End If
+                                    Else
+                                        MsgBox("Die Elemente konnten nicht gelöscht werden!", MsgBoxStyle.Exclamation)
+                                    End If
+                                Else
+                                    MsgBox("Die Elemente konnten nicht gelöscht werden!", MsgBoxStyle.Exclamation)
+                                End If
+                            Else
+                                MsgBox("Die Elemente konnten nicht gelöscht werden!", MsgBoxStyle.Exclamation)
+                            End If
+                        End If
+
+                    Else
+                        objOItem_Result = objDBLevel.del_Objects(oList_Simple)
+                        If objOItem_Result.Count > 0 Then
+                            MsgBox("Es konnten nur " & objOItem_Result.Min & " von " & objOItem_Result.Max1 & " Items gelöscht werden!", MsgBoxStyle.Information)
+                        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                            MsgBox("Beim Löschen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+                        End If
+
                     End If
                     get_Data()
+
                 ElseIf oList_Simple(0).Type = objLocalConfig.Globals.Type_RelationType Then
                     objOItem_Result = objDBLevel.del_RelationTypes(oList_Simple)
                     If objOItem_Result.Count > 0 Then

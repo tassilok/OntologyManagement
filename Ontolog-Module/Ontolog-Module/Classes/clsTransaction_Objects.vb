@@ -40,6 +40,12 @@ Public Class clsTransaction_Objects
         End Get
     End Property
 
+    Public ReadOnly Property OList_ObjectsSaved As List(Of clsOntologyItem)
+        Get
+            Return oList_Objects
+        End Get
+    End Property
+
     Public ReadOnly Property OItem_SavedLast As clsOntologyItem
         Get
             Return objOItem_Saved_LastItem
@@ -163,14 +169,16 @@ Public Class clsTransaction_Objects
     Public Function save_Object(ByVal strClass As String, Optional ByVal objOItem_Object As clsOntologyItem = Nothing) As clsOntologyItem
         
         Dim strGUID As String
-        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem = objLocalConfig.Globals.LState_Nothing.Clone
         Dim strValue As String
         Dim boolSave As Boolean
         Dim boolOrderID As Boolean
         Dim intOrderID_Start As Integer
 
         objOItem_Saved_LastItem = Nothing
-
+        oList_Objects.Clear()
+        oList_ObjectDbl.Clear()
+        boolSave = True
         If objOItem_Object Is Nothing Then
             objFrm_Name = New frm_Name("New Object", objLocalConfig, Nothing, Nothing, Nothing, True, True, False, False, True)
             objFrm_Name.ShowDialog(objfrmParent)
@@ -216,31 +224,35 @@ Public Class clsTransaction_Objects
                 If objFrm_Name.More = True Then
 
                 End If
+            Else
+                boolSave = False
             End If
         Else
             oList_Objects.Add(objOItem_Object)
             oList_ObjectDbl.Add(objOItem_Object)
         End If
 
-        boolSave = True
 
-        objOItem_Result = objLocalConfig.Globals.LState_Nothing
-        If oList_ObjectDbl.Count > 0 Then
-            objDBLevel.get_Data_Objects(oList_ObjectDbl)
-            If objDBLevel.OList_Objects.Count > 0 Then
-                Dim oL_Double = From obj_db In objDBLevel.OList_Objects
-                                Join obj_new In oList_Objects On obj_db.Name.ToLower Equals obj_new.Name.ToLower
+        If boolSave Then
+            objOItem_Result = objLocalConfig.Globals.LState_Nothing
+            If oList_ObjectDbl.Count > 0 Then
+                objDBLevel.get_Data_Objects(oList_ObjectDbl)
+                If objDBLevel.OList_Objects.Count > 0 Then
+                    Dim oL_Double = From obj_db In objDBLevel.OList_Objects
+                                    Join obj_new In oList_Objects On obj_db.Name.ToLower Equals obj_new.Name.ToLower
 
-                If oL_Double.Count > 0 Then
-                    If MsgBox("Es existiert bereits Objekt(e) mit dem Namen. Wollen Sie weitere anlegen?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
-                        boolSave = False
+                    If oL_Double.Count > 0 Then
+                        If MsgBox("Es existiert bereits Objekt(e) mit dem Namen. Wollen Sie weitere anlegen?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+                            boolSave = False
+                        End If
                     End If
+
                 End If
 
-            End If
-            
 
+            End If
         End If
+        
 
         If boolSave = True Then
             objOItem_Result = objDBLevel.save_Objects(oList_Objects)

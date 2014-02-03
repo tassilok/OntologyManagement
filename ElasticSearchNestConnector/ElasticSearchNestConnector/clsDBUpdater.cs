@@ -33,7 +33,7 @@ namespace ElasticSearchNestConnector
 
             OList_AttributeTypeNameTest.Add(new clsOntologyItem { Name = objOItem_AttributeType.Name });
 
-            var objOList_AttributeTypeNameTest = objDBSelector.get_Data_AttributeType(OList_AttributeTypeNameTest);
+            var objOList_AttributeTypeNameTest = objDBSelector.get_Data_AttributeType(OList_AttributeTypeNameTest).Where(a => a.Name.ToLower() == objOItem_AttributeType.Name.ToLower()).ToList();
 
             objOItem_Result = objLogStates.LogState_Nothing;
 
@@ -139,7 +139,7 @@ namespace ElasticSearchNestConnector
 
             var OList_ClassNameTest = new List<clsOntologyItem> { new clsOntologyItem { Name = objOItem_Class.Name } };
 
-            var objOList_ClassNameTest = objDBSelector.get_Data_Classes(OList_ClassNameTest);
+            var objOList_ClassNameTest = objDBSelector.get_Data_Classes(OList_ClassNameTest).Where(c => c.Name.ToLower() == objOItem_Class.Name.ToLower()).ToList();
 
             objOItem_Result = objLogStates.LogState_Nothing;
 
@@ -649,7 +649,7 @@ namespace ElasticSearchNestConnector
             var OList_RelationTypeNameTest = new List<clsOntologyItem>();
             OList_RelationTypeNameTest.Add(new clsOntologyItem { Name = objOItem_RelationType.Name });
 
-            var objOList_RelationTypeNameTest = objDBSelector.get_Data_RelationTypes(OList_RelationTypeNameTest);
+            var objOList_RelationTypeNameTest = objDBSelector.get_Data_RelationTypes(OList_RelationTypeNameTest).Where(r => r.Name.ToLower() == objOItem_RelationType.Name.ToLower()).ToList();
 
             objOItem_Result = objLogStates.LogState_Nothing;
 

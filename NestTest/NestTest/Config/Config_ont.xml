@@ -26,6 +26,6 @@
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>ReportIndex</ConfigItem_Name>
-    <ConfigItem_Value>Reports</ConfigItem_Value>
+    <ConfigItem_Value>reports</ConfigItem_Value>
   </dtbl_BaseConfig>
 </DocumentElement>

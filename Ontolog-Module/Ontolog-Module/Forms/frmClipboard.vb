@@ -7,6 +7,14 @@ Public Class frmClipboard
     Private objOntologyClipboard As clsOntologyClipboard
     Private objOItem_Item As clsOntologyItem
 
+    Private boolCntrl As Boolean
+
+    Public ReadOnly Property Cntrl As Boolean
+        Get
+            Return boolCntrl
+        End Get
+    End Property
+
     Public ReadOnly Property OrderID As Boolean
         Get
             Return CheckBox_OrderID.Checked
@@ -97,12 +105,19 @@ Public Class frmClipboard
     End Sub
 
     Private Sub Button_Apply_Click(sender As Object, e As EventArgs) Handles Button_Apply.Click
-
+        If Control.ModifierKeys = Keys.Control Then
+            objOntologyClipboard.clear_Clipboard(objOItem_Item)
+        End If
         DialogResult = Windows.Forms.DialogResult.OK
         Me.Close()
     End Sub
 
     Private Sub Button_Cancel_Click(sender As Object, e As EventArgs) Handles Button_Cancel.Click
+        If Control.ModifierKeys = Keys.Control Then
+            boolCntrl = True
+        Else
+            boolCntrl = False
+        End If
         DialogResult = Windows.Forms.DialogResult.Cancel
 
     End Sub

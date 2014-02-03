@@ -343,20 +343,17 @@ Public Class UserControl_TypeTree
                 objFrm_Class = New frmClassEdit(objLocalConfig, objOItem_Class)
                 objFrm_Class.ShowDialog(Me)
 
-                If objFrm_Class.DialogResult = DialogResult.OK Then
-
-                    If objFrm_Class.OItem_Class.Deleted = True Then
-                        objTreeNode.Remove()
-                    Else
-                        If objTreeNode.Parent.Name = objFrm_Class.OItem_Class.GUID_Parent Then
-                            If Not objFrm_Class.OItem_Class.Name = objTreeNode.Text Then
-                                objTreeNode.Text = objFrm_Class.OItem_Class.Name
-                            End If
-                        Else
-                            'New Parent
+                If objFrm_Class.OItem_Class.Deleted = True Then
+                    objTreeNode.Remove()
+                Else
+                    If objTreeNode.Parent.Name = objFrm_Class.OItem_Class.GUID_Parent Then
+                        If Not objFrm_Class.OItem_Class.Name = objTreeNode.Text Then
+                            objTreeNode.Text = objFrm_Class.OItem_Class.Name
                         End If
-
+                    Else
+                        'New Parent
                     End If
+
                 End If
             End If
 

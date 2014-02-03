@@ -35,6 +35,7 @@ namespace Change_Module
         private clsDBLevel objDBLevel_TicketList;
         private clsDBLevel objDBLevel_TicketListStandard;
         private clsDBLevel objDBLevel_ProcessLogOfTicket;
+        private clsDBLevel objDBLevel_LogEntriesOfTicket;
         private clsDBLevel objDBLevel_Item;
 
         private clsDBLevel objDBLevel_TicketListTree;
@@ -624,46 +625,59 @@ namespace Change_Module
         }
 
 
-        public clsOntologyItem GetLogEntriesOfProcessLog()
+        public clsOntologyItem GetLogEntriesOfProcessLog(clsOntologyItem OItem_Ticket)
         {
             clsOntologyItem objOItem_Result;
-            List<clsObjectRel> OList_LogEntriesOfProcessLogs = new List<clsObjectRel>();
-            List<clsObjectRel> OList_LogEntriesOfIncidents = new List<clsObjectRel>();
-            List<clsObjectRel> OList_LogStatesOfLogEntries = new List<clsObjectRel>();
 
-            OList_LogEntriesOfProcessLogs.Add(new clsObjectRel
+            var OList_LogEntriesOfTicket = new List<clsObjectRel> 
             {
-                ID_Parent_Object = objLocalConfig.OItem_Type_Process_Log.GUID,
-                ID_Parent_Other = objLocalConfig.OItem_Type_LogEntry.GUID,
-                Ontology = objLocalConfig.Globals.Type_Object
-            });
-
-            objOItem_Result = objDBLevel_LogentriesOfProcessLogs.get_Data_ObjectRel(OList_LogEntriesOfProcessLogs);
-            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-            {
-                OList_LogEntriesOfIncidents.Add(new clsObjectRel
+                new clsObjectRel 
                 {
-                    ID_Parent_Object = objLocalConfig.OItem_Type_Incident.GUID,
-                    ID_Parent_Other = objLocalConfig.OItem_Type_LogEntry.GUID,
+                    ID_Object = OItem_Ticket.GUID, 
+                    ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Done.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_Type_LogEntry.GUID
+                } 
+            };
+
+            objOItem_Result = objDBLevel_LogEntriesOfTicket.get_Data_ObjectRel(OList_LogEntriesOfTicket);
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID && objDBLevel_LogEntriesOfTicket.OList_ObjectRel_ID.Any())
+            {
+                var OList_LogEntriesOfProcessLogs = objDBLevel_LogEntriesOfTicket.OList_ObjectRel_ID.Select(t => new clsObjectRel { 
+                    ID_Parent_Object = objLocalConfig.OItem_Type_Process_Log.GUID,
+                    ID_Other = t.ID_Other,
                     Ontology = objLocalConfig.Globals.Type_Object
-                });
+                }).ToList();
 
-                objOItem_Result = objDBLevel_LogentriesOfIncidents.get_Data_ObjectRel(OList_LogEntriesOfIncidents);
-
+                objOItem_Result = objDBLevel_LogentriesOfProcessLogs.get_Data_ObjectRel(OList_LogEntriesOfProcessLogs);
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    OList_LogStatesOfLogEntries.Add(new clsObjectRel
+                    var OList_LogEntriesOfIncidents = objDBLevel_LogEntriesOfTicket.OList_ObjectRel_ID.Select(t => new clsObjectRel
                     {
-                        ID_Parent_Object = objLocalConfig.OItem_Type_LogEntry.GUID,
-                        ID_Parent_Other = objLocalConfig.OItem_type_Logstate.GUID,
-                        ID_RelationType = objLocalConfig.OItem_RelationType_provides.GUID,
+                        ID_Parent_Object = objLocalConfig.OItem_Type_Incident.GUID,
+                        ID_Other = t.ID_Other,
                         Ontology = objLocalConfig.Globals.Type_Object
-                    });
-                    objOItem_Result = objDBLevel_LogStatesOfLogEntries.get_Data_ObjectRel(OList_LogStatesOfLogEntries);
-                }
+                    }).ToList();
 
-                
+                    objOItem_Result = objDBLevel_LogentriesOfIncidents.get_Data_ObjectRel(OList_LogEntriesOfIncidents);
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        var OList_LogStatesOfLogEntries = objDBLevel_LogEntriesOfTicket.OList_ObjectRel_ID.Select(t => new clsObjectRel
+                        {
+                            ID_Object = t.ID_Other,
+                            ID_Parent_Other = objLocalConfig.OItem_type_Logstate.GUID,
+                            ID_RelationType = objLocalConfig.OItem_RelationType_provides.GUID,
+                            Ontology = objLocalConfig.Globals.Type_Object
+                        }).ToList();
+                        
+                        objOItem_Result = objDBLevel_LogStatesOfLogEntries.get_Data_ObjectRel(OList_LogStatesOfLogEntries);
+                    }
+
+
+                }
             }
+
+            
 
 
             return objOItem_Result;
@@ -2133,6 +2147,8 @@ namespace Change_Module
             objDBLevel_LogentriesOfProcessLogs = new clsDBLevel(objLocalConfig.Globals);
 
             objDBLevel_LogentriesOfIncidents = new clsDBLevel(objLocalConfig.Globals);
+
+            objDBLevel_LogEntriesOfTicket = new clsDBLevel(objLocalConfig.Globals);
 
             objLogManagement = new clsLogManagement(objLocalConfig.Globals);
 

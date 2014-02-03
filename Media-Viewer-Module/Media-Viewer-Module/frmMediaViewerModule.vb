@@ -327,6 +327,7 @@ Public Class frmMediaViewerModule
 
             objUserControl_PDF = New UserControl_PDFList(objLocalConfig)
             objUserControl_PDF.Dock = DockStyle.Fill
+
         End If
 
 

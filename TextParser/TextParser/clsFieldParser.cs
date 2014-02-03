@@ -34,6 +34,8 @@ namespace TextParser
         private string server;
         private List<clsFile> fileList;
 
+        public clsOntologyItem OItem_Seperator { get; set; }
+
         public clsFieldParser(clsLocalConfig LocalConfig, List<clsField> ParseFieldList, clsOntologyItem OItem_TextParser, clsOntologyItem OITem_Type)
         {
             objLocalConfig = LocalConfig;
@@ -194,16 +196,59 @@ namespace TextParser
 
 
                     var dictList = new List<clsAppDocuments>();
-                    
+                    var text = "";
+
                     while (!textReader.EndOfStream)
                     {
                         var parse = true;
                         var add = false;
+                        var addChar = false;
                         var dontAddUser = false;
                         var dictMeta = new Dictionary<string, object>();
                         var dictUser = new Dictionary<string, object>();
 
-                        var text = textReader.ReadLine();
+                        if (OItem_Seperator == null || OItem_Seperator.Name == "\r\n")
+                            text = textReader.ReadLine();
+                        else
+                        {
+                            addChar = true;
+                            text = "";
+                            var regexSep = new Regex(OItem_Seperator.Name)
+
+                            StringBuilder line = new StringBuilder();
+                            var length = 1;
+                            StringBuilder tester = new StringBuilder();
+                            while (length != line.Length || textReader.EndOfStream)
+                            {
+                                length = line.Length;
+                                char singleChar = (char)textReader.Read();
+                                if (regexSep.Match(singleChar.ToString()).Success)
+                                {
+                                    tester.Append(singleChar);
+                                }
+                                else
+                                {
+                                    tester.Clear();
+                                }
+
+                                if (tester.Length > 0)
+                                {
+                                    if (regexSep.Match(tester.ToString()).Success)
+                                        addChar = false;
+                                }
+
+                                if (addChar)
+                                    line.Append(singleChar);
+
+
+                            }
+
+                            if (line.Length > 0)
+                                text = line.ToString();
+                            
+                        }
+
+                        
                         var textParse = text;
                         var Id = objLocalConfig.Globals.NewGUID;
                         var ixStart = 0;

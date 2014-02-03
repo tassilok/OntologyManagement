@@ -358,7 +358,9 @@ namespace TextParser
             var fieldList = (SortableBindingList<clsField>) dataGridView_Fields.DataSource;
             if (fieldList.Any())
             {
+                
                 objFieldParser = new clsFieldParser(objLocalConfig,fieldList.ToList(),objOItem_TextParser, objDataWork_TextParser.OITem_Type);
+                objFieldParser.OItem_Seperator = objDataWork_TextParser.OItem_LineSeperator;
                 objFieldParser.Parse();
             }
             GetIndexes();

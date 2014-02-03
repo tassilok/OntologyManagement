@@ -150,7 +150,7 @@ Public Class UserControl_ObjectTree
     End Sub
 
     Private sub FillSubNodes(objTreeNode_Parent As TreeNode)
-        Dim objOList_Nodes = objDBLevel.OList_ObjectTree.Where(Function(p) p.ID_Object_Parent = objTreeNode_Parent.Name).OrderBy(Function(p) If(ToolStripButton_SortedByOrder.Checked,p.OrderID,p.Name_Object))
+        Dim objOList_Nodes = objDBLevel.OList_ObjectTree.Where(Function(p) p.ID_Object_Parent = objTreeNode_Parent.Name).OrderBy(Function(p) p.OrderID).ThenBy(Function(p) p.Name_Object).ToList()
         For Each oItem_Node  In objOList_Nodes
             Dim objTreeNode_Sub = objTreeNode_Parent.Nodes.Add(oItem_Node.ID_Object, oItem_Node.Name_Object)
             FillSubNodes(objTreeNode_Sub)
@@ -380,32 +380,36 @@ Public Class UserControl_ObjectTree
 
             Dim objOItem_Result = objTransaction_Objects.save_Object(objOItem_Parent.GUID)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                Dim objOItem_ObjectNew = objTransaction_Objects.OItem_SavedLast
+                For Each objOItem_ObjectNew In objTransaction_Objects.OList_ObjectsSaved
+                    Dim lngOrderID As Long = 1
 
-                Dim lngOrderID As Long = 1
+                    If ToolStripButton_SortedByOrder.Checked Then
+                        lngOrderID = objDBLevel.get_Data_Rel_OrderID(objOItem_Object_Selected, New clsOntologyItem With {.GUID_Parent = objOItem_Parent.GUID}, objOItem_RelationType, False)
+                        lngOrderID = lngOrderID + 1
+                    End If
 
-                If ToolStripButton_SortedByOrder.Checked Then
-                    lngOrderID = objDBLevel.get_Data_Rel_OrderID(objOItem_Object_Selected, New clsOntologyItem With {.GUID_Parent =  objOItem_Parent.GUID} , objOItem_RelationType, False)
-                    lngOrderID = lngOrderID + 1
-                End If
+                    Dim objORel_Object_To_Object = New clsObjectRel With {.ID_Object = objOItem_Object_Selected.GUID, _
+                                                                          .ID_Parent_Object = objOItem_Object_Selected.GUID_Parent, _
+                                                                          .ID_RelationType = objOItem_RelationType.GUID, _
+                                                                          .ID_Other = objOItem_ObjectNew.GUID, _
+                                                                          .ID_Parent_Other = objOItem_ObjectNew.GUID_Parent, _
+                                                                          .OrderID = lngOrderID, _
+                                                                          .Ontology = objLocalConfig.Globals.Type_Object}
 
-                Dim objORel_Object_To_Object = New clsObjectRel With {.ID_Object = objOItem_Object_Selected.GUID, _
-                                                                      .ID_Parent_Object = objOItem_Object_Selected.GUID_Parent, _
-                                                                      .ID_RelationType = objOItem_RelationType.GUID, _
-                                                                      .ID_Other = objOItem_ObjectNew.GUID, _
-                                                                      .ID_Parent_Other = objOItem_ObjectNew.GUID_Parent, _
-                                                                      .OrderID = lngOrderID, _
-                                                                      .Ontology = objLocalConfig.Globals.Type_Object}
+                    objTransaction_ObjectRel.ClearItems()
+                    objOItem_Result = objTransaction_ObjectRel.do_Transaction(objORel_Object_To_Object)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objTreeNode_Obejct.Nodes.Add(objOItem_ObjectNew.GUID, _
+                                                     objOItem_ObjectNew.Name)
+                    Else
+                        MsgBox("Die Beziehung im Baum konnte nicht hergestellt werden!", MsgBoxStyle.Exclamation)
+                        RaiseEvent added_Node(objOItem_ObjectNew)
+                        Exit For
+                    End If
+                Next
 
-                objTransaction_ObjectRel.ClearItems()
-                objOItem_Result = objTransaction_ObjectRel.do_Transaction(objORel_Object_To_Object)
-                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    objTreeNode_Obejct.Nodes.Add(objOItem_ObjectNew.GUID, _
-                                                 objOItem_ObjectNew.Name)
-                Else
-                    MsgBox("Die Beziehung im Baum konnte nicht hergestellt werden!", MsgBoxStyle.Exclamation)
-                    RaiseEvent added_Node(objOItem_ObjectNew)
-                End If
+
+                
 
 
             End If

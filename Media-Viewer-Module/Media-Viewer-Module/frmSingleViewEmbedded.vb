@@ -29,7 +29,7 @@ Public Class frmSingleViewEmbedded
             objLocalConfig.OItem_User = objAuthenticator.OItem_User
             Initialize()
         End If
-        Initialize()
+
     End Sub
 
     Public Sub New(LocalConfig As clsLocalConfig, OItem_MediaItemType As clsOntologyItem)
@@ -46,7 +46,7 @@ Public Class frmSingleViewEmbedded
             objLocalConfig.OItem_User = objAuthenticator.OItem_User
             Initialize()
         End If
-        Initialize()
+
     End Sub
 
     Private Sub Initialize()

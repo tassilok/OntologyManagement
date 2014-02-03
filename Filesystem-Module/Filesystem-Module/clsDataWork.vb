@@ -207,7 +207,7 @@ Public Class clsDataWork
             oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
                                          Nothing, _
                                          Nothing, _
-                                         objOItem_Object.GUID_Parent, _
+                                         objLocalConfig.OItem_Type_File.GUID, _
                                          Nothing, _
                                          objLocalConfig.OItem_Attribute_Blob.GUID, _
                                          Nothing, _
@@ -225,7 +225,7 @@ Public Class clsDataWork
                                         doJoin:=True)
 
             Dim objL = From objFile In objDBLevel_Files.OList_Objects
-                   Group Join objBlob In objDBLevel_Files.OList_ObjectAtt On objBlob.ID_Object Equals objFile.GUID Into RightTableResult = Group
+                   Group Join objBlob In objDBLevel_Files.OList_ObjectAtt_ID On objBlob.ID_Object Equals objFile.GUID Into RightTableResult = Group
                    From objBlobs In RightTableResult.DefaultIfEmpty
                    Select ID_File = objFile.GUID, _
                           Name_File = objFile.Name, _

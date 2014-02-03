@@ -234,6 +234,8 @@ namespace Change_Module
             }
             objFrmChange.InitializeTicket(e.RowIndex, dataGridView_TicketLists.Rows, objLocalConfig, objDataWork_Ticket);
             if (!objFrmChange.IsHandleCreated) objFrmChange.Show();
+            objFrmChange.Focus();
+
 
         }
 

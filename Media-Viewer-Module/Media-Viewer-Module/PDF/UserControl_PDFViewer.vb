@@ -1,6 +1,7 @@
 ﻿Imports Ontology_Module
 Imports Filesystem_Module
 Imports OntologyClasses.BaseClasses
+Imports PdfSharp
 
 Public Class UserControl_PDFViewer
     Private objLocalConfig As clsLocalConfig
@@ -13,8 +14,17 @@ Public Class UserControl_PDFViewer
     Private objFrmObjectEdit As frm_ObjectEdit
 
     Public Sub clear_PDF()
+        Dim strPath As String = "%TEMP%\" + objLocalConfig.Globals.NewGUID + ".pdf"
+        strPath = Environment.ExpandEnvironmentVariables(strPath)
+
+        Dim objPDF = New PdfSharp.Pdf.PdfDocument()
+        objPDF.Pages.Add()
+
+        objPDF.Save(strPath)
+        objPDF.Close()
+
         ToolStripLabel_Name.Text = "-"
-        AxFoxitCtl_Main.OpenFile("")
+        AxFoxitCtl_Main.OpenFile(strPath)
     End Sub
 
     Public Sub initialize_PDF(ByVal OItem_PDF As clsOntologyItem, ByVal OItem_File As clsOntologyItem)
@@ -26,7 +36,7 @@ Public Class UserControl_PDFViewer
 
         If Not objOItem_PDF Is Nothing Then
             ToolStripLabel_Name.Text = objOItem_PDF.Name
-            strPath = "%temp%\" & objOItem_File.GUID
+            strPath = "%temp%\" & objLocalConfig.Globals.NewGUID
             strPath = Environment.ExpandEnvironmentVariables(strPath)
             If objOItem_File.Name.Contains(".") Then
                 strPath = strPath & objOItem_File.Name.Substring(objOItem_File.Name.LastIndexOf("."), Len(objOItem_File.Name) - objOItem_File.Name.LastIndexOf("."))
