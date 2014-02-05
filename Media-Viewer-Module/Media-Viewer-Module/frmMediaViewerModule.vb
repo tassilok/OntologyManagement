@@ -160,6 +160,7 @@ Public Class frmMediaViewerModule
         End If
 
         objFrmSingleViewer.initialize_Image(OItem_Image, OItem_File, dateCreated)
+
         objFrmSingleViewer.isPossible_Next = objUserControl_ImageList.isPossible_Next
         objFrmSingleViewer.isPossible_Previous = objUserControl_ImageList.isPossible_Previous
     End Sub
@@ -178,6 +179,7 @@ Public Class frmMediaViewerModule
         End If
 
         objFrmSingleViewer.initialize_MediaItem(OItem_MediaItem, OItem_File, dateCreated)
+        objUserControl_ImageList.ExportOption = If(ToolStripMenuItem_GUID.Checked, ExportOptions.guid, If(ToolStripMenuItem_Name.Checked, ExportOptions.name, ExportOptions.orderid))
         objFrmSingleViewer.isPossible_Next = objUserControl_MediaItemList.isPossible_Next
         objFrmSingleViewer.isPossible_Previous = objUserControl_MediaItemList.isPossible_Previous
     End Sub
@@ -199,6 +201,8 @@ Public Class frmMediaViewerModule
             Select Case objOItem_MediaType.GUID
                 Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
                     objUserControl_ImageList.initialize_Images(objOItem_Ref)
+                    objUserControl_ImageList.ExportOption = If(ToolStripMenuItem_GUID.Checked, ExportOptions.guid, If(ToolStripMenuItem_Name.Checked, ExportOptions.name, ExportOptions.orderid))
+
                 Case objLocalConfig.OItem_Type_Media_Item.GUID
                     objUserControl_MediaItemList.initialize_MediaItems(objOItem_Ref, objExportOption)
                 Case objLocalConfig.OItem_Type_PDF_Documents.GUID
@@ -217,7 +221,9 @@ Public Class frmMediaViewerModule
             Select objOItem_MediaType.GUID
                 Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
                     objUserControl_ImageList.initialize_AllImages()
+                    objUserControl_ImageList.ExportOption = If(ToolStripMenuItem_GUID.Checked, ExportOptions.guid, If(ToolStripMenuItem_Name.Checked, ExportOptions.name, ExportOptions.orderid))
                     objUserControl_ImageList.initialize_Images(intYear, intMonth, intDay)
+
                 Case objLocalConfig.OItem_Type_Media_Item.GUID
 
                 Case objLocalConfig.OItem_Type_PDF_Documents.GUID
@@ -361,11 +367,13 @@ Public Class frmMediaViewerModule
             Select Case objOItem_MediaType.GUID
                 Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
                     SplitContainer1.Panel2.Controls.Add(objUserControl_ImageList)
+                    objUserControl_ImageList.ExportOption = If(ToolStripMenuItem_GUID.Checked, ExportOptions.guid, If(ToolStripMenuItem_Name.Checked, ExportOptions.name, ExportOptions.orderid))
                     objUserControl_ImageList.initialize_Images(Nothing)
                     ToolStripButton_OpenGrid.Enabled = True
                     ToolStripButton_OpenListEdit.Enabled = True
                 Case objLocalConfig.OItem_Type_Media_Item.GUID
                     SplitContainer1.Panel2.Controls.Add(objUserControl_MediaItemList)
+                    objUserControl_ImageList.ExportOption = If(ToolStripMenuItem_GUID.Checked, ExportOptions.guid, If(ToolStripMenuItem_Name.Checked, ExportOptions.name, ExportOptions.orderid))
                     objUserControl_ImageList.initialize_Images(Nothing)
                     ToolStripButton_OpenGrid.Enabled = True
                 Case objLocalConfig.OItem_Type_PDF_Documents.GUID
@@ -429,7 +437,7 @@ Public Class frmMediaViewerModule
             ToolStripMenuItem_GUID.Checked = True
             ToolStripMenuItem_Name.Checked = False
             OrderIDFilenameToolStripMenuItem.Checked = False
-
+            objUserControl_ImageList.ExportOption = If(ToolStripMenuItem_GUID.Checked, ExportOptions.guid, If(ToolStripMenuItem_Name.Checked, ExportOptions.name, ExportOptions.orderid))
         End If
     End Sub
 
@@ -438,7 +446,7 @@ Public Class frmMediaViewerModule
             ToolStripMenuItem_GUID.Checked = False
             ToolStripMenuItem_Name.Checked = True
             OrderIDFilenameToolStripMenuItem.Checked = False
-
+            objUserControl_ImageList.ExportOption = If(ToolStripMenuItem_GUID.Checked, ExportOptions.guid, If(ToolStripMenuItem_Name.Checked, ExportOptions.name, ExportOptions.orderid))
         End If
     End Sub
 
@@ -447,7 +455,7 @@ Public Class frmMediaViewerModule
             ToolStripMenuItem_GUID.Checked = False
             ToolStripMenuItem_Name.Checked = False
             OrderIDFilenameToolStripMenuItem.Checked = True
-
+            objUserControl_ImageList.ExportOption = If(ToolStripMenuItem_GUID.Checked, ExportOptions.guid, If(ToolStripMenuItem_Name.Checked, ExportOptions.name, ExportOptions.orderid))
         End If
     End Sub
 

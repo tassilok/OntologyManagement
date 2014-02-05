@@ -19,6 +19,8 @@ Public Class UserControl_ImageList
     Private objDlg_Attribute_Long As dlg_Attribute_Long
 
     Private objFrmSaveFiles As frmSaveFiles
+    Private objFrm_FileSystemManagement As frm_FilesystemModule
+    Private objFileBlobSync As clsFileBlobSync
 
     'Private objUserControl_ImageViewer As UserControl_ImageViewer
 
@@ -39,6 +41,8 @@ Public Class UserControl_ImageList
     Private saveItems As Boolean
 
     Private objImage As Bitmap
+
+    Public Property ExportOption As ExportOptions
 
     Public Function Media_First() As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
@@ -142,6 +146,7 @@ Public Class UserControl_ImageList
         objTransaction_Image = New clsTransaction_Image(objLocalConfig)
         objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
         objFileWork = New clsFileWork(objLocalConfig.Globals)
+        objFileBlobSync = New clsFileBlobSync(objLocalConfig.Globals, objLocalConfig.OItem_User)
         objTransaction_Images = New clsTransaction(objLocalConfig.Globals)
         objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
     End Sub
@@ -619,6 +624,7 @@ Public Class UserControl_ImageList
         PrintImagesToolStripMenuItem.Enabled = False
         CreatePDFToolStripMenuItem.Enabled = False
         ChangeOrderIDToolStripMenuItem.Enabled = False
+        AddToSyncToolStripMenuItem.Enabled = False
 
         If DataGridView_Images.SelectedRows.Count > 0 Then
             RelateToolStripMenuItem.Enabled = True
@@ -628,6 +634,7 @@ Public Class UserControl_ImageList
             PrintImagesToolStripMenuItem.Enabled = True
             CreatePDFToolStripMenuItem.Enabled = True
             ChangeOrderIDToolStripMenuItem.Enabled = True
+            AddToSyncToolStripMenuItem.Enabled = True
         End If
     End Sub
 
@@ -756,25 +763,33 @@ Public Class UserControl_ImageList
                 If intDay > 0 Then
                     strDateStart = intDay & "." & strDateStart
                     Dim dateTest = Date.Parse(strDateStart)
+                    strDateStart = dateTest.ToString()
                     dateTest.AddDays(1)
                     strDateEnd = dateTest.ToString
 
                 Else
                     strDateStart = "1." & strDateStart
                     Dim dateTest = Date.Parse(strDateStart)
-                    dateTest = dateTest.AddDays(1)
+                    strDateStart = dateTest.ToString()
+                    dateTest = dateTest.AddMonths(1).AddDays(-1)
                     strDateEnd = dateTest.ToString
                 End If
             Else
                 strDateStart = "1.1." & strDateStart
                 Dim dateTest = Date.Parse(strDateStart)
+                strDateStart = dateTest.ToString()
                 dateTest = dateTest.AddYears(1)
                 dateTest = dateTest.AddDays(-1)
                 strDateEnd = dateTest.ToString
             End If
 
 
-
+            dtblT_Images = objDataWork_Images.dtbl_Images
+            BindingSource_Images.DataSource = dtblT_Images
+            DataGridView_Images.DataSource = BindingSource_Images
+            DataGridView_Images.Columns(1).Visible = False
+            DataGridView_Images.Columns(4).Visible = False
+            DataGridView_Images.Columns(5).Visible = False
             BindingSource_Images.Filter = "Date_Create >= '" & strDateStart & "' AND Date_Create <= '" & strDateEnd & "'"
 
 
@@ -1026,5 +1041,70 @@ Public Class UserControl_ImageList
             initialize_Images(objOItem_Ref)
         End If
         
+    End Sub
+
+    Private Sub AddToSyncToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddToSyncToolStripMenuItem.Click
+        Dim intToDo = 0
+        Dim intDone = 0
+
+        If MsgBox("Wollen Sie wirklich die Dateien für den Sync anmelden?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            objFrm_FileSystemManagement = New frm_FilesystemModule(objLocalConfig.Globals, objLocalConfig.OItem_User)
+
+            objFrm_FileSystemManagement.ShowDialog(Me)
+            If objFrm_FileSystemManagement.DialogResult = DialogResult.OK Then
+                Dim objOItem_Folder = objFrm_FileSystemManagement.OItem_FileSystemObject
+
+                If Not objOItem_Folder Is Nothing Then
+                    If objOItem_Folder.GUID_Parent = objFrm_FileSystemManagement.LocalConfig.OItem_type_Folder.GUID Then
+                        intToDo = DataGridView_Images.SelectedRows.Count
+                        For Each objDGVR_Selected As DataGridViewRow In DataGridView_Images.SelectedRows
+                            Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+
+                            Dim strExtension = IO.Path.GetExtension(objDRV_Selected.Item("Name_File"))
+                            Dim strFileNameWithOutExtension = objDRV_Selected.Item("Name_File").Substring(0, objDRV_Selected.Item("Name_File").Length - strExtension.Length)
+
+                            Dim objOItem_File = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_File"), _
+                                                                          .Name = objDRV_Selected.Item("Name_File"), _
+                                                                          .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
+                                                                          .Type = objLocalConfig.Globals.Type_Object}
+                            Dim strFileName = ""
+
+                            If ExportOption = ExportOptions.guid Then
+
+                                strFileName = objOItem_File.GUID & strExtension
+
+                            ElseIf ExportOption = ExportOptions.name Then
+
+
+                                strFileName = strFileNameWithOutExtension & strExtension
+
+
+                            ElseIf ExportOption = ExportOptions.orderid Then
+
+                                strFileName = Format(objDRV_Selected.Item("OrderID"), "00000") & strExtension
+
+                            End If
+
+
+
+                            Dim objOItem_Result = objFileBlobSync.AddFileSync(objOItem_File, objOItem_Folder, strFileName, objFileBlobSync.OItem_Direction_BlobToFile)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                intDone = intDone + 1
+                            End If
+                        Next
+
+                        If intToDo = intDone Then
+                            MsgBox("Alle Dateien wurden für den Sync angemeldet.", MsgBoxStyle.Information)
+                        Else
+                            MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Dateien zum Sync angemeldet werden!", MsgBoxStyle.Exclamation)
+                        End If
+                    Else
+                        MsgBox("Wählen Sie bitte einen Ordner aus!", MsgBoxStyle.Information)
+                    End If
+                Else
+                    MsgBox("Wählen Sie bitte einen Ordner aus!", MsgBoxStyle.Information)
+                End If
+            End If
+        End If
     End Sub
 End Class

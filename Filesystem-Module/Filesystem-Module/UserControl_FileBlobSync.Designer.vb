@@ -27,20 +27,27 @@ Partial Class UserControl_FileBlobSync
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_CountLbl = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton_Sync = New System.Windows.Forms.ToolStripButton()
-        Me.DataGridView_Items = New System.Windows.Forms.DataGridView()
-        Me.ToolStripButton_Abort = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripProgressBar_Sync = New System.Windows.Forms.ToolStripProgressBar()
+        Me.DataGridView_Items = New System.Windows.Forms.DataGridView()
+        Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButton_Sync = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Abort = New System.Windows.Forms.ToolStripButton()
         Me.Timer_Sync = New System.Windows.Forms.Timer(Me.components)
+        Me.ContextMenuStrip_FileSync = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.FilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ClearFilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripLabel_FilterLbl = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel_Filter = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip2.SuspendLayout()
-        Me.ToolStrip1.SuspendLayout()
         CType(Me.DataGridView_Items, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ToolStrip1.SuspendLayout()
+        Me.ContextMenuStrip_FileSync.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -68,10 +75,10 @@ Partial Class UserControl_FileBlobSync
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLbl, Me.ToolStripLabel_Count, Me.ToolStripSeparator1, Me.ToolStripProgressBar_Sync})
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLbl, Me.ToolStripLabel_Count, Me.ToolStripSeparator1, Me.ToolStripProgressBar_Sync, Me.ToolStripSeparator2, Me.ToolStripLabel_FilterLbl, Me.ToolStripLabel_Filter})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(186, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(250, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripLabel_CountLbl
@@ -85,6 +92,29 @@ Partial Class UserControl_FileBlobSync
         Me.ToolStripLabel_Count.Name = "ToolStripLabel_Count"
         Me.ToolStripLabel_Count.Size = New System.Drawing.Size(13, 22)
         Me.ToolStripLabel_Count.Text = "0"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripProgressBar_Sync
+        '
+        Me.ToolStripProgressBar_Sync.Name = "ToolStripProgressBar_Sync"
+        Me.ToolStripProgressBar_Sync.Size = New System.Drawing.Size(100, 22)
+        '
+        'DataGridView_Items
+        '
+        Me.DataGridView_Items.AllowUserToAddRows = False
+        Me.DataGridView_Items.AllowUserToDeleteRows = False
+        Me.DataGridView_Items.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView_Items.ContextMenuStrip = Me.ContextMenuStrip_FileSync
+        Me.DataGridView_Items.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView_Items.Location = New System.Drawing.Point(0, 0)
+        Me.DataGridView_Items.Name = "DataGridView_Items"
+        Me.DataGridView_Items.ReadOnly = True
+        Me.DataGridView_Items.Size = New System.Drawing.Size(770, 409)
+        Me.DataGridView_Items.TabIndex = 0
         '
         'ToolStrip1
         '
@@ -104,18 +134,6 @@ Partial Class UserControl_FileBlobSync
         Me.ToolStripButton_Sync.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_Sync.Text = "ToolStripButton1"
         '
-        'DataGridView_Items
-        '
-        Me.DataGridView_Items.AllowUserToAddRows = False
-        Me.DataGridView_Items.AllowUserToDeleteRows = False
-        Me.DataGridView_Items.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView_Items.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView_Items.Location = New System.Drawing.Point(0, 0)
-        Me.DataGridView_Items.Name = "DataGridView_Items"
-        Me.DataGridView_Items.ReadOnly = True
-        Me.DataGridView_Items.Size = New System.Drawing.Size(770, 409)
-        Me.DataGridView_Items.TabIndex = 0
-        '
         'ToolStripButton_Abort
         '
         Me.ToolStripButton_Abort.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -126,19 +144,44 @@ Partial Class UserControl_FileBlobSync
         Me.ToolStripButton_Abort.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_Abort.Text = "ToolStripButton1"
         '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripProgressBar_Sync
-        '
-        Me.ToolStripProgressBar_Sync.Name = "ToolStripProgressBar_Sync"
-        Me.ToolStripProgressBar_Sync.Size = New System.Drawing.Size(100, 22)
-        '
         'Timer_Sync
         '
         Me.Timer_Sync.Interval = 300
+        '
+        'ContextMenuStrip_FileSync
+        '
+        Me.ContextMenuStrip_FileSync.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FilterToolStripMenuItem, Me.ClearFilterToolStripMenuItem})
+        Me.ContextMenuStrip_FileSync.Name = "ContextMenuStrip_FileSync"
+        Me.ContextMenuStrip_FileSync.Size = New System.Drawing.Size(141, 48)
+        '
+        'FilterToolStripMenuItem
+        '
+        Me.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem"
+        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(140, 22)
+        Me.FilterToolStripMenuItem.Text = "x_Filter"
+        '
+        'ClearFilterToolStripMenuItem
+        '
+        Me.ClearFilterToolStripMenuItem.Name = "ClearFilterToolStripMenuItem"
+        Me.ClearFilterToolStripMenuItem.Size = New System.Drawing.Size(140, 22)
+        Me.ClearFilterToolStripMenuItem.Text = "x_Clear Filter"
+        '
+        'ToolStripLabel_FilterLbl
+        '
+        Me.ToolStripLabel_FilterLbl.Name = "ToolStripLabel_FilterLbl"
+        Me.ToolStripLabel_FilterLbl.Size = New System.Drawing.Size(46, 22)
+        Me.ToolStripLabel_FilterLbl.Text = "x_Filter:"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripLabel_Filter
+        '
+        Me.ToolStripLabel_Filter.Name = "ToolStripLabel_Filter"
+        Me.ToolStripLabel_Filter.Size = New System.Drawing.Size(12, 22)
+        Me.ToolStripLabel_Filter.Text = "-"
         '
         'UserControl_FileBlobSync
         '
@@ -156,9 +199,10 @@ Partial Class UserControl_FileBlobSync
         Me.ToolStripContainer1.PerformLayout()
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
+        CType(Me.DataGridView_Items, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        CType(Me.DataGridView_Items, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContextMenuStrip_FileSync.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -173,5 +217,11 @@ Partial Class UserControl_FileBlobSync
     Friend WithEvents ToolStripProgressBar_Sync As System.Windows.Forms.ToolStripProgressBar
     Friend WithEvents ToolStripButton_Abort As System.Windows.Forms.ToolStripButton
     Friend WithEvents Timer_Sync As System.Windows.Forms.Timer
+    Friend WithEvents ContextMenuStrip_FileSync As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents FilterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ClearFilterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripLabel_FilterLbl As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripLabel_Filter As System.Windows.Forms.ToolStripLabel
 
 End Class

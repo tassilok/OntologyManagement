@@ -204,4 +204,66 @@ Public Class UserControl_FileBlobSync
             ToolStripProgressBar_Sync.Value = 50
         End If
     End Sub
+
+    Private Sub ContextMenuStrip_FileSync_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_FileSync.Opening
+        FilterToolStripMenuItem.Enabled = False
+
+        If DataGridView_Items.SelectedCells.Count = 1 Then
+            Dim strColumnName = DataGridView_Items.Columns(DataGridView_Items.SelectedCells(0).ColumnIndex).DataPropertyName
+
+            If strColumnName = "Path_File_Dst" Then
+                FilterToolStripMenuItem.Enabled = True
+            End If
+
+
+        End If
+    End Sub
+
+    Private Sub FilterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FilterToolStripMenuItem.Click
+        If DataGridView_Items.SelectedCells.Count = 1 Then
+            Dim strColumnName = DataGridView_Items.Columns(DataGridView_Items.SelectedCells(0).ColumnIndex).DataPropertyName
+
+            If strColumnName = "Path_File_Dst" Then
+                Dim objBlobFileSyncItem As clsBlobSyncItem = DataGridView_Items.Rows(DataGridView_Items.SelectedCells(0).RowIndex).DataBoundItem
+                Dim strPath = objBlobFileSyncItem.Path_File_Dst
+                BlobSyncItemList = New SortableBindingList(Of clsBlobSyncItem)(objDataWork_FileBlobSync.ItemList.Where(Function(fb) fb.Path_File_Dst = strPath).ToList())
+                DataGridView_Items.DataSource = BlobSyncItemList
+                For Each column As DataGridViewColumn In DataGridView_Items.Columns
+                    If column.DataPropertyName = "ID_FileSync" Or _
+                        column.DataPropertyName = "ID_Direction" Or _
+                        column.DataPropertyName = "ID_File_Src" Or _
+                        column.DataPropertyName = "ID_File_Sync" Or _
+                        column.DataPropertyName = "ID_File_Dst" Or _
+                        column.DataPropertyName = "ID_Folder_Dst" Or _
+                        column.DataPropertyName = "ID_SyncLog" Or _
+                        column.DataPropertyName = "ID_LogEntry_Last" Or _
+                        column.DataPropertyName = "ID_LogState_Last" Then
+                        column.Visible = False
+                    End If
+                Next
+                ToolStripLabel_Filter.Text = strPath
+            End If
+
+
+        End If
+    End Sub
+
+    Private Sub ClearFilterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearFilterToolStripMenuItem.Click
+        BlobSyncItemList = New SortableBindingList(Of clsBlobSyncItem)(objDataWork_FileBlobSync.ItemList)
+        DataGridView_Items.DataSource = BlobSyncItemList
+        For Each column As DataGridViewColumn In DataGridView_Items.Columns
+            If column.DataPropertyName = "ID_FileSync" Or _
+                column.DataPropertyName = "ID_Direction" Or _
+                column.DataPropertyName = "ID_File_Src" Or _
+                column.DataPropertyName = "ID_File_Sync" Or _
+                column.DataPropertyName = "ID_File_Dst" Or _
+                column.DataPropertyName = "ID_Folder_Dst" Or _
+                column.DataPropertyName = "ID_SyncLog" Or _
+                column.DataPropertyName = "ID_LogEntry_Last" Or _
+                column.DataPropertyName = "ID_LogState_Last" Then
+                column.Visible = False
+            End If
+        Next
+        ToolStripLabel_Filter.Text = "-"
+    End Sub
 End Class
