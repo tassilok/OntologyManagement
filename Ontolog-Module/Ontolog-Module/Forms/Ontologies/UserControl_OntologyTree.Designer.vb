@@ -31,11 +31,11 @@ Partial Class UserControl_OntologyTree
         Me.TreeView_Ontologies = New System.Windows.Forms.TreeView()
         Me.ContextMenuStrip_Ontologies = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImageList_Ontologies = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_Mark = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Mark = New System.Windows.Forms.ToolStripTextBox()
-        Me.ExportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FolderBrowserDialog_Xml = New System.Windows.Forms.FolderBrowserDialog()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -113,6 +113,12 @@ Partial Class UserControl_OntologyTree
         Me.NewToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.NewToolStripMenuItem.Text = "x_New"
         '
+        'ExportToolStripMenuItem
+        '
+        Me.ExportToolStripMenuItem.Name = "ExportToolStripMenuItem"
+        Me.ExportToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
+        Me.ExportToolStripMenuItem.Text = "x_Export"
+        '
         'ImageList_Ontologies
         '
         Me.ImageList_Ontologies.ImageStream = CType(resources.GetObject("ImageList_Ontologies.ImageStream"), System.Windows.Forms.ImageListStreamer)
@@ -140,12 +146,6 @@ Partial Class UserControl_OntologyTree
         '
         Me.ToolStripTextBox_Mark.Name = "ToolStripTextBox_Mark"
         Me.ToolStripTextBox_Mark.Size = New System.Drawing.Size(250, 25)
-        '
-        'ExportToolStripMenuItem
-        '
-        Me.ExportToolStripMenuItem.Name = "ExportToolStripMenuItem"
-        Me.ExportToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
-        Me.ExportToolStripMenuItem.Text = "x_Export"
         '
         'UserControl_OntologyTree
         '

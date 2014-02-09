@@ -7,6 +7,8 @@ Public Class UserControl_OntologyTree
     Private objDataWork_Ontologies As clsDataWork_Ontologies
     Private objOItem_Ref As clsOntologyItem
 
+    Private objFrm_ObjectEdit As frm_ObjectEdit
+
     Private objTreeNode_Root As TreeNode
 
     Private objExport As clsExport
@@ -228,6 +230,22 @@ Public Class UserControl_OntologyTree
 
 
                 End If
+            End If
+        End If
+    End Sub
+
+    Private Sub TreeView_Ontologies_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles TreeView_Ontologies.MouseDoubleClick
+        Dim objTreeNode = TreeView_Ontologies.SelectedNode
+
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = objDataWork_Ontologies.LocalConfig.ImageID_OntologyClose Then
+                Dim objOList_Ontologies = New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID = objTreeNode.Name, _
+                                                                                                        .Name = objTreeNode.Text, _
+                                                                                                        .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_Ontologies.GUID, _
+                                                                                                        .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}}
+
+                objFrm_ObjectEdit = New frm_ObjectEdit(objDataWork_Ontologies.LocalConfig.Globals, objOList_Ontologies, 0, objDataWork_Ontologies.LocalConfig.Globals.Type_Object, Nothing)
+                objFrm_ObjectEdit.ShowDialog(Me)
             End If
         End If
     End Sub

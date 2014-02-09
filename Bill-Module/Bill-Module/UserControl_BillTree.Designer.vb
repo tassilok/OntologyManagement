@@ -184,7 +184,7 @@ Partial Class UserControl_BillTree
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox_SearchTemplates, Me.ToolStripTextBox_Search, Me.ToolStripButton_SemItem, Me.ToolStripButton_Filter})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(438, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(407, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripComboBox_SearchTemplates
@@ -208,8 +208,6 @@ Partial Class UserControl_BillTree
         '
         'ToolStripButton_Filter
         '
-        Me.ToolStripButton_Filter.Checked = True
-        Me.ToolStripButton_Filter.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ToolStripButton_Filter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.ToolStripButton_Filter.Image = CType(resources.GetObject("ToolStripButton_Filter.Image"), System.Drawing.Image)
         Me.ToolStripButton_Filter.ImageTransparentColor = System.Drawing.Color.Magenta

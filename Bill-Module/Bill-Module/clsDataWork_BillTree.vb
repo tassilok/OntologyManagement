@@ -153,7 +153,7 @@ Public Class clsDataWork_BillTree
         Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone
 
         objDataWork_Transaction.get_Data_Sum()
-        objOItem_Result = objDataWork_Transaction.OItem_Result_Contractor
+        objOItem_Result = objDataWork_Transaction.OItem_Result_Sum
 
         Return objOItem_Result
     End Function
@@ -334,7 +334,30 @@ Public Class clsDataWork_BillTree
                             Case objLocalConfig.OItem_Object_Search_Template_Related_Sem_Item_.GUID
 
                             Case objLocalConfig.OItem_Object_Search_Template_to_Pay_.GUID
+                                If objFilter.FiltersToPay.Any Then
 
+                                    If Not objFilter.FiltersToPay.First().ID_Object Is Nothing Then
+                                        Dim objOList_Sum = (From objSum In objDataWork_Transaction.Sum
+                                                               Where objSum.ID_Object = objFilter.FiltersToPay.First().ID_Object
+                                                               Select objSum).ToList()
+
+                                        objOLFin_Par = (From objFin In objOLFin_Par
+                                                    Join objSum In objOList_Sum On objFin.objFin_Par.ID_Object Equals objSum.ID_Object
+                                                    Select objFin).ToList
+
+                                    Else
+                                        Dim objOList_Sum = (From objSum In objDataWork_Transaction.Sum
+                                                            Where objSum.Val_Double = objFilter.FiltersToPay.First().Val_Double
+                                                            Select objSum).ToList()
+                                        objOLFin_Par = (From objFin In objOLFin_Par
+                                                    Join objSum In objOList_Sum On objFin.objFin_Par.ID_Object Equals objSum.ID_Object
+                                                    Select objFin).ToList
+                                    End If
+
+
+
+
+                                End If
                         End Select
                     End If
 

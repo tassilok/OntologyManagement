@@ -38,7 +38,7 @@ Public Class frmPartnerModule
     Private Sub applied_Partner() Handles objUserControl_PartnerList.applied_Items
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
-
+        oItemList_Partner.Clear()
         For Each objDGVR_Selected In objUserControl_PartnerList.DataGridViewRowCollection_Selected
             objDRV_Selected = objDGVR_Selected.DataBoundItem
 

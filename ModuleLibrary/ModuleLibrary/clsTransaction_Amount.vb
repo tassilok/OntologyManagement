@@ -5,6 +5,9 @@ Public Class clsTransaction_Amount
     Private objDataWork_Amount As clsDataWork_Amount
     Private objDBLevel_Amount As clsDBLevel
 
+    Private objTransaction As clsTransaction
+    Private objRelationConfig As clsRelationConfig
+
     Private objOItem_Amount As clsOntologyItem
     Private objOItem_Unit As clsOntologyItem
     Private objOAItem_Amount As clsObjectAtt
@@ -35,9 +38,16 @@ Public Class clsTransaction_Amount
         objOItem_Amount = Nothing
         objOItem_Result = objDataWork_Amount.get_Data_Amounts(OItem_Unit:=OItem_Unit, dblAmount:=dblAmount)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            objOItem_Amount = objDataWork_Amount.Amount
-            objOAItem_Amount = objDataWork_Amount.Amount_Amount
-            objOItem_Unit = objDataWork_Amount.Amount_Unit
+            If Not objDataWork_Amount.Amount Is Nothing Then
+                objOItem_Amount = objDataWork_Amount.Amount
+                objOAItem_Amount = objDataWork_Amount.Amount_Amount
+                objOItem_Unit = objDataWork_Amount.Amount_Unit
+            Else
+                objOItem_Unit = OItem_Unit
+                objOAItem_Amount = Nothing
+                objOItem_Amount = Nothing
+            End If
+            
         End If
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
@@ -47,23 +57,24 @@ Public Class clsTransaction_Amount
                                                       dblAmount.ToString & " " & objOItem_Unit.Name, _
                                                       objLocalConfig.OItem_Type_Menge.GUID, _
                                                       objLocalConfig.Globals.Type_Object)
-                objLOItemAmount.Add(objOItem_Amount)
-
-                objOItem_Result = objDBLevel_Amount.save_Objects(objLOItemAmount)
+                'objLOItemAmount.Add(objOItem_Amount)
+                objTransaction.ClearItems()
+                objOItem_Result = objTransaction.do_Transaction(objOItem_Amount)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    objOItem_Result = save_002_Amount__Amount(dblAmount, _
-                                                              objOItem_Amount)
-                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        objOItem_Result = save_003_Amount_To_Unit(objOItem_Unit, objOItem_Amount)
-                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                            objOItem_Result = del_002_Amount__Amount()
-                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                objDBLevel_Amount.del_Objects(objLOItemAmount)
-                            End If
+                    Dim objORel_Amount__Amount = objRelationConfig.Rel_ObjectAttribute(objOItem_Amount, objLocalConfig.OItem_Attribute_Menge, dblAmount)
 
+                    objOItem_Result = objTransaction.do_Transaction(objORel_Amount__Amount, True)
+
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        Dim objORel_Amount_To_Unit = objRelationConfig.Rel_ObjectRelation(objOItem_Amount, objOItem_Unit, objLocalConfig.OItem_RelationType_is_of_Type)
+
+                        objOItem_Result = objTransaction.do_Transaction(objORel_Amount_To_Unit, True)
+
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                            objTransaction.rollback()
                         End If
                     Else
-                        objDBLevel_Amount.del_Objects(objLOItemAmount)
+                        objTransaction.rollback()
                     End If
                 End If
             End If
@@ -414,5 +425,7 @@ Public Class clsTransaction_Amount
     Private Sub set_DBConnection()
         objDBLevel_Amount = New clsDBLevel(objLocalConfig.Globals)
         objDataWork_Amount = New clsDataWork_Amount(objLocalConfig)
+        objTransaction = New clsTransaction(objLocalConfig.Globals)
+        objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
     End Sub
 End Class

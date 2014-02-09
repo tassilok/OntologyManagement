@@ -259,6 +259,7 @@ Public Class UserControl_BillTree
         Dim objOItem_TaxRate As clsOntologyItem
         Dim objOItem_BankTransaction As clsOntologyItem
         Dim objOItem_Payment As clsOntologyItem
+        Dim nameList As List(Of String) = New List(Of String)
         Dim boolContractee As Boolean
         Dim intToDo As Integer
         Dim intDone As Integer
@@ -288,68 +289,130 @@ Public Class UserControl_BillTree
                                               Value1:=objTransaction.Item("Name_BankTransaction"))
                     objFrmName.ShowDialog(Me)
                     If objFrmName.DialogResult = DialogResult.OK Then
-                        objOItem_FinancialTransaction = New clsOntologyItem(objLocalConfig.Globals.NewGUID, _
-                                                                            objFrmName.Value1, _
+                        nameList.Add(objFrmName.Value1)
+
+                        While objFrmName.More
+                            objFrmName = New frm_Name("New Transaction", _
+                                              objLocalConfig.Globals, _
+                                              Value1:=objTransaction.Item("Name_BankTransaction"))
+                            objFrmName.ShowDialog(Me)
+                            If objFrmName.DialogResult = DialogResult.OK Then
+                                nameList.Add(objFrmName.Value1)
+                            End If
+                        End While
+
+                        For Each strName As String In nameList
+                            objOItem_FinancialTransaction = New clsOntologyItem(objLocalConfig.Globals.NewGUID, _
+                                                                            strName, _
                                                                             objLocalConfig.OItem_Class_Financial_Transaction.GUID, _
                                                                             objLocalConfig.Globals.Type_Object)
-                        objOItem_Result = objTransaction_FinancialTransaction.save_001_FinancialTransaction(objOItem_FinancialTransaction)
+                            objOItem_Result = objTransaction_FinancialTransaction.save_001_FinancialTransaction(objOItem_FinancialTransaction)
 
-                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            objOItem_Result = objTransaction_FinancialTransaction.save_002_FinancialTransaction__TransactionDate(objTransaction.Item("Valutatag"))
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                objOItem_Result = objTransaction_FinancialTransaction.save_004_FinnacialTransaction__Sum(objTransaction.Item("Betrag"))
+                                objOItem_Result = objTransaction_FinancialTransaction.save_002_FinancialTransaction__TransactionDate(objTransaction.Item("Valutatag"))
                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                    objOItem_Currency = New clsOntologyItem(objTransaction.Item("GUID_Currency"), _
-                                                                            objTransaction.Item("Currency"), _
-                                                                            objLocalConfig.OItem_Class_Currencies.GUID, _
-                                                                            objLocalConfig.Globals.Type_Object)
-
-                                    objOItem_Result = objTransaction_FinancialTransaction.save_005_FinancialTransaction_To_Currency(objOItem_Currency)
+                                    objOItem_Result = objTransaction_FinancialTransaction.save_004_FinnacialTransaction__Sum(objTransaction.Item("Betrag"))
                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                        objOItem_Result = objTransaction_FinancialTransaction.save_006_FinancialTransaction__gross(True)
+                                        objOItem_Currency = New clsOntologyItem(objTransaction.Item("GUID_Currency"), _
+                                                                                objTransaction.Item("Currency"), _
+                                                                                objLocalConfig.OItem_Class_Currencies.GUID, _
+                                                                                objLocalConfig.Globals.Type_Object)
+
+                                        objOItem_Result = objTransaction_FinancialTransaction.save_005_FinancialTransaction_To_Currency(objOItem_Currency)
                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                            objOItem_TaxRate = New clsOntologyItem(objDataWork_BaseConfig.OL_TaxRate(0).ID_Other, _
-                                                                                   objDataWork_BaseConfig.OL_TaxRate(0).Name_Other, _
-                                                                                   objLocalConfig.OItem_Class_Tax_Rates.GUID, _
-                                                                                   objLocalConfig.Globals.Type_Object)
-
-                                            objOItem_Result = objTransaction_FinancialTransaction.save_007_FinancialTransaction_To_TaxRate(objOItem_TaxRate)
+                                            objOItem_Result = objTransaction_FinancialTransaction.save_006_FinancialTransaction__gross(True)
                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                If boolContractee = True Then
-                                                    objOItem_Result = objTransaction_FinancialTransaction.save_008_FinancialTransaction_To_Partner(objOItem_Partner, _
-                                                                                                                                                   objLocalConfig.OItem_RelationType_belonging_Contractee)
-                                                Else
-                                                    objOItem_Result = objTransaction_FinancialTransaction.save_008_FinancialTransaction_To_Partner(objOItem_Partner, _
-                                                                                                                                                   objLocalConfig.OItem_RelationType_belonging_Contractor)
-                                                End If
+                                                objOItem_TaxRate = New clsOntologyItem(objDataWork_BaseConfig.OL_TaxRate(0).ID_Other, _
+                                                                                       objDataWork_BaseConfig.OL_TaxRate(0).Name_Other, _
+                                                                                       objLocalConfig.OItem_Class_Tax_Rates.GUID, _
+                                                                                       objLocalConfig.Globals.Type_Object)
 
+                                                objOItem_Result = objTransaction_FinancialTransaction.save_007_FinancialTransaction_To_TaxRate(objOItem_TaxRate)
                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                    objOItem_Payment = New clsOntologyItem(objLocalConfig.Globals.NewGUID, _
-                                                                                           objTransaction.Item("Betrag").ToString, _
-                                                                                           objLocalConfig.OItem_Class_Payment.GUID, _
-                                                                                           objLocalConfig.Globals.Type_Object)
+                                                    If boolContractee = True Then
+                                                        objOItem_Result = objTransaction_FinancialTransaction.save_008_FinancialTransaction_To_Partner(objOItem_Partner, _
+                                                                                                                                                       objLocalConfig.OItem_RelationType_belonging_Contractee)
+                                                    Else
+                                                        objOItem_Result = objTransaction_FinancialTransaction.save_008_FinancialTransaction_To_Partner(objOItem_Partner, _
+                                                                                                                                                       objLocalConfig.OItem_RelationType_belonging_Contractor)
+                                                    End If
 
-                                                    objOItem_Result = objTransaction_Payment.save_001_Payment(objOItem_Payment)
                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                        objOItem_Result = objTransaction_Payment.save_002_Payment__Amount(objTransaction.Item("Betrag"))
+                                                        objOItem_Payment = New clsOntologyItem(objLocalConfig.Globals.NewGUID, _
+                                                                                               objTransaction.Item("Betrag").ToString, _
+                                                                                               objLocalConfig.OItem_Class_Payment.GUID, _
+                                                                                               objLocalConfig.Globals.Type_Object)
+
+                                                        objOItem_Result = objTransaction_Payment.save_001_Payment(objOItem_Payment)
                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                            objOItem_Result = objTransaction_Payment.save_003_Payment__Part(100)
+                                                            objOItem_Result = objTransaction_Payment.save_002_Payment__Amount(objTransaction.Item("Betrag"))
                                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                objOItem_Result = objTransaction_Payment.save_004_Payment__TransactionDate(objTransaction.Item("Valutatag"))
+                                                                objOItem_Result = objTransaction_Payment.save_003_Payment__Part(100)
                                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                    objOItem_Result = objTransaction_Payment.save_005_FinancialTransaction_To_Payment(objOItem_FinancialTransaction)
+                                                                    objOItem_Result = objTransaction_Payment.save_004_Payment__TransactionDate(objTransaction.Item("Valutatag"))
                                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                        objOItem_BankTransaction = New clsOntologyItem(objTransaction.Item("GUID_BankTransaction"), _
-                                                                                                   objTransaction.Item("Name_BankTransaction"), _
-                                                                                                   objTransaction.Item("GUID_Type_BankTransaction"), _
-                                                                                                   objLocalConfig.Globals.Type_Object)
-
-
-                                                                        objOItem_Result = objTransaction_Payment.save_006_BankTransaction_To_Payment(objOItem_BankTransaction)
+                                                                        objOItem_Result = objTransaction_Payment.save_005_FinancialTransaction_To_Payment(objOItem_FinancialTransaction)
                                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                            If Not objOItem_FinancialTransaciton_Parent Is Nothing Then
-                                                                                objOItem_Result = objTransaction_FinancialTransaction.save_009_FinancialTransaction_To_FinancialTransaction(objOItem_FinancialTransaciton_Parent)
-                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                            objOItem_BankTransaction = New clsOntologyItem(objTransaction.Item("GUID_BankTransaction"), _
+                                                                                                       objTransaction.Item("Name_BankTransaction"), _
+                                                                                                       objTransaction.Item("GUID_Type_BankTransaction"), _
+                                                                                                       objLocalConfig.Globals.Type_Object)
+
+
+                                                                            objOItem_Result = objTransaction_Payment.save_006_BankTransaction_To_Payment(objOItem_BankTransaction)
+                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                                If Not objOItem_FinancialTransaciton_Parent Is Nothing Then
+                                                                                    objOItem_Result = objTransaction_FinancialTransaction.save_009_FinancialTransaction_To_FinancialTransaction(objOItem_FinancialTransaciton_Parent)
+                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                                        If objTreeNode_Selected.ImageIndex = objLocalConfig.ImageID_Bill Then
+                                                                                            intImageID = objLocalConfig.ImageID_PartialBill
+                                                                                        Else
+                                                                                            intImageID = objLocalConfig.ImageID_Bill
+                                                                                        End If
+                                                                                        objTreeNode_Selected.Nodes.Add(objOItem_FinancialTransaction.GUID, _
+                                                                                                                       objOItem_FinancialTransaction.Name, _
+                                                                                                                       intImageID, _
+                                                                                                                       intImageID)
+
+                                                                                        intDone = intDone + 1
+                                                                                    Else
+                                                                                        objOItem_Result = objTransaction_Payment.del_005_FinancialTransaction_To_Payment(objOItem_FinancialTransaction.GUID_Parent)
+                                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                                            objOItem_Result = objTransaction_Payment.del_004_Payment__TransactionDate()
+                                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                                                objOItem_Result = objTransaction_Payment.del_003_Payment__Part()
+                                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                                                    objOItem_Result = objTransaction_Payment.del_002_Payment__Amount()
+                                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                                                        objOItem_Result = objTransaction_Payment.del_001_Payment()
+                                                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_008_FinancialTransaction_To_Partner()
+                                                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate()
+                                                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
+                                                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
+                                                                                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
+                                                                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
+                                                                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                                                                                    objTransaction_FinancialTransaction.del_001_FinancialTransaction()
+                                                                                                                                End If
+                                                                                                                            End If
+                                                                                                                        End If
+                                                                                                                    End If
+                                                                                                                End If
+                                                                                                            End If
+                                                                                                        End If
+                                                                                                    End If
+                                                                                                End If
+                                                                                            End If
+                                                                                        End If
+
+                                                                                    End If
+                                                                                Else
                                                                                     If objTreeNode_Selected.ImageIndex = objLocalConfig.ImageID_Bill Then
                                                                                         intImageID = objLocalConfig.ImageID_PartialBill
                                                                                     Else
@@ -361,31 +424,31 @@ Public Class UserControl_BillTree
                                                                                                                    intImageID)
 
                                                                                     intDone = intDone + 1
-                                                                                Else
-                                                                                    objOItem_Result = objTransaction_Payment.del_005_FinancialTransaction_To_Payment(objOItem_FinancialTransaction.GUID_Parent)
+                                                                                End If
+                                                                            Else
+                                                                                objOItem_Result = objTransaction_Payment.del_005_FinancialTransaction_To_Payment(objOItem_FinancialTransaction.GUID_Parent)
+                                                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                                    objOItem_Result = objTransaction_Payment.del_004_Payment__TransactionDate()
                                                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                        objOItem_Result = objTransaction_Payment.del_004_Payment__TransactionDate()
+                                                                                        objOItem_Result = objTransaction_Payment.del_003_Payment__Part()
                                                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                            objOItem_Result = objTransaction_Payment.del_003_Payment__Part()
+                                                                                            objOItem_Result = objTransaction_Payment.del_002_Payment__Amount()
                                                                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                objOItem_Result = objTransaction_Payment.del_002_Payment__Amount()
+                                                                                                objOItem_Result = objTransaction_Payment.del_001_Payment()
                                                                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                    objOItem_Result = objTransaction_Payment.del_001_Payment()
+                                                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_008_FinancialTransaction_To_Partner()
                                                                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_008_FinancialTransaction_To_Partner()
+                                                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate()
                                                                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate()
+                                                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
                                                                                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
+                                                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
                                                                                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
+                                                                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
                                                                                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
+                                                                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
                                                                                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
-                                                                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                                objTransaction_FinancialTransaction.del_001_FinancialTransaction()
-                                                                                                                            End If
+                                                                                                                            objTransaction_FinancialTransaction.del_001_FinancialTransaction()
                                                                                                                         End If
                                                                                                                     End If
                                                                                                                 End If
@@ -396,46 +459,33 @@ Public Class UserControl_BillTree
                                                                                             End If
                                                                                         End If
                                                                                     End If
-
                                                                                 End If
-                                                                            Else
-                                                                                If objTreeNode_Selected.ImageIndex = objLocalConfig.ImageID_Bill Then
-                                                                                    intImageID = objLocalConfig.ImageID_PartialBill
-                                                                                Else
-                                                                                    intImageID = objLocalConfig.ImageID_Bill
-                                                                                End If
-                                                                                objTreeNode_Selected.Nodes.Add(objOItem_FinancialTransaction.GUID, _
-                                                                                                               objOItem_FinancialTransaction.Name, _
-                                                                                                               intImageID, _
-                                                                                                               intImageID)
 
-                                                                                intDone = intDone + 1
                                                                             End If
+
+
                                                                         Else
-                                                                            objOItem_Result = objTransaction_Payment.del_005_FinancialTransaction_To_Payment(objOItem_FinancialTransaction.GUID_Parent)
+                                                                            objOItem_Result = objTransaction_Payment.del_004_Payment__TransactionDate()
                                                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                objOItem_Result = objTransaction_Payment.del_004_Payment__TransactionDate()
+                                                                                objOItem_Result = objTransaction_Payment.del_003_Payment__Part()
                                                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                    objOItem_Result = objTransaction_Payment.del_003_Payment__Part()
+                                                                                    objOItem_Result = objTransaction_Payment.del_002_Payment__Amount()
                                                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                        objOItem_Result = objTransaction_Payment.del_002_Payment__Amount()
+                                                                                        objOItem_Result = objTransaction_Payment.del_001_Payment()
                                                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                            objOItem_Result = objTransaction_Payment.del_001_Payment()
+                                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_008_FinancialTransaction_To_Partner()
                                                                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_008_FinancialTransaction_To_Partner()
+                                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate()
                                                                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate()
+                                                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
                                                                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
+                                                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
                                                                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
+                                                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
                                                                                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
+                                                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
                                                                                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
-                                                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                        objTransaction_FinancialTransaction.del_001_FinancialTransaction()
-                                                                                                                    End If
+                                                                                                                    objTransaction_FinancialTransaction.del_001_FinancialTransaction()
                                                                                                                 End If
                                                                                                             End If
                                                                                                         End If
@@ -446,33 +496,28 @@ Public Class UserControl_BillTree
                                                                                     End If
                                                                                 End If
                                                                             End If
-                                                                            
-                                                                        End If
 
-                                                                        
+                                                                        End If
                                                                     Else
-                                                                        objOItem_Result = objTransaction_Payment.del_004_Payment__TransactionDate()
+                                                                        objOItem_Result = objTransaction_Payment.del_003_Payment__Part()
                                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                            objOItem_Result = objTransaction_Payment.del_003_Payment__Part()
+                                                                            objOItem_Result = objTransaction_Payment.del_002_Payment__Amount()
                                                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                objOItem_Result = objTransaction_Payment.del_002_Payment__Amount()
+                                                                                objOItem_Result = objTransaction_Payment.del_001_Payment()
                                                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                    objOItem_Result = objTransaction_Payment.del_001_Payment()
+                                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_008_FinancialTransaction_To_Partner()
                                                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_008_FinancialTransaction_To_Partner()
+                                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate()
                                                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate()
+                                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
                                                                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
+                                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
                                                                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
+                                                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
                                                                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
+                                                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
                                                                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
-                                                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                                objTransaction_FinancialTransaction.del_001_FinancialTransaction()
-                                                                                                            End If
+                                                                                                            objTransaction_FinancialTransaction.del_001_FinancialTransaction()
                                                                                                         End If
                                                                                                     End If
                                                                                                 End If
@@ -485,26 +530,23 @@ Public Class UserControl_BillTree
 
                                                                     End If
                                                                 Else
-                                                                    objOItem_Result = objTransaction_Payment.del_003_Payment__Part()
+                                                                    objOItem_Result = objTransaction_Payment.del_002_Payment__Amount()
                                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                        objOItem_Result = objTransaction_Payment.del_002_Payment__Amount()
+                                                                        objOItem_Result = objTransaction_Payment.del_001_Payment()
                                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                            objOItem_Result = objTransaction_Payment.del_001_Payment()
+                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_008_FinancialTransaction_To_Partner()
                                                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_008_FinancialTransaction_To_Partner()
+                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate()
                                                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate()
+                                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
                                                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
+                                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
                                                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
+                                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
                                                                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
+                                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
                                                                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
-                                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                        objTransaction_FinancialTransaction.del_001_FinancialTransaction()
-                                                                                                    End If
+                                                                                                    objTransaction_FinancialTransaction.del_001_FinancialTransaction()
                                                                                                 End If
                                                                                             End If
                                                                                         End If
@@ -516,24 +558,21 @@ Public Class UserControl_BillTree
 
                                                                 End If
                                                             Else
-                                                                objOItem_Result = objTransaction_Payment.del_002_Payment__Amount()
+                                                                objOItem_Result = objTransaction_Payment.del_001_Payment()
                                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                    objOItem_Result = objTransaction_Payment.del_001_Payment()
+                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_008_FinancialTransaction_To_Partner()
                                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_008_FinancialTransaction_To_Partner()
+                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate()
                                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate()
+                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
                                                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
+                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
                                                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
+                                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
                                                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
+                                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
                                                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
-                                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                                objTransaction_FinancialTransaction.del_001_FinancialTransaction()
-                                                                                            End If
+                                                                                            objTransaction_FinancialTransaction.del_001_FinancialTransaction()
                                                                                         End If
                                                                                     End If
                                                                                 End If
@@ -544,66 +583,57 @@ Public Class UserControl_BillTree
 
                                                             End If
                                                         Else
-                                                            objOItem_Result = objTransaction_Payment.del_001_Payment()
+                                                            objOItem_Result = objTransaction_FinancialTransaction.del_008_FinancialTransaction_To_Partner()
                                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                objOItem_Result = objTransaction_FinancialTransaction.del_008_FinancialTransaction_To_Partner()
+                                                                objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate()
                                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate()
+                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
                                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
+                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
                                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
+                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
                                                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
+                                                                                objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
                                                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
-                                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                        objTransaction_FinancialTransaction.del_001_FinancialTransaction()
-                                                                                    End If
+                                                                                    objTransaction_FinancialTransaction.del_001_FinancialTransaction()
                                                                                 End If
                                                                             End If
                                                                         End If
                                                                     End If
                                                                 End If
                                                             End If
-
                                                         End If
+
+
                                                     Else
-                                                        objOItem_Result = objTransaction_FinancialTransaction.del_008_FinancialTransaction_To_Partner()
+                                                        objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate()
                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                            objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate()
+                                                            objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
                                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
+                                                                objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
                                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
+                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
                                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
+                                                                        objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
                                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                            objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
-                                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                                objTransaction_FinancialTransaction.del_001_FinancialTransaction()
-                                                                            End If
+                                                                            objTransaction_FinancialTransaction.del_001_FinancialTransaction()
                                                                         End If
                                                                     End If
                                                                 End If
                                                             End If
                                                         End If
-                                                    End If
 
-                                                    
+                                                    End If
                                                 Else
-                                                    objOItem_Result = objTransaction_FinancialTransaction.del_007_FinancialTransaction_To_TaxRate()
+                                                    objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                        objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
+                                                        objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                            objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
+                                                            objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
                                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
+                                                                objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
                                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                    objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
-                                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                        objTransaction_FinancialTransaction.del_001_FinancialTransaction()
-                                                                    End If
+                                                                    objTransaction_FinancialTransaction.del_001_FinancialTransaction()
                                                                 End If
                                                             End If
                                                         End If
@@ -611,56 +641,42 @@ Public Class UserControl_BillTree
 
                                                 End If
                                             Else
-                                                objOItem_Result = objTransaction_FinancialTransaction.del_006_FinancialTransaction__Gross()
+                                                objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                    objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
+                                                    objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                        objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
+                                                        objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
                                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                            objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
-                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                                objTransaction_FinancialTransaction.del_001_FinancialTransaction()
-                                                            End If
+                                                            objTransaction_FinancialTransaction.del_001_FinancialTransaction()
                                                         End If
                                                     End If
                                                 End If
 
                                             End If
                                         Else
-                                            objOItem_Result = objTransaction_FinancialTransaction.del_005_FinancialTransaction_To_Currency()
+                                            objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
+                                                objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                    objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
-                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                        objTransaction_FinancialTransaction.del_001_FinancialTransaction()
-                                                    End If
+                                                    objTransaction_FinancialTransaction.del_001_FinancialTransaction()
                                                 End If
                                             End If
 
                                         End If
+
                                     Else
-                                        objOItem_Result = objTransaction_FinancialTransaction.del_004_FinancialTransaction__Sum()
+                                        objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                            objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
-                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                objTransaction_FinancialTransaction.del_001_FinancialTransaction()
-                                            End If
+                                            objTransaction_FinancialTransaction.del_001_FinancialTransaction()
                                         End If
 
                                     End If
-
                                 Else
-                                    objOItem_Result = objTransaction_FinancialTransaction.del_002_FinancialTransaction__TransactionDate()
-                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                        objTransaction_FinancialTransaction.del_001_FinancialTransaction()
-                                    End If
-
+                                    objTransaction_FinancialTransaction.del_001_FinancialTransaction()
                                 End If
-                            Else
-                                objTransaction_FinancialTransaction.del_001_FinancialTransaction()
                             End If
-                        End If
+                        Next
+                        
                     End If
                 Next
             End If
@@ -716,8 +732,9 @@ Public Class UserControl_BillTree
                     MsgBox("Der Filter kann nicht interpretiert werden?", MsgBoxStyle.OkOnly)
                     objFilter = Nothing
                 End If
+                ToolStripButton_Filter.Checked = True
             Else
-
+                ToolStripButton_Filter.Checked = False
                 objOItem_FilterItem = Nothing
             End If
 
@@ -738,5 +755,11 @@ Public Class UserControl_BillTree
             ToolStripTextBox_Search.Text = ""
             objOItem_FilterItem = Nothing
         End If
+    End Sub
+
+    Private Sub ToolStripButton_Filter_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Filter.Click
+        objFilter = Nothing
+        initialize()
+        ToolStripButton_Filter.Checked = False
     End Sub
 End Class

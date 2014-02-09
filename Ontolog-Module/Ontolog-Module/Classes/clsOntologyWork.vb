@@ -15,6 +15,7 @@ Public Class clsOntologyWork
     Private objDBLevel_RelTypes As clsDBLevel
     Private objDBLevel_Classes As clsDBLevel
     Private objDBLevel_Objects As clsDBLevel
+    Private objDBLevel_OntologyOfRef As clsDBLevel
 
     Public ReadOnly Property OList As List(Of clsOntologyItem)
         Get
@@ -27,6 +28,25 @@ Public Class clsOntologyWork
             Return objOList_Join
         End Get
     End Property
+
+    Public Function Get_OntologyOfRef(OItem_Ref As clsOntologyItem) As List(Of clsOntologyItem)
+        Dim objORelS_OntologOfRef = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Other = OItem_Ref.GUID,
+                                                                                             .ID_RelationType = objLocalConfig.Globals.RelationType_belongingResource.GUID,
+                                                                                             .ID_Parent_Object = objLocalConfig.Globals.Class_Ontologies.GUID}}
+
+        Dim objOItem_Result = objDBLevel_OntologyOfRef.get_Data_ObjectRel(objORelS_OntologOfRef, boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Return objDBLevel_OntologyOfRef.OList_ObjectRel.Select(Function(o) New clsOntologyItem With {.GUID = o.ID_Object, _
+                                                                                                         .Name = o.Name_Object, _
+                                                                                                         .GUID_Parent = o.ID_Parent_Object, _
+                                                                                                         .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+        Else
+            Return Nothing
+        End If
+
+    End Function
 
     Public Function get_OntologyJoins(ByVal OItem_Ontology As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
@@ -450,5 +470,6 @@ Public Class clsOntologyWork
         objDBLevel_OItems = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_ORule = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Joins_OItems = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_OntologyOfRef = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class

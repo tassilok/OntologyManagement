@@ -467,7 +467,6 @@ Public Class clsDataWork_Transaction
 
         objOItem_Result_Sum = objDBLevel_Sum.get_Data_ObjectAtt(objOList_toPay, _
                                                                   boolIDs:=False)
-
     End Sub
 
     Private Sub get_Data_Taxrate()
