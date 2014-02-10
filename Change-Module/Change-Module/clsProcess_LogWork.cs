@@ -408,7 +408,7 @@ namespace Change_Module
                                                                                                 objLocalConfig
                                                                                                     .OItem_RelationType_belonging_Done,true);
 
-                        objOItem_Result = objTransaction_ProcessIncident.do_Transaction(objORel_Ticket_To_ProcessLog_belongingDone, true);
+                        objOItem_Result = objTransaction_ProcessIncident.do_Transaction(objORel_Ticket_To_ProcessLog_belongingDone);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
                             var objORel_Ticket_To_ProcessLog_LastDone =
