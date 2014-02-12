@@ -207,13 +207,13 @@ namespace TextParser
                         var dictMeta = new Dictionary<string, object>();
                         var dictUser = new Dictionary<string, object>();
 
-                        if (OItem_Seperator == null || OItem_Seperator.Name == "\r\n")
+                        if (OItem_Seperator == null || OItem_Seperator.Name == "\\r\\n")
                             text = textReader.ReadLine();
                         else
                         {
                             addChar = true;
                             text = "";
-                            var regexSep = new Regex(OItem_Seperator.Name)
+                            var regexSep = new Regex(OItem_Seperator.Name);
 
                             StringBuilder line = new StringBuilder();
                             var length = 1;
@@ -253,6 +253,7 @@ namespace TextParser
                         var Id = objLocalConfig.Globals.NewGUID;
                         var ixStart = 0;
                         var fieldNotFound = false;
+                        var textParseBase = text;
                         fileLine ++;
                         foreach (var field in ParseFieldList.OrderBy(p => p.IsMeta).ThenBy(p => p.OrderId).ToList())
                         {
@@ -449,7 +450,12 @@ namespace TextParser
 
                                 if (field.RemoveFromSource)
                                 {
+                                    textParseBase = text.Substring(ixStart);
                                     textParse = text.Substring(ixStart);
+                                }
+                                else
+                                {
+                                    textParse = textParseBase;
                                 }
 
                          
@@ -460,9 +466,9 @@ namespace TextParser
 
                         }
 
-                        if (!dontAddUser || dictMeta.Any())
+                        if (dictMeta.Any() && dictUser.Any())
                         {
-                            if (dontAddUser) dictUser.Clear();
+                            //if (dontAddUser) dictUser.Clear();
                             dictUser =  dictUser.Union(dictMeta).ToDictionary(pair => pair.Key, pair => pair.Value);
                             var objDoc = new clsAppDocuments { Id = Id, Dict = dictUser };
                             dictList.Add(objDoc);
