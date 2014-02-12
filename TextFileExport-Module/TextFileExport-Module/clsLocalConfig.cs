@@ -25,7 +25,6 @@ namespace TextFileExport_Module
 
         //Attributes
         public clsOntologyItem OItem_attributetype_templatetext { get; set; }
-        public clsOntologyItem OItem_attributetype_hierarchical { get; set; }
 
         //Classes
         public clsOntologyItem OItem_class_text_templates { get; set; }
@@ -36,6 +35,7 @@ namespace TextFileExport_Module
         public clsOntologyItem OItem_class_logentry { get; set; }
         public clsOntologyItem OItem_class_folder { get; set; }
         public clsOntologyItem OItem_class_functiontags__textfile_ { get; set; }
+        public clsOntologyItem OItem_class_filepart_type { get; set; }
 
         //RelationTypes
         public clsOntologyItem OItem_relationtype_belonging_source { get; set; }
@@ -44,13 +44,20 @@ namespace TextFileExport_Module
         public clsOntologyItem OItem_relationtype_needs { get; set; }
         public clsOntologyItem OItem_relationtype_export_to { get; set; }
         public clsOntologyItem OItem_relationtype_belonging_done { get; set; }
-        
+        public clsOntologyItem OItem_relationtype_is_of_type { get; set; }
+
         //Objects
         public clsOntologyItem OItem_object_part { get; set; }
         public clsOntologyItem OItem_object_field { get; set; }
         public clsOntologyItem OItem_object_config { get; set; }
         public clsOntologyItem OItem_object_remove_if_empty { get; set; }
         public clsOntologyItem OItem_object_var_level { get; set; }
+        public clsOntologyItem OItem_object_table { get; set; }
+        public clsOntologyItem OItem_object_pdf_galery { get; set; }
+        public clsOntologyItem OItem_object_normal { get; set; }
+        public clsOntologyItem OItem_object_media_galery { get; set; }
+        public clsOntologyItem OItem_object_image_galery { get; set; }
+        public clsOntologyItem OItem_object_hierarchical { get; set; }
 
 
         private void get_Data_DevelopmentConfig()
@@ -162,26 +169,6 @@ namespace TextFileExport_Module
 
         private void get_Config_AttributeTypes()
         {
-            var objOList_attributetype_hierarchical = (from objOItem in objDBLevel_Config1.OList_ObjectRel
-                                                       where objOItem.ID_Object == cstrID_Ontology
-                                                       join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
-                                                       where objRef.Name_Object.ToLower() == "attributetype_hierarchical".ToLower() && objRef.Ontology == Globals.Type_AttributeType
-                                                       select objRef).ToList();
-
-            if (objOList_attributetype_hierarchical.Any())
-            {
-                OItem_attributetype_hierarchical = new clsOntologyItem()
-                {
-                    GUID = objOList_attributetype_hierarchical.First().ID_Other,
-                    Name = objOList_attributetype_hierarchical.First().Name_Other,
-                    GUID_Parent = objOList_attributetype_hierarchical.First().ID_Parent_Other,
-                    Type = Globals.Type_AttributeType
-                };
-            }
-            else
-            {
-                throw new Exception("config err");
-            }
 
             var objOList_attributetype_templatetext = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                        where objOItem.ID_Object == cstrID_Ontology
@@ -209,6 +196,27 @@ namespace TextFileExport_Module
 
         private void get_Config_RelationTypes()
         {
+            var objOList_relationtype_is_of_type = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                    where objOItem.ID_Object == cstrID_Ontology
+                                                    join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                    where objRef.Name_Object.ToLower() == "relationtype_is_of_type".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                                    select objRef).ToList();
+
+            if (objOList_relationtype_is_of_type.Any())
+            {
+                OItem_relationtype_is_of_type = new clsOntologyItem()
+                {
+                    GUID = objOList_relationtype_is_of_type.First().ID_Other,
+                    Name = objOList_relationtype_is_of_type.First().Name_Other,
+                    GUID_Parent = objOList_relationtype_is_of_type.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_relationtype_export_to = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                    where objOItem.ID_Object == cstrID_Ontology
                                                    join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -340,6 +348,132 @@ namespace TextFileExport_Module
 
         private void get_Config_Objects()
         {
+            var objOList_object_table = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                         where objOItem.ID_Object == cstrID_Ontology
+                                         join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                         where objRef.Name_Object.ToLower() == "object_table".ToLower() && objRef.Ontology == Globals.Type_Object
+                                         select objRef).ToList();
+
+            if (objOList_object_table.Any())
+            {
+                OItem_object_table = new clsOntologyItem()
+                {
+                    GUID = objOList_object_table.First().ID_Other,
+                    Name = objOList_object_table.First().Name_Other,
+                    GUID_Parent = objOList_object_table.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_pdf_galery = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                              where objOItem.ID_Object == cstrID_Ontology
+                                              join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                              where objRef.Name_Object.ToLower() == "object_pdf_galery".ToLower() && objRef.Ontology == Globals.Type_Object
+                                              select objRef).ToList();
+
+            if (objOList_object_pdf_galery.Any())
+            {
+                OItem_object_pdf_galery = new clsOntologyItem()
+                {
+                    GUID = objOList_object_pdf_galery.First().ID_Other,
+                    Name = objOList_object_pdf_galery.First().Name_Other,
+                    GUID_Parent = objOList_object_pdf_galery.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_normal = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                          where objOItem.ID_Object == cstrID_Ontology
+                                          join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                          where objRef.Name_Object.ToLower() == "object_normal".ToLower() && objRef.Ontology == Globals.Type_Object
+                                          select objRef).ToList();
+
+            if (objOList_object_normal.Any())
+            {
+                OItem_object_normal = new clsOntologyItem()
+                {
+                    GUID = objOList_object_normal.First().ID_Other,
+                    Name = objOList_object_normal.First().Name_Other,
+                    GUID_Parent = objOList_object_normal.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_media_galery = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                where objOItem.ID_Object == cstrID_Ontology
+                                                join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                where objRef.Name_Object.ToLower() == "object_media_galery".ToLower() && objRef.Ontology == Globals.Type_Object
+                                                select objRef).ToList();
+
+            if (objOList_object_media_galery.Any())
+            {
+                OItem_object_media_galery = new clsOntologyItem()
+                {
+                    GUID = objOList_object_media_galery.First().ID_Other,
+                    Name = objOList_object_media_galery.First().Name_Other,
+                    GUID_Parent = objOList_object_media_galery.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_image_galery = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                where objOItem.ID_Object == cstrID_Ontology
+                                                join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                where objRef.Name_Object.ToLower() == "object_image_galery".ToLower() && objRef.Ontology == Globals.Type_Object
+                                                select objRef).ToList();
+
+            if (objOList_object_image_galery.Any())
+            {
+                OItem_object_image_galery = new clsOntologyItem()
+                {
+                    GUID = objOList_object_image_galery.First().ID_Other,
+                    Name = objOList_object_image_galery.First().Name_Other,
+                    GUID_Parent = objOList_object_image_galery.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_hierarchical = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                where objOItem.ID_Object == cstrID_Ontology
+                                                join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                where objRef.Name_Object.ToLower() == "object_hierarchical".ToLower() && objRef.Ontology == Globals.Type_Object
+                                                select objRef).ToList();
+
+            if (objOList_object_hierarchical.Any())
+            {
+                OItem_object_hierarchical = new clsOntologyItem()
+                {
+                    GUID = objOList_object_hierarchical.First().ID_Other,
+                    Name = objOList_object_hierarchical.First().Name_Other,
+                    GUID_Parent = objOList_object_hierarchical.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_object_var_level = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                              where objOItem.ID_Object == cstrID_Ontology
                                              join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -448,6 +582,26 @@ namespace TextFileExport_Module
 
         private void get_Config_Classes()
         {
+            var objOList_class_filepart_type = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                where objOItem.ID_Object == cstrID_Ontology
+                                                join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                where objRef.Name_Object.ToLower() == "class_filepart_type".ToLower() && objRef.Ontology == Globals.Type_Class
+                                                select objRef).ToList();
+
+            if (objOList_class_filepart_type.Any())
+            {
+                OItem_class_filepart_type = new clsOntologyItem()
+                {
+                    GUID = objOList_class_filepart_type.First().ID_Other,
+                    Name = objOList_class_filepart_type.First().Name_Other,
+                    GUID_Parent = objOList_class_filepart_type.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
 
             var objOList_class_functiontags__textfile_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                           where objOItem.ID_Object == cstrID_Ontology

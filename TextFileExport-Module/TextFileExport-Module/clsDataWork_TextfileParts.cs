@@ -16,7 +16,7 @@ namespace TextFileExport_Module
         private clsDataWork_Config objDataWork_Config;
 
         private clsDBLevel objDBLevel_Ref_To_TextFileParts;
-        private clsDBLevel objDBLevel_Hierarchical;
+        private clsDBLevel objDBLevel_Type;
 
         public List<clsOntologyItem> OList_Objects { get; private set; }
         public clsOntologyItem OItem_Class_Object { get; private set; }
@@ -50,9 +50,9 @@ namespace TextFileExport_Module
             get { return objDataWork_Config.OList_Value_To_Source; }
         }
 
-        public List<clsObjectAtt> OList_Hierarchical
+        public List<clsObjectRel> OList_Type
         {
-            get { return objDBLevel_Hierarchical.OList_ObjectAtt; }
+            get { return objDBLevel_Type.OList_ObjectRel; }
         }
 
         public List<clsObjectRel> OList_TextFilePart_To_Template
@@ -158,15 +158,16 @@ namespace TextFileExport_Module
 
             if (objDBLevel_Ref_To_TextFileParts.OList_ObjectRel.Any())
             {
-                var objORelS_Hierarchical = objDBLevel_Ref_To_TextFileParts.OList_ObjectRel.Select(tfp => new clsObjectAtt {ID_Object = tfp.ID_Other,
-                    ID_AttributeType = objLocalConfig.OItem_attributetype_hierarchical.GUID } ).ToList();
+                var objORelS_Type = objDBLevel_Ref_To_TextFileParts.OList_ObjectRel.Select(tfp => new clsObjectRel {ID_Object = tfp.ID_Other,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_is_of_type.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_class_filepart_type.GUID} ).ToList();
 
-                objOItem_Result = objDBLevel_Hierarchical.get_Data_ObjectAtt(objORelS_Hierarchical,boolIDs:false);
+                objOItem_Result = objDBLevel_Type.get_Data_ObjectRel(objORelS_Type, boolIDs: false);
 
             }
             else
             {
-                objDBLevel_Hierarchical.OList_ObjectAtt.Clear();
+                objDBLevel_Type.OList_ObjectRel.Clear();
             }
 
             OItem_Result_Hierarchical = objOItem_Result;
@@ -183,7 +184,7 @@ namespace TextFileExport_Module
             objDBLevel_Ref_To_TextFileParts = new clsDBLevel(objLocalConfig.Globals);
             objDataWork_TextTemplates = new clsDataWork_TextTemplates(objLocalConfig);
             objDataWork_Config = new clsDataWork_Config(objLocalConfig);
-            objDBLevel_Hierarchical = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_Type = new clsDBLevel(objLocalConfig.Globals);
 
         }
     }

@@ -141,9 +141,14 @@ namespace TextFileExport_Module
 
                             if (oList_TextFileParts.Any())
                             {
+                                var oList_HierarchicalType = (from objTextFilePart in oList_TextFileParts
+                                                              join objTextFilePartType in objDataWork_TextExport.OList_TextFilePart_Type on objTextFilePart.ID_Other equals objTextFilePartType.ID_Object
+                                                              where objTextFilePartType.ID_Other == objLocalConfig.OItem_object_hierarchical.GUID
+                                                              select objTextFilePart).ToList();
+
                                 List<clsHierarchicalList> OList_HierarchicalSel = null;
 
-                                if (objDataWork_TextExport.OList_TextFilePart_Hierarchical.Any())
+                                if (oList_HierarchicalType.Any())
                                 {
                                     var oList_OntologyJoin = (from objOntology in OList_OntologyiesOfTextFileParts
                                                               join objTextFilePart in oList_TextFileParts on objOntology.ID_Other equals objTextFilePart.ID_Other
@@ -228,57 +233,88 @@ namespace TextFileExport_Module
                             }
                         }
                         else if (objTextPartVar.Name_Other.StartsWith(objLocalConfig.OItem_object_part.Name + ":"))
-                        {                    
-    
-                            // Den Textpart ermitteln und ermitteln, ob er eine andere Liste benötigt.
-                            // Wenn keine andere Liste benötigt wird, dann kann mit den Kindern fortgefahren werden,
-                            // Wenn schon, dann wird die Liste der jeweilgen Parts-Funktion übergeben.
-                            var oList_OntologyJoin = (from objOntology in OList_OntologyiesOfTextFileParts
-                                                        join objTextFilePart in oList_TextFileParts on objOntology.ID_Other equals objTextFilePart.ID_Other
-                                                        join objOntologyJoin in OList_OntologyJoinsOfOntologies on objOntology.ID_Object equals objOntologyJoin.ID_Ontology
-                                                        select objOntologyJoin).ToList();
+                        {
 
-                            var OList_HierarchicalSel = (from objOJoin in oList_OntologyJoin
-                                                        join objHierarchical in OList_HierarchicalList on
-                                                        new { ID_Left = objOJoin.ID_OItem1, ID_Right = objOJoin.ID_OItem2, ID_RelationType = objOJoin.ID_OItem3 } equals
-                                                        new { ID_Left = objHierarchical.ID_Class_Left, ID_Right = objHierarchical.ID_Class_Right, ID_RelationType = objHierarchical.ID_RelationType }
-                                                        select objHierarchical).ToList();
-
-                            if (OList_HierarchicalSel.Any())
+                            if (oList_TextFileParts.Any())
                             {
+                                List<clsHierarchicalList> OList_HierarchicalSel = null;
+                                var oList_HierarchicalType = (from objTextFilePart in oList_TextFileParts
+                                                              join objTextFilePartType in objDataWork_TextExport.OList_TextFilePart_Type on objTextFilePart.ID_Other equals objTextFilePartType.ID_Object
+                                                              where objTextFilePartType.ID_Other == objLocalConfig.OItem_object_hierarchical.GUID
+                                                              select objTextFilePart).ToList();
+
+                                if (oList_HierarchicalType.Any())
+                                {
+                                    var oList_OntologyJoin = (from objOntology in OList_OntologyiesOfTextFileParts
+                                                              join objTextFilePart in oList_TextFileParts on objOntology.ID_Other equals objTextFilePart.ID_Other
+                                                              join objOntologyJoin in OList_OntologyJoinsOfOntologies on objOntology.ID_Object equals objOntologyJoin.ID_Ontology
+                                                              select objOntologyJoin).ToList();
+
+                                    OList_HierarchicalSel = (from objOJoin in oList_OntologyJoin
+                                                             join objHierarchical in OList_HierarchicalList on
+                                                                new { ID_Left = objOJoin.ID_OItem1, ID_Right = objOJoin.ID_OItem2, ID_RelationType = objOJoin.ID_OItem3 } equals
+                                                                new { ID_Left = objHierarchical.ID_Class_Left, ID_Right = objHierarchical.ID_Class_Right, ID_RelationType = objHierarchical.ID_RelationType }
+                                                             select objHierarchical).ToList();
+
+                                    if (OList_HierarchicalSel.Any())
+                                    {
+                                        if (OList_HierarchicalSel.First().ID_Class_Left == OList_Hierarchy.ID_Class_Left &&
+                                            OList_HierarchicalSel.First().ID_Class_Right == OList_Hierarchy.ID_Class_Right &&
+                                            OList_HierarchicalSel.First().ID_RelationType == OList_Hierarchy.ID_RelationType)
+                                        {
+                                            var strPartSub = objTextPartVar.Name_Other.Substring((objLocalConfig.OItem_object_part.Name + ":").Length);
+
+                                            var OList_Children = OList_Hierarchy.OList_Tree.Where(t => t.ID_Object_Parent == OItem_Root.GUID).Select(t => new clsOntologyItem
+                                            {
+                                                GUID = t.ID_Object,
+                                                Name = t.Name_Object,
+                                                GUID_Parent = t.ID_Parent,
+                                                Type = objLocalConfig.Globals.Type_Object
+                                            }).ToList();
+                                            var textPart = new StringBuilder();
+                                            foreach (var oChild in OList_Children)
+                                            {
+                                                textPart.Append(ReplaceTextPartHierarchical(strPartSub, OList_Hierarchy, oChild, level + 1).ToString());
+                                            }
+
+                                            textTextPart.Replace("@" + objTextPartVar.Name_Other + "@", textPart.ToString());
+
+                                            var functiontags = objDataWork_Base.OList_FunctionTags.Where(ft => ft.ID_FunctionTag == objLocalConfig.OItem_object_remove_if_empty.GUID).ToList();
+
+                                            if (OList_Children.Any())
+                                            {
+                                                textTextPart.Replace(functiontags.First().Name_FunctionTagStart, "");
+                                                textTextPart.Replace(functiontags.First().Name_FunctionTagEnd, "");
+
+                                            }
+                                            else
+                                            {
+                                                textTextPart = new StringBuilder(Regex.Replace(textTextPart.ToString(), functiontags.First().Name_FunctionTagStart + ".*" + functiontags.First().Name_FunctionTagEnd, ""));
+                                            }
+                                        }
+                                        else
+                                        {
+
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+
+                                    }
+
+                                }
+                                else
+                                {
+                                    //var textPartFile = ReplaceTextPart(strPart);
+                                }
+
+
+
 
                             }
 
-
-                            var strPartSub = objTextPartVar.Name_Other.Substring((objLocalConfig.OItem_object_part.Name + ":").Length);
-
-                            var OList_Children = OList_Hierarchy.OList_Tree.Where(t => t.ID_Object_Parent == OItem_Root.GUID).Select(t => new clsOntologyItem
-                            {
-                                GUID = t.ID_Object,
-                                Name = t.Name_Object,
-                                GUID_Parent = t.ID_Parent,
-                                Type = objLocalConfig.Globals.Type_Object
-                            }).ToList();
-                            var textPart = new StringBuilder();
-                            foreach (var oChild in OList_Children)
-                            {
-                                textPart.Append(ReplaceTextPartHierarchical(strPartSub, OList_Hierarchy, oChild,level + 1).ToString());
-                            }
-
-                            textTextPart.Replace("@" + objTextPartVar.Name_Other + "@", textPart.ToString());
-
-                            var functiontags = objDataWork_Base.OList_FunctionTags.Where(ft => ft.ID_FunctionTag == objLocalConfig.OItem_object_remove_if_empty.GUID).ToList();
-
-                            if (OList_Children.Any())
-                            {
-                                textTextPart.Replace(functiontags.First().Name_FunctionTagStart,"");
-                                textTextPart.Replace(functiontags.First().Name_FunctionTagEnd,"");
-                                
-                            }
-                            else
-                            {
-                                textTextPart = new StringBuilder(Regex.Replace(textTextPart.ToString(), functiontags.First().Name_FunctionTagStart + ".*" + functiontags.First().Name_FunctionTagEnd,""));
-                            }
+                            
 
                            
 

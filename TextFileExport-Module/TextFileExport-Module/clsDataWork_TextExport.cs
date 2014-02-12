@@ -79,9 +79,9 @@ namespace TextFileExport_Module
             get { return objDataWork_Config.OList_Value_To_Source; }
         }
 
-        public List<clsObjectAtt> OList_TextFilePart_Hierarchical
+        public List<clsObjectRel> OList_TextFilePart_Type
         {
-            get { return objDataWork_TextFileParts.OList_Hierarchical; }
+            get { return objDataWork_TextFileParts.OList_Type; }
         }
 
 
