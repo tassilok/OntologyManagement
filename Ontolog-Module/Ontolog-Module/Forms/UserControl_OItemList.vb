@@ -264,7 +264,7 @@ Public Class UserControl_OItemList
         ToolStripButton_DelItem.Visible = True
         ToolStripButton_Up.Visible = False
         ToolStripButton_Down.Visible = False
-        ToolStripButton_Sort.Visible = False
+        ToolStripButton_Sort.Visible = True
         ToolStripButton_Report.Visible = True
         ToolStripTextBox_Filter.ReadOnly = True
         ToolStripTextBox_Filter.Text = ""
@@ -1742,6 +1742,7 @@ Public Class UserControl_OItemList
         ToClipboardToolStripMenuItem.Enabled = False
         ApplyToolStripMenuItem.Enabled = False
         DuplicateItemToolStripMenuItem.Enabled = False
+        ChangeOrderIDsToolStripMenuItem.Enabled = False
         
         If DataGridView_Items.SelectedRows.Count > 0 Then
             If boolApplyable = True Then
@@ -1759,7 +1760,9 @@ Public Class UserControl_OItemList
             ToClipboardToolStripMenuItem.Enabled = True
         End If
 
-
+        If DataGridView_Items.SelectedCells.Count>0 Then
+            ChangeOrderIDsToolStripMenuItem.Enabled = True    
+        End If
     End Sub
 
     Private Sub ApplyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApplyToolStripMenuItem.Click
@@ -2271,5 +2274,174 @@ Public Class UserControl_OItemList
         End If
     End Sub
 
+    Private Sub ChangeOrderIDsToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles ChangeOrderIDsToolStripMenuItem.Click
+        Dim boolOk = DataGridView_Items.SelectedCells.Cast (Of DataGridViewCell)().All(Function(cell) DataGridView_Items.Columns(cell.ColumnIndex).DataPropertyName = "OrderID")
+        Dim objOList_Relation As List(Of clsObjectRel) = New List(Of clsObjectRel)()
+        dim objOLIst_Att As List(Of clsObjectAtt) = New List(Of clsObjectAtt)()
+        Dim boolRel As Boolean
+        Dim boolChange = false
+
+        If boolOk Then
+            
+            objDlg_Attribute_Long = New dlg_Attribute_Long("New OrderID", objLocalConfig.Globals, 0)
+            objDlg_Attribute_Long.ShowDialog(Me)
+
+            If objDlg_Attribute_Long.DialogResult = DialogResult.OK Then
+                For Each objColumn In DataGridView_Items.Columns
+                    If objColumn.DataPropertyName.ToLower = "id_other" Then
+                        boolRel = True
+                        boolChange = True
+                        Exit For
+                    End If
+
+                    If objColumn.DataPropertyName.ToLower = "id_attribute" Then
+
+                        boolRel = False
+                        boolChange = True
+                        Exit For
+                    End If
+                Next
+                If boolChange Then
+                    Dim lngOrderID = objDlg_Attribute_Long.Value
+                    For Each cell As DataGridViewCell In DataGridView_Items.SelectedCells
+                        Dim objDGVR As DataGridViewRow = DataGridView_Items.Rows(cell.RowIndex)
+                        Dim objDRV As DataRowView = objDGVR.DataBoundItem
+
+                        If boolRel Then
+                             objOList_Relation.Add(New clsObjectRel(objDRV.Item("ID_Object"), _
+                                                                       objDRV.Item("ID_Parent_Object"), _
+                                                                       objDRV.Item("ID_Other"), _
+                                                                       objDRV.Item("ID_Parent_Other"), _
+                                                                       objDRV.Item("ID_RelationType"), _
+                                                                       objDRV.Item("Ontology"), _
+                                                                       Nothing, _
+                                                                       lngOrderID))
+
+                            
+                        Else 
+                            objOLIst_Att.Add(New clsObjectAtt With {.ID_Attribute = objDRV.Item("ID_Attribute"), _
+                                                                          .ID_Object = objDRV.Item("ID_Object"), _
+                                                                          .ID_Class = objDRV.Item("ID_Class"), _
+                                                                          .ID_AttributeType = objDRV.Item("ID_AttributeType"), _
+                                                                          .OrderID = objDlg_Attribute_Long.Value, _
+                                                                          .Val_Named = objDRV.Item("val_named"), _
+                                                                          .Val_Bit = objDRV.Item("val_bit"), _
+                                                                          .ID_DataType = objDRV.Item("ID_DataType")})
+
+                            
+                        End If
+                   
+                    Next
+
+                    If boolRel And objOList_Relation.Any Then
+                        Dim objOItem_Result = objDBLevel.save_ObjRel(objOList_Relation)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                            MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                        End If
+
+                        get_Data()
+                    ElseIf boolRel = False and objOLIst_Att.Any Then
+                        Dim objOItem_Result = objDBLevel.save_ObjAtt(objOLIst_Att)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                            MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                        End If
+
+                        get_Data()
+                    End If
+                    
+                Else 
+                    MsgBox("Hier können keine Order-IDs geändert werden!",MsgBoxStyle.OkOnly)
+                End If
+                
+
+
+                
+            End If
+        Else
+            MsgBox("Nur OrderID-Zellen können geändert werden!",MsgBoxStyle.OkOnly)
+
+        End If
+    End Sub
+
+    Private Sub ToolStripButton_Sort_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_Sort.Click
+        Dim lngOrderID as Long
+        Dim boolRel As Boolean
+        Dim boolChange = false
+        Dim objOList_Relation As List(Of clsObjectRel) = New List(Of clsObjectRel)()
+        dim objOLIst_Att As List(Of clsObjectAtt) = New List(Of clsObjectAtt)()
+
+        if DataGridView_Items.SelectedRows.Count>0 Then
+             For Each objColumn In DataGridView_Items.Columns
+                If objColumn.DataPropertyName.ToLower = "id_other" Then
+                    boolRel = True
+                    boolChange = True
+                    Exit For
+                End If
+
+                If objColumn.DataPropertyName.ToLower = "id_attribute" Then
+
+                    boolRel = False
+                    boolChange = True
+                    Exit For
+                End If
+            Next
+
+            If boolChange Then
+                objDlg_Attribute_Long = New dlg_Attribute_Long("New OrderID", objLocalConfig.Globals, 0)
+                objDlg_Attribute_Long.ShowDialog(Me)
+
+                If objDlg_Attribute_Long.DialogResult = DialogResult.OK Then
+                    lngOrderID = objDlg_Attribute_Long.Value
+                    For Each objDGVR As DataGridViewRow In DataGridView_Items.SelectedRows.Cast(of DataGridViewRow).OrderBy(function(i) i.Index).ToList()
+                        Dim objDRV As DataRowView = objDGVR.DataBoundItem
+
+                        If boolRel Then
+                             objOList_Relation.Add(New clsObjectRel(objDRV.Item("ID_Object"), _
+                                                                       objDRV.Item("ID_Parent_Object"), _
+                                                                       objDRV.Item("ID_Other"), _
+                                                                       objDRV.Item("ID_Parent_Other"), _
+                                                                       objDRV.Item("ID_RelationType"), _
+                                                                       objDRV.Item("Ontology"), _
+                                                                       Nothing, _
+                                                                       lngOrderID))
+
+                            
+                        Else 
+                            objOLIst_Att.Add(New clsObjectAtt With {.ID_Attribute = objDRV.Item("ID_Attribute"), _
+                                                                          .ID_Object = objDRV.Item("ID_Object"), _
+                                                                          .ID_Class = objDRV.Item("ID_Class"), _
+                                                                          .ID_AttributeType = objDRV.Item("ID_AttributeType"), _
+                                                                          .OrderID = objDlg_Attribute_Long.Value, _
+                                                                          .Val_Named = objDRV.Item("val_named"), _
+                                                                          .Val_Bit = objDRV.Item("val_bit"), _
+                                                                          .ID_DataType = objDRV.Item("ID_DataType")})
+
+                            
+                        End If
+                        lngOrderID = lngOrderID + 1
+                    Next
+
+                    If boolRel And objOList_Relation.Any Then
+                        Dim objOItem_Result = objDBLevel.save_ObjRel(objOList_Relation)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                            MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                        End If
+
+                        get_Data()
+                    ElseIf boolRel = False and objOLIst_Att.Any Then
+                        Dim objOItem_Result = objDBLevel.save_ObjAtt(objOLIst_Att)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                            MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                        End If
+
+                        get_Data()
+                    End If
+                End If
+            Else 
+                MsgBox("Hier leider nicht möglich.",MsgBoxStyle.OkOnly)
+            End If
+
+        End If
+    End Sub
 End Class
 
