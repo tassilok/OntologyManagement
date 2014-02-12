@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="cab769496e8343beb8f8c023dc1b8ca7" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[File-Resource-Module]]></Item>
+<Item Id="af63a21afba14628ae8db8d4463ae0ef" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_Pattern]]></Item>
+<Item Id="0c71e7a6e97d4231a9e3c08ba5513f02" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_Subitems]]></Item>
+<Item Id="4b63ca1794b84990802e42fcb6ea0a74" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Resource]]></Item>
+<Item Id="50276dcc1f514329bf812c9525150381" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Path]]></Item>
+<Item Id="3be7e479a6cf44fa8a6abad8c84250a4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Web_Connection]]></Item>
+<Item Id="b7a82f8a03e84b40b114eeef286836d7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_File]]></Item>
+<Item Id="9fcfd79a7f854a9bb5dcdef12d1a2d79" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Fileresource]]></Item>
+
+</Items>

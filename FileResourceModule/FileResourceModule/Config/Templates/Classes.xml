@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Class">
+  <Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
+<Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
+<Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
+<Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="8a894710e08c42c5b829ef4809830d33" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[Path]]></Item>
+<Item Id="83961991c33d4ec7893a2dba0fc4cd69" Id_Parent="fa121432183946629ecfe0deac63ea7c"><![CDATA[Web-Connection]]></Item>
+<Item Id="6eb4fdd32e254886b288e1bfc2857efb" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[File]]></Item>
+<Item Id="7996f98f33d0409aae0abe56b7000397" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[Fileresource]]></Item>
+<Item Id="2f05c250be334b77ba3cb8a0228821b6" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Filesystem-Management]]></Item>
+<Item Id="fa121432183946629ecfe0deac63ea7c" Id_Parent="4b335d37208742f6a680a1b03e35d73c"><![CDATA[Web-Service]]></Item>
+<Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
+<Item Id="4b335d37208742f6a680a1b03e35d73c" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Web-Management]]></Item>
+<Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
+
+</Items>
