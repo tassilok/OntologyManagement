@@ -245,13 +245,12 @@ namespace Change_Module
                         MessageBox.Show("Der Incident kann nicht erzeugt werden!", "Incident", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
                     }
+                    else if (objOItem_Result.Count > 0)
+                    {
+                        MessageBox.Show("Es konnten nur " + objOItem_Result.Count.ToString() + " Incident nicht erzeugt werden!", "Incident", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
             }
-        }
-
-        private void SubProcessToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
         }
 
         private void NewToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -270,6 +269,10 @@ namespace Change_Module
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
                     {
                         MessageBox.Show("Der Prozess konnte nicht erzeugt werden!", "Incident", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                    else if (objOItem_Result.Count > 0)
+                    {
+                        MessageBox.Show(objOItem_Result.Count + " Prozesse konnten nur erzeugt werden!", "Process", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
                 else
@@ -584,6 +587,7 @@ namespace Change_Module
 
             NewToolStripMenuItem.Enabled = false;
             SubProcessToolStripMenuItem.Enabled = false;
+            copyNameToolStripMenuItem.Enabled = treeView_ProcessTree.SelectedNode != null;
 
             if (objOItem_Selected.GUID_Parent == objLocalConfig.OItem_Type_Process_Ticket.GUID)
             {
@@ -670,6 +674,16 @@ namespace Change_Module
                 }
 
 
+            }
+        }
+
+        private void copyNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var objTreeNode = treeView_ProcessTree.SelectedNode;
+
+            if (objTreeNode != null)
+            {
+                Clipboard.SetDataObject(objTreeNode.Text);
             }
         }
         

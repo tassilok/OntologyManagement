@@ -444,5 +444,37 @@ namespace TextParser
                 GetPage();
             }
         }
+
+        private void toolStripDropDownButton_IndexWork_DropDownOpening(object sender, EventArgs e)
+        {
+            toolStripMenuItem_DeleteIndex.Enabled = false;
+            if (toolStripComboBox_Indexes.SelectedItem != null) toolStripMenuItem_DeleteIndex.Enabled = true;
+        }
+
+        private void toolStripMenuItem_DeleteIndex_Click(object sender, EventArgs e)
+        {
+            if (toolStripComboBox_Indexes.SelectedItem != null)
+            {
+                
+                var index = toolStripComboBox_Indexes.SelectedItem.ToString();
+                objDBLevel_Indexes = new clsDBLevel(server,port,index,objLocalConfig.Globals.Index_Rep,objLocalConfig.Globals.SearchRange,objLocalConfig.Globals.Session);
+                var objOItem_Result = objDBLevel_Indexes.DeleteIndex(index);
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    GetIndexes();
+                }
+                else
+                {
+                    MessageBox.Show(this, "Der Index konnte nicht gelöscht werden!", "Fehler!", MessageBoxButtons.OK,
+                                MessageBoxIcon.Exclamation);
+                }
+            }
+            else
+            {
+                MessageBox.Show(this, "Der Index konnte nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK,
+                                MessageBoxIcon.Exclamation);
+            }
+            
+        }
     }
 }

@@ -1153,7 +1153,16 @@ Public Class clsDBLevel
 
     End Sub
 
-    
+    Public Function DeleteIndex(strIndex As String) As clsOntologyItem
+        
+        Dim indexResponse = objElSelector.ElConnector.DeleteIndex(strIndex)
+
+        If (indexResponse.OK)
+            Return objLogStates.LogState_Success.Clone()
+        Else 
+            Return objLogStates.LogState_Error.Clone()
+        End If
+    End Function
 
     Protected Overrides Sub Finalize()
         MyBase.Finalize()

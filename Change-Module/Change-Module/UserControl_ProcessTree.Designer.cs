@@ -43,6 +43,8 @@
             this.ExistingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SubIncidentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SubTicketToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImageList_Main = new System.Windows.Forms.ImageList(this.components);
             this.ContextMenuStrip_ProcessTree.SuspendLayout();
             this.SuspendLayout();
@@ -67,9 +69,10 @@
             // 
             this.ContextMenuStrip_ProcessTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.LoggingToolStripMenuItem,
-            this.NewToolStripMenuItem});
+            this.NewToolStripMenuItem,
+            this.editToolStripMenuItem});
             this.ContextMenuStrip_ProcessTree.Name = "ContextMenuStrip_ProcessTree";
-            this.ContextMenuStrip_ProcessTree.Size = new System.Drawing.Size(153, 70);
+            this.ContextMenuStrip_ProcessTree.Size = new System.Drawing.Size(153, 92);
             this.ContextMenuStrip_ProcessTree.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip_ProcessTree_Opening);
             // 
             // LoggingToolStripMenuItem
@@ -86,26 +89,26 @@
             // ErrorToolStripMenuItem
             // 
             this.ErrorToolStripMenuItem.Name = "ErrorToolStripMenuItem";
-            this.ErrorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ErrorToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.ErrorToolStripMenuItem.Text = "x_Error";
             // 
             // ErrorSolvedToolStripMenuItem
             // 
             this.ErrorSolvedToolStripMenuItem.Name = "ErrorSolvedToolStripMenuItem";
-            this.ErrorSolvedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ErrorSolvedToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.ErrorSolvedToolStripMenuItem.Text = "x_Error solved";
             // 
             // InformationToolStripMenuItem
             // 
             this.InformationToolStripMenuItem.Name = "InformationToolStripMenuItem";
-            this.InformationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.InformationToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.InformationToolStripMenuItem.Text = "x_Information";
             this.InformationToolStripMenuItem.Click += new System.EventHandler(this.InformationToolStripMenuItem_Click);
             // 
             // ObsoleteToolStripMenuItem
             // 
             this.ObsoleteToolStripMenuItem.Name = "ObsoleteToolStripMenuItem";
-            this.ObsoleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ObsoleteToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.ObsoleteToolStripMenuItem.Text = "x_Obsolete";
             this.ObsoleteToolStripMenuItem.Click += new System.EventHandler(this.ObsoleteToolStripMenuItem_Click);
             // 
@@ -127,7 +130,6 @@
             this.SubProcessToolStripMenuItem.Name = "SubProcessToolStripMenuItem";
             this.SubProcessToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.SubProcessToolStripMenuItem.Text = "x_Sub-Process";
-            this.SubProcessToolStripMenuItem.Click += new System.EventHandler(this.SubProcessToolStripMenuItem_Click);
             // 
             // NewToolStripMenuItem1
             // 
@@ -154,6 +156,21 @@
             this.SubTicketToolStripMenuItem.Name = "SubTicketToolStripMenuItem";
             this.SubTicketToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.SubTicketToolStripMenuItem.Text = "x_Sub-Ticket";
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyNameToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editToolStripMenuItem.Text = "x_Edit";
+            // 
+            // copyNameToolStripMenuItem
+            // 
+            this.copyNameToolStripMenuItem.Name = "copyNameToolStripMenuItem";
+            this.copyNameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.copyNameToolStripMenuItem.Text = "x_Copy Name";
+            this.copyNameToolStripMenuItem.Click += new System.EventHandler(this.copyNameToolStripMenuItem_Click);
             // 
             // ImageList_Main
             // 
@@ -194,5 +211,7 @@
         internal System.Windows.Forms.ToolStripMenuItem ExistingToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem SubIncidentToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem SubTicketToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyNameToolStripMenuItem;
     }
 }

@@ -760,11 +760,11 @@ namespace Change_Module
                         break;
                     }
 
-                    objOItem_Result = GetIncidentsOfProcessLog(objTreeNode_Sub);
-                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
-                    {
-                        break;
-                    }
+                    //objOItem_Result = GetIncidentsOfProcessLog(objTreeNode_Sub);
+                    //if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                    //{
+                    //    break;
+                    //}
                 }
             }
             else
@@ -1072,15 +1072,15 @@ namespace Change_Module
             clsOntologyItem objOItem_Result = objLocalConfig.Globals.LState_Success;
             TreeNode objTreeNode_Sub;
 
-            var objLIncidents = from obj in objDBLevel_Incidents.OList_ObjectRel
+            var objLIncidents = (from obj in objDBLevel_Incidents.OList_ObjectRel
                                 where obj.ID_Object == objTreeNode_Parent.Name
-                                select obj;
+                                 select obj).GroupBy(i => new { i.ID_Other, i.Name_Other }).ToList();
 
             
             foreach (var objIncident in objLIncidents)
             {
-                objTreeNode_Sub =  objTreeNode_Parent.Nodes.Add(objIncident.ID_Other,
-                                             objIncident.Name_Other,
+                objTreeNode_Sub =  objTreeNode_Parent.Nodes.Add(objIncident.Key.ID_Other,
+                                             objIncident.Key.Name_Other,
                                              objLocalConfig.Image_Incident,
                                              objLocalConfig.Image_Incident);
                 var objLLogStates = from objLogEntry in objDBLevel_LogentriesOfIncidents.OList_ObjectRel_ID
@@ -1119,6 +1119,8 @@ namespace Change_Module
 
             var objLSubNodes = from obj in objOTree_IncidentTree
                                where obj.ID_Object_Parent == objTreeNode_Parent.Name
+                               group obj by new {id = obj.ID_Object, name = obj.Name_Object, orderid = obj.OrderID } into objs
+                               from obj in objs
                                orderby obj.OrderID, obj.Name_Object
                                select obj;
 

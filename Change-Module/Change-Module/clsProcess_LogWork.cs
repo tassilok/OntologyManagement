@@ -25,12 +25,14 @@ namespace Change_Module
 
         public clsOntologyItem CreateIncident(TreeNode objTreeNode_Parent)
         {
-            clsOntologyItem objOItem_Result;
+            clsOntologyItem objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
             clsOntologyItem objOItem_ProcessLog;
             clsOntologyItem objOItem_Incident;
             clsOntologyItem objOItem_Ticket;
             TreeNode[] objTreeNodes;
             List<clsOntologyItem> OList_TicketAndProcessIncident = new List<clsOntologyItem>();
+            int toDo = 0;
+            int done = 0;
 
             OList_TicketAndProcessIncident = get_Ticket_And_ProcessItem(objTreeNode_Parent);
 
@@ -57,30 +59,43 @@ namespace Change_Module
                     objOItem_ProcessLog.GUID_Parent = objLocalConfig.OItem_Type_Process_Log.GUID;
                 }
 
-                objFrmName = new frm_Name("New Incident", objLocalConfig.Globals);
+                objFrmName = new frm_Name("New Incident", objLocalConfig.Globals, isListPossible:true);
                 objFrmName.ShowDialog(objFrm_Parent);
 
                 if (objFrmName.DialogResult == DialogResult.OK)
                 {
-                    objOItem_Incident = new clsOntologyItem(objLocalConfig.Globals.NewGUID,
-                                                            objFrmName.Value1,
+                    toDo = objFrmName.Values.Count();
+                    done = 0;
+
+                    foreach (var name in objFrmName.Values.Select(n => n.Replace("\r","").Replace("\n","")).ToList())
+                    {
+
+                        objOItem_Incident = new clsOntologyItem(objLocalConfig.Globals.NewGUID,
+                                                            name,
                                                             objLocalConfig.OItem_Type_Incident.GUID,
                                                             objLocalConfig.Globals.Type_Object);
 
-                    objOItem_Result = objTransaction_ProcessIncident.do_Transaction(objOItem_Incident);
-                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                    {
-                        objOItem_Result = objTransaction_ProcessIncident.do_Transaction(Rel_ProcessLog_To_Incident(objOItem_ProcessLog, objOItem_Incident));
+                        objOItem_Result = objTransaction_ProcessIncident.do_Transaction(objOItem_Incident);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-                            objOItem_Result = objTransaction_ProcessIncident.do_Transaction(Rel_Ticket_To_Incident(objOItem_Ticket, objOItem_Incident));
+                            objOItem_Result = objTransaction_ProcessIncident.do_Transaction(Rel_ProcessLog_To_Incident(objOItem_ProcessLog, objOItem_Incident));
                             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                             {
-                                objTreeNodes = objTreeNode_Parent.Nodes.Find(objOItem_Incident.GUID, false);
-                                if (!objTreeNodes.Any())
+                                objOItem_Result = objTransaction_ProcessIncident.do_Transaction(Rel_Ticket_To_Incident(objOItem_Ticket, objOItem_Incident));
+                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                 {
-                                    objTreeNode_Parent.Nodes.Add(objOItem_Incident.GUID, objOItem_Incident.Name, objLocalConfig.Image_Incident, objLocalConfig.Image_Incident);
+                                    objTreeNodes = objTreeNode_Parent.Nodes.Find(objOItem_Incident.GUID, false);
+                                    if (!objTreeNodes.Any())
+                                    {
+                                        objTreeNode_Parent.Nodes.Add(objOItem_Incident.GUID, objOItem_Incident.Name, objLocalConfig.Image_Incident, objLocalConfig.Image_Incident);
 
+                                    }
+                                    done++;
+                                }
+                                else
+                                {
+                                    objTransaction_ProcessIncident.rollback();
+                                    objOItem_Result = objLocalConfig.Globals.LState_Error;
                                 }
                             }
                             else
@@ -89,13 +104,10 @@ namespace Change_Module
                                 objOItem_Result = objLocalConfig.Globals.LState_Error;
                             }
                         }
-                        else
-                        {
-                            objTransaction_ProcessIncident.rollback();
-                            objOItem_Result = objLocalConfig.Globals.LState_Error;
-                        }
                     }
+
                     
+
                 }
                 else
                 {
@@ -107,7 +119,7 @@ namespace Change_Module
                 objOItem_Result = objLocalConfig.Globals.LState_Error;
             }
 
-
+            objOItem_Result.Count = toDo - done;
             return objOItem_Result;
         }
 
@@ -119,6 +131,8 @@ namespace Change_Module
             clsOntologyItem objOItem_Ticket;
             clsOntologyItem objOItem_Process_Parent;
             clsOntologyItem objOItem_Process;
+            int toDo = 0;
+            int done = 0;
 
             OList_TicketAndProcessIncident = get_Ticket_And_ProcessItem(objTreeNode_Parent);
 
@@ -131,31 +145,36 @@ namespace Change_Module
                 objOItem_Ticket = OList_Ticket.First();
 
                 
-                objFrmName = new frm_Name("New Incident", objLocalConfig.Globals);
+                objFrmName = new frm_Name("New Incident", objLocalConfig.Globals,isListPossible:true);
                 objFrmName.ShowDialog(objFrm_Parent);
-
+                
                 if (objFrmName.DialogResult == DialogResult.OK)
                 {
-                    var OList_Process = from obj in OList_TicketAndProcessIncident
-                                       where obj.GUID_Parent == objLocalConfig.OItem_Type_Process.GUID
-                                       select obj;
-
-                    objOItem_Process_Parent = new clsOntologyItem(OList_Process.First().GUID,
-                                                                  OList_Process.First().Name,
-                                                                  objLocalConfig.OItem_Type_Process.GUID,
-                                                                  objLocalConfig.Globals.Type_Object);
-
-                    objOItem_Process = new clsOntologyItem(objLocalConfig.Globals.NewGUID,
-                                                           objFrmName.Value1,
-                                                           objLocalConfig.OItem_Type_Process.GUID,
-                                                           objLocalConfig.Globals.Type_Object);
-                    objOItem_Result = objTransaction_ProcessProcess.do_Transaction(objOItem_Process);
-                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    toDo = objFrmName.Values.Count();
+                    done = 0;
+                    foreach (var name in objFrmName.Values.Select(n => n.Replace("\r", "").Replace("\n", "")).ToList())
                     {
-                        objOItem_Result = objTransaction_ProcessProcess.do_Transaction(Rel_Process_To_Process(objOItem_Process_Parent, objOItem_Process));
+                        objTransaction_ProcessProcess.ClearItems();
+                        var OList_Process = from obj in OList_TicketAndProcessIncident
+                                            where obj.GUID_Parent == objLocalConfig.OItem_Type_Process.GUID
+                                            select obj;
+
+                        objOItem_Process_Parent = new clsOntologyItem(OList_Process.First().GUID,
+                                                                      OList_Process.First().Name,
+                                                                      objLocalConfig.OItem_Type_Process.GUID,
+                                                                      objLocalConfig.Globals.Type_Object);
+
+                        objOItem_Process = new clsOntologyItem(objLocalConfig.Globals.NewGUID,
+                                                               name,
+                                                               objLocalConfig.OItem_Type_Process.GUID,
+                                                               objLocalConfig.Globals.Type_Object);
+                        objOItem_Result = objTransaction_ProcessProcess.do_Transaction(objOItem_Process);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-                            var objOItem_ProcessLog = new clsOntologyItem
+                            objOItem_Result = objTransaction_ProcessProcess.do_Transaction(Rel_Process_To_Process(objOItem_Process_Parent, objOItem_Process));
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            {
+                                var objOItem_ProcessLog = new clsOntologyItem
                                 {
                                     GUID = objLocalConfig.Globals.NewGUID,
                                     Name = objOItem_Process.Name,
@@ -163,39 +182,46 @@ namespace Change_Module
                                     Type = objLocalConfig.Globals.Type_Object
                                 };
 
-                            objOItem_Result = objTransaction_ProcessProcess.do_Transaction(objOItem_ProcessLog);
-                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                            {
-                                var objORel_ProcessLog_To_Process =
-                                    objRelationConfig.Rel_ObjectRelation(objOItem_ProcessLog, objOItem_Process,
-                                                                         objLocalConfig.OItem_RelationType_belongsTo);
-
-                                objOItem_Result =
-                                    objTransaction_ProcessProcess.do_Transaction(objORel_ProcessLog_To_Process, true);
+                                objOItem_Result = objTransaction_ProcessProcess.do_Transaction(objOItem_ProcessLog);
                                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                 {
-                                    var objORel_ProcessLog_To_Ticket =
-                                        objRelationConfig.Rel_ObjectRelation(objOItem_Ticket, objOItem_ProcessLog,
-                                                                             objLocalConfig.OItem_RelationType_contains,
-                                                                             true);
+                                    var objORel_ProcessLog_To_Process =
+                                        objRelationConfig.Rel_ObjectRelation(objOItem_ProcessLog, objOItem_Process,
+                                                                             objLocalConfig.OItem_RelationType_belongsTo);
+
                                     objOItem_Result =
-                                    objTransaction_ProcessProcess.do_Transaction(objORel_ProcessLog_To_Ticket);
+                                        objTransaction_ProcessProcess.do_Transaction(objORel_ProcessLog_To_Process, true);
                                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                     {
-                                        objTreeNode_Parent.Nodes.Add(objOItem_ProcessLog.GUID,
-                                                                 objOItem_ProcessLog.Name,
-                                                                 objLocalConfig.ImageID_Process,
-                                                                 objLocalConfig.ImageID_Process); 
+                                        var objORel_ProcessLog_To_Ticket =
+                                            objRelationConfig.Rel_ObjectRelation(objOItem_Ticket, objOItem_ProcessLog,
+                                                                                 objLocalConfig.OItem_RelationType_contains,
+                                                                                 true);
+                                        objOItem_Result =
+                                        objTransaction_ProcessProcess.do_Transaction(objORel_ProcessLog_To_Ticket);
+                                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                        {
+                                            objTreeNode_Parent.Nodes.Add(objOItem_ProcessLog.GUID,
+                                                                     objOItem_ProcessLog.Name,
+                                                                     objLocalConfig.ImageID_Process,
+                                                                     objLocalConfig.ImageID_Process);
+                                        }
+                                        done++;
                                     }
-                                       
+                                    else
+                                    {
+                                        objTransaction_ProcessProcess.rollback();
+                                        objOItem_Result = objLocalConfig.Globals.LState_Error;
+                                    }
+
+
+
                                 }
                                 else
                                 {
                                     objTransaction_ProcessProcess.rollback();
                                     objOItem_Result = objLocalConfig.Globals.LState_Error;
                                 }
-                                
-    
 
                             }
                             else
@@ -203,22 +229,19 @@ namespace Change_Module
                                 objTransaction_ProcessProcess.rollback();
                                 objOItem_Result = objLocalConfig.Globals.LState_Error;
                             }
-                            
-                        }
-                        else
-                        {
-                            objTransaction_ProcessProcess.rollback();
-                            objOItem_Result = objLocalConfig.Globals.LState_Error;
                         }
                     }
+
                     
-                    
+
+
+
                 }
 
 
             }
 
-
+            objOItem_Result.Count = toDo - done;
             return objOItem_Result;
         }
 

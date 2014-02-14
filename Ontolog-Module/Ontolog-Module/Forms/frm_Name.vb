@@ -13,7 +13,7 @@ Public Class frm_Name
     Private boolAdditional As Boolean
     Private boolList As Boolean
     Private boolShowRepeat As Boolean
-    Private strValues() As String
+    Private strValues As List(Of String) = new List(Of String)()
     Private boolEmptyAllowed As Boolean
     Private boolApply As Boolean
 
@@ -37,7 +37,7 @@ Public Class frm_Name
         End Get
     End Property
 
-    Public ReadOnly Property Values As String()
+    Public ReadOnly Property Values As List(Of String)
         Get
             Return strValues
         End Get
@@ -115,7 +115,7 @@ Public Class frm_Name
         Me.Text = strCaption
 
         boolIsListPossible = isListPossible
-
+        strValues = new List(Of String)()
         set_DBConnection()
         initialize()
     End Sub
@@ -153,6 +153,7 @@ Public Class frm_Name
         boolIsListPossible = isListPossible
 
         set_DBConnection()
+        strValues = new List(Of String)()
         initialize()
     End Sub
 
@@ -254,7 +255,7 @@ Public Class frm_Name
         Dim strValue As String
         
         If boolList = True Then
-            strValues = TextBox_Name.Text.Split(vbCrLf)
+            strValues = TextBox_Name.Text.Split(vbCrLf).Select(Function(n) n.Replace("\n","").Replace("\r","")).ToList()
             For Each strValue In strValues
                 If strValue = "" Then
                     boolEmpty = True
@@ -263,6 +264,7 @@ Public Class frm_Name
 
             
         Else
+            
             If boolSecure = True Then
                 If TextBox_Repeat.Visible = True Then
                     If Not TextBox_Name.Text = TextBox_Repeat.Text Then
@@ -295,6 +297,7 @@ Public Class frm_Name
                 End If
             End If
             If boolClose = True Then
+                strValues.Add(strValue1)
                 Me.DialogResult = Windows.Forms.DialogResult.OK
                 Me.Close()
             End If
