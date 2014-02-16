@@ -13,6 +13,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Partner-Module", "..\Partne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OntologyClasses", "..\OntologyClasses\OntologyClasses.csproj", "{E937824A-B52A-4AA4-A008-710824FC52F3}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Media-Viewer-Module", "..\Media-Viewer-Module\Media-Viewer-Module\Media-Viewer-Module.vbproj", "{E5546C53-BE08-44E1-B136-D172C3F2FE3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,16 @@ Global
 		{E937824A-B52A-4AA4-A008-710824FC52F3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E937824A-B52A-4AA4-A008-710824FC52F3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E937824A-B52A-4AA4-A008-710824FC52F3}.Release|x86.ActiveCfg = Release|Any CPU
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Debug|x86.ActiveCfg = Debug|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Debug|x86.Build.0 = Debug|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Release|Any CPU.ActiveCfg = Release|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Release|Mixed Platforms.Build.0 = Release|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Release|x86.ActiveCfg = Release|x86
+		{E5546C53-BE08-44E1-B136-D172C3F2FE3E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

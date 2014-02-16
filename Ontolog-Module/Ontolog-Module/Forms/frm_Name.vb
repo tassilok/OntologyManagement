@@ -255,7 +255,7 @@ Public Class frm_Name
         Dim strValue As String
         
         If boolList = True Then
-            strValues = TextBox_Name.Text.Split(vbCrLf).Select(Function(n) n.Replace("\n","").Replace("\r","")).ToList()
+            strValues = TextBox_Name.Text.Split(vbCrLf).Select(Function(n) n.Replace("\n", "").Replace("\r", "").Trim()).ToList()
             For Each strValue In strValues
                 If strValue = "" Then
                     boolEmpty = True
@@ -286,7 +286,7 @@ Public Class frm_Name
                 End If
             End If
 
-            
+            strValues.Add(strValue1)
         End If
         
         If boolClose = True Then
@@ -297,7 +297,7 @@ Public Class frm_Name
                 End If
             End If
             If boolClose = True Then
-                strValues.Add(strValue1)
+
                 Me.DialogResult = Windows.Forms.DialogResult.OK
                 Me.Close()
             End If

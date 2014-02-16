@@ -17,17 +17,20 @@ namespace Appointment_Module
         private clsDBLevel objDBLevel_Contractees;
         private clsDBLevel objDBLevel_Contractors;
         private clsDBLevel objDBLevel_Watchers;
+        private clsDBLevel objDBLevel_Resources;
 
         private clsDBLevel objDBLevel_Users;
 
         public clsOntologyItem OItem_Result_Contractees { get; set; }
         public clsOntologyItem OItem_Result_Contractors { get; set; }
         public clsOntologyItem OItem_Result_Watchers { get; set; }
+        public clsOntologyItem OItem_Result_Resources { get; set; }
 
         private Thread objThread_Contacts;
+        private Thread objThread_Resources;
 
         public SortableBindingList<clsContact> OList_Contacts { get; set; }
-
+        public SortableBindingList<clsResource> OList_Resources { get; set; }
         
 
         
@@ -66,6 +69,7 @@ namespace Appointment_Module
             try
             {
                 objThread_Contacts.Abort();
+                objThread_Resources.Abort();
             }
             catch (Exception ex)
             {
@@ -75,6 +79,8 @@ namespace Appointment_Module
             {
                 objThread_Contacts = new Thread(GetDate_Contacts);
                 objThread_Contacts.Start();
+                objThread_Resources = new Thread(GetData_Resources);
+                objThread_Resources.Start();
             }
 
             
@@ -88,6 +94,7 @@ namespace Appointment_Module
             objDBLevel_Watchers = new clsDBLevel(objLocalConfig.Globals);
 
             objDBLevel_Users = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_Resources = new clsDBLevel(objLocalConfig.Globals);
         }
 
         private void GetDate_Contacts()
@@ -110,6 +117,48 @@ namespace Appointment_Module
             }
             
         }
+
+        public void GetData_Resources()
+        {
+            OItem_Result_Resources = objLocalConfig.Globals.LState_Nothing.Clone();
+            OList_Resources = new SortableBindingList<clsResource>();
+
+            var objOListS_Resources = new List<clsObjectRel> 
+            { 
+                new clsObjectRel 
+                {
+                    ID_Object = objAppointment.ID_Appointment, 
+                    ID_RelationType = objLocalConfig.OItem_relationtype_located_at.GUID 
+                },
+                new clsObjectRel 
+                {
+                    ID_Object = objAppointment.ID_Appointment,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belonging_resources.GUID
+                } 
+            };
+
+            var objOItem_Result = objDBLevel_Resources.get_Data_ObjectRel(objOListS_Resources, boolIDs: false);
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                OList_Resources = new SortableBindingList<clsResource>(objDBLevel_Resources.OList_ObjectRel.Select(r => new clsResource
+                {
+                    ID_Resource = r.ID_Other,
+                    Name_Resource = r.Name_Other,
+                    ID_Class_Resource = r.ID_Parent_Other,
+                    Name_Class_Resource = r.Name_Parent_Other
+                }).ToList());
+
+                OItem_Result_Resources = objLocalConfig.Globals.LState_Success.Clone();
+            }
+            else
+            {
+                OItem_Result_Resources = objLocalConfig.Globals.LState_Error.Clone();
+            }
+
+        }
+
+        
 
         private void GetData_Contractees()
         {

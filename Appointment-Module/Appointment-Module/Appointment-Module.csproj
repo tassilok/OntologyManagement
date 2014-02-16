@@ -58,6 +58,7 @@
     <Compile Include="clsDataWork_AppointmentDetail.cs" />
     <Compile Include="clsDataWork_Appointments.cs" />
     <Compile Include="clsLocalConfig.cs" />
+    <Compile Include="clsResource.cs" />
     <Compile Include="clsTransaction_AppointmentDetail.cs" />
     <Compile Include="frmAppointmentModule.cs">
       <SubType>Form</SubType>
@@ -113,6 +114,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Media-Viewer-Module\Media-Viewer-Module\Media-Viewer-Module.vbproj">
+      <Project>{e5546c53-be08-44e1-b136-d172c3f2fe3e}</Project>
+      <Name>Media-Viewer-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3f2f6722-c36b-420d-afe7-b21c19457208}</Project>
       <Name>Ontolog-Module</Name>
@@ -140,6 +145,8 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\tasto_4_architetto_franc_01.png" />
+    <None Include="Resources\tasto_3_architetto_franc_01.png" />
     <EmbeddedResource Include="Config\Templates\AttributeTypes.xml" />
     <EmbeddedResource Include="Config\Templates\ClassAtts.xml" />
     <EmbeddedResource Include="Config\Templates\Classes.xml" />

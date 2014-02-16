@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Partner_Module;
 using Ontology_Module;
 using OntologyClasses.BaseClasses;
+using Media_Viewer_Module;
 
 namespace Appointment_Module
 {
@@ -17,6 +18,8 @@ namespace Appointment_Module
         private clsAppointment objAppointment;
         private clsDataWork_AppointmentDetail objDataWork_AppointmentDetail;
         private clsTransaction_AppointmentDetail objTransaction_AppointmentDetail;
+        private clsTransaction objTransaction;
+        private clsRelationConfig objRelationConfig;
         private clsLocalConfig objLocalConfig;
 
         private UserControl_OItemList objUserControl_Partner;
@@ -25,6 +28,20 @@ namespace Appointment_Module
         private UserControl_OItemList objUserControl_Location;
         private UserControl_OItemList objUserControl_Room;
 
+        private UserControl_SingleViewer objUserControl_PDF;
+        private UserControl_SingleViewer objUserControl_Image;
+        private UserControl_SingleViewer objUserControl_MediaItem;
+
+
+        public void ToggleVisibilityContacts(bool visible)
+        {
+            splitContainer1.Panel1Collapsed = !visible;
+        }
+
+        public void ToggleVisibilityResources(bool visible)
+        {
+            splitContainer1.Panel2Collapsed = !visible;
+        }
 
         public UserControl_AppointmentData(clsLocalConfig LocalConfig)
         {
@@ -40,7 +57,7 @@ namespace Appointment_Module
             clear_Controls();
             objAppointment = Appointment;
 
-
+            objUserControl_Address.Selection_Changed += objUserControl_Address_Selection_Changed;
             if (objAppointment != null)
             {
                 comboBox_User.SelectedValue = objAppointment.OItem_User.GUID;
@@ -73,6 +90,9 @@ namespace Appointment_Module
                     dateTimePicker_Ende.Enabled = true;
                     objDataWork_AppointmentDetail.initialize_AppointmentDetail(objAppointment);
                     timer_Contacts.Start();
+                    timer_Resources.Start();
+
+                    Configure_TabPages();
                 }
                 else
                 {
@@ -87,9 +107,94 @@ namespace Appointment_Module
             
         }
 
+        void Configure_TabPages()
+        {
+            if (tabControl_Appointments.SelectedTab.Name == tabPage_Images.Name)
+            {
+                if (objAppointment != null)
+                {
+                    var objOItem_Appointment = new clsOntologyItem
+                    {
+                        GUID = objAppointment.ID_Appointment,
+                        Name = objAppointment.Name_Appointment,
+                        GUID_Parent = objLocalConfig.OItem_type_appointment.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+
+                    objUserControl_Image.initialize_Image(objOItem_Appointment);
+                }
+                else
+                {
+                    objUserControl_Image.clear_Media();
+                }
+
+            }
+            else if (tabControl_Appointments.SelectedTab.Name == tabPage_MediaItems.Name)
+            {
+                if (objAppointment != null)
+                {
+                    var objOItem_Appointment = new clsOntologyItem
+                    {
+                        GUID = objAppointment.ID_Appointment,
+                        Name = objAppointment.Name_Appointment,
+                        GUID_Parent = objLocalConfig.OItem_type_appointment.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+
+                    objUserControl_MediaItem.initialize_MediaItem(objOItem_Appointment);
+                }
+                else
+                {
+                    objUserControl_MediaItem.clear_Media();
+                }
+            }
+            else if (tabControl_Appointments.SelectedTab.Name == tabPage_PDF.Name)
+            {
+                if (objAppointment != null)
+                {
+                    var objOItem_Appointment = new clsOntologyItem
+                    {
+                        GUID = objAppointment.ID_Appointment,
+                        Name = objAppointment.Name_Appointment,
+                        GUID_Parent = objLocalConfig.OItem_type_appointment.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+
+                    objUserControl_PDF.initialize_PDF(objOItem_Appointment);
+                }
+                else
+                {
+                    objUserControl_PDF.clear_Media();
+                }
+            }
+        }
+
+        void objUserControl_Address_Selection_Changed()
+        {
+            if (objUserControl_Address.DataGridViewRowCollection_Selected.Count > 0)
+            {
+                toolStripButton_AddNamedResource.Enabled = true;
+            }
+        }
+
 
         private void initialize()
         {
+
+            objUserControl_PDF = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.PDF, objLocalConfig.OItem_User);
+            objUserControl_PDF.Dock = DockStyle.Fill;
+            tabPage_PDF.Controls.Add(objUserControl_PDF);
+
+            objUserControl_Image = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.Image, objLocalConfig.OItem_User);
+            objUserControl_Image.Dock = DockStyle.Fill;
+            tabPage_Images.Controls.Add(objUserControl_Image);
+
+            objUserControl_MediaItem = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.MediaItem, objLocalConfig.OItem_User);
+            objUserControl_MediaItem.Dock = DockStyle.Fill;
+            tabPage_MediaItems.Controls.Add(objUserControl_MediaItem);
+
+            objTransaction = new clsTransaction(objLocalConfig.Globals);
+            objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
             objDataWork_AppointmentDetail = new clsDataWork_AppointmentDetail(objLocalConfig);
             objUserControl_Address = new UserControl_OItemList(objLocalConfig.Globals);
             objUserControl_Address.initialize(new clsOntologyItem()
@@ -130,7 +235,7 @@ namespace Appointment_Module
             objUserControl_AddressDetail = new UserControl_Address(objLocalConfig.Globals);
             objUserControl_AddressDetail.Dock = DockStyle.Fill;
             splitContainer_Resource.Panel2.Controls.Add(objUserControl_AddressDetail);
-
+            
             
             comboBox_User.Enabled = false;
             comboBox_User.DataSource = objDataWork_AppointmentDetail.OList_Users;
@@ -359,6 +464,147 @@ namespace Appointment_Module
         private void dateTimePicker_Ende_ValueChanged(object sender, EventArgs e)
         {
             SaveEnde();
+        }
+
+        private void timer_Resources_Tick(object sender, EventArgs e)
+        {
+            if (objDataWork_AppointmentDetail.OItem_Result_Resources.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
+            {
+                toolStripProgressBar_Resources.Value = 50;
+            }
+            else if (objDataWork_AppointmentDetail.OItem_Result_Resources.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                toolStripProgressBar_Resources.Value = 0;
+                timer_Resources.Stop();
+                dataGridView_Resource.DataSource = objDataWork_AppointmentDetail.OList_Resources;
+                dataGridView_Resource.Columns[0].Visible = false;
+                dataGridView_Resource.Columns[2].Visible = false;
+
+                toolStripButton_AddResource.Enabled = true;
+            }
+            else
+            {
+                toolStripProgressBar_Resources.Value = 0;
+                timer_Resources.Stop();
+                dataGridView_Resource.DataSource = null;
+                MessageBox.Show(this, "Die Resourcen konnten nicht ausgelesen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
+
+        }
+
+        private void toolStripButton_AddNamedResource_Click(object sender, EventArgs e)
+        {
+            if (objAppointment == null) return;
+
+            var classResource = "";
+
+            var intToDo = objUserControl_Address.DataGridViewRowCollection_Selected.Count;
+            var intDone = 0;
+
+            DataGridViewSelectedRowCollection dataGridViewRowCollection;
+            if (tabControl1.SelectedTab.Name == tabPage_Address.Name)
+            {
+                dataGridViewRowCollection = objUserControl_Address.DataGridViewRowCollection_Selected;
+                classResource = objLocalConfig.OItem_type_address.Name;
+            }
+            else if (tabControl1.SelectedTab.Name == tabPage_Ort.Name)
+            {
+                dataGridViewRowCollection = objUserControl_Location.DataGridViewRowCollection_Selected;
+                classResource = objLocalConfig.OItem_type_ort.Name;
+            }
+            else
+            {
+                dataGridViewRowCollection = objUserControl_Room.DataGridViewRowCollection_Selected;
+                classResource = objLocalConfig.OItem_type_raum.Name;
+            }
+
+            foreach (DataGridViewRow gridRow in dataGridViewRowCollection)
+            {
+                DataRowView row = (DataRowView) gridRow.DataBoundItem;
+                objTransaction.ClearItems();
+                clsOntologyItem namedResource;
+
+                namedResource = new clsOntologyItem
+                {
+                    GUID = row["ID_Item"].ToString(),
+                    Name = row["Name"].ToString(),
+                    GUID_Parent = row["ID_Parent"].ToString(),
+                    Type = objLocalConfig.Globals.Type_Object
+                };
+                
+                var objOItem_Appointment = new clsOntologyItem
+                {
+                    GUID = objAppointment.ID_Appointment,
+                    Name = objAppointment.Name_Appointment,
+                    GUID_Parent = objLocalConfig.OItem_type_appointment.GUID,
+                    Type = objLocalConfig.Globals.Type_Object
+                };
+
+                var objRel_Appointment_To_Address = objRelationConfig.Rel_ObjectRelation(objOItem_Appointment,
+                    namedResource,
+                    objLocalConfig.OItem_relationtype_located_at);
+
+                var objOItem_Result = objTransaction.do_Transaction(objRel_Appointment_To_Address, true);
+
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    objDataWork_AppointmentDetail.OList_Resources.Add(new clsResource
+                    {
+                        ID_Resource = namedResource.GUID,
+                        Name_Resource = namedResource.Name,
+                        ID_Class_Resource = namedResource.GUID_Parent,
+                        Name_Class_Resource = classResource
+                    });
+
+                    intDone++;
+
+
+                }
+
+            }
+
+            if (intToDo > intDone)
+            {
+                MessageBox.Show(this, "Es konnten nur " + intDone + " von " + intToDo + " Objekte der Klasse " + classResource + " hinzugefügt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        private void dataGridView_Resource_SelectionChanged(object sender, EventArgs e)
+        {
+            objUserControl_AddressDetail.Enabled = false;
+
+            if (dataGridView_Resource.SelectedRows.Count==1)
+            {
+                var dataGridViewRow = (DataGridViewRow)dataGridView_Resource.SelectedRows[0];
+                var objResource = (clsResource)dataGridViewRow.DataBoundItem;
+
+                if (objResource.ID_Class_Resource == objLocalConfig.OItem_type_address.GUID)
+                {
+                    var objOItem_Address = new clsOntologyItem
+                    {
+                        GUID = objResource.ID_Resource,
+                        Name = objResource.Name_Resource,
+                        GUID_Parent = objLocalConfig.OItem_type_address.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+
+                    objUserControl_AddressDetail.initialize_Address(null, objOItem_Address);
+                    objUserControl_AddressDetail.Enabled = true;
+                }
+                
+            }
+            
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabControl_Appointments_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Configure_TabPages();
         }
     }
 }

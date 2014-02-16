@@ -34,6 +34,13 @@ Public Class UserControl_Address
         End If
     End Sub
 
+    Public Sub initialize_Address(ByVal OItem_Partner As clsOntologyItem, OItem_Address As clsOntologyItem)
+        objOItem_Partner = OItem_Address
+
+        objDataWork_Address.get_Data_Address(objOItem_Partner, OItem_Address)
+        Timer_Address.Start()
+    End Sub
+
     Public Sub clear_Controls()
         Button_AddZusatz.Enabled = False
         Button_DelZusatz.Enabled = False

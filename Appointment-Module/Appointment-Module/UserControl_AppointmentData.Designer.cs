@@ -59,6 +59,8 @@
             this.toolStripButton_RemWatcher = new System.Windows.Forms.ToolStripButton();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
+            this.toolStrip4 = new System.Windows.Forms.ToolStrip();
+            this.toolStripProgressBar_Resources = new System.Windows.Forms.ToolStripProgressBar();
             this.splitContainer_Resource = new System.Windows.Forms.SplitContainer();
             this.dataGridView_Resource = new System.Windows.Forms.DataGridView();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
@@ -70,7 +72,11 @@
             this.tabPage_Address = new System.Windows.Forms.TabPage();
             this.tabPage_Ort = new System.Windows.Forms.TabPage();
             this.tabPage_Raum = new System.Windows.Forms.TabPage();
+            this.tabPage_Images = new System.Windows.Forms.TabPage();
+            this.tabPage_MediaItems = new System.Windows.Forms.TabPage();
+            this.tabPage_PDF = new System.Windows.Forms.TabPage();
             this.timer_Contacts = new System.Windows.Forms.Timer(this.components);
+            this.timer_Resources = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl_Appointments.SuspendLayout();
@@ -93,9 +99,11 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            this.toolStripContainer2.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer2.ContentPanel.SuspendLayout();
             this.toolStripContainer2.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer2.SuspendLayout();
+            this.toolStrip4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Resource)).BeginInit();
             this.splitContainer_Resource.Panel1.SuspendLayout();
             this.splitContainer_Resource.SuspendLayout();
@@ -192,12 +200,16 @@
             // tabControl_Appointments
             // 
             this.tabControl_Appointments.Controls.Add(this.tabPage_BaseData);
+            this.tabControl_Appointments.Controls.Add(this.tabPage_Images);
+            this.tabControl_Appointments.Controls.Add(this.tabPage_MediaItems);
+            this.tabControl_Appointments.Controls.Add(this.tabPage_PDF);
             this.tabControl_Appointments.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl_Appointments.Location = new System.Drawing.Point(3, 33);
             this.tabControl_Appointments.Name = "tabControl_Appointments";
             this.tabControl_Appointments.SelectedIndex = 0;
             this.tabControl_Appointments.Size = new System.Drawing.Size(995, 459);
             this.tabControl_Appointments.TabIndex = 1;
+            this.tabControl_Appointments.SelectedIndexChanged += new System.EventHandler(this.tabControl_Appointments_SelectedIndexChanged);
             // 
             // tabPage_BaseData
             // 
@@ -417,12 +429,15 @@
             // 
             // toolStripContainer2
             // 
-            this.toolStripContainer2.BottomToolStripPanelVisible = false;
+            // 
+            // toolStripContainer2.BottomToolStripPanel
+            // 
+            this.toolStripContainer2.BottomToolStripPanel.Controls.Add(this.toolStrip4);
             // 
             // toolStripContainer2.ContentPanel
             // 
             this.toolStripContainer2.ContentPanel.Controls.Add(this.splitContainer_Resource);
-            this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(624, 183);
+            this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(624, 158);
             this.toolStripContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer2.LeftToolStripPanelVisible = false;
             this.toolStripContainer2.Location = new System.Drawing.Point(0, 0);
@@ -436,6 +451,21 @@
             // 
             this.toolStripContainer2.TopToolStripPanel.Controls.Add(this.toolStrip2);
             // 
+            // toolStrip4
+            // 
+            this.toolStrip4.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBar_Resources});
+            this.toolStrip4.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip4.Name = "toolStrip4";
+            this.toolStrip4.Size = new System.Drawing.Size(114, 25);
+            this.toolStrip4.TabIndex = 0;
+            // 
+            // toolStripProgressBar_Resources
+            // 
+            this.toolStripProgressBar_Resources.Name = "toolStripProgressBar_Resources";
+            this.toolStripProgressBar_Resources.Size = new System.Drawing.Size(100, 22);
+            // 
             // splitContainer_Resource
             // 
             this.splitContainer_Resource.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -446,7 +476,7 @@
             // splitContainer_Resource.Panel1
             // 
             this.splitContainer_Resource.Panel1.Controls.Add(this.dataGridView_Resource);
-            this.splitContainer_Resource.Size = new System.Drawing.Size(624, 183);
+            this.splitContainer_Resource.Size = new System.Drawing.Size(624, 158);
             this.splitContainer_Resource.SplitterDistance = 208;
             this.splitContainer_Resource.TabIndex = 0;
             // 
@@ -459,8 +489,9 @@
             this.dataGridView_Resource.Location = new System.Drawing.Point(0, 0);
             this.dataGridView_Resource.Name = "dataGridView_Resource";
             this.dataGridView_Resource.ReadOnly = true;
-            this.dataGridView_Resource.Size = new System.Drawing.Size(204, 179);
+            this.dataGridView_Resource.Size = new System.Drawing.Size(204, 154);
             this.dataGridView_Resource.TabIndex = 0;
+            this.dataGridView_Resource.SelectionChanged += new System.EventHandler(this.dataGridView_Resource_SelectionChanged);
             // 
             // toolStrip2
             // 
@@ -496,6 +527,7 @@
             this.toolStripButton_AddNamedResource.Name = "toolStripButton_AddNamedResource";
             this.toolStripButton_AddNamedResource.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_AddNamedResource.Text = "toolStripButton1";
+            this.toolStripButton_AddNamedResource.Click += new System.EventHandler(this.toolStripButton_AddNamedResource_Click);
             // 
             // toolStripButton_RemResource
             // 
@@ -548,10 +580,46 @@
             this.tabPage_Raum.Text = "x_Raum";
             this.tabPage_Raum.UseVisualStyleBackColor = true;
             // 
+            // tabPage_Images
+            // 
+            this.tabPage_Images.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Images.Name = "tabPage_Images";
+            this.tabPage_Images.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Images.Size = new System.Drawing.Size(987, 433);
+            this.tabPage_Images.TabIndex = 1;
+            this.tabPage_Images.Text = "x_Images";
+            this.tabPage_Images.UseVisualStyleBackColor = true;
+            this.tabPage_Images.Click += new System.EventHandler(this.tabPage1_Click);
+            // 
+            // tabPage_MediaItems
+            // 
+            this.tabPage_MediaItems.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_MediaItems.Name = "tabPage_MediaItems";
+            this.tabPage_MediaItems.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_MediaItems.Size = new System.Drawing.Size(987, 433);
+            this.tabPage_MediaItems.TabIndex = 2;
+            this.tabPage_MediaItems.Text = "x_Media-Items";
+            this.tabPage_MediaItems.UseVisualStyleBackColor = true;
+            // 
+            // tabPage_PDF
+            // 
+            this.tabPage_PDF.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_PDF.Name = "tabPage_PDF";
+            this.tabPage_PDF.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_PDF.Size = new System.Drawing.Size(987, 433);
+            this.tabPage_PDF.TabIndex = 3;
+            this.tabPage_PDF.Text = "x_PDF";
+            this.tabPage_PDF.UseVisualStyleBackColor = true;
+            // 
             // timer_Contacts
             // 
             this.timer_Contacts.Interval = 300;
             this.timer_Contacts.Tick += new System.EventHandler(this.timer_Contacts_Tick);
+            // 
+            // timer_Resources
+            // 
+            this.timer_Resources.Interval = 300;
+            this.timer_Resources.Tick += new System.EventHandler(this.timer_Resources_Tick);
             // 
             // UserControl_AppointmentData
             // 
@@ -588,11 +656,15 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            this.toolStripContainer2.BottomToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer2.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer2.ContentPanel.ResumeLayout(false);
             this.toolStripContainer2.TopToolStripPanel.ResumeLayout(false);
             this.toolStripContainer2.TopToolStripPanel.PerformLayout();
             this.toolStripContainer2.ResumeLayout(false);
             this.toolStripContainer2.PerformLayout();
+            this.toolStrip4.ResumeLayout(false);
+            this.toolStrip4.PerformLayout();
             this.splitContainer_Resource.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Resource)).EndInit();
             this.splitContainer_Resource.ResumeLayout(false);
@@ -648,6 +720,12 @@
         private System.Windows.Forms.ToolStrip toolStrip3;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar_Contacts;
         private System.Windows.Forms.Timer timer_Contacts;
+        private System.Windows.Forms.Timer timer_Resources;
+        private System.Windows.Forms.ToolStrip toolStrip4;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar_Resources;
+        private System.Windows.Forms.TabPage tabPage_Images;
+        private System.Windows.Forms.TabPage tabPage_MediaItems;
+        private System.Windows.Forms.TabPage tabPage_PDF;
 
     }
 }

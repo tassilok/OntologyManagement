@@ -107,5 +107,39 @@ namespace Appointment_Module
             AboutBox = new AboutBox_OntologyItem();
             AboutBox.ShowDialog(this);
         }
+
+        private void toolStripButton_Contacts_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (toolStripButton_Contacts.Checked)
+            {
+                objUserControl_AppointmentData.ToggleVisibilityContacts(true);
+                splitContainer1.Panel2Collapsed = false;
+            }
+            else
+            {
+                objUserControl_AppointmentData.ToggleVisibilityContacts(false);
+                if (!toolStripButton_Resources.Checked)
+                {
+                    splitContainer1.Panel2Collapsed = true;
+                }
+            }
+        }
+
+        private void toolStripButton_Resources_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (toolStripButton_Resources.Checked)
+            {
+                objUserControl_AppointmentData.ToggleVisibilityResources(true);
+                splitContainer1.Panel2Collapsed = false;
+            }
+            else
+            {
+                objUserControl_AppointmentData.ToggleVisibilityResources(false);
+                if (!toolStripButton_Contacts.Checked)
+                {
+                    splitContainer1.Panel2Collapsed = true;
+                }
+            }
+        }
     }
 }
