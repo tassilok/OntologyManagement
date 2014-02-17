@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Class">
+  <Item Id="f138685d1ad9482cb54fc2df389276a2" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Import-Redmine-Projects]]></Item>
+<Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
+<Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
+<Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
+<Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="aa616051e5214facabdbcbba6f8c6e73" Id_Parent="b5224e7f7d0d4beebf8eb9a0eeba5747"><![CDATA[Module]]></Item>
+<Item Id="1d9568afb6da49908f4d907dfdd30749" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Logstate]]></Item>
+<Item Id="094d728d6efc463c85c72dcfed903c78" Id_Parent="4b335d37208742f6a680a1b03e35d73c"><![CDATA[Url]]></Item>
+<Item Id="1233afbe60bf40e7922864ca4013b75c" Id_Parent="d79c764de946454c8e91054ca1471cf2"><![CDATA[Indexes (Elastic-Search)]]></Item>
+<Item Id="ca4eff30a40b476d99069f56a67c8cf9" Id_Parent="9b0eeaffd3924596a266ed29f177f7eb"><![CDATA[Port]]></Item>
+<Item Id="b3aa70e2b2824ed6a6e4ccbb281c9451" Id_Parent="e1e77ddf433c46b3b1b4fd89c7b62bcb"><![CDATA[Project-ID]]></Item>
+<Item Id="9ba24283a0ad4717be306f0f3818c36c" Id_Parent="9b0eeaffd3924596a266ed29f177f7eb"><![CDATA[Server:Port]]></Item>
+<Item Id="e1e77ddf433c46b3b1b4fd89c7b62bcb" Id_Parent="2865ece5e28846b8b70cb441592afb29"><![CDATA[Project (Redmine)]]></Item>
+<Item Id="d7a03a35875142b48e0519fc7a77ee91" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Server]]></Item>
+<Item Id="2865ece5e28846b8b70cb441592afb29" Id_Parent="41093c72d808491b86fccc1b6c0bd22f"><![CDATA[Redmine]]></Item>
+<Item Id="d79c764de946454c8e91054ca1471cf2" Id_Parent="4546225bab044036b2182e95a25a0c2b"><![CDATA[ElasticSearch]]></Item>
+<Item Id="b5224e7f7d0d4beebf8eb9a0eeba5747" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Module-Management]]></Item>
+<Item Id="9b0eeaffd3924596a266ed29f177f7eb" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Infrastructure]]></Item>
+<Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
+<Item Id="4b335d37208742f6a680a1b03e35d73c" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Web-Management]]></Item>
+<Item Id="4546225bab044036b2182e95a25a0c2b" Id_Parent="73e32abfe5774d319a46bc07e9e15de3"><![CDATA[Application]]></Item>
+<Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
+<Item Id="41093c72d808491b86fccc1b6c0bd22f" Id_Parent="7c3385f938a44a93903d4b1a8f838034"><![CDATA[Project]]></Item>
+<Item Id="7c3385f938a44a93903d4b1a8f838034" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Project-Management]]></Item>
+<Item Id="73e32abfe5774d319a46bc07e9e15de3" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Software-Management]]></Item>
+
+</Items>

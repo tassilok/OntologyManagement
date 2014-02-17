@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="6a0fa1ca9ecd4b0b8d7d267fc8e0c749" Id_Parent="f138685d1ad9482cb54fc2df389276a2"><![CDATA[BaseConfig]]></Item>
+<Item Id="12016aa9e1a643aa9d736ff1e6c478bf" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Import-Redmine-Projects]]></Item>
+<Item Id="98dfb5a5222d4dac895b96127fc34b70" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongs_to]]></Item>
+<Item Id="788b822425be4cea9ba554dc62a31cd6" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Source]]></Item>
+<Item Id="41e18df611294714acd2ef4c9c118fb3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is_in_State]]></Item>
+<Item Id="34bb230d28f6489db82eedfa0dbb1d10" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_identified_by]]></Item>
+<Item Id="9bcf335e21e24b7d8f9ac180f3a778a8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Url]]></Item>
+<Item Id="df0476839fc7430ba9bcf92f80a16a11" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Logstate]]></Item>
+<Item Id="0b24c027c8ef4a369e29e2969fbaecce" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Indexes__Elastic_Search_]]></Item>
+<Item Id="7fcdb81ff337432da5475e8c1c99c47c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Port]]></Item>
+<Item Id="0ad3a3994da3447998158a011cd5444d" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Project_ID]]></Item>
+<Item Id="f52d99305d5c412fa52b99a68ebdcc10" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Import_Redmine_Projects]]></Item>
+<Item Id="4291192a1d0949ee8f242c7dfb5aa0c4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Server_Port]]></Item>
+<Item Id="cd0d7499abe94fc39c7f8464ecd04071" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Project__Redmine_]]></Item>
+<Item Id="c297abb5884a41adaf813c0d72b569ad" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Server]]></Item>
+<Item Id="f23fd2d5a44c4c84819a3d67e60a722f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Active]]></Item>
+<Item Id="a12f2aac891749aba4796c024d8fadbd" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Closed]]></Item>
+<Item Id="642083252dcb457e9140ddb398d9fe37" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Import_Redmine_Projects]]></Item>
+<Item Id="aabfd0bc070f43d09ea20f7ba13612ce" Id_Parent="1d9568afb6da49908f4d907dfdd30749"><![CDATA[Active]]></Item>
+<Item Id="7755e4273300409da521872ee823d488" Id_Parent="1d9568afb6da49908f4d907dfdd30749"><![CDATA[Closed]]></Item>
+<Item Id="e0995f582d0147fc8034507796a6f73f" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Import-Redmine-Projects]]></Item>
+
+</Items>

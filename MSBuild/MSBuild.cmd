@@ -29,3 +29,5 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Docume
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Schriftverkehrs-Module\Schriftverkehrs-Module.sln
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\LiteraturQuellen-Module\LiteraturQuellen-Module.sln
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Checklist-Module\Checklist-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\TextFileExport-Module\TextFileExport-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Import_Redmine-Projects\Import_Redmine-Projects.sln
