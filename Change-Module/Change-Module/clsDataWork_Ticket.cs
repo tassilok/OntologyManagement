@@ -753,6 +753,11 @@ namespace Change_Module
                             objTreeNode_Sub.Checked = true;
                         }
                     }
+                    objOItem_Result = GetIncidentsOfProcessLog(objTreeNode_Sub);
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                    {
+                        break;
+                    }
 
                     objOItem_Result = GetSubProcesses(objTreeNode_Sub, objSubNode.obj.ID_Object, objOItem_Ticket);
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
@@ -760,11 +765,7 @@ namespace Change_Module
                         break;
                     }
 
-                    //objOItem_Result = GetIncidentsOfProcessLog(objTreeNode_Sub);
-                    //if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
-                    //{
-                    //    break;
-                    //}
+                    
                 }
             }
             else
@@ -1074,7 +1075,7 @@ namespace Change_Module
 
             var objLIncidents = (from obj in objDBLevel_Incidents.OList_ObjectRel
                                 where obj.ID_Object == objTreeNode_Parent.Name
-                                 select obj).GroupBy(i => new { i.ID_Other, i.Name_Other }).ToList();
+                                 select obj).OrderBy(n => n.OrderID).ThenBy(n => n.Name_Other).GroupBy(i => new { i.ID_Other, i.Name_Other }).ToList();
 
             
             foreach (var objIncident in objLIncidents)
