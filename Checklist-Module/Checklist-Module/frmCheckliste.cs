@@ -58,7 +58,7 @@ namespace Checklist_Module
             objUserControl_Report.Dock = DockStyle.Fill;
             objUserControl_Report.DataLoaded += objUserControl_Report_DataLoaded;
             objUserControl_Report.SelectionChanged += objUserControl_Report_SelectionChanged;
-            toolStripContainer1.ContentPanel.Controls.Add(objUserControl_Report);
+            splitContainer1.Panel1.Controls.Add(objUserControl_Report);
             objOList_LogEntries = objDataWork_LogEntry.get_Data_LogEntries();
             objLogManagement = new clsLogManagement(objLocalConfig.Globals);
             objTransaction = new clsTransaction(objLocalConfig.Globals);
@@ -89,7 +89,34 @@ namespace Checklist_Module
                 if (objUserControl_Report.DataGridViewRow_Selected.Count == 1)
                 {
                     DataGridViewRow row = objUserControl_Report.DataGridViewRow_Selected[0];
-                    if (row.Cells["Message"] != null) ;
+                    if (row.Cells["DateTimeStamp_Success"] != null)
+                    {
+                        textBox_DateTimeStamp.Text = row.Cells["DateTimeStamp_Success"].Value.ToString();
+                    }
+                    else if (row.Cells["DateTimeStamp_Pause"] != null && row.Cells["DateTimeStamp_Error"] != null)
+                    {
+                        DateTime dateTimeLast1 = (DateTime)row.Cells["DateTimeStamp_Pause"].Value;
+                        DateTime dateTimeLast2 = (DateTime)row.Cells["DateTimeStamp_Error"].Value;
+                        if (dateTimeLast1 >= dateTimeLast2)
+                        {
+                            textBox_DateTimeStamp.Text = dateTimeLast1.ToString();
+                        }
+                        else
+                        {
+                            textBox_DateTimeStamp.Text = dateTimeLast2.ToString();
+                        }
+                    }
+                    else if (row.Cells["DateTimeStamp_Pause"] != null && row.Cells["DateTimeStamp_Error"] == null)
+                    {
+                        textBox_DateTimeStamp.Text = row.Cells["DateTimeStamp_Pause"].Value.ToString();
+                    }
+                    else if (row.Cells["DateTimeStamp_Pause"] == null && row.Cells["DateTimeStamp_Error"] != null)
+                    {
+                        textBox_DateTimeStamp.Text = row.Cells["DateTimeStamp_Error"].Value.ToString();
+                    }
+
+                    if (row.Cells["Message"] != null)
+                        textBox_Message.Text = row.Cells["Message"].Value.ToString();
 
 
                 }
@@ -122,6 +149,7 @@ namespace Checklist_Module
                 {
                     boolLogEntry_Pause = true;
                 }
+
             }
 
             if (!columnList.Any(p => p.ColumnName == "ToDo"))
@@ -145,6 +173,14 @@ namespace Checklist_Module
                 objDataColumnStarted.DataType = typeof(Boolean);
                 objDataTable.Columns.Add(objDataColumnStarted);
             }
+            
+            if (!columnList.Any(p => p.ColumnName == "Message"))
+            {
+
+                var objDataColumnMessage = new DataColumn("Message");
+                objDataColumnMessage.DataType = typeof(String);
+                objDataTable.Columns.Add(objDataColumnMessage);
+            }
 
             if (!boolLogEntry_Succes)
             {
@@ -166,6 +202,7 @@ namespace Checklist_Module
                 }
                 if (!columnList.Any(p => p.ColumnName == "DateTimeStamp_Success"))
                 {
+                    
                     var objDataColumn3 = new DataColumn("DateTimeStamp_Success");
                     objDataColumn3.DataType = typeof(DateTime);
                     objDataTable.Columns.Add(objDataColumn3);
@@ -386,6 +423,7 @@ namespace Checklist_Module
                             item["ToDo"] = false;
                             
                             dateTimeDone = (DateTime)objOList_LogEntries_Success.First().DateTimeStamp;
+                            item["Message"] = objOList_LogEntries_Success.First().Message; 
                             item["Success_Year"] = objOList_LogEntries_Success.First().DateTimeStamp.Value.Year;
                             item["Success_Month"] = objOList_LogEntries_Success.First().DateTimeStamp.Value.Month;
                             item["Success_Day"] = objOList_LogEntries_Success.First().DateTimeStamp.Value.Day;
@@ -404,6 +442,7 @@ namespace Checklist_Module
                             if (dateTimeDone < (DateTime)objOList_LogEntries_Error.First().DateTimeStamp)
                             {
                                 dateTimeDone = (DateTime)objOList_LogEntries_Error.First().DateTimeStamp;
+                                item["Message"] = objOList_LogEntries_Error.First().Message;
                                 item["IsDone"] = false;
                                 item["ToDo"] = true;
                                 item["Started"] = true;
@@ -427,7 +466,9 @@ namespace Checklist_Module
 
                             if (dateTimeDone < (DateTime)objOList_LogEntries_Pause.First().DateTimeStamp)
                             {
+                                
                                 dateTimeDone = (DateTime)objOList_LogEntries_Pause.First().DateTimeStamp;
+                                item["Message"] = objOList_LogEntries_Pause.First().Message;
                                 item["IsDone"] = false;
                                 item["ToDo"] = true;
                                 item["Started"] = true;
