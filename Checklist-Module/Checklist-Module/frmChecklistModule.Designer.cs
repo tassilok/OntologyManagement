@@ -115,6 +115,7 @@
             this.dataGridView_Checklists.ReadOnly = true;
             this.dataGridView_Checklists.Size = new System.Drawing.Size(361, 407);
             this.dataGridView_Checklists.TabIndex = 0;
+            this.dataGridView_Checklists.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Checklists_CellMouseDoubleClick);
             this.dataGridView_Checklists.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Checklists_RowHeaderMouseDoubleClick);
             // 
             // toolStrip2
@@ -124,7 +125,7 @@
             this.toolStripButton_Active});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(97, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(66, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripButton_Active
