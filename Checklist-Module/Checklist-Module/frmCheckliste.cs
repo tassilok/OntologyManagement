@@ -69,6 +69,8 @@ namespace Checklist_Module
             toolStripButton_Success.Enabled = false;
             toolStripButton_Error.Enabled = false;
             toolStripButton_Pause.Enabled = false;
+            textBox_DateTimeStamp.Text = "";
+            textBox_Message.Text = "";
 
             if (objUserControl_Report.DataGridViewRow_Selected.Count > 0)
             {
@@ -83,6 +85,14 @@ namespace Checklist_Module
                 
                 toolStripButton_Error.Enabled = true;
                 toolStripButton_Pause.Enabled = true;
+
+                if (objUserControl_Report.DataGridViewRow_Selected.Count == 1)
+                {
+                    DataGridViewRow row = objUserControl_Report.DataGridViewRow_Selected[0];
+                    if (row.Cells["Message"] != null) ;
+
+
+                }
             }
         }
 
@@ -374,12 +384,13 @@ namespace Checklist_Module
                                                     objOList_LogEntries_Success.First().DateTimeStamp.Value.Day;
                             item["IsDone"] = true;
                             item["ToDo"] = false;
+                            
                             dateTimeDone = (DateTime)objOList_LogEntries_Success.First().DateTimeStamp;
                             item["Success_Year"] = objOList_LogEntries_Success.First().DateTimeStamp.Value.Year;
                             item["Success_Month"] = objOList_LogEntries_Success.First().DateTimeStamp.Value.Month;
                             item["Success_Day"] = objOList_LogEntries_Success.First().DateTimeStamp.Value.Day;
                             item["Success_Week"] = GetCalendarweek(objOList_LogEntries_Success.First().DateTimeStamp.Value);
-                            item["Started"] = true;
+                            
                         }
 
                         if (objOList_LogEntries_Error.Any())
@@ -395,6 +406,7 @@ namespace Checklist_Module
                                 dateTimeDone = (DateTime)objOList_LogEntries_Error.First().DateTimeStamp;
                                 item["IsDone"] = false;
                                 item["ToDo"] = true;
+                                item["Started"] = true;
                             }
 
                             item["Error_Year"] = objOList_LogEntries_Error.First().DateTimeStamp.Value.Year;
@@ -418,13 +430,13 @@ namespace Checklist_Module
                                 dateTimeDone = (DateTime)objOList_LogEntries_Pause.First().DateTimeStamp;
                                 item["IsDone"] = false;
                                 item["ToDo"] = true;
+                                item["Started"] = true;
                             }
 
                             item["Pause_Year"] = objOList_LogEntries_Pause.First().DateTimeStamp.Value.Year;
                             item["Pause_Month"] = objOList_LogEntries_Pause.First().DateTimeStamp.Value.Month;
                             item["Pause_Day"] = objOList_LogEntries_Pause.First().DateTimeStamp.Value.Day;
                             item["Pause_Week"] = GetCalendarweek(objOList_LogEntries_Pause.First().DateTimeStamp.Value);
-                            item["Started"] = true;
                         }
 
                     }
@@ -511,6 +523,7 @@ namespace Checklist_Module
                                                                     objFrmLogDialog.DateTimeStamp.Day;
                                             objDataRow["IsDone"] = false;
                                             objDataRow["ToDo"] = true;
+                                            objDataRow["Started"] = true;
                                             objDataRow["Error_Year"] = objFrmLogDialog.DateTimeStamp.Year;
                                             objDataRow["Error_Month"] = objFrmLogDialog.DateTimeStamp.Month;
                                             objDataRow["Error_Day"] = objFrmLogDialog.DateTimeStamp.Day;
@@ -526,6 +539,7 @@ namespace Checklist_Module
                                                                     objFrmLogDialog.DateTimeStamp.Day;
                                             objDataRow["IsDone"] = false;
                                             objDataRow["ToDo"] = true;
+                                            objDataRow["Started"] = true;
                                             objDataRow["Pause_Year"] = objFrmLogDialog.DateTimeStamp.Year;
                                             objDataRow["Pause_Month"] = objFrmLogDialog.DateTimeStamp.Month;
                                             objDataRow["Pause_Day"] = objFrmLogDialog.DateTimeStamp.Day;
