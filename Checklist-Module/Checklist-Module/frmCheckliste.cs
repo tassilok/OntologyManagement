@@ -89,11 +89,12 @@ namespace Checklist_Module
                 if (objUserControl_Report.DataGridViewRow_Selected.Count == 1)
                 {
                     DataGridViewRow row = objUserControl_Report.DataGridViewRow_Selected[0];
-                    if (row.Cells["DateTimeStamp_Success"] != null)
+                    
+                    if (row.Cells["DateTimeStamp_Success"].Value.ToString() != "")
                     {
                         textBox_DateTimeStamp.Text = row.Cells["DateTimeStamp_Success"].Value.ToString();
                     }
-                    else if (row.Cells["DateTimeStamp_Pause"] != null && row.Cells["DateTimeStamp_Error"] != null)
+                    else if (row.Cells["DateTimeStamp_Pause"].Value.ToString() != "" && row.Cells["DateTimeStamp_Error"].Value.ToString() != "")
                     {
                         DateTime dateTimeLast1 = (DateTime)row.Cells["DateTimeStamp_Pause"].Value;
                         DateTime dateTimeLast2 = (DateTime)row.Cells["DateTimeStamp_Error"].Value;
@@ -106,11 +107,11 @@ namespace Checklist_Module
                             textBox_DateTimeStamp.Text = dateTimeLast2.ToString();
                         }
                     }
-                    else if (row.Cells["DateTimeStamp_Pause"] != null && row.Cells["DateTimeStamp_Error"] == null)
+                    else if (row.Cells["DateTimeStamp_Pause"].Value.ToString() != "" && row.Cells["DateTimeStamp_Error"].Value.ToString() == "")
                     {
                         textBox_DateTimeStamp.Text = row.Cells["DateTimeStamp_Pause"].Value.ToString();
                     }
-                    else if (row.Cells["DateTimeStamp_Pause"] == null && row.Cells["DateTimeStamp_Error"] != null)
+                    else if (row.Cells["DateTimeStamp_Pause"].Value.ToString() == "" && row.Cells["DateTimeStamp_Error"].Value.ToString() != "")
                     {
                         textBox_DateTimeStamp.Text = row.Cells["DateTimeStamp_Error"].Value.ToString();
                     }
@@ -549,6 +550,7 @@ namespace Checklist_Module
                                                                     objFrmLogDialog.DateTimeStamp.Day;
                                             objDataRow["IsDone"] = true;
                                             objDataRow["ToDo"] = false;
+                                            objDataRow["Message"] = objFrmLogDialog.Message;
                                             objDataRow["Success_Year"] = objFrmLogDialog.DateTimeStamp.Year;
                                             objDataRow["Success_Month"] = objFrmLogDialog.DateTimeStamp.Month;
                                             objDataRow["Success_Day"] = objFrmLogDialog.DateTimeStamp.Day;
@@ -565,6 +567,7 @@ namespace Checklist_Module
                                             objDataRow["IsDone"] = false;
                                             objDataRow["ToDo"] = true;
                                             objDataRow["Started"] = true;
+                                            objDataRow["Message"] = objFrmLogDialog.Message;
                                             objDataRow["Error_Year"] = objFrmLogDialog.DateTimeStamp.Year;
                                             objDataRow["Error_Month"] = objFrmLogDialog.DateTimeStamp.Month;
                                             objDataRow["Error_Day"] = objFrmLogDialog.DateTimeStamp.Day;
@@ -581,6 +584,7 @@ namespace Checklist_Module
                                             objDataRow["IsDone"] = false;
                                             objDataRow["ToDo"] = true;
                                             objDataRow["Started"] = true;
+                                            objDataRow["Message"] = objFrmLogDialog.Message;
                                             objDataRow["Pause_Year"] = objFrmLogDialog.DateTimeStamp.Year;
                                             objDataRow["Pause_Month"] = objFrmLogDialog.DateTimeStamp.Month;
                                             objDataRow["Pause_Day"] = objFrmLogDialog.DateTimeStamp.Day;
