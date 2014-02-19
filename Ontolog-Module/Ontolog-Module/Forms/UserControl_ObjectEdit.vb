@@ -481,18 +481,59 @@ Public Class UserControl_ObjectEdit
 
     Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem.Click
         Dim objOList_Objects = New List(Of clsOntologyItem)
+        Dim objOItem_Result As clsOntologyItem
+        
         objOList_Objects.Add(objOItem_Object)
 
-        Dim objOItem_Result = objDBLevel.del_Objects(objOList_Objects)
-        If objOItem_Result.Count > 0 Then
-            MsgBox("Das Objekt konnte nicht gelöscht werden!", MsgBoxStyle.Exclamation)
-            Return
-        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-            MsgBox("Beim Löschen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
-            Return
-        End If
+        If Control.ModifierKeys = Keys.Control Then
+            If MsgBox("Wollen Sie wirklich alle markierten Elemente einschließlich derer Beziehungen löschen?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                
+                Dim objOList_AttributesDel = New List(Of clsObjectAtt) From {New clsObjectAtt With {.ID_Object = objOItem_Object.GUID } }
+                Dim objOList_ObjectsForw = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Object = objOItem_Object.GUID } }
+                Dim objOList_ObjectsBackw = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Other = objOItem_Object.GUID } }
 
-        RaiseEvent deleted_Object()
+                objOItem_Result = objDBLevel.del_ObjectAtt(objOList_AttributesDel)
+                If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    objOItem_Result = objDBLevel.del_ObjectRel(objOList_ObjectsForw)
+                    If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        objOItem_Result = objDBLevel.del_ObjectRel(objOList_ObjectsBackw)
+                        If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                            objOItem_Result = objDBLevel.del_Objects(objOList_Objects)
+                            If objOItem_Result.Count > 0 Then
+                                MsgBox("Es konnten nur " & objOItem_Result.Min & " von " & objOItem_Result.Max1 & " Items gelöscht werden!", MsgBoxStyle.Information)
+                            ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                MsgBox("Beim Löschen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+                            End If
+
+                            RaiseEvent deleted_Object()
+                        Else
+                            MsgBox("Die Elemente konnten nicht gelöscht werden!", MsgBoxStyle.Exclamation)
+                        End If
+                    Else
+                        MsgBox("Die Elemente konnten nicht gelöscht werden!", MsgBoxStyle.Exclamation)
+                    End If
+                Else
+                    MsgBox("Die Elemente konnten nicht gelöscht werden!", MsgBoxStyle.Exclamation)
+                End If
+            End If    
+        Else 
+            
+
+            objOItem_Result = objDBLevel.del_Objects(objOList_Objects)
+            If objOItem_Result.Count > 0 Then
+                MsgBox("Das Objekt konnte nicht gelöscht werden!", MsgBoxStyle.Exclamation)
+                Return
+            ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Beim Löschen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+                Return
+            End If
+
+            RaiseEvent deleted_Object()
+        End If
+        
+        
+
+        
     End Sub
 End Class
 
