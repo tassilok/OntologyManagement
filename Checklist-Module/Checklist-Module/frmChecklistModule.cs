@@ -178,90 +178,95 @@ namespace Checklist_Module
 
         private void dataGridView_Checklists_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (dataGridView_Checklists.Columns[e.ColumnIndex].DataPropertyName == "Name_LogState")
+            if (e.ColumnIndex > -1)
             {
-                var row = dataGridView_Checklists.Rows[e.RowIndex];
-                var objWorkingList = (clsWorkingList) row.DataBoundItem;
+                if (dataGridView_Checklists.Columns[e.ColumnIndex].DataPropertyName == "Name_LogState")
+                {
+                    var row = dataGridView_Checklists.Rows[e.RowIndex];
+                    var objWorkingList = (clsWorkingList)row.DataBoundItem;
 
-                var objOItem_WorkingList = new clsOntologyItem
+                    var objOItem_WorkingList = new clsOntologyItem
                     {
                         GUID = objWorkingList.ID_WorkingList,
                         Name = objWorkingList.Name_WorkingList,
                         GUID_Parent = objLocalConfig.OItem_class_working_lists.GUID,
                         Type = objLocalConfig.Globals.Type_Object
                     };
-               
 
-                objFrmOntologyEditor = new frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class,
-                                                   objLocalConfig.OItem_class_logstate);
-                objFrmOntologyEditor.Applyable = true;
 
-                objFrmOntologyEditor.ShowDialog(this);
+                    objFrmOntologyEditor = new frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class,
+                                                       objLocalConfig.OItem_class_logstate);
+                    objFrmOntologyEditor.Applyable = true;
 
-                if (objFrmOntologyEditor.DialogResult == DialogResult.OK)
-                {
-                    if (objFrmOntologyEditor.Type_Applied == objLocalConfig.Globals.Type_Object)
+                    objFrmOntologyEditor.ShowDialog(this);
+
+                    if (objFrmOntologyEditor.DialogResult == DialogResult.OK)
                     {
-                        if (objFrmOntologyEditor.OList_Simple.Count == 1)
+                        if (objFrmOntologyEditor.Type_Applied == objLocalConfig.Globals.Type_Object)
                         {
-                            if (objFrmOntologyEditor.OList_Simple.First().GUID_Parent ==
-                                objLocalConfig.OItem_class_logstate.GUID)
+                            if (objFrmOntologyEditor.OList_Simple.Count == 1)
                             {
-                                var objLogState = objFrmOntologyEditor.OList_Simple.First();
-
-                                if (objLogState.GUID == objLocalConfig.OItem_object_active.GUID ||
-                                    objLogState.GUID == objLocalConfig.OItem_object_inactive.GUID)
+                                if (objFrmOntologyEditor.OList_Simple.First().GUID_Parent ==
+                                    objLocalConfig.OItem_class_logstate.GUID)
                                 {
-                                    var objORel_WorkingList_To_LogState =
-                                        objRelationConfig.Rel_ObjectRelation(objOItem_WorkingList,
-                                                                             objLogState,
-                                                                             objLocalConfig
-                                                                                 .OItem_relationtype_is_in_state);
+                                    var objLogState = objFrmOntologyEditor.OList_Simple.First();
 
-                                    var objOItem_Result = objTransaction.do_Transaction(
-                                        objORel_WorkingList_To_LogState, true);
-
-                                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                    if (objLogState.GUID == objLocalConfig.OItem_object_active.GUID ||
+                                        objLogState.GUID == objLocalConfig.OItem_object_inactive.GUID)
                                     {
-                                        objWorkingList.ID_LogState = objLogState.GUID;
-                                        objWorkingList.Name_LogState = objLogState.Name;
+                                        var objORel_WorkingList_To_LogState =
+                                            objRelationConfig.Rel_ObjectRelation(objOItem_WorkingList,
+                                                                                 objLogState,
+                                                                                 objLocalConfig
+                                                                                     .OItem_relationtype_is_in_state);
+
+                                        var objOItem_Result = objTransaction.do_Transaction(
+                                            objORel_WorkingList_To_LogState, true);
+
+                                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                        {
+                                            objWorkingList.ID_LogState = objLogState.GUID;
+                                            objWorkingList.Name_LogState = objLogState.Name;
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show(this,
+                                               "Der Logstate konnte nicht gesetzt werden.", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        }
                                     }
                                     else
                                     {
                                         MessageBox.Show(this,
-                                           "Der Logstate konnte nicht gesetzt werden.", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                               "Wählen Sie bitte entweder " + objLocalConfig.OItem_object_active.Name + " oder " + objLocalConfig.OItem_object_inactive.Name + " aus!",
+                                               "Auwahl", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     }
                                 }
                                 else
                                 {
                                     MessageBox.Show(this,
-                                           "Wählen Sie bitte entweder " + objLocalConfig.OItem_object_active.Name + " oder " + objLocalConfig.OItem_object_inactive.Name + " aus!",
-                                           "Auwahl", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                               "Wählen Sie bitte einen " + objLocalConfig.OItem_class_logstate.Name + " aus!",
+                                               "Auwahl", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 }
                             }
                             else
                             {
                                 MessageBox.Show(this,
-                                           "Wählen Sie bitte einen " + objLocalConfig.OItem_class_logstate.Name + " aus!",
-                                           "Auwahl", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                               "Wählen Sie bitte einen " + objLocalConfig.OItem_class_logstate.Name + " aus!",
+                                               "Auwahl", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                             }
                         }
                         else
                         {
                             MessageBox.Show(this,
-                                           "Wählen Sie bitte einen " + objLocalConfig.OItem_class_logstate.Name + " aus!",
-                                           "Auwahl", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            
+                                            "Wählen Sie bitte einen " + objLocalConfig.OItem_class_logstate.Name + " aus!",
+                                            "Auwahl", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
-                    }
-                    else
-                    {
-                        MessageBox.Show(this,
-                                        "Wählen Sie bitte einen " + objLocalConfig.OItem_class_logstate.Name + " aus!",
-                                        "Auwahl", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
+
+            
         }
     }
 }
