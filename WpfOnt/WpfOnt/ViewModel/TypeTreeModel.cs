@@ -14,9 +14,9 @@ namespace WpfOnt.ViewModel
 {
     public class TypeTreeModel : ViewModelBase
     {
-        
 
-        private readonly OServiceClassesSoapClient oServiceClassesSoapClient = new OServiceClassesSoapClient();
+
+        private DbWork dbWork = new DbWork();
 
         public RelayCommand<TreeViewHelper.DependencyPropertyEventArgs> MySelItemChgCmd { get; set; }
 
@@ -102,7 +102,7 @@ namespace WpfOnt.ViewModel
         private void Refresh()
         {
             nodeList = new List<OTreeNode>();
-            classList = new List<clsOntologyItem>(oServiceClassesSoapClient.Classes());
+            classList = dbWork.GetClassList();
             GetONodeList();
             Nodes = nodeList;
         }
