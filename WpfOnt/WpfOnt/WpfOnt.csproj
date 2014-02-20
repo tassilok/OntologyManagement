@@ -62,6 +62,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\DbWork.cs" />
+    <Compile Include="Data\MainViewData.cs" />
     <Compile Include="Data\OTreeNode.cs" />
     <Compile Include="Service References\OServiceAttributeTypes\Reference.cs">
       <AutoGen>True</AutoGen>

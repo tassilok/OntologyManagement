@@ -12,7 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfOnt.Data;
 using WpfOnt.OServiceObjects;
+using WpfOnt.ViewModel;
 
 namespace WpfOnt.View
 {
@@ -21,11 +23,12 @@ namespace WpfOnt.View
     /// </summary>
     public partial class OItemList : UserControl
     {
-        public clsOntologyItem ParentClass { get; set; }
-
         public OItemList()
         {
-            InitializeComponent();
+            var mainData = (MainViewData) DataContext;
+
         }
     }
+
+    
 }

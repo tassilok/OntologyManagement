@@ -30,15 +30,11 @@ namespace WpfOnt
 
         private void TypeTree_OnSelectedNode(OTreeNode otreenode)
         {
-            var oClass = new clsOntologyItem
-                {
-                    GUID = otreenode.Id,
-                    Name = otreenode.Name
-                };
-
-            var model = (MainWindowModel) DataContext;
-            model.ParentClass = oClass;
             
+            var model = (MainWindowModel) DataContext;
+            model.MainData.IdClass = otreenode.Id;
+            //model.ParentClass = oClass;
+
         }
     }
 }

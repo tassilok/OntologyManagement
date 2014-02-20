@@ -16,7 +16,7 @@ namespace WpfOnt.ViewModel
     {
 
 
-        private DbWork dbWork = new DbWork();
+        private readonly DbWork dbWork = new DbWork();
 
         public RelayCommand<TreeViewHelper.DependencyPropertyEventArgs> MySelItemChgCmd { get; set; }
 
@@ -83,6 +83,7 @@ namespace WpfOnt.ViewModel
             }
         }
 
+        
         public TypeTreeModel()
         {
             MySelItemChgCmd = new RelayCommand<TreeViewHelper.DependencyPropertyEventArgs>(TreeViewItemSelectedChangedCallBack);
@@ -102,6 +103,8 @@ namespace WpfOnt.ViewModel
         private void Refresh()
         {
             nodeList = new List<OTreeNode>();
+            if (IsInDesignMode) return;
+
             classList = dbWork.GetClassList();
             GetONodeList();
             Nodes = nodeList;

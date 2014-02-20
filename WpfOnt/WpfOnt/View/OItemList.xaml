@@ -10,7 +10,7 @@
         <viewModel:OItemListModel/>
     </UserControl.DataContext>
     <Grid>
-        <DataGrid HorizontalAlignment="Left" VerticalAlignment="Top" Height="300" Width="300" ItemsSource="{Binding ItemList}"/>
+        <DataGrid ItemsSource="{Binding ItemList}"></DataGrid>
 
     </Grid>
 </UserControl>

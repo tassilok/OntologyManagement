@@ -16,7 +16,8 @@
             <View:TypeTree Grid.Column="0" SelectedNode="TypeTree_OnSelectedNode"/>
         </Border>
         <Border BorderBrush="Black" BorderThickness="2" Grid.Column="1">
-            <View:OItemList Grid.Column="1"></View:OItemList>
+            <View:OItemList Grid.Column="1" DataContext="{Binding MainData}" />
+                
         </Border>
     </Grid>
 </Window>
