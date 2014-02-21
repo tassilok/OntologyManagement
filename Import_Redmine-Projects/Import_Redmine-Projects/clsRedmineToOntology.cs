@@ -124,11 +124,32 @@ namespace Import_Redmine_Projects
                                     if (Projects_Insert.Any())
                                     {
                                         objOItem_Result = objDBLevel_Write.save_Objects(Projects_Insert);
+
                                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                         {
-                                            objOItem_Result = objDataWork_Redmine.GetData_RedmineProjects();
-                                            SyncProjectsFromRedmineToOntology();
+                                            var Project_IDs_Insert = (from objProjectRdm in ProjectList
+                                                                      join objProject in Projects_Insert on
+                                                                          objProjectRdm.Subject equals objProject.Name
+                                                                      join objId in ProjectIdsToInsert on
+                                                                          objProjectRdm.Id.ToString() equals objId.Name
+                                                                      select
+                                                                          objRelationConfig.Rel_ObjectRelation(objProject,
+                                                                                                               objId,
+                                                                                                               objLocalConfig
+                                                                                                                   .OItem_relationtype_identified_by))
+                                                .ToList();
+
+                                            objOItem_Result = objDBLevel_Write.save_ObjRel(Project_IDs_Insert);
+                                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                            {
+                                                objOItem_Result = objDataWork_Redmine.GetData_RedmineProjects();    
+                                            }
+                                            
+                                            
                                         }
+                                        
+
+                                       
                                     }
                                     
                                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
