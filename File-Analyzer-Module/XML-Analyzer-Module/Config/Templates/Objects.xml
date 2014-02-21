@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="35f1bd397e11458ca477b3c08a1bde25" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[XML-Analyzer-Module]]></Item>
+<Item Id="5213bd75510c434b98cfadbcd2978a09" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_Pattern]]></Item>
+<Item Id="e0d019a97a894a2ab9e0655801689093" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is]]></Item>
+<Item Id="dbefc442b8dc4841a694a23f8b92eeb0" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Pattern]]></Item>
+<Item Id="393ea903a8e74b3485ad9ab29ca7d363" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_ToDo]]></Item>
+<Item Id="4033744935c04d5d83b32ba796a20a30" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_XML_Analyzer]]></Item>
+<Item Id="a5620523569841c6bf07bd83fb249370" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Regular_Expressions]]></Item>
+<Item Id="e203c3069dd94e858703a895193e68c4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_XML_File_for_Analyzer]]></Item>
+<Item Id="5cb4abfdd64f4a34976c83735673ac67" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Analyze_Task]]></Item>
+<Item Id="7345b8fe134b43c6a5848da8a2986ba8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Filter_Operation]]></Item>
+<Item Id="4a42ac740317459ab91ded98c6e8ce8f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_File]]></Item>
+<Item Id="527f7fbb377a443b80ced9c1dab50e47" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Hide_Others]]></Item>
+<Item Id="37e2b1cb4ccb49ed89246ac433063f34" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Mark]]></Item>
+<Item Id="ae45e6cc1acf4e41a058ece697b776bf" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Hide]]></Item>
+<Item Id="0d97aa02303d480eba4d6552f960fc64" Id_Parent="e6233c7611384fbf99f67f4798a1f804"><![CDATA[Hide Others]]></Item>
+<Item Id="c388396e126d4e68bfd0f7c14e19d05e" Id_Parent="e6233c7611384fbf99f67f4798a1f804"><![CDATA[Mark]]></Item>
+<Item Id="32b4c5541d884c9ca8e29f3d6ba7ffd0" Id_Parent="e6233c7611384fbf99f67f4798a1f804"><![CDATA[Hide]]></Item>
+
+</Items>
