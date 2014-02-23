@@ -41,7 +41,7 @@ namespace OutlookConnector_Module
         private void Initialize()
         {
             objOutlookConnector = new clsOutlookConnector(objLocalConfig.Globals);
-            objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals,true,false,frmAuthenticate.ERelateMode.NoRelate);
+            objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals,true,false,frmAuthenticate.ERelateMode.NoRelate,true);
             objFrmAuthenticate.ShowDialog(this);
             if (objFrmAuthenticate.DialogResult== System.Windows.Forms.DialogResult.OK)
             {

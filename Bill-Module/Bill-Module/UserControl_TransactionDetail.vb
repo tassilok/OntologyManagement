@@ -438,7 +438,7 @@ Public Class UserControl_TransactionDetail
 
             dblRest = dblRest - objDAtaWork_Payments.Payments_SumPart
 
-            TextBox_Rest.Text = dblRest
+            TextBox_Rest.Text = dblRest.ToString("C2")
         End If
     End Sub
 

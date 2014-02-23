@@ -360,7 +360,13 @@ namespace TextParser
             {
                 
                 objFieldParser = new clsFieldParser(objLocalConfig,fieldList.ToList(),objOItem_TextParser, objDataWork_TextParser.OITem_Type);
-                objFieldParser.OItem_Seperator = objDataWork_TextParser.OItem_LineSeperator;
+                objFieldParser.OList_Seperator = objDataWork_TextParser.OList_LineSeperator.Select(s => new clsOntologyItem
+                {
+                    GUID = s.Id_Value,
+                    Name = s.Value,
+                    GUID_Parent = objLocalConfig.OItem_class_text_seperators.GUID,
+                    Type = objLocalConfig.Globals.Type_Object
+                }).ToList();
                 objFieldParser.Parse();
             }
             GetIndexes();

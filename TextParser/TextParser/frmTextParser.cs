@@ -40,7 +40,7 @@ namespace TextParser
             {
                 objDataWork_BaseData = new clsDataWork_BaseData(objLocalConfig);
                 objDataWork_TextParser = new clsDataWork_TextParser(objLocalConfig);
-                objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals,true,false,frmAuthenticate.ERelateMode.NoRelate);
+                objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals,true,false,frmAuthenticate.ERelateMode.NoRelate,true);
                 objFrmAuthenticate.ShowDialog(this);
                 if (objFrmAuthenticate.DialogResult == DialogResult.OK)
                 {

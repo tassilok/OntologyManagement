@@ -47,7 +47,7 @@ namespace Version_Module
         {
             boolOpen = false;
 
-            objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, false, frmAuthenticate.ERelateMode.NoRelate);
+            objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, false, frmAuthenticate.ERelateMode.NoRelate,true);
             objFrmAuthenticate.ShowDialog(this);
             if (objFrmAuthenticate.DialogResult == DialogResult.OK)
             {

@@ -1,33 +1,33 @@
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Structure-Module\Structure-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\OntologyClasses\OntologyClasses.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\ElasticSearchNestConnector\ElasticSearchNestConnector.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Ontolog-Module\Ontolog-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Filesystem-Module\Filesystem-Module.exe
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Security-Module\Security-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Log-Module\Log-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Localization-Module\Localization-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\ModuleLibrary\ModuleLibrary.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\FileResourceModule\FileResourceModule.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Appointment-Module\Appointment-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Bill-Module\Bill-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Change-Module\Change-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Development-Module\Development-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\EsMaintenance\EsMaintenance.exe
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\GraphMLConnector\GraphMLConnector.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Media-Viewer-Module\Media-Viewer-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Office-Module\Office-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Partner-Module\Partner-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Process-Module\Process-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Report-Module\Report-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Scenes-Literatur-Module\Scenes-Literatur-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Version-Module\Version-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\OutlookConnector-Module\OutlookConnector-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\TimeManagement-Module\TimeManagement-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\SemToOntMigration\SemToOntMigration.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\TextParser\TextParser.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Template-Field-Module\Template-Field-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Schriftverkehrs-Module\Schriftverkehrs-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\LiteraturQuellen-Module\LiteraturQuellen-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Checklist-Module\Checklist-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\TextFileExport-Module\TextFileExport-Module.sln
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe %USERPROFILE%\Documents\GitHub\OntologyManagement\Import_Redmine-Projects\Import_Redmine-Projects.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Structure-Module\Structure-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\OntologyClasses\OntologyClasses.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\ElasticSearchNestConnector\ElasticSearchNestConnector.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Ontolog-Module\Ontolog-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Filesystem-Module\Filesystem-Module.exe
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Security-Module\Security-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Log-Module\Log-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Localization-Module\Localization-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\ModuleLibrary\ModuleLibrary.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\FileResourceModule\FileResourceModule.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Appointment-Module\Appointment-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Bill-Module\Bill-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Change-Module\Change-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Development-Module\Development-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\EsMaintenance\EsMaintenance.exe
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\GraphMLConnector\GraphMLConnector.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Media-Viewer-Module\Media-Viewer-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Office-Module\Office-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Partner-Module\Partner-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Process-Module\Process-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Report-Module\Report-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Scenes-Literatur-Module\Scenes-Literatur-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Version-Module\Version-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\OutlookConnector-Module\OutlookConnector-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\TimeManagement-Module\TimeManagement-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\SemToOntMigration\SemToOntMigration.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\TextParser\TextParser.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Template-Field-Module\Template-Field-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Schriftverkehrs-Module\Schriftverkehrs-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\LiteraturQuellen-Module\LiteraturQuellen-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Checklist-Module\Checklist-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\TextFileExport-Module\TextFileExport-Module.sln
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe /m %USERPROFILE%\Documents\GitHub\OntologyManagement\Import_Redmine-Projects\Import_Redmine-Projects.sln

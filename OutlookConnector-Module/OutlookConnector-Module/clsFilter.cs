@@ -19,7 +19,7 @@ namespace OutlookConnector_Module
     {
 
         public string key { get; set; }
-        public object value { get; set; }
+        public string value { get; set; }
         public FilterType TypeOfFilter { get; set; }
 
     }

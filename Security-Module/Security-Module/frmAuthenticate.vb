@@ -19,6 +19,8 @@ Public Class frmAuthenticate
     Private objOItem_User As clsOntologyItem
     Private objOItem_Group As clsOntologyItem
 
+    Private boolUseSessionData As Boolean
+
     Private WithEvents objUserControl_Authenticate As UserControl_Authenticate
 
     Public ReadOnly Property OItem_User As clsOntologyItem
@@ -68,7 +70,7 @@ Public Class frmAuthenticate
         End If
     End Sub
 
-    Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal boolUser As Boolean, ByVal boolGroup As Boolean, ByVal AuthenticationMode As ERelateMode)
+    Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal boolUser As Boolean, ByVal boolGroup As Boolean, ByVal AuthenticationMode As ERelateMode, Optional boolUseSessionData As Boolean = False, Optional OItem_Module As clsOntologyItem = Nothing)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
@@ -79,10 +81,12 @@ Public Class frmAuthenticate
         Me.boolGroup = boolGroup
         Me.boolUser = boolUser
         set_DBConnection()
+        objLocalConfig.OItem_ModuleForSession = OItem_Module
+        Me.boolUseSessionData = boolUseSessionData
         initialize()
     End Sub
 
-    Public Sub New(ByVal Globals As clsGlobals, ByVal boolUser As Boolean, ByVal boolGroup As Boolean, ByVal AuthenticationMode As ERelateMode)
+    Public Sub New(ByVal Globals As clsGlobals, ByVal boolUser As Boolean, ByVal boolGroup As Boolean, ByVal AuthenticationMode As ERelateMode, Optional boolUseSessionData As Boolean = False, Optional OItem_Module As clsOntologyItem = Nothing)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
@@ -93,6 +97,8 @@ Public Class frmAuthenticate
         Me.boolGroup = boolGroup
         Me.boolUser = boolUser
         set_DBConnection()
+        objLocalConfig.OItem_ModuleForSession = OItem_Module
+        Me.boolUseSessionData = boolUseSessionData
         initialize()
     End Sub
 
@@ -102,7 +108,7 @@ Public Class frmAuthenticate
         objUserControl_Authenticate = New UserControl_Authenticate(objLocalConfig)
         objUserControl_Authenticate.Dock = DockStyle.Fill
         Panel_Authenticate.Controls.Add(objUserControl_Authenticate)
-        objUserControl_Authenticate.initialize_Authentication(boolUser, boolGroup, intAuthenticationMode)
+        objUserControl_Authenticate.initialize_Authentication(boolUser, boolGroup, intAuthenticationMode, boolUseSessionData)
     End Sub
 
     Private Sub set_DBConnection()

@@ -44,11 +44,11 @@
             this.differentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.containsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox_contains = new System.Windows.Forms.ToolStripTextBox();
+            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createOntologyItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.outlookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openMailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -187,12 +187,21 @@
             this.containsToolStripMenuItem.Name = "containsToolStripMenuItem";
             this.containsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.containsToolStripMenuItem.Text = "x_contains";
+            this.containsToolStripMenuItem.Click += new System.EventHandler(this.containsToolStripMenuItem_Click);
             // 
             // toolStripTextBox_contains
             // 
             this.toolStripTextBox_contains.Name = "toolStripTextBox_contains";
             this.toolStripTextBox_contains.Size = new System.Drawing.Size(100, 23);
             this.toolStripTextBox_contains.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBox_contains_KeyDown);
+            // 
+            // clearToolStripMenuItem
+            // 
+            this.clearToolStripMenuItem.Image = global::OutlookConnector_Module.Properties.Resources.tasto_8_architetto_franc_01;
+            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.clearToolStripMenuItem.Text = "x_Clear";
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -224,14 +233,6 @@
             this.openMailToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.openMailToolStripMenuItem.Text = "x_Open Mail";
             this.openMailToolStripMenuItem.Click += new System.EventHandler(this.openMailToolStripMenuItem_Click);
-            // 
-            // clearToolStripMenuItem
-            // 
-            this.clearToolStripMenuItem.Image = global::OutlookConnector_Module.Properties.Resources.tasto_8_architetto_franc_01;
-            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.clearToolStripMenuItem.Text = "x_Clear";
-            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
             // UserControl_OutlookItemList
             // 

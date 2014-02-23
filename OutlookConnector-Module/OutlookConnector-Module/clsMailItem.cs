@@ -173,9 +173,9 @@ namespace OutlookConnector_Module
                     }
                 } else if (filter.key.ToString().ToLower() == "creationdate")
                 {
-                    if (filter.value is DateTime)
+                    DateTime datevalue;
+                    if (DateTime.TryParse(filter.value, out datevalue))
                     {
-                        var datevalue = (DateTime)filter.value;
                         if (CreationDate != null)
                         {
                             if (filter.TypeOfFilter == FilterType.equal)
@@ -261,9 +261,9 @@ namespace OutlookConnector_Module
                     }
                 } else if (filter.key.ToString().ToLower() == "semitempresent")
                 {
-                    if (filter.value is bool)
+                    bool boolvalue;
+                    if (bool.TryParse(filter.value,out boolvalue))
                     {
-                        var boolvalue = (bool)filter.value;
                         if (SemItemPresent != null)
                         {
                             if (filter.TypeOfFilter == FilterType.equal)

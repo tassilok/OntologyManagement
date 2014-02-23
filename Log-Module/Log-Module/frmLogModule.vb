@@ -122,7 +122,7 @@ Public Class frmLogModule
         SplitContainer1.Panel2.Controls.Add(objUserControl_LogEntry)
 
         If objLocalConfig.OItem_User Is Nothing Then
-            objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
+            objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate, True)
             objFrmAuthenticate.ShowDialog(Me)
             boolOpen = False
             If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then

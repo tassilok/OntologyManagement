@@ -126,7 +126,7 @@ Public Class frmPartnerModule
         Dim objOItem_Partner As clsOntologyItem
 
         If objLocalConfig.OItem_User Is Nothing Then
-            objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
+            objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate, True)
             objFrmAuthenticate.ShowDialog(Me)
             If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
                 objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User

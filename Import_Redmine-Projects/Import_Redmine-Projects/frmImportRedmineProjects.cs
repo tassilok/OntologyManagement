@@ -34,7 +34,7 @@ namespace Import_Redmine_Projects
         {
             objDataWork_BaseConfig = new clsDataWork_BaseConfig(objLocalConfig);
             
-            objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals,true,true,frmAuthenticate.ERelateMode.User_To_Group);
+            objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals,true,true,frmAuthenticate.ERelateMode.User_To_Group,true);
             objFrmAuthenticate.ShowDialog(this);
             if (objFrmAuthenticate.DialogResult == DialogResult.OK)
             {

@@ -19,16 +19,23 @@ Public Class UserControl_Authenticate
 
     Private intRelateMode As ERelateMode
 
+    Private sessionList As List(Of clsObjectRel)
+
     Public Event applied(ByVal OItem_User As clsOntologyItem, ByVal OItem_Group As clsOntologyItem)
 
+    Private objDataWork_Security As clsDataWork_Security
 
-    Public Sub New(ByVal Globals As clsGlobals)
+    Private boolUser As Boolean
+    Private boolGroup As Boolean
+
+    Public Sub New(ByVal Globals As clsGlobals, oItem_ModuleForSession As clsOntologyItem)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(Globals)
+        objLocalConfig.OItem_ModuleForSession = oItem_ModuleForSession
         set_DBConnection()
         initialize()
     End Sub
@@ -45,6 +52,8 @@ Public Class UserControl_Authenticate
     End Sub
 
     Private Sub initialize()
+        objDataWork_Security = New clsDataWork_Security(objLocalConfig)
+
         objUserControl_OItemList_Group = New UserControl_OItemList(objLocalConfig.Globals)
         objUserControl_OItemList_User = New UserControl_OItemList(objLocalConfig.Globals)
 
@@ -58,46 +67,146 @@ Public Class UserControl_Authenticate
         objUserControl_OItemList_User.clear_Relation()
 
         ToolStripTextBox_Database.Text = objLocalConfig.Globals.Index & "@" & objLocalConfig.Globals.Server
+
+        
+
     End Sub
 
-    Public Sub initialize_Authentication(ByVal boolUser As Boolean, Optional ByVal boolGroup As Boolean = False, Optional ByVal RelateMode As ERelateMode = ERelateMode.NoRelate)
+    Public Sub initialize_Authentication(ByVal boolUser As Boolean, Optional ByVal boolGroup As Boolean = False, Optional ByVal RelateMode As ERelateMode = ERelateMode.NoRelate, Optional boolUseSessionData As Boolean = False)
         Dim objOItem_Type_Group As clsOntologyItem
         Dim objOItem_Type_User As clsOntologyItem
 
+        Me.boolUser = boolUser
+        Me.boolGroup = boolGroup
+
         intRelateMode = RelateMode
 
-        objOItem_Type_Group = objLocalConfig.OItem_Type_Group
-        objOItem_Type_User = objLocalConfig.OItem_type_User
+        If boolUseSessionData Then
+            Dim objOItem_Result = GetSessionData()
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                sessionList = New List(Of clsObjectRel)
+                Err.Raise(1, "Config-Error (Session-Data)")
+            Else
 
-        objUserControl_OItemList_Group.clear_Relation()
-        objUserControl_OItemList_User.clear_Relation()
+                Dim objUsersOfSessions = sessionList.Where(Function(s) s.ID_Parent_Other = objLocalConfig.OItem_type_User.GUID).ToList()
+                Dim objGroupsOfSessions = sessionList.Where(Function(s) s.ID_Parent_Other = objLocalConfig.OItem_Type_Group.GUID).ToList()
+                Dim objSessionsOfServer = sessionList.Where(Function(s) s.ID_Other = objLocalConfig.Globals.OItem_Server.GUID).ToList()
 
-        If boolGroup = True Then
-            SplitContainer_UserGroup.Panel2Collapsed = False
-        Else
-            SplitContainer_UserGroup.Panel2Collapsed = True
+                If objLocalConfig.OItem_ModuleForSession Is Nothing Then
+                    Dim objUsers = (From objUserSession In objUsersOfSessions
+                                           Join objServerSession In objSessionsOfServer On objUserSession.ID_Object Equals objServerSession.ID_Object
+                                           Select New clsOntologyItem With {.GUID = objUserSession.ID_Other, _
+                                                                            .Name = objUserSession.Name_Other, _
+                                                                            .GUID_Parent = objUserSession.ID_Parent_Other, _
+                                                                            .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+                    Dim objGroups = (From objGroupSession In objGroupsOfSessions
+                                           Join objServerSession In objSessionsOfServer On objGroupSession.ID_Object Equals objServerSession.ID_Object
+                                           Select New clsOntologyItem With {.GUID = objGroupSession.ID_Other, _
+                                                                            .Name = objGroupSession.Name_Other, _
+                                                                            .GUID_Parent = objGroupSession.ID_Parent_Other, _
+                                                                            .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+                    If objUsers.Any() Then
+                        objOItem_User = objUsers.First
+                    End If
+
+                    If objGroups.Any() Then
+                        objOItem_Group = objGroups.First
+                    End If
+
+                Else
+                    Dim objSessionsOfModule = sessionList.Where(Function(s) s.ID_Other = objLocalConfig.OItem_ModuleForSession.GUID).ToList()
+                    If objSessionsOfModule.Any() Then
+                        Dim objUsers = (From objUserSession In objUsersOfSessions
+                                    Join objModuleSession In objSessionsOfModule On objUserSession.ID_Object Equals objModuleSession.ID_Object
+                                           Join objServerSession In objSessionsOfServer On objUserSession.ID_Object Equals objServerSession.ID_Object
+                                           Select New clsOntologyItem With {.GUID = objUserSession.ID_Other, _
+                                                                            .Name = objUserSession.Name_Other, _
+                                                                            .GUID_Parent = objUserSession.ID_Parent_Other, _
+                                                                            .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+                        Dim objGroups = (From objGroupSession In objGroupsOfSessions
+                                         Join objModuleSession In objSessionsOfModule On objGroupSession.ID_Object Equals objModuleSession.ID_Object
+                                               Join objServerSession In objSessionsOfServer On objGroupSession.ID_Object Equals objServerSession.ID_Object
+                                               Select New clsOntologyItem With {.GUID = objGroupSession.ID_Other, _
+                                                                                .Name = objGroupSession.Name_Other, _
+                                                                                .GUID_Parent = objGroupSession.ID_Parent_Other, _
+                                                                                .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+                        If objUsers.Any() Then
+                            objOItem_User = objUsers.First
+                        End If
+
+                        If objGroups.Any() Then
+                            objOItem_Group = objGroups.First
+                        End If
+                    Else
+                        Dim objUsers = (From objUserSession In objUsersOfSessions
+                                           Join objServerSession In objSessionsOfServer On objUserSession.ID_Object Equals objServerSession.ID_Object
+                                           Select New clsOntologyItem With {.GUID = objUserSession.ID_Other, _
+                                                                            .Name = objUserSession.Name_Other, _
+                                                                            .GUID_Parent = objUserSession.ID_Parent_Other, _
+                                                                            .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+                        Dim objGroups = (From objGroupSession In objGroupsOfSessions
+                                               Join objServerSession In objSessionsOfServer On objGroupSession.ID_Object Equals objServerSession.ID_Object
+                                               Select New clsOntologyItem With {.GUID = objGroupSession.ID_Other, _
+                                                                                .Name = objGroupSession.Name_Other, _
+                                                                                .GUID_Parent = objGroupSession.ID_Parent_Other, _
+                                                                                .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+
+                        If objUsers.Any() Then
+                            objOItem_User = objUsers.First
+                        End If
+
+                        If objGroups.Any() Then
+                            objOItem_Group = objGroups.First
+                        End If
+                    End If
+
+                End If
+
+            End If
         End If
+        
 
-        If boolUser = True Then
-            SplitContainer_UserGroup.Panel1Collapsed = False
-        Else
-            SplitContainer_UserGroup.Panel1Collapsed = True
-        End If
+        If objOItem_User Is Nothing And objOItem_Group Is Nothing Then
+            objOItem_Type_Group = objLocalConfig.OItem_Type_Group
+            objOItem_Type_User = objLocalConfig.OItem_type_User
 
-        Select Case intRelateMode
-            Case ERelateMode.NoRelate
-                If SplitContainer_UserGroup.Panel1Collapsed = False Then
+            objUserControl_OItemList_Group.clear_Relation()
+            objUserControl_OItemList_User.clear_Relation()
+
+            If boolGroup = True Then
+                SplitContainer_UserGroup.Panel2Collapsed = False
+            Else
+                SplitContainer_UserGroup.Panel2Collapsed = True
+            End If
+
+            If boolUser = True Then
+                SplitContainer_UserGroup.Panel1Collapsed = False
+            Else
+                SplitContainer_UserGroup.Panel1Collapsed = True
+            End If
+
+            Select Case intRelateMode
+                Case ERelateMode.NoRelate
+                    If SplitContainer_UserGroup.Panel1Collapsed = False Then
+                        objUserControl_OItemList_User.initialize(New clsOntologyItem(Nothing, Nothing, objOItem_Type_User.GUID, objLocalConfig.Globals.Type_Object))
+                    End If
+
+                    If SplitContainer_UserGroup.Panel2Collapsed = False Then
+                        objUserControl_OItemList_Group.initialize(New clsOntologyItem(Nothing, Nothing, objOItem_Type_Group.GUID, objLocalConfig.Globals.Type_Object))
+                    End If
+                Case ERelateMode.User_To_Group
                     objUserControl_OItemList_User.initialize(New clsOntologyItem(Nothing, Nothing, objOItem_Type_User.GUID, objLocalConfig.Globals.Type_Object))
-                End If
-
-                If SplitContainer_UserGroup.Panel2Collapsed = False Then
+                Case ERelateMode.Group_To_User
                     objUserControl_OItemList_Group.initialize(New clsOntologyItem(Nothing, Nothing, objOItem_Type_Group.GUID, objLocalConfig.Globals.Type_Object))
-                End If
-            Case ERelateMode.User_To_Group
-                objUserControl_OItemList_User.initialize(New clsOntologyItem(Nothing, Nothing, objOItem_Type_User.GUID, objLocalConfig.Globals.Type_Object))
-            Case ERelateMode.Group_To_User
-                objUserControl_OItemList_Group.initialize(New clsOntologyItem(Nothing, Nothing, objOItem_Type_Group.GUID, objLocalConfig.Globals.Type_Object))
-        End Select
+            End Select
+        End If
+
     End Sub
 
     Private Sub select_User() Handles objUserControl_OItemList_User.Selection_Changed
@@ -240,5 +349,21 @@ Public Class UserControl_Authenticate
         End If
 
         RaiseEvent applied(objOItem_User, objOItem_Group)
+    End Sub
+
+    Private Function GetSessionData() As clsOntologyItem
+        sessionList = objDataWork_Security.GetSessionData()
+
+        If Not sessionList Is Nothing Then
+            Return objLocalConfig.Globals.LState_Success.Clone
+        Else
+            Return objLocalConfig.Globals.LState_Error.Clone
+        End If
+    End Function
+
+    Private Sub UserControl_Authenticate_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Not objOItem_User Is Nothing Or Not objOItem_Group Is Nothing Then
+            RaiseEvent applied(objOItem_User, objOItem_Group)
+        End If
     End Sub
 End Class

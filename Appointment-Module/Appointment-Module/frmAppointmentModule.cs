@@ -35,7 +35,7 @@ namespace Appointment_Module
             objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, 
                                                      true, 
                                                      false, 
-                                                     frmAuthenticate.ERelateMode.NoRelate);
+                                                     frmAuthenticate.ERelateMode.NoRelate,true);
 
             objFrmAuthenticate.ShowDialog(this);
             if (objFrmAuthenticate.DialogResult == DialogResult.OK)

@@ -34,7 +34,7 @@ namespace TextParser
         private string server;
         private List<clsFile> fileList;
 
-        public clsOntologyItem OItem_Seperator { get; set; }
+        public List<clsOntologyItem> OList_Seperator { get; set; }
 
         public clsFieldParser(clsLocalConfig LocalConfig, List<clsField> ParseFieldList, clsOntologyItem OItem_TextParser, clsOntologyItem OITem_Type)
         {
@@ -197,7 +197,7 @@ namespace TextParser
 
                     var dictList = new List<clsAppDocuments>();
                     var text = "";
-
+                    var UserFields = ParseFieldList.Where(f => f.IsMeta == false).ToList();
                     while (!textReader.EndOfStream)
                     {
                         var parse = true;
@@ -207,44 +207,35 @@ namespace TextParser
                         var dictMeta = new Dictionary<string, object>();
                         var dictUser = new Dictionary<string, object>();
 
-                        if (OItem_Seperator == null || OItem_Seperator.Name == "\\r\\n")
+                        if (OList_Seperator == null  && ( OList_Seperator.Any() && OList_Seperator.First().Name == "\\r\\n"))
                             text = textReader.ReadLine();
                         else
                         {
                             addChar = true;
                             text = "";
-                            var regexSep = new Regex(OItem_Seperator.Name);
 
                             StringBuilder line = new StringBuilder();
                             var length = 1;
                             StringBuilder tester = new StringBuilder();
-                            while (length != line.Length || textReader.EndOfStream)
+                            var finished = false;
+                            while (!finished && !textReader.EndOfStream)
                             {
                                 length = line.Length;
                                 char singleChar = (char)textReader.Read();
-                                if (regexSep.Match(singleChar.ToString()).Success)
+                                if (!OList_Seperator.Any(s => s.Name == singleChar.ToString()))
                                 {
                                     tester.Append(singleChar);
                                 }
                                 else
                                 {
-                                    tester.Clear();
+                                    text = tester.ToString();
+                                    finished = true;    
                                 }
 
-                                if (tester.Length > 0)
-                                {
-                                    if (regexSep.Match(tester.ToString()).Success)
-                                        addChar = false;
-                                }
-
-                                if (addChar)
-                                    line.Append(singleChar);
-
+                                
 
                             }
 
-                            if (line.Length > 0)
-                                text = line.ToString();
                             
                         }
 
@@ -466,7 +457,7 @@ namespace TextParser
 
                         }
 
-                        if (dictMeta.Any() && dictUser.Any())
+                        if (dictMeta.Any() && (!UserFields.Any() || dictUser.Any()))
                         {
                             //if (dontAddUser) dictUser.Clear();
                             dictUser =  dictUser.Union(dictMeta).ToDictionary(pair => pair.Key, pair => pair.Value);

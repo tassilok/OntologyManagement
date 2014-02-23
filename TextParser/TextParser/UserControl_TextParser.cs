@@ -71,9 +71,10 @@ namespace TextParser
 
                     button_Index.Enabled = true;
 
-                    if (objDataWork_TextParser.OItem_LineSeperator != null)
+                    if (objDataWork_TextParser.OList_LineSeperator != null)
                     {
-                        textBox_LineSeperator.Text = objDataWork_TextParser.OItem_LineSeperator.Name;
+                        var seperators = objDataWork_TextParser.OList_LineSeperator.Select(s => s.Value).ToList();
+                        textBox_LineSeperator.Text = string.Join(" / ", seperators);
                     }
 
                     button_LineSeperator.Enabled = true;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OntologyClasses.BaseClasses;
 using Ontology_Module;
 using System.Threading;
+using Variable_Value_Module;
 
 namespace TextParser
 {
@@ -17,11 +18,12 @@ namespace TextParser
         public clsOntologyItem OItem_Result_TextParsers_leftRight { get; set; }
 
         private clsDBLevel objDBLevel_TextParser;
-       private clsDBLevel objDBLevel_TextParser_LeftRight;
+        private clsDBLevel objDBLevel_TextParser_LeftRight;
         private clsDBLevel objDBLevel_TextParserOfRef;
         private clsDBLevel objDBLevel_Index_To_Rel;
         private clsDBLevel objDBLevel_ServerPort_Rel;
 
+        private clsVariableValueWork objVariableValueWork;
         
 
         private clsOntologyItem objOItem_TextParser;
@@ -35,7 +37,7 @@ namespace TextParser
 
         public clsOntologyItem OItem_Index { get; set; }
 
-        public clsOntologyItem OItem_LineSeperator { get; set; }
+        public List<clsVariableValue> OList_LineSeperator { get; set; }
 
         public clsOntologyItem OItem_User { get; set; }
 
@@ -168,7 +170,11 @@ namespace TextParser
 
             if (objOList_LineSeperator.Any())
             {
-                OItem_LineSeperator = objOList_LineSeperator.First();
+                var objOItem_LineSeperator = objOList_LineSeperator.First();
+
+                OList_LineSeperator = objVariableValueWork.GetVarValueList(objLocalConfig.OItem_relationtype_replace_with, objOItem_TextParser);
+
+                
             }
 
             var objOList_User = objDBLevel_TextParser_LeftRight.OList_ObjectRel
@@ -456,6 +462,9 @@ namespace TextParser
             objDBLevel_TextParserOfRef = new clsDBLevel(objLocalConfig.Globals);
 
             OItem_Result_Index = objLocalConfig.Globals.LState_Nothing.Clone();
+
+            objVariableValueWork = new clsVariableValueWork(objLocalConfig.Globals);
+
         }
     }
 }

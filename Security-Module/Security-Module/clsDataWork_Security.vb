@@ -8,6 +8,7 @@ Public Class clsDataWork_Security
     Private objDBLevel_Passwords As clsDBLevel
     Private objDBLevel_SecuredBy As clsDBLevel
     Private objDBLevel_AllowedClass As clsDBLevel
+    Private objDBLevel_SessionData As clsDBLevel
     Private objOItem_Result_Passwords As clsOntologyItem
     Private intCountNodes As Integer
 
@@ -161,6 +162,28 @@ Public Class clsDataWork_Security
 
     End Sub
 
+    Public Function GetSessionData() As List(Of clsObjectRel)
+        Dim objORel_SessionRef = New List(Of clsObjectRel) From {New clsObjectRel With {.Name_Object = objLocalConfig.Globals.Session, _
+                                                                                         .ID_Parent_Object = objLocalConfig.OItem_class_security_session.GUID, _
+                                                                                         .ID_Parent_Other = objLocalConfig.OItem_type_User.GUID}}
+
+        objORel_SessionRef.Add(New clsObjectRel With {.Name_Object = objLocalConfig.Globals.Session, _
+                                                                                         .ID_Parent_Object = objLocalConfig.OItem_class_security_session.GUID, _
+                                                                                         .ID_Parent_Other = objLocalConfig.OItem_Type_Group.GUID})
+
+        objORel_SessionRef.Add(New clsObjectRel With {.Name_Object = objLocalConfig.Globals.Session, _
+                                                                                         .ID_Parent_Object = objLocalConfig.OItem_class_security_session.GUID, _
+                                                                                         .ID_Parent_Other = objLocalConfig.OItem_class_server.GUID})
+
+        Dim objOItem_Result = objDBLevel_SessionData.get_Data_ObjectRel(objORel_SessionRef, boolIDs:=False)
+
+        If (objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID) Then
+            Return objDBLevel_SessionData.OList_ObjectRel
+        Else
+            Return Nothing
+        End If
+    End Function
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
         set_DBConnection()
@@ -171,5 +194,6 @@ Public Class clsDataWork_Security
         objDBLevel_Passwords = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_SecuredBy = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_AllowedClass = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_SessionData = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class

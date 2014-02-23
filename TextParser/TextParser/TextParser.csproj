@@ -207,6 +207,10 @@
       <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
       <Name>Structure-Module</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Variable-Value-Module\Variable-Value-Module\Variable-Value-Module.csproj">
+      <Project>{96b9a976-fe7a-4b0c-a286-363c6d58c4cd}</Project>
+      <Name>Variable-Value-Module</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\Config_ont.xml">

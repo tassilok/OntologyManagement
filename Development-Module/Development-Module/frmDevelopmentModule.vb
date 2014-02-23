@@ -43,7 +43,7 @@ Public Class frmDevelopmentModule
 
     Private Sub initialize()
 
-        objFrm_Authenticate = new frmAuthenticate(objLocalConfig.Globals,True,False, frmAuthenticate.ERelateMode.NoRelate)
+        objFrm_Authenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate, True)
         objFrm_Authenticate.ShowDialog(Me)
         If objFrm_Authenticate.DialogResult=DialogResult.OK Then
             objLocalConfig.OItem_User = objFrm_Authenticate.OItem_User

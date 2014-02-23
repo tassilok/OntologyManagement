@@ -30,7 +30,7 @@ namespace Schriftverkehrs_Module
 
         private void Initialize()
         {
-            objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, false, frmAuthenticate.ERelateMode.NoRelate);
+            objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, false, frmAuthenticate.ERelateMode.NoRelate,true);
             objFrmAuthenticate.ShowDialog(this);
 
             if (objFrmAuthenticate.DialogResult == DialogResult.OK)

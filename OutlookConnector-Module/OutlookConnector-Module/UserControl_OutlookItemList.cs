@@ -152,7 +152,7 @@ namespace OutlookConnector_Module
             {
                 key = objdGVC.DataPropertyName,
                 value = dataGridView_OutlookItems.SelectedCells[0].Value.ToString(),
-                TypeOfFilter = FilterType.contains
+                TypeOfFilter = FilterType.equal
             });
 
             ConfigureGrid();
@@ -180,7 +180,11 @@ namespace OutlookConnector_Module
 
         private void dataGridView_OutlookItems_SelectionChanged(object sender, EventArgs e)
         {
-            selectedRows();
+            if (dataGridView_OutlookItems.SelectedRows.Count == 1)
+            {
+                selectedRows();
+            }
+            
         }
 
         private void createOntologyItemToolStripMenuItem_Click(object sender, EventArgs e)
@@ -422,7 +426,7 @@ namespace OutlookConnector_Module
             {
                 key = objdGVC.DataPropertyName,
                 value = dataGridView_OutlookItems.SelectedCells[0].Value.ToString(),
-                TypeOfFilter = FilterType.contains
+                TypeOfFilter = FilterType.different
             });
 
             ConfigureGrid();
@@ -431,6 +435,26 @@ namespace OutlookConnector_Module
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Filters.Clear();
+        }
+
+        private void containsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (toolStripTextBox_contains.Text != "")
+            {
+                DataGridViewColumn objdGVC = dataGridView_OutlookItems.Columns[dataGridView_OutlookItems.SelectedCells[0].ColumnIndex];
+                Filters.Add(new clsFilter
+                {
+                    key = objdGVC.DataPropertyName,
+                    value = toolStripTextBox_contains.Text,
+                    TypeOfFilter = FilterType.contains
+                });
+
+                ConfigureGrid();
+            }
+            else
+            {
+                MessageBox.Show(this, "Geben Sie bitte eine Suchzeichenkette ein!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

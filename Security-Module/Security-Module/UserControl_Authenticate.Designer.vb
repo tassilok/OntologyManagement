@@ -26,10 +26,10 @@ Partial Class UserControl_Authenticate
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Apply = New System.Windows.Forms.ToolStripButton()
-        Me.SplitContainer_UserGroup = New System.Windows.Forms.SplitContainer()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel_DatabaseLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Database = New System.Windows.Forms.ToolStripTextBox()
+        Me.SplitContainer_UserGroup = New System.Windows.Forms.SplitContainer()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -75,16 +75,6 @@ Partial Class UserControl_Authenticate
         Me.ToolStripButton_Apply.Size = New System.Drawing.Size(52, 22)
         Me.ToolStripButton_Apply.Text = "x_Apply"
         '
-        'SplitContainer_UserGroup
-        '
-        Me.SplitContainer_UserGroup.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.SplitContainer_UserGroup.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer_UserGroup.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer_UserGroup.Name = "SplitContainer_UserGroup"
-        Me.SplitContainer_UserGroup.Size = New System.Drawing.Size(463, 387)
-        Me.SplitContainer_UserGroup.SplitterDistance = 229
-        Me.SplitContainer_UserGroup.TabIndex = 0
-        '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
@@ -101,6 +91,16 @@ Partial Class UserControl_Authenticate
         Me.ToolStripTextBox_Database.Name = "ToolStripTextBox_Database"
         Me.ToolStripTextBox_Database.ReadOnly = True
         Me.ToolStripTextBox_Database.Size = New System.Drawing.Size(200, 25)
+        '
+        'SplitContainer_UserGroup
+        '
+        Me.SplitContainer_UserGroup.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.SplitContainer_UserGroup.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer_UserGroup.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer_UserGroup.Name = "SplitContainer_UserGroup"
+        Me.SplitContainer_UserGroup.Size = New System.Drawing.Size(463, 387)
+        Me.SplitContainer_UserGroup.SplitterDistance = 229
+        Me.SplitContainer_UserGroup.TabIndex = 0
         '
         'UserControl_Authenticate
         '

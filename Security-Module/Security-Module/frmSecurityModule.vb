@@ -31,6 +31,7 @@ Public Class frmSecurityModule
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
         set_DBConnection()
+        objLocalConfig.OItem_ModuleForSession = objLocalConfig.OItem_Module
         initialize()
     End Sub
 

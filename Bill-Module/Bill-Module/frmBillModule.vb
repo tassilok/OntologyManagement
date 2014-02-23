@@ -179,7 +179,7 @@ Public Class frmBillModule
     Private Sub initialize()
         objOItem_Open = objDataWork_BaseConfig.get_Data_BaseConfig()
         If objOItem_Open.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
+            objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate, True)
             objFrmAuthenticate.ShowDialog(Me)
             If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
                 objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User

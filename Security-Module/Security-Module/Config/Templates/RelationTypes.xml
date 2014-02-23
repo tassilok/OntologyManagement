@@ -9,10 +9,10 @@
 <Item Id="4417582dbd6347fbab18770a611917fe" Id_Parent=""><![CDATA[belonging RelationType]]></Item>
 <Item Id="81bbd380e35648a1a4b7fdbaebe7273c" Id_Parent=""><![CDATA[belonging Attribute]]></Item>
 <Item Id="0ecc4f8cc0de49ad834f5194d568a16e" Id_Parent=""><![CDATA[encoded by]]></Item>
+<Item Id="5c8930809e8c4fe297aa87878d38ac4a" Id_Parent=""><![CDATA[offered by]]></Item>
 <Item Id="3fd092db1c874b6f818cb3085945973b" Id_Parent=""><![CDATA[belonging Endoding-Types]]></Item>
 <Item Id="e07469d9766c443e85266d9c684f944f" Id_Parent=""><![CDATA[belongs to]]></Item>
 <Item Id="a778c55c83084033bd3330ebd7347485" Id_Parent=""><![CDATA[secured by]]></Item>
-<Item Id="5c8930809e8c4fe297aa87878d38ac4a" Id_Parent=""><![CDATA[offered by]]></Item>
 <Item Id="e971160347db44d8a476fe88290639a4" Id_Parent=""><![CDATA[contains]]></Item>
 
 </Items>

@@ -48,7 +48,7 @@ namespace LiteraturQuellen_Module
 
             if (objLocalConfig.User == null)
             {
-                objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, false, frmAuthenticate.ERelateMode.NoRelate);
+                objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, false, frmAuthenticate.ERelateMode.NoRelate,true);
                 objFrmAuthenticate.ShowDialog(this);
                 if (objFrmAuthenticate.DialogResult == System.Windows.Forms.DialogResult.OK)
                 {

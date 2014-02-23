@@ -24,9 +24,12 @@ Public Class clsLocalConfig
     Private objDBLevel_Config1 As clsDBLevel
     Private objDBLevel_Config2 As clsDBLevel
 
+    Private objModuleForSession As clsOntologyItem
+
     'Attributes
     Private objOItem_attribute_dbPostfix As New clsOntologyItem
     Private objOItem_Attribute_Master_Password As New clsOntologyItem
+
 
     'RelationTypes
     Private objOItem_RelationType_belonging_Endoding_Types As New clsOntologyItem
@@ -47,6 +50,8 @@ Public Class clsLocalConfig
     Private objOItem_Type_Module As New clsOntologyItem
     Private objOItem_Type_Security_Module As New clsOntologyItem
     Private objOItem_type_User As New clsOntologyItem
+    Private objOItem_class_security_session As clsOntologyItem
+    Private objOItem_class_server As clsOntologyItem
 
 
     Public ReadOnly Property ImageID_Related As Integer
@@ -91,6 +96,22 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property OItem_class_server As clsOntologyItem
+        Get
+            Return objOItem_class_server
+        End Get
+    End Property
+
+
+    Public Property OItem_ModuleForSession As clsOntologyItem
+        Get
+            Return objModuleForSession
+        End Get
+        Set(value As clsOntologyItem)
+            objModuleForSession = value
+        End Set
+    End Property
+
     'Attributes
     Public ReadOnly Property OItem_attribute_dbPostfix() As clsOntologyItem
         Get
@@ -103,7 +124,6 @@ Public Class clsLocalConfig
             Return objOItem_Attribute_Master_Password
         End Get
     End Property
-
 
     'RelationTypes
     Public ReadOnly Property OItem_RelationType_belonging_Endoding_Types() As clsOntologyItem
@@ -191,6 +211,12 @@ Public Class clsLocalConfig
     Public ReadOnly Property OItem_type_User() As clsOntologyItem
         Get
             Return objOItem_type_User
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_class_security_session As clsOntologyItem
+        Get
+            Return objOItem_class_security_session
         End Get
     End Property
 
@@ -337,6 +363,7 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_AttributeTypes()
+
         Dim objOList_attribute_dbpostfix = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
@@ -536,6 +563,38 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Classes()
+        Dim objOList_class_server = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "class_server".ToLower() And objRef.Ontology = objGlobals.Type_Class
+                                           Select objRef).ToList()
+
+        If objOList_class_server.Count > 0 Then
+            objOItem_class_server = New clsOntologyItem
+            objOItem_class_server.GUID = objOList_class_server.First().ID_Other
+            objOItem_class_server.Name = objOList_class_server.First().Name_Other
+            objOItem_class_server.GUID_Parent = objOList_class_server.First().ID_Parent_Other
+            objOItem_class_server.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_class_security_session = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "class_security_session".ToLower() And objRef.Ontology = objGlobals.Type_Class
+                                           Select objRef).ToList()
+
+        If objOList_class_security_session.Count > 0 Then
+            objOItem_class_security_session = New clsOntologyItem
+            objOItem_class_security_session.GUID = objOList_class_security_session.First().ID_Other
+            objOItem_class_security_session.Name = objOList_class_security_session.First().Name_Other
+            objOItem_class_security_session.GUID_Parent = objOList_class_security_session.First().ID_Parent_Other
+            objOItem_class_security_session.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_type_group = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object

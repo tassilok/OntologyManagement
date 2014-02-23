@@ -159,7 +159,7 @@ Public Class frm_FilesystemModule
     Private Sub initialize()
 
         If objLocalConfig.OItem_User Is Nothing Then
-            objFrm_Authentication = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
+            objFrm_Authentication = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate, True)
             objFrm_Authentication.ShowDialog(Me)
             If objFrm_Authentication.DialogResult = Windows.Forms.DialogResult.OK Then
                 objLocalConfig.OItem_User = objFrm_Authentication.OItem_User

@@ -13,6 +13,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Security-Module", "..\Secur
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Filesystem-Module", "..\Filesystem-Module\Filesystem-Module\Filesystem-Module.vbproj", "{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Variable-Value-Module", "..\Variable-Value-Module\Variable-Value-Module\Variable-Value-Module.csproj", "{96B9A976-FE7A-4B0C-A286-363C6D58C4CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,16 @@ Global
 		{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}.Release|Mixed Platforms.Build.0 = Release|x86
 		{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}.Release|x86.ActiveCfg = Release|x86
 		{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}.Release|x86.Build.0 = Release|x86
+		{96B9A976-FE7A-4B0C-A286-363C6D58C4CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96B9A976-FE7A-4B0C-A286-363C6D58C4CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96B9A976-FE7A-4B0C-A286-363C6D58C4CD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{96B9A976-FE7A-4B0C-A286-363C6D58C4CD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{96B9A976-FE7A-4B0C-A286-363C6D58C4CD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{96B9A976-FE7A-4B0C-A286-363C6D58C4CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96B9A976-FE7A-4B0C-A286-363C6D58C4CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96B9A976-FE7A-4B0C-A286-363C6D58C4CD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{96B9A976-FE7A-4B0C-A286-363C6D58C4CD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{96B9A976-FE7A-4B0C-A286-363C6D58C4CD}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
