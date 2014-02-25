@@ -37,7 +37,7 @@ namespace TextParser
 
         public clsOntologyItem OItem_Index { get; set; }
 
-        public List<clsVariableValue> OList_LineSeperator { get; set; }
+        public List<clsOntologyItem> OList_LineSeperator { get; set; }
 
         public clsOntologyItem OItem_User { get; set; }
 
@@ -166,15 +166,21 @@ namespace TextParser
                                                                                 Name = p.Name_Other,
                                                                                 GUID_Parent = p.ID_Parent_Other,
                                                                                 Type = p.Ontology
-                                                                            });
+                                                                            }).ToList();
 
             if (objOList_LineSeperator.Any())
             {
-                var objOItem_LineSeperator = objOList_LineSeperator.First();
 
-                OList_LineSeperator = objVariableValueWork.GetVarValueList(objLocalConfig.OItem_relationtype_replace_with, objOItem_TextParser);
+                var objOList_Parsed =
+                    objVariableValueWork.GetVarValueList(objLocalConfig.OItem_relationtype_replace_with,
+                                                         objOItem_TextParser).Select(vv => new clsOntologyItem {GUID = vv.Id_Value,
+                                                         Name = vv.Name_Value,
+                                                         GUID_Parent = null,
+                                                         Type = objLocalConfig.Globals.Type_Object}).ToList();
 
-                
+                OList_LineSeperator = objOList_Parsed.Any() ? objOList_Parsed : objOList_LineSeperator;
+
+
             }
 
             var objOList_User = objDBLevel_TextParser_LeftRight.OList_ObjectRel

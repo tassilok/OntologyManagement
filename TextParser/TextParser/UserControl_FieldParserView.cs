@@ -362,8 +362,8 @@ namespace TextParser
                 objFieldParser = new clsFieldParser(objLocalConfig,fieldList.ToList(),objOItem_TextParser, objDataWork_TextParser.OITem_Type);
                 objFieldParser.OList_Seperator = objDataWork_TextParser.OList_LineSeperator.Select(s => new clsOntologyItem
                 {
-                    GUID = s.Id_Value,
-                    Name = s.Value,
+                    GUID = s.GUID,
+                    Name = s.Name,
                     GUID_Parent = objLocalConfig.OItem_class_text_seperators.GUID,
                     Type = objLocalConfig.Globals.Type_Object
                 }).ToList();

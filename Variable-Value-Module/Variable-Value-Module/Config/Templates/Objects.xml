@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="1e878f4a60f74afb9b4ae78ae9b8fcb1" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Variable-Value-Module]]></Item>
+<Item Id="c11b636aa72d4cf7a3eab1b1d3ea85e3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_replace_with]]></Item>
+<Item Id="8cfe4f670d8e4e7eb8933b81161aac7b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongs_to]]></Item>
+<Item Id="14f366bc99264fe2a69a52d301e6ef4e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Source]]></Item>
+<Item Id="e34bdf4fcb4b4bcd8455224f7b328767" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Value]]></Item>
+<Item Id="9509f432f6bf4559a4e0bd676a60e016" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Variable]]></Item>
+
+</Items>

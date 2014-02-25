@@ -73,7 +73,7 @@ namespace TextParser
 
                     if (objDataWork_TextParser.OList_LineSeperator != null)
                     {
-                        var seperators = objDataWork_TextParser.OList_LineSeperator.Select(s => s.Value).ToList();
+                        var seperators = objDataWork_TextParser.OList_LineSeperator.Select(s => s.Name).ToList();
                         textBox_LineSeperator.Text = string.Join(" / ", seperators);
                     }
 

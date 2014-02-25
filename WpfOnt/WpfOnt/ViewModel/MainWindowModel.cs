@@ -13,7 +13,6 @@ namespace WpfOnt.ViewModel
     {
         public MainViewData MainData { get; set; }
 
-
         public MainWindowModel()
         {
             MainData = new MainViewData();

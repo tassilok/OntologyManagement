@@ -50,7 +50,7 @@ Public Class frmSecurityModule
         objUserControl_Password.Dock = DockStyle.Fill
         SplitContainer1.Panel2.Controls.Add(objUserControl_Password)
 
-        objFrmAuthenticate = New frmAuthenticate(objLocalConfig, True, False, frmAuthenticate.ERelateMode.NoRelate)
+        objFrmAuthenticate = New frmAuthenticate(objLocalConfig, True, False, frmAuthenticate.ERelateMode.NoRelate,True)
         objFrmAuthenticate.ShowDialog(Me)
         If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
             objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User

@@ -207,7 +207,7 @@ namespace TextParser
                         var dictMeta = new Dictionary<string, object>();
                         var dictUser = new Dictionary<string, object>();
 
-                        if (OList_Seperator == null  && ( OList_Seperator.Any() && OList_Seperator.First().Name == "\\r\\n"))
+                        if (OList_Seperator == null  || ( OList_Seperator.Any() && OList_Seperator.First().Name == "\\r\\n"))
                             text = textReader.ReadLine();
                         else
                         {
