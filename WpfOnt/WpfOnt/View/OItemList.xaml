@@ -11,6 +11,6 @@
     </UserControl.DataContext>
     <Grid>
         <DataGrid ItemsSource="{Binding ItemList}"></DataGrid>
-
+    
     </Grid>
 </UserControl>
