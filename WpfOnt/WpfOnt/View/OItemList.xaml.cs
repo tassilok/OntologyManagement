@@ -23,7 +23,7 @@ namespace WpfOnt.View
     /// </summary>
     public partial class OItemList : UserControl
     {
-        public static readonly DependencyProperty IdParentProperty = DependencyProperty.Register("IdParent", typeof (object), typeof (OItemList), new UIPropertyMetadata(default(object)));
+        public static readonly DependencyProperty IdParentProperty = DependencyProperty.Register("IdParent", typeof (String), typeof (OItemList), new UIPropertyMetadata(String.Empty,ParentChangeCallback));
 
 
         public OItemList()
@@ -32,11 +32,12 @@ namespace WpfOnt.View
 
         }
 
-        public object IdParent
+        private static void ParentChangeCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            set { ChangeItems("Objects",value.ToString()); }
+            
         }
 
+       
         public void ChangeItems(string type, string idParent)
         {
             var model = (OItemListModel)DataContext;

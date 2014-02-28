@@ -12,6 +12,8 @@ using Ontology_Module;
 
 namespace TimeManagement_Module
 {
+    
+
     public partial class UserControl_TimeGrid : UserControl
     {
         private clsLocalConfig objLocalConfig;
@@ -21,6 +23,11 @@ namespace TimeManagement_Module
         private frmTimeManagementEdit objFrmTimeManagementEdit;
 
         private frm_ObjectEdit objFrmObjectEdit;
+
+        public delegate void SelectedTimeItem();
+        public event SelectedTimeItem selectedTimeItem;
+
+        private bool pcChange;
 
         public UserControl_TimeGrid(clsLocalConfig LocalConfig)
         {
@@ -38,6 +45,7 @@ namespace TimeManagement_Module
 
             if (objDataWork_TimeManagement.OItem_Result_TimeManagement.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
+                pcChange = true;
                 bindingSource_TimeManagement.DataSource = objDataWork_TimeManagement.Tbl_TimeManagement;
                 DataGridView_LogManagement.DataSource = bindingSource_TimeManagement;
                 DataGridView_LogManagement.Columns[0].Visible = false;
@@ -93,6 +101,8 @@ namespace TimeManagement_Module
 
                 FilterView();
                 SortView();
+
+                pcChange = false;
             }
             else
             {
@@ -422,6 +432,11 @@ namespace TimeManagement_Module
             {
                 FilterView();
             }
+        }
+
+        private void DataGridView_LogManagement_SelectionChanged(object sender, EventArgs e)
+        {
+            if (!pcChange) selectedTimeItem();
         }
 
     }

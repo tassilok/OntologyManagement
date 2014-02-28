@@ -87,6 +87,16 @@ Public Class UserControl_ObjectRel
         set_DBConnection()
     End Sub
 
+    Public Sub New(ByVal Globals As clsGlobals)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = New clsLocalConfig(Globals)
+        set_DBConnection()
+    End Sub
+
     Public Sub initialize_RelList(ByVal OList_Object As List(Of clsOntologyItem), _
                                   ByVal OList_Class_LeftRight As List(Of clsOntologyItem), _
                                   ByVal OList_RelationType_LeftRight As List(Of clsOntologyItem), _
@@ -110,7 +120,16 @@ Public Class UserControl_ObjectRel
         initialize_Data()
     End Sub
 
-    Private Sub initialize_Data()
+    Public Sub ClearList()
+        clear_Left()
+        clear_Other()
+        clear_RelationType()
+
+        DataGridView_Relations.DataSource = Nothing
+        
+    End Sub
+
+    public Sub initialize_Data()
         BindingSource_ObjectRel.DataSource = Nothing
         DataGridView_Relations.DataSource = Nothing
 
@@ -133,11 +152,66 @@ Public Class UserControl_ObjectRel
         Dim objOList_ObjRel1 As New List(Of clsObjectRel)
         Dim objOList_ObjRel2 As New List(Of clsObjectRel)
         Dim objOItem_Object As clsOntologyItem
+        Dim boolBothDirections as Boolean
 
+
+        objDBLevel_ObjRel.OList_ObjectRel.Clear()
+        
         For Each objOItem_Object In objOList_Object
-            objOList_ObjRel1.Add(New clsObjectRel(objOItem_Object.GUID, _
-                                                  objOItem_Object.Name, _
-                                                  objOItem_Object.GUID_Parent, _
+            
+            boolBothDirections = True
+            If (Not objOList_RelationType_LeftRight Is Nothing) Then
+                If (objOList_RelationType_LeftRight.Any()) Then
+                    boolBothDirections = false
+                    objOItem_RelationType = if(objOList_RelationType_LeftRight.Any(),objOList_RelationType_LeftRight.First(),Nothing)
+
+                    objOList_ObjRel1.Add(New clsObjectRel(objOItem_Object.GUID, _
+                                                  If(objOItem_Object.GUID Is Nothing, objOItem_Object.Name, Nothing), _
+                                                  If(objOItem_Object.GUID Is Nothing, objOItem_Object.GUID_Parent, Nothing), _
+                                                  Nothing, _
+                                                  nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  objOItem_RelationType.GUID, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing, _
+                                                  Nothing))
+                End If
+                
+                
+
+            ElseIf  (not objOList_RelationType_RightLeft Is Nothing) then
+                If (objOList_RelationType_RightLeft.Any()) Then
+                    boolBothDirections=false
+                    objOItem_RelationType = if(objOList_RelationType_RightLeft.Any(),objOList_RelationType_RightLeft.First(),Nothing)
+
+                    objOList_ObjRel2.Add(New clsObjectRel(Nothing, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          objOItem_Object.GUID, _
+                                                          If(objOItem_Object.GUID Is Nothing, objOItem_Object.Name, Nothing), _
+                                                          If(objOItem_Object.GUID Is Nothing, objOItem_Object.GUID_Parent, Nothing), _
+                                                          Nothing, _
+                                                          objOItem_RelationType.GUID, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          Nothing))
+                End If
+                
+
+               
+            End If
+            
+            If boolBothDirections Then
+                objOList_ObjRel1.Add(New clsObjectRel(objOItem_Object.GUID, _
+                                                  If(objOItem_Object.GUID Is Nothing, objOItem_Object.Name, Nothing), _
+                                                  If(objOItem_Object.GUID Is Nothing, objOItem_Object.GUID_Parent, Nothing), _
                                                   Nothing, _
                                                   Nothing, _
                                                   Nothing, _
@@ -150,24 +224,32 @@ Public Class UserControl_ObjectRel
                                                   Nothing, _
                                                   Nothing))
 
-            objOList_ObjRel2.Add(New clsObjectRel(Nothing, _
-                                                  Nothing, _
-                                                  Nothing, _
-                                                  Nothing, _
-                                                  objOItem_Object.GUID, _
-                                                  objOItem_Object.Name, _
-                                                  objOItem_Object.GUID_Parent, _
-                                                  Nothing, _
-                                                  Nothing, _
-                                                  Nothing, _
-                                                  Nothing, _
-                                                  Nothing, _
-                                                  Nothing, _
-                                                  Nothing))
+                objOList_ObjRel2.Add(New clsObjectRel(Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      objOItem_Object.GUID, _
+                                                      If(objOItem_Object.GUID Is Nothing, objOItem_Object.Name, Nothing), _
+                                                      If(objOItem_Object.GUID Is Nothing, objOItem_Object.GUID_Parent, Nothing), _
+                                                      Nothing, _
+                                                      nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing))
+            End If
+
         Next
 
-        objDBLevel_ObjRel.get_Data_ObjectRel(objOList_ObjRel1, True, False, False, objLocalConfig.Globals.Direction_LeftRight.Name)
-        objDBLevel_ObjRel.get_Data_ObjectRel(objOList_ObjRel2, True, False, False, objLocalConfig.Globals.Direction_RightLeft.Name, False)
+        If (objOList_ObjRel1.Any()) Then 
+            objDBLevel_ObjRel.get_Data_ObjectRel(objOList_ObjRel1, True, False, False, objLocalConfig.Globals.Direction_LeftRight.Name)
+        End If
+    
+        If (objOList_ObjRel2.Any()) Then
+            objDBLevel_ObjRel.get_Data_ObjectRel(objOList_ObjRel2, True, False, False, objLocalConfig.Globals.Direction_RightLeft.Name, False)    
+        End If
+        
         boolDataDone = True
 
     End Sub
