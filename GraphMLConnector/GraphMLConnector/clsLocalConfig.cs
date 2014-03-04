@@ -21,31 +21,40 @@ namespace GraphMLConnector
 
         private clsDBLevel objDBLevel_Config1;
         private clsDBLevel objDBLevel_Config2;
-	
-	public clsOntologyItem OItem_object_color_text { get; set; }
-public clsOntologyItem OItem_object_graphml___uml_edge { get; set; }
-public clsOntologyItem OItem_relationtype_export_to { get; set; }
-public clsOntologyItem OItem_relationtype_is_of_type { get; set; }
-public clsOntologyItem OItem_object_edge_list { get; set; }
-public clsOntologyItem OItem_object_id_right { get; set; }
-public clsOntologyItem OItem_object_color_fill { get; set; }
-public clsOntologyItem OItem_relationtype_contains { get; set; }
-public clsOntologyItem OItem_object_grant_children_of_item { get; set; }
-public clsOntologyItem OItem_object_name_relationtype { get; set; }
-public clsOntologyItem OItem_object_id_left { get; set; }
-public clsOntologyItem OItem_attributetype_xml_text { get; set; }
-public clsOntologyItem OItem_relationtype_belonging_sem_item { get; set; }
-public clsOntologyItem OItem_object_normal { get; set; }
-public clsOntologyItem OItem_object_graphml___uml_class_node { get; set; }
-public clsOntologyItem OItem_class_export_mode { get; set; }
-public clsOntologyItem OItem_object_graphml___container { get; set; }
-public clsOntologyItem OItem_object_name_node { get; set; }
-public clsOntologyItem OItem_object_id { get; set; }
-public clsOntologyItem OItem_object_attrib_list { get; set; }
-public clsOntologyItem OItem_object_node_list { get; set; }
-public clsOntologyItem OItem_class_graphs { get; set; }
-public clsOntologyItem OItem_class_graphitem { get; set; }
-public clsOntologyItem OItem_class_path { get; set; }
+
+        //AttributeTypes
+        public clsOntologyItem OItem_attributetype_xml_text { get; set; }
+
+        //RelationTypes
+        public clsOntologyItem OItem_relationtype_contains { get; set; }
+        public clsOntologyItem OItem_relationtype_belonging_sem_item { get; set; }
+        public clsOntologyItem OItem_relationtype_export_to { get; set; }
+        public clsOntologyItem OItem_relationtype_is_of_type { get; set; }
+
+        //Objects
+        public clsOntologyItem OItem_object_color_text { get; set; }
+        public clsOntologyItem OItem_object_normal { get; set; }
+        public clsOntologyItem OItem_object_graphml___uml_class_node { get; set; }
+        public clsOntologyItem OItem_object_graphml___uml_edge { get; set; }
+        public clsOntologyItem OItem_object_id_right { get; set; }
+        public clsOntologyItem OItem_object_color_fill { get; set; }
+        public clsOntologyItem OItem_object_edge_list { get; set; }
+        public clsOntologyItem OItem_object_grant_children_of_item { get; set; }
+        public clsOntologyItem OItem_object_name_relationtype { get; set; }
+        public clsOntologyItem OItem_object_id_left { get; set; }
+        public clsOntologyItem OItem_object_graphml___container { get; set; }
+        public clsOntologyItem OItem_object_name_node { get; set; }
+        public clsOntologyItem OItem_object_id { get; set; }
+        public clsOntologyItem OItem_object_attrib_list { get; set; }
+        public clsOntologyItem OItem_object_node_list { get; set; }
+
+        //Klasses
+        public clsOntologyItem OItem_class_path { get; set; }
+        public clsOntologyItem OItem_class_export_mode { get; set; }
+        public clsOntologyItem OItem_class_graphitem { get; set; }
+        public clsOntologyItem OItem_class_graphs { get; set; }
+        
+        
 
   
 	
@@ -273,6 +282,28 @@ var objOList_relationtype_belonging_sem_item = (from objOItem in objDBLevel_Conf
   
 	private void get_Config_Objects()
         {
+
+        var objOList_object_name_relationtype = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == "object_name_relationtype".ToLower() && objRef.Ontology == Globals.Type_Object
+                                           select objRef).ToList();
+
+            if (objOList_object_name_relationtype.Any())
+            {
+                OItem_object_name_relationtype = new clsOntologyItem()
+                {
+                    GUID = objOList_object_name_relationtype.First().ID_Other,
+                    Name = objOList_object_name_relationtype.First().Name_Other,
+                    GUID_Parent = objOList_object_name_relationtype.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
 		var objOList_object_color_text = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                            where objOItem.ID_Object == cstrID_Ontology
                                            join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -399,26 +430,6 @@ var objOList_object_grant_children_of_item = (from objOItem in objDBLevel_Config
                 throw new Exception("config err");
             }
 
-var objOList_object_name_relationtype = (from objOItem in objDBLevel_Config1.OList_ObjectRel
-                                           where objOItem.ID_Object == cstrID_Ontology
-                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
-                                           where objRef.Name_Object.ToLower() == "object_name_relationtype".ToLower() && objRef.Ontology == Globals.Type_Object
-                                           select objRef).ToList();
-
-            if (objOList_object_name_relationtype.Any())
-            {
-                OItem_object_name_relationtype = new clsOntologyItem()
-                {
-                    GUID = objOList_object_name_relationtype.First().ID_Other,
-                    Name = objOList_object_name_relationtype.First().Name_Other,
-                    GUID_Parent = objOList_object_name_relationtype.First().ID_Parent_Other,
-                    Type = Globals.Type_Object
-                };
-            }
-            else
-            {
-                throw new Exception("config err");
-            }
 
 var objOList_object_id_left = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                            where objOItem.ID_Object == cstrID_Ontology

@@ -34,23 +34,23 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel_FilterCapt = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_Filter = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripButton_RemoveFilter = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_SortCapt = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_Sort = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripButton_RemoveSort = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripLabel_CalcCapt = new System.Windows.Forms.ToolStripLabel();
             this.ToolStripTextBox_Calculation = new System.Windows.Forms.ToolStripTextBox();
+            this.ToolStripDropDownButton_Calc = new System.Windows.Forms.ToolStripDropDownButton();
+            this.ToolStripMenuItem_AVG = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Calc_Mult = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_CalcAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.DataGridView_LogManagement = new System.Windows.Forms.DataGridView();
             this.ContextMenuStrip_TimeManagement = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.NewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton_RemoveFilter = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_RemoveSort = new System.Windows.Forms.ToolStripButton();
-            this.ToolStripDropDownButton_Calc = new System.Windows.Forms.ToolStripDropDownButton();
-            this.ToolStripMenuItem_AVG = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_Calc_Mult = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_CalcAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripDropDownButton_Range = new System.Windows.Forms.ToolStripDropDownButton();
             this.TodayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.YesterdayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,6 +59,11 @@
             this.XThisMonthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingSource_TimeManagement = new System.Windows.Forms.BindingSource(this.components);
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel_RefFilterLbl = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox_Ref = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripButton_AddRef = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_RemoveFilterRef = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -80,11 +85,11 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.DataGridView_LogManagement);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(999, 379);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1211, 379);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(999, 429);
+            this.toolStripContainer1.Size = new System.Drawing.Size(1211, 429);
             this.toolStripContainer1.TabIndex = 2;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -106,10 +111,15 @@
             this.toolStripSeparator2,
             this.ToolStripLabel_CalcCapt,
             this.ToolStripTextBox_Calculation,
-            this.ToolStripDropDownButton_Calc});
+            this.ToolStripDropDownButton_Calc,
+            this.toolStripSeparator3,
+            this.toolStripLabel_RefFilterLbl,
+            this.toolStripTextBox_Ref,
+            this.toolStripButton_AddRef,
+            this.toolStripButton_RemoveFilterRef});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(861, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1208, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripLabel_FilterCapt
@@ -123,6 +133,15 @@
             this.toolStripTextBox_Filter.Name = "toolStripTextBox_Filter";
             this.toolStripTextBox_Filter.Size = new System.Drawing.Size(300, 25);
             this.toolStripTextBox_Filter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBox_Filter_KeyDown);
+            // 
+            // toolStripButton_RemoveFilter
+            // 
+            this.toolStripButton_RemoveFilter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_RemoveFilter.Image = global::TimeManagement_Module.Properties.Resources.tasto_8_architetto_franc_01;
+            this.toolStripButton_RemoveFilter.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_RemoveFilter.Name = "toolStripButton_RemoveFilter";
+            this.toolStripButton_RemoveFilter.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_RemoveFilter.Text = "toolStripButton1";
             // 
             // toolStripSeparator1
             // 
@@ -139,6 +158,15 @@
             // 
             this.toolStripTextBox_Sort.Name = "toolStripTextBox_Sort";
             this.toolStripTextBox_Sort.Size = new System.Drawing.Size(200, 25);
+            // 
+            // toolStripButton_RemoveSort
+            // 
+            this.toolStripButton_RemoveSort.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_RemoveSort.Image = global::TimeManagement_Module.Properties.Resources.tasto_8_architetto_franc_01;
+            this.toolStripButton_RemoveSort.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_RemoveSort.Name = "toolStripButton_RemoveSort";
+            this.toolStripButton_RemoveSort.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_RemoveSort.Text = "toolStripButton1";
             // 
             // toolStripSeparator2
             // 
@@ -157,6 +185,40 @@
             this.ToolStripTextBox_Calculation.ReadOnly = true;
             this.ToolStripTextBox_Calculation.Size = new System.Drawing.Size(100, 25);
             // 
+            // ToolStripDropDownButton_Calc
+            // 
+            this.ToolStripDropDownButton_Calc.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ToolStripDropDownButton_Calc.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_AVG,
+            this.ToolStripMenuItem_Calc_Mult,
+            this.ToolStripMenuItem_CalcAdd});
+            this.ToolStripDropDownButton_Calc.Image = ((System.Drawing.Image)(resources.GetObject("ToolStripDropDownButton_Calc.Image")));
+            this.ToolStripDropDownButton_Calc.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStripDropDownButton_Calc.Name = "ToolStripDropDownButton_Calc";
+            this.ToolStripDropDownButton_Calc.Size = new System.Drawing.Size(28, 22);
+            this.ToolStripDropDownButton_Calc.Text = "+";
+            // 
+            // ToolStripMenuItem_AVG
+            // 
+            this.ToolStripMenuItem_AVG.Name = "ToolStripMenuItem_AVG";
+            this.ToolStripMenuItem_AVG.Size = new System.Drawing.Size(97, 22);
+            this.ToolStripMenuItem_AVG.Text = "AVG";
+            this.ToolStripMenuItem_AVG.Click += new System.EventHandler(this.ToolStripMenuItem_AVG_Click);
+            // 
+            // ToolStripMenuItem_Calc_Mult
+            // 
+            this.ToolStripMenuItem_Calc_Mult.Name = "ToolStripMenuItem_Calc_Mult";
+            this.ToolStripMenuItem_Calc_Mult.Size = new System.Drawing.Size(97, 22);
+            this.ToolStripMenuItem_Calc_Mult.Text = "*";
+            this.ToolStripMenuItem_Calc_Mult.Click += new System.EventHandler(this.ToolStripMenuItem_Calc_Mult_Click);
+            // 
+            // ToolStripMenuItem_CalcAdd
+            // 
+            this.ToolStripMenuItem_CalcAdd.Name = "ToolStripMenuItem_CalcAdd";
+            this.ToolStripMenuItem_CalcAdd.Size = new System.Drawing.Size(97, 22);
+            this.ToolStripMenuItem_CalcAdd.Text = "+";
+            this.ToolStripMenuItem_CalcAdd.Click += new System.EventHandler(this.ToolStripMenuItem_CalcAdd_Click);
+            // 
             // DataGridView_LogManagement
             // 
             this.DataGridView_LogManagement.AllowUserToAddRows = false;
@@ -167,7 +229,7 @@
             this.DataGridView_LogManagement.Location = new System.Drawing.Point(0, 0);
             this.DataGridView_LogManagement.Name = "DataGridView_LogManagement";
             this.DataGridView_LogManagement.ReadOnly = true;
-            this.DataGridView_LogManagement.Size = new System.Drawing.Size(999, 379);
+            this.DataGridView_LogManagement.Size = new System.Drawing.Size(1211, 379);
             this.DataGridView_LogManagement.TabIndex = 2;
             this.DataGridView_LogManagement.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_LogManagement_CellClick);
             this.DataGridView_LogManagement.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DataGridView_LogManagement_CellFormatting);
@@ -206,58 +268,6 @@
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(121, 25);
             this.toolStrip2.TabIndex = 1;
-            // 
-            // toolStripButton_RemoveFilter
-            // 
-            this.toolStripButton_RemoveFilter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_RemoveFilter.Image = global::TimeManagement_Module.Properties.Resources.tasto_8_architetto_franc_01;
-            this.toolStripButton_RemoveFilter.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_RemoveFilter.Name = "toolStripButton_RemoveFilter";
-            this.toolStripButton_RemoveFilter.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_RemoveFilter.Text = "toolStripButton1";
-            // 
-            // toolStripButton_RemoveSort
-            // 
-            this.toolStripButton_RemoveSort.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_RemoveSort.Image = global::TimeManagement_Module.Properties.Resources.tasto_8_architetto_franc_01;
-            this.toolStripButton_RemoveSort.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_RemoveSort.Name = "toolStripButton_RemoveSort";
-            this.toolStripButton_RemoveSort.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_RemoveSort.Text = "toolStripButton1";
-            // 
-            // ToolStripDropDownButton_Calc
-            // 
-            this.ToolStripDropDownButton_Calc.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.ToolStripDropDownButton_Calc.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItem_AVG,
-            this.ToolStripMenuItem_Calc_Mult,
-            this.ToolStripMenuItem_CalcAdd});
-            this.ToolStripDropDownButton_Calc.Image = ((System.Drawing.Image)(resources.GetObject("ToolStripDropDownButton_Calc.Image")));
-            this.ToolStripDropDownButton_Calc.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolStripDropDownButton_Calc.Name = "ToolStripDropDownButton_Calc";
-            this.ToolStripDropDownButton_Calc.Size = new System.Drawing.Size(28, 22);
-            this.ToolStripDropDownButton_Calc.Text = "+";
-            // 
-            // ToolStripMenuItem_AVG
-            // 
-            this.ToolStripMenuItem_AVG.Name = "ToolStripMenuItem_AVG";
-            this.ToolStripMenuItem_AVG.Size = new System.Drawing.Size(97, 22);
-            this.ToolStripMenuItem_AVG.Text = "AVG";
-            this.ToolStripMenuItem_AVG.Click += new System.EventHandler(this.ToolStripMenuItem_AVG_Click);
-            // 
-            // ToolStripMenuItem_Calc_Mult
-            // 
-            this.ToolStripMenuItem_Calc_Mult.Name = "ToolStripMenuItem_Calc_Mult";
-            this.ToolStripMenuItem_Calc_Mult.Size = new System.Drawing.Size(97, 22);
-            this.ToolStripMenuItem_Calc_Mult.Text = "*";
-            this.ToolStripMenuItem_Calc_Mult.Click += new System.EventHandler(this.ToolStripMenuItem_Calc_Mult_Click);
-            // 
-            // ToolStripMenuItem_CalcAdd
-            // 
-            this.ToolStripMenuItem_CalcAdd.Name = "ToolStripMenuItem_CalcAdd";
-            this.ToolStripMenuItem_CalcAdd.Size = new System.Drawing.Size(97, 22);
-            this.ToolStripMenuItem_CalcAdd.Text = "+";
-            this.ToolStripMenuItem_CalcAdd.Click += new System.EventHandler(this.ToolStripMenuItem_CalcAdd_Click);
             // 
             // ToolStripDropDownButton_Range
             // 
@@ -317,13 +327,50 @@
             this.AllToolStripMenuItem.Text = "x_All";
             this.AllToolStripMenuItem.Click += new System.EventHandler(this.AllToolStripMenuItem_Click);
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel_RefFilterLbl
+            // 
+            this.toolStripLabel_RefFilterLbl.Name = "toolStripLabel_RefFilterLbl";
+            this.toolStripLabel_RefFilterLbl.Size = new System.Drawing.Size(68, 22);
+            this.toolStripLabel_RefFilterLbl.Text = "x_Ref-Filter:";
+            // 
+            // toolStripTextBox_Ref
+            // 
+            this.toolStripTextBox_Ref.Name = "toolStripTextBox_Ref";
+            this.toolStripTextBox_Ref.ReadOnly = true;
+            this.toolStripTextBox_Ref.Size = new System.Drawing.Size(200, 25);
+            // 
+            // toolStripButton_AddRef
+            // 
+            this.toolStripButton_AddRef.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_AddRef.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_AddRef.Image")));
+            this.toolStripButton_AddRef.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_AddRef.Name = "toolStripButton_AddRef";
+            this.toolStripButton_AddRef.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_AddRef.Text = "...";
+            this.toolStripButton_AddRef.Click += new System.EventHandler(this.toolStripButton_AddRef_Click);
+            // 
+            // toolStripButton_RemoveFilterRef
+            // 
+            this.toolStripButton_RemoveFilterRef.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_RemoveFilterRef.Image = global::TimeManagement_Module.Properties.Resources.tasto_8_architetto_franc_01;
+            this.toolStripButton_RemoveFilterRef.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_RemoveFilterRef.Name = "toolStripButton_RemoveFilterRef";
+            this.toolStripButton_RemoveFilterRef.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_RemoveFilterRef.Text = "x_RemoveFilter";
+            this.toolStripButton_RemoveFilterRef.Click += new System.EventHandler(this.toolStripButton_RemoveFilterRef_Click);
+            // 
             // UserControl_TimeGrid
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.toolStripContainer1);
             this.Name = "UserControl_TimeGrid";
-            this.Size = new System.Drawing.Size(999, 429);
+            this.Size = new System.Drawing.Size(1211, 429);
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
@@ -373,6 +420,11 @@
         internal System.Windows.Forms.ToolStripMenuItem LastTwoWeeksToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem XThisMonthToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem AllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_RefFilterLbl;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox_Ref;
+        private System.Windows.Forms.ToolStripButton toolStripButton_AddRef;
+        private System.Windows.Forms.ToolStripButton toolStripButton_RemoveFilterRef;
 
     }
 }

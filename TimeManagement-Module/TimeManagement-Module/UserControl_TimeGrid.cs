@@ -23,9 +23,12 @@ namespace TimeManagement_Module
         private frmTimeManagementEdit objFrmTimeManagementEdit;
 
         private frm_ObjectEdit objFrmObjectEdit;
+        private frmMain objFrmMain;
 
         public delegate void SelectedTimeItem();
         public event SelectedTimeItem selectedTimeItem;
+
+        private clsOntologyItem objOItem_Ref;
 
         private bool pcChange;
 
@@ -41,6 +44,7 @@ namespace TimeManagement_Module
         private void Initialize()
         {
             objDataWork_TimeManagement = new clsDataWork_TimeManagement(objLocalConfig);
+            objDataWork_TimeManagement.OItem_Ref = objOItem_Ref;
             objDataWork_TimeManagement.GetData_TimeManagement();
 
             if (objDataWork_TimeManagement.OItem_Result_TimeManagement.GUID == objLocalConfig.Globals.LState_Success.GUID)
@@ -437,6 +441,32 @@ namespace TimeManagement_Module
         private void DataGridView_LogManagement_SelectionChanged(object sender, EventArgs e)
         {
             if (!pcChange) selectedTimeItem();
+        }
+
+        private void toolStripButton_AddRef_Click(object sender, EventArgs e)
+        {
+            objFrmMain = new frmMain(objLocalConfig.Globals);
+            objFrmMain.ShowDialog(this);
+            if (objFrmMain.DialogResult == DialogResult.OK)
+            {
+                if (objFrmMain.OList_Simple.Count == 1)
+                {
+                    objOItem_Ref = objFrmMain.OList_Simple.First();
+                    toolStripTextBox_Ref.Text = objOItem_Ref.Name;
+                    Initialize();
+                }
+                else
+                {
+                    MessageBox.Show(this, "Bitte nur ein Item auswählen!", "Nur ein Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void toolStripButton_RemoveFilterRef_Click(object sender, EventArgs e)
+        {
+            objOItem_Ref = null;
+            toolStripTextBox_Ref.Text = "";
+            Initialize();
         }
 
     }

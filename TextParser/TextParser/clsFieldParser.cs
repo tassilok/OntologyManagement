@@ -216,22 +216,19 @@ namespace TextParser
 
                             StringBuilder line = new StringBuilder();
                             var length = 1;
-                            StringBuilder tester = new StringBuilder();
+                            var tester = "";
                             var finished = false;
                             while (!finished && !textReader.EndOfStream)
                             {
                                 length = line.Length;
                                 char singleChar = (char)textReader.Read();
-                                if (!OList_Seperator.Any(s => s.Name == singleChar.ToString()))
-                                {
-                                    tester.Append(singleChar);
-                                }
-                                else
+                                tester += singleChar;
+                                if (OList_Seperator.Any(s => tester.EndsWith(s.Name)))
                                 {
                                     text = tester.ToString();
                                     finished = true;    
                                 }
-
+                                
                                 
 
                             }
@@ -303,14 +300,17 @@ namespace TextParser
                             {
 
 
-
+                                // Regex-Pre
                                 if (field.ID_RegExPre != null &&
                                     field.ID_RegExPre != objLocalConfig.OItem_object_empty.GUID)
                                 {
                                     var objRegExPre = new Regex(field.RegexPre);
+
+                                    // Regex im Text suchen
                                     var objMatches = objRegExPre.Matches(textParse);
                                     if (objMatches.Count > 0)
                                     {
+
                                         textParse =
                                             textParse.Substring(objMatches[0].Index +
                                                                 objMatches[0].Length);
@@ -442,7 +442,7 @@ namespace TextParser
                                 if (field.RemoveFromSource)
                                 {
                                     textParseBase = text.Substring(ixStart);
-                                    textParse = text.Substring(ixStart);
+                                    textParse = text.Substring(ixStart+textParse.Length);
                                 }
                                 else
                                 {
@@ -457,7 +457,7 @@ namespace TextParser
 
                         }
 
-                        if (dictMeta.Any() && (!UserFields.Any() || dictUser.Any()))
+                        if (dictMeta.Any() || (!UserFields.Any() || dictUser.Any()))
                         {
                             //if (dontAddUser) dictUser.Clear();
                             dictUser =  dictUser.Union(dictMeta).ToDictionary(pair => pair.Key, pair => pair.Value);

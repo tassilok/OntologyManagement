@@ -155,6 +155,7 @@ namespace GraphMLConnector
                                               ID_Class_Left = objClassRel.ID_Class_Left,
                                               ID_Class_Right = objClassRel.ID_Class_Right,
                                               ID_RelationType = objClassRel.ID_RelationType,
+                                              Name_RelationType = objRelType.Name,
                                               Min_Forw = objClassRel.Min_Forw,
                                               Max_Forw = objClassRel.Max_Forw,
                                               Max_Backw = objClassRel.Max_Backw,
