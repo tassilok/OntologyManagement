@@ -188,14 +188,14 @@ namespace TextParser
                     index = index.Replace("@" + objLocalConfig.OItem_object_filedate_lastchange.Name.ToLower() + "@", File.GetLastWriteTime(file.FileName).ToString("yyyyMMdd"));
                 }
 
-                
+                var dictList = new List<clsAppDocuments>();
                 try
                 {
                     
                     var textReader = new StreamReader(file.FileName);
 
 
-                    var dictList = new List<clsAppDocuments>();
+                    
                     var text = "";
                     var UserFields = ParseFieldList.Where(f => f.IsMeta == false).ToList();
                     while (!textReader.EndOfStream)
@@ -442,7 +442,10 @@ namespace TextParser
                                 if (field.RemoveFromSource)
                                 {
                                     textParseBase = text.Substring(ixStart);
-                                    textParse = text.Substring(ixStart+textParse.Length);
+                                    if (text.Length - 1 > ixStart + textParse.Length)
+                                        textParse = text.Substring(ixStart + textParse.Length);
+                                    else
+                                        textParse = text;
                                 }
                                 else
                                 {

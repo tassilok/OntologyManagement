@@ -135,8 +135,8 @@ namespace TimeManagement_Module
                                               {
                                                   Year = objWeeks.Key.Year_Start,
                                                   Week = objWeeks.Key.Week_Start,
-                                                  Duration_Hours_Week = objWeeks.Sum(p => p.Ende.Subtract(p.Start).TotalSeconds / 3600 * (p.ID_LogState == objLocalConfig.OItem_object_private.GUID ? -1 : 1)),
-                                                  Duration_Minutes_Week = objWeeks.Sum(p => p.Ende.Subtract(p.Start).TotalSeconds / 60 * (p.ID_LogState == objLocalConfig.OItem_object_private.GUID ? -1 : 1))
+                                                  Duration_Hours_Week = objWeeks.Where(p => p.ID_LogState != objLocalConfig.OItem_object_private.GUID).Sum(p => p.Ende.Subtract(p.Start).TotalSeconds / 3600),
+                                                  Duration_Minutes_Week = objWeeks.Where(p => p.ID_LogState != objLocalConfig.OItem_object_private.GUID).Sum(p => p.Ende.Subtract(p.Start).TotalSeconds / 60)
                                               }).ToList();
 
                         var objOList_Days = (from objTimeManagement in objOList_TimeManagement
@@ -147,16 +147,28 @@ namespace TimeManagement_Module
                                                  Month = objDays.Key.Month_Start,
                                                  Day = objDays.Key.Day_Start,
                                                  Last_Ende = objDays.Max(p => p.Ende),
-                                                 Duration_Hours_Day = objDays.Sum(p => p.Ende.Subtract(p.Start).TotalSeconds / 3600 * (p.ID_LogState == objLocalConfig.OItem_object_private.GUID ? -1 : 1)),
-                                                 Duration_Minutes_Day = objDays.Sum(p => p.Ende.Subtract(p.Start).TotalSeconds / 60 * (p.ID_LogState == objLocalConfig.OItem_object_private.GUID ? -1 : 1)),
+                                                 Duration_Hours_Day = objDays.Where(p => p.ID_LogState != objLocalConfig.OItem_object_private.GUID).Sum(p => p.Ende.Subtract(p.Start).TotalSeconds / 3600),
+                                                 Duration_Minutes_Day = objDays.Where(p => p.ID_LogState != objLocalConfig.OItem_object_private.GUID).Sum(p => p.Ende.Subtract(p.Start).TotalSeconds / 60),
+                                                 DaySeq = objDays.Key.Year_Start * 10000 + objDays.Key.Month_Start * 100 + objDays.Key.Day_Start
                                              }).ToList();
 
+                        var objOList_LastEntry = (from objDay in objOList_Days
+                                                  from objTimeManagement in
+                                                      objOList_TimeManagement.Where(
+                                                          t => t.DateTimeStamp_Start_Seq == objDay.DaySeq)
+                                                                             .OrderByDescending(t => t.Ende)
+                                                                             .Take(1)
+                                                  select objTimeManagement).ToList();
+                                                  
 
+                        
                         var objTimeManagement_Finished = (from objTimeManagement in objOList_TimeManagement
                                                           join objWeek in objOList_Weeks on new { Year = objTimeManagement.Year_Start, Week = objTimeManagement.Week_Start } equals
                                                                                             new { Year = objWeek.Year, Week = objWeek.Week }
                                                           join objDay in objOList_Days on new { Year = objTimeManagement.Year_Start, Month = objTimeManagement.Month_Start, Day = objTimeManagement.Day_Start } equals
                                                                                           new { Year = objDay.Year, Month = objDay.Month, Day = objDay.Day }
+                                                          join objLastEntry in objOList_LastEntry on new { Year = objTimeManagement.Year_Start, Month = objTimeManagement.Month_Start, Day = objTimeManagement.Day_Start } equals
+                                                                                          new { Year = objLastEntry.Year_Start, Month = objLastEntry.Month_Start, Day = objLastEntry.Day_Start }
                                                           select new
                                                           {
                                                               ID_TimeManagement = objTimeManagement.ID_TimeManagement,
@@ -185,9 +197,7 @@ namespace TimeManagement_Module
                                                               Duration_Minutes_Week = objWeek.Duration_Minutes_Week,
                                                               ToDo_Hours_Week = objLocalConfig.StandardHours * objLocalConfig.StandardDayCount - objWeek.Duration_Hours_Week,
                                                               ToDo_Minutes_Week = (objLocalConfig.StandardHours * objLocalConfig.StandardDayCount * 60) - objWeek.Duration_Minutes_Week,
-                                                              ToDo_End = ((DateTime)objTimeManagement.Ende).DayOfYear == DateTime.Now.DayOfYear && ((DateTime)objTimeManagement.Ende).Year == DateTime.Now.Year ?
-                                                                    DateTime.Now.AddMinutes((objLocalConfig.StandardHours * 60) - objDay.Duration_Minutes_Day) :
-                                                                    objTimeManagement.Ende,
+                                                              ToDo_End = objLastEntry.Ende.AddSeconds((objLocalConfig.StandardHours * 60 * 60) - (objDay.Duration_Minutes_Day * 60)),
                                                               DateTimeStamp_Start_Seq = objTimeManagement.DateTimeStamp_Start_Seq,
                                                               DateTimeStamp_Ende_Seq = objTimeManagement.DateTimeStamp_Start_End
                                                           }).ToList();

@@ -345,7 +345,7 @@ namespace Import_Redmine_Projects
             var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
             var documents = objAppDbLevel.GetData_Documents(objDataWork_BaseConfig.Index, "open_projects");
 
-            ProjectList = documents.Select(d => new clsRedmineProject
+            ProjectList = documents.Where(d => d.Dict.ContainsKey("project_id") && d.Dict["project_id"] != null).Select(d => new clsRedmineProject
                 {
                     Id = (long) d.Dict["project_id"],
                     Subject = d.Dict["subject"].ToString(),

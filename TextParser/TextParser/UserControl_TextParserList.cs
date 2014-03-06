@@ -85,7 +85,7 @@ namespace TextParser
         {
             if (!IsPCChanged)
             {
-                OList_TextParsers = dataGridView_TextParsers.Rows.OfType<DataGridViewRow>().Select(p => (clsOntologyItem)p.DataBoundItem).ToList();
+                OList_TextParsers = dataGridView_TextParsers.SelectedRows.OfType<DataGridViewRow>().Select(p => (clsOntologyItem)p.DataBoundItem).ToList();
 
                 selectedTextParser();    
             }
