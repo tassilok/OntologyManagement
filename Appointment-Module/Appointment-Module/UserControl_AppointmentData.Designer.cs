@@ -307,6 +307,7 @@
             this.dataGridView_Contacts.ReadOnly = true;
             this.dataGridView_Contacts.Size = new System.Drawing.Size(484, 157);
             this.dataGridView_Contacts.TabIndex = 0;
+            this.dataGridView_Contacts.SelectionChanged += new System.EventHandler(this.dataGridView_Contacts_SelectionChanged);
             // 
             // toolStrip1
             // 
@@ -325,7 +326,7 @@
             this.toolStripButton_RemWatcher});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(387, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(418, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripLabel_Contractors
@@ -342,6 +343,7 @@
             this.toolStripButton_AddContractor.Name = "toolStripButton_AddContractor";
             this.toolStripButton_AddContractor.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_AddContractor.Text = "toolStripButton1";
+            this.toolStripButton_AddContractor.Click += new System.EventHandler(this.toolStripButton_AddContractor_Click);
             // 
             // toolStripButton_RemContractor
             // 
@@ -351,6 +353,7 @@
             this.toolStripButton_RemContractor.Name = "toolStripButton_RemContractor";
             this.toolStripButton_RemContractor.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_RemContractor.Text = "toolStripButton1";
+            this.toolStripButton_RemContractor.Click += new System.EventHandler(this.toolStripButton_RemContractor_Click);
             // 
             // toolStripSeparator1
             // 
@@ -371,6 +374,7 @@
             this.toolStripButton_AddContractee.Name = "toolStripButton_AddContractee";
             this.toolStripButton_AddContractee.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_AddContractee.Text = "toolStripButton1";
+            this.toolStripButton_AddContractee.Click += new System.EventHandler(this.toolStripButton_AddContractee_Click);
             // 
             // toolStripButton_RemContractee
             // 
@@ -380,6 +384,7 @@
             this.toolStripButton_RemContractee.Name = "toolStripButton_RemContractee";
             this.toolStripButton_RemContractee.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_RemContractee.Text = "toolStripButton2";
+            this.toolStripButton_RemContractee.Click += new System.EventHandler(this.toolStripButton_RemContractee_Click);
             // 
             // toolStripSeparator2
             // 
@@ -400,6 +405,7 @@
             this.toolStripButton_AddWatcher.Name = "toolStripButton_AddWatcher";
             this.toolStripButton_AddWatcher.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_AddWatcher.Text = "toolStripButton1";
+            this.toolStripButton_AddWatcher.Click += new System.EventHandler(this.toolStripButton_AddWatcher_Click);
             // 
             // toolStripButton_RemWatcher
             // 
@@ -409,6 +415,7 @@
             this.toolStripButton_RemWatcher.Name = "toolStripButton_RemWatcher";
             this.toolStripButton_RemWatcher.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_RemWatcher.Text = "toolStripButton2";
+            this.toolStripButton_RemWatcher.Click += new System.EventHandler(this.toolStripButton_RemWatcher_Click);
             // 
             // splitContainer3
             // 

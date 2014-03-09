@@ -22,6 +22,8 @@ namespace Appointment_Module
         private clsRelationConfig objRelationConfig;
         private clsLocalConfig objLocalConfig;
 
+        private clsDBLevel objDBLevel_RemoveContacts;
+
         private UserControl_OItemList objUserControl_Partner;
         private UserControl_Address objUserControl_AddressDetail;
         private UserControl_OItemList objUserControl_Address;
@@ -181,6 +183,8 @@ namespace Appointment_Module
         private void initialize()
         {
 
+            objDBLevel_RemoveContacts = new clsDBLevel(objLocalConfig.Globals);
+
             objUserControl_PDF = new UserControl_SingleViewer(objLocalConfig.Globals, (int)UserControl_SingleViewer.MediaType.PDF, objLocalConfig.OItem_User);
             objUserControl_PDF.Dock = DockStyle.Fill;
             tabPage_PDF.Controls.Add(objUserControl_PDF);
@@ -231,6 +235,7 @@ namespace Appointment_Module
             });
             objUserControl_Partner.Dock = DockStyle.Fill;
             splitContainer_Contacts.Panel2.Controls.Add(objUserControl_Partner);
+            objUserControl_Partner.Selection_Changed += objUserControl_Partner_Selection_Changed;
 
             objUserControl_AddressDetail = new UserControl_Address(objLocalConfig.Globals);
             objUserControl_AddressDetail.Dock = DockStyle.Fill;
@@ -246,6 +251,20 @@ namespace Appointment_Module
             objTransaction_AppointmentDetail = new clsTransaction_AppointmentDetail(objLocalConfig);
 
             clear_Controls();   
+        }
+
+        void objUserControl_Partner_Selection_Changed()
+        {
+            toolStripButton_AddContractee.Enabled = false;
+            toolStripButton_AddContractor.Enabled = false;
+            toolStripButton_AddWatcher.Enabled = false;
+
+            if (objUserControl_Partner.DataGridViewRowCollection_Selected.Count > 0)
+            {
+                toolStripButton_AddContractee.Enabled = true;
+                toolStripButton_AddContractor.Enabled = true;
+                toolStripButton_AddWatcher.Enabled = true;
+            }
         }
 
         public void clear_Controls()
@@ -605,6 +624,127 @@ namespace Appointment_Module
         private void tabControl_Appointments_SelectedIndexChanged(object sender, EventArgs e)
         {
             Configure_TabPages();
+        }
+
+        private void toolStripButton_AddContractor_Click(object sender, EventArgs e)
+        {
+            AddContact(objLocalConfig.OItem_relationtype_belonging_contractor);
+            
+        }
+
+        private void AddContact(clsOntologyItem OItem_RelationType)
+        {
+            foreach (DataGridViewRow dgvrSelected in objUserControl_Partner.DataGridViewRowCollection_Selected)
+            {
+                var drvSelected = (DataRowView)dgvrSelected.DataBoundItem;
+                var objPartner = new clsOntologyItem
+                {
+                    GUID = drvSelected["ID_Item"].ToString(),
+                    Name = drvSelected["Name"].ToString(),
+                    GUID_Parent = drvSelected["ID_Parent"].ToString(),
+                    Type = objLocalConfig.Globals.Type_Object
+                };
+
+                var objORel_AppointmentToContractor = objRelationConfig.Rel_ObjectRelation(new clsOntologyItem
+                {
+                    GUID = objAppointment.ID_Appointment,
+                    Name = objAppointment.Name_Appointment,
+                    GUID_Parent = objLocalConfig.OItem_type_appointment.GUID,
+                    Type = objLocalConfig.Globals.Type_Object
+                }, objPartner, OItem_RelationType);
+
+                objTransaction.rollback();
+                var objOItem_Result = objTransaction.do_Transaction(objORel_AppointmentToContractor);
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    objDataWork_AppointmentDetail.OList_Contacts.Add(new clsContact
+                    {
+                        ID_Contact = objPartner.GUID,
+                        Name_Contact = objPartner.Name,
+                        ID_Class_Contact = OItem_RelationType.GUID,
+                        Name_Class_Contact = OItem_RelationType.Name
+                    });
+
+                }
+                else
+                {
+                    MessageBox.Show(this, "Die Partner konnten nicht in die Liste der Kontakte eingefügt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                }
+            }
+
+            
+        }
+
+        private void toolStripButton_AddContractee_Click(object sender, EventArgs e)
+        {
+            AddContact(objLocalConfig.OItem_relationtype_belonging_contractee);
+        }
+
+        private void toolStripButton_AddWatcher_Click(object sender, EventArgs e)
+        {
+            AddContact(objLocalConfig.OItem_relationtype_belonging_watchers);
+        }
+
+        private void dataGridView_Contacts_SelectionChanged(object sender, EventArgs e)
+        {
+            
+            var objOList_SelectedRows = dataGridView_Contacts.SelectedRows.Cast<DataGridViewRow>().ToList().Select(r => (clsContact)r.DataBoundItem).ToList();
+
+            toolStripButton_RemContractor.Enabled = objOList_SelectedRows.Any(r => r.ID_Class_Contact == objLocalConfig.OItem_relationtype_belonging_contractor.GUID);
+            toolStripButton_RemContractee.Enabled = objOList_SelectedRows.Any(r => r.ID_Class_Contact == objLocalConfig.OItem_relationtype_belonging_contractee.GUID);
+            toolStripButton_RemWatcher.Enabled = objOList_SelectedRows.Any(r => r.ID_Class_Contact == objLocalConfig.OItem_relationtype_belonging_watchers.GUID);
+
+        }
+
+        private void toolStripButton_RemContractor_Click(object sender, EventArgs e)
+        {
+            DelContacts(objLocalConfig.OItem_relationtype_belonging_contractor);
+        }
+
+        private void DelContacts(clsOntologyItem OItem_RelationType)
+        {
+            var objOList_Contractors = dataGridView_Contacts.SelectedRows.Cast<DataGridViewRow>().ToList().Select(r => (clsContact)r.DataBoundItem).Where(r => r.ID_Class_Contact == OItem_RelationType.GUID).ToList();
+
+            if (objOList_Contractors.Any())
+            {
+                var objORelAppointment_To_Partner = objOList_Contractors.Select(c => objRelationConfig.Rel_ObjectRelation(new clsOntologyItem
+                {
+                    GUID = objAppointment.ID_Appointment,
+                    Name = objAppointment.Name_Appointment,
+                    GUID_Parent = objLocalConfig.OItem_type_appointment.GUID,
+                    Type = objLocalConfig.Globals.Type_Object
+                }, new clsOntologyItem
+                {
+                    GUID = c.ID_Contact,
+                    Name = c.Name_Contact,
+                    GUID_Parent = objLocalConfig.OItem_type_partner.GUID,
+                    Type = objLocalConfig.Globals.Type_Object
+                }, OItem_RelationType)).ToList();
+
+                var objOItem_Result = objDBLevel_RemoveContacts.del_ObjectRel(objORelAppointment_To_Partner);
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                {
+                    MessageBox.Show(this, "Die Partner konnten nicht entfernt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);   
+                }
+
+                objDataWork_AppointmentDetail.initialize_AppointmentDetail(objAppointment);
+
+                timer_Contacts.Start();
+                timer_Resources.Start();
+
+                Configure_TabPages();
+            }
+        }
+
+        private void toolStripButton_RemContractee_Click(object sender, EventArgs e)
+        {
+            DelContacts(objLocalConfig.OItem_relationtype_belonging_contractor);
+        }
+
+        private void toolStripButton_RemWatcher_Click(object sender, EventArgs e)
+        {
+            DelContacts(objLocalConfig.OItem_relationtype_belonging_contractor);
         }
     }
 }
