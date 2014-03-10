@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -189,8 +190,8 @@ namespace TextParser
                 }
 
                 var dictList = new List<clsAppDocuments>();
-                try
-                {
+                //try
+                //{
                     
                     var textReader = new StreamReader(file.FileName);
 
@@ -308,7 +309,7 @@ namespace TextParser
 
                                     // Regex im Text suchen
                                     var objMatches = objRegExPre.Matches(textParse);
-                                    if (objMatches.Count > 0)
+                                    if (objMatches.Count > 0 && objMatches[0].Length > 0)
                                     {
 
                                         textParse =
@@ -338,7 +339,7 @@ namespace TextParser
                                         var objRegExPost = new Regex(field.RegexPost);
                                         var objMatches = objRegExPost.Matches(textParse);
 
-                                        if (objMatches.Count > 0)
+                                        if (objMatches.Count > 0 && objMatches[0].Length > 0)
                                         {
                                             textParse = textParse.Substring(0, objMatches[0].Index);
                                             ixStart += objMatches[0].Index + objMatches[0].Length - 1;
@@ -363,7 +364,7 @@ namespace TextParser
                                         var objRegEx = new Regex(field.Regex);
                                         var objMatches = objRegEx.Matches(textParse);
 
-                                        if (objMatches.Count > 0)
+                                        if (objMatches.Count > 0 && objMatches[0].Length>0)
                                         {
                                             textParse = textParse.Substring(objMatches[0].Index,
                                                                             objMatches[0].Length);
@@ -441,7 +442,11 @@ namespace TextParser
 
                                 if (field.RemoveFromSource)
                                 {
-                                    textParseBase = text.Substring(ixStart);
+                                    if (textParseBase.Length > ixStart)
+                                        textParseBase = text.Substring(ixStart);
+                                    else
+                                        textParseBase = text;
+
                                     if (text.Length - 1 > ixStart + textParse.Length)
                                         textParse = text.Substring(ixStart + textParse.Length);
                                     else
@@ -494,12 +499,12 @@ namespace TextParser
                         }
                     }
                     textReader.Close();
-                }
-                catch (Exception ex)
-                {
+                //}
+                //catch (Exception ex)
+                //{
 
-                    return objLocalConfig.Globals.LState_Error.Clone();
-                }
+                //    return objLocalConfig.Globals.LState_Error.Clone();
+                //}
                 
 
                 
