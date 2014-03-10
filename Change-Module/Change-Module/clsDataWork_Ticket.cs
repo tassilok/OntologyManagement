@@ -2011,14 +2011,15 @@ namespace Change_Module
                             ID_Parent_Other = objLocalConfig.OItem_type_Logstate.GUID,
                             ID_RelationType = objLocalConfig.OItem_RelationType_provides.GUID
                         }).ToList();
-
-                objOItem_Result = objDBLevel_LogentriesOfProcessLogs.get_Data_ObjectRel(ORel_LogEntries_To_LogState);
-                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                if (ORel_LogEntries_To_LogState.Any())
                 {
-                    var OList_LogEntries_To_LogStates =
-                        objDBLevel_LogentriesOfProcessLogs.OList_ObjectRel_ID.Select(p => p).ToList();
+                    objOItem_Result = objDBLevel_LogentriesOfProcessLogs.get_Data_ObjectRel(ORel_LogEntries_To_LogState);
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        var OList_LogEntries_To_LogStates =
+                            objDBLevel_LogentriesOfProcessLogs.OList_ObjectRel_ID.Select(p => p).ToList();
 
-                    var ORel_Node_To_Finished = new List<clsObjectRel>
+                        var ORel_Node_To_Finished = new List<clsObjectRel>
                         {
                             new clsObjectRel
                                 {
@@ -2028,33 +2029,35 @@ namespace Change_Module
                                 }
                         };
 
-                    objOItem_Result = objDBLevel_LogentriesOfProcessLogs.get_Data_ObjectRel(ORel_Node_To_Finished);
-                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                    {
-                        if (objDBLevel_LogentriesOfProcessLogs.OList_ObjectRel_ID.Any())
+                        objOItem_Result = objDBLevel_LogentriesOfProcessLogs.get_Data_ObjectRel(ORel_Node_To_Finished);
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-                            var objOList_LogEntries_Finished_Obsolete =
-                                OList_LogEntries_To_LogStates.Join(
-                                    objDBLevel_LogentriesOfProcessLogs.OList_ObjectRel_ID, left => left.ID_Object,
-                                    right => right.ID_Other, (left, right) => left).Where(p => p.ID_Other == objLocalConfig.OItem_Token_LogState_Obsolete.GUID).ToList();
+                            if (objDBLevel_LogentriesOfProcessLogs.OList_ObjectRel_ID.Any())
+                            {
+                                var objOList_LogEntries_Finished_Obsolete =
+                                    OList_LogEntries_To_LogStates.Join(
+                                        objDBLevel_LogentriesOfProcessLogs.OList_ObjectRel_ID, left => left.ID_Object,
+                                        right => right.ID_Other, (left, right) => left).Where(p => p.ID_Other == objLocalConfig.OItem_Token_LogState_Obsolete.GUID).ToList();
 
-                            if (objOList_LogEntries_Finished_Obsolete.Any())
-                            {
-                                objOItem_State = objLocalConfig.OItem_Token_LogState_Obsolete.Clone();
+                                if (objOList_LogEntries_Finished_Obsolete.Any())
+                                {
+                                    objOItem_State = objLocalConfig.OItem_Token_LogState_Obsolete.Clone();
+                                }
+                                else
+                                {
+                                    objOItem_State = objLocalConfig.Globals.LState_Success.Clone();
+                                }
+
                             }
-                            else
-                            {
-                                objOItem_State = objLocalConfig.Globals.LState_Success.Clone();
-                            }
-                            
+                        }
+
+                        if (objOItem_State == null)
+                        {
+                            // ToDo: Errors
                         }
                     }
-
-                    if (objOItem_State == null)
-                    {
-                        // ToDo: Errors
-                    }
                 }
+                
             }
 
             return objOItem_State;

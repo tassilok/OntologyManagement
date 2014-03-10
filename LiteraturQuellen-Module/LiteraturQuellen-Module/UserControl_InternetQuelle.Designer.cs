@@ -95,6 +95,7 @@
             this.TextBox_URL.ReadOnly = true;
             this.TextBox_URL.Size = new System.Drawing.Size(252, 20);
             this.TextBox_URL.TabIndex = 9;
+            this.TextBox_URL.DoubleClick += new System.EventHandler(this.TextBox_URL_DoubleClick);
             // 
             // Label_Partner
             // 

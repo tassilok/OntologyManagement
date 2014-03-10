@@ -11,6 +11,7 @@ using Ontology_Module;
 using OntologyClasses.BaseClasses;
 using Media_Viewer_Module;
 using Log_Module;
+using ClassLibrary_ShellWork;
 
 namespace LiteraturQuellen_Module
 {
@@ -31,6 +32,8 @@ namespace LiteraturQuellen_Module
 
         private clsRelationConfig objRelationConfig;
         private clsTransaction objTransaction;
+
+        private clsShellWork objShellWork = new clsShellWork();
 
         public UserControl_InternetQuelle(clsLocalConfig LocalConfig)
         {
@@ -400,6 +403,20 @@ namespace LiteraturQuellen_Module
                     MessageBox.Show(this, "Bitte nur einen Ersteller auswählen!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
+            }
+        }
+
+        private void TextBox_URL_DoubleClick(object sender, EventArgs e)
+        {
+            var strUrl = TextBox_URL.Text;
+            if (Uri.IsWellFormedUriString(strUrl,UriKind.Absolute))
+            {
+                objShellWork.start_Process(strUrl, null, null, false, false);
+            }
+            else
+            {
+                MessageBox.Show(this, "Die Url ist nicht korrekt formatiert!", "Fehler.", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
             }
         }
     }
