@@ -292,6 +292,7 @@ Public Class clsDataWork_References
                     objThread_ProcessRef = New Threading.Thread(AddressOf get_Data_ProcessReferences)
                     objThread_ProcessRef.Start()
                 Else
+                    objDBLevel_ProcessRef.OList_ObjectRel.Clear()
                     objOItem_Result_References = objLocalConfig.Globals.LState_Success
                 End If
                 

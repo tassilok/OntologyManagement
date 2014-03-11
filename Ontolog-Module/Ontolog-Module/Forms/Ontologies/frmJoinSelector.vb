@@ -211,7 +211,7 @@ Public Class frmJoinSelector
         objUserControl_TypeTree.initialize_Tree()
         objUserControl_TypeTree.Dock = DockStyle.Fill
 
-        objUserControl_ObjectRelTree = New UserControl_ObjectRelTree(objDataWork_Ontologies.LocalConfig.Globals, Nothing)
+        objUserControl_ObjectRelTree = New UserControl_ObjectRelTree(objDataWork_Ontologies.LocalConfig.Globals)
         objUserControl_ObjectRelTree.Dock = DockStyle.Fill
 
         SplitContainer1.Panel1.Controls.Add(objUserControl_TypeTree)

@@ -203,7 +203,7 @@ Public Class frmRefTree
     Private Sub Initialize()
         objDataWork_Ontologies = New clsDataWork_Ontologies(objLocalConfig.Globals)
 
-        objUserControl_ObjectRelTree = New UserControl_ObjectRelTree(objLocalConfig.Globals, Nothing)
+        objUserControl_ObjectRelTree = New UserControl_ObjectRelTree(objLocalConfig.Globals)
         objUserControl_ObjectRelTree.Dock = DockStyle.Fill
         ToolStripContainer1.ContentPanel.Controls.Add(objUserControl_ObjectRelTree)
 

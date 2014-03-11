@@ -29,7 +29,7 @@ Public Class UserControl_ObjectRelTree
     Public Event selected_Item(ByVal oList_Items As List(Of clsOntologyItem))
 
 
-    Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal OItem_Object As clsOntologyItem)
+    Public Sub New(ByVal LocalConfig As clsLocalConfig)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
@@ -37,22 +37,18 @@ Public Class UserControl_ObjectRelTree
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = LocalConfig
 
-        objOItem_Object = OItem_Object
-
         set_DBConnection()
 
         initialize()
     End Sub
 
-    Public Sub New(ByVal Globals As clsGlobals, ByVal OItem_Object As clsOntologyItem)
+    Public Sub New(ByVal Globals As clsGlobals)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(Globals)
-
-        objOItem_Object = OItem_Object
 
         set_DBConnection()
 
@@ -167,8 +163,7 @@ Public Class UserControl_ObjectRelTree
         objDBLevel_Class_LeftRight.get_Data_ClassRel(objOList_ClassRel, False, False, False, False)
 
 
-        objDBLevel_Class_LeftRight.OList_ClassRel.Sort(Function(U1 As clsClassRel, U2 As clsClassRel) U1.Name_Class_Right.CompareTo(U2.Name_Class_Right))
-        For Each objItem In objDBLevel_Class_LeftRight.OList_ClassRel
+        For Each objItem In objDBLevel_Class_LeftRight.OList_ClassRel.OrderBy(Function(c) c.Name_Class_Right).ToList()
             If objOItem_Object.Type = objLocalConfig.Globals.Type_Object Then
                 objOList_ObjRel.Clear()
                 objOList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, _
@@ -412,13 +407,19 @@ Public Class UserControl_ObjectRelTree
         
 
         Dim objOItem_Result = objDBLevel_ObjectRel.get_Data_ObjectRel(objORel_Backward,boolIDs := False)
-        objDBLevel_ObjectRel.OList_ObjectRel.Sort(Function(U1 As clsObjectRel, U2 As clsObjectRel) U1.Name_Other.CompareTo(U2.Name_Other))
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             If objTreeNode_RelBackward_OR Is Nothing Then
                 objTreeNode_RelBackward_OR = TreeView_ObjectRels.Nodes.Add(objLocalConfig.Globals.Type_Other & "_backw", objLocalConfig.Globals.Type_Other & " (backw)", 0)
             End If
-            For Each objRel In objDBLevel_ObjectRel.OList_ObjectRel
-                objTreeNode_RelBackward_OR.Nodes.Add(objRel.ID_Object, objRel.Name_Object & " / " & objRel.Name_Parent_Object & " / " & objRel.Name_RelationType)    
+
+            Dim objRelationTypes = (From objRelation in objDBLevel_ObjectRel.OList_ObjectRel
+                                    Group By objRelation.ID_Parent_Other, objRelation.Name_Parent_Other, objRelation.ID_RelationType, objRelation.Name_RelationType Into objRelations = Group
+                                    From objRelation In objRelations
+                                    
+                objDBLevel_ObjectRel.OList_ObjectRel.GroupBy(Function(o) New With { o.ID_RelationType, o.Name_RelationType, o.ID_Parent_Other, o.Name_Parent_Other}).Select(Function(o) New With {.ID_RelationType = o.Key.ID_RelationType, .Name_RelationType = o.Key.Name_RelationType, .ID_Parent_Other = o.Key.ID_Parent_Other, .Name_Parent_Other = o.Key.Name_Parent_Other, .Count = o.Count()}).ToList()
+
+            For Each objRel In objRelationTypes.OrderBy(Function(r) r.Name_Parent_Other).ThenBy(Function(r) r.Name_RelationType).ToList()
+                objTreeNode_RelBackward_OR.Nodes.Add(objRel.ID_Parent_Other & "_" & objRel.ID_RelationType, objRel.Name_Parent_Other & " / " & objRel.Name_RelationType & " (" & objRel.Count.ToString() & ")")
             Next
             
         End If
@@ -468,26 +469,32 @@ Public Class UserControl_ObjectRelTree
                     objOList_Selected.Add(objLocalConfig.Globals.Direction_LeftRight)
                     RaiseEvent selected_Item(objOList_Selected)
 
-                Case objTreeNode_RelForward_OR.Name
-                    objOList_Selected.Add(objOItem_Object)
-                    objOList_Selected.Add(New clsOntologyItem(objTreeNode.Name, objLocalConfig.Globals.Type_RelationType))
-                    objOList_Selected.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.Globals.Type_Other))
-                    RaiseEvent selected_Item(objOList_Selected)
-                Case objTreeNode_RelBackward_OR.Name
+                Case Else
+
+                    If Not objTreeNode_RelForward_OR Is Nothing Then
+                        If objTreeNode.Parent.Name = objTreeNode_RelForward_OR.Name Then
+                            objOList_Selected.Add(objOItem_Object)
+                            objOList_Selected.Add(New clsOntologyItem(objTreeNode.Name, objLocalConfig.Globals.Type_RelationType))
+                            objOList_Selected.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.Globals.Type_Other))
+                            RaiseEvent selected_Item(objOList_Selected)
+                        End If
+                    End If
                     
-                    
-                    'strAGUIDs = objTreeNode.Name.Split("_")
-                    'Dim objOList_Other = objDBLevel_ObjectRel.OList_ObjectRel.Where(Function(p) p.ID_Object = strAGUIDs(0) And p.ID_RelationType = strAGUIDs(1)).Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Object, 
-                    '                                                                                                                                                                                          .Name = p.Name_Object, 
-                    '                                                                                                                                                                                          .GUID_Parent = p.ID_Parent_Object, 
-                    '                                                                                                                                                                                          .Type = p.Ontology}).ToList()
-                    'If objOList_Other.Any() Then
-                    '    objOList_Selected.Add(objOList_Other.First())
-                    '    objOList_Selected.Add(New clsOntologyItem(objOItem_Object.GUID_Parent, objLocalConfig.Globals.Type_Class))
-                    '    objOList_Selected.Add(New clsOntologyItem(strAGUIDs(1), objLocalConfig.Globals.Type_RelationType))
-                    '    objOList_Selected.Add(objLocalConfig.Globals.Direction_LeftRight)
-                    '    RaiseEvent selected_Item(objOList_Selected)    
-                    'End If
+                    If Not objTreeNode_RelBackward_OR Is Nothing Then
+                        If objTreeNode.Parent.Name = objTreeNode_RelBackward_OR.Name Then
+                            strAGUIDs = objTreeNode.Name.Split("_")
+                            Dim objOList_Other = objDBLevel_ObjectRel.OList_ObjectRel.Where(Function(p) p.ID_Object = strAGUIDs(0) And p.ID_RelationType = strAGUIDs(1)).Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Object, 
+                                                                                                                                                                                                                      .Name = p.Name_Object, 
+                                                                                                                                                                                                                      .GUID_Parent = p.ID_Parent_Object, 
+                                                                                                                                                                                                                      .Type = p.Ontology}).ToList()
+                            If objOList_Other.Any() Then
+                                objOList_Selected.Add(objOList_Other.First())
+                                RaiseEvent selected_Item(objOList_Selected)    
+                            End If
+                        End If
+
+                    End If                
+                
                     
             End Select
         End If

@@ -30,11 +30,19 @@ Public Class UserControl_ObjectEdit
     Public Event ActivatedItem(intRowID As Integer)
 
     Private Sub editObject(ByVal strType As String, ByVal objOItem_Direction As clsOntologyItem) Handles objUserControl_OItem_List.edit_Object
-        objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig, _
-                                               objUserControl_OItem_List.DataGridviewRows, _
-                                               objUserControl_OItem_List.RowID, _
-                                               strType, _
-                                               objOItem_Direction)
+        If objFrm_ObjectEdit Is Nothing Then
+            objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig, _
+                                                   objUserControl_OItem_List.DataGridviewRows, _
+                                                   objUserControl_OItem_List.RowID, _
+                                                   strType, _
+                                                   objOItem_Direction)    
+        Else 
+            objFrm_ObjectEdit.RefreshForm(objUserControl_OItem_List.DataGridviewRows, _
+                                                   objUserControl_OItem_List.RowID, _
+                                                   strType, _
+                                                   objOItem_Direction)    
+        End If
+        
         objFrm_ObjectEdit.ShowDialog(Me)
         If objFrm_ObjectEdit.DialogResult = Windows.Forms.DialogResult.OK Then
 
@@ -47,39 +55,39 @@ Public Class UserControl_ObjectEdit
         ToolStripButton_Nav_Next.Enabled = False
         ToolStripButton_Nav_Last.Enabled = False
 
-        If objDataGridviewRowCollection_Objects Is Nothing Then
+        If Not objDataGridviewRowCollection_Objects Is Nothing Then
             If objDataGridviewRowCollection_Objects.Count > 0 Then
-                If intRowID >= 0 Then
+                If intRowID > 0 Then
                     ToolStripButton_Nav_First.Enabled = True
                     ToolStripButton_Nav_Previous.Enabled = True
                 End If
 
-                If intRowID < objDataGridviewRowCollection_Objects.Count Then
+                If intRowID < objDataGridviewRowCollection_Objects.Count-1 Then
                     ToolStripButton_Nav_Next.Enabled = True
                     ToolStripButton_Nav_Last.Enabled = True
                 End If
             End If
             
-        ElseIf objOList_ObjectRel Is Nothing Then
+        ElseIf Not objOList_ObjectRel Is Nothing Then
             If objOList_ObjectRel.Count > 0 Then
-                If intRowID >= 0 Then
+                If intRowID > 0 Then
                     ToolStripButton_Nav_First.Enabled = True
                     ToolStripButton_Nav_Previous.Enabled = True
                 End If
 
-                If intRowID < objOList_ObjectRel.Count Then
+                If intRowID < objOList_ObjectRel.Count-1 Then
                     ToolStripButton_Nav_Next.Enabled = True
                     ToolStripButton_Nav_Last.Enabled = True
                 End If
             End If
         Else
             If objOList_Objects.Count > 0 Then
-                If intRowID >= 0 Then
+                If intRowID > 0 Then
                     ToolStripButton_Nav_First.Enabled = True
                     ToolStripButton_Nav_Previous.Enabled = True
                 End If
 
-                If intRowID < objOList_Objects.Count Then
+                If intRowID < objOList_Objects.Count-1 Then
                     ToolStripButton_Nav_Next.Enabled = True
                     ToolStripButton_Nav_Last.Enabled = True
                 End If
@@ -133,15 +141,16 @@ Public Class UserControl_ObjectEdit
                                              oList_Other(0), _
                                              Nothing, False)
         Else
-            oList_Object.Add(New clsOntologyItem(oList_Selected(0).GUID, oList_Selected(0).Name, oList_Selected(0).GUID_Parent, objLocalConfig.Globals.Type_Object))
-            oList_RelationType.Add(New clsOntologyItem(oList_Selected(1).GUID, oList_Selected(1).Name, objLocalConfig.Globals.Type_RelationType))
+            objUserControl_OItem_List.initialize(New clsOntologyItem With {.GUID_Parent = oList_Selected(0).GUID_Parent, .Type = objLocalConfig.Globals.Type_Object}, strFilter := oList_Selected(0).GUID)
+            'oList_Object.Add(New clsOntologyItem(oList_Selected(0).GUID, oList_Selected(0).Name, oList_Selected(0).GUID_Parent, objLocalConfig.Globals.Type_Object))
+            'oList_RelationType.Add(New clsOntologyItem(oList_Selected(1).GUID, oList_Selected(1).Name, objLocalConfig.Globals.Type_RelationType))
 
-            objUserControl_OItem_List.initialize(Nothing, _
-                                                 oList_Object(0), _
-                                                 objLocalConfig.Globals.Direction_LeftRight, _
-                                                    Nothing, _
-                                                    oList_RelationType(0), _
-                                                    True)
+            'objUserControl_OItem_List.initialize(Nothing, _
+            '                                     oList_Object(0), _
+            '                                     objLocalConfig.Globals.Direction_LeftRight, _
+            '                                        Nothing, _
+            '                                        oList_RelationType(0), _
+            '                                        True)
         End If
 
         
@@ -239,12 +248,56 @@ Public Class UserControl_ObjectEdit
         initialize()
     End Sub
 
+    Public Sub RefreshControl(ByVal DataGridviewRowCollection As DataGridViewRowCollection, _
+                   ByVal Ontology As String, _
+                   ByVal oItem_Direction As clsOntologyItem, _
+                   ByVal RowID As Integer, _
+                   Optional ByVal RowName_ID As String = Nothing, _
+                   Optional ByVal RowName_Name As String = Nothing, _
+                   Optional ByVal RowName_ID_Parent As String = Nothing)
+
+        objOItem_Direction = oItem_Direction
+        objDataGridviewRowCollection_Objects = DataGridviewRowCollection
+        objOList_Objects = Nothing
+        objOList_ObjectRel = Nothing
+        intRowID = RowID
+        strOntology = Ontology
+
+        strRowName_ID = RowName_ID
+        strRowName_Name = RowName_Name
+        strRowName_ID_Parent = RowName_ID_Parent
+
+        initialize()
+    End Sub
+
+    Public Sub RefreshControl(ByVal OList_Objecst As List(Of clsOntologyItem), _
+                   ByVal Ontology As String, _
+                   ByVal oItem_Direction As clsOntologyItem, _
+                   ByVal RowID As Integer, _
+                   Optional ByVal RowName_ID As String = Nothing, _
+                   Optional ByVal RowName_Name As String = Nothing, _
+                   Optional ByVal RowName_ID_Parent As String = Nothing)
+
+        objOItem_Direction = oItem_Direction
+        objOList_Objects = OList_Objecst
+        objOList_ObjectRel = Nothing
+        objDataGridviewRowCollection_Objects = Nothing
+        intRowID = RowID
+        strOntology = Ontology
+
+        strRowName_ID = RowName_ID
+        strRowName_Name = RowName_Name
+        strRowName_ID_Parent = RowName_ID_Parent
+
+        initialize()
+    End Sub
+
     Private Sub initialize()
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
 
         ToolStripStatusLabel_Database.Text = objLocalConfig.Globals.Index & "@" & objLocalConfig.Globals.Server
-
+        
         If Not objOList_Objects Is Nothing Then
             objOItem_Object = objOList_Objects(intRowID)
 
@@ -329,15 +382,24 @@ Public Class UserControl_ObjectEdit
         If objOItem_Object.Type Is Nothing Then
             objOItem_Object.Type = objLocalConfig.Globals.Type_Object
         End If
-        objUserControl_ObjectRelTree = New UserControl_ObjectRelTree(objLocalConfig, objOItem_Object)
-        objUserControl_ObjectRelTree.Dock = DockStyle.Fill
-        SplitContainer1.Panel1.Controls.Clear()
-        SplitContainer1.Panel1.Controls.Add(objUserControl_ObjectRelTree)
-        objUserControl_OItem_List = New UserControl_OItemList(objLocalConfig)
-        objUserControl_OItem_List.Dock = DockStyle.Fill
-        SplitContainer1.Panel2.Controls.Clear()
-        SplitContainer1.Panel2.Controls.Add(objUserControl_OItem_List)
+        If objUserControl_ObjectRelTree Is Nothing Then
+            objUserControl_ObjectRelTree = New UserControl_ObjectRelTree(objLocalConfig)
+            objUserControl_ObjectRelTree.Dock = DockStyle.Fill
+            SplitContainer1.Panel1.Controls.Clear()
+            SplitContainer1.Panel1.Controls.Add(objUserControl_ObjectRelTree)    
+        End If
+
+        objUserControl_ObjectRelTree.initialize(objOItem_Object)
+        
+        If objUserControl_OItem_List Is Nothing Then
+            objUserControl_OItem_List = New UserControl_OItemList(objLocalConfig)
+            objUserControl_OItem_List.Dock = DockStyle.Fill
+            SplitContainer1.Panel2.Controls.Clear()
+            SplitContainer1.Panel2.Controls.Add(objUserControl_OItem_List)    
+        End If
+        
         set_CountLbl()
+        configure_Navigation()
     End Sub
 
     Private Sub set_CountLbl()
@@ -387,6 +449,7 @@ Public Class UserControl_ObjectEdit
         intRowID = 0
         RaiseEvent ActivatedItem(intRowID)
         initialize()
+        
     End Sub
 
     Private Function RowIdLast() As Integer
@@ -454,19 +517,23 @@ Public Class UserControl_ObjectEdit
         intRowID = intRowID - 1
         RaiseEvent ActivatedItem(intRowID)
         initialize()
-
+        
     End Sub
 
     Private Sub ToolStripButton_Nav_Next_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Nav_Next.Click
         intRowID = intRowID + 1
         RaiseEvent ActivatedItem(intRowID)
+        
         initialize()
+        
     End Sub
 
     Private Sub ToolStripButton_Nav_Last_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Nav_Last.Click
         intRowID = RowIdLast()
         RaiseEvent ActivatedItem(intRowID)
+        
         initialize()
+        
 
     End Sub
 

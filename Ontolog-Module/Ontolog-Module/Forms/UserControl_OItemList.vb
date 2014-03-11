@@ -177,15 +177,27 @@ Public Class UserControl_OItemList
         End If
     End Sub
 
-    Public Sub initialize(ByVal OItem_Parent As clsOntologyItem, Optional ByVal oItem_Object As clsOntologyItem = Nothing, Optional ByVal OItem_Direction As clsOntologyItem = Nothing, Optional ByVal OItem_Other As clsOntologyItem = Nothing, Optional ByVal OItem_RelType As clsOntologyItem = Nothing, Optional ByVal boolOR As Boolean = False)
+    Public Sub initialize(ByVal OItem_Parent As clsOntologyItem, Optional ByVal oItem_Object As clsOntologyItem = Nothing, Optional ByVal OItem_Direction As clsOntologyItem = Nothing, Optional ByVal OItem_Other As clsOntologyItem = Nothing, Optional ByVal OItem_RelType As clsOntologyItem = Nothing, Optional ByVal boolOR As Boolean = False, optional strFilter As String = Nothing)
         boolProgChange = True
 
         Me.boolOR = boolOR
         clear_Relation()
         strGUID_Class = Nothing
 
+        
         strGUID_Filter = ""
         strName_Filter = ""
+
+        If Not strFilter Is Nothing Then
+            If objLocalConfig.Globals.is_GUID(strFilter) Then
+                strGUID_Filter = strFilter
+            Else 
+                strName_Filter = strFilter
+            End If    
+         
+
+        End If
+        
         objOItem_Class_AdvancedFilter = Nothing
         objOItem_RelationType_AdvancedFilter = Nothing
         objOItem_Object_AdvancedFilter = Nothing
@@ -257,7 +269,6 @@ Public Class UserControl_OItemList
             End If
 
         End If
-
 
 
         ToolStripButton_AddItem.Visible = True
@@ -748,11 +759,19 @@ Public Class UserControl_OItemList
                     intRowID = objDGVR_Selected.Index
 
                     'objOLObjects.Add(objOItem_Selected)
-                    objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
-                                                           DataGridView_Items.Rows, _
-                                                           intRowID, _
-                                                           objLocalConfig.Globals.Type_Object, _
-                                                           Nothing)
+                    If (objFrm_ObjectEdit Is Nothing) Then
+                        objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig, _
+                                                               DataGridView_Items.Rows, _
+                                                               intRowID, _
+                                                               objLocalConfig.Globals.Type_Object, _
+                                                               Nothing)    
+                    Else
+                        objFrm_ObjectEdit.RefreshForm(DataGridView_Items.Rows, _
+                                                               intRowID, _
+                                                               objLocalConfig.Globals.Type_Object, _
+                                                               Nothing)
+                    End If
+                    
                     objFrm_ObjectEdit.ShowDialog(Me)
                     get_Data()
                     Timer_List.Start()
@@ -896,11 +915,20 @@ Public Class UserControl_OItemList
                     MsgBox("Implement: RelationType-Edit")
                 Case objLocalConfig.Globals.Type_Object
                     objOLObjects.Add(objOItem_Selected)
-                    objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
+                    If (objFrm_ObjectEdit is Nothing) Then
+                        objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig, _
                                                            objOLObjects, _
                                                            0, _
                                                            objLocalConfig.Globals.Type_Object, _
                                                            Nothing)
+                    Else
+                        objFrm_ObjectEdit.RefreshForm(objOLObjects, _
+                                                           0, _
+                                                           objLocalConfig.Globals.Type_Object, _
+                                                           Nothing)
+
+                    End If
+                    
                     objFrm_ObjectEdit.ShowDialog(Me)
                     If objFrm_ObjectEdit.DialogResult = DialogResult.OK Then
 
@@ -921,11 +949,19 @@ Public Class UserControl_OItemList
                             End If
 
 
-                            objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
+                            If objFrm_ObjectEdit Is Nothing Then
+                                objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig, _
                                                            objOLObjects, _
                                                            0, _
                                                            objLocalConfig.Globals.Type_Object, _
                                                            Nothing)
+                            Else
+                                objFrm_ObjectEdit.RefreshForm(objOLObjects, _
+                                                           0, _
+                                                           objLocalConfig.Globals.Type_Object, _
+                                                           Nothing)
+                            End If
+                            
                             objFrm_ObjectEdit.ShowDialog(Me)
                             If objFrm_ObjectEdit.DialogResult = DialogResult.OK Then
 

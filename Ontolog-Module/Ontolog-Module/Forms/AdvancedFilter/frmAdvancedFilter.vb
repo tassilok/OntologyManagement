@@ -142,9 +142,10 @@ Public Class frmAdvancedFilter
     End Sub
 
     Private sub Initialize()
-        objUserControl_ObjectRelTree = new UserControl_ObjectRelTree(objLocalConfig,Nothing)
+        objUserControl_ObjectRelTree = new UserControl_ObjectRelTree(objLocalConfig)
         objUserControl_ObjectRelTree.Dock = DockStyle.Fill
         SplitContainer1.Panel1.Controls.Add(objUserControl_ObjectRelTree)
+        
         objUserControl_ObjectRelTree.initialize(objOItem_Class)
 
         objUserControl_AdvancedFilter = new UserControl_AdvancedFilter(objLocalConfig)

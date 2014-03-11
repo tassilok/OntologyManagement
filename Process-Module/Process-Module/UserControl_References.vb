@@ -504,8 +504,15 @@ Public Class UserControl_References
 
                 objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Application)
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
+                    
 
                     intDone = 0
                     intToDo = objOList_Objects.Count
@@ -536,8 +543,14 @@ Public Class UserControl_References
 
                 objOList_Objects = getItemList(objLocalConfig.Globals.Type_AttributeType)
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
 
                     intDone = 0
                     intToDo = objOList_Objects.Count
@@ -567,8 +580,14 @@ Public Class UserControl_References
                 End If
                 objOList_Objects = getItemList()
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
 
                     intDone = 0
                     intToDo = objOList_Objects.Count
@@ -598,8 +617,14 @@ Public Class UserControl_References
 
                 objOList_Objects = getItemList()
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
 
                     intDone = 0
                     intToDo = objOList_Objects.Count
@@ -634,8 +659,14 @@ Public Class UserControl_References
 
                     If objFrm_FilesystemModule.OItem_Class_Applied.GUID = objLocalConfig.OItem_Type_File.GUID Then
                         objOList_Objects = objFrm_FilesystemModule.OList_Files
-                        Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                        dim objLRef As List(Of clsRefToNode)
+                        If boolProcess Then
+                            objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                                  Where obj.ImageID = intImageID).ToList()
+                        Else 
+                            objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                                  Where obj.ImageID = intImageID).ToList()
+                        End If
 
                         intDone = 0
                         intToDo = objOList_Objects.Count
@@ -677,8 +708,14 @@ Public Class UserControl_References
 
                         objOList_Objects = New List(Of clsOntologyItem)
                         objOList_Objects.Add(objFrm_FilesystemModule.OItem_FileSystemObject)
-                        Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                        dim objLRef As List(Of clsRefToNode)
+                        If boolProcess Then
+                            objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                                  Where obj.ImageID = intImageID).ToList()
+                        Else 
+                            objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                                  Where obj.ImageID = intImageID).ToList()
+                        End If
 
                         intDone = 0
                         intToDo = objOList_Objects.Count
@@ -712,8 +749,14 @@ Public Class UserControl_References
 
                 objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Group)
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
 
                     intDone = 0
                     intToDo = objOList_Objects.Count
@@ -743,8 +786,14 @@ Public Class UserControl_References
 
                 objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Manual)
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
 
                     intDone = 0
                     intToDo = objOList_Objects.Count
@@ -774,8 +823,14 @@ Public Class UserControl_References
 
                 objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Things_References)
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
 
                     intDone = 0
                     intToDo = objOList_Objects.Count
@@ -805,8 +860,14 @@ Public Class UserControl_References
 
                 objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Media)
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
 
                     intDone = 0
                     intToDo = objOList_Objects.Count
@@ -829,15 +890,21 @@ Public Class UserControl_References
                 End If
             Case objLocalConfig.ImageID_NeedsPar
                 If boolProcess Then
-                    intImageID = objLocalConfig.ImageID_Needs
+                    intImageID = objLocalConfig.ImageID_NeedsChild
                 Else
-                    intImageID = objLocalConfig.ImageID_Log_Needs
+                    intImageID = objLocalConfig.ImageID_Log_NeedsChild
                 End If
 
                 objOList_Objects = getItemList()
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
 
                     intDone = 0
                     intToDo = objOList_Objects.Count
@@ -867,8 +934,14 @@ Public Class UserControl_References
 
                 objOList_Objects = getItemList(objLocalConfig.Globals.Type_Class)
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
 
                     intDone = 0
                     intToDo = objOList_Objects.Count
@@ -898,8 +971,14 @@ Public Class UserControl_References
 
                 objOList_Objects = getItemList(objLocalConfig.Globals.Type_Object)
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
 
                     intDone = 0
                     intToDo = objOList_Objects.Count
@@ -930,8 +1009,14 @@ Public Class UserControl_References
 
                 objOList_Objects = getItemList(objLocalConfig.Globals.Type_RelationType)
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
 
                     intDone = 0
                     intToDo = objOList_Objects.Count
@@ -961,8 +1046,14 @@ Public Class UserControl_References
 
                 objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_responsibility)
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
 
                     intDone = 0
                     intToDo = objOList_Objects.Count
@@ -992,8 +1083,14 @@ Public Class UserControl_References
 
                 objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Role)
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
 
                     intDone = 0
                     intToDo = objOList_Objects.Count
@@ -1023,8 +1120,14 @@ Public Class UserControl_References
 
                 objOList_Objects = getObjectItemList(objLocalConfig.OItem_type_User)
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
 
                     intDone = 0
                     intToDo = objOList_Objects.Count
@@ -1054,8 +1157,14 @@ Public Class UserControl_References
 
                 objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Things_References)
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
 
                     intDone = 0
                     intToDo = objOList_Objects.Count
@@ -1085,8 +1194,14 @@ Public Class UserControl_References
 
                 objOList_Objects = getObjectItemList(objLocalConfig.OItem_Type_Variable)
                 If Not objOList_Objects Is Nothing Then
-                    Dim objLRef = From obj In objDataWork_References_Process.LRefTypes
-                              Where obj.ImageID = intImageID
+                    dim objLRef As List(Of clsRefToNode)
+                    If boolProcess Then
+                        objLRef = (From obj In objDataWork_References_Process.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    Else 
+                        objLRef = (From obj In objDataWork_References_ProcessLog.LRefTypes
+                              Where obj.ImageID = intImageID).ToList()
+                    End If
 
                     intDone = 0
                     intToDo = objOList_Objects.Count

@@ -153,6 +153,52 @@ Public Class frm_ObjectEdit
         initialize()
     End Sub
 
+    Public sub RefreshForm(ByVal oList_Objects As List(Of clsOntologyItem), _
+                   ByVal intRowID As Integer, _
+                   ByVal Type As String, _
+                   ByVal OItem_Direction As clsOntologyItem, _
+                   Optional ByVal RowName_ID As String = Nothing, _
+                   Optional ByVal RowName_Name As String = Nothing, _
+                   Optional ByVal RowName_ID_Parent As String = Nothing)
+        Me.Controls.Clear()
+        Me.Controls.Add(objUserControl_TokenEdit)
+        
+        
+        objUserControl_TokenEdit.RefreshControl(oList_Objects, _
+                                                                strType, _
+                                                                objOItem_Direction, _
+                                                                intRowID, _
+                                                                strRowName_ID, _
+                                                                strRowName_Name, _
+                                                                strRowName_ID_Parent)
+        
+
+        RefreshClassPath()
+    End Sub
+
+    Public sub RefreshForm(ByVal objDataGridViewRowCollection As DataGridViewRowCollection, _
+                   ByVal intRowID As Integer, _
+                   ByVal Type As String, _
+                   ByVal OItem_Direction As clsOntologyItem, _
+                   Optional ByVal RowName_ID As String = Nothing, _
+                   Optional ByVal RowName_Name As String = Nothing, _
+                   Optional ByVal RowName_ID_Parent As String = Nothing)
+        Me.Controls.Clear()
+        Me.Controls.Add(objUserControl_TokenEdit)
+        
+        
+        objUserControl_TokenEdit.RefreshControl(objDGVRS, _
+                                                                strType, _
+                                                                objOItem_Direction, _
+                                                                intRowID, _
+                                                                strRowName_ID, _
+                                                                strRowName_Name, _
+                                                                strRowName_ID_Parent)
+        
+
+        RefreshClassPath()
+    End Sub
+
     Private Sub initialize()
         Me.Controls.Clear()
         Me.Controls.Add(objUserControl_TokenEdit)
