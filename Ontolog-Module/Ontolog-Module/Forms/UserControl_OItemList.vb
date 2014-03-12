@@ -1783,6 +1783,7 @@ Public Class UserControl_OItemList
         ApplyToolStripMenuItem.Enabled = False
         DuplicateItemToolStripMenuItem.Enabled = False
         ChangeOrderIDsToolStripMenuItem.Enabled = False
+        MoveObjectsToolStripMenuItem.Enabled = False
         
         If DataGridView_Items.SelectedRows.Count > 0 Then
             If boolApplyable = True Then
@@ -1792,10 +1793,17 @@ Public Class UserControl_OItemList
                 If Not objOItem_Parent Is Nothing Then
                     If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
                         DuplicateItemToolStripMenuItem.Enabled = True
+                        MoveObjectsToolStripMenuItem.Enabled = True
                     End If
                 End If
 
 
+            End If
+
+            If Not objOItem_Parent Is Nothing Then
+                If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
+                    MoveObjectsToolStripMenuItem.Enabled = True
+                End If
             End If
             ToClipboardToolStripMenuItem.Enabled = True
         End If
@@ -2481,6 +2489,35 @@ Public Class UserControl_OItemList
                 MsgBox("Hier leider nicht möglich.",MsgBoxStyle.OkOnly)
             End If
 
+        End If
+    End Sub
+
+    Private Sub MoveObjectsToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles MoveObjectsToolStripMenuItem.Click
+        objFrm_Main = New frmMain(objLocalConfig)
+        objFrm_Main.ShowDialog(Me)
+        If objFrm_Main.DialogResult = DialogResult.OK Then
+            If objFrm_Main.Type_Applied = objLocalConfig.Globals.Type_Class Then
+                If objFrm_Main.OList_Simple.Count = 1 Then
+                    Dim objOList_DGVR = (From objDGVR As DataGridViewRow in DataGridView_Items.SelectedRows).Select(Function(r) r.DataBoundItem).ToList()
+                    Dim objOList_Objects = (From objDRV As DataRowView in objOList_DGVR
+                                            Select New clsOntologyItem With {.GUID = objDRV.Item("ID_Item"), _
+                                                                             .Name = objDRV.Item("Name"), _
+                                                                             .GUID_Parent = objFrm_Main.OList_Simple.First().GUID, _
+                                                                             .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+                    dim objOItem_Result = objDBLevel.save_Objects(objOList_Objects)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        MsgBox("Die Objekte konnten nicht verschoben werden!",MsgBoxStyle.Exclamation)
+                    End If
+                            
+                    configure_TabPages()
+                Else 
+                    MsgBox("Bitte wählen Sie eine Klasse aus!",MsgBoxStyle.OkOnly)
+                End If
+
+            Else 
+                MsgBox("Bitte wählen Sie eine Klasse aus!",MsgBoxStyle.OkOnly)
+            End If
         End If
     End Sub
 End Class

@@ -475,6 +475,8 @@ Public Class UserControl_ObjectRelTree
                             objOList_Selected.Add(objOItem_Object)
                             objOList_Selected.Add(New clsOntologyItem(objTreeNode.Name, objLocalConfig.Globals.Type_RelationType))
                             objOList_Selected.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.Globals.Type_Other))
+                            objOList_Selected.Add(objLocalConfig.Globals.Direction_LeftRight)
+                            objOList_Selected.Add(objOItem_Object)
                             RaiseEvent selected_Item(objOList_Selected)
                         End If
                     End If
@@ -489,6 +491,8 @@ Public Class UserControl_ObjectRelTree
                                                                             .Type = objLocalConfig.Globals.Type_Object})
                             objOList_Selected.Add(New clsOntologyItem With {.GUID = strAGUIDs(1), _
                                                                             .Type = objLocalConfig.Globals.Type_RelationType})
+                            objOList_Selected.Add(objLocalConfig.Globals.Direction_RightLeft)
+                            objOList_Selected.Add(objOItem_Object)
                             RaiseEvent selected_Item(objOList_Selected)
 
                         End If
