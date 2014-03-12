@@ -412,14 +412,13 @@ Public Class UserControl_ObjectRelTree
                 objTreeNode_RelBackward_OR = TreeView_ObjectRels.Nodes.Add(objLocalConfig.Globals.Type_Other & "_backw", objLocalConfig.Globals.Type_Other & " (backw)", 0)
             End If
 
-            Dim objRelationTypes = (From objRelation in objDBLevel_ObjectRel.OList_ObjectRel
-                                    Group By objRelation.ID_Parent_Other, objRelation.Name_Parent_Other, objRelation.ID_RelationType, objRelation.Name_RelationType Into objRelations = Group
-                                    From objRelation In objRelations
+            Dim objRelationTypes = (From objRelation In objDBLevel_ObjectRel.OList_ObjectRel
+                                    Group objRelation By objRelation.ID_Parent_Object, objRelation.Name_Parent_Object, objRelation.ID_RelationType, objRelation.Name_RelationType Into Group, Count()
+                                    Order By Name_Parent_Object, Name_RelationType).ToList()
                                     
-                objDBLevel_ObjectRel.OList_ObjectRel.GroupBy(Function(o) New With { o.ID_RelationType, o.Name_RelationType, o.ID_Parent_Other, o.Name_Parent_Other}).Select(Function(o) New With {.ID_RelationType = o.Key.ID_RelationType, .Name_RelationType = o.Key.Name_RelationType, .ID_Parent_Other = o.Key.ID_Parent_Other, .Name_Parent_Other = o.Key.Name_Parent_Other, .Count = o.Count()}).ToList()
 
-            For Each objRel In objRelationTypes.OrderBy(Function(r) r.Name_Parent_Other).ThenBy(Function(r) r.Name_RelationType).ToList()
-                objTreeNode_RelBackward_OR.Nodes.Add(objRel.ID_Parent_Other & "_" & objRel.ID_RelationType, objRel.Name_Parent_Other & " / " & objRel.Name_RelationType & " (" & objRel.Count.ToString() & ")")
+            For Each objRel In objRelationTypes
+                objTreeNode_RelBackward_OR.Nodes.Add(objRel.ID_Parent_Object & "_" & objRel.ID_RelationType, objRel.Name_Parent_Object & " / " & objRel.Name_RelationType & " (" & objRel.Count.ToString() & ")")
             Next
             
         End If
@@ -483,19 +482,20 @@ Public Class UserControl_ObjectRelTree
                     If Not objTreeNode_RelBackward_OR Is Nothing Then
                         If objTreeNode.Parent.Name = objTreeNode_RelBackward_OR.Name Then
                             strAGUIDs = objTreeNode.Name.Split("_")
-                            Dim objOList_Other = objDBLevel_ObjectRel.OList_ObjectRel.Where(Function(p) p.ID_Object = strAGUIDs(0) And p.ID_RelationType = strAGUIDs(1)).Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Object, 
-                                                                                                                                                                                                                      .Name = p.Name_Object, 
-                                                                                                                                                                                                                      .GUID_Parent = p.ID_Parent_Object, 
-                                                                                                                                                                                                                      .Type = p.Ontology}).ToList()
-                            If objOList_Other.Any() Then
-                                objOList_Selected.Add(objOList_Other.First())
-                                RaiseEvent selected_Item(objOList_Selected)    
-                            End If
+                            
+
+                            objOList_Selected.Add(objOItem_Object)
+                            objOList_Selected.Add(New clsOntologyItem With {.GUID_Parent = strAGUIDs(0), _
+                                                                            .Type = objLocalConfig.Globals.Type_Object})
+                            objOList_Selected.Add(New clsOntologyItem With {.GUID = strAGUIDs(1), _
+                                                                            .Type = objLocalConfig.Globals.Type_RelationType})
+                            RaiseEvent selected_Item(objOList_Selected)
+
                         End If
 
-                    End If                
-                
-                    
+                    End If
+
+
             End Select
         End If
     End Sub

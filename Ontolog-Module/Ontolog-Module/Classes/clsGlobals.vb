@@ -724,6 +724,7 @@ Private strEL_Server As String
 
     Private Sub get_ConfigData()
         Dim objDRs_ConfigItem() As DataRow
+        dtblT_Config.Clear()
         dtblT_Config.ReadXml(strPath_Config & "Config\Config_ont.xml")
         If dtblT_Config.Rows.Count > 0 Then
             objDRs_ConfigItem = dtblT_Config.Select("ConfigItem_Name='Index'")
@@ -827,51 +828,65 @@ Private strEL_Server As String
         set_Session()
         get_ConfigData()
 
-        objDBLevel1 = New clsDBLevel(Server, Port, Index, Index_Rep, SearchRange, Session)
-        objDBLevel2 = New clsDBLevel(Server, Port, Index, Index_Rep, SearchRange, Session)
-
-        Dim objOItem_Result = objLogStates.LogState_Success
         Try
-            objOItem_Result = test_Existance_OntologyDB()
-        Catch ex As Exception
-            objOItem_Result = objLogStates.LogState_Nothing
-        End Try
+            objDBLevel1 = New clsDBLevel(Server, Port, Index, Index_Rep, SearchRange, Session)
+            objDBLevel2 = New clsDBLevel(Server, Port, Index, Index_Rep, SearchRange, Session)
+
+            Dim objOItem_Result = objLogStates.LogState_Success
+            Try
+                objOItem_Result = test_Existance_OntologyDB()
+            Catch ex As Exception
+                objOItem_Result = objLogStates.LogState_Nothing
+            End Try
 
 
-        If objOItem_Result.GUID = objLogStates.LogState_Nothing.GUID Then
-            If MsgBox("Die Datenbank " & strEL_Index & "@" & strEL_Server & " existiert nicht. Soll sie erzeugt werden?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                If create_Index().GUID = objLogStates.LogState_Error.GUID Then
-                    MsgBox("Die Datenbank konnte nicht erzeugt werden!", MsgBoxStyle.Critical)
-                    Environment.Exit(0)
+            If objOItem_Result.GUID = objLogStates.LogState_Nothing.GUID Then
+                If MsgBox("Die Datenbank " & strEL_Index & "@" & strEL_Server & " existiert nicht. Soll sie erzeugt werden?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                    If create_Index().GUID = objLogStates.LogState_Error.GUID Then
+                        MsgBox("Die Datenbank konnte nicht erzeugt werden!", MsgBoxStyle.Critical)
+                        Environment.Exit(0)
+                    Else
+                        objOItem_Result = objLogStates.LogState_Success.Clone()
+                    End If
                 Else
-                    objOItem_Result = objLogStates.LogState_Success.Clone()
+                    Environment.Exit(0)
                 End If
+
+            End If
+
+            If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+                objOItem_Result = test_Existance_BaseData()
+                If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+                    objTransaction = New clsTransaction(Server, Port, Index, Index_Rep, SearchRange, Session)
+
+                    set_Computer()
+                Else
+                    MsgBox("Die Datenbank ist nicht konsistent! Die Anwendung wird beendet!", MsgBoxStyle.Critical)
+                    Environment.Exit(1)
+                End If
+
+
+                If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+                    If ModuleLoad = True Then
+                        LoadModules()
+                    End If
+
+                End If
+
+            End If
+        Catch ex As Exception
+            Dim objFrmConfig As frmConfig = New frmConfig(dtblT_Config, strPath_Config & "Config\Config_ont.xml", "Config-Error")
+            objFrmConfig.ShowDialog()
+            If objFrmConfig.DialogResult = DialogResult.OK Then
+                initialize(ModuleLoad)
             Else
                 Environment.Exit(0)
             End If
 
-        End If
+        End Try
+        
 
-        If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
-            objOItem_Result = test_Existance_BaseData()
-            If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
-                objTransaction = New clsTransaction(Server, Port, Index, Index_Rep, SearchRange, Session)
-
-                set_Computer()
-            Else
-                MsgBox("Die Datenbank ist nicht konsistent! Die Anwendung wird beendet!", MsgBoxStyle.Critical)
-                Environment.Exit(1)
-            End If
-
-
-            If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
-                If ModuleLoad = True Then
-                    LoadModules()
-                End If
-
-            End If
-
-        End If
+        
 
 
     End Sub

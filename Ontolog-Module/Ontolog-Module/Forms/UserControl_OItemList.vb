@@ -416,7 +416,11 @@ Public Class UserControl_OItemList
                         objDBLevel.get_Data_ObjectRel(oList_ObjRel, True, False)
                 End Select
             Else
-
+                If Not objOItem_Object Is Nothing Then
+                    If Not objOItem_Object.GUID_Parent Is Nothing Then
+                        strGUID_Class = objOItem_Object.GUID_Parent
+                    End If
+                End If
                 'For Each objOItem_Item In oList_Items
                 '    oList_ObjRel.Add(New clsObjectRel(objOItem_Item.GUID, _
                 '                                      objOItem_Item.Name, _

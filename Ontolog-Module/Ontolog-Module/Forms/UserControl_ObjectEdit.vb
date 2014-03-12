@@ -140,8 +140,14 @@ Public Class UserControl_ObjectEdit
                                              Nothing, _
                                              oList_Other(0), _
                                              Nothing, False)
-        Else
-            objUserControl_OItem_List.initialize(New clsOntologyItem With {.GUID_Parent = oList_Selected(0).GUID_Parent, .Type = objLocalConfig.Globals.Type_Object}, strFilter := oList_Selected(0).GUID)
+        ElseIf oList_Selected.Count = 3 Then
+
+
+            objUserControl_OItem_List.initialize(Nothing, _
+                                                 oList_Selected(0), _
+                                                 objLocalConfig.Globals.Direction_RightLeft, _
+                                                 oList_Selected(1), _
+                                                 oList_Selected(2), True)
             'oList_Object.Add(New clsOntologyItem(oList_Selected(0).GUID, oList_Selected(0).Name, oList_Selected(0).GUID_Parent, objLocalConfig.Globals.Type_Object))
             'oList_RelationType.Add(New clsOntologyItem(oList_Selected(1).GUID, oList_Selected(1).Name, objLocalConfig.Globals.Type_RelationType))
 

@@ -30,18 +30,18 @@ Partial Class UserControl_OntologyRefTree
         Me.ToolStripLabel_CountLbl = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.TreeView_Ontologies = New System.Windows.Forms.TreeView()
+        Me.ContextMenuStrip_Refs = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_Mark = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Mark = New System.Windows.Forms.ToolStripTextBox()
-        Me.ContextMenuStrip_Refs = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        Me.ToolStrip2.SuspendLayout()
         Me.ContextMenuStrip_Refs.SuspendLayout()
+        Me.ToolStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'ImageList_RelatedItems
@@ -59,10 +59,10 @@ Partial Class UserControl_OntologyRefTree
         Me.ImageList_RelatedItems.Images.SetKeyName(8, "Types_Opened SubItems Image.png")
         Me.ImageList_RelatedItems.Images.SetKeyName(9, "Attributes bamboo_danny_allen_r.png")
         Me.ImageList_RelatedItems.Images.SetKeyName(10, "RelationTypes gpride_jean_victor_balin_.png")
-        Me.ImageList_RelatedItems.Images.SetKeyName(11, "Vogelschwarm klein.png")
+        Me.ImageList_RelatedItems.Images.SetKeyName(11, "VogelschwarmKlein.ico")
         Me.ImageList_RelatedItems.Images.SetKeyName(12, "Attributes bamboo_danny_allen_r.png")
         Me.ImageList_RelatedItems.Images.SetKeyName(13, "RelationTypes gpride_jean_victor_balin_.png")
-        Me.ImageList_RelatedItems.Images.SetKeyName(14, "Vogelschwarm%20klein.ico")
+        Me.ImageList_RelatedItems.Images.SetKeyName(14, "VogelschwarmKlein.ico")
         Me.ImageList_RelatedItems.Images.SetKeyName(15, "Types_Closed.png")
         Me.ImageList_RelatedItems.Images.SetKeyName(16, "Types_Opened.png")
         '
@@ -121,6 +121,18 @@ Partial Class UserControl_OntologyRefTree
         Me.TreeView_Ontologies.Size = New System.Drawing.Size(555, 422)
         Me.TreeView_Ontologies.TabIndex = 0
         '
+        'ContextMenuStrip_Refs
+        '
+        Me.ContextMenuStrip_Refs.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem})
+        Me.ContextMenuStrip_Refs.Name = "ContextMenuStrip_Refs"
+        Me.ContextMenuStrip_Refs.Size = New System.Drawing.Size(109, 26)
+        '
+        'NewToolStripMenuItem
+        '
+        Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
+        Me.NewToolStripMenuItem.Text = "x_New"
+        '
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
@@ -141,18 +153,6 @@ Partial Class UserControl_OntologyRefTree
         Me.ToolStripTextBox_Mark.Name = "ToolStripTextBox_Mark"
         Me.ToolStripTextBox_Mark.Size = New System.Drawing.Size(250, 25)
         '
-        'ContextMenuStrip_Refs
-        '
-        Me.ContextMenuStrip_Refs.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem})
-        Me.ContextMenuStrip_Refs.Name = "ContextMenuStrip_Refs"
-        Me.ContextMenuStrip_Refs.Size = New System.Drawing.Size(109, 26)
-        '
-        'NewToolStripMenuItem
-        '
-        Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.NewToolStripMenuItem.Text = "x_New"
-        '
         'UserControl_OntologyRefTree
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -169,9 +169,9 @@ Partial Class UserControl_OntologyRefTree
         Me.ToolStripContainer1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
+        Me.ContextMenuStrip_Refs.ResumeLayout(False)
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
-        Me.ContextMenuStrip_Refs.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
