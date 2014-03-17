@@ -10,7 +10,7 @@ Public Class frmMain
     Private WithEvents objUserControl_OAttributeList As UserControl_OItemList
     Private WithEvents objUserControl_ObjRel As UserControl_ObjectRel
     Private WithEvents objUserControl_ObjAtt As UserControl_ObjectAtt
-
+    Private WithEvents objUserControl_Filter As UserControl_Filter
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFrm_AttributeTypeEdit As frm_AttributeTypeEdit
@@ -47,12 +47,28 @@ Public Class frmMain
     Private oList_Applied_Simple As List(Of clsOntologyItem)
     Private oList_Applied_ObjRel As List(Of clsObjectRel)
 
-
     Private Sub selected_ObjectNode(OItem_Node As clsOntologyItem) Handles objUserControl_ObjectTree.selected_Node
         If Not OItem_Node Is Nothing Then
             objUserControl_OObjectList.select_Row(OItem_Node)
 
         End If
+    End Sub
+
+    Private Sub Filter_Objects(objFilter As clsFilter) Handles objUserControl_Filter.FilterItems
+
+        Select Case objFilter.KindOfRelation
+            Case RelationType.NoRelation
+                If Not objFilter.GUID_Left Is Nothing Or Not objFilter.Name_Left Is Nothing Or _
+                    Not objFilter.GUID_LeftParent Is Nothing Or Not objFilter.Name_LeftParent Is Nothing Then
+                    'objUserControl_OObjectList.initialize(objFilter, True)
+                Else
+                    MsgBox("Der Filter ist nicht richtig konfiguriert!", MsgBoxStyle.Information)
+                End If
+            Case RelationType.LeftRight
+
+            Case RelationType.RightLeft
+
+        End Select
     End Sub
 
     Private Sub added_ObjectNode(OItem_Node As clsOntologyItem) Handles objUserControl_ObjectTree.added_Node
@@ -246,6 +262,11 @@ Public Class frmMain
                                                      Nothing)
 
             objUserControl_ObjectTree.select_Node(objOItem.GUID)
+
+            'If objUserControl_OObjectList.ShowParents Then
+            '    Dim objOItem_Class = New clsOntologyItem With {.GUID = objOItem.GUID_Parent}
+            '    objUserControl_TypeTree.SelectNode(objOItem_Class)
+            'End If
         Else
             'procT_TokenRel_With_Or.Clear()
             'funcT_TokenAttribute_Named_By_GUIDToken.Clear()
@@ -376,6 +397,11 @@ Public Class frmMain
         SplitContainer_AttribRel.Panel2.Controls.Clear()
         SplitContainer_AttribRel.Panel2.Controls.Add(objUserControl_ObjAtt)
 
+        objUserControl_Filter = New UserControl_Filter(objLocalConfig)
+        objUserControl_Filter.Dock = DockStyle.Fill
+        SplitContainer_Filter_Body.Panel1.Controls.Clear()
+        SplitContainer_Filter_Body.Panel1.Controls.Add(objUserControl_Filter)
+
         If Not strType_Entry Is Nothing Then
             Select Case strType_Entry
                 Case objLocalConfig.Globals.Type_Class
@@ -410,6 +436,10 @@ Public Class frmMain
 
 
     Private Sub configure_Areas()
+
+        SplitContainer_Filter_Body.Panel1Collapsed = Not ToolStripButton_Filter.Checked
+
+
         SplitContainer2.Panel1Collapsed = Not ToolStripButton_TokenType.Checked
         SplitContainer2.Panel2Collapsed = Not ToolStripButton_AttributesAndRelations.Checked
 
@@ -430,10 +460,6 @@ Public Class frmMain
 
         ToolStripButton_AttribRel.Checked = Not SplitContainer_AttribRelTokenRel.Panel1Collapsed
         ToolStripButton_TokenRel.Checked = Not SplitContainer_AttribRelTokenRel.Panel2Collapsed
-
-        SplitContainer_Filter_Body.Panel1Collapsed = Not ToolStripButton_Filter.Checked
-
-        ToolStripButton_Filter.Checked = Not SplitContainer_Filter_Body.Panel1Collapsed
 
         ToolStripStatusLabel_Database.Text = objLocalConfig.Globals.Index & "@" & objLocalConfig.Globals.Server
 

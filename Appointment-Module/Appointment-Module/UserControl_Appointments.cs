@@ -33,19 +33,31 @@ namespace Appointment_Module
         {
             objTransaction_AppointmentDetail = new clsTransaction_AppointmentDetail(objLocalConfig);
             OList_Appointments = objLocalConfig.DataWork_Appointments.GetAppointments();
-            while (OList_Appointments.First().OItem_Result.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
+            if (OList_Appointments.Any())
             {
-                
-                OList_Appointments = objLocalConfig.DataWork_Appointments.GetAppointments();
-            }
-            if (OList_Appointments.First().OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-            {
-                configure_DataGridView();
+                while (OList_Appointments.First().OItem_Result.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
+                {
+
+                    OList_Appointments = objLocalConfig.DataWork_Appointments.GetAppointments();
+                }
+
+                if (OList_Appointments.First().OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    configure_DataGridView();
+                }
+                else
+                {
+                    MessageBox.Show("Die Termine konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    Environment.Exit(-1);
+                }
             }
             else
             {
-                MessageBox.Show("Die Termine konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                configure_DataGridView();
             }
+
+            
+            
         }
 
         private void configure_DataGridView()

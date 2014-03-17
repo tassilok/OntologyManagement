@@ -203,11 +203,15 @@ Public Class clsDBLevel
     End Property
 
 
-    Public ReadOnly Property tbl_Objects As DataSet_Config.otbl_ObjectsDataTable
+    Public Property tbl_Objects As DataSet_Config.otbl_ObjectsDataTable
         Get
             Return otblT_Objects
         End Get
+        Set(value As DataSet_Config.otbl_ObjectsDataTable)
+            otblT_Objects = value
+        End Set
     End Property
+        
 
     Public ReadOnly Property tbl_Classes As DataSet_Config.otbl_ClassesDataTable
         Get

@@ -26,6 +26,8 @@ Public Class UserControl_TypeTree
 
     Private boolApplyable As Boolean
 
+    Private boolProgChange As Boolean
+
     Public Event selected_Class(ByVal OItem_Class As clsOntologyItem)
     Public Event applied_Class()
 
@@ -60,6 +62,56 @@ Public Class UserControl_TypeTree
         set_DBConnection()
         initialize()
     End Sub
+
+    Public Sub SelectNode(OItem_Type_Search As clsOntologyItem)
+        Dim objTreeNodes() As TreeNode
+        boolProgChange = True
+        If Not String.IsNullOrEmpty(OItem_Type_Search.GUID) Then
+            objTreeNodes = TreeView_Types.Nodes.Find(OItem_Type_Search.GUID, True)
+            If Not objTreeNodes.Any Then
+                MsgBox("Die Klasse konnte nicht gefunen werden!", MsgBoxStyle.Exclamation)
+            End If
+            TreeView_Types.SelectedNode = objTreeNodes(0)
+        Else
+            If findItem(OItem_Type_Search.Name) = False Then
+                MsgBox("Die Klasse konnte nicht gefunen werden!", MsgBoxStyle.Exclamation)
+            End If
+        End If
+        boolProgChange = False
+    End Sub
+
+
+    Private Function findItem(strClassText As String, Optional objTreeNode As TreeNode = Nothing) As Boolean
+
+
+        If objTreeNode Is Nothing Then
+            For Each objTreeNode_Sub As TreeNode In TreeView_Types.Nodes
+                If objTreeNode_Sub.Text = strClassText Then
+                    TreeView_Types.SelectedNode = objTreeNode_Sub
+                    Return True
+                Else
+                    Dim boolFound = findItem(strClassText, objTreeNode_Sub)
+                    If boolFound = True Then
+                        Return boolFound
+                    End If
+                End If
+            Next
+            Return False
+        Else
+            For Each objTreeNode_Sub As TreeNode In objTreeNode.Nodes
+                If objTreeNode_Sub.Text = strClassText Then
+                    TreeView_Types.SelectedNode = objTreeNode_Sub
+                    Return True
+                Else
+                    Dim boolFound = findItem(strClassText, objTreeNode_Sub)
+                    If boolFound Then
+                        Return boolFound
+                    End If
+                End If
+            Next
+            Return False
+        End If
+    End Function
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
 
@@ -137,14 +189,17 @@ Public Class UserControl_TypeTree
     Private Sub TreeView_Types_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_Types.AfterSelect
         Dim objTreeNode As TreeNode
 
-        objTreeNode = e.Node
-        objOItem_Class_Selected = Nothing
-        ToolStripTextBox_ID.Text = ""
-        If objTreeNode.ImageIndex = cint_ImageID_Class_Closed Then
-            objOItem_Class_Selected = New clsOntologyItem(objTreeNode.Name, objTreeNode.Text, objLocalConfig.Globals.Type_Class)
-            RaiseEvent selected_Class(objOItem_Class_Selected)
-            ToolStripTextBox_ID.Text = objTreeNode.Name
+        If boolProgChange = False Then
+            objTreeNode = e.Node
+            objOItem_Class_Selected = Nothing
+            ToolStripTextBox_ID.Text = ""
+            If objTreeNode.ImageIndex = cint_ImageID_Class_Closed Then
+                objOItem_Class_Selected = New clsOntologyItem(objTreeNode.Name, objTreeNode.Text, objLocalConfig.Globals.Type_Class)
+                RaiseEvent selected_Class(objOItem_Class_Selected)
+                ToolStripTextBox_ID.Text = objTreeNode.Name
+            End If
         End If
+        
     End Sub
 
     Private Sub ToolStripTextBox_MarkTypes_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripTextBox_MarkTypes.TextChanged

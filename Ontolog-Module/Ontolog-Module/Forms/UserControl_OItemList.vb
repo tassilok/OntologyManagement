@@ -150,12 +150,12 @@ Public Class UserControl_OItemList
         End Get
     End Property
 
-    Public sub select_Row(OItem_Item As clsOntologyItem)
-        Dim BindingSource_Grid As BindingSource =  DataGridView_Items.DataSource
+    Public Sub select_Row(OItem_Item As clsOntologyItem)
+        Dim BindingSource_Grid As BindingSource = DataGridView_Items.DataSource
 
-        If not BindingSource_Grid Is Nothing Then
+        If Not BindingSource_Grid Is Nothing Then
             Dim intRowID = BindingSource_Grid.Find(strRowName_GUID, OItem_Item.GUID)
-            If intRowID >-1 Then
+            If intRowID > -1 Then
                 BindingSource_Grid.Position = intRowID
                 If Not DataGridView_Items.CurrentRow Is Nothing Then
                     DataGridView_Items.CurrentRow.Selected = True
@@ -177,27 +177,27 @@ Public Class UserControl_OItemList
         End If
     End Sub
 
-    Public Sub initialize(ByVal OItem_Parent As clsOntologyItem, Optional ByVal oItem_Object As clsOntologyItem = Nothing, Optional ByVal OItem_Direction As clsOntologyItem = Nothing, Optional ByVal OItem_Other As clsOntologyItem = Nothing, Optional ByVal OItem_RelType As clsOntologyItem = Nothing, Optional ByVal boolOR As Boolean = False, optional strFilter As String = Nothing)
+    Public Sub initialize(ByVal OItem_Parent As clsOntologyItem, Optional ByVal oItem_Object As clsOntologyItem = Nothing, Optional ByVal OItem_Direction As clsOntologyItem = Nothing, Optional ByVal OItem_Other As clsOntologyItem = Nothing, Optional ByVal OItem_RelType As clsOntologyItem = Nothing, Optional ByVal boolOR As Boolean = False, Optional strFilter As String = Nothing)
         boolProgChange = True
 
         Me.boolOR = boolOR
         clear_Relation()
         strGUID_Class = Nothing
 
-        
+
         strGUID_Filter = ""
         strName_Filter = ""
 
         If Not strFilter Is Nothing Then
             If objLocalConfig.Globals.is_GUID(strFilter) Then
                 strGUID_Filter = strFilter
-            Else 
+            Else
                 strName_Filter = strFilter
-            End If    
-         
+            End If
+
 
         End If
-        
+
         objOItem_Class_AdvancedFilter = Nothing
         objOItem_RelationType_AdvancedFilter = Nothing
         objOItem_Object_AdvancedFilter = Nothing
@@ -222,7 +222,7 @@ Public Class UserControl_OItemList
             End If
             objOItem_Other = OItem_Other
 
-            
+
             objOItem_Object = oItem_Object
 
 
@@ -319,13 +319,123 @@ Public Class UserControl_OItemList
         End Select
     End Sub
 
-    Private Sub get_Data()
+    Private Sub GetData_Objects()
         Dim oList_Items As New List(Of clsOntologyItem)
-        Dim oList_ObjRel As New List(Of clsObjectRel)
+
+        If Not objOItem_RelationType_AdvancedFilter Is Nothing Or Not objOItem_Class_AdvancedFilter Is Nothing Or Not objOItem_Object_AdvancedFilter Is Nothing Then
+            Dim objORel_AdvancedFilter = New List(Of clsObjectRel)
+            If objOItem_Direction_AdvancedFilter.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                objORel_AdvancedFilter = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = strGUID_Class, _
+                                                                                                 .ID_RelationType = If(Not objOItem_RelationType_AdvancedFilter Is Nothing, objOItem_RelationType_AdvancedFilter.GUID, Nothing), _
+                                                                                                 .ID_Parent_Other = If(Not objOItem_Class_AdvancedFilter Is Nothing, objOItem_Class_AdvancedFilter.GUID, Nothing), _
+                                                                                                 .ID_Other = If(Not objOItem_Object_AdvancedFilter Is Nothing, objOItem_Object_AdvancedFilter.GUID, Nothing)}}
+                objDBLevel.get_Data_ObjectRel(objORel_AdvancedFilter, boolIDs:=False, boolTable:=True, boolTable_Objects_Left:=True)
+            Else
+                objORel_AdvancedFilter = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Other = strGUID_Class, _
+                                                                                                 .ID_RelationType = If(Not objOItem_RelationType_AdvancedFilter Is Nothing, objOItem_RelationType_AdvancedFilter.GUID, Nothing), _
+                                                                                                 .ID_Parent_Object = If(Not objOItem_Class_AdvancedFilter Is Nothing, objOItem_Class_AdvancedFilter.GUID, Nothing), _
+                                                                                                 .ID_Object = If(Not objOItem_Object_AdvancedFilter Is Nothing, objOItem_Object_AdvancedFilter.GUID, Nothing)}}
+                objDBLevel.get_Data_ObjectRel(objORel_AdvancedFilter, boolIDs:=False, boolTable:=True, boolTable_Objects_Right:=True)
+            End If
+
+
+
+        Else
+            oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
+            objDBLevel.get_Data_Objects(oList_Items, True)
+        End If
+    End Sub
+
+    Private Sub GetData_RelationTypes()
+        Dim oList_Items As New List(Of clsOntologyItem)
+
+        oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objLocalConfig.Globals.Type_RelationType))
+        objDBLevel.get_Data_RelationTypes(oList_Items, True)
+    End Sub
+
+    Private Sub GetData_AttributeTypes()
+        Dim oList_Items As New List(Of clsOntologyItem)
+
+        oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objLocalConfig.Globals.Type_AttributeType))
+        objDBLevel.get_Data_AttributeType(oList_Items, True)
+    End Sub
+
+    Private Sub GetData_ObjAtt()
         Dim oList_ObjAtt As New List(Of clsObjectAtt)
+        oList_ObjAtt.Add(New clsObjectAtt(Nothing, objOItem_Object.GUID, Nothing, objOItem_Other.GUID, Nothing))
+        objDBLevel.get_Data_ObjectAtt(oList_ObjAtt, True, False)
+    End Sub
+
+    Private Sub GetData_ObjRelWithOther()
+        Dim oList_ObjRel As New List(Of clsObjectRel)
+        oList_ObjRel.Add(New clsObjectRel(strGUID_Filter, _
+                                                          strName_Filter, _
+                                                          strGUID_Class, _
+                                                          Nothing, _
+                                                          objOItem_Other.GUID, _
+                                                          objOItem_Other.Name, _
+                                                          objOItem_Other.GUID_Parent, _
+                                                          Nothing, _
+                                                          objOItem_RelationType.GUID, _
+                                                          Nothing, _
+                                                          objOItem_Other.Type, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          Nothing))
+
+
+        objDBLevel.get_Data_ObjectRel(oList_ObjRel, True, False)
+    End Sub
+
+    Private Sub GetData_ObjRelWithoutOther()
+        Dim oList_ObjRel As New List(Of clsObjectRel)
+        If Not objOItem_Object Is Nothing Then
+            If Not objOItem_Object.GUID_Parent Is Nothing Then
+                strGUID_Class = objOItem_Object.GUID_Parent
+            End If
+        End If
+        'For Each objOItem_Item In oList_Items
+        '    oList_ObjRel.Add(New clsObjectRel(objOItem_Item.GUID, _
+        '                                      objOItem_Item.Name, _
+        '                                      objOItem_Item.GUID_Parent, _
+        '                                      Nothing, _
+        '                                      strGUID_Filter, _
+        '                                      strName_Filter, _
+        '                                      strGUID_Class, _
+        '                                      Nothing, _
+        '                                      objOItem_RelationType.GUID, _
+        '                                      Nothing, _
+        '                                      objLocalConfig.Globals.Type_Object, _
+        '                                      Nothing, _
+        '                                      Nothing, _
+        '                                      Nothing))
+
+
+        'Next
+        oList_ObjRel.Add(New clsObjectRel(strGUID_Filter, _
+                                              strName_Filter, _
+                                              strGUID_Class, _
+                                              Nothing, _
+                                              Nothing, _
+                                              Nothing, _
+                                              Nothing, _
+                                              Nothing, _
+                                              objOItem_RelationType.GUID, _
+                                              Nothing, _
+                                              Nothing, _
+                                              objLocalConfig.Globals.Direction_LeftRight.GUID, _
+                                              Nothing, _
+                                              Nothing))
+        objDBLevel.get_Data_ObjectRel(oList_ObjRel, True, False)
+    End Sub
+
+    Private Sub get_Data()
+
+
+
         Dim objOItem_Item As clsOntologyItem
 
-        
+
 
         If Not objOItem_Parent Is Nothing Then
             If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
@@ -336,43 +446,13 @@ Public Class UserControl_OItemList
             If boolOR = False Then
                 Select Case objOItem_Parent.Type
                     Case objLocalConfig.Globals.Type_Object
-    
-                        If Not objOItem_RelationType_AdvancedFilter is Nothing or Not objOItem_Class_AdvancedFilter Is nothing Or Not objOItem_Object_AdvancedFilter Is Nothing Then
-                            Dim objORel_AdvancedFilter = New List(Of clsObjectRel)
-                            If objOItem_Direction_AdvancedFilter.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID
-                                objORel_AdVancedFilter = new List(Of clsObjectRel) From { new clsObjectRel With {.ID_Parent_Object = strGUID_Class, _
-                                                                                                                 .ID_RelationType = If (Not objOItem_RelationType_AdvancedFilter Is Nothing, objOItem_RelationType_AdvancedFilter.GUID, Nothing), _
-                                                                                                                 .ID_Parent_Other = If (Not objOItem_Class_AdvancedFilter Is Nothing, objOItem_Class_AdvancedFilter.GUID, Nothing), _
-                                                                                                                 .ID_Other = if (not objOItem_Object_AdvancedFilter Is Nothing, objOItem_Object_AdvancedFilter.GUID, Nothing) }}
-                                objDBLevel.get_Data_ObjectRel(objORel_AdvancedFilter,boolIDs := False, boolTable := True,boolTable_Objects_Left := True)
-                            Else 
-                                objORel_AdVancedFilter = new List(Of clsObjectRel) From { new clsObjectRel With {.ID_Parent_Other = strGUID_Class, _
-                                                                                                                 .ID_RelationType = If (Not objOItem_RelationType_AdvancedFilter Is Nothing, objOItem_RelationType_AdvancedFilter.GUID, Nothing), _
-                                                                                                                 .ID_Parent_Object = If (Not objOItem_Class_AdvancedFilter Is Nothing, objOItem_Class_AdvancedFilter.GUID, Nothing), _
-                                                                                                                 .ID_Object = if (not objOItem_Object_AdvancedFilter Is Nothing, objOItem_Object_AdvancedFilter.GUID, Nothing) }}
-                                objDBLevel.get_Data_ObjectRel(objORel_AdvancedFilter,boolIDs := False, boolTable := True,boolTable_Objects_Right := True)
-                            End If
-
-                            
-                            
-                        Else 
-                            oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
-                            objDBLevel.get_Data_Objects(oList_Items, True)
-                        End If
-                        
-                        
-                        
-                        'objDBLevel.get_Data_Objects(oList_Items)
-
-
+                        GetData_Objects()
 
                     Case objLocalConfig.Globals.Type_RelationType
-                        oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objLocalConfig.Globals.Type_RelationType))
-                        objDBLevel.get_Data_RelationTypes(oList_Items, True)
+                        GetData_RelationTypes()
 
                     Case objLocalConfig.Globals.Type_AttributeType
-                        oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objLocalConfig.Globals.Type_AttributeType))
-                        objDBLevel.get_Data_AttributeType(oList_Items, True)
+                        GetData_AttributeTypes()
 
                 End Select
             Else
@@ -387,77 +467,22 @@ Public Class UserControl_OItemList
 
 
                     Case objLocalConfig.Globals.Type_RelationType
-                        oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, objLocalConfig.Globals.Type_RelationType))
-                        objDBLevel.get_Data_RelationTypes(oList_Items, True)
+                        Err.Raise(1, "Not Implemented")
 
                     Case objLocalConfig.Globals.Type_AttributeType
 
-                        oList_ObjAtt.Add(New clsObjectAtt(Nothing, objOItem_Object.GUID, Nothing, objOItem_Other.GUID, Nothing))
-                        objDBLevel.get_Data_ObjectAtt(oList_ObjAtt, True, False)
+                        GetData_ObjAtt()
 
                     Case Else
 
-                        oList_ObjRel.Add(New clsObjectRel(strGUID_Filter, _
-                                                          strName_Filter, _
-                                                          strGUID_Class, _
-                                                          Nothing, _
-                                                          objOItem_Other.GUID, _
-                                                          objOItem_Other.Name, _
-                                                          objOItem_Other.GUID_Parent, _
-                                                          Nothing, _
-                                                          objOItem_RelationType.GUID, _
-                                                          Nothing, _
-                                                          objLocalConfig.Globals.Type_Object, _
-                                                          Nothing, _
-                                                          Nothing, _
-                                                          Nothing))
-
-
-                        objDBLevel.get_Data_ObjectRel(oList_ObjRel, True, False)
+                        GetData_ObjRelWithOther()
                 End Select
             Else
-                If Not objOItem_Object Is Nothing Then
-                    If Not objOItem_Object.GUID_Parent Is Nothing Then
-                        strGUID_Class = objOItem_Object.GUID_Parent
-                    End If
-                End If
-                'For Each objOItem_Item In oList_Items
-                '    oList_ObjRel.Add(New clsObjectRel(objOItem_Item.GUID, _
-                '                                      objOItem_Item.Name, _
-                '                                      objOItem_Item.GUID_Parent, _
-                '                                      Nothing, _
-                '                                      strGUID_Filter, _
-                '                                      strName_Filter, _
-                '                                      strGUID_Class, _
-                '                                      Nothing, _
-                '                                      objOItem_RelationType.GUID, _
-                '                                      Nothing, _
-                '                                      objLocalConfig.Globals.Type_Object, _
-                '                                      Nothing, _
-                '                                      Nothing, _
-                '                                      Nothing))
-
-
-                'Next
-                oList_ObjRel.Add(New clsObjectRel(strGUID_Filter, _
-                                                      strName_Filter, _
-                                                      strGUID_Class, _
-                                                      Nothing, _
-                                                      Nothing, _
-                                                      Nothing, _
-                                                      Nothing, _
-                                                      Nothing, _
-                                                      objOItem_RelationType.GUID, _
-                                                      Nothing, _
-                                                      Nothing, _
-                                                      objLocalConfig.Globals.Direction_LeftRight.GUID, _
-                                                      Nothing, _
-                                                      Nothing))
-                objDBLevel.get_Data_ObjectRel(oList_ObjRel, True, False)
+                GetData_ObjRelWithoutOther()
 
 
             End If
-            
+
 
         End If
         boolFinished = True
@@ -484,9 +509,9 @@ Public Class UserControl_OItemList
                 boolFinished = False
                 objThread_List = New Threading.Thread(AddressOf get_Data)
 
-                
+
                 objThread_List.Start()
-                Timer_List.Start
+                Timer_List.Start()
 
             Case TabPage_Tree.Name
                 If Not objOItem_Parent Is Nothing Then
@@ -519,7 +544,7 @@ Public Class UserControl_OItemList
 
     End Sub
 
-    
+
     Public Sub New(ByVal Globals As clsGlobals)
 
         ' This call is required by the designer.
@@ -768,14 +793,14 @@ Public Class UserControl_OItemList
                                                                DataGridView_Items.Rows, _
                                                                intRowID, _
                                                                objLocalConfig.Globals.Type_Object, _
-                                                               Nothing)    
+                                                               Nothing)
                     Else
                         objFrm_ObjectEdit.RefreshForm(DataGridView_Items.Rows, _
                                                                intRowID, _
                                                                objLocalConfig.Globals.Type_Object, _
                                                                Nothing)
                     End If
-                    
+
                     objFrm_ObjectEdit.ShowDialog(Me)
                     get_Data()
                     Timer_List.Start()
@@ -919,7 +944,7 @@ Public Class UserControl_OItemList
                     MsgBox("Implement: RelationType-Edit")
                 Case objLocalConfig.Globals.Type_Object
                     objOLObjects.Add(objOItem_Selected)
-                    If (objFrm_ObjectEdit is Nothing) Then
+                    If (objFrm_ObjectEdit Is Nothing) Then
                         objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig, _
                                                            objOLObjects, _
                                                            0, _
@@ -932,7 +957,7 @@ Public Class UserControl_OItemList
                                                            Nothing)
 
                     End If
-                    
+
                     objFrm_ObjectEdit.ShowDialog(Me)
                     If objFrm_ObjectEdit.DialogResult = DialogResult.OK Then
 
@@ -965,7 +990,7 @@ Public Class UserControl_OItemList
                                                            objLocalConfig.Globals.Type_Object, _
                                                            Nothing)
                             End If
-                            
+
                             objFrm_ObjectEdit.ShowDialog(Me)
                             If objFrm_ObjectEdit.DialogResult = DialogResult.OK Then
 
@@ -991,7 +1016,7 @@ Public Class UserControl_OItemList
             ToolStripTextBox_GUID.Clear()
         End If
 
-        If DataGridView_Items.SelectedRows.Count > 0 And strType = objLocalConfig.Globals.Type_Object then
+        If DataGridView_Items.SelectedRows.Count > 0 And strType = objLocalConfig.Globals.Type_Object Then
             ToolStripButton_Replace.Enabled = True
         End If
         If boolProgChange = False Then
@@ -1225,18 +1250,56 @@ Public Class UserControl_OItemList
         End If
     End Sub
 
-    Private Sub ToolStripButton_AddItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_AddItem.Click
+    Private Sub Save_Objects()
         Dim objOItem_Result As clsOntologyItem
-        Dim objOItem_Class As New clsOntologyItem
-        Dim oList_Simple As List(Of clsOntologyItem)
-        Dim oList_ObjRel As New List(Of clsObjectRel)
-        Dim oList_AttType As New List(Of clsOntologyItem)
-        Dim oList_ObjAtt As New List(Of clsObjectAtt)
-        Dim oItem_Obj As clsOntologyItem
-        Dim objOItem_ClipBoardEntry As clsOntologyItem
-        Dim boolAdd As Boolean
-        Dim boolCancel As Boolean
+        objOItem_Result = objTransaction_Objects.save_Object(objOItem_Parent.GUID_Parent)
 
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objTransaction_Objects.Apply = True Then
+                oList_Selected_Simple.AddRange(objTransaction_Objects.NameObjects)
+
+                RaiseEvent applied_Items()
+            Else
+                configure_TabPages()
+                If Not objTransaction_Objects.OItem_SavedLast Is Nothing Then
+                    ToolStripTextBox_Filter.Text = objTransaction_Objects.OItem_SavedLast.GUID
+                End If
+            End If
+
+        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            MsgBox("Beim Erzeugen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+        End If
+    End Sub
+
+    Private Sub Save_RelationTypes()
+        Dim objOItem_Result As clsOntologyItem
+        objOItem_Result = objTransaction_RelationTypes.save_RelType()
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            configure_TabPages()
+        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
+            MsgBox("Es gibt bereits einen Beziehungstyp mit diesem Namen!", MsgBoxStyle.Exclamation)
+        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            MsgBox("Beim Erzeugen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+        End If
+
+    End Sub
+
+    Private Sub Save_AttributeTypes()
+        Dim objOItem_Result As clsOntologyItem
+        objOItem_Result = objTransaction_AttributeTypes.save_AttType()
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            configure_TabPages()
+        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
+            MsgBox("Es gibt bereits einen Beziehungstyp mit diesem Namen!", MsgBoxStyle.Exclamation)
+        ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            MsgBox("Beim Erzeugen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+        End If
+    End Sub
+
+    Private Sub Save_ObjAtt()
+        Dim oList_ObjAtt As New List(Of clsObjectAtt)
+        Dim oList_AttType As New List(Of clsOntologyItem)
+        Dim objOItem_Result As clsOntologyItem
         Dim boolValue As Boolean
         Dim dateValue As Date
         Dim lngValue As Long
@@ -1244,49 +1307,202 @@ Public Class UserControl_OItemList
         Dim strValue As String
         Dim strVal_Named As String
 
+        oList_AttType.Add(New clsOntologyItem(objOItem_Other.GUID, objLocalConfig.Globals.Type_AttributeType))
+        objDBLevel.get_Data_AttributeType(oList_AttType, False, False)
+
+
+        Dim objLAT = From objAT In objDBLevel.OList_AttributeTypes
+                     Group By objAT.GUID, objAT.Name, objAT.GUID_Parent Into Group
+        If objLAT.Count > 0 Then
+            Select Case objLAT(0).GUID_Parent
+                Case objLocalConfig.Globals.DType_Bool.GUID
+                    objDlg_Attribute_Boolean = New dlg_Attribute_Boolean(objLAT(0).Name & "/" & objLocalConfig.Globals.DType_Bool.Name, objLocalConfig)
+                    objDlg_Attribute_Boolean.ShowDialog(Me)
+                    If objDlg_Attribute_Boolean.DialogResult = DialogResult.OK Then
+                        boolValue = objDlg_Attribute_Boolean.Value
+                        If boolValue = True Then
+                            strVal_Named = "True"
+                        Else
+                            strVal_Named = "False"
+                        End If
+
+                        oList_ObjAtt.Clear()
+                        oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
+                                                           objOItem_Object.GUID, _
+                                                           objOItem_Object.Name, _
+                                                           objOItem_Object.GUID_Parent, _
+                                                           Nothing, _
+                                                           objOItem_Other.GUID, _
+                                                           Nothing, _
+                                                           1, _
+                                                           strVal_Named, _
+                                                           boolValue, _
+                                                           Nothing, _
+                                                           Nothing, _
+                                                           Nothing, _
+                                                           Nothing, _
+                                                           objLocalConfig.Globals.DType_Bool.GUID))
+
+                        objOItem_Result = objDBLevel.save_ObjAtt(oList_ObjAtt)
+                        If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            MsgBox("Leider konnte das Attribut nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+
+                        End If
+                        configure_TabPages()
+                    End If
+                Case objLocalConfig.Globals.DType_DateTime.GUID
+                    objDlg_Attribute_DateTime = New dlg_Attribute_DateTime(objLAT(0).Name & "/" & objLocalConfig.Globals.DType_DateTime.Name, objLocalConfig)
+                    objDlg_Attribute_DateTime.ShowDialog(Me)
+                    If objDlg_Attribute_DateTime.DialogResult = DialogResult.OK Then
+                        dateValue = objDlg_Attribute_DateTime.Value
+
+                        strVal_Named = dateValue.ToString
+                        oList_ObjAtt.Clear()
+                        oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
+                                                           objOItem_Object.GUID, _
+                                                           objOItem_Object.Name, _
+                                                           objOItem_Object.GUID_Parent, _
+                                                           Nothing, _
+                                                           objOItem_Other.GUID, _
+                                                           Nothing, _
+                                                           1, _
+                                                           strVal_Named, _
+                                                           Nothing, _
+                                                           dateValue, _
+                                                           Nothing, _
+                                                           Nothing, _
+                                                           Nothing, _
+                                                           objLocalConfig.Globals.DType_DateTime.GUID))
+
+                        objOItem_Result = objDBLevel.save_ObjAtt(oList_ObjAtt)
+                        If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            MsgBox("Leider konnte das Attribut nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+
+                        End If
+                        configure_TabPages()
+                    End If
+                Case objLocalConfig.Globals.DType_Int.GUID
+                    objDlg_Attribute_Long = New dlg_Attribute_Long(objLAT(0).Name & "/" & objLocalConfig.Globals.DType_Int.Name, objLocalConfig)
+                    objDlg_Attribute_Long.ShowDialog(Me)
+                    If objDlg_Attribute_Long.DialogResult = DialogResult.OK Then
+                        lngValue = objDlg_Attribute_Long.Value
+
+                        strVal_Named = lngValue.ToString
+                        oList_ObjAtt.Clear()
+                        oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
+                                                           objOItem_Object.GUID, _
+                                                           objOItem_Object.Name, _
+                                                           objOItem_Object.GUID_Parent, _
+                                                           Nothing, _
+                                                           objOItem_Other.GUID, _
+                                                           Nothing, _
+                                                           1, _
+                                                           strVal_Named, _
+                                                           Nothing, _
+                                                           Nothing, _
+                                                           lngValue, _
+                                                           Nothing, _
+                                                           Nothing, _
+                                                           objLocalConfig.Globals.DType_Int.GUID))
+
+                        objOItem_Result = objDBLevel.save_ObjAtt(oList_ObjAtt)
+                        If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            MsgBox("Leider konnte das Attribut nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+
+                        End If
+                        configure_TabPages()
+                    End If
+                Case objLocalConfig.Globals.DType_Real.GUID
+                    objDlg_Attribute_Double = New dlg_Attribute_Double(objLAT(0).Name & "/" & objLocalConfig.Globals.DType_Real.Name, objLocalConfig)
+                    objDlg_Attribute_Double.ShowDialog(Me)
+                    If objDlg_Attribute_Double.DialogResult = DialogResult.OK Then
+                        dblValue = objDlg_Attribute_Double.Value
+
+                        strVal_Named = dblValue.ToString
+                        oList_ObjAtt.Clear()
+                        oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
+                                                           objOItem_Object.GUID, _
+                                                           objOItem_Object.Name, _
+                                                           objOItem_Object.GUID_Parent, _
+                                                           Nothing, _
+                                                           objOItem_Other.GUID, _
+                                                           Nothing, _
+                                                           1, _
+                                                           strVal_Named, _
+                                                           Nothing, _
+                                                           Nothing, _
+                                                           Nothing, _
+                                                           dblValue, _
+                                                           Nothing, _
+                                                           objLocalConfig.Globals.DType_Real.GUID))
+
+                        objOItem_Result = objDBLevel.save_ObjAtt(oList_ObjAtt)
+                        If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            MsgBox("Leider konnte das Attribut nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+
+                        End If
+                        configure_TabPages()
+                    End If
+                Case objLocalConfig.Globals.DType_String.GUID
+                    objDlg_Attribute_String = New dlg_Attribute_String(objLAT(0).Name & "/" & objLocalConfig.Globals.DType_String.Name, objLocalConfig)
+                    objDlg_Attribute_String.ShowDialog(Me)
+                    If objDlg_Attribute_String.DialogResult = DialogResult.OK Then
+                        strValue = objDlg_Attribute_String.Value
+
+                        strVal_Named = strValue
+                        oList_ObjAtt.Clear()
+                        oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
+                                                           objOItem_Object.GUID, _
+                                                           objOItem_Object.Name, _
+                                                           objOItem_Object.GUID_Parent, _
+                                                           Nothing, _
+                                                           objOItem_Other.GUID, _
+                                                           Nothing, _
+                                                           1, _
+                                                           strVal_Named, _
+                                                           Nothing, _
+                                                           Nothing, _
+                                                           Nothing, _
+                                                           Nothing, _
+                                                           strValue, _
+                                                           objLocalConfig.Globals.DType_String.GUID))
+
+                        objOItem_Result = objDBLevel.save_ObjAtt(oList_ObjAtt)
+                        If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            MsgBox("Leider konnte das Attribut nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+
+                        End If
+                        configure_TabPages()
+                    End If
+            End Select
+
+        End If
+    End Sub
+
+    Private Sub ToolStripButton_AddItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_AddItem.Click
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_Class As New clsOntologyItem
+        Dim oList_Simple As List(Of clsOntologyItem)
+        Dim oList_ObjRel As New List(Of clsObjectRel)
+        Dim oItem_Obj As clsOntologyItem
+        Dim objOItem_ClipBoardEntry As clsOntologyItem
+        Dim boolAdd As Boolean
+        Dim boolCancel As Boolean
+
+
+
         Dim boolOpenMain As Boolean
 
         If Not objOItem_Parent Is Nothing Then
             Select Case objOItem_Parent.Type
                 Case objLocalConfig.Globals.Type_Object
-                    objOItem_Result = objTransaction_Objects.save_Object(objOItem_Parent.GUID_Parent)
-
-                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        If objTransaction_Objects.Apply = True Then
-                            oList_Selected_Simple.AddRange(objTransaction_Objects.NameObjects)
-
-                            RaiseEvent applied_Items()
-                        Else
-                            configure_TabPages()
-                            If Not objTransaction_Objects.OItem_SavedLast Is Nothing Then
-                                ToolStripTextBox_Filter.Text = objTransaction_Objects.OItem_SavedLast.GUID
-                            End If
-                        End If
-                        
-                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                        MsgBox("Beim Erzeugen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
-                    End If
+                    Save_Objects()
 
                 Case objLocalConfig.Globals.Type_RelationType
-                    objOItem_Result = objTransaction_RelationTypes.save_RelType()
-                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        configure_TabPages()
-                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
-                        MsgBox("Es gibt bereits einen Beziehungstyp mit diesem Namen!", MsgBoxStyle.Exclamation)
-                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                        MsgBox("Beim Erzeugen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
-                    End If
-
+                    Save_RelationTypes()
 
                 Case objLocalConfig.Globals.Type_AttributeType
-                    objOItem_Result = objTransaction_AttributeTypes.save_AttType()
-                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        configure_TabPages()
-                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
-                        MsgBox("Es gibt bereits einen Beziehungstyp mit diesem Namen!", MsgBoxStyle.Exclamation)
-                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                        MsgBox("Beim Erzeugen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
-                    End If
+                    Save_AttributeTypes()
 
 
             End Select
@@ -1303,176 +1519,7 @@ Public Class UserControl_OItemList
 
 
                 Case objLocalConfig.Globals.Type_AttributeType
-                    oList_AttType.Add(New clsOntologyItem(objOItem_Other.GUID, objLocalConfig.Globals.Type_AttributeType))
-                    objDBLevel.get_Data_AttributeType(oList_AttType, False, False)
-
-
-                    Dim objLAT = From objAT In objDBLevel.OList_AttributeTypes
-                                 Group By objAT.GUID, objAT.Name, objAT.GUID_Parent Into Group
-                    If objLAT.Count > 0 Then
-                        Select Case objLAT(0).GUID_Parent
-                            Case objLocalConfig.Globals.DType_Bool.GUID
-                                objDlg_Attribute_Boolean = New dlg_Attribute_Boolean(objLAT(0).Name & "/" & objLocalConfig.Globals.DType_Bool.Name, objLocalConfig)
-                                objDlg_Attribute_Boolean.ShowDialog(Me)
-                                If objDlg_Attribute_Boolean.DialogResult = DialogResult.OK Then
-                                    boolValue = objDlg_Attribute_Boolean.Value
-                                    If boolValue = True Then
-                                        strVal_Named = "True"
-                                    Else
-                                        strVal_Named = "False"
-                                    End If
-
-                                    oList_ObjAtt.Clear()
-                                    oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
-                                                                       objOItem_Object.GUID, _
-                                                                       objOItem_Object.Name, _
-                                                                       objOItem_Object.GUID_Parent, _
-                                                                       Nothing, _
-                                                                       objOItem_Other.GUID, _
-                                                                       Nothing, _
-                                                                       1, _
-                                                                       strVal_Named, _
-                                                                       boolValue, _
-                                                                       Nothing, _
-                                                                       Nothing, _
-                                                                       Nothing, _
-                                                                       Nothing, _
-                                                                       objLocalConfig.Globals.DType_Bool.GUID))
-
-                                    objOItem_Result = objDBLevel.save_ObjAtt(oList_ObjAtt)
-                                    If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                        MsgBox("Leider konnte das Attribut nicht gespeichert werden!", MsgBoxStyle.Exclamation)
-
-                                    End If
-                                    configure_TabPages()
-                                End If
-                            Case objLocalConfig.Globals.DType_DateTime.GUID
-                                objDlg_Attribute_DateTime = New dlg_Attribute_DateTime(objLAT(0).Name & "/" & objLocalConfig.Globals.DType_DateTime.Name, objLocalConfig)
-                                objDlg_Attribute_DateTime.ShowDialog(Me)
-                                If objDlg_Attribute_DateTime.DialogResult = DialogResult.OK Then
-                                    dateValue = objDlg_Attribute_DateTime.Value
-
-                                    strVal_Named = dateValue.ToString
-                                    oList_ObjAtt.Clear()
-                                    oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
-                                                                       objOItem_Object.GUID, _
-                                                                       objOItem_Object.Name, _
-                                                                       objOItem_Object.GUID_Parent, _
-                                                                       Nothing, _
-                                                                       objOItem_Other.GUID, _
-                                                                       Nothing, _
-                                                                       1, _
-                                                                       strVal_Named, _
-                                                                       Nothing, _
-                                                                       dateValue, _
-                                                                       Nothing, _
-                                                                       Nothing, _
-                                                                       Nothing, _
-                                                                       objLocalConfig.Globals.DType_DateTime.GUID))
-
-                                    objOItem_Result = objDBLevel.save_ObjAtt(oList_ObjAtt)
-                                    If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                        MsgBox("Leider konnte das Attribut nicht gespeichert werden!", MsgBoxStyle.Exclamation)
-
-                                    End If
-                                    configure_TabPages()
-                                End If
-                            Case objLocalConfig.Globals.DType_Int.GUID
-                                objDlg_Attribute_Long = New dlg_Attribute_Long(objLAT(0).Name & "/" & objLocalConfig.Globals.DType_Int.Name, objLocalConfig)
-                                objDlg_Attribute_Long.ShowDialog(Me)
-                                If objDlg_Attribute_Long.DialogResult = DialogResult.OK Then
-                                    lngValue = objDlg_Attribute_Long.Value
-
-                                    strVal_Named = lngValue.ToString
-                                    oList_ObjAtt.Clear()
-                                    oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
-                                                                       objOItem_Object.GUID, _
-                                                                       objOItem_Object.Name, _
-                                                                       objOItem_Object.GUID_Parent, _
-                                                                       Nothing, _
-                                                                       objOItem_Other.GUID, _
-                                                                       Nothing, _
-                                                                       1, _
-                                                                       strVal_Named, _
-                                                                       Nothing, _
-                                                                       Nothing, _
-                                                                       lngValue, _
-                                                                       Nothing, _
-                                                                       Nothing, _
-                                                                       objLocalConfig.Globals.DType_Int.GUID))
-
-                                    objOItem_Result = objDBLevel.save_ObjAtt(oList_ObjAtt)
-                                    If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                        MsgBox("Leider konnte das Attribut nicht gespeichert werden!", MsgBoxStyle.Exclamation)
-
-                                    End If
-                                    configure_TabPages()
-                                End If
-                            Case objLocalConfig.Globals.DType_Real.GUID
-                                objDlg_Attribute_Double = New dlg_Attribute_Double(objLAT(0).Name & "/" & objLocalConfig.Globals.DType_Real.Name, objLocalConfig)
-                                objDlg_Attribute_Double.ShowDialog(Me)
-                                If objDlg_Attribute_Double.DialogResult = DialogResult.OK Then
-                                    dblValue = objDlg_Attribute_Double.Value
-
-                                    strVal_Named = dblValue.ToString
-                                    oList_ObjAtt.Clear()
-                                    oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
-                                                                       objOItem_Object.GUID, _
-                                                                       objOItem_Object.Name, _
-                                                                       objOItem_Object.GUID_Parent, _
-                                                                       Nothing, _
-                                                                       objOItem_Other.GUID, _
-                                                                       Nothing, _
-                                                                       1, _
-                                                                       strVal_Named, _
-                                                                       Nothing, _
-                                                                       Nothing, _
-                                                                       Nothing, _
-                                                                       dblValue, _
-                                                                       Nothing, _
-                                                                       objLocalConfig.Globals.DType_Real.GUID))
-
-                                    objOItem_Result = objDBLevel.save_ObjAtt(oList_ObjAtt)
-                                    If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                        MsgBox("Leider konnte das Attribut nicht gespeichert werden!", MsgBoxStyle.Exclamation)
-
-                                    End If
-                                    configure_TabPages()
-                                End If
-                            Case objLocalConfig.Globals.DType_String.GUID
-                                objDlg_Attribute_String = New dlg_Attribute_String(objLAT(0).Name & "/" & objLocalConfig.Globals.DType_String.Name, objLocalConfig)
-                                objDlg_Attribute_String.ShowDialog(Me)
-                                If objDlg_Attribute_String.DialogResult = DialogResult.OK Then
-                                    strValue = objDlg_Attribute_String.Value
-
-                                    strVal_Named = strValue
-                                    oList_ObjAtt.Clear()
-                                    oList_ObjAtt.Add(New clsObjectAtt(Nothing, _
-                                                                       objOItem_Object.GUID, _
-                                                                       objOItem_Object.Name, _
-                                                                       objOItem_Object.GUID_Parent, _
-                                                                       Nothing, _
-                                                                       objOItem_Other.GUID, _
-                                                                       Nothing, _
-                                                                       1, _
-                                                                       strVal_Named, _
-                                                                       Nothing, _
-                                                                       Nothing, _
-                                                                       Nothing, _
-                                                                       Nothing, _
-                                                                       strValue, _
-                                                                       objLocalConfig.Globals.DType_String.GUID))
-
-                                    objOItem_Result = objDBLevel.save_ObjAtt(oList_ObjAtt)
-                                    If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                        MsgBox("Leider konnte das Attribut nicht gespeichert werden!", MsgBoxStyle.Exclamation)
-
-                                    End If
-                                    configure_TabPages()
-                                End If
-                        End Select
-
-                    End If
+                    Save_ObjAtt()
 
 
                 Case objLocalConfig.Globals.Type_Other
@@ -1522,7 +1569,7 @@ Public Class UserControl_OItemList
                         Else
                             boolCancel = True
                         End If
-                        
+
 
                     Else
                         Select Case objOItem_Other.Type
@@ -1596,7 +1643,7 @@ Public Class UserControl_OItemList
                                 Else
                                     boolCancel = True
                                 End If
-                                
+
 
                         End Select
                     End If
@@ -1784,7 +1831,7 @@ Public Class UserControl_OItemList
         DuplicateItemToolStripMenuItem.Enabled = False
         ChangeOrderIDsToolStripMenuItem.Enabled = False
         MoveObjectsToolStripMenuItem.Enabled = False
-        
+
         If DataGridView_Items.SelectedRows.Count > 0 Then
             If boolApplyable = True Then
                 ApplyToolStripMenuItem.Enabled = True
@@ -1808,8 +1855,8 @@ Public Class UserControl_OItemList
             ToClipboardToolStripMenuItem.Enabled = True
         End If
 
-        If DataGridView_Items.SelectedCells.Count>0 Then
-            ChangeOrderIDsToolStripMenuItem.Enabled = True    
+        If DataGridView_Items.SelectedCells.Count > 0 Then
+            ChangeOrderIDsToolStripMenuItem.Enabled = True
         End If
     End Sub
 
@@ -2023,42 +2070,42 @@ Public Class UserControl_OItemList
 
     End Sub
 
-    Private Sub ToolStripButton_FilterAdvanced_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_FilterAdvanced.Click
-        
-        If strGUID_Class <>"" Then
-            objOItem_Class.GUID= strGUID_Class
+    Private Sub ToolStripButton_FilterAdvanced_Click(sender As Object, e As EventArgs) Handles ToolStripButton_FilterAdvanced.Click
+
+        If strGUID_Class <> "" Then
+            objOItem_Class.GUID = strGUID_Class
             objOItem_Class.Type = objLocalConfig.Globals.Type_Class
 
-            objFrmAdvancedFilter = New frmAdvancedFilter(objLocalConfig,objOItem_Class)
+            objFrmAdvancedFilter = New frmAdvancedFilter(objLocalConfig, objOItem_Class)
             objFrmAdvancedFilter.ShowDialog(Me)
             If objFrmAdvancedFilter.DialogResult = DialogResult.OK Then
-                objOItem_Class_AdvancedFilter= objFrmAdvancedFilter.OItem_Class
+                objOItem_Class_AdvancedFilter = objFrmAdvancedFilter.OItem_Class
                 objOItem_Object_AdvancedFilter = objFrmAdvancedFilter.OItem_Object
                 objOItem_RelationType_AdvancedFilter = objFrmAdvancedFilter.OItem_RelationType
                 objOItem_Direction_AdvancedFilter = objFrmAdvancedFilter.OItem_Direction
-                
+
                 get_Data()
                 configure_TabPages()
             End If
-        End If        
-        
+        End If
+
 
     End Sub
 
-    Private Sub ToolStripButton_Replace_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_Replace.Click
+    Private Sub ToolStripButton_Replace_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Replace.Click
         If strType = objLocalConfig.Globals.Type_Object Then
-            Dim objObjectList as List(Of clsOntologyItem) = (From objDGVR As DataGridViewRow In DataGridView_Items.SelectedRows Select objDRV = objDGVR.DataBoundItem Select New clsOntologyItem With {.GUID = DirectCast(objDRV, DataRowView).Item("ID_Item"), _
+            Dim objObjectList As List(Of clsOntologyItem) = (From objDGVR As DataGridViewRow In DataGridView_Items.SelectedRows Select objDRV = objDGVR.DataBoundItem Select New clsOntologyItem With {.GUID = DirectCast(objDRV, DataRowView).Item("ID_Item"), _
                     .Name = DirectCast(objDRV, DataRowView).Item("Name"), _
                     .GUID_Parent = DirectCast(objDRV, DataRowView).Item("ID_Parent"), _
-                    .Type = objLocalConfig.Globals.Type_Object }).ToList()
+                    .Type = objLocalConfig.Globals.Type_Object}).ToList()
 
             If objObjectList.Any() Then
-                objFrm_Replace = New frmReplace(objLocalConfig,objObjectList)
+                objFrm_Replace = New frmReplace(objLocalConfig, objObjectList)
                 objFrm_Replace.ShowDialog(Me)
-                If objFrm_Replace.DialogResult=DialogResult.OK Then
+                If objFrm_Replace.DialogResult = DialogResult.OK Then
                     get_Data()
                 End If
-                
+
             End If
         End If
     End Sub
@@ -2112,7 +2159,7 @@ Public Class UserControl_OItemList
 
                 End If
             End If
-            
+
         ElseIf objOItem_Parent Is Nothing And Not objOItem_Other Is Nothing Then
             If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
                 If DataGridView_Items.SelectedRows.Count = 1 Then
@@ -2322,15 +2369,15 @@ Public Class UserControl_OItemList
         End If
     End Sub
 
-    Private Sub ChangeOrderIDsToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles ChangeOrderIDsToolStripMenuItem.Click
-        Dim boolOk = DataGridView_Items.SelectedCells.Cast (Of DataGridViewCell)().All(Function(cell) DataGridView_Items.Columns(cell.ColumnIndex).DataPropertyName = "OrderID")
+    Private Sub ChangeOrderIDsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ChangeOrderIDsToolStripMenuItem.Click
+        Dim boolOk = DataGridView_Items.SelectedCells.Cast(Of DataGridViewCell)().All(Function(cell) DataGridView_Items.Columns(cell.ColumnIndex).DataPropertyName = "OrderID")
         Dim objOList_Relation As List(Of clsObjectRel) = New List(Of clsObjectRel)()
-        dim objOLIst_Att As List(Of clsObjectAtt) = New List(Of clsObjectAtt)()
+        Dim objOLIst_Att As List(Of clsObjectAtt) = New List(Of clsObjectAtt)()
         Dim boolRel As Boolean
-        Dim boolChange = false
+        Dim boolChange = False
 
         If boolOk Then
-            
+
             objDlg_Attribute_Long = New dlg_Attribute_Long("New OrderID", objLocalConfig.Globals, 0)
             objDlg_Attribute_Long.ShowDialog(Me)
 
@@ -2356,17 +2403,17 @@ Public Class UserControl_OItemList
                         Dim objDRV As DataRowView = objDGVR.DataBoundItem
 
                         If boolRel Then
-                             objOList_Relation.Add(New clsObjectRel(objDRV.Item("ID_Object"), _
-                                                                       objDRV.Item("ID_Parent_Object"), _
-                                                                       objDRV.Item("ID_Other"), _
-                                                                       objDRV.Item("ID_Parent_Other"), _
-                                                                       objDRV.Item("ID_RelationType"), _
-                                                                       objDRV.Item("Ontology"), _
-                                                                       Nothing, _
-                                                                       lngOrderID))
+                            objOList_Relation.Add(New clsObjectRel(objDRV.Item("ID_Object"), _
+                                                                      objDRV.Item("ID_Parent_Object"), _
+                                                                      objDRV.Item("ID_Other"), _
+                                                                      objDRV.Item("ID_Parent_Other"), _
+                                                                      objDRV.Item("ID_RelationType"), _
+                                                                      objDRV.Item("Ontology"), _
+                                                                      Nothing, _
+                                                                      lngOrderID))
 
-                            
-                        Else 
+
+                        Else
                             objOLIst_Att.Add(New clsObjectAtt With {.ID_Attribute = objDRV.Item("ID_Attribute"), _
                                                                           .ID_Object = objDRV.Item("ID_Object"), _
                                                                           .ID_Class = objDRV.Item("ID_Class"), _
@@ -2376,9 +2423,9 @@ Public Class UserControl_OItemList
                                                                           .Val_Bit = objDRV.Item("val_bit"), _
                                                                           .ID_DataType = objDRV.Item("ID_DataType")})
 
-                            
+
                         End If
-                   
+
                     Next
 
                     If boolRel And objOList_Relation.Any Then
@@ -2388,7 +2435,7 @@ Public Class UserControl_OItemList
                         End If
 
                         get_Data()
-                    ElseIf boolRel = False and objOLIst_Att.Any Then
+                    ElseIf boolRel = False And objOLIst_Att.Any Then
                         Dim objOItem_Result = objDBLevel.save_ObjAtt(objOLIst_Att)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                             MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
@@ -2396,30 +2443,30 @@ Public Class UserControl_OItemList
 
                         get_Data()
                     End If
-                    
-                Else 
-                    MsgBox("Hier können keine Order-IDs geändert werden!",MsgBoxStyle.OkOnly)
+
+                Else
+                    MsgBox("Hier können keine Order-IDs geändert werden!", MsgBoxStyle.OkOnly)
                 End If
-                
 
 
-                
+
+
             End If
         Else
-            MsgBox("Nur OrderID-Zellen können geändert werden!",MsgBoxStyle.OkOnly)
+            MsgBox("Nur OrderID-Zellen können geändert werden!", MsgBoxStyle.OkOnly)
 
         End If
     End Sub
 
-    Private Sub ToolStripButton_Sort_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_Sort.Click
-        Dim lngOrderID as Long
+    Private Sub ToolStripButton_Sort_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Sort.Click
+        Dim lngOrderID As Long
         Dim boolRel As Boolean
-        Dim boolChange = false
+        Dim boolChange = False
         Dim objOList_Relation As List(Of clsObjectRel) = New List(Of clsObjectRel)()
-        dim objOLIst_Att As List(Of clsObjectAtt) = New List(Of clsObjectAtt)()
+        Dim objOLIst_Att As List(Of clsObjectAtt) = New List(Of clsObjectAtt)()
 
-        if DataGridView_Items.SelectedRows.Count>0 Then
-             For Each objColumn In DataGridView_Items.Columns
+        If DataGridView_Items.SelectedRows.Count > 0 Then
+            For Each objColumn In DataGridView_Items.Columns
                 If objColumn.DataPropertyName.ToLower = "id_other" Then
                     boolRel = True
                     boolChange = True
@@ -2440,21 +2487,21 @@ Public Class UserControl_OItemList
 
                 If objDlg_Attribute_Long.DialogResult = DialogResult.OK Then
                     lngOrderID = objDlg_Attribute_Long.Value
-                    For Each objDGVR As DataGridViewRow In DataGridView_Items.SelectedRows.Cast(of DataGridViewRow).OrderBy(function(i) i.Index).ToList()
+                    For Each objDGVR As DataGridViewRow In DataGridView_Items.SelectedRows.Cast(Of DataGridViewRow).OrderBy(Function(i) i.Index).ToList()
                         Dim objDRV As DataRowView = objDGVR.DataBoundItem
 
                         If boolRel Then
-                             objOList_Relation.Add(New clsObjectRel(objDRV.Item("ID_Object"), _
-                                                                       objDRV.Item("ID_Parent_Object"), _
-                                                                       objDRV.Item("ID_Other"), _
-                                                                       objDRV.Item("ID_Parent_Other"), _
-                                                                       objDRV.Item("ID_RelationType"), _
-                                                                       objDRV.Item("Ontology"), _
-                                                                       Nothing, _
-                                                                       lngOrderID))
+                            objOList_Relation.Add(New clsObjectRel(objDRV.Item("ID_Object"), _
+                                                                      objDRV.Item("ID_Parent_Object"), _
+                                                                      objDRV.Item("ID_Other"), _
+                                                                      objDRV.Item("ID_Parent_Other"), _
+                                                                      objDRV.Item("ID_RelationType"), _
+                                                                      objDRV.Item("Ontology"), _
+                                                                      Nothing, _
+                                                                      lngOrderID))
 
-                            
-                        Else 
+
+                        Else
                             objOLIst_Att.Add(New clsObjectAtt With {.ID_Attribute = objDRV.Item("ID_Attribute"), _
                                                                           .ID_Object = objDRV.Item("ID_Object"), _
                                                                           .ID_Class = objDRV.Item("ID_Class"), _
@@ -2464,7 +2511,7 @@ Public Class UserControl_OItemList
                                                                           .Val_Bit = objDRV.Item("val_bit"), _
                                                                           .ID_DataType = objDRV.Item("ID_DataType")})
 
-                            
+
                         End If
                         lngOrderID = lngOrderID + 1
                     Next
@@ -2476,7 +2523,7 @@ Public Class UserControl_OItemList
                         End If
 
                         get_Data()
-                    ElseIf boolRel = False and objOLIst_Att.Any Then
+                    ElseIf boolRel = False And objOLIst_Att.Any Then
                         Dim objOItem_Result = objDBLevel.save_ObjAtt(objOLIst_Att)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                             MsgBox("Die Gewichtung konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
@@ -2485,38 +2532,38 @@ Public Class UserControl_OItemList
                         get_Data()
                     End If
                 End If
-            Else 
-                MsgBox("Hier leider nicht möglich.",MsgBoxStyle.OkOnly)
+            Else
+                MsgBox("Hier leider nicht möglich.", MsgBoxStyle.OkOnly)
             End If
 
         End If
     End Sub
 
-    Private Sub MoveObjectsToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles MoveObjectsToolStripMenuItem.Click
+    Private Sub MoveObjectsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MoveObjectsToolStripMenuItem.Click
         objFrm_Main = New frmMain(objLocalConfig)
         objFrm_Main.ShowDialog(Me)
         If objFrm_Main.DialogResult = DialogResult.OK Then
             If objFrm_Main.Type_Applied = objLocalConfig.Globals.Type_Class Then
                 If objFrm_Main.OList_Simple.Count = 1 Then
-                    Dim objOList_DGVR = (From objDGVR As DataGridViewRow in DataGridView_Items.SelectedRows).Select(Function(r) r.DataBoundItem).ToList()
-                    Dim objOList_Objects = (From objDRV As DataRowView in objOList_DGVR
+                    Dim objOList_DGVR = (From objDGVR As DataGridViewRow In DataGridView_Items.SelectedRows).Select(Function(r) r.DataBoundItem).ToList()
+                    Dim objOList_Objects = (From objDRV As DataRowView In objOList_DGVR
                                             Select New clsOntologyItem With {.GUID = objDRV.Item("ID_Item"), _
                                                                              .Name = objDRV.Item("Name"), _
                                                                              .GUID_Parent = objFrm_Main.OList_Simple.First().GUID, _
                                                                              .Type = objLocalConfig.Globals.Type_Object}).ToList()
 
-                    dim objOItem_Result = objDBLevel.save_Objects(objOList_Objects)
+                    Dim objOItem_Result = objDBLevel.save_Objects(objOList_Objects)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                        MsgBox("Die Objekte konnten nicht verschoben werden!",MsgBoxStyle.Exclamation)
+                        MsgBox("Die Objekte konnten nicht verschoben werden!", MsgBoxStyle.Exclamation)
                     End If
-                            
+
                     configure_TabPages()
-                Else 
-                    MsgBox("Bitte wählen Sie eine Klasse aus!",MsgBoxStyle.OkOnly)
+                Else
+                    MsgBox("Bitte wählen Sie eine Klasse aus!", MsgBoxStyle.OkOnly)
                 End If
 
-            Else 
-                MsgBox("Bitte wählen Sie eine Klasse aus!",MsgBoxStyle.OkOnly)
+            Else
+                MsgBox("Bitte wählen Sie eine Klasse aus!", MsgBoxStyle.OkOnly)
             End If
         End If
     End Sub

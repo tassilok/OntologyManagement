@@ -44,38 +44,6 @@ Partial Class frmMain
         Me.ToolStripStatusLabel_RelationDoneLBL = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel_RelationDone = New System.Windows.Forms.ToolStripStatusLabel()
         Me.SplitContainer_Filter_Body = New System.Windows.Forms.SplitContainer()
-        Me.Panel_Filter = New System.Windows.Forms.Panel()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.TextBox_NameRelationType = New System.Windows.Forms.TextBox()
-        Me.TextBox_GUIDRelationType = New System.Windows.Forms.TextBox()
-        Me.TextBox_NameType = New System.Windows.Forms.TextBox()
-        Me.TextBox_GUIDType = New System.Windows.Forms.TextBox()
-        Me.TextBox_NameToken = New System.Windows.Forms.TextBox()
-        Me.TextBox_GUIDToken = New System.Windows.Forms.TextBox()
-        Me.Label_NameRelationTypeLBL = New System.Windows.Forms.Label()
-        Me.Label_GUIDRelationLBL = New System.Windows.Forms.Label()
-        Me.Label_NameTypeLBL = New System.Windows.Forms.Label()
-        Me.Label_GUIDTypeLBL = New System.Windows.Forms.Label()
-        Me.Label_NameTokenLBL = New System.Windows.Forms.Label()
-        Me.Label_GUIDTokenLBL = New System.Windows.Forms.Label()
-        Me.TextBox_NameTypeOther = New System.Windows.Forms.TextBox()
-        Me.TextBox_GUIDTypeOther = New System.Windows.Forms.TextBox()
-        Me.TextBox_NameTokenOther = New System.Windows.Forms.TextBox()
-        Me.TextBox_GUIDTokenOther = New System.Windows.Forms.TextBox()
-        Me.Label_NameTypeOtherLBL = New System.Windows.Forms.Label()
-        Me.Label_GUIDTypeOtherLBL = New System.Windows.Forms.Label()
-        Me.Label_NameTokenOtherLBL = New System.Windows.Forms.Label()
-        Me.Label_GUIDTokenOtherLBL = New System.Windows.Forms.Label()
-        Me.CheckBox_Filter = New System.Windows.Forms.CheckBox()
-        Me.Button_SaveFilter = New System.Windows.Forms.Button()
-        Me.ComboBox_Filter = New System.Windows.Forms.ComboBox()
-        Me.Label_FilterStd = New System.Windows.Forms.Label()
-        Me.Button_Filter = New System.Windows.Forms.Button()
-        Me.Button_GetData = New System.Windows.Forms.Button()
-        Me.GroupBox_FilterDr = New System.Windows.Forms.GroupBox()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
-        Me.RadioButton_RightLeft = New System.Windows.Forms.RadioButton()
-        Me.RadioButton_LeftRight = New System.Windows.Forms.RadioButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer_TypeToken = New System.Windows.Forms.SplitContainer()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
@@ -140,15 +108,8 @@ Partial Class frmMain
         Me.ToolStripContainer1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         CType(Me.SplitContainer_Filter_Body, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer_Filter_Body.Panel1.SuspendLayout()
         Me.SplitContainer_Filter_Body.Panel2.SuspendLayout()
         Me.SplitContainer_Filter_Body.SuspendLayout()
-        Me.Panel_Filter.SuspendLayout()
-        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer1.Panel1.SuspendLayout()
-        Me.SplitContainer1.Panel2.SuspendLayout()
-        Me.SplitContainer1.SuspendLayout()
-        Me.GroupBox_FilterDr.SuspendLayout()
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
@@ -345,357 +306,12 @@ Partial Class frmMain
         Me.SplitContainer_Filter_Body.Name = "SplitContainer_Filter_Body"
         Me.SplitContainer_Filter_Body.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
-        'SplitContainer_Filter_Body.Panel1
-        '
-        Me.SplitContainer_Filter_Body.Panel1.Controls.Add(Me.Panel_Filter)
-        Me.SplitContainer_Filter_Body.Panel1.Controls.Add(Me.CheckBox_Filter)
-        Me.SplitContainer_Filter_Body.Panel1.Controls.Add(Me.Button_SaveFilter)
-        Me.SplitContainer_Filter_Body.Panel1.Controls.Add(Me.ComboBox_Filter)
-        Me.SplitContainer_Filter_Body.Panel1.Controls.Add(Me.Label_FilterStd)
-        Me.SplitContainer_Filter_Body.Panel1.Controls.Add(Me.Button_Filter)
-        Me.SplitContainer_Filter_Body.Panel1.Controls.Add(Me.Button_GetData)
-        Me.SplitContainer_Filter_Body.Panel1.Controls.Add(Me.GroupBox_FilterDr)
-        '
         'SplitContainer_Filter_Body.Panel2
         '
         Me.SplitContainer_Filter_Body.Panel2.Controls.Add(Me.SplitContainer2)
         Me.SplitContainer_Filter_Body.Size = New System.Drawing.Size(1377, 554)
-        Me.SplitContainer_Filter_Body.SplitterDistance = 105
+        Me.SplitContainer_Filter_Body.SplitterDistance = 112
         Me.SplitContainer_Filter_Body.TabIndex = 0
-        '
-        'Panel_Filter
-        '
-        Me.Panel_Filter.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Panel_Filter.Controls.Add(Me.SplitContainer1)
-        Me.Panel_Filter.Location = New System.Drawing.Point(119, 3)
-        Me.Panel_Filter.Name = "Panel_Filter"
-        Me.Panel_Filter.Size = New System.Drawing.Size(1052, 95)
-        Me.Panel_Filter.TabIndex = 1
-        '
-        'SplitContainer1
-        '
-        Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        '
-        'SplitContainer1.Panel1
-        '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.TextBox_NameRelationType)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.TextBox_GUIDRelationType)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.TextBox_NameType)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.TextBox_GUIDType)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.TextBox_NameToken)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.TextBox_GUIDToken)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.Label_NameRelationTypeLBL)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.Label_GUIDRelationLBL)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.Label_NameTypeLBL)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.Label_GUIDTypeLBL)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.Label_NameTokenLBL)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.Label_GUIDTokenLBL)
-        '
-        'SplitContainer1.Panel2
-        '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.TextBox_NameTypeOther)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.TextBox_GUIDTypeOther)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.TextBox_NameTokenOther)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.TextBox_GUIDTokenOther)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.Label_NameTypeOtherLBL)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.Label_GUIDTypeOtherLBL)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.Label_NameTokenOtherLBL)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.Label_GUIDTokenOtherLBL)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1052, 95)
-        Me.SplitContainer1.SplitterDistance = 496
-        Me.SplitContainer1.TabIndex = 0
-        '
-        'TextBox_NameRelationType
-        '
-        Me.TextBox_NameRelationType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_NameRelationType.Location = New System.Drawing.Point(119, 122)
-        Me.TextBox_NameRelationType.Name = "TextBox_NameRelationType"
-        Me.TextBox_NameRelationType.Size = New System.Drawing.Size(370, 20)
-        Me.TextBox_NameRelationType.TabIndex = 16
-        '
-        'TextBox_GUIDRelationType
-        '
-        Me.TextBox_GUIDRelationType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_GUIDRelationType.Location = New System.Drawing.Point(118, 98)
-        Me.TextBox_GUIDRelationType.Name = "TextBox_GUIDRelationType"
-        Me.TextBox_GUIDRelationType.Size = New System.Drawing.Size(371, 20)
-        Me.TextBox_GUIDRelationType.TabIndex = 15
-        '
-        'TextBox_NameType
-        '
-        Me.TextBox_NameType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_NameType.Location = New System.Drawing.Point(87, 74)
-        Me.TextBox_NameType.Name = "TextBox_NameType"
-        Me.TextBox_NameType.Size = New System.Drawing.Size(402, 20)
-        Me.TextBox_NameType.TabIndex = 14
-        '
-        'TextBox_GUIDType
-        '
-        Me.TextBox_GUIDType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_GUIDType.Location = New System.Drawing.Point(87, 50)
-        Me.TextBox_GUIDType.Name = "TextBox_GUIDType"
-        Me.TextBox_GUIDType.Size = New System.Drawing.Size(402, 20)
-        Me.TextBox_GUIDType.TabIndex = 13
-        '
-        'TextBox_NameToken
-        '
-        Me.TextBox_NameToken.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_NameToken.Location = New System.Drawing.Point(87, 27)
-        Me.TextBox_NameToken.Name = "TextBox_NameToken"
-        Me.TextBox_NameToken.Size = New System.Drawing.Size(402, 20)
-        Me.TextBox_NameToken.TabIndex = 12
-        '
-        'TextBox_GUIDToken
-        '
-        Me.TextBox_GUIDToken.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_GUIDToken.Location = New System.Drawing.Point(87, 4)
-        Me.TextBox_GUIDToken.Name = "TextBox_GUIDToken"
-        Me.TextBox_GUIDToken.Size = New System.Drawing.Size(402, 20)
-        Me.TextBox_GUIDToken.TabIndex = 11
-        '
-        'Label_NameRelationTypeLBL
-        '
-        Me.Label_NameRelationTypeLBL.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label_NameRelationTypeLBL.AutoSize = True
-        Me.Label_NameRelationTypeLBL.Location = New System.Drawing.Point(6, 124)
-        Me.Label_NameRelationTypeLBL.Name = "Label_NameRelationTypeLBL"
-        Me.Label_NameRelationTypeLBL.Size = New System.Drawing.Size(107, 13)
-        Me.Label_NameRelationTypeLBL.TabIndex = 10
-        Me.Label_NameRelationTypeLBL.Text = "Name_RelationType:"
-        '
-        'Label_GUIDRelationLBL
-        '
-        Me.Label_GUIDRelationLBL.AutoSize = True
-        Me.Label_GUIDRelationLBL.Location = New System.Drawing.Point(6, 100)
-        Me.Label_GUIDRelationLBL.Name = "Label_GUIDRelationLBL"
-        Me.Label_GUIDRelationLBL.Size = New System.Drawing.Size(106, 13)
-        Me.Label_GUIDRelationLBL.TabIndex = 9
-        Me.Label_GUIDRelationLBL.Text = "GUID_RelationType:"
-        '
-        'Label_NameTypeLBL
-        '
-        Me.Label_NameTypeLBL.AutoSize = True
-        Me.Label_NameTypeLBL.Location = New System.Drawing.Point(5, 77)
-        Me.Label_NameTypeLBL.Name = "Label_NameTypeLBL"
-        Me.Label_NameTypeLBL.Size = New System.Drawing.Size(68, 13)
-        Me.Label_NameTypeLBL.TabIndex = 8
-        Me.Label_NameTypeLBL.Text = "Name_Type:"
-        '
-        'Label_GUIDTypeLBL
-        '
-        Me.Label_GUIDTypeLBL.AutoSize = True
-        Me.Label_GUIDTypeLBL.Location = New System.Drawing.Point(6, 53)
-        Me.Label_GUIDTypeLBL.Name = "Label_GUIDTypeLBL"
-        Me.Label_GUIDTypeLBL.Size = New System.Drawing.Size(67, 13)
-        Me.Label_GUIDTypeLBL.TabIndex = 7
-        Me.Label_GUIDTypeLBL.Text = "GUID_Type:"
-        '
-        'Label_NameTokenLBL
-        '
-        Me.Label_NameTokenLBL.AutoSize = True
-        Me.Label_NameTokenLBL.Location = New System.Drawing.Point(6, 30)
-        Me.Label_NameTokenLBL.Name = "Label_NameTokenLBL"
-        Me.Label_NameTokenLBL.Size = New System.Drawing.Size(75, 13)
-        Me.Label_NameTokenLBL.TabIndex = 6
-        Me.Label_NameTokenLBL.Text = "Name_Token:"
-        '
-        'Label_GUIDTokenLBL
-        '
-        Me.Label_GUIDTokenLBL.AutoSize = True
-        Me.Label_GUIDTokenLBL.Location = New System.Drawing.Point(6, 6)
-        Me.Label_GUIDTokenLBL.Name = "Label_GUIDTokenLBL"
-        Me.Label_GUIDTokenLBL.Size = New System.Drawing.Size(74, 13)
-        Me.Label_GUIDTokenLBL.TabIndex = 5
-        Me.Label_GUIDTokenLBL.Text = "GUID_Token:"
-        '
-        'TextBox_NameTypeOther
-        '
-        Me.TextBox_NameTypeOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_NameTypeOther.Location = New System.Drawing.Point(86, 74)
-        Me.TextBox_NameTypeOther.Name = "TextBox_NameTypeOther"
-        Me.TextBox_NameTypeOther.Size = New System.Drawing.Size(459, 20)
-        Me.TextBox_NameTypeOther.TabIndex = 16
-        '
-        'TextBox_GUIDTypeOther
-        '
-        Me.TextBox_GUIDTypeOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_GUIDTypeOther.Location = New System.Drawing.Point(86, 50)
-        Me.TextBox_GUIDTypeOther.Name = "TextBox_GUIDTypeOther"
-        Me.TextBox_GUIDTypeOther.Size = New System.Drawing.Size(459, 20)
-        Me.TextBox_GUIDTypeOther.TabIndex = 15
-        '
-        'TextBox_NameTokenOther
-        '
-        Me.TextBox_NameTokenOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_NameTokenOther.Location = New System.Drawing.Point(86, 27)
-        Me.TextBox_NameTokenOther.Name = "TextBox_NameTokenOther"
-        Me.TextBox_NameTokenOther.Size = New System.Drawing.Size(459, 20)
-        Me.TextBox_NameTokenOther.TabIndex = 14
-        '
-        'TextBox_GUIDTokenOther
-        '
-        Me.TextBox_GUIDTokenOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_GUIDTokenOther.Location = New System.Drawing.Point(86, 4)
-        Me.TextBox_GUIDTokenOther.Name = "TextBox_GUIDTokenOther"
-        Me.TextBox_GUIDTokenOther.Size = New System.Drawing.Size(459, 20)
-        Me.TextBox_GUIDTokenOther.TabIndex = 13
-        '
-        'Label_NameTypeOtherLBL
-        '
-        Me.Label_NameTypeOtherLBL.AutoSize = True
-        Me.Label_NameTypeOtherLBL.Location = New System.Drawing.Point(6, 77)
-        Me.Label_NameTypeOtherLBL.Name = "Label_NameTypeOtherLBL"
-        Me.Label_NameTypeOtherLBL.Size = New System.Drawing.Size(68, 13)
-        Me.Label_NameTypeOtherLBL.TabIndex = 12
-        Me.Label_NameTypeOtherLBL.Text = "Name_Type:"
-        '
-        'Label_GUIDTypeOtherLBL
-        '
-        Me.Label_GUIDTypeOtherLBL.AutoSize = True
-        Me.Label_GUIDTypeOtherLBL.Location = New System.Drawing.Point(6, 53)
-        Me.Label_GUIDTypeOtherLBL.Name = "Label_GUIDTypeOtherLBL"
-        Me.Label_GUIDTypeOtherLBL.Size = New System.Drawing.Size(67, 13)
-        Me.Label_GUIDTypeOtherLBL.TabIndex = 11
-        Me.Label_GUIDTypeOtherLBL.Text = "GUID_Type:"
-        '
-        'Label_NameTokenOtherLBL
-        '
-        Me.Label_NameTokenOtherLBL.AutoSize = True
-        Me.Label_NameTokenOtherLBL.Location = New System.Drawing.Point(5, 30)
-        Me.Label_NameTokenOtherLBL.Name = "Label_NameTokenOtherLBL"
-        Me.Label_NameTokenOtherLBL.Size = New System.Drawing.Size(75, 13)
-        Me.Label_NameTokenOtherLBL.TabIndex = 10
-        Me.Label_NameTokenOtherLBL.Text = "Name_Token:"
-        '
-        'Label_GUIDTokenOtherLBL
-        '
-        Me.Label_GUIDTokenOtherLBL.AutoSize = True
-        Me.Label_GUIDTokenOtherLBL.Location = New System.Drawing.Point(6, 6)
-        Me.Label_GUIDTokenOtherLBL.Name = "Label_GUIDTokenOtherLBL"
-        Me.Label_GUIDTokenOtherLBL.Size = New System.Drawing.Size(74, 13)
-        Me.Label_GUIDTokenOtherLBL.TabIndex = 9
-        Me.Label_GUIDTokenOtherLBL.Text = "GUID_Token:"
-        '
-        'CheckBox_Filter
-        '
-        Me.CheckBox_Filter.AutoSize = True
-        Me.CheckBox_Filter.Location = New System.Drawing.Point(953, 51)
-        Me.CheckBox_Filter.Name = "CheckBox_Filter"
-        Me.CheckBox_Filter.Size = New System.Drawing.Size(48, 17)
-        Me.CheckBox_Filter.TabIndex = 7
-        Me.CheckBox_Filter.Text = "Filter"
-        Me.CheckBox_Filter.UseVisualStyleBackColor = True
-        '
-        'Button_SaveFilter
-        '
-        Me.Button_SaveFilter.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_SaveFilter.Location = New System.Drawing.Point(1275, 51)
-        Me.Button_SaveFilter.Name = "Button_SaveFilter"
-        Me.Button_SaveFilter.Size = New System.Drawing.Size(95, 23)
-        Me.Button_SaveFilter.TabIndex = 6
-        Me.Button_SaveFilter.Text = "Filter speichern"
-        Me.Button_SaveFilter.UseVisualStyleBackColor = True
-        '
-        'ComboBox_Filter
-        '
-        Me.ComboBox_Filter.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ComboBox_Filter.FormattingEnabled = True
-        Me.ComboBox_Filter.Location = New System.Drawing.Point(1177, 28)
-        Me.ComboBox_Filter.Name = "ComboBox_Filter"
-        Me.ComboBox_Filter.Size = New System.Drawing.Size(193, 21)
-        Me.ComboBox_Filter.TabIndex = 5
-        '
-        'Label_FilterStd
-        '
-        Me.Label_FilterStd.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label_FilterStd.AutoSize = True
-        Me.Label_FilterStd.Location = New System.Drawing.Point(1174, 11)
-        Me.Label_FilterStd.Name = "Label_FilterStd"
-        Me.Label_FilterStd.Size = New System.Drawing.Size(96, 13)
-        Me.Label_FilterStd.TabIndex = 4
-        Me.Label_FilterStd.Text = "Filter (gespeichert):"
-        '
-        'Button_Filter
-        '
-        Me.Button_Filter.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_Filter.Location = New System.Drawing.Point(1275, 75)
-        Me.Button_Filter.Name = "Button_Filter"
-        Me.Button_Filter.Size = New System.Drawing.Size(95, 23)
-        Me.Button_Filter.TabIndex = 3
-        Me.Button_Filter.Text = "Filter"
-        Me.Button_Filter.UseVisualStyleBackColor = True
-        '
-        'Button_GetData
-        '
-        Me.Button_GetData.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_GetData.Location = New System.Drawing.Point(1275, 47)
-        Me.Button_GetData.Name = "Button_GetData"
-        Me.Button_GetData.Size = New System.Drawing.Size(95, 23)
-        Me.Button_GetData.TabIndex = 2
-        Me.Button_GetData.Text = "Eintrag holen"
-        Me.Button_GetData.UseVisualStyleBackColor = True
-        '
-        'GroupBox_FilterDr
-        '
-        Me.GroupBox_FilterDr.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox_FilterDr.Controls.Add(Me.CheckBox1)
-        Me.GroupBox_FilterDr.Controls.Add(Me.RadioButton_RightLeft)
-        Me.GroupBox_FilterDr.Controls.Add(Me.RadioButton_LeftRight)
-        Me.GroupBox_FilterDr.Location = New System.Drawing.Point(7, 3)
-        Me.GroupBox_FilterDr.Name = "GroupBox_FilterDr"
-        Me.GroupBox_FilterDr.Size = New System.Drawing.Size(92, 95)
-        Me.GroupBox_FilterDr.TabIndex = 0
-        Me.GroupBox_FilterDr.TabStop = False
-        Me.GroupBox_FilterDr.Text = "Filter-Config"
-        '
-        'CheckBox1
-        '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(7, 67)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(44, 17)
-        Me.CheckBox1.TabIndex = 2
-        Me.CheckBox1.Text = "Null"
-        Me.CheckBox1.UseVisualStyleBackColor = True
-        '
-        'RadioButton_RightLeft
-        '
-        Me.RadioButton_RightLeft.AutoSize = True
-        Me.RadioButton_RightLeft.Location = New System.Drawing.Point(7, 44)
-        Me.RadioButton_RightLeft.Name = "RadioButton_RightLeft"
-        Me.RadioButton_RightLeft.Size = New System.Drawing.Size(77, 17)
-        Me.RadioButton_RightLeft.TabIndex = 1
-        Me.RadioButton_RightLeft.Text = "Right->Left"
-        Me.RadioButton_RightLeft.UseVisualStyleBackColor = True
-        '
-        'RadioButton_LeftRight
-        '
-        Me.RadioButton_LeftRight.AutoSize = True
-        Me.RadioButton_LeftRight.Checked = True
-        Me.RadioButton_LeftRight.Location = New System.Drawing.Point(7, 20)
-        Me.RadioButton_LeftRight.Name = "RadioButton_LeftRight"
-        Me.RadioButton_LeftRight.Size = New System.Drawing.Size(77, 17)
-        Me.RadioButton_LeftRight.TabIndex = 0
-        Me.RadioButton_LeftRight.TabStop = True
-        Me.RadioButton_LeftRight.Text = "Left->Right"
-        Me.RadioButton_LeftRight.UseVisualStyleBackColor = True
         '
         'SplitContainer2
         '
@@ -711,8 +327,8 @@ Partial Class frmMain
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.SplitContainer_AttribRelTokenRel)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1377, 445)
-        Me.SplitContainer2.SplitterDistance = 663
+        Me.SplitContainer2.Size = New System.Drawing.Size(1377, 438)
+        Me.SplitContainer2.SplitterDistance = 662
         Me.SplitContainer2.TabIndex = 0
         '
         'SplitContainer_TypeToken
@@ -729,16 +345,16 @@ Partial Class frmMain
         'SplitContainer_TypeToken.Panel2
         '
         Me.SplitContainer_TypeToken.Panel2.Controls.Add(Me.SplitContainer_Token)
-        Me.SplitContainer_TypeToken.Size = New System.Drawing.Size(663, 445)
-        Me.SplitContainer_TypeToken.SplitterDistance = 187
+        Me.SplitContainer_TypeToken.Size = New System.Drawing.Size(662, 438)
+        Me.SplitContainer_TypeToken.SplitterDistance = 185
         Me.SplitContainer_TypeToken.TabIndex = 0
         '
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ToolStrip2.Location = New System.Drawing.Point(0, 416)
+        Me.ToolStrip2.Location = New System.Drawing.Point(0, 409)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(183, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(181, 25)
         Me.ToolStrip2.TabIndex = 0
         Me.ToolStrip2.Text = "ToolStrip2"
         '
@@ -749,8 +365,8 @@ Partial Class frmMain
         Me.SplitContainer_Token.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer_Token.Name = "SplitContainer_Token"
         Me.SplitContainer_Token.Orientation = System.Windows.Forms.Orientation.Horizontal
-        Me.SplitContainer_Token.Size = New System.Drawing.Size(472, 445)
-        Me.SplitContainer_Token.SplitterDistance = 310
+        Me.SplitContainer_Token.Size = New System.Drawing.Size(473, 438)
+        Me.SplitContainer_Token.SplitterDistance = 304
         Me.SplitContainer_Token.TabIndex = 0
         '
         'SplitContainer_AttribRelTokenRel
@@ -767,7 +383,7 @@ Partial Class frmMain
         'SplitContainer_AttribRelTokenRel.Panel2
         '
         Me.SplitContainer_AttribRelTokenRel.Panel2.Controls.Add(Me.SplitContainer_TokAttTokRel)
-        Me.SplitContainer_AttribRelTokenRel.Size = New System.Drawing.Size(710, 445)
+        Me.SplitContainer_AttribRelTokenRel.Size = New System.Drawing.Size(711, 438)
         Me.SplitContainer_AttribRelTokenRel.SplitterDistance = 333
         Me.SplitContainer_AttribRelTokenRel.TabIndex = 0
         '
@@ -783,8 +399,8 @@ Partial Class frmMain
         '
         Me.SplitContainer_AttribRel.Panel1.Controls.Add(Me.Panel_Attributes)
         Me.SplitContainer_AttribRel.Panel1.Controls.Add(Me.Label_AttributesLBL)
-        Me.SplitContainer_AttribRel.Size = New System.Drawing.Size(333, 445)
-        Me.SplitContainer_AttribRel.SplitterDistance = 227
+        Me.SplitContainer_AttribRel.Size = New System.Drawing.Size(333, 438)
+        Me.SplitContainer_AttribRel.SplitterDistance = 222
         Me.SplitContainer_AttribRel.TabIndex = 0
         '
         'Panel_Attributes
@@ -794,7 +410,7 @@ Partial Class frmMain
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_Attributes.Location = New System.Drawing.Point(4, 21)
         Me.Panel_Attributes.Name = "Panel_Attributes"
-        Me.Panel_Attributes.Size = New System.Drawing.Size(322, 199)
+        Me.Panel_Attributes.Size = New System.Drawing.Size(322, 194)
         Me.Panel_Attributes.TabIndex = 1
         '
         'Label_AttributesLBL
@@ -818,8 +434,8 @@ Partial Class frmMain
         '
         Me.SplitContainer_TokAttTokRel.Panel1.Controls.Add(Me.Panel_RelationTypes)
         Me.SplitContainer_TokAttTokRel.Panel1.Controls.Add(Me.Label_RelationTypes)
-        Me.SplitContainer_TokAttTokRel.Size = New System.Drawing.Size(373, 445)
-        Me.SplitContainer_TokAttTokRel.SplitterDistance = 228
+        Me.SplitContainer_TokAttTokRel.Size = New System.Drawing.Size(374, 438)
+        Me.SplitContainer_TokAttTokRel.SplitterDistance = 223
         Me.SplitContainer_TokAttTokRel.TabIndex = 0
         '
         'Panel_RelationTypes
@@ -829,7 +445,7 @@ Partial Class frmMain
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_RelationTypes.Location = New System.Drawing.Point(3, 21)
         Me.Panel_RelationTypes.Name = "Panel_RelationTypes"
-        Me.Panel_RelationTypes.Size = New System.Drawing.Size(363, 199)
+        Me.Panel_RelationTypes.Size = New System.Drawing.Size(364, 194)
         Me.Panel_RelationTypes.TabIndex = 3
         '
         'Label_RelationTypes
@@ -1168,38 +784,27 @@ Partial Class frmMain
         '
         'frmMain
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1401, 602)
         Me.Controls.Add(Me.ToolStripContainer1)
-        Me.Icon = CType(resources.GetObject("$this.Icon"),System.Drawing.Icon)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmMain"
         Me.Text = "x_Ontology_Module"
-        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout
-        Me.ToolStripContainer1.ContentPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.LeftToolStripPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.LeftToolStripPanel.PerformLayout
-        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout
-        Me.ToolStripContainer1.ResumeLayout(false)
-        Me.ToolStripContainer1.PerformLayout
-        Me.StatusStrip1.ResumeLayout(false)
-        Me.StatusStrip1.PerformLayout
-        Me.SplitContainer_Filter_Body.Panel1.ResumeLayout(false)
-        Me.SplitContainer_Filter_Body.Panel1.PerformLayout
-        Me.SplitContainer_Filter_Body.Panel2.ResumeLayout(false)
-        CType(Me.SplitContainer_Filter_Body,System.ComponentModel.ISupportInitialize).EndInit
-        Me.SplitContainer_Filter_Body.ResumeLayout(false)
-        Me.Panel_Filter.ResumeLayout(false)
-        Me.SplitContainer1.Panel1.ResumeLayout(false)
-        Me.SplitContainer1.Panel1.PerformLayout
-        Me.SplitContainer1.Panel2.ResumeLayout(false)
-        Me.SplitContainer1.Panel2.PerformLayout
-        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).EndInit
-        Me.SplitContainer1.ResumeLayout(false)
-        Me.GroupBox_FilterDr.ResumeLayout(false)
-        Me.GroupBox_FilterDr.PerformLayout
+        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.LeftToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.LeftToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.ResumeLayout(False)
+        Me.ToolStripContainer1.PerformLayout()
+        Me.StatusStrip1.ResumeLayout(False)
+        Me.StatusStrip1.PerformLayout()
+        Me.SplitContainer_Filter_Body.Panel2.ResumeLayout(False)
+        CType(Me.SplitContainer_Filter_Body, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer_Filter_Body.ResumeLayout(False)
         Me.SplitContainer2.Panel1.ResumeLayout(false)
         Me.SplitContainer2.Panel2.ResumeLayout(false)
         CType(Me.SplitContainer2,System.ComponentModel.ISupportInitialize).EndInit
@@ -1254,38 +859,6 @@ End Sub
     Friend WithEvents ToolStripStatusLabel_RelationDoneLBL As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents ToolStripStatusLabel_RelationDone As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents SplitContainer_Filter_Body As System.Windows.Forms.SplitContainer
-    Friend WithEvents Panel_Filter As System.Windows.Forms.Panel
-    Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents TextBox_NameRelationType As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox_GUIDRelationType As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox_NameType As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox_GUIDType As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox_NameToken As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox_GUIDToken As System.Windows.Forms.TextBox
-    Friend WithEvents Label_NameRelationTypeLBL As System.Windows.Forms.Label
-    Friend WithEvents Label_GUIDRelationLBL As System.Windows.Forms.Label
-    Friend WithEvents Label_NameTypeLBL As System.Windows.Forms.Label
-    Friend WithEvents Label_GUIDTypeLBL As System.Windows.Forms.Label
-    Friend WithEvents Label_NameTokenLBL As System.Windows.Forms.Label
-    Friend WithEvents Label_GUIDTokenLBL As System.Windows.Forms.Label
-    Friend WithEvents TextBox_NameTypeOther As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox_GUIDTypeOther As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox_NameTokenOther As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox_GUIDTokenOther As System.Windows.Forms.TextBox
-    Friend WithEvents Label_NameTypeOtherLBL As System.Windows.Forms.Label
-    Friend WithEvents Label_GUIDTypeOtherLBL As System.Windows.Forms.Label
-    Friend WithEvents Label_NameTokenOtherLBL As System.Windows.Forms.Label
-    Friend WithEvents Label_GUIDTokenOtherLBL As System.Windows.Forms.Label
-    Friend WithEvents CheckBox_Filter As System.Windows.Forms.CheckBox
-    Friend WithEvents Button_SaveFilter As System.Windows.Forms.Button
-    Friend WithEvents ComboBox_Filter As System.Windows.Forms.ComboBox
-    Friend WithEvents Label_FilterStd As System.Windows.Forms.Label
-    Friend WithEvents Button_Filter As System.Windows.Forms.Button
-    Friend WithEvents Button_GetData As System.Windows.Forms.Button
-    Friend WithEvents GroupBox_FilterDr As System.Windows.Forms.GroupBox
-    Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
-    Friend WithEvents RadioButton_RightLeft As System.Windows.Forms.RadioButton
-    Friend WithEvents RadioButton_LeftRight As System.Windows.Forms.RadioButton
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
     Friend WithEvents SplitContainer_TypeToken As System.Windows.Forms.SplitContainer
     Friend WithEvents ToolStrip2 As System.Windows.Forms.ToolStrip
