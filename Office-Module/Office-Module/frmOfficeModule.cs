@@ -135,7 +135,7 @@ namespace Office_Module
                                   GUID = obj.ID_Ref,
                                   Name = obj.Name_Ref,
                                   GUID_Parent = obj.ID_Parent_Ref
-                              }).ToList();
+                              }).OrderBy(n => n.Name).ToList();
 
             foreach (var objObject in objObjects)
             {
@@ -164,7 +164,7 @@ namespace Office_Module
                                    GUID = obj.GUID,
                                    Name = obj.Name,
                                    Type = obj.Type
-                               }).ToList();
+                               }).OrderBy(n => n.Name).ToList();
             }
             else
             {
@@ -176,7 +176,7 @@ namespace Office_Module
                                    GUID = obj.GUID,
                                    Name = obj.Name,
                                    Type = obj.Type
-                               }).ToList();
+                               }).OrderBy(n => n.Name).ToList();
             }
 
 
