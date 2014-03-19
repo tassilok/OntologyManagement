@@ -19,3 +19,4 @@ The ontology-db consists of
 * A Base-Module (Ontology-Editor)
 * A growing module-portfolio
 
+Releases can be found at http://sourceforge.net/projects/ontologymanager
