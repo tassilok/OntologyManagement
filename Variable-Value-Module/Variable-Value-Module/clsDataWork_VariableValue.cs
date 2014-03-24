@@ -50,10 +50,10 @@ namespace Variable_Value_Module
                                                  Type_Ref = objValue != null ? objValue.Ontology : null,
                                                  Id_Variable = objVariable.ID_Other,
                                                  Name_Variable = objVariable.Name_Other,
-                                                 Id_Value = objValue.ID_Object,
-                                                 Name_Value = objValue.Name_Object,
-                                                 Id_ValueRef = objRef.ID_Object,
-                                                 Name_ValueRef = objRef.Name_Object,
+                                                 Id_Value = objVariable.ID_Object,
+                                                 Name_Value = objVariable.Name_Object,
+                                                 Id_ValueRef = objRef != null ? objRef.ID_Object : null,
+                                                 Name_ValueRef = objRef != null ? objRef.Name_Object : null,
                                                  Value = objValue != null ? objValue.Name_Other : objVariable.Name_Object
                                              }).ToList();
                     }

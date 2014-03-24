@@ -29,6 +29,21 @@ namespace Variable_Value_Module
             }
         }
 
+        public List<clsVariableValue> GetVarValueList(clsOntologyItem OItem_RelationType)
+        {
+            objDataWork_VariableValue.OItem_RelationType = OItem_RelationType;
+            var objOItem_Result = objDataWork_VariableValue.GetData_VariableValue();
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                return objDataWork_VariableValue.VariableValueList.ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public clsVariableValueWork(clsLocalConfig LocalConfig)
         {
             objLocalConfig = LocalConfig;

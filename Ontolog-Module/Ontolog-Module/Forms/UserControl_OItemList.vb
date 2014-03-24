@@ -6,6 +6,8 @@ Public Class UserControl_OItemList
     Private otblT_Objects As New DataSet_Config.otbl_ObjectsDataTable
 
     Private objDBLevel As clsDBLevel
+    Private objDBLevel2 As clsDBLevel
+    Private objDBLevel3 As clsDBLevel
     Private objOntologyClipboard As clsOntologyClipboard
 
     Private objFrm_Main As frmMain
@@ -567,6 +569,8 @@ Public Class UserControl_OItemList
 
     Private Sub set_DBConnection()
         objDBLevel = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel2 = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel3 = new clsDBLevel(objLocalConfig.Globals)
         objTransaction_Objects = New clsTransaction_Objects(objLocalConfig, Me)
         objTransaction_AttributeTypes = New clsTransaction_AttributeTypes(objLocalConfig, Me)
         objTransaction_RelationTypes = New clsTransaction_RelationTypes(objLocalConfig, Me)
@@ -2546,6 +2550,12 @@ Public Class UserControl_OItemList
             If objFrm_Main.Type_Applied = objLocalConfig.Globals.Type_Class Then
                 If objFrm_Main.OList_Simple.Count = 1 Then
                     Dim objOList_DGVR = (From objDGVR As DataGridViewRow In DataGridView_Items.SelectedRows).Select(Function(r) r.DataBoundItem).ToList()
+                    Dim objOList_Objects_Orig = (From objDRV As DataRowView In objOList_DGVR
+                                            Select New clsOntologyItem With {.GUID = objDRV.Item("ID_Item"), _
+                                                                             .Name = objDRV.Item("Name"), _
+                                                                             .GUID_Parent = objDRV.Item("ID_Parent"), _
+                                                                             .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
                     Dim objOList_Objects = (From objDRV As DataRowView In objOList_DGVR
                                             Select New clsOntologyItem With {.GUID = objDRV.Item("ID_Item"), _
                                                                              .Name = objDRV.Item("Name"), _
@@ -2553,7 +2563,61 @@ Public Class UserControl_OItemList
                                                                              .Type = objLocalConfig.Globals.Type_Object}).ToList()
 
                     Dim objOItem_Result = objDBLevel.save_Objects(objOList_Objects)
-                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        Dim objOList_S_Relations = objOList_Objects.Select(Function(o) new clsObjectRel With {.ID_Object = o.GUID }).ToList()
+                        objOItem_Result = objDBLevel.get_Data_ObjectRel(objOList_S_Relations)
+                    
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            If objDBLevel.OList_ObjectRel_ID.Any() Then
+                                Dim objOList_Rel = objDBLevel.OList_ObjectRel_ID.Select(function(ob) New clsObjectRel With {.ID_Object = ob.ID_Object, _
+                                                                                        .ID_Parent_Object = objFrm_Main.OList_Simple.First().GUID, _
+                                                                                                                            .ID_Other = ob.ID_Other, _
+                                                                                                                            .ID_Parent_Other = ob.ID_Parent_Other, _
+                                                                                                                            .ID_RelationType = ob.ID_RelationType, _
+                                                                                                                            .OrderID = ob.OrderID, _
+                                                                                                                            .Ontology = ob.Ontology}).ToList()
+
+                                objOItem_Result = objDBLevel2.save_ObjRel(objOList_Rel)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objOList_S_Relations = objOList_Objects.Select(Function(o) new clsObjectRel With {.ID_Other = o.GUID }).ToList()
+                                    objOItem_Result = objDBLevel2.get_Data_ObjectRel(objOList_S_Relations)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        If objDBLevel2.OList_ObjectRel_ID.Any() Then
+                                            objOList_Rel = objDBLevel2.OList_ObjectRel_ID.Select(function(ob) New clsObjectRel With {.ID_Object = ob.ID_Object, _
+                                                                                        .ID_Parent_Object = ob.ID_Parent_Object, _
+                                                                                                                            .ID_Other = ob.ID_Other, _
+                                                                                                                            .ID_Parent_Other = objFrm_Main.OList_Simple.First().GUID, _
+                                                                                                                            .ID_RelationType = ob.ID_RelationType, _
+                                                                                                                            .OrderID = ob.OrderID, _
+                                                                                                                            .Ontology = ob.Ontology}).ToList()
+
+                                        objOItem_Result = objDBLevel3.save_ObjRel(objOList_Rel)
+                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                            objDBLevel3.save_ObjRel(objDBLevel2.OList_ObjectRel_ID)
+                                            objDBLevel2.save_ObjRel(objDBLevel.OList_ObjectRel_ID)
+                                            objDBLevel.save_Objects(objOList_Objects_Orig)
+                                            MsgBox("Die Objekte konnten nicht verschoben werden!", MsgBoxStyle.Exclamation)
+                                        End If
+                                        End If
+                                        
+                                    Else 
+                                        objDBLevel2.save_ObjRel(objDBLevel.OList_ObjectRel_ID)
+                                        objDBLevel.save_Objects(objOList_Objects_Orig)
+                                        MsgBox("Die Objekte konnten nicht verschoben werden!", MsgBoxStyle.Exclamation)
+                                    End If
+                                    
+                                Else 
+
+                                    objDBLevel2.save_ObjRel(objDBLevel.OList_ObjectRel_ID)
+                                    MsgBox("Die Objekte konnten nicht verschoben werden!", MsgBoxStyle.Exclamation)
+                                End If
+                            End If
+                                
+                        Else 
+                            objDBLevel.save_Objects(objOList_Objects_Orig)
+                            MsgBox("Die Objekte konnten nicht verschoben werden!", MsgBoxStyle.Exclamation)
+                        End If
+                    Else 
                         MsgBox("Die Objekte konnten nicht verschoben werden!", MsgBoxStyle.Exclamation)
                     End If
 
