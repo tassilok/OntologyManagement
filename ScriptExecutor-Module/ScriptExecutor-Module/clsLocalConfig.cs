@@ -41,6 +41,9 @@ public clsOntologyItem OItem_relationtype_needs { get; set; }
 public clsOntologyItem OItem_relationtype_belonging_value { get; set; }
 public clsOntologyItem OItem_relationtype_belonging_source { get; set; }
 
+        //Objects
+public clsOntologyItem OItem_object_command { get; set; }
+
 private void get_Data_DevelopmentConfig()
         {
             var objORL_Ontology_To_OntolgyItems = new List<clsObjectRel> {new clsObjectRel {ID_Object = cstrID_Ontology, 
@@ -314,6 +317,27 @@ var objOList_relationtype_needs = (from objOItem in objDBLevel_Config1.OList_Obj
   
 	private void get_Config_Classes()
         {
+
+            var objOList_object_command = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == "object_command".ToLower() && objRef.Ontology == Globals.Type_Object
+                                           select objRef).ToList();
+
+            if (objOList_object_command.Any())
+            {
+                OItem_object_command = new clsOntologyItem()
+                {
+                    GUID = objOList_object_command.First().ID_Other,
+                    Name = objOList_object_command.First().Name_Other,
+                    GUID_Parent = objOList_object_command.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
 
             var objOList_class_code_snipplets = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                  where objOItem.ID_Object == cstrID_Ontology

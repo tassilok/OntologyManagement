@@ -49,29 +49,12 @@ namespace ScriptExecutor_Module
                 };
 
             objDataWork_CommandLineRun.GetData_CommandLineRun(objOItem_CommandLineRun);
-            objOList_VarValues = new List<clsVariableValue>(objDataWork_CommandLineRun.OList_VariableValues);
-            GetCommandLineRun(objOList_VarValues.Where(vv => vv.Id_Parent_Ref == objLocalConfig.OItem_class_comand_line__run_.GUID).ToList());
-            objDataWork_CommandLineRun.OList_VariableValues = objOList_VarValues;
+            
+
+
         }
 
-        private void GetCommandLineRun(List<clsVariableValue> oList_VarValues)
-        {
-            foreach (var objOItem_VarValue in oList_VarValues.Select(vv => new clsOntologyItem {GUID = vv.Id_Ref, 
-                Name = vv.Name_Ref,
-                GUID_Parent = vv.Id_Parent_Ref,
-                Type = objLocalConfig.Globals.Type_Object}).ToList())
-            {
-                objDataWork_CommandLineRun.GetData_CommandLineRun(objOItem_VarValue);
-                var objOList_VarValuesTmp = new List<clsVariableValue>(objDataWork_CommandLineRun.OList_VariableValues);
-                GetCommandLineRun(objOList_VarValuesTmp.Where(vv => vv.Id_Parent_Ref == objLocalConfig.OItem_class_comand_line__run_.GUID).ToList());
-
-                objOList_VarValues.AddRange(from objVarValueNew in objOList_VarValuesTmp
-                                            join objVarValueOld in objOList_VarValues on objVarValueNew.Id_Value equals objVarValueOld.Id_Value into objVarValuesOld
-                                            from objVarValueOld in objVarValuesOld.DefaultIfEmpty()
-                                            where objVarValueOld == null
-                                            select objVarValueNew);
-            }
-        }
+        
     }
 
     

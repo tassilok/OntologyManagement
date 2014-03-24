@@ -14,5 +14,7 @@
 <Item Id="9ad2c814816943a3b6e78931a6fe5057" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Comand_Line]]></Item>
 <Item Id="3c354739a6e94bcd8fdc666ca5de3bd2" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Variable]]></Item>
 <Item Id="bdd52f00177f41cd8cbffe9881432fb6" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Code_Snipplets]]></Item>
+<Item Id="1c4b5dccc5044615b5966e0ac7cc7212" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_COMMAND]]></Item>
+<Item Id="972c777185e44703ba3560678c0d6d41" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[COMMAND]]></Item>
 
 </Items>
