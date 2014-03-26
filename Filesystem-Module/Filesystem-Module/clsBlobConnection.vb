@@ -281,6 +281,12 @@ Public Class clsBlobConnection
                     strPath_File_Del = strPath_File_DST & ".del"
 
                     Try
+                        If IO.File.Exists(strPath_File_TMP) Then
+                            IO.File.Delete(strPath_File_TMP)
+                        End If
+                        If IO.File.Exists(strPath_File_Del) Then
+                            IO.File.Delete(strPath_File_Del)
+                        End If
                         objFileInfo = New IO.FileInfo(strPath_File)
 
                         IO.File.Move(strPath_File_DST, strPath_File_Del)
