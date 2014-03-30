@@ -33,6 +33,10 @@ public clsOntologyItem OItem_class_programing_language { get; set; }
 public clsOntologyItem OItem_class_value { get; set; }
 public clsOntologyItem OItem_class_variable { get; set; }
 public clsOntologyItem OItem_class_code_snipplets { get; set; }
+public clsOntologyItem OItem_class_reports { get; set; }
+public clsOntologyItem OItem_class_comand_line__run__to_report { get; set; }
+public clsOntologyItem OItem_class_variable_to_field { get; set; }
+public clsOntologyItem OItem_class_report_field { get; set; }
 
         //RelationTypes
 public clsOntologyItem OItem_relationtype_belongs_to { get; set; }
@@ -317,6 +321,90 @@ var objOList_relationtype_needs = (from objOItem in objDBLevel_Config1.OList_Obj
   
 	private void get_Config_Classes()
         {
+
+            var objOList_class_report_field = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                               where objOItem.ID_Object == cstrID_Ontology
+                                               join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                               where objRef.Name_Object.ToLower() == "class_report_field".ToLower() && objRef.Ontology == Globals.Type_Class
+                                               select objRef).ToList();
+
+            if (objOList_class_report_field.Any())
+            {
+                OItem_class_report_field = new clsOntologyItem()
+                {
+                    GUID = objOList_class_report_field.First().ID_Other,
+                    Name = objOList_class_report_field.First().Name_Other,
+                    GUID_Parent = objOList_class_report_field.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_class_variable_to_field = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                    where objOItem.ID_Object == cstrID_Ontology
+                                                    join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                    where objRef.Name_Object.ToLower() == "class_variable_to_field".ToLower() && objRef.Ontology == Globals.Type_Class
+                                                    select objRef).ToList();
+
+            if (objOList_class_variable_to_field.Any())
+            {
+                OItem_class_variable_to_field = new clsOntologyItem()
+                {
+                    GUID = objOList_class_variable_to_field.First().ID_Other,
+                    Name = objOList_class_variable_to_field.First().Name_Other,
+                    GUID_Parent = objOList_class_variable_to_field.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_class_comand_line__run__to_report = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                              where objOItem.ID_Object == cstrID_Ontology
+                                                              join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                              where objRef.Name_Object.ToLower() == "class_comand_line__run__to_report".ToLower() && objRef.Ontology == Globals.Type_Class
+                                                              select objRef).ToList();
+
+            if (objOList_class_comand_line__run__to_report.Any())
+            {
+                OItem_class_comand_line__run__to_report = new clsOntologyItem()
+                {
+                    GUID = objOList_class_comand_line__run__to_report.First().ID_Other,
+                    Name = objOList_class_comand_line__run__to_report.First().Name_Other,
+                    GUID_Parent = objOList_class_comand_line__run__to_report.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_class_reports = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                          where objOItem.ID_Object == cstrID_Ontology
+                                          join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                          where objRef.Name_Object.ToLower() == "class_reports".ToLower() && objRef.Ontology == Globals.Type_Class
+                                          select objRef).ToList();
+
+            if (objOList_class_reports.Any())
+            {
+                OItem_class_reports = new clsOntologyItem()
+                {
+                    GUID = objOList_class_reports.First().ID_Other,
+                    Name = objOList_class_reports.First().Name_Other,
+                    GUID_Parent = objOList_class_reports.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
 
             var objOList_object_command = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                            where objOItem.ID_Object == cstrID_Ontology

@@ -572,4 +572,34 @@ Public Class frmMain
             
 
     End Sub
+
+    Private Sub BackupOntologyGraphToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BackupOntologyGraphToolStripMenuItem.Click
+        Dim objExport As New clsExport(objLocalConfig.Globals)
+        If MsgBox("Wollen Sie wirklich den gesamten ontologischen Graphen sichern?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            If FolderBrowserDialog_GraphExportImport.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
+                Dim objOItemResult = objExport.ExportOntologyGraph(FolderBrowserDialog_GraphExportImport.SelectedPath)
+                If objOItemResult.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    MsgBox("Die Strukturen wurden erfolgreich exportiert!", MsgBoxStyle.Information)
+                Else
+                    MsgBox("Die Strukturen konnten nicht erfolgreich exportiert werden!", MsgBoxStyle.Critical)
+                End If
+            End If
+
+        End If
+    End Sub
+
+    Private Sub ImportOntologyStructuresToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ImportOntologyStructuresToolStripMenuItem.Click
+        Dim objImport As New clsImport(objLocalConfig.Globals)
+        If MsgBox("Wollen Sie wirklich Strukturen importieren?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            If FolderBrowserDialog_GraphExportImport.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
+                Dim objOItemResult = objImport.ImportXMLFiles(FolderBrowserDialog_GraphExportImport.SelectedPath)
+                If objOItemResult.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    MsgBox("Die Strukturen wurden erfolgreich importiert!", MsgBoxStyle.Information)
+                Else
+                    MsgBox("Die Strukturen konnten nicht erfolgreich importiert werden!", MsgBoxStyle.Critical)
+                End If
+            End If
+
+        End If
+    End Sub
 End Class

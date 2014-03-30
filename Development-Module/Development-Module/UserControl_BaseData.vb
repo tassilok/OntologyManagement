@@ -16,6 +16,7 @@ Public Class UserControl_BaseData
     Private objFrm_OntologyModule As frmMain
     Private objFrm_FileSystemModule As frm_FilesystemModule
     Private objFileWork As clsFileWork
+    Private objRelationConfig As clsRelationConfig
 
     Public Sub New(LocalConfig As clsLocalConfig, DataWork_BaseData As clsDataWork_BaseData)
         
@@ -30,7 +31,8 @@ Public Class UserControl_BaseData
 
     Private sub Initialize()
         
-        objTransaction = new clsTransaction(objLocalConfig.Globals)
+        objTransaction = New clsTransaction(objLocalConfig.Globals)
+        objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
         objFileWork = new clsFileWork(objLocalConfig.Globals)
         objUserControl_Languages = new UserControl_OItemList(objLocalConfig.Globals)
         objUserControl_Languages.Dock = DockStyle.Fill
@@ -45,6 +47,7 @@ Public Class UserControl_BaseData
 
     Public sub Initialize_BaseData(OItem_Dev As clsOntologyItem)
         objOItem_Dev = OItem_Dev
+        clear_Controls()
         If Not objOItem_Dev Is Nothing Then
             if objDataWork_Details.GetData(objOItem_Dev).GUID = objLocalConfig.Globals.LState_Success.GUID Then
                 Label_Development.Text = objOItem_Dev.Name
@@ -71,6 +74,9 @@ Public Class UserControl_BaseData
                 TextBox_FolderSourceCode.Text = if(Not objDataWork_Details.OItem_Folder Is Nothing,objDataWork_Details.OItem_Folder.Additional1,"")
                 Button_FolderSourceCode.Enabled = True
 
+                TextBox_ProjectFile.Text = If(Not objDataWork_Details.OItem_File Is Nothing, objDataWork_Details.OItem_File.Additional1, "")
+                Button_ProjectFile.Enabled = True
+
                 TextBox_PLanguage.Text = if(Not objDataWork_Details.OItem_PLanguage Is Nothing,objDataWork_Details.OItem_PLanguage.Name,"")
                 Button_PLanguage.Enabled = True
 
@@ -91,9 +97,8 @@ Public Class UserControl_BaseData
                 objUserControl_Localization.Enabled = True
             Else 
                 MsgBox("Die Basisdaten konnten nicht geladen werden!",MsgBoxStyle.Exclamation)
-            End If
-        Else 
-            clear_Controls()
+            End If 
+
         End If
     End Sub
 
@@ -213,6 +218,8 @@ Public Class UserControl_BaseData
         TextBox_Creator.Text = ""
         Button_Creator.Enabled = False
         Button_FolderSourceCode.Enabled = False
+        Button_ProjectFile.Enabled = False
+        TextBox_ProjectFile.Text = ""
         TextBox_FolderSourceCode.Text = ""
         Button_LanguageStandard.Enabled = false
         TextBox_LanguageStandard.Text = ""
@@ -255,31 +262,74 @@ Public Class UserControl_BaseData
         Save_Folder()
     End Sub
 
-    Private sub Save_Folder()
-        objFrm_FileSystemModule = new frm_FilesystemModule(objLocalConfig.Globals)
-        objFrm_FileSystemModule.ShowDialog(me)
-        If objFrm_FileSystemModule.DialogResult=DialogResult.OK Then
+    Private Sub Save_Folder()
+        If objFrm_FileSystemModule Is Nothing Then
+            objFrm_FileSystemModule = New frm_FilesystemModule(objLocalConfig.Globals)
+        End If
+
+        objFrm_FileSystemModule.ShowDialog(Me)
+        If objFrm_FileSystemModule.DialogResult = DialogResult.OK Then
             If Not objFrm_FileSystemModule.OItem_FileSystemObject Is Nothing Then
                 Dim objFolder = objFrm_FileSystemModule.OItem_FileSystemObject
                 If objFolder.GUID_Parent = objLocalConfig.OItem_Class_Folder.GUID Then
-                    Dim objORel_Dev_To_Folder = objDataWork_Details.Rel_Dev_To_Folder(objOItem_Dev, objFolder)
+                    Dim objORel_Dev_To_Folder = objRelationConfig.Rel_ObjectRelation(objOItem_Dev, objFolder, objLocalConfig.Oitem_RelationType_SourcesLocatedIn)
                     objTransaction.ClearItems()
-                    Dim objOItem_Result = objTransaction.do_Transaction(objORel_Dev_To_Folder,True)
+                    Dim objOItem_Result = objTransaction.do_Transaction(objORel_Dev_To_Folder, True)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                         objFolder.Additional1 = objFileWork.get_Path_FileSystemObject(objFolder)
                         objDataWork_Details.OItem_Folder = objFolder
-                        TextBox_FolderSourceCode.Text = objfolder.Additional1
-                    Else 
-                        MsgBox("Der Ordner konnte nicht verknüpft werden!",MsgBoxStyle.Exclamation)
+                        TextBox_FolderSourceCode.Text = objFolder.Additional1
+                    Else
+                        MsgBox("Der Ordner konnte nicht verknüpft werden!", MsgBoxStyle.Exclamation)
                     End If
 
-                Else 
-                    MsgBox("Bitte nur einen Ordner auswählen!",MsgBoxStyle.Information)
+                Else
+                    MsgBox("Bitte nur einen Ordner auswählen!", MsgBoxStyle.Information)
                 End If
-            Else 
-                MsgBox("Bitte nur einen Ordner auswählen!",MsgBoxStyle.Information)
+            Else
+                MsgBox("Bitte nur einen Ordner auswählen!", MsgBoxStyle.Information)
             End If
         End If
+    End Sub
+
+    Private Sub Save_File()
+        If Not objDataWork_Details.OItem_Folder Is Nothing Then
+            If objFrm_FileSystemModule Is Nothing Then
+                objFrm_FileSystemModule = New frm_FilesystemModule(objLocalConfig.Globals)
+            End If
+            objFrm_FileSystemModule.ClearFiles()
+            objFrm_FileSystemModule.ActivateNode(objDataWork_Details.OItem_Folder.GUID)
+            objFrm_FileSystemModule.ShowDialog(Me)
+            If objFrm_FileSystemModule.DialogResult = DialogResult.OK Then
+                If Not objFrm_FileSystemModule.OList_Files Is Nothing Then
+                    If objFrm_FileSystemModule.OList_Files.Count = 1 Then
+                        Dim objFile = objFrm_FileSystemModule.OList_Files.First()
+
+                        Dim objORel_Dev_To_File = objRelationConfig.Rel_ObjectRelation(objOItem_Dev, objFile, objLocalConfig.OItem_relationtype_project_file)
+
+                        objTransaction.ClearItems()
+                        Dim objOItem_Result = objTransaction.do_Transaction(objORel_Dev_To_File, True)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objFile.Additional1 = objFileWork.get_Path_FileSystemObject(objFile)
+                            objDataWork_Details.OItem_File = objFile
+                            TextBox_ProjectFile.Text = objFile.Additional1
+                        Else
+                            MsgBox("Die Datei konnte nicht verknüpft werden!", MsgBoxStyle.Exclamation)
+                        End If
+
+
+                    Else
+                        MsgBox("Bitte nur eine Datei auswählen!", MsgBoxStyle.Information)
+                    End If
+
+                Else
+                    MsgBox("Bitte nur eine Datei auswählen!", MsgBoxStyle.Information)
+                End If
+            End If
+        Else
+            MsgBox("Wählen Sie bitte vorher eine Datei aus!", MsgBoxStyle.Information)
+        End If
+        
     End Sub
 
     Private sub Save_StdLanguage()
@@ -314,5 +364,9 @@ Public Class UserControl_BaseData
 
     Private Sub Button_LanguageStandard_Click( sender As Object,  e As EventArgs) Handles Button_LanguageStandard.Click
         Save_StdLanguage()
+    End Sub
+
+    Private Sub Button_ProjectFile_Click(sender As Object, e As EventArgs) Handles Button_ProjectFile.Click
+        Save_File()
     End Sub
 End Class

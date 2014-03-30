@@ -152,8 +152,8 @@ namespace ElasticSearchNestConnector
             while (intCount > 0)
             {
                 intCount = 0;
-
-                var result = ElConnector.Search(s => s.Index(strIndex ?? Index).Type(strType ?? App).QueryString(query ?? "*").From(intPos).Size(SearchRange));
+                var type = strType ?? App ?? "*";
+                var result = ElConnector.Search(s => s.Index(strIndex ?? Index).Type(type).QueryString(query ?? "*").From(intPos).Size(SearchRange));
                 Total = result.Total;
                 Documents.AddRange(
                     result.Documents.Select(

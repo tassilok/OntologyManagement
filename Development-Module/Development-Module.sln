@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Development-Module", "Development-Module\Development-Module.vbproj", "{21A3AD3E-A0C0-4518-B6DC-272ED1C42796}"
+	ProjectSection(ProjectDependencies) = postProject
+		{10BCC346-A390-401C-BA6A-904A8842A40B} = {10BCC346-A390-401C-BA6A-904A8842A40B}
+	EndProjectSection
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Ontolog-Module", "..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj", "{3F2F6722-C36B-420D-AFE7-B21C19457208}"
 EndProject

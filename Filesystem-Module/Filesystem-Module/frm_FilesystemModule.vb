@@ -67,6 +67,18 @@ Public Class frm_FilesystemModule
         End Get
     End Property
 
+    Public Sub ActivateNode(strGUID As String)
+        Dim objNodes = TreeView_Folder.Nodes.Find(strGUID, True)
+        If objNodes.Any() Then
+            TreeView_Folder.SelectedNode = objNodes.First()
+        Else
+            MsgBox("Leider konnte der Knoten nicht gefunden werden!", MsgBoxStyle.Information)
+        End If
+    End Sub
+
+    Public Sub ClearFiles()
+        OList_Files.Clear()
+    End Sub
 
     Public Sub New()
 
@@ -98,6 +110,7 @@ Public Class frm_FilesystemModule
         objLocalConfig.OItem_User = OItem_User
 
         set_DBConnection()
+        OList_Files.Clear()
         initialize()
     End Sub
 

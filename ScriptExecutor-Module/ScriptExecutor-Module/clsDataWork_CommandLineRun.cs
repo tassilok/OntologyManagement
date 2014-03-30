@@ -197,6 +197,7 @@ namespace ScriptExecutor_Module
                     }
                 }
             }
+            OItem_Result_CodeParsed = objLocalConfig.Globals.LState_Success.Clone();
         }
 
         public void GetSubData_VariablesOfCodeItems()

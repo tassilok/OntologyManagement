@@ -79,6 +79,7 @@ Public Class clsLocalConfig
     Private objOItem_relationtype_document_container As clsOntologyItem
     Private objOItem_relationtype_class As clsOntologyItem
     Private objOItem_relationtype_attribute As clsOntologyItem
+    Private objOItem_relationtype_project_file As clsOntologyItem
 
     'Classes
     Private objOItem_Class_SoftwareDevelopment As New clsOntologyItem
@@ -246,6 +247,12 @@ Public Class clsLocalConfig
     End Property
 
     'RelationTypes
+    Public ReadOnly Property OItem_relationtype_project_file As clsOntologyItem
+        Get
+            Return objOItem_relationtype_project_file
+        End Get
+    End Property
+
     Public ReadOnly Property Oitem_RelationType_access_by As clsOntologyItem
         Get
             Return objOitem_RelationType_access_by
@@ -2014,6 +2021,22 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_RelationTypes()
+
+        Dim objOList_relationtype_project_file = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_project_file".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                           Select objRef).ToList()
+
+        If objOList_relationtype_project_file.Count > 0 Then
+            objOItem_relationtype_project_file = New clsOntologyItem
+            objOItem_relationtype_project_file.GUID = objOList_relationtype_project_file.First().ID_Other
+            objOItem_relationtype_project_file.Name = objOList_relationtype_project_file.First().Name_Other
+            objOItem_relationtype_project_file.GUID_Parent = objOList_relationtype_project_file.First().ID_Parent_Other
+            objOItem_relationtype_project_file.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
 
         Dim objOList_relationtype_property = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology

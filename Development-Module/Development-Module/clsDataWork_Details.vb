@@ -6,6 +6,7 @@ Public Class clsDataWork_Details
 
     Private objDBLevel_Creator As clsDBLevel
     Private objDBLevel_Folder As clsDBLevel
+    Private objDBLevel_File As clsDBLevel
     Private objDBLevel_ProgramingLanguage As clsDBLevel
     Private objDBLevel_StandardLanguage As clsDBLevel
     Private objDBLevel_State As clsDBLevel
@@ -19,6 +20,7 @@ Public Class clsDataWork_Details
     Public Property OItem_Result_State As clsOntologyItem
     Public Property OItem_Result_Version As clsOntologyItem
     Public Property OItem_Result_Languages As clsOntologyItem
+    Public Property OItem_Result_ProjectFile As clsOntologyItem
 
     Private objUserControl_Languages As UserControl_OItemList
 
@@ -29,6 +31,8 @@ Public Class clsDataWork_Details
     Public Property OItem_Creator() As clsOntologyItem
 
     Public Property OItem_Folder() As clsOntologyItem
+
+    Public Property OItem_File() As clsOntologyItem
 
     Public Property OItem_Version() As clsOntologyItem
 
@@ -48,32 +52,38 @@ Public Class clsDataWork_Details
         If OItem_Result_Creator.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             GetData_Folder()
             If OItem_Result_Folder.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                GetData_Version()
-                If OItem_Result_Version.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    GetData_State()
-                    If OItem_Result_State.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        GetData_PLanguage()
-                        If OItem_Result_ProgramingLanguage.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            GetData_StandardLanguage()
-                            If OItem_Result_StandardLanguage.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                GetData_Languages()
-                                Return OItem_Result_Languages
-                            Else
-                                Return OItem_Result_StandardLanguage
+                GetData_File()
+                If OItem_Result_ProjectFile.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    GetData_Version()
+                    If OItem_Result_Version.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        GetData_State()
+                        If OItem_Result_State.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            GetData_PLanguage()
+                            If OItem_Result_ProgramingLanguage.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                GetData_StandardLanguage()
+                                If OItem_Result_StandardLanguage.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    GetData_Languages()
+                                    Return OItem_Result_Languages
+                                Else
+                                    Return OItem_Result_StandardLanguage
 
+                                End If
+
+
+                            Else
+                                Return OItem_Result_ProgramingLanguage
                             End If
 
-
                         Else
-                            Return OItem_Result_ProgramingLanguage
+                            Return OItem_Result_State
                         End If
-
                     Else
-                        Return OItem_Result_State
+                        Return OItem_Result_Version
                     End If
                 Else
-                    Return OItem_Result_Version
+                    Return OItem_Result_ProjectFile
                 End If
+                
             Else
                 Return OItem_Result_Folder
             End If
@@ -129,6 +139,32 @@ Public Class clsDataWork_Details
         End If
 
         OItem_Result_Folder = objOItem_Result
+    End Sub
+
+    Private Sub GetData_File()
+        OItem_File = Nothing
+        OItem_Result_ProjectFile = objLocalConfig.Globals.LState_Nothing.Clone()
+
+        OItem_Result_ProjectFile = Nothing
+        Dim objOList_Dev_To_File = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Object = OItem_Development.GUID, _
+                                                                                           .ID_Parent_Other = objLocalConfig.OItem_Class_File.GUID, _
+                                                                                           .ID_RelationType = objLocalConfig.OItem_relationtype_project_file.GUID}}
+        Dim objOItem_Result = objDBLevel_File.get_Data_ObjectRel(objOList_Dev_To_File, boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_File.OList_ObjectRel.Any() Then
+                Dim objORel_Dev_To_File = objDBLevel_File.OList_ObjectRel.First()
+                OItem_File = New clsOntologyItem With {.GUID = objORel_Dev_To_File.ID_Other, _
+                                                            .Name = objORel_Dev_To_File.Name_Other, _
+                                                            .GUID_Parent = objORel_Dev_To_File.ID_Parent_Other, _
+                                                            .Type = objORel_Dev_To_File.Ontology}
+
+                OItem_File.Additional1 = objFileWork.get_Path_FileSystemObject(OItem_File)
+
+            End If
+        End If
+
+        OItem_Result_ProjectFile = objOItem_Result
     End Sub
 
     Public Sub GetData_Version()
@@ -333,6 +369,7 @@ Public Class clsDataWork_Details
         objDBLevel_State = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Version = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Languages = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_File = New clsDBLevel(objLocalConfig.Globals)
 
         OItem_Result_Creator = objLocalConfig.Globals.LState_Nothing.Clone()
         OItem_Result_Folder = objLocalConfig.Globals.LState_Nothing.Clone()
@@ -341,6 +378,7 @@ Public Class clsDataWork_Details
         OItem_Result_State = objLocalConfig.Globals.LState_Nothing.Clone()
         OItem_Result_Version = objLocalConfig.Globals.LState_Nothing.Clone()
         OItem_Result_Languages = objLocalConfig.Globals.LState_Nothing.Clone()
+        OItem_Result_ProjectFile = objLocalConfig.Globals.LState_Nothing.Clone()
 
         objFileWork = New clsFileWork(objLocalConfig.Globals)
     End Sub

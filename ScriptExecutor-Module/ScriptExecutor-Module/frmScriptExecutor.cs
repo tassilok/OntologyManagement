@@ -17,6 +17,7 @@ namespace ScriptExecutor_Module
     {
         private clsLocalConfig objLocalConfig;
         private clsDataWork_CommandLineRun objDataWork_CommandLineRun;
+        private clsDataWork_ReportSource objDataWork_ReportSource;
 
         private List<clsVariableValue> objOList_VarValues; 
 
@@ -33,6 +34,7 @@ namespace ScriptExecutor_Module
         private void Initialize()
         {
             objDataWork_CommandLineRun = new clsDataWork_CommandLineRun(objLocalConfig);
+            objDataWork_ReportSource = new clsDataWork_ReportSource(objLocalConfig);
         }
 
         private void TestCommandLineRun()
@@ -42,16 +44,23 @@ namespace ScriptExecutor_Module
             
             var objOItem_CommandLineRun = new clsOntologyItem
                 {
-                    GUID = "3585fcceefc74e7a8c35aa90cd4d75b0",
-                    Name = "Get Backups (BackupPC) (C:\\cygwin)",
+                    GUID = "cf47fc024ce346d1bf62f5aa2970c0c5",
+                    Name = "Create Release of Project",
                     GUID_Parent = "dbadb971a838485ba4eedce6c477ac3c",
                     Type = objLocalConfig.Globals.Type_Object
                 };
 
-            objDataWork_CommandLineRun.GetData_CommandLineRun(objOItem_CommandLineRun);
+            var objOItem_Result = objDataWork_CommandLineRun.GetData_CommandLineRun(objOItem_CommandLineRun);
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                objOItem_Result = objDataWork_ReportSource.GetData();
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+
+                }
+            }
             
-
-
         }
 
         

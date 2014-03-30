@@ -214,46 +214,11 @@ End Enum
         If objDict_XMLTemplates Is Nothing Then
             objDict_XMLTemplates = New Dictionary(Of XMLTemplateEnum, String)
 
-            Dim objAssembly = [Assembly].GetExecutingAssembly()
-
-            Try
-                Dim objXMLStream = objAssembly.GetManifestResourceStream("Ontology_Module.OntologyItemContainerTemplate.xml")
-                Dim objTextStreamReader = New StreamReader(objXMLStream, True)
-                objDict_XMLTemplates(XMLTemplateEnum.ItemContainer) = objTextStreamReader.ReadToEnd()
-                objTextStreamReader.Close()
-
-                objXMLStream = objAssembly.GetManifestResourceStream("Ontology_Module.ClassAttItemTemplate.xml")
-                objTextStreamReader = New StreamReader(objXMLStream, True)
-                objDict_XMLTemplates(XMLTemplateEnum.ClassAtt) = objTextStreamReader.ReadToEnd()
-                objTextStreamReader.Close()
-
-                objXMLStream = objAssembly.GetManifestResourceStream("Ontology_Module.ClassRelItemTemplate.xml")
-                objTextStreamReader = New StreamReader(objXMLStream, True)
-                objDict_XMLTemplates(XMLTemplateEnum.ClassRel) = objTextStreamReader.ReadToEnd()
-                objTextStreamReader.Close()
-
-                objXMLStream = objAssembly.GetManifestResourceStream("Ontology_Module.ObjAttItemTemplate.xml")
-                objTextStreamReader = New StreamReader(objXMLStream, True)
-                objDict_XMLTemplates(XMLTemplateEnum.ObjectAtt) = objTextStreamReader.ReadToEnd()
-                objTextStreamReader.Close()
-
-                objXMLStream = objAssembly.GetManifestResourceStream("Ontology_Module.ObjRelItemTemplate.xml")
-                objTextStreamReader = New StreamReader(objXMLStream, True)
-                objDict_XMLTemplates(XMLTemplateEnum.ObjectRel) = objTextStreamReader.ReadToEnd()
-                objTextStreamReader.Close()
-
-                objXMLStream = objAssembly.GetManifestResourceStream("Ontology_Module.OntologyItemTemplate.xml")
-                objTextStreamReader = New StreamReader(objXMLStream, True)
-                objDict_XMLTemplates(XMLTemplateEnum.OntologyItem) = objTextStreamReader.ReadToEnd()
-                objTextStreamReader.Close()
-
-                objOItem_Result = objGlobals.LState_Success.Clone()
-            Catch ex As Exception
-                objOItem_Result = objGlobals.LState_Error.Clone()
-            End Try
+            objDict_XMLTemplates = GetTemplateXMLs(objDict_XMLTemplates)
 
         End If
 
+        'Get XML-Templates for Export
         If Not objDict_XMLTemplates Is Nothing Then
             objOItem_Result = objDataWork_Ontologies.LocalConfig.Globals.LState_Success
             If Not objDict_XMLTemplates.ContainsKey(XMLTemplateEnum.ItemContainer) Then
@@ -439,6 +404,145 @@ End Enum
 
         Return objOItem_Result
     End Function
+
+    Public Function ExportOntologyGraph(strPathDst As String) As clsOntologyItem
+
+        Dim objDict_XMLTemplates = New Dictionary(Of XMLTemplateEnum, String)
+        Dim objOItem_Result = objGlobals.LState_Success.Clone
+
+        Dim objDBLevel_AttributeTypes = New clsDBLevel(objGlobals)
+        Dim objDBLevel_RelationTypes = New clsDBLevel(objGlobals)
+        Dim objDBLevel_Classes = New clsDBLevel(objGlobals)
+        Dim objDBLevel_Objects = New clsDBLevel(objGlobals)
+
+        Dim objDBLevel_ClassAtt = New clsDBLevel(objGlobals)
+        Dim objDBLevel_ClassRel = New clsDBLevel(objGlobals)
+        Dim objDBLevel_ObjectAtt = New clsDBLevel(objGlobals)
+        Dim objDBLevel_ObjectRel = New clsDBLevel(objGlobals)
+
+
+        objDict_XMLTemplates = GetTemplateXMLs(objDict_XMLTemplates)
+
+        Me.strPathDst = strPathDst
+
+        If Not objDict_XMLTemplates Is Nothing Then
+            objOItem_Result = objDBLevel_AttributeTypes.get_Data_AttributeType()
+            If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                OList_AttributeTypes = objDBLevel_AttributeTypes.OList_AttributeTypes
+                objOItem_Result = objDBLevel_RelationTypes.get_Data_RelationTypes()
+                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                    OList_RelationTypes = objDBLevel_RelationTypes.OList_RelationTypes
+                    objOItem_Result = objDBLevel_Classes.get_Data_Classes()
+                    If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                        objOItem_Result = objDBLevel_Objects.get_Data_Objects()
+                        If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                            OList_Objects = objDBLevel_Objects.OList_Objects
+                            objOItem_Result = objDBLevel_ClassAtt.get_Data_ClassAtt()
+                            If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                                OList_ClassAtt = objDBLevel_ClassAtt.OList_ClassAtt_ID
+                                objOItem_Result = objDBLevel_ClassRel.get_Data_ClassRel(Nothing, boolIDs:=True)
+                                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                                    OList_ClassRel = objDBLevel_ClassRel.OList_ClassRel_ID
+                                    objOItem_Result = objDBLevel_ObjectAtt.get_Data_ObjectAtt(Nothing)
+                                    If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                                        OList_ObjectAtt = objDBLevel_ObjectAtt.OList_ObjectAtt_ID
+                                        objOItem_Result = objDBLevel_ObjectRel.get_Data_ObjectRel(Nothing)
+                                        If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                                            OList_ObjectRel = objDBLevel_ObjectRel.OList_ObjectRel_ID
+                                        End If
+                                    End If
+                                End If
+
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+
+            If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                objOItem_Result = Export_AttributeTypes(objDict_XMLTemplates)
+
+            End If
+
+            If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                objOItem_Result = Export_Classes(objDict_XMLTemplates)
+
+            End If
+
+            If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                objOItem_Result = Export_RelationTypes(objDict_XMLTemplates)
+
+            End If
+
+            If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                objOItem_Result = Export_Objects(objDict_XMLTemplates)
+
+            End If
+
+            If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                objOItem_Result = Export_ClassAtt(objDict_XMLTemplates, OList_ClassAtt)
+
+            End If
+
+            If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                objOItem_Result = Export_ClassRel(objDict_XMLTemplates, OList_ClassRel)
+
+            End If
+
+            If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                objOItem_Result = Export_ObjectAtt(objDict_XMLTemplates, OList_ObjectAtt)
+            End If
+
+            If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                objOItem_Result = Export_ObjectRel(objDict_XMLTemplates, OList_ObjectRel)
+            End If
+
+
+            Return objOItem_Result
+        Else
+            Return objGlobals.LState_Error.Clone
+        End If
+    End Function
+
+    Public Function GetTemplateXMLs(objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String)) As Dictionary(Of XMLTemplateEnum, String)
+        Dim objAssembly = [Assembly].GetExecutingAssembly()
+
+        Try
+            Dim objXMLStream = objAssembly.GetManifestResourceStream("Ontology_Module.OntologyItemContainerTemplate.xml")
+            Dim objTextStreamReader = New StreamReader(objXMLStream, True)
+            objDict_XMLTemplates(XMLTemplateEnum.ItemContainer) = objTextStreamReader.ReadToEnd()
+            objTextStreamReader.Close()
+
+            objXMLStream = objAssembly.GetManifestResourceStream("Ontology_Module.ClassAttItemTemplate.xml")
+            objTextStreamReader = New StreamReader(objXMLStream, True)
+            objDict_XMLTemplates(XMLTemplateEnum.ClassAtt) = objTextStreamReader.ReadToEnd()
+            objTextStreamReader.Close()
+
+            objXMLStream = objAssembly.GetManifestResourceStream("Ontology_Module.ClassRelItemTemplate.xml")
+            objTextStreamReader = New StreamReader(objXMLStream, True)
+            objDict_XMLTemplates(XMLTemplateEnum.ClassRel) = objTextStreamReader.ReadToEnd()
+            objTextStreamReader.Close()
+
+            objXMLStream = objAssembly.GetManifestResourceStream("Ontology_Module.ObjAttItemTemplate.xml")
+            objTextStreamReader = New StreamReader(objXMLStream, True)
+            objDict_XMLTemplates(XMLTemplateEnum.ObjectAtt) = objTextStreamReader.ReadToEnd()
+            objTextStreamReader.Close()
+
+            objXMLStream = objAssembly.GetManifestResourceStream("Ontology_Module.ObjRelItemTemplate.xml")
+            objTextStreamReader = New StreamReader(objXMLStream, True)
+            objDict_XMLTemplates(XMLTemplateEnum.ObjectRel) = objTextStreamReader.ReadToEnd()
+            objTextStreamReader.Close()
+
+            objXMLStream = objAssembly.GetManifestResourceStream("Ontology_Module.OntologyItemTemplate.xml")
+            objTextStreamReader = New StreamReader(objXMLStream, True)
+            objDict_XMLTemplates(XMLTemplateEnum.OntologyItem) = objTextStreamReader.ReadToEnd()
+            objTextStreamReader.Close()
+
+            Return objDict_XMLTemplates
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
     Private Function Export_Objects(objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String)) As clsOntologyItem
         Dim strFileName = strPathDst & "\" & "Objects.xml"
         strFiles.Add(strFileName)
@@ -556,7 +660,7 @@ End Enum
         Return objOItem_Result
     End Function
 
-    Private Function Export_ClassAtt(objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String)) As clsOntologyItem
+    Private Function Export_ClassAtt(objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String), Optional OList_ClassAtt As List(Of clsClassAtt) = Nothing) As clsOntologyItem
         Dim strFileName = strPathDst & "\" & "ClassAtts.xml"
         strFiles.Add(strFileName)
         Dim objOItem_Result = Open_XMLWriter(strFileName)
@@ -565,7 +669,7 @@ End Enum
             strOutput = strOutput.Replace("@" & objVariables.Variable_ITEMTYPE.Name & "@", objGlobals.Type_ClassAtt)
             objTextWriter.Write(strOutput)
 
-            For Each objOItem_ClassAtt In objDataWork_OntologyRels.ClassAtt
+            For Each objOItem_ClassAtt In If(OList_ClassAtt Is Nothing, objDataWork_OntologyRels.ClassAtt, OList_ClassAtt)
                 strOutput = objDict_XMLTemplates(XMLTemplateEnum.ClassAtt)
                 strOutput = strOutput.Replace("@" & objVariables.Variable_ID_CLASS.Name & "@", objOItem_ClassAtt.ID_Class)
                 strOutput = strOutput.Replace("@" & objVariables.Variable_ID_ATTRIBUTETYPE.Name & "@", objOItem_ClassAtt.ID_AttributeType)
@@ -584,7 +688,7 @@ End Enum
         Return objOItem_Result
     End Function
 
-    Private Function Export_ClassRel(objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String)) As clsOntologyItem
+    Private Function Export_ClassRel(objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String), Optional OList_ClassRel As List(Of clsClassRel) = Nothing) As clsOntologyItem
         Dim strFileName = strPathDst & "\" & "ClassRels.xml"
         strFiles.Add(strFileName)
         Dim objOItem_Result = Open_XMLWriter(strFileName)
@@ -593,7 +697,7 @@ End Enum
             strOutput = strOutput.Replace("@" & objVariables.Variable_ITEMTYPE.Name & "@", objGlobals.Type_ClassRel)
             objTextWriter.Write(strOutput)
 
-            For Each objOItem_ClassRel In objDataWork_OntologyRels.ClassRel
+            For Each objOItem_ClassRel In If(OList_ClassRel Is Nothing, objDataWork_OntologyRels.ClassRel, OList_ClassRel)
                 strOutput = objDict_XMLTemplates(XMLTemplateEnum.ClassRel)
                 strOutput = strOutput.Replace("@" & objVariables.Variable_ID_CLASS_LEFT.Name & "@", objOItem_ClassRel.ID_Class_Left)
                 strOutput = strOutput.Replace("@" & objVariables.Variable_ID_CLASS_RIGHT.Name & "@", objOItem_ClassRel.ID_Class_Right)
@@ -615,7 +719,7 @@ End Enum
         Return objOItem_Result
     End Function
 
-    Private Function Export_ObjectAtt(objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String)) As clsOntologyItem
+    Private Function Export_ObjectAtt(objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String), Optional OList_ObjectAtt As List(Of clsObjectAtt) = Nothing) As clsOntologyItem
         Dim strFileName = strPathDst & "\" & "ObjectAtt.xml"
         strFiles.Add(strFileName)
         Dim objOItem_Result = Open_XMLWriter(strFileName)
@@ -624,7 +728,7 @@ End Enum
             strOutput = strOutput.Replace("@" & objVariables.Variable_ITEMTYPE.Name & "@", objGlobals.Type_ObjectAtt)
             objTextWriter.Write(strOutput)
 
-            Dim objOList_OAtt = (From objObjAtt In objDataWork_OntologyRels.ObjectAtt
+            Dim objOList_OAtt = (From objObjAtt In If(OList_ObjectAtt Is Nothing, objDataWork_OntologyRels.ObjectAtt, OList_ObjectAtt)
                                     Join objObject In OList_Objects On objObjAtt.ID_Object Equals objObject.GUID
                                     Select objObjAtt).ToList()
 
@@ -656,7 +760,7 @@ End Enum
         Return objOItem_Result
     End Function
 
-    Private Function Export_ObjectRel(objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String)) As clsOntologyItem
+    Private Function Export_ObjectRel(objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String), Optional OList_ObjectRel As List(Of clsObjectRel) = Nothing) As clsOntologyItem
         Dim strFileName = strPathDst & "\" & "ObjectRel.xml"
         strFiles.Add(strFileName)
         Dim objOItem_Result = Open_XMLWriter(strFileName)
@@ -665,7 +769,7 @@ End Enum
             strOutput = strOutput.Replace("@" & objVariables.Variable_ITEMTYPE.Name & "@", objGlobals.Type_ObjectRel)
             objTextWriter.Write(strOutput)
 
-            Dim objOList_ORel = (From objObjRel In objDataWork_OntologyRels.ObjectRel
+            Dim objOList_ORel = (From objObjRel In If(OList_ObjectRel Is Nothing, objDataWork_OntologyRels.ObjectRel, OList_ObjectRel)
                                     Join objObject In OList_Objects On objObjRel.ID_Object Equals objObject.GUID
                                     Select objObjRel).ToList()
 

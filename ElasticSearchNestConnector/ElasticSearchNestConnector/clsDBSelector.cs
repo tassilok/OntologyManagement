@@ -2165,6 +2165,7 @@ namespace ElasticSearchNestConnector
             var settings = new ConnectionSettings(uri);
             var objElConnector = new ElasticClient(settings);
             var dictIndex = objElConnector.Stats().Indices;
+            
             return dictIndex.Keys.ToList();
         }
 
