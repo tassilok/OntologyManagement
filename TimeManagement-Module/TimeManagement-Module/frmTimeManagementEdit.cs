@@ -23,11 +23,14 @@ namespace TimeManagement_Module
 
         public clsOntologyItem OItem_Result { get; private set; }
 
-        public frmTimeManagementEdit(DataRowView DRV_TimeManagement, clsLocalConfig LocalConfig)
+        private clsOntologyItem objOItem_Ref;
+
+        public frmTimeManagementEdit(DataRowView DRV_TimeManagement, clsLocalConfig LocalConfig, clsOntologyItem OItem_Ref=null)
         {
             InitializeComponent();
             objLocalConfig = LocalConfig;
             objDRV_TimeManagement = DRV_TimeManagement;
+            objOItem_Ref = OItem_Ref;
             Initialize();
         }
 
@@ -146,7 +149,20 @@ namespace TimeManagement_Module
                                 {
                                     var objOR_TimeManagement_To_Group = objRelationConfig.Rel_ObjectRelation(objOItem_TimeManagement, objLocalConfig.Group, objLocalConfig.OItem_relationtype_belongs_to);
                                     OItem_Result = objTransaction.do_Transaction(objOR_TimeManagement_To_Group, true);
-                                    if (OItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                                    if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                    {
+                                        if (objOItem_Ref != null)
+                                        {
+                                            var objOR_TimeManagement_To_Ref = objRelationConfig.Rel_ObjectRelation(objOItem_TimeManagement, objOItem_Ref, objLocalConfig.OItem_relationtype_belonging_resources);
+                                            OItem_Result = objTransaction.do_Transaction(objOR_TimeManagement_To_Ref);
+                                            if (OItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                                            {
+                                                objTransaction.rollback();
+                                                OItem_Result = objLocalConfig.Globals.LState_Error.Clone();
+                                            }
+                                        }
+                                    }
+                                    else
                                     {
                                         objTransaction.rollback();
                                         OItem_Result = objLocalConfig.Globals.LState_Error.Clone();

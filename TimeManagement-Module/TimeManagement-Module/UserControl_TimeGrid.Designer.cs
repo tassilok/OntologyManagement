@@ -46,6 +46,11 @@
             this.ToolStripMenuItem_AVG = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Calc_Mult = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_CalcAdd = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel_RefFilterLbl = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox_Ref = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripButton_AddRef = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_RemoveFilterRef = new System.Windows.Forms.ToolStripButton();
             this.DataGridView_LogManagement = new System.Windows.Forms.DataGridView();
             this.ContextMenuStrip_TimeManagement = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.NewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,11 +64,6 @@
             this.XThisMonthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingSource_TimeManagement = new System.Windows.Forms.BindingSource(this.components);
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel_RefFilterLbl = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox_Ref = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripButton_AddRef = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_RemoveFilterRef = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -119,7 +119,7 @@
             this.toolStripButton_RemoveFilterRef});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1208, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1183, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripLabel_FilterCapt
@@ -219,6 +219,43 @@
             this.ToolStripMenuItem_CalcAdd.Text = "+";
             this.ToolStripMenuItem_CalcAdd.Click += new System.EventHandler(this.ToolStripMenuItem_CalcAdd_Click);
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel_RefFilterLbl
+            // 
+            this.toolStripLabel_RefFilterLbl.Name = "toolStripLabel_RefFilterLbl";
+            this.toolStripLabel_RefFilterLbl.Size = new System.Drawing.Size(68, 22);
+            this.toolStripLabel_RefFilterLbl.Text = "x_Ref-Filter:";
+            // 
+            // toolStripTextBox_Ref
+            // 
+            this.toolStripTextBox_Ref.Name = "toolStripTextBox_Ref";
+            this.toolStripTextBox_Ref.ReadOnly = true;
+            this.toolStripTextBox_Ref.Size = new System.Drawing.Size(200, 25);
+            // 
+            // toolStripButton_AddRef
+            // 
+            this.toolStripButton_AddRef.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_AddRef.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_AddRef.Image")));
+            this.toolStripButton_AddRef.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_AddRef.Name = "toolStripButton_AddRef";
+            this.toolStripButton_AddRef.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_AddRef.Text = "...";
+            this.toolStripButton_AddRef.Click += new System.EventHandler(this.toolStripButton_AddRef_Click);
+            // 
+            // toolStripButton_RemoveFilterRef
+            // 
+            this.toolStripButton_RemoveFilterRef.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_RemoveFilterRef.Image = global::TimeManagement_Module.Properties.Resources.tasto_8_architetto_franc_01;
+            this.toolStripButton_RemoveFilterRef.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_RemoveFilterRef.Name = "toolStripButton_RemoveFilterRef";
+            this.toolStripButton_RemoveFilterRef.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_RemoveFilterRef.Text = "x_RemoveFilter";
+            this.toolStripButton_RemoveFilterRef.Click += new System.EventHandler(this.toolStripButton_RemoveFilterRef_Click);
+            // 
             // DataGridView_LogManagement
             // 
             this.DataGridView_LogManagement.AllowUserToAddRows = false;
@@ -234,7 +271,6 @@
             this.DataGridView_LogManagement.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_LogManagement_CellClick);
             this.DataGridView_LogManagement.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DataGridView_LogManagement_CellFormatting);
             this.DataGridView_LogManagement.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_LogManagement_RowHeaderMouseDoubleClick);
-            this.DataGridView_LogManagement.SelectionChanged += new System.EventHandler(this.DataGridView_LogManagement_SelectionChanged);
             this.DataGridView_LogManagement.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView_LogManagement_KeyDown);
             // 
             // ContextMenuStrip_TimeManagement
@@ -326,43 +362,6 @@
             this.AllToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.AllToolStripMenuItem.Text = "x_All";
             this.AllToolStripMenuItem.Click += new System.EventHandler(this.AllToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripLabel_RefFilterLbl
-            // 
-            this.toolStripLabel_RefFilterLbl.Name = "toolStripLabel_RefFilterLbl";
-            this.toolStripLabel_RefFilterLbl.Size = new System.Drawing.Size(68, 22);
-            this.toolStripLabel_RefFilterLbl.Text = "x_Ref-Filter:";
-            // 
-            // toolStripTextBox_Ref
-            // 
-            this.toolStripTextBox_Ref.Name = "toolStripTextBox_Ref";
-            this.toolStripTextBox_Ref.ReadOnly = true;
-            this.toolStripTextBox_Ref.Size = new System.Drawing.Size(200, 25);
-            // 
-            // toolStripButton_AddRef
-            // 
-            this.toolStripButton_AddRef.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_AddRef.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_AddRef.Image")));
-            this.toolStripButton_AddRef.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_AddRef.Name = "toolStripButton_AddRef";
-            this.toolStripButton_AddRef.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_AddRef.Text = "...";
-            this.toolStripButton_AddRef.Click += new System.EventHandler(this.toolStripButton_AddRef_Click);
-            // 
-            // toolStripButton_RemoveFilterRef
-            // 
-            this.toolStripButton_RemoveFilterRef.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_RemoveFilterRef.Image = global::TimeManagement_Module.Properties.Resources.tasto_8_architetto_franc_01;
-            this.toolStripButton_RemoveFilterRef.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_RemoveFilterRef.Name = "toolStripButton_RemoveFilterRef";
-            this.toolStripButton_RemoveFilterRef.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_RemoveFilterRef.Text = "x_RemoveFilter";
-            this.toolStripButton_RemoveFilterRef.Click += new System.EventHandler(this.toolStripButton_RemoveFilterRef_Click);
             // 
             // UserControl_TimeGrid
             // 

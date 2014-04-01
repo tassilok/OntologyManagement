@@ -25,9 +25,6 @@ namespace TimeManagement_Module
         private frm_ObjectEdit objFrmObjectEdit;
         private frmMain objFrmMain;
 
-        public delegate void SelectedTimeItem();
-        public event SelectedTimeItem selectedTimeItem;
-
         private clsOntologyItem objOItem_Ref;
 
         private bool pcChange;
@@ -41,8 +38,9 @@ namespace TimeManagement_Module
             Initialize();
         }
 
-        private void Initialize()
+        public void Initialize(clsOntologyItem OItem_Ref = null)
         {
+            objOItem_Ref = OItem_Ref;
             objDataWork_TimeManagement = new clsDataWork_TimeManagement(objLocalConfig);
             objDataWork_TimeManagement.OItem_Ref = objOItem_Ref;
             objDataWork_TimeManagement.GetData_TimeManagement();
@@ -349,11 +347,11 @@ namespace TimeManagement_Module
 
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            objFrmTimeManagementEdit = new frmTimeManagementEdit(null, objLocalConfig);
+            objFrmTimeManagementEdit = new frmTimeManagementEdit(null, objLocalConfig,objOItem_Ref);
             objFrmTimeManagementEdit.ShowDialog(this);
             if (objFrmTimeManagementEdit.DialogResult == DialogResult.OK)
             {
-                Initialize();
+                Initialize(objOItem_Ref);
                 ConfigureCalculation();
             }
             
@@ -438,10 +436,6 @@ namespace TimeManagement_Module
             }
         }
 
-        private void DataGridView_LogManagement_SelectionChanged(object sender, EventArgs e)
-        {
-            if (!pcChange) selectedTimeItem();
-        }
 
         private void toolStripButton_AddRef_Click(object sender, EventArgs e)
         {

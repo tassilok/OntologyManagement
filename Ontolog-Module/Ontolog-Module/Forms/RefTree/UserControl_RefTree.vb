@@ -8,6 +8,8 @@ Public Class UserControl_RefTree
     Private objOList_RelationTypes_LeftRight As List(Of clsOntologyItem)
     Private objOList_RelationTypes_RightLeft As List(Of clsOntologyItem)
 
+    Private objDBLevel As clsDBLevel
+
     Private objFrm_OntologyModule As frmMain
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
@@ -43,6 +45,7 @@ Public Class UserControl_RefTree
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(Globals)
+        initialize()
     End Sub
 
     Public Sub initialize_Tree(OList_RefClass As List(Of clsOntologyItem), OList_RelationTypes_LeftRight As List(Of clsOntologyItem), Optional OList_RelationTypes_RightLeft As List(Of clsOntologyItem) = Nothing)
@@ -101,7 +104,7 @@ Public Class UserControl_RefTree
 
     End Sub
     Private Sub initialize()
-
+        objDBLevel = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 
 
@@ -396,18 +399,26 @@ Public Class UserControl_RefTree
                 objOItem_Ref = New clsOntologyItem With {.GUID = objTreeNode_Selected.Name, _
                                                          .Name = objTreeNode_Selected.Text, _
                                                          .Type = objLocalConfig.Globals.Type_AttributeType}
+
+                objOItem_Ref = objDBLevel.GetOItem(objOItem_Ref.GUID, objOItem_Ref.Type)
             ElseIf objTreeNode_Selected.ImageIndex = objDataWork_RefTree.ImageID_Closed Then
                 objOItem_Ref = New clsOntologyItem With {.GUID = objTreeNode_Selected.Name, _
                                                          .Name = objTreeNode_Selected.Text, _
                                                          .Type = objLocalConfig.Globals.Type_Class}
+
+                objOItem_Ref = objDBLevel.GetOItem(objOItem_Ref.GUID, objOItem_Ref.Type)
             ElseIf objTreeNode_Selected.ImageIndex = objDataWork_RefTree.ImageID_Object Then
                 objOItem_Ref = New clsOntologyItem With {.GUID = objTreeNode_Selected.Name, _
                                                          .Name = objTreeNode_Selected.Text, _
                                                          .Type = objLocalConfig.Globals.Type_Object}
+
+                objOItem_Ref = objDBLevel.GetOItem(objOItem_Ref.GUID, objOItem_Ref.Type)
             ElseIf objTreeNode_Selected.ImageIndex = objDataWork_RefTree.ImageID_RelationType Then
                 objOItem_Ref = New clsOntologyItem With {.GUID = objTreeNode_Selected.Name, _
                                                          .Name = objTreeNode_Selected.Text, _
                                                          .Type = objLocalConfig.Globals.Type_RelationType}
+
+                objOItem_Ref = objDBLevel.GetOItem(objOItem_Ref.GUID, objOItem_Ref.Type)
             Else
 
                 objOItem_Ref = Nothing

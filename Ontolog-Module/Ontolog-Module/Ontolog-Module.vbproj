@@ -86,6 +86,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ElasticSearchNestConnector, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ElasticSearchNestConnector\ElasticSearchNestConnector\bin\Debug\ElasticSearchNestConnector.dll</HintPath>
+    </Reference>
     <Reference Include="Nest">
       <HintPath>..\packages\NEST.0.12.0.0\lib\NET4\Nest.dll</HintPath>
     </Reference>
@@ -738,10 +742,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ElasticSearchNestConnector\ElasticSearchNestConnector\ElasticSearchNestConnector.csproj">
-      <Project>{47208cae-f413-4c25-a184-14f1140ca081}</Project>
-      <Name>ElasticSearchNestConnector</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
       <Name>OntologyClasses</Name>
