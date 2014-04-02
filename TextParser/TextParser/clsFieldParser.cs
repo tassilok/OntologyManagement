@@ -156,6 +156,7 @@ namespace TextParser
             var fileDate_LastChange = false;
             var docCount = 0;
             long fileLine = 0;
+            var addMessageRest = false;
             
             if (OList_Variables != null && OList_Variables.Any())
             {
@@ -241,9 +242,15 @@ namespace TextParser
                         var textParse = text;
                         var Id = objLocalConfig.Globals.NewGUID;
                         var ixStart = 0;
+                        var ixEnd_Pre = 0;
+                        var ixStart_Main = 0;
+                        var length_Main = 0;
+                        var ixStart_Post = 0;
+                        var ixStartLast = 0;
                         var fieldNotFound = false;
                         var textParseBase = text;
                         fileLine ++;
+                        addMessageRest = false;
                         foreach (var field in ParseFieldList.OrderBy(p => p.IsMeta).ThenBy(p => p.OrderId).ToList())
                         {
                             fieldNotFound = false;
@@ -296,6 +303,10 @@ namespace TextParser
                                 {
                                     dictMeta.Add(field.Name_Field, fileLine);
                                 }
+                                else if (field.ID_MetaField == objLocalConfig.OItem_object_messagerest.GUID)
+                                {
+                                    addMessageRest = true;
+                                }
                             }
                             else
                             {
@@ -315,19 +326,26 @@ namespace TextParser
                                         textParse =
                                             textParse.Substring(objMatches[0].Index +
                                                                 objMatches[0].Length);
+                                        ixEnd_Pre = objMatches[0].Index + objMatches[0].Length;
+                                        //ixStart = ixStart + objMatches[0].Index +
+                                        //            objMatches[0].Length-1;
 
-                                        ixStart = ixStart + objMatches[0].Index +
-                                                    objMatches[0].Length - 1;
-
+                                        parse = true;
+                                    }
+                                    else if (objMatches.Count > 0 && objMatches[0].Length == 0)
+                                    {
+                                        ixEnd_Pre = objMatches[0].Index + objMatches[0].Length;
                                         parse = true;
                                     }
                                     else
                                     {
+                                        
                                         parse = false;
                                     }
                                 }
                                 else
                                 {
+                                    ixEnd_Pre = -1;
                                     parse = true;
                                 }
 
@@ -342,16 +360,23 @@ namespace TextParser
                                         if (objMatches.Count > 0 && objMatches[0].Length > 0)
                                         {
                                             textParse = textParse.Substring(0, objMatches[0].Index);
-                                            ixStart += objMatches[0].Index + objMatches[0].Length - 1;
+                                            ixStart_Post = objMatches[0].Index;
+                                            //ixStart += objMatches[0].Index + objMatches[0].Length-1;
                                             getIxStart = false;
+                                        }
+                                        else if (objMatches.Count > 0 && objMatches[0].Length == 0)
+                                        {
+                                            ixStart_Post = objMatches[0].Index;
                                         }
                                         else
                                         {
+                                            
                                             parse = false;
                                         }
                                     }
                                     else
                                     {
+                                        ixStart_Post = -1;
                                         parse = true;
                                     }
                                 }
@@ -368,14 +393,31 @@ namespace TextParser
                                         {
                                             textParse = textParse.Substring(objMatches[0].Index,
                                                                             objMatches[0].Length);
-                                            if (getIxStart)
-                                                ixStart += objMatches[0].Index + objMatches[0].Length - 1;
 
+                                            ixStart_Main = objMatches[0].Index;
+                                            length_Main = objMatches[0].Length;
+                                            if (getIxStart)
+                                            {
+                                                
+                                                //ixStart += objMatches[0].Index + objMatches[0].Length - 1;
+                                            }
+                                                
+
+                                        }
+                                        else if (objMatches.Count > 0 && objMatches[0].Length == 0)
+                                        {
+                                            ixStart_Main = objMatches[0].Index;
+                                            length_Main = 0;
                                         }
                                         else
                                         {
+                                            
                                             parse = false;
                                         }
+                                    }
+                                    else
+                                    {
+                                        ixStart_Main = -1;
                                     }
                                 }
 
@@ -442,22 +484,24 @@ namespace TextParser
 
                                 if (field.RemoveFromSource)
                                 {
-                                    if (textParseBase.Length > ixStart)
+                                    ixStart = ixStartLast + (ixEnd_Pre > -1 ? ixEnd_Pre : 0) + ixStart_Main + length_Main;
+                                    if (text.Length > ixStart)
                                         textParseBase = text.Substring(ixStart);
                                     else
                                         textParseBase = text;
 
-                                    if (text.Length - 1 > ixStart + textParse.Length)
-                                        textParse = text.Substring(ixStart + textParse.Length);
+                                    if (text.Length - 1 > ixStart)
+                                        textParse = text.Substring(ixStart);
                                     else
                                         textParse = text;
+                                    ixStartLast = ixStart;
                                 }
                                 else
                                 {
                                     textParse = textParseBase;
                                 }
 
-                         
+
                                 
                             }
 
@@ -465,6 +509,10 @@ namespace TextParser
 
                         }
 
+                        if (addMessageRest)
+                        {
+                            dictMeta.Add(objLocalConfig.OItem_object_messagerest.Name,textParse);
+                        }
                         if (dictMeta.Any() || (!UserFields.Any() || dictUser.Any()))
                         {
                             //if (dontAddUser) dictUser.Clear();
@@ -492,6 +540,7 @@ namespace TextParser
                     
                     if (dictList.Count > 0)
                     {
+
                         var objOItem_Result = objAppDBLevel.Save_Documents(dictList, objOItem_Type != null ? objOItem_Type.Name : objOItem_Type != null ? objOItem_Type.Name : "Doc", index);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
                         {

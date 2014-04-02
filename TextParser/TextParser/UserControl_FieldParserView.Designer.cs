@@ -51,6 +51,9 @@
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripComboBox_Indexes = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripDropDownButton_IndexWork = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripMenuItem_DeleteIndex = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_Query = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_Query = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton_Search = new System.Windows.Forms.ToolStripButton();
@@ -59,9 +62,9 @@
             this.toolStripTextBox_Parser = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton_Parse = new System.Windows.Forms.ToolStripButton();
             this.bindingSource_Items = new System.Windows.Forms.BindingSource(this.components);
-            this.toolStripDropDownButton_IndexWork = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem_DeleteIndex = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip_Fields = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editOItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -79,6 +82,7 @@
             this.toolStrip3.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_Items)).BeginInit();
+            this.contextMenuStrip_Fields.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -234,6 +238,7 @@
             this.dataGridView_Fields.AllowUserToAddRows = false;
             this.dataGridView_Fields.AllowUserToDeleteRows = false;
             this.dataGridView_Fields.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_Fields.ContextMenuStrip = this.contextMenuStrip_Fields;
             this.dataGridView_Fields.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView_Fields.Location = new System.Drawing.Point(0, 0);
             this.dataGridView_Fields.Name = "dataGridView_Fields";
@@ -302,6 +307,30 @@
             this.toolStripComboBox_Indexes.Size = new System.Drawing.Size(200, 25);
             this.toolStripComboBox_Indexes.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBox_Indexes_SelectedIndexChanged);
             // 
+            // toolStripDropDownButton_IndexWork
+            // 
+            this.toolStripDropDownButton_IndexWork.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton_IndexWork.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem_DeleteIndex});
+            this.toolStripDropDownButton_IndexWork.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton_IndexWork.Image")));
+            this.toolStripDropDownButton_IndexWork.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton_IndexWork.Name = "toolStripDropDownButton_IndexWork";
+            this.toolStripDropDownButton_IndexWork.Size = new System.Drawing.Size(86, 22);
+            this.toolStripDropDownButton_IndexWork.Text = "x_IndexWork";
+            this.toolStripDropDownButton_IndexWork.DropDownOpening += new System.EventHandler(this.toolStripDropDownButton_IndexWork_DropDownOpening);
+            // 
+            // toolStripMenuItem_DeleteIndex
+            // 
+            this.toolStripMenuItem_DeleteIndex.Name = "toolStripMenuItem_DeleteIndex";
+            this.toolStripMenuItem_DeleteIndex.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItem_DeleteIndex.Text = "x_Delete Index";
+            this.toolStripMenuItem_DeleteIndex.Click += new System.EventHandler(this.toolStripMenuItem_DeleteIndex_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
             // toolStripLabel_Query
             // 
             this.toolStripLabel_Query.Name = "toolStripLabel_Query";
@@ -357,29 +386,28 @@
             this.toolStripButton_Parse.Text = "x_Parse";
             this.toolStripButton_Parse.Click += new System.EventHandler(this.toolStripButton_Parse_Click);
             // 
-            // toolStripDropDownButton_IndexWork
+            // contextMenuStrip_Fields
             // 
-            this.toolStripDropDownButton_IndexWork.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownButton_IndexWork.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem_DeleteIndex});
-            this.toolStripDropDownButton_IndexWork.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton_IndexWork.Image")));
-            this.toolStripDropDownButton_IndexWork.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton_IndexWork.Name = "toolStripDropDownButton_IndexWork";
-            this.toolStripDropDownButton_IndexWork.Size = new System.Drawing.Size(86, 22);
-            this.toolStripDropDownButton_IndexWork.Text = "x_IndexWork";
-            this.toolStripDropDownButton_IndexWork.DropDownOpening += new System.EventHandler(this.toolStripDropDownButton_IndexWork_DropDownOpening);
+            this.contextMenuStrip_Fields.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editToolStripMenuItem});
+            this.contextMenuStrip_Fields.Name = "contextMenuStrip_Fields";
+            this.contextMenuStrip_Fields.Size = new System.Drawing.Size(105, 26);
+            this.contextMenuStrip_Fields.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Fields_Opening);
             // 
-            // toolStripSeparator3
+            // editToolStripMenuItem
             // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editOItemToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editToolStripMenuItem.Text = "x_Edit";
             // 
-            // toolStripMenuItem_DeleteIndex
+            // editOItemToolStripMenuItem
             // 
-            this.toolStripMenuItem_DeleteIndex.Name = "toolStripMenuItem_DeleteIndex";
-            this.toolStripMenuItem_DeleteIndex.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem_DeleteIndex.Text = "x_Delete Index";
-            this.toolStripMenuItem_DeleteIndex.Click += new System.EventHandler(this.toolStripMenuItem_DeleteIndex_Click);
+            this.editOItemToolStripMenuItem.Name = "editOItemToolStripMenuItem";
+            this.editOItemToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editOItemToolStripMenuItem.Text = "x_Edit OItem";
+            this.editOItemToolStripMenuItem.Click += new System.EventHandler(this.editOItemToolStripMenuItem_Click);
             // 
             // UserControl_FieldParserView
             // 
@@ -413,6 +441,7 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_Items)).EndInit();
+            this.contextMenuStrip_Fields.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -451,5 +480,8 @@
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_IndexWork;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_DeleteIndex;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Fields;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editOItemToolStripMenuItem;
     }
 }

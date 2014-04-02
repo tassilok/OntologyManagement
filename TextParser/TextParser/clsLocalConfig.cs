@@ -96,6 +96,7 @@ public clsOntologyItem OItem_object_filedate__create_ { get; set; }
 public clsOntologyItem OItem_object_fileline { get; set; }
 public clsOntologyItem OItem_object_filedatetime__last_change_ { get; set; }
 public clsOntologyItem OItem_object_filedatetime__create_ { get; set; }
+public clsOntologyItem OItem_object_messagerest { get; set; }
 public clsOntologyItem OItem_class_types__elastic_search_ { get; set; }
   
 	
@@ -680,7 +681,14 @@ var objOList_relationtype_value = (from objOItem in objDBLevel_Config1.OList_Obj
   
 	private void get_Config_Objects()
         {
-
+            OItem_object_messagerest = new clsOntologyItem()
+            {
+                GUID = "9600531e81b44c10ab642d3fb1ac957f",
+                Name = "MessageRest",
+                GUID_Parent = "2113a7daad084cbc87e2e88fd0b70812",
+                Type = Globals.Type_Object
+            };
+        
             var objOList_object_fileline = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                             where objOItem.ID_Object == cstrID_Ontology
                                             join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object

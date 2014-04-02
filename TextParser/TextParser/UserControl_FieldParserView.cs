@@ -28,6 +28,8 @@ namespace TextParser
         private clsDataWork_FileResources objDataWork_FileResource;
         private clsDataWork_FileResource_Path objDataWork_FileResource_Path;
 
+        private frm_ObjectEdit objFrmObjectEdit;
+
         private clsAppDBLevel objAppDBLevel;
 
         private clsDBLevel objDBLevel_Indexes;
@@ -481,6 +483,41 @@ namespace TextParser
                                 MessageBoxIcon.Exclamation);
             }
             
+        }
+
+        private void contextMenuStrip_Fields_Opening(object sender, CancelEventArgs e)
+        {
+            editToolStripMenuItem.Enabled = false;
+            if (dataGridView_Fields.SelectedCells.Count == 1)
+            {
+                if (dataGridView_Fields.Columns[dataGridView_Fields.SelectedCells[0].ColumnIndex].DataPropertyName ==
+                    "Name_Field")
+                {
+                    editToolStripMenuItem.Enabled = true;
+                }
+            }
+        }
+
+        private void editOItemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var field = (clsField) dataGridView_Fields.Rows[dataGridView_Fields.SelectedCells[0].RowIndex].DataBoundItem;
+            if (dataGridView_Fields.Columns[dataGridView_Fields.SelectedCells[0].ColumnIndex].DataPropertyName ==
+                    "Name_Field")
+            {
+                var objOList = new List<clsOntologyItem>
+                    {
+                        new clsOntologyItem
+                            {
+                                GUID = field.ID_Field,
+                                Name = field.Name_Field,
+                                GUID_Parent = objLocalConfig.OItem_class_field.GUID,
+                                Type = objLocalConfig.Globals.Type_Object
+                            }
+                    };
+
+                objFrmObjectEdit = new frm_ObjectEdit(objLocalConfig.Globals,objOList,0,objLocalConfig.Globals.Type_Object,null);
+                objFrmObjectEdit.ShowDialog(this);
+            }
         }
     }
 }
