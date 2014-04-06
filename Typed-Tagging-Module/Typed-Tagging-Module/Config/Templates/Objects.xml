@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="51198cbbb364448fac5fc4ba03dbf1a7" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Typed-Tagging-Module]]></Item>
+<Item Id="5619631e793b4da8bcfbb1435efbe43c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongs_to]]></Item>
+<Item Id="f7a06decce2849f488f19bda7ea123d5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_tag]]></Item>
+<Item Id="847042f691014bfeb90aa4eac2ff985c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is_Tagging]]></Item>
+<Item Id="27e83ce2ad714482aa64861896a98a7a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Typed_Tag]]></Item>
+<Item Id="6ef0a08037f544ad9e90f88fe5044c12" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Group]]></Item>
+<Item Id="dd7c12edc88145d189028eebc22e04b0" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_user]]></Item>
+
+</Items>
