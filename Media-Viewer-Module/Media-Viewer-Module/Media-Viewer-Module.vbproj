@@ -118,7 +118,21 @@
     </Compile>
     <Compile Include="Images\clsDataWork_Images.vb" />
     <Compile Include="Images\clsImage.vb" />
+    <Compile Include="MediaItems\clsMediaItemObject.vb" />
+    <Compile Include="MediaItems\clsControlItem.vb" />
     <Compile Include="MediaItems\clsDataWork_MediaItem.vb" />
+    <Compile Include="MediaItems\UserControl_MediaItemRelation.Designer.vb">
+      <DependentUpon>UserControl_MediaItemRelation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MediaItems\UserControl_MediaItemRelation.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MediaItems\UserControl_ObjectRelationMediaItem.Designer.vb">
+      <DependentUpon>UserControl_ObjectRelationMediaItem.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MediaItems\UserControl_ObjectRelationMediaItem.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="PDF\clsDataWork_PDF.vb" />
     <Compile Include="clsDataWork_RefTree.vb" />
     <Compile Include="clsLocalConfig.vb" />
@@ -256,6 +270,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Images\UserControl_ObjectRelation.resx">
       <DependentUpon>UserControl_ObjectRelation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MediaItems\UserControl_MediaItemRelation.resx">
+      <DependentUpon>UserControl_MediaItemRelation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MediaItems\UserControl_ObjectRelationMediaItem.resx">
+      <DependentUpon>UserControl_ObjectRelationMediaItem.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

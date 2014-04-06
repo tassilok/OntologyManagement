@@ -9,6 +9,12 @@ Public Class clsDataWork_MediaItem
     Private objDBLevel_BookMarks As clsDBLevel
     Private objDBLevel_Created As clsDBLevel
     Private objDBLevel_MediaItemsOfFiles As clsDBLevel
+    Private objDBLevel_MedaiItemObjects_MediaItem As clsDBLevel
+    Private objDBLevel_MediaItemObjects_Ranges As clsDBLevel
+    Private objDBLevel_MediaItemObjects_Is As clsDBLevel
+    Private objDBLevel_MediaItemRange_To_Bookmarks As clsDBLevel
+    Private objDBLevel_Range As clsDBLevel
+    Private objDBLevel_CreationDate As clsDBLevel
 
     Private dtblT_MediaItems As New DataSet_MediaItems.dtbl_MediaItemsDataTable
 
@@ -17,8 +23,51 @@ Public Class clsDataWork_MediaItem
 
     Private objOItem_Ref As clsOntologyItem
 
+    Private objOItem_MediaItem As clsOntologyItem
+
     Private objThread_MediaItems As Threading.Thread
     Private objLMediaItems As List(Of clsMultiMediaItem) = New List(Of clsMultiMediaItem)
+
+    Private objRelationConfig As clsRelationConfig
+
+    Public Sub AddMediaItemObject(OItem_MediaItemObject As clsOntologyItem, OItem_MediaItem As clsOntologyItem, OItem_Ref As clsOntologyItem)
+        objDBLevel_MedaiItemObjects_MediaItem.OList_ObjectRel.Add(objRelationConfig.Rel_ObjectRelation(OItem_MediaItemObject, _
+                                                                                                OItem_MediaItem, _
+                                                                                                objLocalConfig.OItem_RelationType_located_in))
+        objDBLevel_MediaItemObjects_Is.OList_ObjectRel.Add(objRelationConfig.Rel_ObjectRelation(OItem_MediaItemObject, _
+                                                                                                OItem_Ref, _
+                                                                                                objLocalConfig.OItem_RelationType_is))
+
+    End Sub
+
+    Public Sub RemoveMediaItemObject(OItem_MediaItemObject As clsOntologyItem, OItem_MediaItem As clsOntologyItem, OItem_Ref As clsOntologyItem)
+        Dim objOList_MediItemObjects = objDBLevel_MedaiItemObjects_MediaItem.OList_ObjectRel.Where(Function(mi) mi.ID_Object = OItem_MediaItemObject.GUID And _
+                                                                                                       mi.ID_Other = OItem_MediaItem.GUID And _
+                                                                                                       mi.ID_RelationType = objLocalConfig.OItem_RelationType_located_in.GUID).ToList()
+        If objOList_MediItemObjects.Any Then
+            For Each objORel In objOList_MediItemObjects
+                objDBLevel_MedaiItemObjects_MediaItem.OList_ObjectRel.Remove(objORel)
+            Next
+
+
+
+        End If
+
+
+        objOList_MediItemObjects = objDBLevel_MediaItemObjects_Is.OList_ObjectRel.Where(Function(mi) mi.ID_Object = OItem_MediaItemObject.GUID And _
+                                                                                                       mi.ID_Other = OItem_Ref.GUID And _
+                                                                                                       mi.ID_RelationType = objLocalConfig.OItem_RelationType_is.GUID).ToList()
+
+        If objOList_MediItemObjects.Any Then
+            For Each objORel In objOList_MediItemObjects
+                objDBLevel_MediaItemObjects_Is.OList_ObjectRel.Remove(objORel)
+            Next
+
+
+
+        End If
+    End Sub
+    
 
     Public ReadOnly Property Loaded As Boolean
         Get
@@ -37,6 +86,119 @@ Public Class clsDataWork_MediaItem
             Return dtblT_MediaItems
         End Get
     End Property
+
+    Public Function get_MediaItem(OItem_MediaItem As clsOntologyItem) As List(Of clsMultiMediaItem)
+        Dim objOL_MediaItems_To_Ref As New List(Of clsObjectRel)
+        Dim objOL_MediaItems_To_File As New List(Of clsObjectRel)
+        Dim objOL_CreationDate As New List(Of clsObjectAtt)
+        If Not OItem_MediaItem Is Nothing Then
+            objOL_MediaItems_To_File.Add(New clsObjectRel With {.ID_Object = OItem_MediaItem.GUID, _
+                                                        .ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID, _
+                                                  .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Source.GUID
+                                                  })
+
+            objDBLevel_Files.get_Data_ObjectRel(objOL_MediaItems_To_File, _
+                                                boolIDs:=False)
+
+            If objDBLevel_Files.OList_ObjectRel.Any Then
+                objOL_CreationDate = objDBLevel_Files.OList_ObjectRel.Select(Function(p) New clsObjectAtt With { _
+                                                                             .ID_Object = p.ID_Other, _
+                                                                             .ID_AttributeType = objLocalConfig.OItem_Type_Media_Item.GUID _
+                                                                         }).ToList
+
+                objDBLevel_CreationDate.get_Data_ObjectAtt(objOL_CreationDate, _
+                                                           boolIDs:=False)
+
+                objLMediaItems.Clear()
+                objLMediaItems = (From objFile In objDBLevel_Files.OList_ObjectRel
+                                 Group Join objDate In objDBLevel_CreationDate.OList_ObjectAtt On objDate.ID_Object Equals objFile.ID_Other Into objDates = Group
+                                 From objDate In objDates.DefaultIfEmpty
+                                 Select New clsMultiMediaItem(objFile.ID_Object, _
+                                                              objFile.Name_Object, _
+                                                              objFile.ID_Parent_Object, _
+                                                              objFile.ID_Other, _
+                                                              objFile.Name_Other, _
+                                                              objFile.ID_Parent_Other, _
+                                                              objDate, _
+                                                              0)).ToList()
+            End If
+
+        End If
+
+
+        Return objLMediaItems
+    End Function
+
+    Public Function GetDataObjectsOfMediaItem(OItem_MediaItem As clsOntologyItem) As clsOntologyItem
+        objOItem_MediaItem = OItem_MediaItem
+
+        Dim objOList_Search_LeftRight = New List(Of clsObjectRel) From {
+            New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_class_media_item_objects.GUID, _
+                                   .ID_RelationType = objLocalConfig.OItem_RelationType_located_in.GUID, _
+                                   .ID_Other = objOItem_MediaItem.GUID}}
+
+
+        Dim objOItem_Result = objDBLevel_MedaiItemObjects_MediaItem.get_Data_ObjectRel(objOList_Search_LeftRight, _
+                                                                                   boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+            Dim objOList_Search_Is = objDBLevel_MedaiItemObjects_MediaItem.OList_ObjectRel.Select(Function(mi) New clsObjectRel With {.ID_Object = mi.ID_Object, _
+                                                                                                                                      .ID_RelationType = objLocalConfig.OItem_RelationType_is.GUID}).ToList()
+
+            If objOList_Search_Is.Any() Then
+                objOItem_Result = objDBLevel_MediaItemObjects_Is.get_Data_ObjectRel(objOList_Search_Is, boolIDs:=False)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    Dim objORel_MediaItemRange_To_Bookmarks = objDBLevel_MedaiItemObjects_MediaItem.OList_ObjectRel.Select(Function(mi) New clsObjectRel With {.ID_Object = mi.ID_Object, _
+                                                                                                                                                               .ID_Parent_Other = objLocalConfig.OItem_Type_Media_Item_Range.GUID, _
+                                                                                                                                                               .ID_RelationType = objLocalConfig.OItem_relationtype_belonging.GUID}).ToList()
+                    objOItem_Result = objDBLevel_MediaItemObjects_Ranges.get_Data_ObjectRel(objORel_MediaItemRange_To_Bookmarks, boolIDs:=False)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objORel_MediaItemRange_To_Bookmarks = objDBLevel_MediaItemObjects_Ranges.OList_ObjectRel.Select(Function(ra) New clsObjectRel With {.ID_Object = ra.ID_Other, _
+                                                                                                                                                            .ID_Parent_Other = objLocalConfig.OItem_Type_Media_Item_Bookmark.GUID, _
+                                                                                                                                                            .ID_RelationType = objLocalConfig.OItem_RelationType_started_with.GUID}).ToList
+
+                        objORel_MediaItemRange_To_Bookmarks.AddRange(objDBLevel_MediaItemObjects_Ranges.OList_ObjectRel.Select(Function(ra) New clsObjectRel With {.ID_Object = ra.ID_Other, _
+                                                                                                                                                            .ID_Parent_Other = objLocalConfig.OItem_Type_Media_Item_Bookmark.GUID, _
+                                                                                                                                                            .ID_RelationType = objLocalConfig.OItem_RelationType_finished_with.GUID}))
+
+                        If objORel_MediaItemRange_To_Bookmarks.Any Then
+                            objOItem_Result = objDBLevel_MediaItemRange_To_Bookmarks.get_Data_ObjectRel(objORel_MediaItemRange_To_Bookmarks, boolIDs:=False)
+
+                        End If
+                    End If
+                    
+                    
+                End If
+            Else
+                objDBLevel_MedaiItemObjects_MediaItem.OList_ObjectRel.Clear()
+                objDBLevel_MediaItemObjects_Is.OList_ObjectRel.Clear()
+                objDBLevel_MediaItemObjects_Ranges.OList_ObjectRel.Clear()
+                objDBLevel_MediaItemRange_To_Bookmarks.OList_ObjectRel.Clear()
+            End If
+            
+            
+
+        End If
+
+        Return objOItem_Result
+    End Function
+
+    Public Function OList_MediaItemObjects(OItem_MediaItem As clsOntologyItem) As List(Of clsMediaItemObject)
+        Dim objOList_MediaItemObjects = objDBLevel_MediaItemObjects_Is.OList_ObjectRel. _
+            Select(Function(mi) New clsMediaItemObject With {.ID_MediaItem = OItem_MediaItem.GUID, _
+                                                             .Name_MediaItem = OItem_MediaItem.Name, _
+                                                             .ID_MediaItemObject = mi.ID_Object, _
+                                                             .Name_MediaItemObject = mi.Name_Object, _
+                                                             .ID_Ref = mi.ID_Other, _
+                                                             .Name_Ref = mi.Name_Other, _
+                                                             .ID_Parent_Ref = mi.ID_Parent_Other, _
+                                                             .Type_Ref = mi.Ontology}).ToList()
+
+
+
+        Return objOList_MediaItemObjects
+    End Function
 
     Public Function GetMediaItemOfFile(OItem_File As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
@@ -344,7 +506,13 @@ Public Class clsDataWork_MediaItem
     End Sub
 
     Private Sub initialize()
+        objDBLevel_MedaiItemObjects_MediaItem = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_MediaItemObjects_Ranges = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_MediaItemRange_To_Bookmarks = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_MediaItemObjects_Is = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_CreationDate = New clsDBLevel(objLocalConfig.Globals)
 
+        objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
     End Sub
 
     Private Sub set_DBConnection()

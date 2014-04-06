@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
       <s:element name="Config">
@@ -24,13 +24,13 @@
           <s:element minOccurs="1" maxOccurs="1" name="ConfigValueInt" type="s:int" />
         </s:sequence>
       </s:complexType>
-      <s:element name="Classes">
+      <s:element name="RelationTypes">
         <s:complexType />
       </s:element>
-      <s:element name="ClassesResponse">
+      <s:element name="RelationTypesResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ClassesResult" type="tns:ArrayOfClsOntologyItem" />
+            <s:element minOccurs="0" maxOccurs="1" name="RelationTypesResult" type="tns:ArrayOfClsOntologyItem" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -71,33 +71,33 @@
           <s:element minOccurs="1" maxOccurs="1" name="Count" nillable="true" type="s:long" />
         </s:sequence>
       </s:complexType>
-      <s:element name="ClassesByGuid">
+      <s:element name="RelationTypesByRelationTypeGuid">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="guid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="guidRelationType" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="ClassesByGuidResponse">
+      <s:element name="RelationTypesByRelationTypeGuidResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ClassesByGuidResult" type="tns:ArrayOfClsOntologyItem" />
+            <s:element minOccurs="0" maxOccurs="1" name="RelationTypesByRelationTypeGuidResult" type="tns:ArrayOfClsOntologyItem" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="ClassesByName">
+      <s:element name="RelationTypesByRelationTypeName">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nameRelationType" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="strict" type="s:boolean" />
             <s:element minOccurs="1" maxOccurs="1" name="caseSensitive" type="s:boolean" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="ClassesByNameResponse">
+      <s:element name="RelationTypesByRelationTypeNameResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ClassesByNameResult" type="tns:ArrayOfClsOntologyItem" />
+            <s:element minOccurs="0" maxOccurs="1" name="RelationTypesByRelationTypeNameResult" type="tns:ArrayOfClsOntologyItem" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -109,43 +109,43 @@
   <wsdl:message name="ConfigSoapOut">
     <wsdl:part name="parameters" element="tns:ConfigResponse" />
   </wsdl:message>
-  <wsdl:message name="ClassesSoapIn">
-    <wsdl:part name="parameters" element="tns:Classes" />
+  <wsdl:message name="RelationTypesSoapIn">
+    <wsdl:part name="parameters" element="tns:RelationTypes" />
   </wsdl:message>
-  <wsdl:message name="ClassesSoapOut">
-    <wsdl:part name="parameters" element="tns:ClassesResponse" />
+  <wsdl:message name="RelationTypesSoapOut">
+    <wsdl:part name="parameters" element="tns:RelationTypesResponse" />
   </wsdl:message>
-  <wsdl:message name="ClassesByGuidSoapIn">
-    <wsdl:part name="parameters" element="tns:ClassesByGuid" />
+  <wsdl:message name="RelationTypesByRelationTypeGuidSoapIn">
+    <wsdl:part name="parameters" element="tns:RelationTypesByRelationTypeGuid" />
   </wsdl:message>
-  <wsdl:message name="ClassesByGuidSoapOut">
-    <wsdl:part name="parameters" element="tns:ClassesByGuidResponse" />
+  <wsdl:message name="RelationTypesByRelationTypeGuidSoapOut">
+    <wsdl:part name="parameters" element="tns:RelationTypesByRelationTypeGuidResponse" />
   </wsdl:message>
-  <wsdl:message name="ClassesByNameSoapIn">
-    <wsdl:part name="parameters" element="tns:ClassesByName" />
+  <wsdl:message name="RelationTypesByRelationTypeNameSoapIn">
+    <wsdl:part name="parameters" element="tns:RelationTypesByRelationTypeName" />
   </wsdl:message>
-  <wsdl:message name="ClassesByNameSoapOut">
-    <wsdl:part name="parameters" element="tns:ClassesByNameResponse" />
+  <wsdl:message name="RelationTypesByRelationTypeNameSoapOut">
+    <wsdl:part name="parameters" element="tns:RelationTypesByRelationTypeNameResponse" />
   </wsdl:message>
-  <wsdl:portType name="OServiceClassesSoap">
+  <wsdl:portType name="OServiceRelationTypesSoap">
     <wsdl:operation name="Config">
       <wsdl:input message="tns:ConfigSoapIn" />
       <wsdl:output message="tns:ConfigSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="Classes">
-      <wsdl:input message="tns:ClassesSoapIn" />
-      <wsdl:output message="tns:ClassesSoapOut" />
+    <wsdl:operation name="RelationTypes">
+      <wsdl:input message="tns:RelationTypesSoapIn" />
+      <wsdl:output message="tns:RelationTypesSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="ClassesByGuid">
-      <wsdl:input message="tns:ClassesByGuidSoapIn" />
-      <wsdl:output message="tns:ClassesByGuidSoapOut" />
+    <wsdl:operation name="RelationTypesByRelationTypeGuid">
+      <wsdl:input message="tns:RelationTypesByRelationTypeGuidSoapIn" />
+      <wsdl:output message="tns:RelationTypesByRelationTypeGuidSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="ClassesByName">
-      <wsdl:input message="tns:ClassesByNameSoapIn" />
-      <wsdl:output message="tns:ClassesByNameSoapOut" />
+    <wsdl:operation name="RelationTypesByRelationTypeName">
+      <wsdl:input message="tns:RelationTypesByRelationTypeNameSoapIn" />
+      <wsdl:output message="tns:RelationTypesByRelationTypeNameSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="OServiceClassesSoap" type="tns:OServiceClassesSoap">
+  <wsdl:binding name="OServiceRelationTypesSoap" type="tns:OServiceRelationTypesSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="Config">
       <soap:operation soapAction="http://tempuri.org/Config" style="document" />
@@ -156,8 +156,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Classes">
-      <soap:operation soapAction="http://tempuri.org/Classes" style="document" />
+    <wsdl:operation name="RelationTypes">
+      <soap:operation soapAction="http://tempuri.org/RelationTypes" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -165,8 +165,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="ClassesByGuid">
-      <soap:operation soapAction="http://tempuri.org/ClassesByGuid" style="document" />
+    <wsdl:operation name="RelationTypesByRelationTypeGuid">
+      <soap:operation soapAction="http://tempuri.org/RelationTypesByRelationTypeGuid" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -174,8 +174,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="ClassesByName">
-      <soap:operation soapAction="http://tempuri.org/ClassesByName" style="document" />
+    <wsdl:operation name="RelationTypesByRelationTypeName">
+      <soap:operation soapAction="http://tempuri.org/RelationTypesByRelationTypeName" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -184,7 +184,7 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:binding name="OServiceClassesSoap12" type="tns:OServiceClassesSoap">
+  <wsdl:binding name="OServiceRelationTypesSoap12" type="tns:OServiceRelationTypesSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="Config">
       <soap12:operation soapAction="http://tempuri.org/Config" style="document" />
@@ -195,8 +195,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Classes">
-      <soap12:operation soapAction="http://tempuri.org/Classes" style="document" />
+    <wsdl:operation name="RelationTypes">
+      <soap12:operation soapAction="http://tempuri.org/RelationTypes" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -204,8 +204,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="ClassesByGuid">
-      <soap12:operation soapAction="http://tempuri.org/ClassesByGuid" style="document" />
+    <wsdl:operation name="RelationTypesByRelationTypeGuid">
+      <soap12:operation soapAction="http://tempuri.org/RelationTypesByRelationTypeGuid" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -213,8 +213,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="ClassesByName">
-      <soap12:operation soapAction="http://tempuri.org/ClassesByName" style="document" />
+    <wsdl:operation name="RelationTypesByRelationTypeName">
+      <soap12:operation soapAction="http://tempuri.org/RelationTypesByRelationTypeName" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -223,12 +223,12 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:service name="OServiceClasses">
-    <wsdl:port name="OServiceClassesSoap" binding="tns:OServiceClassesSoap">
-      <soap:address location="http://localhost/OntWeb/OServiceClasses.asmx" />
+  <wsdl:service name="OServiceRelationTypes">
+    <wsdl:port name="OServiceRelationTypesSoap" binding="tns:OServiceRelationTypesSoap">
+      <soap:address location="http://localhost:65493/OServiceRelationTypes.asmx" />
     </wsdl:port>
-    <wsdl:port name="OServiceClassesSoap12" binding="tns:OServiceClassesSoap12">
-      <soap12:address location="http://localhost/OntWeb/OServiceClasses.asmx" />
+    <wsdl:port name="OServiceRelationTypesSoap12" binding="tns:OServiceRelationTypesSoap12">
+      <soap12:address location="http://localhost:65493/OServiceRelationTypes.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

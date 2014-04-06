@@ -13,19 +13,21 @@ namespace WpfOnt.ViewModel
     {
         public MainViewData MainData { get; set; }
 
+        private string idClass;
+
         public MainWindowModel()
         {
             MainData = new MainViewData();
         }
-        //public clsOntologyItem ParentClass
-        //{
-        //    get { return parentClass; }
-        //    set
-        //    {
-        //        parentClass = value;
-        //        OnPropertyChanged("ItemList");
-        //    }
-        //}
-        
+
+        public string IdClass
+        {
+            get { return idClass; }
+            set
+            {
+                idClass = value;
+                OnPropertyChanged("IdClass");
+            }
+        }
     }
 }

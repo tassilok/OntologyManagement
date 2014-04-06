@@ -22,6 +22,8 @@ Public Class UserControl_MediaItemList
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFrm_FileSystemManagement As frm_FilesystemModule
 
+    Private objFrmListEdit As frmMediaModule_ListEdit
+
     Private objFileBlobSync As clsFileBlobSync
 
     Private objOItem_Ref As clsOntologyItem
@@ -347,6 +349,9 @@ Public Class UserControl_MediaItemList
         objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
         objFileWork = New clsFileWork(objLocalConfig.Globals)
         objFileBlobSync = New clsFileBlobSync(objLocalConfig.Globals, objLocalConfig.OItem_User)
+
+        ToolStripButton_Relate.Enabled = False
+
         configure_Controls()
     End Sub
 
@@ -432,6 +437,10 @@ Public Class UserControl_MediaItemList
                 ToolStripButton_Bookmarks.Enabled = True
                 ToolStripButton_Replace.Enabled = True
                 ToolStripButton_Meta.Enabled = True
+            End If
+
+            If DataGridView_MediaItems.RowCount > 0 Then
+                ToolStripButton_Relate.Enabled = True
             End If
         Else
 
@@ -950,5 +959,10 @@ Public Class UserControl_MediaItemList
         End If
         
         
+    End Sub
+
+    Private Sub ToolStripButton_Relate_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Relate.Click
+        objFrmListEdit = New frmMediaModule_ListEdit(objLocalConfig, objLocalConfig.OItem_Type_Media_Item, objOItem_Ref)
+        objFrmListEdit.ShowDialog(Me)
     End Sub
 End Class

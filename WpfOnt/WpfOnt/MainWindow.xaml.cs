@@ -32,6 +32,7 @@ namespace WpfOnt
         {
             
             var model = (MainWindowModel) DataContext;
+            model.IdClass = otreenode.Name;
             model.MainData.IdClass = otreenode.Id;
             //model.ParentClass = oClass;
 

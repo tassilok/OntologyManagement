@@ -22,6 +22,8 @@ Public Class UserControl_ImageList
     Private objFrm_FileSystemManagement As frm_FilesystemModule
     Private objFileBlobSync As clsFileBlobSync
 
+    Private objFrmListEdit As frmMediaModule_ListEdit
+
     'Private objUserControl_ImageViewer As UserControl_ImageViewer
 
     Public Property objOItem_Relate As clsOntologyItem
@@ -257,6 +259,10 @@ Public Class UserControl_ImageList
 
             ToolStripLabel_Count.Text = DataGridView_Images.RowCount
             ToolStripButton_Open.Enabled = True
+
+            If DataGridView_Images.RowCount > 0 Then
+                ToolStripButton_Relate.Enabled = True
+            End If
         Else
 
             ToolStripProgressBar_Images.Value = 50
@@ -1106,5 +1112,13 @@ Public Class UserControl_ImageList
                 End If
             End If
         End If
+    End Sub
+
+    Private Sub ToolStripButton_Relate_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Relate.Click
+
+
+        objFrmListEdit = New frmMediaModule_ListEdit(objLocalConfig, objLocalConfig.OItem_Type_Images__Graphic_, objOItem_Ref)
+        objFrmListEdit.ShowDialog(Me)
+
     End Sub
 End Class

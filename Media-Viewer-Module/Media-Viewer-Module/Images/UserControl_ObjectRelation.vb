@@ -190,8 +190,6 @@ Public Class UserControl_ObjectRelation
                             objOItem_Result = objTransaction.do_Transaction(objORel_ImageObject_To_Object)
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                 objORel_ImageObject_To_Object.Name_Other = objOItem_Object.Name
-                                objDataWork_Images.OList_ImageObjects.Add(objORel_ImageObject_To_Object)
-                                objDataWork_Images.OList_ImageObjects.Add(objORel_ImageObject_To_Image)
                                 intDone = intDone + 1
                             Else
                                 objTransaction.rollback()

@@ -60,7 +60,7 @@ Partial Class UserControl_ObjectRelation
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.DataGridView_RelatedOfImage)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(206, 431)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(198, 431)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.LeftToolStripPanelVisible = False
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
@@ -83,7 +83,7 @@ Partial Class UserControl_ObjectRelation
         Me.DataGridView_RelatedOfImage.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_RelatedOfImage.Name = "DataGridView_RelatedOfImage"
         Me.DataGridView_RelatedOfImage.ReadOnly = True
-        Me.DataGridView_RelatedOfImage.Size = New System.Drawing.Size(206, 431)
+        Me.DataGridView_RelatedOfImage.Size = New System.Drawing.Size(198, 431)
         Me.DataGridView_RelatedOfImage.TabIndex = 0
         '
         'ToolStrip1
@@ -92,7 +92,7 @@ Partial Class UserControl_ObjectRelation
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_NoObjects, Me.ToolStripButton_FromList, Me.ToolStripButton_ToList})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 3)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(24, 80)
+        Me.ToolStrip1.Size = New System.Drawing.Size(32, 99)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_NoObjects

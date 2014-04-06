@@ -67,6 +67,7 @@ Public Class clsLocalConfig
     Private objOItem_RelationType_started_with As New clsOntologyItem
     Private objOItem_RelationType_taking_at As New clsOntologyItem
     Private objOItem_RelationType_wasCreatedBy As New clsOntologyItem
+    Private objOItem_relationtype_belonging As clsOntologyItem
 
     'Objects
     Private objOItem_Token_Extensions_Image As New clsOntologyItem
@@ -98,6 +99,7 @@ Public Class clsLocalConfig
     Private objOItem_Token_XML_Windows_Playlist_1_0_mediasrc As New clsOntologyItem
 
     'Classes
+    Private objOItem_class_media_item_objects As clsOntologyItem
     Private objOItem_Type_Album As New clsOntologyItem
     Private objOItem_Type_Band As New clsOntologyItem
     Private objOItem_Type_Bauwerke As New clsOntologyItem
@@ -300,6 +302,12 @@ Public Class clsLocalConfig
 
 
     'RelationTypes
+    Public ReadOnly Property OItem_relationtype_belonging As clsOntologyItem
+        Get
+            Return objOItem_relationtype_belonging
+        End Get
+    End Property
+
     Public ReadOnly Property OItem_RelationType_Artist() As clsOntologyItem
         Get
             Return objOItem_RelationType_Artist
@@ -585,6 +593,13 @@ Public Class clsLocalConfig
     Public ReadOnly Property OItem_Token_XML_Windows_Playlist_1_0_mediasrc() As clsOntologyItem
         Get
             Return objOItem_Token_XML_Windows_Playlist_1_0_mediasrc
+        End Get
+    End Property
+
+    'Classes
+    Public ReadOnly Property OItem_class_media_item_objects As clsOntologyItem
+        Get
+            Return objOItem_class_media_item_objects
         End Get
     End Property
 
@@ -1035,6 +1050,22 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_RelationTypes()
+        Dim objOList_relationtype_belonging = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_belonging".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                           Select objRef).ToList()
+
+        If objOList_relationtype_belonging.Count > 0 Then
+            objOItem_relationtype_belonging = New clsOntologyItem
+            objOItem_relationtype_belonging.GUID = objOList_relationtype_belonging.First().ID_Other
+            objOItem_relationtype_belonging.Name = objOList_relationtype_belonging.First().Name_Other
+            objOItem_relationtype_belonging.GUID_Parent = objOList_relationtype_belonging.First().ID_Parent_Other
+            objOItem_relationtype_belonging.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_relationtype_artist = From obj In objDBLevel_Config2.OList_ObjectRel
                           Where obj.Name_Object.ToLower = "relationtype_artist" And obj.Ontology = objGlobals.Type_RelationType
 
@@ -1646,6 +1677,22 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Classes()
+        Dim objOList_class_media_item_objects = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "class_media_item_objects".ToLower() And objRef.Ontology = objGlobals.Type_Class
+                                           Select objRef).ToList()
+
+        If objOList_class_media_item_objects.Count > 0 Then
+            objOItem_class_media_item_objects = New clsOntologyItem
+            objOItem_class_media_item_objects.GUID = objOList_class_media_item_objects.First().ID_Other
+            objOItem_class_media_item_objects.Name = objOList_class_media_item_objects.First().Name_Other
+            objOItem_class_media_item_objects.GUID_Parent = objOList_class_media_item_objects.First().ID_Parent_Other
+            objOItem_class_media_item_objects.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_type_album = From obj In objDBLevel_Config2.OList_ObjectRel
                           Where obj.Name_Object.ToLower = "type_album" And obj.Ontology = objGlobals.Type_Class
 
