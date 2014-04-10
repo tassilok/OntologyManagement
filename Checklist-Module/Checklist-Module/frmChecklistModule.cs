@@ -53,12 +53,13 @@ namespace Checklist_Module
             objDataWork_Checklists = new clsDataWork_Checklists(objLocalConfig);
             if (objLocalConfig.User == null)
             {
-                objAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, false, frmAuthenticate.ERelateMode.NoRelate);
+                objAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, true, frmAuthenticate.ERelateMode.User_To_Group);
                 objAuthenticate.ShowDialog(this);
                 if (objAuthenticate.DialogResult == DialogResult.OK)
                 {
                     boolOpen = true;
                     objLocalConfig.User = objAuthenticate.OItem_User;
+                    objLocalConfig.Group = objAuthenticate.OItem_Group;
                 }
             }
                 

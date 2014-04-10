@@ -45,6 +45,7 @@ namespace Checklist_Module
         public clsOntologyItem OItem_relationtype_is_in_state { get; set; }
 
 public clsOntologyItem User { get; set; }
+public clsOntologyItem Group { get; set; }
 	
 private void get_Data_DevelopmentConfig()
         {

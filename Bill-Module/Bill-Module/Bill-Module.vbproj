@@ -113,6 +113,12 @@
       <DependentUpon>frmBillModule.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmCategory.Designer.vb">
+      <DependentUpon>frmCategory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmCategory.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -146,6 +152,12 @@
     <Compile Include="UserControl_Documents.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControl_FinancialTransactionList.Designer.vb">
+      <DependentUpon>UserControl_FinancialTransactionList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_FinancialTransactionList.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl_RelatedFinTran.Designer.vb">
       <DependentUpon>UserControl_RelatedFinTran.vb</DependentUpon>
     </Compile>
@@ -166,6 +178,9 @@
     <EmbeddedResource Include="frmBillModule.resx">
       <DependentUpon>frmBillModule.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmCategory.resx">
+      <DependentUpon>frmCategory.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -180,6 +195,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_Documents.resx">
       <DependentUpon>UserControl_Documents.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_FinancialTransactionList.resx">
+      <DependentUpon>UserControl_FinancialTransactionList.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_RelatedFinTran.resx">
       <DependentUpon>UserControl_RelatedFinTran.vb</DependentUpon>

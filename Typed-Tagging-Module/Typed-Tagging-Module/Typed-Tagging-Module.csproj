@@ -47,11 +47,19 @@
     <Compile Include="clsDataWork_Tagging.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="clsTabControl.cs" />
+    <Compile Include="clsTransaction_Tagging.cs" />
+    <Compile Include="clsTypedTag.cs" />
     <Compile Include="frmTypedTaggingModule.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmTypedTaggingModule.Designer.cs">
       <DependentUpon>frmTypedTaggingModule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTypedTaggingSingle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTypedTaggingSingle.Designer.cs">
+      <DependentUpon>frmTypedTaggingSingle.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,6 +77,9 @@
     </Compile>
     <EmbeddedResource Include="frmTypedTaggingModule.resx">
       <DependentUpon>frmTypedTaggingModule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTypedTaggingSingle.resx">
+      <DependentUpon>frmTypedTaggingSingle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -150,11 +150,11 @@ namespace Typed_Tagging_Module
                                 objOItem_Result = objTransaction.do_Transaction(objORel_Tag_To_TaggingDest);
                                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                 {
-                                    var objORel_Tag_To_User = objRelationConfig.Rel_ObjectRelation(objOItem_Tag, objLocalConfig.OItem_class_user, objLocalConfig.OItem_relationtype_belongs_to);
+                                    var objORel_Tag_To_User = objRelationConfig.Rel_ObjectRelation(objOItem_Tag, objLocalConfig.OItem_User, objLocalConfig.OItem_relationtype_belongs_to);
                                     objOItem_Result = objTransaction.do_Transaction(objORel_Tag_To_User);
                                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                     {
-                                        var objORel_Tag_To_Group = objRelationConfig.Rel_ObjectRelation(objOItem_Tag, objLocalConfig.OItem_class_group, objLocalConfig.OItem_relationtype_belongs_to);
+                                        var objORel_Tag_To_Group = objRelationConfig.Rel_ObjectRelation(objOItem_Tag, objLocalConfig.OItem_Group, objLocalConfig.OItem_relationtype_belongs_to);
                                         objOItem_Result = objTransaction.do_Transaction(objORel_Tag_To_Group);
                                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                         {
@@ -202,7 +202,7 @@ namespace Typed_Tagging_Module
 
         private void dataGridView_Tags_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            clsOntologyItem objTaggingDest = (clsOntologyItem) dataGridView_Tags.SelectedRows[e.RowIndex].DataBoundItem;
+            clsOntologyItem objTaggingDest = (clsOntologyItem) dataGridView_Tags.SelectedRows[0].DataBoundItem;
 
             objFrmObjectEdit = new frm_ObjectEdit(objLocalConfig.Globals,
                 new List<clsOntologyItem> { objTaggingDest },

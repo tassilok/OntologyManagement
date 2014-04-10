@@ -1,19 +1,24 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
+Imports Typed_Tagging_Module
 
 Public Class frmMediaModule_ListEdit
     Private WithEvents objUserControl_MediaList As UserControl_OItemList
-    Private WithEvents objUserControl_ImageRelation As UserControl_ImageRelation
-    Private WithEvents objUserControl_MediaItemRelation As UserControl_MediaItemRelation
+    Private WithEvents objUserControl_TaggingContainer As UserControl_TaggingContainer
 
-    Private objDatawork_Images As clsDataWork_Images
-    Private objDataWork_MediaItems As clsDataWork_MediaItem
+    Private WithEvents objUserControl_SingleViewer As UserControl_SingleViewer
+
+    Private objDataWork_Tagging As clsDataWork_Tagging
+
+    Private objMediaItems As clsMediaItems
 
     Private objLocalConfig As clsLocalConfig
 
     Private objOItem_MediaType As clsOntologyItem
 
     Private objOItem_Ref As clsOntologyItem
+
+    Private TypedTags As List(Of clsTypedTag)
 
     Private Sub SelectedRow() Handles objUserControl_MediaList.Selection_Changed
         Dim objOitem_MediaItem As clsOntologyItem = Nothing
@@ -32,17 +37,38 @@ Public Class frmMediaModule_ListEdit
                                                        .Type = objLocalConfig.Globals.Type_Object}
             End If
             
+            objUserControl_TaggingContainer.Initialize_Taging(objOitem_MediaItem)
 
-            Select Case objOItem_MediaType.GUID
-                Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
-                    If Not objDatawork_Images.ImageObjectLoaded Then
-                        objDatawork_Images.GetDataObjectsOfImages()
-                    End If
-                    objUserControl_ImageRelation.Initialize_Image(objOitem_MediaItem)
+            Dim objOItem_MultiMediaItem = objMediaItems.Get_MultiMediaItem(objOitem_MediaItem)
 
-                Case objLocalConfig.OItem_Type_Media_Item.GUID
-                    objUserControl_MediaItemRelation.Initialize_MediaItem(objOitem_MediaItem)
-            End Select
+            If Not objOItem_MultiMediaItem Is Nothing Then
+                Select Case objOItem_MediaType.GUID
+                    Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+
+
+                        objUserControl_SingleViewer.initialize_Image(objOitem_MediaItem, New clsOntologyItem With { _
+                                                                     .GUID = objOItem_MultiMediaItem.ID_File, _
+                                                                     .Name = objOItem_MultiMediaItem.Name_File, _
+                                                                     .GUID_Parent = objOItem_MultiMediaItem.ID_Parent_File}, _
+                                                                     If(objOItem_MultiMediaItem.OACreate Is Nothing, Now, objOItem_MultiMediaItem.OACreate.Val_Date))
+                    Case objLocalConfig.OItem_Type_Media_Item.GUID
+                        objUserControl_SingleViewer.initialize_MediaItem(objOitem_MediaItem, New clsOntologyItem With { _
+                                                                     .GUID = objOItem_MultiMediaItem.ID_File, _
+                                                                     .Name = objOItem_MultiMediaItem.Name_File, _
+                                                                     .GUID_Parent = objOItem_MultiMediaItem.ID_Parent_File}, _
+                                                                     If(objOItem_MultiMediaItem.OACreate Is Nothing, Now, objOItem_MultiMediaItem.OACreate.Val_Date))
+                    Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+
+                        objUserControl_SingleViewer.initialize_PDF(objOitem_MediaItem, New clsOntologyItem With { _
+                                                                     .GUID = objOItem_MultiMediaItem.ID_File, _
+                                                                     .Name = objOItem_MultiMediaItem.Name_File, _
+                                                                     .GUID_Parent = objOItem_MultiMediaItem.ID_Parent_File})
+
+                End Select
+            Else
+                MsgBox("Leider ist beim Ermitteln der Daten ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+            End If
+            
         End If
 
         
@@ -75,30 +101,20 @@ Public Class frmMediaModule_ListEdit
         Initialize()
     End Sub
     Private Sub Initialize()
+        objMediaItems = New clsMediaItems(objLocalConfig)
 
-
-
+        objDataWork_Tagging = New clsDataWork_Tagging(objLocalConfig.Globals, objLocalConfig.OItem_User, objLocalConfig.OItem_Group)
         objUserControl_MediaList = New UserControl_OItemList(objLocalConfig.Globals)
         objUserControl_MediaList.Dock = DockStyle.Fill
         SplitContainer1.Panel1.Controls.Add(objUserControl_MediaList)
 
-        Select Case objOItem_MediaType.GUID
-            Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
-                objDatawork_Images = New clsDataWork_Images(objLocalConfig)
-                objUserControl_ImageRelation = New UserControl_ImageRelation(objLocalConfig, objDatawork_Images)
-                objUserControl_ImageRelation.Dock = DockStyle.Fill
-                SplitContainer1.Panel2.Controls.Add(objUserControl_ImageRelation)
+        objUserControl_TaggingContainer = New UserControl_TaggingContainer(objLocalConfig.Globals, objLocalConfig.OItem_User, objLocalConfig.OItem_Group)
+        objUserControl_TaggingContainer.Dock = DockStyle.Fill
+        TabPage_Tagging.Controls.Add(objUserControl_TaggingContainer)
 
-            Case objLocalConfig.OItem_Type_Media_Item.GUID
-                objDataWork_MediaItems = New clsDataWork_MediaItem(objLocalConfig)
-                objUserControl_MediaItemRelation = New UserControl_MediaItemRelation(objLocalConfig, objDataWork_MediaItems)
-                objUserControl_MediaItemRelation.Dock = DockStyle.Fill
-                SplitContainer1.Panel2.Controls.Add(objUserControl_MediaItemRelation)
-
-            Case objLocalConfig.OItem_Type_PDF_Documents.GUID
-
-        End Select
-        
+        objUserControl_SingleViewer = New UserControl_SingleViewer(objLocalConfig, objOItem_MediaType)
+        objUserControl_SingleViewer.Dock = DockStyle.Fill
+        TabPage_Media.Controls.Add(objUserControl_SingleViewer)
 
         If objOItem_Ref Is Nothing Then
             objUserControl_MediaList.initialize(New clsOntologyItem With {.GUID_Parent = objOItem_MediaType.GUID, .Type = objLocalConfig.Globals.Type_Object})
@@ -110,96 +126,125 @@ Public Class frmMediaModule_ListEdit
                                                 objLocalConfig.OItem_RelationType_belongsTo, _
                                                 True)
         End If
-
-
-
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone
+        
     End Sub
 
     Private Sub ToolStripButton_FilterItem_Click(sender As Object, e As EventArgs) Handles ToolStripButton_FilterItem.Click
-        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Error.Clone
 
         Select Case objOItem_MediaType.GUID
             Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
-                If Not objDatawork_Images.ImageObjectLoaded Then
-                    objOItem_Result = objDatawork_Images.GetDataObjectsOfImages()
-                Else
-                    objOItem_Result = objLocalConfig.Globals.LState_Success.Clone
-                End If
-
-                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    Dim objOList_ImageObjects = objDatawork_Images.OList_ImageObjects()
-                    Dim ImageRows = (From T In objUserControl_MediaList.DataGridviewRows.Cast(Of DataGridViewRow)()).ToList
-
-                    Dim OList_ImagesWithNoObjects = (From objImage In ImageRows
-                                                     Join objImageObject In objOList_ImageObjects On objImage.Cells("ID_Item").Value Equals objImageObject.ID_Other
-                                                     Select objImage).ToList()
-
-                    For Each objImage In OList_ImagesWithNoObjects
-                        For i As Integer = 0 To objUserControl_MediaList.ColumnList.Count - 1
-                            If objUserControl_MediaList.ColumnList(i).Visible = True Then
-                                objUserControl_MediaList.DataGridviewRows(objImage.Index).Cells(i).Style.BackColor = Color.Green
-                            End If
-
-                        Next
-
-                    Next
-
-                Else
-                    MsgBox("Die Fotos können nicht gefiltert werden!", MsgBoxStyle.Exclamation)
-                End If
+                objOItem_Result = objDataWork_Tagging.GetTagsOfTaggingSource(New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                                                                       .Type = objLocalConfig.Globals.Type_Object})
+               
+                
             Case objLocalConfig.OItem_Type_Media_Item.GUID
-
+                objOItem_Result = objDataWork_Tagging.GetTagsOfTaggingSource(New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID, _
+                                                                                                       .Type = objLocalConfig.Globals.Type_Object})
+            Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+                objOItem_Result = objDataWork_Tagging.GetTagsOfTaggingSource(New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Type_PDF_Documents.GUID, _
+                                                                                                       .Type = objLocalConfig.Globals.Type_Object})
         End Select
         
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            TypedTags = objDataWork_Tagging.TypedTags
+            Dim ItemRows = (From T In objUserControl_MediaList.DataGridviewRows.Cast(Of DataGridViewRow)()).ToList
 
+            Dim OList_ItemsWithNoObjects = (From objItem In ItemRows
+                                             Join objTag In TypedTags On objItem.Cells(objUserControl_MediaList.RowName_GUID).Value Equals objTag.ID_TaggingSource
+                                             Select objItem).ToList()
+
+            For Each objImage In OList_ItemsWithNoObjects
+                For i As Integer = 0 To objUserControl_MediaList.ColumnList.Count - 1
+                    If objUserControl_MediaList.ColumnList(i).Visible = True Then
+                        objUserControl_MediaList.DataGridviewRows(objImage.Index).Cells(i).Style.BackColor = Color.Green
+                    End If
+
+                Next
+
+            Next
+
+        Else
+            MsgBox("Die Items können nicht gefiltert werden!", MsgBoxStyle.Exclamation)
+        End If
     End Sub
 
     Private Sub ToolStripButton_ToNext_Colored_Click(sender As Object, e As EventArgs) Handles ToolStripButton_ToNext_Colored.Click
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Error.Clone
+
         Select Case objOItem_MediaType.GUID
             Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
-                Dim lngRowIndex = objUserControl_MediaList.SelectedRowIndex
-                Dim objOList_ImageObjects = objDatawork_Images.OList_ImageObjects()
+                objOItem_Result = objDataWork_Tagging.GetTagsOfTaggingSource(New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                                                                       .Type = objLocalConfig.Globals.Type_Object})
 
-                Dim ImageRows = (From T In objUserControl_MediaList.DataGridviewRows.Cast(Of DataGridViewRow)()).ToList()
-
-                Dim OList_ImagesWithNoObjects = (From objImage In ImageRows
-                                                    Join objImageObject In objOList_ImageObjects On objImage.Cells("ID_Item").Value Equals objImageObject.ID_Other
-                                                    Select objImage).Where(Function(p) p.Index > lngRowIndex).OrderBy(Function(p) p.Index).ToList()
-
-                If OList_ImagesWithNoObjects.Any() Then
-                    objUserControl_MediaList.select_Row(OList_ImagesWithNoObjects.First().Index)
-
-                End If
 
             Case objLocalConfig.OItem_Type_Media_Item.GUID
-
+                objOItem_Result = objDataWork_Tagging.GetTagsOfTaggingSource(New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID, _
+                                                                                                       .Type = objLocalConfig.Globals.Type_Object})
+            Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+                objOItem_Result = objDataWork_Tagging.GetTagsOfTaggingSource(New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Type_PDF_Documents.GUID, _
+                                                                                                       .Type = objLocalConfig.Globals.Type_Object})
         End Select
-        
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim lngRowIndex = objUserControl_MediaList.SelectedRowIndex
+            TypedTags = objDataWork_Tagging.TypedTags
+
+            Dim ItemRows = (From T In objUserControl_MediaList.DataGridviewRows.Cast(Of DataGridViewRow)()).ToList()
+
+            Dim OList_ItemsWithNoObjects = (From objItem In ItemRows
+                                         Join objTag In TypedTags On objItem.Cells(objUserControl_MediaList.RowName_GUID).Value Equals objTag.ID_TaggingSource
+                                         Select objItem).ToList()
+
+            If OList_ItemsWithNoObjects.Any() Then
+                objUserControl_MediaList.select_Row(OList_ItemsWithNoObjects.First().Index)
+
+            End If
+        Else
+            MsgBox("Die Items können nicht gefiltert werden!", MsgBoxStyle.Exclamation)
+        End If
+
 
     End Sub
 
     Private Sub ToolStripButton_ToNext_NoColor_Click(sender As Object, e As EventArgs) Handles ToolStripButton_ToNext_NoColor.Click
-        Select objOItem_MediaType.GUID
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Error.Clone
+
+        Select Case objOItem_MediaType.GUID
             Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
-                Dim lngRowIndex = objUserControl_MediaList.SelectedRowIndex
-                Dim objOList_ImageObjects = objDatawork_Images.OList_ImageObjects()
+                objOItem_Result = objDataWork_Tagging.GetTagsOfTaggingSource(New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                                                                       .Type = objLocalConfig.Globals.Type_Object})
 
-                Dim ImageRows = (From T In objUserControl_MediaList.DataGridviewRows.Cast(Of DataGridViewRow)()).ToList()
 
-                Dim OList_ImagesWithNoObjects = (From objImage In ImageRows
-                                                    Group Join objImageObject In objOList_ImageObjects On objImage.Cells("ID_Item").Value Equals objImageObject.ID_Other Into objImageObjects = Group
-                                                    From objImageObject In objImageObjects.DefaultIfEmpty()
-                                                    Where objImageObject Is Nothing
-                                                    Select objImage).Where(Function(p) p.Index > lngRowIndex).OrderBy(Function(p) p.Index).ToList()
-
-                If OList_ImagesWithNoObjects.Any() Then
-                    objUserControl_MediaList.select_Row(OList_ImagesWithNoObjects.First().Index)
-
-                End If
             Case objLocalConfig.OItem_Type_Media_Item.GUID
-
+                objOItem_Result = objDataWork_Tagging.GetTagsOfTaggingSource(New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID, _
+                                                                                                       .Type = objLocalConfig.Globals.Type_Object})
+            Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+                objOItem_Result = objDataWork_Tagging.GetTagsOfTaggingSource(New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Type_PDF_Documents.GUID, _
+                                                                                                       .Type = objLocalConfig.Globals.Type_Object})
         End Select
 
-        
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim lngRowIndex = objUserControl_MediaList.SelectedRowIndex
+            TypedTags = objDataWork_Tagging.TypedTags
+
+            Dim ItemRows = (From T In objUserControl_MediaList.DataGridviewRows.Cast(Of DataGridViewRow)()).ToList()
+
+            Dim OList_ItemsWithNoObjects = (From objItem In ItemRows
+                                         Group Join objTag In TypedTags On objItem.Cells(objUserControl_MediaList.RowName_GUID).Value Equals objTag.ID_TaggingSource Into objTags = Group
+                                         From objTag In objTags.DefaultIfEmpty()
+                                         Where objTag Is Nothing
+                                         Select objItem).ToList()
+
+            If OList_ItemsWithNoObjects.Any() Then
+                objUserControl_MediaList.select_Row(OList_ItemsWithNoObjects.First().Index)
+
+            End If
+        Else
+            MsgBox("Die Items können nicht gefiltert werden!", MsgBoxStyle.Exclamation)
+        End If
+
+
     End Sub
 End Class

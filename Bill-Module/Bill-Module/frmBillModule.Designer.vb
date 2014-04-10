@@ -33,11 +33,12 @@ Partial Class frmBillModule
         Me.TabPage_TransactionDetails = New System.Windows.Forms.TabPage()
         Me.TabPage_Documents = New System.Windows.Forms.TabPage()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.ToolStripMenuItem_Tools = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ArchiveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripMenuItem_Tools = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ArchiveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CategoriesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -147,6 +148,19 @@ Partial Class frmBillModule
         Me.MenuStrip1.TabIndex = 1
         Me.MenuStrip1.Text = "MenuStrip1"
         '
+        'ToolStripMenuItem_Tools
+        '
+        Me.ToolStripMenuItem_Tools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArchiveToolStripMenuItem, Me.CategoriesToolStripMenuItem})
+        Me.ToolStripMenuItem_Tools.Name = "ToolStripMenuItem_Tools"
+        Me.ToolStripMenuItem_Tools.Size = New System.Drawing.Size(58, 20)
+        Me.ToolStripMenuItem_Tools.Text = "x_&Tools"
+        '
+        'ArchiveToolStripMenuItem
+        '
+        Me.ArchiveToolStripMenuItem.Name = "ArchiveToolStripMenuItem"
+        Me.ArchiveToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ArchiveToolStripMenuItem.Text = "x_Archive"
+        '
         'HilfeToolStripMenuItem
         '
         Me.HilfeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoToolStripMenuItem})
@@ -157,7 +171,7 @@ Partial Class frmBillModule
         'InfoToolStripMenuItem
         '
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(95, 22)
         Me.InfoToolStripMenuItem.Text = "&Info"
         '
         'ToolStripButton_Close
@@ -169,18 +183,11 @@ Partial Class frmBillModule
         Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Close.Text = "x_Close"
         '
-        'ToolStripMenuItem_Tools
+        'CategoriesToolStripMenuItem
         '
-        Me.ToolStripMenuItem_Tools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArchiveToolStripMenuItem})
-        Me.ToolStripMenuItem_Tools.Name = "ToolStripMenuItem_Tools"
-        Me.ToolStripMenuItem_Tools.Size = New System.Drawing.Size(58, 20)
-        Me.ToolStripMenuItem_Tools.Text = "x_&Tools"
-        '
-        'ArchiveToolStripMenuItem
-        '
-        Me.ArchiveToolStripMenuItem.Name = "ArchiveToolStripMenuItem"
-        Me.ArchiveToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.ArchiveToolStripMenuItem.Text = "x_Archive"
+        Me.CategoriesToolStripMenuItem.Name = "CategoriesToolStripMenuItem"
+        Me.CategoriesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.CategoriesToolStripMenuItem.Text = "x_Categories"
         '
         'frmBillModule
         '
@@ -225,5 +232,6 @@ Partial Class frmBillModule
     Friend WithEvents InfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem_Tools As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ArchiveToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CategoriesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

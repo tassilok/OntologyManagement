@@ -480,6 +480,18 @@ Public Class clsReport
         finalizeA_Tables.GetData(objLocalConfig.Globals.Type_Class)
     End Sub
 
+    Public Sub sync_SQLDB_AttributeTypes()
+
+    End Sub
+
+    Public Sub sync_SQLDB_RelationTypes()
+
+    End Sub
+
+    Public Sub sync_SQLDB_Classes()
+
+    End Sub
+
     Public Sub New(ByVal Globals As clsGlobals)
         objLocalConfig = New clsLocalConfig(Globals)
 

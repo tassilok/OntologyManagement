@@ -53,7 +53,7 @@ namespace Checklist_Module
         private void Initialize()
         {
             objDataWork_LogEntry = new clsDataWork_LogEntry(objLocalConfig.Globals);
-            objUserControl_Report = new UserControl_Report(objLocalConfig.Globals, objLocalConfig.User);
+            objUserControl_Report = new UserControl_Report(objLocalConfig.Globals, objLocalConfig.User, objLocalConfig.Group);
             objUserControl_Report.initialize(objOItem_Report);
             objUserControl_Report.Dock = DockStyle.Fill;
             objUserControl_Report.DataLoaded += objUserControl_Report_DataLoaded;

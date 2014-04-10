@@ -27,6 +27,7 @@ Public Class clsLocalConfig
 
     Private objOItem_DevConfig As New clsOntologyItem
     Private objOItem_User As clsOntologyItem
+    Private objOItem_Group As clsOntologyItem
 
     Private objDBLevel_Config1 As clsDBLevel
     Private objDBLevel_Config2 As clsDBLevel
@@ -814,6 +815,15 @@ Public Class clsLocalConfig
         End Get
         Set(ByVal value As clsOntologyItem)
             objOItem_User = value
+        End Set
+    End Property
+
+    Public Property OItem_Group As clsOntologyItem
+        Get
+            Return objOItem_Group
+        End Get
+        Set(value As clsOntologyItem)
+            objOItem_Group = value
         End Set
     End Property
 

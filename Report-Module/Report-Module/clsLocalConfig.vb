@@ -108,6 +108,7 @@ Public Class clsLocalConfig
     Private objOItem_Class_Ontology_Item As New clsOntologyItem
 
     Private objOItem_User As clsOntologyItem
+    Private objOItem_Group As clsOntologyItem
 
     Private strFilter As String
     Private intFilter As Integer
@@ -146,6 +147,15 @@ Public Class clsLocalConfig
         End Get
         Set(value As clsOntologyItem)
             objOItem_User = value
+        End Set
+    End Property
+
+    Public Property Group As clsOntologyItem
+        Get
+            Return objOItem_Group
+        End Get
+        Set(value As clsOntologyItem)
+            objOItem_Group = value
         End Set
     End Property
     

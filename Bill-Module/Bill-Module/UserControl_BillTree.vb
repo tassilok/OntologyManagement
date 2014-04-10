@@ -23,6 +23,14 @@ Public Class UserControl_BillTree
 
     Public Event selected_FinancialTransactions(ByVal OItem_FinancialTransaction)
 
+    Public Sub Select_Node(OItem_FinancialTransaction As clsOntologyItem)
+        Dim objTreeNodes = TreeView_Transactions.Nodes.Find(OItem_FinancialTransaction.GUID, True)
+        If objTreeNodes.Count > 0 Then
+            TreeView_Transactions.SelectedNode = objTreeNodes(0)
+        Else
+            MsgBox("Die finanzielle Transaktion kann nicht selektiert werden!", MsgBoxStyle.Exclamation)
+        End If
+    End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal DataWork_BaseConfig As clsDataWork_BaseConfig)
 

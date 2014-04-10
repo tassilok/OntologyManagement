@@ -8,6 +8,9 @@ Public Class frmBillModule
     Private WithEvents objUserControl_BillTree As UserControl_BillTree
     Private WithEvents objUserControl_TransactionDetail As UserControl_TransactionDetail
     Private WithEvents objUserControl_Documents As UserControl_Documents
+
+    Private WithEvents objFrm_Category As frmCategory
+
     Private objFrmArchive As frmArchive
     Private objFrmAuthenticate As frmAuthenticate
     Private objFrm_Name As frm_Name
@@ -15,6 +18,10 @@ Public Class frmBillModule
     Private AboutBox As AboutBox_OntologyItem
     Private objOItem_Open As clsOntologyItem
     Private objOItem_FinancialTransaction As clsOntologyItem
+
+    Private Sub SelectedTransaction(OItem_FinancialTransaction) Handles objFrm_Category.SelectedTransaction
+        objUserControl_BillTree.Select_Node(OItem_FinancialTransaction)
+    End Sub
 
     Private Sub new_Transaction(OItem_Partner As clsOntologyItem, boolContractee As Boolean, OItem_FinancialTransaction_Parent As clsOntologyItem) Handles objUserControl_BillTree.new_Transaction
         Dim objOItem_FinancialTransaction As clsOntologyItem
@@ -246,5 +253,12 @@ Public Class frmBillModule
     Private Sub ArchiveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ArchiveToolStripMenuItem.Click
         objFrmArchive = New frmArchive(objLocalConfig)
         objFrmArchive.ShowDialog(Me)
+    End Sub
+
+    Private Sub CategoriesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CategoriesToolStripMenuItem.Click
+        objFrm_Category = New frmCategory(objLocalConfig, objLocalConfig.OItem_Class_Financial_Transaction)
+        objFrm_Category.Show()
+
+
     End Sub
 End Class

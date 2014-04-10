@@ -258,6 +258,10 @@
       <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
       <Name>Structure-Module</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Typed-Tagging-Module\Typed-Tagging-Module\Typed-Tagging-Module.csproj">
+      <Project>{e558b18d-ae28-4eac-bff5-97ee5cda49eb}</Project>
+      <Name>Typed-Tagging-Module</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

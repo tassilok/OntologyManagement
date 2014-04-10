@@ -39,6 +39,7 @@ Public Class clsDataWork_Transaction
     Private objDBLevel_TransactionDate As clsDBLevel
     Private objDBLevel_Contractee As clsDBLevel
     Private objDBLevel_Contractor As clsDBLevel
+    Private objDBlevel_SemItems As clsDBLevel
 
     Private objOItem_FinancialTransaction As clsOntologyItem
 
@@ -498,6 +499,22 @@ Public Class clsDataWork_Transaction
                                                                                     boolIDs:=False)
     End Sub
 
+    Public Function GetSubData_SemItems(OItem_TransactionClass As clsOntologyItem) As List(Of clsObjectRel)
+
+        Dim objORel_Search = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = OItem_TransactionClass.GUID, _
+                                                                                    .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Sem_Item.GUID}}
+
+        Dim objOItem_Result = objDBlevel_SemItems.get_Data_ObjectRel(objORel_Search, boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Return objDBlevel_SemItems.OList_ObjectRel
+        Else
+            Return Nothing
+        End If
+
+
+    End Function
+
     Public Sub get_Data_TransactionDate()
         Dim objOList_TransactionDate As New List(Of clsObjectAtt)
 
@@ -652,5 +669,6 @@ Public Class clsDataWork_Transaction
         objDBLevel_Menge_Unit = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Menge_Value = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Transactions = New clsDBLevel(objLocalConfig.Globals)
+        objDBlevel_SemItems = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class

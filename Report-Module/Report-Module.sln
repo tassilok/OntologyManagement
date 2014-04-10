@@ -21,6 +21,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Log-Module", "..\Log-Module
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Office-Module", "..\Office-Module\Office-Module\Office-Module.csproj", "{E753813C-608C-4597-8883-78E9601EBB22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Typed-Tagging-Module", "..\Typed-Tagging-Module\Typed-Tagging-Module\Typed-Tagging-Module.csproj", "{E558B18D-AE28-4EAC-BFF5-97EE5CDA49EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,6 +133,16 @@ Global
 		{E753813C-608C-4597-8883-78E9601EBB22}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E753813C-608C-4597-8883-78E9601EBB22}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E753813C-608C-4597-8883-78E9601EBB22}.Release|x86.ActiveCfg = Release|Any CPU
+		{E558B18D-AE28-4EAC-BFF5-97EE5CDA49EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E558B18D-AE28-4EAC-BFF5-97EE5CDA49EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E558B18D-AE28-4EAC-BFF5-97EE5CDA49EB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E558B18D-AE28-4EAC-BFF5-97EE5CDA49EB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E558B18D-AE28-4EAC-BFF5-97EE5CDA49EB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E558B18D-AE28-4EAC-BFF5-97EE5CDA49EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E558B18D-AE28-4EAC-BFF5-97EE5CDA49EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E558B18D-AE28-4EAC-BFF5-97EE5CDA49EB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E558B18D-AE28-4EAC-BFF5-97EE5CDA49EB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E558B18D-AE28-4EAC-BFF5-97EE5CDA49EB}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

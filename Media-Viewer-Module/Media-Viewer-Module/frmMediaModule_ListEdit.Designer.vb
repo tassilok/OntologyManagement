@@ -26,6 +26,7 @@ Partial Class frmMediaModule_ListEdit
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripSplitButton_Mark = New System.Windows.Forms.ToolStripSplitButton()
         Me.MarkPersonsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -39,15 +40,19 @@ Partial Class frmMediaModule_ListEdit
         Me.ToolStripButton_ToNext_NoColor = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_ExportMarked = New System.Windows.Forms.ToolStripButton()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.TabPage_Media = New System.Windows.Forms.TabPage()
+        Me.TabPage_Tagging = New System.Windows.Forms.TabPage()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        Me.ToolStrip2.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        Me.ToolStrip2.SuspendLayout()
+        Me.TabControl1.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -90,13 +95,27 @@ Partial Class frmMediaModule_ListEdit
         Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Close.Text = "x_Close"
         '
+        'SplitContainer1
+        '
+        Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        '
+        'SplitContainer1.Panel2
+        '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.TabControl1)
+        Me.SplitContainer1.Size = New System.Drawing.Size(573, 395)
+        Me.SplitContainer1.SplitterDistance = 191
+        Me.SplitContainer1.TabIndex = 0
+        '
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripSplitButton_Mark, Me.ToolStripSeparator1, Me.ToolStripButton_FilterItem, Me.ToolStripButton_ToNext_Colored, Me.ToolStripButton_ToNext_NoColor, Me.ToolStripSeparator2, Me.ToolStripButton_ExportMarked})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(332, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(301, 25)
         Me.ToolStrip2.TabIndex = 1
         '
         'ToolStripSplitButton_Mark
@@ -185,15 +204,36 @@ Partial Class frmMediaModule_ListEdit
         Me.ToolStripButton_ExportMarked.Size = New System.Drawing.Size(97, 22)
         Me.ToolStripButton_ExportMarked.Text = "x_Export Marked"
         '
-        'SplitContainer1
+        'TabControl1
         '
-        Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Size = New System.Drawing.Size(573, 395)
-        Me.SplitContainer1.SplitterDistance = 191
-        Me.SplitContainer1.TabIndex = 0
+        Me.TabControl1.Controls.Add(Me.TabPage_Media)
+        Me.TabControl1.Controls.Add(Me.TabPage_Tagging)
+        Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControl1.Location = New System.Drawing.Point(0, 0)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(374, 391)
+        Me.TabControl1.TabIndex = 0
+        '
+        'TabPage_Media
+        '
+        Me.TabPage_Media.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage_Media.Name = "TabPage_Media"
+        Me.TabPage_Media.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage_Media.Size = New System.Drawing.Size(366, 365)
+        Me.TabPage_Media.TabIndex = 0
+        Me.TabPage_Media.Text = "x_Media"
+        Me.TabPage_Media.UseVisualStyleBackColor = True
+        '
+        'TabPage_Tagging
+        '
+        Me.TabPage_Tagging.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage_Tagging.Name = "TabPage_Tagging"
+        Me.TabPage_Tagging.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage_Tagging.Size = New System.Drawing.Size(366, 365)
+        Me.TabPage_Tagging.TabIndex = 1
+        Me.TabPage_Tagging.Text = "x_Tags"
+        Me.TabPage_Tagging.UseVisualStyleBackColor = True
         '
         'frmMediaModule_ListEdit
         '
@@ -212,10 +252,12 @@ Partial Class frmMediaModule_ListEdit
         Me.ToolStripContainer1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        Me.ToolStrip2.ResumeLayout(False)
-        Me.ToolStrip2.PerformLayout()
+        Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
+        Me.ToolStrip2.ResumeLayout(False)
+        Me.ToolStrip2.PerformLayout()
+        Me.TabControl1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -236,4 +278,7 @@ Partial Class frmMediaModule_ListEdit
     Friend WithEvents ToolStripButton_ToNext_NoColor As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripButton_ExportMarked As System.Windows.Forms.ToolStripButton
+    Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
+    Friend WithEvents TabPage_Media As System.Windows.Forms.TabPage
+    Friend WithEvents TabPage_Tagging As System.Windows.Forms.TabPage
 End Class

@@ -35,6 +35,17 @@ namespace Typed_Tagging_Module
             Initialize();
         }
 
+        public UserControl_TaggingContainer(clsGlobals Globals, clsOntologyItem OItem_User, clsOntologyItem OItem_Group)
+        {
+            InitializeComponent();
+
+            objLocalConfig = new clsLocalConfig(Globals);
+            objLocalConfig.OItem_User = OItem_User;
+            objLocalConfig.OItem_Group = OItem_Group;
+
+            Initialize();
+        }
+
         private void Initialize()
         {
 
@@ -113,11 +124,16 @@ namespace Typed_Tagging_Module
 
         private void Configure_TabPages()
         {
-            var selControls = TabControlList.Where(cl => cl.TabName == tabControl1.SelectedTab.Text).ToList();
-            if (selControls.Any())
+            if (tabControl1.TabPages.Count > 0)
             {
-                selControls.First().objUserControl_Tagging.Initialize_Tagging(objOItem_TaggingSource, objDataWork_Tagging, selControls.First().ClassItem);
+                var selControls = TabControlList.Where(cl => cl.TabName == tabControl1.SelectedTab.Text).ToList();
+                if (selControls.Any())
+                {
+                    selControls.First().objUserControl_Tagging.Initialize_Tagging(objOItem_TaggingSource, objDataWork_Tagging, selControls.First().ClassItem);
+                }
             }
+
+            
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -147,6 +163,8 @@ namespace Typed_Tagging_Module
                         {
                             MessageBox.Show(this, "Bitte nur eine Klasse auswählen!", "Eine Klasse.", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
+
+                        Configure_TabPages();
                     }
                     else
                     {

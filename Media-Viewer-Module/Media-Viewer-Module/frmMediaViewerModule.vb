@@ -276,8 +276,16 @@ Public Class frmMediaViewerModule
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(Globals)
         objLocalConfig.OItem_User = OItem_User
-        set_DBConnection()
-        initialize()
+        objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, False, True, frmAuthenticate.ERelateMode.NoRelate, True)
+        objFrmAuthenticate.ShowDialog(Me)
+        If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
+            objLocalConfig.OItem_Group = objFrmAuthenticate.OItem_Group
+            set_DBConnection()
+            initialize()
+        Else
+            Environment.Exit(-1)
+        End If
+        
     End Sub
 
     Public Sub Initilize_MediaItem(OItem_RefToSelect)
@@ -298,19 +306,26 @@ Public Class frmMediaViewerModule
         objUserControl_RefTree.Select_OItem(objOItem_OItemToSelect)
     End Sub
 
+    Private Sub MigrateImageObjects()
+        Dim objMigrateTagging = New clsMigrateTagging(objLocalConfig)
+        objMigrateTagging.Copy_ImageObjects()
+    End Sub
+
     Private Sub initialize()
+
         objOItem_Open = objLocalConfig.Globals.LState_Nothing
         If objLocalConfig.OItem_User Is Nothing Then
-            objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate, True)
+            objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, True, frmAuthenticate.ERelateMode.User_To_Group, True)
             objFrmAuthenticate.ShowDialog(Me)
             If objFrmAuthenticate.DialogResult = Windows.Forms.DialogResult.OK Then
                 objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User
-
+                objLocalConfig.OItem_Group = objFrmAuthenticate.OItem_Group
             End If
         End If
-        
 
-        If Not objLocalConfig.OItem_User Is Nothing Then
+
+        If Not objLocalConfig.OItem_User Is Nothing And Not objLocalConfig.OItem_Group Is Nothing Then
+            'MigrateImageObjects()
             objOItem_Open = objLocalConfig.Globals.LState_Success
 
             objUserControl_RefTree = New UserControl_RefTree(objLocalConfig)

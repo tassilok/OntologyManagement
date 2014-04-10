@@ -95,6 +95,7 @@ Partial Class UserControl_Report
         Me.Timer_Data = New System.Windows.Forms.Timer(Me.components)
         Me.Timer_Sync = New System.Windows.Forms.Timer(Me.components)
         Me.BindingSource_Reports = New System.Windows.Forms.BindingSource(Me.components)
+        Me.XTypedTagsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.DataGridView_Reports, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip_Reports.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
@@ -125,13 +126,13 @@ Partial Class UserControl_Report
         '
         Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FilesToolStripMenuItem, Me.EditToolStripMenuItem, Me.FilterToolStripMenuItem, Me.LoggingToolStripMenuItem, Me.MediaToolStripMenuItem})
         Me.ContextMenuStrip_Reports.Name = "ContextMenuStrip_Reports"
-        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(129, 114)
+        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(153, 136)
         '
         'FilesToolStripMenuItem
         '
         Me.FilesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.CopyPathToolStripMenuItem})
         Me.FilesToolStripMenuItem.Name = "FilesToolStripMenuItem"
-        Me.FilesToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.FilesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.FilesToolStripMenuItem.Text = "x_Files"
         '
         'OpenToolStripMenuItem
@@ -148,9 +149,9 @@ Partial Class UserControl_Report
         '
         'EditToolStripMenuItem
         '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.CopyGUIDToolStripMenuItem, Me.XEditSemItemToolStripMenuItem})
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.CopyGUIDToolStripMenuItem, Me.XEditSemItemToolStripMenuItem, Me.XTypedTagsToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.EditToolStripMenuItem.Text = "x_Edit"
         '
         'CopyNameToolStripMenuItem
@@ -175,7 +176,7 @@ Partial Class UserControl_Report
         '
         Me.FilterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EqualToolStripMenuItem, Me.DifferentToolStripMenuItem, Me.ContainsToolStripMenuItem, Me.ClearFilterToolStripMenuItem, Me.FieldToFilterToolStripMenuItem, Me.FieldToSortToolStripMenuItem})
         Me.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem"
-        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.FilterToolStripMenuItem.Text = "x_Filter"
         '
         'EqualToolStripMenuItem
@@ -224,7 +225,7 @@ Partial Class UserControl_Report
         '
         Me.LoggingToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddLogentryToolStripMenuItem})
         Me.LoggingToolStripMenuItem.Name = "LoggingToolStripMenuItem"
-        Me.LoggingToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.LoggingToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.LoggingToolStripMenuItem.Text = "x_Logging"
         '
         'AddLogentryToolStripMenuItem
@@ -237,7 +238,7 @@ Partial Class UserControl_Report
         '
         Me.MediaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenMediaItemModuleToolStripMenuItem, Me.OpenPDFToolStripMenuItem, Me.OpenImageRefToolStripMenuItem})
         Me.MediaToolStripMenuItem.Name = "MediaToolStripMenuItem"
-        Me.MediaToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.MediaToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.MediaToolStripMenuItem.Text = "x_Media"
         '
         'OpenMediaItemModuleToolStripMenuItem
@@ -285,14 +286,14 @@ Partial Class UserControl_Report
         Me.ToolStripButton_DrillDown.Image = Global.Report_Module.My.Resources.Resources._112_ArrowCurve_Blue_Right_32x32_72
         Me.ToolStripButton_DrillDown.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_DrillDown.Name = "ToolStripButton_DrillDown"
-        Me.ToolStripButton_DrillDown.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButton_DrillDown.Size = New System.Drawing.Size(22, 20)
         Me.ToolStripButton_DrillDown.Text = "ToolStripButton1"
         Me.ToolStripButton_DrillDown.ToolTipText = "Drill Down"
         '
         'ToolStripSeparator4
         '
         Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(30, 6)
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(22, 6)
         '
         'ToolStripButton_OpenLink
         '
@@ -301,14 +302,14 @@ Partial Class UserControl_Report
         Me.ToolStripButton_OpenLink.Image = Global.Report_Module.My.Resources.Resources.bb_wrld_
         Me.ToolStripButton_OpenLink.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_OpenLink.Name = "ToolStripButton_OpenLink"
-        Me.ToolStripButton_OpenLink.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButton_OpenLink.Size = New System.Drawing.Size(22, 20)
         Me.ToolStripButton_OpenLink.Text = "ToolStripButton1"
         Me.ToolStripButton_OpenLink.ToolTipText = "x_OpenLink"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(30, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(22, 6)
         '
         'ToolStripButton_OpenFile
         '
@@ -317,7 +318,7 @@ Partial Class UserControl_Report
         Me.ToolStripButton_OpenFile.Image = Global.Report_Module.My.Resources.Resources._1683_Lightbulb_32x32
         Me.ToolStripButton_OpenFile.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_OpenFile.Name = "ToolStripButton_OpenFile"
-        Me.ToolStripButton_OpenFile.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButton_OpenFile.Size = New System.Drawing.Size(22, 20)
         Me.ToolStripButton_OpenFile.Text = "ToolStripButton1"
         Me.ToolStripButton_OpenFile.ToolTipText = "Open File"
         '
@@ -328,7 +329,7 @@ Partial Class UserControl_Report
         Me.ToolStripButton_DownloadFile.Image = Global.Report_Module.My.Resources.Resources._010_LowPriority_32x32_72
         Me.ToolStripButton_DownloadFile.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_DownloadFile.Name = "ToolStripButton_DownloadFile"
-        Me.ToolStripButton_DownloadFile.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButton_DownloadFile.Size = New System.Drawing.Size(22, 20)
         Me.ToolStripButton_DownloadFile.Text = "ToolStripButton3"
         Me.ToolStripButton_DownloadFile.ToolTipText = "Download File"
         '
@@ -339,14 +340,14 @@ Partial Class UserControl_Report
         Me.ToolStripButton_CopyPath.Image = Global.Report_Module.My.Resources.Resources.CopyHS
         Me.ToolStripButton_CopyPath.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_CopyPath.Name = "ToolStripButton_CopyPath"
-        Me.ToolStripButton_CopyPath.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButton_CopyPath.Size = New System.Drawing.Size(22, 20)
         Me.ToolStripButton_CopyPath.Text = "ToolStripButton2"
         Me.ToolStripButton_CopyPath.ToolTipText = "Copy Path"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(30, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(22, 6)
         '
         'ToolStripButton_OpenImage
         '
@@ -355,7 +356,7 @@ Partial Class UserControl_Report
         Me.ToolStripButton_OpenImage.Image = Global.Report_Module.My.Resources.Resources.generic_picture
         Me.ToolStripButton_OpenImage.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_OpenImage.Name = "ToolStripButton_OpenImage"
-        Me.ToolStripButton_OpenImage.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButton_OpenImage.Size = New System.Drawing.Size(22, 20)
         Me.ToolStripButton_OpenImage.Text = "ToolStripButton1"
         '
         'ToolStripButton_OpenMedia
@@ -365,7 +366,7 @@ Partial Class UserControl_Report
         Me.ToolStripButton_OpenMedia.Image = Global.Report_Module.My.Resources.Resources.AudioCD
         Me.ToolStripButton_OpenMedia.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_OpenMedia.Name = "ToolStripButton_OpenMedia"
-        Me.ToolStripButton_OpenMedia.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButton_OpenMedia.Size = New System.Drawing.Size(22, 20)
         Me.ToolStripButton_OpenMedia.Text = "ToolStripButton2"
         '
         'ToolStripButton_OpenPDF
@@ -375,13 +376,13 @@ Partial Class UserControl_Report
         Me.ToolStripButton_OpenPDF.Image = Global.Report_Module.My.Resources.Resources.pdf_preview
         Me.ToolStripButton_OpenPDF.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_OpenPDF.Name = "ToolStripButton_OpenPDF"
-        Me.ToolStripButton_OpenPDF.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButton_OpenPDF.Size = New System.Drawing.Size(22, 20)
         Me.ToolStripButton_OpenPDF.Text = "ToolStripButton3"
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(30, 6)
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(22, 6)
         '
         'ToolStripButtond_OpenWord_Existing
         '
@@ -390,7 +391,7 @@ Partial Class UserControl_Report
         Me.ToolStripButtond_OpenWord_Existing.Image = Global.Report_Module.My.Resources.Resources.it_word_icon_Open_Doc
         Me.ToolStripButtond_OpenWord_Existing.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButtond_OpenWord_Existing.Name = "ToolStripButtond_OpenWord_Existing"
-        Me.ToolStripButtond_OpenWord_Existing.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButtond_OpenWord_Existing.Size = New System.Drawing.Size(22, 20)
         Me.ToolStripButtond_OpenWord_Existing.Text = "ToolStripButton1"
         '
         'ToolStripButton_OpenWordMenu
@@ -400,13 +401,13 @@ Partial Class UserControl_Report
         Me.ToolStripButton_OpenWordMenu.Image = Global.Report_Module.My.Resources.Resources.it_word_icon
         Me.ToolStripButton_OpenWordMenu.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_OpenWordMenu.Name = "ToolStripButton_OpenWordMenu"
-        Me.ToolStripButton_OpenWordMenu.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButton_OpenWordMenu.Size = New System.Drawing.Size(22, 20)
         Me.ToolStripButton_OpenWordMenu.Text = "ToolStripButton1"
         '
         'ToolStripSeparator7
         '
         Me.ToolStripSeparator7.Name = "ToolStripSeparator7"
-        Me.ToolStripSeparator7.Size = New System.Drawing.Size(30, 6)
+        Me.ToolStripSeparator7.Size = New System.Drawing.Size(22, 6)
         '
         'ToolStripButton_DecodePassword
         '
@@ -415,7 +416,7 @@ Partial Class UserControl_Report
         Me.ToolStripButton_DecodePassword.Image = Global.Report_Module.My.Resources.Resources.Key
         Me.ToolStripButton_DecodePassword.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_DecodePassword.Name = "ToolStripButton_DecodePassword"
-        Me.ToolStripButton_DecodePassword.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButton_DecodePassword.Size = New System.Drawing.Size(22, 20)
         Me.ToolStripButton_DecodePassword.Text = "ToolStripButton1"
         '
         'ToolStripTextBox_Filter
@@ -621,6 +622,12 @@ Partial Class UserControl_Report
         '
         Me.Timer_Sync.Interval = 300
         '
+        'XTypedTagsToolStripMenuItem
+        '
+        Me.XTypedTagsToolStripMenuItem.Name = "XTypedTagsToolStripMenuItem"
+        Me.XTypedTagsToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.XTypedTagsToolStripMenuItem.Text = "x_Typed Tags"
+        '
         'UserControl_Report
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -716,5 +723,6 @@ Partial Class UserControl_Report
     Friend WithEvents ToolStripButtond_OpenWord_Existing As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator7 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripButton_OpenWordMenu As System.Windows.Forms.ToolStripButton
+    Friend WithEvents XTypedTagsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

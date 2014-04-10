@@ -6,6 +6,7 @@ Imports Filesystem_Module
 Imports Security_Module
 Imports Log_Module
 Imports Office_Module
+Imports Typed_Tagging_Module
 
 Public Class UserControl_Report
     Private frmObjectEdit As frm_ObjectEdit
@@ -33,11 +34,14 @@ Public Class UserControl_Report
     Private objBlobConnection As clsBlobConnection
     Private objSecurityWork As clsSecurityWork
 
+    Private objFrmAuthenticator As frmAuthenticate
     Private objFrmSingleViewer As frmSingleViewer
     Private objFrmObjectEdit As frm_ObjectEdit
     Private objFrmLogEntry As frmLogModule
     Private objFrmMediaViewerModule As frmMediaViewerModule
     Private objFrmDocumentEdit As Office_Module.frmDocumentEdit
+
+    Private objFrmTagging As frmTypedTaggingSingle
 
     Private objDataTable As DataTable
     Private objDataAdp As SqlClient.SqlDataAdapter
@@ -296,7 +300,7 @@ Public Class UserControl_Report
         set_DBConnection()
     End Sub
 
-    Public Sub New(Globals As clsGlobals, objOItem_User As clsOntologyItem)
+    Public Sub New(Globals As clsGlobals, objOItem_User As clsOntologyItem, objOItem_Group As clsOntologyItem)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
@@ -304,7 +308,7 @@ Public Class UserControl_Report
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(Globals)
         objLocalConfig.User = objOItem_User
-
+        objLocalConfig.Group = objOItem_Group
         set_DBConnection()
     End Sub
 
@@ -1170,6 +1174,8 @@ Public Class UserControl_Report
         XEditSemItemToolStripMenuItem.Enabled = False
         LoggingToolStripMenuItem.Enabled = False
         MediaToolStripMenuItem.Enabled = False
+        XTypedTagsToolStripMenuItem.Enabled = False
+
         If DataGridView_Reports.SelectedCells.Count = 1 Then
             Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
 
@@ -1189,6 +1195,7 @@ Public Class UserControl_Report
                                 LoggingToolStripMenuItem.Enabled = True
                                 XEditSemItemToolStripMenuItem.Enabled = True
                                 MediaToolStripMenuItem.Enabled = True
+                                XTypedTagsToolStripMenuItem.Enabled = True
                             End If
 
                         End If
@@ -1297,7 +1304,7 @@ Public Class UserControl_Report
 
             If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                 Refresh_CellActions()
-            Else
+
                 MsgBox("Das Dokument konnte nicht geöffnet werden!", MsgBoxStyle.Exclamation)
             End If
 
@@ -1312,5 +1319,26 @@ Public Class UserControl_Report
             objFrmDocumentEdit = New frmDocumentEdit(objLocalConfig.Globals, objOItem_Object)
             objFrmDocumentEdit.ShowDialog(Me)
         End If
+    End Sub
+
+    Private Sub XTypedTagsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles XTypedTagsToolStripMenuItem.Click
+        Dim objOList_Objects As New List(Of clsOntologyItem)
+        objOList_Objects.Add(objOItem_Object)
+
+        If Not objLocalConfig.Group Is Nothing Then
+            objFrmAuthenticator = New frmAuthenticate(objLocalConfig.Globals, False, True, frmAuthenticate.ERelateMode.NoRelate, True)
+            objFrmAuthenticator.ShowDialog(Me)
+            If objFrmAuthenticator.DialogResult = DialogResult.OK Then
+                objLocalConfig.Group = objFrmAuthenticator.OItem_Group
+            End If
+        End If
+
+        If Not objLocalConfig.User Is Nothing And Not objLocalConfig.Group Is Nothing Then
+            objFrmTagging = New frmTypedTaggingSingle(objLocalConfig.Globals, objLocalConfig.User, objLocalConfig.Group, objOItem_Object)
+            objFrmTagging.ShowDialog(Me)
+        Else
+            MsgBox("Benutzer und Gruppe konnten nicht festgelegt werden!", MsgBoxStyle.Exclamation)
+        End If
+
     End Sub
 End Class

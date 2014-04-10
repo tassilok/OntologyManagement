@@ -61,11 +61,12 @@ Public Class frmReportModule
     Private Function SetUser() As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
 
-        objFrm_Authenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate,True)
+        objFrm_Authenticate = New frmAuthenticate(objLocalConfig.Globals, True, True, frmAuthenticate.ERelateMode.User_To_Group, True)
         objFrm_Authenticate.ShowDialog(Me)
         If objFrm_Authenticate.DialogResult = Windows.Forms.DialogResult.OK Then
             If Not objFrm_Authenticate.OItem_User Is Nothing Then
                 objLocalConfig.User = objFrm_Authenticate.OItem_User
+                objLocalConfig.Group = objFrm_Authenticate.OItem_Group
                 objOItem_Result = objLocalConfig.Globals.LState_Success
             Else
                 objOItem_Result = objLocalConfig.Globals.LState_Error

@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsChronoMedia.vb" />
+    <Compile Include="clsMigrateTagging.vb" />
     <Compile Include="clsModule.vb" />
     <Compile Include="frmMetaData_Image.Designer.vb">
       <DependentUpon>frmMetaData_Image.vb</DependentUpon>
@@ -375,6 +376,10 @@
       <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
       <Name>Structure-Module</Name>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Typed-Tagging-Module\Typed-Tagging-Module\Typed-Tagging-Module.csproj">
+      <Project>{e558b18d-ae28-4eac-bff5-97ee5cda49eb}</Project>
+      <Name>Typed-Tagging-Module</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
