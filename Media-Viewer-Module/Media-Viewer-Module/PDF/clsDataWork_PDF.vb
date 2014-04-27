@@ -66,7 +66,7 @@ Public Class clsDataWork_PDF
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
 
-            Dim objTags = objDataWork_Tagging.TypedTags.Where(Function(t) t.ID_TaggingDest = objOItem_Ref.GUID).ToList()
+            Dim objTags = objDataWork_Tagging.TypedTags_Dests.Where(Function(t) t.ID_TaggingDest = objOItem_Ref.GUID).ToList()
 
             If objTags.Any Then
 

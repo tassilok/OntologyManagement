@@ -337,7 +337,7 @@ Public Class clsDataWork_MediaItem
         Dim objOItem_Result = objDataWork_Tagged.GetTagsOfTaggingSource(New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID, .Type = objLocalConfig.Globals.Type_Object})
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            Dim objOL_MediaItems = objDataWork_Tagged.TypedTags.Where(Function(t) t.ID_TaggingDest = objOItem_Ref.GUID).ToList()
+            Dim objOL_MediaItems = objDataWork_Tagged.TypedTags_Dests.Where(Function(t) t.ID_TaggingDest = objOItem_Ref.GUID).ToList()
 
 
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then

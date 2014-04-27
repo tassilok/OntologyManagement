@@ -798,14 +798,17 @@ Public Class clsDBLevel
 
     Public Function test_Index_Es() As Boolean
 
-        return objElSelector.ElConnector.IndexExists(strIndex).Exists
+        Dim objIndexDescriptor = New IndexExistsDescriptor()
+        objIndexDescriptor.Index(strIndex)
+
+        Return objElSelector.ElConnector.IndexExists(Function(f) objIndexDescriptor).Exists
         
     End Function
 
     Public Function create_Index_Es() As Boolean
         Dim indexSettings = new IndexSettings()
-        Dim objOPResult =  objElSelector.ElConnector.CreateIndex(strIndex,indexSettings)
-        return objOPResult.OK
+        Dim objOPResult = objElSelector.ElConnector.CreateIndex(strIndex)
+        Return objOPResult.IsValid
             
     End Function
 
@@ -1159,11 +1162,11 @@ Public Class clsDBLevel
 
     Public Function DeleteIndex(strIndex As String) As clsOntologyItem
         
-        Dim indexResponse = objElSelector.ElConnector.DeleteIndex(strIndex)
+        Dim indexResponse = objElSelector.ElConnector.DeleteIndex(Function(d) New DeleteIndexDescriptor().Index(strIndex))
 
-        If (indexResponse.OK)
+        If (indexResponse.IsValid) Then
             Return objLogStates.LogState_Success.Clone()
-        Else 
+        Else
             Return objLogStates.LogState_Error.Clone()
         End If
     End Function

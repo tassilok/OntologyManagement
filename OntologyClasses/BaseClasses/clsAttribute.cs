@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Nest;
 
 namespace OntologyClasses.BaseClasses
 {
     /// <summary>
     /// 
     /// </summary>
+    [ElasticType(Name = "clsAttribute")]
     public class clsAttribute
     {
         public bool? Val_Bit { get; set; }

@@ -24,7 +24,7 @@ namespace ElasticSearchNestConnector
             
             var objOItem_Result = objLogStates.LogState_Success;
 
-            objUserAppDBSelector.ElConnector.Flush();
+            objUserAppDBSelector.ElConnector.Flush(f => f.Index(objUserAppDBSelector.Index));
 
             var objDict = new Dictionary<string, object>();
             objDict.Add("doctypes", strType);
@@ -40,7 +40,7 @@ namespace ElasticSearchNestConnector
      
             var objOItem_Result = objLogStates.LogState_Success;
 
-            objUserAppDBSelector.ElConnector.Flush();
+            objUserAppDBSelector.ElConnector.Flush(f => f.Index(objUserAppDBSelector.Index));
 
             var objBulkDescriptor = new BulkDescriptor();
 
@@ -52,7 +52,7 @@ namespace ElasticSearchNestConnector
 
             }
 
-            var bulkResult = objUserAppDBSelector.ElConnector.Bulk(objBulkDescriptor);
+            var bulkResult = objUserAppDBSelector.ElConnector.Bulk(b=>objBulkDescriptor);
             objOItem_Result = bulkResult.Items.Any(it => it.Error != null) ? objLogStates.LogState_Error : objLogStates.LogState_Success;
 
             return objOItem_Result;

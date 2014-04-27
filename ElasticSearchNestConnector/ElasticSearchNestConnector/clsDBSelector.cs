@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using OntologyClasses.BaseClasses;
 using OntologyClasses.DataClasses;
 using Nest;
+using Elasticsearch.Net.Connection;
+using PUrify;
 
 namespace ElasticSearchNestConnector
 {
@@ -32,7 +34,7 @@ namespace ElasticSearchNestConnector
 
         private SortEnum sort = SortEnum.NONE;
 
-        public ElasticClient ElConnector { get; private set; }
+        public IElasticClient ElConnector { get; private set; }
 
         private clsFields objFields = new clsFields();
         private clsTypes objTypes = new clsTypes();
@@ -912,17 +914,16 @@ namespace ElasticSearchNestConnector
 
         private void initialize_Client()
         {
-            var uri = new Uri("http://" + Server + ":" + Port.ToString());
+            var uri = new Uri("http://" + Server + ":" + Port.ToString()).Purify();
 
-            var settings = new ConnectionSettings(uri).SetDefaultIndex(Index);
+            var settings = new ConnectionSettings(uri).SetDefaultIndex(Index).ExposeRawResponse();
             ElConnector = new ElasticClient(settings);
 
             if (IndexRep != null)
             {
                 try
                 {
-                    var indexSettings = new IndexSettings();
-                    ElConnector.CreateIndex(IndexRep, indexSettings);
+                    ElConnector.CreateIndex(IndexRep);
 
                 }
                 catch (Exception ex)
@@ -947,18 +948,18 @@ namespace ElasticSearchNestConnector
 
             if (doASC)
             {
-                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectAtt).QueryString(strQuery).From(0).Size(1).Sort(p => p.OnField(strOrderField).Ascending()));
+                var result = ElConnector.Search<clsObjectAtt>(s => s.Index(Index).Type(objTypes.ObjectAtt).QueryString(strQuery).From(0).Size(1).Sort(p => p.OnField(strOrderField).Ascending()));
                 if (result.Documents.Any())
                 {
-                    lngOrderID = result.Documents.First()[strOrderField];
+                    lngOrderID = (long)result.Documents.First().OrderID;
                 }
             }
             else
             {
-                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectAtt).QueryString(strQuery).From(0).Size(1).Sort(p => p.OnField(strOrderField).Descending()));
+                var result = ElConnector.Search<clsObjectAtt>(s => s.Index(Index).Type(objTypes.ObjectAtt).QueryString(strQuery).From(0).Size(1).Sort(p => p.OnField(strOrderField).Descending()));
                 if (result.Documents.Any())
                 {
-                    lngOrderID = result.Documents.First()[strOrderField];
+                    lngOrderID = (long)result.Documents.First().OrderID;
                 }
             }
             
@@ -972,7 +973,7 @@ namespace ElasticSearchNestConnector
 
             var strQuery = create_Query_Simple(OList_AttType, objTypes.AttributeType);
 
-            var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectAtt).QueryString(strQuery).From(0).Size(1));
+            var result = ElConnector.Search<clsObjectAtt>(s => s.Index(Index).Type(objTypes.ObjectAtt).QueryString(strQuery).From(0).Size(1));
 
             var lngCount = result.Total;
 
@@ -1012,32 +1013,18 @@ namespace ElasticSearchNestConnector
                 intCount = 0;
 
                 
-                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.AttributeType).QueryString(strQuery).From(intPos).Size(SearchRange));
+                var result = ElConnector.Search<clsOntologyItem>(s => s.Index(Index).Type(objTypes.AttributeType).QueryString(strQuery).From(intPos).Size(SearchRange));
                     //ElConnector.Search(Index, objTypes.AttributeType, objBoolQuery.ToString(), intPos,
                                                        //SearchRange);
 
 
                 if (!List2)
                 {
-                    OntologyList_AttributTypes1.AddRange(result.Documents.Select(d =>
-                                                          new clsOntologyItem
-                                                          {
-                                                              GUID = d[objFields.ID_Item],
-                                                              Name = d[objFields.Name_Item],
-                                                              GUID_Parent = d[objFields.ID_DataType].ToString(),
-                                                              Type = objTypes.AttributeType
-                                                          }));
+                    OntologyList_AttributTypes1.AddRange(result.Documents);
                 }
                 else
                 {
-                    OntologyList_AttributTypes2.AddRange(result.Documents.Select(d =>
-                                                          new clsOntologyItem
-                                                          {
-                                                              GUID = d[objFields.ID_Item],
-                                                              Name = d[objFields.Name_Item],
-                                                              GUID_Parent = d[objFields.ID_DataType],
-                                                              Type = objTypes.AttributeType
-                                                          }));
+                    OntologyList_AttributTypes2.AddRange(result.Documents);
                 }
 
 
@@ -1073,7 +1060,7 @@ namespace ElasticSearchNestConnector
             var strQuery = create_Query_ClassAtt(OList_Class, OList_AttributeType);
 
 
-            var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ClassAtt).QueryString(strQuery).From(0).Size(1));
+            var result = ElConnector.Search<clsClassAtt>(s => s.Index(Index).Type(objTypes.ClassAtt).QueryString(strQuery).From(0).Size(1));
                 //ElConnector.Search(Index, objTypes.ClassAtt, objBoolQuery.ToString(), 0, 1);
             
             var lngCount = result.Total;
@@ -1107,19 +1094,11 @@ namespace ElasticSearchNestConnector
             while (intCount > 0)
             {
 
-                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ClassAtt).QueryString(strQuery).From(intPos).Size(SearchRange));
+                var result = ElConnector.Search<clsClassAtt>(s => s.Index(Index).Type(objTypes.ClassAtt).QueryString(strQuery).From(intPos).Size(SearchRange));
                     //ElConnector.Search(Index, objTypes.ClassAtt, objBoolQuery.ToString(), intPos, SearchRange);
                 
                 
-                OntologyList_ClassAtt_ID.AddRange(result.Documents.Select(d =>
-                                                   new clsClassAtt
-                                                   {
-                                                       ID_AttributeType = d[objFields.ID_AttributeType],
-                                                       ID_DataType = d[objFields.ID_DataType],
-                                                       ID_Class = d[objFields.ID_Class],
-                                                       Min = (long?)d[objFields.Min],
-                                                       Max = (long?)d[objFields.Max]
-                                                   }));
+                OntologyList_ClassAtt_ID.AddRange(result.Documents);
 
                 if (result.Documents.Count() < SearchRange)
                 {
@@ -1127,7 +1106,7 @@ namespace ElasticSearchNestConnector
                 }
                 else
                 {
-                    intCount = result.Total;
+                    intCount = result.Documents.Count();
                     intPos += SearchRange;
                 }
             }
@@ -1189,7 +1168,7 @@ namespace ElasticSearchNestConnector
 
             var strQuery = create_Query_ClassRel(OList_ClassRel);
 
-            var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ClassRel).QueryString(strQuery).From(0).Size(1));
+            var result = ElConnector.Search<clsClassRel>(s => s.Index(Index).Type(objTypes.ClassRel).QueryString(strQuery).From(0).Size(1));
 
             var lngCount = result.Total;
 
@@ -1244,19 +1223,9 @@ namespace ElasticSearchNestConnector
 
             while (intCount > 0)
             {
-                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ClassRel).QueryString(strQuery).From(intPos).Size(SearchRange));
+                var result = ElConnector.Search<clsClassRel>(s => s.Index(Index).Type(objTypes.ClassRel).QueryString(strQuery).From(intPos).Size(SearchRange));
                 
-                OntologyList_ClassRel_ID.AddRange(result.Documents.Select(d =>
-                                                   new clsClassRel
-                                                   {
-                                                       ID_Class_Left = d[objFields.ID_Class_Left],
-                                                       ID_RelationType = d[objFields.ID_RelationType],
-                                                       ID_Class_Right = d[objFields.ID_Class_Right],
-                                                       Min_Forw = d[objFields.Min_Forw],
-                                                       Max_Forw = d[objFields.Max_Forw],
-                                                       Max_Backw = d[objFields.Max_Backw],
-                                                       Ontology = d[objFields.Ontology].ToString()
-                                                   }).ToList());
+                OntologyList_ClassRel_ID.AddRange(result.Documents);
 
                 if (result.Documents.Count() < SearchRange)
                 {
@@ -1359,7 +1328,7 @@ namespace ElasticSearchNestConnector
 
             var strQuery = create_Query_Simple(OList_Classes, objTypes.ClassType);
 
-            var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ClassType).QueryString(strQuery).From(0).Size(1));
+            var result = ElConnector.Search<clsOntologyItem>(s => s.Index(Index).Type(objTypes.ClassType).QueryString(strQuery).From(0).Size(1));
             
             var lngCount = result.Total;
 
@@ -1398,32 +1367,18 @@ namespace ElasticSearchNestConnector
 
             while (intCount > 0)
             {
-                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ClassType).QueryString(strQuery).From(intPos).Size(SearchRange));
+                var result = ElConnector.Search<clsOntologyItem>(s => s.Index(Index).Type(objTypes.ClassType).QueryString(strQuery).From(intPos).Size(SearchRange));
 
                 if (!boolClasses_Right)
                 {
 
-                    OntologyList_Classes1.AddRange(result.Documents.Select(d =>
-                                                    new clsOntologyItem()
-                                                    {
-                                                        GUID = d[objFields.ID_Item],
-                                                        Name = d[objFields.Name_Item],
-                                                        GUID_Parent = d[objFields.ID_Parent],
-                                                        Type = objTypes.ClassType
-                                                    }));
+                    OntologyList_Classes1.AddRange(result.Documents);
 
 
                 }
                 else
                 {
-                    OntologyList_Classes2.AddRange(result.Documents.Select(d =>
-                                                    new clsOntologyItem()
-                                                    {
-                                                        GUID = d[objFields.ID_Item],
-                                                        Name = d[objFields.Name_Item],
-                                                        GUID_Parent = d[objFields.ID_Parent],
-                                                        Type = objTypes.ClassType
-                                                    }).ToList());
+                    OntologyList_Classes2.AddRange(result.Documents);
                 }
 
 
@@ -1456,7 +1411,7 @@ namespace ElasticSearchNestConnector
 
             var strQuery = create_Query_Simple(OList_DataTypes, objTypes.DataType);
 
-            var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.DataType).QueryString(strQuery).From(0).Size(1));
+            var result = ElConnector.Search<clsOntologyItem>(s => s.Index(Index).Type(objTypes.DataType).QueryString(strQuery).From(0).Size(1));
             
             var lngCount = result.Total;
 
@@ -1482,16 +1437,10 @@ namespace ElasticSearchNestConnector
                 intCount = 0;
 
                 
-                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.DataType).QueryString(strQuery).From(intPos).Size(SearchRange));
+                var result = ElConnector.Search<clsOntologyItem>(s => s.Index(Index).Type(objTypes.DataType).QueryString(strQuery).From(intPos).Size(SearchRange));
                     
 
-                OntologyList_DataTypes.AddRange(result.Documents.Select(d =>
-                                                 new clsOntologyItem
-                                                 {
-                                                     GUID = d[objFields.ID_Item],
-                                                     Name = d[objFields.Name_Item],
-                                                     Type = objTypes.DataType
-                                                 }));
+                OntologyList_DataTypes.AddRange(result.Documents);
 
                 if (result.Documents.Count() < SearchRange)
                 {
@@ -1521,7 +1470,7 @@ namespace ElasticSearchNestConnector
 
             var strQuery = create_Query_ObjectAtt(OList_ObjectAtt);
 
-            var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectAtt).QueryString(strQuery).From(0).Size(1));
+            var result = ElConnector.Search<clsObjectAtt>(s => s.Index(Index).Type(objTypes.ObjectAtt).QueryString(strQuery).From(0).Size(1));
 
             var lngCount = result.Total;
 
@@ -1561,24 +1510,9 @@ namespace ElasticSearchNestConnector
             {
                 intCount = 0;
 
-                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectAtt).QueryString(strQuery).From(intPos).Size(SearchRange));
+                var result = ElConnector.Search<clsObjectAtt>(s => s.Index(Index).Type(objTypes.ObjectAtt).QueryString(strQuery).From(intPos).Size(SearchRange));
 
-                OntologyList_ObjAtt_ID.AddRange(result.Documents.Select(d =>
-                                                 new clsObjectAtt
-                                                 {
-                                                     ID_Attribute = d[objFields.ID_Attribute],
-                                                     ID_AttributeType = d[objFields.ID_AttributeType],
-                                                     ID_Object = d[objFields.ID_Object],
-                                                     ID_Class = d[objFields.ID_Class],
-                                                     ID_DataType = d[objFields.ID_DataType],
-                                                     Val_Bit = d[objFields.Val_Bool],
-                                                     Val_Date = d[objFields.Val_Datetime],
-                                                     Val_Double = d[objFields.Val_Real],
-                                                     Val_Lng = d[objFields.Val_Int],
-                                                     Val_Named = d[objFields.Val_Name],
-                                                     Val_String = d[objFields.Val_String],
-                                                     OrderID = d[objFields.OrderID]
-                                                 }));
+                OntologyList_ObjAtt_ID.AddRange(result.Documents);
 
                 if (result.Documents.Count() < SearchRange)
                 {
@@ -1701,7 +1635,7 @@ namespace ElasticSearchNestConnector
 
             var strQuery = create_Query_Simple(OList_Objects, objTypes.ObjectType);
 
-            var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectType).QueryString(strQuery).From(0).Size(1));
+            var result = ElConnector.Search<clsOntologyItem>(s => s.Index(Index).Type(objTypes.ObjectType).QueryString(strQuery).From(0).Size(1));
             
             var lngCount = result.Total;
 
@@ -1741,29 +1675,15 @@ namespace ElasticSearchNestConnector
             {
                 intCount = 0;
 
-                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectType).QueryString(strQuery).From(intPos).Size(SearchRange));
+                var result = ElConnector.Search<clsOntologyItem>(s => s.Index(Index).Type(objTypes.ObjectType).QueryString(strQuery).From(intPos).Size(SearchRange));
 
                 if (!List2)
                 {
-                    OntologyList_Objects1.AddRange(result.Documents.Select(d =>
-                                                    new clsOntologyItem
-                                                    {
-                                                        GUID = d[objFields.ID_Item],
-                                                        Name = d[objFields.Name_Item],
-                                                        GUID_Parent = d[objFields.ID_Class],
-                                                        Type = objTypes.ObjectType
-                                                    }));
+                    OntologyList_Objects1.AddRange(result.Documents);
                 }
                 else
                 {
-                    OntologyList_Objects2.AddRange(result.Documents.Select(d =>
-                                                    new clsOntologyItem
-                                                    {
-                                                        GUID = d[objFields.ID_Item],
-                                                        Name = d[objFields.Name_Item],
-                                                        GUID_Parent = d[objFields.ID_Class],
-                                                        Type = objTypes.ObjectType
-                                                    }));
+                    OntologyList_Objects2.AddRange(result.Documents);
                 }
 
 
@@ -1797,7 +1717,7 @@ namespace ElasticSearchNestConnector
 
             var strQuery = create_Query_ObjectRel(OList_ObjectRel);
 
-            var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(0).Size(1));
+            var result = ElConnector.Search<clsObjectRel>(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(0).Size(1));
             
             var lngCount = result.Total;
 
@@ -1856,20 +1776,9 @@ namespace ElasticSearchNestConnector
 
                 if (sort != SortEnum.ASC_OrderID && sort != SortEnum.DESC_OrderID)
                 {
-                    var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(intPos).Size(SearchRange));
+                    var result = ElConnector.Search<clsObjectRel>(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(intPos).Size(SearchRange));
 
-                    OntologyList_ObjectRel_ID.AddRange(result.Documents.Select(d =>
-                                                        new clsObjectRel
-                                                        {
-
-                                                            ID_Object = d[objFields.ID_Object],
-                                                            ID_Other = d[objFields.ID_Other],
-                                                            ID_Parent_Object = d[objFields.ID_Parent_Object],
-                                                            ID_Parent_Other = d[objFields.ID_Parent_Other],
-                                                            ID_RelationType = d[objFields.ID_RelationType],
-                                                            OrderID = d[objFields.OrderID] ?? 0,
-                                                            Ontology = d[objFields.Ontology]
-                                                        }));
+                    OntologyList_ObjectRel_ID.AddRange(result.Documents);
 
                     if (result.Documents.Count() < SearchRange)
                     {
@@ -1885,19 +1794,8 @@ namespace ElasticSearchNestConnector
                 {
                     if (sort == SortEnum.ASC_OrderID)
                     {
-                        var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(intPos).Size(SearchRange).SortAscending(objFields.OrderID));
-                        OntologyList_ObjectRel_ID.AddRange(result.Documents.Select(d =>
-                                                        new clsObjectRel
-                                                        {
-
-                                                            ID_Object = d[objFields.ID_Object],
-                                                            ID_Other = d[objFields.ID_Other],
-                                                            ID_Parent_Object = d[objFields.ID_Parent_Object],
-                                                            ID_Parent_Other = d[objFields.ID_Parent_Other],
-                                                            ID_RelationType = d[objFields.ID_RelationType],
-                                                            OrderID = d[objFields.OrderID] ?? 0,
-                                                            Ontology = d[objFields.Ontology].ToString()
-                                                        }));
+                        var result = ElConnector.Search<clsObjectRel>(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(intPos).Size(SearchRange).SortAscending(objFields.OrderID));
+                        OntologyList_ObjectRel_ID.AddRange(result.Documents);
 
                         if (result.Documents.Count() < SearchRange)
                         {
@@ -1911,19 +1809,8 @@ namespace ElasticSearchNestConnector
                     }
                     else
                     {
-                        var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(intPos).Size(SearchRange).SortDescending(objFields.OrderID));
-                        OntologyList_ObjectRel_ID.AddRange(result.Documents.Select(d =>
-                                                        new clsObjectRel
-                                                        {
-
-                                                            ID_Object = d[objFields.ID_Object],
-                                                            ID_Other = d[objFields.ID_Other],
-                                                            ID_Parent_Object = d[objFields.ID_Parent_Object],
-                                                            ID_Parent_Other = d[objFields.ID_Parent_Other],
-                                                            ID_RelationType = d[objFields.ID_RelationType],
-                                                            OrderID = d[objFields.OrderID] ?? 0,
-                                                            Ontology = d[objFields.Ontology].ToString()
-                                                        }));
+                        var result = ElConnector.Search<clsObjectRel>(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(intPos).Size(SearchRange).SortDescending(objFields.OrderID));
+                        OntologyList_ObjectRel_ID.AddRange(result.Documents);
                         if (result.Documents.Count() < SearchRange)
                         {
                             intCount = 0;
@@ -2151,7 +2038,7 @@ namespace ElasticSearchNestConnector
             var strQuery = create_Query_Simple(OList_RelType, objTypes.RelationType);
 
 
-            var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.RelationType).QueryString(strQuery).From(0).Size(1));
+            var result = ElConnector.Search<clsOntologyItem>(s => s.Index(Index).Type(objTypes.RelationType).Query(q => q.QueryString(qs => qs.Query(strQuery))).From(0).Size(1));
 
             var lngCount = result.Total;
 
@@ -2164,7 +2051,7 @@ namespace ElasticSearchNestConnector
 
             var settings = new ConnectionSettings(uri);
             var objElConnector = new ElasticClient(settings);
-            var dictIndex = objElConnector.Stats().Indices;
+            var dictIndex = objElConnector.IndicesStats().Indices;
             
             return dictIndex.Keys.ToList();
         }
@@ -2201,28 +2088,16 @@ namespace ElasticSearchNestConnector
             {
                 intCount = 0;
 
-                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.RelationType).QueryString(strQuery).From(intPos).Size(SearchRange));
+                var result = ElConnector.Search<clsOntologyItem>(s => s.Index(Index).Type(objTypes.RelationType).QueryString(strQuery).From(intPos).Size(SearchRange));
                 
 
                 if (!List2)
                 {
-                    OntologyList_RelationTypes1.AddRange(result.Documents.Select(d =>
-                                                          new clsOntologyItem
-                                                          {
-                                                              GUID = d[objFields.ID_Item],
-                                                              Name = d[objFields.Name_Item],
-                                                              Type = objTypes.RelationType
-                                                          }));
+                    OntologyList_RelationTypes1.AddRange(result.Documents);
                 }
                 else
                 {
-                    OntologyList_RelationTypes2.AddRange(result.Documents.Select(d =>
-                                                          new clsOntologyItem
-                                                          {
-                                                              GUID = d[objFields.ID_Item],
-                                                              Name = d[objFields.Name_Item],
-                                                              Type = objTypes.RelationType
-                                                          }));
+                    OntologyList_RelationTypes2.AddRange(result.Documents);
                 }
 
 
@@ -2264,18 +2139,18 @@ namespace ElasticSearchNestConnector
 
             if (doASC)
             {
-                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(0).Size(1).SortAscending(strSort));
+                var result = ElConnector.Search<clsObjectRel>(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(0).Size(1).SortAscending(strSort));
                 if (result.Documents.Any())
                 {
-                    lngOrderID = result.Documents.First()[strField];
+                    lngOrderID = (long)result.Documents.First().OrderID;
                 }
             }
             else
             {
-                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(0).Size(1).SortDescending(strSort));
+                var result = ElConnector.Search<clsObjectRel>(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(0).Size(1).SortDescending(strSort));
                 if (result.Documents.Any())
                 {
-                    lngOrderID = result.Documents.First()[strField];
+                    lngOrderID = (long)result.Documents.First().OrderID;
                 }
             }
 
@@ -2294,7 +2169,7 @@ namespace ElasticSearchNestConnector
             strQuery += " AND " + objFields.ID_Parent_Other + OItem_Class_Child.GUID;
             strQuery += " AND " + objFields.ID_RelationType + OItem_RelationType.GUID;
 
-            var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(0).Size(1));
+            var result = ElConnector.Search<clsObjectRel>(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(0).Size(1));
 
             var lngCount = result.Total;
 
@@ -2337,12 +2212,12 @@ namespace ElasticSearchNestConnector
             {
                 intCount = 0;
 
-                var result = ElConnector.Search(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(intPos).Size(SearchRange));
+                var result = ElConnector.Search<clsObjectRel>(s => s.Index(Index).Type(objTypes.ObjectRel).QueryString(strQuery).From(intPos).Size(SearchRange));
 
                 OntologyList_ObjectTree.AddRange((from objHit in result.Documents
-                                                  join objLeft in OntologyList_Objects1 on objHit[objFields.ID_Object].ToString() equals objLeft.GUID
-                                                  join objRight in OntologyList_Objects2 on objHit[objFields.ID_Other].ToString() equals objRight.GUID
-                                                  join objRel in OntologyList_RelationTypes1 on objHit[objFields.ID_RelationType].ToString() equals objRel.GUID
+                                                  join objLeft in OntologyList_Objects1 on objHit.ID_Object equals objLeft.GUID
+                                                  join objRight in OntologyList_Objects2 on objHit.ID_Other equals objRight.GUID
+                                                  join objRel in OntologyList_RelationTypes1 on objHit.ID_RelationType equals objRel.GUID
                                                   select new clsObjectTree
                                                   {
                                                       ID_Object = objRight.GUID,
@@ -2350,7 +2225,7 @@ namespace ElasticSearchNestConnector
                                                       ID_Parent = objRight.GUID_Parent,
                                                       ID_Object_Parent = objLeft.GUID,
                                                       Name_Object_Parent = objLeft.Name,
-                                                      OrderID = objHit["OrderID"]  ?? 0
+                                                      OrderID = objHit.OrderID  ?? 0
                                                   }).ToList().OrderBy(p => p.ID_Object_Parent).ThenBy(p => p.OrderID).ThenBy(p => p.Name_Object).ToList());
 
                 if (result.Documents.Count() < SearchRange)

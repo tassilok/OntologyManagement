@@ -565,7 +565,7 @@ Public Class clsDataWork_RefTree
         Dim objOItem_Result = objDataWork_Tagging.GetTagsOfTaggingSource(New clsOntologyItem With {.GUID_Parent = objOItem_MediaType.GUID, .Type = objLocalConfig.Globals.Type_Object})
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            TagList = objDataWork_Tagging.TypedTags
+            TagList = objDataWork_Tagging.TypedTags_Dests
             objOItem_Result = GetClassTree_NamendSemantic()
         End If
 

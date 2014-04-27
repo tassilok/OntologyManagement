@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Nest;
 
 namespace OntologyClasses.BaseClasses
 {
     [Serializable]
+    [ElasticType(Name = "clsOntologyItem")]
     public class clsOntologyItem
     {
 
@@ -17,10 +19,36 @@ namespace OntologyClasses.BaseClasses
         public List<clsOntologyItem> OList_Rel { get; set; }
 
         public string GUID { get; set; }
+
+        public string ID_Item
+        {
+            get { return GUID; }
+            set { GUID = value; }
+        }
+        public string ID_Parent
+        {
+            get { return GUID_Parent; }
+            set { GUID_Parent = value; }
+        }
+        public string ID_Class
+        {
+            get { return GUID_Parent; }
+            set { GUID_Parent = value; }
+        }
+        public string ID_DataType
+        {
+            get { return GUID_Parent; }
+            set { GUID_Parent = value; }
+        }
         public string GUID_Parent { get; set; }
         public string GUID_Related { get; set; }
         public string GUID_Relation { get; set; }
         public string Name { get; set; }
+        public string Name_Item
+        {
+            get { return Name; }
+            set { Name = value; }
+        }
         public string Name_Parent { get; set; }
         public string Caption { get; set; }
         public string Additional1 { get; set; }

@@ -39,7 +39,7 @@ namespace ElasticSearchNestConnector
         public int LastPos { get; set; }
         public int PageCount { get; set; }
         public int CurPage { get; set; }
-        public int Total { get; set; }
+        public long Total { get; set; }
 
 
         public ElasticClient ElConnector { get; private set; }
@@ -106,7 +106,7 @@ namespace ElasticSearchNestConnector
             try
             {
                 var indexSettings = new IndexSettings();
-                ElConnector.CreateIndex(Index, indexSettings);
+                ElConnector.CreateIndex(Index);
 
             }
             catch (Exception ex)
@@ -120,7 +120,8 @@ namespace ElasticSearchNestConnector
         {
             
             var strTypes = new List<string>();
-            var result = ElConnector.Search(s => s.Index(Index).Type("doctypes").QueryString("doctype:*").From(0).Size(10000));
+            var result = ElConnector.Search<dynamic>(s => s.Index(Index).Type("doctypes").QueryString("doctype:*").From(0).Size(1));
+            //var result = ElConnector.Search(s => s.Index(Index).Type("doctypes").QueryString("doctype:*").From(0).Size(10000));
             if (result.Documents.Any())
             {
                 strTypes.AddRange(result.Documents.Select(objType => objType["doctype"].ToString()).Cast<string>());
@@ -153,11 +154,13 @@ namespace ElasticSearchNestConnector
             {
                 intCount = 0;
                 var type = strType ?? App ?? "*";
-                var result = ElConnector.Search(s => s.Index(strIndex ?? Index).Type(type).QueryString(query ?? "*").From(intPos).Size(SearchRange));
+                var result = ElConnector.Search<dynamic>(s => s.Index(strIndex ?? Index).Type(type).QueryString(query ?? "*").From(intPos).Size(SearchRange));
                 Total = result.Total;
-                Documents.AddRange(
-                    result.Documents.Select(
-                        d => new clsAppDocuments {Dict = new JObject(d).ToObject<Dictionary<string, object>>(), Id = d["Id"]}));
+                //var docs = new List<clsAppDocuments>();
+                var docs = result.Documents.Select(
+                    d =>  new clsAppDocuments { Dict = new JObject(d).ToObject<Dictionary<string, object>>(), Id = d["Id"] != null ? d["Id"].ToString() : null }).ToList();
+
+                Documents.AddRange(docs);
 
                 if (Paging)
                 {

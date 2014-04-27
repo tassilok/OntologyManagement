@@ -249,7 +249,7 @@ Public Class clsDataWork_Images
         Dim objOL_CreationDate As New List(Of clsObjectAtt)
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            Dim objTags = objDataWork_Tagging.TypedTags.Where(Function(t) t.ID_TaggingDest = objOItem_Ref.GUID).ToList()
+            Dim objTags = objDataWork_Tagging.TypedTags_Dests.Where(Function(t) t.ID_TaggingDest = objOItem_Ref.GUID).ToList()
 
             If objTags.Any Then
                 If objTags.Count < 500 Then
@@ -296,7 +296,7 @@ Public Class clsDataWork_Images
                                                            boolIDs:=False)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objLImages.Clear()
-                            objLImages = (From objImg In objDataWork_Tagging.TypedTags.Where(Function(m) m.ID_TaggingDest = objOItem_Ref.GUID).ToList()
+                            objLImages = (From objImg In objDataWork_Tagging.TypedTags_Dests.Where(Function(m) m.ID_TaggingDest = objOItem_Ref.GUID).ToList()
                                              Join objFile In objDBLevel_Files.OList_ObjectRel On objFile.ID_Object Equals objImg.ID_TaggingSource
                                              Group Join objDate In objDBLevel_CreationDate.OList_ObjectAtt On objDate.ID_Object Equals objImg.ID_TaggingSource Into objDates = Group
                                              From objDate In objDates.DefaultIfEmpty

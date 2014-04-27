@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Nest;
 
 namespace OntologyClasses.BaseClasses
 {
+    [ElasticType(Name = "clsClassRel")]
     public class clsClassRel
     {
         public string ID_Class_Left { get; set; }

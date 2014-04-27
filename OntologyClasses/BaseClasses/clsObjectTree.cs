@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Nest;
 
 namespace OntologyClasses.BaseClasses
 {
+    [ElasticType(Name = "clsObjectTree")]
     public class clsObjectTree
     {
         public string ID_Object { get; set; }

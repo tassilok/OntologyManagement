@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Nest;
 
 namespace OntologyClasses.BaseClasses
 {
+    [ElasticType(Name = "clsObjectAtt")]
     public class clsObjectAtt
     {
         public string ID_Attribute { get; set; }
@@ -16,10 +18,36 @@ namespace OntologyClasses.BaseClasses
         public string ID_Class { get; set; }
         public string Name_Class { get; set; }
         public string Val_Named { get; set; }
+        public string Val_Name
+        {
+            get { return Val_Named; }
+            set { Val_Named = value; }
+        }
         public string ID_DataType { get; set; }
         public string Name_DataType { get; set; }
+        public bool? Val_Bool 
+        {
+            get { return Val_Bit; }
+            set { Val_Bit = value; }
+        }
+
         public bool? Val_Bit { get; set; }
+        public long? Val_Int
+        {
+            get { return Val_Lng; }
+            set { Val_Lng = value; }
+        }
         public long? Val_Lng { get; set; }
+        public DateTime? Val_Datetime
+        {
+            get { return Val_Date; }
+            set { Val_Date = value; }
+        }
+        public double? Val_Real
+        {
+            get { return Val_Double; }
+            set { Val_Double = value; }
+        }
         public double? Val_Double { get; set; }
         public DateTime? Val_Date { get; set; }
         public string Val_String { get; set; }

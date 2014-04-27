@@ -148,7 +148,7 @@ Public Class frmMediaModule_ListEdit
         End Select
         
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            TypedTags = objDataWork_Tagging.TypedTags
+            TypedTags = objDataWork_Tagging.TypedTags_Sources
             Dim ItemRows = (From T In objUserControl_MediaList.DataGridviewRows.Cast(Of DataGridViewRow)()).ToList
 
             Dim OList_ItemsWithNoObjects = (From objItem In ItemRows
@@ -189,7 +189,7 @@ Public Class frmMediaModule_ListEdit
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             Dim lngRowIndex = objUserControl_MediaList.SelectedRowIndex
-            TypedTags = objDataWork_Tagging.TypedTags
+            TypedTags = objDataWork_Tagging.TypedTags_Sources
 
             Dim ItemRows = (From T In objUserControl_MediaList.DataGridviewRows.Cast(Of DataGridViewRow)()).ToList()
 
@@ -227,7 +227,7 @@ Public Class frmMediaModule_ListEdit
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             Dim lngRowIndex = objUserControl_MediaList.SelectedRowIndex
-            TypedTags = objDataWork_Tagging.TypedTags
+            TypedTags = objDataWork_Tagging.TypedTags_Sources
 
             Dim ItemRows = (From T In objUserControl_MediaList.DataGridviewRows.Cast(Of DataGridViewRow)()).ToList()
 

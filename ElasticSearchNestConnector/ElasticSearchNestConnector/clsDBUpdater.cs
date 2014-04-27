@@ -29,7 +29,7 @@ namespace ElasticSearchNestConnector
             var OList_AttributeTypeNameTest = new List<clsOntologyItem>();
 
 
-            objDBSelector.ElConnector.Flush();
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
 
             OList_AttributeTypeNameTest.Add(new clsOntologyItem { Name = objOItem_AttributeType.Name });
 
@@ -126,14 +126,14 @@ namespace ElasticSearchNestConnector
 
             }
 
-            objDBSelector.ElConnector.Flush();
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
 
             return objOItem_Result;
         }
 
         public clsOntologyItem save_Class(clsOntologyItem objOItem_Class, bool boolRoot = false)
         {
-            objDBSelector.ElConnector.Flush();
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
 
             var objOItem_Result = objLogStates.LogState_Success;
 
@@ -174,7 +174,7 @@ namespace ElasticSearchNestConnector
                         objOItem_Result = objLogStates.LogState_Exists;
                 }
 
-                objDBSelector.ElConnector.Flush();
+                objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
             }
 
             if (objOItem_Result.GUID == objLogStates.LogState_Nothing.GUID)
@@ -205,7 +205,7 @@ namespace ElasticSearchNestConnector
 
         public clsOntologyItem save_ClassAtt(List<clsClassAtt> OList_ClassAtt)
         {
-            objDBSelector.ElConnector.Flush();
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
 
             var objOItem_Result = objLogStates.LogState_Success;
 
@@ -248,7 +248,7 @@ namespace ElasticSearchNestConnector
 
 
                 }
-                var bulkResult = objDBSelector.ElConnector.Bulk(objBulkDescriptor);
+                var bulkResult = objDBSelector.ElConnector.Bulk(b=>objBulkDescriptor);
                 objOItem_Result = bulkResult.Items.Any(it => it.Error != null) ? objLogStates.LogState_Error : objLogStates.LogState_Success;
 
                 
@@ -261,14 +261,14 @@ namespace ElasticSearchNestConnector
                 objOItem_Result.Max1 = OList_ClassAtt.Count;
             }
 
-            objDBSelector.ElConnector.Flush();
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
 
             return objOItem_Result;
         }
 
         public clsOntologyItem save_ClassRel(List<clsClassRel> OList_ClassRel)
         {
-            objDBSelector.ElConnector.Flush();
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
 
             var objOItem_Result = objLogStates.LogState_Success;
 
@@ -324,7 +324,7 @@ namespace ElasticSearchNestConnector
 
                 }
 
-                var bulkResult = objDBSelector.ElConnector.Bulk(objBulkDescriptor);
+                var bulkResult = objDBSelector.ElConnector.Bulk(b=>objBulkDescriptor);
                 objOItem_Result = bulkResult.Items.Any(it => it.Error != null) ? objLogStates.LogState_Error : objLogStates.LogState_Success;
             }
             else
@@ -335,14 +335,14 @@ namespace ElasticSearchNestConnector
                 objOItem_Result.Max1 = OList_ClassRel.Count;
             }
 
-            objDBSelector.ElConnector.Flush();
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
 
             return objOItem_Result;
         }
 
         public clsOntologyItem save_DataTypes(List<clsOntologyItem> OList_DataType)
         {
-            objDBSelector.ElConnector.Flush();
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
 
             var objOItem_Result = objLogStates.LogState_Success;
 
@@ -361,7 +361,7 @@ namespace ElasticSearchNestConnector
 
             }
 
-            var bulkResult = objDBSelector.ElConnector.Bulk(objBulkDescriptor);
+            var bulkResult = objDBSelector.ElConnector.Bulk(b=>objBulkDescriptor);
             objOItem_Result = bulkResult.Items.Any(it => it.Error != null) ? objLogStates.LogState_Error : objLogStates.LogState_Success;
 
             return objOItem_Result;
@@ -369,7 +369,7 @@ namespace ElasticSearchNestConnector
 
         public List<clsObjectAtt> save_ObjectAtt(List<clsObjectAtt> OList_ObjAtt)
         {
-            objDBSelector.ElConnector.Flush();
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
 
             var objOItem_Result = objLogStates.LogState_Success;
 
@@ -457,7 +457,7 @@ namespace ElasticSearchNestConnector
 
                 }
 
-                var bulkResult = objDBSelector.ElConnector.Bulk(objBulkDescriptor);
+                var bulkResult = objDBSelector.ElConnector.Bulk(b=>objBulkDescriptor);
                 objOItem_Result = bulkResult.Items.Any(it => it.Error != null) ? objLogStates.LogState_Error : objLogStates.LogState_Success;
             }
             else
@@ -469,14 +469,14 @@ namespace ElasticSearchNestConnector
                 objOItem_Result.Max1 = OList_ObjAtt.Count;
             }
 
-            objDBSelector.ElConnector.Flush();
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
 
             return objOList_ToSave;
         }
 
         public clsOntologyItem save_ObjectRel(List<clsObjectRel> OList_ObjectRel)
         {
-            objDBSelector.ElConnector.Flush();
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
 
             var objOItem_Result = objLogStates.LogState_Success;
 
@@ -576,7 +576,7 @@ namespace ElasticSearchNestConnector
 
                 }
 
-                var bulkResult = objDBSelector.ElConnector.Bulk(objBulkDescriptor);
+                var bulkResult = objDBSelector.ElConnector.Bulk(b=>objBulkDescriptor);
                 objOItem_Result = bulkResult.Items.Any(it => it.Error != null) ? objLogStates.LogState_Error : objLogStates.LogState_Success;
             }
             else
@@ -587,14 +587,14 @@ namespace ElasticSearchNestConnector
                 objOItem_Result.Max1 = OList_ObjectRel.Count;
             }
 
-            objDBSelector.ElConnector.Flush();
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
 
             return objOItem_Result;
         }
 
         public clsOntologyItem save_Objects(List<clsOntologyItem> OList_Objects)
         {
-            objDBSelector.ElConnector.Flush();
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
 
             var objOItem_Result = objLogStates.LogState_Success;
 
@@ -625,7 +625,7 @@ namespace ElasticSearchNestConnector
                     
                 }
 
-                var bulkResult = objDBSelector.ElConnector.Bulk(objBulkDescriptor);
+                var bulkResult = objDBSelector.ElConnector.Bulk(b=>objBulkDescriptor);
                 objOItem_Result = bulkResult.Items.Any(it => it.Error != null) ? objLogStates.LogState_Error : objLogStates.LogState_Success;
             }
             else
@@ -636,14 +636,14 @@ namespace ElasticSearchNestConnector
                 objOItem_Result.Max1 = OList_Objects.Count;
             }
 
-            objDBSelector.ElConnector.Flush();
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
 
             return objOItem_Result;
         }
 
         public clsOntologyItem save_RelationType(clsOntologyItem objOItem_RelationType)
         {
-            objDBSelector.ElConnector.Flush();
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
 
             var objOItem_Result = objLogStates.LogState_Success;
             var OList_RelationTypeNameTest = new List<clsOntologyItem>();
@@ -709,7 +709,7 @@ namespace ElasticSearchNestConnector
 
             }
 
-            objDBSelector.ElConnector.Flush();
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
 
             return objOItem_Result;
         }
