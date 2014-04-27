@@ -57,7 +57,7 @@ namespace ScriptExecutor_Module
                 objOItem_Result = objDataWork_ReportSource.GetData();
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-
+                    var objCMDLRs = objDataWork_ReportSource.GetReportData(objOItem_CommandLineRun);
                 }
             }
             

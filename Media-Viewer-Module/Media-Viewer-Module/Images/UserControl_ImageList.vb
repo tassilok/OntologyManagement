@@ -165,7 +165,7 @@ Public Class UserControl_ImageList
         ToolStripButton_Remove.Enabled = False
     End Sub
 
-    Public Sub initialize_Images(ByVal OItem_Ref As clsOntologyItem, Optional ByVal select_First As Boolean = False)
+    Public Sub initialize_Images(ByVal OItem_Ref As clsOntologyItem, Optional ByVal select_First As Boolean = False, Optional namedSemantics As Boolean = False)
         clear_List()
         objOItem_Ref = OItem_Ref
 
@@ -179,7 +179,12 @@ Public Class UserControl_ImageList
         boolSelect_First = select_First
         If Not objOItem_Ref Is Nothing Then
             Timer_Images.Stop()
-            objDataWork_Images.get_Images(objOItem_Ref)
+            If namedSemantics = False Then
+                objDataWork_Images.get_Images(objOItem_Ref)
+            Else
+                objDataWork_Images.get_NamedImages(objOItem_Ref)
+            End If
+
 
             Timer_Images.Start()
         End If

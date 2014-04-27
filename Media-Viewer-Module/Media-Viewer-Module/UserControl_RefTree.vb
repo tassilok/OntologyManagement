@@ -29,6 +29,7 @@ Public Class UserControl_RefTree
 
     Public Event selected_Item(ByVal objOItem_Ref As clsOntologyItem)
     Public Event selected_Date()
+    Public Event selected_NamedItem(objOItem_Tag As clsOntologyItem)
     Public Event save_Items(objTreeNode As TreeNode, strPath As String)
     Public Event save_ChronoItems()
     Public Event relate_Item(OItem_Related As clsOntologyItem)
@@ -102,7 +103,13 @@ Public Class UserControl_RefTree
             ElseIf treeOrga = Media_Viewer_Module.TreeOrga.chronosemantic Then
 
             ElseIf treeOrga = Media_Viewer_Module.TreeOrga.namedsemantic Then
-
+                objOItem_Result = objDataWork_RefTree.get_Data_RefItemsOfMedia_NamendSemantic(objOItem_MediaType)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objTreeNode_Root = objDataWork_RefTree.add_SubNodes_Named()
+                    If Not objTreeNode_Root Is Nothing Then
+                        TreeView_Ref.Nodes.Add(objTreeNode_Root)
+                    End If
+                End If
             End If
             
         End If
@@ -183,6 +190,39 @@ Public Class UserControl_RefTree
                     RaiseEvent selected_Date()
                 End If
             End If
+        ElseIf treeOrga = Media_Viewer_Module.TreeOrga.namedsemantic Then
+            If Not objTreeNode Is Nothing Then
+                If objTreeNode.ImageIndex = objLocalConfig.ImageID_Attribute Or _
+                    objTreeNode.ImageIndex = objLocalConfig.ImageID_RelationType Or _
+                    objTreeNode.ImageIndex = objLocalConfig.ImageID_Close_Images Or _
+                    objTreeNode.ImageIndex = objLocalConfig.ImageID_Token Or _
+                    objTreeNode.ImageIndex = objLocalConfig.ImageID_Token_Named Then
+
+                    objOItem_Ref = New clsOntologyItem
+                    objOItem_Ref.GUID = objTreeNode.Name
+                    objOItem_Ref.Name = objTreeNode.Text
+
+                    Select Case objTreeNode.ImageIndex
+                        Case objLocalConfig.ImageID_Close_Images
+                            objOItem_Ref.Type = objLocalConfig.Globals.Type_Class
+                        Case objLocalConfig.ImageID_Attribute
+                            objOItem_Ref.Type = objLocalConfig.Globals.Type_AttributeType
+                        Case objLocalConfig.ImageID_RelationType
+                            objOItem_Ref.Type = objLocalConfig.Globals.Type_RelationType
+                        Case objLocalConfig.ImageID_Token
+                            objTreeNode_Parent = objTreeNode.Parent
+                            objOItem_Ref.GUID_Parent = objTreeNode_Parent.Name
+                            objOItem_Ref.Type = objLocalConfig.Globals.Type_Object
+                        Case objLocalConfig.ImageID_Token_Named
+                            objOItem_Ref.Type = objLocalConfig.Globals.Type_Object
+                    End Select
+
+
+                End If
+            End If
+            RaiseEvent selected_NamedItem(objOItem_Ref)
+
+
         End If
         
 

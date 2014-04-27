@@ -365,7 +365,7 @@ Public Class UserControl_MediaItemList
 
     End Sub
 
-    Public Sub initialize_MediaItems(ByVal OItem_Ref As clsOntologyItem, exportOption As ExportOptions, Optional ByVal select_First As Boolean = False)
+    Public Sub initialize_MediaItems(ByVal OItem_Ref As clsOntologyItem, exportOption As ExportOptions, Optional ByVal select_First As Boolean = False, Optional namedSemantics As Boolean = False)
         objOItem_Ref = OItem_Ref
         clear_List()
         boolSelect_First = select_First
@@ -373,7 +373,12 @@ Public Class UserControl_MediaItemList
 
         If Not objOItem_Ref Is Nothing Then
             Timer_MediaItems.Stop()
-            objDataWork_MediaItem.get_MediaItems(objOItem_Ref)
+            If namedSemantics Then
+                objDataWork_MediaItem.get_NamedMediaItems(objOItem_Ref)
+            Else
+                objDataWork_MediaItem.get_MediaItems(objOItem_Ref)
+            End If
+
 
             Timer_MediaItems.Start()
         End If

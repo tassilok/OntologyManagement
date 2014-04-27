@@ -1,5 +1,6 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
+Imports Typed_Tagging_Module
 
 Public Class clsDataWork_Images
     Private objLocalConfig As clsLocalConfig
@@ -12,6 +13,8 @@ Public Class clsDataWork_Images
     Private objDBLevel_MetaData_To_DateItem As clsDBLevel
     Private objDBLevel_MetaData_Att As clsDBLevel
     Private objDBLevel_Dates As clsDBLevel
+
+    Private objDataWork_Tagging As clsDataWork_Tagging
     
     Private dtblT_Images As New DataSet_Images.dtbl_ImagesDataTable
     Private objThread_Images As Threading.Thread
@@ -203,6 +206,24 @@ Public Class clsDataWork_Images
         End Get
     End Property
 
+    Public Sub get_NamedImages(OItem_Ref As clsOntologyItem, Optional boolTable As Boolean = True)
+        Me.boolTable = boolTable
+        objOItem_Ref = OItem_Ref
+        dtblT_Images.Clear()
+        boolLoaded = False
+
+        Try
+            objThread_Images.Abort()
+        Catch ex As Exception
+
+        End Try
+
+
+        objThread_Images = New Threading.Thread(AddressOf get_ImagesNamed_Thread)
+        objThread_Images.Start()
+
+    End Sub
+
     Public Sub get_Images(ByVal OItem_Ref As clsOntologyItem, Optional boolTable As Boolean = True)
 
         Me.boolTable = boolTable
@@ -219,6 +240,107 @@ Public Class clsDataWork_Images
         objThread_Images = New Threading.Thread(AddressOf get_Images_Thread)
         objThread_Images.Start()
 
+    End Sub
+
+    Private Sub get_ImagesNamed_Thread()
+        Dim objOItem_Result = objDataWork_Tagging.GetTagsOfTaggingSource(New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID})
+        Dim objOL_Images_To_Ref As New List(Of clsObjectRel)
+        Dim objOL_Images_To_File As New List(Of clsObjectRel)
+        Dim objOL_CreationDate As New List(Of clsObjectAtt)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim objTags = objDataWork_Tagging.TypedTags.Where(Function(t) t.ID_TaggingDest = objOItem_Ref.GUID).ToList()
+
+            If objTags.Any Then
+                If objTags.Count < 500 Then
+                    objOL_Images_To_File = objTags.Select(Function(t) New clsObjectRel With {.ID_Object = t.ID_TaggingSource, _
+                                                                                             .ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID, _
+                                                                                             .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Source.GUID}).ToList()
+
+                Else
+                    objOL_Images_To_File.Add(New clsObjectRel(Nothing, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_Type_File.GUID, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_RelationType_belonging_Source.GUID, _
+                                                      Nothing, _
+                                                      objLocalConfig.Globals.Type_Object, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing))
+                End If
+
+
+                objOItem_Result = objDBLevel_Files.get_Data_ObjectRel(objOL_Images_To_File, _
+                                                    boolIDs:=False)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objDBLevel_Files.OList_ObjectRel.Any Then
+                        If objDBLevel_Files.OList_ObjectRel.Count < 500 Then
+                            objOL_CreationDate = objDBLevel_Files.OList_ObjectRel.Select(Function(cd) New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_taking.GUID, _
+                                                                                                                             .ID_Object = cd.ID_Other}).ToList()
+
+
+                        Else
+                            objOL_CreationDate.Add(New clsObjectAtt(Nothing, _
+                                                        Nothing, _
+                                                        objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                        objLocalConfig.OItem_Attribute_taking.GUID, _
+                                                        Nothing))
+                        End If
+
+                        objOItem_Result = objDBLevel_CreationDate.get_Data_ObjectAtt(objOL_CreationDate, _
+                                                           boolIDs:=False)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objLImages.Clear()
+                            objLImages = (From objImg In objDataWork_Tagging.TypedTags.Where(Function(m) m.ID_TaggingDest = objOItem_Ref.GUID).ToList()
+                                             Join objFile In objDBLevel_Files.OList_ObjectRel On objFile.ID_Object Equals objImg.ID_TaggingSource
+                                             Group Join objDate In objDBLevel_CreationDate.OList_ObjectAtt On objDate.ID_Object Equals objImg.ID_TaggingSource Into objDates = Group
+                                             From objDate In objDates.DefaultIfEmpty
+                                             Select New clsMultiMediaItem(objImg.ID_TaggingSource, _
+                                                                          objImg.Name_TaggingSource, _
+                                                                          objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                                          objFile.ID_Other, _
+                                                                          objFile.Name_Other, _
+                                                                          objFile.ID_Parent_Other, _
+                                                                          objDate, _
+                                                                          0)).ToList()
+
+                            If boolTable Then
+                                For Each objImage In objLImages
+                                    If objImage.OACreate Is Nothing Then
+                                        dtblT_Images.Rows.Add(objImage.OrderID, _
+                                                              objImage.ID_Item, _
+                                                              objImage.Name_Item, _
+                                                              Nothing, _
+                                                              objImage.ID_File, _
+                                                              objImage.Name_File)
+                                    Else
+                                        dtblT_Images.Rows.Add(objImage.OrderID, _
+                                                              objImage.ID_Item, _
+                                                              objImage.Name_Item, _
+                                                              objImage.OACreate.Val_Date, _
+                                                              objImage.ID_File, _
+                                                              objImage.Name_File)
+                                    End If
+                                Next
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+            
+            
+
+            
+
+            
+        End If
+        
+        boolLoaded = True
     End Sub
 
     Public Function get_Image(OItem_Image As clsOntologyItem) As List(Of clsMultiMediaItem)
@@ -297,73 +419,98 @@ Public Class clsDataWork_Images
                                                  Nothing, _
                                                  Nothing))
 
-        objDBLevel_Images.get_Data_ObjectRel(objOL_Images_To_Ref, _
+        Dim objOItem_Result = objDBLevel_Images.get_Data_ObjectRel(objOL_Images_To_Ref, _
                                              boolIDs:=False)
 
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
 
-        objOL_Images_To_File.Add(New clsObjectRel(Nothing, _
-                                                  Nothing, _
-                                                  objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
-                                                  Nothing, _
-                                                  Nothing, _
-                                                  Nothing, _
-                                                  objLocalConfig.OItem_Type_File.GUID, _
-                                                  Nothing, _
-                                                  objLocalConfig.OItem_RelationType_belonging_Source.GUID, _
-                                                  Nothing, _
-                                                  objLocalConfig.Globals.Type_Object, _
-                                                  Nothing, _
-                                                  Nothing, _
-                                                  Nothing))
+            If objDBLevel_Images.OList_ObjectRel.Any Then
+                If objDBLevel_Images.OList_ObjectRel.Count < 500 Then
+                    objOL_Images_To_File = objDBLevel_Images.OList_ObjectRel.Select(Function(i) New clsObjectRel With {.ID_Object = i.ID_Object, _
+                                                                                                                       .ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID, _
+                                                                                                                       .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Source.GUID}).ToList()
 
-        objDBLevel_Files.get_Data_ObjectRel(objOL_Images_To_File, _
-                                            boolIDs:=False)
-
-        objOL_CreationDate.Add(New clsObjectAtt(Nothing, _
-                                                Nothing, _
-                                                objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
-                                                objLocalConfig.OItem_Attribute_taking.GUID, _
-                                                Nothing))
-
-        objDBLevel_CreationDate.get_Data_ObjectAtt(objOL_CreationDate, _
-                                                   boolIDs:=False)
-
-        objLImages.Clear()
-        objLImages = (From objImg In objDBLevel_Images.OList_ObjectRel
-                         Join objFile In objDBLevel_Files.OList_ObjectRel On objFile.ID_Object Equals objImg.ID_Object
-                         Group Join objDate In objDBLevel_CreationDate.OList_ObjectAtt On objDate.ID_Object Equals objImg.ID_Object Into objDates = Group
-                         From objDate In objDates.DefaultIfEmpty
-                         Order By objImg.OrderID
-                         Select New clsMultiMediaItem(objImg.ID_Object, _
-                                                      objImg.Name_Object, _
-                                                      objImg.ID_Parent_Object, _
-                                                      objFile.ID_Other, _
-                                                      objFile.Name_Other, _
-                                                      objFile.ID_Parent_Other, _
-                                                      objDate, _
-                                                      objImg.OrderID)).ToList()
-
-        If boolTable Then
-            For Each objImage In objLImages
-                If objImage.OACreate Is Nothing Then
-                    dtblT_Images.Rows.Add(objImage.OrderID, _
-                                          objImage.ID_Item, _
-                                          objImage.Name_Item, _
-                                          Nothing, _
-                                          objImage.ID_File, _
-                                          objImage.Name_File)
                 Else
-                    dtblT_Images.Rows.Add(objImage.OrderID, _
-                                          objImage.ID_Item, _
-                                          objImage.Name_Item, _
-                                          objImage.OACreate.Val_Date, _
-                                          objImage.ID_File, _
-                                          objImage.Name_File)
+                    objOL_Images_To_File.Add(New clsObjectRel(Nothing, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_Type_File.GUID, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_RelationType_belonging_Source.GUID, _
+                                                      Nothing, _
+                                                      objLocalConfig.Globals.Type_Object, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing))
                 End If
-            Next
+
+
+                objOItem_Result = objDBLevel_Files.get_Data_ObjectRel(objOL_Images_To_File, _
+                                                        boolIDs:=False)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objDBLevel_Files.OList_ObjectRel.Any Then
+                        If objDBLevel_Files.OList_ObjectRel.Count < 500 Then
+                            objOL_CreationDate = objDBLevel_Files.OList_ObjectRel.Select(Function(cd) New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_taking.GUID, _
+                                                                                                                             .ID_Object = cd.ID_Other}).ToList()
+
+
+                        Else
+                            objOL_CreationDate.Add(New clsObjectAtt(Nothing, _
+                                                        Nothing, _
+                                                        objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                        objLocalConfig.OItem_Attribute_taking.GUID, _
+                                                        Nothing))
+                        End If
+
+                        objOItem_Result = objDBLevel_CreationDate.get_Data_ObjectAtt(objOL_CreationDate, _
+                                                           boolIDs:=False)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+                            objLImages.Clear()
+                            objLImages = (From objImg In objDBLevel_Images.OList_ObjectRel
+                                             Join objFile In objDBLevel_Files.OList_ObjectRel On objFile.ID_Object Equals objImg.ID_Object
+                                             Group Join objDate In objDBLevel_CreationDate.OList_ObjectAtt On objDate.ID_Object Equals objImg.ID_Object Into objDates = Group
+                                             From objDate In objDates.DefaultIfEmpty
+                                             Order By objImg.OrderID
+                                             Select New clsMultiMediaItem(objImg.ID_Object, _
+                                                                          objImg.Name_Object, _
+                                                                          objImg.ID_Parent_Object, _
+                                                                          objFile.ID_Other, _
+                                                                          objFile.Name_Other, _
+                                                                          objFile.ID_Parent_Other, _
+                                                                          objDate, _
+                                                                          objImg.OrderID)).ToList()
+
+                            If boolTable Then
+                                For Each objImage In objLImages
+                                    If objImage.OACreate Is Nothing Then
+                                        dtblT_Images.Rows.Add(objImage.OrderID, _
+                                                              objImage.ID_Item, _
+                                                              objImage.Name_Item, _
+                                                              Nothing, _
+                                                              objImage.ID_File, _
+                                                              objImage.Name_File)
+                                    Else
+                                        dtblT_Images.Rows.Add(objImage.OrderID, _
+                                                              objImage.ID_Item, _
+                                                              objImage.Name_Item, _
+                                                              objImage.OACreate.Val_Date, _
+                                                              objImage.ID_File, _
+                                                              objImage.Name_File)
+                                    End If
+                                Next
+                            End If
+
+                        End If
+                    End If
+                End If
+            End If
+            
         End If
-
-
+        
         boolLoaded = True
     End Sub
 
@@ -518,6 +665,8 @@ Public Class clsDataWork_Images
         objDBLevel_MetaData_Att = New clsDBLevel(objLocalConfig.Globals)
 
         objDBLevel_Dates = New clsDBLevel(objLocalConfig.Globals)
+
+        objDataWork_Tagging = New clsDataWork_Tagging(objLocalConfig.Globals, objLocalConfig.OItem_User, objLocalConfig.OItem_Group)
         
     End Sub
 End Class

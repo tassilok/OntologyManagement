@@ -21,6 +21,10 @@ namespace Typed_Tagging_Module
 
         private UserControl_TaggingContainer objUserControl_TaggingContainer;
 
+        private UserControl_TagTree objUserControl_TagTree;
+
+        private UserControl_TagSources objUserControl_TagSources;
+
         private frmAuthenticate objFrmAuthenticate;
 
         public frmTypedTaggingModule()
@@ -43,7 +47,7 @@ namespace Typed_Tagging_Module
 
                 objUserControl_RefTree = new UserControl_RefTree(objLocalConfig.Globals);
                 objUserControl_RefTree.Dock = DockStyle.Fill;
-                splitContainer1.Panel1.Controls.Add(objUserControl_RefTree);
+                tabPage_TaggingSource.Controls.Add(objUserControl_RefTree);
 
                 objUserControl_RefTree.selected_Node += objUserControl_RefTree_selected_Node;
 
@@ -55,6 +59,7 @@ namespace Typed_Tagging_Module
                 var objOList_RelationTypes = new List<clsOntologyItem> { objLocalConfig.OItem_relationtype_is_tagging };
 
                 objUserControl_RefTree.initialize_Tree(objOList_Classes, objOList_RelationTypes);
+
             }
             else
             {
@@ -67,6 +72,42 @@ namespace Typed_Tagging_Module
         void objUserControl_RefTree_selected_Node(clsOntologyItem OItem_Selected)
         {
             objUserControl_TaggingContainer.Initialize_Taging(OItem_Selected);
+        }
+
+        private void Configure_Tags()
+        {
+            splitContainer1.Panel2.Controls.Clear();
+            if (tabControl1.SelectedTab.Name == tabPage_Tags.Name)
+            {
+                if (objUserControl_TagTree == null)
+                {
+                    objUserControl_TagTree = new UserControl_TagTree(objLocalConfig);
+                    objUserControl_TagTree.Dock = DockStyle.Fill;
+                    tabPage_Tags.Controls.Add(objUserControl_TagTree);
+                    objUserControl_TagTree.Selected_Node += objUserControl_TagTree_Selected_Node;
+
+                    objUserControl_TagSources = new UserControl_TagSources(objLocalConfig);
+                    objUserControl_TagSources.Dock = DockStyle.Fill;
+                    
+                }
+                
+                splitContainer1.Panel2.Controls.Add(objUserControl_TagSources);
+            }
+            else if (tabControl1.SelectedTab.Name == tabPage_TaggingSource.Name)
+            {
+
+                splitContainer1.Panel2.Controls.Add(objUserControl_TaggingContainer);
+            }
+        }
+
+        void objUserControl_TagTree_Selected_Node(clsOntologyItem OItem_Selected)
+        {
+            objUserControl_TagSources.Initialize_TagSources(OItem_Selected);
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Configure_Tags();
         }
     }
 }

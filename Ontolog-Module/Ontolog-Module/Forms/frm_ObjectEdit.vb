@@ -195,7 +195,7 @@ Public Class frm_ObjectEdit
                                                                 strRowName_Name, _
                                                                 strRowName_ID_Parent)
         
-
+        Me.intRowID = intRowID
         RefreshClassPath()
     End Sub
 

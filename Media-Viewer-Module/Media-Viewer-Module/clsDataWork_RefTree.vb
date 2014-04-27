@@ -1,5 +1,6 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
+Imports Typed_Tagging_Module
 
 Public Class clsDataWork_RefTree
     Private objLocalConfig As clsLocalConfig
@@ -17,6 +18,9 @@ Public Class clsDataWork_RefTree
     Private objTreeNode_Attributes As TreeNode
     Private objTreeNode_RelationTypes As TreeNode
     Private objList_ChronoBase As List(Of clsChronoMedia)
+    Private objDataWork_Tagging As clsDataWork_Tagging
+
+    Public Property TagList As List(Of clsTypedTag)
 
     Public ReadOnly Property TreeNode_Attributes As TreeNode
         Get
@@ -48,6 +52,59 @@ Public Class clsDataWork_RefTree
         Return objTreeNode_Root
     End Function
 
+    Public Function add_SubNodes_Named() As TreeNode
+
+        add_SubNodes_Loc()
+        add_ObjectNodes_Named()
+
+        Return objTreeNode_Root
+    End Function
+
+    Private Function add_ObjectNodes_Named()
+        Dim objOList_Objects = (From objTag In TagList
+                                Where objTag.Type_TaggingDest = objLocalConfig.Globals.Type_Object
+                               Group By objTag.ID_TaggingDest, objTag.Name_TaggingDest, objTag.ID_Parent_TaggingDest Into Group
+                               Select New clsOntologyItem With {.GUID = ID_TaggingDest, _
+                                                                .Name = Name_TaggingDest, _
+                                                                .GUID_Parent = ID_Parent_TaggingDest}).OrderBy(Function(t) t.GUID_Parent).ThenBy(Function(t) t.Name).ToList()
+        Dim objTreeNode As TreeNode = Nothing
+
+        For Each objObject In objOList_Objects
+            If Not objObject.GUID_Parent Is Nothing Then
+                If objTreeNode Is Nothing Then
+                    Dim objTreeNodes = objTreeNode_Root.Nodes.Find(objObject.GUID_Parent, True)
+                    If objTreeNodes.Count > 0 Then
+                        objTreeNode = objTreeNodes(0)
+
+                        objTreeNodes = objTreeNode.Nodes.Find(objObject.GUID, False)
+                        If objTreeNodes.Count = 0 Then
+                            objTreeNode.Nodes.Add(objObject.GUID, objObject.Name, _
+                                                  objLocalConfig.ImageID_Token_Named, objLocalConfig.ImageID_Token_Named)
+                        End If
+                    End If
+                Else
+                    If Not objTreeNode.Name = objObject.GUID_Parent Then
+                        Dim objTreeNodes = objTreeNode_Root.Nodes.Find(objObject.GUID_Parent, True)
+                        If objTreeNodes.Count > 0 Then
+                            objTreeNode = objTreeNodes(0)
+
+                            objTreeNodes = objTreeNode.Nodes.Find(objObject.GUID, False)
+                            If objTreeNodes.Count = 0 Then
+                                objTreeNode.Nodes.Add(objObject.GUID, objObject.Name, _
+                                                      objLocalConfig.ImageID_Token_Named, objLocalConfig.ImageID_Token_Named)
+                            End If
+                        End If
+                    Else
+                        Dim objTreeNodes = objTreeNode.Nodes.Find(objObject.GUID, False)
+
+                        objTreeNode.Nodes.Add(objObject.GUID, objObject.Name, _
+                                                  objLocalConfig.ImageID_Token_Named, objLocalConfig.ImageID_Token_Named)
+                    End If
+                End If
+            End If
+        Next
+        Return objLocalConfig.Globals.LState_Success.Clone
+    End Function
 
     Public Function GetClassOfObject(OItem_Object As clsOntologyItem) As clsOntologyItem
         Dim objRel_Object = New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID = OItem_Object.GUID}}
@@ -209,8 +266,8 @@ Public Class clsDataWork_RefTree
                 Else
                     If objTreeNodes.Count > 0 Then
                         objTreeNode_Sub = objTreeNodes(0)
-                        objTreeNodes(0).ImageIndex = objLocalConfig.ImageID_Close_Images
-                        objTreeNodes(0).SelectedImageIndex = objLocalConfig.ImageID_Open_Images
+                        'objTreeNodes(0).ImageIndex = objLocalConfig.ImageID_Close_Images
+                        'objTreeNodes(0).SelectedImageIndex = objLocalConfig.ImageID_Open_Images
                     Else
                         objTreeNode_Sub = objTreeNode.Nodes.Add(objCL.GUID, _
                                                          objCL.Name, _
@@ -466,6 +523,55 @@ Public Class clsDataWork_RefTree
         Return objOItem_Result
     End Function
 
+    Private Function GetClassTree_NamendSemantic() As clsOntologyItem
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone
+
+        objOItem_Result = objDBLevel_Classes.get_Data_Classes()
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim objOList_UsedClasses = (From objTag In TagList
+                                        Join objClass In objDBLevel_Classes.OList_Classes On objTag.ID_Parent_TaggingDest Equals objClass.GUID
+                                        Group By objClass.GUID, objClass.Name, objClass.GUID_Parent Into Group = Group
+                                        Select New clsOntologyItem With _
+                                            {.GUID = GUID, _
+                                             .Name = Name, _
+                                             .GUID_Parent = GUID_Parent, _
+                                             .Type = objLocalConfig.Globals.Type_Class
+                                            }).ToList()
+
+            objOLClasses_Tree = New List(Of clsOntologyItem)
+            objOLClasses_Tree.AddRange(objOList_UsedClasses)
+
+            Dim classCount = objOLClasses_Tree.Count
+
+            While classCount > 0
+                classCount = objOLClasses_Tree.Count
+                Dim objClassParents = (From objClassTree In objOLClasses_Tree
+                                       Join objClassNew In objDBLevel_Classes.OList_Classes On objClassTree.GUID_Parent Equals objClassNew.GUID
+                                       Select objClassNew).ToList()
+                objOLClasses_Tree.AddRange(From objClassNew In objClassParents
+                                     Group Join objClassTree In objOLClasses_Tree On objClassNew.GUID Equals objClassTree.GUID Into objClassesTree = Group
+                                     From objClassTree In objClassesTree.DefaultIfEmpty
+                                     Where objClassTree Is Nothing
+                                     Select objClassNew)
+
+                classCount = objOLClasses_Tree.Count - classCount
+            End While
+        End If
+
+        Return objOItem_Result
+    End Function
+
+    Public Function get_Data_RefItemsOfMedia_NamendSemantic(objOItem_MediaType As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_Result = objDataWork_Tagging.GetTagsOfTaggingSource(New clsOntologyItem With {.GUID_Parent = objOItem_MediaType.GUID, .Type = objLocalConfig.Globals.Type_Object})
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            TagList = objDataWork_Tagging.TypedTags
+            objOItem_Result = GetClassTree_NamendSemantic()
+        End If
+
+        Return objOItem_Result
+    End Function
+
     Public Function get_Data_RefItemsOfMedia_Chrono(ByVal objOItem_MediaType As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem = objLocalConfig.Globals.LState_Success
         Dim objOLMedia As New List(Of clsObjectRel)
@@ -548,5 +654,6 @@ Public Class clsDataWork_RefTree
         objDBLevel_Related = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_MediaAttribs = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_ClassOfObject = New clsDBLevel(objLocalConfig.Globals)
+        objDataWork_Tagging = New clsDataWork_Tagging(objLocalConfig.Globals, objLocalConfig.OItem_User, objLocalConfig.OItem_Group)
     End Sub
 End Class

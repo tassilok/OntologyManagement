@@ -23,7 +23,10 @@ namespace ScriptExecutor_Module
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
                 objOItem_Result = objDataWork_ReportSource.GetData();
-
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                   
+                }
             }
 
             return objOItem_Result;
@@ -39,7 +42,8 @@ namespace ScriptExecutor_Module
         private void Initialize()
         {
             objDataWork_ComandLineRun = new clsDataWork_CommandLineRun(objLocalConfig);
-            objDataWork_ReportSource = 
+            objDataWork_ReportSource = new clsDataWork_ReportSource(objLocalConfig);
+            
         }
     }
 }

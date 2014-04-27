@@ -35,7 +35,17 @@ public clsOntologyItem OItem_class_user { get; set; }
 public clsOntologyItem OItem_class_group { get; set; }
 public clsOntologyItem OItem_class_typed_tag { get; set; }
 
-  
+public int ImageID_Root { get { return 0; } }
+public int ImageID_Closed { get { return 1; } }
+public int ImageID_Opened { get { return 2; } }
+public int ImageID_Closed_with_items { get { return 3; } }
+public int ImageID_Opened_with_items { get { return 4; } }
+public int ImageID_AttributTypes { get { return 5; } }
+public int ImageID_AttributType { get { return 6; } }
+public int ImageID_RelationTypes { get { return 7; } }
+public int ImageID_RelationType { get { return 8; } }
+public int ImageID_Token { get { return 9; } }
+
 	
 private void get_Data_DevelopmentConfig()
         {

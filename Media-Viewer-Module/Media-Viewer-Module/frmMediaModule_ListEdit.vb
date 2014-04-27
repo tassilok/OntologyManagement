@@ -37,7 +37,7 @@ Public Class frmMediaModule_ListEdit
                                                        .Type = objLocalConfig.Globals.Type_Object}
             End If
             
-            objUserControl_TaggingContainer.Initialize_Taging(objOitem_MediaItem)
+            objUserControl_TaggingContainer.Initialize_Taging(objOitem_MediaItem, True)
 
             Dim objOItem_MultiMediaItem = objMediaItems.Get_MultiMediaItem(objOitem_MediaItem)
 

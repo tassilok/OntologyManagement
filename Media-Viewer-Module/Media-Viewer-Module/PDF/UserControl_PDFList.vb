@@ -133,7 +133,7 @@ Public Class UserControl_PDFList
         ToolStripButton_Remove.Enabled = False
     End Sub
 
-    Public Sub initialize_PDF(ByVal OItem_Ref As clsOntologyItem, Optional ByVal select_First As Boolean = False)
+    Public Sub initialize_PDF(ByVal OItem_Ref As clsOntologyItem, Optional ByVal select_First As Boolean = False, Optional namedSemantics As Boolean = False)
         objOItem_Ref = OItem_Ref
         clear_List()
 
@@ -142,7 +142,12 @@ Public Class UserControl_PDFList
         If Not objOItem_Ref Is Nothing Then
 
             Timer_PDF.Stop()
-            objDataWork_PDF.get_PDF(objOItem_Ref)
+            If namedSemantics Then
+                objDataWork_PDF.get_NamedPDF(objOItem_Ref)
+            Else
+                objDataWork_PDF.get_PDF(objOItem_Ref)
+            End If
+
 
             Timer_PDF.Start()
         End If

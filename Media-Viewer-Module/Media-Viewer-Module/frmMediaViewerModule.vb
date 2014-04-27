@@ -184,6 +184,35 @@ Public Class frmMediaViewerModule
         objFrmSingleViewer.isPossible_Previous = objUserControl_MediaItemList.isPossible_Previous
     End Sub
 
+    Private Sub selected_NamedNode(objOItem_Ref As clsOntologyItem) Handles objUserControl_RefTree.selected_NamedItem
+        objOItem_MediaType = ToolStripComboBox_MediaType.SelectedItem
+
+        Dim objExportOption As ExportOptions
+
+        If ToolStripMenuItem_GUID.Checked Then
+            objExportOption = ExportOptions.guid
+        ElseIf ToolStripMenuItem_Name.Checked Then
+            objExportOption = ExportOptions.name
+        Else
+            objExportOption = ExportOptions.orderid
+        End If
+
+        If Not objOItem_MediaType Is Nothing Then
+            Select Case objOItem_MediaType.GUID
+                Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                    objUserControl_ImageList.initialize_Images(objOItem_Ref, False, True)
+                    objUserControl_ImageList.ExportOption = If(ToolStripMenuItem_GUID.Checked, ExportOptions.guid, If(ToolStripMenuItem_Name.Checked, ExportOptions.name, ExportOptions.orderid))
+
+                Case objLocalConfig.OItem_Type_Media_Item.GUID
+                    objUserControl_MediaItemList.initialize_MediaItems(objOItem_Ref, objExportOption, False, True)
+                    'objUserControl_MediaItemList.initialize_MediaItems(objOItem_Ref, objExportOption)
+                Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+                    objUserControl_PDF.initialize_PDF(objOItem_Ref, False, True)
+                    'objUserControl_PDF.initialize_PDF(objOItem_Ref)
+            End Select
+        End If
+    End Sub
+
     Private Sub selected_Node(ByVal objOItem_Ref As clsOntologyItem) Handles objUserControl_RefTree.selected_Item
         objOItem_MediaType = ToolStripComboBox_MediaType.SelectedItem
 
@@ -391,9 +420,12 @@ Public Class frmMediaViewerModule
                     objUserControl_ImageList.ExportOption = If(ToolStripMenuItem_GUID.Checked, ExportOptions.guid, If(ToolStripMenuItem_Name.Checked, ExportOptions.name, ExportOptions.orderid))
                     objUserControl_ImageList.initialize_Images(Nothing)
                     ToolStripButton_OpenGrid.Enabled = True
+                    ToolStripButton_OpenListEdit.Enabled = True
                 Case objLocalConfig.OItem_Type_PDF_Documents.GUID
                     SplitContainer1.Panel2.Controls.Add(objUserControl_PDF)
                     ToolStripButton_OpenGrid.Enabled = True
+                    ToolStripButton_OpenListEdit.Enabled = True
+
             End Select
         End If
 

@@ -285,10 +285,10 @@ Public Class UserControl_RefTree
                                 End If
 
                             Else
-                                MsgBox("Wählen Sie bitte nur eine Klasse aus!", MsgBoxStyle.Information)
+                                MsgBox("Wählen Sie bitte nur ein Objekt aus!", MsgBoxStyle.Information)
                             End If
                         Else
-                            MsgBox("Wählen Sie bitte nur eine Klasse aus!", MsgBoxStyle.Information)
+                            MsgBox("Wählen Sie bitte nur ein Objekt aus!", MsgBoxStyle.Information)
                         End If
                     End If
                 Case objDataWork_RefTree.ImageID_Root
@@ -296,7 +296,25 @@ Public Class UserControl_RefTree
                     objFrm_OntologyModule.Applyable = True
                     objFrm_OntologyModule.ShowDialog(Me)
                     If objFrm_OntologyModule.DialogResult = DialogResult.OK Then
+                        Dim objOList = objFrm_OntologyModule.OList_Simple
+                        If objOList.Count = 1 Then
+                            If objOList.First().Type = objLocalConfig.Globals.Type_Class Then
 
+                                Dim objOItem_Class = objOList.First()
+                                Dim objOLClasses = objDataWork_RefTree.GetClassParents(objOItem_Class)
+
+
+                                If objOLClasses.Any Then
+                                    Dim objTreeNode_Class = AddClassNodes(objOLClasses)
+                                    TreeView_Ref.SelectedNode = objTreeNode_Class
+                                End If
+                                
+                            Else
+                                MsgBox("Wählen Sie bitte nur eine Klasse aus!", MsgBoxStyle.Information)
+                            End If
+                        Else
+                            MsgBox("Wählen Sie bitte nur eine Klasse aus!", MsgBoxStyle.Information)
+                        End If
                     End If
             End Select
             
@@ -305,6 +323,7 @@ Public Class UserControl_RefTree
 
     End Sub
 
+    
     Public Sub AddRelationTypeNodes(objOList As List(Of clsOntologyItem), objTreeNode As TreeNode)
         If objOList.Count = 1 Then
             If objOList.First().Type = objLocalConfig.Globals.Type_RelationType Then
@@ -353,7 +372,8 @@ Public Class UserControl_RefTree
         End If
     End Sub
 
-    Private Sub AddClassNodes(OList_ClassParents As List(Of clsOntologyItem))
+    Private Function AddClassNodes(OList_ClassParents As List(Of clsOntologyItem), Optional TreeNode As TreeNode = Nothing) As TreeNode
+        Dim objTreeNode As TreeNode = TreeNode
         Dim objOList_Classes = (From objClass In OList_ClassParents
                                Group Join objClassParent In OList_ClassParents On objClass.GUID_Parent Equals objClassParent.GUID Into objClassParents = Group
                                From objClassParent In objClassParents.DefaultIfEmpty()
@@ -366,8 +386,10 @@ Public Class UserControl_RefTree
                 If objTreeNodes.Any Then
                     Dim objTreeNodes2 = objTreeNodes(0).Nodes.Find(objOList_Classes.First().GUID, False)
                     If Not objTreeNodes2.Any Then
-                        objTreeNodes(0).Nodes.Add(objOList_Classes.First().GUID, objOList_Classes(0).Name, objDataWork_RefTree.ImageID_Closed, objDataWork_RefTree.ImageID_Opened)
+                        objTreeNode = objTreeNodes(0).Nodes.Add(objOList_Classes.First().GUID, objOList_Classes(0).Name, objDataWork_RefTree.ImageID_Closed, objDataWork_RefTree.ImageID_Opened)
                         objDataWork_RefTree.OList_Classes.Add(objOList_Classes.First())
+                    Else
+                        objTreeNode = objTreeNodes2(0)
                     End If
                 End If
 
@@ -378,10 +400,11 @@ Public Class UserControl_RefTree
 
         If objOList_Classes.Any Then
             OList_ClassParents.Remove(objOList_Classes.First())
-            AddClassNodes(OList_ClassParents)
+            objTreeNode = AddClassNodes(OList_ClassParents, objTreeNode)
         End If
-        
-    End Sub
+
+        Return objTreeNode
+    End Function
 
     
 

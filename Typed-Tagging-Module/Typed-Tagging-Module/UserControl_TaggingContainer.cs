@@ -53,7 +53,7 @@ namespace Typed_Tagging_Module
             objDataWork_Tagging = new clsDataWork_Tagging(objLocalConfig);
         }
 
-        public void Initialize_Taging(clsOntologyItem OItem_TaggingSource)
+        public void Initialize_Taging(clsOntologyItem OItem_TaggingSource, Boolean keepTabs = false)
         {
             objOItem_TaggingSource = OItem_TaggingSource;
             if (objOItem_TaggingSource != null)
@@ -70,10 +70,14 @@ namespace Typed_Tagging_Module
 
                     }
 
-                    tabPages.ForEach(tp => Clear_TabPage(tp));
+                    
 
-                    TabControlList.Clear();
-
+                    if (!keepTabs)
+                    {
+                        tabPages.ForEach(tp => Clear_TabPage(tp));
+                        TabControlList.Clear();
+                    }
+                    
                     var objOList_Classes = (from objClass in objOList_Tags
                                             where objClass.Type == objLocalConfig.Globals.Type_Object
                                             group objClass by objClass.GUID_Parent into objClasses

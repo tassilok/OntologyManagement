@@ -1,5 +1,6 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
+Imports Typed_Tagging_Module
 
 Public Class clsDataWork_MediaItem
     Private objLocalConfig As clsLocalConfig
@@ -15,6 +16,8 @@ Public Class clsDataWork_MediaItem
     Private objDBLevel_MediaItemRange_To_Bookmarks As clsDBLevel
     Private objDBLevel_Range As clsDBLevel
     Private objDBLevel_CreationDate As clsDBLevel
+
+    Private objDataWork_Tagged As clsDataWork_Tagging
 
     Private dtblT_MediaItems As New DataSet_MediaItems.dtbl_MediaItemsDataTable
 
@@ -304,6 +307,176 @@ Public Class clsDataWork_MediaItem
         End If
     End Sub
 
+    Public Sub get_NamedMediaItems(OItem_Ref As clsOntologyItem, Optional boolTable As Boolean = True)
+        objOItem_Ref = OItem_Ref
+        dtblT_MediaItems.Clear()
+        boolLoaded = False
+        Me.boolTable = boolTable
+        Try
+            objThread_MediaItems.Abort()
+        Catch ex As Exception
+
+        End Try
+
+        If Not objOItem_Ref Is Nothing Then
+            objThread_MediaItems = New Threading.Thread(AddressOf get_NamedMediaItems_Thread)
+            objThread_MediaItems.Start()
+        Else
+            boolLoaded = True
+        End If
+    End Sub
+    Private Sub get_NamedMediaItems_Thread()
+        Dim objOL_MediaItems_To_Ref As New List(Of clsObjectRel)
+        Dim objOL_MediaItems_To_File As New List(Of clsObjectRel)
+        Dim objOL_Bookmarks_To_MediaItems As New List(Of clsObjectRel)
+
+        Dim objOL_CreationDate As New List(Of clsObjectAtt)
+
+        Dim objRandom As New Random
+
+        Dim objOItem_Result = objDataWork_Tagged.GetTagsOfTaggingSource(New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID, .Type = objLocalConfig.Globals.Type_Object})
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim objOL_MediaItems = objDataWork_Tagged.TypedTags.Where(Function(t) t.ID_TaggingDest = objOItem_Ref.GUID).ToList()
+
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                If objOL_MediaItems.Any Then
+                    If objDBLevel_MediaItems.OList_ObjectRel.Count < 500 Then
+                        objOL_MediaItems_To_File = objOL_MediaItems.Select(Function(mi) New clsObjectRel With {.ID_Other = mi.ID_TaggingSource, _
+                                                                                                                                    .ID_Parent_Object = objLocalConfig.OItem_Type_File.GUID, _
+                                                                                                                                    .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Source.GUID}).ToList()
+
+
+                    Else
+                        objOL_MediaItems_To_File.Add(New clsObjectRel(Nothing, _
+                                                          Nothing, _
+                                                          objLocalConfig.OItem_Type_Media_Item.GUID, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          objLocalConfig.OItem_Type_File.GUID, _
+                                                          Nothing, _
+                                                          objLocalConfig.OItem_RelationType_belonging_Source.GUID, _
+                                                          Nothing, _
+                                                          objLocalConfig.Globals.Type_Object, _
+                                                          Nothing, _
+                                                          Nothing, _
+                                                          Nothing))
+                    End If
+
+                    objOItem_Result = objDBLevel_Files.get_Data_ObjectRel(objOL_MediaItems_To_File, _
+                                                    boolIDs:=False)
+
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        If objDBLevel_Files.OList_ObjectRel.Any Then
+                            If objDBLevel_Files.OList_ObjectRel.Count < 500 Then
+                                objOL_Bookmarks_To_MediaItems = objOL_MediaItems.Select(Function(mi) New clsObjectRel With {.ID_Object = mi.ID_TaggingSource, _
+                                                                                                                                        .ID_Parent_Other = objLocalConfig.OItem_Type_Media_Item_Bookmark.GUID, _
+                                                                                                                                        .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID}).ToList()
+                            Else
+                                objOL_Bookmarks_To_MediaItems.Add(New clsObjectRel(Nothing, _
+                                                                           Nothing, _
+                                                                           objLocalConfig.OItem_Type_Media_Item_Bookmark.GUID, _
+                                                                           Nothing, _
+                                                                           Nothing, _
+                                                                           Nothing, _
+                                                                           objLocalConfig.OItem_Type_Media_Item.GUID, _
+                                                                           Nothing, _
+                                                                           objLocalConfig.OItem_RelationType_belongsTo.GUID, _
+                                                                           Nothing, _
+                                                                           objLocalConfig.Globals.Type_Object, _
+                                                                           Nothing, _
+                                                                           Nothing, _
+                                                                           Nothing))
+                            End If
+
+
+                            objOItem_Result = objDBLevel_BookMarks.get_Data_ObjectRel(objOL_Bookmarks_To_MediaItems)
+
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+                                If objDBLevel_Files.OList_ObjectRel.Count < 500 Then
+                                    objOL_CreationDate = objDBLevel_Files.OList_ObjectRel.Select(Function(f) New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID, _
+                                                                                                                                    .ID_Object = f.ID_Other}).ToList()
+
+                                Else
+                                    objOL_CreationDate.Add(New clsObjectAtt(Nothing, _
+                                                                    Nothing, _
+                                                                    objLocalConfig.OItem_Type_File.GUID, _
+                                                                    objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID, _
+                                                                    Nothing))
+                                End If
+
+
+
+                                objOItem_Result = objDBLevel_Created.get_Data_ObjectAtt(objOL_CreationDate, boolIDs:=False)
+
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objLMediaItems = (From objMediaItem In objOL_MediaItems
+                                                     Join objFile In objDBLevel_Files.OList_ObjectRel On objFile.ID_Object Equals objMediaItem.ID_TaggingSource
+                                                     Group Join objAttrib In objDBLevel_Created.OList_ObjectAtt On objAttrib.ID_Object Equals objFile.ID_Other Into objAttribs = Group
+                                                     From objAttrib In objAttribs.DefaultIfEmpty
+                                                     Group Join objBookmark In objDBLevel_BookMarks.OList_ObjectRel_ID On objBookmark.ID_Other Equals objMediaItem.ID_TaggingSource Into Count_Bookmarks = Count()
+                                                     Where Not objMediaItem.ID_TaggingSource Is Nothing _
+                                                        And Not objMediaItem.Name_TaggingSource Is Nothing _
+                                                        And Not objFile Is Nothing
+                                                     Select New clsMultiMediaItem(objMediaItem.ID_TaggingSource, _
+                                                                                  objMediaItem.Name_TaggingSource, _
+                                                                                  objLocalConfig.OItem_Type_Media_Item.GUID, _
+                                                                                  objFile.ID_Other, _
+                                                                                  objFile.Name_Other, _
+                                                                                  objFile.ID_Parent_Other, _
+                                                                                  If(Not objAttrib Is Nothing, objAttrib, Nothing), _
+                                                                                  0, _
+                                                                                  Count_Bookmarks)).ToList()
+
+                                    If boolTable Then
+                                        For Each objMediaItem In objLMediaItems
+                                            If objMediaItem.OACreate Is Nothing Then
+                                                dtblT_MediaItems.Rows.Add(objMediaItem.OrderID, _
+                                                                          objMediaItem.ID_Item, _
+                                                                          objMediaItem.Name_Item, _
+                                                                          Nothing, _
+                                                                          objMediaItem.ID_File, _
+                                                                          objMediaItem.Name_File, _
+                                                                          objRandom.Next(), _
+                                                                          objMediaItem.CountBookMark)
+
+                                            Else
+                                                dtblT_MediaItems.Rows.Add(objMediaItem.OrderID, _
+                                                                          objMediaItem.ID_Item, _
+                                                                          objMediaItem.Name_Item, _
+                                                                          objMediaItem.OACreate.Val_Date, _
+                                                                          objMediaItem.ID_File, _
+                                                                          objMediaItem.Name_File, _
+                                                                          objRandom.Next(), _
+                                                                          objMediaItem.CountBookMark)
+                                            End If
+                                        Next
+                                    End If
+                                End If
+
+                            End If
+                        End If
+                        
+
+
+                    End If
+                End If
+
+            End If
+        End If
+        
+
+
+
+
+
+
+        boolLoaded = True
+    End Sub
+
     Private Sub get_MediaItems_Thread()
         Dim objOL_MediaItems_To_Ref As New List(Of clsObjectRel)
         Dim objOL_MediaItems_To_File As New List(Of clsObjectRel)
@@ -328,98 +501,141 @@ Public Class clsDataWork_MediaItem
                                                  Nothing, _
                                                  Nothing))
 
-        objDBLevel_MediaItems.get_Data_ObjectRel(objOL_MediaItems_To_Ref, _
+        Dim objOItem_Result = objDBLevel_MediaItems.get_Data_ObjectRel(objOL_MediaItems_To_Ref, _
                                                  boolIDs:=False)
 
-        objOL_MediaItems_To_File.Add(New clsObjectRel(Nothing, _
-                                                  Nothing, _
-                                                  objLocalConfig.OItem_Type_Media_Item.GUID, _
-                                                  Nothing, _
-                                                  Nothing, _
-                                                  Nothing, _
-                                                  objLocalConfig.OItem_Type_File.GUID, _
-                                                  Nothing, _
-                                                  objLocalConfig.OItem_RelationType_belonging_Source.GUID, _
-                                                  Nothing, _
-                                                  objLocalConfig.Globals.Type_Object, _
-                                                  Nothing, _
-                                                  Nothing, _
-                                                  Nothing))
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_MediaItems.OList_ObjectRel.Any Then
+                If objDBLevel_MediaItems.OList_ObjectRel.Count < 500 Then
+                    objOL_MediaItems_To_File = objDBLevel_MediaItems.OList_ObjectRel.Select(Function(mi) New clsObjectRel With {.ID_Object = mi.ID_Object, _
+                                                                                                                                .ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID, _
+                                                                                                                                .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Source.GUID}).ToList()
 
-        objDBLevel_Files.get_Data_ObjectRel(objOL_MediaItems_To_File, _
-                                            boolIDs:=False)
-
-        objOL_Bookmarks_To_MediaItems.Add(New clsObjectRel(Nothing, _
-                                                           Nothing, _
-                                                           objLocalConfig.OItem_Type_Media_Item_Bookmark.GUID, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           objLocalConfig.OItem_Type_Media_Item.GUID, _
-                                                           Nothing, _
-                                                           objLocalConfig.OItem_RelationType_belongsTo.GUID, _
-                                                           Nothing, _
-                                                           objLocalConfig.Globals.Type_Object, _
-                                                           Nothing, _
-                                                           Nothing, _
-                                                           Nothing))
-
-        objDBLevel_BookMarks.get_Data_ObjectRel(objOL_Bookmarks_To_MediaItems)
-
-
-
-        objOL_CreationDate.Add(New clsObjectAtt(Nothing, _
-                                                Nothing, _
-                                                objLocalConfig.OItem_Type_File.GUID, _
-                                                objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID, _
-                                                Nothing))
-
-        objDBLevel_Created.get_Data_ObjectAtt(objOL_CreationDate, boolIDs:=False)
-
-        objLMediaItems = (From objMediaItem In objDBLevel_MediaItems.OList_ObjectRel
-                             Join objFile In objDBLevel_Files.OList_ObjectRel On objFile.ID_Object Equals objMediaItem.ID_Object
-                             Group Join objAttrib In objDBLevel_Created.OList_ObjectAtt On objAttrib.ID_Object Equals objFile.ID_Other Into objAttribs = Group
-                             From objAttrib In objAttribs.DefaultIfEmpty
-                             Group Join objBookmark In objDBLevel_BookMarks.OList_ObjectRel_ID On objBookmark.ID_Other Equals objMediaItem.ID_Object Into Count_Bookmarks = Count()
-                             Order By objMediaItem.OrderID
-                             Where Not objMediaItem.ID_Object Is Nothing _
-                                And Not objMediaItem.Name_Object Is Nothing _
-                                And Not objMediaItem.ID_Parent_Object Is Nothing _
-                                And Not objFile Is Nothing
-                             Select New clsMultiMediaItem(objMediaItem.ID_Object, _
-                                                          objMediaItem.Name_Object, _
-                                                          objMediaItem.ID_Parent_Object, _
-                                                          objFile.ID_Other, _
-                                                          objFile.Name_Other, _
-                                                          objFile.ID_Parent_Other, _
-                                                          If(Not objAttrib Is Nothing, objAttrib, Nothing), _
-                                                          objMediaItem.OrderID, _
-                                                          Count_Bookmarks)).ToList()
-
-        If boolTable Then
-            For Each objMediaItem In objLMediaItems
-                If objMediaItem.OACreate Is Nothing Then
-                    dtblT_MediaItems.Rows.Add(objMediaItem.OrderID, _
-                                              objMediaItem.ID_Item, _
-                                              objMediaItem.Name_Item, _
-                                              Nothing, _
-                                              objMediaItem.ID_File, _
-                                              objMediaItem.Name_File, _
-                                              objRandom.Next(), _
-                                              objMediaItem.CountBookMark)
 
                 Else
-                    dtblT_MediaItems.Rows.Add(objMediaItem.OrderID, _
-                                              objMediaItem.ID_Item, _
-                                              objMediaItem.Name_Item, _
-                                              objMediaItem.OACreate.Val_Date, _
-                                              objMediaItem.ID_File, _
-                                              objMediaItem.Name_File, _
-                                              objRandom.Next(), _
-                                              objMediaItem.CountBookMark)
+                    objOL_MediaItems_To_File.Add(New clsObjectRel(Nothing, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_Type_Media_Item.GUID, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_Type_File.GUID, _
+                                                      Nothing, _
+                                                      objLocalConfig.OItem_RelationType_belonging_Source.GUID, _
+                                                      Nothing, _
+                                                      objLocalConfig.Globals.Type_Object, _
+                                                      Nothing, _
+                                                      Nothing, _
+                                                      Nothing))
                 End If
-            Next
+
+                objOItem_Result = objDBLevel_Files.get_Data_ObjectRel(objOL_MediaItems_To_File, _
+                                                boolIDs:=False)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objDBLevel_Files.OList_ObjectRel.Any Then
+                        If objDBLevel_Files.OList_ObjectRel.Count < 500 Then
+                            objOL_Bookmarks_To_MediaItems = objDBLevel_MediaItems.OList_ObjectRel.Select(Function(mi) New clsObjectRel With {.ID_Other = mi.ID_Object, _
+                                                                                                                                    .ID_Parent_Object = objLocalConfig.OItem_Type_Media_Item_Bookmark.GUID, _
+                                                                                                                                    .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID}).ToList()
+                        Else
+                            objOL_Bookmarks_To_MediaItems.Add(New clsObjectRel(Nothing, _
+                                                                       Nothing, _
+                                                                       objLocalConfig.OItem_Type_Media_Item_Bookmark.GUID, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       objLocalConfig.OItem_Type_Media_Item.GUID, _
+                                                                       Nothing, _
+                                                                       objLocalConfig.OItem_RelationType_belongsTo.GUID, _
+                                                                       Nothing, _
+                                                                       objLocalConfig.Globals.Type_Object, _
+                                                                       Nothing, _
+                                                                       Nothing, _
+                                                                       Nothing))
+                        End If
+
+
+                        objOItem_Result = objDBLevel_BookMarks.get_Data_ObjectRel(objOL_Bookmarks_To_MediaItems)
+
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+                            If objDBLevel_Files.OList_ObjectRel.Count < 500 Then
+                                objOL_CreationDate = objDBLevel_Files.OList_ObjectRel.Select(Function(f) New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID, _
+                                                                                                                                .ID_Object = f.ID_Other}).ToList()
+
+                            Else
+                                objOL_CreationDate.Add(New clsObjectAtt(Nothing, _
+                                                                Nothing, _
+                                                                objLocalConfig.OItem_Type_File.GUID, _
+                                                                objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID, _
+                                                                Nothing))
+                            End If
+
+
+
+                            objOItem_Result = objDBLevel_Created.get_Data_ObjectAtt(objOL_CreationDate, boolIDs:=False)
+
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objLMediaItems = (From objMediaItem In objDBLevel_MediaItems.OList_ObjectRel
+                                                 Join objFile In objDBLevel_Files.OList_ObjectRel On objFile.ID_Object Equals objMediaItem.ID_Object
+                                                 Group Join objAttrib In objDBLevel_Created.OList_ObjectAtt On objAttrib.ID_Object Equals objFile.ID_Other Into objAttribs = Group
+                                                 From objAttrib In objAttribs.DefaultIfEmpty
+                                                 Group Join objBookmark In objDBLevel_BookMarks.OList_ObjectRel_ID On objBookmark.ID_Other Equals objMediaItem.ID_Object Into Count_Bookmarks = Count()
+                                                 Order By objMediaItem.OrderID
+                                                 Where Not objMediaItem.ID_Object Is Nothing _
+                                                    And Not objMediaItem.Name_Object Is Nothing _
+                                                    And Not objMediaItem.ID_Parent_Object Is Nothing _
+                                                    And Not objFile Is Nothing
+                                                 Select New clsMultiMediaItem(objMediaItem.ID_Object, _
+                                                                              objMediaItem.Name_Object, _
+                                                                              objMediaItem.ID_Parent_Object, _
+                                                                              objFile.ID_Other, _
+                                                                              objFile.Name_Other, _
+                                                                              objFile.ID_Parent_Other, _
+                                                                              If(Not objAttrib Is Nothing, objAttrib, Nothing), _
+                                                                              objMediaItem.OrderID, _
+                                                                              Count_Bookmarks)).ToList()
+
+                                If boolTable Then
+                                    For Each objMediaItem In objLMediaItems
+                                        If objMediaItem.OACreate Is Nothing Then
+                                            dtblT_MediaItems.Rows.Add(objMediaItem.OrderID, _
+                                                                      objMediaItem.ID_Item, _
+                                                                      objMediaItem.Name_Item, _
+                                                                      Nothing, _
+                                                                      objMediaItem.ID_File, _
+                                                                      objMediaItem.Name_File, _
+                                                                      objRandom.Next(), _
+                                                                      objMediaItem.CountBookMark)
+
+                                        Else
+                                            dtblT_MediaItems.Rows.Add(objMediaItem.OrderID, _
+                                                                      objMediaItem.ID_Item, _
+                                                                      objMediaItem.Name_Item, _
+                                                                      objMediaItem.OACreate.Val_Date, _
+                                                                      objMediaItem.ID_File, _
+                                                                      objMediaItem.Name_File, _
+                                                                      objRandom.Next(), _
+                                                                      objMediaItem.CountBookMark)
+                                        End If
+                                    Next
+                                End If
+                            End If
+
+                        End If
+                    End If
+                    
+
+
+                End If
+            End If
+            
         End If
+        
+
+        
+        
 
 
         boolLoaded = True
@@ -521,5 +737,7 @@ Public Class clsDataWork_MediaItem
         objDBLevel_MediaItems = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_BookMarks = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_MediaItemsOfFiles = New clsDBLevel(objLocalConfig.Globals)
+
+        objDataWork_Tagged = New clsDataWork_Tagging(objLocalConfig.Globals, objLocalConfig.OItem_User, objLocalConfig.OItem_Group)
     End Sub
 End Class

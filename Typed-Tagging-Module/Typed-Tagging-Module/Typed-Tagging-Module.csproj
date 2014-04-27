@@ -75,6 +75,18 @@
     <Compile Include="UserControl_TaggingContainer.Designer.cs">
       <DependentUpon>UserControl_TaggingContainer.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControl_TagTree.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_TagTree.Designer.cs">
+      <DependentUpon>UserControl_TagTree.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_TagSources.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_TagSources.Designer.cs">
+      <DependentUpon>UserControl_TagSources.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="frmTypedTaggingModule.resx">
       <DependentUpon>frmTypedTaggingModule.cs</DependentUpon>
     </EmbeddedResource>
@@ -96,6 +108,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_TaggingContainer.resx">
       <DependentUpon>UserControl_TaggingContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_TagTree.resx">
+      <DependentUpon>UserControl_TagTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_TagSources.resx">
+      <DependentUpon>UserControl_TagSources.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Config\ElasticSearch.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

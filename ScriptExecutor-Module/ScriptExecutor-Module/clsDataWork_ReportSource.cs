@@ -24,9 +24,12 @@ namespace ScriptExecutor_Module
         {
             var objRelCmdLrToReport = (from objCmdLrToReport in objDBLevel_Report.OList_ObjectRel.Where(c => c.ID_Other == OItem_CmdLr.GUID).ToList()
                                        join objReport in objDBLevel_Report.OList_ObjectRel.Where(c => c.ID_Parent_Other == objLocalConfig.OItem_class_reports.GUID).ToList() on objCmdLrToReport.ID_Object equals objReport.ID_Object
-                                       select objCmdLrToReport).ToList();
+                                       select new {CMDLr =  objCmdLrToReport, 
+                                                        Report = objReport }).ToList();
 
-            
+
+
+            return null;
         }
 
         public clsOntologyItem GetData()

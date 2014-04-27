@@ -1,5 +1,7 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
+Imports Filesystem_Module
+Imports System.IO
 Public Class clsMediaItems
     Private objDataWork_Images As clsDataWork_Images
     Private objDataWork_MediaItems As clsDataWork_MediaItem
@@ -10,6 +12,8 @@ Public Class clsMediaItems
     Private objDBLevel_Created As clsDBLevel
 
     Private objLocalConfig As clsLocalConfig
+
+    Private objBlobConnection As clsBlobConnection
 
     Public Sub New(LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
@@ -41,11 +45,32 @@ Public Class clsMediaItems
         Return objOItem_Result
     End Function
 
+    Public Function Get_ImageFile(OItem_File As clsOntologyItem) As Image
+        Dim objImage As Image = Nothing
+
+        OItem_File.Additional1 = "%Temp%\" & objLocalConfig.Globals.NewGUID & Path.GetExtension(OItem_File.Name)
+
+        OItem_File.Additional1 = Environment.ExpandEnvironmentVariables(OItem_File.Additional1)
+
+        Dim objOItem_Result = objBlobConnection.save_Blob_To_File(OItem_File, OItem_File.Additional1)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Try
+                objImage = New Bitmap(OItem_File.Additional1)
+
+            Catch ex As Exception
+
+            End Try
+        End If
+
+        Return objImage
+    End Function
+
     Public Function Get_MultiMediaItem(OItem_MediaItem As clsOntologyItem) As clsMultiMediaItem
 
         Dim objRandom As New Random
 
-      
+
         Dim objOL_MediaItems_To_File = New List(Of clsObjectRel) From {New clsObjectRel With { _
             .ID_Object = OItem_MediaItem.GUID, _
             .ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID, _
@@ -88,11 +113,11 @@ Public Class clsMediaItems
             Else
                 Return Nothing
             End If
-            
+
         Else
             Return Nothing
         End If
-      
+
     End Function
 
 
@@ -105,5 +130,7 @@ Public Class clsMediaItems
         objDBLevel_Ref = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Created = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_File = New clsDBLevel(objLocalConfig.Globals)
+
+        objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
     End Sub
 End Class

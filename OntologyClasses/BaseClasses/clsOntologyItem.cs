@@ -21,6 +21,7 @@ namespace OntologyClasses.BaseClasses
         public string GUID_Related { get; set; }
         public string GUID_Relation { get; set; }
         public string Name { get; set; }
+        public string Name_Parent { get; set; }
         public string Caption { get; set; }
         public string Additional1 { get; set; }
         public string Additional2 { get; set; }

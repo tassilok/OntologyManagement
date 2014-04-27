@@ -39,14 +39,14 @@ Public Class clsTransaction_Image
 
         Dim objOItem_Result_Del = objDBLevel_Del_images.del_ObjectAtt(olist_del_imageatts)
 
-        If objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+        If Not objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Error.GUID Then
 
             objOItem_Result_Del = objDBLevel_Del_images.del_ObjectRel(olist_del_imagerels)
-            If objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If Not objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                 objOItem_Result_Del = objDBLevel_Del_images.del_ObjectAtt(olist_del_fileatts)
-                If objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                If Not objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                     objOItem_Result_Del = objDBLevel_Del_images.del_Objects(olist_del_files)
-                    If objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If Not objOItem_Result_Del.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                         objOItem_Result = objDBLevel_Del_images.del_Objects(olist_del_images)
 
                     Else

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Class">
+  <Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
+<Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
+<Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
+<Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="bb98059cf51f496e950b3d2fc17a16f1" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[KindOfOntology]]></Item>
+<Item Id="547414cb6db5419fa725ccba667aa3b4" Id_Parent="2ed505ce057b42d4a36bd9e6e76ed0a2"><![CDATA[Image-State (TreeView)]]></Item>
+<Item Id="1f2927ffbabc4e6193ccc59ddd0b47c4" Id_Parent="b277bde9f69049ba8dce17f1a153175b"><![CDATA[Images (Image-Lists)]]></Item>
+<Item Id="b277bde9f69049ba8dce17f1a153175b" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Image-Lists]]></Item>
+<Item Id="2ed505ce057b42d4a36bd9e6e76ed0a2" Id_Parent="6d3de4c122124f248d5941d2d4ec7e34"><![CDATA[TreeView]]></Item>
+<Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
+<Item Id="71415eebce464b2cb0a2f72116b55438" Id_Parent="73e32abfe5774d319a46bc07e9e15de3"><![CDATA[Software-Development]]></Item>
+<Item Id="6d3de4c122124f248d5941d2d4ec7e34" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Components (Development)]]></Item>
+<Item Id="73e32abfe5774d319a46bc07e9e15de3" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Software-Management]]></Item>
+<Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
+
+</Items>
