@@ -951,7 +951,7 @@ namespace ElasticSearchNestConnector
                 var result = ElConnector.Search<clsObjectAtt>(s => s.Index(Index).Type(objTypes.ObjectAtt).QueryString(strQuery).From(0).Size(1).Sort(p => p.OnField(strOrderField).Ascending()));
                 if (result.Documents.Any())
                 {
-                    lngOrderID = (long)result.Documents.First().OrderID;
+                    lngOrderID = (long)(typeof(clsObjectAtt).GetProperty(strOrderField).GetValue(result.Documents.First(), null));
                 }
             }
             else
@@ -959,7 +959,7 @@ namespace ElasticSearchNestConnector
                 var result = ElConnector.Search<clsObjectAtt>(s => s.Index(Index).Type(objTypes.ObjectAtt).QueryString(strQuery).From(0).Size(1).Sort(p => p.OnField(strOrderField).Descending()));
                 if (result.Documents.Any())
                 {
-                    lngOrderID = (long)result.Documents.First().OrderID;
+                    lngOrderID = (long)(typeof(clsObjectAtt).GetProperty(strOrderField).GetValue(result.Documents.First(), null));
                 }
             }
             
@@ -1020,7 +1020,13 @@ namespace ElasticSearchNestConnector
 
                 if (!List2)
                 {
-                    OntologyList_AttributTypes1.AddRange(result.Documents);
+                    OntologyList_AttributTypes1.AddRange(result.Documents.Select(d => new clsOntologyItem 
+                        {
+                            GUID = d.GUID,
+                            Name = d.Name,
+                            GUID_Parent = d.GUID_Parent,
+                            Type = objTypes.AttributeType
+                        }));                
                 }
                 else
                 {
@@ -1372,13 +1378,25 @@ namespace ElasticSearchNestConnector
                 if (!boolClasses_Right)
                 {
 
-                    OntologyList_Classes1.AddRange(result.Documents);
+                    OntologyList_Classes1.AddRange(result.Documents.Select(d => new clsOntologyItem 
+                        {
+                            GUID = d.GUID,
+                            Name = d.Name,
+                            GUID_Parent = d.GUID_Parent,
+                            Type = objTypes.ClassType
+                        }));
 
 
                 }
                 else
                 {
-                    OntologyList_Classes2.AddRange(result.Documents);
+                    OntologyList_Classes2.AddRange(result.Documents.Select(d => new clsOntologyItem
+                    {
+                        GUID = d.GUID,
+                        Name = d.Name,
+                        GUID_Parent = d.GUID_Parent,
+                        Type = objTypes.ClassType
+                    }));
                 }
 
 
@@ -1679,11 +1697,23 @@ namespace ElasticSearchNestConnector
 
                 if (!List2)
                 {
-                    OntologyList_Objects1.AddRange(result.Documents);
+                    OntologyList_Objects1.AddRange(result.Documents.Select(d => new clsOntologyItem
+                    {
+                        GUID = d.GUID,
+                        Name = d.Name,
+                        GUID_Parent = d.GUID_Parent,
+                        Type = objTypes.ObjectType
+                    }));
                 }
                 else
                 {
-                    OntologyList_Objects2.AddRange(result.Documents);
+                    OntologyList_Objects2.AddRange(result.Documents.Select(d => new clsOntologyItem
+                    {
+                        GUID = d.GUID,
+                        Name = d.Name,
+                        GUID_Parent = d.GUID_Parent,
+                        Type = objTypes.ObjectType
+                    }));
                 }
 
 
@@ -2093,11 +2123,23 @@ namespace ElasticSearchNestConnector
 
                 if (!List2)
                 {
-                    OntologyList_RelationTypes1.AddRange(result.Documents);
+                    OntologyList_RelationTypes1.AddRange(result.Documents.Select(d => new clsOntologyItem
+                    {
+                        GUID = d.GUID,
+                        Name = d.Name,
+                        GUID_Parent = d.GUID_Parent,
+                        Type = objTypes.RelationType
+                    }));
                 }
                 else
                 {
-                    OntologyList_RelationTypes2.AddRange(result.Documents);
+                    OntologyList_RelationTypes2.AddRange(result.Documents.Select(d => new clsOntologyItem
+                    {
+                        GUID = d.GUID,
+                        Name = d.Name,
+                        GUID_Parent = d.GUID_Parent,
+                        Type = objTypes.RelationType
+                    }));
                 }
 
 

@@ -80,10 +80,10 @@ Public Class clsRelationConfig
         Return objOA_Object
     End Function
 
-    Public Function Rel_ObjectRelation(OItem_Left As clsOntologyItem, OItem_Right As clsOntologyItem, OItem_RelationType As clsOntologyItem, Optional boolNextOrderID As Boolean = False, Optional OrderID As Long = 1) As clsObjectRel
+    Public Function Rel_ObjectRelation(OItem_Left As clsOntologyItem, OItem_Right As clsOntologyItem, OItem_RelationType As clsOntologyItem, Optional boolNextOrderID As Boolean = False, Optional OrderID As Long = 1, Optional Full As Boolean = False) As clsObjectRel
         Dim lngOrderID = 0
         If boolNextOrderID Then
-            lngOrderID = objDBLevel_OrderID.get_Data_Rel_OrderID(OItem_Left, New clsOntologyItem With {.GUID_Parent = OItem_Right.GUID_Parent }, OItem_RelationType, False)
+            lngOrderID = objDBLevel_OrderID.get_Data_Rel_OrderID(OItem_Left, New clsOntologyItem With {.GUID_Parent = OItem_Right.GUID_Parent}, OItem_RelationType, False)
 
         End If
 
@@ -92,10 +92,13 @@ Public Class clsRelationConfig
 
 
         Dim objORel_Object_To_Right = New clsObjectRel With {.ID_Object = OItem_Left.GUID, _
+                                                             .Name_Object = If(Full, OItem_Left.Name, Nothing), _
                                                              .ID_Parent_Object = OItem_Left.GUID_Parent, _
                                                              .ID_Other = OItem_Right.GUID, _
+                                                             .Name_Other = If(Full, OItem_Right.Name, Nothing), _
                                                              .ID_Parent_Other = OItem_Right.GUID_Parent, _
                                                              .ID_RelationType = OItem_RelationType.GUID, _
+                                                             .Name_RelationType = If(Full, OItem_RelationType.Name, Nothing), _
                                                              .OrderID = lngOrderID, _
                                                              .Ontology = OItem_Right.Type}
 

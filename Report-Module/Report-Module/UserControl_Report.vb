@@ -982,7 +982,7 @@ Public Class UserControl_Report
                         Case objLocalConfig_MediaView.OItem_Type_PDF_Documents.GUID
                             objFrmSingleViewer.initialize_PDF(objOItem_Ref)
                     End Select
-                    objFrmSingleViewer.ShowDialog(Me)
+                    objFrmSingleViewer.Show()
 
                 End If
             End If
@@ -1335,7 +1335,7 @@ Public Class UserControl_Report
 
         If Not objLocalConfig.User Is Nothing And Not objLocalConfig.Group Is Nothing Then
             objFrmTagging = New frmTypedTaggingSingle(objLocalConfig.Globals, objLocalConfig.User, objLocalConfig.Group, objOItem_Object)
-            objFrmTagging.ShowDialog(Me)
+            objFrmTagging.Show()
         Else
             MsgBox("Benutzer und Gruppe konnten nicht festgelegt werden!", MsgBoxStyle.Exclamation)
         End If

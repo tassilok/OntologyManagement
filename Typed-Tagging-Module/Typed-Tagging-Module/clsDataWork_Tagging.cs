@@ -56,10 +56,10 @@ namespace Typed_Tagging_Module
 
         public void AddTag(clsOntologyItem OItem_Tag, clsOntologyItem OItem_TaggingSource, clsOntologyItem OItem_TaggingDest)
         {
-            objDBLevel_TaggingSource.OList_ObjectRel.Add(objRelationConfig.Rel_ObjectRelation(OItem_Tag, OItem_TaggingSource, objLocalConfig.OItem_relationtype_is_tagging));
-            objDBLevel_Tag.OList_ObjectRel.Add(objRelationConfig.Rel_ObjectRelation(OItem_Tag,OItem_TaggingDest, objLocalConfig.OItem_relationtype_belonging_tag));
-            objDBLevel_SecurityRel.OList_ObjectRel.Add(objRelationConfig.Rel_ObjectRelation(OItem_Tag, objLocalConfig.OItem_User, objLocalConfig.OItem_relationtype_belongs_to));
-            objDBLevel_SecurityRel.OList_ObjectRel.Add(objRelationConfig.Rel_ObjectRelation(OItem_Tag, objLocalConfig.OItem_Group, objLocalConfig.OItem_relationtype_belongs_to));
+            objDBLevel_TaggingSource.OList_ObjectRel.Add(objRelationConfig.Rel_ObjectRelation(OItem_Tag, OItem_TaggingSource, objLocalConfig.OItem_relationtype_is_tagging,Full:true));
+            objDBLevel_Tag.OList_ObjectRel.Add(objRelationConfig.Rel_ObjectRelation(OItem_Tag, OItem_TaggingDest, objLocalConfig.OItem_relationtype_belonging_tag, Full: true));
+            objDBLevel_SecurityRel.OList_ObjectRel.Add(objRelationConfig.Rel_ObjectRelation(OItem_Tag, objLocalConfig.OItem_User, objLocalConfig.OItem_relationtype_belongs_to, Full: true));
+            objDBLevel_SecurityRel.OList_ObjectRel.Add(objRelationConfig.Rel_ObjectRelation(OItem_Tag, objLocalConfig.OItem_Group, objLocalConfig.OItem_relationtype_belongs_to, Full: true));
 
         }
 
