@@ -340,6 +340,11 @@ Public Class frmMediaViewerModule
         objMigrateTagging.Copy_ImageObjects()
     End Sub
 
+    Private Sub MigrateMediaObjects()
+        Dim objMigrateTagging = New clsMigrateTagging(objLocalConfig)
+        objMigrateTagging.Copy_MediaObjects()
+    End Sub
+
     Private Sub initialize()
 
         objOItem_Open = objLocalConfig.Globals.LState_Nothing
@@ -355,6 +360,7 @@ Public Class frmMediaViewerModule
 
         If Not objLocalConfig.OItem_User Is Nothing And Not objLocalConfig.OItem_Group Is Nothing Then
             'MigrateImageObjects()
+            'MigrateMediaObjects()
             objOItem_Open = objLocalConfig.Globals.LState_Success
 
             objUserControl_RefTree = New UserControl_RefTree(objLocalConfig)

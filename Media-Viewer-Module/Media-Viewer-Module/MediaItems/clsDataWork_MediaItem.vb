@@ -132,13 +132,25 @@ Public Class clsDataWork_MediaItem
         Return objLMediaItems
     End Function
 
-    Public Function GetDataObjectsOfMediaItem(OItem_MediaItem As clsOntologyItem) As clsOntologyItem
+    Public Function GetDataObjectsOfMediaItem(Optional OItem_MediaItem As clsOntologyItem = Nothing) As clsOntologyItem
         objOItem_MediaItem = OItem_MediaItem
 
-        Dim objOList_Search_LeftRight = New List(Of clsObjectRel) From {
-            New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_class_media_item_objects.GUID, _
+        Dim objOList_Search_LeftRight As List(Of clsObjectRel)
+
+
+        If Not OItem_MediaItem Is Nothing Then
+
+            objOList_Search_LeftRight = New List(Of clsObjectRel) From {
+                New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_class_media_item_objects.GUID, _
                                    .ID_RelationType = objLocalConfig.OItem_RelationType_located_in.GUID, _
                                    .ID_Other = objOItem_MediaItem.GUID}}
+        Else
+            objOList_Search_LeftRight = New List(Of clsObjectRel) From {
+                New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_class_media_item_objects.GUID, _
+                                   .ID_RelationType = objLocalConfig.OItem_RelationType_located_in.GUID, _
+                                   .ID_Parent_Other = objLocalConfig.OItem_Type_Media_Item.GUID}}
+        End If
+        
 
 
         Dim objOItem_Result = objDBLevel_MedaiItemObjects_MediaItem.get_Data_ObjectRel(objOList_Search_LeftRight, _
@@ -170,8 +182,8 @@ Public Class clsDataWork_MediaItem
 
                         End If
                     End If
-                    
-                    
+
+
                 End If
             Else
                 objDBLevel_MedaiItemObjects_MediaItem.OList_ObjectRel.Clear()
@@ -179,24 +191,44 @@ Public Class clsDataWork_MediaItem
                 objDBLevel_MediaItemObjects_Ranges.OList_ObjectRel.Clear()
                 objDBLevel_MediaItemRange_To_Bookmarks.OList_ObjectRel.Clear()
             End If
-            
-            
+
+
 
         End If
 
         Return objOItem_Result
     End Function
 
-    Public Function OList_MediaItemObjects(OItem_MediaItem As clsOntologyItem) As List(Of clsMediaItemObject)
-        Dim objOList_MediaItemObjects = objDBLevel_MediaItemObjects_Is.OList_ObjectRel. _
-            Select(Function(mi) New clsMediaItemObject With {.ID_MediaItem = OItem_MediaItem.GUID, _
-                                                             .Name_MediaItem = OItem_MediaItem.Name, _
-                                                             .ID_MediaItemObject = mi.ID_Object, _
-                                                             .Name_MediaItemObject = mi.Name_Object, _
-                                                             .ID_Ref = mi.ID_Other, _
-                                                             .Name_Ref = mi.Name_Other, _
-                                                             .ID_Parent_Ref = mi.ID_Parent_Other, _
-                                                             .Type_Ref = mi.Ontology}).ToList()
+    Public Function OList_MediaItemObjects(Optional OItem_MediaItem As clsOntologyItem = Nothing) As List(Of clsMediaItemObject)
+
+        Dim objOList_MediaItemObjects As List(Of clsMediaItemObject)
+
+
+        If Not OItem_MediaItem Is Nothing Then
+            objOList_MediaItemObjects = (From objMediaItem In objDBLevel_MedaiItemObjects_MediaItem.OList_ObjectRel
+                                         Where objMediaItem.ID_Other = OItem_MediaItem.GUID
+                                         Join objRef In objDBLevel_MediaItemObjects_Is.OList_ObjectRel On objMediaItem.ID_Object Equals objRef.ID_Object
+                                         Select New clsMediaItemObject With {.ID_MediaItem = objMediaItem.ID_Other, _
+                                                                             .Name_MediaItem = objMediaItem.Name_Other, _
+                                                                             .ID_MediaItemObject = objMediaItem.ID_Object, _
+                                                                             .Name_MediaItemObject = objMediaItem.Name_Object, _
+                                                                             .ID_Ref = objRef.ID_Other, _
+                                                                             .Name_Ref = objRef.Name_Other, _
+                                                                             .ID_Parent_Ref = objRef.ID_Parent_Other, _
+                                                                             .Type_Ref = objRef.Ontology}).ToList()
+        Else
+            objOList_MediaItemObjects = (From objMediaItem In objDBLevel_MedaiItemObjects_MediaItem.OList_ObjectRel
+                                         Join objRef In objDBLevel_MediaItemObjects_Is.OList_ObjectRel On objMediaItem.ID_Object Equals objRef.ID_Object
+                                         Select New clsMediaItemObject With {.ID_MediaItem = objMediaItem.ID_Other, _
+                                                                             .Name_MediaItem = objMediaItem.Name_Other, _
+                                                                             .ID_MediaItemObject = objMediaItem.ID_Object, _
+                                                                             .Name_MediaItemObject = objMediaItem.Name_Object, _
+                                                                             .ID_Ref = objRef.ID_Other, _
+                                                                             .Name_Ref = objRef.Name_Other, _
+                                                                             .ID_Parent_Ref = objRef.ID_Parent_Other, _
+                                                                             .Type_Ref = objRef.Ontology}).ToList()
+        End If
+        
 
 
 
