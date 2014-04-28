@@ -890,9 +890,9 @@ Public Class UserControl_References
                 End If
             Case objLocalConfig.ImageID_NeedsPar
                 If boolProcess Then
-                    intImageID = objLocalConfig.ImageID_NeedsChild
+                    intImageID = objLocalConfig.ImageID_Needs
                 Else
-                    intImageID = objLocalConfig.ImageID_Log_NeedsChild
+                    intImageID = objLocalConfig.ImageID_Log_Needs
                 End If
 
                 objOList_Objects = getItemList()
