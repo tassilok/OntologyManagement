@@ -369,7 +369,7 @@ namespace TextParser
                     GUID_Parent = objLocalConfig.OItem_class_text_seperators.GUID,
                     Type = objLocalConfig.Globals.Type_Object
                 }).ToList();
-                objFieldParser.Parse();
+                objFieldParser.ParseFiles();
             }
             GetIndexes();
         }

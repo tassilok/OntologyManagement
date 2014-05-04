@@ -93,40 +93,48 @@ namespace LiteraturQuellen_Module
                         ID_Parent_Object = objLocalConfig.OItem_type_buch_quellenangabe.GUID,
                         ID_Object = OItem_Filter.GUID,
                         Name_Object = OItem_Filter.Name}).ToList();
-
-                    objOItem_Result = objDBLevel_Filter2.get_Data_ObjectRel(oList_Rel1);
-
-                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    if (oList_Rel1.Any())
                     {
-                        var oList_Rel2 = objDBLevel_Filter2.OList_ObjectRel_ID.Select(p => new clsObjectRel
-                        {
-                            ID_Object = p.ID_Object,
-                            ID_RelationType = objLocalConfig.OItem_relationtype_issubordinated.GUID,
-                            ID_Parent_Other = objLocalConfig.OItem_type_literarische_quelle.GUID
-                        }).ToList();
-
-                        objOItem_Result = objDBLevel_Filter3.get_Data_ObjectRel(oList_Rel2);
+                        objOItem_Result = objDBLevel_Filter2.get_Data_ObjectRel(oList_Rel1);
 
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-                            OList_LiteraturQuellen = objDBLevel_Filter3.OList_ObjectRel_ID.Select(p => new clsOntologyItem
+                            var oList_Rel2 = objDBLevel_Filter2.OList_ObjectRel_ID.Select(p => new clsObjectRel
                             {
-                                GUID = p.ID_Other,
-                                GUID_Parent = p.ID_Parent_Other,
-                                Type = objLocalConfig.Globals.Type_Object
+                                ID_Object = p.ID_Object,
+                                ID_RelationType = objLocalConfig.OItem_relationtype_issubordinated.GUID,
+                                ID_Parent_Other = objLocalConfig.OItem_type_literarische_quelle.GUID
                             }).ToList();
 
+                            objOItem_Result = objDBLevel_Filter3.get_Data_ObjectRel(oList_Rel2);
 
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            {
+                                OList_LiteraturQuellen = objDBLevel_Filter3.OList_ObjectRel_ID.Select(p => new clsOntologyItem
+                                {
+                                    GUID = p.ID_Other,
+                                    GUID_Parent = p.ID_Parent_Other,
+                                    Type = objLocalConfig.Globals.Type_Object
+                                }).ToList();
+
+
+                            }
+                            else
+                            {
+                                OList_LiteraturQuellen = null;
+                            }
                         }
                         else
                         {
-                            OList_LiteraturQuellen = null;
+                            OList_LiteraturQuellen.Clear();
                         }
                     }
                     else
                     {
-                        OList_LiteraturQuellen = null;
+                        OList_LiteraturQuellen.Clear();
                     }
+
+                    
 
                 }
                 else
@@ -152,23 +160,32 @@ namespace LiteraturQuellen_Module
                         ID_Parent_Object = objLocalConfig.OItem_type_literarische_quelle.GUID
                     }).ToList();
 
-                    objOItem_Result = objDBLevel_Filter2.get_Data_ObjectRel(oList_Rel2);
-
-                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    if (oList_Rel2.Any())
                     {
-                        OList_LiteraturQuellen = objDBLevel_Filter2.OList_ObjectRel_ID.Select(p => new clsOntologyItem
+                        objOItem_Result = objDBLevel_Filter2.get_Data_ObjectRel(oList_Rel2);
+
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-                            GUID = p.ID_Object,
-                            GUID_Parent = p.ID_Parent_Object,
-                            Type = objLocalConfig.Globals.Type_Object
-                        }).ToList();
+                            OList_LiteraturQuellen = objDBLevel_Filter2.OList_ObjectRel_ID.Select(p => new clsOntologyItem
+                            {
+                                GUID = p.ID_Object,
+                                GUID_Parent = p.ID_Parent_Object,
+                                Type = objLocalConfig.Globals.Type_Object
+                            }).ToList();
 
 
+                        }
+                        else
+                        {
+                            OList_LiteraturQuellen = null;
+                        }
                     }
                     else
                     {
-                        OList_LiteraturQuellen = null;
+                        OList_LiteraturQuellen.Clear();
                     }
+
+                    
                 }
                 else
                 {
@@ -225,14 +242,17 @@ namespace LiteraturQuellen_Module
                                     OList_LiteraturQuellen = null;
                                 }
                             }
-                            
+
                         }
                         else
                         {
                             OList_LiteraturQuellen = null;
                         }
                     }
-                    
+                    else
+                    {
+                        OList_LiteraturQuellen.Clear();
+                    }
 
                 }
                 else
@@ -301,7 +321,7 @@ namespace LiteraturQuellen_Module
                                             OList_LiteraturQuellen = null;
                                         }
                                     }
-                                    
+
 
 
 
@@ -311,12 +331,16 @@ namespace LiteraturQuellen_Module
                                     OList_LiteraturQuellen = null;
                                 }
                             }
-                            
+
                         }
                         else
                         {
                             OList_LiteraturQuellen = null;
                         }
+                    }
+                    else
+                    {
+                        OList_LiteraturQuellen.Clear();
                     }
                     
                 }
@@ -366,6 +390,10 @@ namespace LiteraturQuellen_Module
                         {
                             OList_LiteraturQuellen = null;
                         }
+                    }
+                    else
+                    {
+                        OList_LiteraturQuellen.Clear();
                     }
                 }
 

@@ -89,6 +89,7 @@ public clsOntologyItem OItem_class_e_mail { get; set; }
 public clsOntologyItem OItem_class_zeitschrift { get; set; }
 
 public clsOntologyItem User { get; set; }
+public clsOntologyItem Group { get; set; }
 	
 private void get_Data_DevelopmentConfig()
         {

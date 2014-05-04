@@ -48,12 +48,13 @@ namespace LiteraturQuellen_Module
 
             if (objLocalConfig.User == null)
             {
-                objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, false, frmAuthenticate.ERelateMode.NoRelate,true);
+                objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, true, frmAuthenticate.ERelateMode.User_To_Group,true);
                 objFrmAuthenticate.ShowDialog(this);
                 if (objFrmAuthenticate.DialogResult == System.Windows.Forms.DialogResult.OK)
                 {
 
                     objLocalConfig.User = objFrmAuthenticate.OItem_User;
+                    objLocalConfig.Group = objFrmAuthenticate.OItem_Group;
                 }
 
             }
@@ -66,14 +67,7 @@ namespace LiteraturQuellen_Module
                 objUserControl_LiteraturQuelle.Applyable = Applyable;
                 objUserControl_LiteraturQuelle.Dock = DockStyle.Fill;
 
-                objUserControl_BuchQuelle = new UserControl_Buchquelle(objLocalConfig);
-                objUserControl_BuchQuelle.Dock = DockStyle.Fill;
-
-                objUserControl_InternetQuelle = new UserControl_InternetQuelle(objLocalConfig);
-                objUserControl_InternetQuelle.Dock = DockStyle.Fill;
-
-                objUserControl_VideoQuelle = new UserControl_VideoQuelle(objLocalConfig);
-                objUserControl_VideoQuelle.Dock = DockStyle.Fill;
+                
 
                 splitContainer1.Panel1.Controls.Add(objUserControl_LiteraturQuelle);
             }
@@ -97,6 +91,14 @@ namespace LiteraturQuellen_Module
             splitContainer1.Panel2.Controls.Clear();
             if (objLiteraturQuelle.ID_Class_Quelle == objLocalConfig.OItem_type_buch_quellenangabe.GUID)
             {
+                if (objUserControl_BuchQuelle == null)
+                {
+                    objUserControl_BuchQuelle = new UserControl_Buchquelle(objLocalConfig);
+                    objUserControl_BuchQuelle.Dock = DockStyle.Fill;
+                }
+                
+
+                
                 splitContainer1.Panel2.Controls.Add(objUserControl_BuchQuelle);
                 objUserControl_BuchQuelle.Initialize_BuchQuelle(new clsOntologyItem
                 {
@@ -109,6 +111,14 @@ namespace LiteraturQuellen_Module
             }
             else if (objLiteraturQuelle.ID_Class_Quelle == objLocalConfig.OItem_type_internet_quellenangabe.GUID)
             {
+                if (objUserControl_InternetQuelle == null)
+                {
+                    objUserControl_InternetQuelle = new UserControl_InternetQuelle(objLocalConfig);
+                    objUserControl_InternetQuelle.Dock = DockStyle.Fill;
+                }
+                
+
+                
                 splitContainer1.Panel2.Controls.Add(objUserControl_InternetQuelle);
                 objUserControl_InternetQuelle.Initialize_InternetQuelle(new clsOntologyItem
                 {
@@ -120,6 +130,14 @@ namespace LiteraturQuellen_Module
             }
             else if (objLiteraturQuelle.ID_Class_Quelle == objLocalConfig.OItem_type_video_quelle.GUID)
             {
+                if (objUserControl_VideoQuelle == null)
+                {
+                    objUserControl_VideoQuelle = new UserControl_VideoQuelle(objLocalConfig);
+                    objUserControl_VideoQuelle.Dock = DockStyle.Fill;
+                }
+                
+
+
                 splitContainer1.Panel2.Controls.Add(objUserControl_VideoQuelle);
                 objUserControl_VideoQuelle.Initialize_VideoQuelle(new clsOntologyItem
                 {

@@ -53,6 +53,7 @@
     <Compile Include="clsDataWork_TextParser.cs" />
     <Compile Include="clsField.cs" />
     <Compile Include="clsFieldParser.cs" />
+    <Compile Include="clsFileMeta.cs" />
     <Compile Include="clsFoundItem.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="clsRegExField.cs" />

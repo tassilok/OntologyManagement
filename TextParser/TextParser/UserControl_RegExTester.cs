@@ -1281,7 +1281,7 @@ namespace TextParser
                     charList.Add((char)10);
                     seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\n"), 2);
                 }
-                
+
 
                 if (charList.Count > 0)
                 {
@@ -1290,6 +1290,7 @@ namespace TextParser
                         return charList;
                     }
                 }
+
             }
 
             return null;

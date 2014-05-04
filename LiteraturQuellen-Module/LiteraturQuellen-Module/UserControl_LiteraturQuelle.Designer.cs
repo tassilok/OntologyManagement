@@ -46,6 +46,7 @@
             this.seiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.urlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mediaItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.videoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.emailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zeitschriftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,7 +54,8 @@
             this.toolStripButton_AddFilter = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_ClearFilter = new System.Windows.Forms.ToolStripButton();
             this.timer_Filter = new System.Windows.Forms.Timer(this.components);
-            this.videoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.literaturquelleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.typedTaggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -128,9 +130,10 @@
             // 
             this.contextMenuStrip_Quellen.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
-            this.applyToolStripMenuItem});
+            this.applyToolStripMenuItem,
+            this.typedTaggingToolStripMenuItem});
             this.contextMenuStrip_Quellen.Name = "contextMenuStrip_Quellen";
-            this.contextMenuStrip_Quellen.Size = new System.Drawing.Size(116, 48);
+            this.contextMenuStrip_Quellen.Size = new System.Drawing.Size(165, 92);
             this.contextMenuStrip_Quellen.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Quellen_Opening);
             // 
             // newToolStripMenuItem
@@ -177,6 +180,7 @@
             // 
             this.toolStripSplitButton_FilterTyp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripSplitButton_FilterTyp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.literaturquelleToolStripMenuItem,
             this.toolStripMenuItem_Literatur,
             this.seiteToolStripMenuItem,
             this.urlToolStripMenuItem,
@@ -194,8 +198,6 @@
             // 
             // toolStripMenuItem_Literatur
             // 
-            this.toolStripMenuItem_Literatur.Checked = true;
-            this.toolStripMenuItem_Literatur.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripMenuItem_Literatur.Name = "toolStripMenuItem_Literatur";
             this.toolStripMenuItem_Literatur.Size = new System.Drawing.Size(194, 22);
             this.toolStripMenuItem_Literatur.Text = "x_Literatur";
@@ -221,6 +223,13 @@
             this.mediaItemToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.mediaItemToolStripMenuItem.Text = "x_Media-Item";
             this.mediaItemToolStripMenuItem.Click += new System.EventHandler(this.mediaItemToolStripMenuItem_Click);
+            // 
+            // videoToolStripMenuItem
+            // 
+            this.videoToolStripMenuItem.Name = "videoToolStripMenuItem";
+            this.videoToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.videoToolStripMenuItem.Text = "x_Video";
+            this.videoToolStripMenuItem.Click += new System.EventHandler(this.videoToolStripMenuItem_Click);
             // 
             // imageToolStripMenuItem
             // 
@@ -273,12 +282,21 @@
             this.timer_Filter.Interval = 300;
             this.timer_Filter.Tick += new System.EventHandler(this.timer_Filter_Tick);
             // 
-            // videoToolStripMenuItem
+            // literaturquelleToolStripMenuItem
             // 
-            this.videoToolStripMenuItem.Name = "videoToolStripMenuItem";
-            this.videoToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.videoToolStripMenuItem.Text = "x_Video";
-            this.videoToolStripMenuItem.Click += new System.EventHandler(this.videoToolStripMenuItem_Click);
+            this.literaturquelleToolStripMenuItem.Checked = true;
+            this.literaturquelleToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.literaturquelleToolStripMenuItem.Name = "literaturquelleToolStripMenuItem";
+            this.literaturquelleToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.literaturquelleToolStripMenuItem.Text = "x_Literaturquelle";
+            this.literaturquelleToolStripMenuItem.Click += new System.EventHandler(this.literaturquelleToolStripMenuItem_Click);
+            // 
+            // typedTaggingToolStripMenuItem
+            // 
+            this.typedTaggingToolStripMenuItem.Name = "typedTaggingToolStripMenuItem";
+            this.typedTaggingToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.typedTaggingToolStripMenuItem.Text = "x_Typed Tagging";
+            this.typedTaggingToolStripMenuItem.Click += new System.EventHandler(this.typedTaggingToolStripMenuItem_Click);
             // 
             // UserControl_LiteraturQuelle
             // 
@@ -330,5 +348,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButton_ClearFilter;
         private System.Windows.Forms.Timer timer_Filter;
         private System.Windows.Forms.ToolStripMenuItem videoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem literaturquelleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem typedTaggingToolStripMenuItem;
     }
 }
