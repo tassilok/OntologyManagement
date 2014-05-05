@@ -66,24 +66,29 @@ namespace Localization_Module
             objOList_Languages_Additional = OList_Languages;
             this.boolLocalizedNames = boolLocalizedNames;
 
-            var objOItem_Result = objDataWork_Localization.GetData_LocalizationDetail(objOItem_Ref);
-            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            if (OItem_Ref != null)
             {
-                objOList_Languages_Description = objDataWork_Localization.OList_LocalizationDetail.Where(p => p.ID_Parent_Localization == objLocalConfig.OItem_type_localizeddescription.GUID).GroupBy(p => new { p.ID_Language, 
-                                                                                                                      p.Name_Language}).
-                                                                                                                      Select(p => new clsOntologyItem
+                var objOItem_Result = objDataWork_Localization.GetData_LocalizationDetail(objOItem_Ref);
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    GUID = p.Key.ID_Language,
-                    Name = p.Key.Name_Language,
-                    GUID_Parent = objLocalConfig.OItem_type_language.GUID,
-                    Type = objLocalConfig.Globals.Type_Object
-                }).OrderBy(p => p.Name).ToList();
+                    objOList_Languages_Description = objDataWork_Localization.OList_LocalizationDetail.Where(p => p.ID_Parent_Localization == objLocalConfig.OItem_type_localizeddescription.GUID).GroupBy(p => new
+                    {
+                        p.ID_Language,
+                        p.Name_Language
+                    }).
+                                                                                                                          Select(p => new clsOntologyItem
+                                                                                                                          {
+                                                                                                                              GUID = p.Key.ID_Language,
+                                                                                                                              Name = p.Key.Name_Language,
+                                                                                                                              GUID_Parent = objLocalConfig.OItem_type_language.GUID,
+                                                                                                                              Type = objLocalConfig.Globals.Type_Object
+                                                                                                                          }).OrderBy(p => p.Name).ToList();
 
-                objOList_Languages_Name = objDataWork_Localization.OList_LocalizationDetail.Where(p => p.ID_Parent_Localization == objLocalConfig.OItem_type_localized_names.GUID).GroupBy(p => new
-                {
-                    p.ID_Language,
-                    p.Name_Language
-                }).Select(p => new clsOntologyItem
+                    objOList_Languages_Name = objDataWork_Localization.OList_LocalizationDetail.Where(p => p.ID_Parent_Localization == objLocalConfig.OItem_type_localized_names.GUID).GroupBy(p => new
+                    {
+                        p.ID_Language,
+                        p.Name_Language
+                    }).Select(p => new clsOntologyItem
                     {
                         GUID = p.Key.ID_Language,
                         Name = p.Key.Name_Language,
@@ -91,12 +96,14 @@ namespace Localization_Module
                         Type = objLocalConfig.Globals.Type_Object
                     }).OrderBy(p => p.Name).ToList();
 
-                fill_Tree();
+                    fill_Tree();
+                }
+                else
+                {
+                    MessageBox.Show(this, "Die Lokalisierungen konnten nicht geladen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
-            else
-            {
-                MessageBox.Show(this,"Die Lokalisierungen konnten nicht geladen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
+            
 
         }
 
