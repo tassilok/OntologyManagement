@@ -27,6 +27,10 @@ namespace TimeManagement_Module
 
         private clsOntologyItem objOItem_Ref;
 
+        public delegate void SelectedRow(clsOntologyItem OItem_TimeMgmtItem);
+
+        public event SelectedRow SelectedRowCntrl;
+
         private bool pcChange;
 
         public UserControl_TimeGrid(clsLocalConfig LocalConfig)
@@ -461,6 +465,34 @@ namespace TimeManagement_Module
             objOItem_Ref = null;
             toolStripTextBox_Ref.Text = "";
             Initialize();
+        }
+
+        private void DataGridView_LogManagement_SelectionChanged(object sender, EventArgs e)
+        {
+            
+            
+        }
+
+        private void DataGridView_LogManagement_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            
+            if (ModifierKeys.HasFlag(Keys.Control))
+            {
+                DataGridViewRow objDGVR = DataGridView_LogManagement.Rows[e.RowIndex];
+                DataRowView objDRV = (DataRowView)objDGVR.DataBoundItem;
+
+                var objTimeManagementItem =
+                    new clsOntologyItem
+                    {
+                        GUID = objDRV["ID_TimeManagement"].ToString(),
+                        Name = objDRV["Name_TimeManagement"].ToString(),
+                        GUID_Parent = objLocalConfig.OItem_class_timemanagement.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+
+                SelectedRowCntrl(objTimeManagementItem);
+            }
+            
         }
 
     }

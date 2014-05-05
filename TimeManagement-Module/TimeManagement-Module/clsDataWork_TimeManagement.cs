@@ -17,6 +17,7 @@ namespace TimeManagement_Module
         private clsDBLevel objDBLevel_UserWorkConfig;
         private clsDBLevel objDBLevel_Attributes2;
         private clsDBLevel objDBLevel_Ref;
+        private clsDBLevel objDBLevel_RefOfMgmtItem;
 
         
         public clsOntologyItem OItem_Result_TimeManagement { get; private set; }
@@ -48,6 +49,39 @@ namespace TimeManagement_Module
             }).ToList();
 
             return objOItem_Result;
+        }
+
+        public clsOntologyItem GetData_RefOfTimeMgmtItem(clsOntologyItem OItem_TimeManagementItem)
+        {
+            var objOSearch_Refs_Of_TimeItem = new List<clsObjectRel> {new clsObjectRel {ID_Object = OItem_TimeManagementItem.GUID,
+                ID_RelationType = objLocalConfig.OItem_relationtype_belonging_resources.GUID}};
+
+            var objOItem_Result = objDBLevel_RefOfMgmtItem.get_Data_ObjectRel(objOSearch_Refs_Of_TimeItem,
+                                                                              boolIDs: false);
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                if (objDBLevel_RefOfMgmtItem.OList_ObjectRel.Any())
+                {
+                    return new clsOntologyItem
+                        {
+                            GUID = objDBLevel_RefOfMgmtItem.OList_ObjectRel.First().ID_Other,
+                            Name = objDBLevel_RefOfMgmtItem.OList_ObjectRel.First().Name_Other,
+                            GUID_Parent = objDBLevel_RefOfMgmtItem.OList_ObjectRel.First().ID_Parent_Other,
+                            Type = objDBLevel_RefOfMgmtItem.OList_ObjectRel.First().Ontology
+                        };
+
+
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return objLocalConfig.Globals.LState_Error;
+            }
         }
 
         public void GetData_TimeManagement()
@@ -363,6 +397,7 @@ namespace TimeManagement_Module
             objDBLevel_UserWorkConfig = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Attributes2 = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Ref = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_RefOfMgmtItem = new clsDBLevel(objLocalConfig.Globals);
 
             OItem_Result_TimeManagement = objLocalConfig.Globals.LState_Nothing.Clone();
 

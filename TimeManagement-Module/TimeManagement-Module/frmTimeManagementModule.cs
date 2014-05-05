@@ -60,6 +60,7 @@ namespace TimeManagement_Module
                 {                    
                     objUserControl_TimeGrid = new UserControl_TimeGrid(objLocalConfig);
                     objUserControl_TimeGrid.Dock = DockStyle.Fill;
+                    objUserControl_TimeGrid.SelectedRowCntrl += objUserControl_TimeGrid_SelectedRowCntrl;
                     splitContainer1.Panel2.Controls.Add(objUserControl_TimeGrid);
 
                 }
@@ -73,6 +74,24 @@ namespace TimeManagement_Module
             {
                 Environment.Exit(0);
             }
+        }
+
+        void objUserControl_TimeGrid_SelectedRowCntrl(clsOntologyItem OItem_TimeMgmtItem)
+        {
+            
+            
+            var objOItem_TimeMgmtItem = objDataWork_TimeManagement.GetData_RefOfTimeMgmtItem(OItem_TimeMgmtItem);
+
+            if (objOItem_TimeMgmtItem == null)
+            {
+                objUserControl_RefTree.Mark_Root();
+            }
+            else
+            {
+                objUserControl_RefTree.SearchNodes(objOItem_TimeMgmtItem.GUID);
+                    
+            }
+            
         }
 
         void objUserControl_RefTree_selected_Node(clsOntologyItem OItem_Selected)

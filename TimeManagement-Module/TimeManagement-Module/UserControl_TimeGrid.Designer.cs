@@ -270,7 +270,9 @@
             this.DataGridView_LogManagement.TabIndex = 2;
             this.DataGridView_LogManagement.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_LogManagement_CellClick);
             this.DataGridView_LogManagement.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DataGridView_LogManagement_CellFormatting);
+            this.DataGridView_LogManagement.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_LogManagement_RowHeaderMouseClick);
             this.DataGridView_LogManagement.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_LogManagement_RowHeaderMouseDoubleClick);
+            this.DataGridView_LogManagement.SelectionChanged += new System.EventHandler(this.DataGridView_LogManagement_SelectionChanged);
             this.DataGridView_LogManagement.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView_LogManagement_KeyDown);
             // 
             // ContextMenuStrip_TimeManagement

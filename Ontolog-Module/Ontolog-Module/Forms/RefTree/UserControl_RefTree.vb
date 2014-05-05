@@ -220,6 +220,7 @@ Public Class UserControl_RefTree
         Dim objTreeNode = TreeView_Ref.SelectedNode
 
         NewToolStripMenuItem.Enabled = False
+        EditToolStripMenuItem.Enabled = False
 
         If Not objTreeNode Is Nothing Then
             If objTreeNode.ImageIndex = objDataWork_RefTree.ImageID_AttributeTypes Or _
@@ -228,6 +229,8 @@ Public Class UserControl_RefTree
                 objTreeNode.ImageIndex = objDataWork_RefTree.ImageID_Root Then
 
                 NewToolStripMenuItem.Enabled = True
+            ElseIf not objTreeNode.ImageIndex = objDataWork_RefTree.ImageID_Root then
+                EditToolStripMenuItem.Enabled = True
             End If
         End If
     End Sub
@@ -481,7 +484,10 @@ Public Class UserControl_RefTree
 
     Private Sub ToolStripTextBox_Mark_TextChanged(sender As Object, e As EventArgs) Handles ToolStripTextBox_Mark.TextChanged
         Timer_Mark.Stop()
-        Timer_Mark.Start()
+        If Not ToolStripTextBox_Mark.ReadOnly Then
+            Timer_Mark.Start()    
+        End If
+        
     End Sub
 
     Private Sub ClearMark(Optional objTreeNode As TreeNode = Nothing)
@@ -511,26 +517,63 @@ Public Class UserControl_RefTree
         End If
     End Sub
 
-    Private Sub SearchNodes(strSearch As String, Optional objTreeNode As TreeNode = Nothing)
+
+    public Sub Select_Root()
+        
+        
+        TreeView_Ref.SelectedNode = objTreeNode_Root
+        
+    End Sub
+
+    Public sub Mark_Root()
+        ClearMark()
+        objTreeNode_Root.BackColor = Color.Yellow
+    End Sub
+
+    public Sub SearchNodes(strSearch As String, Optional objTreeNode As TreeNode = Nothing) 
+        
+        
         If objTreeNode Is Nothing Then
-            For Each objTreeNode_Sub As TreeNode In TreeView_Ref.Nodes
-                If objTreeNode_Sub.Text.ToLower.Contains(strSearch) Then
-                    ToggleMarkOfNode(objTreeNode_Sub, True)
-                    ExpandParents(objTreeNode_Sub)
-
-                End If
-                SearchNodes(strSearch, objTreeNode_Sub)
-            Next
+            If (objLocalConfig.Globals.is_GUID(strSearch))
+                For Each objTreeNode_Sub As TreeNode In TreeView_Ref.Nodes
+                    If objTreeNode_Sub.Name = strSearch Then
+                        ToggleMarkOfNode(objTreeNode_Sub, True)
+                        ExpandParents(objTreeNode_Sub)
+                    End If
+                    SearchNodes(strSearch, objTreeNode_Sub)
+                Next
+            Else 
+                For Each objTreeNode_Sub As TreeNode In TreeView_Ref.Nodes
+                    If objTreeNode_Sub.Text.ToLower.Contains(strSearch) Then
+                        ToggleMarkOfNode(objTreeNode_Sub, True)
+                        ExpandParents(objTreeNode_Sub)
+                    End If
+                    SearchNodes(strSearch, objTreeNode_Sub)
+                Next
+            End If
+            
         Else
-            For Each objTreeNode_Sub As TreeNode In objTreeNode.Nodes
-                If objTreeNode_Sub.Text.ToLower.Contains(strSearch) Then
+            If (objLocalConfig.Globals.is_GUID(strSearch))
+                For Each objTreeNode_Sub As TreeNode In objTreeNode.Nodes
+                If objTreeNode_Sub.Name = strSearch Then
                     ToggleMarkOfNode(objTreeNode_Sub, True)
                     ExpandParents(objTreeNode_Sub)
-
                 End If
                 SearchNodes(strSearch, objTreeNode_Sub)
             Next
+            Else 
+                For Each objTreeNode_Sub As TreeNode In objTreeNode.Nodes
+                If objTreeNode_Sub.Text.ToLower.Contains(strSearch) Then
+                    ToggleMarkOfNode(objTreeNode_Sub, True)
+                    ExpandParents(objTreeNode_Sub)
+                End If
+                SearchNodes(strSearch, objTreeNode_Sub)
+            Next
+            End If
+            
         End If
+
+        
     End Sub
 
     Private Sub ExpandParents(objTreeNode As TreeNode)
@@ -538,6 +581,25 @@ Public Class UserControl_RefTree
             objTreeNode = objTreeNode.Parent
             objTreeNode.Expand()
         End While
+    End Sub
+
+    Private Sub ToolStripButton_ClearMark_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_ClearMark.Click
+        ClearMark()
+        ToolStripTextBox_Mark.ReadOnly=True
+        ToolStripTextBox_Mark.Text = ""
+        ToolStripTextBox_Mark.ReadOnly=False
+    End Sub
+
+    Private Sub CopyGuidToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles CopyGuidToolStripMenuItem.Click
+        Dim objTreeNode = TreeView_Ref.SelectedNode
+
+        Clipboard.SetDataObject(objTreeNode.Name)
+    End Sub
+
+    Private Sub CopyNameToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles CopyNameToolStripMenuItem.Click
+        Dim objTreeNode = TreeView_Ref.SelectedNode
+
+        Clipboard.SetDataObject(objTreeNode.Text)
     End Sub
 End Class
 
