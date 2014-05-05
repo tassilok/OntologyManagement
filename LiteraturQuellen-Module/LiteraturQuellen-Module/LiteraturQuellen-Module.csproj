@@ -73,6 +73,12 @@
     <Compile Include="UserControl_Buchquelle.Designer.cs">
       <DependentUpon>UserControl_Buchquelle.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControl_EmailQuelle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_EmailQuelle.Designer.cs">
+      <DependentUpon>UserControl_EmailQuelle.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControl_InternetQuelle.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -109,6 +115,9 @@
     </Compile>
     <EmbeddedResource Include="UserControl_Buchquelle.resx">
       <DependentUpon>UserControl_Buchquelle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_EmailQuelle.resx">
+      <DependentUpon>UserControl_EmailQuelle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_InternetQuelle.resx">
       <DependentUpon>UserControl_InternetQuelle.cs</DependentUpon>
@@ -155,6 +164,10 @@
     <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
       <Name>OntologyClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OutlookConnector-Module\OutlookConnector-Module\OutlookConnector-Module.csproj">
+      <Project>{cff01715-2614-4d82-9446-02d4ead7ca3b}</Project>
+      <Name>OutlookConnector-Module</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Partner-Module\Partner-Module\Partner-Module.vbproj">
       <Project>{d42c6737-ef33-40d6-8253-173099f93885}</Project>

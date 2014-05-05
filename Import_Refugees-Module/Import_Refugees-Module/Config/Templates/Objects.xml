@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="e82435de799a4eb1a9bb9547554c9847" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Import_Refugees-Module]]></Item>
+<Item Id="675b0dbd98a743d09a901c2006f3ab0c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_Anzahl_Personen]]></Item>
+<Item Id="aab6be5fdee443c8942443bfecd885af" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_Jahr]]></Item>
+<Item Id="1431b7cfb9084c599931b32d44c45421" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongs_to]]></Item>
+<Item Id="3be903756b9445b4a1060a7b6b73c54f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Direction]]></Item>
+<Item Id="24f35439c2fd4949abfeb894e488ad41" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Land__Refugees_]]></Item>
+<Item Id="31bd433e7a52460fa4623a8c9e6c07ab" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Landesbezogene_Fl_chtlingszahlen]]></Item>
+<Item Id="4fa227f4f33b4b22852fc45f165a1b63" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Out]]></Item>
+<Item Id="cf664174acb6442ebea0fc6d12c942fe" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_In]]></Item>
+<Item Id="47c33b593a3e43c8b3be0cf3230a10ba" Id_Parent="3d1dc6cfb96449869808f39b7c5c3907"><![CDATA[Out]]></Item>
+<Item Id="7a8b5bdf70ba4e13820d3ed0afe2cdfd" Id_Parent="3d1dc6cfb96449869808f39b7c5c3907"><![CDATA[In]]></Item>
+
+</Items>

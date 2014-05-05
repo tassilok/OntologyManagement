@@ -73,7 +73,6 @@ namespace LiteraturQuellen_Module
             objDataWork_LiteraturQuelle = new clsDataWork_LiteraturQuelle(objLocalConfig);
             objDataWork_LiteraturQuelle.GetData_LiteraturQuellen();
             List<clsOntologyItem> objOList_LiteraturQuellen = new List<clsOntologyItem>();
-
             if (objOItem_Filter != null && objOItem_Filter.GUID_Parent != objLocalConfig.OItem_type_literarische_quelle.GUID)
             {
                 objOList_LiteraturQuellen = objDataWork_LiteraturQuelle.getFilterQuellen(objOItem_Filter);
@@ -83,8 +82,19 @@ namespace LiteraturQuellen_Module
             {
                 if (objDataWork_LiteraturQuelle.OItem_Result_LiteraturQuellen.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    
-                    if (objOItem_Filter != null && objOItem_Filter.GUID_Parent != objLocalConfig.OItem_type_literarische_quelle.GUID)
+                    if (objOItem_Filter != null && objOItem_Filter.Additional1 == "TypeFilter")
+                    {
+                        if ((bool)objOItem_Filter.Mark)
+                        {
+                            dataGridView_LiteraturQuellen.DataSource = new SortableBindingList<clsLiteraturQuelle>(objDataWork_LiteraturQuelle.OList_LiteraturQuellen.Where(lq => lq.ID_Class_Quelle == objOItem_Filter.GUID));
+                        }
+                        else
+                        {
+                            dataGridView_LiteraturQuellen.DataSource = new SortableBindingList<clsLiteraturQuelle>(objDataWork_LiteraturQuelle.OList_LiteraturQuellen.Where(lq => lq.ID_Class_Quelle != objOItem_Filter.GUID));
+                        }
+
+                    }
+                    else if (objOItem_Filter != null && objOItem_Filter.GUID_Parent != objLocalConfig.OItem_type_literarische_quelle.GUID)
                     {
                         var oList_LiteraturList = new SortableBindingList<clsLiteraturQuelle>((from objLiteraturQuellen in objDataWork_LiteraturQuelle.OList_LiteraturQuellen
                                                                                                join literaturQuelleFilter in objOList_LiteraturQuellen on objLiteraturQuellen.ID_LiteraturQuelle equals literaturQuelleFilter.GUID
@@ -194,6 +204,9 @@ namespace LiteraturQuellen_Module
                         objOItem_Result = objTransaction.do_Transaction(objORel_Quelle_To_LiterarischeQuelle, true);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
+                            toolStripTextBox_Filter.ReadOnly = true;
+                            toolStripTextBox_Filter.Text = "";
+                            toolStripTextBox_Filter.ReadOnly = false;
                             FillDataGridView();
                             
                         }
@@ -225,6 +238,11 @@ namespace LiteraturQuellen_Module
         {
             applyToolStripMenuItem.Enabled = false;
             typedTaggingToolStripMenuItem.Enabled = false;
+            filterToolStripMenuItem.Enabled = false;
+            clearFilterToolStripMenuItem.Enabled = false;
+            equalToolStripMenuItem.Enabled = false;
+            differentToolStripMenuItem.Enabled = false;
+
             if (dataGridView_LiteraturQuellen.SelectedRows.Count > 0)
             {
                 applyToolStripMenuItem.Enabled = true;
@@ -232,6 +250,22 @@ namespace LiteraturQuellen_Module
                 {
                     typedTaggingToolStripMenuItem.Enabled = true;
                 }
+            }
+
+            if (dataGridView_LiteraturQuellen.SelectedCells.Count == 1)
+            {
+                if (dataGridView_LiteraturQuellen.Columns[dataGridView_LiteraturQuellen.SelectedCells[0].ColumnIndex].DataPropertyName == "Name_Class_Quelle")
+                {
+                    filterToolStripMenuItem.Enabled = true;
+                    equalToolStripMenuItem.Enabled = true;
+                    differentToolStripMenuItem.Enabled = true;
+                }
+            }
+
+            if (objOItem_Filter != null)
+            {
+                filterToolStripMenuItem.Enabled = true;
+                clearFilterToolStripMenuItem.Enabled = true;
             }
         }
 
@@ -415,6 +449,46 @@ namespace LiteraturQuellen_Module
                     Type = objLocalConfig.Globals.Type_Object
                 });
             objFrmTypedTaggingSingle.Show();
+        }
+
+        private void dataGridView_LiteraturQuellen_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void equalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripTextBox_Filter.ReadOnly = true;
+            toolStripTextBox_Filter.Text = "";
+            toolStripTextBox_Filter.ReadOnly = false;
+            var dataRow = (DataGridViewRow) dataGridView_LiteraturQuellen.Rows[dataGridView_LiteraturQuellen.SelectedCells[0].RowIndex];
+            var literaturQuelle = (clsLiteraturQuelle) dataRow.DataBoundItem;
+            objOItem_Filter = new clsOntologyItem
+            {
+                GUID = literaturQuelle.ID_Class_Quelle,
+                Additional1 = "TypeFilter",
+                Mark = true
+            };
+
+            FillDataGridView();
+        }
+
+        private void clearFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripTextBox_Filter.ReadOnly = true;
+            toolStripTextBox_Filter.Text = "";
+            toolStripTextBox_Filter.ReadOnly = false;
+            objOItem_Filter = null;
+            FillDataGridView();
+        }
+
+        private void toolStripButton_ClearFilter_Click(object sender, EventArgs e)
+        {
+            toolStripTextBox_Filter.ReadOnly = true;
+            toolStripTextBox_Filter.Text = "";
+            toolStripTextBox_Filter.ReadOnly = false;
+            objOItem_Filter = null;
+            FillDataGridView();
         }
 
         

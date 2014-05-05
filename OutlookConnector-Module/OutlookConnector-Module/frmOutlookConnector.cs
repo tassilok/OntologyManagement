@@ -28,6 +28,8 @@ namespace OutlookConnector_Module
 
         private clsOutlookConnector objOutlookConnector;
 
+        public List<clsMailItem> MailItems { get; set; }
+
         private DataSet_OutlookConnectorTableAdapters.mltbl_MailItemsTableAdapter mltblA_MailItems = new DataSet_OutlookConnectorTableAdapters.mltbl_MailItemsTableAdapter();
 
         public frmOutlookConnector()
@@ -38,21 +40,41 @@ namespace OutlookConnector_Module
             Initialize();
         }
 
+        public frmOutlookConnector(clsGlobals Globals, clsOntologyItem OItem_User)
+        {
+            InitializeComponent();
+
+            objLocalConfig = new clsLocalConfig(Globals);
+            objLocalConfig.User = OItem_User;
+            Initialize();
+        }
+
         private void Initialize()
         {
-            objOutlookConnector = new clsOutlookConnector(objLocalConfig.Globals);
-            objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals,true,false,frmAuthenticate.ERelateMode.NoRelate,true);
-            objFrmAuthenticate.ShowDialog(this);
-            if (objFrmAuthenticate.DialogResult== System.Windows.Forms.DialogResult.OK)
+            
+            if (objLocalConfig.User == null)
             {
                 
-                objLocalConfig.User = objFrmAuthenticate.OItem_User;
+                objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, false, frmAuthenticate.ERelateMode.NoRelate, true);
+                objFrmAuthenticate.ShowDialog(this);
+
+                if (objFrmAuthenticate.DialogResult == System.Windows.Forms.DialogResult.OK)
+                {
+                    objLocalConfig.User = objFrmAuthenticate.OItem_User;
+                }
+            }
+            
+            if (objLocalConfig.User != null)
+            {
+                objOutlookConnector = new clsOutlookConnector(objLocalConfig.Globals);    
+                
                 objDataWork = new clsDataWork_OutlookConnector(objLocalConfig);
                 objDatawork_OutlookItems = new clsDataWork_OutlookItems(objLocalConfig, objDataWork);
                 objUserControl_OutlookItemList = new UserControl_OutlookItemList(objLocalConfig, objDataWork);
                 objUserControl_OutlookItemList.Dock = DockStyle.Fill;
 
                 objUserControl_OutlookItemList.selectedRows += objUserControl_OutlookItemList_selectedRows;
+                objUserControl_OutlookItemList.appliedRows += objUserControl_OutlookItemList_appliedRows;
                 splitContainer1.Panel1.Controls.Add(objUserControl_OutlookItemList);
                 RefreshOutlookState();
 
@@ -69,6 +91,21 @@ namespace OutlookConnector_Module
             }
 
             
+        }
+
+        void objUserControl_OutlookItemList_appliedRows()
+        {
+
+            MailItems = new List<clsMailItem>();
+
+            foreach (DataGridViewRow dataRow in objUserControl_OutlookItemList.dataGridViewSelectedRowCollection)
+	        {
+                var mailItem = (clsMailItem)dataRow.DataBoundItem;
+                MailItems.Add(mailItem);
+	        }
+
+            this.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.Close();
         }
 
         void objUserControl_OutlookItemList_selectedRows()

@@ -49,6 +49,7 @@
             this.createOntologyItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.outlookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openMailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.applyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -150,9 +151,10 @@
             this.contextMenuStrip_OutlookItems.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.filterToolStripMenuItem,
             this.editToolStripMenuItem,
-            this.outlookToolStripMenuItem});
+            this.outlookToolStripMenuItem,
+            this.applyToolStripMenuItem});
             this.contextMenuStrip_OutlookItems.Name = "contextMenuStrip_OutlookItems";
-            this.contextMenuStrip_OutlookItems.Size = new System.Drawing.Size(128, 70);
+            this.contextMenuStrip_OutlookItems.Size = new System.Drawing.Size(153, 114);
             this.contextMenuStrip_OutlookItems.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_OutlookItems_Opening);
             // 
             // filterToolStripMenuItem
@@ -163,20 +165,20 @@
             this.containsToolStripMenuItem,
             this.clearToolStripMenuItem});
             this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
-            this.filterToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.filterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.filterToolStripMenuItem.Text = "x_Filter";
             // 
             // equalToolStripMenuItem
             // 
             this.equalToolStripMenuItem.Name = "equalToolStripMenuItem";
-            this.equalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.equalToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.equalToolStripMenuItem.Text = "x_equal";
             this.equalToolStripMenuItem.Click += new System.EventHandler(this.equalToolStripMenuItem_Click);
             // 
             // differentToolStripMenuItem
             // 
             this.differentToolStripMenuItem.Name = "differentToolStripMenuItem";
-            this.differentToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.differentToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.differentToolStripMenuItem.Text = "x_different";
             this.differentToolStripMenuItem.Click += new System.EventHandler(this.differentToolStripMenuItem_Click);
             // 
@@ -185,7 +187,7 @@
             this.containsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripTextBox_contains});
             this.containsToolStripMenuItem.Name = "containsToolStripMenuItem";
-            this.containsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.containsToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.containsToolStripMenuItem.Text = "x_contains";
             this.containsToolStripMenuItem.Click += new System.EventHandler(this.containsToolStripMenuItem_Click);
             // 
@@ -199,7 +201,7 @@
             // 
             this.clearToolStripMenuItem.Image = global::OutlookConnector_Module.Properties.Resources.tasto_8_architetto_franc_01;
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.clearToolStripMenuItem.Text = "x_Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
@@ -209,7 +211,7 @@
             this.createOntologyItemToolStripMenuItem});
             this.editToolStripMenuItem.Enabled = false;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.editToolStripMenuItem.Text = "x_Edit";
             // 
             // createOntologyItemToolStripMenuItem
@@ -224,7 +226,7 @@
             this.outlookToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openMailToolStripMenuItem});
             this.outlookToolStripMenuItem.Name = "outlookToolStripMenuItem";
-            this.outlookToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.outlookToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.outlookToolStripMenuItem.Text = "x_Outlook";
             // 
             // openMailToolStripMenuItem
@@ -233,6 +235,14 @@
             this.openMailToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.openMailToolStripMenuItem.Text = "x_Open Mail";
             this.openMailToolStripMenuItem.Click += new System.EventHandler(this.openMailToolStripMenuItem_Click);
+            // 
+            // applyToolStripMenuItem
+            // 
+            this.applyToolStripMenuItem.Enabled = false;
+            this.applyToolStripMenuItem.Name = "applyToolStripMenuItem";
+            this.applyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.applyToolStripMenuItem.Text = "x_Apply";
+            this.applyToolStripMenuItem.Click += new System.EventHandler(this.applyToolStripMenuItem_Click);
             // 
             // UserControl_OutlookItemList
             // 
@@ -276,6 +286,7 @@
         private System.Windows.Forms.ToolStripMenuItem containsToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox_contains;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem applyToolStripMenuItem;
 
     }
 }

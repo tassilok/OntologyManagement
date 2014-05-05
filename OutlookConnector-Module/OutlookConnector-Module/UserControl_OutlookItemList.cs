@@ -28,6 +28,7 @@ namespace OutlookConnector_Module
         private frm_ObjectEdit objFrmObjectEdit;
 
         public event SelectedRows selectedRows;
+        public event SelectedRows appliedRows;
 
         public void ToogleEnableEdit(bool boolEnable)
         {
@@ -134,6 +135,7 @@ namespace OutlookConnector_Module
         {
             filterToolStripMenuItem.Enabled = false;
             outlookToolStripMenuItem.Enabled = false;
+            applyToolStripMenuItem.Enabled = false;
             if (dataGridView_OutlookItems.SelectedCells.Count == 1)
             {
                 filterToolStripMenuItem.Enabled = true;
@@ -142,6 +144,19 @@ namespace OutlookConnector_Module
             if (dataGridView_OutlookItems.SelectedRows.Count == 1)
             {
                 outlookToolStripMenuItem.Enabled = true;
+            }
+
+            if (dataGridView_OutlookItems.SelectedRows.Count > 0)
+            {
+                var boolEnalbe = true;
+                foreach (DataGridViewRow dataRow in dataGridView_OutlookItems.SelectedRows)
+                {
+                    var email = (clsMailItem) dataRow.DataBoundItem;
+                    if (!email.SemItemPresent) boolEnalbe = false;
+                    
+                }
+
+                applyToolStripMenuItem.Enabled = boolEnalbe;
             }
         }
 
@@ -455,6 +470,11 @@ namespace OutlookConnector_Module
             {
                 MessageBox.Show(this, "Geben Sie bitte eine Suchzeichenkette ein!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void applyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            appliedRows();
         }
     }
 }

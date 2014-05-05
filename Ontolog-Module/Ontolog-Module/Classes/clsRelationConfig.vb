@@ -36,7 +36,7 @@ Public Class clsRelationConfig
                     objOA_Object = Nothing
                 End If
             Case objDataTypes.DType_Int.GUID
-                If Value.GetType() = System.Type.GetType("System.Long") Then
+                If Value.GetType() = System.Type.GetType("System.Long") Or Value.GetType() = System.Type.GetType("System.Int64") Then
                     With objOA_Object
                         .Val_Named = Value
                         .Val_Lng = Value

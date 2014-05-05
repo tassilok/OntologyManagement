@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="AttributeType">
+  <Item Id="f07a566fb64f4b03b0c8a443b1c5c7bb" Id_Parent="3a4f5b7bda754980933efbc33cc51439"><![CDATA[Anzahl Personen]]></Item>
+<Item Id="88fb371ad44243e985a8134790b27c57" Id_Parent="3a4f5b7bda754980933efbc33cc51439"><![CDATA[Jahr]]></Item>
+
+</Items>

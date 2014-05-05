@@ -21,6 +21,7 @@ namespace LiteraturQuellen_Module
         private UserControl_InternetQuelle objUserControl_InternetQuelle;
         private UserControl_Buchquelle objUserControl_BuchQuelle;
         private UserControl_VideoQuelle objUserControl_VideoQuelle;
+        private UserControl_EmailQuelle objUserControl_EmailQuelle;
         private frmAuthenticate objFrmAuthenticate;
 
         public List<clsLiteraturQuelle> OList_LiteraturQuellen;
@@ -95,11 +96,12 @@ namespace LiteraturQuellen_Module
                 {
                     objUserControl_BuchQuelle = new UserControl_Buchquelle(objLocalConfig);
                     objUserControl_BuchQuelle.Dock = DockStyle.Fill;
+                    
                 }
-                
 
-                
                 splitContainer1.Panel2.Controls.Add(objUserControl_BuchQuelle);
+                
+                
                 objUserControl_BuchQuelle.Initialize_BuchQuelle(new clsOntologyItem
                 {
                     GUID = objLiteraturQuelle.ID_Quelle,
@@ -109,6 +111,32 @@ namespace LiteraturQuellen_Module
                 });
 
             }
+            else if (objLiteraturQuelle.ID_Class_Quelle == objLocalConfig.OItem_type_email_quelle.GUID)
+            {
+                if (objUserControl_EmailQuelle == null)
+                {
+                    objUserControl_EmailQuelle = new UserControl_EmailQuelle(objLocalConfig);
+                    objUserControl_EmailQuelle.Dock = DockStyle.Fill;
+                    
+                }
+
+                splitContainer1.Panel2.Controls.Add(objUserControl_EmailQuelle);
+
+                objUserControl_EmailQuelle.Initialize_Quelle(new clsOntologyItem
+                {
+                    GUID = objLiteraturQuelle.ID_Quelle,
+                    Name = objLiteraturQuelle.Name_Quelle,
+                    GUID_Parent = objLiteraturQuelle.ID_Class_Quelle,
+                    Type = objLocalConfig.Globals.Type_Object
+                },
+                new clsOntologyItem
+                {
+                    GUID = objLiteraturQuelle.ID_LiteraturQuelle,
+                    Name = objLiteraturQuelle.Name_LiteraturQuelle,
+                    GUID_Parent = objLocalConfig.OItem_type_literarische_quelle.GUID,
+                    Type = objLocalConfig.Globals.Type_Object
+                });
+            }
             else if (objLiteraturQuelle.ID_Class_Quelle == objLocalConfig.OItem_type_internet_quellenangabe.GUID)
             {
                 if (objUserControl_InternetQuelle == null)
@@ -116,9 +144,9 @@ namespace LiteraturQuellen_Module
                     objUserControl_InternetQuelle = new UserControl_InternetQuelle(objLocalConfig);
                     objUserControl_InternetQuelle.Dock = DockStyle.Fill;
                 }
-                
 
-                
+
+
                 splitContainer1.Panel2.Controls.Add(objUserControl_InternetQuelle);
                 objUserControl_InternetQuelle.Initialize_InternetQuelle(new clsOntologyItem
                 {
@@ -135,7 +163,7 @@ namespace LiteraturQuellen_Module
                     objUserControl_VideoQuelle = new UserControl_VideoQuelle(objLocalConfig);
                     objUserControl_VideoQuelle.Dock = DockStyle.Fill;
                 }
-                
+
 
 
                 splitContainer1.Panel2.Controls.Add(objUserControl_VideoQuelle);

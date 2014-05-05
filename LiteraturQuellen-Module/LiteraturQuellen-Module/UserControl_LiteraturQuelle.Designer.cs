@@ -38,10 +38,13 @@
             this.contextMenuStrip_Quellen = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.applyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.typedTaggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_Filter = new System.Windows.Forms.ToolStripTextBox();
+            this.timer_Filter = new System.Windows.Forms.Timer(this.components);
             this.toolStripSplitButton_FilterTyp = new System.Windows.Forms.ToolStripSplitButton();
+            this.literaturquelleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_Literatur = new System.Windows.Forms.ToolStripMenuItem();
             this.seiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.urlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,9 +56,10 @@
             this.zeitschriftenausgabeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton_AddFilter = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_ClearFilter = new System.Windows.Forms.ToolStripButton();
-            this.timer_Filter = new System.Windows.Forms.Timer(this.components);
-            this.literaturquelleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.typedTaggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.equalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.differentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -123,6 +127,7 @@
             this.dataGridView_LiteraturQuellen.ReadOnly = true;
             this.dataGridView_LiteraturQuellen.Size = new System.Drawing.Size(550, 400);
             this.dataGridView_LiteraturQuellen.TabIndex = 0;
+            this.dataGridView_LiteraturQuellen.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_LiteraturQuellen_CellEnter);
             this.dataGridView_LiteraturQuellen.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_LiteraturQuellen_RowHeaderMouseDoubleClick);
             this.dataGridView_LiteraturQuellen.SelectionChanged += new System.EventHandler(this.dataGridView_LiteraturQuellen_SelectionChanged);
             // 
@@ -131,7 +136,8 @@
             this.contextMenuStrip_Quellen.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.applyToolStripMenuItem,
-            this.typedTaggingToolStripMenuItem});
+            this.typedTaggingToolStripMenuItem,
+            this.filterToolStripMenuItem});
             this.contextMenuStrip_Quellen.Name = "contextMenuStrip_Quellen";
             this.contextMenuStrip_Quellen.Size = new System.Drawing.Size(165, 92);
             this.contextMenuStrip_Quellen.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Quellen_Opening);
@@ -139,16 +145,23 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.newToolStripMenuItem.Text = "x_New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // applyToolStripMenuItem
             // 
             this.applyToolStripMenuItem.Name = "applyToolStripMenuItem";
-            this.applyToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.applyToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.applyToolStripMenuItem.Text = "x_Apply";
             this.applyToolStripMenuItem.Click += new System.EventHandler(this.applyToolStripMenuItem_Click);
+            // 
+            // typedTaggingToolStripMenuItem
+            // 
+            this.typedTaggingToolStripMenuItem.Name = "typedTaggingToolStripMenuItem";
+            this.typedTaggingToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.typedTaggingToolStripMenuItem.Text = "x_Typed Tagging";
+            this.typedTaggingToolStripMenuItem.Click += new System.EventHandler(this.typedTaggingToolStripMenuItem_Click);
             // 
             // toolStrip2
             // 
@@ -161,7 +174,7 @@
             this.toolStripButton_ClearFilter});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(483, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(514, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripLabel1
@@ -175,6 +188,11 @@
             this.toolStripTextBox_Filter.Name = "toolStripTextBox_Filter";
             this.toolStripTextBox_Filter.Size = new System.Drawing.Size(300, 25);
             this.toolStripTextBox_Filter.TextChanged += new System.EventHandler(this.toolStripTextBox_Filter_TextChanged);
+            // 
+            // timer_Filter
+            // 
+            this.timer_Filter.Interval = 300;
+            this.timer_Filter.Tick += new System.EventHandler(this.timer_Filter_Tick);
             // 
             // toolStripSplitButton_FilterTyp
             // 
@@ -195,6 +213,15 @@
             this.toolStripSplitButton_FilterTyp.Name = "toolStripSplitButton_FilterTyp";
             this.toolStripSplitButton_FilterTyp.Size = new System.Drawing.Size(77, 22);
             this.toolStripSplitButton_FilterTyp.Text = "x_Literatur";
+            // 
+            // literaturquelleToolStripMenuItem
+            // 
+            this.literaturquelleToolStripMenuItem.Checked = true;
+            this.literaturquelleToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.literaturquelleToolStripMenuItem.Name = "literaturquelleToolStripMenuItem";
+            this.literaturquelleToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.literaturquelleToolStripMenuItem.Text = "x_Literaturquelle";
+            this.literaturquelleToolStripMenuItem.Click += new System.EventHandler(this.literaturquelleToolStripMenuItem_Click);
             // 
             // toolStripMenuItem_Literatur
             // 
@@ -276,27 +303,37 @@
             this.toolStripButton_ClearFilter.Name = "toolStripButton_ClearFilter";
             this.toolStripButton_ClearFilter.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_ClearFilter.Text = "toolStripButton1";
+            this.toolStripButton_ClearFilter.Click += new System.EventHandler(this.toolStripButton_ClearFilter_Click);
             // 
-            // timer_Filter
+            // filterToolStripMenuItem
             // 
-            this.timer_Filter.Interval = 300;
-            this.timer_Filter.Tick += new System.EventHandler(this.timer_Filter_Tick);
+            this.filterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.equalToolStripMenuItem,
+            this.differentToolStripMenuItem,
+            this.clearFilterToolStripMenuItem});
+            this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
+            this.filterToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.filterToolStripMenuItem.Text = "x_Filter";
             // 
-            // literaturquelleToolStripMenuItem
+            // equalToolStripMenuItem
             // 
-            this.literaturquelleToolStripMenuItem.Checked = true;
-            this.literaturquelleToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.literaturquelleToolStripMenuItem.Name = "literaturquelleToolStripMenuItem";
-            this.literaturquelleToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.literaturquelleToolStripMenuItem.Text = "x_Literaturquelle";
-            this.literaturquelleToolStripMenuItem.Click += new System.EventHandler(this.literaturquelleToolStripMenuItem_Click);
+            this.equalToolStripMenuItem.Name = "equalToolStripMenuItem";
+            this.equalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.equalToolStripMenuItem.Text = "x_equal";
+            this.equalToolStripMenuItem.Click += new System.EventHandler(this.equalToolStripMenuItem_Click);
             // 
-            // typedTaggingToolStripMenuItem
+            // differentToolStripMenuItem
             // 
-            this.typedTaggingToolStripMenuItem.Name = "typedTaggingToolStripMenuItem";
-            this.typedTaggingToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.typedTaggingToolStripMenuItem.Text = "x_Typed Tagging";
-            this.typedTaggingToolStripMenuItem.Click += new System.EventHandler(this.typedTaggingToolStripMenuItem_Click);
+            this.differentToolStripMenuItem.Name = "differentToolStripMenuItem";
+            this.differentToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.differentToolStripMenuItem.Text = "x_different";
+            // 
+            // clearFilterToolStripMenuItem
+            // 
+            this.clearFilterToolStripMenuItem.Name = "clearFilterToolStripMenuItem";
+            this.clearFilterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.clearFilterToolStripMenuItem.Text = "x_Clear Filter";
+            this.clearFilterToolStripMenuItem.Click += new System.EventHandler(this.clearFilterToolStripMenuItem_Click);
             // 
             // UserControl_LiteraturQuelle
             // 
@@ -350,5 +387,9 @@
         private System.Windows.Forms.ToolStripMenuItem videoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem literaturquelleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem typedTaggingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem filterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem equalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem differentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearFilterToolStripMenuItem;
     }
 }

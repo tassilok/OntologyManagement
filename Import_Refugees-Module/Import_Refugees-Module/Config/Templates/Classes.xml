@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Class">
+  <Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
+<Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
+<Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
+<Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="3d1dc6cfb96449869808f39b7c5c3907" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Direction]]></Item>
+<Item Id="7036c49262414b03be1c7acaa16d9d84" Id_Parent="caf2a61ec07944008182ab21de3856ee"><![CDATA[Land (Refugees)]]></Item>
+<Item Id="cfed9f8e9eb644ef95c5705c281aa9cc" Id_Parent="caf2a61ec07944008182ab21de3856ee"><![CDATA[Landesbezogene Flüchtlingszahlen]]></Item>
+<Item Id="caf2a61ec07944008182ab21de3856ee" Id_Parent="41093c72d808491b86fccc1b6c0bd22f"><![CDATA[Flüchtlinge]]></Item>
+<Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
+<Item Id="41093c72d808491b86fccc1b6c0bd22f" Id_Parent="7c3385f938a44a93903d4b1a8f838034"><![CDATA[Project]]></Item>
+<Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
+<Item Id="7c3385f938a44a93903d4b1a8f838034" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Project-Management]]></Item>
+
+</Items>
