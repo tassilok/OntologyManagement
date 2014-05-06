@@ -1,5 +1,16 @@
 ﻿Imports OntologyClasses.BaseClasses
 
+
+<Flags>
+Public Enum NameRelation_Type
+    SameNameNoCreate
+    SameNameCreate
+    UniqueName
+    SameNameNoCreate_Contains
+    SameNameCreate_Contains
+    UniqueName_Contains
+End Enum
+
 Public Class UserControl_ObjectRelTree
     Private objTreeNode_RelForward As TreeNode
     Private objTreeNode_RelBackward As TreeNode
@@ -27,7 +38,7 @@ Public Class UserControl_ObjectRelTree
     Private objOList_Selected As New List(Of clsOntologyItem)
 
     Public Event selected_Item(ByVal oList_Items As List(Of clsOntologyItem))
-
+    Public Event relateByName(oList_Items As List(Of clsOntologyItem), NameRelationType As NameRelation_Type)
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig)
 
@@ -549,6 +560,57 @@ Public Class UserControl_ObjectRelTree
                     Case objLocalConfig.Globals.Type_Other_RelType
                     Case objLocalConfig.Globals.Type_Other_Classes
                 End Select
+            End If
+        End If
+    End Sub
+
+    Private Sub ContextMenuStrip_Objects_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Objects.Opening
+        Dim objTreeNode = TreeView_ObjectRels.SelectedNode
+
+        RelateToolStripMenuItem.Enabled = False
+
+        If (objOList_Selected.Count = 4) Then
+            If objOList_Selected.Last().GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Or objOList_Selected.Last().GUID = objLocalConfig.Globals.Direction_RightLeft.GUID Then
+                RelateToolStripMenuItem.Enabled = True
+            End If
+        End If
+    End Sub
+
+    Private Sub SameNameCreateIfNotPresentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SameNameCreateIfNotPresentToolStripMenuItem.Click
+        If (objOList_Selected.Count = 4) Then
+            If objOList_Selected.Last().GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Or objOList_Selected.Last().GUID = objLocalConfig.Globals.Direction_RightLeft.GUID Then
+                If ContainsToolStripMenuItem.Checked Then
+                    RaiseEvent relateByName(objOList_Selected, NameRelation_Type.SameNameCreate_Contains)
+                Else
+                    RaiseEvent relateByName(objOList_Selected, NameRelation_Type.SameNameCreate)
+                End If
+
+            End If
+        End If
+    End Sub
+
+    Private Sub SameNameNoCreateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SameNameNoCreateToolStripMenuItem.Click
+        If (objOList_Selected.Count = 4) Then
+            If objOList_Selected.Last().GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Or objOList_Selected.Last().GUID = objLocalConfig.Globals.Direction_RightLeft.GUID Then
+                If ContainsToolStripMenuItem.Checked Then
+                    RaiseEvent relateByName(objOList_Selected, NameRelation_Type.SameNameNoCreate_Contains)
+                Else
+                    RaiseEvent relateByName(objOList_Selected, NameRelation_Type.SameNameNoCreate)
+                End If
+
+            End If
+        End If
+    End Sub
+
+    Private Sub UniqueNameToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UniqueNameToolStripMenuItem.Click
+        If (objOList_Selected.Count = 4) Then
+            If objOList_Selected.Last().GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Or objOList_Selected.Last().GUID = objLocalConfig.Globals.Direction_RightLeft.GUID Then
+                If ContainsToolStripMenuItem.Checked Then
+                    RaiseEvent relateByName(objOList_Selected, NameRelation_Type.UniqueName_Contains)
+                Else
+                    RaiseEvent relateByName(objOList_Selected, NameRelation_Type.UniqueName)
+                End If
+
             End If
         End If
     End Sub

@@ -26,10 +26,18 @@ Partial Class UserControl_ObjectRelTree
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UserControl_ObjectRelTree))
         Me.TreeView_ObjectRels = New System.Windows.Forms.TreeView()
         Me.ImageList_Main = New System.Windows.Forms.ImageList(Me.components)
+        Me.ContextMenuStrip_Objects = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.RelateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SameNameCreateIfNotPresentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SameNameNoCreateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UniqueNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ContainsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ContextMenuStrip_Objects.SuspendLayout()
         Me.SuspendLayout()
         '
         'TreeView_ObjectRels
         '
+        Me.TreeView_ObjectRels.ContextMenuStrip = Me.ContextMenuStrip_Objects
         Me.TreeView_ObjectRels.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TreeView_ObjectRels.ImageIndex = 0
         Me.TreeView_ObjectRels.ImageList = Me.ImageList_Main
@@ -46,6 +54,44 @@ Partial Class UserControl_ObjectRelTree
         Me.ImageList_Main.Images.SetKeyName(0, "Empty.png")
         Me.ImageList_Main.Images.SetKeyName(1, "pulsante_02_architetto_f_01.png")
         '
+        'ContextMenuStrip_Objects
+        '
+        Me.ContextMenuStrip_Objects.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RelateToolStripMenuItem})
+        Me.ContextMenuStrip_Objects.Name = "ContextMenuStrip_Objects"
+        Me.ContextMenuStrip_Objects.Size = New System.Drawing.Size(153, 48)
+        '
+        'RelateToolStripMenuItem
+        '
+        Me.RelateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ContainsToolStripMenuItem, Me.SameNameNoCreateToolStripMenuItem, Me.SameNameCreateIfNotPresentToolStripMenuItem, Me.UniqueNameToolStripMenuItem})
+        Me.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem"
+        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.RelateToolStripMenuItem.Text = "Relate"
+        '
+        'SameNameCreateIfNotPresentToolStripMenuItem
+        '
+        Me.SameNameCreateIfNotPresentToolStripMenuItem.Name = "SameNameCreateIfNotPresentToolStripMenuItem"
+        Me.SameNameCreateIfNotPresentToolStripMenuItem.Size = New System.Drawing.Size(258, 22)
+        Me.SameNameCreateIfNotPresentToolStripMenuItem.Text = "Same Name (Create If Not Present)"
+        '
+        'SameNameNoCreateToolStripMenuItem
+        '
+        Me.SameNameNoCreateToolStripMenuItem.Name = "SameNameNoCreateToolStripMenuItem"
+        Me.SameNameNoCreateToolStripMenuItem.Size = New System.Drawing.Size(258, 22)
+        Me.SameNameNoCreateToolStripMenuItem.Text = "Same Name (No Create)"
+        '
+        'UniqueNameToolStripMenuItem
+        '
+        Me.UniqueNameToolStripMenuItem.Name = "UniqueNameToolStripMenuItem"
+        Me.UniqueNameToolStripMenuItem.Size = New System.Drawing.Size(258, 22)
+        Me.UniqueNameToolStripMenuItem.Text = "Unique Name"
+        '
+        'ContainsToolStripMenuItem
+        '
+        Me.ContainsToolStripMenuItem.CheckOnClick = True
+        Me.ContainsToolStripMenuItem.Name = "ContainsToolStripMenuItem"
+        Me.ContainsToolStripMenuItem.Size = New System.Drawing.Size(258, 22)
+        Me.ContainsToolStripMenuItem.Text = "Contains"
+        '
         'UserControl_ObjectRelTree
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -53,10 +99,17 @@ Partial Class UserControl_ObjectRelTree
         Me.Controls.Add(Me.TreeView_ObjectRels)
         Me.Name = "UserControl_ObjectRelTree"
         Me.Size = New System.Drawing.Size(351, 390)
+        Me.ContextMenuStrip_Objects.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents TreeView_ObjectRels As System.Windows.Forms.TreeView
     Friend WithEvents ImageList_Main As System.Windows.Forms.ImageList
+    Friend WithEvents ContextMenuStrip_Objects As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents RelateToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SameNameNoCreateToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SameNameCreateIfNotPresentToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents UniqueNameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ContainsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

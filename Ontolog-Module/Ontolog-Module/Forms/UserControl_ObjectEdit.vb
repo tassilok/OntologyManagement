@@ -4,6 +4,7 @@ Public Class UserControl_ObjectEdit
 
     Private objLocalConfig As clsLocalConfig
     Private objDBLevel As clsDBLevel
+    Private objDBLevel_NameRelate As clsDBLevel
     Private objOList_Objects As List(Of clsOntologyItem)
     Private objOList_ObjectRel As List(Of clsObjectRel)
     Private objTransaction As clsTransaction
@@ -11,6 +12,8 @@ Public Class UserControl_ObjectEdit
     Private objFrm_ObjectEdit As frm_ObjectEdit
 
     Private objOntologyClipboard As clsOntologyClipboard
+
+    Private objRelationConfig As clsRelationConfig
 
     Private objDataGridviewRowCollection_Objects As DataGridViewRowCollection
     Private WithEvents objUserControl_ObjectRelTree As UserControl_ObjectRelTree
@@ -29,20 +32,109 @@ Public Class UserControl_ObjectEdit
     Public Event deleted_Object()
     Public Event ActivatedItem(intRowID As Integer)
 
+    Private Sub relateByName(oList_Items As List(Of clsOntologyItem), NameRelationType As NameRelation_Type) Handles objUserControl_ObjectRelTree.relateByName
+        Dim objOSearch_Objects As List(Of clsOntologyItem)
+        Dim objOList_First As New List(Of clsOntologyItem)
+
+        If objDataGridviewRowCollection_Objects Is Nothing Then
+            objOList_First = objOList_Objects
+        Else
+            Dim objGridViewList = objDataGridviewRowCollection_Objects.Cast(Of DataGridViewRow).ToList()
+
+            If objOItem_Direction Is Nothing Then
+                objOList_First = objGridViewList.Select(Function(gv) New clsOntologyItem With {.GUID = (CType(gv.DataBoundItem, DataRowView)).Item("ID_Item"), _
+                                                                                                   .Name = (CType(gv.DataBoundItem, DataRowView)).Item("Name"), _
+                                                                                                   .GUID_Parent = (CType(gv.DataBoundItem, DataRowView)).Item("ID_Parent"), _
+                                                                                                   .Type = objLocalConfig.Globals.Type_Object}).ToList()
+            Else
+                If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                    objOList_First = objGridViewList.Select(Function(gv) New clsOntologyItem With {.GUID = (CType(gv.DataBoundItem, DataRowView)).Item("ID_Other"), _
+                                                                                                   .Name = (CType(gv.DataBoundItem, DataRowView)).Item("Name_Other"), _
+                                                                                                   .GUID_Parent = (CType(gv.DataBoundItem, DataRowView)).Item("ID_Parent_Other"), _
+                                                                                                   .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+
+
+
+                Else
+                    objOList_First = objGridViewList.Select(Function(gv) New clsOntologyItem With {.GUID = (CType(gv.DataBoundItem, DataRowView)).Item("ID_Object"), _
+                                                                                                   .Name = (CType(gv.DataBoundItem, DataRowView)).Item("Name_Object"), _
+                                                                                                   .GUID_Parent = (CType(gv.DataBoundItem, DataRowView)).Item("ID_Parent_Object"), _
+                                                                                                   .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+                End If
+            End If
+            
+        End If
+
+        objOSearch_Objects = New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID_Parent = oList_Items(1).GUID}}
+
+        Dim objOItem_Result = objDBLevel_NameRelate.get_Data_Objects(objOSearch_Objects)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID And objOList_First.Any() Then
+
+            Dim objORel_Related As New List(Of clsObjectRel)
+            If oList_Items.Last().GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                If NameRelationType = NameRelation_Type.SameNameNoCreate Then
+                    objORel_Related = (From objObject2 In objDBLevel_NameRelate.OList_Objects
+                                    Join objObject1 In objOList_First On objObject1.Name Equals objObject2.Name
+                                    Select objRelationConfig.Rel_ObjectRelation(objObject1, objObject2, oList_Items(2))).ToList()
+                ElseIf NameRelationType = NameRelation_Type.SameNameNoCreate_Contains Then
+                    objORel_Related = (From objObject2 In objDBLevel_NameRelate.OList_Objects
+                                    From objObject1 In objOList_First
+                                    Where objObject2.Name.Contains(objObject1.Name)
+                                    Select objRelationConfig.Rel_ObjectRelation(objObject1, objObject2, oList_Items(2))).ToList()
+                End If
+                
+
+            ElseIf oList_Items.Last().GUID = objLocalConfig.Globals.Direction_RightLeft.GUID Then
+                If NameRelationType = NameRelation_Type.SameNameNoCreate Then
+                    objORel_Related = (From objObject2 In objDBLevel_NameRelate.OList_Objects
+                                    Join objObject1 In objOList_First On objObject1.Name Equals objObject2.Name
+                                    Select objRelationConfig.Rel_ObjectRelation(objObject2, objObject1, oList_Items(2))).ToList()
+                ElseIf NameRelationType = NameRelation_Type.SameNameNoCreate_Contains Then
+                    objORel_Related = (From objObject2 In objDBLevel_NameRelate.OList_Objects
+                                    From objObject1 In objOList_First
+                                    Where objObject2.Name.Contains(objObject1.Name)
+                                    Select objRelationConfig.Rel_ObjectRelation(objObject2, objObject1, oList_Items(2))).ToList()
+                End If
+
+                
+
+            End If
+
+            If objORel_Related.Any() Then
+                objOItem_Result = objDBLevel_NameRelate.save_ObjRel(objORel_Related)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    MsgBox("Alle Beziehungen wurden hergestellt!", MsgBoxStyle.Information)
+                Else
+                    MsgBox("Es konnten nicht alle Beziehungen hergestellt werden!", MsgBoxStyle.Exclamation)
+                End If
+            Else
+                MsgBox("Es wurden keine Beziehungen hergestellt!", MsgBoxStyle.Information)
+            End If
+
+        Else
+            MsgBox("Die Objekte der Klasse konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+        End If
+
+    End Sub
+
     Private Sub editObject(ByVal strType As String, ByVal objOItem_Direction As clsOntologyItem) Handles objUserControl_OItem_List.edit_Object
         If objFrm_ObjectEdit Is Nothing Then
             objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig, _
                                                    objUserControl_OItem_List.DataGridviewRows, _
                                                    objUserControl_OItem_List.RowID, _
                                                    strType, _
-                                                   objOItem_Direction)    
-        Else 
+                                                   objOItem_Direction)
+        Else
             objFrm_ObjectEdit.RefreshForm(objUserControl_OItem_List.DataGridviewRows, _
                                                    objUserControl_OItem_List.RowID, _
                                                    strType, _
-                                                   objOItem_Direction)    
+                                                   objOItem_Direction)
         End If
-        
+
         objFrm_ObjectEdit.ShowDialog(Me)
         If objFrm_ObjectEdit.DialogResult = Windows.Forms.DialogResult.OK Then
 
@@ -62,12 +154,12 @@ Public Class UserControl_ObjectEdit
                     ToolStripButton_Nav_Previous.Enabled = True
                 End If
 
-                If intRowID < objDataGridviewRowCollection_Objects.Count-1 Then
+                If intRowID < objDataGridviewRowCollection_Objects.Count - 1 Then
                     ToolStripButton_Nav_Next.Enabled = True
                     ToolStripButton_Nav_Last.Enabled = True
                 End If
             End If
-            
+
         ElseIf Not objOList_ObjectRel Is Nothing Then
             If objOList_ObjectRel.Count > 0 Then
                 If intRowID > 0 Then
@@ -75,7 +167,7 @@ Public Class UserControl_ObjectEdit
                     ToolStripButton_Nav_Previous.Enabled = True
                 End If
 
-                If intRowID < objOList_ObjectRel.Count-1 Then
+                If intRowID < objOList_ObjectRel.Count - 1 Then
                     ToolStripButton_Nav_Next.Enabled = True
                     ToolStripButton_Nav_Last.Enabled = True
                 End If
@@ -87,7 +179,7 @@ Public Class UserControl_ObjectEdit
                     ToolStripButton_Nav_Previous.Enabled = True
                 End If
 
-                If intRowID < objOList_Objects.Count-1 Then
+                If intRowID < objOList_Objects.Count - 1 Then
                     ToolStripButton_Nav_Next.Enabled = True
                     ToolStripButton_Nav_Last.Enabled = True
                 End If
@@ -105,7 +197,7 @@ Public Class UserControl_ObjectEdit
         Dim oItem_Direction As clsOntologyItem
         Dim oList_RelationType As New List(Of clsOntologyItem)
 
-        
+
 
 
         If oList_Selected.Count = 4 Then
@@ -149,14 +241,14 @@ Public Class UserControl_ObjectEdit
                                                  objLocalConfig.Globals.Direction_LeftRight, _
                                                  Nothing, _
                                                  oList_Selected(1), True)
-            Else 
+            Else
                 objUserControl_OItem_List.initialize(Nothing, _
                                                  oList_Selected(0), _
                                                  objLocalConfig.Globals.Direction_RightLeft, _
                                                  oList_Selected(1), _
                                                  oList_Selected(2), True)
             End If
-            
+
             'oList_Object.Add(New clsOntologyItem(oList_Selected(0).GUID, oList_Selected(0).Name, oList_Selected(0).GUID_Parent, objLocalConfig.Globals.Type_Object))
             'oList_RelationType.Add(New clsOntologyItem(oList_Selected(1).GUID, oList_Selected(1).Name, objLocalConfig.Globals.Type_RelationType))
 
@@ -168,7 +260,7 @@ Public Class UserControl_ObjectEdit
             '                                        True)
         End If
 
-        
+
     End Sub
 
 
@@ -312,7 +404,7 @@ Public Class UserControl_ObjectEdit
         Dim objDRV_Selected As DataRowView
 
         ToolStripStatusLabel_Database.Text = objLocalConfig.Globals.Index & "@" & objLocalConfig.Globals.Server
-        
+
         If Not objOList_Objects Is Nothing Then
             objOItem_Object = objOList_Objects(intRowID)
 
@@ -330,7 +422,7 @@ Public Class UserControl_ObjectEdit
 
             objOItem_Object = New clsOntologyItem
             If strOntology = objLocalConfig.Globals.Type_Other Then
-                
+
                 If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
 
                     If strRowName_ID = Nothing Then
@@ -387,7 +479,7 @@ Public Class UserControl_ObjectEdit
                 objOItem_Object.GUID_Parent = objDRV_Selected.Item(strRowName_ID_Parent)
                 objOItem_Object.Type = objLocalConfig.Globals.Type_Object
             End If
-            
+
 
             ToolStripTextBox_GUID.Text = objOItem_Object.GUID
             ToolStripTextBox_Name.ReadOnly = True
@@ -401,18 +493,18 @@ Public Class UserControl_ObjectEdit
             objUserControl_ObjectRelTree = New UserControl_ObjectRelTree(objLocalConfig)
             objUserControl_ObjectRelTree.Dock = DockStyle.Fill
             SplitContainer1.Panel1.Controls.Clear()
-            SplitContainer1.Panel1.Controls.Add(objUserControl_ObjectRelTree)    
+            SplitContainer1.Panel1.Controls.Add(objUserControl_ObjectRelTree)
         End If
 
         objUserControl_ObjectRelTree.initialize(objOItem_Object)
-        
+
         If objUserControl_OItem_List Is Nothing Then
             objUserControl_OItem_List = New UserControl_OItemList(objLocalConfig)
             objUserControl_OItem_List.Dock = DockStyle.Fill
             SplitContainer1.Panel2.Controls.Clear()
-            SplitContainer1.Panel2.Controls.Add(objUserControl_OItem_List)    
+            SplitContainer1.Panel2.Controls.Add(objUserControl_OItem_List)
         End If
-        
+
         set_CountLbl()
         configure_Navigation()
     End Sub
@@ -430,8 +522,10 @@ Public Class UserControl_ObjectEdit
 
     Private Sub set_DBConnection()
         objDBLevel = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_NameRelate = New clsDBLevel(objLocalConfig.Globals)
         objTransaction = New clsTransaction(objLocalConfig.Globals)
         objOntologyClipboard = New clsOntologyClipboard(objLocalConfig.Globals)
+        objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
     End Sub
 
     Private Sub ToolStripTextBox_Name_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripTextBox_Name.TextChanged
@@ -464,7 +558,7 @@ Public Class UserControl_ObjectEdit
         intRowID = 0
         RaiseEvent ActivatedItem(intRowID)
         initialize()
-        
+
     End Sub
 
     Private Function RowIdLast() As Integer
@@ -532,28 +626,28 @@ Public Class UserControl_ObjectEdit
         intRowID = intRowID - 1
         RaiseEvent ActivatedItem(intRowID)
         initialize()
-        
+
     End Sub
 
     Private Sub ToolStripButton_Nav_Next_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Nav_Next.Click
         intRowID = intRowID + 1
         RaiseEvent ActivatedItem(intRowID)
-        
+
         initialize()
-        
+
     End Sub
 
     Private Sub ToolStripButton_Nav_Last_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Nav_Last.Click
         intRowID = RowIdLast()
         RaiseEvent ActivatedItem(intRowID)
-        
+
         initialize()
-        
+
 
     End Sub
 
     Private Sub ToOntologyClipboardToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ToOntologyClipboardToolStripMenuItem.Click
-        
+
         Dim objOItem_Result = objOntologyClipboard.addToClipboard(objOItem_Object, False)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
             MsgBox("Das Item kann nicht ins Clipboard geschrieben werden!", MsgBoxStyle.Exclamation)
@@ -564,15 +658,15 @@ Public Class UserControl_ObjectEdit
     Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem.Click
         Dim objOList_Objects = New List(Of clsOntologyItem)
         Dim objOItem_Result As clsOntologyItem
-        
+
         objOList_Objects.Add(objOItem_Object)
 
         If Control.ModifierKeys = Keys.Control Then
             If MsgBox("Wollen Sie wirklich alle markierten Elemente einschließlich derer Beziehungen löschen?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                
-                Dim objOList_AttributesDel = New List(Of clsObjectAtt) From {New clsObjectAtt With {.ID_Object = objOItem_Object.GUID } }
-                Dim objOList_ObjectsForw = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Object = objOItem_Object.GUID } }
-                Dim objOList_ObjectsBackw = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Other = objOItem_Object.GUID } }
+
+                Dim objOList_AttributesDel = New List(Of clsObjectAtt) From {New clsObjectAtt With {.ID_Object = objOItem_Object.GUID}}
+                Dim objOList_ObjectsForw = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Object = objOItem_Object.GUID}}
+                Dim objOList_ObjectsBackw = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Other = objOItem_Object.GUID}}
 
                 objOItem_Result = objDBLevel.del_ObjectAtt(objOList_AttributesDel)
                 If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
@@ -597,9 +691,9 @@ Public Class UserControl_ObjectEdit
                 Else
                     MsgBox("Die Elemente konnten nicht gelöscht werden!", MsgBoxStyle.Exclamation)
                 End If
-            End If    
-        Else 
-            
+            End If
+        Else
+
 
             objOItem_Result = objDBLevel.del_Objects(objOList_Objects)
             If objOItem_Result.Count > 0 Then
@@ -612,10 +706,10 @@ Public Class UserControl_ObjectEdit
 
             RaiseEvent deleted_Object()
         End If
-        
-        
 
-        
+
+
+
     End Sub
 End Class
 

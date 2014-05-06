@@ -34,6 +34,9 @@
             this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_RefugeeLists = new System.Windows.Forms.ToolStripButton();
+            this.toolStripComboBox_Direction = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripLabel_Direction = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -86,10 +89,13 @@
             // 
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel_Direction,
+            this.toolStripComboBox_Direction,
+            this.toolStripSeparator1,
             this.toolStripButton_RefugeeLists});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(166, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(393, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripButton_RefugeeLists
@@ -101,6 +107,22 @@
             this.toolStripButton_RefugeeLists.Size = new System.Drawing.Size(123, 22);
             this.toolStripButton_RefugeeLists.Text = "x_Import Refugeelists";
             this.toolStripButton_RefugeeLists.Click += new System.EventHandler(this.toolStripButton_RefugeeLists_Click);
+            // 
+            // toolStripComboBox_Direction
+            // 
+            this.toolStripComboBox_Direction.Name = "toolStripComboBox_Direction";
+            this.toolStripComboBox_Direction.Size = new System.Drawing.Size(121, 25);
+            // 
+            // toolStripLabel_Direction
+            // 
+            this.toolStripLabel_Direction.Name = "toolStripLabel_Direction";
+            this.toolStripLabel_Direction.Size = new System.Drawing.Size(98, 22);
+            this.toolStripLabel_Direction.Text = "x_Fluchtrichtung:";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // frmImportRefugeesModule
             // 
@@ -131,6 +153,9 @@
         private System.Windows.Forms.ToolStripButton toolStripButton_Close;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton toolStripButton_RefugeeLists;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_Direction;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBox_Direction;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 
