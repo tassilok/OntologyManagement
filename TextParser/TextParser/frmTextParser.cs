@@ -39,13 +39,15 @@ namespace TextParser
             if (objLocalConfig.OItem_User == null)
             {
                 objDataWork_BaseData = new clsDataWork_BaseData(objLocalConfig);
+                
                 objDataWork_TextParser = new clsDataWork_TextParser(objLocalConfig);
-                objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals,true,false,frmAuthenticate.ERelateMode.NoRelate,true);
+                objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, false, frmAuthenticate.ERelateMode.NoRelate, true);
                 objFrmAuthenticate.ShowDialog(this);
                 if (objFrmAuthenticate.DialogResult == DialogResult.OK)
                 {
                     objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User;
                 }
+                
             }
 
             if (objLocalConfig.OItem_User != null)

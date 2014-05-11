@@ -28,6 +28,8 @@ namespace TextParser
         private clsDataWork_FileResources objDataWork_FileResource;
         private clsDataWork_FileResource_Path objDataWork_FileResource_Path;
 
+        private clsImport_IndexData objImport_IndexData;
+
         private frm_ObjectEdit objFrmObjectEdit;
 
         private clsAppDBLevel objAppDBLevel;
@@ -221,7 +223,7 @@ namespace TextParser
             objDataWork_FileResource = new clsDataWork_FileResources(objLocalConfig.Globals);
             objDataWork_FileResource_Path = new clsDataWork_FileResource_Path(objLocalConfig.Globals);
 
-            
+            objImport_IndexData = new clsImport_IndexData(objLocalConfig);
         }
 
        
@@ -399,6 +401,7 @@ namespace TextParser
 
         private void toolStripComboBox_Indexes_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
             if (!pIndexFill)
             {
                 page = 0;
@@ -406,6 +409,8 @@ namespace TextParser
                 pos = 0;
                 
             }
+            
+
         }
 
         private void toolStripButton_Search_Click(object sender, EventArgs e)
@@ -518,6 +523,11 @@ namespace TextParser
                 objFrmObjectEdit = new frm_ObjectEdit(objLocalConfig.Globals,objOList,0,objLocalConfig.Globals.Type_Object,null);
                 objFrmObjectEdit.ShowDialog(this);
             }
+        }
+
+        private void toolStripButton_Import_Click(object sender, EventArgs e)
+        {
+            var objOItem_Result = objImport_IndexData.ImportIndexData(objOItem_TextParser, toolStripTextBox_Query.Text == "" ? null : toolStripTextBox_Query.Text);
         }
     }
 }

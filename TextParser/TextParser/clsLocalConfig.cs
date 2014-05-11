@@ -6,6 +6,7 @@ using Ontology_Module;
 using OntologyClasses.BaseClasses;
 using System.Reflection;
 using System.Windows.Forms;
+using ElasticSearchLogging_Module;
 
 namespace TextParser
 {
@@ -17,13 +18,15 @@ namespace TextParser
         public clsGlobals Globals { get; set; }
 
         private clsOntologyItem objOItem_DevConfig = new clsOntologyItem();
-        public clsOntologyItem OItem_BaseConfig { get; set; }
 
         private clsDBLevel objDBLevel_Config1;
         private clsDBLevel objDBLevel_Config2;
 
+        public clsOntologyItem OItem_Log { get; set; }
 
         public clsOntologyItem OItem_User { get; set; }
+
+        public clsLogging objLogging { get; set; }
 	
         // Attributes
 	public clsOntologyItem OItem_attributetype_pattern { get; set; }
@@ -54,7 +57,9 @@ public clsOntologyItem OItem_class_regular_expressions { get; set; }
 public clsOntologyItem OItem_class_text_seperators { get; set; }
 public clsOntologyItem OItem_class_field_extractor_parser { get; set; }
 public clsOntologyItem OItem_class_metadata__parser_ { get; set; }
-
+public clsOntologyItem OItem_class_fieldtoitem { get; set; }
+public clsOntologyItem OItem_class_ontologies { get; set; }
+public clsOntologyItem OItem_class_log__elasticsearch_ { get; set; }
 
         // RelationTypes
 public clsOntologyItem OItem_relationtype_belonging_resource { get; set; }
@@ -73,6 +78,8 @@ public clsOntologyItem OItem_relationtype_line_seperator { get; set; }
 public clsOntologyItem OItem_relationtype_is { get; set; }
 public clsOntologyItem OItem_relationtype_belonging { get; set; }
 public clsOntologyItem OItem_relationtype_replace_with { get; set; }
+public clsOntologyItem OItem_relationtype_import_to { get; set; }
+public clsOntologyItem OItem_relationtype_logging { get; set; }
 
         // Objects
 public clsOntologyItem OItem_object_temporary_regular_expression { get; set; }
@@ -97,9 +104,18 @@ public clsOntologyItem OItem_object_fileline { get; set; }
 public clsOntologyItem OItem_object_filedatetime__last_change_ { get; set; }
 public clsOntologyItem OItem_object_filedatetime__create_ { get; set; }
 public clsOntologyItem OItem_object_messagerest { get; set; }
-public clsOntologyItem OItem_class_types__elastic_search_ { get; set; }
-  
-	
+        public clsOntologyItem OItem_class_types__elastic_search_ { get; set; }
+        public clsOntologyItem OItem_object_textparser { get; set; }
+
+
+        public clsOntologyItem OItem_Index_Logging { get; set; }
+        
+        public clsOntologyItem OItem_Server_Logging { get; set; }
+        
+        public clsOntologyItem OItem_Port_Logging { get; set; }
+        
+        public clsOntologyItem OItem_Type_Logging { get; set; }
+
 private void get_Data_DevelopmentConfig()
         {
             var objORL_Ontology_To_OntolgyItems = new List<clsObjectRel> {new clsObjectRel {ID_Object = cstrID_Ontology, 
@@ -163,6 +179,48 @@ private void get_Data_DevelopmentConfig()
 		    objDBLevel_Config2 = new clsDBLevel(Globals);
 			objImport = new clsImport(Globals);
         }
+
+
+    private void GetData_Logging()
+    {
+        var objORel_Logging = new List<clsObjectRel> { new clsObjectRel { ID_Object = OItem_object_textparser.GUID,
+            ID_RelationType = OItem_relationtype_belongs_to.GUID,
+            ID_Parent_Other = OItem_class_log__elasticsearch_.GUID } };
+
+        var objOItem_Result = objDBLevel_Config1.get_Data_ObjectRel(objORel_Logging, boolIDs: false);
+
+        if (objOItem_Result.GUID == Globals.LState_Success.GUID)
+        {
+            if (objDBLevel_Config1.OList_ObjectRel.Any())
+            {
+                OItem_Log = objDBLevel_Config1.OList_ObjectRel.Select(l => new clsOntologyItem
+                {
+                    GUID = l.ID_Other,
+                    Name = l.Name_Other,
+                    GUID_Parent = l.ID_Parent_Other,
+                    Type = Globals.Type_Object
+                }).First();
+
+                objLogging = new clsLogging(Globals);
+
+                objOItem_Result = objLogging.Initialize_Logging(OItem_Log);
+
+                if (objOItem_Result.GUID == Globals.LState_Error.GUID)
+                {
+                    throw new Exception("config err");
+                }
+
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+        }
+        else
+        {
+            throw new Exception("config err");
+        }
+    }
   
 	private void get_Config()
         {
@@ -173,6 +231,9 @@ private void get_Data_DevelopmentConfig()
                 get_Config_RelationTypes();
                 get_Config_Classes();
                 get_Config_Objects();
+
+                GetData_Logging();
+
             }
             catch(Exception ex)
             {
@@ -194,6 +255,8 @@ private void get_Data_DevelopmentConfig()
                         get_Config_RelationTypes();
                         get_Config_Classes();
                         get_Config_Objects();
+
+                        GetData_Logging();
                     }
                     else
                     {
@@ -339,6 +402,48 @@ var objOList_attributetype_value_first = (from objOItem in objDBLevel_Config1.OL
   
 	private void get_Config_RelationTypes()
         {
+
+            var objOList_relationtype_logging = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                 where objOItem.ID_Object == cstrID_Ontology
+                                                 join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                 where objRef.Name_Object.ToLower() == "relationtype_logging".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                                 select objRef).ToList();
+
+            if (objOList_relationtype_logging.Any())
+            {
+                OItem_relationtype_logging = new clsOntologyItem()
+                {
+                    GUID = objOList_relationtype_logging.First().ID_Other,
+                    Name = objOList_relationtype_logging.First().Name_Other,
+                    GUID_Parent = objOList_relationtype_logging.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_relationtype_import_to = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                   where objOItem.ID_Object == cstrID_Ontology
+                                                   join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                   where objRef.Name_Object.ToLower() == "relationtype_import_to".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                                   select objRef).ToList();
+
+            if (objOList_relationtype_import_to.Any())
+            {
+                OItem_relationtype_import_to = new clsOntologyItem()
+                {
+                    GUID = objOList_relationtype_import_to.First().ID_Other,
+                    Name = objOList_relationtype_import_to.First().Name_Other,
+                    GUID_Parent = objOList_relationtype_import_to.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
 
             var objOList_relationtype_replace_with = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                       where objOItem.ID_Object == cstrID_Ontology
@@ -681,14 +786,50 @@ var objOList_relationtype_value = (from objOItem in objDBLevel_Config1.OList_Obj
   
 	private void get_Config_Objects()
         {
-            OItem_object_messagerest = new clsOntologyItem()
+
+        var objOList_object_textparser = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == "object_textparser".ToLower() && objRef.Ontology == Globals.Type_Object
+                                           select objRef).ToList();
+
+            if (objOList_object_textparser.Any())
             {
-                GUID = "9600531e81b44c10ab642d3fb1ac957f",
-                Name = "MessageRest",
-                GUID_Parent = "2113a7daad084cbc87e2e88fd0b70812",
-                Type = Globals.Type_Object
-            };
-        
+                OItem_object_textparser = new clsOntologyItem()
+                {
+                    GUID = objOList_object_textparser.First().ID_Other,
+                    Name = objOList_object_textparser.First().Name_Other,
+                    GUID_Parent = objOList_object_textparser.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_messagerest = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                               where objOItem.ID_Object == cstrID_Ontology
+                                               join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                               where objRef.Name_Object.ToLower() == "object_messagerest".ToLower() && objRef.Ontology == Globals.Type_Object
+                                               select objRef).ToList();
+
+            if (objOList_object_messagerest.Any())
+            {
+                OItem_object_messagerest = new clsOntologyItem()
+                {
+                    GUID = objOList_object_messagerest.First().ID_Other,
+                    Name = objOList_object_messagerest.First().Name_Other,
+                    GUID_Parent = objOList_object_messagerest.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+           
             var objOList_object_fileline = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                             where objOItem.ID_Object == cstrID_Ontology
                                             join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -1133,6 +1274,68 @@ var objOList_relationtype_value = (from objOItem in objDBLevel_Config1.OList_Obj
   
 	private void get_Config_Classes()
         {
+            var objOList_class_log__elasticsearch_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                      where objOItem.ID_Object == cstrID_Ontology
+                                                      join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                      where objRef.Name_Object.ToLower() == "class_log__elasticsearch_".ToLower() && objRef.Ontology == Globals.Type_Class
+                                                      select objRef).ToList();
+
+            if (objOList_class_log__elasticsearch_.Any())
+            {
+                OItem_class_log__elasticsearch_ = new clsOntologyItem()
+                {
+                    GUID = objOList_class_log__elasticsearch_.First().ID_Other,
+                    Name = objOList_class_log__elasticsearch_.First().Name_Other,
+                    GUID_Parent = objOList_class_log__elasticsearch_.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_class_ontologies = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                             where objOItem.ID_Object == cstrID_Ontology
+                                             join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                             where objRef.Name_Object.ToLower() == "class_ontologies".ToLower() && objRef.Ontology == Globals.Type_Class
+                                             select objRef).ToList();
+
+            if (objOList_class_ontologies.Any())
+            {
+                OItem_class_ontologies = new clsOntologyItem()
+                {
+                    GUID = objOList_class_ontologies.First().ID_Other,
+                    Name = objOList_class_ontologies.First().Name_Other,
+                    GUID_Parent = objOList_class_ontologies.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_class_fieldtoitem = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                              where objOItem.ID_Object == cstrID_Ontology
+                                              join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                              where objRef.Name_Object.ToLower() == "class_fieldtoitem".ToLower() && objRef.Ontology == Globals.Type_Class
+                                              select objRef).ToList();
+
+            if (objOList_class_fieldtoitem.Any())
+            {
+                OItem_class_fieldtoitem = new clsOntologyItem()
+                {
+                    GUID = objOList_class_fieldtoitem.First().ID_Other,
+                    Name = objOList_class_fieldtoitem.First().Name_Other,
+                    GUID_Parent = objOList_class_fieldtoitem.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
 
             var objOList_class_types__elastic_search_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                          where objOItem.ID_Object == cstrID_Ontology

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OntologyClasses.BaseClasses;
 using Ontology_Module;
+using ElasticSearchConfig_Module;
 
 namespace TextParser
 {
@@ -13,6 +14,8 @@ namespace TextParser
         private clsLocalConfig objLocalConfig;
 
         private clsDBLevel objDBLevel_Textparser;
+
+        private clsDataWork_Index objDataWork_Index;
 
         public List<clsOntologyItem> GetData_TextParsersOfUser()
         {
@@ -54,6 +57,8 @@ namespace TextParser
         private void Initialize()
         {
             objDBLevel_Textparser = new clsDBLevel(objLocalConfig.Globals);
+
+            objDataWork_Index = new clsDataWork_Index(objLocalConfig.Globals);
         }
     }
 }

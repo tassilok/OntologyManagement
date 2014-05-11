@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Class">
+  <Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
+<Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
+<Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
+<Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="f7877905c5034f74989a9fcbfc2733e4" Id_Parent="65332a65cc434416acb43434ca0a8582"><![CDATA[Log (ElasticSearch)]]></Item>
+<Item Id="65332a65cc434416acb43434ca0a8582" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Logging]]></Item>
+<Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
+<Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
+
+</Items>

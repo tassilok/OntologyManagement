@@ -112,18 +112,27 @@ namespace GraphMLConnector
                                                                               Type: objLocalConfig.Globals.Type_Class))
                                                          .ToList()).ToList();
 
+                //var oList_ClassesWithChildren = (from objClass in OList_Classes
+                //                                 join objExportMode in OList_EModes on objClass.GUID equals
+                //                                     objExportMode.ID_Item
+                //                                 where
+                //                                     objExportMode.ID_ExportMode ==
+                //                                     objLocalConfig.OItem_object_grant_children_of_item.GUID
+                //                                 select
+                //                                     new clsOntologyItem
+                //                                     {
+                //                                         GUID = objClass.GUID,
+                //                                         Type = objLocalConfig.Globals.Type_Object
+                //                                     }).ToList();
+
                 var oList_ClassesWithChildren = (from objClass in OList_Classes
-                                                 join objExportMode in OList_EModes on objClass.GUID equals
-                                                     objExportMode.ID_Item
-                                                 where
-                                                     objExportMode.ID_ExportMode ==
-                                                     objLocalConfig.OItem_object_grant_children_of_item.GUID
-                                                 select
-                                                     new clsOntologyItem
-                                                     {
-                                                         GUID = objClass.GUID,
-                                                         Type = objLocalConfig.Globals.Type_Object
-                                                     }).ToList();
+                                                 join objOItem in OList_OntologyItems on objClass.GUID equals objOItem.ID_Ref
+                                                 where objOItem.ID_OntologyRelationRule == objLocalConfig.OItem_object_child_token.GUID
+                                                 select new clsOntologyItem
+                                                 {
+                                                     GUID_Parent = objClass.GUID,
+                                                     Type = objLocalConfig.Globals.Type_Object
+                                                 }).ToList();
 
                 objOItem_Result = objLocalConfig.Globals.LState_Success;
                 if (oList_ClassesWithChildren.Any())

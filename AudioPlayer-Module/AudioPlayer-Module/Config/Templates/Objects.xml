@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="4c354418c73c4e73809aef3693e0cf8d" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[AudioPlayer-Module]]></Item>
+<Item Id="ba68ab95e63e4ec5a26cea43d16a583b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongs_to]]></Item>
+<Item Id="b1fba2305ddc4573a7174f3bd205f344" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Source]]></Item>
+<Item Id="710e6a3ffa0146628218af0035ed54e7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Media_Item]]></Item>
+<Item Id="c66c622f4df94004a774456ec47c062f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_aiff]]></Item>
+<Item Id="745ce98ab3c14b75a1ac1787488c3c40" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_mp3]]></Item>
+<Item Id="8e8d334e9e464930be3a53db2ac55d4f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_wav]]></Item>
+<Item Id="3afa88d611094599935c3bab157222f6" Id_Parent="6e31f90520ce4f8fb4016da5ba871ecb"><![CDATA[aiff]]></Item>
+<Item Id="df192b0b240c40fa996ed2edcf1996d6" Id_Parent="6e31f90520ce4f8fb4016da5ba871ecb"><![CDATA[mp3]]></Item>
+<Item Id="a5b47c5ad5ad49ac9481c2d71793dc38" Id_Parent="6e31f90520ce4f8fb4016da5ba871ecb"><![CDATA[wav]]></Item>
+
+</Items>

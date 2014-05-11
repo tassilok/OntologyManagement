@@ -71,6 +71,8 @@ Partial Class frmMain
         Me.ReportsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SyncToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OntologyConfiguratorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ImportOntologyStructuresToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BackupOntologyGraphToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ApplyMappingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -101,9 +103,9 @@ Partial Class frmMain
         Me.Timer_TokenAttribute = New System.Windows.Forms.Timer(Me.components)
         Me.BindingSource_TokenRel = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_TokenAtt = New System.Windows.Forms.BindingSource(Me.components)
-        Me.BackupOntologyGraphToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FolderBrowserDialog_GraphExportImport = New System.Windows.Forms.FolderBrowserDialog()
-        Me.ImportOntologyStructuresToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MaintenanceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RepairRelationsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.LeftToolStripPanel.SuspendLayout()
@@ -591,7 +593,7 @@ Partial Class frmMain
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReportsToolStripMenuItem, Me.OntologyConfiguratorToolStripMenuItem, Me.ImportOntologyStructuresToolStripMenuItem, Me.BackupOntologyGraphToolStripMenuItem, Me.ApplyMappingToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReportsToolStripMenuItem, Me.OntologyConfiguratorToolStripMenuItem, Me.ImportOntologyStructuresToolStripMenuItem, Me.BackupOntologyGraphToolStripMenuItem, Me.ApplyMappingToolStripMenuItem, Me.MaintenanceToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(49, 20)
         Me.ToolsToolStripMenuItem.Text = "&Extras"
@@ -600,7 +602,7 @@ Partial Class frmMain
         '
         Me.ReportsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SyncToolStripMenuItem})
         Me.ReportsToolStripMenuItem.Name = "ReportsToolStripMenuItem"
-        Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.ReportsToolStripMenuItem.Text = "x_Reports"
         '
         'SyncToolStripMenuItem
@@ -612,13 +614,25 @@ Partial Class frmMain
         'OntologyConfiguratorToolStripMenuItem
         '
         Me.OntologyConfiguratorToolStripMenuItem.Name = "OntologyConfiguratorToolStripMenuItem"
-        Me.OntologyConfiguratorToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.OntologyConfiguratorToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.OntologyConfiguratorToolStripMenuItem.Text = "x_Ontology-Configurator"
+        '
+        'ImportOntologyStructuresToolStripMenuItem
+        '
+        Me.ImportOntologyStructuresToolStripMenuItem.Name = "ImportOntologyStructuresToolStripMenuItem"
+        Me.ImportOntologyStructuresToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
+        Me.ImportOntologyStructuresToolStripMenuItem.Text = "x_Import Ontology-Structures"
+        '
+        'BackupOntologyGraphToolStripMenuItem
+        '
+        Me.BackupOntologyGraphToolStripMenuItem.Name = "BackupOntologyGraphToolStripMenuItem"
+        Me.BackupOntologyGraphToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
+        Me.BackupOntologyGraphToolStripMenuItem.Text = "x_Backup Ontology-Graph"
         '
         'ApplyMappingToolStripMenuItem
         '
         Me.ApplyMappingToolStripMenuItem.Name = "ApplyMappingToolStripMenuItem"
-        Me.ApplyMappingToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.ApplyMappingToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.ApplyMappingToolStripMenuItem.Text = "x_Apply Mapping"
         '
         'HilfeToolStripMenuItem
@@ -785,17 +799,18 @@ Partial Class frmMain
         '
         Me.Timer_TokenAttribute.Interval = 300
         '
-        'BackupOntologyGraphToolStripMenuItem
+        'MaintenanceToolStripMenuItem
         '
-        Me.BackupOntologyGraphToolStripMenuItem.Name = "BackupOntologyGraphToolStripMenuItem"
-        Me.BackupOntologyGraphToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
-        Me.BackupOntologyGraphToolStripMenuItem.Text = "x_Backup Ontology-Graph"
+        Me.MaintenanceToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RepairRelationsToolStripMenuItem})
+        Me.MaintenanceToolStripMenuItem.Name = "MaintenanceToolStripMenuItem"
+        Me.MaintenanceToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
+        Me.MaintenanceToolStripMenuItem.Text = "x_Maintenance"
         '
-        'ImportOntologyStructuresToolStripMenuItem
+        'RepairRelationsToolStripMenuItem
         '
-        Me.ImportOntologyStructuresToolStripMenuItem.Name = "ImportOntologyStructuresToolStripMenuItem"
-        Me.ImportOntologyStructuresToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
-        Me.ImportOntologyStructuresToolStripMenuItem.Text = "x_Import Ontology-Structures"
+        Me.RepairRelationsToolStripMenuItem.Name = "RepairRelationsToolStripMenuItem"
+        Me.RepairRelationsToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
+        Me.RepairRelationsToolStripMenuItem.Text = "x_Repair Relations"
         '
         'frmMain
         '
@@ -934,5 +949,7 @@ End Sub
     Friend WithEvents BackupOntologyGraphToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FolderBrowserDialog_GraphExportImport As System.Windows.Forms.FolderBrowserDialog
     Friend WithEvents ImportOntologyStructuresToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MaintenanceToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RepairRelationsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

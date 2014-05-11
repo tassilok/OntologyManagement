@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -49,6 +49,8 @@
   <ItemGroup>
     <Compile Include="clsDataWork_BaseData.cs" />
     <Compile Include="clsDataWork_FieldParser.cs" />
+    <Compile Include="clsDataWork_Import.cs" />
+    <Compile Include="clsImport_IndexData.cs" />
     <Compile Include="clsDatawork_RegExFilter.cs" />
     <Compile Include="clsDataWork_TextParser.cs" />
     <Compile Include="clsField.cs" />
@@ -188,6 +190,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ElasticSearchConfig-Module\ElasticSearchConfig-Module\ElasticSearchConfig-Module.csproj">
+      <Project>{f4941166-7af3-4d12-ac62-d94a5bd7089f}</Project>
+      <Name>ElasticSearchConfig-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ElasticSearchLogging-Module\ElasticSearchLogging-Module\ElasticSearchLogging-Module.csproj">
+      <Project>{9e7350da-847e-4dad-b114-b7e5f06f4063}</Project>
+      <Name>ElasticSearchLogging-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Filesystem-Module\Filesystem-Module\Filesystem-Module.vbproj">
       <Project>{f31c8a5a-bb2b-474e-bc1f-a14e805ea2e9}</Project>
       <Name>Filesystem-Module</Name>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="10f56e7e3848472bb3b8cbef55a91d5f" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[ElasticSearchConfig-Module]]></Item>
+<Item Id="21c4268b144447439b84b9f4466dbd47" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongs_to]]></Item>
+<Item Id="8b77781d605742ffb16d17401b3c553b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Source]]></Item>
+<Item Id="e336ed405360460f84540d9a8d44c128" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Server]]></Item>
+<Item Id="ab58256bfd7e4daba9a2d64f2aac63c8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Indexes__Elastic_Search_]]></Item>
+<Item Id="fe42ffaf17eb41c3b30ec6585685fae9" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Server_Port]]></Item>
+<Item Id="4fbe4b9342c04538ab69bc1e1a2e5ac8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Port]]></Item>
+<Item Id="4ad668598fb7462890a49ad674356e87" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Types__Elastic_Search_]]></Item>
+
+</Items>

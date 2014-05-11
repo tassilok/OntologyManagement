@@ -157,8 +157,10 @@ namespace ElasticSearchNestConnector
                 var result = ElConnector.Search<dynamic>(s => s.Index(strIndex ?? Index).Type(type).QueryString(query ?? "*").From(intPos).Size(SearchRange));
                 Total = result.Total;
                 //var docs = new List<clsAppDocuments>();
-                var docs = result.Documents.Select(
-                    d =>  new clsAppDocuments { Dict = new JObject(d).ToObject<Dictionary<string, object>>(), Id = d["Id"] != null ? d["Id"].ToString() : null }).ToList();
+
+                var docs = result.Hits.Select(h => new clsAppDocuments { Dict = new JObject(h.Source).ToObject<Dictionary<string, object>>(), Id = h.Id }).ToList();
+                //var docs = result.Documents.Select(
+                //    d =>  new clsAppDocuments { Dict = new JObject(d).ToObject<Dictionary<string, object>>(), Id = d["Id"] != null ? d["Id"].ToString() : null }).ToList();
 
                 Documents.AddRange(docs);
 

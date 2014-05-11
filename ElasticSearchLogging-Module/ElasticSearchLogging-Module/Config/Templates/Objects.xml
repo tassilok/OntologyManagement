@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="ac8b0c5db259496d9655c3b82d619ded" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[ElasticSearchLogging-Module]]></Item>
+<Item Id="418edf20e7c545fbbc086437fdb829ce" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_ItemCountBeforeLogging]]></Item>
+<Item Id="975bce12ba1b4531bb407d9e88c8311d" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Logging]]></Item>
+<Item Id="8a3ee6b0974b4a50aefede6cdec0b289" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongs_to]]></Item>
+<Item Id="4cb64366f0ab45d79e9b4a0b49df36aa" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Log__ElasticSearch_]]></Item>
+
+</Items>

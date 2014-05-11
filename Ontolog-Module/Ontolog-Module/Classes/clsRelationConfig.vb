@@ -6,7 +6,7 @@ Public Class clsRelationConfig
 
     Private objDataTypes As New clsDataTypes
     Private objDBLevel_OrderID As clsDBLevel
-    Public Function Rel_ObjectAttribute(OItem_Object As clsOntologyItem, OItem_AttributeType As clsOntologyItem, Value As Object, Optional boolNextOrderID As Boolean = False, Optional OrderID As Long = 1, Optional ID_Attribute As String = Nothing) As clsObjectAtt
+    Public Function Rel_ObjectAttribute(OItem_Object As clsOntologyItem, OItem_AttributeType As clsOntologyItem, Value As Object, Optional DoStandardValue As Boolean = False, Optional boolNextOrderID As Boolean = False, Optional OrderID As Long = 1, Optional ID_Attribute As String = Nothing) As clsObjectAtt
         Dim lngOrderID As Long
         Dim objOA_Object = New clsObjectAtt With {.ID_Attribute = ID_Attribute, _
                                                     .ID_AttributeType = OItem_AttributeType.GUID, _
@@ -16,52 +16,119 @@ Public Class clsRelationConfig
 
         Select Case OItem_AttributeType.GUID_Parent
             Case objDataTypes.DType_Bool.GUID
-                If Value.GetType() = System.Type.GetType("System.Boolean") Then
-                    With objOA_Object
-                        .Val_Named = Value
-                        .Val_Bit = Value
-                    End With
+
+                If Not Value Is Nothing Then
+                    If Value.GetType() = System.Type.GetType("System.Boolean") Then
+                        With objOA_Object
+                            .Val_Named = Value
+                            .Val_Bit = Value
+                        End With
+                    Else
+                        objOA_Object = Nothing
+                    End If
                 Else
-                    objOA_Object = Nothing
+                    If DoStandardValue Then
+                        With objOA_Object
+                            .Val_Named = False
+                            .Val_Bit = False
+                        End With
+                    Else
+                        objOA_Object = Nothing
+                    End If
+                    
                 End If
 
 
             Case objDataTypes.DType_DateTime.GUID
-                If Value.GetType() = System.Type.GetType("System.DateTime") Then
-                    With objOA_Object
-                        .Val_Named = Value.ToString
-                        .Val_Date = Value
-                    End With
+                If Not Value Is Nothing Then
+                    If Value.GetType() = System.Type.GetType("System.DateTime") Then
+                        With objOA_Object
+                            .Val_Named = Value.ToString
+                            .Val_Date = Value
+                        End With
+                    Else
+                        objOA_Object = Nothing
+                    End If
                 Else
-                    objOA_Object = Nothing
+                    If DoStandardValue Then
+                        Dim dateNew = New DateTime
+
+                        With objOA_Object
+                            .Val_Named = dateNew.ToString
+                            .Val_Date = dateNew
+                        End With
+                    Else
+                        objOA_Object = Nothing
+                    End If
+                    
                 End If
+
             Case objDataTypes.DType_Int.GUID
-                If Value.GetType() = System.Type.GetType("System.Long") Or Value.GetType() = System.Type.GetType("System.Int64") Then
-                    With objOA_Object
-                        .Val_Named = Value
-                        .Val_Lng = Value
-                    End With
+                If Not Value Is Nothing Then
+                    If Value.GetType() = System.Type.GetType("System.Long") Or Value.GetType() = System.Type.GetType("System.Int64") Then
+                        With objOA_Object
+                            .Val_Named = Value
+                            .Val_Lng = Value
+                        End With
+                    Else
+                        objOA_Object = Nothing
+                    End If
                 Else
-                    objOA_Object = Nothing
+                    If DoStandardValue Then
+                        With objOA_Object
+                            .Val_Named = 0
+                            .Val_Lng = 0
+                        End With
+                    Else
+                        objOA_Object = Nothing
+                    End If
+                    
                 End If
+
             Case objDataTypes.DType_Real.GUID
-                If Value.GetType() = System.Type.GetType("System.Double") Then
-                    With objOA_Object
-                        .Val_Named = Value
-                        .Val_Double = Value
-                    End With
+                If Not Value Is Nothing Then
+                    If Value.GetType() = System.Type.GetType("System.Double") Then
+                        With objOA_Object
+                            .Val_Named = Value
+                            .Val_Double = Value
+                        End With
+                    Else
+                        objOA_Object = Nothing
+                    End If
                 Else
-                    objOA_Object = Nothing
+                    If DoStandardValue Then
+                        With objOA_Object
+                            .Val_Named = 0
+                            .Val_Double = 0
+                        End With
+                    Else
+                        objOA_Object = Nothing
+                    End If
+                    
                 End If
+
             Case objDataTypes.DType_String.GUID
-                If Value.GetType() = System.Type.GetType("System.String") Then
-                    With objOA_Object
-                        .Val_Named = Value
-                        .Val_String = Value
-                    End With
+                If Not Value Is Nothing Then
+                    If Value.GetType() = System.Type.GetType("System.String") Then
+                        With objOA_Object
+                            .Val_Named = Value
+                            .Val_String = Value
+                        End With
+                    Else
+                        objOA_Object = Nothing
+                    End If
                 Else
-                    objOA_Object = Nothing
+                    If DoStandardValue Then
+                        With objOA_Object
+                            .Val_Named = ""
+                            .Val_String = ""
+                        End With
+                    Else
+                        objOA_Object = Nothing
+                    End If
+                    
                 End If
+
             Case Else
                 objOA_Object = Nothing
         End Select

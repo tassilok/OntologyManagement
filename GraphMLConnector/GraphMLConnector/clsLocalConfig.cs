@@ -39,7 +39,7 @@ namespace GraphMLConnector
         public clsOntologyItem OItem_object_id_right { get; set; }
         public clsOntologyItem OItem_object_color_fill { get; set; }
         public clsOntologyItem OItem_object_edge_list { get; set; }
-        public clsOntologyItem OItem_object_grant_children_of_item { get; set; }
+        public clsOntologyItem OItem_object_child_token { get; set; }
         public clsOntologyItem OItem_object_name_relationtype { get; set; }
         public clsOntologyItem OItem_object_id_left { get; set; }
         public clsOntologyItem OItem_object_graphml___container { get; set; }
@@ -409,19 +409,19 @@ var objOList_object_color_fill = (from objOItem in objDBLevel_Config1.OList_Obje
                 throw new Exception("config err");
             }
 
-var objOList_object_grant_children_of_item = (from objOItem in objDBLevel_Config1.OList_ObjectRel
-                                           where objOItem.ID_Object == cstrID_Ontology
-                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
-                                           where objRef.Name_Object.ToLower() == "object_grant_children_of_item".ToLower() && objRef.Ontology == Globals.Type_Object
-                                           select objRef).ToList();
+            var objOList_object_child_token = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                               where objOItem.ID_Object == cstrID_Ontology
+                                               join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                               where objRef.Name_Object.ToLower() == "object_child_token".ToLower() && objRef.Ontology == Globals.Type_Object
+                                               select objRef).ToList();
 
-            if (objOList_object_grant_children_of_item.Any())
+            if (objOList_object_child_token.Any())
             {
-                OItem_object_grant_children_of_item = new clsOntologyItem()
+                OItem_object_child_token = new clsOntologyItem()
                 {
-                    GUID = objOList_object_grant_children_of_item.First().ID_Other,
-                    Name = objOList_object_grant_children_of_item.First().Name_Other,
-                    GUID_Parent = objOList_object_grant_children_of_item.First().ID_Parent_Other,
+                    GUID = objOList_object_child_token.First().ID_Other,
+                    Name = objOList_object_child_token.First().Name_Other,
+                    GUID_Parent = objOList_object_child_token.First().ID_Parent_Other,
                     Type = Globals.Type_Object
                 };
             }

@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{94897A3E-1FFC-4035-BCEE-AC58B07424AA}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AudioPlayer_Module</RootNamespace>
+    <AssemblyName>AudioPlayer-Module</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NAudio">
+      <HintPath>..\packages\NAudio.1.7.1\lib\net35\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsDataWork_AudioPlayer.cs" />
+    <Compile Include="clsFilter.cs" />
+    <Compile Include="clsLocalConfig.cs" />
+    <Compile Include="clsMultimediaItem.cs" />
+    <Compile Include="clsReferencedMediaItem.cs" />
+    <Compile Include="frmAudioPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAudioPlayer.Designer.cs">
+      <DependentUpon>frmAudioPlayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IInputFileFormatPlugin.cs" />
+    <Compile Include="IOutputDevicePlugin.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControl_AudioPlayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_AudioPlayer.Designer.cs">
+      <DependentUpon>UserControl_AudioPlayer.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="frmAudioPlayer.resx">
+      <DependentUpon>frmAudioPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="UserControl_AudioPlayer.resx">
+      <DependentUpon>UserControl_AudioPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Config\ElasticSearch.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pulsante_01_architetto_f_01 First1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon.multimedia.blue.stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pulsante_02_architetto_f_01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wm_pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wm_play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pulsante_02_architetto_f_01 Last.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\Config_ont.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="Config\Templates\AttributeTypes.xml" />
+    <EmbeddedResource Include="Config\Templates\ClassAtts.xml" />
+    <EmbeddedResource Include="Config\Templates\Classes.xml" />
+    <EmbeddedResource Include="Config\Templates\ClassRels.xml" />
+    <EmbeddedResource Include="Config\Templates\ObjectAtt.xml" />
+    <EmbeddedResource Include="Config\Templates\ObjectRel.xml" />
+    <EmbeddedResource Include="Config\Templates\Objects.xml" />
+    <EmbeddedResource Include="Config\Templates\RelationTypes.xml" />
+    <None Include="Resources\sync.png" />
+    <None Include="Resources\tasto_8_architetto_franc_01.png" />
+    <None Include="Resources\bb_reload_.png" />
+    <None Include="Resources\pulsante_01_architetto_f_01.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Filesystem-Module\Filesystem-Module\Filesystem-Module.vbproj">
+      <Project>{f31c8a5a-bb2b-474e-bc1f-a14e805ea2e9}</Project>
+      <Name>Filesystem-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
+      <Project>{3f2f6722-c36b-420d-afe7-b21c19457208}</Project>
+      <Name>Ontolog-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
+      <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
+      <Name>OntologyClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Structure-Module\Structure-Module\Structure-Module.csproj">
+      <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
+      <Name>Structure-Module</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

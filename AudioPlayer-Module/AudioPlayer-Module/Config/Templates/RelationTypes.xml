@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="RelationType">
+  <Item Id="e971160347db44d8a476fe88290639a4" Id_Parent=""><![CDATA[contains]]></Item>
+<Item Id="796712399c8f493cb5e749700f9543f4" Id_Parent=""><![CDATA[belonging]]></Item>
+<Item Id="9996494aef6a4357a6ef71a92b5ff596" Id_Parent=""><![CDATA[is of Type]]></Item>
+<Item Id="81bbd380e35648a1a4b7fdbaebe7273c" Id_Parent=""><![CDATA[belonging Attribute]]></Item>
+<Item Id="f2b54f82ada5460eafe5551d55629f14" Id_Parent=""><![CDATA[belonging Class]]></Item>
+<Item Id="f68a9438fb8b418d8e0bd9aefc9ecdf3" Id_Parent=""><![CDATA[belonging Object]]></Item>
+<Item Id="4417582dbd6347fbab18770a611917fe" Id_Parent=""><![CDATA[belonging RelationType]]></Item>
+<Item Id="81bbd380e35648a1a4b7fdbaebe7273c" Id_Parent=""><![CDATA[belonging Attribute]]></Item>
+<Item Id="e07469d9766c443e85266d9c684f944f" Id_Parent=""><![CDATA[belongs to]]></Item>
+<Item Id="d34d545e9ddf46cebb6f22db1b7bb025" Id_Parent=""><![CDATA[belonging Source]]></Item>
+
+</Items>

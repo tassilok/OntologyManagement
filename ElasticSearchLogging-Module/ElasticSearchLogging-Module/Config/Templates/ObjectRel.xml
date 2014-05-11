@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="ObjectRel">
+  <Item Id_Object="ac8b0c5db259496d9655c3b82d619ded" Id_Parent_Object="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Other="975bce12ba1b4531bb407d9e88c8311d" Id_Parent_Other="d3f72a683f6146a48ff381db05997dc8" Id_RelationType="e971160347db44d8a476fe88290639a4" OrderId="1" Ontology="Object"/>
+  
+<Item Id_Object="ac8b0c5db259496d9655c3b82d619ded" Id_Parent_Object="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Other="4cb64366f0ab45d79e9b4a0b49df36aa" Id_Parent_Other="d3f72a683f6146a48ff381db05997dc8" Id_RelationType="e971160347db44d8a476fe88290639a4" OrderId="1" Ontology="Object"/>
+  
+<Item Id_Object="ac8b0c5db259496d9655c3b82d619ded" Id_Parent_Object="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Other="418edf20e7c545fbbc086437fdb829ce" Id_Parent_Other="d3f72a683f6146a48ff381db05997dc8" Id_RelationType="e971160347db44d8a476fe88290639a4" OrderId="1" Ontology="Object"/>
+  
+<Item Id_Object="ac8b0c5db259496d9655c3b82d619ded" Id_Parent_Object="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Other="8a3ee6b0974b4a50aefede6cdec0b289" Id_Parent_Other="d3f72a683f6146a48ff381db05997dc8" Id_RelationType="e971160347db44d8a476fe88290639a4" OrderId="1" Ontology="Object"/>
+  
+<Item Id_Object="418edf20e7c545fbbc086437fdb829ce" Id_Parent_Object="d3f72a683f6146a48ff381db05997dc8" Id_Other="bca1d340384c495b920fc82cdab9239b" Id_Parent_Other="3a4f5b7bda754980933efbc33cc51439" Id_RelationType="81bbd380e35648a1a4b7fdbaebe7273c" OrderId="0" Ontology="AttributeType"/>
+  
+<Item Id_Object="8a3ee6b0974b4a50aefede6cdec0b289" Id_Parent_Object="d3f72a683f6146a48ff381db05997dc8" Id_Other="e07469d9766c443e85266d9c684f944f" Id_Parent_Other="" Id_RelationType="4417582dbd6347fbab18770a611917fe" OrderId="0" Ontology="RelationType"/>
+  
+<Item Id_Object="975bce12ba1b4531bb407d9e88c8311d" Id_Parent_Object="d3f72a683f6146a48ff381db05997dc8" Id_Other="8cd473b5cff943f7af3e2a45c80585af" Id_Parent_Other="" Id_RelationType="4417582dbd6347fbab18770a611917fe" OrderId="0" Ontology="RelationType"/>
+  
+<Item Id_Object="4cb64366f0ab45d79e9b4a0b49df36aa" Id_Parent_Object="d3f72a683f6146a48ff381db05997dc8" Id_Other="f7877905c5034f74989a9fcbfc2733e4" Id_Parent_Other="65332a65cc434416acb43434ca0a8582" Id_RelationType="f2b54f82ada5460eafe5551d55629f14" OrderId="0" Ontology="Class"/>
+  
+
+</Items>

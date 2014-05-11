@@ -12,6 +12,7 @@
           &lt;y:LineStyle color=&quot;#000000&quot; type=&quot;line&quot; width=&quot;1.0&quot;/&gt;
           &lt;y:Arrows source=&quot;none&quot; target=&quot;standard&quot;/&gt;
           &lt;y:BendStyle smoothed=&quot;false&quot;/&gt;
+		  &lt;y:EdgeLabel&gt;@NAME_RELATIONTYPE@&lt;/y:EdgeLabel&gt;
         &lt;/y:PolyLineEdge&gt;
       &lt;/data&gt;
     &lt;/edge&gt;
@@ -32,6 +33,7 @@
           &lt;y:LineStyle color=&quot;#000000&quot; type=&quot;line&quot; width=&quot;1.0&quot;/&gt;
           &lt;y:Arrows source=&quot;none&quot; target=&quot;standard&quot;/&gt;
           &lt;y:BendStyle smoothed=&quot;false&quot;/&gt;
+		  &lt;y:EdgeLabel&gt;@NAME_RELATIONTYPE@&lt;/y:EdgeLabel&gt;
         &lt;/y:PolyLineEdge&gt;
       &lt;/data&gt;
     &lt;/edge&gt;

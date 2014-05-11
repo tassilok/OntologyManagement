@@ -1754,6 +1754,7 @@ Public Class UserControl_OItemList
                             Dim objOList_ObjectsForw = oList_Simple.Select(Function(o) New clsObjectRel With {.ID_Object = o.GUID}).ToList()
                             Dim objOList_ObjectsBackw = oList_Simple.Select(Function(o) New clsObjectRel With {.ID_Other = o.GUID}).ToList()
 
+
                             objOItem_Result = objDBLevel.del_ObjectAtt(objOList_AttributesDel)
                             If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                                 objOItem_Result = objDBLevel.del_ObjectRel(objOList_ObjectsForw)

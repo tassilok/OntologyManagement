@@ -26,7 +26,10 @@ Public Class frmMain
 
     Private objOItem_Class As clsOntologyItem
 
+    Private objDBLevel_Objects As clsDBLevel
     Private objDBLevel_ObjectRel As clsDBLevel
+    Private objDBLevel_Other As clsDBLevel
+    Private objDBLevel_Work As clsDBLevel
 
     Private objReport As clsReport
 
@@ -467,7 +470,10 @@ Public Class frmMain
     End Sub
 
     Private Sub set_DBConnection()
+        objDBLevel_Objects = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_ObjectRel = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Other = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Work = New clsDBLevel(objLocalConfig.Globals)
         objReport = New clsReport(objLocalConfig)
     End Sub
 
@@ -601,5 +607,168 @@ Public Class frmMain
             End If
 
         End If
+    End Sub
+
+    Private Sub RepairRelationsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RepairRelationsToolStripMenuItem.Click
+        Dim objOItem_Result = objDBLevel_Objects.get_Data_Objects()
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOItem_Result = objDBLevel_ObjectRel.get_Data_ObjectRel(Nothing)
+
+
+
+            Dim objRelations = (From objRel In objDBLevel_ObjectRel.OList_ObjectRel_ID
+                                Group Join objObject In objDBLevel_Objects.OList_Objects On objRel.ID_Object Equals objObject.GUID Into objObjects = Group
+                                From objObject In objObjects.DefaultIfEmpty()
+                                Where objObject Is Nothing
+                                Group objRel By objRel.ID_Object Into Group
+                                Select New clsObjectRel With {.ID_Object = ID_Object}).ToList()
+
+            If (objRelations.Any()) Then
+                objOItem_Result = objDBLevel_Work.del_ObjectRel(objRelations)
+
+            End If
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                Dim objORel = objDBLevel_ObjectRel.OList_ObjectRel_ID.Where(Function(ore) ore.Ontology = objLocalConfig.Globals.Type_Object).ToList()
+
+                objRelations = (From objRel In objORel
+                                Group Join objObject In objDBLevel_Objects.OList_Objects On objRel.ID_Other Equals objObject.GUID Into objObjects = Group
+                                From objObject In objObjects.DefaultIfEmpty()
+                                Where objObject Is Nothing
+                                Group objRel By objRel.ID_Other Into Group
+                                Select New clsObjectRel With {.ID_Other = ID_Other}).ToList()
+
+                If (objRelations.Any()) Then
+                    objOItem_Result = objDBLevel_Work.del_ObjectRel(objRelations)
+
+
+                End If
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+                    objOItem_Result = objDBLevel_Other.get_Data_AttributeType()
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objORel = objDBLevel_ObjectRel.OList_ObjectRel_ID.Where(Function(ore) ore.Ontology = objLocalConfig.Globals.Type_AttributeType).ToList()
+
+                        objRelations = (From objRel In objORel
+                                Group Join objObject In objDBLevel_Other.OList_AttributeTypes On objRel.ID_Other Equals objObject.GUID Into objObjects = Group
+                                From objObject In objObjects.DefaultIfEmpty()
+                                Where objObject Is Nothing
+                                Group objRel By objRel.ID_Other Into Group
+                                Select New clsObjectRel With {.ID_Other = ID_Other}).ToList()
+
+                        If objRelations.Any() Then
+                            objOItem_Result = objDBLevel_Work.del_ObjectRel(objRelations)
+                            End If
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objOItem_Result = objDBLevel_Other.get_Data_RelationTypes()
+
+                            objORel = objDBLevel_ObjectRel.OList_ObjectRel_ID.Where(Function(ore) ore.Ontology = objLocalConfig.Globals.Type_RelationType).ToList()
+
+                            objRelations = (From objRel In objORel
+                                    Group Join objObject In objDBLevel_Other.OList_RelationTypes On objRel.ID_Other Equals objObject.GUID Into objObjects = Group
+                                    From objObject In objObjects.DefaultIfEmpty()
+                                    Where objObject Is Nothing
+                                    Group objRel By objRel.ID_Other Into Group
+                                    Select New clsObjectRel With {.ID_Other = ID_Other}).ToList()
+
+                            If objRelations.Any() Then
+                                objOItem_Result = objDBLevel_Work.del_ObjectRel(objRelations)
+                                End If
+
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objOItem_Result = objDBLevel_Other.get_Data_Classes()
+
+                                objORel = objDBLevel_ObjectRel.OList_ObjectRel_ID.Where(Function(ore) ore.Ontology = objLocalConfig.Globals.Type_Class).ToList()
+
+                                objRelations = (From objRel In objORel
+                                        Group Join objObject In objDBLevel_Other.OList_Classes On objRel.ID_Other Equals objObject.GUID Into objObjects = Group
+                                        From objObject In objObjects.DefaultIfEmpty()
+                                        Where objObject Is Nothing
+                                        Group objRel By objRel.ID_Other Into Group
+                                        Select New clsObjectRel With {.ID_Other = ID_Other}).ToList()
+
+                                If objRelations.Any() Then
+                                    objOItem_Result = objDBLevel_Work.del_ObjectRel(objRelations)
+                                    End If
+
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objOItem_Result = objDBLevel_ObjectRel.get_Data_ObjectAtt(Nothing)
+
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+                                        Dim objOARelations = (From objOArel In objDBLevel_ObjectRel.OList_ObjectAtt_ID
+                                                        Group Join objObject In objDBLevel_Objects.OList_Objects On objOArel.ID_Object Equals objObject.GUID Into objObjects = Group
+                                                        From objObject In objObjects.DefaultIfEmpty
+                                                        Where objObject Is Nothing
+                                                        Group objOArel By objOArel.ID_Attribute Into Group
+                                                        Select New clsObjectAtt With {.ID_Attribute = ID_Attribute}).ToList()
+
+                                        If (objOARelations.Any()) Then
+                                            objOItem_Result = objDBLevel_Work.del_ObjectAtt(objOARelations)
+                                        End If
+
+
+                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+                                            objOItem_Result = objDBLevel_Other.get_Data_AttributeType()
+
+                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                objOARelations = (From objOArel In objDBLevel_ObjectRel.OList_ObjectAtt_ID
+                                                              Group Join objAttribute In objDBLevel_Other.OList_AttributeTypes On objOArel.ID_AttributeType Equals objAttribute.GUID Into objAttributes = Group
+                                                              From objAttribute In objAttributes.DefaultIfEmpty
+                                                              Where objAttribute Is Nothing
+                                                              Group objOArel By objOArel.ID_Attribute Into Group
+                                                              Select New clsObjectAtt With {.ID_Attribute = ID_Attribute}).ToList()
+
+                                                If objOARelations.Any() Then
+                                                    objOItem_Result = objDBLevel_Work.del_ObjectAtt(objOARelations)
+                                                End If
+
+                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                    MsgBox("Alle Fehlerhaften Beziehungen wurden gelöscht!", MsgBoxStyle.Information)
+                                                    End If
+                                            Else
+
+                                                MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
+                                                End If
+
+
+
+
+                                        Else
+                                            MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
+                                            End If
+                                    Else
+                                        MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
+                                        End If
+
+
+
+                                Else
+                                    MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
+                                    End If
+                            Else
+                                MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
+                                End If
+                        Else
+                            MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
+                            End If
+
+                    Else
+                        MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
+                        End If
+
+                Else
+                    MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
+                    End If
+            Else
+                MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
+                End If
+        Else
+            MsgBox("Die Objekte konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
+        End If
+
+
     End Sub
 End Class

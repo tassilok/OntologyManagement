@@ -2,22 +2,15 @@
 <Items Type="Object">
   <Item Id="a2b1b74c1a7941b1944511a4c4341520" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[GraphML-Connector]]></Item>
 <Item Id="1b0a3201625b4183aa4bcf84990f22b3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_XML_Text]]></Item>
+<Item Id="d439c6d7b1a740699a41778259baf9d4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Sem_Item]]></Item>
+<Item Id="b72b603142614806966c7d3c12ee4a73" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_contains]]></Item>
 <Item Id="aeca411ee75d4e99aa6473c6b3bca1e3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_export_to]]></Item>
 <Item Id="ee8c80fb54fa495aa6aa88356fd25875" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is_of_Type]]></Item>
-<Item Id="b72b603142614806966c7d3c12ee4a73" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_contains]]></Item>
-<Item Id="d439c6d7b1a740699a41778259baf9d4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Sem_Item]]></Item>
 <Item Id="027f64b8ed6043759f411f70788545cd" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Export_Mode]]></Item>
 <Item Id="a9445b73a33f4328b8d0a026f37d9e04" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_GraphItem]]></Item>
 <Item Id="691420de2c934ce092b1f635b0d72738" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Path]]></Item>
 <Item Id="da661b0d2ba441c08b71c00dfc12d517" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Graphs]]></Item>
 <Item Id="c317044f09a842609a5155eb0cc3dbac" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_COLOR_TEXT]]></Item>
-<Item Id="6eeb15e96c074eb2a030127095e4c704" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Graphml___UML_Edge]]></Item>
-<Item Id="6e050696bc454886bed5c9e29df0d372" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_ID_RIGHT]]></Item>
-<Item Id="8ae27207257c4b0e8f2992d260db3a2b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_COLOR_FILL]]></Item>
-<Item Id="e9e25084e2ae4ab4b2301a316acdbf2b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_EDGE_LIST]]></Item>
-<Item Id="e47d6ffab4004e7895508fb567b4143a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Grant_Children_of_Item]]></Item>
-<Item Id="86e67fbb9bf1403cb78528c79e5bf41a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_NAME_RELATIONTYPE]]></Item>
-<Item Id="995108aba1684063a95c035849f7dfa4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_ID_LEFT]]></Item>
 <Item Id="8a198e864cbf418991761662a02569aa" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Normal]]></Item>
 <Item Id="372a326a66eb4fbea624fd1b486752ff" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Graphml___UML_Class_Node]]></Item>
 <Item Id="cd7473044cc941c2bd7ca674a07cbfe8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Graphml___Container]]></Item>
@@ -25,14 +18,15 @@
 <Item Id="fab99aebb3944b958dd4292a3324be8f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_ID]]></Item>
 <Item Id="1d9f0aa1e042430fadafa16eaa8b8392" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_ATTRIB_LIST]]></Item>
 <Item Id="2775bcc6bea343dfa33f7dfc91e4dcba" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_NODE_LIST]]></Item>
+<Item Id="e47d6ffab4004e7895508fb567b4143a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Grant_Children_of_Item]]></Item>
+<Item Id="86e67fbb9bf1403cb78528c79e5bf41a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_NAME_RELATIONTYPE]]></Item>
+<Item Id="995108aba1684063a95c035849f7dfa4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_ID_LEFT]]></Item>
+<Item Id="e88965b2aa0e445ca4bf68cb2f5bc4ef" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Child_Token]]></Item>
+<Item Id="6eeb15e96c074eb2a030127095e4c704" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Graphml___UML_Edge]]></Item>
+<Item Id="6e050696bc454886bed5c9e29df0d372" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_ID_RIGHT]]></Item>
+<Item Id="8ae27207257c4b0e8f2992d260db3a2b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_COLOR_FILL]]></Item>
+<Item Id="e9e25084e2ae4ab4b2301a316acdbf2b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_EDGE_LIST]]></Item>
 <Item Id="1ed7a9cfe716432eab49385f9c2a663c" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[COLOR_TEXT]]></Item>
-<Item Id="9d14fbbc19664f00858e90dd137fdf64" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[Graphml - UML Edge]]></Item>
-<Item Id="9f990a490362442c80ed2a2846d72cc5" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[ID_RIGHT]]></Item>
-<Item Id="74cefc34bf134a95928e62e039569300" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[COLOR_FILL]]></Item>
-<Item Id="fd7f5206e39c453dac0ecb39cb3f569f" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[EDGE_LIST]]></Item>
-<Item Id="46cd2b4cc3174a2c8f75abf23ea6efba" Id_Parent="8703010b98304113b2e98a4f24b5e99b"><![CDATA[Grant Children of Item]]></Item>
-<Item Id="ffc0e19c4c434de684c68b8432bb4818" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[NAME_RELATIONTYPE]]></Item>
-<Item Id="bb48c43d049d42ff9ada0608017578b4" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[ID_LEFT]]></Item>
 <Item Id="988634b22d9546958a2e2811a424dab9" Id_Parent="8703010b98304113b2e98a4f24b5e99b"><![CDATA[Normal]]></Item>
 <Item Id="b05b48df1d254459985a6bf833177f68" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[Graphml - UML-Class-Node]]></Item>
 <Item Id="dcb33b4683484a03b1fefff5eed04c49" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[Graphml - Container]]></Item>
@@ -40,5 +34,13 @@
 <Item Id="392f4e01491c4da1989442e368c8339f" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[ID]]></Item>
 <Item Id="8f07c729ed0946f6a64e2cacb3ab702b" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[ATTRIB_LIST]]></Item>
 <Item Id="150c32c6ed164521bbf19d9d16243319" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[NODE_LIST]]></Item>
+<Item Id="46cd2b4cc3174a2c8f75abf23ea6efba" Id_Parent="8703010b98304113b2e98a4f24b5e99b"><![CDATA[Grant Children of Item]]></Item>
+<Item Id="ffc0e19c4c434de684c68b8432bb4818" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[NAME_RELATIONTYPE]]></Item>
+<Item Id="bb48c43d049d42ff9ada0608017578b4" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[ID_LEFT]]></Item>
+<Item Id="5f39c4ce080d4f36b432f83d2892c841" Id_Parent="925f489dec8d4130a418fcb022a4c731"><![CDATA[Child-Token]]></Item>
+<Item Id="9d14fbbc19664f00858e90dd137fdf64" Id_Parent="327e9773fca6458ca44d338a556e0ad9"><![CDATA[Graphml - UML Edge]]></Item>
+<Item Id="9f990a490362442c80ed2a2846d72cc5" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[ID_RIGHT]]></Item>
+<Item Id="74cefc34bf134a95928e62e039569300" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[COLOR_FILL]]></Item>
+<Item Id="fd7f5206e39c453dac0ecb39cb3f569f" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[EDGE_LIST]]></Item>
 
 </Items>

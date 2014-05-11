@@ -16,6 +16,7 @@ namespace TextParser
         public string ID_MetaField { get; set; }
         public string Name_MetaField { get; set; }
         public bool IsMeta { get; set; }
+        public bool IsInsert { get; set; }
         public string ID_RegExPre { get; set; }
         public string ID_Attribute_RegExPreVal { get; set; }
         public string RegexPre { get; set; }
@@ -25,11 +26,13 @@ namespace TextParser
         public string ID_RegExPost { get; set; }
         public string ID_Attribute_RegExPostVal { get; set; }
         public string RegexPost { get; set; }
+        public string Insert { get; set; }
         public string ID_DataType { get; set; }
         public string DataType { get; set; }
         public string ID_Attribute_UseOrderID { get; set; }
         public bool UseOrderId { get; set; }
         public string ID_Attribute_RemoveFromSource { get; set; }
         public bool RemoveFromSource { get; set; }
+
     }
 }

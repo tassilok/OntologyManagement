@@ -213,7 +213,7 @@ namespace TextParser
                 //try
                 //{
                     
-                    var textReader = new StreamReader(file.FileName);
+                    var textReader = new StreamReader(file.FileName,true);
 
 
                     
@@ -366,6 +366,10 @@ namespace TextParser
                     {
                         addMessageRest = true;
                     }
+                }
+                else if (field.IsInsert)
+                {
+                    dictUser.Add(field.Name_Field, field.Insert);
                 }
                 else
                 {
