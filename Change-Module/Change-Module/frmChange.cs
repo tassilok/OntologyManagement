@@ -474,7 +474,7 @@ namespace Change_Module
                         objOADescription = objRelationConfig.Rel_ObjectAttribute(objOItem_Process,
                                                                                  objLocalConfig
                                                                                      .OItem_Attribute_Description,
-                                                                                 TextBox_Description_Process.Text, false,
+                                                                                 TextBox_Description_Process.Text, false, false, 
                                                                                  1,
                                                                                  objOItem_ProcessDescription
                                                                                      .GUID_Related);
@@ -566,7 +566,7 @@ namespace Change_Module
 
                     objOADescription = objRelationConfig.Rel_ObjectAttribute(objOItem_SelNode,
                                                                              objLocalConfig.OItem_Attribute_Description,
-                                                                             TextBox_Description_ProcessLog.Text, false,
+                                                                             TextBox_Description_ProcessLog.Text, false, false,
                                                                              1,
                                                                              objOItem_ProcessLogDescription.GUID_Related);
                     
