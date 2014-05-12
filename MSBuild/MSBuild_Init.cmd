@@ -14,7 +14,7 @@ CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Variable-Value-Module \Variable-Value
 IF ERRORLEVEL 1 GOTO Fehler
 CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Localization-Module \Localization-Module.sln 0.0.1.1
 IF ERRORLEVEL 1 GOTO Fehler
-CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ GraphMLConnector \GraphMLConnector.sln 0.0.0.41
+CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ GraphMLConnector \GraphMLConnector.sln 0.0.0.42
 IF ERRORLEVEL 1 GOTO Fehler
 CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Log-Module \Log-Module.sln 0.2.0.6
 IF ERRORLEVEL 1 GOTO Fehler
@@ -60,9 +60,9 @@ CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Checklist-Module \Checklist-Module.sl
 IF ERRORLEVEL 1 GOTO Fehler
 CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Bill-Module \Bill-Module.sln 0.0.1.7
 IF ERRORLEVEL 1 GOTO Fehler
-CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ LiteraturQuellen-Module \LiteraturQuellen-Module.sln 0.0.0.60
+CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ LiteraturQuellen-Module \LiteraturQuellen-Module.sln 0.0.0.61
 IF ERRORLEVEL 1 GOTO Fehler
-CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Change-Module \Change-Module.sln 0.2.0.17
+CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Change-Module \Change-Module.sln 0.2.0.18
 IF ERRORLEVEL 1 GOTO Fehler
 GOTO Ende
 :Fehler
