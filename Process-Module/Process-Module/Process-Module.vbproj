@@ -58,6 +58,10 @@
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Filesystem-Module, Version=0.2.0.25, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Filesystem-Module\Filesystem-Module\bin\Debug\Filesystem-Module.exe</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -177,10 +181,6 @@
     <None Include="Resources\112_downarrowlong_green_24x24_72.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Filesystem-Module\Filesystem-Module\Filesystem-Module.vbproj">
-      <Project>{F31C8A5A-BB2B-474E-BC1F-A14E805EA2E9}</Project>
-      <Name>Filesystem-Module</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Media-Viewer-Module\Media-Viewer-Module\Media-Viewer-Module.vbproj">
       <Project>{E5546C53-BE08-44E1-B136-D172C3F2FE3E}</Project>
       <Name>Media-Viewer-Module</Name>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="9b74dcf1f82d429da532b61359c810a0" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ping-Test-Module]]></Item>
+<Item Id="16cbeddcfaf742f589ab38d060eff4a3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_DateTimestamp]]></Item>
+<Item Id="ae1f09000c264e8e87fcdd89fc42a171" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_additional_for]]></Item>
+<Item Id="c624c37392f64689952ff6c3ac006e50" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongs_to]]></Item>
+<Item Id="05b38a8d3f4d41c884dd370960636790" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Server]]></Item>
+<Item Id="1c0d912a3db548e48fe7dc052c26be43" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_IP_Address_Test]]></Item>
+<Item Id="d3c72fc4168d4cc5956cd6b63dcfd292" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_IP_Address]]></Item>
+
+</Items>

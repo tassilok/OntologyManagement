@@ -55,6 +55,14 @@
     <ApplicationIcon>slim_cd_drive_frederic_m_01.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClassLibrary_ShellWork, Version=0.1.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\bin\Debug\ClassLibrary_ShellWork.dll</HintPath>
+    </Reference>
+    <Reference Include="Log-Module, Version=0.2.0.6, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Log-Module\Log-Module\bin\Debug\Log-Module.exe</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Synchronization, Version=2.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Sync Framework\2.1\Runtime\x86\Microsoft.Synchronization.dll</HintPath>
@@ -62,6 +70,10 @@
     <Reference Include="Microsoft.Synchronization.Files, Version=2.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Sync Framework\2.1\Runtime\x86\Microsoft.Synchronization.Files.dll</HintPath>
+    </Reference>
+    <Reference Include="Structure-Module, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Structure-Module\Structure-Module\bin\Debug\Structure-Module.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -212,14 +224,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\ClassLibrary_ShellWork.vbproj">
-      <Project>{10bcc346-a390-401c-ba6a-904a8842a40b}</Project>
-      <Name>ClassLibrary_ShellWork</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Log-Module\Log-Module\Log-Module.vbproj">
-      <Project>{666536bd-fd4a-4bdf-a5bc-572e07d4e27a}</Project>
-      <Name>Log-Module</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3F2F6722-C36B-420D-AFE7-B21C19457208}</Project>
       <Name>Ontolog-Module</Name>
@@ -231,10 +235,6 @@
     <ProjectReference Include="..\..\Security-Module\Security-Module\Security-Module.vbproj">
       <Project>{c9add5dc-090d-4003-bba9-cf9218c938b2}</Project>
       <Name>Security-Module</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Structure-Module\Structure-Module\Structure-Module.csproj">
-      <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
-      <Name>Structure-Module</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -179,6 +179,12 @@
     <Compile Include="Forms\AdvancedFilter\frmAdvancedFilter.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\AdvancedFilter\frmRelationFilter.Designer.vb">
+      <DependentUpon>frmRelationFilter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdvancedFilter\frmRelationFilter.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\AdvancedFilter\UserControl_AdvancedFilter.Designer.vb">
       <DependentUpon>UserControl_AdvancedFilter.vb</DependentUpon>
     </Compile>
@@ -460,6 +466,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdvancedFilter\frmAdvancedFilter.resx">
       <DependentUpon>frmAdvancedFilter.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AdvancedFilter\frmRelationFilter.resx">
+      <DependentUpon>frmRelationFilter.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdvancedFilter\UserControl_AdvancedFilter.resx">
       <DependentUpon>UserControl_AdvancedFilter.vb</DependentUpon>
