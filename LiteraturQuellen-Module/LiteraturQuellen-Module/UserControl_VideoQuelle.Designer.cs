@@ -33,7 +33,6 @@
             this.label_Video = new System.Windows.Forms.Label();
             this.panel_Video = new System.Windows.Forms.Panel();
             this.dateTimePicker_Ausstrahlungsdatum = new System.Windows.Forms.DateTimePicker();
-            this.label_Ausstrahlung = new System.Windows.Forms.Label();
             this.button_AddSender = new System.Windows.Forms.Button();
             this.textBox_Sender = new System.Windows.Forms.TextBox();
             this.label_Sender = new System.Windows.Forms.Label();
@@ -44,8 +43,9 @@
             this.textBox_Autor = new System.Windows.Forms.TextBox();
             this.label_Author = new System.Windows.Forms.Label();
             this.tabPage_InternetQuelle = new System.Windows.Forms.TabPage();
-            this.panel_InternetQuelle = new System.Windows.Forms.Panel();
             this.button_AddQuelle = new System.Windows.Forms.Button();
+            this.panel_InternetQuelle = new System.Windows.Forms.Panel();
+            this.checkBox_Ausstrahlung = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage_Video.SuspendLayout();
             this.tabPage_InternetQuelle.SuspendLayout();
@@ -65,10 +65,10 @@
             // 
             // tabPage_Video
             // 
+            this.tabPage_Video.Controls.Add(this.checkBox_Ausstrahlung);
             this.tabPage_Video.Controls.Add(this.label_Video);
             this.tabPage_Video.Controls.Add(this.panel_Video);
             this.tabPage_Video.Controls.Add(this.dateTimePicker_Ausstrahlungsdatum);
-            this.tabPage_Video.Controls.Add(this.label_Ausstrahlung);
             this.tabPage_Video.Controls.Add(this.button_AddSender);
             this.tabPage_Video.Controls.Add(this.textBox_Sender);
             this.tabPage_Video.Controls.Add(this.label_Sender);
@@ -108,19 +108,11 @@
             // dateTimePicker_Ausstrahlungsdatum
             // 
             this.dateTimePicker_Ausstrahlungsdatum.Enabled = false;
-            this.dateTimePicker_Ausstrahlungsdatum.Location = new System.Drawing.Point(89, 9);
+            this.dateTimePicker_Ausstrahlungsdatum.Location = new System.Drawing.Point(113, 9);
             this.dateTimePicker_Ausstrahlungsdatum.Name = "dateTimePicker_Ausstrahlungsdatum";
-            this.dateTimePicker_Ausstrahlungsdatum.Size = new System.Drawing.Size(284, 20);
+            this.dateTimePicker_Ausstrahlungsdatum.Size = new System.Drawing.Size(260, 20);
             this.dateTimePicker_Ausstrahlungsdatum.TabIndex = 21;
-            // 
-            // label_Ausstrahlung
-            // 
-            this.label_Ausstrahlung.AutoSize = true;
-            this.label_Ausstrahlung.Location = new System.Drawing.Point(6, 12);
-            this.label_Ausstrahlung.Name = "label_Ausstrahlung";
-            this.label_Ausstrahlung.Size = new System.Drawing.Size(82, 13);
-            this.label_Ausstrahlung.TabIndex = 20;
-            this.label_Ausstrahlung.Text = "x_Ausstrahlung:";
+            this.dateTimePicker_Ausstrahlungsdatum.ValueChanged += new System.EventHandler(this.dateTimePicker_Ausstrahlungsdatum_ValueChanged);
             // 
             // button_AddSender
             // 
@@ -138,10 +130,10 @@
             // 
             this.textBox_Sender.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_Sender.Location = new System.Drawing.Point(89, 87);
+            this.textBox_Sender.Location = new System.Drawing.Point(113, 87);
             this.textBox_Sender.Name = "textBox_Sender";
             this.textBox_Sender.ReadOnly = true;
-            this.textBox_Sender.Size = new System.Drawing.Size(284, 20);
+            this.textBox_Sender.Size = new System.Drawing.Size(260, 20);
             this.textBox_Sender.TabIndex = 18;
             // 
             // label_Sender
@@ -169,10 +161,10 @@
             // 
             this.textBox_Sendung.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_Sendung.Location = new System.Drawing.Point(89, 61);
+            this.textBox_Sendung.Location = new System.Drawing.Point(113, 61);
             this.textBox_Sendung.Name = "textBox_Sendung";
             this.textBox_Sendung.ReadOnly = true;
-            this.textBox_Sendung.Size = new System.Drawing.Size(284, 20);
+            this.textBox_Sendung.Size = new System.Drawing.Size(260, 20);
             this.textBox_Sendung.TabIndex = 15;
             // 
             // label_Sendung
@@ -200,10 +192,10 @@
             // 
             this.textBox_Autor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_Autor.Location = new System.Drawing.Point(89, 35);
+            this.textBox_Autor.Location = new System.Drawing.Point(113, 35);
             this.textBox_Autor.Name = "textBox_Autor";
             this.textBox_Autor.ReadOnly = true;
-            this.textBox_Autor.Size = new System.Drawing.Size(284, 20);
+            this.textBox_Autor.Size = new System.Drawing.Size(260, 20);
             this.textBox_Autor.TabIndex = 12;
             // 
             // label_Author
@@ -227,6 +219,16 @@
             this.tabPage_InternetQuelle.Text = "x_Internet-Quelle";
             this.tabPage_InternetQuelle.UseVisualStyleBackColor = true;
             // 
+            // button_AddQuelle
+            // 
+            this.button_AddQuelle.Location = new System.Drawing.Point(7, 3);
+            this.button_AddQuelle.Name = "button_AddQuelle";
+            this.button_AddQuelle.Size = new System.Drawing.Size(119, 23);
+            this.button_AddQuelle.TabIndex = 1;
+            this.button_AddQuelle.Text = "x_Add Internet-Quelle";
+            this.button_AddQuelle.UseVisualStyleBackColor = true;
+            this.button_AddQuelle.Click += new System.EventHandler(this.button_AddQuelle_Click);
+            // 
             // panel_InternetQuelle
             // 
             this.panel_InternetQuelle.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -237,15 +239,16 @@
             this.panel_InternetQuelle.Size = new System.Drawing.Size(409, 374);
             this.panel_InternetQuelle.TabIndex = 0;
             // 
-            // button_AddQuelle
+            // checkBox_Ausstrahlung
             // 
-            this.button_AddQuelle.Location = new System.Drawing.Point(7, 3);
-            this.button_AddQuelle.Name = "button_AddQuelle";
-            this.button_AddQuelle.Size = new System.Drawing.Size(119, 23);
-            this.button_AddQuelle.TabIndex = 1;
-            this.button_AddQuelle.Text = "x_Add Internet-Quelle";
-            this.button_AddQuelle.UseVisualStyleBackColor = true;
-            this.button_AddQuelle.Click += new System.EventHandler(this.button_AddQuelle_Click);
+            this.checkBox_Ausstrahlung.AutoSize = true;
+            this.checkBox_Ausstrahlung.Location = new System.Drawing.Point(6, 10);
+            this.checkBox_Ausstrahlung.Name = "checkBox_Ausstrahlung";
+            this.checkBox_Ausstrahlung.Size = new System.Drawing.Size(101, 17);
+            this.checkBox_Ausstrahlung.TabIndex = 24;
+            this.checkBox_Ausstrahlung.Text = "x_Ausstrahlung:";
+            this.checkBox_Ausstrahlung.UseVisualStyleBackColor = true;
+            this.checkBox_Ausstrahlung.CheckStateChanged += new System.EventHandler(this.checkBox_Ausstrahlung_CheckStateChanged);
             // 
             // UserControl_VideoQuelle
             // 
@@ -268,7 +271,6 @@
         private System.Windows.Forms.TabPage tabPage_Video;
         private System.Windows.Forms.TabPage tabPage_InternetQuelle;
         private System.Windows.Forms.DateTimePicker dateTimePicker_Ausstrahlungsdatum;
-        private System.Windows.Forms.Label label_Ausstrahlung;
         private System.Windows.Forms.Button button_AddSender;
         private System.Windows.Forms.TextBox textBox_Sender;
         private System.Windows.Forms.Label label_Sender;
@@ -282,5 +284,6 @@
         private System.Windows.Forms.Label label_Video;
         private System.Windows.Forms.Button button_AddQuelle;
         private System.Windows.Forms.Panel panel_InternetQuelle;
+        private System.Windows.Forms.CheckBox checkBox_Ausstrahlung;
     }
 }

@@ -57,12 +57,42 @@ namespace LiteraturQuellen_Module
             {
                 objUserControl_SingleViewer.initialize_MediaItem(objDataWork_VideoQuelle.OItem_Video, false);
 
-                button_AddAutor.Enabled = true;
-                button_AddSender.Enabled = true;
-                button_AddSendung.Enabled = true;
-                objUserControl_InternetQuelle.Enabled = true;
-                objUserControl_SingleViewer.Enabled = true;
-                dateTimePicker_Ausstrahlungsdatum.Enabled = true;
+
+            }
+            else
+            {
+                objTransaction.ClearItems();
+                var objOITem_Video = new clsOntologyItem
+                {
+                    GUID = objLocalConfig.Globals.NewGUID,
+                    Name = objOItem_VideoQuelle.Name,
+                    GUID_Parent = objLocalConfig.OItem_type_video.GUID,
+                    Type = objLocalConfig.Globals.Type_Object
+                };
+
+                var objOItem_Result = objTransaction.do_Transaction(objOITem_Video);
+
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    var objORel_Quelle_To_Video = objRelationConfig.Rel_ObjectRelation(objOItem_VideoQuelle, objOITem_Video, objLocalConfig.OItem_relationtype_belonging);
+
+                    objOItem_Result = objTransaction.do_Transaction(objORel_Quelle_To_Video);
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        objDataWork_VideoQuelle.OItem_Video = objOITem_Video;
+                        objUserControl_SingleViewer.initialize_MediaItem(objDataWork_VideoQuelle.OItem_Video, false);
+                    }
+                    else
+                    {
+                        objTransaction.rollback();
+                        MessageBox.Show(this, "Das Video konnte nicht gespeichert werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(this, "Das Video konnte nicht gespeichert werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
 
 
@@ -75,7 +105,7 @@ namespace LiteraturQuellen_Module
                     
                 }
 
-                dateTimePicker_Ausstrahlungsdatum.Enabled = true;
+                checkBox_Ausstrahlung.Checked = true;
 
                 if (objDataWork_VideoQuelle.OItem_Partner != null)
                 {
@@ -93,6 +123,21 @@ namespace LiteraturQuellen_Module
                     textBox_Sender.Text = objDataWork_VideoQuelle.OItem_Sender.Name;
                 }
 
+                
+            }
+
+            if (objOItem_VideoQuelle != null)
+            {
+                button_AddAutor.Enabled = true;
+                button_AddSender.Enabled = true;
+                button_AddSendung.Enabled = true;
+                objUserControl_InternetQuelle.Enabled = true;
+                objUserControl_SingleViewer.Enabled = true;
+
+                if (checkBox_Ausstrahlung.Checked)
+                {
+                    dateTimePicker_Ausstrahlungsdatum.Enabled = true;
+                }
                 
             }
         }
@@ -122,6 +167,8 @@ namespace LiteraturQuellen_Module
             button_AddAutor.Enabled = false;
             button_AddSender.Enabled = false;
             button_AddSendung.Enabled = false;
+            checkBox_Ausstrahlung.Enabled = false;
+            checkBox_Ausstrahlung.Checked = false;
             textBox_Autor.Text = "";
             textBox_Sender.Text = "";
             textBox_Sendung.Text = "";
@@ -379,6 +426,137 @@ namespace LiteraturQuellen_Module
                 {
                     MessageBox.Show(this, "Bitte nur eine InternetQuelle auswählen auswählen!", "Sender wählen", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+            }
+        }
+
+        private void dateTimePicker_Ausstrahlungsdatum_ValueChanged(object sender, EventArgs e)
+        {
+            if (dateTimePicker_Ausstrahlungsdatum.Enabled && checkBox_Ausstrahlung.Checked)
+            {
+                SaveAusstrahlungsdatum();
+            }
+        }
+
+        private clsOntologyItem SaveAusstrahlungsdatum()
+        {
+            var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+            if (objDataWork_VideoQuelle.OItem_Ausstrahlung == null)
+            {
+                objDataWork_VideoQuelle.OItem_Ausstrahlung = new clsOntologyItem
+                {
+                    GUID = objLocalConfig.Globals.NewGUID,
+                    Name = objOItem_VideoQuelle.Name,
+                    GUID_Parent = objLocalConfig.OItem_type_ausstrahlung.GUID,
+                    Type = objLocalConfig.Globals.Type_Object
+                };
+
+                objOItem_Result = objTransaction.do_Transaction(objDataWork_VideoQuelle.OItem_Ausstrahlung);
+
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    objDataWork_VideoQuelle.OAItem_AusstrahlungsDatum = objRelationConfig.Rel_ObjectAttribute(objDataWork_VideoQuelle.OItem_Ausstrahlung, objLocalConfig.OItem_attribute_datetimestamp, dateTimePicker_Ausstrahlungsdatum.Value);
+                    objOItem_Result = objTransaction.do_Transaction(objDataWork_VideoQuelle.OAItem_AusstrahlungsDatum);
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        var objORel_Quelle_To_Ausstrahlung = objRelationConfig.Rel_ObjectRelation(objOItem_VideoQuelle, objDataWork_VideoQuelle.OItem_Ausstrahlung, objLocalConfig.OItem_relationtype_broadcasted_by);
+                        objOItem_Result = objTransaction.do_Transaction(objORel_Quelle_To_Ausstrahlung);
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                        {
+                            objTransaction.rollback();
+                            MessageBox.Show(this, "Die Ausstrahlung konnte nicht gespeichert werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            checkBox_Ausstrahlung.Enabled = true;
+                            checkBox_Ausstrahlung.Checked = false;
+                            dateTimePicker_Ausstrahlungsdatum.Enabled = false;
+                            objDataWork_VideoQuelle.OItem_Ausstrahlung = null;
+                        }
+                    }
+                    else
+                    {
+                        objTransaction.rollback();
+                        MessageBox.Show(this, "Die Ausstrahlung konnte nicht gespeichert werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        checkBox_Ausstrahlung.Enabled = true;
+                        checkBox_Ausstrahlung.Checked = false;
+                        dateTimePicker_Ausstrahlungsdatum.Enabled = false;
+                        objDataWork_VideoQuelle.OItem_Ausstrahlung = null;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(this, "Die Ausstrahlung konnte nicht gespeichert werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    checkBox_Ausstrahlung.Enabled = true;
+                    checkBox_Ausstrahlung.Checked = false;
+                    dateTimePicker_Ausstrahlungsdatum.Enabled = false;
+                    objDataWork_VideoQuelle.OItem_Ausstrahlung = null;
+                }
+            }
+
+            return objOItem_Result;
+        }
+
+        private clsOntologyItem RemoveAusstrahlung()
+        {
+            var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+            objTransaction.ClearItems();
+
+            if (objDataWork_VideoQuelle.OAItem_AusstrahlungsDatum != null)
+            {
+                objOItem_Result = objTransaction.do_Transaction(objDataWork_VideoQuelle.OAItem_AusstrahlungsDatum, false, true);
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    var objORel_Quelle_To_Ausstrahlung = objRelationConfig.Rel_ObjectRelation(objOItem_VideoQuelle, objDataWork_VideoQuelle.OItem_Ausstrahlung, objLocalConfig.OItem_relationtype_broadcasted_by);
+                    objOItem_Result = objTransaction.do_Transaction(objORel_Quelle_To_Ausstrahlung, false, true);
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        objOItem_Result = objTransaction.do_Transaction(objDataWork_VideoQuelle.OItem_Ausstrahlung, false, true);
+                        if (objOItem_Result.GUID != objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            MessageBox.Show(this, "Die Ausstrahlung konnte nicht entfernt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, "Die Ausstrahlung konnte nicht entfernt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(this, "Die Ausstrahlung konnte nicht entfernt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+
+            }
+
+            return objOItem_Result;
+        }
+
+        private void checkBox_Ausstrahlung_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkBox_Ausstrahlung.Enabled)
+            {
+                if (checkBox_Ausstrahlung.Checked)
+                {
+                    var objOItem_Result = SaveAusstrahlungsdatum();
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                    {
+                        checkBox_Ausstrahlung.Enabled = false;
+                        checkBox_Ausstrahlung.Checked = false;
+
+                        dateTimePicker_Ausstrahlungsdatum.Enabled = false;
+                    }
+                }
+                else
+                {
+                    var objOItem_Result = RemoveAusstrahlung();
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                    {
+                        checkBox_Ausstrahlung.Enabled = false;
+                        checkBox_Ausstrahlung.Checked = true;
+
+                        dateTimePicker_Ausstrahlungsdatum.Enabled = false;
+                    }
+                }
+                
             }
         }
     }
