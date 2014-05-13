@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Class">
+  <Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
+<Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
+<Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
+<Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="d7a03a35875142b48e0519fc7a77ee91" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Server]]></Item>
+<Item Id="8b4ca73277604b179df53985f5f4413b" Id_Parent="4854de3f99b346ef89ddb7a026001e1a"><![CDATA[IP-Address-Test]]></Item>
+<Item Id="4854de3f99b346ef89ddb7a026001e1a" Id_Parent="ba687f94b39b4407bbfe870ba3605a0c"><![CDATA[IP-Address]]></Item>
+<Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
+<Item Id="ba687f94b39b4407bbfe870ba3605a0c" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Infrastructure-Management]]></Item>
+<Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
+
+</Items>

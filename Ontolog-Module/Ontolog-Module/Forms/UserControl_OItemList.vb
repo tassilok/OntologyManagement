@@ -15,6 +15,7 @@ Public Class UserControl_OItemList
     Private objFrm_AttributeTypeEdit As frm_AttributeTypeEdit
     Private objFrm_Clipboard As frmClipboard
     Private objFrm_Replace As frmReplace
+    Private objFrm_RelationFilter As frmRelationFilter
 
     Private objTransaction_Objects As clsTransaction_Objects
     Private objTransaction_RelationTypes As clsTransaction_RelationTypes
@@ -1836,10 +1837,14 @@ Public Class UserControl_OItemList
         DuplicateItemToolStripMenuItem.Enabled = False
         ChangeOrderIDsToolStripMenuItem.Enabled = False
         MoveObjectsToolStripMenuItem.Enabled = False
+        RelateToItemByNameToolStripMenuItem.Enabled = False
 
         If DataGridView_Items.SelectedRows.Count > 0 Then
             If boolApplyable = True Then
                 ApplyToolStripMenuItem.Enabled = True
+            End If
+            If strType = objLocalConfig.Globals.Type_Object Then
+                RelateToItemByNameToolStripMenuItem.Enabled = True
             End If
             If DataGridView_Items.SelectedRows.Count = 1 Then
                 If Not objOItem_Parent Is Nothing Then
@@ -2629,6 +2634,83 @@ Public Class UserControl_OItemList
 
             Else
                 MsgBox("Bitte wählen Sie eine Klasse aus!", MsgBoxStyle.OkOnly)
+            End If
+        End If
+    End Sub
+
+    Private Sub RelateToItemByNameToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles RelateToItemByNameToolStripMenuItem.Click
+        Dim objDGVR As DataGridViewRow = DataGridView_Items.SelectedRows(0)
+        Dim objDRV as DataRowView = objDGVR.DataBoundItem
+
+        Dim objOItem_Object = new clsOntologyItem With {.GUID = objDRV.Item("ID_Parent"), _
+                                                        .Type = objLocalConfig.Globals.Type_Class }
+
+        objFrm_RelationFilter = new frmRelationFilter(objLocalConfig, objOItem_Object)
+        objFrm_RelationFilter.ShowDialog(Me)
+        If objFrm_RelationFilter.DialogResult=DialogResult.OK Then
+            Dim objORel_Objects As List(Of clsObjectRel)
+
+            If objFrm_RelationFilter.OItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                objORel_Objects = New List(Of clsObjectRel) From { new clsObjectRel With {.ID_Parent_Object = objDRV.Item("ID_Parent").ToString(), _
+                                                         .ID_RelationType = objFrm_RelationFilter.OItem_RelationType.GUID, _
+                                                         .ID_Parent_Other = objFrm_RelationFilter.OItem_Class.GUID } }
+
+                
+                
+
+            Else 
+                objORel_Objects = New List(Of clsObjectRel) From { new clsObjectRel With {.ID_Parent_Other = objDRV.Item("ID_Parent").ToString(), _
+                                                         .ID_RelationType = objFrm_RelationFilter.OItem_RelationType.GUID, _
+                                                         .ID_Parent_Object = objFrm_RelationFilter.OItem_Class.GUID } }
+            End If
+
+            Dim objOItem_Result = objDBLevel.get_Data_ObjectRel(objORel_Objects, boolIDs := False)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                Dim objOItems_Object = (From objObject As DataGridViewRow in DataGridView_Items.Rows ).Select(Function(row) new clsOntologyItem With {.GUID = CType(row.DataBoundItem,DataRowView).Item("ID_Item"), _
+                                                                                                                                                      .Name = CType(row.DataBoundItem,DataRowView).Item("Name"), _
+                                                                                                                                                      .GUID_Parent = CType(row.DataBoundItem,DataRowView).Item("ID_Parent"), _
+                                                                                                                                                      .Type = objLocalConfig.Globals.Type_Object }).ToList()
+
+                Dim objOItems_Related as List(Of clsObjectRel)
+
+                
+                If objFrm_RelationFilter.OItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                    objOItems_Related = (From objObject in objOItems_Object
+                                         Join objRelation in objDBLevel.OList_ObjectRel.Select(Function(rel) New clsOntologyItem With {.GUID = rel.ID_Other, _
+                                                                                                                                       .Name = rel.Name_Other, _
+                                                                                                                                       .GUID_Parent = rel.ID_Parent_Other, _
+                                                                                                                                       .Type = objLocalConfig.Globals.Type_Object}).ToList() on objObject.Name.ToLower() equals objRelation.Name.ToLower()
+                                         select objRelationConfig.Rel_ObjectRelation(objObject, objRelation, objFrm_RelationFilter.OItem_RelationType)).ToList()
+
+                
+                
+
+                Else 
+                    objOItems_Related = (From objObject in objOItems_Object
+                                         Join objRelation in objDBLevel.OList_ObjectRel.Select(Function(rel) New clsOntologyItem With {.GUID = rel.ID_Other, _
+                                                                                                                                       .Name = rel.Name_Other, _
+                                                                                                                                       .GUID_Parent = rel.ID_Parent_Other, _
+                                                                                                                                       .Type = objLocalConfig.Globals.Type_Object}).ToList() on objObject.Name.ToLower() equals objRelation.Name.ToLower()
+                                         select objRelationConfig.Rel_ObjectRelation(objObject, objRelation, objFrm_RelationFilter.OItem_RelationType)).ToList()
+                End If
+
+                If (objOItems_Related.Any())
+                    objOItem_Result = objDBLevel.save_ObjRel(objOItems_Related)
+                    if objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID then
+                        If objOItems_Related.Count < objOItems_Object.Count Then
+                            MsgBox("Es konnten nur " & objOItems_Related.Count & " von " & objOItems_Object.Count & " Beziehungen hergestellt werden!", MsgBoxStyle.Information)
+                        Else 
+                            MsgBox("Alle Beziehungen wurden hergestellt!", MsgBoxStyle.Information)
+                        End If
+                    Else 
+                        MsgBox("Es konnten keine Beziehungen hergestellt werden!",MsgBoxStyle.Exclamation)
+                    End If
+                Else 
+                    MsgBox("Es wurden keine Beziehungen hergestellt!",MsgBoxStyle.Information)
+                End If
+            Else 
+                MsgBox("Die Liste der Objekte konnte nicht ermittelt werden!",MsgBoxStyle.Exclamation)
             End If
         End If
     End Sub

@@ -43,6 +43,9 @@
     <StartupObject>Change_Module.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClassLibrary_ShellWork">
+      <HintPath>..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\bin\Debug\ClassLibrary_ShellWork.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
