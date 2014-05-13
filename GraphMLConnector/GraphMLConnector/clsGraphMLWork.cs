@@ -12,7 +12,7 @@ using OntologyClasses.BaseClasses;
 
 namespace GraphMLConnector
 {
-    class clsGraphMLWork
+    public class clsGraphMLWork
     {
         private clsLocalConfig objLocalConfig;
         private clsXMLTemplateWork objXMLTemplateWork;
@@ -37,6 +37,14 @@ namespace GraphMLConnector
         public clsGraphMLWork(clsLocalConfig localConfig)
         {
             objLocalConfig = localConfig;
+
+            set_DBConnection();
+            initialize();
+        }
+
+        public clsGraphMLWork(clsGlobals Globals)
+        {
+            objLocalConfig = new clsLocalConfig(Globals);
 
             set_DBConnection();
             initialize();
@@ -364,6 +372,51 @@ namespace GraphMLConnector
                 objTextWriter.WriteLine(NodeXML);
             }
 
+            var objRelNodes = (from objRelType in OList_RelationTypes
+                               join objORel in OList_ORels on objRelType.GUID equals objORel.ID_Other
+                               select objRelType).ToList();
+
+            foreach (var oItem_Rel in objRelNodes)
+            {
+                NodeXML = objXMLTemplateWork.UML_ClassNode;
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@", oItem_Rel.GUID);
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_name_node.Name + "@", HttpUtility.HtmlEncode(oItem_Rel.Name));
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_fill.Name + "@", "#ffcc00");
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_text.Name + "@", "#000000");
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_attrib_list.Name + "@", "");
+                objTextWriter.WriteLine(NodeXML);
+            }
+
+            var objAttNodes = (from objAttType in OList_AttributeTypes
+                               join objORel in OList_ORels on objAttType.GUID equals objORel.ID_Other
+                               select objAttType).ToList();
+
+            foreach (var oItem_Rel in objAttNodes)
+            {
+                NodeXML = objXMLTemplateWork.UML_ClassNode;
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@", oItem_Rel.GUID);
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_name_node.Name + "@", HttpUtility.HtmlEncode(oItem_Rel.Name));
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_fill.Name + "@", "#ffcc00");
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_text.Name + "@", "#000000");
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_attrib_list.Name + "@", "");
+                objTextWriter.WriteLine(NodeXML);
+            }
+
+            var objClassNodes = (from objClass in OList_Classes
+                                 join objORel in OList_ORels on objClass.GUID equals objORel.ID_Other
+                                 select objClass).ToList();
+
+            foreach (var oItem_Rel in objClassNodes)
+            {
+                NodeXML = objXMLTemplateWork.UML_ClassNode;
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@", oItem_Rel.GUID);
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_name_node.Name + "@", HttpUtility.HtmlEncode(oItem_Rel.Name));
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_fill.Name + "@", "#ffcc00");
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_text.Name + "@", "#000000");
+                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_attrib_list.Name + "@", "");
+                objTextWriter.WriteLine(NodeXML);
+            }
+
             foreach (var oItem_ORel in OList_ORels)
             {
                 EdgeXML = objXMLTemplateWork.UML_Edge;
@@ -379,6 +432,10 @@ namespace GraphMLConnector
 
                 objTextWriter.WriteLine(EdgeXML);
             }
+
+            
+
+
 
             objTextWriter.WriteLine(objXMLTemplateWork.UML_Container.Substring(objXMLTemplateWork.UML_Container.IndexOf("@" + objLocalConfig.OItem_object_edge_list.Name + "@") + ("@" + objLocalConfig.OItem_object_edge_list.Name + "@").Length));
             objTextWriter.Close();

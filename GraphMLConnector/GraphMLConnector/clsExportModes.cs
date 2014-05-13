@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphMLConnector
 {
-    class clsExportModes
+    public class clsExportModes
     {
 
         public string ID_Item { get; set; }

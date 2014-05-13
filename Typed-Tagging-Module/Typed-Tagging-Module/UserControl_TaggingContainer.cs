@@ -26,12 +26,22 @@ namespace Typed_Tagging_Module
 
         private frmMain objFrmOntologyEditor;
 
+        public clsOntologyItem OItem_TaggingSource
+        {
+            get { return objOItem_TaggingSource; }
+        }
+
+        public List<clsOntologyItem> Tags
+        {
+            get { return objDataWork_Tagging.OList_Tags(); }
+        }
+
         public UserControl_TaggingContainer(clsLocalConfig LocalConfig)
         {
             InitializeComponent();
 
             objLocalConfig = LocalConfig;
-
+            
             Initialize();
         }
 

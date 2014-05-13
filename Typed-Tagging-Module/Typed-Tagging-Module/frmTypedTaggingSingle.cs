@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Ontology_Module;
 using OntologyClasses.BaseClasses;
+using GraphMLConnector;
 
 namespace Typed_Tagging_Module
 {
@@ -19,6 +20,10 @@ namespace Typed_Tagging_Module
         private clsLocalConfig objLocalConfig;
 
         private clsOntologyItem objOItem_TaggingSource;
+
+        private clsDBLevel objDBLevel;
+
+        private clsGraphMLWork objGraphMLWork;
 
         public frmTypedTaggingSingle(clsGlobals Globals, clsOntologyItem OItem_User, clsOntologyItem OItem_Group, clsOntologyItem OItem_TaggingSource)
         {
@@ -40,11 +45,57 @@ namespace Typed_Tagging_Module
             toolStripContainer1.ContentPanel.Controls.Add(objUserControl_TypedTagging);
 
             objUserControl_TypedTagging.Initialize_Taging(objOItem_TaggingSource);
+
+            objGraphMLWork = new clsGraphMLWork(objLocalConfig.Globals);
+            objDBLevel = new clsDBLevel(objLocalConfig.Globals);
+
         }
 
         private void toolStripButton_Close_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void createGraphMLFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog_GraphML.ShowDialog() == DialogResult.OK)
+            {
+                var filePath = saveFileDialog_GraphML.FileName;
+
+                var oList_Tags = objUserControl_TypedTagging.Tags;
+
+                var oList_ClassesOfTags = oList_Tags.Where(t => t.Type == objLocalConfig.Globals.Type_Object).Select(t => objDBLevel.GetOItem(t.GUID_Parent, objLocalConfig.Globals.Type_Class)).ToList();
+
+                var oList_RelationTagSource_To_TagClasses = oList_ClassesOfTags.Select(tc => new clsObjectRel
+                {
+                    ID_Object = objOItem_TaggingSource.GUID,
+                    ID_Parent_Object = objOItem_TaggingSource.GUID_Parent,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belonging_tag.GUID,
+                    ID_Other = tc.GUID,
+                    ID_Parent_Other = tc.GUID_Parent,
+                    OrderID = 1,
+                    Ontology = objLocalConfig.Globals.Type_Class
+                }).ToList();
+
+                var oList_Objects = oList_Tags.Where(o => o.Type == objLocalConfig.Globals.Type_Object).ToList();
+
+                var oList_Objects_Of_Classes = oList_Objects.Select(o => new clsObjectRel
+                {
+                    ID_Object = o.GUID_Parent,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belonging_tag.GUID,
+                    ID_Other = o.GUID
+                }).ToList();
+
+                objGraphMLWork.OList_Classes = oList_ClassesOfTags;
+                objGraphMLWork.OList_Objects = oList_Objects;
+                objGraphMLWork.OList_Objects.Add(objOItem_TaggingSource);
+                objGraphMLWork.OList_ORels = oList_RelationTagSource_To_TagClasses;
+                objGraphMLWork.OList_ORels.AddRange(oList_Objects_Of_Classes);
+
+                objGraphMLWork.ExportItems(filePath);
+            }
+            
+            
         }
     }
 }

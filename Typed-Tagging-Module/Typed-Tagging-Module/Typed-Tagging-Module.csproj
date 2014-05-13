@@ -132,6 +132,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\GraphMLConnector\GraphMLConnector\GraphMLConnector.csproj">
+      <Project>{8ea4359d-0a97-4434-8c54-3571cbbf6aad}</Project>
+      <Name>GraphMLConnector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3f2f6722-c36b-420d-afe7-b21c19457208}</Project>
       <Name>Ontolog-Module</Name>

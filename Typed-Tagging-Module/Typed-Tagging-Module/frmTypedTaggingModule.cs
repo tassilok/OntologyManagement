@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Ontology_Module;
 using OntologyClasses.BaseClasses;
 using Security_Module;
+using GraphMLConnector;
 
 namespace Typed_Tagging_Module
 {
@@ -27,6 +28,11 @@ namespace Typed_Tagging_Module
 
         private frmAuthenticate objFrmAuthenticate;
 
+        private clsOntologyItem objOItem_Selected;
+
+        private clsDBLevel objDBLevel;
+        private clsGraphMLWork objGraphMLWork;
+
         public frmTypedTaggingModule()
         {
             InitializeComponent();
@@ -38,6 +44,8 @@ namespace Typed_Tagging_Module
 
         private void Initialize()
         {
+            objDBLevel = new clsDBLevel(objLocalConfig.Globals);
+            objGraphMLWork = new clsGraphMLWork(objLocalConfig.Globals);
             objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, true, frmAuthenticate.ERelateMode.User_To_Group, true);
             objFrmAuthenticate.ShowDialog(this);
             if (objFrmAuthenticate.DialogResult == DialogResult.OK)
@@ -102,12 +110,72 @@ namespace Typed_Tagging_Module
 
         void objUserControl_TagTree_Selected_Node(clsOntologyItem OItem_Selected)
         {
+            objOItem_Selected = OItem_Selected;
             objUserControl_TagSources.Initialize_TagSources(OItem_Selected);
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             Configure_Tags();
+        }
+
+        private void toolStripMenuItem_Extras_DropDownOpening(object sender, EventArgs e)
+        {
+            exportGraphMLFileToolStripMenuItem.Enabled = false;
+            if (objUserControl_TaggingContainer.OItem_TaggingSource != null)
+            {
+                exportGraphMLFileToolStripMenuItem.Enabled = true;
+            }
+        }
+
+        private void exportGraphMLFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog_GraphML.ShowDialog() == DialogResult.OK)
+            {
+                var filePath = saveFileDialog_GraphML.FileName;
+
+                var oList_Tags = objUserControl_TaggingContainer.Tags;
+
+                var oList_ClassesOfTags = (from objTag in oList_Tags.Where(t => t.Type == objLocalConfig.Globals.Type_Object).Select(t => objDBLevel.GetOItem(t.GUID_Parent, objLocalConfig.Globals.Type_Class)).ToList()
+                                           group objTag by new { GUID = objTag.GUID, Name = objTag.Name, GUID_Parent = objTag.GUID_Parent } into objTags
+                                           select new clsOntologyItem
+                                           {
+                                               GUID = objTags.Key.GUID,
+                                               Name = objTags.Key.Name,
+                                               GUID_Parent = objTags.Key.GUID_Parent,
+                                               Type = objLocalConfig.Globals.Type_Class
+                                           }).ToList();
+
+                var oList_RelationTagSource_To_TagClasses = oList_ClassesOfTags.Select(tc => new clsObjectRel
+                {
+                    ID_Object = objUserControl_TaggingContainer.OItem_TaggingSource.GUID,
+                    ID_Parent_Object = objUserControl_TaggingContainer.OItem_TaggingSource.GUID_Parent,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belonging_tag.GUID,
+                    ID_Other = tc.GUID,
+                    ID_Parent_Other = tc.GUID_Parent,
+                    OrderID = 1,
+                    Ontology = objLocalConfig.Globals.Type_Class
+                }).ToList();
+
+                
+
+                var oList_Objects = oList_Tags.Where(o => o.Type == objLocalConfig.Globals.Type_Object).ToList();
+
+                var oList_Objects_Of_Classes = oList_Objects.Select(o => new clsObjectRel
+                {
+                    ID_Object = o.GUID_Parent,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belonging_tag.GUID,
+                    ID_Other = o.GUID
+                }).ToList();
+
+                objGraphMLWork.OList_Classes = oList_ClassesOfTags;
+                objGraphMLWork.OList_Objects = oList_Objects;
+                objGraphMLWork.OList_ORels = oList_RelationTagSource_To_TagClasses;
+                objGraphMLWork.OList_ORels.AddRange(oList_Objects_Of_Classes);
+                objGraphMLWork.OList_Objects.Add(objUserControl_TaggingContainer.OItem_TaggingSource);
+                objGraphMLWork.ExportItems(filePath);
+            }
+            
         }
     }
 }
