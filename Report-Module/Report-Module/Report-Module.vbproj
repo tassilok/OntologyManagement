@@ -195,6 +195,8 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\edit-find-replace.png" />
+    <None Include="Resources\cahiers_de_labo.png" />
     <None Include="Report-Module_TemporaryKey.pfx" />
     <None Include="Resources\it-word-icon.png" />
     <None Include="Resources\it-word-icon Open Doc.png" />
@@ -229,6 +231,14 @@
     <ProjectReference Include="..\..\Filesystem-Module\Filesystem-Module\Filesystem-Module.vbproj">
       <Project>{f31c8a5a-bb2b-474e-bc1f-a14e805ea2e9}</Project>
       <Name>Filesystem-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GraphMLConnector\GraphMLConnector\GraphMLConnector.csproj">
+      <Project>{8ea4359d-0a97-4434-8c54-3571cbbf6aad}</Project>
+      <Name>GraphMLConnector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Localization-Module\Localization-Module\Localization-Module.csproj">
+      <Project>{ecd780fd-c4cc-47ac-8e08-7c6a226f28e0}</Project>
+      <Name>Localization-Module</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Log-Module\Log-Module\Log-Module.vbproj">
       <Project>{666536bd-fd4a-4bdf-a5bc-572e07d4e27a}</Project>

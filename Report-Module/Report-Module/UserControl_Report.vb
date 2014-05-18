@@ -7,6 +7,8 @@ Imports Security_Module
 Imports Log_Module
 Imports Office_Module
 Imports Typed_Tagging_Module
+Imports GraphMLConnector
+Imports Localization_Module
 
 Public Class UserControl_Report
     Private frmObjectEdit As frm_ObjectEdit
@@ -40,6 +42,8 @@ Public Class UserControl_Report
     Private objFrmLogEntry As frmLogModule
     Private objFrmMediaViewerModule As frmMediaViewerModule
     Private objFrmDocumentEdit As Office_Module.frmDocumentEdit
+    Private objGraphMLWork As clsGraphMLWork
+    Private objFrmLocalizingModuleSingle As frmLocalizingModuleSingle
 
     Private objFrmTagging As frmTypedTaggingSingle
 
@@ -54,6 +58,10 @@ Public Class UserControl_Report
     Private objDataWork_ReportTree As clsDataWork_ReportTree
     Private objDataWork_Report As clsDataWork_Report
     Private objDataWork_ReportFields As clsDataWork_ReportFields
+
+    Private objDBLevel_GraphML_Objects As clsDBLevel
+    Private objDBLevel_GraphML_ObjRel As clsDBLevel
+    Private objDBLevel_GraphML_ObjAtt As clsDBLevel
 
     Private objThread_Sync As Threading.Thread
 
@@ -156,10 +164,15 @@ Public Class UserControl_Report
         objDataTable = New DataTable
         objDataSet = New DataSet
         objOItem_Report = oItem_Report
+
+
+
         If objOItem_Report Is Nothing Then
+            ToolStripButton_CreateGraphML.Enabled = False
             objDataTable.Clear()
             BindingSource_Reports.DataSource = Nothing
         Else
+            ToolStripButton_CreateGraphML.Enabled = True
             boolSynced = False
             Try
                 objThread_Sync.Abort()
@@ -171,9 +184,197 @@ Public Class UserControl_Report
             objThread_Sync = New Threading.Thread(AddressOf sync_DBs)
             objThread_Sync.Start()
             Timer_Sync.Start()
-
+            ToolStripButton_CreateGraphML.Enabled = True
             get_Data()
         End If
+    End Sub
+
+    Private Sub Create_GraphML()
+        Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_Selected As clsOntologyItem
+        Dim objOntJoin As clsObjectRel
+        Dim oList_AttributeTypes As New List(Of clsOntologyItem)
+        Dim oList_Classes As New List(Of clsOntologyItem)
+        Dim oList_ClassRel As New List(Of clsClassRel)
+        Dim objOItem_Class As clsOntologyItem
+        Dim objOItem_AttType As clsOntologyItem
+        Dim strFilePath As String
+
+        objOItem_Result = objOntologyWork.get_OntologyJoins(objOItem_Report)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+            If SaveFileDialog_GraphML.ShowDialog(Me) = DialogResult.OK Then
+                strFilePath = SaveFileDialog_GraphML.FileName
+
+                objGraphMLWork.ClearLists()
+
+                For Each objOntJoin In objOntologyWork.OList_JOin
+
+                    Dim LCount = From OClass In oList_Classes
+                                 Where OClass.GUID = objOntJoin.ID_Parent_Object
+
+                    If LCount.Count = 0 Then
+                        oList_Classes.Add(New clsOntologyItem(objOntJoin.ID_Parent_Object, _
+                                                          objOntJoin.Name_Parent_Object, _
+                                                          objLocalConfig.Globals.Type_Class))
+                    End If
+
+
+                    If objOntJoin.Ontology = objLocalConfig.Globals.Type_ClassRel Then
+                        Dim LCount2 = From OClass In oList_Classes
+                                      Where OClass.GUID = objOntJoin.ID_Parent_Other
+
+                        If LCount2.Count = 0 Then
+                            oList_Classes.Add(New clsOntologyItem(objOntJoin.ID_Parent_Other, _
+                                                          objOntJoin.Name_Parent_Other, _
+                                                          objLocalConfig.Globals.Type_Class))
+                        End If
+
+                        oList_ClassRel.Add(New clsClassRel(objOntJoin.ID_Parent_Object, _
+                                                           objOntJoin.Name_Parent_Object, _
+                                                           objOntJoin.ID_Parent_Other, _
+                                                           objOntJoin.Name_Parent_Other, _
+                                                           objOntJoin.ID_RelationType, _
+                                                           objOntJoin.Name_RelationType, _
+                                                           Nothing, _
+                                                           Nothing, _
+                                                           Nothing, _
+                                                           Nothing))
+                    Else
+                        Dim LCount2 = From OClass In oList_Classes
+                                      Where OClass.GUID = objOntJoin.ID_Parent_Other
+
+                        If LCount2.Count = 0 Then
+                            oList_Classes.Add(New clsOntologyItem(objOntJoin.ID_Parent_Other, _
+                                                          objOntJoin.Name_Parent_Other, _
+                                                          objLocalConfig.Globals.Type_Class))
+                        End If
+
+
+                       
+
+                        objOItem_AttType = New clsOntologyItem(objOntJoin.ID_Other, _
+                                                               objOntJoin.Name_Other, _
+                                                               objLocalConfig.Globals.Type_Other_AttType)
+
+                        oList_AttributeTypes.Add(objOItem_AttType)
+
+                    End If
+
+
+                Next
+
+                Dim objOList_ObjectSearch = oList_Classes.Select(Function(c) New clsOntologyItem With {.GUID_Parent = c.GUID, _
+                                                                                                       .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+                Dim objOList_ObjRelSearch = oList_Classes.Select(Function(c) New clsObjectRel With {.ID_Parent_Object = c.GUID}).ToList()
+                objOList_ObjRelSearch.AddRange(oList_Classes.Select(Function(c) New clsObjectRel With {.ID_Parent_Other = c.GUID}))
+                Dim objOList_ObjAttSearch = oList_Classes.Select(Function(c) New clsObjectAtt With {.ID_Class = c.GUID}).ToList()
+
+                objOItem_Result = objDBLevel_GraphML_ObjRel.get_Data_ObjectRel(objOList_ObjRelSearch, boolIDs:=False)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    Dim objOList_ORel = (From objObjRel In objDBLevel_GraphML_ObjRel.OList_ObjectRel
+                                                Join objClassRelLeft In oList_ClassRel On objObjRel.ID_Parent_Object Equals objClassRelLeft.ID_Class_Left
+                                                Join objClassRelRight In oList_ClassRel On objObjRel.ID_Parent_Other Equals objClassRelRight.ID_Class_Right
+                                                Join objClassRelRel In oList_ClassRel On objObjRel.ID_RelationType Equals objClassRelRel.ID_RelationType
+                                                Group By objObjRel.ID_Object, objObjRel.Name_Object, objObjRel.ID_Parent_Object, objObjRel.ID_Other, objObjRel.Name_Other, objObjRel.ID_Parent_Other, objObjRel.ID_RelationType, objObjRel.Name_RelationType Into objObjRels = Group
+                                                Select New clsObjectRel With {.ID_Object = ID_Object, _
+                                                                              .Name_Object = Name_Object, _
+                                                                              .ID_Parent_Object = ID_Parent_Object, _
+                                                                              .ID_Other = ID_Other, _
+                                                                              .Name_Other = Name_Other, _
+                                                                              .ID_Parent_Other = ID_Parent_Other, _
+                                                                              .ID_RelationType = ID_RelationType, _
+                                                                              .Name_RelationType = Name_RelationType}).ToList()
+                    Dim objOList_OtherRelationTypes = (From objObjRel In objOList_ORel.Where(Function(ore) ore.Ontology = objLocalConfig.Globals.Type_RelationType).ToList()
+                                                  Group By objObjRel.ID_Other, objObjRel.Name_Other Into Group = Group
+                                                  Select New clsOntologyItem With {.GUID = ID_Other,
+                                                                                   .Name = Name_Other,
+                                                                                   .Type = objLocalConfig.Globals.Type_RelationType}).ToList()
+
+                    Dim objOList_OtherAttributeTypes = (From objObjRel In objOList_ORel.Where(Function(ore) ore.Ontology = objLocalConfig.Globals.Type_AttributeType).ToList()
+                                                  Group By objObjRel.ID_Other, objObjRel.Name_Other, objObjRel.ID_Parent_Other Into Group = Group
+                                                  Select New clsOntologyItem With {.GUID = ID_Other,
+                                                                                   .Name = Name_Other,
+                                                                                   .GUID_Parent = ID_Parent_Other,
+                                                                                   .Type = objLocalConfig.Globals.Type_AttributeType}).ToList()
+
+                    Dim objOListOther_Classes = (From objObjRel In objOList_ORel.Where(Function(ore) ore.Ontology = objLocalConfig.Globals.Type_Class).ToList()
+                                                  Group By objObjRel.ID_Other, objObjRel.Name_Other, objObjRel.ID_Parent_Other Into Group = Group
+                                                  Select New clsOntologyItem With {.GUID = ID_Other,
+                                                                                   .Name = Name_Other,
+                                                                                   .GUID_Parent = ID_Parent_Other,
+                                                                                   .Type = objLocalConfig.Globals.Type_Class}).ToList()
+
+                    
+
+
+                    Dim objOList_Objects = (From objORel In objOList_ORel
+                                           Group By objORel.ID_Object, objORel.Name_Object, objORel.ID_Parent_Object Into objRels = Group
+                                           Select New clsOntologyItem With {.GUID = ID_Object, _
+                                                                            .Name = Name_Object, _
+                                                                            .GUID_Parent = ID_Parent_Object, _
+                                                                            .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+                    Dim objOList_NewObjects = (From objORel In objOList_ORel
+                                              Group By objORel.ID_Other, objORel.Name_Other, objORel.ID_Parent_Other Into objRels = Group
+                                              Group Join objObject In objOList_Objects On objObject.GUID Equals ID_Other Into objObjects = Group
+                                              From objObject In objObjects.DefaultIfEmpty()
+                                              Where objObject Is Nothing
+                                              Select New clsOntologyItem With {.GUID = ID_Other, _
+                                                                            .Name = Name_Other, _
+                                                                            .GUID_Parent = ID_Parent_Other, _
+                                                                            .Type = objLocalConfig.Globals.Type_Object})
+
+                    objOList_Objects.AddRange(objOList_NewObjects)
+
+                    objOList_Objects.AddRange(objOListOther_Classes)
+                    objOList_Objects.AddRange(objOList_OtherAttributeTypes)
+                    objOList_Objects.AddRange(objOList_OtherRelationTypes)
+
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objOItem_Result = objDBLevel_GraphML_ObjAtt.get_Data_ObjectAtt(objOList_ObjAttSearch, boolIDs:=False)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            Dim objOList_ObjAtt = (From objObject In objOList_Objects
+                                                   Join objObjAtt In objDBLevel_GraphML_ObjAtt.OList_ObjectAtt On objObject.GUID Equals objObjAtt.ID_Object
+                                                   Join objAttType In oList_AttributeTypes On objObjAtt.ID_AttributeType Equals objAttType.GUID
+                                                   Select objObjAtt).ToList()
+                            objGraphMLWork.OList_Classes = oList_Classes
+                            objGraphMLWork.OList_ClassRel = oList_ClassRel
+
+                            objGraphMLWork.OList_OAtts = objOList_ObjAtt
+                            objGraphMLWork.OList_Objects = objOList_Objects
+                            objGraphMLWork.OList_ORels = objOList_ORel
+
+                            objOItem_Result = objGraphMLWork.ExportItems(strFilePath,
+                                                                        doClassAtt:=False,
+                                                                        doClassRel:=False,
+                                                                        doAttributeTypes:=False,
+                                                                        doRelationTypes:=False)
+
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    MsgBox("Die GraphML-Datei wurde exportiert.", MsgBoxStyle.Information)
+                                Else
+                                    MsgBox("Die GraphML-Datei konnte nicht exportiert werden.", MsgBoxStyle.Exclamation)
+                                End If
+                        End If
+                    Else
+
+                    End If
+                Else
+
+                End If
+
+                
+            End If
+
+            
+
+
+        Else
+            MsgBox("Die GraphML-Datei konnte nicht erzeugt werden!", MsgBoxStyle.Exclamation)
+        End If
+
     End Sub
 
     Private Sub sync_DBs()
@@ -313,6 +514,10 @@ Public Class UserControl_Report
     End Sub
 
     Private Sub set_DBConnection()
+        objDBLevel_GraphML_Objects = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_GraphML_ObjAtt = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_GraphML_ObjRel = New clsDBLevel(objLocalConfig.Globals)
+        objGraphMLWork = New clsGraphMLWork(objLocalConfig.Globals)
         objDataWork_ReportTree = New clsDataWork_ReportTree(objLocalConfig)
         objDataWork_ReportFields = New clsDataWork_ReportFields(objLocalConfig)
         objOntologyWork = New clsOntologyWork(objLocalConfig.Globals)
@@ -682,6 +887,7 @@ Public Class UserControl_Report
 
         ToolStripButtond_OpenWord_Existing.Enabled = False
         ToolStripButton_OpenWordMenu.Enabled = True
+        ToolStripButton_Localized.Enabled = False
 
         ToolStripButton_OpenImage.ToolTipText = ""
         ToolStripButton_OpenMedia.ToolTipText = ""
@@ -730,7 +936,7 @@ Public Class UserControl_Report
                             objOItem_Object = objDataWork_ReportFields.GetOntologyItem(objGUID_Item)
 
                             If Not objOItem_Object.GUID = objLocalConfig.Globals.LState_Success.GUID And Not objOItem_Object.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
-
+                                ToolStripButton_Localized.Enabled = True
                                 Dim objOItem_Result = objMediaItem.has_Images(objOItem_Object)
                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID And objOItem_Result.Count > 0 Then
                                     ToolStripButton_OpenImage.Enabled = True
@@ -1340,5 +1546,14 @@ Public Class UserControl_Report
             MsgBox("Benutzer und Gruppe konnten nicht festgelegt werden!", MsgBoxStyle.Exclamation)
         End If
 
+    End Sub
+
+    Private Sub ToolStripButton_CreateGraphML_Click(sender As Object, e As EventArgs) Handles ToolStripButton_CreateGraphML.Click
+        Create_GraphML()
+    End Sub
+
+    Private Sub ToolStripButton_Localized_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Localized.Click
+        objFrmLocalizingModuleSingle = New frmLocalizingModuleSingle(objLocalConfig.Globals, objOItem_Object)
+        objFrmLocalizingModuleSingle.Show()
     End Sub
 End Class

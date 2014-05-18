@@ -276,182 +276,256 @@ namespace GraphMLConnector
         }
 
 
-        public clsOntologyItem ExportItems(string path)
+        public clsOntologyItem ExportItems(string path, 
+            bool doClasses = true, 
+            bool doClassRel = true, 
+            bool doClassAtt = true,
+            bool doObjects = true, 
+            bool doObjAtt = true, 
+            bool doObjRel = true,
+            bool doRelationTypes = true,
+            bool doAttributeTypes = true)
         {
             var objOItem_Result = new clsOntologyItem();
             string NodeXML;
             string EdgeXML;
 
-            if (!Directory.Exists(path.Substring(0,path.Length - Path.GetFileName(path).Length)))
+            try
             {
-                Directory.CreateDirectory(path.Substring(0,path.Length - Path.GetFileName(path).Length));
-            }
-
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-            }
-
-            TextWriter objTextWriter = new StreamWriter(path);
-            objTextWriter.WriteLine(objXMLTemplateWork.UML_Container.Substring(0, objXMLTemplateWork.UML_Container.IndexOf("@" + objLocalConfig.OItem_object_node_list.Name + "@") - 1));
-
-            foreach (var oItem_Class in OList_Classes)
-            {
-                NodeXML = objXMLTemplateWork.UML_ClassNode;
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@", oItem_Class.GUID);
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_name_node.Name + "@", HttpUtility.HtmlEncode(oItem_Class.Name));
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_fill.Name + "@", "#003300");
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_text.Name + "@", "#ffffff");
-               
-                var ClassAtt = "";
-                var OList_ClassAtts = from objOClass in OList_ClassAtt
-                                      where objOClass.ID_Class == oItem_Class.GUID
-                                      select new {Caption = objOClass.Name_AttributeType + ": " + objOClass.Name_DataType};
-
-                foreach (var oItem_ClassAtt in OList_ClassAtts)
+                if (!Directory.Exists(path.Substring(0,path.Length - Path.GetFileName(path).Length)))
                 {
-                    if (ClassAtt != "")
-                    {
-                        ClassAtt += "\n";
-                    }
-                    ClassAtt += HttpUtility.HtmlEncode(oItem_ClassAtt.Caption);
+                    Directory.CreateDirectory(path.Substring(0,path.Length - Path.GetFileName(path).Length));
                 }
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_attrib_list.Name + "@", ClassAtt);
 
-                objTextWriter.WriteLine(NodeXML);
-            }
-
-            foreach (var oItem_ClassRel in OList_ClassRel)
-            {
-                EdgeXML = objXMLTemplateWork.UML_Edge;
-                EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@",
-                                          oItem_ClassRel.ID_Class_Left + oItem_ClassRel.ID_Class_Right +
-                                          oItem_ClassRel.ID_RelationType);
-                EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_id_left.Name + "@",
-                                          oItem_ClassRel.ID_Class_Left);
-                EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_id_right.Name + "@",
-                                          oItem_ClassRel.ID_Class_Right);
-                EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_name_relationtype.Name + "@",
-                                          HttpUtility.HtmlEncode(oItem_ClassRel.Name_RelationType));
-
-                objTextWriter.WriteLine(EdgeXML);
-            }
-
-            foreach (var oItem_Object in OList_Objects)
-            {
-                NodeXML = objXMLTemplateWork.UML_ClassNode;
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@", oItem_Object.GUID);
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_name_node.Name + "@", HttpUtility.HtmlEncode(oItem_Object.Name));
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_fill.Name + "@", "#ffcc00");
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_text.Name + "@", "#000000");
-
-                var ObjAtt = "";
-
-                var OList_ObjAtts = from objOAtt in OList_OAtts
-                                    where objOAtt.ID_Object == oItem_Object.GUID
-                                    select
-                                        new
-                                            {
-                                                Caption =
-                                        objOAtt.Name_AttributeType + ": " +
-                                        (objOAtt.Val_Named.Length > 20
-                                             ? objOAtt.Val_Named.Substring(0, 20)
-                                             : objOAtt.Val_Named)
-                                            };
-
-                foreach (var objOAtt in OList_ObjAtts)
+                if (File.Exists(path))
                 {
-                    if (ObjAtt != "")
-                    {
-                        ObjAtt += "\n";
-                    }
-                    ObjAtt += HttpUtility.HtmlEncode(objOAtt.Caption);
+                    File.Delete(path);
                 }
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_attrib_list.Name + "@", ObjAtt);
-
-                objTextWriter.WriteLine(NodeXML);
-            }
-
-            var objRelNodes = (from objRelType in OList_RelationTypes
-                               join objORel in OList_ORels on objRelType.GUID equals objORel.ID_Other
-                               select objRelType).ToList();
-
-            foreach (var oItem_Rel in objRelNodes)
-            {
-                NodeXML = objXMLTemplateWork.UML_ClassNode;
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@", oItem_Rel.GUID);
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_name_node.Name + "@", HttpUtility.HtmlEncode(oItem_Rel.Name));
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_fill.Name + "@", "#ffcc00");
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_text.Name + "@", "#000000");
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_attrib_list.Name + "@", "");
-                objTextWriter.WriteLine(NodeXML);
-            }
-
-            var objAttNodes = (from objAttType in OList_AttributeTypes
-                               join objORel in OList_ORels on objAttType.GUID equals objORel.ID_Other
-                               select objAttType).ToList();
-
-            foreach (var oItem_Rel in objAttNodes)
-            {
-                NodeXML = objXMLTemplateWork.UML_ClassNode;
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@", oItem_Rel.GUID);
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_name_node.Name + "@", HttpUtility.HtmlEncode(oItem_Rel.Name));
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_fill.Name + "@", "#ffcc00");
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_text.Name + "@", "#000000");
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_attrib_list.Name + "@", "");
-                objTextWriter.WriteLine(NodeXML);
-            }
-
-            var objClassNodes = (from objClass in OList_Classes
-                                 join objORel in OList_ORels on objClass.GUID equals objORel.ID_Other
-                                 select objClass).ToList();
-
-            foreach (var oItem_Rel in objClassNodes)
-            {
-                NodeXML = objXMLTemplateWork.UML_ClassNode;
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@", oItem_Rel.GUID);
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_name_node.Name + "@", HttpUtility.HtmlEncode(oItem_Rel.Name));
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_fill.Name + "@", "#ffcc00");
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_text.Name + "@", "#000000");
-                NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_attrib_list.Name + "@", "");
-                objTextWriter.WriteLine(NodeXML);
-            }
-
-            foreach (var oItem_ORel in OList_ORels)
-            {
-                EdgeXML = objXMLTemplateWork.UML_Edge;
-                EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@",
-                                          oItem_ORel.ID_Object + oItem_ORel.ID_Other +
-                                          oItem_ORel.ID_RelationType);
-                EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_id_left.Name + "@",
-                                          oItem_ORel.ID_Object);
-                EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_id_right.Name + "@",
-                                          oItem_ORel.ID_Other);
-                EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_name_relationtype.Name + "@",
-                                          HttpUtility.HtmlEncode(oItem_ORel.Name_RelationType));
-
-                objTextWriter.WriteLine(EdgeXML);
-            }
 
             
+                TextWriter objTextWriter = new StreamWriter(path);
+                objTextWriter.WriteLine(objXMLTemplateWork.UML_Container.Substring(0, objXMLTemplateWork.UML_Container.IndexOf("@" + objLocalConfig.OItem_object_node_list.Name + "@") - 1));
 
-
-
-            objTextWriter.WriteLine(objXMLTemplateWork.UML_Container.Substring(objXMLTemplateWork.UML_Container.IndexOf("@" + objLocalConfig.OItem_object_edge_list.Name + "@") + ("@" + objLocalConfig.OItem_object_edge_list.Name + "@").Length));
-            objTextWriter.Close();
-
-            if (File.Exists(path))
-            {
-                if (
-                    !objShellWork.start_Process(path, "", path.Substring(0, path.Length - Path.GetFileName(path).Length),
-                                                false, false))
+                if (doClasses)
                 {
-                    objOItem_Result = objLocalConfig.Globals.LState_Error;
+                    foreach (var oItem_Class in OList_Classes)
+                    {
+                        NodeXML = objXMLTemplateWork.UML_ClassNode;
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@", oItem_Class.GUID);
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_name_node.Name + "@", HttpUtility.HtmlEncode(oItem_Class.Name));
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_fill.Name + "@", "#003300");
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_text.Name + "@", "#ffffff");
+
+                        var ClassAtt = "";
+                        var OList_ClassAtts = from objOClass in OList_ClassAtt
+                                              where objOClass.ID_Class == oItem_Class.GUID
+                                              select new { Caption = objOClass.Name_AttributeType + ": " + objOClass.Name_DataType };
+
+                        if (doClassAtt)
+                        {
+                            foreach (var oItem_ClassAtt in OList_ClassAtts)
+                            {
+                                if (ClassAtt != "")
+                                {
+                                    ClassAtt += "\n";
+                                }
+                                ClassAtt += HttpUtility.HtmlEncode(oItem_ClassAtt.Caption);
+                            }
+                            NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_attrib_list.Name + "@", ClassAtt);
+                        }
+                        else
+                        {
+                            NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_attrib_list.Name + "@", "");
+                        }
+                        
+
+                        objTextWriter.WriteLine(NodeXML);
+                    }
                 }
 
-            }
 
-            return objOItem_Result;
+                if (doClasses && doClassRel)
+                {
+                    foreach (var oItem_ClassRel in OList_ClassRel)
+                    {
+                        EdgeXML = objXMLTemplateWork.UML_Edge;
+                        EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@",
+                                                  oItem_ClassRel.ID_Class_Left + oItem_ClassRel.ID_Class_Right +
+                                                  oItem_ClassRel.ID_RelationType);
+                        EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_id_left.Name + "@",
+                                                  oItem_ClassRel.ID_Class_Left);
+                        EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_id_right.Name + "@",
+                                                  oItem_ClassRel.ID_Class_Right);
+                        EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_name_relationtype.Name + "@",
+                                                  HttpUtility.HtmlEncode(oItem_ClassRel.Name_RelationType));
+
+                        objTextWriter.WriteLine(EdgeXML);
+                    }
+                }
+
+
+                if (doObjects)
+                {
+                    foreach (var oItem_Object in OList_Objects)
+                    {
+                        NodeXML = objXMLTemplateWork.UML_ClassNode;
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@", oItem_Object.GUID);
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_name_node.Name + "@", HttpUtility.HtmlEncode(oItem_Object.Name));
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_fill.Name + "@", "#ffcc00");
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_text.Name + "@", "#000000");
+
+                        var ObjAtt = "";
+
+                        var OList_ObjAtts = from objOAtt in OList_OAtts
+                                            where objOAtt.ID_Object == oItem_Object.GUID
+                                            select
+                                                new
+                                                {
+                                                    Caption =
+                                            objOAtt.Name_AttributeType + ": " +
+                                            (objOAtt.Val_Named.Length > 20
+                                                 ? objOAtt.Val_Named.Substring(0, 20)
+                                                 : objOAtt.Val_Named)
+                                                };
+                        if (doObjAtt)
+                        {
+                            foreach (var objOAtt in OList_ObjAtts)
+                            {
+                                if (ObjAtt != "")
+                                {
+                                    ObjAtt += "\n";
+                                }
+                                ObjAtt += HttpUtility.HtmlEncode(objOAtt.Caption);
+                            }
+                            NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_attrib_list.Name + "@", ObjAtt);
+                        }
+                        else
+                        {
+                            NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_attrib_list.Name + "@", "");
+                        }
+                        
+
+                        objTextWriter.WriteLine(NodeXML);
+
+                        if (doClasses)
+                        {
+                            EdgeXML = objXMLTemplateWork.UML_Edge;
+                            EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@",
+                                                      oItem_Object.GUID + oItem_Object.GUID_Parent);
+                            EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_id_left.Name + "@",
+                                                      oItem_Object.GUID_Parent);
+                            EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_id_right.Name + "@",
+                                                      oItem_Object.GUID);
+                            EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_name_relationtype.Name + "@",
+                                                      HttpUtility.HtmlEncode("Instance"));
+
+                            objTextWriter.WriteLine(EdgeXML);
+                        }
+                        
+                    }
+                }
+
+
+                if (doRelationTypes)
+                {
+                    var objRelNodes = (from objRelType in OList_RelationTypes
+                                       join objORel in OList_ORels on objRelType.GUID equals objORel.ID_Other
+                                       select objRelType).ToList();
+
+                    foreach (var oItem_Rel in objRelNodes)
+                    {
+                        NodeXML = objXMLTemplateWork.UML_ClassNode;
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@", oItem_Rel.GUID);
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_name_node.Name + "@", HttpUtility.HtmlEncode(oItem_Rel.Name));
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_fill.Name + "@", "#ffcc00");
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_text.Name + "@", "#000000");
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_attrib_list.Name + "@", "");
+                        objTextWriter.WriteLine(NodeXML);
+                    }
+                }
+
+                if (doAttributeTypes)
+                {
+                    var objAttNodes = (from objAttType in OList_AttributeTypes
+                                       join objORel in OList_ORels on objAttType.GUID equals objORel.ID_Other
+                                       select objAttType).ToList();
+
+                    foreach (var oItem_Rel in objAttNodes)
+                    {
+                        NodeXML = objXMLTemplateWork.UML_ClassNode;
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@", oItem_Rel.GUID);
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_name_node.Name + "@", HttpUtility.HtmlEncode(oItem_Rel.Name));
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_fill.Name + "@", "#ffcc00");
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_text.Name + "@", "#000000");
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_attrib_list.Name + "@", "");
+                        objTextWriter.WriteLine(NodeXML);
+                    }
+                }
+
+
+                if (doClasses && doObjRel)
+                {
+                    var objClassNodes = (from objClass in OList_Classes
+                                         join objORel in OList_ORels on objClass.GUID equals objORel.ID_Other
+                                         select objClass).ToList();
+
+                    foreach (var oItem_Rel in objClassNodes)
+                    {
+                        NodeXML = objXMLTemplateWork.UML_ClassNode;
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@", oItem_Rel.GUID);
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_name_node.Name + "@", HttpUtility.HtmlEncode(oItem_Rel.Name));
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_fill.Name + "@", "#ffcc00");
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_color_text.Name + "@", "#000000");
+                        NodeXML = NodeXML.Replace("@" + objLocalConfig.OItem_object_attrib_list.Name + "@", "");
+                        objTextWriter.WriteLine(NodeXML);
+                    }
+                }
+
+                if (doObjRel)
+                {
+                    foreach (var oItem_ORel in OList_ORels)
+                    {
+                        EdgeXML = objXMLTemplateWork.UML_Edge;
+                        EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_id.Name + "@",
+                                                  oItem_ORel.ID_Object + oItem_ORel.ID_Other +
+                                                  oItem_ORel.ID_RelationType);
+                        EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_id_left.Name + "@",
+                                                  oItem_ORel.ID_Object);
+                        EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_id_right.Name + "@",
+                                                  oItem_ORel.ID_Other);
+                        EdgeXML = EdgeXML.Replace("@" + objLocalConfig.OItem_object_name_relationtype.Name + "@",
+                                                  HttpUtility.HtmlEncode(oItem_ORel.Name_RelationType));
+
+                        objTextWriter.WriteLine(EdgeXML);
+                    }
+                }
+                
+
+
+
+
+
+                objTextWriter.WriteLine(objXMLTemplateWork.UML_Container.Substring(objXMLTemplateWork.UML_Container.IndexOf("@" + objLocalConfig.OItem_object_edge_list.Name + "@") + ("@" + objLocalConfig.OItem_object_edge_list.Name + "@").Length));
+                objTextWriter.Close();
+
+                //if (File.Exists(path))
+                //{
+                //    if (
+                //        !objShellWork.start_Process(path, "", path.Substring(0, path.Length - Path.GetFileName(path).Length),
+                //                                    false, false))
+                //    {
+                //        objOItem_Result = objLocalConfig.Globals.LState_Error;
+                //    }
+
+                //}
+
+                return objLocalConfig.Globals.LState_Success.Clone();
+            }
+            catch (Exception e)
+            {
+                return objLocalConfig.Globals.LState_Error.Clone();
+            }
+            
         }
         private void set_DBConnection()
         {

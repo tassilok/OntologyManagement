@@ -1,4 +1,5 @@
 ﻿Imports OntologyClasses.BaseClasses
+Imports ClassLibrary_ShellWork
 
 Public Class UserControl_OItemList
     Private objLocalConfig As clsLocalConfig
@@ -16,6 +17,9 @@ Public Class UserControl_OItemList
     Private objFrm_Clipboard As frmClipboard
     Private objFrm_Replace As frmReplace
     Private objFrm_RelationFilter As frmRelationFilter
+    Private objFrm_Modules As frmModules
+
+    Private objShellWork As clsShellWork
 
     Private objTransaction_Objects As clsTransaction_Objects
     Private objTransaction_RelationTypes As clsTransaction_RelationTypes
@@ -1838,6 +1842,7 @@ Public Class UserControl_OItemList
         ChangeOrderIDsToolStripMenuItem.Enabled = False
         MoveObjectsToolStripMenuItem.Enabled = False
         RelateToItemByNameToolStripMenuItem.Enabled = False
+        OpenModuleByArgumentToolStripMenuItem.Enabled = False
 
         If DataGridView_Items.SelectedRows.Count > 0 Then
             If boolApplyable = True Then
@@ -1851,6 +1856,7 @@ Public Class UserControl_OItemList
                     If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
                         DuplicateItemToolStripMenuItem.Enabled = True
                         MoveObjectsToolStripMenuItem.Enabled = True
+                        OpenModuleByArgumentToolStripMenuItem.Enabled = True
                     End If
                 End If
 
@@ -2711,6 +2717,28 @@ Public Class UserControl_OItemList
                 End If
             Else 
                 MsgBox("Die Liste der Objekte konnte nicht ermittelt werden!",MsgBoxStyle.Exclamation)
+            End If
+        End If
+    End Sub
+
+    Private Sub OpenModuleByArgumentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenModuleByArgumentToolStripMenuItem.Click
+        Dim objDGVR As DataGridViewRow = DataGridView_Items.SelectedRows(0)
+        Dim objDRV As DataRowView = objDGVR.DataBoundItem
+
+        Dim objOItem_Object = New clsOntologyItem With {.GUID = objDRV.Item("ID_Item"), _
+                                                        .Name = objDRV.Item("Name"), _
+                                                        .GUID_Parent = objDRV.Item("ID_Parent"), _
+                                                        .Type = objLocalConfig.Globals.Type_Object}
+
+        objFrm_Modules = New frmModules(objLocalConfig.Globals)
+        objFrm_Modules.ShowDialog(Me)
+        If objFrm_Modules.DialogResult = DialogResult.OK Then
+            Dim strModule = objFrm_Modules.Selected_Module
+            If Not strModule Is Nothing Then
+                objShellWork = New clsShellWork()
+                If Not objShellWork.start_Process(strModule, "Item=" & objOItem_Object.GUID + ",Object", IO.Path.GetDirectoryName(strModule), False, False) Then
+                    MsgBox("Das Module konnte nicht gestartet werden!", MsgBoxStyle.Exclamation)
+                End If
             End If
         End If
     End Sub

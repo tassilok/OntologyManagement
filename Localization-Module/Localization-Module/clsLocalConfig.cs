@@ -28,14 +28,16 @@ namespace Localization_Module
         public clsGlobals Globals { get; set; }
 
         private clsOntologyItem objOItem_DevConfig = new clsOntologyItem();
-        public clsOntologyItem OItem_BaseConfig { get; set; }
 
         private clsDBLevel objDBLevel_Config1;
         private clsDBLevel objDBLevel_Config2;
 	
+        // AttributeTypes
 	public clsOntologyItem OItem_attribute_codepage { get; set; }
 public clsOntologyItem OItem_attribute_dbpostfix { get; set; }
 public clsOntologyItem OItem_attribute_message { get; set; }
+
+        // RelationTypes
 public clsOntologyItem OItem_relationtype_additional { get; set; }
 public clsOntologyItem OItem_relationtype_alternative_for { get; set; }
 public clsOntologyItem OItem_relationtype_belongsto { get; set; }
@@ -47,6 +49,8 @@ public clsOntologyItem OItem_relationtype_iswrittenin { get; set; }
 public clsOntologyItem OItem_relationtype_offered_by { get; set; }
 public clsOntologyItem OItem_relationtype_offers { get; set; }
 public clsOntologyItem OItem_relationtype_standard { get; set; }
+
+        // Classes
 public clsOntologyItem OItem_type_gui_caption { get; set; }
 public clsOntologyItem OItem_type_gui_entires { get; set; }
 public clsOntologyItem OItem_type_language { get; set; }
@@ -57,7 +61,12 @@ public clsOntologyItem OItem_type_module { get; set; }
 public clsOntologyItem OItem_type_softwaredevelopment { get; set; }
 public clsOntologyItem OItem_type_tooltip_messages { get; set; }
 
-  
+        // Objects
+public clsOntologyItem OItem_object_base_config { get; set; }
+
+public List<clsOntologyItem> OList_Languages { get; set; }
+public clsOntologyItem OItem_StandardLanguage { get; set; }
+
 	
 private void get_Data_DevelopmentConfig()
         {
@@ -122,6 +131,72 @@ private void get_Data_DevelopmentConfig()
 		    objDBLevel_Config2 = new clsDBLevel(Globals);
             objImport = new clsImport(Globals);
         }
+
+    private void Get_StandardLanguage()
+    {
+        var objORel_StandardLanguage = new List<clsObjectRel> { new clsObjectRel {ID_Object = OItem_object_base_config.GUID,
+            ID_RelationType = OItem_relationtype_standard.GUID,
+            ID_Parent_Other = OItem_type_language.GUID } };
+
+        var objOItem_Result = objDBLevel_Config1.get_Data_ObjectRel(objORel_StandardLanguage, boolIDs: false);
+
+        if (objOItem_Result.GUID == Globals.LState_Success.GUID)
+        {
+            if (objDBLevel_Config1.OList_ObjectRel.Count == 1)
+            {
+                OItem_StandardLanguage = objDBLevel_Config1.OList_ObjectRel.Select(sl => new clsOntologyItem
+                {
+                    GUID = sl.ID_Other,
+                    Name = sl.Name_Other,
+                    GUID_Parent = sl.ID_Parent_Other,
+                    Type = Globals.Type_Object
+                }).First();
+
+
+            }
+            else
+            {
+                throw new Exception("Config-Error");
+            }
+        }
+        else
+        {
+            throw new Exception("Config-Error");
+        }
+    }
+
+    private void Get_Languages()
+    {
+        var objORel_Languages = new List<clsObjectRel> { new clsObjectRel {ID_Object = OItem_object_base_config.GUID,
+            ID_RelationType = OItem_relationtype_offers.GUID,
+            ID_Parent_Other = OItem_type_language.GUID } };
+
+        var objOItem_Result = objDBLevel_Config1.get_Data_ObjectRel(objORel_Languages, boolIDs: false);
+
+        if (objOItem_Result.GUID == Globals.LState_Success.GUID)
+        {
+            if (objDBLevel_Config1.OList_ObjectRel.Any())
+            {
+                OList_Languages = objDBLevel_Config1.OList_ObjectRel.Select(sl => new clsOntologyItem
+                {
+                    GUID = sl.ID_Other,
+                    Name = sl.Name_Other,
+                    GUID_Parent = sl.ID_Parent_Other,
+                    Type = Globals.Type_Object
+                }).Where(l => l.GUID != OItem_StandardLanguage.GUID).ToList();
+
+
+            }
+            else
+            {
+                throw new Exception("Config-Error");
+            }
+        }
+        else
+        {
+            throw new Exception("Config-Error");
+        }
+    }
   
 	private void get_Config()
         {
@@ -472,9 +547,33 @@ var objOList_relationtype_standard = (from objOItem in objDBLevel_Config1.OList_
   
 	private void get_Config_Objects()
         {
-		
+            var objOList_object_base_config = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                               where objOItem.ID_Object == cstrID_Ontology
+                                               join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                               where objRef.Name_Object.ToLower() == "object_base_config".ToLower() && objRef.Ontology == Globals.Type_Object
+                                               select objRef).ToList();
+
+            if (objOList_object_base_config.Any())
+            {
+                OItem_object_base_config = new clsOntologyItem()
+                {
+                    GUID = objOList_object_base_config.First().ID_Other,
+                    Name = objOList_object_base_config.First().Name_Other,
+                    GUID_Parent = objOList_object_base_config.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            Get_StandardLanguage();    
+            Get_Languages();
+            
 	}
-  
+
+
 	private void get_Config_Classes()
         {
 		var objOList_type_gui_caption = (from objOItem in objDBLevel_Config1.OList_ObjectRel

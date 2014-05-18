@@ -45,8 +45,7 @@ Private strEL_Server As String
 
     Private cintSearchRange As Integer = 20000
 
-
-    
+    Private strSearchPath_Modules As String
 
 
     Private strRegEx_GUID As String
@@ -67,6 +66,12 @@ Private strEL_Server As String
     Private objTransaction As clsTransaction
 
     Private objModuleList As List(Of clsModuleConfig)
+
+    Public ReadOnly Property SearchPath_Modules As String
+        Get
+            Return strSearchPath_Modules
+        End Get
+    End Property
 
     Public ReadOnly Property ModuleList As List(Of clsModuleConfig)
         Get
@@ -192,6 +197,52 @@ Private strEL_Server As String
 
     Public Function GUIDFormat2(strGUIDFormat1 As String) As String
         Return strGUIDFormat1.Replace("-", "")
+    End Function
+
+
+    Public Function get_ModuleExecutablesInSearchPath() As List(Of clsModuleForCommandLine)
+        Dim executableList As List(Of clsModuleForCommandLine) = New List(Of clsModuleForCommandLine)
+        If Not strSearchPath_Modules Is Nothing Then
+            If IO.Directory.Exists(strSearchPath_Modules) Then
+                For Each strFolder As String In IO.Directory.GetDirectories(strSearchPath_Modules)
+                    For Each strFile In IO.Directory.GetFiles(strFolder)
+                        If IO.Path.GetExtension(strFile).ToLower() = ".exe" Then
+                            Dim strFileName = IO.Path.GetFileName(strFile)
+
+
+                            Try
+                                Dim objAssembly = Assembly.LoadFile(strFile)
+                                If Not objAssembly Is Nothing Then
+                                    If Not objAssembly.GetName().Name = "vshost32" Then
+                                        Dim objModule = New clsModuleForCommandLine With {.ModuleName = objAssembly.GetName().Name, _
+                                                                        .ModulePath = strFile}
+                                        executableList.Add(objModule)
+                                    End If
+
+                                End If
+                                objAssembly = Nothing
+
+                            Catch ex As Exception
+
+                            End Try
+
+
+
+
+                        End If
+                    Next
+                Next
+            Else
+                executableList = Nothing
+
+            End If
+
+
+        Else
+            executableList = Nothing
+        End If
+
+        Return executableList
     End Function
 
     Public Function get_ConnectionStr(ByVal strServer As String, ByVal strInstance As String, ByVal strDatabase As String) As String
@@ -711,7 +762,7 @@ Private strEL_Server As String
 
 
 
-    
+
     Public Function is_GUID(ByVal strText As String) As Boolean
         Dim objRegExp As New Regex(strRegEx_GUID)
         If objRegExp.IsMatch(strText) And Not strText = "00000000000000000000000000000000" Then
@@ -776,6 +827,11 @@ Private strEL_Server As String
                 Err.Raise(1, "Config")
             End If
 
+            objDRs_ConfigItem = dtblT_Config.Select("ConfigItem_Name='ModuleSearchPath'")
+            If objDRs_ConfigItem.Count > 0 Then
+                strSearchPath_Modules = objDRs_ConfigItem(0).Item("ConfigItem_Value")
+            End If
+
         Else
             Err.Raise(1, "Config")
         End If
@@ -811,7 +867,7 @@ Private strEL_Server As String
 
     End Sub
 
-    
+
     Public Sub New(Optional ModuleLoad As Boolean = True)
         strPath_Config = ""
         strRegEx_GUID = "[A-Za-z0-9]{8}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9]{12}"
@@ -884,9 +940,9 @@ Private strEL_Server As String
             End If
 
         End Try
-        
 
-        
+
+
 
 
     End Sub
@@ -895,60 +951,60 @@ Private strEL_Server As String
         Dim objOItem_Result As clsOntologyItem = objLogStates.LogState_Success
 
         'DataTypes
-        objOItem_Result =  objDBLevel1.get_Data_DataTyps()
+        objOItem_Result = objDBLevel1.get_Data_DataTyps()
         If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
-            Dim objOList_DType_NotExistant = (from objDataTypeShould In objDataTypes.DataTypes
-                                              Group Join objDataTypeExist in objDBLevel1.OList_DataTypes on objDataTypeExist.GUID Equals objDataTypeShould.GUID Into objDataTypesExist = Group
-                                              From objDataTypeExist in objDataTypesExist.DefaultIfEmpty()
+            Dim objOList_DType_NotExistant = (From objDataTypeShould In objDataTypes.DataTypes
+                                              Group Join objDataTypeExist In objDBLevel1.OList_DataTypes On objDataTypeExist.GUID Equals objDataTypeShould.GUID Into objDataTypesExist = Group
+                                              From objDataTypeExist In objDataTypesExist.DefaultIfEmpty()
                                               Where objDataTypeExist Is Nothing
                                               Select objDataTypeShould).ToList()
 
             If objOList_DType_NotExistant.Any() Then
-                objOItem_Result =  objDBLevel1.save_DataTypes(objOList_DType_NotExistant)
+                objOItem_Result = objDBLevel1.save_DataTypes(objOList_DType_NotExistant)
             End If
         End If
 
         'AttributeTypes
         If Not objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
             objOItem_Result = objDBLevel1.get_Data_AttributeType(objAttributeTypes.AttributeTypes)
-            If objOItem_Result.GUID = objLogStates.LogState_Success.GUID then
+            If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
                 Dim objOList_AttTypes_NotExistant = (From objAttTypeShould In objAttributeTypes.AttributeTypes
-                                                     Group Join objAttTypeExist In objDBLevel1.OList_AttributeTypes on objAttTypeShould.GUID Equals objAttTypeExist.GUID Into objAttTypesExist = group
+                                                     Group Join objAttTypeExist In objDBLevel1.OList_AttributeTypes On objAttTypeShould.GUID Equals objAttTypeExist.GUID Into objAttTypesExist = Group
                                                      From objAttTypeExist In objAttTypesExist.DefaultIfEmpty()
                                                      Where objAttTypeExist Is Nothing
                                                      Select objAttTypeShould).ToList()
 
                 If objOList_AttTypes_NotExistant.Any() Then
-                    For Each objOItem_AttType  In objOList_AttTypes_NotExistant
+                    For Each objOItem_AttType In objOList_AttTypes_NotExistant
                         objOItem_Result = objDBLevel1.save_AttributeType(objOItem_AttType)
                         If objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
                             Exit For
                         End If
                     Next
-                    
+
                 End If
             End If
         End If
 
         'RelationTypes
-        If not objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
+        If Not objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
             objOItem_Result = objDBLevel1.get_Data_RelationTypes(objRelationTypes.RelationTypes)
             If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
                 Dim objOList_RelTypes_NotExistant = (From objRelTypeShould In objRelationTypes.RelationTypes
-                                                     Group Join objRelTypeExist In objDBLevel1.OList_RelationTypes on objRelTypeShould.GUID Equals objRelTypeExist.GUID Into objRelTypesExist = Group
+                                                     Group Join objRelTypeExist In objDBLevel1.OList_RelationTypes On objRelTypeShould.GUID Equals objRelTypeExist.GUID Into objRelTypesExist = Group
                                                      From objRelTypeExist In objRelTypesExist.DefaultIfEmpty()
                                                      Where objRelTypeExist Is Nothing
                                                      Select objRelTypeShould).ToList()
 
-                if objOList_RelTypes_NotExistant.Any() Then
+                If objOList_RelTypes_NotExistant.Any() Then
                     For Each objOItem_RelType In objOList_RelTypes_NotExistant
                         objOItem_Result = objDBLevel1.save_RelationType(objOItem_RelType)
                         If objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
-                            exit for
+                            Exit For
                         End If
-                        
+
                     Next
-                    
+
                 End If
             End If
         End If
@@ -958,27 +1014,27 @@ Private strEL_Server As String
             objOItem_Result = objDBLevel1.get_Data_Classes(objClasses.OList_Classes)
             If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
                 Dim objOList_Classes_NotExistant = (From objClassShould In objClasses.OList_Classes
-                                                    Group Join objClassExist In objDBLevel1.OList_Classes on objClassShould.GUID Equals objClassExist.GUID Into objClassesExist = group
-                                                    From objClassExist in objClassesExist.DefaultIfEmpty()
+                                                    Group Join objClassExist In objDBLevel1.OList_Classes On objClassShould.GUID Equals objClassExist.GUID Into objClassesExist = Group
+                                                    From objClassExist In objClassesExist.DefaultIfEmpty()
                                                     Where objClassExist Is Nothing
                                                     Select objClassShould).ToList()
                 If objOList_Classes_NotExistant.Any() Then
                     For Each objClass In objOList_Classes_NotExistant
-                        If objClass.GUID_Parent ="" Then
-                            objOItem_Result =  objDBLevel1.save_Class(objClass,True)    
-                        Else 
-                            objOItem_Result =  objDBLevel1.save_Class(objClass)    
+                        If objClass.GUID_Parent = "" Then
+                            objOItem_Result = objDBLevel1.save_Class(objClass, True)
+                        Else
+                            objOItem_Result = objDBLevel1.save_Class(objClass)
                         End If
-                        
+
                         If objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
                             Exit For
                         End If
                     Next
-                    
+
                 End If
             End If
         End If
-        
+
         'Objects
         If Not objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
             Dim objOList_Objects = objDirections.Directions.ToList()
@@ -989,8 +1045,8 @@ Private strEL_Server As String
             objOItem_Result = objDBLevel1.get_Data_Objects(objOList_Objects)
             If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
                 Dim objOList_Objects_NotExistant = (From objObjectShould In objOList_Objects
-                                                    Group Join objObjectExist in objDBLevel1.OList_Objects on objObjectShould.GUID Equals objObjectExist.GUID Into objObjectsExists = group
-                                                    From objObjectExist in objObjectsExists.DefaultIfEmpty()
+                                                    Group Join objObjectExist In objDBLevel1.OList_Objects On objObjectShould.GUID Equals objObjectExist.GUID Into objObjectsExists = Group
+                                                    From objObjectExist In objObjectsExists.DefaultIfEmpty()
                                                     Where objObjectExist Is Nothing
                                                     Select objObjectShould).ToList()
                 If objOList_Objects_NotExistant.Any() Then
@@ -1002,31 +1058,31 @@ Private strEL_Server As String
 
         'ClassAttributes
         If Not objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
-            Dim objOList_Classes = objClassAtts.ClassAtts.GroupBy(Function(p) p.ID_Class).ToList().Join(objClasses.OList_Classes, Function(l) l.Key, Function(r) r.GUID,Function(l,r) r).ToList()
-                                
-            Dim objOList_AttributeTypes = objClassAtts.ClassAtts.GroupBy(Function(p) p.ID_AttributeType).ToList().Join(objAttributeTypes.AttributeTypes, Function(l) l.Key, Function(r) r.GUID, Function(l,r) r).ToList()
+            Dim objOList_Classes = objClassAtts.ClassAtts.GroupBy(Function(p) p.ID_Class).ToList().Join(objClasses.OList_Classes, Function(l) l.Key, Function(r) r.GUID, Function(l, r) r).ToList()
 
-            
-            objOItem_Result = objDBLevel1.get_Data_ClassAtt(objOList_Classes,objOList_AttributeTypes)                        
+            Dim objOList_AttributeTypes = objClassAtts.ClassAtts.GroupBy(Function(p) p.ID_AttributeType).ToList().Join(objAttributeTypes.AttributeTypes, Function(l) l.Key, Function(r) r.GUID, Function(l, r) r).ToList()
+
+
+            objOItem_Result = objDBLevel1.get_Data_ClassAtt(objOList_Classes, objOList_AttributeTypes)
             If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
 
-                Dim objOList_ClassAtts_NotExistant = (From objClassAttShould in objClassAtts.ClassAtts
-                                          Group Join objClassAttExist In objDBLevel1.OList_ClassAtt_ID on _
-                                          objClassAttShould.ID_Class equals objClassAttExist.ID_Class And objClassAttShould.ID_AttributeType equals objClassAttExist.ID_AttributeType Into objClassAttsExist = Group
+                Dim objOList_ClassAtts_NotExistant = (From objClassAttShould In objClassAtts.ClassAtts
+                                          Group Join objClassAttExist In objDBLevel1.OList_ClassAtt_ID On _
+                                          objClassAttShould.ID_Class Equals objClassAttExist.ID_Class And objClassAttShould.ID_AttributeType Equals objClassAttExist.ID_AttributeType Into objClassAttsExist = Group
                                           From objClassAttExist In objClassAttsExist.DefaultIfEmpty()
                                           Where objClassAttExist Is Nothing
                                           Select objClassAttShould).ToList()
-                                          
-                                          'Where objClassAttExist Is nothing
-                                          'Select objClassAttShould).tolist()
-               
+
+                'Where objClassAttExist Is nothing
+                'Select objClassAttShould).tolist()
+
                 If objOList_ClassAtts_NotExistant.Any() Then
                     objOItem_Result = objDBLevel1.save_ClassAttType(objOList_ClassAtts_NotExistant)
                 End If
             End If
-                                    
-                                    
-                                    
+
+
+
 
         End If
 
@@ -1058,9 +1114,9 @@ Private strEL_Server As String
     End Function
 
     Private Function test_Existance_OntologyDB() As clsOntologyItem
-        If objDBLevel1.test_Index_Es()
+        If objDBLevel1.test_Index_Es() Then
             Return objLogStates.LogState_Success
-        Else 
+        Else
             Return objLogStates.LogState_Nothing
         End If
     End Function
@@ -1068,7 +1124,7 @@ Private strEL_Server As String
     Private Function create_Index() As clsOntologyItem
         If objDBLevel1.create_Index_Es() Then
             Return objLogStates.LogState_Success.Clone()
-        Else 
+        Else
             Return objLogStates.LogState_Error.Clone()
         End If
     End Function
@@ -1132,7 +1188,7 @@ Private strEL_Server As String
                                                                        .ID_DataType = objDataTypes.DType_String.GUID, _
                                                                        .OrderID = 1, _
                                                                        .Val_String = strBaseBoardSerial, _
-                                                                       .val_Named = strBaseBoardSerial}
+                                                                       .Val_Named = strBaseBoardSerial}
 
                 objOItem_Result = objTransaction.do_Transaction(objOAItem_BaseBoardSerial)
 
@@ -1143,7 +1199,7 @@ Private strEL_Server As String
                                                                        .ID_DataType = objDataTypes.DType_String.GUID, _
                                                                        .OrderID = 1, _
                                                                        .Val_String = strProcessorID, _
-                                                                       .val_Named = strProcessorID}
+                                                                       .Val_Named = strProcessorID}
 
                     objOItem_Result = objTransaction.do_Transaction(objOAItem_ProcessorID)
                     If objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
@@ -1198,7 +1254,7 @@ Private strEL_Server As String
     End Function
 
     Public Function GetConfigName1(strName As String) As String
-        Dim strResult as String = ""
+        Dim strResult As String = ""
         For i = 0 To strName.Length - 1
             Select Case strName.Substring(i, 1)
                 Case "a" To "z", "A" To "Z", "0" To "9"

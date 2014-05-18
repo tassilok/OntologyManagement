@@ -1,18 +1,37 @@
 ﻿Imports System.Windows.Forms
 
 Public Class dlg_Attribute_String
-    Private objUserControl_Attribute_String As UserControl_Attribute_String
+    Private WithEvents objUserControl_Attribute_String As UserControl_Attribute_String
 
     Private strCaption As String
     Private objLocalConfig As clsLocalConfig
     Private strValue As String
 
-    Public ReadOnly Property Value As String
+    Public Property TextReadonly() As Boolean
+        Get
+            Return objUserControl_Attribute_String.TextBox_Val.ReadOnly
+        End Get
+        Set(value As Boolean)
+            objUserControl_Attribute_String.TextBox_Val.ReadOnly = value
+        End Set
+    End Property
+
+    Private Sub TextBox_TextChanged() Handles objUserControl_Attribute_String.TextChanged
+        Timer_Webbrowser.Stop()
+        Timer_Webbrowser.Start()
+
+    End Sub
+
+    Public Property Value As String
         Get
             Return objUserControl_Attribute_String.Value
         End Get
+        Set(value As String)
+            objUserControl_Attribute_String.Value = value
+        End Set
     End Property
 
+    
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
 
         If objUserControl_Attribute_String.Value.Length > 0 Then
@@ -65,7 +84,17 @@ Public Class dlg_Attribute_String
         Me.Text = strCaption
         objUserControl_Attribute_String = New UserControl_Attribute_String()
         objUserControl_Attribute_String.Dock = DockStyle.Fill
-        Panel_Val.Controls.Add(objUserControl_Attribute_String)
+        TabPage_Text.Controls.Add(objUserControl_Attribute_String)
         objUserControl_Attribute_String.Value = strValue
+        Fill_WebBrowser()
+    End Sub
+
+    Private Sub Fill_WebBrowser()
+        WebBrowser_Text.DocumentText = objUserControl_Attribute_String.Value
+    End Sub
+
+    Private Sub Timer_Webbrowser_Tick(sender As Object, e As EventArgs) Handles Timer_Webbrowser.Tick
+        Timer_Webbrowser.Stop()
+        Fill_WebBrowser()
     End Sub
 End Class

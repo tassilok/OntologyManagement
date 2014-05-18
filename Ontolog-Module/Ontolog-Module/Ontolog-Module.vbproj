@@ -87,19 +87,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Elasticsearch.Net">
-      <HintPath>..\packages\Elasticsearch.Net.1.0.0-beta1\lib\Elasticsearch.Net.dll</HintPath>
+      <HintPath>..\..\ElasticSearchNestConnector\ElasticSearchNestConnector\bin\Debug\Elasticsearch.Net.dll</HintPath>
     </Reference>
-    <Reference Include="ElasticSearchNestConnector, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="ElasticSearchNestConnector">
       <HintPath>..\..\ElasticSearchNestConnector\ElasticSearchNestConnector\bin\Debug\ElasticSearchNestConnector.dll</HintPath>
     </Reference>
-    <Reference Include="Nest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NEST.1.0.0-beta1\lib\Nest.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Nest">
+      <HintPath>..\..\ElasticSearchNestConnector\ElasticSearchNestConnector\bin\Debug\Nest.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -134,7 +128,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Classes\clsAppDBLevel.vb" />
+    <Compile Include="Classes\clsArgumentParsing.vb" />
     <Compile Include="Classes\clsFilter.vb" />
+    <Compile Include="Classes\clsModuleForCommandLine.vb" />
     <Compile Include="Classes\clsRelationConfig.vb" />
     <Compile Include="Classes\ImportExport\clsExport.vb" />
     <Compile Include="Classes\ImportExport\clsImport.vb" />
@@ -250,6 +246,12 @@
       <DependentUpon>frmReplace.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmReplace.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Modules\frmModules.Designer.vb">
+      <DependentUpon>frmModules.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Modules\frmModules.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Ontologies\frmAttributeTypeOrRelationType.Designer.vb">
@@ -502,6 +504,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmReplace.resx">
       <DependentUpon>frmReplace.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Modules\frmModules.resx">
+      <DependentUpon>frmModules.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Ontologies\frmAttributeTypeOrRelationType.resx">
       <DependentUpon>frmAttributeTypeOrRelationType.vb</DependentUpon>
@@ -756,6 +761,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\ClassLibrary_ShellWork.vbproj">
+      <Project>{10bcc346-a390-401c-ba6a-904a8842a40b}</Project>
+      <Name>ClassLibrary_ShellWork</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
       <Name>OntologyClasses</Name>

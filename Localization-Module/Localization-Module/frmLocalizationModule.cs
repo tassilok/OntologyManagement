@@ -17,10 +17,15 @@ namespace Localization_Module
         private UserControl_LocalizationDetails objUserControl_LocalizationDetails;
         private clsLocalConfig objLocalConfig;
 
+        private frmLocalizingModuleSingle objFrmLocalizingModuleSingle;
         private UserControl_RefTree objUserControl_RefTree;
 
         private SplashScreen_OntologyModule SplashScreen;
         private AboutBox_OntologyItem AboutBox;
+
+        private clsArgumentParsing objArgumentParsing;
+
+        private clsOntologyItem objOItem_Argument;
 
         public frmLocalizationModule()
         {
@@ -32,7 +37,17 @@ namespace Localization_Module
             SplashScreen.Refresh();
 
             objLocalConfig = new clsLocalConfig(new clsGlobals());
+            ParseArguments();
             initialize();
+        }
+
+        private void ParseArguments()
+        {
+            objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList());
+            if (objArgumentParsing.OList_Items != null && objArgumentParsing.OList_Items.Count == 1)
+            {
+                objOItem_Argument = objArgumentParsing.OList_Items.First();
+            }
         }
 
         private void initialize()
@@ -52,6 +67,13 @@ namespace Localization_Module
             objUserControl_LocalizationDetails = new UserControl_LocalizationDetails(objLocalConfig);
             objUserControl_LocalizationDetails.Dock = DockStyle.Fill;
             splitContainer1.Panel2.Controls.Add(objUserControl_LocalizationDetails);
+
+            if (objOItem_Argument != null)
+            {
+                objFrmLocalizingModuleSingle = new frmLocalizingModuleSingle(objLocalConfig, objOItem_Argument);
+                objFrmLocalizingModuleSingle.ShowDialog(this);
+
+            }
             
         }
 

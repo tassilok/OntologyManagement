@@ -5,22 +5,6 @@ Public Class clsReport
     Private objLocalConfig As clsLocalConfig
     Private objConnection As SqlClient.SqlConnection
 
-    Private initializeA_Tables As New DataSet_ReportTableAdapters.initialize_TablesTableAdapter
-    Private finalizeA_Tables As New DataSet_ReportTableAdapters.finalize_TablesTableAdapter
-
-    Private initializeA_Table_attT As New DataSet_ReportTableAdapters.initialize_Table_AttTTableAdapter
-    Private initializeA_Table_orgT As New DataSet_ReportTableAdapters.initialize_Table_orgTTableAdapter
-    Private initializeA_Table_relT As New DataSet_ReportTableAdapters.initialize_Table_relTTableAdapter
-    Private initializeA_Table_relT_Or As New DataSet_ReportTableAdapters.initialize_Table_relT_ORTableAdapter
-
-    Private finalizeA_Table_attT As New DataSet_ReportTableAdapters.finalize_Table_attTTableAdapter
-    Private finalizeA_Table_orgT As New DataSet_ReportTableAdapters.finalize_Table_orgTTableAdapter
-    Private finalizeA_Table_relT As New DataSet_ReportTableAdapters.finalize_Table_relTTableAdapter
-    Private finalizeA_Table_relT_Or As New DataSet_ReportTableAdapters.finalize_Table_relT_ORTableAdapter
-    Private createA_Table_orgT As New DataSet_ReportTableAdapters.create_Table_orgTTableAdapter
-    Private createA_Table_attT As New DataSet_ReportTableAdapters.create_Table_attTTableAdapter
-    Private createA_Table_relT As New DataSet_ReportTableAdapters.create_Table_relTTableAdapter
-    Private createA_Table_relT_Or As New DataSet_ReportTableAdapters.create_Table_relT_ORTableAdapter
 
     Private objDBLevel_Classes As clsDBLevel
     Private objDBLevel_CalssAtt As clsDBLevel
@@ -35,6 +19,8 @@ Public Class clsReport
 
     Private objDBLevel_OntologyRules As clsDBLevel
     Private objDBLevel_Ontology As clsDBLevel
+
+    Private strConnection As String
 
     Public Sub sync_SQLDB()
         sync_SQLDB_Classes()
@@ -60,6 +46,26 @@ Public Class clsReport
         Dim strRelationType As String
         Dim i As Integer
         Dim j As Integer
+
+        Dim createA_Table_relT As New DataSet_ReportTableAdapters.create_Table_relTTableAdapter
+        Dim createA_Table_relT_Or As New DataSet_ReportTableAdapters.create_Table_relT_ORTableAdapter
+        Dim finalizeA_Table_relT As New DataSet_ReportTableAdapters.finalize_Table_relTTableAdapter
+        Dim finalizeA_Table_relT_Or As New DataSet_ReportTableAdapters.finalize_Table_relT_ORTableAdapter
+        Dim finalizeA_Tables As New DataSet_ReportTableAdapters.finalize_TablesTableAdapter
+        Dim initializeA_Table_relT As New DataSet_ReportTableAdapters.initialize_Table_relTTableAdapter
+        Dim initializeA_Table_relT_Or As New DataSet_ReportTableAdapters.initialize_Table_relT_ORTableAdapter
+        Dim initializeA_Tables As New DataSet_ReportTableAdapters.initialize_TablesTableAdapter
+
+        initializeA_Tables.Connection = New SqlClient.SqlConnection(strConnection)
+        finalizeA_Tables.Connection = New SqlClient.SqlConnection(strConnection)
+        createA_Table_relT.Connection = New SqlClient.SqlConnection(strConnection)
+        createA_Table_relT_Or.Connection = New SqlClient.SqlConnection(strConnection)
+        finalizeA_Table_relT.Connection = New SqlClient.SqlConnection(strConnection)
+        finalizeA_Table_relT_Or.Connection = New SqlClient.SqlConnection(strConnection)
+        initializeA_Table_relT.Connection = New SqlClient.SqlConnection(strConnection)
+        initializeA_Table_relT_Or.Connection = New SqlClient.SqlConnection(strConnection)
+
+
         If boolInitialize Then
             initializeA_Tables.GetData(objLocalConfig.Globals.Type_ObjectRel)
         End If
@@ -284,6 +290,17 @@ Public Class clsReport
         Dim i As Long
         Dim j As Long
 
+        Dim createA_Table_attT As New DataSet_ReportTableAdapters.create_Table_attTTableAdapter
+        Dim finalizeA_Table_attT As New DataSet_ReportTableAdapters.finalize_Table_attTTableAdapter
+        Dim finalizeA_Tables As New DataSet_ReportTableAdapters.finalize_TablesTableAdapter
+        Dim initializeA_Table_attT As New DataSet_ReportTableAdapters.initialize_Table_AttTTableAdapter
+        Dim initializeA_Tables As New DataSet_ReportTableAdapters.initialize_TablesTableAdapter
+
+        initializeA_Tables.Connection = New SqlClient.SqlConnection(strConnection)
+        finalizeA_Tables.Connection = New SqlClient.SqlConnection(strConnection)
+        finalizeA_Table_attT.Connection = New SqlClient.SqlConnection(strConnection)
+        createA_Table_attT.Connection = New SqlClient.SqlConnection(strConnection)
+        initializeA_Table_attT.Connection = New SqlClient.SqlConnection(strConnection)
 
         oList_AttTypes.Add(objOItem_AttType)
 
@@ -410,7 +427,15 @@ Public Class clsReport
         Dim strLine As String
         Dim i As Long
         Dim j As Long
+        Dim createA_Table_orgT As New DataSet_ReportTableAdapters.create_Table_orgTTableAdapter
+        Dim finalizeA_Table_orgT As New DataSet_ReportTableAdapters.finalize_Table_orgTTableAdapter
+        Dim finalizeA_Tables As New DataSet_ReportTableAdapters.finalize_TablesTableAdapter
+        Dim initializeA_Table_orgT As New DataSet_ReportTableAdapters.initialize_Table_orgTTableAdapter
 
+        finalizeA_Tables.Connection = New SqlClient.SqlConnection(strConnection)
+        finalizeA_Table_orgT.Connection = New SqlClient.SqlConnection(strConnection)
+        createA_Table_orgT.Connection = New SqlClient.SqlConnection(strConnection)
+        initializeA_Table_orgT.Connection = New SqlClient.SqlConnection(strConnection)
 
         objDBLevel_Classes.get_Data_Classes(OList_Classes, False, False)
         For Each objOItem_Class In objDBLevel_Classes.OList_Classes
@@ -505,28 +530,12 @@ Public Class clsReport
     End Sub
 
     Private Sub set_DBConnection()
-        Dim strConnection As String
+
 
         strConnection = objLocalConfig.Globals.get_ConnectionStr(objLocalConfig.Globals.Rep_Server, _
                                                                  objLocalConfig.Globals.Rep_Instance, _
                                                                  objLocalConfig.Globals.Rep_Database)
-        initializeA_Table_attT.Connection = New SqlClient.SqlConnection(strConnection)
-        initializeA_Table_orgT.Connection = New SqlClient.SqlConnection(strConnection)
-        initializeA_Table_relT.Connection = New SqlClient.SqlConnection(strConnection)
-        initializeA_Table_relT_Or.Connection = New SqlClient.SqlConnection(strConnection)
-
-        finalizeA_Table_attT.Connection = New SqlClient.SqlConnection(strConnection)
-        finalizeA_Table_orgT.Connection = New SqlClient.SqlConnection(strConnection)
-        finalizeA_Table_relT.Connection = New SqlClient.SqlConnection(strConnection)
-        finalizeA_Table_relT_Or.Connection = New SqlClient.SqlConnection(strConnection)
-
-        createA_Table_attT.Connection = New SqlClient.SqlConnection(strConnection)
-        createA_Table_orgT.Connection = New SqlClient.SqlConnection(strConnection)
-        createA_Table_relT.Connection = New SqlClient.SqlConnection(strConnection)
-        createA_Table_relT_Or.Connection = new SqlClient.SqlConnection(strConnection)
-
-        initializeA_Tables.Connection = New SqlClient.SqlConnection(strConnection)
-        finalizeA_Tables.Connection = New SqlClient.SqlConnection(strConnection)
+        
 
         objDBLevel_AttributeTypes = New clsDBLevel(objLocalConfig.Globals)
         objDBlevel_ObjAtt = New clsDBLevel(objLocalConfig.Globals)

@@ -27,6 +27,7 @@ namespace TextParser
         private frmFieldParser objFrmFieldParser;
         private frmRegexTester objFrmRegExTester;
 
+
         public frmTextParser()
         {
             InitializeComponent();

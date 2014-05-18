@@ -32,6 +32,8 @@ namespace TextParser
 
         private frm_ObjectEdit objFrmObjectEdit;
 
+        private dlg_Attribute_String objDLG_Attribute_String;
+
         private clsAppDBLevel objAppDBLevel;
 
         private clsDBLevel objDBLevel_Indexes;
@@ -528,6 +530,101 @@ namespace TextParser
         private void toolStripButton_Import_Click(object sender, EventArgs e)
         {
             var objOItem_Result = objImport_IndexData.ImportIndexData(objOItem_TextParser, toolStripTextBox_Query.Text == "" ? null : toolStripTextBox_Query.Text);
+        }
+
+        private void dataGridView_IndexView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+           
+        }
+
+        private void dataGridView_IndexView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+           
+            
+        }
+
+        private void dataGridView_IndexView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+
+            if (dataGridView_IndexView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+            {
+                string text = dataGridView_IndexView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                Refresh_ExternalTextBox(text);   
+                
+            }
+        }
+
+        private void Refresh_ExternalTextBox(string text, bool onlyIfOpened = false)
+        {
+            
+            if (objDLG_Attribute_String == null)
+            {
+                if (!onlyIfOpened)
+                {
+                    objDLG_Attribute_String = new dlg_Attribute_String("Cell-Content", objLocalConfig.Globals, text);
+                    objDLG_Attribute_String.TextReadonly = true;
+                }
+                
+            }
+            else
+            {
+                objDLG_Attribute_String.Value = text;
+            }
+
+
+            if (objDLG_Attribute_String != null && !objDLG_Attribute_String.Visible)
+            {
+                objDLG_Attribute_String.Show(this);
+            }
+        }
+
+        private void contextMenuStrip_Index_Opening(object sender, CancelEventArgs e)
+        {
+            filterToolStripMenuItem.Enabled = false;
+
+            if (dataGridView_IndexView.SelectedCells.Count == 1)
+            {
+                filterToolStripMenuItem.Enabled = true;
+            }
+        }
+
+        private void equalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView_IndexView.SelectedCells.Count == 1 && dataGridView_IndexView.SelectedCells[0].Value != null)
+            {
+                var filter = dataGridView_IndexView.Columns[dataGridView_IndexView.SelectedCells[0].ColumnIndex].Name + ":" + dataGridView_IndexView.SelectedCells[0].Value.ToString();
+                toolStripTextBox_Query.Text = filter;
+                GetPage();
+            }
+        }
+
+        private void differentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView_IndexView.SelectedCells.Count == 1 && dataGridView_IndexView.SelectedCells[0].Value != null)
+            {
+                var filter = "NOT " +  dataGridView_IndexView.Columns[dataGridView_IndexView.SelectedCells[0].ColumnIndex].Name + ":" + dataGridView_IndexView.SelectedCells[0].Value.ToString();
+                toolStripTextBox_Query.Text = filter;
+                GetPage();
+            }
+        }
+
+        private void dataGridView_IndexView_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView_IndexView.SelectedCells.Count == 1 && dataGridView_IndexView.SelectedCells[0].Value != null)
+            {
+                var text = dataGridView_IndexView.SelectedCells[0].Value.ToString();
+                Refresh_ExternalTextBox(text, true);
+            }
+        }
+
+        private void toolStripTextBox_Query_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    GetPage();
+                    break;
+            }
         }
     }
 }

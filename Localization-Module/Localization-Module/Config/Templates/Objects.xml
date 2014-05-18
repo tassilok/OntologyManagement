@@ -7,23 +7,25 @@
 <Item Id="b1d83bf67aac421bb099f379b61bb856" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Message]]></Item>
 <Item Id="aa7a61aee0964683983c0ad25e3b2bcf" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_offers]]></Item>
 <Item Id="8078bccd7cf84065abd5c2131cf141ae" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Standard]]></Item>
-<Item Id="87c18990f09e47cc9675bd3c67129bc7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is_defined_by]]></Item>
-<Item Id="33e6fd2759074a489d5a3d4d2cfb1dbf" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_isWrittenIn]]></Item>
-<Item Id="ae71d3e4b191484d9126bc4095066068" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongsTo]]></Item>
-<Item Id="d615496ba4944c0f886927de595cd678" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_offered_by]]></Item>
-<Item Id="b55713bec4874ab0b7338ef59911eb67" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_additional]]></Item>
 <Item Id="a9300d3e1c3d4b51b413d7934bcfb5bc" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_isDescribedBy]]></Item>
 <Item Id="c430404decbf4981a9687cd7f827a38e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_describes]]></Item>
 <Item Id="093878c0e4f24a1995f92511df8911ea" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_alternative_for]]></Item>
 <Item Id="4d4e167710ee4b66b9a95e162110a13c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_contains]]></Item>
-<Item Id="c94c6f6c83014db4b98d0d49d74718f2" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_ToolTip_Messages]]></Item>
-<Item Id="bb049d52b1dd4490bad6847a6fc7a4e4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Language]]></Item>
-<Item Id="6ef4c36fdb80479c8515d055d4fcb271" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Module]]></Item>
-<Item Id="434ecbdec0354e6eaa66c2055dda72e7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Localizing_Module]]></Item>
-<Item Id="2d414f8e42854a3395e501f3cdcb8680" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_GUI_Caption]]></Item>
+<Item Id="33e6fd2759074a489d5a3d4d2cfb1dbf" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_isWrittenIn]]></Item>
+<Item Id="ae71d3e4b191484d9126bc4095066068" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongsTo]]></Item>
+<Item Id="d615496ba4944c0f886927de595cd678" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_offered_by]]></Item>
+<Item Id="b55713bec4874ab0b7338ef59911eb67" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_additional]]></Item>
+<Item Id="87c18990f09e47cc9675bd3c67129bc7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is_defined_by]]></Item>
 <Item Id="4689920fdd504ce8838ffdc2edd34d69" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[type_LocalizedDescription]]></Item>
 <Item Id="c0a68595fc3642e4968c75ebd1c6e05e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_GUI_Entires]]></Item>
 <Item Id="dcab60532ebb45a780ec396cd20aeb7e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[type_SoftwareDevelopment]]></Item>
 <Item Id="4a87455465564601887de3fbbbe7df6f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Localized_Names]]></Item>
+<Item Id="6ef4c36fdb80479c8515d055d4fcb271" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Module]]></Item>
+<Item Id="434ecbdec0354e6eaa66c2055dda72e7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Localizing_Module]]></Item>
+<Item Id="2d414f8e42854a3395e501f3cdcb8680" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_GUI_Caption]]></Item>
+<Item Id="c94c6f6c83014db4b98d0d49d74718f2" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_ToolTip_Messages]]></Item>
+<Item Id="bb049d52b1dd4490bad6847a6fc7a4e4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Language]]></Item>
+<Item Id="1c74676b4e5a45db9593c81bc60b2aed" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Base_Config]]></Item>
+<Item Id="d9950407b4b04fdb899dbb94095cb207" Id_Parent="5a95c5aba5ef47d5a878e8a7efcf79a9"><![CDATA[Base-Config]]></Item>
 
 </Items>

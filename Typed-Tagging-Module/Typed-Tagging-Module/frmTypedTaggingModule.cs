@@ -18,6 +18,8 @@ namespace Typed_Tagging_Module
     {
         private clsLocalConfig objLocalConfig;
 
+        private clsArgumentParsing objArgumentParsing;
+
         private UserControl_RefTree objUserControl_RefTree;
 
         private UserControl_TaggingContainer objUserControl_TaggingContainer;
@@ -28,10 +30,14 @@ namespace Typed_Tagging_Module
 
         private frmAuthenticate objFrmAuthenticate;
 
+        private frmTypedTaggingSingle objFrmTypedTaggingSingle;
+
         private clsOntologyItem objOItem_Selected;
 
         private clsDBLevel objDBLevel;
         private clsGraphMLWork objGraphMLWork;
+
+        private clsOntologyItem OItem_ToTag;
 
         public frmTypedTaggingModule()
         {
@@ -39,11 +45,26 @@ namespace Typed_Tagging_Module
 
             objLocalConfig = new clsLocalConfig(new clsGlobals());
 
+            ParseArguments();
+
             Initialize();
+            
+            
+        }
+
+        private void ParseArguments()
+        {
+            
+            objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList());
+            if (objArgumentParsing.OList_Items != null && objArgumentParsing.OList_Items.Count == 1)
+            {
+                objOItem_Selected = objArgumentParsing.OList_Items.First();
+            }
         }
 
         private void Initialize()
         {
+            
             objDBLevel = new clsDBLevel(objLocalConfig.Globals);
             objGraphMLWork = new clsGraphMLWork(objLocalConfig.Globals);
             objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, true, frmAuthenticate.ERelateMode.User_To_Group, true);
@@ -67,7 +88,12 @@ namespace Typed_Tagging_Module
                 var objOList_RelationTypes = new List<clsOntologyItem> { objLocalConfig.OItem_relationtype_is_tagging };
 
                 objUserControl_RefTree.initialize_Tree(objOList_Classes, objOList_RelationTypes);
-
+                
+                if (objOItem_Selected != null)
+                {
+                    objFrmTypedTaggingSingle = new frmTypedTaggingSingle(objLocalConfig, objOItem_Selected);
+                    objFrmTypedTaggingSingle.ShowDialog(this);
+                }
             }
             else
             {
@@ -171,9 +197,18 @@ namespace Typed_Tagging_Module
                 objGraphMLWork.OList_Classes = oList_ClassesOfTags;
                 objGraphMLWork.OList_Objects = oList_Objects;
                 objGraphMLWork.OList_ORels = oList_RelationTagSource_To_TagClasses;
-                objGraphMLWork.OList_ORels.AddRange(oList_Objects_Of_Classes);
                 objGraphMLWork.OList_Objects.Add(objUserControl_TaggingContainer.OItem_TaggingSource);
-                objGraphMLWork.ExportItems(filePath);
+                var objOItem_Class = objDBLevel.GetOItem(objUserControl_TaggingContainer.OItem_TaggingSource.GUID_Parent, objLocalConfig.Globals.Type_Class);
+                objGraphMLWork.OList_Classes.Add(objOItem_Class);
+                var objOItem_Result = objGraphMLWork.ExportItems(filePath);
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    MessageBox.Show(this, "Die GraphML-Datei wurde exportiert!", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show(this, "Die GraphML-Datei konnte nicht exportiert werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
             
         }

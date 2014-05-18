@@ -1,7 +1,6 @@
 ﻿Imports ElasticSearchNestConnector
 Imports OntologyClasses.DataClasses
 Imports OntologyClasses.BaseClasses
-Imports Nest
 
 Public Class clsDBLevel
     <Flags()>
@@ -798,7 +797,7 @@ Public Class clsDBLevel
 
     Public Function test_Index_Es() As Boolean
 
-        Dim objIndexDescriptor = New IndexExistsDescriptor()
+        Dim objIndexDescriptor = objElSelector.GetIndexExistsDescriptor()
         objIndexDescriptor.Index(strIndex)
 
         Return objElSelector.ElConnector.IndexExists(Function(f) objIndexDescriptor).Exists
@@ -806,7 +805,7 @@ Public Class clsDBLevel
     End Function
 
     Public Function create_Index_Es() As Boolean
-        Dim indexSettings = new IndexSettings()
+        Dim indexSettings = objElSelector.GetIndexSettings()
         Dim objOPResult = objElSelector.ElConnector.CreateIndex(strIndex)
         Return objOPResult.IsValid
             
@@ -1162,7 +1161,7 @@ Public Class clsDBLevel
 
     Public Function DeleteIndex(strIndex As String) As clsOntologyItem
         
-        Dim indexResponse = objElSelector.ElConnector.DeleteIndex(Function(d) New DeleteIndexDescriptor().Index(strIndex))
+        Dim indexResponse = objElSelector.ElConnector.DeleteIndex(Function(d) objElSelector.GetDeleteIndexDescriptor().Index(strIndex))
 
         If (indexResponse.IsValid) Then
             Return objLogStates.LogState_Success.Clone()

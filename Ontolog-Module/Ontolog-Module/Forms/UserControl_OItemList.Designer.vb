@@ -39,12 +39,15 @@ Partial Class UserControl_OItemList
         Me.ShowModuleConfigToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ChangeOrderIDsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MoveObjectsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RelateToItemByNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ApplyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToClipboardToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabPage_Tree = New System.Windows.Forms.TabPage()
         Me.ToolStrip_Filter = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButton_Filter = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripTextBox_Filter = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripButton_FilterAdvanced = New System.Windows.Forms.ToolStripButton()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_CountLbl = New System.Windows.Forms.ToolStripLabel()
@@ -53,42 +56,40 @@ Partial Class UserControl_OItemList
         Me.ToolStripTextBox_GUID = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripProgressBar_List = New System.Windows.Forms.ToolStripProgressBar()
         Me.ToolStrip_Edit = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.Timer_Filter = New System.Windows.Forms.Timer(Me.components)
-        Me.ToolTip_Item = New System.Windows.Forms.ToolTip(Me.components)
-        Me.Timer_List = New System.Windows.Forms.Timer(Me.components)
-        Me.RelateToItemByNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripButton_Filter = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_FilterAdvanced = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_AddItem = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_DelItem = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_Relate = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_Sort = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Down = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Up = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton_Report = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Replace = New System.Windows.Forms.ToolStripButton()
+        Me.Timer_Filter = New System.Windows.Forms.Timer(Me.components)
+        Me.ToolTip_Item = New System.Windows.Forms.ToolTip(Me.components)
+        Me.Timer_List = New System.Windows.Forms.Timer(Me.components)
         Me.BindingSource_Token = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_RelationType = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_Type = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_TokenToken = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_Attribute = New System.Windows.Forms.BindingSource(Me.components)
-        Me.TableLayoutPanel1.SuspendLayout
-        Me.TabControl1.SuspendLayout
-        Me.TabPage_List.SuspendLayout
-        CType(Me.DataGridView_Items,System.ComponentModel.ISupportInitialize).BeginInit
-        Me.ContextMenuStrip_SemList.SuspendLayout
-        Me.ToolStrip_Filter.SuspendLayout
-        Me.ToolStrip2.SuspendLayout
-        Me.ToolStrip_Edit.SuspendLayout
-        CType(Me.BindingSource_Token,System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BindingSource_RelationType,System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BindingSource_Type,System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BindingSource_TokenToken,System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BindingSource_Attribute,System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SuspendLayout
+        Me.OpenModuleByArgumentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TableLayoutPanel1.SuspendLayout()
+        Me.TabControl1.SuspendLayout()
+        Me.TabPage_List.SuspendLayout()
+        CType(Me.DataGridView_Items, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ContextMenuStrip_SemList.SuspendLayout()
+        Me.ToolStrip_Filter.SuspendLayout()
+        Me.ToolStrip2.SuspendLayout()
+        Me.ToolStrip_Edit.SuspendLayout()
+        CType(Me.BindingSource_Token, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BindingSource_RelationType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BindingSource_Type, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BindingSource_TokenToken, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BindingSource_Attribute, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
         '
         'CopyNameToolStripMenuItem
         '
@@ -99,8 +100,8 @@ Partial Class UserControl_OItemList
         'TableLayoutPanel1
         '
         Me.TableLayoutPanel1.ColumnCount = 2
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100!))
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30!))
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.TabControl1, 0, 1)
         Me.TableLayoutPanel1.Controls.Add(Me.ToolStrip_Filter, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.ToolStrip2, 0, 2)
@@ -109,9 +110,9 @@ Partial Class UserControl_OItemList
         Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 0)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 3
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(704, 517)
         Me.TableLayoutPanel1.TabIndex = 1
         '
@@ -135,15 +136,15 @@ Partial Class UserControl_OItemList
         Me.TabPage_List.Size = New System.Drawing.Size(660, 435)
         Me.TabPage_List.TabIndex = 0
         Me.TabPage_List.Text = "x_List"
-        Me.TabPage_List.UseVisualStyleBackColor = true
+        Me.TabPage_List.UseVisualStyleBackColor = True
         '
         'DataGridView_Items
         '
-        Me.DataGridView_Items.AllowUserToAddRows = false
-        Me.DataGridView_Items.AllowUserToDeleteRows = false
+        Me.DataGridView_Items.AllowUserToAddRows = False
+        Me.DataGridView_Items.AllowUserToDeleteRows = False
         DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
         DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
         DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
@@ -153,7 +154,7 @@ Partial Class UserControl_OItemList
         Me.DataGridView_Items.ContextMenuStrip = Me.ContextMenuStrip_SemList
         DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
         DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
         DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
@@ -162,10 +163,10 @@ Partial Class UserControl_OItemList
         Me.DataGridView_Items.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView_Items.Location = New System.Drawing.Point(3, 3)
         Me.DataGridView_Items.Name = "DataGridView_Items"
-        Me.DataGridView_Items.ReadOnly = true
+        Me.DataGridView_Items.ReadOnly = True
         DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
         DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
         DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
@@ -195,7 +196,7 @@ Partial Class UserControl_OItemList
         '
         'ModuleMenuToolStripMenuItem
         '
-        Me.ModuleMenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowModuleConfigToolStripMenuItem})
+        Me.ModuleMenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowModuleConfigToolStripMenuItem, Me.OpenModuleByArgumentToolStripMenuItem})
         Me.ModuleMenuToolStripMenuItem.Name = "ModuleMenuToolStripMenuItem"
         Me.ModuleMenuToolStripMenuItem.Size = New System.Drawing.Size(208, 22)
         Me.ModuleMenuToolStripMenuItem.Text = "x_Module-Menu"
@@ -203,7 +204,7 @@ Partial Class UserControl_OItemList
         'ShowModuleConfigToolStripMenuItem
         '
         Me.ShowModuleConfigToolStripMenuItem.Name = "ShowModuleConfigToolStripMenuItem"
-        Me.ShowModuleConfigToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.ShowModuleConfigToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
         Me.ShowModuleConfigToolStripMenuItem.Text = "x_Show Module-Config"
         '
         'ChangeOrderIDsToolStripMenuItem
@@ -217,6 +218,12 @@ Partial Class UserControl_OItemList
         Me.MoveObjectsToolStripMenuItem.Name = "MoveObjectsToolStripMenuItem"
         Me.MoveObjectsToolStripMenuItem.Size = New System.Drawing.Size(208, 22)
         Me.MoveObjectsToolStripMenuItem.Text = "x_Move Objects"
+        '
+        'RelateToItemByNameToolStripMenuItem
+        '
+        Me.RelateToItemByNameToolStripMenuItem.Name = "RelateToItemByNameToolStripMenuItem"
+        Me.RelateToItemByNameToolStripMenuItem.Size = New System.Drawing.Size(208, 22)
+        Me.RelateToItemByNameToolStripMenuItem.Text = "x_Relate to Item by Name"
         '
         'ApplyToolStripMenuItem
         '
@@ -238,7 +245,7 @@ Partial Class UserControl_OItemList
         Me.TabPage_Tree.Size = New System.Drawing.Size(660, 435)
         Me.TabPage_Tree.TabIndex = 1
         Me.TabPage_Tree.Text = "x_Tree"
-        Me.TabPage_Tree.UseVisualStyleBackColor = true
+        Me.TabPage_Tree.UseVisualStyleBackColor = True
         '
         'ToolStrip_Filter
         '
@@ -250,6 +257,15 @@ Partial Class UserControl_OItemList
         Me.ToolStrip_Filter.TabIndex = 0
         Me.ToolStrip_Filter.Text = "ToolStrip1"
         '
+        'ToolStripButton_Filter
+        '
+        Me.ToolStripButton_Filter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Filter.Image = CType(resources.GetObject("ToolStripButton_Filter.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Filter.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Filter.Name = "ToolStripButton_Filter"
+        Me.ToolStripButton_Filter.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripButton_Filter.Text = "x_Filter:"
+        '
         'ToolStripTextBox_Filter
         '
         Me.ToolStripTextBox_Filter.Name = "ToolStripTextBox_Filter"
@@ -259,6 +275,16 @@ Partial Class UserControl_OItemList
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
         Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripButton_FilterAdvanced
+        '
+        Me.ToolStripButton_FilterAdvanced.CheckOnClick = True
+        Me.ToolStripButton_FilterAdvanced.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_FilterAdvanced.Image = CType(resources.GetObject("ToolStripButton_FilterAdvanced.Image"), System.Drawing.Image)
+        Me.ToolStripButton_FilterAdvanced.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_FilterAdvanced.Name = "ToolStripButton_FilterAdvanced"
+        Me.ToolStripButton_FilterAdvanced.Size = New System.Drawing.Size(112, 22)
+        Me.ToolStripButton_FilterAdvanced.Text = "x_Advanced Filter..."
         '
         'ToolStrip2
         '
@@ -296,7 +322,7 @@ Partial Class UserControl_OItemList
         'ToolStripTextBox_GUID
         '
         Me.ToolStripTextBox_GUID.Name = "ToolStripTextBox_GUID"
-        Me.ToolStripTextBox_GUID.ReadOnly = true
+        Me.ToolStripTextBox_GUID.ReadOnly = True
         Me.ToolStripTextBox_GUID.Size = New System.Drawing.Size(250, 25)
         '
         'ToolStripProgressBar_List
@@ -313,54 +339,6 @@ Partial Class UserControl_OItemList
         Me.ToolStrip_Edit.Size = New System.Drawing.Size(24, 467)
         Me.ToolStrip_Edit.TabIndex = 2
         Me.ToolStrip_Edit.Text = "ToolStrip3"
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(21, 6)
-        '
-        'ToolStripSeparator5
-        '
-        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(21, 6)
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(21, 6)
-        '
-        'Timer_Filter
-        '
-        Me.Timer_Filter.Interval = 500
-        '
-        'Timer_List
-        '
-        Me.Timer_List.Interval = 300
-        '
-        'RelateToItemByNameToolStripMenuItem
-        '
-        Me.RelateToItemByNameToolStripMenuItem.Name = "RelateToItemByNameToolStripMenuItem"
-        Me.RelateToItemByNameToolStripMenuItem.Size = New System.Drawing.Size(208, 22)
-        Me.RelateToItemByNameToolStripMenuItem.Text = "x_Relate to Item by Name"
-        '
-        'ToolStripButton_Filter
-        '
-        Me.ToolStripButton_Filter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Filter.Image = CType(resources.GetObject("ToolStripButton_Filter.Image"),System.Drawing.Image)
-        Me.ToolStripButton_Filter.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Filter.Name = "ToolStripButton_Filter"
-        Me.ToolStripButton_Filter.Size = New System.Drawing.Size(50, 22)
-        Me.ToolStripButton_Filter.Text = "x_Filter:"
-        '
-        'ToolStripButton_FilterAdvanced
-        '
-        Me.ToolStripButton_FilterAdvanced.CheckOnClick = true
-        Me.ToolStripButton_FilterAdvanced.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_FilterAdvanced.Image = CType(resources.GetObject("ToolStripButton_FilterAdvanced.Image"),System.Drawing.Image)
-        Me.ToolStripButton_FilterAdvanced.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_FilterAdvanced.Name = "ToolStripButton_FilterAdvanced"
-        Me.ToolStripButton_FilterAdvanced.Size = New System.Drawing.Size(112, 22)
-        Me.ToolStripButton_FilterAdvanced.Text = "x_Advanced Filter..."
         '
         'ToolStripButton_AddItem
         '
@@ -380,17 +358,27 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_DelItem.Size = New System.Drawing.Size(21, 20)
         Me.ToolStripButton_DelItem.Text = "ToolStripButton2"
         '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(21, 6)
+        '
         'ToolStripButton_Relate
         '
-        Me.ToolStripButton_Relate.CheckOnClick = true
+        Me.ToolStripButton_Relate.CheckOnClick = True
         Me.ToolStripButton_Relate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Relate.Enabled = false
+        Me.ToolStripButton_Relate.Enabled = False
         Me.ToolStripButton_Relate.Image = Global.Ontology_Module.My.Resources.Resources.RelationTypes_gpride_jean_victor_balin_
         Me.ToolStripButton_Relate.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Relate.Name = "ToolStripButton_Relate"
         Me.ToolStripButton_Relate.Size = New System.Drawing.Size(21, 20)
         Me.ToolStripButton_Relate.Text = "ToolStripButton1"
         Me.ToolStripButton_Relate.ToolTipText = "Relate Items"
+        '
+        'ToolStripSeparator5
+        '
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(21, 6)
         '
         'ToolStripButton_Sort
         '
@@ -419,6 +407,11 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_Up.Size = New System.Drawing.Size(21, 20)
         Me.ToolStripButton_Up.Text = "ToolStripButton1"
         '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(21, 6)
+        '
         'ToolStripButton_Report
         '
         Me.ToolStripButton_Report.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -436,6 +429,20 @@ Partial Class UserControl_OItemList
         Me.ToolStripButton_Replace.Name = "ToolStripButton_Replace"
         Me.ToolStripButton_Replace.Size = New System.Drawing.Size(21, 20)
         Me.ToolStripButton_Replace.Text = "ToolStripButton1"
+        '
+        'Timer_Filter
+        '
+        Me.Timer_Filter.Interval = 500
+        '
+        'Timer_List
+        '
+        Me.Timer_List.Interval = 300
+        '
+        'OpenModuleByArgumentToolStripMenuItem
+        '
+        Me.OpenModuleByArgumentToolStripMenuItem.Name = "OpenModuleByArgumentToolStripMenuItem"
+        Me.OpenModuleByArgumentToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.OpenModuleByArgumentToolStripMenuItem.Text = "Open Module by Argument"
         '
         'UserControl_OItemList
         '
@@ -512,5 +519,6 @@ End Sub
     Friend WithEvents ChangeOrderIDsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MoveObjectsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RelateToItemByNameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenModuleByArgumentToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

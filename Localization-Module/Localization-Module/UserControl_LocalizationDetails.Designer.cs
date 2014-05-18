@@ -76,6 +76,7 @@
             // Timer_Description
             // 
             this.Timer_Description.Interval = 300;
+            this.Timer_Description.Tick += new System.EventHandler(this.Timer_Description_Tick);
             // 
             // splitContainer1
             // 
@@ -116,6 +117,7 @@
             this.textBox_Message.ReadOnly = true;
             this.textBox_Message.Size = new System.Drawing.Size(220, 359);
             this.textBox_Message.TabIndex = 0;
+            this.textBox_Message.TextChanged += new System.EventHandler(this.textBox_Message_TextChanged);
             // 
             // UserControl_LocalizationDetails
             // 

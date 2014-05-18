@@ -22,18 +22,25 @@ Partial Class dlg_Attribute_String
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(dlg_Attribute_String))
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.OK_Button = New System.Windows.Forms.Button()
         Me.Cancel_Button = New System.Windows.Forms.Button()
-        Me.Panel_Val = New System.Windows.Forms.Panel()
         Me.NumericUpDown_ItemCount = New System.Windows.Forms.NumericUpDown()
         Me.ToolStripStatusLabel_DB = New System.Windows.Forms.ToolStripStatusLabel()
         Me.CheckBox_more = New System.Windows.Forms.CheckBox()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.TabPage_Text = New System.Windows.Forms.TabPage()
+        Me.TabPage_WebBrowser = New System.Windows.Forms.TabPage()
+        Me.WebBrowser_Text = New System.Windows.Forms.WebBrowser()
+        Me.Timer_Webbrowser = New System.Windows.Forms.Timer(Me.components)
         Me.TableLayoutPanel1.SuspendLayout()
         CType(Me.NumericUpDown_ItemCount, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.StatusStrip1.SuspendLayout()
+        Me.TabControl1.SuspendLayout()
+        Me.TabPage_WebBrowser.SuspendLayout()
         Me.SuspendLayout()
         '
         'TableLayoutPanel1
@@ -69,16 +76,6 @@ Partial Class dlg_Attribute_String
         Me.Cancel_Button.Size = New System.Drawing.Size(67, 23)
         Me.Cancel_Button.TabIndex = 1
         Me.Cancel_Button.Text = "Cancel"
-        '
-        'Panel_Val
-        '
-        Me.Panel_Val.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Panel_Val.Location = New System.Drawing.Point(13, 6)
-        Me.Panel_Val.Name = "Panel_Val"
-        Me.Panel_Val.Size = New System.Drawing.Size(410, 314)
-        Me.Panel_Val.TabIndex = 21
         '
         'NumericUpDown_ItemCount
         '
@@ -124,13 +121,60 @@ Partial Class dlg_Attribute_String
         Me.StatusStrip1.TabIndex = 18
         Me.StatusStrip1.Text = "StatusStrip1"
         '
+        'TabControl1
+        '
+        Me.TabControl1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TabControl1.Controls.Add(Me.TabPage_Text)
+        Me.TabControl1.Controls.Add(Me.TabPage_WebBrowser)
+        Me.TabControl1.Location = New System.Drawing.Point(9, 4)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(414, 314)
+        Me.TabControl1.TabIndex = 21
+        '
+        'TabPage_Text
+        '
+        Me.TabPage_Text.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage_Text.Name = "TabPage_Text"
+        Me.TabPage_Text.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage_Text.Size = New System.Drawing.Size(406, 288)
+        Me.TabPage_Text.TabIndex = 0
+        Me.TabPage_Text.Text = "x_Text"
+        Me.TabPage_Text.UseVisualStyleBackColor = True
+        '
+        'TabPage_WebBrowser
+        '
+        Me.TabPage_WebBrowser.Controls.Add(Me.WebBrowser_Text)
+        Me.TabPage_WebBrowser.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage_WebBrowser.Name = "TabPage_WebBrowser"
+        Me.TabPage_WebBrowser.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage_WebBrowser.Size = New System.Drawing.Size(406, 288)
+        Me.TabPage_WebBrowser.TabIndex = 2
+        Me.TabPage_WebBrowser.Text = "x_WebBrowser"
+        Me.TabPage_WebBrowser.UseVisualStyleBackColor = True
+        '
+        'WebBrowser_Text
+        '
+        Me.WebBrowser_Text.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.WebBrowser_Text.Location = New System.Drawing.Point(3, 3)
+        Me.WebBrowser_Text.MinimumSize = New System.Drawing.Size(20, 20)
+        Me.WebBrowser_Text.Name = "WebBrowser_Text"
+        Me.WebBrowser_Text.Size = New System.Drawing.Size(400, 282)
+        Me.WebBrowser_Text.TabIndex = 0
+        '
+        'Timer_Webbrowser
+        '
+        Me.Timer_Webbrowser.Interval = 300
+        '
         'dlg_Attribute_String
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Cancel_Button
         Me.ClientSize = New System.Drawing.Size(434, 388)
-        Me.Controls.Add(Me.Panel_Val)
+        Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.NumericUpDown_ItemCount)
         Me.Controls.Add(Me.CheckBox_more)
         Me.Controls.Add(Me.StatusStrip1)
@@ -144,6 +188,8 @@ Partial Class dlg_Attribute_String
         CType(Me.NumericUpDown_ItemCount, System.ComponentModel.ISupportInitialize).EndInit()
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
+        Me.TabControl1.ResumeLayout(False)
+        Me.TabPage_WebBrowser.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -151,10 +197,14 @@ Partial Class dlg_Attribute_String
     Friend WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents OK_Button As System.Windows.Forms.Button
     Friend WithEvents Cancel_Button As System.Windows.Forms.Button
-    Friend WithEvents Panel_Val As System.Windows.Forms.Panel
     Friend WithEvents NumericUpDown_ItemCount As System.Windows.Forms.NumericUpDown
     Friend WithEvents ToolStripStatusLabel_DB As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents CheckBox_more As System.Windows.Forms.CheckBox
     Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
+    Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
+    Friend WithEvents TabPage_Text As System.Windows.Forms.TabPage
+    Friend WithEvents TabPage_WebBrowser As System.Windows.Forms.TabPage
+    Friend WithEvents WebBrowser_Text As System.Windows.Forms.WebBrowser
+    Friend WithEvents Timer_Webbrowser As System.Windows.Forms.Timer
 
 End Class

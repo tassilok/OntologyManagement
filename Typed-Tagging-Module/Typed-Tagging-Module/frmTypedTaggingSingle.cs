@@ -25,6 +25,17 @@ namespace Typed_Tagging_Module
 
         private clsGraphMLWork objGraphMLWork;
 
+        public frmTypedTaggingSingle(clsLocalConfig LocalConfig, clsOntologyItem OItem_TaggingSource)
+        {
+            InitializeComponent();
+
+            objLocalConfig = LocalConfig;
+
+            objOItem_TaggingSource = OItem_TaggingSource;
+
+            Initialize();
+        }
+
         public frmTypedTaggingSingle(clsGlobals Globals, clsOntologyItem OItem_User, clsOntologyItem OItem_Group, clsOntologyItem OItem_TaggingSource)
         {
             InitializeComponent();
@@ -48,6 +59,8 @@ namespace Typed_Tagging_Module
 
             objGraphMLWork = new clsGraphMLWork(objLocalConfig.Globals);
             objDBLevel = new clsDBLevel(objLocalConfig.Globals);
+
+            this.Text = objOItem_TaggingSource.Type + ":" + objOItem_TaggingSource.Name;
 
         }
 
@@ -90,9 +103,17 @@ namespace Typed_Tagging_Module
                 objGraphMLWork.OList_Objects = oList_Objects;
                 objGraphMLWork.OList_Objects.Add(objOItem_TaggingSource);
                 objGraphMLWork.OList_ORels = oList_RelationTagSource_To_TagClasses;
-                objGraphMLWork.OList_ORels.AddRange(oList_Objects_Of_Classes);
-
-                objGraphMLWork.ExportItems(filePath);
+                var objOItem_Class = objDBLevel.GetOItem(objOItem_TaggingSource.GUID_Parent, objLocalConfig.Globals.Type_Class);
+                objGraphMLWork.OList_Classes.Add(objOItem_Class);
+                var objOItem_Result = objGraphMLWork.ExportItems(filePath);
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    MessageBox.Show(this, "Die GraphML-Datei wurde exportiert!", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show(this, "Die GraphML-Datei konnte nicht exportiert werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
             
             

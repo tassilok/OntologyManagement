@@ -17,6 +17,25 @@ Public Class clsTransaction
         End Get
     End Property
 
+    Public Function del_ObjectAndRelations(OItem_Object As clsOntologyItem) As clsOntologyItem
+        Dim objOList_AttributesDel = New List(Of clsObjectAtt) From {New clsObjectAtt With {.ID_Object = OItem_Object.GUID}}
+        Dim objOList_ObjectsForw = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Object = OItem_Object.GUID}}
+        Dim objOList_ObjectsBackw = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Other = OItem_Object.GUID}}
+
+
+        Dim objOItem_Result = objDBLevel.del_ObjectAtt(objOList_AttributesDel)
+        If Not objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
+            objOItem_Result = objDBLevel.del_ObjectRel(objOList_ObjectsForw)
+            If Not objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
+                objOItem_Result = objDBLevel.del_ObjectRel(objOList_ObjectsBackw)
+                If Not objOItem_Result.GUID = objLogStates.LogState_Error.GUID Then
+                    objOItem_Result = objDBLevel.del_Objects(New List(Of clsOntologyItem) From {OItem_Object})
+                End If
+            End If
+        End If
+
+        Return objOItem_Result
+    End Function
 
     Public Function do_Transaction(OItem_Item As Object, Optional boolRemoveAll As Boolean = False, Optional boolRemoveItem As Boolean = False) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem = objLogStates.LogState_Error

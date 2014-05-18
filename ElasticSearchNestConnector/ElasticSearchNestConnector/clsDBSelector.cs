@@ -59,6 +59,20 @@ namespace ElasticSearchNestConnector
         public List<clsOntologyItem> OntologyList_DataTypes { get; set; }
         public List<clsAttribute> OntologyList_Attributes { get; set; }
 
+        public IndexExistsDescriptor GetIndexExistsDescriptor()
+        {
+            return new IndexExistsDescriptor();
+        }
+
+        public IndexSettings GetIndexSettings()
+        {
+            return new IndexSettings();
+        }
+
+        public DeleteIndexDescriptor GetDeleteIndexDescriptor()
+        {
+            return new DeleteIndexDescriptor();
+        }
 
         public SortEnum Sort
         {

@@ -71,6 +71,7 @@
     <Compile Include="DataClasses\clsRelationTypes.cs" />
     <Compile Include="DataClasses\clsTypes.cs" />
     <Compile Include="DataClasses\clsVariables.cs" />
+    <Compile Include="Interfaces\IModule.cs" />
     <Compile Include="Interfaces\IReportConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
