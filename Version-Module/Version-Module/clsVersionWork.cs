@@ -198,6 +198,7 @@ namespace Version_Module
         public clsOntologyItem get_VersionData()
         {
             var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+            DataWork_Versions.OItem_Ref = objOItem_Ref;
             DataWork_Versions.GetData_Ref_To_Version();
             if (DataWork_Versions.OItem_Result_Versions_To_Refs.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {

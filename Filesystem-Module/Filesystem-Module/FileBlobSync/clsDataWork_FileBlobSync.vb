@@ -213,6 +213,5 @@ Public Class clsDataWork_FileBlobSync
 
         objFileWork = New clsFileWork(objLocalConfig)
         ItemList = New List(Of clsBlobSyncItem)
-        objFileWork = New clsFileWork(objLocalConfig)
     End Sub
 End Class

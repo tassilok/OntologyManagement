@@ -58,6 +58,18 @@ private void get_Data_DevelopmentConfig()
             {
                 if (objDBLevel_Config1.OList_ObjectRel.Any())
                 {
+                    objORL_Ontology_To_OntolgyItems = objDBLevel_Config1.OList_ObjectRel.Select(oi => new clsObjectRel {ID_Object = oi.ID_Other,
+                                                                                                                                ID_RelationType = Globals.RelationType_belongingAttribute.GUID}).ToList();
+
+                    objORL_Ontology_To_OntolgyItems.AddRange(objDBLevel_Config1.OList_ObjectRel.Select(oi => new clsObjectRel {ID_Object = oi.ID_Other,
+                                                                                                                                    ID_RelationType = Globals.RelationType_belongingClass.GUID}));
+                    objORL_Ontology_To_OntolgyItems.AddRange(objDBLevel_Config1.OList_ObjectRel.Select(oi => new clsObjectRel {ID_Object = oi.ID_Other,
+                                                                                                                                    ID_RelationType = Globals.RelationType_belongingObject.GUID}));
+                    objORL_Ontology_To_OntolgyItems.AddRange(objDBLevel_Config1.OList_ObjectRel.Select(oi => new clsObjectRel
+                    {
+                        ID_Object = oi.ID_Other,
+                        ID_RelationType = Globals.RelationType_belongingRelationType.GUID
+                    }));
 
                     objORL_Ontology_To_OntolgyItems = new List<clsObjectRel> {new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
                                                                                                          ID_RelationType = Globals.RelationType_belongingAttribute.GUID},

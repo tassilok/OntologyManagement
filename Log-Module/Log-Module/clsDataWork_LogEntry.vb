@@ -33,6 +33,8 @@ Public Class clsDataWork_LogEntry
     Private objOItem_DateTimeStamp As clsObjectAtt
     Private objOItem_Message As clsObjectAtt
 
+    Private objOItem_RefDirection As clsOntologyItem
+
     Private boolList As Boolean
 
     Public ReadOnly Property OItem_Result_LogState As clsOntologyItem
@@ -270,18 +272,22 @@ Public Class clsDataWork_LogEntry
             objOList_Logentries.Add(New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_LogEntry.GUID,
                                                        .ID_Other = OItem_Ref.GUID,
                                                        .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID})
-
+            objOItem_RefDirection = objLocalConfig.Globals.Direction_LeftRight.Clone()
         Else
             objOList_Logentries.Add(New clsObjectRel With {.ID_Object = OItem_Ref.GUID,
                                                                    .ID_Parent_Other = objLocalConfig.OItem_Type_LogEntry.GUID,
                                                                    .ID_RelationType = OItem_RelationType.GUID})
-
+            objOItem_RefDirection = objLocalConfig.Globals.Direction_RightLeft.Clone()
         End If
         
         Dim objOItem_Result = objDBLevel_LogEntryOfRef.get_Data_ObjectRel(objOList_Logentries, boolIDs:=False)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+           
+
+           
             Dim objOList_Logentry = New List(Of clsLogEntry)
             get_Data_LogState()
+
             If objOItem_Result_LogState.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                 get_Data_DateTimeStamp()
                 If objOItem_Result_DateTimeStamp.GUID = objLocalConfig.Globals.LState_Success.GUID Then
@@ -336,9 +342,19 @@ Public Class clsDataWork_LogEntry
                                                 Nothing, _
                                                 Nothing))
         Else
-            objOList_ObjectRel.Add(New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_LogEntry.GUID, _
+            If objDBLevel_LogEntryOfRef.OList_ObjectRel.Any() And objDBLevel_LogEntryOfRef.OList_ObjectRel.Count < 500 Then
+
+                objOList_ObjectRel = objDBLevel_LogEntryOfRef.OList_ObjectRel.Select(Function(loge) New clsObjectRel With {
+                                                                                     .ID_Object = If(objOItem_RefDirection.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID, loge.ID_Object, loge.ID_Other),
+                                                                                     .ID_RelationType = objLocalConfig.OItem_RelationType_wasCreatedBy.GUID,
+                                                                                     .ID_Parent_Other = objLocalConfig.OItem_type_User.GUID}).ToList
+
+            Else
+                objOList_ObjectRel.Add(New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_LogEntry.GUID, _
                                                           .ID_Parent_Other = objLocalConfig.OItem_type_User.GUID, _
                                                           .ID_RelationType = objLocalConfig.OItem_RelationType_wasCreatedBy.GUID})
+            End If
+            
         End If
         
 
@@ -373,8 +389,17 @@ Public Class clsDataWork_LogEntry
                                                     objLocalConfig.OItem_Attribute_DateTimeStamp.GUID, _
                                                     Nothing))
         Else
-            objOList_DateTimeStamp.Add(New clsObjectAtt With {.ID_Class = objLocalConfig.OItem_Type_LogEntry.GUID, _
+            If objDBLevel_LogEntryOfRef.OList_ObjectRel.Any() And objDBLevel_LogEntryOfRef.OList_ObjectRel.Count < 500 Then
+
+                objOList_DateTimeStamp = objDBLevel_LogEntryOfRef.OList_ObjectRel.Select(Function(loge) New clsObjectAtt With {
+                                                                                     .ID_Object = If(objOItem_RefDirection.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID, loge.ID_Object, loge.ID_Other),
+                                                                                     .ID_AttributeType = objLocalConfig.OItem_Attribute_DateTimeStamp.GUID}).ToList
+
+            Else
+                objOList_DateTimeStamp.Add(New clsObjectAtt With {.ID_Class = objLocalConfig.OItem_Type_LogEntry.GUID, _
                                                               .ID_AttributeType = objLocalConfig.OItem_Attribute_DateTimeStamp.GUID})
+            End If
+            
         End If
         
 
@@ -420,8 +445,17 @@ Public Class clsDataWork_LogEntry
                                                     objLocalConfig.OItem_Attribute_Message.GUID, _
                                                     Nothing))
         Else
-            objOList_Message.Add(New clsObjectAtt With {.ID_Class = objLocalConfig.OItem_Type_LogEntry.GUID, _
+            If objDBLevel_LogEntryOfRef.OList_ObjectRel.Any() And objDBLevel_LogEntryOfRef.OList_ObjectRel.Count < 500 Then
+
+                objOList_Message = objDBLevel_LogEntryOfRef.OList_ObjectRel.Select(Function(loge) New clsObjectAtt With {
+                                                                                     .ID_Object = If(objOItem_RefDirection.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID, loge.ID_Object, loge.ID_Other),
+                                                                                     .ID_AttributeType = objLocalConfig.OItem_Attribute_Message.GUID}).ToList
+
+            Else
+                objOList_Message.Add(New clsObjectAtt With {.ID_Class = objLocalConfig.OItem_Type_LogEntry.GUID, _
                                                         .ID_AttributeType = objLocalConfig.OItem_Attribute_Message.GUID})
+            End If
+            
         End If
         
 
@@ -470,9 +504,19 @@ Public Class clsDataWork_LogEntry
                                                 Nothing, _
                                                 Nothing))
         Else
-            objOList_ObjectRel.Add(New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_LogEntry.GUID, _
-                                                          .ID_Parent_Other = objLocalConfig.OItem_type_Logstate.GUID, _
-                                                          .ID_RelationType = objLocalConfig.OItem_RelationType_provides.GUID})
+            If objDBLevel_LogEntryOfRef.OList_ObjectRel.Any() And objDBLevel_LogEntryOfRef.OList_ObjectRel.Count < 500 Then
+
+                objOList_ObjectRel = objDBLevel_LogEntryOfRef.OList_ObjectRel.Select(Function(loge) New clsObjectRel With {
+                                                                                     .ID_Object = If(objOItem_RefDirection.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID, loge.ID_Object, loge.ID_Other),
+                                                                                     .ID_RelationType = objLocalConfig.OItem_RelationType_provides.GUID,
+                                                                                     .ID_Parent_Other = objLocalConfig.OItem_type_Logstate.GUID}).ToList
+            
+            Else
+                objOList_ObjectRel.Add(New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Type_LogEntry.GUID, _
+                                                      .ID_Parent_Other = objLocalConfig.OItem_type_Logstate.GUID, _
+                                                      .ID_RelationType = objLocalConfig.OItem_RelationType_provides.GUID})
+            End If
+            
         End If
         
 

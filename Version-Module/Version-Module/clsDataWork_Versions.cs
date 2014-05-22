@@ -55,6 +55,8 @@ namespace Version_Module
         public TreeNode TreeNode_AttributeTypes { get; private set; }
         public TreeNode TreeNode_RelationTypes { get; private set; }
 
+        public clsOntologyItem OItem_Ref { get; set; }
+
         public void GetData_Version()
         {
             OItem_Result_Versions = objLocalConfig.Globals.LState_Nothing;
@@ -81,24 +83,47 @@ namespace Version_Module
             OItem_Result_Versions_To_Refs = objLocalConfig.Globals.LState_Nothing;
 
             var objOList_Ref_To_Version = new List<clsObjectRel> { new clsObjectRel { ID_Parent_Other = objLocalConfig.OItem_type_developmentversion.GUID, 
-                                                                                      ID_RelationType = objLocalConfig.OItem_relationtype_isinstate.GUID } };
+                                                                                      ID_RelationType = objLocalConfig.OItem_relationtype_isinstate.GUID,
+                                                                                      ID_Object = OItem_Ref != null ? OItem_Ref.GUID : null} };
             objDBLevel_Refs_To_Versions.Sort = clsDBLevel.SortEnum.DESC_OrderID;
 
             var objOItem_Result = objDBLevel_Refs_To_Versions.get_Data_ObjectRel(objOList_Ref_To_Version, boolIDs: false);
 
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                var objOList_Versions_To_Refs = new List<clsObjectRel>
-                    {
-                        new clsObjectRel
-                            {
-                                ID_Parent_Object = objLocalConfig.OItem_type_developmentversion.GUID,
-                                ID_RelationType = objLocalConfig.OItem_relationtype_belongsto.GUID
-                            }
-                    };
+                List<clsObjectRel> objOList_Versions_To_Refs;
 
-                objOItem_Result = objDBLevel_Versions_To_Refs.get_Data_ObjectRel(objOList_Versions_To_Refs,
+                if (objDBLevel_Refs_To_Versions.OList_ObjectRel.Any() )
+                {
+                    if (objDBLevel_Refs_To_Versions.OList_ObjectRel.Count < 500)
+                    {
+                        objOList_Versions_To_Refs = objDBLevel_Refs_To_Versions.OList_ObjectRel.Select(v => new clsObjectRel
+                        {
+                            ID_Object = v.ID_Other,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_belongsto.GUID
+                        }).ToList();
+                    }
+                    else
+                    {
+                        objOList_Versions_To_Refs = new List<clsObjectRel>
+                        {
+                            new clsObjectRel
+                                {
+                                    ID_Parent_Object = objLocalConfig.OItem_type_developmentversion.GUID,
+                                    ID_RelationType = objLocalConfig.OItem_relationtype_belongsto.GUID
+                                }
+                        };
+                    }
+                    objOItem_Result = objDBLevel_Versions_To_Refs.get_Data_ObjectRel(objOList_Versions_To_Refs,
                                                                                  boolIDs: false);
+                }
+                else
+                {
+                    objDBLevel_Versions_To_Refs.OList_ObjectRel.Clear();
+                }
+                
+
+                
 
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {

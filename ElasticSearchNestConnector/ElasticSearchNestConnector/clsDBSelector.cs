@@ -698,12 +698,14 @@ namespace ElasticSearchNestConnector
             }
 
 
-            if (strQuery != "")
-            {
-                strQuery += " AND ";
-            }
+            
             if (OItem_AttributeType != null)
             {
+                if (strQuery != "")
+                {
+                    strQuery += " AND ";
+                }
+
                 if (OItem_AttributeType.GUID != null)
                 {
                     strQuery += objFields.ID_AttributeType + ":" + OItem_AttributeType.GUID;

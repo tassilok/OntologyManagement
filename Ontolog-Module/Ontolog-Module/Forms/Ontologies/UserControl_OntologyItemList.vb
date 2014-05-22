@@ -5,6 +5,7 @@ Public Class UserControl_OntologyItemList
     Private objDataWork_Ontologies As clsDataWork_Ontologies
     Private objFrmMain As frmMain
     Private objTransaction As clsTransaction
+    Private objRelationConfig As clsRelationConfig
     Private objOItem_Ontology As clsOntologyItem
 
     Private objOList_OntologyItems As SortableBindingList(Of clsOntologyItemsOfOntologies)
@@ -79,7 +80,8 @@ Public Class UserControl_OntologyItemList
     End Sub
 
     Private Sub initialize()
-        objTransaction = new clsTransaction(objDataWork_Ontologies.LocalConfig.Globals)
+        objTransaction = New clsTransaction(objDataWork_Ontologies.LocalConfig.Globals)
+        objRelationConfig = New clsRelationConfig(objDataWork_Ontologies.LocalConfig.Globals)
     End Sub
 
     Public Sub initialize_List(OItem_Ontology As clsOntologyItem)
@@ -194,29 +196,41 @@ Public Class UserControl_OntologyItemList
 
                     Dim objOItem_Result = objTransaction.do_Transaction(objOItem_OItem)
                     If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                        Dim objRel_OntologyItemToRef = objDataWork_Ontologies.Rel_OntologyItemToRef(objOItem_OItem, objOItem)
-                        objOItem_Result = objTransaction.do_Transaction(objRel_OntologyItemToRef, True)
-                        If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                            Dim objORel_OntologyItem_To_Ontology = objDataWork_Ontologies.Rel_Ontology_To_OntologyItem(objOItem_Ontology, objOItem_OItem)
+                        Dim objRelationType = If(objOItem.Type = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType, objDataWork_Ontologies.LocalConfig.Globals.RelationType_belongingAttribute, _
+                                                  If(objOItem.Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Class, objDataWork_Ontologies.LocalConfig.Globals.RelationType_belongingClass, _
+                                                      If(objOItem.Type = objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType, objDataWork_Ontologies.LocalConfig.Globals.RelationType_belongingRelationType, _
+                                                          If(objOItem.Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object, objDataWork_Ontologies.LocalConfig.Globals.RelationType_belongingObject, Nothing))))
 
-                            objOItem_Result = objTransaction.do_Transaction(objORel_OntologyItem_To_Ontology, True)
+                        If Not objRelationType Is Nothing Then
+                            Dim objRel_OntologyItemToRef = objRelationConfig.Rel_ObjectRelation(objOItem_OItem, objOItem, objRelationType)
 
+                            objOItem_Result = objTransaction.do_Transaction(objRel_OntologyItemToRef, True)
                             If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                                objDataWork_Ontologies.OList_RefsOfOntologyItems.Add(New clsOntologyItemsOfOntologies With {.ID_Ontology = objOItem_Ontology.GUID, _
-                                                                                                                            .ID_OntologyItem = objOItem_OItem.GUID, _
-                                                                                                                            .ID_Parent_Ref = objOItem.GUID_Parent, _
-                                                                                                                            .ID_Ref = objOItem.GUID, _
-                                                                                                                            .Name_Ref = objOItem.Name, _
-                                                                                                                            .Type_Ref = objOItem.Type})
+                                Dim objORel_OntologyItem_To_Ontology = objRelationConfig.Rel_ObjectRelation(objOItem_Ontology, objOItem_OItem, objDataWork_Ontologies.objLocalConfig.Globals.RelationType_contains)
 
-                                initialize_List(objOItem_Ontology)
+                                objOItem_Result = objTransaction.do_Transaction(objORel_OntologyItem_To_Ontology)
+
+                                If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                                    objDataWork_Ontologies.OList_RefsOfOntologyItems.Add(New clsOntologyItemsOfOntologies With {.ID_Ontology = objOItem_Ontology.GUID, _
+                                                                                                                                .ID_OntologyItem = objOItem_OItem.GUID, _
+                                                                                                                                .Name_OntologyItem = objOItem_OItem.Name, _
+                                                                                                                                .ID_Parent_Ref = objOItem.GUID_Parent, _
+                                                                                                                                .ID_Ref = objOItem.GUID, _
+                                                                                                                                .Name_Ref = objOItem.Name, _
+                                                                                                                                .Type_Ref = objOItem.Type})
+
+                                    initialize_List(objOItem_Ontology)
+                                Else
+                                    objTransaction.rollback()
+                                End If
+
                             Else
                                 objTransaction.rollback()
                             End If
-
                         Else
                             objTransaction.rollback()
                         End If
+                        
 
                     End If
 
