@@ -2,6 +2,7 @@
 Imports OntologyClasses.BaseClasses
 Imports ClassLibrary_ShellWork
 Imports Security_Module
+Imports System.IO
 
 Public Class frm_FilesystemModule
     Private Const cint_ImageID_Root As Integer = 7
@@ -38,6 +39,7 @@ Public Class frm_FilesystemModule
     Private objOItem_FileSystemObject As clsOntologyItem
     Private objOItem_Class_Applied As clsOntologyItem
     Private objFrm_Authentication As frmAuthenticate
+    Private objFrmOntologyItemList As frmOntologyItemList
 
     Private objFrmBlobWatcher As frmBlobWatcher
 
@@ -427,6 +429,7 @@ Public Class frm_FilesystemModule
         XputBackToFSToolStripMenuItem.Enabled = False
         GetMetaToolStripMenuItem.Enabled = False
         objTreeNode = TreeView_Folder.SelectedNode
+        WriteIdentityToFileToolStripMenuItem.Enabled = False
         If Not objTreeNode Is Nothing Then
             If objTreeNode.ImageIndex = cint_ImageID_Folder_Closed Or _
                 objTreeNode.ImageIndex = cint_ImageID_Drive Then
@@ -437,7 +440,7 @@ Public Class frm_FilesystemModule
         If DataGridView_Files.SelectedRows.Count > 0 Then
             boolCreateBlob = False
             boolDownloadBlob = False
-
+            WriteIdentityToFileToolStripMenuItem.Enabled = True
             For Each objDGVR_Selected In DataGridView_Files.SelectedRows
                 objDRV_Selected = objDGVR_Selected.DataBoundItem
                 Try
@@ -907,5 +910,38 @@ Public Class frm_FilesystemModule
     Private Sub SyncBlobFilesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SyncBlobFilesToolStripMenuItem.Click
         objFrm_FileBlobSync = New frmFileBlobSync(objLocalConfig)
         objFrm_FileBlobSync.ShowDialog(Me)
+    End Sub
+
+    Private Sub WriteIdentityToFileToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles WriteIdentityToFileToolStripMenuItem.Click
+        Dim objOList_ErrorLog As List(Of clsOntologyItem) = New List(Of clsOntologyItem)
+        For Each objDGVR As DataGridViewRow In DataGridView_Files.SelectedRows
+            Dim objDRV As DataRowView = objDGVR.DataBoundItem
+
+            Dim objOItem_File = New clsOntologyItem With {.GUID = objDRV.Item("GUID_File"),
+                                                          .Name = objDRV.Item("Name_File"),
+                                                          .GUID_Parent = objLocalConfig.OItem_Type_File.GUID,
+                                                          .Type = objLocalConfig.Globals.Type_Object}
+
+            objOItem_File.Additional1 = objFileWork.get_Path_FileSystemObject(objOItem_File, False)
+
+            If File.Exists(objOItem_File.Additional1) Then
+                Dim objOItem_Result = objBlobConnection.WriteIdentityToFile(objOItem_File, objOItem_File.Additional1)
+                If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objOList_ErrorLog.Add(objOItem_Result)
+
+                End If
+            Else
+                objOList_ErrorLog.Add(objLocalConfig.OItem_object_file_not_present.Clone())
+
+            End If
+        Next
+
+        If objOList_ErrorLog.Any() Then
+            objFrmOntologyItemList = New frmOntologyItemList(objOList_ErrorLog, objLocalConfig.Globals)
+            objFrmOntologyItemList.ShowDialog(Me)
+
+        Else
+            MsgBox("Alle Dateien wurden identifiziert!", MsgBoxStyle.Information)
+        End If
     End Sub
 End Class

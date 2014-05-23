@@ -67,7 +67,12 @@ public clsOntologyItem OItem_object_base_config { get; set; }
 public List<clsOntologyItem> OList_Languages { get; set; }
 public clsOntologyItem OItem_StandardLanguage { get; set; }
 
-	
+
+public string Id_Ontology
+{
+    get { return cstrID_Ontology; }
+}
+
 private void get_Data_DevelopmentConfig()
         {
             var objORL_Ontology_To_OntolgyItems = new List<clsObjectRel> {new clsObjectRel {ID_Object = cstrID_Ontology, 

@@ -97,27 +97,28 @@ Partial Class frm_FilesystemModule
         Me.OpenFileDialog_Files = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog_Folders = New System.Windows.Forms.FolderBrowserDialog()
         Me.BindingSource_Files = New System.Windows.Forms.BindingSource(Me.components)
-        Me.MenuStrip1.SuspendLayout
-        Me.StatusStrip1.SuspendLayout
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout
-        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout
-        Me.ToolStripContainer1.SuspendLayout
-        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SplitContainer1.Panel1.SuspendLayout
-        Me.SplitContainer1.Panel2.SuspendLayout
-        Me.SplitContainer1.SuspendLayout
-        Me.ContextMenuStrip_Tree.SuspendLayout
-        Me.ToolStripContainer2.BottomToolStripPanel.SuspendLayout
-        Me.ToolStripContainer2.ContentPanel.SuspendLayout
-        Me.ToolStripContainer2.TopToolStripPanel.SuspendLayout
-        Me.ToolStripContainer2.SuspendLayout
-        Me.ToolStrip3.SuspendLayout
-        CType(Me.DataGridView_Files,System.ComponentModel.ISupportInitialize).BeginInit
-        Me.ContextMenuStrip_DataGrid.SuspendLayout
-        Me.ToolStrip2.SuspendLayout
-        Me.ToolStrip1.SuspendLayout
-        CType(Me.BindingSource_Files,System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SuspendLayout
+        Me.WriteIdentityToFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuStrip1.SuspendLayout()
+        Me.StatusStrip1.SuspendLayout()
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
+        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.SuspendLayout()
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.Panel2.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
+        Me.ContextMenuStrip_Tree.SuspendLayout()
+        Me.ToolStripContainer2.BottomToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer2.ContentPanel.SuspendLayout()
+        Me.ToolStripContainer2.TopToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer2.SuspendLayout()
+        Me.ToolStrip3.SuspendLayout()
+        CType(Me.DataGridView_Files, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ContextMenuStrip_DataGrid.SuspendLayout()
+        Me.ToolStrip2.SuspendLayout()
+        Me.ToolStrip1.SuspendLayout()
+        CType(Me.BindingSource_Files, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
         '
         'MenuStrip1
         '
@@ -150,8 +151,8 @@ Partial Class frm_FilesystemModule
         '
         'ToolstripToolStripMenuItem
         '
-        Me.ToolstripToolStripMenuItem.Checked = true
-        Me.ToolstripToolStripMenuItem.CheckOnClick = true
+        Me.ToolstripToolStripMenuItem.Checked = True
+        Me.ToolstripToolStripMenuItem.CheckOnClick = True
         Me.ToolstripToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ToolstripToolStripMenuItem.Name = "ToolstripToolStripMenuItem"
         Me.ToolstripToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
@@ -159,8 +160,8 @@ Partial Class frm_FilesystemModule
         '
         'TaskbarToolStripMenuItem
         '
-        Me.TaskbarToolStripMenuItem.Checked = true
-        Me.TaskbarToolStripMenuItem.CheckOnClick = true
+        Me.TaskbarToolStripMenuItem.Checked = True
+        Me.TaskbarToolStripMenuItem.CheckOnClick = True
         Me.TaskbarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.TaskbarToolStripMenuItem.Name = "TaskbarToolStripMenuItem"
         Me.TaskbarToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
@@ -168,8 +169,8 @@ Partial Class frm_FilesystemModule
         '
         'FolderToolStripMenuItem
         '
-        Me.FolderToolStripMenuItem.Checked = true
-        Me.FolderToolStripMenuItem.CheckOnClick = true
+        Me.FolderToolStripMenuItem.Checked = True
+        Me.FolderToolStripMenuItem.CheckOnClick = True
         Me.FolderToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.FolderToolStripMenuItem.Name = "FolderToolStripMenuItem"
         Me.FolderToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
@@ -177,8 +178,8 @@ Partial Class frm_FilesystemModule
         '
         'CheckExistanceToolStripMenuItem
         '
-        Me.CheckExistanceToolStripMenuItem.Checked = true
-        Me.CheckExistanceToolStripMenuItem.CheckOnClick = true
+        Me.CheckExistanceToolStripMenuItem.Checked = True
+        Me.CheckExistanceToolStripMenuItem.CheckOnClick = True
         Me.CheckExistanceToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckExistanceToolStripMenuItem.Name = "CheckExistanceToolStripMenuItem"
         Me.CheckExistanceToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
@@ -314,9 +315,9 @@ Partial Class frm_FilesystemModule
         'ToolStripStatusLabel_DBName
         '
         Me.ToolStripStatusLabel_DBName.BackColor = System.Drawing.Color.LemonChiffon
-        Me.ToolStripStatusLabel_DBName.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)  _
-            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)  _
-            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom),System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.ToolStripStatusLabel_DBName.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ToolStripStatusLabel_DBName.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
         Me.ToolStripStatusLabel_DBName.Name = "ToolStripStatusLabel_DBName"
         Me.ToolStripStatusLabel_DBName.Size = New System.Drawing.Size(30, 19)
@@ -390,7 +391,7 @@ Partial Class frm_FilesystemModule
         '
         'Open_Tree_ToolStripMenuItem1
         '
-        Me.Open_Tree_ToolStripMenuItem1.Enabled = false
+        Me.Open_Tree_ToolStripMenuItem1.Enabled = False
         Me.Open_Tree_ToolStripMenuItem1.Name = "Open_Tree_ToolStripMenuItem1"
         Me.Open_Tree_ToolStripMenuItem1.Size = New System.Drawing.Size(170, 22)
         Me.Open_Tree_ToolStripMenuItem1.Text = "x_Open"
@@ -421,7 +422,7 @@ Partial Class frm_FilesystemModule
         '
         'TreeNodeImageList
         '
-        Me.TreeNodeImageList.ImageStream = CType(resources.GetObject("TreeNodeImageList.ImageStream"),System.Windows.Forms.ImageListStreamer)
+        Me.TreeNodeImageList.ImageStream = CType(resources.GetObject("TreeNodeImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.TreeNodeImageList.TransparentColor = System.Drawing.Color.Transparent
         Me.TreeNodeImageList.Images.SetKeyName(0, "ClosedFolder")
         Me.TreeNodeImageList.Images.SetKeyName(1, "OpenFolder")
@@ -478,15 +479,15 @@ Partial Class frm_FilesystemModule
         '
         'DataGridView_Files
         '
-        Me.DataGridView_Files.AllowDrop = true
-        Me.DataGridView_Files.AllowUserToAddRows = false
-        Me.DataGridView_Files.AllowUserToDeleteRows = false
+        Me.DataGridView_Files.AllowDrop = True
+        Me.DataGridView_Files.AllowUserToAddRows = False
+        Me.DataGridView_Files.AllowUserToDeleteRows = False
         Me.DataGridView_Files.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView_Files.ContextMenuStrip = Me.ContextMenuStrip_DataGrid
         Me.DataGridView_Files.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView_Files.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_Files.Name = "DataGridView_Files"
-        Me.DataGridView_Files.ReadOnly = true
+        Me.DataGridView_Files.ReadOnly = True
         Me.DataGridView_Files.Size = New System.Drawing.Size(392, 294)
         Me.DataGridView_Files.TabIndex = 2
         '
@@ -494,7 +495,7 @@ Partial Class frm_FilesystemModule
         '
         Me.ContextMenuStrip_DataGrid.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem_DataGrid, Me.OpenToolStripMenuItem, Me.ApplyFilesToolStripMenuItem, Me.ModuleActionsToolStripMenuItem, Me.EditToolStripMenuItem, Me.BlobsToolStripMenuItem})
         Me.ContextMenuStrip_DataGrid.Name = "ContextMenuStrip_DataGrid"
-        Me.ContextMenuStrip_DataGrid.Size = New System.Drawing.Size(171, 136)
+        Me.ContextMenuStrip_DataGrid.Size = New System.Drawing.Size(171, 158)
         '
         'NewToolStripMenuItem_DataGrid
         '
@@ -504,7 +505,7 @@ Partial Class frm_FilesystemModule
         '
         'OpenToolStripMenuItem
         '
-        Me.OpenToolStripMenuItem.Enabled = false
+        Me.OpenToolStripMenuItem.Enabled = False
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
         Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.OpenToolStripMenuItem.Text = "x_Open"
@@ -529,7 +530,7 @@ Partial Class frm_FilesystemModule
         '
         'EditToolStripMenuItem
         '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyPathToolStripMenuItem})
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyPathToolStripMenuItem, Me.WriteIdentityToFileToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
         Me.EditToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.EditToolStripMenuItem.Text = "x_Edit"
@@ -537,7 +538,7 @@ Partial Class frm_FilesystemModule
         'CopyPathToolStripMenuItem
         '
         Me.CopyPathToolStripMenuItem.Name = "CopyPathToolStripMenuItem"
-        Me.CopyPathToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
+        Me.CopyPathToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CopyPathToolStripMenuItem.Text = "x_Copy Path"
         '
         'BlobsToolStripMenuItem
@@ -568,7 +569,7 @@ Partial Class frm_FilesystemModule
         '
         'GUIDAsNameToolStripMenuItem
         '
-        Me.GUIDAsNameToolStripMenuItem.CheckOnClick = true
+        Me.GUIDAsNameToolStripMenuItem.CheckOnClick = True
         Me.GUIDAsNameToolStripMenuItem.Name = "GUIDAsNameToolStripMenuItem"
         Me.GUIDAsNameToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
         Me.GUIDAsNameToolStripMenuItem.Text = "x_GUID as Name"
@@ -610,9 +611,9 @@ Partial Class frm_FilesystemModule
         '
         'FoldersToolStripButton
         '
-        Me.FoldersToolStripButton.Checked = true
+        Me.FoldersToolStripButton.Checked = True
         Me.FoldersToolStripButton.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.FoldersToolStripButton.Image = CType(resources.GetObject("FoldersToolStripButton.Image"),System.Drawing.Image)
+        Me.FoldersToolStripButton.Image = CType(resources.GetObject("FoldersToolStripButton.Image"), System.Drawing.Image)
         Me.FoldersToolStripButton.ImageTransparentColor = System.Drawing.Color.Black
         Me.FoldersToolStripButton.Name = "FoldersToolStripButton"
         Me.FoldersToolStripButton.Size = New System.Drawing.Size(74, 22)
@@ -643,7 +644,13 @@ Partial Class frm_FilesystemModule
         'OpenFileDialog_Files
         '
         Me.OpenFileDialog_Files.FileName = "OpenFileDialog1"
-        Me.OpenFileDialog_Files.Multiselect = true
+        Me.OpenFileDialog_Files.Multiselect = True
+        '
+        'WriteIdentityToFileToolStripMenuItem
+        '
+        Me.WriteIdentityToFileToolStripMenuItem.Name = "WriteIdentityToFileToolStripMenuItem"
+        Me.WriteIdentityToFileToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.WriteIdentityToFileToolStripMenuItem.Text = "Write Identity to File"
         '
         'frm_FilesystemModule
         '
@@ -764,5 +771,6 @@ End Sub
     Friend WithEvents InfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RepairBlobsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SyncBlobFilesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents WriteIdentityToFileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

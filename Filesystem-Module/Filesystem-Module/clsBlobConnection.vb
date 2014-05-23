@@ -2,6 +2,8 @@
 Imports System.Security
 Imports OntologyClasses
 Imports OntologyClasses.BaseClasses
+Imports Microsoft.WindowsAPICodePack.Shell.PropertySystem
+Imports Microsoft.WindowsAPICodePack.Shell
 
 Public Class clsBlobConnection
     Private objLocalConfig As clsLocalConfig
@@ -275,6 +277,8 @@ Public Class clsBlobConnection
             strHash = get_Hash_Of_File(strPath_File)
             objOItem_Result = get_File_Of_Hash(strHash)
             If objOItem_Result Is Nothing Then
+                'WriteIdentityToFile(objOItem_File, strPath_File)
+
                 strPath_File_DST = strPath_Blob & IO.Path.DirectorySeparatorChar & objOItem_File.GUID
                 If IO.File.Exists(strPath_File_DST) Then
                     strPath_File_TMP = strPath_File_DST & ".tmp"
@@ -297,7 +301,7 @@ Public Class clsBlobConnection
                         objStream_Write.Close()
                         IO.File.Move(strPath_File_TMP, strPath_File_DST)
 
-                        objOItem_Result = objTransaction_Files.save_003_File__CreationDate(objFileInfo.CreationTime, objOItem_File)
+                        objOItem_Result = objTransaction_Files.save_003_File__CreationDate(objFileInfo.LastWriteTime, objOItem_File)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objOItem_Result = objTransaction_Files.save_004_File__Blob(True, objOItem_File)
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
@@ -341,6 +345,7 @@ Public Class clsBlobConnection
                         objOItem_Result = objLocalConfig.Globals.LState_Error
                     End Try
                 End If
+
 
             End If
 
@@ -429,6 +434,8 @@ Public Class clsBlobConnection
                     objStream_Read.Close()
                     objOItem_Result = objLocalConfig.Globals.LState_Success
 
+                    'WriteIdentityToFile(objOItem_File, strPath_File)
+
                     objOAR_CreationDate.Add(New clsObjectAtt() With {.ID_Object = objOItem_File.GUID, _
                                                                         .ID_AttributeType = objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID})
                     objOItem_Result = objDBLevel_Blobs.get_Data_ObjectAtt(objOAR_CreationDate, _
@@ -437,7 +444,7 @@ Public Class clsBlobConnection
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                         If objDBLevel_Blobs.OList_ObjectAtt.Any Then
                             Dim objFileInfo As New IO.FileInfo(strPath_File)
-                            objFileInfo.CreationTime = objDBLevel_Blobs.OList_ObjectAtt.First().Val_Date
+                            objFileInfo.LastWriteTime = objDBLevel_Blobs.OList_ObjectAtt.First().Val_Date
                         End If
 
                     End If
@@ -576,6 +583,83 @@ Public Class clsBlobConnection
         Return objOItem_Result
     End Function
 
+    Public Function SearchFileByIdentity(strPath As String) As clsOntologyItem
+
+        Dim objOItem_Result = GetGuidOfFSFile(strPath)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim objOItem_File = objDataWork.get_FileByGUID(objOItem_Result.Additional1)
+
+            If Not objOItem_File Is Nothing Then
+                objOItem_Result = objOItem_File
+            Else
+                objOItem_Result = objLocalConfig.Globals.LState_Nothing.Clone()
+            End If
+
+            Return objOItem_Result
+        End If
+
+
+        Return objOItem_Result
+    End Function
+
+    Private Function GetGuidOfFSFile(strPath As String) As clsOntologyItem
+        Dim objShellObject = ShellObject.FromParsingName(strPath)
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
+
+        If Not objShellObject Is Nothing Then
+            Dim objProperty = objShellObject.Properties.GetProperty(SystemProperties.System.IdentityProperty)
+            If Not objProperty.ValueAsObject Is Nothing Then
+                Dim strProperty = objProperty.ValueAsObject.ToString
+                strProperty = strProperty.Replace("@", "")
+                Dim strGUID = strProperty.Replace("OGUID:", "")
+
+                If objLocalConfig.Globals.is_GUID(strGUID) Then
+                    objOItem_Result.Additional1 = strGUID
+                Else
+                    objOItem_Result = objLocalConfig.OItem_object_identity_is_no_guid.Clone()
+                End If
+
+            Else
+                objOItem_Result = objLocalConfig.OItem_object_file_has_no_identity.Clone()
+            End If
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
+        End If
+
+        Return objOItem_Result
+    End Function
+
+    Public Function WriteIdentityToFile(OItem_File As clsOntologyItem, strPath As String) As clsOntologyItem
+        Dim objOItem_Result = GetGuidOfFSFile(strPath)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If Not objOItem_Result.Additional1 = OItem_File.GUID Then
+                objOItem_Result = objLocalConfig.Globals.LState_Relation.Clone()
+            End If
+
+        ElseIf objOItem_Result.GUID = objLocalConfig.OItem_object_file_has_no_identity.GUID Then
+            Dim strIdentity = "@OGUID:" & OItem_File.GUID & "@"
+            Dim objShellObject = ShellObject.FromParsingName(strPath)
+
+            If Not objShellObject Is Nothing Then
+                Try
+                    Dim objPropWriter = objShellObject.Properties.GetPropertyWriter()
+                    objPropWriter.WriteProperty(SystemProperties.System.IdentityProperty, strIdentity)
+                    objPropWriter.Close()
+                Catch ex As Exception
+                    objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
+                End Try
+
+
+            Else
+                objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
+            End If
+            objShellObject.Dispose()
+        End If
+
+        Return objOItem_Result
+    End Function
 
 
     Public Sub New()

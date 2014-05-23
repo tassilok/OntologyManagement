@@ -15,7 +15,7 @@ Public Class frmLogModule
     Private boolOpen As Boolean
     Private boolApplyable As Boolean
 
-    Public ReadOnly Property OList_LogEntries
+    Public ReadOnly Property OList_LogEntries As List(Of clsOntologyItem)
         Get
             Return objOList_LogEntries_Applied
         End Get
@@ -101,6 +101,22 @@ Public Class frmLogModule
         boolApplyable = False
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
+        set_DBConnection()
+        initialize()
+
+    End Sub
+
+    Public Sub New(LocalConfig As clsLocalConfig)
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        Application.DoEvents()
+        SplashScreen = New SplashScreen_OntologyModule()
+        SplashScreen.Show()
+        SplashScreen.Refresh()
+        boolApplyable = True
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = LocalConfig
         set_DBConnection()
         initialize()
 

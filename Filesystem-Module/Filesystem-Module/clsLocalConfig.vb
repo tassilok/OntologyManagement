@@ -48,6 +48,7 @@ Public Class clsLocalConfig
     Private objOItem_relationtype_last_done As clsOntologyItem
 
     'Token
+    Private objOItem_object_identity_is_no_guid As clsOntologyItem
     Private objOItem_Token_Active_Server_State As New clsOntologyItem
     Private objOItem_Token_Fileserver_Server_Type As New clsOntologyItem
     Private objOItem_token_LogState_Active As New clsOntologyItem
@@ -55,6 +56,9 @@ Public Class clsLocalConfig
     Private objOItem_object_create As clsOntologyItem
     Private objOItem_object_file_to_blob As clsOntologyItem
     Private objOItem_object_blob_to_file As clsOntologyItem
+    Private objOItem_object_identitypresent As clsOntologyItem
+    Private objOItem_object_file_has_no_identity As clsOntologyItem
+    Private objOItem_object_file_not_present As clsOntologyItem
 
     'Types
     Private objOItem_Type_Filesystem_Management As New clsOntologyItem
@@ -241,6 +245,18 @@ Public Class clsLocalConfig
 
 
     'Token
+    Public ReadOnly Property OItem_object_file_not_present As clsOntologyItem
+        Get
+            Return objOItem_object_file_not_present
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_object_identity_is_no_guid As clsOntologyItem
+        Get
+            Return objOItem_object_identity_is_no_guid
+        End Get
+    End Property
+
     Public ReadOnly Property OItem_Token_Active_Server_State() As clsOntologyItem
         Get
             Return objOItem_Token_Active_Server_State
@@ -282,6 +298,19 @@ Public Class clsLocalConfig
             Return objOItem_object_blob_to_file
         End Get
     End Property
+
+    Public ReadOnly Property OItem_object_identitypresent As clsOntologyItem
+        Get
+            Return objOItem_object_identitypresent
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_object_file_has_no_identity As clsOntologyItem
+        Get
+            Return objOItem_object_file_has_no_identity
+        End Get
+    End Property
+
 
     'Types
     Public ReadOnly Property OItem_Type_Filesystem_Management() As clsOntologyItem
@@ -1316,6 +1345,54 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Objects()
+        Dim objOList_object_file_not_present = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "object_file_not_present".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                           Select objRef).ToList()
+
+        If objOList_object_file_not_present.Count > 0 Then
+            objOItem_object_file_not_present = New clsOntologyItem
+            objOItem_object_file_not_present.GUID = objOList_object_file_not_present.First().ID_Other
+            objOItem_object_file_not_present.Name = objOList_object_file_not_present.First().Name_Other
+            objOItem_object_file_not_present.GUID_Parent = objOList_object_file_not_present.First().ID_Parent_Other
+            objOItem_object_file_not_present.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_object_identity_is_no_guid = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "object_identity_is_no_guid".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                           Select objRef).ToList()
+
+        If objOList_object_identity_is_no_guid.Count > 0 Then
+            objOItem_object_identity_is_no_guid = New clsOntologyItem
+            objOItem_object_identity_is_no_guid.GUID = objOList_object_identity_is_no_guid.First().ID_Other
+            objOItem_object_identity_is_no_guid.Name = objOList_object_identity_is_no_guid.First().Name_Other
+            objOItem_object_identity_is_no_guid.GUID_Parent = objOList_object_identity_is_no_guid.First().ID_Parent_Other
+            objOItem_object_identity_is_no_guid.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_object_identitypresent = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "object_identitypresent".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                           Select objRef).ToList()
+
+        If objOList_object_identitypresent.Count > 0 Then
+            objOItem_object_identitypresent = New clsOntologyItem
+            objOItem_object_identitypresent.GUID = objOList_object_identitypresent.First().ID_Other
+            objOItem_object_identitypresent.Name = objOList_object_identitypresent.First().Name_Other
+            objOItem_object_identitypresent.GUID_Parent = objOList_object_identitypresent.First().ID_Parent_Other
+            objOItem_object_identitypresent.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_object_file_to_blob = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
@@ -1412,7 +1489,21 @@ Public Class clsLocalConfig
             Err.Raise(1, "config err")
         End If
 
+        Dim objOList_object_file_has_no_identity = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "object_file_has_no_identity".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                           Select objRef).ToList()
 
+        If objOList_object_file_has_no_identity.Count > 0 Then
+            objOItem_object_file_has_no_identity = New clsOntologyItem
+            objOItem_object_file_has_no_identity.GUID = objOList_object_file_has_no_identity.First().ID_Other
+            objOItem_object_file_has_no_identity.Name = objOList_object_file_has_no_identity.First().Name_Other
+            objOItem_object_file_has_no_identity.GUID_Parent = objOList_object_file_has_no_identity.First().ID_Parent_Other
+            objOItem_object_file_has_no_identity.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
     End Sub
 
 

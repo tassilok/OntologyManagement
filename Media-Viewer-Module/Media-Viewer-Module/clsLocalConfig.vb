@@ -136,6 +136,11 @@ Public Class clsLocalConfig
     Private objOItem_Type_Wichtige_Ereignisse As New clsOntologyItem
     Private objOItem_Type_Year As New clsOntologyItem
 
+    Public ReadOnly Property Id_Ontology As String
+        Get
+            Return cstrID_Ontology
+        End Get
+    End Property
 
     Public ReadOnly Property ImageID_Root As Integer
         Get

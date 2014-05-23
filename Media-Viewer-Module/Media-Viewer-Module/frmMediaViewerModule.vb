@@ -12,6 +12,7 @@ Public Class frmMediaViewerModule
 
     Private objFrmAuthenticate As frmAuthenticate
     Private WithEvents objFrmSingleViewer As frmSingleViewer
+    Private objFrmSingleViewerEmbedded As frmSingleViewEmbedded
     Private objFrmListEdit As frmMediaModule_ListEdit
 
     Private objFrmMetaData As frmMetaData_Image
@@ -25,6 +26,9 @@ Public Class frmMediaViewerModule
     Private objOItem_Relate As clsOntologyItem
 
     Private objOItem_OItemToSelect As clsOntologyItem
+
+    Private objOItem_Argument As clsOntologyItem
+    Private objOItem_Function As clsOntologyItem
 
     Private Sub relate_Item(OItem_Relate As clsOntologyItem) Handles objUserControl_RefTree.relate_Item
         objOItem_Relate = OItem_Relate
@@ -279,6 +283,25 @@ Public Class frmMediaViewerModule
         initialize()
     End Sub
 
+    Public Sub New(LocalConfig As clsLocalConfig, OItem As clsOntologyItem, OItem_MediaType As clsOntologyItem)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        Application.DoEvents()
+        SplashScreen = New SplashScreen_OntologyModule()
+        SplashScreen.Show()
+        SplashScreen.Refresh()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = LocalConfig
+        objOItem_Argument = OItem
+        objOItem_Function = OItem_MediaType
+
+        set_DBConnection()
+        initialize()
+    End Sub
+
     Private Sub TestModuleMenu()
         Dim objModule As New clsModule()
         objModule.Initialize()
@@ -361,6 +384,8 @@ Public Class frmMediaViewerModule
         If Not objLocalConfig.OItem_User Is Nothing And Not objLocalConfig.OItem_Group Is Nothing Then
             'MigrateImageObjects()
             'MigrateMediaObjects()
+            OpenByArgument()
+
             objOItem_Open = objLocalConfig.Globals.LState_Success
 
             objUserControl_RefTree = New UserControl_RefTree(objLocalConfig)
@@ -384,10 +409,21 @@ Public Class frmMediaViewerModule
             objUserControl_PDF = New UserControl_PDFList(objLocalConfig)
             objUserControl_PDF.Dock = DockStyle.Fill
 
+
         End If
 
 
 
+    End Sub
+
+    Private Sub OpenByArgument()
+        If Not objOItem_Argument Is Nothing And Not objOItem_Function Is Nothing Then
+            objFrmSingleViewerEmbedded = New frmSingleViewEmbedded(objLocalConfig, objOItem_Function)
+            objFrmSingleViewerEmbedded.InitializeViewer(objOItem_Argument)
+            objFrmSingleViewerEmbedded.ShowDialog(Me)
+            
+            Environment.Exit(0)
+        End If
     End Sub
 
     Private Sub set_DBConnection()

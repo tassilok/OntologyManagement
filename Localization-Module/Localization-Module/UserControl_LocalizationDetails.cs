@@ -490,20 +490,10 @@ namespace Localization_Module
                                     objOList_Localized.First().ID_Language = objOItem_Language.GUID;
                                     objOList_Localized.First().Name_Localization = objOItem_Localized.GUID;
                                     objOList_Localized.First().Message = objOItem_Localized.Name;
+                                    
+                                    
                                 }
-                                else
-                                {
-                                    objOList_Localized.Add(new clsLocalizationDetail
-                                    {
-                                        ID_Attribute_Message = objTransaction.OItem_Last.OItem_ObjectAtt.ID_Attribute,
-                                        ID_Language = objOItem_Language.GUID,
-                                        ID_Localization = objOItem_Language.GUID,
-                                        ID_Parent_Localization = objOItem_MessageType.GUID,
-                                        Message = objOItem_Localized.Name,
-                                        Name_Language = objOItem_Language.Name,
-                                        Name_Localization = objOItem_Localized.Name
-                                    });
-                                }
+
                             }
 
 

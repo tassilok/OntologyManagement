@@ -1346,7 +1346,6 @@ namespace ElasticSearchNestConnector
         public long get_Data_ClassesCount(List<clsOntologyItem> OList_Classes = null)
         {
 
-            OntologyList_AttributTypes1.Clear();
 
             var strQuery = create_Query_Simple(OList_Classes, objTypes.ClassType);
 

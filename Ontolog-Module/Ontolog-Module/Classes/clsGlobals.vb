@@ -67,6 +67,12 @@ Private strEL_Server As String
 
     Private objModuleList As List(Of clsModuleConfig)
 
+    Public ReadOnly Property RegExPattern_GUID As String
+        Get
+            Return strRegEx_GUID
+        End Get
+    End Property
+
     Public ReadOnly Property SearchPath_Modules As String
         Get
             Return strSearchPath_Modules

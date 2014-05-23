@@ -46,7 +46,12 @@ public int ImageID_RelationTypes { get { return 7; } }
 public int ImageID_RelationType { get { return 8; } }
 public int ImageID_Token { get { return 9; } }
 
-	
+
+public string Id_Ontology
+{
+    get { return cstrID_Ontology; }
+}
+
 private void get_Data_DevelopmentConfig()
         {
             var objORL_Ontology_To_OntolgyItems = new List<clsObjectRel> {new clsObjectRel {ID_Object = cstrID_Ontology, 

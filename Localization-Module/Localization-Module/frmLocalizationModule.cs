@@ -27,6 +27,11 @@ namespace Localization_Module
 
         private clsOntologyItem objOItem_Argument;
 
+        public clsLocalConfig LocalConfig
+        {
+            get { return objLocalConfig; }
+        }
+
         public frmLocalizationModule()
         {
             InitializeComponent();
@@ -38,6 +43,34 @@ namespace Localization_Module
 
             objLocalConfig = new clsLocalConfig(new clsGlobals());
             ParseArguments();
+            initialize();
+        }
+
+        public frmLocalizationModule(clsGlobals Globals, clsOntologyItem OItem)
+        {
+            InitializeComponent();
+
+            Application.DoEvents();
+            SplashScreen = new SplashScreen_OntologyModule();
+            SplashScreen.Show();
+            SplashScreen.Refresh();
+
+            objLocalConfig = new clsLocalConfig(Globals);
+            objOItem_Argument = OItem;
+            initialize();
+        }
+
+        public frmLocalizationModule(clsLocalConfig LocalConfig, clsOntologyItem OItem)
+        {
+            InitializeComponent();
+
+            Application.DoEvents();
+            SplashScreen = new SplashScreen_OntologyModule();
+            SplashScreen.Show();
+            SplashScreen.Refresh();
+
+            objLocalConfig = LocalConfig;
+            objOItem_Argument = OItem;
             initialize();
         }
 

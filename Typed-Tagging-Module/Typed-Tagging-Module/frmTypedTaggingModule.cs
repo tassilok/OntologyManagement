@@ -52,6 +52,19 @@ namespace Typed_Tagging_Module
             
         }
 
+        public frmTypedTaggingModule(clsLocalConfig LocalConfig, clsOntologyItem OItem)
+        {
+            InitializeComponent();
+
+            objLocalConfig = LocalConfig;
+
+            objOItem_Selected = OItem;
+
+            Initialize();
+
+
+        }
+
         private void ParseArguments()
         {
             

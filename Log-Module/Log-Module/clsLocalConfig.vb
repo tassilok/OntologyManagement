@@ -25,6 +25,11 @@ Public Class clsLocalConfig
 
     Private objOItem_User As clsOntologyItem
 
+    Public ReadOnly Property Id_Ontology As String
+        Get
+            Return cstrID_Ontology
+        End Get
+    End Property
 
     Public ReadOnly Property OItem_Attribute_DateTimeStamp() As clsOntologyItem
         Get
