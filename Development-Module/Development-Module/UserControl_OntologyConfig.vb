@@ -16,6 +16,7 @@ Public Class UserControl_OntologyConfig
 
     Private objTransaction As clsTransaction
 
+    Private objTransaction_Version As clsTransaction_Version
 
     Private sub LoadedData() Handles objUserControl_OntologyItems.DataLoaded
         If objUserControl_OntologyItems.Rows.Count > 0 Then
@@ -38,14 +39,15 @@ Public Class UserControl_OntologyConfig
         objOItem_Development = OItem_Development
 
         If Not objOItem_Development Is Nothing Then
-            Dim objOItem_Result =  objDataWork_OntologyConfig.GetData(objOItem_Development)
+            objTransaction_Version = New clsTransaction_Version(objLocalConfig, Me, objOItem_Development)
+            Dim objOItem_Result = objDataWork_OntologyConfig.GetData(objOItem_Development)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                 objUserControl_OntologyItems.initialize_List(objDataWork_OntologyConfig.OItem_Ontology)
                 ToolStripButton_Add.Enabled = True
-            Else 
-                MsgBox("Die Ontology-Items konnten nicht geladen werden!",MsgBoxStyle.Exclamation)
+            Else
+                MsgBox("Die Ontology-Items konnten nicht geladen werden!", MsgBoxStyle.Exclamation)
             End If
-        Else 
+        Else
             ClearControls()
         End If
         
@@ -65,6 +67,7 @@ Public Class UserControl_OntologyConfig
         objUserControl_OntologyItems.Dock = DockStyle.Fill
         ToolStripContainer1.ContentPanel.Controls.Add(objUserControl_OntologyItems)
         objTransaction = New clsTransaction(objLocalConfig.Globals)
+
     End Sub
 
     Private Sub ToolStripButton_View_Click(sender As Object, e As EventArgs) Handles ToolStripButton_View.Click
@@ -78,14 +81,14 @@ Public Class UserControl_OntologyConfig
         objFrmCodeGenerator.ShowDialog(Me)
     End Sub
 
-    Private Sub ToolStripButton_Migrate_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_Migrate.Click
-        Dim objDataWork_OntologyConfigOld = new clsDataWork_OntologyConfig_bak(objLocalConfig)
+    Private Sub MigrateOConfig()
+        Dim objDataWork_OntologyConfigOld = New clsDataWork_OntologyConfig_bak(objLocalConfig)
         objDataWork_OntologyConfigOld.get_ConfigItems(objOItem_Development)
-        Dim objMoveConfigItemsToOntologies As New clsMoveConfigItemsToOntologies(objLocalConfig,objDataWork_OntologyConfigOld)
+        Dim objMoveConfigItemsToOntologies As New clsMoveConfigItemsToOntologies(objLocalConfig, objDataWork_OntologyConfigOld)
         Dim objOItem_Result = objMoveConfigItemsToOntologies.CopyOntologyItems(objOItem_Development)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             initialize_OntologyConfig(objOItem_Development)
-        Else 
+        Else
             MsgBox("Die Ontology konnte nicht erzeugt werden!")
         End If
     End Sub
@@ -136,7 +139,15 @@ Public Class UserControl_OntologyConfig
                 MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Items verknüpft werden!",MsgBoxStyle.Exclamation)
             End If
 
+            If intDone > 0 Then
+                objTransaction_Version.SaveVersion()
+            End If
+
             initialize_OntologyConfig(objOItem_Development)
         End If
+    End Sub
+
+    Private Sub ToolStripButton_Migrate_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Migrate.Click
+        MigrateOConfig()
     End Sub
 End Class

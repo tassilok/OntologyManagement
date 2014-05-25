@@ -81,7 +81,8 @@ namespace Version_Module
 
         private void newToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            objFrmVersionEdit = new frmVersionEdit(objOItem_Ref, objDataWork_Versions.LocalConfig);
+            objFrmVersionEdit = new frmVersionEdit(objDataWork_Versions.LocalConfig);
+            objFrmVersionEdit.Initialize_VersionEdit(objOItem_Ref);
             objFrmVersionEdit.ShowDialog(this);
 
         }

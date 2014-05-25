@@ -177,9 +177,9 @@ Public Class clsFileWork
                                                                                                     .Type = objLocalConfig.Globals.Type_Object}}
                 objOItem_Result = objDBLevel_Server.get_Data_Objects(objServerSearch)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-
-                    If objDBLevel_Server.OList_Objects.Any() Then
-                        objOItem_Server = objDBLevel_Server.OList_Objects.First()
+                    Dim objServersFounct = objDBLevel_Server.OList_Objects.Where(Function(o) o.Name.ToLower() = strServer.ToLower()).ToList()
+                    If objServersFounct.Any() Then
+                        objOItem_Server = objServersFounct.First()
                         Dim strShare As String
                         If strPath.Contains("\") Then
                             strShare = strFolders(0)
@@ -194,11 +194,12 @@ Public Class clsFileWork
                                                                                                      .ID_RelationType = objLocalConfig.OItem_RelationType_Fileshare.GUID}}
                         objOItem_Result = objDBLevel_Share.get_Data_ObjectRel(objSearchShare, boolIDs:=False)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            If objDBLevel_Share.OList_ObjectRel.Any() Then
-                                objOItem_Share = objDBLevel_Share.OList_ObjectRel.Select(Function(s) New clsOntologyItem With {.GUID = s.ID_Other,
+                            Dim objShares = objDBLevel_Share.OList_ObjectRel.Where(Function(s) s.Name_Other.ToLower() = strShare.ToLower()).Select(Function(s) New clsOntologyItem With {.GUID = s.ID_Other,
                                                                                                                                .Name = s.Name_Other,
                                                                                                                                .GUID_Parent = s.ID_Parent_Other,
-                                                                                                                               .Type = objLocalConfig.Globals.Type_Object}).First()
+                                                                                                                               .Type = objLocalConfig.Globals.Type_Object}).ToList()
+                            If objShares.Any() Then
+                                objOItem_Share = objShares.First()
                                 objOItem_LastFolder = GetFolderHierarchy(strFolders, objOItem_Share, doCreate)
                                 If objOItem_LastFolder.GUID_Parent = objLocalConfig.OItem_type_Folder.GUID Then
                                     objOItem_Result = RelateFileSystemObjectToLastFolder(objOItem_LastFolder, objOItem_FileSystemObject, doCreate)
@@ -280,9 +281,10 @@ Public Class clsFileWork
                                                                                              .ID_RelationType = objLocalConfig.OItem_RelationType_isSubordinated.GUID}}
                 objOItem_Result = objDBLevel_Drive.get_Data_ObjectRel(objSearchDrive, boolIDs:=False)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    If objDBLevel_Drive.OList_ObjectRel.Any() Then
-                        objOItem_Drive = New clsOntologyItem With {.GUID = objDBLevel_Drive.OList_ObjectRel.First().ID_Object,
-                                                                   .Name = objDBLevel_Drive.OList_ObjectRel.First().Name_Object,
+                    Dim objDrives = objDBLevel_Drive.OList_ObjectRel.Where(Function(o) o.Name_Object.ToLower() = strDrive.ToLower()).ToList()
+                    If objDrives.Any() Then
+                        objOItem_Drive = New clsOntologyItem With {.GUID = objDrives.First().ID_Object,
+                                                                   .Name = objDrives.First().Name_Object,
                                                                    .GUID_Parent = objLocalConfig.OItem_Type_Drive.GUID,
                                                                    .Type = objLocalConfig.Globals.Type_Object}
 
@@ -299,8 +301,9 @@ Public Class clsFileWork
                                                                                                      .ID_RelationType = objLocalConfig.OItem_RelationType_isSubordinated.GUID}}
                         objOItem_Result = objDBLevel_Share.get_Data_ObjectRel(objSearchShare, boolIDs:=False)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            If objDBLevel_Share.OList_ObjectRel.Any() Then
-                                objOItem_Share = objDBLevel_Share.OList_ObjectRel.Select(Function(s) New clsOntologyItem With {.GUID = s.ID_Object,
+                            Dim objShares = objDBLevel_Share.OList_ObjectRel.Where(Function(s) s.Name_Object.ToLower() = strShare.ToLower()).ToList()
+                            If objShares.Any() Then
+                                objOItem_Share = objShares.Select(Function(s) New clsOntologyItem With {.GUID = s.ID_Object,
                                                                                                                                .Name = s.Name_Object,
                                                                                                                                .GUID_Parent = s.ID_Parent_Object,
                                                                                                                                .Type = objLocalConfig.Globals.Type_Object}).First()
@@ -369,8 +372,9 @@ Public Class clsFileWork
                                                                                                                              .ID_RelationType = objLocalConfig.OItem_RelationType_isSubordinated.GUID}}
         Dim objOItem_Result = objDBLevel_FSO.get_Data_ObjectRel(objSearch_FSO_To_Folder, boolIDs:=False)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            If objDBLevel_FSO.OList_ObjectRel.Any() Then
-                OItem_FSO.GUID = objDBLevel_FSO.OList_ObjectRel.First().ID_Object
+            Dim objFSOs = objDBLevel_FSO.OList_ObjectRel.Where(Function(fso) fso.Name_Object.ToLower() = OItem_FSO.Name.ToLower()).ToList()
+            If objFSOs.Any() Then
+                OItem_FSO.GUID = objFSOs.First().ID_Object
                 objOItem_Result = OItem_FSO
             Else
                 If doCreate Then

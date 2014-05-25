@@ -15,6 +15,7 @@ using Localization_Module;
 using Typed_Tagging_Module;
 using Media_Viewer_Module;
 using Log_Module;
+using Security_Module;
 
 namespace FileSystem_Connector_Module
 {
@@ -31,15 +32,15 @@ namespace FileSystem_Connector_Module
 
         private clsOntologyItem objOItem_FileSystemObject;
 
-        private Localization_Module.clsLocalConfig objLocalConfig_Localization;
-        private Typed_Tagging_Module.clsLocalConfig objLocalConfig_TypedTagging;
-        private Media_Viewer_Module.clsLocalConfig objLocalConfig_MediaViewModule;
-        private Log_Module.clsLocalConfig objLocalConfig_LogModule;
+        private Media_Viewer_Module.clsLocalConfig objLocalConfig_MediaViewerModule;
 
-        private frmLocalizationModule objFrmLocalizationModule;
-        private frmTypedTaggingModule objFrmTypedTaggingModule;
-        private frmMediaViewerModule objFrmMediaViewerModule;
+        private frmAuthenticate objFrmAuthenticate;
+        private frmLocalizingModuleSingle objFrmLocalizationModuleSingle;
+        private frmTypedTaggingSingle objFrmTypedTaggingSingle;
+        private frmSingleViewEmbedded objFrmSingleViewEmbedded;
         private frmLogModule objFrmLogModule;
+
+        private UserControl_CreateSendTo objUserControl_CreateSendTo;
     
         private string strPath;
 
@@ -57,46 +58,75 @@ namespace FileSystem_Connector_Module
 
         private void Initialize()
         {
-            objLocalConfig_Localization = new Localization_Module.clsLocalConfig(objLocalConfig.Globals);
-            objLocalConfig_TypedTagging = new Typed_Tagging_Module.clsLocalConfig(objLocalConfig.Globals);
-            objLocalConfig_MediaViewModule = new Media_Viewer_Module.clsLocalConfig(objLocalConfig.Globals);
-            objLocalConfig_LogModule = new Log_Module.clsLocalConfig(objLocalConfig_MediaViewModule.Globals);
 
-            objRelationConfig = new clsRelationConfig(objLocalConfig_LogModule.Globals);
-            objTransaction = new clsTransaction(objLocalConfig_LogModule.Globals);
-
-            objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList());
-            if (objArgumentParsing.External != null && objArgumentParsing.External != "")
+            if (objLocalConfig.User == null || objLocalConfig.Group == null)
             {
-                if (File.Exists(objArgumentParsing.External))
+                objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, true, frmAuthenticate.ERelateMode.User_To_Group, true);
+                objFrmAuthenticate.ShowDialog(this);
+                if (objFrmAuthenticate.DialogResult == DialogResult.OK)
                 {
-                    strPath = objArgumentParsing.External;
+                    objLocalConfig.User = objFrmAuthenticate.OItem_User;
+                    objLocalConfig.Group = objFrmAuthenticate.OItem_Group;
 
-                    if (strPath.StartsWith("\""))
+                    
+                }
+             
+            }
+
+            if (objLocalConfig.User != null && objLocalConfig.Group != null)
+            {
+                objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
+                objTransaction = new clsTransaction(objLocalConfig.Globals);
+
+                objFileWork = new clsFileWork(objLocalConfig.Globals);
+                objBlobConnection = new clsBlobConnection(objFileWork.LocalConfig);
+
+                
+
+                objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList());
+                if (objArgumentParsing.External != null && objArgumentParsing.External != "")
+                {
+                    if (File.Exists(objArgumentParsing.External))
                     {
-                        strPath = strPath.Substring(1);
+                        strPath = objArgumentParsing.External;
+
+                        if (strPath.StartsWith("\""))
+                        {
+                            strPath = strPath.Substring(1);
+                        }
+
+                        if (strPath.EndsWith("\""))
+                        {
+                            strPath = strPath.Substring(0, strPath.Length - 1);
+                        }
+                        strPath = UNCHelper.LocalToUNC(strPath);
+
+                        TestFileIntegration();
+
+
+                        ExecuteFunction();
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, "The Filesystemobject cannot be found!", "Integration", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Environment.Exit(-1);
                     }
 
-                    if (strPath.EndsWith("\""))
-                    {
-                        strPath = strPath.Substring(0, strPath.Length - 1);
-                    }
-                    strPath = UNCHelper.LocalToUNC(strPath);
-                    objFileWork = new clsFileWork(objLocalConfig.Globals);
-                    objBlobConnection = new clsBlobConnection(objFileWork.LocalConfig);
-                    TestFileIntegration();
-
-
-
-                    ExecuteFunction();
                 }
                 else
                 {
-                    MessageBox.Show(this, "The Filesystemobject cannot be found!", "Integration", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Environment.Exit(-1);
+                    objLocalConfig_MediaViewerModule = new Media_Viewer_Module.clsLocalConfig(objLocalConfig.Globals);
+                    objLocalConfig_MediaViewerModule.OItem_User = objLocalConfig.User;
+                    objUserControl_CreateSendTo = new UserControl_CreateSendTo(objLocalConfig, objLocalConfig_MediaViewerModule);
+                    objUserControl_CreateSendTo.Dock = DockStyle.Fill;
+                    toolStripContainer1.ContentPanel.Controls.Add(objUserControl_CreateSendTo);
                 }
-               
             }
+            else
+            {
+                Environment.Exit(-1);
+            }
+            
            
         }
 
@@ -132,38 +162,43 @@ namespace FileSystem_Connector_Module
         {
             foreach (var function in objArgumentParsing.FunctionList)
             {
-                if (function.GUID_Ontology == objLocalConfig_Localization.Id_Ontology)
+                if (function.GUID_Ontology == objLocalConfig.OItem_object_localizing_manager.GUID)
                 {
-                    objFrmLocalizationModule = new frmLocalizationModule(objLocalConfig_Localization, objOItem_FileSystemObject);
-                    objFrmLocalizationModule.ShowDialog(this);
+                    objFrmLocalizationModuleSingle = new frmLocalizingModuleSingle(objLocalConfig.Globals, objOItem_FileSystemObject);
+                    objFrmLocalizationModuleSingle.ShowDialog(this);
                     Environment.Exit(0);
                 }
-                else if (function.GUID_Ontology == objLocalConfig_TypedTagging.Id_Ontology)
+                else if (function.GUID_Ontology == objLocalConfig.OItem_object_typed_tagging_module.GUID)
                 {
-                    objFrmTypedTaggingModule = new frmTypedTaggingModule(objLocalConfig_TypedTagging, objOItem_FileSystemObject);
-                    objFrmTypedTaggingModule.ShowDialog(this);
+                    objFrmTypedTaggingSingle = new frmTypedTaggingSingle(objLocalConfig.Globals,objLocalConfig.User, objLocalConfig.Group, objOItem_FileSystemObject);
+                    objFrmTypedTaggingSingle.ShowDialog(this);
                     Environment.Exit(0);
                 }
-                else if (function.GUID_Ontology == objLocalConfig_MediaViewModule.Id_Ontology)
+                else if (function.GUID_Ontology == objLocalConfig.OItem_object_mediaviewer_module.GUID)
                 {
+                    objLocalConfig_MediaViewerModule = new Media_Viewer_Module.clsLocalConfig(objLocalConfig.Globals);
+                    objLocalConfig_MediaViewerModule.OItem_User = objLocalConfig.User;
                     if (function.GUID_Function != null)
                     {
-                        if (function.GUID_Function == objLocalConfig_MediaViewModule.OItem_Type_Images__Graphic_.GUID)
+                        if (function.GUID_Function == objLocalConfig_MediaViewerModule.OItem_Type_Images__Graphic_.GUID)
                         {
-                            objFrmMediaViewerModule = new frmMediaViewerModule(objLocalConfig_MediaViewModule, objOItem_FileSystemObject, objLocalConfig_MediaViewModule.OItem_Type_Images__Graphic_);
-                            objFrmMediaViewerModule.ShowDialog(this);
+                            objFrmSingleViewEmbedded = new frmSingleViewEmbedded(objLocalConfig_MediaViewerModule, objLocalConfig_MediaViewerModule.OItem_Type_Images__Graphic_);
+                            objFrmSingleViewEmbedded.InitializeViewer(objOItem_FileSystemObject);
+                            objFrmSingleViewEmbedded.ShowDialog(this);
                             Environment.Exit(-1);
                         }
-                        else if (function.GUID_Function == objLocalConfig_MediaViewModule.OItem_Type_Media_Item.GUID)
+                        else if (function.GUID_Function == objLocalConfig_MediaViewerModule.OItem_Type_Media_Item.GUID)
                         {
-                            objFrmMediaViewerModule = new frmMediaViewerModule(objLocalConfig_MediaViewModule, objOItem_FileSystemObject, objLocalConfig_MediaViewModule.OItem_Type_Media_Item);
-                            objFrmMediaViewerModule.ShowDialog(this);
+                            objFrmSingleViewEmbedded = new frmSingleViewEmbedded(objLocalConfig_MediaViewerModule, objLocalConfig_MediaViewerModule.OItem_Type_Media_Item);
+                            objFrmSingleViewEmbedded.InitializeViewer(objOItem_FileSystemObject);
+                            objFrmSingleViewEmbedded.ShowDialog(this);
                             Environment.Exit(-1);
                         }
-                        else if (function.GUID_Function == objLocalConfig_MediaViewModule.OItem_Type_PDF_Documents.GUID)
+                        else if (function.GUID_Function == objLocalConfig_MediaViewerModule.OItem_Type_PDF_Documents.GUID)
                         {
-                            objFrmMediaViewerModule = new frmMediaViewerModule(objLocalConfig_MediaViewModule, objOItem_FileSystemObject, objLocalConfig_MediaViewModule.OItem_Type_PDF_Documents);
-                            objFrmMediaViewerModule.ShowDialog(this);
+                            objFrmSingleViewEmbedded = new frmSingleViewEmbedded(objLocalConfig_MediaViewerModule, objLocalConfig_MediaViewerModule.OItem_Type_PDF_Documents);
+                            objFrmSingleViewEmbedded.InitializeViewer(objOItem_FileSystemObject);
+                            objFrmSingleViewEmbedded.ShowDialog(this);
                             Environment.Exit(-1);
                         }
                         else
@@ -180,9 +215,9 @@ namespace FileSystem_Connector_Module
                     }
                     
                 }
-                else if (function.GUID_Ontology == objLocalConfig_LogModule.Id_Ontology)
+                else if (function.GUID_Ontology == objLocalConfig.OItem_object_log_manager.GUID)
                 {
-                    objFrmLogModule = new frmLogModule(objLocalConfig_LogModule);
+                    objFrmLogModule = new frmLogModule(objLocalConfig.Globals, objLocalConfig.User);
                     objFrmLogModule.ShowDialog(this);
                     if (objFrmLogModule.DialogResult == DialogResult.OK)
                     {
@@ -191,13 +226,13 @@ namespace FileSystem_Connector_Module
                         {
                             var objORel_LogEntry_To_FileSystemObject = objRelationConfig.Rel_ObjectRelation(objFrmLogModule.OList_LogEntries.First(),
                                 objOItem_FileSystemObject,
-                                objLocalConfig_LogModule.OItem_RelationType_belongsTo);
+                                objLocalConfig.Globals.RelationType_belongsTo);
 
                             var objOItem_Result = objTransaction.do_Transaction(objORel_LogEntry_To_FileSystemObject);
 
                             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                             {
-                                Environment.Exit(-1);
+                                Environment.Exit(0);
                             }
                             else
                             {
@@ -210,6 +245,10 @@ namespace FileSystem_Connector_Module
                             MessageBox.Show(this, "The Logentry cannot be set!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             Environment.Exit(-1);
                         }
+                    }
+                    else
+                    {
+                        Environment.Exit(0);
                     }
 
                

@@ -65,7 +65,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGridView_Tags);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(202, 442);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(210, 442);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.LeftToolStripPanelVisible = false;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
@@ -88,7 +88,7 @@
             this.dataGridView_Tags.Location = new System.Drawing.Point(0, 0);
             this.dataGridView_Tags.Name = "dataGridView_Tags";
             this.dataGridView_Tags.ReadOnly = true;
-            this.dataGridView_Tags.Size = new System.Drawing.Size(202, 442);
+            this.dataGridView_Tags.Size = new System.Drawing.Size(210, 442);
             this.dataGridView_Tags.TabIndex = 0;
             this.dataGridView_Tags.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Tags_RowHeaderMouseDoubleClick);
             this.dataGridView_Tags.SelectionChanged += new System.EventHandler(this.dataGridView_Tags_SelectionChanged);
@@ -101,7 +101,7 @@
             this.toolStripButton_FromList});
             this.toolStrip1.Location = new System.Drawing.Point(0, 3);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(32, 76);
+            this.toolStrip1.Size = new System.Drawing.Size(24, 57);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButton_ToList
@@ -110,7 +110,7 @@
             this.toolStripButton_ToList.Image = global::Typed_Tagging_Module.Properties.Resources.pulsante_01_architetto_f_01;
             this.toolStripButton_ToList.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton_ToList.Name = "toolStripButton_ToList";
-            this.toolStripButton_ToList.Size = new System.Drawing.Size(30, 20);
+            this.toolStripButton_ToList.Size = new System.Drawing.Size(22, 20);
             this.toolStripButton_ToList.Text = "toolStripButton1";
             this.toolStripButton_ToList.Click += new System.EventHandler(this.toolStripButton_ToList_Click);
             // 
@@ -120,7 +120,7 @@
             this.toolStripButton_FromList.Image = global::Typed_Tagging_Module.Properties.Resources.pulsante_02_architetto_f_01;
             this.toolStripButton_FromList.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton_FromList.Name = "toolStripButton_FromList";
-            this.toolStripButton_FromList.Size = new System.Drawing.Size(30, 20);
+            this.toolStripButton_FromList.Size = new System.Drawing.Size(22, 20);
             this.toolStripButton_FromList.Text = "toolStripButton2";
             // 
             // UserControl_Tagging

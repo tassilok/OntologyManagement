@@ -22,10 +22,24 @@ namespace FileSystem_Connector_Module
         private clsDBLevel objDBLevel_Config1;
         private clsDBLevel objDBLevel_Config2;
 	
+        // Attributes
+        public clsOntologyItem OItem_attributetype_xml_text { get; set; }
+
         // Objects
 	public clsOntologyItem OItem_object_baseconfig { get; set; }
     public clsOntologyItem OItem_object_no_file_is_given { get; set; }
     public clsOntologyItem OItem_object_file_not_present { get; set; }
+    public clsOntologyItem OItem_object_typed_tagging_module { get; set; }
+    public clsOntologyItem OItem_object_mediaviewer_module { get; set; }
+    public clsOntologyItem OItem_object_log_manager { get; set; }
+    public clsOntologyItem OItem_object_localizing_manager { get; set; }
+    public clsOntologyItem OItem_object_sendto_batch { get; set; }
+    public clsOntologyItem OItem_object_module_dir { get; set; }
+    public clsOntologyItem OItem_object_function { get; set; }
+    public clsOntologyItem OItem_object_executable { get; set; }
+
+    public clsOntologyItem User { get; set; }
+    public clsOntologyItem Group { get; set; }
   
 	
 private void get_Data_DevelopmentConfig()
@@ -142,7 +156,27 @@ private void get_Data_DevelopmentConfig()
   
 	private void get_Config_AttributeTypes()
         {
-		
+            var objOList_attributetype_xml_text = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                   where objOItem.ID_Object == cstrID_Ontology
+                                                   join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                   where objRef.Name_Object.ToLower() == "attributetype_xml_text".ToLower() && objRef.Ontology == Globals.Type_AttributeType
+                                                   select objRef).ToList();
+
+            if (objOList_attributetype_xml_text.Any())
+            {
+                OItem_attributetype_xml_text = new clsOntologyItem()
+                {
+                    GUID = objOList_attributetype_xml_text.First().ID_Other,
+                    Name = objOList_attributetype_xml_text.First().Name_Other,
+                    GUID_Parent = objOList_attributetype_xml_text.First().ID_Parent_Other,
+                    Type = Globals.Type_AttributeType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
 	}
   
 	private void get_Config_RelationTypes()
@@ -152,6 +186,90 @@ private void get_Data_DevelopmentConfig()
   
 	private void get_Config_Objects()
         {
+            var objOList_object_typed_tagging_module = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                        where objOItem.ID_Object == cstrID_Ontology
+                                                        join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                        where objRef.Name_Object.ToLower() == "object_typed_tagging_module".ToLower() && objRef.Ontology == Globals.Type_Object
+                                                        select objRef).ToList();
+
+            if (objOList_object_typed_tagging_module.Any())
+            {
+                OItem_object_typed_tagging_module = new clsOntologyItem()
+                {
+                    GUID = objOList_object_typed_tagging_module.First().ID_Other,
+                    Name = objOList_object_typed_tagging_module.First().Name_Other,
+                    GUID_Parent = objOList_object_typed_tagging_module.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_mediaviewer_module = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                      where objOItem.ID_Object == cstrID_Ontology
+                                                      join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                      where objRef.Name_Object.ToLower() == "object_mediaviewer_module".ToLower() && objRef.Ontology == Globals.Type_Object
+                                                      select objRef).ToList();
+
+            if (objOList_object_mediaviewer_module.Any())
+            {
+                OItem_object_mediaviewer_module = new clsOntologyItem()
+                {
+                    GUID = objOList_object_mediaviewer_module.First().ID_Other,
+                    Name = objOList_object_mediaviewer_module.First().Name_Other,
+                    GUID_Parent = objOList_object_mediaviewer_module.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_log_manager = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                               where objOItem.ID_Object == cstrID_Ontology
+                                               join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                               where objRef.Name_Object.ToLower() == "object_log_manager".ToLower() && objRef.Ontology == Globals.Type_Object
+                                               select objRef).ToList();
+
+            if (objOList_object_log_manager.Any())
+            {
+                OItem_object_log_manager = new clsOntologyItem()
+                {
+                    GUID = objOList_object_log_manager.First().ID_Other,
+                    Name = objOList_object_log_manager.First().Name_Other,
+                    GUID_Parent = objOList_object_log_manager.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_localizing_manager = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                      where objOItem.ID_Object == cstrID_Ontology
+                                                      join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                      where objRef.Name_Object.ToLower() == "object_localizing_manager".ToLower() && objRef.Ontology == Globals.Type_Object
+                                                      select objRef).ToList();
+
+            if (objOList_object_localizing_manager.Any())
+            {
+                OItem_object_localizing_manager = new clsOntologyItem()
+                {
+                    GUID = objOList_object_localizing_manager.First().ID_Other,
+                    Name = objOList_object_localizing_manager.First().Name_Other,
+                    GUID_Parent = objOList_object_localizing_manager.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_object_file_not_present = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                     where objOItem.ID_Object == cstrID_Ontology
                                                     join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -207,6 +325,90 @@ private void get_Data_DevelopmentConfig()
                     GUID = objOList_object_baseconfig.First().ID_Other,
                     Name = objOList_object_baseconfig.First().Name_Other,
                     GUID_Parent = objOList_object_baseconfig.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_sendto_batch = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                where objOItem.ID_Object == cstrID_Ontology
+                                                join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                where objRef.Name_Object.ToLower() == "object_sendto_batch".ToLower() && objRef.Ontology == Globals.Type_Object
+                                                select objRef).ToList();
+
+            if (objOList_object_sendto_batch.Any())
+            {
+                OItem_object_sendto_batch = new clsOntologyItem()
+                {
+                    GUID = objOList_object_sendto_batch.First().ID_Other,
+                    Name = objOList_object_sendto_batch.First().Name_Other,
+                    GUID_Parent = objOList_object_sendto_batch.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_module_dir = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                              where objOItem.ID_Object == cstrID_Ontology
+                                              join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                              where objRef.Name_Object.ToLower() == "object_module_dir".ToLower() && objRef.Ontology == Globals.Type_Object
+                                              select objRef).ToList();
+
+            if (objOList_object_module_dir.Any())
+            {
+                OItem_object_module_dir = new clsOntologyItem()
+                {
+                    GUID = objOList_object_module_dir.First().ID_Other,
+                    Name = objOList_object_module_dir.First().Name_Other,
+                    GUID_Parent = objOList_object_module_dir.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_function = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                            where objOItem.ID_Object == cstrID_Ontology
+                                            join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "object_function".ToLower() && objRef.Ontology == Globals.Type_Object
+                                            select objRef).ToList();
+
+            if (objOList_object_function.Any())
+            {
+                OItem_object_function = new clsOntologyItem()
+                {
+                    GUID = objOList_object_function.First().ID_Other,
+                    Name = objOList_object_function.First().Name_Other,
+                    GUID_Parent = objOList_object_function.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_executable = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                              where objOItem.ID_Object == cstrID_Ontology
+                                              join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                              where objRef.Name_Object.ToLower() == "object_executable".ToLower() && objRef.Ontology == Globals.Type_Object
+                                              select objRef).ToList();
+
+            if (objOList_object_executable.Any())
+            {
+                OItem_object_executable = new clsOntologyItem()
+                {
+                    GUID = objOList_object_executable.First().ID_Other,
+                    Name = objOList_object_executable.First().Name_Other,
+                    GUID_Parent = objOList_object_executable.First().ID_Parent_Other,
                     Type = Globals.Type_Object
                 };
             }

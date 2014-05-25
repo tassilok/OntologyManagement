@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsDataWorkSendToBatch.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="frmFileSystemConnector.cs">
       <SubType>Form</SubType>
@@ -54,6 +55,15 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UNCHelper.cs" />
+    <Compile Include="UserControl_CreateSendTo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_CreateSendTo.Designer.cs">
+      <DependentUpon>UserControl_CreateSendTo.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="frmFileSystemConnector.resx">
+      <DependentUpon>frmFileSystemConnector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -63,6 +73,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControl_CreateSendTo.resx">
+      <DependentUpon>UserControl_CreateSendTo.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Config\ElasticSearch.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -103,6 +116,14 @@
     <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
       <Name>OntologyClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Security-Module\Security-Module\Security-Module.vbproj">
+      <Project>{c9add5dc-090d-4003-bba9-cf9218c938b2}</Project>
+      <Name>Security-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Structure-Module\Structure-Module\Structure-Module.csproj">
+      <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
+      <Name>Structure-Module</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Typed-Tagging-Module\Typed-Tagging-Module\Typed-Tagging-Module.csproj">
       <Project>{e558b18d-ae28-4eac-bff5-97ee5cda49eb}</Project>

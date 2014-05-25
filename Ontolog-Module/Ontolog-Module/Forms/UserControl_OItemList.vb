@@ -1843,7 +1843,6 @@ Public Class UserControl_OItemList
         MoveObjectsToolStripMenuItem.Enabled = False
         RelateToItemByNameToolStripMenuItem.Enabled = False
         OpenModuleByArgumentToolStripMenuItem.Enabled = False
-
         If DataGridView_Items.SelectedRows.Count > 0 Then
             If boolApplyable = True Then
                 ApplyToolStripMenuItem.Enabled = True
@@ -1874,6 +1873,31 @@ Public Class UserControl_OItemList
         If DataGridView_Items.SelectedCells.Count > 0 Then
             ChangeOrderIDsToolStripMenuItem.Enabled = True
         End If
+    End Sub
+
+    Private Sub TestFrmOItemList()
+        Dim objFrmOItemList As frmOntologyItemList
+
+        Dim objOItemList = New List(Of clsOntologyItem)
+
+        Try
+            For Each objDGVR As DataGridViewRow In DataGridView_Items.SelectedRows
+                Dim objDRV As DataRowView = objDGVR.DataBoundItem
+
+                objOItemList.Add(New clsOntologyItem With {.GUID = objDRV.Item("ID_Item"),
+                                                           .Name = objDRV.Item("Name"),
+                                                           .GUID_Parent = objDRV.Item("ID_Parent")})
+
+            Next
+
+            Dim objVisCol = New List(Of String) From {"GUID", "Name", "GUID_Parent"}
+
+            objFrmOItemList = New frmOntologyItemList(objOItemList, objLocalConfig.Globals, objVisCol)
+            objFrmOItemList.ShowDialog(Me)
+        Catch ex As Exception
+
+        End Try
+        
     End Sub
 
     Private Sub ApplyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApplyToolStripMenuItem.Click

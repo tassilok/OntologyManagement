@@ -12,11 +12,16 @@ Public Class UserControl_BaseData
     Private WithEvents objUserControl_Localization As UserControl_LocalizationDetails
     Private objDataWork_Details As clsDataWork_Details
     Private objTransaction As clsTransaction
-    Private objFrm_VersionEdit As frmVersionEdit
+
     Private objFrm_OntologyModule As frmMain
     Private objFrm_FileSystemModule As frm_FilesystemModule
     Private objFileWork As clsFileWork
     Private objRelationConfig As clsRelationConfig
+
+    Private objTransaction_Version As clsTransaction_Version
+
+
+    
 
     Public Sub New(LocalConfig As clsLocalConfig, DataWork_BaseData As clsDataWork_BaseData)
         
@@ -40,13 +45,15 @@ Public Class UserControl_BaseData
         objUserControl_Localization.Dock = DockStyle.Fill
         SplitContainer1.Panel2.Controls.Add(objUserControl_Localization)
         Panel_Languages.Controls.Add(objUserControl_Languages)
-        objDataWork_Details = new clsDataWork_Details(objLocalConfig)
+        objDataWork_Details = New clsDataWork_Details(objLocalConfig)
+
         clear_Controls()
         Configure_StateCombo()
     End Sub
 
     Public sub Initialize_BaseData(OItem_Dev As clsOntologyItem)
         objOItem_Dev = OItem_Dev
+        objTransaction_Version = New clsTransaction_Version(objLocalConfig, Me, objOItem_Dev, objDataWork_Details)
         clear_Controls()
         If Not objOItem_Dev Is Nothing Then
             if objDataWork_Details.GetData(objOItem_Dev).GUID = objLocalConfig.Globals.LState_Success.GUID Then
@@ -125,32 +132,9 @@ Public Class UserControl_BaseData
         End If
     End Sub
 
-    Private sub Save_Version()
-        objFrm_VersionEdit = new frmVersionEdit(objOItem_Dev, objLocalConfig.Globals, objLocalConfig.OItem_User)       
-        objFrm_VersionEdit.ShowDialog(Me)
-        If objFrm_VersionEdit.DialogResult=DialogResult.OK Then
-            If objFrm_VersionEdit.OItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                If Not objFrm_VersionEdit.OItem_Version Is Nothing Then
-                    Dim objOItem_LogEntry = objFrm_VersionEdit.OItem_LogEntry
-                    If Not objOItem_LogEntry Is Nothing Then
-                        objTransaction.ClearItems()
-                        Dim objORel_Dev_LogEntry = objDataWork_Details.Rel_Dev_LogEntry(objOItem_Dev, objOItem_LogEntry)
-                        Dim objOItem_Result = objTransaction.do_Transaction(objORel_Dev_LogEntry)
-                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            objDataWork_Details.OItem_Version = objFrm_VersionEdit.OItem_Version.Clone()
-                            TextBox_Version.Text = objDataWork_Details.OItem_Version.Name
-                        Else
-                            MsgBox("Die Version konnte nicht verknüpft werden!", MsgBoxStyle.Exclamation)
-                        End If
-                        
-                    Else
-                        MsgBox("Die Version konnte nicht verknüpft werden!", MsgBoxStyle.Exclamation)
-                    End If
-                    
-                End If
-            End If
-        End If
-    End Sub
+    
+
+    
 
     Private sub Save_Creator()
         objFrm_OntologyModule = new frmMain(objLocalConfig.Globals,objLocalConfig.Globals.Type_Class,objLocalConfig.OItem_Class_User)
@@ -246,8 +230,16 @@ Public Class UserControl_BaseData
         
     End Sub
 
-    Private Sub Button_Version_Click( sender As Object,  e As EventArgs) Handles Button_Version.Click
-        Save_Version()
+    Private Sub Button_Version_Click(sender As Object, e As EventArgs) Handles Button_Version.Click
+        Dim objOItem_Result = objTransaction_Version.SaveVersion()
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            TextBox_Version.Text = objDataWork_Details.OItem_Version.Name
+        End If
+        
+        
+
+
     End Sub
 
     Private Sub Button_Creator_Click( sender As Object,  e As EventArgs) Handles Button_Creator.Click
@@ -346,7 +338,7 @@ Public Class UserControl_BaseData
                         Dim objOItem_Result = objTransaction.do_Transaction(objORel_Dev_To_StandardLanguage,True)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             TextBox_LanguageStandard.Text = objOItem_StandardLanguage.Name
-                            objDataWork_Details.OItem_StandardLanguage= objOItem_StandardLanguage.Clone()
+                            objDataWork_Details.OItem_StandardLanguage = objOItem_StandardLanguage.Clone()
                         Else 
                             MsgBox("Die Sprache konnte nicht verknüpft werden!",MsgBoxStyle.Exclamation)
                         End If

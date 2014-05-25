@@ -52,6 +52,7 @@ namespace Typed_Tagging_Module
                 objUserControl_Tag = new UserControl_OItemList(objLocalConfig.Globals);
                 objUserControl_Tag.Dock = DockStyle.Fill;
                 objUserControl_Tag.Selection_Changed += objUserControl_Tag_Selection_Changed;
+                objUserControl_Tag.applied_Items += objUserControl_Tag_applied_Items;
                 splitContainer1.Panel2.Controls.Add(objUserControl_Tag);
             }
 
@@ -59,10 +60,20 @@ namespace Typed_Tagging_Module
             
         }
 
+        void objUserControl_Tag_applied_Items()
+        {
+            foreach (var oItem_TagDest in objUserControl_Tag.OList_Simple)
+            {
+                SaveTag(oItem_TagDest);
+            }
+            objUserControl_Tag.OList_Simple.Clear();
+            RefreshList();
+        }
+
         void objUserControl_Tag_Selection_Changed()
         {
             toolStripButton_ToList.Enabled = false;
-            if (objUserControl_Tag.DataGridViewRowCollection_Selected.Count == 1)
+            if (objUserControl_Tag.DataGridViewRowCollection_Selected.Count > 0)
             {
                 toolStripButton_ToList.Enabled = true;
             }
@@ -122,67 +133,15 @@ namespace Typed_Tagging_Module
 
                     if (!objOList_Tags.Any(t => t.GUID == rowView["ID_Item"].ToString()))
                     {
-                        var objOItem_Tag = new clsOntologyItem
+                        var objOItem_TagDest = new clsOntologyItem
                         {
-                            GUID = objLocalConfig.Globals.NewGUID,
+                            GUID = rowView["ID_Item"].ToString(),
                             Name = rowView["Name"].ToString(),
-                            GUID_Parent = objLocalConfig.OItem_class_typed_tag.GUID,
+                            GUID_Parent = rowView["ID_Parent"].ToString(),
                             Type = objLocalConfig.Globals.Type_Object
                         };
 
-                        var objOItem_Result = objTransaction.do_Transaction(objOItem_Tag);
-                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                        {
-                            var objORel_Tag_To_TaggingSource = objRelationConfig.Rel_ObjectRelation(objOItem_Tag, objOItem_TaggingSource, objLocalConfig.OItem_relationtype_is_tagging);
-                            objOItem_Result = objTransaction.do_Transaction(objORel_Tag_To_TaggingSource);
-                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                            {
-                                var objOItem_TagDest = new clsOntologyItem
-                                {
-                                    GUID = rowView["ID_Item"].ToString(),
-                                    Name = rowView["Name"].ToString(),
-                                    GUID_Parent = rowView["ID_Parent"].ToString(),
-                                    Type = objLocalConfig.Globals.Type_Object
-                                };
-
-                                var objORel_Tag_To_TaggingDest = objRelationConfig.Rel_ObjectRelation(objOItem_Tag, objOItem_TagDest, objLocalConfig.OItem_relationtype_belonging_tag);
-
-                                objOItem_Result = objTransaction.do_Transaction(objORel_Tag_To_TaggingDest);
-                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                                {
-                                    var objORel_Tag_To_User = objRelationConfig.Rel_ObjectRelation(objOItem_Tag, objLocalConfig.OItem_User, objLocalConfig.OItem_relationtype_belongs_to);
-                                    objOItem_Result = objTransaction.do_Transaction(objORel_Tag_To_User);
-                                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                                    {
-                                        var objORel_Tag_To_Group = objRelationConfig.Rel_ObjectRelation(objOItem_Tag, objLocalConfig.OItem_Group, objLocalConfig.OItem_relationtype_belongs_to);
-                                        objOItem_Result = objTransaction.do_Transaction(objORel_Tag_To_Group);
-                                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                                        {
-                                            objDataWork_Tagging.AddTag(objOItem_Tag, objOItem_TaggingSource, objOItem_TagDest);
-                                            done++;
-                                        }
-                                        else
-                                        {
-                                            objTransaction.rollback();
-                                        }
-                                        
-                                    }
-                                    else
-                                    {
-                                        objTransaction.rollback();
-                                    }
-                                    
-                                }
-                                else
-                                {
-                                    objTransaction.rollback();
-                                }
-                            }
-                            else
-                            {
-                                objTransaction.rollback();
-                            }
-                        }
+                        done = SaveTag(objOItem_TagDest);
                     }
                 }
 
@@ -198,6 +157,68 @@ namespace Typed_Tagging_Module
                 MessageBox.Show(this, "Beim ermitteln der Tags ist ein Fehler aufgetreten!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
 
+        }
+
+        private int SaveTag(clsOntologyItem objOItem_TagDest)
+        {
+            var done = 0;
+            var objOItem_Tag = new clsOntologyItem
+            {
+                GUID = objLocalConfig.Globals.NewGUID,
+                Name = objOItem_TagDest.Name,
+                GUID_Parent = objLocalConfig.OItem_class_typed_tag.GUID,
+                Type = objLocalConfig.Globals.Type_Object
+            };
+
+            var objOItem_Result = objTransaction.do_Transaction(objOItem_Tag);
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                var objORel_Tag_To_TaggingSource = objRelationConfig.Rel_ObjectRelation(objOItem_Tag, objOItem_TaggingSource, objLocalConfig.OItem_relationtype_is_tagging);
+                objOItem_Result = objTransaction.do_Transaction(objORel_Tag_To_TaggingSource);
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    
+
+                    var objORel_Tag_To_TaggingDest = objRelationConfig.Rel_ObjectRelation(objOItem_Tag, objOItem_TagDest, objLocalConfig.OItem_relationtype_belonging_tag);
+
+                    objOItem_Result = objTransaction.do_Transaction(objORel_Tag_To_TaggingDest);
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        var objORel_Tag_To_User = objRelationConfig.Rel_ObjectRelation(objOItem_Tag, objLocalConfig.OItem_User, objLocalConfig.OItem_relationtype_belongs_to);
+                        objOItem_Result = objTransaction.do_Transaction(objORel_Tag_To_User);
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            var objORel_Tag_To_Group = objRelationConfig.Rel_ObjectRelation(objOItem_Tag, objLocalConfig.OItem_Group, objLocalConfig.OItem_relationtype_belongs_to);
+                            objOItem_Result = objTransaction.do_Transaction(objORel_Tag_To_Group);
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            {
+                                objDataWork_Tagging.AddTag(objOItem_Tag, objOItem_TaggingSource, objOItem_TagDest);
+                                done++;
+                            }
+                            else
+                            {
+                                objTransaction.rollback();
+                            }
+
+                        }
+                        else
+                        {
+                            objTransaction.rollback();
+                        }
+
+                    }
+                    else
+                    {
+                        objTransaction.rollback();
+                    }
+                }
+                else
+                {
+                    objTransaction.rollback();
+                }
+            }
+
+            return done;
         }
 
         private void dataGridView_Tags_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)

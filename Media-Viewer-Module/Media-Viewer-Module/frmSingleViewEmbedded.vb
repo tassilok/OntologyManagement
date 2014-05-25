@@ -40,13 +40,20 @@ Public Class frmSingleViewEmbedded
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = LocalConfig
         objOItem_MediaItemType = OItem_MediaItemType
-        Dim objAuthenticator = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
-        objAuthenticator.ShowDialog(Me)
-        If objAuthenticator.DialogResult = Windows.Forms.DialogResult.OK Then
-            objLocalConfig.OItem_User = objAuthenticator.OItem_User
-            Initialize()
+        If objLocalConfig.OItem_User Is Nothing Then
+            Dim objAuthenticator = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate)
+            objAuthenticator.ShowDialog(Me)
+            If objAuthenticator.DialogResult = Windows.Forms.DialogResult.OK Then
+                objLocalConfig.OItem_User = objAuthenticator.OItem_User
+            End If
+
+
+
         End If
 
+        If Not objLocalConfig.OItem_User Is Nothing Then
+            Initialize()
+        End If
     End Sub
 
     Private Sub Initialize()
@@ -58,6 +65,7 @@ Public Class frmSingleViewEmbedded
 
     Public Sub InitializeViewer(OItem_Ref As clsOntologyItem)
         objOItem_Ref = OItem_Ref
+        Me.Text = objOItem_Ref.Type & ": " & objOItem_Ref.Name
         Select Case objOItem_MediaItemType.GUID
             Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
                 objUserControl_SingleViewer.initialize_Image(objOItem_Ref)

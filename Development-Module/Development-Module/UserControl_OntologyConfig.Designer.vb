@@ -78,13 +78,13 @@ Partial Class UserControl_OntologyConfig
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Remove, Me.ToolStripSeparator1, Me.ToolStripButton_View, Me.ToolStripSeparator2, Me.ToolStripButton_Migrate})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(186, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(93, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'ToolStripButton_Add
         '
         Me.ToolStripButton_Add.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Add.Enabled = false
+        Me.ToolStripButton_Add.Enabled = False
         Me.ToolStripButton_Add.Image = Global.Development_Module.My.Resources.Resources.b_plus
         Me.ToolStripButton_Add.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Add.Name = "ToolStripButton_Add"
@@ -94,7 +94,7 @@ Partial Class UserControl_OntologyConfig
         'ToolStripButton_Remove
         '
         Me.ToolStripButton_Remove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Remove.Enabled = false
+        Me.ToolStripButton_Remove.Enabled = False
         Me.ToolStripButton_Remove.Image = Global.Development_Module.My.Resources.Resources.b_minus
         Me.ToolStripButton_Remove.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Remove.Name = "ToolStripButton_Remove"
@@ -109,7 +109,7 @@ Partial Class UserControl_OntologyConfig
         'ToolStripButton_View
         '
         Me.ToolStripButton_View.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_View.Enabled = false
+        Me.ToolStripButton_View.Enabled = False
         Me.ToolStripButton_View.Image = Global.Development_Module.My.Resources.Resources.clipboard_01
         Me.ToolStripButton_View.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_View.Name = "ToolStripButton_View"
@@ -124,7 +124,7 @@ Partial Class UserControl_OntologyConfig
         'ToolStripButton_Migrate
         '
         Me.ToolStripButton_Migrate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Migrate.Image = CType(resources.GetObject("ToolStripButton_Migrate.Image"),System.Drawing.Image)
+        Me.ToolStripButton_Migrate.Image = CType(resources.GetObject("ToolStripButton_Migrate.Image"), System.Drawing.Image)
         Me.ToolStripButton_Migrate.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Migrate.Name = "ToolStripButton_Migrate"
         Me.ToolStripButton_Migrate.Size = New System.Drawing.Size(62, 22)

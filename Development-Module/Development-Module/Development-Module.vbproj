@@ -93,6 +93,7 @@
     <Compile Include="clsOntologyExport.vb" />
     <Compile Include="clsOntologyFiles.vb" />
     <Compile Include="clsTransaction_OntologyConfig.vb" />
+    <Compile Include="clsTransaction_Version.vb" />
     <Compile Include="DataSet_Development.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -12,6 +12,7 @@ Public Class clsDataWork_Details
     Private objDBLevel_State As clsDBLevel
     Private objDBLevel_Version As clsDBLevel
     Private objDBLevel_Languages As clsDBLevel
+    Private objDBLevel_NeededDev As clsDBLevel
 
     Public Property OItem_Result_Creator As clsOntologyItem
     Public Property OItem_Result_Folder As clsOntologyItem
@@ -283,6 +284,24 @@ Public Class clsDataWork_Details
         OItem_Result_StandardLanguage = objOItem_Result
     End Sub
 
+    Public Function GetData_DependentDevelopments(OItem_Dev As clsOntologyItem) As List(Of clsOntologyItem)
+        Dim objOList_DependendDevs As List(Of clsOntologyItem) = Nothing
+        Dim objORel_Dev_To_Needed = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Other = OItem_Dev.GUID,
+                                                                                            .ID_RelationType = objLocalConfig.Oitem_RelationType_needs.GUID,
+                                                                                            .ID_Parent_Object = objLocalConfig.OItem_Class_SoftwareDevelopment.GUID}}
+
+        Dim objOItem_Result = objDBLevel_NeededDev.get_Data_ObjectRel(objORel_Dev_To_Needed, boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_DependendDevs = objDBLevel_NeededDev.OList_ObjectRel.Select(Function(d) New clsOntologyItem With {.GUID = d.ID_Object,
+                                                                                                                       .Name = d.Name_Object,
+                                                                                                                       .GUID_Parent = d.ID_Parent_Object,
+                                                                                                                       .Type = objLocalConfig.Globals.Type_Object}).ToList()
+        End If
+
+        Return objOList_DependendDevs
+    End Function
+
     Public Function Rel_Dev_To_Status(OItem_Development As clsOntologyItem, OItem_State As clsOntologyItem) As clsObjectRel
         Dim objORel_Dev_To_State As New clsObjectRel With {.ID_Object = OItem_Development.GUID, _
                                                            .ID_Parent_Object = OItem_Development.GUID_Parent, _
@@ -370,6 +389,7 @@ Public Class clsDataWork_Details
         objDBLevel_Version = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Languages = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_File = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_NeededDev = New clsDBLevel(objLocalConfig.Globals)
 
         OItem_Result_Creator = objLocalConfig.Globals.LState_Nothing.Clone()
         OItem_Result_Folder = objLocalConfig.Globals.LState_Nothing.Clone()
