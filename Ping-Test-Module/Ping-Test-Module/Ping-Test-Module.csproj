@@ -66,6 +66,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Config\ElasticSearch.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -102,6 +103,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Stop_Icon.png" />
     <EmbeddedResource Include="Config\Templates\AttributeTypes.xml" />
     <EmbeddedResource Include="Config\Templates\ClassAtts.xml" />
     <EmbeddedResource Include="Config\Templates\Classes.xml" />
