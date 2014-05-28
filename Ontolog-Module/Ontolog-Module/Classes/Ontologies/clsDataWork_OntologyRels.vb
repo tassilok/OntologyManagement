@@ -146,7 +146,12 @@ Public Class clsDataWork_OntologyRels
                                   Select New clsObjectAtt With {.ID_AttributeType = objAttributeType.GUID, _
                                                                 .ID_Class = objClasses.GUID}).ToList
 
-            objOItem_Result = objDBLevel_ObjAtt.get_Data_ObjectAtt(objOList_ObjectAttSearch, boolIDs:=False)
+            If objOList_ObjectAttSearch.Any() Then
+                objOItem_Result = objDBLevel_ObjAtt.get_Data_ObjectAtt(objOList_ObjectAttSearch, boolIDs:=False)
+            Else
+                objDBLevel_ObjAtt.OList_ObjectAtt.Clear()
+            End If
+
             
         Else
             objOItem_Result = objDBLevel_ObjAtt.get_Data_ObjectAtt(Nothing, boolIDs:=False)

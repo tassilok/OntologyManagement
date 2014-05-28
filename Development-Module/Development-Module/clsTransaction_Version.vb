@@ -57,6 +57,8 @@ Public Class clsTransaction_Version
                 GetDependendHierarchy(objDev)
             Next
         End If
+        objOList_VersionedDevs.Sort(Function(ver1, ver2) ver1.Name.CompareTo(ver2.Name))
+
     End Sub
 
     Public Sub New(LocalConfig As clsLocalConfig, FrmPar As Windows.Forms.IWin32Window, OItem_Dev As clsOntologyItem, Optional DataWork_Details As clsDataWork_Details = Nothing)

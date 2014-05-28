@@ -1074,7 +1074,7 @@ Public Class clsDBLevel
             Case objTypes.RelationType
                 objOItem_Result = get_Data_RelationTypes(objOLIst_OItem)
                 If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
-                    If OList_Objects.Any Then
+                    If OList_RelationTypes.Any Then
                         objOItem_OItem.Name = OList_RelationTypes.First().Name
                         objOItem_OItem.GUID_Related = objLogStates.LogState_Success.GUID
                     Else

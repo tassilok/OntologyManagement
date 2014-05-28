@@ -37,6 +37,7 @@ Partial Class UserControl_OntologyTree
         Me.ToolStripLabel_Mark = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Mark = New System.Windows.Forms.ToolStripTextBox()
         Me.FolderBrowserDialog_Xml = New System.Windows.Forms.FolderBrowserDialog()
+        Me.XApplyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -103,9 +104,9 @@ Partial Class UserControl_OntologyTree
         '
         'ContextMenuStrip_Ontologies
         '
-        Me.ContextMenuStrip_Ontologies.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ExportToolStripMenuItem})
+        Me.ContextMenuStrip_Ontologies.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ExportToolStripMenuItem, Me.XApplyToolStripMenuItem})
         Me.ContextMenuStrip_Ontologies.Name = "ContextMenuStrip_Ontologies"
-        Me.ContextMenuStrip_Ontologies.Size = New System.Drawing.Size(118, 48)
+        Me.ContextMenuStrip_Ontologies.Size = New System.Drawing.Size(153, 92)
         '
         'NewToolStripMenuItem
         '
@@ -147,6 +148,12 @@ Partial Class UserControl_OntologyTree
         Me.ToolStripTextBox_Mark.Name = "ToolStripTextBox_Mark"
         Me.ToolStripTextBox_Mark.Size = New System.Drawing.Size(250, 25)
         '
+        'XApplyToolStripMenuItem
+        '
+        Me.XApplyToolStripMenuItem.Name = "XApplyToolStripMenuItem"
+        Me.XApplyToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.XApplyToolStripMenuItem.Text = "x_Apply"
+        '
         'UserControl_OntologyTree
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -182,5 +189,6 @@ Partial Class UserControl_OntologyTree
     Friend WithEvents NewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ExportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FolderBrowserDialog_Xml As System.Windows.Forms.FolderBrowserDialog
+    Friend WithEvents XApplyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

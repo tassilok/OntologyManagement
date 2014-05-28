@@ -83,6 +83,7 @@ Public Class frmMain
     End Sub
 
     Private Sub configureRelationLabel()
+        Configure_ORel()
         ToolStripStatusLabel_RelationDone.Text = If(objUserControl_ObjRel.OItem_Left Is Nothing, "-", objUserControl_ObjRel.OItem_Left.Name)
         ToolStripStatusLabel_RelationDone.Text = ToolStripStatusLabel_RelationDone.Text & If(objUserControl_ObjRel.OItem_RelationType Is Nothing, "-", objUserControl_ObjRel.OItem_RelationType.Name)
         ToolStripStatusLabel_RelationDone.Text = ToolStripStatusLabel_RelationDone.Text & If(objUserControl_ObjRel.OItem_Other Is Nothing, "-", objUserControl_ObjRel.OItem_Other.Name)
@@ -252,19 +253,29 @@ Public Class frmMain
             objOList_Item.Add(objOItem)
             'get_ObjectRel(objOItem)
             'get_TokenAttribute(objSemItem_Token)
-            objUserControl_ObjRel.initialize_RelList(objOList_Item, _
+            If Not objUserControl_ObjRel Is Nothing Then
+                objUserControl_ObjRel.initialize_RelList(objOList_Item, _
                                                      objOList_Classes_Left, _
                                                      objOList_RelationTypes_Left, _
                                                      objOList_ClassRel_LeftRight, _
                                                      objOList_Classes_Right, _
                                                      objOList_RelationTypes_Right, _
                                                      objOList_ClassRel_RightLeft)
+            End If
+
+            
 
 
-            objUserControl_ObjAtt.initialize_RelList(objOItem, _
+            If Not objUserControl_ObjAtt Is Nothing Then
+                objUserControl_ObjAtt.initialize_RelList(objOItem, _
                                                      Nothing)
+            End If
+            
 
-            objUserControl_ObjectTree.select_Node(objOItem.GUID)
+            If Not objUserControl_ObjectTree Is Nothing Then
+                objUserControl_ObjectTree.select_Node(objOItem.GUID)
+            End If
+
 
             'If objUserControl_OObjectList.ShowParents Then
             '    Dim objOItem_Class = New clsOntologyItem With {.GUID = objOItem.GUID_Parent}
@@ -353,8 +364,7 @@ Public Class frmMain
     End Sub
 
     Private Sub initialize()
-        Dim objOItem_RelType As New clsOntologyItem(Nothing, Nothing, objLocalConfig.Globals.Type_RelationType)
-        Dim objOItem_AttType As New clsOntologyItem(Nothing, Nothing, objLocalConfig.Globals.Type_AttributeType)
+        
 
         objUserControl_TypeTree = New UserControl_TypeTree(objLocalConfig)
         objUserControl_TypeTree.Applyable = boolApplyable
@@ -369,41 +379,11 @@ Public Class frmMain
         SplitContainer_Token.Panel1.Controls.Clear()
         SplitContainer_Token.Panel1.Controls.Add(objUserControl_OObjectList)
 
-
-        objUserControl_ORelationTypeList = New UserControl_OItemList(objLocalConfig)
-        objUserControl_ORelationTypeList.Applyable = True
-        objUserControl_ORelationTypeList.Dock = DockStyle.Fill
-        Panel_RelationTypes.Controls.Clear()
-        objUserControl_ORelationTypeList.initialize(objOItem_RelType)
-        Panel_RelationTypes.Controls.Add(objUserControl_ORelationTypeList)
-
-        objUserControl_OAttributeList = New UserControl_OItemList(objLocalConfig)
-        objUserControl_OAttributeList.Applyable = True
-        objUserControl_OAttributeList.Dock = DockStyle.Fill
-        Panel_Attributes.Controls.Clear()
-        objUserControl_OAttributeList.initialize(objOItem_AttType)
-        Panel_Attributes.Controls.Add(objUserControl_OAttributeList)
-
-        objUserControl_ObjRel = New UserControl_ObjectRel(objLocalConfig)
-        objUserControl_ObjRel.Dock = DockStyle.Fill
-        SplitContainer_TokAttTokRel.Panel2.Controls.Clear()
-        SplitContainer_TokAttTokRel.Panel2.Controls.Add(objUserControl_ObjRel)
-
         objUserControl_ObjectTree = New UserControl_ObjectTree(objLocalConfig)
         objUserControl_ObjectTree.Applyable = True
         objUserControl_ObjectTree.Dock = DockStyle.Fill
         SplitContainer_Token.Panel2.Controls.Clear()
         SplitContainer_Token.Panel2.Controls.Add(objUserControl_ObjectTree)
-
-        objUserControl_ObjAtt = New UserControl_ObjectAtt(objLocalConfig)
-        objUserControl_ObjAtt.Dock = DockStyle.Fill
-        SplitContainer_AttribRel.Panel2.Controls.Clear()
-        SplitContainer_AttribRel.Panel2.Controls.Add(objUserControl_ObjAtt)
-
-        objUserControl_Filter = New UserControl_Filter(objLocalConfig)
-        objUserControl_Filter.Dock = DockStyle.Fill
-        SplitContainer_Filter_Body.Panel1.Controls.Clear()
-        SplitContainer_Filter_Body.Panel1.Controls.Add(objUserControl_Filter)
 
         If Not strType_Entry Is Nothing Then
             Select Case strType_Entry
@@ -437,8 +417,64 @@ Public Class frmMain
         configure_Areas()
     End Sub
 
+    Private Sub Configure_ORelationTypeList(objOItem_RelType As clsOntologyItem)
+        If objUserControl_ORelationTypeList Is Nothing Then
+            objUserControl_ORelationTypeList = New UserControl_OItemList(objLocalConfig)
+            objUserControl_ORelationTypeList.Applyable = True
+            objUserControl_ORelationTypeList.Dock = DockStyle.Fill
+            Panel_RelationTypes.Controls.Clear()
+            objUserControl_ORelationTypeList.initialize(objOItem_RelType)
+            Panel_RelationTypes.Controls.Add(objUserControl_ORelationTypeList)
+
+        End If
+        
+    End Sub
+
+    Private Sub Configure_OAttributeList(objOItem_AttType As clsOntologyItem)
+        If objUserControl_OAttributeList Is Nothing Then
+            objUserControl_OAttributeList = New UserControl_OItemList(objLocalConfig)
+            objUserControl_OAttributeList.Applyable = True
+            objUserControl_OAttributeList.Dock = DockStyle.Fill
+            Panel_Attributes.Controls.Clear()
+            objUserControl_OAttributeList.initialize(objOItem_AttType)
+            Panel_Attributes.Controls.Add(objUserControl_OAttributeList)
+        End If
+        
+    End Sub
+
+    Private Sub Configure_ORel()
+        If objUserControl_ObjRel Is Nothing Then
+            objUserControl_ObjRel = New UserControl_ObjectRel(objLocalConfig)
+            objUserControl_ObjRel.Dock = DockStyle.Fill
+            SplitContainer_TokAttTokRel.Panel2.Controls.Clear()
+            SplitContainer_TokAttTokRel.Panel2.Controls.Add(objUserControl_ObjRel)
+        End If
+        
+    End Sub
+
+    Private Sub Configure_ObjAtt()
+        If objUserControl_ObjAtt Is Nothing Then
+            objUserControl_ObjAtt = New UserControl_ObjectAtt(objLocalConfig)
+            objUserControl_ObjAtt.Dock = DockStyle.Fill
+            SplitContainer_AttribRel.Panel2.Controls.Clear()
+            SplitContainer_AttribRel.Panel2.Controls.Add(objUserControl_ObjAtt)
+        End If
+        
+    End Sub
+
+    Private Sub Configure_Filter()
+        If objUserControl_Filter Is Nothing Then
+            objUserControl_Filter = New UserControl_Filter(objLocalConfig)
+            objUserControl_Filter.Dock = DockStyle.Fill
+            SplitContainer_Filter_Body.Panel1.Controls.Clear()
+            SplitContainer_Filter_Body.Panel1.Controls.Add(objUserControl_Filter)
+        End If
+        
+    End Sub
 
     Private Sub configure_Areas()
+        Dim objOItem_RelType As New clsOntologyItem(Nothing, Nothing, objLocalConfig.Globals.Type_RelationType)
+        Dim objOItem_AttType As New clsOntologyItem(Nothing, Nothing, objLocalConfig.Globals.Type_AttributeType)
 
         SplitContainer_Filter_Body.Panel1Collapsed = Not ToolStripButton_Filter.Checked
 
@@ -465,6 +501,40 @@ Public Class frmMain
         ToolStripButton_TokenRel.Checked = Not SplitContainer_AttribRelTokenRel.Panel2Collapsed
 
         ToolStripStatusLabel_Database.Text = objLocalConfig.Globals.Index & "@" & objLocalConfig.Globals.Server
+
+        If Not SplitContainer_TokAttTokRel.Panel1Collapsed And Not SplitContainer2.Panel2Collapsed Then
+
+            Configure_ORelationTypeList(objOItem_RelType)
+
+
+
+        End If
+
+        If Not SplitContainer_AttribRel.Panel1Collapsed And Not SplitContainer2.Panel2Collapsed Then
+            Configure_OAttributeList(objOItem_AttType)
+
+        End If
+
+        If Not SplitContainer_TokAttTokRel.Panel2Collapsed And Not SplitContainer2.Panel2Collapsed Then
+
+            Configure_ORel()
+
+        End If
+
+
+        If Not SplitContainer_AttribRel.Panel2Collapsed And Not SplitContainer2.Panel2Collapsed Then
+
+            Configure_ObjAtt()
+
+
+        End If
+
+        If Not SplitContainer_Filter_Body.Panel1Collapsed Then
+
+
+            Configure_Filter()
+        End If
+
 
         initialize_OTree()
     End Sub

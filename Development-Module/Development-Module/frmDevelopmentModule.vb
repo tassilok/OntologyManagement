@@ -54,21 +54,7 @@ Public Class frmDevelopmentModule
             objUserControl_DevTree.Dock = DockStyle.Fill
             SplitContainer1.Panel1.Controls.Add(objUserControl_DevTree)
 
-            objUserControl_OntologyConfig = New UserControl_OntologyConfig(objLocalConfig)
-            objUserControl_OntologyConfig.Dock = DockStyle.Fill
-            TabPage_OntologyConfig.Controls.Add(objUserControl_OntologyConfig)
-
-            objUserControl_BaseData = new UserControl_BaseData(objLocalConfig,objDataWork_BaseData)
-            objUserControl_BaseData.Dock = DockStyle.Fill
-            TabPage_BaseData.Controls.Add(objUserControl_BaseData)
-
-            objUserControl_LogEntries = New UserControl_LogEntries(objLocalConfig)
-            objUserControl_LogEntries.Dock = DockStyle.Fill
-            TabPage_Logentries.Controls.Add(objUserControl_LogEntries)
-
-            objUserControl_OntologyExport = new UserControl_OntologyExport(objLocalConfig)
-            objUserControl_OntologyExport.Dock = DockStyle.Fill
-            TabPage_OntologyExport.Controls.Add(objUserControl_OntologyExport)
+            
 
             configure_TabPages()
         End If
@@ -77,14 +63,42 @@ Public Class frmDevelopmentModule
 
 
     Private Sub configure_TabPages()
+        
+
+        
+
+        
+
+        
         Select Case TabControl1.SelectedTab.Name
             Case TabPage_BaseData.Name
+                If objUserControl_BaseData Is Nothing Then
+                    objUserControl_BaseData = New UserControl_BaseData(objLocalConfig, objDataWork_BaseData)
+                    objUserControl_BaseData.Dock = DockStyle.Fill
+                    TabPage_BaseData.Controls.Add(objUserControl_BaseData)
+                End If
+
                 objUserControl_BaseData.Initialize_BaseData(objOItem_Development)
             Case TabPage_Logentries.Name
+                If objUserControl_LogEntries Is Nothing Then
+                    objUserControl_LogEntries = New UserControl_LogEntries(objLocalConfig)
+                    objUserControl_LogEntries.Dock = DockStyle.Fill
+                    TabPage_Logentries.Controls.Add(objUserControl_LogEntries)
+                End If
                 objUserControl_LogEntries.Initialize_LogEntries(objOItem_Development)
             Case TabPage_OntologyConfig.Name
+                If objUserControl_OntologyConfig Is Nothing Then
+                    objUserControl_OntologyConfig = New UserControl_OntologyConfig(objLocalConfig)
+                    objUserControl_OntologyConfig.Dock = DockStyle.Fill
+                    TabPage_OntologyConfig.Controls.Add(objUserControl_OntologyConfig)
+                End If
                 objUserControl_OntologyConfig.initialize_OntologyConfig(objOItem_Development)
             Case TabPage_OntologyExport.Name
+                If objUserControl_OntologyExport Is Nothing Then
+                    objUserControl_OntologyExport = New UserControl_OntologyExport(objLocalConfig)
+                    objUserControl_OntologyExport.Dock = DockStyle.Fill
+                    TabPage_OntologyExport.Controls.Add(objUserControl_OntologyExport)
+                End If
                 objUserControl_OntologyExport.initialize_OntologyExport(objOItem_Development)
         End Select
     End Sub

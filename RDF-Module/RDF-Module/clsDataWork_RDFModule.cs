@@ -105,7 +105,7 @@ namespace RDF_Module
                 OAItem_rdf_class = GetXMLOfTemplate(objLocalConfig.OItem_token_xml_rdf__class);
             }
 
-            if (OAItem_rdf_object_attribute != null)
+            if (OAItem_rdf_class != null)
             {
                 OAItem_rdf_object_attribute = GetXMLOfTemplate(objLocalConfig.OItem_token_xml_rdf__token_attribute);
             }

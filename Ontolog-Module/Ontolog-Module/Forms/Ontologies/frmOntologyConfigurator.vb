@@ -12,6 +12,40 @@ Public Class frmOntologyConfigurator
 
     Private objOItem_Open As clsOntologyItem
 
+    Private objOItem_Ontology As clsOntologyItem
+
+    Public ReadOnly Property OItem_Ontology As clsOntologyItem
+        Get
+            Return objOItem_Ontology
+        End Get
+    End Property
+
+    Public ReadOnly Property OList_Ontologies As List(Of clsOntologyJoins)
+        Get
+            Return objDataWork_Ontologies.OList_OntologyJoins
+        End Get
+    End Property
+
+   
+    Private boolApplyable As Boolean
+
+
+    Public Property Applyable As Boolean
+        Get
+            Return boolApplyable
+        End Get
+        Set(value As Boolean)
+            boolApplyable = value
+            objUserControl_OntologyTree.Applyable = value
+        End Set
+    End Property
+
+    Private Sub applied_Node(OItem_Ontology As clsOntologyItem) Handles objUserControl_OntologyTree.applied_Ontology
+        DialogResult = Windows.Forms.DialogResult.OK
+        objOItem_Ontology = OItem_Ontology
+        Me.Close()
+    End Sub
+
     Private Sub selected_Node(OItem_Ref As clsOntologyItem) Handles objUserControl_OntologyRefTree.selected_Node
         objUserControl_OntologyTree.initialize_Ontology(OItem_Ref)
     End Sub

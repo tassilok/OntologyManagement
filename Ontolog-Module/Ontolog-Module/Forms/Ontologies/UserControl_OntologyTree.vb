@@ -14,6 +14,16 @@ Public Class UserControl_OntologyTree
     Private objExport As clsExport
 
     Public Event selected_Ontology(OItem_Ontology As clsOntologyItem)
+    Public Event applied_Ontology(OItem_Ontology As clsOntologyItem)
+
+    Public Property Applyable As Boolean
+        Get
+            Return XApplyToolStripMenuItem.Enabled
+        End Get
+        Set(value As Boolean)
+            XApplyToolStripMenuItem.Enabled = value
+        End Set
+    End Property
 
     Public Sub New(DataWork_Ontologies As clsDataWork_Ontologies)
 
@@ -36,6 +46,7 @@ Public Class UserControl_OntologyTree
     End Sub
 
     Private Sub initialize()
+        XApplyToolStripMenuItem.Enabled = False
         objTransaction_Ontologies = New clsTransaction(objDataWork_Ontologies.LocalConfig.Globals)
         objExport = New clsExport(objDataWork_Ontologies.LocalConfig.Globals)
     End Sub
@@ -202,12 +213,14 @@ Public Class UserControl_OntologyTree
         Dim objTreeNode_Ontology As TreeNode
 
         ExportToolStripMenuItem.Enabled = False
+        XApplyToolStripMenuItem.Enabled = False
 
         objTreeNode_Ontology = TreeView_Ontologies.SelectedNode
 
         If Not objTreeNode_Ontology Is Nothing Then
             If objTreeNode_Ontology.ImageIndex = objDataWork_Ontologies.LocalConfig.ImageID_OntologyClose Then
                 ExportToolStripMenuItem.Enabled = True
+                XApplyToolStripMenuItem.Enabled = True
             End If
         End If
     End Sub
@@ -248,5 +261,16 @@ Public Class UserControl_OntologyTree
                 objFrm_ObjectEdit.ShowDialog(Me)
             End If
         End If
+    End Sub
+
+    Private Sub XApplyToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles XApplyToolStripMenuItem.Click
+        Dim objTreeNode = TreeView_Ontologies.SelectedNode
+
+        Dim objOItem_Ontology = New clsOntologyItem With {.GUID = objTreeNode.Name,
+                                                          .Name = objTreeNode.Text,
+                                                          .GUID_Parent = objDataWork_Ontologies.objLocalConfig.Globals.Class_Ontologies.GUID,
+                                                          .Type = objDataWork_Ontologies.objLocalConfig.Globals.Type_Object}
+
+        RaiseEvent applied_Ontology(objOItem_Ontology)
     End Sub
 End Class

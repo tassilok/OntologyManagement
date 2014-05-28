@@ -53,6 +53,16 @@ Public Class UserControl_AdvancedFilter
         Initialize()
     End Sub
 
+    Public Sub New(Globals As clsGlobals)
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+        objLocalConfig = New clsLocalConfig(Globals)
+        Initialize()
+    End Sub
+
     Public sub Initialize_Relation(OItem_Class As clsOntologyItem, OItem_RelationType As clsOntologyItem)
         RaiseEvent NotApplyable
         objOItem_Class = OItem_Class

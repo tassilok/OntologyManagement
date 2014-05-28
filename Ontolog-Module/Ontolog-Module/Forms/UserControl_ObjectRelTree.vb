@@ -40,7 +40,16 @@ Public Class UserControl_ObjectRelTree
     Public Event selected_Item(ByVal oList_Items As List(Of clsOntologyItem))
     Public Event relateByName(oList_Items As List(Of clsOntologyItem), NameRelationType As NameRelation_Type)
 
-    Public Sub New(ByVal LocalConfig As clsLocalConfig)
+    Public Property ShowAttributes As Boolean
+    Public Property ShowRelForw As Boolean
+    Public Property ShowRelBackw As Boolean
+    Public Property ShowRelForwOther As Boolean
+
+    Public Sub New(ByVal LocalConfig As clsLocalConfig, _
+                   Optional ShowAttributes As Boolean = True, _
+                   Optional ShowRelForw As Boolean = True, _
+                   Optional DoShowRelBackw As Boolean = True, _
+                   Optional DoShowRelForwOther As Boolean = True)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
@@ -50,10 +59,19 @@ Public Class UserControl_ObjectRelTree
 
         set_DBConnection()
 
+        Me.ShowAttributes = ShowAttributes
+        Me.ShowRelForw = ShowRelForw
+        Me.ShowRelBackw = ShowRelBackw
+        Me.ShowRelForwOther = ShowRelForwOther
+
         initialize()
     End Sub
 
-    Public Sub New(ByVal Globals As clsGlobals)
+    Public Sub New(ByVal Globals As clsGlobals, _
+                   Optional ShowAttributes As Boolean = True, _
+                   Optional ShowRelForw As Boolean = True, _
+                   Optional ShowRelBackw As Boolean = True, _
+                   Optional ShowRelForwOther As Boolean = True)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
@@ -62,6 +80,11 @@ Public Class UserControl_ObjectRelTree
         objLocalConfig = New clsLocalConfig(Globals)
 
         set_DBConnection()
+
+        Me.ShowAttributes = ShowAttributes
+        Me.ShowRelForw = ShowRelForw
+        Me.ShowRelBackw = ShowRelBackw
+        Me.ShowRelForwOther = ShowRelForwOther
 
         initialize()
     End Sub
@@ -77,9 +100,25 @@ Public Class UserControl_ObjectRelTree
 
         TreeView_ObjectRels.Nodes.Clear()
 
-        objTreeNode_Atttributes = TreeView_ObjectRels.Nodes.Add(objLocalConfig.Globals.Type_AttributeType, objLocalConfig.Globals.Type_AttributeType, 0)
-        objTreeNode_RelForward = TreeView_ObjectRels.Nodes.Add(objLocalConfig.Globals.Direction_LeftRight.GUID, objLocalConfig.Globals.Direction_LeftRight.Name, 0)
-        objTreeNode_RelBackward = TreeView_ObjectRels.Nodes.Add(objLocalConfig.Globals.Direction_RightLeft.GUID, objLocalConfig.Globals.Direction_RightLeft.Name, 0)
+        If ShowAttributes Then
+            objTreeNode_Atttributes = TreeView_ObjectRels.Nodes.Add(objLocalConfig.Globals.Type_AttributeType, objLocalConfig.Globals.Type_AttributeType, 0)
+        Else
+            objTreeNode_Atttributes = New TreeNode()
+        End If
+
+
+        If ShowRelForw Then
+            objTreeNode_RelForward = TreeView_ObjectRels.Nodes.Add(objLocalConfig.Globals.Direction_LeftRight.GUID, objLocalConfig.Globals.Direction_LeftRight.Name, 0)
+        Else
+            objTreeNode_RelForward = New TreeNode()
+        End If
+
+        If ShowRelBackw Then
+            objTreeNode_RelBackward = TreeView_ObjectRels.Nodes.Add(objLocalConfig.Globals.Direction_RightLeft.GUID, objLocalConfig.Globals.Direction_RightLeft.Name, 0)
+        Else
+            objTreeNode_RelBackward = New TreeNode()
+        End If
+
 
         objTreeNode_RelForward_OR = Nothing
         objTreeNode_RelBackward_OR = Nothing
@@ -87,11 +126,26 @@ Public Class UserControl_ObjectRelTree
         'objTreeNode_RelForward_Classes = TreeView_ObjectRels.Nodes.Add(objLocalConfig.Globals.Type_Other_Classes, objLocalConfig.Globals.Type_Other_Classes, 0)
 
         If Not objOItem_Object Is Nothing Then
-            fill_Attributes()
-            fill_Forward()
-            fill_Backward()
-            fill_ForwardOther()
-            fill_BackwardOther()
+            If ShowAttributes Then
+                fill_Attributes()
+            End If
+
+            If ShowRelForw Then
+                fill_Forward()
+            End If
+
+            If ShowRelBackw Then
+                fill_Backward()
+            End If
+
+            If ShowRelForwOther Then
+                fill_ForwardOther()
+                If Not objOItem_Object.GUID Is Nothing And objOItem_Object.Type = objLocalConfig.Globals.Type_Object Then
+                    fill_BackwardOther()
+                End If
+            End If
+
+
             TreeView_ObjectRels.ExpandAll()
         End If
 

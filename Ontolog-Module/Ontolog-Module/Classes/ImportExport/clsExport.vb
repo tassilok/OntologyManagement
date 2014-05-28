@@ -203,6 +203,126 @@ End Enum
         objOList_ClassesWithChildren.Clear()
     End Sub
 
+    Public Function Generate_OntologyItems(OItem_Ontology As clsOntologyItem, mode As ModeEnum) As clsOntologyItem
+        Dim objOItem_Result = objDataWork_Ontologies.GetData_BaseData
+        If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+            Generate_OLists(OItem_Ontology, mode)
+        End If
+
+
+        Return objOItem_Result
+    End Function
+
+    Private Function Generate_OLists(objOItem_Ontology As clsOntologyItem, mode As ModeEnum) As clsOntologyItem
+        If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType).Any Then
+            'Get AttributeTypes
+            OList_AttributeTypes.AddRange(objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType).Where(Function(p) Not p.ID_Parent_Ref Is Nothing).Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Ref, _
+                                                                                                                                                                                                                                                                                 .Name = p.Name_Ref, _
+                                                                                                                                                                                                                                                                                 .GUID_Parent = p.ID_Parent_Ref, _
+                                                                                                                                                                                                                                                                                 .Type = objGlobals.Type_AttributeType}))
+
+
+        End If
+
+        If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType).Any Then
+            'Get RelationTypes
+            OList_RelationTypes.AddRange(objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType).ToList().Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Ref, .Name = p.Name_Ref, _
+                                                                                                                                                                                                                                                                                .GUID_Parent = p.ID_Parent_Ref, _
+                                                                                                                                                                                                                                                                                .Type = objGlobals.Type_RelationType}))
+
+
+        End If
+
+        If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Object).Any Then
+            'Objects
+            OList_Objects.AddRange(objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Object).ToList().Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Ref, .Name = p.Name_Ref, _
+                                                                                                                                                                                                                                                                                .GUID_Parent = p.ID_Parent_Ref, _
+                                                                                                                                                                                                                                                                                .Type = objGlobals.Type_Object}))
+
+
+        End If
+
+        If mode.HasFlag(ModeEnum.AllRelations) Or mode.HasFlag(ModeEnum.OntologyJoins) Or mode.HasFlag(ModeEnum.OntologyItems) Then
+            'Get Classes of Ontology-Items
+            objOList_ClassesExtended = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where( _
+                Function(p) p.ID_Ontology = objOItem_Ontology.GUID _
+                And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Class).ToList()
+
+            'Get Classes which Objects have to be added
+            objOList_ClassesWithChildren = objOList_ClassesExtended.Where( _
+                Function(p) p.ID_OntologyRelationRule = objOntologyRules.Rule_ChildToken.GUID).GroupBy( _
+                    Function(p) New With {p.ID_Ref, p.Name_Ref, p.ID_Parent_Ref, p.ID_OntologyRelationRule}).Select( _
+                    Function(p) New clsOntologyItem With {.GUID_Parent = p.Key.ID_Ref}).ToList()
+
+            'Get the Objects of Classes with Children (Rule)
+            If objOList_ClassesWithChildren.Any() Then
+                OList_Objects.AddRange(objDataWork_OntologyRels.GetData_ObjectsOfClasses(objOList_ClassesWithChildren))
+            End If
+
+        End If
+
+
+        If OList_Objects.Any Then
+            'Add Classes of Objects which have to be exported
+            OList_Classes.AddRange(From objClass In objDataWork_OntologyRels.GetData_ClassesOfObjects(OList_Objects.GroupBy(Function(p) p.GUID_Parent).Select(Function(p) New clsOntologyItem With {.GUID = p.Key}).ToList())
+                                          Group Join objClassExist In OList_Classes On objClass.GUID Equals objClassExist.GUID Into objClassesExist = Group
+                                          From objClassExist In objClassesExist.DefaultIfEmpty()
+                                          Where objClassExist Is Nothing
+                                          Select objClass)
+
+            'OList_Objects.AddRange(From objObject In OList_Objects
+            '                       Group By objObject.GUID, objObject.Name, objObject.GUID_Parent Into Group
+            '                       Select New clsOntologyItem With {.GUID = GUID, _
+            '                                                        .Name = Name, _
+            '                                                        .GUID_Parent = GUID_Parent, _
+            '                                                        .Type = objGlobals.Type_Object})
+
+
+        End If
+
+        'Add Classes of Ontology-Items
+        OList_Classes.AddRange((From objClassNew In objOList_ClassesExtended
+                                       Group Join objClass In OList_Classes On objClass.GUID Equals objClassNew.ID_Ref Into objClasses = Group
+                                       From objClassOld In objClasses.DefaultIfEmpty()
+                                       Where objClassOld Is Nothing
+                                       Select New clsOntologyItem With {.GUID = objClassNew.ID_Ref, _
+                                                                        .Name = objClassNew.Name_Ref, _
+                                                                        .GUID_Parent = objClassNew.ID_Parent_Ref, _
+                                                                        .Type = objClassNew.Type_Ref}))
+        If OList_Classes.Any Then
+
+            If mode.HasFlag(ModeEnum.ClassParents) Then
+                'Get Parents for Classes, flag is set
+                Dim intClassCount = 0
+                Do
+                    intClassCount = OList_Classes.Count
+                    OList_Classes.AddRange(From objClassParent In objDataWork_Ontologies.OList_AllCalsses _
+                                              Join objClassSub In OList_Classes On objClassParent.GUID Equals objClassSub.GUID_Parent _
+                                              Group Join objClassOld In OList_Classes On objClassParent.GUID Equals objClassOld.GUID Into objClassesOld = Group
+                                              From objClassOld In objClassesOld.DefaultIfEmpty()
+                                              Where objClassOld Is Nothing
+                                              Select objClassParent)
+
+
+
+                Loop Until OList_Classes.Count - intClassCount = 0
+            End If
+            'Get Classes Distinct
+            OList_Classes = (From objClass In OList_Classes
+                                    Group By objClass.GUID, objClass.Name, objClass.GUID_Parent Into Group
+                                    Select New clsOntologyItem With {.GUID = GUID, _
+                                        .Name = Name, _
+                                        .GUID_Parent = GUID_Parent, _
+                                        .Type = objGlobals.Type_Object}).ToList()
+
+
+        End If
+
+        Dim objOItem_Result = export_OntologyRels(strPathDst, mode)
+
+        Return objOItem_Result
+    End Function
+
     Public Function Export_Ontology(OItem_Ontology As clsOntologyItem, strPathDst As String, mode As ModeEnum, Optional objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String) = Nothing, Optional boolOntology As Boolean = False) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem = objDataWork_Ontologies.LocalConfig.Globals.LState_Error.Clone()
 
@@ -257,145 +377,45 @@ End Enum
                     objOItem_Result = Export_OntologyStructures(OItem_Ontology, strPathDst, objDict_XMLTemplates)
                 End If
 
-                If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType).Any Then
-                    'Get AttributeTypes
-                    OList_AttributeTypes.AddRange(objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType).Where(Function(p) Not p.ID_Parent_Ref Is Nothing).Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Ref, _
-                                                                                                                                                                                                                                                                                         .Name = p.Name_Ref, _
-                                                                                                                                                                                                                                                                                         .GUID_Parent = p.ID_Parent_Ref, _
-                                                                                                                                                                                                                                                                                         .Type = objGlobals.Type_AttributeType}))
-
-
-                End If
-
-                If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType).Any Then
-                    'Get RelationTypes
-                    OList_RelationTypes.AddRange(objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType).ToList().Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Ref, .Name = p.Name_Ref, _
-                                                                                                                                                                                                                                                                                        .GUID_Parent = p.ID_Parent_Ref, _
-                                                                                                                                                                                                                                                                                        .Type = objGlobals.Type_RelationType}))
-
-
-                End If
-
-                If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Object).Any Then
-                    'Objects
-                    OList_Objects.AddRange(objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Object).ToList().Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Ref, .Name = p.Name_Ref, _
-                                                                                                                                                                                                                                                                                        .GUID_Parent = p.ID_Parent_Ref, _
-                                                                                                                                                                                                                                                                                        .Type = objGlobals.Type_Object}))
-
-
-                End If
-
-                If mode.HasFlag(ModeEnum.AllRelations) Or mode.HasFlag(ModeEnum.OntologyJoins) Or mode.HasFlag(ModeEnum.OntologyItems) Then
-                    'Get Classes of Ontology-Items
-                    objOList_ClassesExtended = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where( _
-                        Function(p) p.ID_Ontology = objOItem_Ontology.GUID _
-                        And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Class).ToList()
-
-                    'Get Classes which Objects have to be added
-                    objOList_ClassesWithChildren = objOList_ClassesExtended.Where( _
-                        Function(p) p.ID_OntologyRelationRule = objOntologyRules.Rule_ChildToken.GUID).GroupBy( _
-                            Function(p) New With {p.ID_Ref, p.Name_Ref, p.ID_Parent_Ref, p.ID_OntologyRelationRule}).Select( _
-                            Function(p) New clsOntologyItem With {.GUID_Parent = p.Key.ID_Ref}).ToList()
-
-                    'Get the Objects of Classes with Children (Rule)
-                    If objOList_ClassesWithChildren.Any() Then
-                        OList_Objects.AddRange(objDataWork_OntologyRels.GetData_ObjectsOfClasses(objOList_ClassesWithChildren))
-                    End If
-
-                End If
-
-
-                If OList_Objects.Any Then
-                    'Add Classes of Objects which have to be exported
-                    OList_Classes.AddRange(From objClass In objDataWork_OntologyRels.GetData_ClassesOfObjects(OList_Objects.GroupBy(Function(p) p.GUID_Parent).Select(Function(p) New clsOntologyItem With {.GUID = p.Key}).ToList())
-                                                  Group Join objClassExist In OList_Classes On objClass.GUID Equals objClassExist.GUID Into objClassesExist = Group
-                                                  From objClassExist In objClassesExist.DefaultIfEmpty()
-                                                  Where objClassExist Is Nothing
-                                                  Select objClass)
-
-                    'OList_Objects.AddRange(From objObject In OList_Objects
-                    '                       Group By objObject.GUID, objObject.Name, objObject.GUID_Parent Into Group
-                    '                       Select New clsOntologyItem With {.GUID = GUID, _
-                    '                                                        .Name = Name, _
-                    '                                                        .GUID_Parent = GUID_Parent, _
-                    '                                                        .Type = objGlobals.Type_Object})
-
-
-                End If
-
-                'Add Classes of Ontology-Items
-                OList_Classes.AddRange((From objClassNew In objOList_ClassesExtended
-                                               Group Join objClass In OList_Classes On objClass.GUID Equals objClassNew.ID_Ref Into objClasses = Group
-                                               From objClassOld In objClasses.DefaultIfEmpty()
-                                               Where objClassOld Is Nothing
-                                               Select New clsOntologyItem With {.GUID = objClassNew.ID_Ref, _
-                                                                                .Name = objClassNew.Name_Ref, _
-                                                                                .GUID_Parent = objClassNew.ID_Parent_Ref, _
-                                                                                .Type = objClassNew.Type_Ref}))
-                If OList_Classes.Any Then
-
-                    If mode.HasFlag(ModeEnum.ClassParents) Then
-                        'Get Parents for Classes, flag is set
-                        Dim intClassCount = 0
-                        Do
-                            intClassCount = OList_Classes.Count
-                            OList_Classes.AddRange(From objClassParent In objDataWork_Ontologies.OList_AllCalsses _
-                                                      Join objClassSub In OList_Classes On objClassParent.GUID Equals objClassSub.GUID_Parent _
-                                                      Group Join objClassOld In OList_Classes On objClassParent.GUID Equals objClassOld.GUID Into objClassesOld = Group
-                                                      From objClassOld In objClassesOld.DefaultIfEmpty()
-                                                      Where objClassOld Is Nothing
-                                                      Select objClassParent)
-
-
-
-                        Loop Until OList_Classes.Count - intClassCount = 0
-                    End If
-                    'Get Classes Distinct
-                    OList_Classes = (From objClass In OList_Classes
-                                            Group By objClass.GUID, objClass.Name, objClass.GUID_Parent Into Group
-                                            Select New clsOntologyItem With {.GUID = GUID, _
-                                                .Name = Name, _
-                                                .GUID_Parent = GUID_Parent, _
-                                                .Type = objGlobals.Type_Object}).ToList()
-
-
-                End If
-
-                objOItem_Result = export_OntologyRels(strPathDst, mode, objDict_XMLTemplates)
+                objOItem_Result = Generate_OLists(objOItem_Ontology, mode)
 
                 objOItem_Result = If(objOItem_Result.GUID = objGlobals.LState_Nothing.GUID, objGlobals.LState_Success.Clone(), objOItem_Result)
 
-                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                    objOItem_Result = Export_AttributeTypes(objDict_XMLTemplates)
+                If (String.IsNullOrEmpty(strPathDst)) Then
+                    If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                        objOItem_Result = Export_AttributeTypes(objDict_XMLTemplates)
+                    End If
+
+                    If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                        objOItem_Result = Export_Objects(objDict_XMLTemplates)
+                    End If
+
+                    If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                        objOItem_Result = Export_RelationTypes(objDict_XMLTemplates)
+                    End If
+
+                    If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                        objOItem_Result = Export_Classes(objDict_XMLTemplates)
+                    End If
+
+                    If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                        objOItem_Result = Export_ClassAtt(objDict_XMLTemplates)
+                    End If
+
+                    If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                        objOItem_Result = Export_ClassRel(objDict_XMLTemplates)
+                    End If
+
+                    If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                        objOItem_Result = Export_ObjectAtt(objDict_XMLTemplates)
+                    End If
+
+                    If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                        objOItem_Result = Export_ObjectRel(objDict_XMLTemplates)
+                    End If
+
                 End If
 
-                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                    objOItem_Result = Export_Objects(objDict_XMLTemplates)
-                End If
-
-                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                    objOItem_Result = Export_RelationTypes(objDict_XMLTemplates)
-                End If
-
-                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                    objOItem_Result = Export_Classes(objDict_XMLTemplates)
-                End If
-
-                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                    objOItem_Result = Export_ClassAtt(objDict_XMLTemplates)
-                End If
-
-                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                    objOItem_Result = Export_ClassRel(objDict_XMLTemplates)
-                End If
-
-                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                    objOItem_Result = Export_ObjectAtt(objDict_XMLTemplates)
-                End If
-
-                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                    objOItem_Result = Export_ObjectRel(objDict_XMLTemplates)
-                End If
             End If
 
 
@@ -798,7 +818,7 @@ End Enum
         Return objOItem_Result
     End Function
 
-    Private Function export_OntologyRels(strPathDst As String, mode As ModeEnum, objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String)) As clsOntologyItem
+    Private Function export_OntologyRels(strPathDst As String, mode As ModeEnum) As clsOntologyItem
         Dim objOItem_Result = objGlobals.LState_Nothing
         If mode.HasFlag(ModeEnum.AllRelations) = True Then
 

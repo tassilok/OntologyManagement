@@ -25,23 +25,23 @@ Partial Class UserControl_AdvancedFilter
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UserControl_AdvancedFilter))
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
+        Me.Button_RemoveRelationType = New System.Windows.Forms.Button()
+        Me.ImageList_Main = New System.Windows.Forms.ImageList(Me.components)
+        Me.TextBox_RelationType = New System.Windows.Forms.TextBox()
+        Me.Label_RelType = New System.Windows.Forms.Label()
+        Me.Button_RemoveClass = New System.Windows.Forms.Button()
         Me.TextBox_Class = New System.Windows.Forms.TextBox()
         Me.Label_Class = New System.Windows.Forms.Label()
         Me.Button_RemoveObject = New System.Windows.Forms.Button()
-        Me.ImageList_Main = New System.Windows.Forms.ImageList(Me.components)
         Me.TextBox_Objects = New System.Windows.Forms.TextBox()
         Me.Label_Object = New System.Windows.Forms.Label()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_AddRelations = New System.Windows.Forms.ToolStripButton()
-        Me.Button_RemoveClass = New System.Windows.Forms.Button()
-        Me.Button_RemoveRelationType = New System.Windows.Forms.Button()
-        Me.TextBox_RelationType = New System.Windows.Forms.TextBox()
-        Me.Label_RelType = New System.Windows.Forms.Label()
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout
-        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout
-        Me.ToolStripContainer1.SuspendLayout
-        Me.ToolStrip1.SuspendLayout
-        Me.SuspendLayout
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
+        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.SuspendLayout()
+        Me.ToolStrip1.SuspendLayout()
+        Me.SuspendLayout()
         '
         'ToolStripContainer1
         '
@@ -69,19 +69,69 @@ Partial Class UserControl_AdvancedFilter
         '
         Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.ToolStrip1)
         '
+        'Button_RemoveRelationType
+        '
+        Me.Button_RemoveRelationType.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button_RemoveRelationType.Enabled = False
+        Me.Button_RemoveRelationType.ImageIndex = 0
+        Me.Button_RemoveRelationType.ImageList = Me.ImageList_Main
+        Me.Button_RemoveRelationType.Location = New System.Drawing.Point(490, 46)
+        Me.Button_RemoveRelationType.Name = "Button_RemoveRelationType"
+        Me.Button_RemoveRelationType.Size = New System.Drawing.Size(25, 23)
+        Me.Button_RemoveRelationType.TabIndex = 8
+        Me.Button_RemoveRelationType.UseVisualStyleBackColor = True
+        '
+        'ImageList_Main
+        '
+        Me.ImageList_Main.ImageStream = CType(resources.GetObject("ImageList_Main.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageList_Main.TransparentColor = System.Drawing.Color.Transparent
+        Me.ImageList_Main.Images.SetKeyName(0, "b_minus.png")
+        Me.ImageList_Main.Images.SetKeyName(1, "b_plus.png")
+        '
+        'TextBox_RelationType
+        '
+        Me.TextBox_RelationType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_RelationType.Location = New System.Drawing.Point(94, 48)
+        Me.TextBox_RelationType.Name = "TextBox_RelationType"
+        Me.TextBox_RelationType.ReadOnly = True
+        Me.TextBox_RelationType.Size = New System.Drawing.Size(392, 20)
+        Me.TextBox_RelationType.TabIndex = 7
+        '
+        'Label_RelType
+        '
+        Me.Label_RelType.AutoSize = True
+        Me.Label_RelType.Location = New System.Drawing.Point(4, 51)
+        Me.Label_RelType.Name = "Label_RelType"
+        Me.Label_RelType.Size = New System.Drawing.Size(84, 13)
+        Me.Label_RelType.TabIndex = 6
+        Me.Label_RelType.Text = "x_RelationType:"
+        '
+        'Button_RemoveClass
+        '
+        Me.Button_RemoveClass.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button_RemoveClass.Enabled = False
+        Me.Button_RemoveClass.ImageIndex = 0
+        Me.Button_RemoveClass.ImageList = Me.ImageList_Main
+        Me.Button_RemoveClass.Location = New System.Drawing.Point(490, 24)
+        Me.Button_RemoveClass.Name = "Button_RemoveClass"
+        Me.Button_RemoveClass.Size = New System.Drawing.Size(25, 23)
+        Me.Button_RemoveClass.TabIndex = 5
+        Me.Button_RemoveClass.UseVisualStyleBackColor = True
+        '
         'TextBox_Class
         '
-        Me.TextBox_Class.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
-            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.TextBox_Class.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_Class.Location = New System.Drawing.Point(94, 26)
         Me.TextBox_Class.Name = "TextBox_Class"
-        Me.TextBox_Class.ReadOnly = true
+        Me.TextBox_Class.ReadOnly = True
         Me.TextBox_Class.Size = New System.Drawing.Size(392, 20)
         Me.TextBox_Class.TabIndex = 4
         '
         'Label_Class
         '
-        Me.Label_Class.AutoSize = true
+        Me.Label_Class.AutoSize = True
         Me.Label_Class.Location = New System.Drawing.Point(4, 29)
         Me.Label_Class.Name = "Label_Class"
         Me.Label_Class.Size = New System.Drawing.Size(46, 13)
@@ -90,35 +140,29 @@ Partial Class UserControl_AdvancedFilter
         '
         'Button_RemoveObject
         '
-        Me.Button_RemoveObject.Enabled = false
+        Me.Button_RemoveObject.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button_RemoveObject.Enabled = False
         Me.Button_RemoveObject.ImageIndex = 0
         Me.Button_RemoveObject.ImageList = Me.ImageList_Main
         Me.Button_RemoveObject.Location = New System.Drawing.Point(490, 2)
         Me.Button_RemoveObject.Name = "Button_RemoveObject"
         Me.Button_RemoveObject.Size = New System.Drawing.Size(25, 23)
         Me.Button_RemoveObject.TabIndex = 2
-        Me.Button_RemoveObject.UseVisualStyleBackColor = true
-        '
-        'ImageList_Main
-        '
-        Me.ImageList_Main.ImageStream = CType(resources.GetObject("ImageList_Main.ImageStream"),System.Windows.Forms.ImageListStreamer)
-        Me.ImageList_Main.TransparentColor = System.Drawing.Color.Transparent
-        Me.ImageList_Main.Images.SetKeyName(0, "b_minus.png")
-        Me.ImageList_Main.Images.SetKeyName(1, "b_plus.png")
+        Me.Button_RemoveObject.UseVisualStyleBackColor = True
         '
         'TextBox_Objects
         '
-        Me.TextBox_Objects.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
-            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.TextBox_Objects.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_Objects.Location = New System.Drawing.Point(94, 4)
         Me.TextBox_Objects.Name = "TextBox_Objects"
-        Me.TextBox_Objects.ReadOnly = true
+        Me.TextBox_Objects.ReadOnly = True
         Me.TextBox_Objects.Size = New System.Drawing.Size(392, 20)
         Me.TextBox_Objects.TabIndex = 1
         '
         'Label_Object
         '
-        Me.Label_Object.AutoSize = true
+        Me.Label_Object.AutoSize = True
         Me.Label_Object.Location = New System.Drawing.Point(4, 7)
         Me.Label_Object.Name = "Label_Object"
         Me.Label_Object.Size = New System.Drawing.Size(52, 13)
@@ -131,7 +175,7 @@ Partial Class UserControl_AdvancedFilter
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_AddRelations})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(148, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(117, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_AddRelations
@@ -141,47 +185,6 @@ Partial Class UserControl_AdvancedFilter
         Me.ToolStripButton_AddRelations.Name = "ToolStripButton_AddRelations"
         Me.ToolStripButton_AddRelations.Size = New System.Drawing.Size(105, 22)
         Me.ToolStripButton_AddRelations.Text = "x_Add Relation"
-        '
-        'Button_RemoveClass
-        '
-        Me.Button_RemoveClass.Enabled = false
-        Me.Button_RemoveClass.ImageIndex = 0
-        Me.Button_RemoveClass.ImageList = Me.ImageList_Main
-        Me.Button_RemoveClass.Location = New System.Drawing.Point(490, 24)
-        Me.Button_RemoveClass.Name = "Button_RemoveClass"
-        Me.Button_RemoveClass.Size = New System.Drawing.Size(25, 23)
-        Me.Button_RemoveClass.TabIndex = 5
-        Me.Button_RemoveClass.UseVisualStyleBackColor = true
-        '
-        'Button_RemoveRelationType
-        '
-        Me.Button_RemoveRelationType.Enabled = false
-        Me.Button_RemoveRelationType.ImageIndex = 0
-        Me.Button_RemoveRelationType.ImageList = Me.ImageList_Main
-        Me.Button_RemoveRelationType.Location = New System.Drawing.Point(490, 46)
-        Me.Button_RemoveRelationType.Name = "Button_RemoveRelationType"
-        Me.Button_RemoveRelationType.Size = New System.Drawing.Size(25, 23)
-        Me.Button_RemoveRelationType.TabIndex = 8
-        Me.Button_RemoveRelationType.UseVisualStyleBackColor = true
-        '
-        'TextBox_RelationType
-        '
-        Me.TextBox_RelationType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
-            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.TextBox_RelationType.Location = New System.Drawing.Point(94, 48)
-        Me.TextBox_RelationType.Name = "TextBox_RelationType"
-        Me.TextBox_RelationType.ReadOnly = true
-        Me.TextBox_RelationType.Size = New System.Drawing.Size(392, 20)
-        Me.TextBox_RelationType.TabIndex = 7
-        '
-        'Label_RelType
-        '
-        Me.Label_RelType.AutoSize = true
-        Me.Label_RelType.Location = New System.Drawing.Point(4, 51)
-        Me.Label_RelType.Name = "Label_RelType"
-        Me.Label_RelType.Size = New System.Drawing.Size(84, 13)
-        Me.Label_RelType.TabIndex = 6
-        Me.Label_RelType.Text = "x_RelationType:"
         '
         'UserControl_AdvancedFilter
         '

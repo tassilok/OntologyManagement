@@ -62,6 +62,8 @@ Public Class UserControl_OItemList
     Private objDlg_Attribute_Double As dlg_Attribute_Double
     Private objDlg_Attribute_String As dlg_Attribute_String
 
+    Private objFrmOItemListToShow As frmOntologyItemList
+
     Private boolOR As Boolean
 
     Private strName_Filter As String
@@ -327,7 +329,7 @@ Public Class UserControl_OItemList
     End Sub
 
     Private Sub GetData_Objects()
-        Dim oList_Items As New List(Of clsOntologyItem)
+        Dim oList_Items_Objects As New List(Of clsOntologyItem)
 
         If Not objOItem_RelationType_AdvancedFilter Is Nothing Or Not objOItem_Class_AdvancedFilter Is Nothing Or Not objOItem_Object_AdvancedFilter Is Nothing Then
             Dim objORel_AdvancedFilter = New List(Of clsObjectRel)
@@ -348,8 +350,8 @@ Public Class UserControl_OItemList
 
 
         Else
-            oList_Items.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
-            objDBLevel.get_Data_Objects(oList_Items, True)
+            oList_Items_Objects.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
+            objDBLevel.get_Data_Objects(oList_Items_Objects, True)
         End If
     End Sub
 
@@ -1876,7 +1878,7 @@ Public Class UserControl_OItemList
     End Sub
 
     Private Sub TestFrmOItemList()
-        Dim objFrmOItemList As frmOntologyItemList
+
 
         Dim objOItemList = New List(Of clsOntologyItem)
 
@@ -1892,8 +1894,8 @@ Public Class UserControl_OItemList
 
             Dim objVisCol = New List(Of String) From {"GUID", "Name", "GUID_Parent"}
 
-            objFrmOItemList = New frmOntologyItemList(objOItemList, objLocalConfig.Globals, objVisCol)
-            objFrmOItemList.ShowDialog(Me)
+            objFrmOItemListToShow = New frmOntologyItemList(objOItemList, objLocalConfig.Globals, objVisCol)
+            objFrmOItemListToShow.ShowDialog(Me)
         Catch ex As Exception
 
         End Try
