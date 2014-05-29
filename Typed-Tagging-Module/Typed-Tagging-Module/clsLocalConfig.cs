@@ -76,15 +76,6 @@ private void get_Data_DevelopmentConfig()
                         ID_RelationType = Globals.RelationType_belongingRelationType.GUID
                     }));
 
-                    objORL_Ontology_To_OntolgyItems = new List<clsObjectRel> {new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
-                                                                                                         ID_RelationType = Globals.RelationType_belongingAttribute.GUID},
-                                                                                  new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
-                                                                                                         ID_RelationType = Globals.RelationType_belongingClass.GUID},
-                                                                                 new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
-                                                                                                         ID_RelationType = Globals.RelationType_belongingObject.GUID},
-                                                                                  new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
-                                                                                                         ID_RelationType = Globals.RelationType_belongingRelationType.GUID}};
-
                     objOItem_Result = objDBLevel_Config2.get_Data_ObjectRel(objORL_Ontology_To_OntolgyItems, boolIDs:false);
                     if (objOItem_Result.GUID == Globals.LState_Success.GUID)
                     {

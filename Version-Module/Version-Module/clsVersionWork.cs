@@ -41,8 +41,13 @@ namespace Version_Module
 
         public clsOntologyItem objVersion { get; private set; }
    
-        public clsOntologyItem save_Version(bool boolDescribe, long major, long minor, long build, long revision)
+        public clsOntologyItem save_Version(bool boolDescribe, long major, long minor, long build, long revision, clsOntologyItem OItem_Ref = null)
         {
+            if (OItem_Ref != null)
+            {
+                objOItem_Ref = OItem_Ref;
+            }
+
             objFrmMain = new frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class, objLocalConfig.OItem_type_logstate);
             objFrmMain.ShowDialog(objParWindow);
 
@@ -195,8 +200,9 @@ namespace Version_Module
             return objOItem_Result;
         }
 
-        public clsOntologyItem get_VersionData()
+        public clsOntologyItem get_VersionData(clsOntologyItem OItem_Ref)
         {
+            objOItem_Ref = OItem_Ref;
             var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
             DataWork_Versions.OItem_Ref = objOItem_Ref;
             DataWork_Versions.GetData_Ref_To_Version();
@@ -256,22 +262,20 @@ namespace Version_Module
             return strResult;
         }
 
-        public clsVersionWork(clsLocalConfig LocalConfig, IWin32Window ParWindow, clsOntologyItem OItem_Ref)
+        public clsVersionWork(clsLocalConfig LocalConfig, IWin32Window ParWindow)
         {
 
             objParWindow = ParWindow;
-            objOItem_Ref = OItem_Ref;
             objLocalConfig = LocalConfig;
 
             initialize();
 
         }
 
-        public clsVersionWork(clsGlobals Globals, IWin32Window ParWindow, clsOntologyItem OItem_User, clsOntologyItem OItem_Ref)
+        public clsVersionWork(clsGlobals Globals, IWin32Window ParWindow, clsOntologyItem OItem_User)
         {
 
             objParWindow = ParWindow;
-            objOItem_Ref = OItem_Ref;
             objLocalConfig = new clsLocalConfig(Globals);
 
             initialize();

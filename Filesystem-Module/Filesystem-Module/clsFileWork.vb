@@ -314,7 +314,24 @@ Public Class clsFileWork
 
                             Else
                                 If doCreate Then
+                                    objOItem_Share = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID,
+                                                                           .Name = strShare,
+                                                                           .GUID_Parent = objLocalConfig.OItem_type_Folder.GUID,
+                                                                           .Type = objLocalConfig.Globals.Type_Object}
 
+                                    objOItem_Result = objTransaction.do_Transaction(objOItem_Share)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        Dim objORel_Share_To_Drive = objRelationConfig.Rel_ObjectRelation(objOItem_Share, objOItem_Drive, objLocalConfig.OItem_RelationType_isSubordinated)
+                                        objOItem_Result = objTransaction.do_Transaction(objORel_Share_To_Drive)
+                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                            objOItem_LastFolder = GetFolderHierarchy(strFolders, objOItem_Share, doCreate)
+                                            If objOItem_LastFolder.GUID_Parent = objLocalConfig.OItem_type_Folder.GUID Then
+                                                objOItem_Result = RelateFileSystemObjectToLastFolder(objOItem_LastFolder, objOItem_FileSystemObject, doCreate)
+                                            End If
+
+                                        End If
+                                        
+                                    End If
                                 Else
                                     objOItem_Result = objLocalConfig.Globals.LState_Nothing.Clone()
                                 End If
@@ -338,19 +355,27 @@ Public Class clsFileWork
 
                             objOItem_Result = objTransaction.do_Transaction(objOItem_Drive)
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                objOItem_Share = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID,
+                                Dim objORel_Drive_To_Server = objRelationConfig.Rel_ObjectRelation(objOItem_Drive, objLocalConfig.Globals.OItem_Server, objLocalConfig.OItem_RelationType_isSubordinated)
+                                objOItem_Result = objTransaction.do_Transaction(objORel_Drive_To_Server)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objOItem_Share = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID,
                                                                            .Name = strShare,
                                                                            .GUID_Parent = objLocalConfig.OItem_type_Folder.GUID,
                                                                            .Type = objLocalConfig.Globals.Type_Object}
-
-                                Dim objORel_Share_To_Drive = objRelationConfig.Rel_ObjectRelation(objOItem_Share, objOItem_Drive, objLocalConfig.OItem_RelationType_isSubordinated)
-                                objOItem_Result = objTransaction.do_Transaction(objORel_Share_To_Drive)
-                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                    objOItem_LastFolder = GetFolderHierarchy(strFolders, objOItem_Share, doCreate)
-                                    If objOItem_LastFolder.GUID_Parent = objLocalConfig.OItem_type_Folder.GUID Then
-                                        objOItem_Result = RelateFileSystemObjectToLastFolder(objOItem_LastFolder, objOItem_FileSystemObject, doCreate)
+                                    objOItem_Result = objTransaction.do_Transaction(objOItem_Share)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        Dim objORel_Share_To_Drive = objRelationConfig.Rel_ObjectRelation(objOItem_Share, objOItem_Drive, objLocalConfig.OItem_RelationType_isSubordinated)
+                                        objOItem_Result = objTransaction.do_Transaction(objORel_Share_To_Drive)
+                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                            objOItem_LastFolder = GetFolderHierarchy(strFolders, objOItem_Share, doCreate)
+                                            If objOItem_LastFolder.GUID_Parent = objLocalConfig.OItem_type_Folder.GUID Then
+                                                objOItem_Result = RelateFileSystemObjectToLastFolder(objOItem_LastFolder, objOItem_FileSystemObject, doCreate)
+                                            End If
+                                        End If
                                     End If
                                 End If
+                                
+                                
                             End If
                         Else
                             objOItem_Result = objLocalConfig.Globals.LState_Nothing.Clone()

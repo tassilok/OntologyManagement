@@ -48,8 +48,8 @@ Public Class UserControl_ObjectRelTree
     Public Sub New(ByVal LocalConfig As clsLocalConfig, _
                    Optional ShowAttributes As Boolean = True, _
                    Optional ShowRelForw As Boolean = True, _
-                   Optional DoShowRelBackw As Boolean = True, _
-                   Optional DoShowRelForwOther As Boolean = True)
+                   Optional ShowRelBackw As Boolean = True, _
+                   Optional ShowRelForwOther As Boolean = True)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()

@@ -271,6 +271,7 @@ Public Class UserControl_TypeTree
         
         Select Case e.KeyCode
             Case Keys.F5
+                get_Data_Classes()
                 initialize_Tree()
             Case Keys.Enter
                 if (e.Alt) Then

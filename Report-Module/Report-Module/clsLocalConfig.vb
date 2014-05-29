@@ -1957,14 +1957,14 @@ Public Class clsLocalConfig
         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
             If objDBLevel_Config1.OList_ObjectRel.Any Then
 
-                objORL_Ontology_To_OntolgyItems = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objGlobals.Class_OntologyItems.GUID, _
-                                                                                                     .ID_RelationType = objGlobals.RelationType_belongingAttribute.GUID},
-                                                                              New clsObjectRel With {.ID_Parent_Object = objGlobals.Class_OntologyItems.GUID, _
-                                                                                                     .ID_RelationType = objGlobals.RelationType_belongingClass.GUID},
-                                                                             New clsObjectRel With {.ID_Parent_Object = objGlobals.Class_OntologyItems.GUID, _
-                                                                                                     .ID_RelationType = objGlobals.RelationType_belongingObject.GUID},
-                                                                              New clsObjectRel With {.ID_Parent_Object = objGlobals.Class_OntologyItems.GUID, _
-                                                                                                     .ID_RelationType = objGlobals.RelationType_belongingRelationType.GUID}}
+                objORL_Ontology_To_OntolgyItems = objDBLevel_Config1.OList_ObjectRel.Select(Function(oi) New clsObjectRel With {.ID_Object = oi.ID_Other,
+                                                                                                                                .ID_RelationType = objGlobals.RelationType_belongingAttribute.GUID}).ToList()
+                objORL_Ontology_To_OntolgyItems.AddRange(objDBLevel_Config1.OList_ObjectRel.Select(Function(oi) New clsObjectRel With {.ID_Object = oi.ID_Other,
+                                                                                                                                .ID_RelationType = objGlobals.RelationType_belongingClass.GUID}))
+                objORL_Ontology_To_OntolgyItems.AddRange(objDBLevel_Config1.OList_ObjectRel.Select(Function(oi) New clsObjectRel With {.ID_Object = oi.ID_Other,
+                                                                                                                                .ID_RelationType = objGlobals.RelationType_belongingObject.GUID}))
+                objORL_Ontology_To_OntolgyItems.AddRange(objDBLevel_Config1.OList_ObjectRel.Select(Function(oi) New clsObjectRel With {.ID_Object = oi.ID_Other,
+                                                                                                                                .ID_RelationType = objGlobals.RelationType_belongingRelationType.GUID}))
 
                 objOItem_Result = objDBLevel_Config2.get_Data_ObjectRel(objORL_Ontology_To_OntolgyItems, boolIDs:=False)
                 If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then

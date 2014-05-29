@@ -84,8 +84,13 @@ namespace Version_Module
             boolOpen = false;
             objOItem_Ref = OItem_Ref;
             this.Text = OItem_Ref.Name;
-            objVersionWork = new clsVersionWork(objLocalConfig, this, objOItem_Ref);
-            var objOItem_Result = objVersionWork.get_VersionData();
+            if (objVersionWork == null)
+            {
+                objVersionWork = new clsVersionWork(objLocalConfig, this);
+            }
+
+
+            var objOItem_Result = objVersionWork.get_VersionData(objOItem_Ref);
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
 

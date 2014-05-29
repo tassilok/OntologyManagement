@@ -48,6 +48,13 @@ Public Class clsDataWork_RefTree
     Public Function add_SubNodes(Optional ByVal objTreeNode As TreeNode = Nothing) As TreeNode
         get_ClassesForNodes()
         add_SubNodes_Loc()
+        If objTreeNode_Root Is Nothing Then
+            objTreeNode_Root = New TreeNode(objLocalConfig.OItem_Type_Media.Name, _
+                                                            objLocalConfig.ImageID_Root, _
+                                                            objLocalConfig.ImageID_Root)
+
+            objTreeNode_Root.Name = objLocalConfig.Globals.Root.GUID
+        End If
         add_ObjectNodes()
         Return objTreeNode_Root
     End Function
@@ -223,68 +230,71 @@ Public Class clsDataWork_RefTree
                      Where objCl.GUID_Parent = strGUID_Parent
                      Order By objCl.Name
 
-        For Each objCL In objLCL1
-            Dim objCL_M = From obj In objOLClasses_Mark
-                          Where objCL.GUID = obj.GUID
+        If objLCL1.Any() Then
+            For Each objCL In objLCL1
+                Dim objCL_M = From obj In objOLClasses_Mark
+                              Where objCL.GUID = obj.GUID
 
-            If Not objTreeNode Is Nothing Then
-                objTreeNodes = objTreeNode.Nodes.Find(objCL.GUID, False)
-            End If
-
-
-            If objCL_M.Count > 0 Then
-
-                If objTreeNode Is Nothing Then
-                    objTreeNode_Root = New TreeNode(objCL.Name, _
-                                                         objLocalConfig.ImageID_Root, _
-                                                         objLocalConfig.ImageID_Root)
-
-                    objTreeNode_Root.Name = objCL.GUID
-                Else
-                    If objTreeNodes.Count > 0 Then
-                        objTreeNode_Sub = objTreeNodes(0).Nodes.Add(objCL.GUID, _
-                                                         objCL.Name, _
-                                                         objLocalConfig.ImageID_Close_Images_SubItems, _
-                                                         objLocalConfig.ImageID_Open_Images_SubItems)
-                        objTreeNodes(0).ImageIndex = objLocalConfig.ImageID_Close_Images_SubItems
-                        objTreeNodes(0).SelectedImageIndex = objLocalConfig.ImageID_Open_Images_SubItems
-                    Else
-                        objTreeNode_Sub = objTreeNode.Nodes.Add(objCL.GUID, _
-                                                         objCL.Name, _
-                                                         objLocalConfig.ImageID_Close, _
-                                                         objLocalConfig.ImageID_Open)
-                    End If
+                If Not objTreeNode Is Nothing Then
+                    objTreeNodes = objTreeNode.Nodes.Find(objCL.GUID, False)
                 End If
 
-            Else
-                If objTreeNode Is Nothing Then
-                    objTreeNode_Root = New TreeNode(objCL.Name, _
-                                                         objLocalConfig.ImageID_Root, _
-                                                         objLocalConfig.ImageID_Root)
 
-                    objTreeNode_Root.Name = objCL.GUID
-                Else
-                    If objTreeNodes.Count > 0 Then
-                        objTreeNode_Sub = objTreeNodes(0)
-                        'objTreeNodes(0).ImageIndex = objLocalConfig.ImageID_Close_Images
-                        'objTreeNodes(0).SelectedImageIndex = objLocalConfig.ImageID_Open_Images
+                If objCL_M.Count > 0 Then
+
+                    If objTreeNode Is Nothing Then
+                        objTreeNode_Root = New TreeNode(objCL.Name, _
+                                                             objLocalConfig.ImageID_Root, _
+                                                             objLocalConfig.ImageID_Root)
+
+                        objTreeNode_Root.Name = objCL.GUID
                     Else
-                        objTreeNode_Sub = objTreeNode.Nodes.Add(objCL.GUID, _
-                                                         objCL.Name, _
-                                                         objLocalConfig.ImageID_Close, _
-                                                         objLocalConfig.ImageID_Open)
+                        If objTreeNodes.Count > 0 Then
+                            objTreeNode_Sub = objTreeNodes(0).Nodes.Add(objCL.GUID, _
+                                                             objCL.Name, _
+                                                             objLocalConfig.ImageID_Close_Images_SubItems, _
+                                                             objLocalConfig.ImageID_Open_Images_SubItems)
+                            objTreeNodes(0).ImageIndex = objLocalConfig.ImageID_Close_Images_SubItems
+                            objTreeNodes(0).SelectedImageIndex = objLocalConfig.ImageID_Open_Images_SubItems
+                        Else
+                            objTreeNode_Sub = objTreeNode.Nodes.Add(objCL.GUID, _
+                                                             objCL.Name, _
+                                                             objLocalConfig.ImageID_Close, _
+                                                             objLocalConfig.ImageID_Open)
+                        End If
                     End If
+
+                Else
+                    If objTreeNode Is Nothing Then
+                        objTreeNode_Root = New TreeNode(objCL.Name, _
+                                                             objLocalConfig.ImageID_Root, _
+                                                             objLocalConfig.ImageID_Root)
+
+                        objTreeNode_Root.Name = objCL.GUID
+                    Else
+                        If objTreeNodes.Count > 0 Then
+                            objTreeNode_Sub = objTreeNodes(0)
+                            'objTreeNodes(0).ImageIndex = objLocalConfig.ImageID_Close_Images
+                            'objTreeNodes(0).SelectedImageIndex = objLocalConfig.ImageID_Open_Images
+                        Else
+                            objTreeNode_Sub = objTreeNode.Nodes.Add(objCL.GUID, _
+                                                             objCL.Name, _
+                                                             objLocalConfig.ImageID_Close, _
+                                                             objLocalConfig.ImageID_Open)
+                        End If
+                    End If
+
                 End If
 
-            End If
+                If objTreeNode Is Nothing Then
+                    add_SubNodes_Loc(objTreeNode_Root)
+                Else
+                    add_SubNodes_Loc(objTreeNode_Sub)
+                End If
 
-            If objTreeNode Is Nothing Then
-                add_SubNodes_Loc(objTreeNode_Root)
-            Else
-                add_SubNodes_Loc(objTreeNode_Sub)
-            End If
-
-        Next
+            Next
+        End If
+        
 
 
     End Sub
