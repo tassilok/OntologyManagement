@@ -381,7 +381,7 @@ End Enum
 
                 objOItem_Result = If(objOItem_Result.GUID = objGlobals.LState_Nothing.GUID, objGlobals.LState_Success.Clone(), objOItem_Result)
 
-                If (String.IsNullOrEmpty(strPathDst)) Then
+                If Not String.IsNullOrEmpty(strPathDst) Then
                     If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
                         objOItem_Result = Export_AttributeTypes(objDict_XMLTemplates)
                     End If

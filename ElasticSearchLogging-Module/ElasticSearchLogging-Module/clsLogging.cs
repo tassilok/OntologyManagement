@@ -24,6 +24,8 @@ namespace ElasticSearchLogging_Module
 
         private clsAppDBLevel objAppDBLevel;
 
+        private string altType;
+
         public clsLogging(clsLocalConfig LocalConfig)
         {
             objLocalConfig = LocalConfig;
@@ -38,8 +40,9 @@ namespace ElasticSearchLogging_Module
             Initialize();
         }
 
-        public clsOntologyItem Initialize_Logging(clsOntologyItem OItem_Log)
+        public clsOntologyItem Initialize_Logging(clsOntologyItem OItem_Log, string altType = null)
         {
+            this.altType = altType;
             objOItem_Log = OItem_Log;
 
             var objOItem_Result = objDataWork_Index.GetIndexData_OfRef(objOItem_Log, objLocalConfig.OItem_relationtype_logging, objLocalConfig.OItem_relationtype_logging, objLocalConfig.Globals.Direction_LeftRight);
@@ -91,7 +94,7 @@ namespace ElasticSearchLogging_Module
 
             if (objDocumentList.Count >= objDataWork_Logging.ItemCount)
             {
-                objOItem_Result = objAppDBLevel.Save_Documents(objDocumentList, objDataWork_Index.OItem_Type.Name, objDataWork_Index.OItem_Index.Name);
+                objOItem_Result = objAppDBLevel.Save_Documents(objDocumentList, altType ?? objDataWork_Index.OItem_Type.Name, objDataWork_Index.OItem_Index.Name);
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
                     objDocumentList.Clear();
@@ -108,7 +111,7 @@ namespace ElasticSearchLogging_Module
 
             if (objDocumentList.Any())
             {
-                objOItem_Result = objAppDBLevel.Save_Documents(objDocumentList, objDataWork_Index.OItem_Type.Name, objDataWork_Index.OItem_Index.Name);
+                objOItem_Result = objAppDBLevel.Save_Documents(objDocumentList, altType ?? objDataWork_Index.OItem_Type.Name, objDataWork_Index.OItem_Index.Name);
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
                     objDocumentList.Clear();
