@@ -44,6 +44,7 @@ Public Class UserControl_Report
     Private objFrmDocumentEdit As Office_Module.frmDocumentEdit
     Private objGraphMLWork As clsGraphMLWork
     Private objFrmLocalizingModuleSingle As frmLocalizingModuleSingle
+    Private objDlgAttribute_String As dlg_Attribute_String
 
     Private objFrmTagging As frmTypedTaggingSingle
 
@@ -1555,5 +1556,20 @@ Public Class UserControl_Report
     Private Sub ToolStripButton_Localized_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Localized.Click
         objFrmLocalizingModuleSingle = New frmLocalizingModuleSingle(objLocalConfig.Globals, objOItem_Object)
         objFrmLocalizingModuleSingle.Show()
+    End Sub
+
+
+    Private Sub DataGridView_Reports_CellMouseDoubleClick( sender As Object,  e As DataGridViewCellMouseEventArgs) Handles DataGridView_Reports.CellMouseDoubleClick
+        Dim objDGVR As DataGridViewRow = DataGridView_Reports.Rows(e.RowIndex)
+        Dim objDRV As DataRowView = objDGVR.DataBoundItem
+
+        Dim objColumn = DataGridView_Reports.Columns(e.ColumnIndex)
+
+        Dim valueStr = objDRV.Item(objColumn.DataPropertyName).ToString()
+
+        objDlgAttribute_String = New dlg_Attribute_String("Show Value",objLocalConfig.Globals,valueStr)
+        objDlgAttribute_String.TextReadonly = True
+        objDlgAttribute_String.ShowDialog(Me)
+        
     End Sub
 End Class
