@@ -125,10 +125,11 @@ namespace Ping_Test_Module
                             pingItem.Name_IPAddress_Test = pingResult.Address.ToString();
 
                         }
+                        Thread.Sleep(500);
                     }
                     catch (Exception)
                     {
-                        
+                        Thread.Sleep(500);
                         
                     }
 
