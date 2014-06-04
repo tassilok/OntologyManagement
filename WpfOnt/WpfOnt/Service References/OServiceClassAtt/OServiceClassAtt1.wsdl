@@ -53,10 +53,15 @@
           <s:element minOccurs="0" maxOccurs="1" name="ID_Class" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Name_Class" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Val_Named" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Val_Name" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="ID_DataType" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Name_DataType" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Val_Bool" nillable="true" type="s:boolean" />
           <s:element minOccurs="1" maxOccurs="1" name="Val_Bit" nillable="true" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="Val_Int" nillable="true" type="s:long" />
           <s:element minOccurs="1" maxOccurs="1" name="Val_Lng" nillable="true" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="Val_Datetime" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Val_Real" nillable="true" type="s:double" />
           <s:element minOccurs="1" maxOccurs="1" name="Val_Double" nillable="true" type="s:double" />
           <s:element minOccurs="1" maxOccurs="1" name="Val_Date" nillable="true" type="s:dateTime" />
           <s:element minOccurs="0" maxOccurs="1" name="Val_String" type="s:string" />

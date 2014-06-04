@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,8 +17,25 @@ namespace WpfOnt.ViewModel
 
         private List<WpfOnt.OServiceObjects.clsOntologyItem > itemList;
         private WpfOnt.OServiceClasses.clsOntologyItem parentClass;
-        private DbWork dbWork = new DbWork();
-        public string IdParent { get; set; }
+        private DbWork dbWork;
+        private string idParent;
+        public string IdParent 
+        {
+            get { return idParent; }
+            set
+            {
+                idParent = value;
+                RefreshObjects(idParent);
+            }
+        }
+
+        public OItemListModel()
+        {
+            if (!(bool)(DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue))
+            {
+                dbWork = new DbWork();
+            }
+        }
 
         /// <summary>
         ///     Contains the current selected page.
@@ -45,8 +63,12 @@ namespace WpfOnt.ViewModel
 
         public void RefreshObjects(string idParent)
         {
-            IdParent = idParent;
-            ItemList = dbWork.GetObjectListByClassId(IdParent);
+            if (!(bool)(DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue))
+            {
+               ItemList = dbWork.GetObjectListByClassId(idParent); 
+            }
+            
         }
+
     }
 }

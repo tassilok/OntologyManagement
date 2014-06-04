@@ -116,6 +116,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsBaseConfig.vb" />
     <Compile Include="clsBlobConnection.vb" />
     <Compile Include="clsBlobFileSync.vb" />
     <Compile Include="clsDataWork.vb" />

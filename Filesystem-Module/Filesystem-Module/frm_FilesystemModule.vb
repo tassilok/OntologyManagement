@@ -43,6 +43,8 @@ Public Class frm_FilesystemModule
 
     Private objFrmBlobWatcher As frmBlobWatcher
 
+    Private objBaseConfig As clsBaseConfig
+
     Private objShellWork As clsShellWork
 
     Public ReadOnly Property LocalConfig As clsLocalConfig
@@ -172,7 +174,7 @@ Public Class frm_FilesystemModule
     End Sub
 
     Private Sub initialize()
-
+        objBaseConfig = New clsBaseConfig(objLocalConfig)
         If objLocalConfig.OItem_User Is Nothing Then
             objFrm_Authentication = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate, True)
             objFrm_Authentication.ShowDialog(Me)
@@ -943,5 +945,20 @@ Public Class frm_FilesystemModule
         Else
             MsgBox("Alle Dateien wurden identifiziert!", MsgBoxStyle.Information)
         End If
+    End Sub
+
+    Private Sub OptionsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OptionsToolStripMenuItem.Click
+        Dim oList_Objects = New List(Of clsOntologyItem) From {objLocalConfig.OItem_BaseConfig}
+
+        objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, oList_Objects, 0, objLocalConfig.Globals.Type_Object, Nothing)
+        objFrm_ObjectEdit.ShowDialog(Me)
+
+        Dim objOItem_Result = objBaseConfig.TestBaseConfig()
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            MsgBox("Die Konfiguration ist nicht korrekt!", MsgBoxStyle.Critical)
+            Environment.Exit(-1)
+        End If
+
+
     End Sub
 End Class

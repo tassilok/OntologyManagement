@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter\DebuggingConverter.cs" />
     <Compile Include="Data\DbWork.cs" />
     <Compile Include="Data\MainViewData.cs" />
     <Compile Include="Data\OTreeNode.cs" />

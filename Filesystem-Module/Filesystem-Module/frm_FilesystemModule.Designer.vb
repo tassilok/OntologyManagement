@@ -78,6 +78,7 @@ Partial Class frm_FilesystemModule
         Me.ToolStripComboBox_ModuleActions = New System.Windows.Forms.ToolStripComboBox()
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CopyPathToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.WriteIdentityToFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BlobsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CreateBlobToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.XputBackToFSToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -97,7 +98,6 @@ Partial Class frm_FilesystemModule
         Me.OpenFileDialog_Files = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog_Folders = New System.Windows.Forms.FolderBrowserDialog()
         Me.BindingSource_Files = New System.Windows.Forms.BindingSource(Me.components)
-        Me.WriteIdentityToFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -495,7 +495,7 @@ Partial Class frm_FilesystemModule
         '
         Me.ContextMenuStrip_DataGrid.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem_DataGrid, Me.OpenToolStripMenuItem, Me.ApplyFilesToolStripMenuItem, Me.ModuleActionsToolStripMenuItem, Me.EditToolStripMenuItem, Me.BlobsToolStripMenuItem})
         Me.ContextMenuStrip_DataGrid.Name = "ContextMenuStrip_DataGrid"
-        Me.ContextMenuStrip_DataGrid.Size = New System.Drawing.Size(171, 158)
+        Me.ContextMenuStrip_DataGrid.Size = New System.Drawing.Size(171, 136)
         '
         'NewToolStripMenuItem_DataGrid
         '
@@ -540,6 +540,12 @@ Partial Class frm_FilesystemModule
         Me.CopyPathToolStripMenuItem.Name = "CopyPathToolStripMenuItem"
         Me.CopyPathToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CopyPathToolStripMenuItem.Text = "x_Copy Path"
+        '
+        'WriteIdentityToFileToolStripMenuItem
+        '
+        Me.WriteIdentityToFileToolStripMenuItem.Name = "WriteIdentityToFileToolStripMenuItem"
+        Me.WriteIdentityToFileToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.WriteIdentityToFileToolStripMenuItem.Text = "Write Identity to File"
         '
         'BlobsToolStripMenuItem
         '
@@ -645,12 +651,6 @@ Partial Class frm_FilesystemModule
         '
         Me.OpenFileDialog_Files.FileName = "OpenFileDialog1"
         Me.OpenFileDialog_Files.Multiselect = True
-        '
-        'WriteIdentityToFileToolStripMenuItem
-        '
-        Me.WriteIdentityToFileToolStripMenuItem.Name = "WriteIdentityToFileToolStripMenuItem"
-        Me.WriteIdentityToFileToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.WriteIdentityToFileToolStripMenuItem.Text = "Write Identity to File"
         '
         'frm_FilesystemModule
         '

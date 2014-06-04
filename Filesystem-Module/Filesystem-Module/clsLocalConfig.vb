@@ -12,6 +12,8 @@ Public Class clsLocalConfig
     Private objDBLevel_Config1 As clsDBLevel
     Private objDBLevel_Config2 As clsDBLevel
 
+    Private objBaseConfig As clsBaseConfig
+
     Private objImport As clsImport
 
     Public Property OItem_User As clsOntologyItem
@@ -493,6 +495,7 @@ Public Class clsLocalConfig
 
     End Sub
 
+
     Private Sub get_BaseConfig()
         Dim oList_ObjectRel As New List(Of clsObjectRel)
 
@@ -521,6 +524,11 @@ Public Class clsLocalConfig
                                                     objDBLevel_Config1.OList_ObjectRel(0).Name_Object, _
                                                     objDBLevel_Config1.OList_ObjectRel(0).ID_Parent_Object, _
                                                     objGlobals.Type_Object)
+
+            Dim objOItem_Result = objBaseConfig.TestBaseConfig()
+            If objOItem_Result.GUID = objGlobals.LState_Error.GUID Then
+                Err.Raise(1, "Config not set")
+            End If
         Else
             Err.Raise(1, "Config not set")
         End If
@@ -1560,7 +1568,7 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub initialize()
-
+        objBaseConfig = New clsBaseConfig(Me)
         get_Config()
     End Sub
 End Class

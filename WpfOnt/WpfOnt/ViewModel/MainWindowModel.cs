@@ -11,13 +11,12 @@ namespace WpfOnt.ViewModel
 {
     public class MainWindowModel : ViewModelBase
     {
-        public MainViewData MainData { get; set; }
 
         private string idClass;
 
         public MainWindowModel()
         {
-            MainData = new MainViewData();
+            
         }
 
         public string IdClass

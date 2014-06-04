@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace WpfOnt.ViewModel
     {
 
 
-        private readonly DbWork dbWork = new DbWork();
+        private readonly DbWork dbWork;
 
         public RelayCommand<TreeViewHelper.DependencyPropertyEventArgs> MySelItemChgCmd { get; set; }
 
@@ -31,6 +32,7 @@ namespace WpfOnt.ViewModel
 
         public object CurrSelItem { get; set; }
 
+       
         /// <summary>
         ///     Contains the current selected page.
         /// </summary>
@@ -86,9 +88,14 @@ namespace WpfOnt.ViewModel
         
         public TypeTreeModel()
         {
+            if (!(bool)(DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue))
+            {
+                dbWork = new DbWork();
+            }
             MySelItemChgCmd = new RelayCommand<TreeViewHelper.DependencyPropertyEventArgs>(TreeViewItemSelectedChangedCallBack);
             CurrSelItem = new object();
             Refresh();
+
         }
 
         private static void TreeViewItemSelectedChangedCallBack(TreeViewHelper.DependencyPropertyEventArgs e)
@@ -103,9 +110,12 @@ namespace WpfOnt.ViewModel
         private void Refresh()
         {
             nodeList = new List<OTreeNode>();
-            if (IsInDesignMode) return;
 
-            classList = dbWork.GetClassList();
+            if (!(bool)(DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue))
+            {
+               classList = dbWork.GetClassList();
+            }
+            
             GetONodeList();
             Nodes = nodeList;
         }

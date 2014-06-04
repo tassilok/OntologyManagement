@@ -12,15 +12,6 @@ namespace WpfOnt.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool IsInDesignMode
-        {
-            get
-            {
-                return DesignerProperties.GetIsInDesignMode(
-                    new DependencyObject());
-            }
-        }
-
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChangedEventHandler handler = PropertyChanged;

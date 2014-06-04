@@ -14,7 +14,7 @@ namespace WpfOnt.Data
             set
             {
                 idClass = value;
-                OnPropertyChanged();
+                OnPropertyChanged("IdClass");
             }
         }
 
