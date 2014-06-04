@@ -78,8 +78,8 @@ Public Class clsSecurityWork
                 End If
             Else
 
-                objFrm_Name = New frm_Name("Password", objLocalConfig.Globals, _
-                                           isSecured:=True)
+                objFrm_Name = New frm_Name("New Password", objLocalConfig.Globals, _
+                                           isSecured:=True, showRepeat:=True)
                 objFrm_Name.ShowDialog(objFrm)
                 If objFrm_Name.DialogResult = Windows.Forms.DialogResult.OK Then
                     strMasterPassword_decoded = objFrm_Name.Value1

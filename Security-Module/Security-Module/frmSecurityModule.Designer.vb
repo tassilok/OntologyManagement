@@ -24,12 +24,14 @@ Partial Class frmSecurityModule
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSecurityModule))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BaseConfigToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -41,12 +43,25 @@ Partial Class frmSecurityModule
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HilfeToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HilfeToolStripMenuItem, Me.ToolsToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(877, 24)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'HilfeToolStripMenuItem
+        '
+        Me.HilfeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoToolStripMenuItem})
+        Me.HilfeToolStripMenuItem.Name = "HilfeToolStripMenuItem"
+        Me.HilfeToolStripMenuItem.Size = New System.Drawing.Size(54, 20)
+        Me.HilfeToolStripMenuItem.Text = "x_&Hilfe"
+        '
+        'InfoToolStripMenuItem
+        '
+        Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.InfoToolStripMenuItem.Text = "&Info"
         '
         'ToolStripContainer1
         '
@@ -94,18 +109,18 @@ Partial Class frmSecurityModule
         Me.SplitContainer1.SplitterDistance = 291
         Me.SplitContainer1.TabIndex = 0
         '
-        'HilfeToolStripMenuItem
+        'ToolsToolStripMenuItem
         '
-        Me.HilfeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoToolStripMenuItem})
-        Me.HilfeToolStripMenuItem.Name = "HilfeToolStripMenuItem"
-        Me.HilfeToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
-        Me.HilfeToolStripMenuItem.Text = "&Hilfe"
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BaseConfigToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
+        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(58, 20)
+        Me.ToolsToolStripMenuItem.Text = "x_&Tools"
         '
-        'InfoToolStripMenuItem
+        'BaseConfigToolStripMenuItem
         '
-        Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.InfoToolStripMenuItem.Text = "&Info"
+        Me.BaseConfigToolStripMenuItem.Name = "BaseConfigToolStripMenuItem"
+        Me.BaseConfigToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.BaseConfigToolStripMenuItem.Text = "Base-Config"
         '
         'frmSecurityModule
         '
@@ -140,5 +155,7 @@ Partial Class frmSecurityModule
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripButton_Close As System.Windows.Forms.ToolStripButton
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
+    Friend WithEvents ToolsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents BaseConfigToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

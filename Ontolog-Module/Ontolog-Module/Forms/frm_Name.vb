@@ -323,4 +323,8 @@ Public Class frm_Name
         TextBox_Name.Text = password
         TextBox_Repeat.Text = password
     End Sub
+
+    Protected Overrides Sub Finalize()
+        MyBase.Finalize()
+    End Sub
 End Class

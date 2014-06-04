@@ -113,58 +113,69 @@ Public Class UserControl_Password
         If Not objTreeNode_Selected Is Nothing Then
             Select Case objTreeNode_Selected.ImageIndex
                 Case objLocalConfig.ImageID_Type_Passwords_Closed
-                    objOntologyModule = New frmMain(objLocalConfig.Globals)
+
+                    objOntologyModule = New frmMain(objLocalConfig.Globals, Caption:="Wählen Sie bitte ein Objekt aus, welches mit Passwort versehen werden soll.")
                     objOntologyModule.Applyable = True
                     objOntologyModule.ShowDialog(Me)
                     If objOntologyModule.DialogResult = DialogResult.OK Then
                         If objOntologyModule.Type_Applied = objLocalConfig.Globals.Type_Object Then
                             If objOntologyModule.OList_Simple.Count = 1 Then
                                 objOItem_Selected = objOntologyModule.OList_Simple(0)
-                                If objDataWork_Security.isObject_OK(objOItem_Selected) Then
-                                    objFrm_Name = New frm_Name("New Password", _
-                                               objLocalConfig.Globals, _
-                                               isSecured:=True, _
-                                               showRepeat:=True)
-                                    objFrm_Name.ShowDialog(Me)
-                                    If objFrm_Name.DialogResult = DialogResult.OK Then
-                                        strPassword_Decoded = objFrm_Name.Value1
-                                        strPassword_Encoded = objSecurityWork.encode_Password(strPassword_Decoded)
+                                If Not objOItem_Selected.GUID = objLocalConfig.OItem_User.GUID Then
+                                    If objDataWork_Security.isObject_OK(objOItem_Selected) Then
+                                        If objDataWork_Security.IsItemSecured(objOItem_Selected).GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+                                            objFrm_Name = New frm_Name("New Password", _
+                                                   objLocalConfig.Globals, _
+                                                   isSecured:=True, _
+                                                   showRepeat:=True)
+                                            objFrm_Name.ShowDialog(Me)
+                                            If objFrm_Name.DialogResult = DialogResult.OK Then
+                                                strPassword_Decoded = objFrm_Name.Value1
+                                                strPassword_Encoded = objSecurityWork.encode_Password(strPassword_Decoded)
 
-                                        objOItem_Password = New clsOntologyItem
-                                        objOItem_Password.GUID = Guid.NewGuid.ToString.Replace("-", "")
-                                        objOItem_Password.Name = strPassword_Encoded
-                                        objOItem_Password.GUID_Parent = objTreeNode_Selected.Name
-                                        objOItem_Password.Type = objLocalConfig.Globals.Type_Object
+                                                objOItem_Password = New clsOntologyItem
+                                                objOItem_Password.GUID = Guid.NewGuid.ToString.Replace("-", "")
+                                                objOItem_Password.Name = strPassword_Encoded
+                                                objOItem_Password.GUID_Parent = objTreeNode_Selected.Name
+                                                objOItem_Password.Type = objLocalConfig.Globals.Type_Object
 
-                                        objOItem_Result = objTransaction_Password.save_001_Password(objOItem_Password)
-                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                            objOItem_Result = objTransaction_Password.save_002_Password_To_User(objLocalConfig.OItem_User)
-                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                objOItem_Result = objTransaction_Password.save_003_Rel_To_Password(objOItem_Selected)
+                                                objOItem_Result = objTransaction_Password.save_001_Password(objOItem_Password)
                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                    fill_Password(objTreeNode_Selected)
-                                                    ToolStripTextBox_Filter.Text = objOItem_Selected.GUID
-
-                                                Else
-                                                    objOItem_Result = objTransaction_Password.del_002_Password_To_User
+                                                    objOItem_Result = objTransaction_Password.save_002_Password_To_User(objLocalConfig.OItem_User)
                                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                        objOItem_Result = objTransaction_Password.save_003_Rel_To_Password(objOItem_Selected)
+                                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                            fill_Password(objTreeNode_Selected)
+                                                            ToolStripTextBox_Filter.Text = objOItem_Selected.GUID
+
+                                                        Else
+                                                            objOItem_Result = objTransaction_Password.del_002_Password_To_User
+                                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                                objTransaction_Password.del_001_Password()
+                                                            End If
+
+                                                            MsgBox("Das Passwort kann nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+
+                                                        End If
+                                                    Else
                                                         objTransaction_Password.del_001_Password()
+                                                        MsgBox("Das Passwort kann nicht gespeichert werden!", MsgBoxStyle.Exclamation)
                                                     End If
-
+                                                Else
                                                     MsgBox("Das Passwort kann nicht gespeichert werden!", MsgBoxStyle.Exclamation)
-
                                                 End If
-                                            Else
-                                                objTransaction_Password.del_001_Password()
-                                                MsgBox("Das Passwort kann nicht gespeichert werden!", MsgBoxStyle.Exclamation)
                                             End If
                                         Else
-                                            MsgBox("Das Passwort kann nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                                            MsgBox("Das Item ist bereits mit einem ""Passwort"" versehen.", MsgBoxStyle.Information)
                                         End If
+                                        
+                                    Else
+                                        MsgBox("Die Klasse des gewählten Objects ist nicht erlaubt!", MsgBoxStyle.Exclamation)
                                     End If
                                 Else
-                                    MsgBox("Die Klasse des gewählten Objects ist nicht erlaubt!", MsgBoxStyle.Exclamation)
+                                    MsgBox("Sie können den Master-User nicht mit einem ""Passwort"" versehen.", MsgBoxStyle.Information)
                                 End If
+                                
                             Else
                                 MsgBox("Bitte nur 1 Objekte auswählen!", MsgBoxStyle.Exclamation)
                             End If

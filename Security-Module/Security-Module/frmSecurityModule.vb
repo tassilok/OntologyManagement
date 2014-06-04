@@ -8,6 +8,8 @@ Public Class frmSecurityModule
     Private WithEvents objUserControl_PasswordTree As UserControl_PasswordTree
     Private objUserControl_Password As UserControl_Password
 
+    Private objFrmObjectEdit As frm_ObjectEdit
+
     Private SplashScreen As SplashScreen_OntologyModule
     Private AboutBox As AboutBox_OntologyItem
 
@@ -105,5 +107,11 @@ Public Class frmSecurityModule
     Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
         AboutBox = New AboutBox_OntologyItem()
         AboutBox.Close()
+    End Sub
+
+    Private Sub BaseConfigToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BaseConfigToolStripMenuItem.Click
+        Dim objOList_Objects = New List(Of clsOntologyItem) From {objLocalConfig.OItem_BaseConfig}
+        objFrmObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList_Objects, 0, objLocalConfig.Globals.Type_Object, Nothing)
+        objFrmObjectEdit.ShowDialog(Me)
     End Sub
 End Class

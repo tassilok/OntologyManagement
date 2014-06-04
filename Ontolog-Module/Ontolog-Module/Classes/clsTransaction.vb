@@ -368,6 +368,7 @@ Public Class clsTransaction
         Dim objOL_ObjRel As New List(Of clsObjectRel)
         Dim objOL_ObjRel_Search As New List(Of clsObjectRel)
         Dim objOL_ObjRel_Del As New List(Of clsObjectRel)
+        Dim objOL_ClassRel_Del As New List(Of clsClassRel)
 
         Select Case strType
             Case objClassTypes.ClassType_ObjectAtt
@@ -429,7 +430,22 @@ Public Class clsTransaction
 
 
 
+            Case objClassTypes.ClassType_ClassRel
 
+                If Not objOItem_TransItem.OItem_ClassRel.ID_Class_Left Is Nothing And
+                    Not objOItem_TransItem.OItem_ClassRel.ID_RelationType Is Nothing Then
+                    objOL_ClassRel_Del.Add(New clsClassRel With {.ID_Class_Left = objOItem_TransItem.OItem_ClassRel.ID_Class_Left,
+                                                             .ID_Class_Right = objOItem_TransItem.OItem_ClassRel.ID_Class_Right,
+                                                             .ID_RelationType = objOItem_TransItem.OItem_ClassRel.ID_RelationType})
+
+
+                    objOItem_Result = objDBLevel.del_ClassRel(objOL_ClassRel_Del)
+                Else
+                    objOItem_Result = objLogStates.LogState_Error.Clone()
+                End If
+                
+
+                
 
 
         End Select

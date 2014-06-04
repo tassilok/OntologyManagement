@@ -336,7 +336,7 @@ Public Class frmMain
         initialize()
     End Sub
 
-    Public Sub New(ByVal LocalConfig As clsLocalConfig, Optional ByVal Type_Entry As String = Nothing, Optional ByVal OItem_Entry As clsOntologyItem = Nothing)
+    Public Sub New(ByVal LocalConfig As clsLocalConfig, Optional ByVal Type_Entry As String = Nothing, Optional ByVal OItem_Entry As clsOntologyItem = Nothing, Optional Caption As String = Nothing)
         ' This call is required by the designer.
         InitializeComponent()
 
@@ -344,12 +344,15 @@ Public Class frmMain
         objLocalConfig = LocalConfig
         strType_Entry = Type_Entry
         Me.objOItem_Entry = OItem_Entry
+        If Not Caption = Nothing Then
+            Me.Text = Caption
+        End If
         boolApplyable = True
         set_DBConnection()
 
     End Sub
 
-    Public Sub New(ByVal Globals As clsGlobals, Optional ByVal Type_Entry As String = Nothing, Optional ByVal OItem_Entry As clsOntologyItem = Nothing)
+    Public Sub New(ByVal Globals As clsGlobals, Optional ByVal Type_Entry As String = Nothing, Optional ByVal OItem_Entry As clsOntologyItem = Nothing, Optional Caption As String = Nothing)
 
         ' This call is required by the designer.
         InitializeComponent()
@@ -358,6 +361,9 @@ Public Class frmMain
         objLocalConfig = New clsLocalConfig(Globals)
         strType_Entry = Type_Entry
         Me.objOItem_Entry = OItem_Entry
+        If Not Caption = Nothing Then
+            Me.Text = Caption
+        End If
         boolApplyable = True
         set_DBConnection()
 
