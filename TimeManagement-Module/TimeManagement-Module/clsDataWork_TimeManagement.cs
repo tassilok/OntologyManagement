@@ -30,6 +30,9 @@ namespace TimeManagement_Module
 
         private List<clsOntologyItem> OList_TimeItemsOfRef;
 
+        public DateTime? EndToDay { get; set; }
+        public double? HoursToDo { get; set; }
+
         public clsOntologyItem GetData_TimeItemsOfRef()
         {
             OList_TimeItemsOfRef = new List<clsOntologyItem>();
@@ -235,6 +238,21 @@ namespace TimeManagement_Module
                                                               DateTimeStamp_Start_Seq = objTimeManagement.DateTimeStamp_Start_Seq,
                                                               DateTimeStamp_Ende_Seq = objTimeManagement.DateTimeStamp_Start_End
                                                           }).ToList();
+
+                        
+                        var todays = objTimeManagement_Finished.Where(tm => tm.Start.Date.CompareTo(DateTime.Now.Date) == 0)
+                                                      .ToList();
+
+                        if (todays.Any())
+                        {
+                            EndToDay = todays.First().ToDo_End;
+                            HoursToDo = todays.First().ToDo_Hours_Week;
+                        }
+                        else
+                        {
+                            EndToDay = null;
+                            HoursToDo = null;
+                        }
 
                         var objTimeManagementFiltered = OItem_Ref == null ? objTimeManagement_Finished : (from objTimeManagement in objTimeManagement_Finished
                                                                                                           join objFilterItems in OList_TimeItemsOfRef on objTimeManagement.ID_TimeManagement equals objFilterItems.GUID

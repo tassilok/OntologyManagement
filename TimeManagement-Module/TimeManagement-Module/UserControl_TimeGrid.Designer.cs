@@ -64,6 +64,12 @@
             this.XThisMonthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingSource_TimeManagement = new System.Windows.Forms.BindingSource(this.components);
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel_EndToDayLbl = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel_EndToDay = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel_StopwatchLbl = new System.Windows.Forms.ToolStripLabel();
+            this.timer_Stopwatch = new System.Windows.Forms.Timer(this.components);
+            this.toolStripLabel_Stopwatch = new System.Windows.Forms.ToolStripLabel();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -301,10 +307,15 @@
             // 
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripDropDownButton_Range});
+            this.ToolStripDropDownButton_Range,
+            this.toolStripSeparator4,
+            this.toolStripLabel_EndToDayLbl,
+            this.toolStripLabel_EndToDay,
+            this.toolStripLabel_StopwatchLbl,
+            this.toolStripLabel_Stopwatch});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(121, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(385, 25);
             this.toolStrip2.TabIndex = 1;
             // 
             // ToolStripDropDownButton_Range
@@ -364,6 +375,40 @@
             this.AllToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.AllToolStripMenuItem.Text = "x_All";
             this.AllToolStripMenuItem.Click += new System.EventHandler(this.AllToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel_EndToDayLbl
+            // 
+            this.toolStripLabel_EndToDayLbl.Name = "toolStripLabel_EndToDayLbl";
+            this.toolStripLabel_EndToDayLbl.Size = new System.Drawing.Size(84, 22);
+            this.toolStripLabel_EndToDayLbl.Text = "x_End (Today):";
+            // 
+            // toolStripLabel_EndToDay
+            // 
+            this.toolStripLabel_EndToDay.Name = "toolStripLabel_EndToDay";
+            this.toolStripLabel_EndToDay.Size = new System.Drawing.Size(49, 22);
+            this.toolStripLabel_EndToDay.Text = "00:00:00";
+            // 
+            // toolStripLabel_StopwatchLbl
+            // 
+            this.toolStripLabel_StopwatchLbl.Name = "toolStripLabel_StopwatchLbl";
+            this.toolStripLabel_StopwatchLbl.Size = new System.Drawing.Size(76, 22);
+            this.toolStripLabel_StopwatchLbl.Text = "x_Stopwatch:";
+            // 
+            // timer_Stopwatch
+            // 
+            this.timer_Stopwatch.Interval = 1000;
+            this.timer_Stopwatch.Tick += new System.EventHandler(this.timer_Stopwatch_Tick);
+            // 
+            // toolStripLabel_Stopwatch
+            // 
+            this.toolStripLabel_Stopwatch.Name = "toolStripLabel_Stopwatch";
+            this.toolStripLabel_Stopwatch.Size = new System.Drawing.Size(49, 22);
+            this.toolStripLabel_Stopwatch.Text = "00:00:00";
             // 
             // UserControl_TimeGrid
             // 
@@ -426,6 +471,12 @@
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox_Ref;
         private System.Windows.Forms.ToolStripButton toolStripButton_AddRef;
         private System.Windows.Forms.ToolStripButton toolStripButton_RemoveFilterRef;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_EndToDayLbl;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_EndToDay;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_StopwatchLbl;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_Stopwatch;
+        private System.Windows.Forms.Timer timer_Stopwatch;
 
     }
 }

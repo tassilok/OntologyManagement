@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,7 +32,11 @@ namespace TimeManagement_Module
 
         public event SelectedRow SelectedRowCntrl;
 
+        private DateTime todoEnd;
+
         private bool pcChange;
+
+        private CultureInfo culture;
 
         public UserControl_TimeGrid(clsLocalConfig LocalConfig)
         {
@@ -44,6 +49,7 @@ namespace TimeManagement_Module
 
         public void Initialize(clsOntologyItem OItem_Ref = null)
         {
+            culture = new CultureInfo("de-DE"); 
             objOItem_Ref = OItem_Ref;
             objDataWork_TimeManagement = new clsDataWork_TimeManagement(objLocalConfig);
             objDataWork_TimeManagement.OItem_Ref = objOItem_Ref;
@@ -104,6 +110,8 @@ namespace TimeManagement_Module
                 DataGridView_LogManagement.Columns[25].Visible = true;
                 DataGridView_LogManagement.Columns[26].Visible = true;
 
+                
+                ConfigureStopwatch();
 
                 FilterView();
                 SortView();
@@ -115,6 +123,30 @@ namespace TimeManagement_Module
                 MessageBox.Show(this, "Die Zeiten konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(-1);
             }
+        }
+
+        private void ConfigureStopwatch()
+        {
+            toolStripLabel_EndToDay.Text = "00:00:00";
+            toolStripLabel_Stopwatch.Text = "00:00:00";
+            
+
+            timer_Stopwatch.Stop();
+
+            if (objDataWork_TimeManagement.HoursToDo != null)
+            {
+                todoEnd = DateTime.Now.AddHours((double)objDataWork_TimeManagement.HoursToDo);
+
+                if (todoEnd != null)
+                {
+                    toolStripLabel_EndToDay.Text = todoEnd.ToString("HH:mm:ss");
+
+                    timer_Stopwatch.Start();
+                }    
+            }
+            
+                
+            
         }
 
         private void FilterView()
@@ -491,6 +523,20 @@ namespace TimeManagement_Module
                     };
 
                 SelectedRowCntrl(objTimeManagementItem);
+            }
+            
+        }
+
+        private void timer_Stopwatch_Tick(object sender, EventArgs e)
+        {
+            if (todoEnd != null)
+            {
+                var todo = todoEnd.Subtract(DateTime.Now);
+                toolStripLabel_Stopwatch.Text = todo.ToString("hh") + ":" + todo.ToString("mm") + ":" + todo.ToString("ss");    
+            }
+            else
+            {
+                timer_Stopwatch.Stop();
             }
             
         }
