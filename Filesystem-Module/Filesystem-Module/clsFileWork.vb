@@ -104,11 +104,15 @@ Public Class clsFileWork
     End Function
 
     Public Function is_File_Blob(ByVal objOItem_File As clsOntologyItem) As Boolean
+        Return is_File_Blob(objOItem_File.GUID)
+    End Function
+
+    Public Function is_File_Blob(strGUID_File As String) As Boolean
         Dim boolResult As Boolean
         Dim objLBlob As New List(Of clsObjectAtt)
 
         objLBlob.Add(New clsObjectAtt(Nothing, _
-                                      objOItem_File.GUID, _
+                                      strGUID_File, _
                                       Nothing, _
                                       objLocalConfig.OItem_Attribute_Blob.GUID, _
                                       Nothing))
@@ -883,7 +887,63 @@ Public Class clsFileWork
     End Function
 
 
+    Public Function IntegrateBlobs(strPath As String) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem = objLocalConfig.Globals.LState_Success.Clone()
+        Dim searchFiles = New List(Of clsOntologyItem)
+        Dim filesToIntegrate = New List(Of clsOntologyItem)
 
+        For Each strFile As String In IO.Directory.GetFiles(strPath)
+            Dim strFileName = IO.Path.GetFileName(strFile)
+            If objLocalConfig.Globals.is_GUID(strFileName) Then
+                If Not searchFiles.Any(Function(f) f.GUID = strFileName) Then
+                    searchFiles.Add(New clsOntologyItem With {.GUID = strFileName,
+                                                              .Additional1 = strFile})
+
+                End If
+            End If
+        Next
+
+        If searchFiles.Any() Then
+            If searchFiles.Count < 500 Then
+                objOItem_Result = objDBLevel_Blob.get_Data_Objects(searchFiles)
+            Else
+                objOItem_Result = objDBLevel_Blob.get_Data_Objects(New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Type_File.GUID}})
+            End If
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                Dim objOList_FilesFound = objDBLevel_Blob.OList_Objects.Select(Function(f) New clsOntologyItem With
+                                                                                           {.GUID = f.GUID,
+                                                                                            .Name = f.Name,
+                                                                                            .GUID_Parent = f.GUID_Parent,
+                                                                                            .Type = objLocalConfig.Globals.Type_Object,
+                                                                                            .Mark = is_File_Blob(f.GUID)}).Where(Function(f) f.Mark = False).ToList()
+                filesToIntegrate = (From objFileDB In objOList_FilesFound
+                                       Join objFile In searchFiles On objFileDB.GUID Equals objFile.GUID
+                                       Select New clsOntologyItem With {
+                                           .GUID = objFileDB.GUID,
+                                           .Name = objFileDB.Name,
+                                           .GUID_Parent = objFileDB.GUID_Parent,
+                                           .Type = objFileDB.Type,
+                                           .Additional1 = objFile.Additional1}).ToList()
+
+                For Each objFile In filesToIntegrate
+                    objOItem_Result = objBlobConnection.save_File_To_Blob(objFile, objFile.Additional1)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        Exit For
+                    End If
+                Next
+
+            End If
+        Else
+            objOItem_Result = objLocalConfig.Globals.LState_Nothing.Clone()
+        End If
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOItem_Result.Count = searchFiles.Count - filesToIntegrate.Count
+        End If
+
+        Return objOItem_Result
+    End Function
 
 
     Public Sub New(ByVal Globals As clsGlobals)
