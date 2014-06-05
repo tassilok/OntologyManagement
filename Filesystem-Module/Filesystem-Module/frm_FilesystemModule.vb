@@ -961,4 +961,31 @@ Public Class frm_FilesystemModule
 
 
     End Sub
+
+    Private Sub XDownloadZipToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles XDownloadZipToolStripMenuItem.Click
+
+        Dim objOList_Files = DataGridView_Files.SelectedRows.Cast(Of DataGridViewRow).Select(Function(dgvr) CType(dgvr.DataBoundItem, DataRowView)).Select(Function(drv) New clsOntologyItem With {
+                                                                                                                                           .GUID = drv.Item("GUID_File"),
+                                                                                                                                           .Name = drv.Item("Name_File"),
+                                                                                                                                           .GUID_Parent = objLocalConfig.OItem_Type_File.GUID,
+                                                                                                                                           .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+        If SaveFileDialog_ZipFile.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
+            Dim objOItem_Result = objFileWork.ExportFilesToZip(objOList_Files, SaveFileDialog_ZipFile.FileName, GUIDAsNameToolStripMenuItem_Zip.Checked)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                If objOItem_Result.Count = 0 Then
+                    MsgBox("Alle Dateien wurden in die Zip-Datei exportiert!", MsgBoxStyle.Information)
+                Else
+
+                    MsgBox(objOItem_Result.Count & " Dateien konnten nicht exportiert werden!", MsgBoxStyle.Exclamation)
+                End If
+            Else
+                MsgBox("Die Dateien konnten nicht exportiert werden!", MsgBoxStyle.Exclamation)
+            End If
+        End If
+
+
+
+        
+    End Sub
 End Class

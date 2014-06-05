@@ -393,6 +393,20 @@ Public Class clsBlobConnection
 
     End Sub
 
+    Public Function GetBlobPath(objOItem_File As clsOntologyItem) As String
+        Return GetBlobPath(objOItem_File.GUID)
+    End Function
+
+    Public Function GetBlobPath(strGUID_File As String) As String
+        Dim strPath As String
+        strPath = strPath_Blob & IO.Path.DirectorySeparatorChar & strGUID_File
+        If IO.File.Exists(strPath) Then
+            Return strPath
+        Else
+            Return Nothing
+        End If
+    End Function
+
     Public Function save_Blob_To_File(ByVal objOItem_File As clsOntologyItem, ByVal strPath_File As String, Optional boolOverwrite As Boolean = False) As clsOntologyItem
         Dim objOAR_CreationDate As New List(Of clsObjectAtt)
         Dim objOItem_Result As clsOntologyItem

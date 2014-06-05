@@ -98,6 +98,9 @@ Partial Class frm_FilesystemModule
         Me.OpenFileDialog_Files = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog_Folders = New System.Windows.Forms.FolderBrowserDialog()
         Me.BindingSource_Files = New System.Windows.Forms.BindingSource(Me.components)
+        Me.XDownloadZipToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GUIDAsNameToolStripMenuItem_Zip = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SaveFileDialog_ZipFile = New System.Windows.Forms.SaveFileDialog()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -549,7 +552,7 @@ Partial Class frm_FilesystemModule
         '
         'BlobsToolStripMenuItem
         '
-        Me.BlobsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateBlobToolStripMenuItem, Me.XputBackToFSToolStripMenuItem, Me.DownloadToolStripMenuItem, Me.GetMetaToolStripMenuItem})
+        Me.BlobsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateBlobToolStripMenuItem, Me.XputBackToFSToolStripMenuItem, Me.DownloadToolStripMenuItem, Me.GetMetaToolStripMenuItem, Me.XDownloadZipToolStripMenuItem})
         Me.BlobsToolStripMenuItem.Name = "BlobsToolStripMenuItem"
         Me.BlobsToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.BlobsToolStripMenuItem.Text = "x_Blobs"
@@ -652,52 +655,70 @@ Partial Class frm_FilesystemModule
         Me.OpenFileDialog_Files.FileName = "OpenFileDialog1"
         Me.OpenFileDialog_Files.Multiselect = True
         '
+        'XDownloadZipToolStripMenuItem
+        '
+        Me.XDownloadZipToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GUIDAsNameToolStripMenuItem_Zip})
+        Me.XDownloadZipToolStripMenuItem.Name = "XDownloadZipToolStripMenuItem"
+        Me.XDownloadZipToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
+        Me.XDownloadZipToolStripMenuItem.Text = "x_Download Zip"
+        '
+        'GUIDAsNameToolStripMenuItem_Zip
+        '
+        Me.GUIDAsNameToolStripMenuItem_Zip.CheckOnClick = True
+        Me.GUIDAsNameToolStripMenuItem_Zip.Name = "GUIDAsNameToolStripMenuItem_Zip"
+        Me.GUIDAsNameToolStripMenuItem_Zip.Size = New System.Drawing.Size(160, 22)
+        Me.GUIDAsNameToolStripMenuItem_Zip.Text = "x_GUID as Name"
+        '
+        'SaveFileDialog_ZipFile
+        '
+        Me.SaveFileDialog_ZipFile.Filter = "Zip-Dateien|*.zip"
+        '
         'frm_FilesystemModule
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(600, 421)
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.MenuStrip1)
-        Me.Icon = CType(resources.GetObject("$this.Icon"),System.Drawing.Icon)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frm_FilesystemModule"
         Me.Text = "x_Filesystem-Module"
-        Me.MenuStrip1.ResumeLayout(false)
-        Me.MenuStrip1.PerformLayout
-        Me.StatusStrip1.ResumeLayout(false)
-        Me.StatusStrip1.PerformLayout
-        Me.ToolStripContainer1.ContentPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout
-        Me.ToolStripContainer1.ResumeLayout(false)
-        Me.ToolStripContainer1.PerformLayout
-        Me.SplitContainer1.Panel1.ResumeLayout(false)
-        Me.SplitContainer1.Panel2.ResumeLayout(false)
-        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).EndInit
-        Me.SplitContainer1.ResumeLayout(false)
-        Me.ContextMenuStrip_Tree.ResumeLayout(false)
-        Me.ToolStripContainer2.BottomToolStripPanel.ResumeLayout(false)
-        Me.ToolStripContainer2.BottomToolStripPanel.PerformLayout
-        Me.ToolStripContainer2.ContentPanel.ResumeLayout(false)
-        Me.ToolStripContainer2.TopToolStripPanel.ResumeLayout(false)
-        Me.ToolStripContainer2.TopToolStripPanel.PerformLayout
-        Me.ToolStripContainer2.ResumeLayout(false)
-        Me.ToolStripContainer2.PerformLayout
-        Me.ToolStrip3.ResumeLayout(false)
-        Me.ToolStrip3.PerformLayout
-        CType(Me.DataGridView_Files,System.ComponentModel.ISupportInitialize).EndInit
-        Me.ContextMenuStrip_DataGrid.ResumeLayout(false)
-        Me.ToolStrip2.ResumeLayout(false)
-        Me.ToolStrip2.PerformLayout
-        Me.ToolStrip1.ResumeLayout(false)
-        Me.ToolStrip1.PerformLayout
-        CType(Me.BindingSource_Files,System.ComponentModel.ISupportInitialize).EndInit
-        Me.ResumeLayout(false)
-        Me.PerformLayout
+        Me.MenuStrip1.ResumeLayout(False)
+        Me.MenuStrip1.PerformLayout()
+        Me.StatusStrip1.ResumeLayout(False)
+        Me.StatusStrip1.PerformLayout()
+        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.ResumeLayout(False)
+        Me.ToolStripContainer1.PerformLayout()
+        Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.ResumeLayout(False)
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer1.ResumeLayout(False)
+        Me.ContextMenuStrip_Tree.ResumeLayout(False)
+        Me.ToolStripContainer2.BottomToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer2.BottomToolStripPanel.PerformLayout()
+        Me.ToolStripContainer2.ContentPanel.ResumeLayout(False)
+        Me.ToolStripContainer2.TopToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer2.TopToolStripPanel.PerformLayout()
+        Me.ToolStripContainer2.ResumeLayout(False)
+        Me.ToolStripContainer2.PerformLayout()
+        Me.ToolStrip3.ResumeLayout(False)
+        Me.ToolStrip3.PerformLayout()
+        CType(Me.DataGridView_Files, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContextMenuStrip_DataGrid.ResumeLayout(False)
+        Me.ToolStrip2.ResumeLayout(False)
+        Me.ToolStrip2.PerformLayout()
+        Me.ToolStrip1.ResumeLayout(False)
+        Me.ToolStrip1.PerformLayout()
+        CType(Me.BindingSource_Files, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
 
-End Sub
+    End Sub
     Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
     Friend WithEvents FileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ExitToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -772,5 +793,8 @@ End Sub
     Friend WithEvents RepairBlobsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SyncBlobFilesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents WriteIdentityToFileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents XDownloadZipToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GUIDAsNameToolStripMenuItem_Zip As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SaveFileDialog_ZipFile As System.Windows.Forms.SaveFileDialog
 
 End Class

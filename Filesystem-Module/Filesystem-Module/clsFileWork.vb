@@ -1,7 +1,7 @@
 ﻿Imports Ontology_Module
 Imports ClassLibrary_ShellWork
 Imports OntologyClasses.BaseClasses
-
+Imports Ionic
 
 Public Class clsFileWork
 
@@ -31,6 +31,8 @@ Public Class clsFileWork
 
     Private objOList_FolderHierarchy As List(Of clsObjectTree)
     Private objOList_Folders As List(Of clsOntologyItem)
+
+    Private objZipFile As Zip.ZipFile
 
     Public ReadOnly Property LocalConfig As clsLocalConfig
         Get
@@ -941,6 +943,142 @@ Public Class clsFileWork
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             objOItem_Result.Count = searchFiles.Count - filesToIntegrate.Count
         End If
+
+        Return objOItem_Result
+    End Function
+
+    Public Function InitializeZipFile(strPathZip As String) As clsOntologyItem
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
+
+        objZipFile = New Zip.ZipFile(strPathZip)
+
+        Return objOItem_Result
+    End Function
+
+    Public Function FinalizeZipFile() As clsOntologyItem
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
+
+        Try
+            objZipFile.Save()
+
+
+        Catch ex As Exception
+            objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
+        End Try
+
+        objZipFile = Nothing
+
+        Return objOItem_Result
+    End Function
+
+    Public Function ExportFilesToZip(OList_Files As List(Of clsOntologyItem), strPathZip As String, boolGuidAsName As Boolean) As clsOntologyItem
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
+        Dim strFileName As String
+        Dim strFilePathDst As String
+        Dim strTempPath = Environment.ExpandEnvironmentVariables("%TEMP%")
+        Dim boolSave As Boolean = False
+
+
+        If objZipFile Is Nothing Then
+            objOItem_Result = InitializeZipFile(strPathZip)
+            boolSave = True
+        End If
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            For Each objOItem_File In OList_Files
+                Dim strFilePath = objBlobConnection.GetBlobPath(objOItem_File)
+
+                If Not strFilePath Is Nothing Then
+                    If boolGuidAsName Then
+                        strFileName = objOItem_File.GUID
+                    Else
+                        strFileName = objOItem_File.Name
+                    End If
+
+
+                    Try
+                        Dim objZipEntry = objZipFile.AddFile(strFilePath)
+                        objZipEntry.FileName = strFileName
+                        'Using fsSource As IO.FileStream = New IO.FileStream(strFilePath, _
+                        '    IO.FileMode.Open, IO.FileAccess.Read)
+                        '    If objZipFile Is Nothing Then
+                        '        objZipFile = New Zip.ZipFile(strPathZip)
+                        '    Else
+                        '        objZipFile = Zip.ZipFile.Read(strPathZip)
+                        '    End If
+                        '    objZipFile.AddEntry(strFileName, fsSource)
+
+                        '    '' Read the source file into a byte array.
+                        '    'Dim bytes() As Byte = New Byte((fsSource.Length) - 1) {}
+                        '    'Dim numBytesToReadTotal As Integer = CType(fsSource.Length, Integer)
+                        '    'Dim numBytesRead As Integer = 0
+                        '    'Dim numBytesToRead As Integer = 30000
+                        '    'Dim objZipEntry As Zip.ZipEntry = Nothing
+
+                        '    'While (numBytesToReadTotal > 0)
+                        '    '    ' Read may return anything from 0 to numBytesToRead.
+                        '    '    Dim n As Integer = fsSource.Read(bytes, numBytesRead, _
+                        '    '        numBytesToRead)
+                        '    '    ' Break when the end of the file is reached.
+                        '    '    If (n = 0) Then
+                        '    '        Exit While
+                        '    '    End If
+                        '    '    numBytesRead = (numBytesRead + n)
+                        '    '    numBytesToReadTotal = (numBytesToReadTotal - n)
+                        '    '    If objZipEntry Is Nothing Then
+                        '    '        objZipEntry = objZipFile.AddEntry(strFileName, bytes)
+                        '    '    Else
+
+                        '    '    End If
+
+
+                        '    'End While
+
+
+
+                        'End Using
+                    Catch ioEx As IO.FileNotFoundException
+                        objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
+                        Exit For
+                    End Try
+
+
+
+                    'strFilePathDst = strTempPath & "\" & strFileName
+                    'objOItem_Result = objBlobConnection.save_Blob_To_File(objOItem_File, strFilePathDst, True)
+                    'If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    '    InitializeZipExport(strPathZip)
+                    '    objZipFile.AddFile(strFilePathDst)
+
+                    'End If
+                End If
+
+                'IO.File.Delete(strFilePathDst)
+
+            Next
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+                If boolSave Then
+                    objZipFile.Save()
+                End If
+
+
+                If Not objZipFile Is Nothing Then
+                    objOItem_Result.Count = OList_Files.Count - objZipFile.Count
+
+                Else
+                    objOItem_Result.Count = OList_Files.Count
+                End If
+
+                If boolSave Then
+                    FinalizeZipFile()
+                End If
+
+            End If
+        End If
+        
+
 
         Return objOItem_Result
     End Function
