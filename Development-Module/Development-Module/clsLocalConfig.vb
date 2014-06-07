@@ -82,6 +82,7 @@ Public Class clsLocalConfig
     Private objOItem_relationtype_project_file As clsOntologyItem
 
     'Classes
+    Private objOItem_class_software_project As clsOntologyItem
     Private objOItem_Class_SoftwareDevelopment As New clsOntologyItem
     Private objOItem_Class_DevelopmentVersion As New clsOntologyItem
     Private objOItem_Class_LogState As New clsOntologyItem
@@ -531,6 +532,12 @@ Public Class clsLocalConfig
     End Property
 
     'Classes
+    Public ReadOnly Property OItem_class_software_project As clsOntologyItem
+        Get
+            Return objOItem_class_software_project
+        End Get
+    End Property
+
     Public ReadOnly Property OItem_Class_Database As clsOntologyItem
         Get
             Return objOItem_Class_Database
@@ -1297,6 +1304,21 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Classes()
+        Dim objOList_class_software_project = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "class_software_project".ToLower() And objRef.Ontology = objGlobals.Type_Class
+                                           Select objRef).ToList()
+
+        If objOList_class_software_project.Count > 0 Then
+            objOItem_class_software_project = New clsOntologyItem
+            objOItem_class_software_project.GUID = objOList_class_software_project.First().ID_Other
+            objOItem_class_software_project.Name = objOList_class_software_project.First().Name_Other
+            objOItem_class_software_project.GUID_Parent = objOList_class_software_project.First().ID_Parent_Other
+            objOItem_class_software_project.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
 
         Dim objOList_class_xml = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology

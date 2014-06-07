@@ -67,6 +67,7 @@
     <Compile Include="DataClasses\clsFields.cs" />
     <Compile Include="DataClasses\clsLogStates.cs" />
     <Compile Include="DataClasses\clsMappingRules.cs" />
+    <Compile Include="DataClasses\clsOntologyItemsCreationRules.cs" />
     <Compile Include="DataClasses\clsOntologyRelationRules.cs" />
     <Compile Include="DataClasses\clsRelationTypes.cs" />
     <Compile Include="DataClasses\clsTypes.cs" />

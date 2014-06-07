@@ -160,6 +160,12 @@ Private strEL_Server As String
         End Get
     End Property
 
+    Public ReadOnly Property Class_OntologyItemCreationRule As clsOntologyItem
+        Get
+            Return objClasses.OItem_Class_OntologyItemCreationRule
+        End Get
+    End Property
+
     Public ReadOnly Property Class_Directions As clsOntologyItem
         Get
             Return objClasses.OItem_Class_Directions

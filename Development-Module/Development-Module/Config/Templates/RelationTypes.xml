@@ -39,13 +39,6 @@
 <Item Id="03da78f1645b4248b2496169f78401ac" Id_Parent=""><![CDATA[was developed by]]></Item>
 <Item Id="aaf3e012a8224ba69d9dd5bb35821757" Id_Parent=""><![CDATA[export to]]></Item>
 <Item Id="8f86b4a832f1495a9853a84e2d931345" Id_Parent=""><![CDATA[RelationType]]></Item>
-<Item Id="dc1fc808c3914adbb67711f186506794" Id_Parent=""><![CDATA[Works off]]></Item>
-<Item Id="b18b99bf08fa48cfba51765c0bf5a7b7" Id_Parent=""><![CDATA[offers]]></Item>
-<Item Id="fb90fea9586d4e7bafd6e5ccb009268a" Id_Parent=""><![CDATA[Request]]></Item>
-<Item Id="90d860c7784c477c957ac6c5a0a71b22" Id_Parent=""><![CDATA[User-Message]]></Item>
-<Item Id="617361eda130460b88b6f7a7b2129bdf" Id_Parent=""><![CDATA[directed by]]></Item>
-<Item Id="0f1c66fab62f402489d3bd8dbfc503f0" Id_Parent=""><![CDATA[invoked Actor]]></Item>
-<Item Id="940139b9b05f4fb683a688313ebd3471" Id_Parent=""><![CDATA[Property]]></Item>
 <Item Id="9996494aef6a4357a6ef71a92b5ff596" Id_Parent=""><![CDATA[is of Type]]></Item>
 <Item Id="92619f7ecbf342308ca34b7e7e8883f6" Id_Parent=""><![CDATA[belonging Resource]]></Item>
 <Item Id="413e9c0293804f1788065bd9881b8f89" Id_Parent=""><![CDATA[alternative for]]></Item>
@@ -55,5 +48,12 @@
 <Item Id="439e614dfb8a4ae7b5a27be25a058e6c" Id_Parent=""><![CDATA[located in]]></Item>
 <Item Id="eb05244b4e494808b81b995f3ee6065a" Id_Parent=""><![CDATA[superordinate]]></Item>
 <Item Id="e5ba999c209f43518c20f6fb67c32eea" Id_Parent=""><![CDATA[Document-Container]]></Item>
+<Item Id="dc1fc808c3914adbb67711f186506794" Id_Parent=""><![CDATA[Works off]]></Item>
+<Item Id="b18b99bf08fa48cfba51765c0bf5a7b7" Id_Parent=""><![CDATA[offers]]></Item>
+<Item Id="fb90fea9586d4e7bafd6e5ccb009268a" Id_Parent=""><![CDATA[Request]]></Item>
+<Item Id="90d860c7784c477c957ac6c5a0a71b22" Id_Parent=""><![CDATA[User-Message]]></Item>
+<Item Id="617361eda130460b88b6f7a7b2129bdf" Id_Parent=""><![CDATA[directed by]]></Item>
+<Item Id="0f1c66fab62f402489d3bd8dbfc503f0" Id_Parent=""><![CDATA[invoked Actor]]></Item>
+<Item Id="940139b9b05f4fb683a688313ebd3471" Id_Parent=""><![CDATA[Property]]></Item>
 
 </Items>

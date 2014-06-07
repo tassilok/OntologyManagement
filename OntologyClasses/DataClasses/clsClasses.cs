@@ -16,6 +16,7 @@ namespace OntologyClasses.DataClasses
         public clsOntologyItem OItem_Class_Ontologies { get; private set; }
         public clsOntologyItem OItem_Class_OntologyItems { get; private set; }
         public clsOntologyItem OItem_Class_OntologyRelationRule { get; private set; }
+        public clsOntologyItem OItem_Class_OntologyItemCreationRule { get; private set; }
         public clsOntologyItem OItem_Class_OntologyJoin { get; private set; }
         public clsOntologyItem OItem_Class_Server { get; private set; }
         public clsOntologyItem OItem_Class_Variable { get; private set; }
@@ -55,6 +56,8 @@ namespace OntologyClasses.DataClasses
             OList_Classes.Add(OItem_Class_MappingRule);
             OItem_Class_Server = new clsOntologyItem { GUID = "d7a03a35875142b48e0519fc7a77ee91", Name = "Server", GUID_Parent = OItem_Class_System.GUID, Type = objTypes.ClassType };
             OList_Classes.Add(OItem_Class_Server);
+            OItem_Class_OntologyItemCreationRule = new clsOntologyItem { GUID = "e4e7e7621df04b81a6ff8f8d67cf988a", Name = "OntologyItem-Creation-Rules", GUID_Parent = OItem_Class_OntologyItems.GUID, Type = objTypes.ClassType };
+            OList_Classes.Add(OItem_Class_OntologyItemCreationRule);
 
             OItem_Class_Variable = new clsOntologyItem { GUID = "4158aad2656a4fb997bf524c6f5fecaa", Name = "Variable", GUID_Parent = OItem_Class_System.GUID, Type = objTypes.ClassType };
             OList_Classes.Add(OItem_Class_Variable);

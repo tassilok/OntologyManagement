@@ -8,5 +8,8 @@
     Public Property Type_Ref As String
     Public Property ID_OntologyRelationRule As String
     Public Property Name_OntologyRelationRule As String
+    Public Property ID_OItemCreationRule As String
+    Public Property Name_OItemCreationRule As String
+    Public Property OrderID As Long
 
 End Class

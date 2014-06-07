@@ -35,14 +35,34 @@ Public Class UserControl_DevelopmentTree
 
     Private Sub initialize()
         TreeView_DevTree.Nodes.Clear()
-        objTreeNode_Root = TreeView_DevTree.Nodes.Add(objLocalConfig.OItem_Class_SoftwareDevelopment.GUID, _
-                                                      objLocalConfig.OItem_Class_SoftwareDevelopment.Name, _
-                                                      objLocalConfig.ImageID_Root, _
-                                                      objLocalConfig.ImageID_Root)
 
-        objDataWork_DevTree.fill_DevTree(objTreeNode_Root)
-        
-        ToolStripLabel_Count.Text = objDataWork_DevTree.DevCount
+        Dim objOItem_Result = objDataWork_DevTree.GetData_SoftwareProjects()
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            For Each objPrj In objDataWork_DevTree.SoftwareProjects
+                TreeView_DevTree.Nodes.Add(objPrj.GUID, _
+                                           objPrj.Name, _
+                                           objLocalConfig.ImageID_Root, _
+                                           objLocalConfig.ImageID_Root)
+
+                TreeView_DevTree.Nodes.Add("Others",
+                                           "Others",
+                                           objLocalConfig.ImageID_Root,
+                                           objLocalConfig.ImageID_Root)
+            Next
+            objDataWork_DevTree.fill_DevTree(TreeView_DevTree)
+            ToolStripLabel_Count.Text = objDataWork_DevTree.DevCount
+
+            Dim objTreeNodes = TreeView_DevTree.Nodes
+
+            For Each objTreeNode As TreeNode In objTreeNodes
+                objTreeNode.Text = objTreeNode.Text & " (" & objTreeNode.Nodes.Count & ")"
+            Next
+        Else
+            ToolStripLabel_Count.Text = "0"
+            MsgBox("Die Liste der Softwareprojekte oder der zugehörigen Software-Entwicklungen konnte nicht ermittelt werden!", MsgBoxStyle.Critical)
+        End If
+
     End Sub
 
     Private Sub set_DBConnection()

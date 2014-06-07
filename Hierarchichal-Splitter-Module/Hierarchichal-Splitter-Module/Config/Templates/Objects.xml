@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="2c85b37aaae74140a3262cf69be58913" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Hierarchical-Splitter-Module]]></Item>
+<Item Id="a780e1a37c7842278f46a096cdf09aed" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Seperator]]></Item>
+<Item Id="9a542f45c4bb4450b6bebe93ed9cb494" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongs_to]]></Item>
+<Item Id="3295a1d6338e4cf1b6f466a587fc6020" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_RelationType]]></Item>
+<Item Id="6dbc8f7512574ba2b77152017f63995a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Text_Seperators]]></Item>
+<Item Id="239b4e1a9fad4d33a868c2ec79925166" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Hierarchical_Profiles]]></Item>
+<Item Id="1be67d5cb8c2470a81c751daa3f7d61c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_OntologyItem_Creation_Rules]]></Item>
+<Item Id="f83500d2750c493296e4c27b88990659" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Ontology_Relation_Rule]]></Item>
+<Item Id="e845515bef744c0f83591bcb883e66fa" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_No_Other_Relations_Of_This_Type]]></Item>
+<Item Id="195a4d07402f426d99c388f2650a9fd4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_BaseConfig]]></Item>
+<Item Id="3abecc8c9df545fd88b6e2bf44bb6b1e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Create_New_Item]]></Item>
+<Item Id="e51b1f12b5f54f3083ccd7e6167dc31b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Take_Existing_Item]]></Item>
+<Item Id="ad4893d4b59648cba4ba09312f3a1508" Id_Parent="925f489dec8d4130a418fcb022a4c731"><![CDATA[No Other Relations Of This Type]]></Item>
+<Item Id="8fdc4517efac4925b9ee2c7dcb1f5be8" Id_Parent="baa7b6f54e174c1892aef3bfa338502e"><![CDATA[BaseConfig]]></Item>
+<Item Id="42063c4ff7e64a7c9e924d9cefd6ba26" Id_Parent="e4e7e7621df04b81a6ff8f8d67cf988a"><![CDATA[Create New Item]]></Item>
+<Item Id="2832803912ab410e8422095197d3d974" Id_Parent="e4e7e7621df04b81a6ff8f8d67cf988a"><![CDATA[Take Existing Item]]></Item>
+
+</Items>
