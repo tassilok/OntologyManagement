@@ -25,6 +25,8 @@ namespace Typed_Tagging_Module
 
         private clsRelationConfig objRelationConfig;
 
+        private List<clsOntologyItem> TagFilter;
+
         public List<clsTypedTag> TypedTags_Sources { get; private set; }
 
         public List<clsTypedTag> TypedTags_Dests { get; private set; }
@@ -64,10 +66,12 @@ namespace Typed_Tagging_Module
         }
 
 
-        public clsOntologyItem GetTags()
+        public clsOntologyItem GetTags(List<clsOntologyItem> TagFilter)
         {
             var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
-
+            
+            this.TagFilter = TagFilter;
+            
             objOItem_Result = GetClasses();
 
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
@@ -86,12 +90,24 @@ namespace Typed_Tagging_Module
                         ID_RelationType = objLocalConfig.OItem_relationtype_belonging_tag.GUID
                     }
                 };
-
+                    List<clsObjectRel> TagList;
+                    
                     objOItem_Result = objDBLevel_Tag.get_Data_ObjectRel(objOList_Search_Tag, boolIDs: false);
 
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
-                        ClassTags = (from objTag in objDBLevel_Tag.OList_ObjectRel.
+                        if (TagFilter == null)
+                        {
+                            TagList = objDBLevel_Tag.OList_ObjectRel;
+                        }
+                        else
+                        {
+                            TagList = (from tag in TagFilter
+                                       join searchTag in objDBLevel_Tag.OList_ObjectRel on tag.GUID equals searchTag.ID_Object
+                                       select searchTag).ToList();
+                        }
+
+                        ClassTags = (from objTag in TagList.
                                      Where(t => t.Ontology == objLocalConfig.Globals.Type_Class).ToList()
                                      group objTag by new { objTag.ID_Other, objTag.Name_Other, objTag.ID_Parent_Other } into objTags
                                      select new clsOntologyItem
@@ -102,7 +118,7 @@ namespace Typed_Tagging_Module
                                          Type = objLocalConfig.Globals.Type_Class
                                      }).OrderBy(c => c.Name).ToList();
 
-                        ObjectTags = (from objTag in objDBLevel_Tag.OList_ObjectRel.
+                        ObjectTags = (from objTag in TagList.
                                       Where(t => t.Ontology == objLocalConfig.Globals.Type_Object).ToList()
                                       group objTag by new { objTag.ID_Other, objTag.Name_Other, objTag.ID_Parent_Other } into objTags
                                       select new clsOntologyItem
@@ -127,7 +143,7 @@ namespace Typed_Tagging_Module
 
                         CreateClassTree();
 
-                        AttributeTypeTags = (from objTag in objDBLevel_Tag.OList_ObjectRel.
+                        AttributeTypeTags = (from objTag in TagList.
                                       Where(t => t.Ontology == objLocalConfig.Globals.Type_AttributeType).ToList()
                                              group objTag by new { objTag.ID_Other, objTag.Name_Other, objTag.ID_Parent_Other } into objTags
                                              select new clsOntologyItem
@@ -138,7 +154,7 @@ namespace Typed_Tagging_Module
                                                  Type = objLocalConfig.Globals.Type_AttributeType
                                              }).OrderBy(a => a.Name).ToList();
 
-                        RelationTypeTags = (from objTag in objDBLevel_Tag.OList_ObjectRel.
+                        RelationTypeTags = (from objTag in TagList.
                                       Where(t => t.Ontology == objLocalConfig.Globals.Type_RelationType).ToList()
                                             group objTag by new { objTag.ID_Other, objTag.Name_Other, objTag.ID_Parent_Other } into objTags
                                             select new clsOntologyItem
@@ -312,7 +328,7 @@ namespace Typed_Tagging_Module
             return objOItem_Result;
         }
 
-        public clsOntologyItem GetTagsOfTaggingSource(clsOntologyItem OItem_TaggingSource)
+        public clsOntologyItem GetTagsOfTaggingSource(clsOntologyItem OItem_TaggingSource = null)
         {
             var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
 
@@ -326,8 +342,8 @@ namespace Typed_Tagging_Module
             {
                 new clsObjectRel 
                 {
-                    ID_Other = objOItem_TaggingSource.GUID,
-                    ID_Parent_Other =  objOItem_TaggingSource.GUID_Parent, 
+                    ID_Other = objOItem_TaggingSource != null ? objOItem_TaggingSource.GUID : null,
+                    ID_Parent_Other =  objOItem_TaggingSource != null ? objOItem_TaggingSource.GUID_Parent : null, 
                     ID_RelationType = objLocalConfig.OItem_relationtype_is_tagging.GUID,
                     ID_Parent_Object = objLocalConfig.OItem_class_typed_tag.GUID 
                 } 
@@ -383,6 +399,7 @@ namespace Typed_Tagging_Module
                                          Name_user = objLocalConfig.OItem_User.Name,
                                          ID_TaggingSource = objTaggingSource.ID_Other,
                                          Name_TaggingSource = objTaggingSource.Name_Other,
+                                         ID_Parent_TaggingSource = objTaggingSource.ID_Parent_Other,
                                          ID_TaggingDest = objTaggingDest.ID_Other,
                                          Name_TaggingDest = objTaggingDest.Name_Other,
                                          ID_Parent_TaggingDest = objTaggingDest.ID_Parent_Other,

@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using Structure_Module;
 using OntologyClasses.BaseClasses;
 using Ontology_Module;
+using Filesystem_Module;
+using ClassLibrary_ShellWork;
 
 namespace Typed_Tagging_Module
 {
@@ -20,6 +22,11 @@ namespace Typed_Tagging_Module
         private clsDataWork_Tagging objDataWork_Tagging;
 
         private frm_ObjectEdit objFrmObjectEdit;
+
+        private clsFileWork objFileWork;
+        private clsBlobConnection objBlobConnection;
+
+        private clsShellWork objShellWork;
 
         public UserControl_TagSources(clsLocalConfig LocalConfig)
         {
@@ -33,9 +40,12 @@ namespace Typed_Tagging_Module
         private void Initialize()
         {
             objDataWork_Tagging = new clsDataWork_Tagging(objLocalConfig);
+            objFileWork = new clsFileWork(objLocalConfig.Globals);
+            objBlobConnection = new clsBlobConnection(objLocalConfig.Globals);
+            objShellWork = new clsShellWork();
         }
 
-        public void Initialize_TagSources(clsOntologyItem OItem_TagDest)
+        public void Initialize_TagSources(clsOntologyItem OItem_TagDest, clsOntologyItem filterClass)
         {
 
             if (OItem_TagDest != null)
@@ -44,7 +54,16 @@ namespace Typed_Tagging_Module
 
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    dataGridView_TagSources.DataSource = new SortableBindingList<clsOntologyItem>(objDataWork_Tagging.TagSources);
+
+                    if (filterClass == null)
+                    {
+                        dataGridView_TagSources.DataSource = new SortableBindingList<clsOntologyItem>(objDataWork_Tagging.TagSources);
+                    }
+                    else
+                    {
+                        dataGridView_TagSources.DataSource = new SortableBindingList<clsOntologyItem>(objDataWork_Tagging.TagSources.Where(ts => ts.GUID_Parent == filterClass.GUID));
+                    }
+                    
 
                     foreach (DataGridViewColumn column in dataGridView_TagSources.Columns)
                     {
@@ -85,5 +104,57 @@ namespace Typed_Tagging_Module
                 objFrmObjectEdit.ShowDialog(this);
             }
         }
+
+        private void contextMenuStrip_TagingSources_Opening(object sender, CancelEventArgs e)
+        {
+            xOpenToolStripMenuItem.Enabled = false;
+            if (dataGridView_TagSources.SelectedRows.Count == 1)
+            {
+                var item = (clsOntologyItem) dataGridView_TagSources.SelectedRows[0].DataBoundItem;
+                if (item.GUID_Parent == objFileWork.OItem_Class_File.GUID)
+                {
+                    xOpenToolStripMenuItem.Enabled = true;
+                }
+                
+            }
+        }
+
+        private void xOpenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView_TagSources.SelectedRows.Count == 1)
+            {
+                var item = (clsOntologyItem)dataGridView_TagSources.SelectedRows[0].DataBoundItem;
+                if (item.GUID_Parent == objFileWork.OItem_Class_File.GUID)
+                {
+                    var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+                    var path = "";
+                    if (objFileWork.is_File_Blob(item))
+                    {
+                        path = "%TEMP%\\" + objLocalConfig.Globals.NewGUID;
+                        path += System.IO.Path.GetExtension(item.Name);
+                        objOItem_Result = objBlobConnection.save_Blob_To_File(item, path);
+                    }
+                    else
+                    {
+                        path = objFileWork.get_Path_FileSystemObject(item);
+                    }
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        var started = objShellWork.start_Process(path, null, path.Substring(0, path.Length - System.IO.Path.GetFileName(path).Length), false, false);
+                        objOItem_Result = !started ? objLocalConfig.Globals.LState_Error.Clone() : objOItem_Result;
+                    }
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                    {
+                        MessageBox.Show(this, "Die Datei konnte nicht gefunden werden!", "Datei", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+
+            }
+        }
+
+        
+
     }
 }

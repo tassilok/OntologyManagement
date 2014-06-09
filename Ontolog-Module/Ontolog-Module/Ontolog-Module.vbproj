@@ -86,6 +86,9 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClassLibrary_ShellWork">
+      <HintPath>..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\bin\Debug\ClassLibrary_ShellWork.dll</HintPath>
+    </Reference>
     <Reference Include="Elasticsearch.Net">
       <HintPath>..\..\ElasticSearchNestConnector\ElasticSearchNestConnector\bin\Debug\Elasticsearch.Net.dll</HintPath>
     </Reference>
@@ -771,10 +774,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\ClassLibrary_ShellWork.vbproj">
-      <Project>{10bcc346-a390-401c-ba6a-904a8842a40b}</Project>
-      <Name>ClassLibrary_ShellWork</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
       <Name>OntologyClasses</Name>

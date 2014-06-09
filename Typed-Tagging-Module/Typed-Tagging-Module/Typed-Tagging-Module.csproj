@@ -132,6 +132,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\ClassLibrary_ShellWork.vbproj">
+      <Project>{10bcc346-a390-401c-ba6a-904a8842a40b}</Project>
+      <Name>ClassLibrary_ShellWork</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Filesystem-Module\Filesystem-Module\Filesystem-Module.vbproj">
+      <Project>{f31c8a5a-bb2b-474e-bc1f-a14e805ea2e9}</Project>
+      <Name>Filesystem-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\GraphMLConnector\GraphMLConnector\GraphMLConnector.csproj">
       <Project>{8ea4359d-0a97-4434-8c54-3571cbbf6aad}</Project>
       <Name>GraphMLConnector</Name>
@@ -168,6 +176,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\tasto_8_architetto_franc_01.png" />
     <EmbeddedResource Include="Config\Templates\AttributeTypes.xml" />
     <EmbeddedResource Include="Config\Templates\ClassAtts.xml" />
     <EmbeddedResource Include="Config\Templates\Classes.xml" />

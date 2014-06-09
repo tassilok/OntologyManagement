@@ -28,16 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel_CountLbl = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_Count = new System.Windows.Forms.ToolStripLabel();
             this.dataGridView_TagSources = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip_TagingSources = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.xOpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_TagSources)).BeginInit();
+            this.contextMenuStrip_TagingSources.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -86,6 +90,7 @@
             this.dataGridView_TagSources.AllowUserToAddRows = false;
             this.dataGridView_TagSources.AllowUserToDeleteRows = false;
             this.dataGridView_TagSources.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_TagSources.ContextMenuStrip = this.contextMenuStrip_TagingSources;
             this.dataGridView_TagSources.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView_TagSources.Location = new System.Drawing.Point(0, 0);
             this.dataGridView_TagSources.Name = "dataGridView_TagSources";
@@ -93,6 +98,21 @@
             this.dataGridView_TagSources.Size = new System.Drawing.Size(460, 397);
             this.dataGridView_TagSources.TabIndex = 0;
             this.dataGridView_TagSources.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_TagSources_RowHeaderMouseDoubleClick);
+            // 
+            // contextMenuStrip_TagingSources
+            // 
+            this.contextMenuStrip_TagingSources.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.xOpenToolStripMenuItem});
+            this.contextMenuStrip_TagingSources.Name = "contextMenuStrip_TagingSources";
+            this.contextMenuStrip_TagingSources.Size = new System.Drawing.Size(114, 26);
+            this.contextMenuStrip_TagingSources.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_TagingSources_Opening);
+            // 
+            // xOpenToolStripMenuItem
+            // 
+            this.xOpenToolStripMenuItem.Name = "xOpenToolStripMenuItem";
+            this.xOpenToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.xOpenToolStripMenuItem.Text = "x_Open";
+            this.xOpenToolStripMenuItem.Click += new System.EventHandler(this.xOpenToolStripMenuItem_Click);
             // 
             // UserControl_TagSources
             // 
@@ -109,6 +129,7 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_TagSources)).EndInit();
+            this.contextMenuStrip_TagingSources.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -120,5 +141,7 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel_CountLbl;
         private System.Windows.Forms.ToolStripLabel toolStripLabel_Count;
         private System.Windows.Forms.DataGridView dataGridView_TagSources;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_TagingSources;
+        private System.Windows.Forms.ToolStripMenuItem xOpenToolStripMenuItem;
     }
 }

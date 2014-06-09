@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmHierarchicalSplitter));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -51,13 +52,15 @@
             this.toolStripTextBox_Splitter = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton_Regex = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton_CreateList = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_ClearList = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_Integrate = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_Profile = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton_AddProfile = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton_CreateList = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_ClearList = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_Integrate = new System.Windows.Forms.ToolStripButton();
+            this.contextMenuStrip_Items = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.applyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -70,6 +73,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Items)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Relations)).BeginInit();
             this.toolStrip2.SuspendLayout();
+            this.contextMenuStrip_Items.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -216,6 +220,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView_Items.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_Items.ContextMenuStrip = this.contextMenuStrip_Items;
             this.dataGridView_Items.Location = new System.Drawing.Point(2, 32);
             this.dataGridView_Items.Name = "dataGridView_Items";
             this.dataGridView_Items.ReadOnly = true;
@@ -274,7 +279,7 @@
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.ShowItemToolTips = false;
-            this.toolStrip2.Size = new System.Drawing.Size(1110, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(1079, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripLabel_Path
@@ -317,6 +322,33 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(54, 22);
+            this.toolStripLabel1.Text = "x_Profile:";
+            // 
+            // toolStripTextBox_Profile
+            // 
+            this.toolStripTextBox_Profile.Name = "toolStripTextBox_Profile";
+            this.toolStripTextBox_Profile.ReadOnly = true;
+            this.toolStripTextBox_Profile.Size = new System.Drawing.Size(200, 25);
+            // 
+            // toolStripButton_AddProfile
+            // 
+            this.toolStripButton_AddProfile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_AddProfile.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_AddProfile.Image")));
+            this.toolStripButton_AddProfile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_AddProfile.Name = "toolStripButton_AddProfile";
+            this.toolStripButton_AddProfile.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_AddProfile.Text = "...";
+            this.toolStripButton_AddProfile.Click += new System.EventHandler(this.toolStripButton_AddProfile_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
             // toolStripButton_CreateList
             // 
             this.toolStripButton_CreateList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -346,32 +378,20 @@
             this.toolStripButton_Integrate.Text = "toolStripButton1";
             this.toolStripButton_Integrate.Click += new System.EventHandler(this.toolStripButton_Integrate_Click);
             // 
-            // toolStripSeparator2
+            // contextMenuStrip_Items
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.contextMenuStrip_Items.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.applyToolStripMenuItem});
+            this.contextMenuStrip_Items.Name = "contextMenuStrip_Items";
+            this.contextMenuStrip_Items.Size = new System.Drawing.Size(116, 26);
+            this.contextMenuStrip_Items.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Items_Opening);
             // 
-            // toolStripLabel1
+            // applyToolStripMenuItem
             // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(54, 22);
-            this.toolStripLabel1.Text = "x_Profile:";
-            // 
-            // toolStripTextBox_Profile
-            // 
-            this.toolStripTextBox_Profile.Name = "toolStripTextBox_Profile";
-            this.toolStripTextBox_Profile.ReadOnly = true;
-            this.toolStripTextBox_Profile.Size = new System.Drawing.Size(200, 25);
-            // 
-            // toolStripButton_AddProfile
-            // 
-            this.toolStripButton_AddProfile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_AddProfile.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_AddProfile.Image")));
-            this.toolStripButton_AddProfile.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_AddProfile.Name = "toolStripButton_AddProfile";
-            this.toolStripButton_AddProfile.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_AddProfile.Text = "...";
-            this.toolStripButton_AddProfile.Click += new System.EventHandler(this.toolStripButton_AddProfile_Click);
+            this.applyToolStripMenuItem.Name = "applyToolStripMenuItem";
+            this.applyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.applyToolStripMenuItem.Text = "x_Apply";
+            this.applyToolStripMenuItem.Click += new System.EventHandler(this.applyToolStripMenuItem_Click);
             // 
             // frmHierarchicalSplitter
             // 
@@ -400,6 +420,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Relations)).EndInit();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            this.contextMenuStrip_Items.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -435,6 +456,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox_Profile;
         private System.Windows.Forms.ToolStripButton toolStripButton_AddProfile;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Items;
+        private System.Windows.Forms.ToolStripMenuItem applyToolStripMenuItem;
     }
 }
 

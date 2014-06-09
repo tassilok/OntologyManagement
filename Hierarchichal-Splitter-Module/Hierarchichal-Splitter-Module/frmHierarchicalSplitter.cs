@@ -40,10 +40,21 @@ namespace Hierarchichal_Splitter_Module
 
         private clsRelationConfig objRelationConfig;
 
+        public clsOntologyItem OItem_Selected { get; private set; }
+
         public frmHierarchicalSplitter()
         {
             InitializeComponent();
             objLocalConfig = new clsLocalConfig(new clsGlobals());
+            applyToolStripMenuItem.Visible = true;
+            Initialize();
+        }
+
+        public frmHierarchicalSplitter(clsGlobals Globals)
+        {
+            InitializeComponent();
+            objLocalConfig = new clsLocalConfig(Globals);
+            applyToolStripMenuItem.Visible = true;
             Initialize();
         }
 
@@ -162,7 +173,7 @@ namespace Hierarchichal_Splitter_Module
             
             if (objDataWork_HierarchicalSplitter.ProfileItems.Any())
             {
-                ItemList = new SortableBindingList<clsProfileItem> (from objProfileItem in objDataWork_HierarchicalSplitter.ProfileItems
+                objDataWork_HierarchicalSplitter.ProfileItems = (from objProfileItem in objDataWork_HierarchicalSplitter.ProfileItems
                             join objItem in itemList on objProfileItem.OrderId equals objItem.OrderId into objItems
                             from objItem in objItems.DefaultIfEmpty()
                             select new clsProfileItem
@@ -184,7 +195,8 @@ namespace Hierarchichal_Splitter_Module
                                 NameShorted = objItem != null ? objItem.NameShorted : false,
                                 OrderId = objProfileItem.OrderId,
                                 Type = objProfileItem.Type
-                            });
+                            }).ToList();
+                ItemList = new SortableBindingList<clsProfileItem>(objDataWork_HierarchicalSplitter.ProfileItems) ;
             }
             else
             {
@@ -425,7 +437,8 @@ namespace Hierarchichal_Splitter_Module
                             GUID = objLocalConfig.Globals.NewGUID,
                             Name = item.Name_Item,
                             GUID_Parent = item.Id_Parent,
-                            Type = objLocalConfig.Globals.Type_Object
+                            Type = objLocalConfig.Globals.Type_Object,
+                            Val_Long = item.OrderId
                         };
 
 
@@ -459,6 +472,7 @@ namespace Hierarchichal_Splitter_Module
                                     objOItem_Result = AddRelationItem(oItem);
                                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                     {
+                                        oItem.Val_Long = item.OrderId;
                                         objectList.Add(oItem);
                                     }
                                     else
@@ -479,6 +493,7 @@ namespace Hierarchichal_Splitter_Module
                                     objOItem_Result = AddRelationItem(oItem);
                                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                     {
+                                        oItem.Val_Long = item.OrderId;
                                         createList.Add(oItem);
                                         objectList.Add(oItem);
                                     }
@@ -553,8 +568,7 @@ namespace Hierarchichal_Splitter_Module
 
                             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                             {
-                                ItemList.ToList().ForEach(i => i.Imported = true);
-
+                                ItemList.ToList().ForEach(i => UpdateProfileItemList(i));
                                 dataGridView_Items.Refresh();
                             }
                             else
@@ -586,6 +600,16 @@ namespace Hierarchichal_Splitter_Module
             else
             {
                 MessageBox.Show(this, "Die Beziehungen konnten aufgrund von Fehlern in der Tabelle nicht hergestellt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        private void UpdateProfileItemList(clsProfileItem profileItem)
+        {
+            profileItem.Imported = true;
+            var objectsUpdate = objectList.Where(o => o.Val_Long == profileItem.OrderId);
+            if (objectsUpdate.Any())
+            {
+                profileItem.Id_Item = objectsUpdate.First().GUID;
             }
         }
 
@@ -661,6 +685,53 @@ namespace Hierarchichal_Splitter_Module
             }
 
             return objOItem_Result;
+        }
+
+        private void contextMenuStrip_Items_Opening(object sender, CancelEventArgs e)
+        {
+            applyToolStripMenuItem.Enabled = false;
+            if (dataGridView_Items.SelectedRows.Count == 1)
+            {
+                var dgvr = dataGridView_Items.SelectedRows[0];
+
+                var profileItem = (clsProfileItem) dgvr.DataBoundItem;
+
+                if (profileItem.Id_Item != null)
+                {
+                    applyToolStripMenuItem.Enabled = true;
+                }
+               
+            }
+        }
+
+        private void applyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OItem_Selected = null;
+            if (dataGridView_Items.SelectedRows.Count == 1)
+            {
+                var dgvr = dataGridView_Items.SelectedRows[0];
+
+                var profileItem = (clsProfileItem)dgvr.DataBoundItem;
+
+                if (profileItem.Id_Item != null)
+                {
+
+                    var path = string.Join(objDataWork_HierarchicalSplitter.OItem_Seperator.Name, objDataWork_HierarchicalSplitter.ProfileItems.Select(pi => pi.Name_Item));
+
+                    OItem_Selected = new clsOntologyItem
+                    {
+                        GUID = profileItem.Id_Item,
+                        Name = profileItem.Name_Item,
+                        GUID_Parent = profileItem.Id_Parent,
+                        Type = profileItem.Type,
+                        Additional1 = path
+                    };
+
+                    this.DialogResult = System.Windows.Forms.DialogResult.OK;
+                    this.Hide();
+                }
+
+            }
         }
     }
 }

@@ -34,6 +34,30 @@ Public Class clsFileWork
 
     Private objZipFile As Zip.ZipFile
 
+    Public ReadOnly Property OItem_Class_File As clsOntologyItem
+        Get
+            Return objLocalConfig.OItem_Type_File
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Class_Folder As clsOntologyItem
+        Get
+            Return objLocalConfig.OItem_type_Folder
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Class_Drive As clsOntologyItem
+        Get
+            Return objLocalConfig.OItem_Type_Drive
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Class_Server As clsOntologyItem
+        Get
+            Return objLocalConfig.OItem_Type_Server
+        End Get
+    End Property
+
     Public ReadOnly Property LocalConfig As clsLocalConfig
         Get
             Return objLocalConfig

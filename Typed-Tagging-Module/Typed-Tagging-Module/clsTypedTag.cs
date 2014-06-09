@@ -10,6 +10,7 @@ namespace Typed_Tagging_Module
     {
         public string ID_TaggingSource { get; set; }
         public string Name_TaggingSource { get; set; }
+        public string ID_Parent_TaggingSource { get; set; }
         public string ID_TypedTag { get; set; }
         public string Name_TypedTag { get; set; }
         public string ID_TaggingDest { get; set; }

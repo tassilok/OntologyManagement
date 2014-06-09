@@ -37,6 +37,7 @@ namespace Checklist_Module
         private clsLogManagement objLogManagement;
 
         private clsTransaction objTransaction;
+        private clsRelationConfig objRelationConfig;
 
         public frmCheckliste(clsLocalConfig LocalConfig, clsOntologyItem OItem_Report, clsOntologyItem OItem_WorkingList, clsOntologyItem OItem_ReportField, clsDataWork_Checklists DataWork_Checklists)
         {
@@ -62,6 +63,7 @@ namespace Checklist_Module
             objOList_LogEntries = objDataWork_LogEntry.get_Data_LogEntries();
             objLogManagement = new clsLogManagement(objLocalConfig.Globals);
             objTransaction = new clsTransaction(objLocalConfig.Globals);
+            objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
         }
 
         void objUserControl_Report_SelectionChanged()
@@ -515,7 +517,7 @@ namespace Checklist_Module
 
         private void CreateLog(clsOntologyItem OItem_LogState)
         {
-            objFrmLogDialog = new frmLogDialog();
+            objFrmLogDialog = new frmLogDialog(objLocalConfig);
             objFrmLogDialog.ShowDialog(this);
             if (objFrmLogDialog.DialogResult == DialogResult.OK)
             {
@@ -540,7 +542,12 @@ namespace Checklist_Module
                                     objOItem_Result = objTransaction.do_Transaction(ORel_LogEntry_To_Rel);
                                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                     {
-                                        if (OItem_LogState.GUID == objLocalConfig.OItem_object_success.GUID)
+                                        if (objFrmLogDialog.OItem_Related != null)
+                                        {
+                                            var ORel_LogEntry_To_LogRelated = objRelationConfig.Rel_ObjectRelation(objOItem_LogEntry, objFrmLogDialog.OItem_Related, objLocalConfig.OItem_relationtype_belongs_to);
+                                            objOItem_Result = objTransaction.do_Transaction(ORel_LogEntry_To_LogRelated);
+                                        }
+                                        if (objOItem_Result.GUID == objLocalConfig.OItem_object_success.GUID)
                                         {
                                             objDataRow["ID_LogEntry_Success"] = objOItem_LogEntry.GUID;
                                             objDataRow["Name_LogEntry_Success"] = objOItem_LogEntry.Name;

@@ -107,6 +107,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Hierarchichal-Splitter-Module\Hierarchichal-Splitter-Module\Hierarchichal-Splitter-Module.csproj">
+      <Project>{80f48a47-77b5-489d-a693-08d450520136}</Project>
+      <Name>Hierarchichal-Splitter-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Log-Module\Log-Module\Log-Module.vbproj">
       <Project>{666536bd-fd4a-4bdf-a5bc-572e07d4e27a}</Project>
       <Name>Log-Module</Name>

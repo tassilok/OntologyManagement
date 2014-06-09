@@ -20,6 +20,10 @@ namespace Typed_Tagging_Module
 
         private clsArgumentParsing objArgumentParsing;
 
+        private clsDataWork_Tagging objDataWork_Tagging;
+
+        private frmMain objFrmMain;
+
         private UserControl_RefTree objUserControl_RefTree;
 
         private UserControl_TaggingContainer objUserControl_TaggingContainer;
@@ -32,12 +36,17 @@ namespace Typed_Tagging_Module
 
         private frmTypedTaggingSingle objFrmTypedTaggingSingle;
 
+        private List<clsOntologyItem> FilterItems;
+
         private clsOntologyItem objOItem_Selected;
 
         private clsDBLevel objDBLevel;
         private clsGraphMLWork objGraphMLWork;
 
         private clsOntologyItem OItem_ToTag;
+
+        private clsOntologyItem OItem_ClassOfSource = null;
+        private string filter = null;
 
         public frmTypedTaggingModule()
         {
@@ -77,16 +86,20 @@ namespace Typed_Tagging_Module
 
         private void Initialize()
         {
-            
+            objDataWork_Tagging = new clsDataWork_Tagging(objLocalConfig);   
             objDBLevel = new clsDBLevel(objLocalConfig.Globals);
             objGraphMLWork = new clsGraphMLWork(objLocalConfig.Globals);
             objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, true, frmAuthenticate.ERelateMode.User_To_Group, true);
             objFrmAuthenticate.ShowDialog(this);
             if (objFrmAuthenticate.DialogResult == DialogResult.OK)
             {
+               
+
+                
                 objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User;
                 objLocalConfig.OItem_Group = objFrmAuthenticate.OItem_Group;
 
+                
                 objUserControl_RefTree = new UserControl_RefTree(objLocalConfig.Globals);
                 objUserControl_RefTree.Dock = DockStyle.Fill;
                 tabPage_TaggingSource.Controls.Add(objUserControl_RefTree);
@@ -97,16 +110,8 @@ namespace Typed_Tagging_Module
                 objUserControl_TaggingContainer.Dock = DockStyle.Fill;
                 splitContainer1.Panel2.Controls.Add(objUserControl_TaggingContainer);
 
-                var objOList_Classes = new List<clsOntologyItem> { objLocalConfig.OItem_class_typed_tag };
-                var objOList_RelationTypes = new List<clsOntologyItem> { objLocalConfig.OItem_relationtype_is_tagging };
-
-                objUserControl_RefTree.initialize_Tree(objOList_Classes, objOList_RelationTypes);
+                FillTree();
                 
-                if (objOItem_Selected != null)
-                {
-                    objFrmTypedTaggingSingle = new frmTypedTaggingSingle(objLocalConfig, objOItem_Selected);
-                    objFrmTypedTaggingSingle.ShowDialog(this);
-                }
             }
             else
             {
@@ -114,6 +119,61 @@ namespace Typed_Tagging_Module
             }
 
             
+        }
+
+        private void FillTree()
+        {
+            FilterItems = new List<clsOntologyItem>();
+
+            if (OItem_ClassOfSource != null)
+            {
+                var objOItem_Result = objDataWork_Tagging.GetTagsOfTaggingSource();
+
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    FilterItems = objDataWork_Tagging.TypedTags_Sources.Where(t => t.ID_Parent_TaggingSource == OItem_ClassOfSource.GUID).
+                        Select(t => new clsOntologyItem
+                        {
+                            GUID = t.ID_TypedTag,
+                            Name = t.Name_TypedTag,
+                            GUID_Parent = objLocalConfig.OItem_class_typed_tag.GUID,
+                            Type = objLocalConfig.Globals.Type_Object
+                        }).ToList();
+                }
+                else
+                {
+                    MessageBox.Show(this, "Es konnte nicht gefiltert werden!", "Fehler.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    FilterItems = null;
+                }
+                FilterItems.Add(new clsOntologyItem
+                {
+                    GUID_Parent = OItem_ClassOfSource != null ? OItem_ClassOfSource.GUID : null,
+                });
+                
+            }
+            else
+            {
+                FilterItems = null;
+            }
+
+            var objOList_Classes = new List<clsOntologyItem> { objLocalConfig.OItem_class_typed_tag };
+            var objOList_RelationTypes = new List<clsOntologyItem> { objLocalConfig.OItem_relationtype_is_tagging };
+
+            if (FilterItems == null)
+            {
+                objUserControl_RefTree.initialize_Tree(objOList_Classes, objOList_RelationTypes);
+            }
+            else
+            {
+                objUserControl_RefTree.initialize_Tree(FilterItems, objOList_Classes, null, objOList_RelationTypes, null);
+            }
+            
+
+            if (objOItem_Selected != null)
+            {
+                objFrmTypedTaggingSingle = new frmTypedTaggingSingle(objLocalConfig, objOItem_Selected);
+                objFrmTypedTaggingSingle.ShowDialog(this);
+            }
         }
 
         void objUserControl_RefTree_selected_Node(clsOntologyItem OItem_Selected)
@@ -138,19 +198,21 @@ namespace Typed_Tagging_Module
                     
                 }
                 
+                
+                objUserControl_TagTree.Initialize(FilterItems);
                 splitContainer1.Panel2.Controls.Add(objUserControl_TagSources);
             }
             else if (tabControl1.SelectedTab.Name == tabPage_TaggingSource.Name)
             {
-
                 splitContainer1.Panel2.Controls.Add(objUserControl_TaggingContainer);
+                
             }
         }
 
         void objUserControl_TagTree_Selected_Node(clsOntologyItem OItem_Selected)
         {
             objOItem_Selected = OItem_Selected;
-            objUserControl_TagSources.Initialize_TagSources(OItem_Selected);
+            objUserControl_TagSources.Initialize_TagSources(OItem_Selected, OItem_ClassOfSource);
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -225,5 +287,49 @@ namespace Typed_Tagging_Module
             }
             
         }
+
+        private void toolStripButton_ClassOfTaggingSource_Click(object sender, EventArgs e)
+        {
+            objFrmMain = new frmMain(objLocalConfig.Globals);
+            objFrmMain.ShowDialog(this);
+            if (objFrmMain.DialogResult == System.Windows.Forms.DialogResult.OK)
+            {
+                if (objFrmMain.OList_Simple.Count == 1)
+                {
+                    if (objFrmMain.OList_Simple.First().Type == objLocalConfig.Globals.Type_Class)
+                    {
+                        OItem_ClassOfSource = objFrmMain.OList_Simple.First().Clone();
+                        toolStripTextBox_Class.Text = OItem_ClassOfSource.Name;
+                        Configure_Tags();
+                        if (tabControl1.SelectedTab.Name == tabPage_TaggingSource.Name)
+                        {
+                            FillTree();
+                        }
+                        else
+                        {
+                            objUserControl_TagTree.Initialize(FilterItems);
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, "Wählen Sie bitte nur eine Klasse aus.", "1 Klassse", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(this, "Wählen Sie bitte nur eine Klasse aus.", "1 Klassse", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void toolStripButton_ClearFilter_Click(object sender, EventArgs e)
+        {
+            OItem_ClassOfSource = null;
+        }
+
+        
+
+       
     }
 }

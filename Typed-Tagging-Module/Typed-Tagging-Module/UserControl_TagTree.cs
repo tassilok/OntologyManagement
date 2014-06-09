@@ -29,20 +29,22 @@ namespace Typed_Tagging_Module
 
         public event SelectedNode Selected_Node;
 
+        private List<clsOntologyItem> TagFilter;
+
         public UserControl_TagTree(clsLocalConfig LocalConfig)
         {
             InitializeComponent();
 
             objLocalConfig = LocalConfig;
 
-            Initialize();
         }
 
-        private void Initialize()
+        public void Initialize(List<clsOntologyItem> Filter = null)
         {
+            this.TagFilter = Filter;
             objDataWork_Tagging = new clsDataWork_Tagging(objLocalConfig);
 
-            objOItem_Result_Tag = objDataWork_Tagging.GetTags();
+            objOItem_Result_Tag = objDataWork_Tagging.GetTags(TagFilter);
 
             if (objOItem_Result_Tag.GUID == objLocalConfig.Globals.LState_Error.GUID)
             {
@@ -136,12 +138,12 @@ namespace Typed_Tagging_Module
             var objClasses = new List<clsOntologyItem>();
             if (objTreeNode_Parent.Name == objLocalConfig.Globals.Type_Class)
             {
-                objClasses = objDataWork_Tagging.ClassTree.Where(c => c.GUID_Parent == objLocalConfig.Globals.Root.GUID).ToList();
+                objClasses = objDataWork_Tagging.ClassTree.Where(c => c.GUID_Parent == objLocalConfig.Globals.Root.GUID).OrderBy(c => c.Name).ToList();
 
             }
             else
             {
-                objClasses = objDataWork_Tagging.ClassTree.Where(c => c.GUID_Parent == objTreeNode_Parent.Name).ToList();
+                objClasses = objDataWork_Tagging.ClassTree.Where(c => c.GUID_Parent == objTreeNode_Parent.Name).OrderBy(c => c.Name).ToList();
             }
 
             foreach (var objClass in objClasses)
@@ -184,6 +186,89 @@ namespace Typed_Tagging_Module
                     });
                 }
             }
+        }
+
+        private void ToolStripTextBox_Mark_TextChanged(object sender, EventArgs e)
+        {
+            timer_TagMark.Stop();
+            timer_TagMark.Start();
+        }
+
+        private void ClearMark(TreeNode treeNode = null)
+        {
+            List<TreeNode> treeNodes;
+            if (treeNode == null)
+            {
+                treeNodes = treeView_Tags.Nodes.Cast<TreeNode>().ToList();
+            }
+            else
+            {
+                treeNodes = treeNode.Nodes.Cast<TreeNode>().ToList();
+            }
+
+            var clearNodes = treeNodes.Where(tn => tn.BackColor != null).ToList();
+
+            clearNodes.ForEach(tr => tr.BackColor = treeView_Tags.BackColor);
+
+            treeNodes.ForEach(tr => ClearMark(tr));
+            
+        }
+
+        private void MarkNodes(string filter, bool isGuid = false, TreeNode treeNode = null)
+        {
+            List<TreeNode> treeNodes;
+            if (treeNode == null)
+            {
+                treeNodes = treeView_Tags.Nodes.Cast<TreeNode>().ToList();
+            }
+            else
+            {
+                treeNodes = treeNode.Nodes.Cast<TreeNode>().ToList();
+            }
+
+            List<TreeNode> markNodes;
+
+            if (isGuid)
+            {
+                markNodes = treeNodes.Where(tn => tn.Name == filter).ToList();
+            }
+            else
+            {
+                markNodes =  treeNodes.Where(tn => tn.Text.ToLower().Contains(filter.ToLower())).ToList();
+                
+            }
+
+
+
+            markNodes.ForEach(tr => 
+            { 
+                tr.BackColor = Color.Yellow;
+                var treeNodeParent = tr.Parent;
+                while (treeNodeParent != null)
+                {
+                    treeNodeParent.Expand();
+                    treeNodeParent = treeNodeParent.Parent;
+                }
+            });
+
+            treeNodes.ForEach(tr => MarkNodes(filter, isGuid, tr));
+        }
+
+        private void timer_TagMark_Tick(object sender, EventArgs e)
+        {
+            timer_TagMark.Stop();
+
+            ClearMark();
+
+            if (!string.IsNullOrEmpty(ToolStripTextBox_Mark.Text))
+            {
+                MarkNodes(ToolStripTextBox_Mark.Text, objLocalConfig.Globals.is_GUID(ToolStripTextBox_Mark.Text));
+            }
+        }
+
+        private void ToolStripButton_ClearMark_Click(object sender, EventArgs e)
+        {
+            ToolStripTextBox_Mark.Text = "";
         }
     }
 }

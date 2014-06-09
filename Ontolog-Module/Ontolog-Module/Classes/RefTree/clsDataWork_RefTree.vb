@@ -346,7 +346,9 @@ Public Class clsDataWork_RefTree
         objOItem_Result = objDBLevel_Ref.get_Data_ObjectRel(objOLRel_ItemToRef, boolIDs:=False)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             If OList_FilterRefs.Any() Then
-                objOList_Rels = (From objRel In objDBLevel_Ref.OList_ObjectRel.Select(Function(p) New clsObjectRel With {.ID_Object = p.ID_Object, _
+
+                If (OList_FilterRefs.Any(Function(fr) Not String.IsNullOrEmpty(fr.GUID))) Then
+                    objOList_Rels = (From objRel In objDBLevel_Ref.OList_ObjectRel.Select(Function(p) New clsObjectRel With {.ID_Object = p.ID_Object, _
                                                                                                      .Name_Object = p.Name_Object, _
                                                                                                      .ID_Parent_Object = p.ID_Parent_Object, _
                                                                                                      .Name_Parent_Object = p.Name_Parent_Object, _
@@ -362,6 +364,25 @@ Public Class clsDataWork_RefTree
                                                                                                     }).ToList()
                                 Join objFilterRel In OList_FilterRefs On objRel.ID_Object Equals objFilterRel.GUID
                                 Select objRel).ToList()
+                Else
+                    objOList_Rels = (From objRel In objDBLevel_Ref.OList_ObjectRel.Select(Function(p) New clsObjectRel With {.ID_Object = p.ID_Object, _
+                                                                                                     .Name_Object = p.Name_Object, _
+                                                                                                     .ID_Parent_Object = p.ID_Parent_Object, _
+                                                                                                     .Name_Parent_Object = p.Name_Parent_Object, _
+                                                                                                     .ID_Other = p.ID_Other, _
+                                                                                                     .Name_Other = p.Name_Other, _
+                                                                                                     .ID_Parent_Other = p.ID_Parent_Other, _
+                                                                                                     .Name_Parent_Other = p.Name_Parent_Other, _
+                                                                                                     .ID_RelationType = p.ID_RelationType, _
+                                                                                                     .Name_RelationType = p.Name_RelationType, _
+                                                                                                     .Ontology = p.Ontology, _
+                                                                                                     .OrderID = p.OrderID, _
+                                                                                                     .ID_Direction = objLocalConfig.Globals.Direction_LeftRight.GUID
+                                                                                                    }).ToList()
+                                Join objFilterRel In OList_FilterRefs On objRel.ID_Parent_Object Equals objFilterRel.GUID_Parent
+                                Select objRel).ToList()
+                End If
+                
             Else
                 objOList_Rels = objDBLevel_Ref.OList_ObjectRel.Select(Function(p) New clsObjectRel With {.ID_Object = p.ID_Object, _
                                                                                                      .Name_Object = p.Name_Object, _
