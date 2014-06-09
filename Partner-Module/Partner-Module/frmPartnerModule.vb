@@ -76,14 +76,36 @@ Public Class frmPartnerModule
     End Sub
 
     Private Sub configure_TabPages()
+
+        
+
+        
+
+        
+
         Select Case TabControl1.SelectedTab.Name
             Case TabPage_Address.Name
+
                 objUserControl_Address.initialize_Address(objOItem_Partner)
             Case TabPage_AvailabilityData.Name
-
+                objUserControl_AvailabilityData = New UserControl_AvailabilityData(objLocalConfig)
+                objUserControl_AvailabilityData.Dock = DockStyle.Fill
+                TabPage_AvailabilityData.Controls.Add(objUserControl_AvailabilityData)
             Case TabPage_CommunicationData.Name
+                If objUserControl_ComData Is Nothing Then
+                    objUserControl_ComData = New UserControl_CommunicationData(objLocalConfig)
+                    objUserControl_ComData.Dock = DockStyle.Fill
+                    TabPage_CommunicationData.Controls.Add(objUserControl_ComData)
+                End If
+
                 objUserControl_ComData.initialize(objOItem_Partner)
             Case TabPage_PersonalData.Name
+                If objUserControl_PersonalData Is Nothing Then
+                    objUserControl_PersonalData = New UserControl_PersonalData(objLocalConfig)
+                    objUserControl_PersonalData.Dock = DockStyle.Fill
+                    TabPage_PersonalData.Controls.Add(objUserControl_PersonalData)
+                End If
+
                 objUserControl_PersonalData.initialize_PersonalData(objOItem_Partner)
         End Select
     End Sub
@@ -141,17 +163,7 @@ Public Class frmPartnerModule
             objUserControl_Address.Dock = DockStyle.Fill
             TabPage_Address.Controls.Add(objUserControl_Address)
 
-            objUserControl_PersonalData = New UserControl_PersonalData(objLocalConfig)
-            objUserControl_PersonalData.Dock = DockStyle.Fill
-            TabPage_PersonalData.Controls.Add(objUserControl_PersonalData)
-
-            objUserControl_ComData = New UserControl_CommunicationData(objLocalConfig)
-            objUserControl_ComData.Dock = DockStyle.Fill
-            TabPage_CommunicationData.Controls.Add(objUserControl_ComData)
-
-            objUserControl_AvailabilityData = New UserControl_AvailabilityData(objLocalConfig)
-            objUserControl_AvailabilityData.Dock = DockStyle.Fill
-            TabPage_AvailabilityData.Controls.Add(objUserControl_AvailabilityData)
+            
 
             objOItem_Partner = New clsOntologyItem(Nothing, _
                                                     Nothing, _

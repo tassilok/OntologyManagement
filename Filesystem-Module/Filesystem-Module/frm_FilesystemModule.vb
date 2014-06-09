@@ -32,6 +32,9 @@ Public Class frm_FilesystemModule
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFrm_FileSync As frmFileSync
     Private objFrm_FileBlobSync As frmFileBlobSync
+
+    Private objFrmName As frm_Name
+
     Private SplashScreen As SplashScreen_OntologyModule
     Private AboutBox As AboutBox_OntologyItem
 
@@ -246,11 +249,19 @@ Public Class frm_FilesystemModule
         Dim objTreeNode As TreeNode
 
         Open_Tree_ToolStripMenuItem1.Enabled = False
+        EditToolStripMenuItem.Enabled = False
+        RenameToolStripMenuItem.Enabled = False
         objTreeNode = TreeView_Folder.SelectedNode
         If Not objTreeNode Is Nothing Then
+            EditToolStripMenuItem.Enabled = True
             If objTreeNode.ImageIndex = cint_ImageID_Drive Or _
                 objTreeNode.ImageIndex = cint_ImageID_Folder_Closed Then
                 Open_Tree_ToolStripMenuItem1.Enabled = True
+
+            End If
+
+            If objTreeNode.ImageIndex = cint_ImageID_Folder_Closed Then
+                RenameToolStripMenuItem.Enabled = True
             End If
         End If
     End Sub
@@ -987,5 +998,98 @@ Public Class frm_FilesystemModule
 
 
         
+    End Sub
+
+    Private Sub RenameToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RenameToolStripMenuItem.Click
+        Dim objTreeNode = TreeView_Folder.SelectedNode
+        Dim pathOld As String
+        Dim pathNew As String
+
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = cint_ImageID_Folder_Closed Then
+                Dim objOItem_Folder = New clsOntologyItem With {.GUID = objTreeNode.Name,
+                                                                .Name = objTreeNode.Text,
+                                                                .GUID_Parent = objLocalConfig.OItem_type_Folder.GUID,
+                                                                .Type = objLocalConfig.Globals.Type_Object}
+
+                objOItem_Folder.Additional1 = objFileWork.get_Path_FileSystemObject(objOItem_Folder)
+                pathOld = objOItem_Folder.Additional1
+                pathNew = objOItem_Folder.Additional1.Substring(0, objOItem_Folder.Additional1.Length - objOItem_Folder.Name.Length)
+                If IO.Directory.Exists(objOItem_Folder.Additional1) Then
+                    Dim boolChange = False
+                    While Not boolChange
+                        objFrmName = New frm_Name("Rename", objLocalConfig.Globals, Value1:=objOItem_Folder.Name)
+                        objFrmName.ShowDialog(Me)
+                        If objFrmName.DialogResult = Windows.Forms.DialogResult.OK Then
+
+
+                            Dim charList = IO.Path.GetInvalidFileNameChars.Cast(Of Char).ToList()
+
+
+                            If Not charList.Any(Function(c) objFrmName.Value1.Contains(c)) Then
+                                boolChange = True
+
+                                If String.IsNullOrEmpty(objFrmName.Value1) Then
+                                    MsgBox("Geben Sie bitte einen Namen ein!", MsgBoxStyle.Information)
+                                    boolChange = False
+                                End If
+
+                                If boolChange Then
+
+                                    For Each subFolders In IO.Directory.GetDirectories(pathNew)
+                                        If subFolders.ToLower().EndsWith(objFrmName.Value1.ToLower()) Then
+                                            MsgBox("Es existiert bereits ein Ordner mit diesem Namen. Wählen Sie bitte einen anderen!", MsgBoxStyle.Information)
+                                            boolChange = False
+                                            Exit For
+                                        End If
+                                    Next
+                                End If
+
+                            Else
+
+                                MsgBox("Die Bezeichnung enthält ungültige Zeichen!", MsgBoxStyle.Information)
+                            End If
+
+                        Else
+                            Exit While
+                        End If
+                    End While
+
+                    If boolChange Then
+
+
+                        
+
+                        objOItem_Folder.Name = objFrmName.Value1
+                        pathNew = pathNew & objOItem_Folder.Name
+                        Try
+                            IO.Directory.Move(pathOld, pathNew)
+                            objTransaction_Files.ClearItems()
+                            Dim objOItem_Result = objTransaction_Files.do_Transaction(objOItem_Folder)
+
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                load_Server_With_Drives_And_Shares(objTreeNode_Root)
+                                Dim objTreeNodes = TreeView_Folder.Nodes.Find(objOItem_Folder.GUID, True)
+                                If objTreeNodes.Any() Then
+                                    TreeView_Folder.SelectedNode = objTreeNodes(0)
+                                Else
+                                    MsgBox("Beim Ändern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+                                End If
+                            Else
+                                MsgBox("Beim Ändern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+
+                            End If
+                        Catch ex As Exception
+                            MsgBox("Der Ordner konnte nicht verschoben werden!", MsgBoxStyle.Exclamation)
+                        End Try
+
+
+                        
+                    End If
+                Else
+                    MsgBox("Der Ordner """ & objOItem_Folder.Additional1 & """ scheint nicht zu existieren.", MsgBoxStyle.Information)
+                End If
+            End If
+        End If
     End Sub
 End Class

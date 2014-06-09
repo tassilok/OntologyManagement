@@ -54,6 +54,9 @@ Public Class frmBankTransactionModule
         initialize()
     End Sub
 
+    Public Sub RefreshList()
+        objUserControl_TransactionList.initialize_BankTransactions()
+    End Sub
 
     Private Sub initialize()
         objUserControl_TransactionList = New UserControl_TransactionList(objLocalConfig)

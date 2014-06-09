@@ -24,12 +24,18 @@ Public Class UserControl_TransactionList
         End Set
     End Property
 
-    Public Sub initialize_BankTransactions(ByVal OItem_Class_BankTransaction As clsOntologyItem, ByVal DataWork_BankTransactions As clsDataWork_BankTransactions)
+    Public Sub initialize_BankTransactions(Optional ByVal OItem_Class_BankTransaction As clsOntologyItem = Nothing, Optional ByVal DataWork_BankTransactions As clsDataWork_BankTransactions = Nothing)
         DataGridView_Transactions.Enabled = False
         BindingNavigator_Transactions.Enabled = False
-        objDataWork_BankTransactions = DataWork_BankTransactions
+        If Not DataWork_BankTransactions Is Nothing Then
+            objDataWork_BankTransactions = DataWork_BankTransactions
 
-        objOItem_Class_BankTransaction = OItem_Class_BankTransaction
+        End If
+
+        If Not OItem_Class_BankTransaction Is Nothing Then
+            objOItem_Class_BankTransaction = OItem_Class_BankTransaction
+        End If
+
         Timer_BankTransactions.Stop()
         Me.DataSet_Transactions.dtbl_Banktransactions.Clear()
         If objDataWork_BankTransactions.get_Data_BankTransaction(objOItem_Class_BankTransaction, Me.DataSet_Transactions.dtbl_Banktransactions).GUID = objLocalConfig.Globals.LState_Success.GUID Then
@@ -435,5 +441,11 @@ Public Class UserControl_TransactionList
         objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList_BankTransaction, 0, objLocalConfig.Globals.Type_Object, Nothing)
         objFrm_ObjectEdit.ShowDialog(Me)
 
+    End Sub
+
+    Private Sub DataGridView_Transactions_KeyDown(sender As Object, e As KeyEventArgs) Handles DataGridView_Transactions.KeyDown
+        If e.KeyCode = Keys.F5 Then
+            initialize_BankTransactions()
+        End If
     End Sub
 End Class

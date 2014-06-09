@@ -272,6 +272,7 @@ Public Class UserControl_BillTree
         Dim intToDo As Integer
         Dim intDone As Integer
         Dim intImageID As Integer
+        Dim boolRefresh As Boolean = True
 
         boolContractee = isContractee()
         objOItem_Partner = get_Partner()
@@ -285,8 +286,15 @@ Public Class UserControl_BillTree
                                                                            objLocalConfig.Globals.Type_Object)
             End If
 
-            objFrm_BankTransactions = New frmBankTransactionModule(objLocalConfig.Globals, objOItem_Partner)
+            If objFrm_BankTransactions Is Nothing Then
+                boolRefresh = False
+                objFrm_BankTransactions = New frmBankTransactionModule(objLocalConfig.Globals, objOItem_Partner)
+            End If
+            If boolRefresh Then
+                objFrm_BankTransactions.RefreshList()
+            End If
             objFrm_BankTransactions.ShowDialog(Me)
+            
             If objFrm_BankTransactions.DialogResult = DialogResult.OK Then
                 objOList_Transactions = objFrm_BankTransactions.transactionList
                 intToDo = objOList_Transactions.Count

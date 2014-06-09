@@ -85,6 +85,8 @@ Partial Class frm_FilesystemModule
         Me.DownloadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GUIDAsNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GetMetaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.XDownloadZipToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GUIDAsNameToolStripMenuItem_Zip = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Search = New System.Windows.Forms.ToolStripTextBox()
@@ -98,9 +100,9 @@ Partial Class frm_FilesystemModule
         Me.OpenFileDialog_Files = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog_Folders = New System.Windows.Forms.FolderBrowserDialog()
         Me.BindingSource_Files = New System.Windows.Forms.BindingSource(Me.components)
-        Me.XDownloadZipToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.GUIDAsNameToolStripMenuItem_Zip = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveFileDialog_ZipFile = New System.Windows.Forms.SaveFileDialog()
+        Me.ToolStripMenuItem_Edit = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RenameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -382,9 +384,9 @@ Partial Class frm_FilesystemModule
         '
         'ContextMenuStrip_Tree
         '
-        Me.ContextMenuStrip_Tree.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem_Tree, Me.Open_Tree_ToolStripMenuItem1, Me.ApplyToolStripMenuItem, Me.ModuleActionsToolStripMenuItem_Tree})
+        Me.ContextMenuStrip_Tree.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem_Tree, Me.ToolStripMenuItem_Edit, Me.Open_Tree_ToolStripMenuItem1, Me.ApplyToolStripMenuItem, Me.ModuleActionsToolStripMenuItem_Tree})
         Me.ContextMenuStrip_Tree.Name = "ContextMenuStrip_Tree"
-        Me.ContextMenuStrip_Tree.Size = New System.Drawing.Size(171, 92)
+        Me.ContextMenuStrip_Tree.Size = New System.Drawing.Size(171, 136)
         '
         'NewToolStripMenuItem_Tree
         '
@@ -589,6 +591,20 @@ Partial Class frm_FilesystemModule
         Me.GetMetaToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
         Me.GetMetaToolStripMenuItem.Text = "x_get meta"
         '
+        'XDownloadZipToolStripMenuItem
+        '
+        Me.XDownloadZipToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GUIDAsNameToolStripMenuItem_Zip})
+        Me.XDownloadZipToolStripMenuItem.Name = "XDownloadZipToolStripMenuItem"
+        Me.XDownloadZipToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
+        Me.XDownloadZipToolStripMenuItem.Text = "x_Download Zip"
+        '
+        'GUIDAsNameToolStripMenuItem_Zip
+        '
+        Me.GUIDAsNameToolStripMenuItem_Zip.CheckOnClick = True
+        Me.GUIDAsNameToolStripMenuItem_Zip.Name = "GUIDAsNameToolStripMenuItem_Zip"
+        Me.GUIDAsNameToolStripMenuItem_Zip.Size = New System.Drawing.Size(160, 22)
+        Me.GUIDAsNameToolStripMenuItem_Zip.Text = "x_GUID as Name"
+        '
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
@@ -655,23 +671,22 @@ Partial Class frm_FilesystemModule
         Me.OpenFileDialog_Files.FileName = "OpenFileDialog1"
         Me.OpenFileDialog_Files.Multiselect = True
         '
-        'XDownloadZipToolStripMenuItem
-        '
-        Me.XDownloadZipToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GUIDAsNameToolStripMenuItem_Zip})
-        Me.XDownloadZipToolStripMenuItem.Name = "XDownloadZipToolStripMenuItem"
-        Me.XDownloadZipToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
-        Me.XDownloadZipToolStripMenuItem.Text = "x_Download Zip"
-        '
-        'GUIDAsNameToolStripMenuItem_Zip
-        '
-        Me.GUIDAsNameToolStripMenuItem_Zip.CheckOnClick = True
-        Me.GUIDAsNameToolStripMenuItem_Zip.Name = "GUIDAsNameToolStripMenuItem_Zip"
-        Me.GUIDAsNameToolStripMenuItem_Zip.Size = New System.Drawing.Size(160, 22)
-        Me.GUIDAsNameToolStripMenuItem_Zip.Text = "x_GUID as Name"
-        '
         'SaveFileDialog_ZipFile
         '
         Me.SaveFileDialog_ZipFile.Filter = "Zip-Dateien|*.zip"
+        '
+        'ToolStripMenuItem_Edit
+        '
+        Me.ToolStripMenuItem_Edit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RenameToolStripMenuItem})
+        Me.ToolStripMenuItem_Edit.Name = "ToolStripMenuItem_Edit"
+        Me.ToolStripMenuItem_Edit.Size = New System.Drawing.Size(170, 22)
+        Me.ToolStripMenuItem_Edit.Text = "x_Edit"
+        '
+        'RenameToolStripMenuItem
+        '
+        Me.RenameToolStripMenuItem.Name = "RenameToolStripMenuItem"
+        Me.RenameToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.RenameToolStripMenuItem.Text = "x_Rename"
         '
         'frm_FilesystemModule
         '
@@ -796,5 +811,7 @@ Partial Class frm_FilesystemModule
     Friend WithEvents XDownloadZipToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents GUIDAsNameToolStripMenuItem_Zip As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SaveFileDialog_ZipFile As System.Windows.Forms.SaveFileDialog
+    Friend WithEvents ToolStripMenuItem_Edit As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RenameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
