@@ -9,6 +9,7 @@ Public Class frmDevelopmentModule
     Private WithEvents objUserControl_DevTree As UserControl_DevelopmentTree
     Private WithEvents objUserControl_BaseData As UserControl_BaseData
     Private WithEvents objUserControl_LogEntries As UserControl_LogEntries
+    Private WithEvents objUserControl_GuiEntries As UserControl_GuiEntries
 
     Private objUserControl_OntologyConfig As UserControl_OntologyConfig
     Private objFrm_Authenticate As frmAuthenticate
@@ -100,6 +101,14 @@ Public Class frmDevelopmentModule
                     TabPage_OntologyExport.Controls.Add(objUserControl_OntologyExport)
                 End If
                 objUserControl_OntologyExport.initialize_OntologyExport(objOItem_Development)
+            Case TabPage_GuiEntries.Name
+                If objUserControl_GuiEntries Is Nothing Then
+                    objUserControl_GuiEntries = New UserControl_GuiEntries(objLocalConfig)
+                    objUserControl_GuiEntries.Dock = DockStyle.Fill
+                    TabPage_GuiEntries.Controls.Add(objUserControl_GuiEntries)
+                End If
+
+                objUserControl_GuiEntries.Initialize_GuiEntries(objOItem_Development)
         End Select
     End Sub
 

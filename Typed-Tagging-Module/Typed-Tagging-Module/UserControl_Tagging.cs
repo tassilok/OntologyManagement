@@ -33,6 +33,8 @@ namespace Typed_Tagging_Module
 
         private clsOntologyItem objOItem_TaggingSource;
 
+        private dlg_Attribute_Long dlgAttributeLong;
+
         public UserControl_Tagging(clsLocalConfig LocalConfig)
         {
             InitializeComponent();
@@ -127,6 +129,17 @@ namespace Typed_Tagging_Module
 
                 var toDo = objUserControl_Tag.DataGridViewRowCollection_Selected.Count;
                 var done = 0;
+                long? orderIdStart = null;
+                if (toolStripButton_OrderId.Checked)
+                {
+                    dlgAttributeLong = new dlg_Attribute_Long("OrderId to start", objLocalConfig.Globals, 1);
+                    dlgAttributeLong.ShowDialog(this);
+
+                    if (dlgAttributeLong.DialogResult == DialogResult.OK)
+                    {
+                        orderIdStart = dlgAttributeLong.Value;
+                    }
+                }
                 foreach (DataGridViewRow row in objUserControl_Tag.DataGridViewRowCollection_Selected)
                 {
                     DataRowView rowView = (DataRowView) row.DataBoundItem;
@@ -138,9 +151,14 @@ namespace Typed_Tagging_Module
                             GUID = rowView["ID_Item"].ToString(),
                             Name = rowView["Name"].ToString(),
                             GUID_Parent = rowView["ID_Parent"].ToString(),
-                            Type = objLocalConfig.Globals.Type_Object
+                            Type = objLocalConfig.Globals.Type_Object,
+                            Level = orderIdStart
                         };
 
+                        if (orderIdStart != null)
+                        {
+                            orderIdStart++;
+                        }
                         done = SaveTag(objOItem_TagDest);
                     }
                 }
@@ -173,7 +191,7 @@ namespace Typed_Tagging_Module
             var objOItem_Result = objTransaction.do_Transaction(objOItem_Tag);
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                var objORel_Tag_To_TaggingSource = objRelationConfig.Rel_ObjectRelation(objOItem_Tag, objOItem_TaggingSource, objLocalConfig.OItem_relationtype_is_tagging);
+                var objORel_Tag_To_TaggingSource = objRelationConfig.Rel_ObjectRelation(objOItem_Tag, objOItem_TaggingSource, objLocalConfig.OItem_relationtype_is_tagging, OrderID: objOItem_TagDest.Level ?? 1);
                 objOItem_Result = objTransaction.do_Transaction(objORel_Tag_To_TaggingSource);
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {

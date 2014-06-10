@@ -25,27 +25,28 @@ Partial Class frmDevelopmentModule
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmDevelopmentModule))
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage_BaseData = New System.Windows.Forms.TabPage()
         Me.TabPage_Logentries = New System.Windows.Forms.TabPage()
         Me.TabPage_OntologyConfig = New System.Windows.Forms.TabPage()
+        Me.TabPage_OntologyExport = New System.Windows.Forms.TabPage()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.HilfeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.TabPage_OntologyExport = New System.Windows.Forms.TabPage()
-        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout
-        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout
-        Me.ToolStripContainer1.SuspendLayout
-        Me.ToolStrip1.SuspendLayout
-        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SplitContainer1.Panel2.SuspendLayout
-        Me.SplitContainer1.SuspendLayout
-        Me.TabControl1.SuspendLayout
-        Me.MenuStrip1.SuspendLayout
-        Me.SuspendLayout
+        Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
+        Me.TabPage_GuiEntries = New System.Windows.Forms.TabPage()
+        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
+        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.SuspendLayout()
+        Me.ToolStrip1.SuspendLayout()
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer1.Panel2.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
+        Me.TabControl1.SuspendLayout()
+        Me.MenuStrip1.SuspendLayout()
+        Me.SuspendLayout()
         '
         'ToolStripContainer1
         '
@@ -78,15 +79,6 @@ Partial Class frmDevelopmentModule
         Me.ToolStrip1.Size = New System.Drawing.Size(62, 25)
         Me.ToolStrip1.TabIndex = 0
         '
-        'ToolStripButton_Close
-        '
-        Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"),System.Drawing.Image)
-        Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
-        Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
-        Me.ToolStripButton_Close.Text = "x_Close"
-        '
         'SplitContainer1
         '
         Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
@@ -107,6 +99,7 @@ Partial Class frmDevelopmentModule
         Me.TabControl1.Controls.Add(Me.TabPage_Logentries)
         Me.TabControl1.Controls.Add(Me.TabPage_OntologyConfig)
         Me.TabControl1.Controls.Add(Me.TabPage_OntologyExport)
+        Me.TabControl1.Controls.Add(Me.TabPage_GuiEntries)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
@@ -122,7 +115,7 @@ Partial Class frmDevelopmentModule
         Me.TabPage_BaseData.Size = New System.Drawing.Size(467, 380)
         Me.TabPage_BaseData.TabIndex = 0
         Me.TabPage_BaseData.Text = "x_BaseData"
-        Me.TabPage_BaseData.UseVisualStyleBackColor = true
+        Me.TabPage_BaseData.UseVisualStyleBackColor = True
         '
         'TabPage_Logentries
         '
@@ -132,7 +125,7 @@ Partial Class frmDevelopmentModule
         Me.TabPage_Logentries.Size = New System.Drawing.Size(467, 380)
         Me.TabPage_Logentries.TabIndex = 1
         Me.TabPage_Logentries.Text = "x_Logentries"
-        Me.TabPage_Logentries.UseVisualStyleBackColor = true
+        Me.TabPage_Logentries.UseVisualStyleBackColor = True
         '
         'TabPage_OntologyConfig
         '
@@ -142,7 +135,17 @@ Partial Class frmDevelopmentModule
         Me.TabPage_OntologyConfig.Size = New System.Drawing.Size(467, 380)
         Me.TabPage_OntologyConfig.TabIndex = 2
         Me.TabPage_OntologyConfig.Text = "x_Ontology-Config"
-        Me.TabPage_OntologyConfig.UseVisualStyleBackColor = true
+        Me.TabPage_OntologyConfig.UseVisualStyleBackColor = True
+        '
+        'TabPage_OntologyExport
+        '
+        Me.TabPage_OntologyExport.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage_OntologyExport.Name = "TabPage_OntologyExport"
+        Me.TabPage_OntologyExport.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage_OntologyExport.Size = New System.Drawing.Size(467, 380)
+        Me.TabPage_OntologyExport.TabIndex = 3
+        Me.TabPage_OntologyExport.Text = "x_Ontology-Export"
+        Me.TabPage_OntologyExport.UseVisualStyleBackColor = True
         '
         'MenuStrip1
         '
@@ -167,15 +170,24 @@ Partial Class frmDevelopmentModule
         Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(95, 22)
         Me.InfoToolStripMenuItem.Text = "&Info"
         '
-        'TabPage_OntologyExport
+        'ToolStripButton_Close
         '
-        Me.TabPage_OntologyExport.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage_OntologyExport.Name = "TabPage_OntologyExport"
-        Me.TabPage_OntologyExport.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_OntologyExport.Size = New System.Drawing.Size(467, 380)
-        Me.TabPage_OntologyExport.TabIndex = 3
-        Me.TabPage_OntologyExport.Text = "x_Ontology-Export"
-        Me.TabPage_OntologyExport.UseVisualStyleBackColor = true
+        Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
+        Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
+        Me.ToolStripButton_Close.Text = "x_Close"
+        '
+        'TabPage_GuiEntries
+        '
+        Me.TabPage_GuiEntries.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage_GuiEntries.Name = "TabPage_GuiEntries"
+        Me.TabPage_GuiEntries.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage_GuiEntries.Size = New System.Drawing.Size(467, 380)
+        Me.TabPage_GuiEntries.TabIndex = 4
+        Me.TabPage_GuiEntries.Text = "x_Gui-Entries"
+        Me.TabPage_GuiEntries.UseVisualStyleBackColor = True
         '
         'frmDevelopmentModule
         '
@@ -216,5 +228,6 @@ End Sub
     Friend WithEvents HilfeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents InfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TabPage_OntologyExport As System.Windows.Forms.TabPage
+    Friend WithEvents TabPage_GuiEntries As System.Windows.Forms.TabPage
 
 End Class

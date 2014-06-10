@@ -334,6 +334,8 @@ Public Class frmMain
         boolApplyable = False
         set_DBConnection()
         initialize()
+
+
     End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig, Optional ByVal Type_Entry As String = Nothing, Optional ByVal OItem_Entry As clsOntologyItem = Nothing, Optional Caption As String = Nothing)

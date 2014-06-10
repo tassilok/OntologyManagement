@@ -85,6 +85,7 @@
     <Compile Include="clsDataWork_Details.vb" />
     <Compile Include="clsDataWork_DevTree.vb" />
     <Compile Include="clsDataWork_Export.vb" />
+    <Compile Include="clsDataWork_GuiEntries.vb" />
     <Compile Include="clsDataWork_LogEntries.vb" />
     <Compile Include="clsDataWork_OntologyConfig.vb" />
     <Compile Include="clsDataWork_OntologyConfig_bak.vb" />
@@ -145,6 +146,12 @@
     <Compile Include="UserControl_DevelopmentTree.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControl_GuiEntries.Designer.vb">
+      <DependentUpon>UserControl_GuiEntries.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_GuiEntries.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl_LogEntries.Designer.vb">
       <DependentUpon>UserControl_LogEntries.vb</DependentUpon>
     </Compile>
@@ -191,6 +198,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_DevelopmentTree.resx">
       <DependentUpon>UserControl_DevelopmentTree.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_GuiEntries.resx">
+      <DependentUpon>UserControl_GuiEntries.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_LogEntries.resx">
       <DependentUpon>UserControl_LogEntries.vb</DependentUpon>

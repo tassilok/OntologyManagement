@@ -791,9 +791,9 @@ Public Class clsLocalConfig
     End Property
 
     Public ReadOnly Property OItem_type_ontology_export() As clsOntologyItem
-      Get
-        Return objOItem_type_ontology_export
-      End Get
+        Get
+            Return objOItem_type_ontology_export
+        End Get
     End Property
 
     Public ReadOnly Property OItem_Class_Code_Template As clsOntologyItem
@@ -1008,11 +1008,11 @@ Public Class clsLocalConfig
         End Get
     End Property
 
-    
+
 
 
     Public Property OItem_User As clsOntologyItem
-        
+
 
     Public ReadOnly Property Oitem_Object_Variable_List_Declaration_ConfigItems As clsOntologyItem
         Get
@@ -1123,6 +1123,35 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property ImageID_Form As Integer
+        Get
+            Return 1
+        End Get
+    End Property
+
+    Public ReadOnly Property ImageID_GuiItem As Integer
+        Get
+            Return 2
+        End Get
+    End Property
+
+    Public ReadOnly Property ImageID_Caption As Integer
+        Get
+            Return 3
+        End Get
+    End Property
+
+    Public ReadOnly Property ImageID_ToolTip As Integer
+        Get
+            Return 4
+        End Get
+    End Property
+
+    Public ReadOnly Property IdOntology As String
+        Get
+            Return cstrID_Ontology
+        End Get
+    End Property
 
     Private Sub get_Config_AttributeTypes()
         Dim objOList_Attribute_Standard = (From objOItem In objDBLevel_Config1.OList_ObjectRel
