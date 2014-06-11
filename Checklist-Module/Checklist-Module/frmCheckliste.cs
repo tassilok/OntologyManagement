@@ -547,7 +547,7 @@ namespace Checklist_Module
                                             var ORel_LogEntry_To_LogRelated = objRelationConfig.Rel_ObjectRelation(objOItem_LogEntry, objFrmLogDialog.OItem_Related, objLocalConfig.OItem_relationtype_belongs_to);
                                             objOItem_Result = objTransaction.do_Transaction(ORel_LogEntry_To_LogRelated);
                                         }
-                                        if (objOItem_Result.GUID == objLocalConfig.OItem_object_success.GUID)
+                                        if (OItem_LogState.GUID == objLocalConfig.OItem_object_success.GUID)
                                         {
                                             objDataRow["ID_LogEntry_Success"] = objOItem_LogEntry.GUID;
                                             objDataRow["Name_LogEntry_Success"] = objOItem_LogEntry.Name;
@@ -597,6 +597,8 @@ namespace Checklist_Module
                                             objDataRow["Pause_Day"] = objFrmLogDialog.DateTimeStamp.Day;
                                             objDataRow["Pause_Week"] = GetCalendarweek(objFrmLogDialog.DateTimeStamp);
                                         }
+                                    
+                                        objUserControl_Report.Refresh_DataGridView();
                                     }
                                     else
                                     {

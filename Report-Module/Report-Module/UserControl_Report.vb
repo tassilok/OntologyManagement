@@ -864,6 +864,10 @@ Public Class UserControl_Report
         Refresh_CellActions()
     End Sub
 
+    public sub Refresh_DataGridView()
+        DataGridView_Reports.Refresh()
+    End Sub
+
     Private Sub Refresh_CellActions()
         Dim objDR_Report As DataRow
         Dim objOItem_Ref As clsOntologyItem
