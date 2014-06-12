@@ -27,6 +27,8 @@ Public Class UserControl_Report
     Private objLocalConfig_LogEntries As Log_Module.clsLocalConfig
     Private objLocalConfig_OfficeModule As Office_Module.clsLocalConfig
 
+    Private objClipBoardFilter as clsClipboardFilter
+
     Private objOntologyWork As clsOntologyWork
     Private objReport As Ontology_Module.clsReport
     Private objMediaItem As clsMediaItems
@@ -68,6 +70,8 @@ Public Class UserControl_Report
 
     Private objRelationConfig As clsRelationConfig
     Private objTransaction As clsTransaction
+
+    Private objClipBoardFilterType As clsOntologyItem = Nothing
 
     Private boolSynced As Boolean
 
@@ -534,6 +538,7 @@ Public Class UserControl_Report
         objSecurityWork = New clsSecurityWork(objLocalConfig.Globals, Me)
         objTransaction = New clsTransaction(objLocalConfig.Globals)
         objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
+        objClipBoardFilter = new clsClipboardFilter(objLocalConfig)
     End Sub
 
     Private Sub Timer_Sync_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Sync.Tick
@@ -1575,5 +1580,10 @@ Public Class UserControl_Report
         objDlgAttribute_String.TextReadonly = True
         objDlgAttribute_String.ShowDialog(Me)
         
+    End Sub
+
+    Private Sub ToolStripDropDownButton_Copy_Click( sender As Object,  e As EventArgs) Handles ToolStripDropDownButton_Copy.Click
+        Dim clipBoardText = objClipBoardFilter.CreateClipboardText(DataGridView_Reports,objClipBoardFilterType)
+        Clipboard.SetDataObject(clipBoardText)
     End Sub
 End Class
