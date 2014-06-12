@@ -503,7 +503,7 @@ Public Class UserControl_Report
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = LocalConfig
 
-        set_DBConnection()
+        Initialize()
     End Sub
 
     Public Sub New(Globals As clsGlobals, objOItem_User As clsOntologyItem, objOItem_Group As clsOntologyItem)
@@ -515,10 +515,10 @@ Public Class UserControl_Report
         objLocalConfig = New clsLocalConfig(Globals)
         objLocalConfig.User = objOItem_User
         objLocalConfig.Group = objOItem_Group
-        set_DBConnection()
+        Initialize()
     End Sub
 
-    Private Sub set_DBConnection()
+    Private Sub Initialize()
         objDBLevel_GraphML_Objects = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_GraphML_ObjAtt = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_GraphML_ObjRel = New clsDBLevel(objLocalConfig.Globals)
@@ -538,7 +538,38 @@ Public Class UserControl_Report
         objSecurityWork = New clsSecurityWork(objLocalConfig.Globals, Me)
         objTransaction = New clsTransaction(objLocalConfig.Globals)
         objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
-        objClipBoardFilter = new clsClipboardFilter(objLocalConfig)
+
+
+        Dim objOItem_Result = objDataWork_Report.GetData_ClipboardFilterTags()
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            MsgBox("Die Basisdaten der Blipboardfilter konnte nicht ermittelt werden!", MsgBoxStyle.Critical)
+            Environment.Exit(-1)
+        End If
+
+        objClipBoardFilter = New clsClipboardFilter(objLocalConfig, objDataWork_Report)
+        ConfigureClipboardButton()
+    End Sub
+
+    Private Sub ConfigureClipboardButton()
+        ToolStripDropDownButton_Copy.Enabled = False
+        ToolStripDropDownButton_Copy.DropDownItems.Clear()
+        Dim boolCheck As Boolean = True
+
+        If objDataWork_Report.ClipboardFilterList.Any() Then
+            ToolStripDropDownButton_Copy.Enabled = True
+            objDataWork_Report.ClipboardFilterList.OrderBy(Function(cf) cf.Name).ToList().ForEach(Sub(cf)
+                                                                                                      Dim objTooltripMenuItem = New ToolStripMenuItem(cf.Name)
+                                                                                                      If boolCheck Then
+                                                                                                          objTooltripMenuItem.Checked = True
+                                                                                                          boolCheck = False
+                                                                                                      End If
+                                                                                                      AddHandler objTooltripMenuItem.Click, AddressOf MenuItem_Click
+                                                                                                      ToolStripDropDownButton_Copy.DropDownItems.Add(objTooltripMenuItem)
+
+                                                                                                  End Sub)
+
+        End If
     End Sub
 
     Private Sub Timer_Sync_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_Sync.Tick
@@ -1582,8 +1613,30 @@ Public Class UserControl_Report
         
     End Sub
 
-    Private Sub ToolStripDropDownButton_Copy_Click( sender As Object,  e As EventArgs) Handles ToolStripDropDownButton_Copy.Click
-        Dim clipBoardText = objClipBoardFilter.CreateClipboardText(DataGridView_Reports,objClipBoardFilterType)
+    Private Sub ToolStripDropDownButton_Copy_Click(sender As Object, e As EventArgs) Handles ToolStripDropDownButton_Copy.Click
+
+        Dim ToolStripMenuItems = ToolStripDropDownButton_Copy.DropDownItems.Cast(Of ToolStripMenuItem).Where(Function(mi) mi.Checked).ToList()
+
+        Dim FilterItems = (From objFilterItem In objDataWork_Report.ClipBoardFilterTags
+                           Join toolStripMenuItem In ToolStripMenuItems On objFilterItem.Name_FilterItem Equals toolStripMenuItem.Text
+                           Select objFilterItem).ToList()
+
+        Dim clipBoardText = objClipBoardFilter.CreateClipboardText(DataGridView_Reports, FilterItems)
         Clipboard.SetDataObject(clipBoardText)
     End Sub
+
+    Private Sub MenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
+        Dim toolStripMenuItem = CType(sender, ToolStripMenuItem)
+
+        If toolStripMenuItem.Checked = False Then
+            For Each subMenuItem As ToolStripMenuItem In ToolStripDropDownButton_Copy.DropDownItems
+                If Not subMenuItem.Text = toolStripMenuItem.Text Then
+                    subMenuItem.Checked = False
+                End If
+            Next
+
+            toolStripMenuItem.Checked = True
+        End If
+    End Sub
+
 End Class

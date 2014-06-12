@@ -10,7 +10,6 @@ Public Class clsLocalConfig
     Private objGlobals As clsGlobals
 
     Private objOItem_DevConfig As New clsOntologyItem
-    Private objOItem_BaseConfig As New clsOntologyItem
     Private objOItem_Ontology As clsOntologyItem
     Private objOList_Ontologyitems As List(Of clsOntologyItemsOfOntologies)
     Private objDataWork_Ontologies As clsDataWork_Ontologies
@@ -27,7 +26,7 @@ Public Class clsLocalConfig
     Private objOItem_Attribute_XML_Text As New clsOntologyItem
     Private objOItem_Attribute_Row_Header As New clsOntologyItem
     Private objOItem_Attribute_visible As New clsOntologyItem
-
+    Private objOItem_attributetype_nextline As clsOntologyItem
 
     'RelationTypes
     Private objOItem_RelationType_belongsTo As New clsOntologyItem
@@ -45,9 +44,14 @@ Public Class clsLocalConfig
     Private objOItem_RelationType_belonging_Resources As New clsOntologyItem
     Private objOItem_RelationType_belonging_Source As New clsOntologyItem
     Private objOItem_RelationType_belonging As New clsOntologyItem
+    Private objOItem_relationtype_table_tags As clsOntologyItem
+    Private objOItem_relationtype_row_tags As clsOntologyItem
+    Private objOItem_relationtype_header_tags As clsOntologyItem
+    Private objOItem_relationtype_cell_tags As clsOntologyItem
+    Private objOItem_relationtype_bold_tags As clsOntologyItem
 
-    
     'Token
+    Private objOItem_object_baseconfig As clsOntologyItem
     Private objOItem_Object_Report_Type_View As New clsOntologyItem
     Private objOItem_Object_Report_Type_Token_Report As New clsOntologyItem
     Private objOItem_Object_Field_Type_Text As New clsOntologyItem
@@ -77,6 +81,8 @@ Public Class clsLocalConfig
     Private objOItem_Object_Ontology_Relation_Rule_Child_Token As New clsOntologyItem
 
     'Types
+    Private objOItem_class_clipboardfilter_tags As clsOntologyItem
+    Private objOItem_class_clipboardfilter As clsOntologyItem
     Private objOItem_Class_Database As New clsOntologyItem
     Private objOItem_Class_Database_on_Server As New clsOntologyItem
     Private objOItem_Class_DB_Procedure As New clsOntologyItem
@@ -160,6 +166,12 @@ Public Class clsLocalConfig
     End Property
     
     'Attributes
+    Public ReadOnly Property OItem_attributetype_nextline As clsOntologyItem
+        Get
+            Return objOItem_attributetype_nextline
+        End Get
+    End Property
+
     Public ReadOnly Property OItem_Attribute_ASC() As clsOntologyItem
         Get
             Return objOItem_Attribute_ASC
@@ -204,6 +216,36 @@ Public Class clsLocalConfig
 
 
     'RelationTypes
+    Public ReadOnly Property OItem_relationtype_table_tags As clsOntologyItem
+        Get
+            Return objOItem_relationtype_table_tags
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_relationtype_row_tags As clsOntologyItem
+        Get
+            Return objOItem_relationtype_row_tags
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_relationtype_header_tags As clsOntologyItem
+        Get
+            Return objOItem_relationtype_header_tags
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_relationtype_cell_tags As clsOntologyItem
+        Get
+            Return objOItem_relationtype_cell_tags
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_relationtype_bold_tags As clsOntologyItem
+        Get
+            Return objOItem_relationtype_bold_tags
+        End Get
+    End Property
+
     Public ReadOnly Property OItem_RelationType_belongsTo() As clsOntologyItem
         Get
             Return objOItem_RelationType_belongsTo
@@ -295,6 +337,12 @@ Public Class clsLocalConfig
 
 
     'Token
+    Public ReadOnly Property OItem_object_baseconfig As clsOntologyItem
+        Get
+            Return objOItem_object_baseconfig
+        End Get
+    End Property
+
     Public ReadOnly Property OItem_Object_Field_Type_DateTime() As clsOntologyItem
         Get
             Return objOItem_Object_Field_Type_DateTime
@@ -458,6 +506,18 @@ Public Class clsLocalConfig
     End Property
 
     'Types
+    Public ReadOnly Property OItem_class_clipboardfilter_tags As clsOntologyItem
+        Get
+            Return objOItem_class_clipboardfilter_tags
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_class_clipboardfilter As clsOntologyItem
+        Get
+            Return objOItem_class_clipboardfilter
+        End Get
+    End Property
+
     Public ReadOnly Property OItem_Class_Comparison_Operators() As clsOntologyItem
         Get
             Return objOItem_Class_Comparison_Operators
@@ -632,12 +692,6 @@ Public Class clsLocalConfig
     End Property
 
 
-    Public ReadOnly Property OItem_BaseConfig As clsOntologyItem
-        Get
-            Return objOItem_BaseConfig
-        End Get
-    End Property
-
     Public ReadOnly Property Globals As clsGlobals
         Get
             Return objGlobals
@@ -678,6 +732,22 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_AttributeTypes()
+        Dim objOList_attributetype_nextline = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "attributetype_nextline".ToLower() And objRef.Ontology = objGlobals.Type_AttributeType
+                                           Select objRef).ToList()
+
+        If objOList_attributetype_nextline.Count > 0 Then
+            objOItem_attributetype_nextline = New clsOntologyItem
+            objOItem_attributetype_nextline.GUID = objOList_attributetype_nextline.First().ID_Other
+            objOItem_attributetype_nextline.Name = objOList_attributetype_nextline.First().Name_Other
+            objOItem_attributetype_nextline.GUID_Parent = objOList_attributetype_nextline.First().ID_Parent_Other
+            objOItem_attributetype_nextline.Type = objGlobals.Type_AttributeType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objAVisible = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
@@ -807,7 +877,85 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_RelationTypes()
+        Dim objOList_relationtype_table_tags = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_table_tags".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                           Select objRef).ToList()
 
+        If objOList_relationtype_table_tags.Count > 0 Then
+            objOItem_relationtype_table_tags = New clsOntologyItem
+            objOItem_relationtype_table_tags.GUID = objOList_relationtype_table_tags.First().ID_Other
+            objOItem_relationtype_table_tags.Name = objOList_relationtype_table_tags.First().Name_Other
+            objOItem_relationtype_table_tags.GUID_Parent = objOList_relationtype_table_tags.First().ID_Parent_Other
+            objOItem_relationtype_table_tags.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_relationtype_row_tags = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                                   Where objOItem.ID_Object = cstrID_Ontology
+                                                   Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                                   Where objRef.Name_Object.ToLower() = "relationtype_row_tags".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                                   Select objRef).ToList()
+
+        If objOList_relationtype_row_tags.Count > 0 Then
+            objOItem_relationtype_row_tags = New clsOntologyItem
+            objOItem_relationtype_row_tags.GUID = objOList_relationtype_row_tags.First().ID_Other
+            objOItem_relationtype_row_tags.Name = objOList_relationtype_row_tags.First().Name_Other
+            objOItem_relationtype_row_tags.GUID_Parent = objOList_relationtype_row_tags.First().ID_Parent_Other
+            objOItem_relationtype_row_tags.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_relationtype_header_tags = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                                   Where objOItem.ID_Object = cstrID_Ontology
+                                                   Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                                   Where objRef.Name_Object.ToLower() = "relationtype_header_tags".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                                   Select objRef).ToList()
+
+        If objOList_relationtype_header_tags.Count > 0 Then
+            objOItem_relationtype_header_tags = New clsOntologyItem
+            objOItem_relationtype_header_tags.GUID = objOList_relationtype_header_tags.First().ID_Other
+            objOItem_relationtype_header_tags.Name = objOList_relationtype_header_tags.First().Name_Other
+            objOItem_relationtype_header_tags.GUID_Parent = objOList_relationtype_header_tags.First().ID_Parent_Other
+            objOItem_relationtype_header_tags.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_relationtype_cell_tags = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                                   Where objOItem.ID_Object = cstrID_Ontology
+                                                   Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                                   Where objRef.Name_Object.ToLower() = "relationtype_cell_tags".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                                   Select objRef).ToList()
+
+        If objOList_relationtype_cell_tags.Count > 0 Then
+            objOItem_relationtype_cell_tags = New clsOntologyItem
+            objOItem_relationtype_cell_tags.GUID = objOList_relationtype_cell_tags.First().ID_Other
+            objOItem_relationtype_cell_tags.Name = objOList_relationtype_cell_tags.First().Name_Other
+            objOItem_relationtype_cell_tags.GUID_Parent = objOList_relationtype_cell_tags.First().ID_Parent_Other
+            objOItem_relationtype_cell_tags.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_relationtype_bold_tags = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                                   Where objOItem.ID_Object = cstrID_Ontology
+                                                   Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                                   Where objRef.Name_Object.ToLower() = "relationtype_bold_tags".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                                   Select objRef).ToList()
+
+        If objOList_relationtype_bold_tags.Count > 0 Then
+            objOItem_relationtype_bold_tags = New clsOntologyItem
+            objOItem_relationtype_bold_tags.GUID = objOList_relationtype_bold_tags.First().ID_Other
+            objOItem_relationtype_bold_tags.Name = objOList_relationtype_bold_tags.First().Name_Other
+            objOItem_relationtype_bold_tags.GUID_Parent = objOList_relationtype_bold_tags.First().ID_Parent_Other
+            objOItem_relationtype_bold_tags.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
 
         Dim objTBLCfg = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
@@ -1036,7 +1184,37 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Classes()
+        Dim objOList_class_clipboardfilter_tags = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "class_clipboardfilter_tags".ToLower() And objRef.Ontology = objGlobals.Type_Class
+                                           Select objRef).ToList()
 
+        If objOList_class_clipboardfilter_tags.Count > 0 Then
+            objOItem_class_clipboardfilter_tags = New clsOntologyItem
+            objOItem_class_clipboardfilter_tags.GUID = objOList_class_clipboardfilter_tags.First().ID_Other
+            objOItem_class_clipboardfilter_tags.Name = objOList_class_clipboardfilter_tags.First().Name_Other
+            objOItem_class_clipboardfilter_tags.GUID_Parent = objOList_class_clipboardfilter_tags.First().ID_Parent_Other
+            objOItem_class_clipboardfilter_tags.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_class_clipboardfilter = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "class_clipboardfilter".ToLower() And objRef.Ontology = objGlobals.Type_Class
+                                           Select objRef).ToList()
+
+        If objOList_class_clipboardfilter.Count > 0 Then
+            objOItem_class_clipboardfilter = New clsOntologyItem
+            objOItem_class_clipboardfilter.GUID = objOList_class_clipboardfilter.First().ID_Other
+            objOItem_class_clipboardfilter.Name = objOList_class_clipboardfilter.First().Name_Other
+            objOItem_class_clipboardfilter.GUID_Parent = objOList_class_clipboardfilter.First().ID_Parent_Other
+            objOItem_class_clipboardfilter.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
 
 
         Dim objDTMS = (From objOItem In objDBLevel_Config1.OList_ObjectRel
@@ -1506,7 +1684,21 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Objects()
+        Dim objOList_object_baseconfig = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "object_baseconfig".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                           Select objRef).ToList()
 
+        If objOList_object_baseconfig.Count > 0 Then
+            objOItem_object_baseconfig = New clsOntologyItem
+            objOItem_object_baseconfig.GUID = objOList_object_baseconfig.First().ID_Other
+            objOItem_object_baseconfig.Name = objOList_object_baseconfig.First().Name_Other
+            objOItem_object_baseconfig.GUID_Parent = objOList_object_baseconfig.First().ID_Parent_Other
+            objOItem_object_baseconfig.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
 
         Dim objDT = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology

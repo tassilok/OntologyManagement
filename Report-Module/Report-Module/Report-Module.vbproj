@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsClipboardFilter.vb" />
+    <Compile Include="clsClipboardFilterItem.vb" />
     <Compile Include="clsDataWork_Report.vb" />
     <Compile Include="clsDataWork_ReportFields.vb" />
     <Compile Include="clsDataWork_ReportTree.vb" />
