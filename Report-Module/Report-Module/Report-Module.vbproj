@@ -107,6 +107,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsClipboardFilter.vb" />
     <Compile Include="clsDataWork_Report.vb" />
     <Compile Include="clsDataWork_ReportFields.vb" />
     <Compile Include="clsDataWork_ReportTree.vb" />
