@@ -289,6 +289,10 @@
       <Project>{57da143a-8bcb-4a88-9d27-e436613e1a66}</Project>
       <Name>Structure-Module</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\TextParser\TextParser\TextParser.csproj">
+      <Project>{24685e6b-0e58-4333-9557-4872943a8715}</Project>
+      <Name>TextParser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Version-Module\Version-Module\Version-Module.csproj">
       <Project>{2c81fa5b-9d19-4600-8f52-fcdec5fc8df4}</Project>
       <Name>Version-Module</Name>

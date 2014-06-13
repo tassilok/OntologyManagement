@@ -18,6 +18,8 @@ Public Class UserControl_OntologyConfig
 
     Private objTransaction_Version As clsTransaction_Version
 
+    Private boolSaveVersionFile As Boolean
+
     Private sub LoadedData() Handles objUserControl_OntologyItems.DataLoaded
         If objUserControl_OntologyItems.Rows.Count > 0 Then
             ToolStripButton_View.Enabled = True
@@ -35,9 +37,10 @@ Public Class UserControl_OntologyConfig
         initialize()
     End Sub
 
-    public sub initialize_OntologyConfig(OItem_Development As clsOntologyItem)
+    Public Sub initialize_OntologyConfig(OItem_Development As clsOntologyItem, boolSaveVersionFile As Boolean)
         objOItem_Development = OItem_Development
 
+        Me.boolSaveVersionFile = boolSaveVersionFile
         If Not objOItem_Development Is Nothing Then
             objTransaction_Version = New clsTransaction_Version(objLocalConfig, Me, objOItem_Development)
             Dim objOItem_Result = objDataWork_OntologyConfig.GetData(objOItem_Development)
@@ -50,7 +53,7 @@ Public Class UserControl_OntologyConfig
         Else
             ClearControls()
         End If
-        
+
     End Sub
 
     Private sub ClearControls()
@@ -87,7 +90,7 @@ Public Class UserControl_OntologyConfig
         Dim objMoveConfigItemsToOntologies As New clsMoveConfigItemsToOntologies(objLocalConfig, objDataWork_OntologyConfigOld)
         Dim objOItem_Result = objMoveConfigItemsToOntologies.CopyOntologyItems(objOItem_Development)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            initialize_OntologyConfig(objOItem_Development)
+            initialize_OntologyConfig(objOItem_Development, boolSaveVersionFile)
         Else
             MsgBox("Die Ontology konnte nicht erzeugt werden!")
         End If
@@ -140,10 +143,11 @@ Public Class UserControl_OntologyConfig
             End If
 
             If intDone > 0 Then
-                objTransaction_Version.SaveVersion()
+
+                objTransaction_Version.SaveVersion(boolSaveVersionFile)
             End If
 
-            initialize_OntologyConfig(objOItem_Development)
+            initialize_OntologyConfig(objOItem_Development, boolSaveVersionFile)
         End If
     End Sub
 

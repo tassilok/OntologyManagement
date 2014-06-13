@@ -4,6 +4,7 @@ SET PROJECTFILE=%3
 SET VERSION=%4
 SET DEBUG=%5
 SET RELEASE=%6
+SET UPLOAD=%7
 
 IF NOT [%RELEASE%] EQU [1] Goto Debug
 mkdir "%TEMP%\OntologyManamgent\%PROJECTFOLDER%"
@@ -27,11 +28,13 @@ echo #!/bin/bash>%TEMP%\Sourceforge.sh
 
 if /i [%PROJECTFOLDER%] EQU [Ontolog-Module] GOTO ONTOLOGYMANAGER
 :MODULE
+IF /i [%UPLOAD%] EQU [0] Goto Ende
 cmd /c "C:\cygwin64\bin\scp.exe \Users\tassilok\AppData\Local\Temp\OntologyManamgent\%PROJECTFOLDER%_%VERSION%.exe tassilok,ontologymanager@web.sourceforge.net:/home/frs/project/ontologymanager/Modules/%PROJECTFOLDER%/%PROJECTFOLDER%_%VERSION%.exe"
 cmd /c "exit /b 0"
 GOTO Ende
 
 :ONTOLOGYMANAGER
+IF /i [%UPLOAD%] EQU [0] Goto Ende
 cmd /c "C:\cygwin64\bin\scp.exe \Users\tassilok\AppData\Local\Temp\OntologyManamgent\%PROJECTFOLDER%_%VERSION%.exe tassilok,ontologymanager@web.sourceforge.net:/home/frs/project/ontologymanager/OntologyManager/%PROJECTFOLDER%_%VERSION%.exe"
 cmd /c "exit /b 0"
 GOTO Ende

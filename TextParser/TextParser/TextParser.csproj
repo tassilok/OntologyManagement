@@ -50,11 +50,12 @@
     <Compile Include="clsDataWork_BaseData.cs" />
     <Compile Include="clsDataWork_FieldParser.cs" />
     <Compile Include="clsDataWork_Import.cs" />
+    <Compile Include="clsFieldParser.cs" />
     <Compile Include="clsImport_IndexData.cs" />
     <Compile Include="clsDatawork_RegExFilter.cs" />
     <Compile Include="clsDataWork_TextParser.cs" />
     <Compile Include="clsField.cs" />
-    <Compile Include="clsFieldParser.cs" />
+    <Compile Include="clsFieldParserOfTextParser.cs" />
     <Compile Include="clsFileMeta.cs" />
     <Compile Include="clsFoundItem.cs" />
     <Compile Include="clsLocalConfig.cs" />

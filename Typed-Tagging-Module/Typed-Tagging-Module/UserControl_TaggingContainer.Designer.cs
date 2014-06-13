@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControl_TaggingContainer));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_AddTypedTag = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton_Edit = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -70,10 +73,12 @@
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton_AddTypedTag});
+            this.toolStripButton_AddTypedTag,
+            this.toolStripSeparator1,
+            this.toolStripButton_Edit});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(79, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(126, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButton_AddTypedTag
@@ -84,6 +89,21 @@
             this.toolStripButton_AddTypedTag.Size = new System.Drawing.Size(36, 22);
             this.toolStripButton_AddTypedTag.Text = "...";
             this.toolStripButton_AddTypedTag.Click += new System.EventHandler(this.toolStripButton_AddTypedTag_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton_Edit
+            // 
+            this.toolStripButton_Edit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Edit.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Edit.Image")));
+            this.toolStripButton_Edit.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Edit.Name = "toolStripButton_Edit";
+            this.toolStripButton_Edit.Size = new System.Drawing.Size(41, 22);
+            this.toolStripButton_Edit.Text = "x_Edit";
+            this.toolStripButton_Edit.Click += new System.EventHandler(this.toolStripButton_Edit_Click);
             // 
             // UserControl_TaggingContainer
             // 
@@ -109,5 +129,7 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton_AddTypedTag;
         private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton toolStripButton_Edit;
     }
 }

@@ -13,6 +13,7 @@ Public Class clsDataWork_Details
     Private objDBLevel_Version As clsDBLevel
     Private objDBLevel_Languages As clsDBLevel
     Private objDBLevel_NeededDev As clsDBLevel
+    Private objDBLevel_VersionSubPath As clsDBLevel
 
     Public Property OItem_Result_Creator As clsOntologyItem
     Public Property OItem_Result_Folder As clsOntologyItem
@@ -22,6 +23,7 @@ Public Class clsDataWork_Details
     Public Property OItem_Result_Version As clsOntologyItem
     Public Property OItem_Result_Languages As clsOntologyItem
     Public Property OItem_Result_ProjectFile As clsOntologyItem
+    Public Property OItem_Result_SubVersionPath As clsOntologyItem
 
     Private objUserControl_Languages As UserControl_OItemList
 
@@ -44,6 +46,8 @@ Public Class clsDataWork_Details
 
     Public Property OList_Languages() As List(Of clsOntologyItem)
 
+    Public Property OItem_VersionSubPath As clsOntologyItem
+
 
     Public Property OItem_StandardLanguage() As clsOntologyItem
 
@@ -64,7 +68,13 @@ Public Class clsDataWork_Details
                                 GetData_StandardLanguage()
                                 If OItem_Result_StandardLanguage.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                     GetData_Languages()
-                                    Return OItem_Result_Languages
+                                    If OItem_Result_Languages.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        GetData_SubVersionPath()
+                                        Return OItem_Result_SubVersionPath
+                                    Else
+                                        Return OItem_Result_Languages
+                                    End If
+                                    
                                 Else
                                     Return OItem_Result_StandardLanguage
 
@@ -117,7 +127,77 @@ Public Class clsDataWork_Details
         OItem_Result_Creator = objOItem_Result
     End Sub
 
-    Private Sub GetData_Folder()
+    Public Function GetData_VersionFilePath(OItem_Dev As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
+
+        Dim search_DevPath = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Object = OItem_Dev.GUID,
+                                                                                     .ID_RelationType = objLocalConfig.Oitem_RelationType_SourcesLocatedIn.GUID,
+                                                                                     .ID_Parent_Other = objLocalConfig.OItem_Class_Folder.GUID}}
+
+        objOItem_Result = objDBLevel_Folder.get_Data_ObjectRel(search_DevPath, boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+            Dim search_SubVersionPath = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Object = OItem_Dev.GUID,
+                                                                                                .ID_RelationType = objLocalConfig.OItem_relationtype_subpath_versionfile.GUID,
+                                                                                                .ID_Parent_Other = objLocalConfig.OItem_class_path.GUID}}
+
+            objOItem_Result = objDBLevel_VersionSubPath.get_Data_ObjectRel(search_SubVersionPath, boolIDs:=False)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                If objDBLevel_Folder.OList_ObjectRel.Any() And objDBLevel_VersionSubPath.OList_ObjectRel.Any() Then
+                    Dim objOItem_Folder = objDBLevel_Folder.OList_ObjectRel.Select(Function(f) New clsOntologyItem With {.GUID = f.ID_Other,
+                                                                                                                         .Name = f.Name_Other,
+                                                                                                                         .GUID_Parent = f.ID_Parent_Other,
+                                                                                                                         .Type = objLocalConfig.Globals.Type_Object}).First()
+
+                    objOItem_Result.Additional1 = objFileWork.get_Path_FileSystemObject(objOItem_Folder, False)
+
+                    If System.IO.Directory.Exists(objOItem_Result.Additional1) Then
+                        objOItem_Result.Additional1 = If(objDBLevel_VersionSubPath.OList_ObjectRel.First().Name_Other.StartsWith("\") Or objOItem_Result.Additional1.EndsWith("\"), objOItem_Result.Additional1 & objDBLevel_VersionSubPath.OList_ObjectRel.First().Name_Other, objOItem_Result.Additional1 & "\" & objDBLevel_VersionSubPath.OList_ObjectRel.First().Name_Other)
+                    Else
+                        objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
+                    End If
+                Else
+                    objOItem_Result = objLocalConfig.Globals.LState_Nothing.Clone()
+                End If
+
+            End If
+        End If
+
+        Return objOItem_Result
+    End Function
+
+    Public Sub GetData_SubVersionPath()
+        OItem_Result_SubVersionPath = objLocalConfig.Globals.LState_Nothing.Clone()
+
+        OItem_VersionSubPath = Nothing
+
+        Dim search_SubVersionPath = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Object = OItem_Development.GUID,
+                                                                                            .ID_RelationType = objLocalConfig.OItem_relationtype_subpath_versionfile.GUID,
+                                                                                            .ID_Parent_Other = objLocalConfig.OItem_class_path.GUID}}
+
+        Dim objOItem_Result = objDBLevel_VersionSubPath.get_Data_ObjectRel(search_SubVersionPath, boolIDs:=False)
+
+        OItem_VersionSubPath = Nothing
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_VersionSubPath.OList_ObjectRel.Any() Then
+                OItem_VersionSubPath = objDBLevel_VersionSubPath.OList_ObjectRel.Select(Function(vp) New clsOntologyItem With {.GUID = vp.ID_Other,
+                                                                                                                               .Name = vp.Name_Other,
+                                                                                                                               .GUID_Parent = vp.ID_Parent_Other,
+                                                                                                                               .Type = objLocalConfig.Globals.Type_Object}).First()
+
+            End If
+        End If
+
+        OItem_VersionSubPath = Nothing
+
+        OItem_Result_SubVersionPath = objOItem_Result
+
+    End Sub
+
+    Public Sub GetData_Folder()
         OItem_Result_Folder = objLocalConfig.Globals.LState_Nothing.Clone()
 
         OItem_Folder = Nothing
@@ -390,6 +470,7 @@ Public Class clsDataWork_Details
         objDBLevel_Languages = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_File = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_NeededDev = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_VersionSubPath = New clsDBLevel(objLocalConfig.Globals)
 
         OItem_Result_Creator = objLocalConfig.Globals.LState_Nothing.Clone()
         OItem_Result_Folder = objLocalConfig.Globals.LState_Nothing.Clone()
@@ -399,6 +480,7 @@ Public Class clsDataWork_Details
         OItem_Result_Version = objLocalConfig.Globals.LState_Nothing.Clone()
         OItem_Result_Languages = objLocalConfig.Globals.LState_Nothing.Clone()
         OItem_Result_ProjectFile = objLocalConfig.Globals.LState_Nothing.Clone()
+        OItem_Result_SubVersionPath = objLocalConfig.Globals.LState_Nothing.Clone()
 
         objFileWork = New clsFileWork(objLocalConfig.Globals)
     End Sub

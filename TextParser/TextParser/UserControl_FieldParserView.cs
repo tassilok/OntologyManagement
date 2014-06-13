@@ -38,7 +38,7 @@ namespace TextParser
 
         private clsDBLevel objDBLevel_Indexes;
 
-        private clsFieldParser objFieldParser;
+        private clsFieldParserOfTextParser objFieldParser;
 
         private SortableBindingList<clsField> fieldList;
 
@@ -365,7 +365,7 @@ namespace TextParser
             if (fieldList.Any())
             {
                 
-                objFieldParser = new clsFieldParser(objLocalConfig,fieldList.ToList(),objOItem_TextParser, objDataWork_TextParser.OITem_Type);
+                objFieldParser = new clsFieldParserOfTextParser(objLocalConfig,fieldList.ToList(),objOItem_TextParser, objDataWork_TextParser.OITem_Type);
                 objFieldParser.OList_Seperator = objDataWork_TextParser.OList_LineSeperator.Select(s => new clsOntologyItem
                 {
                     GUID = s.GUID,

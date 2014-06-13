@@ -24,6 +24,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Log-Module", "..\Log-Module
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ClassLibrary_ShellWork", "..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\ClassLibrary_ShellWork.vbproj", "{10BCC346-A390-401C-BA6A-904A8842A40B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextParser", "..\TextParser\TextParser\TextParser.csproj", "{24685E6B-0E58-4333-9557-4872943A8715}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -134,6 +136,16 @@ Global
 		{10BCC346-A390-401C-BA6A-904A8842A40B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{10BCC346-A390-401C-BA6A-904A8842A40B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{10BCC346-A390-401C-BA6A-904A8842A40B}.Release|x86.ActiveCfg = Release|Any CPU
+		{24685E6B-0E58-4333-9557-4872943A8715}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24685E6B-0E58-4333-9557-4872943A8715}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24685E6B-0E58-4333-9557-4872943A8715}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{24685E6B-0E58-4333-9557-4872943A8715}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{24685E6B-0E58-4333-9557-4872943A8715}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{24685E6B-0E58-4333-9557-4872943A8715}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24685E6B-0E58-4333-9557-4872943A8715}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24685E6B-0E58-4333-9557-4872943A8715}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{24685E6B-0E58-4333-9557-4872943A8715}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{24685E6B-0E58-4333-9557-4872943A8715}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

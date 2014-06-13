@@ -33,6 +33,7 @@ Public Class clsLocalConfig
     Private objOItem_attributetype_standard As New clsOntologyItem
 
     'RelationTypes
+    Private objOItem_relationtype_subpath_versionfile As clsOntologyItem
     Private objOItem_RelationType_belongsTo As New clsOntologyItem
     Private objOItem_RelationType_offered_by As New clsOntologyItem
     Private objOItem_RelationType_isInState As New clsOntologyItem
@@ -82,6 +83,7 @@ Public Class clsLocalConfig
     Private objOItem_relationtype_project_file As clsOntologyItem
 
     'Classes
+    Private objOItem_class_path As clsOntologyItem
     Private objOItem_class_software_project As clsOntologyItem
     Private objOItem_Class_SoftwareDevelopment As New clsOntologyItem
     Private objOItem_Class_DevelopmentVersion As New clsOntologyItem
@@ -130,6 +132,8 @@ Public Class clsLocalConfig
     Private objOItem_class_xml As clsOntologyItem
 
     'Objects
+    Private objOItem_object_version As clsOntologyItem
+    Private objOItem_object_visual_studio_version_parser As clsOntologyItem
     Private objOitem_Object_LogState_Active As New clsOntologyItem
     Private objOitem_Object_LogState_Inactive As New clsOntologyItem
     Private objOitem_Object_LogState_Open As New clsOntologyItem
@@ -248,6 +252,12 @@ Public Class clsLocalConfig
     End Property
 
     'RelationTypes
+    Public ReadOnly Property OItem_relationtype_subpath_versionfile As clsOntologyItem
+        Get
+            Return objOItem_relationtype_subpath_versionfile
+        End Get
+    End Property
+
     Public ReadOnly Property OItem_relationtype_project_file As clsOntologyItem
         Get
             Return objOItem_relationtype_project_file
@@ -532,6 +542,12 @@ Public Class clsLocalConfig
     End Property
 
     'Classes
+    Public ReadOnly Property OItem_class_path As clsOntologyItem
+        Get
+            Return objOItem_class_path
+        End Get
+    End Property
+
     Public ReadOnly Property OItem_class_software_project As clsOntologyItem
         Get
             Return objOItem_class_software_project
@@ -810,6 +826,18 @@ Public Class clsLocalConfig
 
 
     'Objects
+    Public ReadOnly Property OItem_object_version As clsOntologyItem
+        Get
+            Return objOItem_object_version
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_object_visual_studio_version_parser As clsOntologyItem
+        Get
+            Return objOItem_object_visual_studio_version_parser
+        End Get
+    End Property
+
     Public ReadOnly Property Oitem_Object_clsLocalConfig_xml_XML As clsOntologyItem
         Get
             Return objOitem_Object_clsLocalConfig_xml_XML
@@ -1333,6 +1361,22 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Classes()
+        Dim objOList_class_path = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "class_path".ToLower() And objRef.Ontology = objGlobals.Type_Class
+                                           Select objRef).ToList()
+
+        If objOList_class_path.Count > 0 Then
+            objOItem_class_path = New clsOntologyItem
+            objOItem_class_path.GUID = objOList_class_path.First().ID_Other
+            objOItem_class_path.Name = objOList_class_path.First().Name_Other
+            objOItem_class_path.GUID_Parent = objOList_class_path.First().ID_Parent_Other
+            objOItem_class_path.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_class_software_project = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
@@ -2072,6 +2116,21 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_RelationTypes()
+        Dim objOList_relationtype_subpath_versionfile = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_subpath_versionfile".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                           Select objRef).ToList()
+
+        If objOList_relationtype_subpath_versionfile.Count > 0 Then
+            objOItem_relationtype_subpath_versionfile = New clsOntologyItem
+            objOItem_relationtype_subpath_versionfile.GUID = objOList_relationtype_subpath_versionfile.First().ID_Other
+            objOItem_relationtype_subpath_versionfile.Name = objOList_relationtype_subpath_versionfile.First().Name_Other
+            objOItem_relationtype_subpath_versionfile.GUID_Parent = objOList_relationtype_subpath_versionfile.First().ID_Parent_Other
+            objOItem_relationtype_subpath_versionfile.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
 
         Dim objOList_relationtype_project_file = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
@@ -2783,6 +2842,37 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Objects()
+        Dim objOList_object_version = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "object_version".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                           Select objRef).ToList()
+
+        If objOList_object_version.Count > 0 Then
+            objOItem_object_version = New clsOntologyItem
+            objOItem_object_version.GUID = objOList_object_version.First().ID_Other
+            objOItem_object_version.Name = objOList_object_version.First().Name_Other
+            objOItem_object_version.GUID_Parent = objOList_object_version.First().ID_Parent_Other
+            objOItem_object_version.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
+        Dim objOList_object_visual_studio_version_parser = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "object_visual_studio_version_parser".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                           Select objRef).ToList()
+
+        If objOList_object_visual_studio_version_parser.Count > 0 Then
+            objOItem_object_visual_studio_version_parser = New clsOntologyItem
+            objOItem_object_visual_studio_version_parser.GUID = objOList_object_visual_studio_version_parser.First().ID_Other
+            objOItem_object_visual_studio_version_parser.Name = objOList_object_visual_studio_version_parser.First().Name_Other
+            objOItem_object_visual_studio_version_parser.GUID_Parent = objOList_object_visual_studio_version_parser.First().ID_Parent_Other
+            objOItem_object_visual_studio_version_parser.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
 
         Dim objOList_VB_Net = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology

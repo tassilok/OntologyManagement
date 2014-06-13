@@ -25,6 +25,7 @@ namespace Typed_Tagging_Module
         private List<clsTabControl> TabControlList = new List<clsTabControl>();
 
         private frmMain objFrmOntologyEditor;
+        private frm_ObjectEdit objFrmObjectEdit;
 
         public clsOntologyItem OItem_TaggingSource
         {
@@ -190,6 +191,15 @@ namespace Typed_Tagging_Module
                     MessageBox.Show(this, "Bitte nur eine Klasse auswählen!", "Eine Klasse.", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+        }
+
+        private void toolStripButton_Edit_Click(object sender, EventArgs e)
+        {
+
+
+            objFrmObjectEdit = new frm_ObjectEdit(objLocalConfig.Globals, new List<clsOntologyItem> { objOItem_TaggingSource }, 0, objLocalConfig.Globals.Type_Object, null);
+            objFrmObjectEdit.ShowDialog(this);
+
         }
 
     

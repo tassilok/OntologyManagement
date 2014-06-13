@@ -114,139 +114,270 @@ namespace TextParser
         {
             var objOFieldList = new List<clsOntologyItem>
                 {
-                    new clsOntologyItem {GUID_Parent = objLocalConfig.OItem_class_field.GUID}
+                    new clsOntologyItem 
+                    {
+                        GUID_Parent = objLocalConfig.OItem_class_field.GUID
+                    }
                 };
 
-            var objORel_FieldParser_To_Field = new List<clsObjectRel>
+            var objOItem_Result = objDBLevel_Fields.get_Data_Objects(objOFieldList);
+
+            List<clsObjectRel> objORel_Fields_Rel = new List<clsObjectRel>();
+            List<clsObjectAtt> objORel_Fields_att = new List<clsObjectAtt>();
+            List<clsObjectAtt> objORel_Filter_att = new List<clsObjectAtt>();
+            List<clsObjectAtt> objORel_RegEx_Att = new List<clsObjectAtt>();
+            List<clsObjectRel> objORel_Replacewith = new List<clsObjectRel>();
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                
+                var objORel_FieldParser_To_Field = new List<clsObjectRel>
                 {
                     new clsObjectRel
                         {
-                            ID_Parent_Object = objLocalConfig.OItem_class_field_extractor_parser.GUID,
+                            ID_Object = OItem_Parser != null ? OItem_Parser.GUID : null,
+                            ID_Parent_Object = OItem_Parser == null ? objLocalConfig.OItem_class_field_extractor_parser.GUID : null,
                             ID_RelationType = objLocalConfig.OItem_relationtype_entry.GUID,
                             ID_Parent_Other = objLocalConfig.OItem_class_field.GUID
                         }
                 };
 
-            var objORel_Fields_Att = new List<clsObjectAtt>
-                {
-                    new clsObjectAtt
-                        {
-                            ID_AttributeType = objLocalConfig.OItem_attributetype_remove_from_source.GUID,
-                            ID_Class = objLocalConfig.OItem_class_field.GUID
-                        },
-                    new clsObjectAtt
-                        {
-                            ID_AttributeType = objLocalConfig.OItem_attributetype_useorderid.GUID,
-                            ID_Class = objLocalConfig.OItem_class_field.GUID
-                        }
-                };
-
-            var objORel_Fields_Rel = new List<clsObjectRel>
-                {
-                    new clsObjectRel
-                        {
-                            ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
-                            ID_RelationType = objLocalConfig.OItem_relationtype_value_type.GUID,
-                            ID_Parent_Other = objLocalConfig.OItem_class_datatypes.GUID
-                        },
-                    new clsObjectRel
-                        {
-                            ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
-                            ID_RelationType = objLocalConfig.OItem_relationtype_contains.GUID,
-                            ID_Parent_Other = objLocalConfig.OItem_class_field.GUID
-                        },
-                    new clsObjectRel
-                        {
-                            ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
-                            ID_RelationType = objLocalConfig.OItem_relationtype_is.GUID,
-                            ID_Parent_Other = objLocalConfig.OItem_class_metadata__parser_.GUID
-                        },
-                    new clsObjectRel
-                        {
-                            ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
-                            ID_RelationType = objLocalConfig.OItem_relationtype_main.GUID,
-                            ID_Parent_Other = objLocalConfig.OItem_class_regex_field_filter.GUID
-                        },
-                    new clsObjectRel
-                        {
-                            ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
-                            ID_RelationType = objLocalConfig.OItem_relationtype_pre.GUID,
-                            ID_Parent_Other = objLocalConfig.OItem_class_regex_field_filter.GUID
-                        },
-                    new clsObjectRel
-                        {
-                            ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
-                            ID_RelationType = objLocalConfig.OItem_relationtype_posts.GUID,
-                            ID_Parent_Other = objLocalConfig.OItem_class_regex_field_filter.GUID
-                        },
-                    new clsObjectRel
-                        {
-                            ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
-                            ID_RelationType = objLocalConfig.OItem_relationtype_main.GUID,
-                            ID_Parent_Other = objLocalConfig.OItem_class_regular_expressions.GUID
-                        },
-                    new clsObjectRel
-                        {
-                            ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
-                            ID_RelationType = objLocalConfig.OItem_relationtype_pre.GUID,
-                            ID_Parent_Other = objLocalConfig.OItem_class_regular_expressions.GUID
-                        },
-                    new clsObjectRel
-                        {
-                            ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
-                            ID_RelationType = objLocalConfig.OItem_relationtype_posts.GUID,
-                            ID_Parent_Other = objLocalConfig.OItem_class_regular_expressions.GUID
-                        }
-                };
-
-            var objORel_Filter_att = new List<clsObjectAtt>
-                {
-                    new clsObjectAtt
-                        {
-                            ID_AttributeType = objLocalConfig.OItem_attributetype_equal.GUID,
-                            ID_Class = objLocalConfig.OItem_class_regex_field_filter.GUID
-                        },
-                    new clsObjectAtt
-                        {
-                            ID_AttributeType = objLocalConfig.OItem_attributetype_pattern.GUID,
-                            ID_Class = objLocalConfig.OItem_class_regex_field_filter.GUID
-                        }
-                };
-
-            var objORel_RegEx_Att = new List<clsObjectAtt>
-                {
-                    new clsObjectAtt
-                        {
-                            ID_AttributeType = objLocalConfig.OItem_attributetype_regex.GUID,
-                            ID_Class = objLocalConfig.OItem_class_regular_expressions.GUID
-                        }
-                };
-
-            var objORel_Replacewith = new List<clsObjectRel>
-            {
-                new clsObjectRel
-                {
-                    ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
-                    ID_RelationType = objLocalConfig.OItem_relationtype_replace_with.GUID
-                }
-            };
-
-
-            var objOItem_Result = objDBLevel_Fields.get_Data_Objects(objOFieldList);
-            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-            {
                 objOItem_Result = objDBLevel_FieldParser_To_Field.get_Data_ObjectRel(objORel_FieldParser_To_Field,
                                                                                      boolIDs: false);
 
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    objOItem_Result = objDBLevel_Fields_Att.get_Data_ObjectAtt(objORel_Fields_Att, boolIDs: false);
+                    
+
+                    
+
+                    if (OItem_Parser == null || !objDBLevel_FieldParser_To_Field.OList_ObjectRel.Any())
+                    {
+                        var objORel_Fields_Att = new List<clsObjectAtt>
+                        {
+                            new clsObjectAtt
+                                {
+                                    ID_AttributeType = objLocalConfig.OItem_attributetype_remove_from_source.GUID,
+                                    ID_Class = objLocalConfig.OItem_class_field.GUID
+                                },
+                            new clsObjectAtt
+                                {
+                                    ID_AttributeType = objLocalConfig.OItem_attributetype_useorderid.GUID,
+                                    ID_Class = objLocalConfig.OItem_class_field.GUID
+                                }                   
+                        };
+
+                        objORel_Fields_Rel = new List<clsObjectRel>
+                        {
+                            new clsObjectRel
+                                {
+                                    ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
+                                    ID_RelationType = objLocalConfig.OItem_relationtype_value_type.GUID,
+                                    ID_Parent_Other = objLocalConfig.OItem_class_datatypes.GUID
+                                },
+                            new clsObjectRel
+                                {
+                                    ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
+                                    ID_RelationType = objLocalConfig.OItem_relationtype_contains.GUID,
+                                    ID_Parent_Other = objLocalConfig.OItem_class_field.GUID
+                                },
+                            new clsObjectRel
+                                {
+                                    ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
+                                    ID_RelationType = objLocalConfig.OItem_relationtype_is.GUID,
+                                    ID_Parent_Other = objLocalConfig.OItem_class_metadata__parser_.GUID
+                                },
+                            new clsObjectRel
+                                {
+                                    ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
+                                    ID_RelationType = objLocalConfig.OItem_relationtype_main.GUID,
+                                    ID_Parent_Other = objLocalConfig.OItem_class_regex_field_filter.GUID
+                                },
+                            new clsObjectRel
+                                {
+                                    ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
+                                    ID_RelationType = objLocalConfig.OItem_relationtype_pre.GUID,
+                                    ID_Parent_Other = objLocalConfig.OItem_class_regex_field_filter.GUID
+                                },
+                            new clsObjectRel
+                                {
+                                    ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
+                                    ID_RelationType = objLocalConfig.OItem_relationtype_posts.GUID,
+                                    ID_Parent_Other = objLocalConfig.OItem_class_regex_field_filter.GUID
+                                },
+                            new clsObjectRel
+                                {
+                                    ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
+                                    ID_RelationType = objLocalConfig.OItem_relationtype_main.GUID,
+                                    ID_Parent_Other = objLocalConfig.OItem_class_regular_expressions.GUID
+                                },
+                            new clsObjectRel
+                                {
+                                    ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
+                                    ID_RelationType = objLocalConfig.OItem_relationtype_pre.GUID,
+                                    ID_Parent_Other = objLocalConfig.OItem_class_regular_expressions.GUID
+                                },
+                            new clsObjectRel
+                                {
+                                    ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
+                                    ID_RelationType = objLocalConfig.OItem_relationtype_posts.GUID,
+                                    ID_Parent_Other = objLocalConfig.OItem_class_regular_expressions.GUID
+                                }
+                        };
+
+                        objORel_Filter_att = new List<clsObjectAtt>
+                        {
+                            new clsObjectAtt
+                                {
+                                    ID_AttributeType = objLocalConfig.OItem_attributetype_equal.GUID,
+                                    ID_Class = objLocalConfig.OItem_class_regex_field_filter.GUID
+                                },
+                            new clsObjectAtt
+                                {
+                                    ID_AttributeType = objLocalConfig.OItem_attributetype_pattern.GUID,
+                                    ID_Class = objLocalConfig.OItem_class_regex_field_filter.GUID
+                                }
+                        };
+
+                        objORel_RegEx_Att = new List<clsObjectAtt>
+                        {
+                            new clsObjectAtt
+                                {
+                                    ID_AttributeType = objLocalConfig.OItem_attributetype_regex.GUID,
+                                    ID_Class = objLocalConfig.OItem_class_regular_expressions.GUID
+                                }
+                        };
+
+                        objORel_Replacewith = new List<clsObjectRel>
+                        {
+                            new clsObjectRel
+                            {
+                                ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
+                                ID_RelationType = objLocalConfig.OItem_relationtype_replace_with.GUID
+                            }
+                        };
+                    }
+                    else
+                    {
+                        objORel_Fields_att = objDBLevel_FieldParser_To_Field.OList_ObjectRel.Select(f => new clsObjectAtt
+                                {
+                                    ID_Object = f.ID_Other,
+                                    ID_AttributeType = objLocalConfig.OItem_attributetype_remove_from_source.GUID,
+                                    ID_Class = objLocalConfig.OItem_class_field.GUID
+                                }).ToList();
+                        objORel_Fields_att.AddRange(objDBLevel_FieldParser_To_Field.OList_ObjectRel.Select(f => new clsObjectAtt
+                                {
+                                    ID_Object = f.ID_Other,
+                                    ID_AttributeType = objLocalConfig.OItem_attributetype_useorderid.GUID,
+                                    ID_Class = objLocalConfig.OItem_class_field.GUID
+                                }));
+
+                        objORel_Fields_Rel = objDBLevel_FieldParser_To_Field.OList_ObjectRel.Select(f => new clsObjectRel
+                        {
+                            ID_Object = f.ID_Other,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_value_type.GUID,
+                            ID_Parent_Other = objLocalConfig.OItem_class_datatypes.GUID
+                        }).ToList();
+
+
+                        objORel_Fields_Rel.AddRange(objDBLevel_FieldParser_To_Field.OList_ObjectRel.Select(f => new clsObjectRel
+                        {
+                            ID_Object = f.ID_Other,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_contains.GUID,
+                            ID_Parent_Other = objLocalConfig.OItem_class_field.GUID
+                        }));
+
+                        objORel_Fields_Rel.AddRange(objDBLevel_FieldParser_To_Field.OList_ObjectRel.Select(f => new clsObjectRel
+                        {
+                            ID_Object = f.ID_Other,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_is.GUID,
+                            ID_Parent_Other = objLocalConfig.OItem_class_metadata__parser_.GUID
+                        }));
+
+                        objORel_Fields_Rel.AddRange(objDBLevel_FieldParser_To_Field.OList_ObjectRel.Select(f => new clsObjectRel
+                        {
+                            ID_Object = f.ID_Other,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_main.GUID,
+                            ID_Parent_Other = objLocalConfig.OItem_class_regex_field_filter.GUID
+                        }));
+
+                        objORel_Fields_Rel.AddRange(objDBLevel_FieldParser_To_Field.OList_ObjectRel.Select(f => new clsObjectRel
+                        {
+                            ID_Object = f.ID_Other,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_pre.GUID,
+                            ID_Parent_Other = objLocalConfig.OItem_class_regex_field_filter.GUID
+                        }));
+
+                        objORel_Fields_Rel.AddRange(objDBLevel_FieldParser_To_Field.OList_ObjectRel.Select(f => new clsObjectRel
+                        {
+                            ID_Object = f.ID_Other,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_posts.GUID,
+                            ID_Parent_Other = objLocalConfig.OItem_class_regex_field_filter.GUID
+                        }));
+
+                        objORel_Fields_Rel.AddRange(objDBLevel_FieldParser_To_Field.OList_ObjectRel.Select(f => new clsObjectRel
+                        {
+                            ID_Object = f.ID_Other,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_main.GUID,
+                            ID_Parent_Other = objLocalConfig.OItem_class_regular_expressions.GUID
+                        }));
+
+                        objORel_Fields_Rel.AddRange(objDBLevel_FieldParser_To_Field.OList_ObjectRel.Select(f => new clsObjectRel
+                        {
+                            ID_Object = f.ID_Other,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_pre.GUID,
+                            ID_Parent_Other = objLocalConfig.OItem_class_regular_expressions.GUID
+                        }));
+
+                        objORel_Fields_Rel.AddRange(objDBLevel_FieldParser_To_Field.OList_ObjectRel.Select(f => new clsObjectRel
+                        {
+                            ID_Object = f.ID_Other,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_posts.GUID,
+                            ID_Parent_Other = objLocalConfig.OItem_class_regular_expressions.GUID
+                        }));
+
+                        objORel_Filter_att = objDBLevel_FieldParser_To_Field.OList_ObjectRel.Select(f => new clsObjectAtt
+                        {
+                            ID_Object = f.ID_Other,
+                            ID_AttributeType = objLocalConfig.OItem_attributetype_equal.GUID
+                        }).ToList();
+
+
+                        objORel_Replacewith = objDBLevel_FieldParser_To_Field.OList_ObjectRel.Select(f => new clsObjectRel {
+                                ID_Object = f.ID_Other,
+                                ID_RelationType = objLocalConfig.OItem_relationtype_replace_with.GUID
+                            }).ToList();
+
+                        objORel_RegEx_Att = new List<clsObjectAtt>
+                        {
+                            new clsObjectAtt
+                                {
+                                    ID_AttributeType = objLocalConfig.OItem_attributetype_regex.GUID,
+                                    ID_Class = objLocalConfig.OItem_class_regular_expressions.GUID
+                                }
+                        };
+
+                }
+                
+            }
+
+            
+            
+
+
+            
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                
+
+                
+                    objOItem_Result = objDBLevel_Fields_Att.get_Data_ObjectAtt(objORel_Fields_att, boolIDs: false);
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
                         objOItem_Result = objDBLevel_Fields_Rel.get_Data_ObjectRel(objORel_Fields_Rel, boolIDs: false);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-                            objOItem_Result = objDBLevel_Filter_Att.get_Data_ObjectAtt(objORel_Filter_att, boolIDs: false);
+                            objOItem_Result = objDBLevel_Filter_Att.get_Data_ObjectAtt(objORel_Fields_att, boolIDs: false);
                             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                             {
                                 objOItem_Result = objDBLevel_RegEx_Att.get_Data_ObjectAtt(objORel_RegEx_Att, boolIDs: false);
@@ -407,8 +538,8 @@ namespace TextParser
                         }
                     }
                 }
+
             }
-            
 
             return objOItem_Result;
         }

@@ -70,16 +70,21 @@ Public Class frmDevelopmentModule
 
         
 
-        
+        If Not objUserControl_BaseData Is Nothing Then
+            objUserControl_BaseData.Initialize_BaseData(objOItem_Development)
+        End If
+
+
         Select Case TabControl1.SelectedTab.Name
             Case TabPage_BaseData.Name
                 If objUserControl_BaseData Is Nothing Then
                     objUserControl_BaseData = New UserControl_BaseData(objLocalConfig, objDataWork_BaseData)
                     objUserControl_BaseData.Dock = DockStyle.Fill
                     TabPage_BaseData.Controls.Add(objUserControl_BaseData)
+                    objUserControl_BaseData.Initialize_BaseData(objOItem_Development)
                 End If
 
-                objUserControl_BaseData.Initialize_BaseData(objOItem_Development)
+
             Case TabPage_Logentries.Name
                 If objUserControl_LogEntries Is Nothing Then
                     objUserControl_LogEntries = New UserControl_LogEntries(objLocalConfig)
@@ -93,7 +98,7 @@ Public Class frmDevelopmentModule
                     objUserControl_OntologyConfig.Dock = DockStyle.Fill
                     TabPage_OntologyConfig.Controls.Add(objUserControl_OntologyConfig)
                 End If
-                objUserControl_OntologyConfig.initialize_OntologyConfig(objOItem_Development)
+                objUserControl_OntologyConfig.initialize_OntologyConfig(objOItem_Development, objUserControl_BaseData.SaveVersionFile)
             Case TabPage_OntologyExport.Name
                 If objUserControl_OntologyExport Is Nothing Then
                     objUserControl_OntologyExport = New UserControl_OntologyExport(objLocalConfig)

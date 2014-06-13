@@ -3,6 +3,8 @@ Imports OntologyClasses.BaseClasses
 Imports Version_Module
 Imports Filesystem_Module
 Imports Localization_Module
+Imports TextParser
+
 Public Class UserControl_BaseData
 
     Private objLocalConfig As clsLocalConfig
@@ -20,8 +22,19 @@ Public Class UserControl_BaseData
 
     Private objTransaction_Version As clsTransaction_Version
 
+    Public ReadOnly Property SaveVersionFile As Boolean
+        Get
+            Dim boolSaveVersion = False
+            If Not objDataWork_Details.OItem_PLanguage Is Nothing Then
+                If objDataWork_Details.OItem_PLanguage.GUID = objLocalConfig.OItem_Object_C_.GUID Or
+                    objDataWork_Details.OItem_PLanguage.GUID = objLocalConfig.OItem_Object_VB_Net.GUID Then
+                    boolSaveVersion = True
+                End If
+            End If
 
-    
+            Return boolSaveVersion
+        End Get
+    End Property
 
     Public Sub New(LocalConfig As clsLocalConfig, DataWork_BaseData As clsDataWork_BaseData)
         
@@ -231,14 +244,25 @@ Public Class UserControl_BaseData
     End Sub
 
     Private Sub Button_Version_Click(sender As Object, e As EventArgs) Handles Button_Version.Click
-        Dim objOItem_Result = objTransaction_Version.SaveVersion()
+        
+        Dim boolSaveVersionFile = False
+
+        If objDataWork_Details.OItem_PLanguage.GUID = objLocalConfig.OItem_Object_C_.GUID Or
+            objDataWork_Details.OItem_PLanguage.GUID = objLocalConfig.OItem_Object_VB_Net.GUID Then
+            boolSaveVersionFile = True
+        End If
+        Dim objOItem_Result = objTransaction_Version.SaveVersion(boolSaveVersionFile)
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             TextBox_Version.Text = objDataWork_Details.OItem_Version.Name
         End If
-        
-        
 
+
+
+
+    End Sub
+
+    Private Sub TestVersion()
 
     End Sub
 
