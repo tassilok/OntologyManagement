@@ -1,4 +1,4 @@
-﻿Imports System
+Imports System
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' übernehmen, indem Sie "*" eingeben:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("0.0.1.31")> 
-<Assembly: AssemblyFileVersion("0.0.1.31")> 
+<Assembly: AssemblyVersion("0.0.1.32")> 
+<Assembly: AssemblyFileVersion("0.0.1.32")> 

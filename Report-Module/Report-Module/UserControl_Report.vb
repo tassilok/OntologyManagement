@@ -1369,9 +1369,10 @@ Public Class UserControl_Report
 
         FieldToFilterToolStripMenuItem.Enabled = False
         FieldToSortToolStripMenuItem.Enabled = False
+        ColumnsToolStripMenuItem.Enabled = False
 
         If DataGridView_Reports.SelectedCells.Count = 1 Then
-
+            ColumnsToolStripMenuItem.Enabled = True
             FilterToolStripMenuItem.Enabled = True
             CopyNameToolStripMenuItem.Enabled = True
             Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
@@ -1639,4 +1640,8 @@ Public Class UserControl_Report
         End If
     End Sub
 
+    Private Sub ColumnToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ColumnToolStripMenuItem.Click
+        Dim column = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex)
+        column.Visible = False
+    End Sub
 End Class
