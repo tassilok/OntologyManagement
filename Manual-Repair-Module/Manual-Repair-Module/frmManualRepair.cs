@@ -25,7 +25,9 @@ namespace Manual_Repair_Module
 
             objLocalConfig = new clsLocalConfig(new clsGlobals());
             Initialize();
-            Repair_MathematischeKomponenten();
+            //Repair_MathematischeKomponenten();
+            Repair_MP3File();
+
         }
 
         private void Initialize()
@@ -37,6 +39,180 @@ namespace Manual_Repair_Module
             {
                 MessageBox.Show(this, "Das Log-Objekt konnte nicht ermittelt werden", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(-1);
+            }
+        }
+
+        private void Repair_MP3File()
+        {
+            var OItem_Class = new clsOntologyItem
+            {
+                GUID = "0e2285544c7e48e0ba032de51394be4a",
+                Name = "mp3-File",
+                GUID_Parent = "d84fa125dbce44b091539abeb66ad27f"
+            };
+
+            var relationSearch = new List<clsObjectRel> { new clsObjectRel {ID_Parent_Object = OItem_Class.GUID, 
+                ID_RelationType = "e07469d9766c443e85266d9c684f944f",
+                ID_Parent_Other = "d84fa125dbce44b091539abeb66ad27f" } };
+
+            var objLogging = new clsLogging(objLocalConfig.Globals);
+
+            objLogging.Initialize_Logging(objDataWork_Repair.Log, "mp3tags");
+
+            var objDBLevel_MediaItems = new clsDBLevel(objLocalConfig.Globals);
+            var objDBLevel_Files = new clsDBLevel(objLocalConfig.Globals);
+            var objDBLevel_Work = new clsDBLevel(objLocalConfig.Globals);
+
+            objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+            objLogging.Add_DictEntry("timestamp", DateTime.Now);
+            objLogging.Add_DictEntry("mp3_relations", OItem_Class.GUID);
+            objLogging.Add_DictEntry("step", "search mediaitem-relations");
+            objLogging.Add_DictEntry("substep", "start");
+            objLogging.Finish_Document();
+
+            var result = objDBLevel_MediaItems.get_Data_ObjectRel(relationSearch, boolIDs:false);
+
+            
+
+            if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                objLogging.Add_DictEntry("mp3_relations", OItem_Class.GUID);
+                objLogging.Add_DictEntry("step", "search mediaitem-relations");
+                objLogging.Add_DictEntry("substep", "end");
+                objLogging.Finish_Document();
+
+                objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                objLogging.Add_DictEntry("mp3_relations", OItem_Class.GUID);
+                objLogging.Add_DictEntry("step", "search files-relations");
+                objLogging.Add_DictEntry("substep", "start");
+                objLogging.Finish_Document();
+
+                var searchFiles = new List<clsObjectRel> { new clsObjectRel { ID_Parent_Object = "d84fa125dbce44b091539abeb66ad27f",
+                    ID_RelationType = "d34d545e9ddf46cebb6f22db1b7bb025",
+                    ID_Parent_Other = "6eb4fdd32e254886b288e1bfc2857efb" } };
+                    
+                result = objDBLevel_Files.get_Data_ObjectRel(searchFiles,boolIDs:false);
+
+                if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+
+                    objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                    objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                    objLogging.Add_DictEntry("mp3_relations", OItem_Class.GUID);
+                    objLogging.Add_DictEntry("step", "search files-relations");
+                    objLogging.Add_DictEntry("substep", "end");
+                    objLogging.Finish_Document();
+
+                    objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                    objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                    objLogging.Add_DictEntry("mp3_relations", OItem_Class.GUID);
+                    objLogging.Add_DictEntry("step", "save new relations");
+                    objLogging.Add_DictEntry("substep", "start");
+                    objLogging.Finish_Document();
+
+                    var fileRelations = (from mediaItem in  objDBLevel_MediaItems.OList_ObjectRel
+                                        join file in objDBLevel_Files.OList_ObjectRel on mediaItem.ID_Other equals file.ID_Object
+                                        select new clsObjectRel { ID_Object = mediaItem.ID_Object,
+                                            ID_Parent_Object = mediaItem.ID_Parent_Object,
+                                            ID_RelationType = mediaItem.ID_RelationType,
+                                            ID_Other = file.ID_Other,
+                                            ID_Parent_Other = file.ID_Parent_Other,
+                                            OrderID = mediaItem.OrderID,
+                                            Ontology = mediaItem.Ontology }).ToList();
+
+                    if (fileRelations.Any())
+                    {
+                        result = objDBLevel_Work.save_ObjRel(fileRelations);
+
+                        if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                            objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                            objLogging.Add_DictEntry("mp3_relations", OItem_Class.GUID);
+                            objLogging.Add_DictEntry("step", "save new relations");
+                            objLogging.Add_DictEntry("substep", "end");
+                            objLogging.Finish_Document();
+
+                            objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                            objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                            objLogging.Add_DictEntry("mp3_relations", OItem_Class.GUID);
+                            objLogging.Add_DictEntry("step", "del old relations");
+                            objLogging.Add_DictEntry("substep", "start");
+                            objLogging.Finish_Document();
+
+                            if (objDBLevel_MediaItems.OList_ObjectRel.Any())
+                            {
+                                result = objDBLevel_Work.del_ObjectRel(objDBLevel_MediaItems.OList_ObjectRel);
+                                if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                {
+                                    objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                                    objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                                    objLogging.Add_DictEntry("mp3_relations", OItem_Class.GUID);
+                                    objLogging.Add_DictEntry("step", "del old relations");
+                                    objLogging.Add_DictEntry("substep", "end");
+                                    objLogging.Finish_Document();
+                                }
+                                else
+                                {
+                                    objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                                    objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                                    objLogging.Add_DictEntry("mp3_relations", OItem_Class.GUID);
+                                    objLogging.Add_DictEntry("result", "error");
+                                    objLogging.Finish_Document();
+                                }
+
+                            }
+                            else
+                            {
+                                objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                                objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                                objLogging.Add_DictEntry("mp3_relations", OItem_Class.GUID);
+                                objLogging.Add_DictEntry("step", "save new relations");
+                                objLogging.Add_DictEntry("substep", "end");
+                                objLogging.Add_DictEntry("result", "no file-relations");
+                                objLogging.Finish_Document();
+                            }
+                        }
+                        else
+                        {
+                            objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                            objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                            objLogging.Add_DictEntry("mp3_relations", OItem_Class.GUID);
+                            objLogging.Add_DictEntry("result", "error");
+                            objLogging.Finish_Document();
+                        }
+                    }
+                    else
+                    {
+                        objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                        objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                        objLogging.Add_DictEntry("mp3_relations", OItem_Class.GUID);
+                        objLogging.Add_DictEntry("step", "save new relations");
+                        objLogging.Add_DictEntry("substep", "end");
+                        objLogging.Add_DictEntry("result", "no file-relations");
+                        objLogging.Finish_Document();
+                    }
+                }
+                else
+                {
+                    objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                    objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                    objLogging.Add_DictEntry("mp3_relations", OItem_Class.GUID);
+                    objLogging.Add_DictEntry("result", "error");
+                    objLogging.Finish_Document();
+                }
+
+            }
+            else
+            {
+                objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                objLogging.Add_DictEntry("mp3_relations", OItem_Class.GUID);
+                objLogging.Add_DictEntry("result", "error");
+                objLogging.Finish_Document();
             }
         }
 

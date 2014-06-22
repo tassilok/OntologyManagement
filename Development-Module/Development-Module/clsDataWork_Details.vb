@@ -191,8 +191,6 @@ Public Class clsDataWork_Details
             End If
         End If
 
-        OItem_VersionSubPath = Nothing
-
         OItem_Result_SubVersionPath = objOItem_Result
 
     End Sub

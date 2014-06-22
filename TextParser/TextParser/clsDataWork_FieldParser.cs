@@ -153,7 +153,7 @@ namespace TextParser
 
                     if (OItem_Parser == null || !objDBLevel_FieldParser_To_Field.OList_ObjectRel.Any())
                     {
-                        var objORel_Fields_Att = new List<clsObjectAtt>
+                        objORel_Fields_att = new List<clsObjectAtt>
                         {
                             new clsObjectAtt
                                 {

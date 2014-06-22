@@ -177,7 +177,7 @@ namespace RDF_Module
             var rdfResult = objDataWork_RDFModule.OAItem_rdf_object_attribute.Val_Named;
 
             rdfResult = rdfResult.Replace("@" + objLocalConfig.OItem_token_variable_name_ontology.Name + "@", "o_" + OItem_Ontology.GUID);
-            rdfResult = rdfResult.Replace("@" + objLocalConfig.OItem_token_variable_guid_attribute.Name + "@", "at_" + OItem_OAtt.ID_Attribute);
+            rdfResult = rdfResult.Replace("@" + objLocalConfig.OItem_token_variable_guid_attribute.Name + "@", "at_" + OItem_OAtt.ID_AttributeType);
             rdfResult = rdfResult.Replace("@" + objLocalConfig.OItem_token_variable_val_attribute.Name + "@", HttpUtility.HtmlEncode(OItem_OAtt.Val_Named));
 
             textWriter.WriteLine(rdfResult);

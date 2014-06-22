@@ -46,6 +46,10 @@ Partial Class UserControl_BaseData
         Me.Button_ProjectFile = New System.Windows.Forms.Button()
         Me.Label_File = New System.Windows.Forms.Label()
         Me.TextBox_ProjectFile = New System.Windows.Forms.TextBox()
+        Me.Button_VersionFile = New System.Windows.Forms.Button()
+        Me.Label_VersionFilePath = New System.Windows.Forms.Label()
+        Me.TextBox_VersionFile = New System.Windows.Forms.TextBox()
+        Me.OpenFileDialog_VersionFile = New System.Windows.Forms.OpenFileDialog()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -66,15 +70,15 @@ Partial Class UserControl_BaseData
         Me.Panel_Languages.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Panel_Languages.Location = New System.Drawing.Point(107, 216)
+        Me.Panel_Languages.Location = New System.Drawing.Point(116, 240)
         Me.Panel_Languages.Name = "Panel_Languages"
-        Me.Panel_Languages.Size = New System.Drawing.Size(424, 128)
+        Me.Panel_Languages.Size = New System.Drawing.Size(415, 103)
         Me.Panel_Languages.TabIndex = 37
         '
         'Label_Languages
         '
         Me.Label_Languages.AutoSize = True
-        Me.Label_Languages.Location = New System.Drawing.Point(12, 216)
+        Me.Label_Languages.Location = New System.Drawing.Point(12, 240)
         Me.Label_Languages.Name = "Label_Languages"
         Me.Label_Languages.Size = New System.Drawing.Size(72, 26)
         Me.Label_Languages.TabIndex = 36
@@ -83,7 +87,7 @@ Partial Class UserControl_BaseData
         'Button_LanguageStandard
         '
         Me.Button_LanguageStandard.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_LanguageStandard.Location = New System.Drawing.Point(504, 189)
+        Me.Button_LanguageStandard.Location = New System.Drawing.Point(504, 213)
         Me.Button_LanguageStandard.Name = "Button_LanguageStandard"
         Me.Button_LanguageStandard.Size = New System.Drawing.Size(27, 23)
         Me.Button_LanguageStandard.TabIndex = 35
@@ -93,7 +97,7 @@ Partial Class UserControl_BaseData
         'Label_StandarLanguage
         '
         Me.Label_StandarLanguage.AutoSize = True
-        Me.Label_StandarLanguage.Location = New System.Drawing.Point(12, 194)
+        Me.Label_StandarLanguage.Location = New System.Drawing.Point(12, 218)
         Me.Label_StandarLanguage.Name = "Label_StandarLanguage"
         Me.Label_StandarLanguage.Size = New System.Drawing.Size(89, 13)
         Me.Label_StandarLanguage.TabIndex = 34
@@ -103,10 +107,10 @@ Partial Class UserControl_BaseData
         '
         Me.TextBox_LanguageStandard.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_LanguageStandard.Location = New System.Drawing.Point(107, 191)
+        Me.TextBox_LanguageStandard.Location = New System.Drawing.Point(116, 215)
         Me.TextBox_LanguageStandard.Name = "TextBox_LanguageStandard"
         Me.TextBox_LanguageStandard.ReadOnly = True
-        Me.TextBox_LanguageStandard.Size = New System.Drawing.Size(391, 20)
+        Me.TextBox_LanguageStandard.Size = New System.Drawing.Size(382, 20)
         Me.TextBox_LanguageStandard.TabIndex = 33
         '
         'Button_FolderSourceCode
@@ -132,10 +136,10 @@ Partial Class UserControl_BaseData
         '
         Me.TextBox_FolderSourceCode.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_FolderSourceCode.Location = New System.Drawing.Point(107, 141)
+        Me.TextBox_FolderSourceCode.Location = New System.Drawing.Point(116, 141)
         Me.TextBox_FolderSourceCode.Name = "TextBox_FolderSourceCode"
         Me.TextBox_FolderSourceCode.ReadOnly = True
-        Me.TextBox_FolderSourceCode.Size = New System.Drawing.Size(391, 20)
+        Me.TextBox_FolderSourceCode.Size = New System.Drawing.Size(382, 20)
         Me.TextBox_FolderSourceCode.TabIndex = 30
         '
         'Button_PLanguage
@@ -161,10 +165,10 @@ Partial Class UserControl_BaseData
         '
         Me.TextBox_PLanguage.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_PLanguage.Location = New System.Drawing.Point(107, 115)
+        Me.TextBox_PLanguage.Location = New System.Drawing.Point(116, 115)
         Me.TextBox_PLanguage.Name = "TextBox_PLanguage"
         Me.TextBox_PLanguage.ReadOnly = True
-        Me.TextBox_PLanguage.Size = New System.Drawing.Size(391, 20)
+        Me.TextBox_PLanguage.Size = New System.Drawing.Size(382, 20)
         Me.TextBox_PLanguage.TabIndex = 27
         '
         'Button_Creator
@@ -190,10 +194,10 @@ Partial Class UserControl_BaseData
         '
         Me.TextBox_Creator.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_Creator.Location = New System.Drawing.Point(107, 88)
+        Me.TextBox_Creator.Location = New System.Drawing.Point(116, 88)
         Me.TextBox_Creator.Name = "TextBox_Creator"
         Me.TextBox_Creator.ReadOnly = True
-        Me.TextBox_Creator.Size = New System.Drawing.Size(391, 20)
+        Me.TextBox_Creator.Size = New System.Drawing.Size(382, 20)
         Me.TextBox_Creator.TabIndex = 24
         '
         'Button_Version
@@ -219,10 +223,10 @@ Partial Class UserControl_BaseData
         '
         Me.TextBox_Version.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_Version.Location = New System.Drawing.Point(107, 61)
+        Me.TextBox_Version.Location = New System.Drawing.Point(116, 61)
         Me.TextBox_Version.Name = "TextBox_Version"
         Me.TextBox_Version.ReadOnly = True
-        Me.TextBox_Version.Size = New System.Drawing.Size(391, 20)
+        Me.TextBox_Version.Size = New System.Drawing.Size(382, 20)
         Me.TextBox_Version.TabIndex = 21
         '
         'ComboBox_State
@@ -230,9 +234,9 @@ Partial Class UserControl_BaseData
         Me.ComboBox_State.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ComboBox_State.FormattingEnabled = True
-        Me.ComboBox_State.Location = New System.Drawing.Point(107, 33)
+        Me.ComboBox_State.Location = New System.Drawing.Point(116, 33)
         Me.ComboBox_State.Name = "ComboBox_State"
-        Me.ComboBox_State.Size = New System.Drawing.Size(391, 21)
+        Me.ComboBox_State.Size = New System.Drawing.Size(382, 21)
         Me.ComboBox_State.TabIndex = 20
         '
         'Label_State
@@ -254,6 +258,9 @@ Partial Class UserControl_BaseData
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.Button_VersionFile)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.Label_VersionFilePath)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.TextBox_VersionFile)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Button_ProjectFile)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Label_File)
         Me.SplitContainer1.Panel1.Controls.Add(Me.TextBox_ProjectFile)
@@ -284,7 +291,7 @@ Partial Class UserControl_BaseData
         'Button_ProjectFile
         '
         Me.Button_ProjectFile.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_ProjectFile.Location = New System.Drawing.Point(504, 165)
+        Me.Button_ProjectFile.Location = New System.Drawing.Point(504, 189)
         Me.Button_ProjectFile.Name = "Button_ProjectFile"
         Me.Button_ProjectFile.Size = New System.Drawing.Size(27, 23)
         Me.Button_ProjectFile.TabIndex = 41
@@ -294,7 +301,7 @@ Partial Class UserControl_BaseData
         'Label_File
         '
         Me.Label_File.AutoSize = True
-        Me.Label_File.Location = New System.Drawing.Point(12, 170)
+        Me.Label_File.Location = New System.Drawing.Point(12, 194)
         Me.Label_File.Name = "Label_File"
         Me.Label_File.Size = New System.Drawing.Size(71, 13)
         Me.Label_File.TabIndex = 40
@@ -304,11 +311,44 @@ Partial Class UserControl_BaseData
         '
         Me.TextBox_ProjectFile.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_ProjectFile.Location = New System.Drawing.Point(107, 167)
+        Me.TextBox_ProjectFile.Location = New System.Drawing.Point(116, 191)
         Me.TextBox_ProjectFile.Name = "TextBox_ProjectFile"
         Me.TextBox_ProjectFile.ReadOnly = True
-        Me.TextBox_ProjectFile.Size = New System.Drawing.Size(391, 20)
+        Me.TextBox_ProjectFile.Size = New System.Drawing.Size(382, 20)
         Me.TextBox_ProjectFile.TabIndex = 39
+        '
+        'Button_VersionFile
+        '
+        Me.Button_VersionFile.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button_VersionFile.Location = New System.Drawing.Point(504, 163)
+        Me.Button_VersionFile.Name = "Button_VersionFile"
+        Me.Button_VersionFile.Size = New System.Drawing.Size(27, 23)
+        Me.Button_VersionFile.TabIndex = 44
+        Me.Button_VersionFile.Text = "..."
+        Me.Button_VersionFile.UseVisualStyleBackColor = True
+        '
+        'Label_VersionFilePath
+        '
+        Me.Label_VersionFilePath.AutoSize = True
+        Me.Label_VersionFilePath.Location = New System.Drawing.Point(12, 168)
+        Me.Label_VersionFilePath.Name = "Label_VersionFilePath"
+        Me.Label_VersionFilePath.Size = New System.Drawing.Size(98, 13)
+        Me.Label_VersionFilePath.TabIndex = 43
+        Me.Label_VersionFilePath.Text = "Version-SubPath_f:"
+        '
+        'TextBox_VersionFile
+        '
+        Me.TextBox_VersionFile.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_VersionFile.Location = New System.Drawing.Point(116, 165)
+        Me.TextBox_VersionFile.Name = "TextBox_VersionFile"
+        Me.TextBox_VersionFile.ReadOnly = True
+        Me.TextBox_VersionFile.Size = New System.Drawing.Size(382, 20)
+        Me.TextBox_VersionFile.TabIndex = 42
+        '
+        'OpenFileDialog_VersionFile
+        '
+        Me.OpenFileDialog_VersionFile.FileName = "OpenFileDialog1"
         '
         'UserControl_BaseData
         '
@@ -317,13 +357,13 @@ Partial Class UserControl_BaseData
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "UserControl_BaseData"
         Me.Size = New System.Drawing.Size(538, 537)
-        Me.SplitContainer1.Panel1.ResumeLayout(false)
-        Me.SplitContainer1.Panel1.PerformLayout
-        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).EndInit
-        Me.SplitContainer1.ResumeLayout(false)
-        Me.ResumeLayout(false)
+        Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel1.PerformLayout()
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer1.ResumeLayout(False)
+        Me.ResumeLayout(False)
 
-End Sub
+    End Sub
     Friend WithEvents Label_Development As System.Windows.Forms.Label
     Friend WithEvents Panel_Languages As System.Windows.Forms.Panel
     Friend WithEvents Label_Languages As System.Windows.Forms.Label
@@ -348,5 +388,9 @@ End Sub
     Friend WithEvents Button_ProjectFile As System.Windows.Forms.Button
     Friend WithEvents Label_File As System.Windows.Forms.Label
     Friend WithEvents TextBox_ProjectFile As System.Windows.Forms.TextBox
+    Friend WithEvents Button_VersionFile As System.Windows.Forms.Button
+    Friend WithEvents Label_VersionFilePath As System.Windows.Forms.Label
+    Friend WithEvents TextBox_VersionFile As System.Windows.Forms.TextBox
+    Friend WithEvents OpenFileDialog_VersionFile As System.Windows.Forms.OpenFileDialog
 
 End Class

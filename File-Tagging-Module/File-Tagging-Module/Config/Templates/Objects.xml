@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="16fe21f5beb44ed09ae08c55ea3b9ebe" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[File-Tagging-Module]]></Item>
+<Item Id="6aa2f4961fc048dc9b7358160609550d" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_Titel]]></Item>
+<Item Id="3d55aab82f5a469090182590d42d2e9b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_L_nge__Minuten_]]></Item>
+<Item Id="0b5407b1c20e446abe0fbf584e0b5b55" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_comment]]></Item>
+<Item Id="3cebddfb01364265a9a68a73603d47b9" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongs_to]]></Item>
+<Item Id="e49bb97bdfe34ff591fdc01ef3d4aa14" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Disc]]></Item>
+<Item Id="c9c73e602bd14ba4a96b31f02ca4da1b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Artist]]></Item>
+<Item Id="e3b2ae563e414fc2b441e577da1ed0f5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_from]]></Item>
+<Item Id="00cc5842b4ef499a997ea996cf009405" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Composer]]></Item>
+<Item Id="dd1402360d134b069fa61458be9e44be" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_mp3_File]]></Item>
+<Item Id="ff79c609aaef4cd1a9e8e8889ea06c9c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Album]]></Item>
+<Item Id="6ffd92c3bdb44697b887956f435471b5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Band]]></Item>
+<Item Id="12e337c8815a4fd9939a35e55f907ce3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Partner]]></Item>
+<Item Id="d0438a1347614b3ea6ceed24adc18910" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Media]]></Item>
+<Item Id="d2dd789fdbc0437ea7d25f46240b724e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_File]]></Item>
+<Item Id="b87abe13c955496db4d399d516c864d2" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Year]]></Item>
+<Item Id="a380edaf55ab4fad90eb16dc13dffbe0" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Genre]]></Item>
+<Item Id="eef4bec66fdb4c449990f5bab13764a8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_mp3]]></Item>
+<Item Id="02aa2a2dbe804525be915ad3df1d556d" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_jpg]]></Item>
+<Item Id="df192b0b240c40fa996ed2edcf1996d6" Id_Parent="6e31f90520ce4f8fb4016da5ba871ecb"><![CDATA[mp3]]></Item>
+<Item Id="02d6213bbc264afaaf209711a3872c33" Id_Parent="6e31f90520ce4f8fb4016da5ba871ecb"><![CDATA[jpg]]></Item>
+
+</Items>

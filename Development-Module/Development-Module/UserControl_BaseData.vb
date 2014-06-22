@@ -97,6 +97,11 @@ Public Class UserControl_BaseData
                 TextBox_ProjectFile.Text = If(Not objDataWork_Details.OItem_File Is Nothing, objDataWork_Details.OItem_File.Additional1, "")
                 Button_ProjectFile.Enabled = True
 
+                TextBox_VersionFile.Text = If(Not objDataWork_Details.OItem_VersionSubPath Is Nothing, objDataWork_Details.OItem_VersionSubPath.Name, "")
+                If Not objDataWork_Details.OItem_Folder Is Nothing Then
+                    Button_VersionFile.Enabled = True
+                End If
+
                 TextBox_PLanguage.Text = if(Not objDataWork_Details.OItem_PLanguage Is Nothing,objDataWork_Details.OItem_PLanguage.Name,"")
                 Button_PLanguage.Enabled = True
 
@@ -224,6 +229,8 @@ Public Class UserControl_BaseData
         TextBox_PLanguage.Text = ""
         Button_Version.Enabled = False
         TextBox_Version.Text = ""
+        Button_VersionFile.Enabled = True
+        TextBox_VersionFile.Text = ""
         objUserControl_Languages.clear_Relation()
         objUserControl_Languages.Enabled = False
         objUserControl_Localization.clear_Tree()
@@ -254,7 +261,10 @@ Public Class UserControl_BaseData
         Dim objOItem_Result = objTransaction_Version.SaveVersion(boolSaveVersionFile)
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            TextBox_Version.Text = objDataWork_Details.OItem_Version.Name
+            If Not objDataWork_Details.OItem_Version Is Nothing Then
+                TextBox_Version.Text = objDataWork_Details.OItem_Version.Name
+            End If
+
         End If
 
 
@@ -276,6 +286,11 @@ Public Class UserControl_BaseData
 
     Private Sub Button_FolderSourceCode_Click( sender As Object,  e As EventArgs) Handles Button_FolderSourceCode.Click
         Save_Folder()
+        If Not objDataWork_Details.OItem_Folder Is Nothing Then
+            Button_VersionFile.Enabled = True
+        Else
+            Button_VersionFile.Enabled = False
+        End If
     End Sub
 
     Private Sub Save_Folder()
@@ -378,11 +393,62 @@ Public Class UserControl_BaseData
         End If
     End Sub
 
+    Private Sub Save_VersionFileSubPath()
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
+        If Not objDataWork_Details.OItem_Folder Is Nothing Then
+            OpenFileDialog_VersionFile.InitialDirectory = objDataWork_Details.OItem_Folder.Additional1
+            If OpenFileDialog_VersionFile.ShowDialog(Me) = DialogResult.OK Then
+                objTransaction.ClearItems()
+                Dim path = OpenFileDialog_VersionFile.FileName
+                If path.ToLower().StartsWith(objDataWork_Details.OItem_Folder.Additional1.ToLower()) Then
+                    If objDataWork_Details.OItem_VersionSubPath Is Nothing Then
+                        objDataWork_Details.OItem_VersionSubPath = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID,
+                                                                                             .Name = path.Substring(objDataWork_Details.OItem_Folder.Additional1.Length),
+                                                                                             .GUID_Parent = objLocalConfig.OItem_class_path.GUID,
+                                                                                             .Type = objLocalConfig.Globals.Type_Object}
+
+                        objOItem_Result = objTransaction.do_Transaction(objDataWork_Details.OItem_VersionSubPath)
+
+
+                    End If
+
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        Dim objORel_Dev_To_Path = objRelationConfig.Rel_ObjectRelation(objOItem_Dev, objDataWork_Details.OItem_VersionSubPath, objLocalConfig.OItem_relationtype_subpath_versionfile)
+
+
+                        objOItem_Result = objTransaction.do_Transaction(objORel_Dev_To_Path, True)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            TextBox_VersionFile.Text = objDataWork_Details.OItem_VersionSubPath.Name
+                        Else
+                            MsgBox("Der Pfad konnte nicht verknüpft werden!", MsgBoxStyle.Exclamation)
+                        End If
+                    Else
+                        objDataWork_Details.OItem_VersionSubPath = Nothing
+                        MsgBox("Der Pfad konnte nicht verknüpft werden!", MsgBoxStyle.Exclamation)
+                    End If
+                    
+                Else
+                    MsgBox("Sie müssen einen Unterordner des Projektordners wählen!", MsgBoxStyle.Information)
+                End If
+
+
+
+            End If
+        Else
+            MsgBox("Wählen Sie bitte vorher eine Datei aus!", MsgBoxStyle.Information)
+        End If
+
+    End Sub
+
     Private Sub Button_LanguageStandard_Click( sender As Object,  e As EventArgs) Handles Button_LanguageStandard.Click
         Save_StdLanguage()
     End Sub
 
     Private Sub Button_ProjectFile_Click(sender As Object, e As EventArgs) Handles Button_ProjectFile.Click
         Save_File()
+    End Sub
+
+    Private Sub Button_VersionFile_Click(sender As Object, e As EventArgs) Handles Button_VersionFile.Click
+        Save_VersionFileSubPath()
     End Sub
 End Class

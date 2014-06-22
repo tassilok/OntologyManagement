@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="AttributeType">
+  <Item Id="e93b6ef97e8c4215affa2bb239d0ea45" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[Titel]]></Item>
+<Item Id="006b6f4126a04d7bb0d6d2cf4dba3ff8" Id_Parent="a1244d0e187f46ee85742fc334077b7d"><![CDATA[Länge (Minuten)]]></Item>
+<Item Id="30a83dbbceef416e80609a58d93d6636" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[comment]]></Item>
+
+</Items>

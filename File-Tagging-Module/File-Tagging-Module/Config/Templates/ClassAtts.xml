@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="ClassAtt">
+  <Item Id_Class="0e2285544c7e48e0ba032de51394be4a" Id_AttributeType="e93b6ef97e8c4215affa2bb239d0ea45" Id_DataType="065e644ec7df40078672aa5414131c78" Min="0" Max="1" /><Item Id_Class="0e2285544c7e48e0ba032de51394be4a" Id_AttributeType="006b6f4126a04d7bb0d6d2cf4dba3ff8" Id_DataType="a1244d0e187f46ee85742fc334077b7d" Min="1" Max="1" /><Item Id_Class="0e2285544c7e48e0ba032de51394be4a" Id_AttributeType="30a83dbbceef416e80609a58d93d6636" Id_DataType="64530b52d96c4df186fe183f44513450" Min="0" Max="1" />
+</Items>
