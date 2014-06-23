@@ -102,6 +102,13 @@ Public Class UserControl_BaseData
                     Button_VersionFile.Enabled = True
                 End If
 
+                Button_UpdatePhysicalVersion.Enabled = False
+                If Not TextBox_VersionFile.Text = "" Then
+                    TextBox_PhysicalVersion.Text = objTransaction_Version.GetPhysicalVersion(objOItem_Dev)
+                    Button_UpdatePhysicalVersion.Enabled = (Not TextBox_PhysicalVersion.Text = TextBox_Version.Text)
+                    
+                End If
+
                 TextBox_PLanguage.Text = if(Not objDataWork_Details.OItem_PLanguage Is Nothing,objDataWork_Details.OItem_PLanguage.Name,"")
                 Button_PLanguage.Enabled = True
 
@@ -235,6 +242,8 @@ Public Class UserControl_BaseData
         objUserControl_Languages.Enabled = False
         objUserControl_Localization.clear_Tree()
         objUserControl_Localization.Enabled = False
+        Button_UpdatePhysicalVersion.Enabled = False
+        TextBox_PhysicalVersion.Text = ""
     End Sub
 
     Private sub Configure_StateCombo()
@@ -450,5 +459,16 @@ Public Class UserControl_BaseData
 
     Private Sub Button_VersionFile_Click(sender As Object, e As EventArgs) Handles Button_VersionFile.Click
         Save_VersionFileSubPath()
+    End Sub
+
+    Private Sub Button_UpdatePhysicalVersion_Click(sender As Object, e As EventArgs) Handles Button_UpdatePhysicalVersion.Click
+        objTransaction_Version.OItem_Version_Last = objDataWork_Details.OItem_Version
+        Dim objOItem_Result = objTransaction_Version.SaveVersionFile(objOItem_Dev)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            TextBox_PhysicalVersion.Text = TextBox_Version.Text
+            Button_UpdatePhysicalVersion.Enabled = False
+        Else
+            MsgBox("Die Version kann nicht geändert werden!", MsgBoxStyle.Exclamation)
+        End If
     End Sub
 End Class

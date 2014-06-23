@@ -759,8 +759,13 @@ Public Class UserControl_TransactionDetail
         Dim objOItem_Payment As clsOntologyItem
 
 
+        Dim strRest = TextBox_Rest.Text
 
-        If Double.TryParse(TextBox_Rest.Text, dblRest) And Date.TryParse(TextBox_Date.Text, dateTransactionDate) Then
+        If strRest.IndexOf(" ") > 0 Then
+            strRest = strRest.Substring(0, strRest.IndexOf(" "))
+        End If
+
+        If Double.TryParse(strRest, dblRest) And Date.TryParse(TextBox_Date.Text, dateTransactionDate) Then
             If dblRest > 0 Then
                 objOItem_Payment = New clsOntologyItem(objLocalConfig.Globals.NewGUID, _
                                                        dblRest.ToString, _

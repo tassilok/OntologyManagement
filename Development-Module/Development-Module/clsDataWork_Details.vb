@@ -1,6 +1,8 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Imports Filesystem_Module
+Imports TextParser
+
 Public Class clsDataWork_Details
     Private objLocalConfig As clsLocalConfig
 
@@ -26,6 +28,7 @@ Public Class clsDataWork_Details
     Public Property OItem_Result_SubVersionPath As clsOntologyItem
 
     Private objUserControl_Languages As UserControl_OItemList
+
 
     Public Property OItem_Development As clsOntologyItem
 

@@ -21,6 +21,8 @@ namespace TextParser
 
         private List<clsOntologyItem> objOList_Variables;
 
+        public List<string> FoundFields { get; private set; }
+
         public clsFieldParser(clsGlobals Globals)
         {
             objLocalConfig = new clsLocalConfig(Globals);
@@ -55,6 +57,8 @@ namespace TextParser
         {
             var newText = "";
 
+            FoundFields = new List<string>();
+
             objOList_Variables = OList_Variables;
 
             foreach (var field in ParseFieldList.Where(p => p.IsInsert).OrderBy(p => p.IsMeta).ThenBy(p => p.OrderId).ToList())
@@ -65,6 +69,7 @@ namespace TextParser
                 var ixStart_Main = 0;
                 var length_Main = 0;
                 var parse = false;
+               
 
                 var textParse = text;
                 // Regex-Pre
@@ -178,9 +183,11 @@ namespace TextParser
 
                 if (parse)
                 {
-                    var variableList = objOList_Variables.Where(v => v.Name == field.Insert).ToList();
+                    var fieldToAdd = text.Substring(ixEnd_Pre, length_Main);
+                    FoundFields.Add(fieldToAdd);
+                    var variableList = objOList_Variables != null ? objOList_Variables.Where(v => v.Name == field.Insert).ToList() : null;
 
-                    if (variableList.Any())
+                    if (variableList != null && variableList.Any())
                     {
                         var textReplaced = text.Substring(0, ixEnd_Pre);
                         textReplaced += objOList_Variables.First().Additional1;

@@ -22,7 +22,7 @@ Public Class clsTransaction_Version
 
     Private objFieldParser As clsFieldParser
 
-    Private objOItem_Version_Last As clsOntologyItem
+    Public Property OItem_Version_Last As clsOntologyItem
 
     Private boolSaveVersionFile As Boolean
 
@@ -57,11 +57,48 @@ Public Class clsTransaction_Version
         End If
     End Sub
 
-    Private Sub SaveVersionFile(objOItem_Dev As clsOntologyItem)
+    Public Function GetPhysicalVersion(objOItem_Dev As clsOntologyItem) As String
+        Dim objOItem_Result = objDataWork_Details.GetData_VersionFilePath(objOItem_Dev)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Try
+                Dim objTextStream = IO.File.OpenText(objOItem_Result.Additional1)
+
+                If Not objTextStream Is Nothing Then
+
+                    While Not objTextStream.EndOfStream
+                        Dim textLine = objTextStream.ReadLine
+
+                        Dim textLineWrite = objFieldParser.ParseLine(textLine, Nothing)
+
+                    End While
+
+
+
+                    objTextStream.Close()
+
+                    If objFieldParser.FoundFields.Any() Then
+                        Return objFieldParser.FoundFields.First()
+                    Else
+                        Return Nothing
+                    End If
+
+                Else
+                    Return Nothing
+                End If
+            Catch ex As Exception
+                Return Nothing
+            End Try
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Public Function SaveVersionFile(objOItem_Dev As clsOntologyItem) As clsOntologyItem
 
         Dim objOItem_Result = objDataWork_Details.GetData_VersionFilePath(objOItem_Dev)
 
-        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID And Not objOItem_Version_Last Is Nothing Then
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID And Not OItem_Version_Last Is Nothing Then
 
             Try
                 Dim objTextStream = IO.File.OpenText(objOItem_Result.Additional1)
@@ -75,7 +112,7 @@ Public Class clsTransaction_Version
                                                   .Name = objLocalConfig.OItem_object_version.Name,
                                                   .GUID_Parent = objLocalConfig.OItem_object_version.GUID_Parent,
                                                   .Type = objLocalConfig.Globals.Type_Object,
-                                                  .Additional1 = objOItem_Version_Last.Name}}
+                                                  .Additional1 = OItem_Version_Last.Name}}
 
                 If Not objTextStream Is Nothing And Not objTextStreamWrite Is Nothing Then
 
@@ -101,6 +138,7 @@ Public Class clsTransaction_Version
                         IO.File.Move(objOItem_Result.Additional1, strPathBak)
                         IO.File.Copy(strPath, objOItem_Result.Additional1)
                     Else
+                        objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
                         objOList_VersionErr.Add(objOItem_Dev)
                     End If
 
@@ -111,17 +149,22 @@ Public Class clsTransaction_Version
                     IO.File.Delete(strPathBak)
 
                 Else
+                    objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
                     objOList_VersionErr.Add(objOItem_Dev)
                 End If
             Catch ex As Exception
+                objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
                 objOList_VersionErr.Add(objOItem_Dev)
             End Try
 
 
         Else
+            objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
             objOList_VersionErr.Add(objOItem_Dev)
         End If
-    End Sub
+
+        Return objOItem_Result
+    End Function
 
     Public Function SaveVersion(boolSaveVersionFile As Boolean) As clsOntologyItem
         Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
@@ -180,7 +223,7 @@ Public Class clsTransaction_Version
     Private Function Save_Version(OItem_Development As clsOntologyItem, Optional OItem_LogEntry_Parent As clsOntologyItem = Nothing, Optional isDependend As Boolean = False) As clsOntologyItem
         Dim objOItem_LogEntry As clsOntologyItem = Nothing
         Dim objOItem_Result As clsOntologyItem
-        objOItem_Version_Last = Nothing
+        OItem_Version_Last = Nothing
         If objFrm_VersionEdit Is Nothing Then
             objFrm_VersionEdit = New frmVersionEdit(objLocalConfig.Globals, objLocalConfig.OItem_User)
         End If
@@ -197,7 +240,7 @@ Public Class clsTransaction_Version
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             If Not isDependend Then
                                 objDataWork_Details.OItem_Version = objFrm_VersionEdit.OItem_Version.Clone()
-                                objOItem_Version_Last = objFrm_VersionEdit.OItem_Version.Clone()
+                                OItem_Version_Last = objFrm_VersionEdit.OItem_Version.Clone()
                             End If
 
 
@@ -205,7 +248,7 @@ Public Class clsTransaction_Version
                                 Dim objORel_LogEntry_To_LogEntry = objRelationConfig.Rel_ObjectRelation(objOItem_LogEntry, OItem_LogEntry_Parent, objLocalConfig.OItem_RelationType_belongsTo)
                                 objOItem_Result = objTransaction.do_Transaction(objORel_LogEntry_To_LogEntry)
                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                                    objOItem_Version_Last = Nothing
+                                    OItem_Version_Last = Nothing
                                     MsgBox("Die Abhängige Versionsänderung konnte nicht protokolliert werden!", MsgBoxStyle.Exclamation)
                                 End If
                             End If

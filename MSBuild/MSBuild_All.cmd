@@ -54,7 +54,7 @@ CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ AudioPlayer-Module \AudioPlayer-Modul
 IF ERRORLEVEL 1 GOTO Fehler
 CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ BankTransaction-Module \BankTransaction-Module.sln 0.0.1.18 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
-CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Development-Module \Development-Module.sln 0.2.0.52 1 1 1
+CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Development-Module \Development-Module.sln 0.2.0.53 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
 CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Media-Viewer-Module \Media-Viewer-Module.sln 0.0.1.62 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
@@ -70,15 +70,15 @@ CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ OutlookConnector-Module \OutlookConne
 IF ERRORLEVEL 1 GOTO Fehler
 CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Partner-Module \Partner-Module.sln 0.2.0.29 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
-CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Report-Module \Report-Module.sln 0.0.1.31 1 1 1
+CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Report-Module \Report-Module.sln 0.0.1.32 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
 CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Appointment-Module \Appointment-Module.sln 0.0.1.26 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
-CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Schriftverkehrs-Module \Schriftverkehrs-Module.sln 0.0.0.25 1 1 1
+CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Schriftverkehrs-Module \Schriftverkehrs-Module.sln 0.0.0.26 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
-CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Checklist-Module \Checklist-Module.sln 0.0.0.31 1 1 1
+CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Checklist-Module \Checklist-Module.sln 0.0.0.32 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
-CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Bill-Module \Bill-Module.sln 0.0.1.29 1 1 1
+CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Bill-Module \Bill-Module.sln 0.0.1.30 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
 CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ LiteraturQuellen-Module \LiteraturQuellen-Module.sln 0.0.0.81 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler

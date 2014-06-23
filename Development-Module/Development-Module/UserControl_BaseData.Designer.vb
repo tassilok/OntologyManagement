@@ -22,6 +22,8 @@ Partial Class UserControl_BaseData
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UserControl_BaseData))
         Me.Label_Development = New System.Windows.Forms.Label()
         Me.Panel_Languages = New System.Windows.Forms.Panel()
         Me.Label_Languages = New System.Windows.Forms.Label()
@@ -43,13 +45,17 @@ Partial Class UserControl_BaseData
         Me.ComboBox_State = New System.Windows.Forms.ComboBox()
         Me.Label_State = New System.Windows.Forms.Label()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.Button_ProjectFile = New System.Windows.Forms.Button()
-        Me.Label_File = New System.Windows.Forms.Label()
-        Me.TextBox_ProjectFile = New System.Windows.Forms.TextBox()
         Me.Button_VersionFile = New System.Windows.Forms.Button()
         Me.Label_VersionFilePath = New System.Windows.Forms.Label()
         Me.TextBox_VersionFile = New System.Windows.Forms.TextBox()
+        Me.Button_ProjectFile = New System.Windows.Forms.Button()
+        Me.Label_File = New System.Windows.Forms.Label()
+        Me.TextBox_ProjectFile = New System.Windows.Forms.TextBox()
         Me.OpenFileDialog_VersionFile = New System.Windows.Forms.OpenFileDialog()
+        Me.Label_PhysicalVersion = New System.Windows.Forms.Label()
+        Me.TextBox_PhysicalVersion = New System.Windows.Forms.TextBox()
+        Me.Button_UpdatePhysicalVersion = New System.Windows.Forms.Button()
+        Me.ImageList_Main = New System.Windows.Forms.ImageList(Me.components)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -70,15 +76,15 @@ Partial Class UserControl_BaseData
         Me.Panel_Languages.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Panel_Languages.Location = New System.Drawing.Point(116, 240)
+        Me.Panel_Languages.Location = New System.Drawing.Point(116, 263)
         Me.Panel_Languages.Name = "Panel_Languages"
-        Me.Panel_Languages.Size = New System.Drawing.Size(415, 103)
+        Me.Panel_Languages.Size = New System.Drawing.Size(415, 127)
         Me.Panel_Languages.TabIndex = 37
         '
         'Label_Languages
         '
         Me.Label_Languages.AutoSize = True
-        Me.Label_Languages.Location = New System.Drawing.Point(12, 240)
+        Me.Label_Languages.Location = New System.Drawing.Point(12, 263)
         Me.Label_Languages.Name = "Label_Languages"
         Me.Label_Languages.Size = New System.Drawing.Size(72, 26)
         Me.Label_Languages.TabIndex = 36
@@ -87,7 +93,7 @@ Partial Class UserControl_BaseData
         'Button_LanguageStandard
         '
         Me.Button_LanguageStandard.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_LanguageStandard.Location = New System.Drawing.Point(504, 213)
+        Me.Button_LanguageStandard.Location = New System.Drawing.Point(504, 236)
         Me.Button_LanguageStandard.Name = "Button_LanguageStandard"
         Me.Button_LanguageStandard.Size = New System.Drawing.Size(27, 23)
         Me.Button_LanguageStandard.TabIndex = 35
@@ -97,7 +103,7 @@ Partial Class UserControl_BaseData
         'Label_StandarLanguage
         '
         Me.Label_StandarLanguage.AutoSize = True
-        Me.Label_StandarLanguage.Location = New System.Drawing.Point(12, 218)
+        Me.Label_StandarLanguage.Location = New System.Drawing.Point(12, 241)
         Me.Label_StandarLanguage.Name = "Label_StandarLanguage"
         Me.Label_StandarLanguage.Size = New System.Drawing.Size(89, 13)
         Me.Label_StandarLanguage.TabIndex = 34
@@ -107,7 +113,7 @@ Partial Class UserControl_BaseData
         '
         Me.TextBox_LanguageStandard.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_LanguageStandard.Location = New System.Drawing.Point(116, 215)
+        Me.TextBox_LanguageStandard.Location = New System.Drawing.Point(116, 238)
         Me.TextBox_LanguageStandard.Name = "TextBox_LanguageStandard"
         Me.TextBox_LanguageStandard.ReadOnly = True
         Me.TextBox_LanguageStandard.Size = New System.Drawing.Size(382, 20)
@@ -258,6 +264,9 @@ Partial Class UserControl_BaseData
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.Button_UpdatePhysicalVersion)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.TextBox_PhysicalVersion)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.Label_PhysicalVersion)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Button_VersionFile)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Label_VersionFilePath)
         Me.SplitContainer1.Panel1.Controls.Add(Me.TextBox_VersionFile)
@@ -285,37 +294,8 @@ Partial Class UserControl_BaseData
         Me.SplitContainer1.Panel1.Controls.Add(Me.ComboBox_State)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Label_State)
         Me.SplitContainer1.Size = New System.Drawing.Size(538, 537)
-        Me.SplitContainer1.SplitterDistance = 350
+        Me.SplitContainer1.SplitterDistance = 397
         Me.SplitContainer1.TabIndex = 1
-        '
-        'Button_ProjectFile
-        '
-        Me.Button_ProjectFile.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_ProjectFile.Location = New System.Drawing.Point(504, 189)
-        Me.Button_ProjectFile.Name = "Button_ProjectFile"
-        Me.Button_ProjectFile.Size = New System.Drawing.Size(27, 23)
-        Me.Button_ProjectFile.TabIndex = 41
-        Me.Button_ProjectFile.Text = "..."
-        Me.Button_ProjectFile.UseVisualStyleBackColor = True
-        '
-        'Label_File
-        '
-        Me.Label_File.AutoSize = True
-        Me.Label_File.Location = New System.Drawing.Point(12, 194)
-        Me.Label_File.Name = "Label_File"
-        Me.Label_File.Size = New System.Drawing.Size(71, 13)
-        Me.Label_File.TabIndex = 40
-        Me.Label_File.Text = "Project-File_f:"
-        '
-        'TextBox_ProjectFile
-        '
-        Me.TextBox_ProjectFile.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_ProjectFile.Location = New System.Drawing.Point(116, 191)
-        Me.TextBox_ProjectFile.Name = "TextBox_ProjectFile"
-        Me.TextBox_ProjectFile.ReadOnly = True
-        Me.TextBox_ProjectFile.Size = New System.Drawing.Size(382, 20)
-        Me.TextBox_ProjectFile.TabIndex = 39
         '
         'Button_VersionFile
         '
@@ -346,9 +326,74 @@ Partial Class UserControl_BaseData
         Me.TextBox_VersionFile.Size = New System.Drawing.Size(382, 20)
         Me.TextBox_VersionFile.TabIndex = 42
         '
+        'Button_ProjectFile
+        '
+        Me.Button_ProjectFile.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button_ProjectFile.Location = New System.Drawing.Point(504, 212)
+        Me.Button_ProjectFile.Name = "Button_ProjectFile"
+        Me.Button_ProjectFile.Size = New System.Drawing.Size(27, 23)
+        Me.Button_ProjectFile.TabIndex = 41
+        Me.Button_ProjectFile.Text = "..."
+        Me.Button_ProjectFile.UseVisualStyleBackColor = True
+        '
+        'Label_File
+        '
+        Me.Label_File.AutoSize = True
+        Me.Label_File.Location = New System.Drawing.Point(12, 217)
+        Me.Label_File.Name = "Label_File"
+        Me.Label_File.Size = New System.Drawing.Size(71, 13)
+        Me.Label_File.TabIndex = 40
+        Me.Label_File.Text = "Project-File_f:"
+        '
+        'TextBox_ProjectFile
+        '
+        Me.TextBox_ProjectFile.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_ProjectFile.Location = New System.Drawing.Point(116, 214)
+        Me.TextBox_ProjectFile.Name = "TextBox_ProjectFile"
+        Me.TextBox_ProjectFile.ReadOnly = True
+        Me.TextBox_ProjectFile.Size = New System.Drawing.Size(382, 20)
+        Me.TextBox_ProjectFile.TabIndex = 39
+        '
         'OpenFileDialog_VersionFile
         '
         Me.OpenFileDialog_VersionFile.FileName = "OpenFileDialog1"
+        '
+        'Label_PhysicalVersion
+        '
+        Me.Label_PhysicalVersion.AutoSize = True
+        Me.Label_PhysicalVersion.Location = New System.Drawing.Point(113, 192)
+        Me.Label_PhysicalVersion.Name = "Label_PhysicalVersion"
+        Me.Label_PhysicalVersion.Size = New System.Drawing.Size(100, 13)
+        Me.Label_PhysicalVersion.TabIndex = 45
+        Me.Label_PhysicalVersion.Text = "x_Phyisical Version:"
+        '
+        'TextBox_PhysicalVersion
+        '
+        Me.TextBox_PhysicalVersion.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_PhysicalVersion.Location = New System.Drawing.Point(212, 189)
+        Me.TextBox_PhysicalVersion.Name = "TextBox_PhysicalVersion"
+        Me.TextBox_PhysicalVersion.ReadOnly = True
+        Me.TextBox_PhysicalVersion.Size = New System.Drawing.Size(286, 20)
+        Me.TextBox_PhysicalVersion.TabIndex = 46
+        '
+        'Button_UpdatePhysicalVersion
+        '
+        Me.Button_UpdatePhysicalVersion.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button_UpdatePhysicalVersion.ImageIndex = 0
+        Me.Button_UpdatePhysicalVersion.ImageList = Me.ImageList_Main
+        Me.Button_UpdatePhysicalVersion.Location = New System.Drawing.Point(504, 188)
+        Me.Button_UpdatePhysicalVersion.Name = "Button_UpdatePhysicalVersion"
+        Me.Button_UpdatePhysicalVersion.Size = New System.Drawing.Size(27, 23)
+        Me.Button_UpdatePhysicalVersion.TabIndex = 47
+        Me.Button_UpdatePhysicalVersion.UseVisualStyleBackColor = True
+        '
+        'ImageList_Main
+        '
+        Me.ImageList_Main.ImageStream = CType(resources.GetObject("ImageList_Main.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageList_Main.TransparentColor = System.Drawing.Color.Transparent
+        Me.ImageList_Main.Images.SetKeyName(0, "bb_reload_.png")
         '
         'UserControl_BaseData
         '
@@ -392,5 +437,9 @@ Partial Class UserControl_BaseData
     Friend WithEvents Label_VersionFilePath As System.Windows.Forms.Label
     Friend WithEvents TextBox_VersionFile As System.Windows.Forms.TextBox
     Friend WithEvents OpenFileDialog_VersionFile As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents Button_UpdatePhysicalVersion As System.Windows.Forms.Button
+    Friend WithEvents ImageList_Main As System.Windows.Forms.ImageList
+    Friend WithEvents TextBox_PhysicalVersion As System.Windows.Forms.TextBox
+    Friend WithEvents Label_PhysicalVersion As System.Windows.Forms.Label
 
 End Class

@@ -6,8 +6,8 @@ SET DEBUG=%5
 SET RELEASE=%6
 SET UPLOAD=%7
 
-IF NOT [%RELEASE%] EQU [1] Goto Debug
 mkdir "%TEMP%\OntologyManamgent\%PROJECTFOLDER%"
+IF NOT [%RELEASE%] EQU [1] Goto Debug
 
 :Debug
 IF NOT [%DEBUG%] EQU [1] Goto Release
