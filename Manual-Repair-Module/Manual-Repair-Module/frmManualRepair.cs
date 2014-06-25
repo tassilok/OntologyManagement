@@ -26,7 +26,8 @@ namespace Manual_Repair_Module
             objLocalConfig = new clsLocalConfig(new clsGlobals());
             Initialize();
             //Repair_MathematischeKomponenten();
-            Repair_MP3File();
+            //Repair_MP3File();
+            Repair_MultipleRelations();
 
         }
 
@@ -39,6 +40,180 @@ namespace Manual_Repair_Module
             {
                 MessageBox.Show(this, "Das Log-Objekt konnte nicht ermittelt werden", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(-1);
+            }
+        }
+
+        private void Repair_MultipleRelations()
+        {
+            var objLogging = new clsLogging(objLocalConfig.Globals);
+
+            objLogging.Initialize_Logging(objDataWork_Repair.Log, "multiplerelations");
+
+            objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+            objLogging.Add_DictEntry("timestamp", DateTime.Now);
+            objLogging.Add_DictEntry("step", "search multiple relations");
+            objLogging.Add_DictEntry("substep", "start");
+            objLogging.Finish_Document();
+
+            var objDBLevel_RelationSearch = new clsDBLevel(objLocalConfig.Globals);
+            var objDBLevel_Work = new clsDBLevel(objLocalConfig.Globals);
+
+            var result = objDBLevel_RelationSearch.get_Data_ObjectRel(null, boolIDs: true);
+
+            if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                var multiple = (from objRel in objDBLevel_RelationSearch.OList_ObjectRel_ID
+                                group objRel by new { ID_Left = objRel.ID_Object, ID_Right = objRel.ID_Other, ID_RelationType = objRel.ID_RelationType } into objRels
+                                select new { Key = objRels.Key, Count = objRels.Count(), GUID = objLocalConfig.Globals.NewGUID })
+                                .Where(m => m.Count > 1).ToList();
+
+                objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                objLogging.Add_DictEntry("step", "search multiple relations");
+                objLogging.Add_DictEntry("count", multiple.Count());
+                objLogging.Add_DictEntry("substep", "start");
+                objLogging.Finish_Document();
+
+                var relations = (from objRel in objDBLevel_RelationSearch.OList_ObjectRel_ID
+                                 join objMult in multiple on new
+                                 {
+                                     ID_Object = objRel.ID_Object,
+                                     ID_Other = objRel.ID_Other,
+                                     ID_RelationType = objRel.ID_RelationType
+                                 } equals
+                                 new
+                                 {
+                                     ID_Object = objMult.Key.ID_Left,
+                                     ID_Other = objMult.Key.ID_Right,
+                                     ID_RelationType = objMult.Key.ID_RelationType
+                                 }
+                                 select new { objRel, objMult.GUID }).OrderBy(m => m.GUID).ToList();
+
+                var relationsSave = new List<clsObjectRel>();
+                var relationsDel = new List<clsObjectRel>();
+                var guid = "";
+                foreach (var relation in relations)
+                {
+                    if (guid == relation.GUID)
+                    {
+                        relationsDel.Add(relation.objRel);
+
+                        objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                        objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                        objLogging.Add_DictEntry("step", "listadd");
+                        objLogging.Add_DictEntry("ontology", relation.objRel.Ontology);
+                        objLogging.Add_DictEntry("id_object", relation.objRel.ID_Object);
+                        objLogging.Add_DictEntry("id_other", relation.objRel.ID_Other);
+                        objLogging.Add_DictEntry("id_relationtype", relation.objRel.ID_RelationType);
+                        objLogging.Add_DictEntry("mode", "delete");
+                        objLogging.Finish_Document();
+                    }
+                    else if (guid != relation.GUID)
+                    {
+                        if (relation.objRel.Ontology == "Object")
+                        {
+                            if (!string.IsNullOrEmpty(relation.objRel.ID_Object) &&
+                                !string.IsNullOrEmpty(relation.objRel.ID_Parent_Object) &&
+                                !string.IsNullOrEmpty(relation.objRel.ID_Other) &&
+                                !string.IsNullOrEmpty(relation.objRel.ID_Parent_Other) &&
+                                !string.IsNullOrEmpty(relation.objRel.ID_RelationType) &&
+                                relation.objRel.OrderID != null)
+                            {
+                                relationsSave.Add(relation.objRel);
+
+                                objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                                objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                                objLogging.Add_DictEntry("step", "listadd");
+                                objLogging.Add_DictEntry("ontology", relation.objRel.Ontology);
+                                objLogging.Add_DictEntry("id_object", relation.objRel.ID_Object);
+                                objLogging.Add_DictEntry("id_other", relation.objRel.ID_Other);
+                                objLogging.Add_DictEntry("id_relationtype", relation.objRel.ID_RelationType);
+                                objLogging.Add_DictEntry("mode", "save");
+                                objLogging.Finish_Document();
+                            }
+                            else
+                            {
+                                relationsDel.Add(relation.objRel);
+
+                                objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                                objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                                objLogging.Add_DictEntry("step", "listadd");
+                                objLogging.Add_DictEntry("ontology", relation.objRel.Ontology);
+                                objLogging.Add_DictEntry("id_object", relation.objRel.ID_Object);
+                                objLogging.Add_DictEntry("id_other", relation.objRel.ID_Other);
+                                objLogging.Add_DictEntry("id_relationtype", relation.objRel.ID_RelationType);
+                                objLogging.Add_DictEntry("mode", "delete");
+                                objLogging.Finish_Document();
+                            }
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(relation.objRel.ID_Object) &&
+                                !string.IsNullOrEmpty(relation.objRel.ID_Parent_Object) &&
+                                !string.IsNullOrEmpty(relation.objRel.ID_Other) &&
+                                !string.IsNullOrEmpty(relation.objRel.ID_RelationType) &&
+                                relation.objRel.OrderID != null)
+                            {
+                                relationsSave.Add(relation.objRel);
+
+                                objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                                objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                                objLogging.Add_DictEntry("step", "listadd");
+                                objLogging.Add_DictEntry("ontology", relation.objRel.Ontology);
+                                objLogging.Add_DictEntry("id_object", relation.objRel.ID_Object);
+                                objLogging.Add_DictEntry("id_other", relation.objRel.ID_Other);
+                                objLogging.Add_DictEntry("id_relationtype", relation.objRel.ID_RelationType);
+                                objLogging.Add_DictEntry("mode", "save");
+                                objLogging.Finish_Document();
+                            }
+                            else
+                            {
+                                relationsDel.Add(relation.objRel);
+
+                                objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                                objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                                objLogging.Add_DictEntry("step", "listadd");
+                                objLogging.Add_DictEntry("ontology", relation.objRel.Ontology);
+                                objLogging.Add_DictEntry("id_object", relation.objRel.ID_Object);
+                                objLogging.Add_DictEntry("id_other", relation.objRel.ID_Other);
+                                objLogging.Add_DictEntry("id_relationtype", relation.objRel.ID_RelationType);
+                                objLogging.Add_DictEntry("mode", "delete");
+                                objLogging.Finish_Document();
+                            }
+                        }
+                        guid = relation.GUID;
+                    }
+                }
+
+                if (relationsDel.Any())
+                {
+                    result = objDBLevel_Work.del_ObjectRel(relationsDel);
+                    if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                        objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                        objLogging.Add_DictEntry("step", "delete relations");
+                        objLogging.Add_DictEntry("result", "success");
+                        objLogging.Finish_Document();
+                    }
+                    else
+                    {
+                        objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                        objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                        objLogging.Add_DictEntry("step", "delete relations");
+                        objLogging.Add_DictEntry("result", "error");
+                        objLogging.Finish_Document();
+                    }
+                }
+
+            }
+            else
+            {
+                objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                objLogging.Add_DictEntry("step", "search multiple relations");
+                objLogging.Add_DictEntry("result", "error");
+                objLogging.Finish_Document();
             }
         }
 

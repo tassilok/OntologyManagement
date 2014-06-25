@@ -42,10 +42,11 @@ Public Class clsTransaction_Version
 
         For Each objOItem_Dev_Dependend In objOList_VersionedDevs
             Save_Version(objOItem_Dev_Dependend, objOItem_LogEntry_Par, True)
-            objFrmOntologyItemList.RemoveItem(objOItem_Dev_Dependend.GUID)
             If boolSaveVersionFile Then
                 SaveVersionFile(objOItem_Dev_Dependend)
             End If
+            objFrmOntologyItemList.RemoveItem(objOItem_Dev_Dependend.GUID)
+            
 
         Next
 
