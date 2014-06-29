@@ -8,6 +8,7 @@ Public Class clsDataWork_GuiEntries
     Private objDBLevel_GuiEntries As clsDBLevel
     Private objDBLevel_Caption As clsDBLevel
     Private objDBLevel_ToolTip As clsDBLevel
+    Private objDBLevel_GuiEntriesExist As clsDBLevel
 
     Private objOItem_Development As clsOntologyItem
 
@@ -104,6 +105,26 @@ Public Class clsDataWork_GuiEntries
         Return objOItem_Result
     End Function
 
+    Public Function ExistGuiEntry(OItem_Parent As clsOntologyItem, nameEntry As String) As Boolean
+        Dim result As Boolean = False
+
+        Dim searchGuiEntry = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Object = OItem_Parent.GUID,
+                                                                                     .ID_Parent_Other = objLocalConfig.OItem_Class_GUI_Entires.GUID,
+                                                                                     .Name_Other = nameEntry,
+                                                                                     .ID_RelationType = objLocalConfig.Oitem_RelationType_contains.GUID}}
+
+        Dim oItem_Result = objDBLevel_GuiEntriesExist.get_Data_ObjectRel(searchGuiEntry, boolIDs:=False)
+
+        If oItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim guiEntries = objDBLevel_GuiEntriesExist.OList_ObjectRel.Where(Function(ge) ge.Name_Other.ToLower() = nameEntry.ToLower()).ToList()
+            result = guiEntries.Any()
+        Else
+            result = Nothing
+        End If
+
+        Return result
+    End Function
+
     Private Function GetSubData_GuiCaption() As clsOntologyItem
         Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
 
@@ -112,8 +133,12 @@ Public Class clsDataWork_GuiEntries
                                                                                         .ID_Parent_Other = objLocalConfig.OItem_Class_GUI_Caption.GUID}).ToList()
 
 
+        If objSearch_Caption.Any() Then
+            objOItem_Result = objDBLevel_Caption.get_Data_ObjectRel(objSearch_Caption, boolIDs:=False)
+        Else
+            objDBLevel_Caption.OList_ObjectRel.Clear()
+        End If
 
-        objOItem_Result = objDBLevel_Caption.get_Data_ObjectRel(objSearch_Caption, boolIDs:=False)
 
 
         Return objOItem_Result
@@ -127,8 +152,12 @@ Public Class clsDataWork_GuiEntries
                                                                                         .ID_Parent_Other = objLocalConfig.OItem_Class_ToolTip_Messages.GUID}).ToList()
 
 
+        If objSearch_ToolTip.Any() Then
+            objOItem_Result = objDBLevel_ToolTip.get_Data_ObjectRel(objSearch_ToolTip, boolIDs:=False)
+        Else
+            objDBLevel_ToolTip.OList_ObjectRel.Clear()
+        End If
 
-        objOItem_Result = objDBLevel_ToolTip.get_Data_ObjectRel(objSearch_ToolTip, boolIDs:=False)
 
 
         Return objOItem_Result
@@ -147,5 +176,6 @@ Public Class clsDataWork_GuiEntries
         objDBLevel_GuiEntries = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Caption = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_ToolTip = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_GuiEntriesExist = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class

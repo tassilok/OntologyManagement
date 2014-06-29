@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Class">
+  <Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
+<Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
+<Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
+<Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="a018e7951ce04a4da69adc9c9ca234e3" Id_Parent="b075f93264f0403a84c937a869602e06"><![CDATA[Binäre Relation (Typ)]]></Item>
+<Item Id="3c04273b01a24298b77506a0e356159a" Id_Parent="c2cab57626b34254972addb62067c2be"><![CDATA[Mengen]]></Item>
+<Item Id="b1436c618c6d492ebc84fd8c7192957c" Id_Parent="3c04273b01a24298b77506a0e356159a"><![CDATA[Mengentyp]]></Item>
+<Item Id="d5a70c44f97c486d816cc14f775647f9" Id_Parent="caf754da56e046c89643ff0aabea5af0"><![CDATA[Mengen-Element]]></Item>
+<Item Id="c2cab57626b34254972addb62067c2be" Id_Parent="f9cffc6a41ba46ab9e5f7a49653482b3"><![CDATA[Mathematik]]></Item>
+<Item Id="b075f93264f0403a84c937a869602e06" Id_Parent="c2cab57626b34254972addb62067c2be"><![CDATA[Geordnete Mengen]]></Item>
+<Item Id="caf754da56e046c89643ff0aabea5af0" Id_Parent="c2cab57626b34254972addb62067c2be"><![CDATA[Mengenelemente]]></Item>
+<Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
+<Item Id="f9cffc6a41ba46ab9e5f7a49653482b3" Id_Parent="ceb276836997426d9c4b5d5d65edc223"><![CDATA[Semantic-Project]]></Item>
+<Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
+<Item Id="ceb276836997426d9c4b5d5d65edc223" Id_Parent="35325335833e463e9d8cf8cffe99b5c8"><![CDATA[Resources]]></Item>
+<Item Id="35325335833e463e9d8cf8cffe99b5c8" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Eigene Literatur]]></Item>
+<Item Id="83317bacb4b14db8bf849fca0a93ddd5" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Information-Management]]></Item>
+
+</Items>

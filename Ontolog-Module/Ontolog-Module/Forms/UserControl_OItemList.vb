@@ -78,6 +78,8 @@ Public Class UserControl_OItemList
 
     Private strFilter_Extern As String
 
+    Private strLastModule As String
+
     Private Event selected_ListItem()
 
     Public Event Selection_Changed()
@@ -2756,17 +2758,30 @@ Public Class UserControl_OItemList
                                                         .GUID_Parent = objDRV.Item("ID_Parent"), _
                                                         .Type = objLocalConfig.Globals.Type_Object}
 
-        objFrm_Modules = New frmModules(objLocalConfig.Globals)
-        objFrm_Modules.ShowDialog(Me)
-        If objFrm_Modules.DialogResult = DialogResult.OK Then
-            Dim strModule = objFrm_Modules.Selected_Module
-            If Not strModule Is Nothing Then
-                objShellWork = New clsShellWork()
-                If Not objShellWork.start_Process(strModule, "Item=" & objOItem_Object.GUID + ",Object", IO.Path.GetDirectoryName(strModule), False, False) Then
-                    MsgBox("Das Module konnte nicht gestartet werden!", MsgBoxStyle.Exclamation)
+        If Not OpenLastModuleToolStripMenuItem.Checked Or String.IsNullOrEmpty(strLastModule) Then
+            objFrm_Modules = New frmModules(objLocalConfig.Globals)
+            objFrm_Modules.ShowDialog(Me)
+            If objFrm_Modules.DialogResult = DialogResult.OK Then
+                Dim strModule = objFrm_Modules.Selected_Module
+                If Not strModule Is Nothing Then
+                    objShellWork = New clsShellWork()
+                    If objShellWork.start_Process(strModule, "Item=" & objOItem_Object.GUID + ",Object", IO.Path.GetDirectoryName(strModule), False, False) Then
+                        strLastModule = strModule
+                        OpenLastModuleToolStripMenuItem.ToolTipText = strLastModule
+                    Else
+                        MsgBox("Das Module konnte nicht gestartet werden!", MsgBoxStyle.Exclamation)
+                    End If
                 End If
             End If
+        Else
+            objShellWork = New clsShellWork()
+            If Not objShellWork.start_Process(strLastModule, "Item=" & objOItem_Object.GUID + ",Object", IO.Path.GetDirectoryName(strLastModule), False, False) Then
+                MsgBox("Das Module konnte nicht gestartet werden!", MsgBoxStyle.Exclamation)
+            End If
+
         End If
+
+        
     End Sub
 End Class
 

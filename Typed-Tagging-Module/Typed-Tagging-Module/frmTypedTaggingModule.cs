@@ -178,7 +178,7 @@ namespace Typed_Tagging_Module
 
         void objUserControl_RefTree_selected_Node(clsOntologyItem OItem_Selected)
         {
-            objUserControl_TaggingContainer.Initialize_Taging(OItem_Selected);
+            objUserControl_TaggingContainer.Initialize_Taging(OItem_Selected, true);
         }
 
         private void Configure_Tags()

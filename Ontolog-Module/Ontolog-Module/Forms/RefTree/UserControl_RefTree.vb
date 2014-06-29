@@ -267,31 +267,35 @@ Public Class UserControl_RefTree
                     objFrm_OntologyModule.ShowDialog(Me)
                     If objFrm_OntologyModule.DialogResult = DialogResult.OK Then
                         Dim objOList = objFrm_OntologyModule.OList_Simple
-                        If objOList.Count = 1 Then
-                            If objOList.First().Type = objLocalConfig.Globals.Type_Object Then
+                        Dim objTreeNode_Child As TreeNode = Nothing
+                        If objOList.First().Type = objLocalConfig.Globals.Type_Object Then
 
-                                Dim objOItem_Class = objDataWork_RefTree.GetClassOfGUID(objOList.First().GUID_Parent)
+                            For Each objObject As clsOntologyItem In objOList
+                                Dim objOItem_Class = objDataWork_RefTree.GetClassOfGUID(objObject.GUID_Parent)
                                 Dim objOLClasses = objDataWork_RefTree.GetClassParents(objOItem_Class)
 
 
                                 If objOLClasses.Any Then
                                     AddClassNodes(objOLClasses)
                                 End If
-                                Dim objTreeNodes = objTreeNode.Nodes.Find(objOList.First().GUID, False)
+                                Dim objTreeNodes = objTreeNode.Nodes.Find(objObject.GUID, False)
                                 If Not objTreeNodes.Any Then
-                                    Dim objTreeNode_Child = objTreeNode.Nodes.Add(objOList.First().GUID, _
-                                                          objOList.First().Name, _
+                                    objTreeNode_Child = objTreeNode.Nodes.Add(objObject.GUID, _
+                                                          objObject.Name, _
                                                           objDataWork_RefTree.ImageID_Object, _
                                                           objDataWork_RefTree.ImageID_Object)
-                                    objDataWork_RefTree.OList_Objects.Add(objOList.First())
-                                    TreeView_Ref.SelectedNode = objTreeNode_Child
-                                End If
+                                    objDataWork_RefTree.OList_Objects.Add(objObject)
 
-                            Else
-                                MsgBox("Wählen Sie bitte nur ein Objekt aus!", MsgBoxStyle.Information)
+                                End If
+                            Next
+
+                            If Not objTreeNode_Child Is Nothing Then
+                                TreeView_Ref.SelectedNode = objTreeNode_Child
                             End If
+
+                        
                         Else
-                            MsgBox("Wählen Sie bitte nur ein Objekt aus!", MsgBoxStyle.Information)
+                            MsgBox("Wählen Sie bitte nur Objekte aus!", MsgBoxStyle.Information)
                         End If
                     End If
                 Case objDataWork_RefTree.ImageID_Root

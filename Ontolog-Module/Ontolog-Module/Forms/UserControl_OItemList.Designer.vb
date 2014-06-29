@@ -37,6 +37,7 @@ Partial Class UserControl_OItemList
         Me.DuplicateItemToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ModuleMenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowModuleConfigToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenModuleByArgumentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ChangeOrderIDsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MoveObjectsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RelateToItemByNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -75,7 +76,7 @@ Partial Class UserControl_OItemList
         Me.BindingSource_Type = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_TokenToken = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_Attribute = New System.Windows.Forms.BindingSource(Me.components)
-        Me.OpenModuleByArgumentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenLastModuleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage_List.SuspendLayout()
@@ -204,8 +205,15 @@ Partial Class UserControl_OItemList
         'ShowModuleConfigToolStripMenuItem
         '
         Me.ShowModuleConfigToolStripMenuItem.Name = "ShowModuleConfigToolStripMenuItem"
-        Me.ShowModuleConfigToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.ShowModuleConfigToolStripMenuItem.Size = New System.Drawing.Size(230, 22)
         Me.ShowModuleConfigToolStripMenuItem.Text = "x_Show Module-Config"
+        '
+        'OpenModuleByArgumentToolStripMenuItem
+        '
+        Me.OpenModuleByArgumentToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenLastModuleToolStripMenuItem})
+        Me.OpenModuleByArgumentToolStripMenuItem.Name = "OpenModuleByArgumentToolStripMenuItem"
+        Me.OpenModuleByArgumentToolStripMenuItem.Size = New System.Drawing.Size(230, 22)
+        Me.OpenModuleByArgumentToolStripMenuItem.Text = "x_Open Module by Argument"
         '
         'ChangeOrderIDsToolStripMenuItem
         '
@@ -438,11 +446,12 @@ Partial Class UserControl_OItemList
         '
         Me.Timer_List.Interval = 300
         '
-        'OpenModuleByArgumentToolStripMenuItem
+        'OpenLastModuleToolStripMenuItem
         '
-        Me.OpenModuleByArgumentToolStripMenuItem.Name = "OpenModuleByArgumentToolStripMenuItem"
-        Me.OpenModuleByArgumentToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
-        Me.OpenModuleByArgumentToolStripMenuItem.Text = "Open Module by Argument"
+        Me.OpenLastModuleToolStripMenuItem.CheckOnClick = True
+        Me.OpenLastModuleToolStripMenuItem.Name = "OpenLastModuleToolStripMenuItem"
+        Me.OpenLastModuleToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.OpenLastModuleToolStripMenuItem.Text = "x_Open Last Module"
         '
         'UserControl_OItemList
         '
@@ -520,5 +529,6 @@ End Sub
     Friend WithEvents MoveObjectsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RelateToItemByNameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenModuleByArgumentToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenLastModuleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

@@ -31,6 +31,10 @@ Partial Class UserControl_GuiEntries
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeView_GuiEntries = New System.Windows.Forms.TreeView()
         Me.ImageList_GuiEntries = New System.Windows.Forms.ImageList(Me.components)
+        Me.ContextMenuStrip_GuiEntries = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.NewGuiEntryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NewCaptionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NewTooltipToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -38,6 +42,7 @@ Partial Class UserControl_GuiEntries
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        Me.ContextMenuStrip_GuiEntries.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -95,6 +100,7 @@ Partial Class UserControl_GuiEntries
         '
         'TreeView_GuiEntries
         '
+        Me.TreeView_GuiEntries.ContextMenuStrip = Me.ContextMenuStrip_GuiEntries
         Me.TreeView_GuiEntries.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TreeView_GuiEntries.ImageIndex = 0
         Me.TreeView_GuiEntries.ImageList = Me.ImageList_GuiEntries
@@ -114,6 +120,30 @@ Partial Class UserControl_GuiEntries
         Me.ImageList_GuiEntries.Images.SetKeyName(3, "gnome-mime-document.ico")
         Me.ImageList_GuiEntries.Images.SetKeyName(4, "1683_Lightbulb_32x32.png")
         '
+        'ContextMenuStrip_GuiEntries
+        '
+        Me.ContextMenuStrip_GuiEntries.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewGuiEntryToolStripMenuItem, Me.NewCaptionToolStripMenuItem, Me.NewTooltipToolStripMenuItem})
+        Me.ContextMenuStrip_GuiEntries.Name = "ContextMenuStrip_GuiEntries"
+        Me.ContextMenuStrip_GuiEntries.Size = New System.Drawing.Size(162, 92)
+        '
+        'NewGuiEntryToolStripMenuItem
+        '
+        Me.NewGuiEntryToolStripMenuItem.Name = "NewGuiEntryToolStripMenuItem"
+        Me.NewGuiEntryToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
+        Me.NewGuiEntryToolStripMenuItem.Text = "x_New Gui-Entry"
+        '
+        'NewCaptionToolStripMenuItem
+        '
+        Me.NewCaptionToolStripMenuItem.Name = "NewCaptionToolStripMenuItem"
+        Me.NewCaptionToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
+        Me.NewCaptionToolStripMenuItem.Text = "x_New Caption"
+        '
+        'NewTooltipToolStripMenuItem
+        '
+        Me.NewTooltipToolStripMenuItem.Name = "NewTooltipToolStripMenuItem"
+        Me.NewTooltipToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
+        Me.NewTooltipToolStripMenuItem.Text = "x_New Tooltip"
+        '
         'UserControl_GuiEntries
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -131,6 +161,7 @@ Partial Class UserControl_GuiEntries
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
+        Me.ContextMenuStrip_GuiEntries.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -141,5 +172,9 @@ Partial Class UserControl_GuiEntries
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents TreeView_GuiEntries As System.Windows.Forms.TreeView
     Friend WithEvents ImageList_GuiEntries As System.Windows.Forms.ImageList
+    Friend WithEvents ContextMenuStrip_GuiEntries As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents NewGuiEntryToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents NewCaptionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents NewTooltipToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
