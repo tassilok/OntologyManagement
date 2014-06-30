@@ -251,6 +251,9 @@ Public Class clsTransaction_Version
                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                                     OItem_Version_Last = Nothing
                                     MsgBox("Die Abhängige Versionsänderung konnte nicht protokolliert werden!", MsgBoxStyle.Exclamation)
+
+                                Else
+                                    OItem_Version_Last = objFrm_VersionEdit.OItem_Version.Clone()
                                 End If
                             End If
                         Else
