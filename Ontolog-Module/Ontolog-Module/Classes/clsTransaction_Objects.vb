@@ -52,10 +52,10 @@ Public Class clsTransaction_Objects
         End Get
     End Property
 
-    Public Function duplicate_Object(OItem_Object As clsOntologyItem) As clsOntologyItem
+    Public Function duplicate_Object(OItem_Object As clsOntologyItem, Optional refreshView As Boolean = True) As clsOntologyItem
         Dim objOItem_Result = objLocalConfig.Globals.LState_Nothing.Clone()
 
-        objFrm_Name = New frm_Name("New Object", objLocalConfig, Nothing, Nothing, Nothing, True, True, False, False, True)
+        objFrm_Name = New frm_Name("New Object", objLocalConfig, Nothing, OItem_Object.Name, Nothing, True, True, False, False, True)
         objFrm_Name.ShowDialog(objfrmParent)
         If objFrm_Name.DialogResult = DialogResult.OK Then
 
@@ -123,15 +123,16 @@ Public Class clsTransaction_Objects
                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                     Dim objOList_ObjectToAttNew = objDBLevel.OList_ObjectAtt.Select(Function(p) New clsObjectAtt With {.ID_Attribute = Nothing, _
                                                                                                                                        .ID_AttributeType = p.ID_AttributeType, _
-                                                                                                                                       .ID_Class = p.ID_Class, _
-                                                                                                                                       .ID_Object = p.ID_Object, _
+                                                                                                                                       .ID_Class = objOItem_New.GUID_Parent, _
+                                                                                                                                       .ID_Object = objOItem_New.GUID, _
                                                                                                                                        .ID_DataType = p.ID_DataType, _
                                                                                                                                        .Val_Named = p.Val_Named, _
                                                                                                                                        .Val_Bit = p.Val_Bit, _
                                                                                                                                        .Val_Date = p.Val_Date, _
                                                                                                                                        .Val_Double = p.Val_Double, _
                                                                                                                                        .Val_Lng = p.Val_Lng, _
-                                                                                                                                       .Val_String = p.Val_String})
+                                                                                                                                       .Val_String = p.Val_String, _
+                                                                                                                                       .OrderID = p.OrderID})
 
                                     For Each objOAtt_ObjectToAtt In objOList_ObjectToAttNew
                                         objOItem_Result = objTransaction.do_Transaction(objOAtt_ObjectToAtt)

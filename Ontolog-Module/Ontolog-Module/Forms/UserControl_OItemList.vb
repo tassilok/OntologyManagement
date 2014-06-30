@@ -1848,6 +1848,11 @@ Public Class UserControl_OItemList
         RelateToItemByNameToolStripMenuItem.Enabled = False
         OpenModuleByArgumentToolStripMenuItem.Enabled = False
         If DataGridView_Items.SelectedRows.Count > 0 Then
+            If Not objOItem_Parent Is Nothing Then
+                If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
+                    DuplicateItemToolStripMenuItem.Enabled = True
+                End If
+            End If
             If boolApplyable = True Then
                 ApplyToolStripMenuItem.Enabled = True
             End If
@@ -1857,7 +1862,6 @@ Public Class UserControl_OItemList
             If DataGridView_Items.SelectedRows.Count = 1 Then
                 If Not objOItem_Parent Is Nothing Then
                     If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
-                        DuplicateItemToolStripMenuItem.Enabled = True
                         MoveObjectsToolStripMenuItem.Enabled = True
                         OpenModuleByArgumentToolStripMenuItem.Enabled = True
                     End If
@@ -2094,20 +2098,25 @@ Public Class UserControl_OItemList
     End Sub
 
     Private Sub DuplicateItemToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DuplicateItemToolStripMenuItem.Click
-        Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Nothing.Clone()
 
-        objDGVR_Selected = DataGridView_Items.SelectedRows(0)
-        objDRV_Selected = objDGVR_Selected.DataBoundItem
+        For Each objDGVR_Selected As DataGridViewRow In DataGridView_Items.SelectedRows
+            objDRV_Selected = objDGVR_Selected.DataBoundItem
 
-        Dim objOItem_Object = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_Item"), _
-                                                        .Name = objDRV_Selected.Item("Name"), _
-                                                        .GUID_Parent = objDRV_Selected.Item("ID_Parent"), _
-                                                        .Type = objLocalConfig.Globals.Type_Object}
+            Dim objOItem_Object = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_Item"), _
+                                                            .Name = objDRV_Selected.Item("Name"), _
+                                                            .GUID_Parent = objDRV_Selected.Item("ID_Parent"), _
+                                                            .Type = objLocalConfig.Globals.Type_Object}
 
-        Dim objOItem_Result = objTransaction_Objects.duplicate_Object(objOItem_Object)
+            objOItem_Result = objTransaction_Objects.duplicate_Object(objOItem_Object)
 
-        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                Exit For
+            End If    
+        Next
+        
+        If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
             configure_TabPages()
             ToolStripTextBox_Filter.Text = objTransaction_Objects.OItem_SavedLast.GUID
         End If
