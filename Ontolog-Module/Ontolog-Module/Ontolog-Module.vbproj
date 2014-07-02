@@ -95,6 +95,15 @@
     <Reference Include="ElasticSearchNestConnector">
       <HintPath>..\..\ElasticSearchNestConnector\ElasticSearchNestConnector\bin\Debug\ElasticSearchNestConnector.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.GLEE">
+      <HintPath>..\..\libs\Glee\Microsoft.GLEE.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.GLEE.Drawing">
+      <HintPath>..\..\libs\Glee\Microsoft.GLEE.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.GLEE.GraphViewerGDI">
+      <HintPath>..\..\libs\Glee\Microsoft.GLEE.GraphViewerGDI.dll</HintPath>
+    </Reference>
     <Reference Include="Nest">
       <HintPath>..\..\ElasticSearchNestConnector\ElasticSearchNestConnector\bin\Debug\Nest.dll</HintPath>
     </Reference>
@@ -257,6 +266,18 @@
     </Compile>
     <Compile Include="Forms\frmReplace.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Graph\frmGraph.Designer.vb">
+      <DependentUpon>frmGraph.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Graph\frmGraph.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Graph\UserControl_Graph.Designer.vb">
+      <DependentUpon>UserControl_Graph.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Graph\UserControl_Graph.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\Modules\frmModules.Designer.vb">
       <DependentUpon>frmModules.vb</DependentUpon>
@@ -517,6 +538,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmReplace.resx">
       <DependentUpon>frmReplace.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Graph\frmGraph.resx">
+      <DependentUpon>frmGraph.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Graph\UserControl_Graph.resx">
+      <DependentUpon>UserControl_Graph.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Modules\frmModules.resx">
       <DependentUpon>frmModules.vb</DependentUpon>

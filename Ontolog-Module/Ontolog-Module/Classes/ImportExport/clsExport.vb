@@ -842,24 +842,29 @@ End Enum
                         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
 
 
-                            OList_Objects.AddRange(From objObject In (From objObjRel In objDataWork_OntologyRels.ObjectRel
-                                                    Join objObject In OList_Objects On objObjRel.ID_Object Equals objObject.GUID
-                                                    Where objObjRel.Ontology = objGlobals.Type_Object
-                                                    Group Join objObjectOld In OList_Objects On objObjectOld.GUID Equals objObjRel.ID_Other Into objObjects = Group
-                                                    From objObjectOld In objObjects.DefaultIfEmpty()
-                                                    Where objObjectOld Is Nothing
-                                                    Select objObjRel).ToList()
-                                                 Group By objObject.ID_Other, objObject.Name_Other, objObject.ID_Parent_Other Into Group
-                                                 Select New clsOntologyItem With {.GUID = ID_Other, _
-                                                                                  .Name = Name_Other, _
-                                                                                  .GUID_Parent = ID_Parent_Other, _
-                                                                                  .Type = objGlobals.Type_Object})
 
-                            OList_Classes.AddRange(From objClass In objDataWork_OntologyRels.GetData_ClassesOfObjects(OList_Objects.GroupBy(Function(p) p.GUID_Parent).Select(Function(p) New clsOntologyItem With {.GUID = p.Key}).ToList())
+                            OList_Objects.AddRange(From objObject In (From objObjRel In objDataWork_OntologyRels.ObjectRel
+                                                Join objObject In OList_Objects On objObjRel.ID_Object Equals objObject.GUID
+                                                Where objObjRel.Ontology = objGlobals.Type_Object
+                                                Group Join objObjectOld In OList_Objects On objObjectOld.GUID Equals objObjRel.ID_Other Into objObjects = Group
+                                                From objObjectOld In objObjects.DefaultIfEmpty()
+                                                Where objObjectOld Is Nothing
+                                                Select objObjRel).ToList()
+                                             Group By objObject.ID_Other, objObject.Name_Other, objObject.ID_Parent_Other Into Group
+                                             Select New clsOntologyItem With {.GUID = ID_Other, _
+                                                                              .Name = Name_Other, _
+                                                                              .GUID_Parent = ID_Parent_Other, _
+                                                                              .Type = objGlobals.Type_Object})
+
+                            If OList_Objects.Any() Then
+                                OList_Classes.AddRange(From objClass In objDataWork_OntologyRels.GetData_ClassesOfObjects(OList_Objects.GroupBy(Function(p) p.GUID_Parent).Select(Function(p) New clsOntologyItem With {.GUID = p.Key}).ToList())
                                                   Group Join objClassExist In OList_Classes On objClass.GUID Equals objClassExist.GUID Into objClassesExist = Group
                                                   From objClassExist In objClassesExist.DefaultIfEmpty()
                                                   Where objClassExist Is Nothing
                                                   Select objClass)
+
+
+                            End If
 
                             OList_Classes.AddRange(From objObject In (From objObjRel In objDataWork_OntologyRels.ObjectRel
                                                     Join objObject In OList_Objects On objObjRel.ID_Object Equals objObject.GUID
@@ -873,6 +878,7 @@ End Enum
                                                                                   .Name = Name_Other, _
                                                                                   .GUID_Parent = ID_Parent_Other, _
                                                                                   .Type = objGlobals.Type_Object})
+
 
                             OList_Classes.AddRange(From objClassParent In objDataWork_Ontologies.OList_AllCalsses _
                                                       Join objClassSub In OList_Classes On objClassParent.GUID Equals objClassSub.GUID_Parent _

@@ -16,6 +16,7 @@ Public Class frmMain
     Private objFrm_AttributeTypeEdit As frm_AttributeTypeEdit
     Private objFrm_OntologyConfigurator As frmOntologyConfigurator
     Private objFrm_OntologyItem As frmMain
+    Private WithEvents objFrm_Graph As frmGraph
 
     Private objMappingWork As clsMappingWork
 
@@ -49,6 +50,25 @@ Public Class frmMain
     Private strType_Applied As String
     Private oList_Applied_Simple As List(Of clsOntologyItem)
     Private oList_Applied_ObjRel As List(Of clsObjectRel)
+
+    Private Sub Closed_GraphForm() Handles objFrm_Graph.Closing_From
+        ToolStripButton_Graph.Checked = False
+    End Sub
+
+    Private Sub selected_GraphItem(OItem_GraphItem As clsOntologyItem) Handles objFrm_Graph.Selected_GraphItem
+        Select Case OItem_GraphItem.Type
+            Case objLocalConfig.Globals.Type_AttributeType
+
+            Case objLocalConfig.Globals.Type_Class
+                objUserControl_TypeTree.SelectNode(OItem_GraphItem)
+                selectedClass(OItem_GraphItem)
+
+            Case objLocalConfig.Globals.Type_Object
+
+            Case objLocalConfig.Globals.Type_RelationType
+
+        End Select
+    End Sub
 
     Private Sub selected_ObjectNode(OItem_Node As clsOntologyItem) Handles objUserControl_ObjectTree.selected_Node
         If Not OItem_Node Is Nothing Then
@@ -250,6 +270,14 @@ Public Class frmMain
                                            objDRV_Selected.Item("ID_Parent"), _
                                            objLocalConfig.Globals.Type_Object)
 
+            If Not objFrm_Graph Is Nothing Then
+                Try
+                    objFrm_Graph.Initialize_Graph(objOItem)
+                Catch ex As Exception
+
+                End Try
+            End If
+
             objOList_Item.Add(objOItem)
             'get_ObjectRel(objOItem)
             'get_TokenAttribute(objSemItem_Token)
@@ -263,14 +291,14 @@ Public Class frmMain
                                                      objOList_ClassRel_RightLeft)
             End If
 
-            
+
 
 
             If Not objUserControl_ObjAtt Is Nothing Then
                 objUserControl_ObjAtt.initialize_RelList(objOItem, _
                                                      Nothing)
             End If
-            
+
 
             If Not objUserControl_ObjectTree Is Nothing Then
                 objUserControl_ObjectTree.select_Node(objOItem.GUID)
@@ -372,7 +400,7 @@ Public Class frmMain
     End Sub
 
     Private Sub initialize()
-        
+
 
         objUserControl_TypeTree = New UserControl_TypeTree(objLocalConfig)
         objUserControl_TypeTree.Applyable = boolApplyable
@@ -435,7 +463,7 @@ Public Class frmMain
             Panel_RelationTypes.Controls.Add(objUserControl_ORelationTypeList)
 
         End If
-        
+
     End Sub
 
     Private Sub Configure_OAttributeList(objOItem_AttType As clsOntologyItem)
@@ -447,7 +475,7 @@ Public Class frmMain
             objUserControl_OAttributeList.initialize(objOItem_AttType)
             Panel_Attributes.Controls.Add(objUserControl_OAttributeList)
         End If
-        
+
     End Sub
 
     Private Sub Configure_ORel()
@@ -457,7 +485,7 @@ Public Class frmMain
             SplitContainer_TokAttTokRel.Panel2.Controls.Clear()
             SplitContainer_TokAttTokRel.Panel2.Controls.Add(objUserControl_ObjRel)
         End If
-        
+
     End Sub
 
     Private Sub Configure_ObjAtt()
@@ -467,7 +495,7 @@ Public Class frmMain
             SplitContainer_AttribRel.Panel2.Controls.Clear()
             SplitContainer_AttribRel.Panel2.Controls.Add(objUserControl_ObjAtt)
         End If
-        
+
     End Sub
 
     Private Sub Configure_Filter()
@@ -477,7 +505,7 @@ Public Class frmMain
             SplitContainer_Filter_Body.Panel1.Controls.Clear()
             SplitContainer_Filter_Body.Panel1.Controls.Add(objUserControl_Filter)
         End If
-        
+
     End Sub
 
     Private Sub configure_Areas()
@@ -629,31 +657,31 @@ Public Class frmMain
         AboutBox.ShowDialog(Me)
     End Sub
 
-    Private Sub ApplyMappingToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles ApplyMappingToolStripMenuItem.Click
+    Private Sub ApplyMappingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ApplyMappingToolStripMenuItem.Click
         objFrm_OntologyItem = New frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class, objLocalConfig.Globals.Class_OntologyMapping)
         objFrm_OntologyItem.Applyable = True
         objFrm_OntologyItem.ShowDialog(Me)
-        
+
         If objFrm_OntologyItem.DialogResult = DialogResult.OK Then
             If objFrm_OntologyItem.Type_Applied = objLocalConfig.Globals.Type_Object Then
                 If objFrm_OntologyItem.OList_Simple.Count = 1 Then
                     Dim objOItem_Selected = objFrm_OntologyItem.OList_Simple.First()
 
                     If objOItem_Selected.GUID_Parent = objLocalConfig.Globals.Class_OntologyMapping.GUID Then
-                        objMappingWork = new clsMappingWork(objLocalConfig.Globals)
-                        dim objOItem_Result =  objMappingWork.MapItems(objOItem_Selected)
-                    Else 
-                        MsgBox("Wählen Sie bitte nur ein Mapping-Object aus!",MsgBoxStyle.Information)
+                        objMappingWork = New clsMappingWork(objLocalConfig.Globals)
+                        Dim objOItem_Result = objMappingWork.MapItems(objOItem_Selected)
+                    Else
+                        MsgBox("Wählen Sie bitte nur ein Mapping-Object aus!", MsgBoxStyle.Information)
                     End If
-                Else 
-                    MsgBox("Wählen Sie bitte nur ein Mapping-Object aus!",MsgBoxStyle.Information)
+                Else
+                    MsgBox("Wählen Sie bitte nur ein Mapping-Object aus!", MsgBoxStyle.Information)
                 End If
-            Else 
-                MsgBox("Wählen Sie bitte nur ein Mapping-Object aus!",MsgBoxStyle.Information)
+            Else
+                MsgBox("Wählen Sie bitte nur ein Mapping-Object aus!", MsgBoxStyle.Information)
             End If
 
         End If
-            
+
 
     End Sub
 
@@ -737,7 +765,7 @@ Public Class frmMain
 
                         If objRelations.Any() Then
                             objOItem_Result = objDBLevel_Work.del_ObjectRel(objRelations)
-                            End If
+                        End If
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             objOItem_Result = objDBLevel_Other.get_Data_RelationTypes()
 
@@ -752,7 +780,7 @@ Public Class frmMain
 
                             If objRelations.Any() Then
                                 objOItem_Result = objDBLevel_Work.del_ObjectRel(objRelations)
-                                End If
+                            End If
 
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                 objOItem_Result = objDBLevel_Other.get_Data_Classes()
@@ -768,7 +796,7 @@ Public Class frmMain
 
                                 If objRelations.Any() Then
                                     objOItem_Result = objDBLevel_Work.del_ObjectRel(objRelations)
-                                    End If
+                                End If
 
                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                     objOItem_Result = objDBLevel_ObjectRel.get_Data_ObjectAtt(Nothing)
@@ -805,47 +833,77 @@ Public Class frmMain
 
                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                                     MsgBox("Alle Fehlerhaften Beziehungen wurden gelöscht!", MsgBoxStyle.Information)
-                                                    End If
+                                                End If
                                             Else
 
                                                 MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
-                                                End If
+                                            End If
 
 
 
 
                                         Else
                                             MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
-                                            End If
+                                        End If
                                     Else
                                         MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
-                                        End If
+                                    End If
 
 
 
                                 Else
                                     MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
-                                    End If
+                                End If
                             Else
                                 MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
-                                End If
+                            End If
                         Else
                             MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
-                            End If
+                        End If
 
                     Else
                         MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
-                        End If
+                    End If
 
                 Else
                     MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
-                    End If
+                End If
             Else
                 MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
-                End If
+            End If
         Else
             MsgBox("Die Objekte konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
         End If
+
+
+    End Sub
+
+    Private Sub ToolStripButton_Graph_CheckStateChanged(sender As Object, e As EventArgs) Handles ToolStripButton_Graph.CheckStateChanged
+        If ToolStripButton_Graph.Checked Then
+            If objFrm_Graph Is Nothing Then
+                objFrm_Graph = New frmGraph(objLocalConfig)
+            End If
+
+            Try
+                objFrm_Graph.Show()
+            Catch ex As Exception
+                objFrm_Graph = New frmGraph(objLocalConfig)
+                objFrm_Graph.Show()
+            End Try
+
+            objFrm_Graph.Initialize_Graph()
+
+        Else
+            If Not objFrm_Graph Is Nothing Then
+                Try
+                    objFrm_Graph.Hide()
+                Catch ex As Exception
+
+                End Try
+
+            End If
+        End If
+
 
 
     End Sub
