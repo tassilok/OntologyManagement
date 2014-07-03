@@ -37,8 +37,8 @@ Partial Class UserControl_Graph
         Me.ToolStripTextBox_Filter = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripButton_Clear = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Root = New System.Windows.Forms.ToolStripButton()
-        Me.Timer_Filter = New System.Windows.Forms.Timer(Me.components)
         Me.ToolStripButton_Ontologies = New System.Windows.Forms.ToolStripButton()
+        Me.Timer_Filter = New System.Windows.Forms.Timer(Me.components)
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -133,7 +133,7 @@ Partial Class UserControl_Graph
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_Filter, Me.ToolStripTextBox_Filter, Me.ToolStripButton_Clear, Me.ToolStripButton_Root, Me.ToolStripButton_Ontologies})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(519, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(488, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_Filter
@@ -165,10 +165,6 @@ Partial Class UserControl_Graph
         Me.ToolStripButton_Root.Size = New System.Drawing.Size(36, 22)
         Me.ToolStripButton_Root.Text = "Root"
         '
-        'Timer_Filter
-        '
-        Me.Timer_Filter.Interval = 300
-        '
         'ToolStripButton_Ontologies
         '
         Me.ToolStripButton_Ontologies.CheckOnClick = True
@@ -178,6 +174,10 @@ Partial Class UserControl_Graph
         Me.ToolStripButton_Ontologies.Name = "ToolStripButton_Ontologies"
         Me.ToolStripButton_Ontologies.Size = New System.Drawing.Size(69, 22)
         Me.ToolStripButton_Ontologies.Text = "Ontologies"
+        '
+        'Timer_Filter
+        '
+        Me.Timer_Filter.Interval = 300
         '
         'UserControl_Graph
         '

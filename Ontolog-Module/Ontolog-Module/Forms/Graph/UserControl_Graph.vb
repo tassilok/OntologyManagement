@@ -16,10 +16,14 @@ Public Class UserControl_Graph
     Private objDBLevel_ObjectRel_LeftRight As clsDBLevel
     Private objDBLevel_ObjectRel_RightLeft As clsDBLevel
 
+    Private objFrm_ObjectEdit As frm_ObjectEdit
+
     Private objExport As clsExport
 
     Private objOItem_Item As clsOntologyItem
     Private objOItem_FilterItem As clsOntologyItem
+
+    Private nodeItem As clsGraphItem
 
     Private graph As Graph
 
@@ -50,6 +54,8 @@ Public Class UserControl_Graph
         objDBLevel_ObjectAtt = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_ObjectRel_LeftRight = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_ObjectRel_RightLeft = New clsDBLevel(objLocalConfig.Globals)
+
+
     End Sub
 
     Public Sub Initialize_Graph(Optional OItem_Item As clsOntologyItem = Nothing)
@@ -83,54 +89,46 @@ Public Class UserControl_Graph
     Public Sub Initialize_OntologyGraph(OItem_Ontology As clsOntologyItem)
         objOItem_Item = OItem_Ontology
 
+
+
         objExport.Clear()
         Dim objOItem_Result = objExport.Generate_OntologyItems(OItem_Ontology, Ontology_Module.ModeEnum.AllRelations)
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             graph = New Graph("Object-Relations")
-
+            nodeItem = New clsGraphItem(objLocalConfig.Globals, graph)
             objExport.OList_AttributeTypes.ForEach(Sub(att)
-                                                       Dim node = graph.AddNode(att.GUID)
-                                                       node.Attr.Label = att.Name
-                                                       node.Attr.Shape = Shape.Circle
-                                                       node.Attr.LabelMargin = 10
+
+                                                       nodeItem.AddNode(att.GUID, att.Name, objLocalConfig.Globals.Type_AttributeType, False)
 
                                                    End Sub)
 
             objExport.OList_Classes.ForEach(Sub(cls)
-                                                Dim node = graph.AddNode(cls.GUID)
-                                                node.Attr.Label = cls.Name
-                                                node.Attr.Shape = Shape.Box
-                                                node.Attr.LabelMargin = 10
+                                                nodeItem.AddNode(cls.GUID, cls.Name, objLocalConfig.Globals.Type_Class, False)
+
                                             End Sub)
 
             objExport.OList_RelationTypes.ForEach(Sub(rel)
-                                                      Dim node = graph.AddNode(rel.GUID)
-                                                      node.Attr.Label = rel.Name
-                                                      node.Attr.Shape = Shape.Triangle
-                                                      node.Attr.LabelMargin = 10
+                                                      nodeItem.AddNode(rel.GUID, rel.Name, objLocalConfig.Globals.Type_RelationType, False)
+
                                                   End Sub)
 
             objExport.OList_Objects.ForEach(Sub(obj)
-                                                Dim node = graph.AddNode(obj.GUID)
-                                                node.Attr.Label = obj.Name
-                                                node.Attr.Shape = Shape.Ellipse
-                                                node.Attr.LabelMargin = 10
 
-                                                graph.AddEdge(obj.GUID_Parent, node.Id)
+                                                nodeItem.AddNode(obj.GUID, obj.Name, objLocalConfig.Globals.Type_Object, False)
+
+                                                nodeItem.AddEdge(obj.GUID_Parent, obj.GUID)
                                             End Sub)
 
             objExport.OList_ObjectAtt.ForEach(Sub(objatt)
-                                                  Dim node = graph.AddNode(objatt.ID_Attribute)
-                                                  node.Attr.Label = objatt.Val_Name
-                                                  node.Attr.Shape = Shape.DoubleCircle
+                                                  nodeItem.AddAttribNode(objatt.ID_Attribute, objatt.Val_Name)
 
-                                                  graph.AddEdge(objatt.ID_Object, node.Id)
-                                                  graph.AddEdge(objatt.ID_AttributeType, node.Id)
+                                                  nodeItem.AddEdge(objatt.ID_Object, objatt.ID_Attribute)
+                                                  nodeItem.AddEdge(objatt.ID_AttributeType, objatt.ID_Attribute, objatt.Name_AttributeType)
                                               End Sub)
 
             objExport.OList_ObjectRel.ForEach(Sub(objrel)
-                                                  graph.AddEdge(objrel.ID_Object, objrel.Name_RelationType, objrel.ID_Other)
+                                                  nodeItem.AddEdge(objrel.ID_Object, objrel.ID_Other, objrel.Name_RelationType)
 
                                               End Sub)
 
@@ -166,75 +164,43 @@ Public Class UserControl_Graph
 
                 If result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     graph = New Graph("Object-Relations")
-
-                    Dim baseObject = graph.AddNode(OItem_Object.GUID)
-                    baseObject.Attr.Label = OItem_Object.Name
-                    baseObject.Attr.Shape = Shape.Ellipse
-                    baseObject.Attr.LabelMargin = 10
-
+                    nodeItem = New clsGraphItem(objLocalConfig.Globals, graph)
+                    nodeItem.AddNode(OItem_Object.GUID, OItem_Object.Name, objLocalConfig.Globals.Type_Object, True)
+                    
                     Dim objOItem_Class = objDBLevel_Classes.GetOItem(OItem_Object.GUID_Parent, objLocalConfig.Globals.Type_Class)
 
-                    Dim baseClass = graph.AddNode(objOItem_Class.GUID)
-                    baseClass.Attr.Label = objOItem_Class.Name
-                    baseClass.Attr.Shape = Shape.Box
-                    baseClass.Attr.LabelMargin = 10
-
-                    graph.AddEdge(baseClass.Id, baseObject.Id)
+                    nodeItem.AddNode(objOItem_Class.GUID, objOItem_Class.Name, objLocalConfig.Globals.Type_Class, False)
+                    
+                    nodeItem.AddEdge(objOItem_Class.GUID, OItem_Object.GUID)
 
                     objDBLevel_ObjectAtt.OList_ObjectAtt.ForEach(Sub(oa)
-                                                                     Dim node = graph.AddNode(oa.ID_Attribute)
-                                                                     node.Attr.Label = oa.Val_Name
-                                                                     node.Attr.Shape = Shape.DoubleCircle
-                                                                     node.Attr.LabelMargin = 10
-                                                                     graph.AddEdge(baseObject.Id, node.Id)
+                                                                     nodeItem.AddAttribNode(oa.ID_Attribute, oa.Val_Name)
+                                                                     nodeItem.AddEdge(OItem_Object.GUID, oa.ID_Attribute, oa.Name_AttributeType)
                                                                  End Sub)
 
                     objDBLevel_ObjectRel_LeftRight.OList_ObjectRel.ForEach(Sub(objr)
-                                                                               Dim node = graph.AddNode(objr.ID_Other)
-                                                                               node.Attr.Label = objr.Name_Other
-                                                                               Select Case objr.Ontology
-                                                                                   Case objLocalConfig.Globals.Type_AttributeType
-                                                                                       node.Attr.Shape = Shape.Circle
-                                                                                   Case objLocalConfig.Globals.Type_Class
-                                                                                       node.Attr.Shape = Shape.Box
-                                                                                   Case objLocalConfig.Globals.Type_Object
-                                                                                       node.Attr.Shape = Shape.Ellipse
-                                                                                       Dim classItem = objDBLevel_Classes.GetOItem(objr.ID_Parent_Other, objLocalConfig.Globals.Type_Class)
+                                                                               nodeItem.AddNode(objr.ID_Other, objr.Name_Other, objr.Ontology, False)
 
-                                                                                       Dim classNode = graph.AddNode(classItem.GUID)
-                                                                                       classNode.Attr.Label = classItem.Name
-                                                                                       classNode.Attr.Shape = Shape.Box
-                                                                                       classNode.Attr.LabelMargin = 10
+                                                                               If objr.Ontology = objLocalConfig.Globals.Type_Object Then
+                                                                                   Dim classItem = objDBLevel_Classes.GetOItem(objr.ID_Parent_Other, objLocalConfig.Globals.Type_Class)
+                                                                                   nodeItem.AddNode(classItem.GUID, classItem.Name, objLocalConfig.Globals.Type_Class, False)
+                                                                                   nodeItem.AddEdge(classItem.GUID, objr.ID_Other)
+                                                                               End If
 
-                                                                                       graph.AddEdge(classNode.Id, node.Id)
-
-                                                                                   Case objLocalConfig.Globals.Type_RelationType
-                                                                                       node.Attr.Shape = Shape.Triangle
-                                                                               End Select
-
-                                                                               node.Attr.LabelMargin = 10
-
-                                                                               Dim edge = graph.AddEdge(baseObject.Id, objr.Name_RelationType, node.Id)
-                                                                               edge.Attr.LineWidth = 3
-
+                                                                               nodeItem.AddEdge(OItem_Object.GUID, objr.ID_Other, objr.Name_RelationType, 3)
 
                                                                            End Sub)
 
                     objDBLevel_ObjectRel_RightLeft.OList_ObjectRel.ForEach(Sub(objr)
-                                                                               Dim node = graph.AddNode(objr.ID_Object)
-                                                                               node.Attr.Label = objr.Name_Object
-                                                                               node.Attr.Shape = Shape.Ellipse
-                                                                               node.Attr.LabelMargin = 10
-                                                                               graph.AddEdge(node.Id, objr.Name_RelationType, baseObject.Id)
+                                                                               nodeItem.AddNode(objr.ID_Object, objr.Name_Object, objLocalConfig.Globals.Type_Object, False)
+
+                                                                               graph.AddEdge(objr.ID_Object, objr.Name_RelationType, OItem_Object.GUID)
 
                                                                                Dim classItem = objDBLevel_Classes.GetOItem(objr.ID_Parent_Object, objLocalConfig.Globals.Type_Class)
 
-                                                                               Dim classNode = graph.AddNode(classItem.GUID)
-                                                                               classNode.Attr.Label = classItem.Name
-                                                                               classNode.Attr.Shape = Shape.Box
-                                                                               classNode.Attr.LabelMargin = 10
+                                                                               nodeItem.AddNode(classItem.GUID, classItem.Name, objLocalConfig.Globals.Type_Class, False)
 
-                                                                               graph.AddEdge(classNode.Id, node.Id)
+                                                                               graph.AddEdge(classItem.GUID, objr.ID_Object)
                                                                            End Sub)
 
                     RedRawGraph()
@@ -261,24 +227,18 @@ Public Class UserControl_Graph
 
 
             graph = New Graph("Classes")
-
+            nodeItem = New clsGraphItem(objLocalConfig.Globals, graph)
             If objOItem_FilterItem Is Nothing Then
-                Dim baseClass = graph.AddNode(OItem_Class.GUID)
-                baseClass.Attr.Label = OItem_Class.Name
-                baseClass.Attr.Shape = Shape.Box
-                baseClass.Attr.LabelMargin = 10
+                nodeItem.AddNode(OItem_Class.GUID, OItem_Class.Name, objLocalConfig.Globals.Type_Class, False)
             End If
 
 
             objDBLevel_Classes.OList_Classes.OrderBy(Function(cl) cl.Name).ToList().ForEach(Sub(cl)
-                                                                                                Dim node = graph.AddNode(cl.GUID)
-                                                                                                node.Attr.Label = cl.Name
-                                                                                                node.Attr.Shape = Shape.Box
-                                                                                                node.Attr.LabelMargin = 10
+                                                                                                nodeItem.AddNode(cl.GUID, cl.Name, objLocalConfig.Globals.Type_Class, False)
 
                                                                                                 If objOItem_FilterItem Is Nothing Then
                                                                                                     If Not String.IsNullOrEmpty(OItem_Class.GUID) Then
-                                                                                                        Dim edge = graph.AddEdge(OItem_Class.GUID, cl.GUID)
+                                                                                                        nodeItem.AddEdge(OItem_Class.GUID, cl.GUID)
                                                                                                     End If
                                                                                                 End If
                                                                                             End Sub)
@@ -376,6 +336,7 @@ Public Class UserControl_Graph
                         objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_AttributeType)
                     Case Shape.Ellipse      'Object
                         objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_Object)
+                        Initialize_Graph(objOItem_Selected)
                     Case Shape.Triangle     'RelationType
                         objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_RelationType)
                 End Select
@@ -408,38 +369,26 @@ Public Class UserControl_Graph
 
                 If result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     graph = New Graph("Classes")
-
-                    Dim baseClass = graph.AddNode(OItem_Class.GUID)
-                    baseClass.Attr.Label = OItem_Class.Name
-                    baseClass.Attr.Shape = Shape.Box
-                    baseClass.Attr.LabelMargin = 10
-
+                    nodeItem = New clsGraphItem(objLocalConfig.Globals, graph)
+                    nodeItem.AddNode(OItem_Class.GUID, OItem_Class.Name, objLocalConfig.Globals.Type_Class, True)
+                    
                     objDBLevel_ClassAtt.OList_ClassAtt.ForEach(Sub(cla)
-                                                                   Dim node = graph.AddNode(cla.ID_AttributeType)
-                                                                   node.Attr.Label = cla.Name_AttributeType
-                                                                   node.Attr.Shape = Shape.Circle
-                                                                   node.Attr.LabelMargin = 10
+                                                                   nodeItem.AddNode(cla.ID_AttributeType, cla.Name_AttributeType, objLocalConfig.Globals.Type_AttributeType, False)
 
-                                                                   graph.AddEdge(baseClass.Id, node.Id)
+                                                                   nodeItem.AddEdge(OItem_Class.GUID, cla.ID_AttributeType)
                                                                End Sub)
 
                     objDBLevel_ClassRelLeftRight.OList_ClassRel.ForEach(Sub(clr)
-                                                                            Dim node = graph.AddNode(clr.ID_Class_Right)
-                                                                            node.Attr.Label = clr.Name_Class_Right
-                                                                            node.Attr.Shape = Shape.Box
-                                                                            node.Attr.LabelMargin = 10
+                                                                            nodeItem.AddNode(clr.ID_Class_Right, clr.Name_Class_Right, objLocalConfig.Globals.Type_Class, False)
 
-                                                                            Dim edge = graph.AddEdge(baseClass.Id, clr.Name_RelationType, node.Id)
-                                                                            edge.Attr.LineWidth = 3
+                                                                            nodeItem.AddEdge(OItem_Class.GUID, clr.ID_Class_Right, clr.Name_RelationType, 3)
+
                                                                         End Sub)
 
                     objDBLevel_ClassRelRightLeft.OList_ClassRel.ForEach(Sub(clr)
-                                                                            Dim node = graph.AddNode(clr.ID_Class_Left)
-                                                                            node.Attr.Label = clr.Name_Class_Left
-                                                                            node.Attr.Shape = Shape.Box
-                                                                            node.Attr.LabelMargin = 10
+                                                                            nodeItem.AddNode(clr.ID_Class_Left, clr.Name_Class_Left, objLocalConfig.Globals.Type_Class, False)
 
-                                                                            graph.AddEdge(node.Id, clr.Name_RelationType, baseClass.Id)
+                                                                            nodeItem.AddEdge(clr.ID_Class_Left, OItem_Class.GUID, clr.Name_RelationType)
                                                                         End Sub)
 
                     RedRawGraph()
@@ -501,4 +450,29 @@ Public Class UserControl_Graph
     End Sub
 
 
+    Private Sub GViewer_OGraph_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles GViewer_OGraph.MouseDoubleClick
+        selectedItem = GViewer_OGraph.SelectedObject
+
+        Dim objOItem_Selected As clsOntologyItem = Nothing
+
+        If Not selectedItem Is Nothing Then
+
+            If TypeOf selectedItem Is Node Then
+                Dim node = CType(selectedItem, Node)
+
+                Select Case node.Attr.Shape
+                   
+                    Case Shape.Ellipse      'Object
+                        objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_Object)
+
+                        objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, New List(Of clsOntologyItem) From {objOItem_Selected}, 0, objLocalConfig.Globals.Type_Object, Nothing)
+                        objFrm_ObjectEdit.ShowDialog(Me)
+                End Select
+
+
+
+            End If
+
+        End If
+    End Sub
 End Class
