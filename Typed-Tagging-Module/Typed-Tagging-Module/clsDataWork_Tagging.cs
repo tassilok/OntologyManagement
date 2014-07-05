@@ -55,6 +55,11 @@ namespace Typed_Tagging_Module
             get { return objDBLevel_Tag.OList_ObjectRel; }
         }
 
+        public List<clsObjectRel> TagSources_Of_TypedTags
+        {
+            get { return objDBLevel_TaggingSource.OList_ObjectRel; }
+        }
+
 
         public void AddTag(clsOntologyItem OItem_Tag, clsOntologyItem OItem_TaggingSource, clsOntologyItem OItem_TaggingDest)
         {
@@ -213,7 +218,7 @@ namespace Typed_Tagging_Module
             return objOItem_Result;
         }
 
-        public clsOntologyItem GetTagsOfTaggingDest(clsOntologyItem OItem_TaggingDest)
+        public clsOntologyItem GetTagsOfTaggingDest(clsOntologyItem OItem_TaggingDest = null)
         {
             var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
 
@@ -221,15 +226,35 @@ namespace Typed_Tagging_Module
             
             TypedTags_Dests = new List<clsTypedTag>();
 
-            var objOList_Search_TaggingDest = new List<clsObjectRel>
+
+            var objOList_Search_TaggingDest = new List<clsObjectRel>();
+
+            if (OItem_TaggingDest != null)
             {
-                new clsObjectRel
+                objOList_Search_TaggingDest = new List<clsObjectRel>
                 {
-                    ID_Other = objOItem_TaggingDest.GUID,
-                    ID_RelationType = objLocalConfig.OItem_relationtype_belonging_tag.GUID,
-                    ID_Parent_Object = objLocalConfig.OItem_class_typed_tag.GUID
-                }
-            };
+                    new clsObjectRel
+                    {
+                        ID_Other = objOItem_TaggingDest.GUID,
+                        ID_RelationType = objLocalConfig.OItem_relationtype_belonging_tag.GUID,
+                        ID_Parent_Object = objLocalConfig.OItem_class_typed_tag.GUID
+                    }
+                };
+
+
+            }
+            else
+            {
+                objOList_Search_TaggingDest = new List<clsObjectRel>
+                {
+                    new clsObjectRel
+                    {
+                        ID_RelationType = objLocalConfig.OItem_relationtype_belonging_tag.GUID,
+                        ID_Parent_Object = objLocalConfig.OItem_class_typed_tag.GUID
+                    }
+                };
+            }
+            
 
             objOItem_Result = GetClasses();
 
@@ -256,18 +281,19 @@ namespace Typed_Tagging_Module
                         else
                         {
                             objOList_Search_TaggingSource = new List<clsObjectRel> 
-                        {
-                            new clsObjectRel 
                             {
-                                ID_Other = objOItem_TaggingSource.GUID,
-                                ID_Parent_Other =  objOItem_TaggingSource.GUID_Parent, 
-                                ID_RelationType = objLocalConfig.OItem_relationtype_is_tagging.GUID,
-                                ID_Parent_Object = objLocalConfig.OItem_class_typed_tag.GUID 
-                            } 
-                        };
+                                new clsObjectRel 
+                                {
+                                    ID_Other = objOItem_TaggingSource != null ? objOItem_TaggingSource.GUID : null,
+                                    ID_Parent_Other =  objOItem_TaggingSource != null ? objOItem_TaggingSource.GUID_Parent : null, 
+                                    ID_RelationType = objLocalConfig.OItem_relationtype_is_tagging.GUID,
+                                    ID_Parent_Object = objLocalConfig.OItem_class_typed_tag.GUID 
+                                } 
+                            };
                         }
 
                         objOItem_Result = objDBLevel_TaggingSource.get_Data_ObjectRel(objOList_Search_TaggingSource, boolIDs: false);
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
                             objOItem_Result = GetSubData_SecurityRel();
 
@@ -361,6 +387,14 @@ namespace Typed_Tagging_Module
 
                 if (objOList_TaggingSource.Any())
                 {
+                    TagSources = objOList_TaggingSource.Select(ts => new clsOntologyItem
+                    {
+                        GUID = ts.ID_Other,
+                        Name = ts.Name_Other,
+                        GUID_Parent = ts.ID_Parent_Other,
+                        Type = ts.Ontology
+                    }).ToList();
+
                     List<clsObjectRel> objOList_Search_Tag;
 
 

@@ -34,6 +34,8 @@ namespace Typed_Tagging_Module
 
         private frmAuthenticate objFrmAuthenticate;
 
+        private frmGraph objFrmGraph;
+
         private frmTypedTaggingSingle objFrmTypedTaggingSingle;
 
         private List<clsOntologyItem> FilterItems;
@@ -328,8 +330,165 @@ namespace Typed_Tagging_Module
             OItem_ClassOfSource = null;
         }
 
-        
+        private void showGraphToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedTab.Name == tabPage_TaggingSource.Name)
+            {
 
+            }
+            else
+            {
+                var objDataWork_Tags = new clsDataWork_Tagging(objLocalConfig);
+                objDataWork_Tags.GetTagsOfTaggingSource();
+
+                var objDataWork_TagSources = new clsDataWork_Tagging(objLocalConfig);
+
+                objFrmGraph = new frmGraph(objLocalConfig.Globals);
+                objFrmGraph.Initialize_Lists();
+
+                List<clsOntologyItem> OList_Tags;
+                
+                objFrmGraph.OList_AttributeTypes = objUserControl_TagTree.OList_AttributeTypes;
+                objFrmGraph.OList_Classes = objUserControl_TagTree.OList_Classes;
+                objFrmGraph.OList_RelationTypes = objUserControl_TagTree.OList_RelationTypes;
+                objFrmGraph.OList_Objects = objUserControl_TagTree.OList_Objects;
+                
+
+                if (OItem_ClassOfSource != null)
+                {
+                    var tags = objDataWork_Tags.TagSources_Of_TypedTags.Where(ts => ts.ID_Parent_Other == OItem_ClassOfSource.GUID).ToList();
+                    
+                    var tagObjects = new List<clsOntologyItem>();
+                    var tagClasses = new List<clsOntologyItem>();
+
+                    tagObjects = (from objTagSource in tags
+                                  group objTagSource by new { objTagSource.ID_Other, objTagSource.Name_Other, objTagSource.ID_Parent_Other } into objTagSources
+                                  select new clsOntologyItem
+                                  {
+                                      GUID = objTagSources.Key.ID_Other,
+                                      Name = objTagSources.Key.Name_Other,
+                                      GUID_Parent = objTagSources.Key.ID_Parent_Other,
+                                      Type = objLocalConfig.Globals.Type_Object
+                                  }).ToList();
+
+                    tagClasses = (from objTagSource in tags
+                                  group objTagSource by new { objTagSource.ID_Parent_Other, objTagSource.Name_Parent_Other } into objTagSources
+                                  select new clsOntologyItem
+                                  {
+                                      GUID = objTagSources.Key.ID_Parent_Other,
+                                      Name = objTagSources.Key.Name_Parent_Other,
+                                      GUID_Parent = objTagSources.Key.ID_Parent_Other,
+                                      Type = objLocalConfig.Globals.Type_Class
+                                  }).ToList();
+
+                    
+                    var tagObjectsToAdd = (from objObjectToAdd in tagObjects
+                                           join objObject in objFrmGraph.OList_Objects on objObjectToAdd.GUID equals objObject.GUID into objObjects
+                                           from objObject in objObjects.DefaultIfEmpty()
+                                           where objObject == null
+                                           select objObjectToAdd);
+
+                    objFrmGraph.OList_Objects.AddRange(tagObjectsToAdd);
+
+                    var tagClassesToAdd = (from objClassToAdd in tagClasses
+                                           join objClass in objFrmGraph.OList_Classes on objClassToAdd.GUID equals objClass.GUID into objClasses
+                                           from objClass in objClasses.DefaultIfEmpty()
+                                           where objClass == null
+                                           select objClassToAdd);
+
+                    objFrmGraph.OList_Classes.AddRange(tagClassesToAdd);
+
+                    var tagSourcesDests = (from objTag in objDataWork_Tags.TypedTags_Sources
+                                           join objTagSource in tags on objTag.ID_TaggingSource equals objTagSource.ID_Other
+                                           select objTag).ToList();
+
+                    var edgesToAdd = (from objTagSourceDest in tagSourcesDests
+                                      group objTagSourceDest by new { objTagSourceDest.ID_TaggingSource, objTagSourceDest.ID_TaggingDest } into objTagSourceDests
+                                      select new clsObjectRel
+                                        {
+                                            ID_Object = objTagSourceDests.Key.ID_TaggingSource,
+                                            ID_Other = objTagSourceDests.Key.ID_TaggingDest,
+                                            Name_RelationType = objLocalConfig.OItem_relationtype_is_tagging.Name
+                                        }).ToList();
+
+                    objFrmGraph.EdgeList = edgesToAdd;
+
+                    
+                }
+                else
+                {
+                    var tags = objDataWork_Tags.TagSources_Of_TypedTags;
+
+                    var tagObjects = new List<clsOntologyItem>();
+                    var tagClasses = new List<clsOntologyItem>();
+
+                   tagObjects = (from objTagSource in tags
+                                  group objTagSource by new { objTagSource.ID_Other, objTagSource.Name_Other, objTagSource.ID_Parent_Other } into objTagSources
+                                  select new clsOntologyItem
+                                  {
+                                      GUID = objTagSources.Key.ID_Other,
+                                      Name = objTagSources.Key.Name_Other,
+                                      GUID_Parent = objTagSources.Key.ID_Parent_Other,
+                                      Type = objLocalConfig.Globals.Type_Object
+                                  }).ToList();
+
+                    tagClasses = (from objTagSource in tags
+                                  group objTagSource by new { objTagSource.ID_Parent_Other, objTagSource.Name_Parent_Other } into objTagSources
+                                  select new clsOntologyItem
+                                  {
+                                      GUID = objTagSources.Key.ID_Parent_Other,
+                                      Name = objTagSources.Key.Name_Parent_Other,
+                                      GUID_Parent = objTagSources.Key.ID_Parent_Other,
+                                      Type = objLocalConfig.Globals.Type_Class
+                                  }).ToList();
+
+
+                    var tagObjectsToAdd = (from objObjectToAdd in tagObjects
+                                           join objObject in objFrmGraph.OList_Objects on objObjectToAdd.GUID equals objObject.GUID into objObjects
+                                           from objObject in objObjects.DefaultIfEmpty()
+                                           where objObject == null
+                                           select objObjectToAdd);
+
+                    objFrmGraph.OList_Objects.AddRange(tagObjectsToAdd);
+
+                    var tagClassesToAdd = (from objClassToAdd in tagClasses
+                                           join objClass in objFrmGraph.OList_Classes on objClassToAdd.GUID equals objClass.GUID into objClasses
+                                           from objClass in objClasses.DefaultIfEmpty()
+                                           where objClass == null
+                                           select objClassToAdd);
+
+                    objFrmGraph.OList_Classes.AddRange(tagClassesToAdd);
+
+                    var tagSourcesDests = (from objTag in objDataWork_Tags.TypedTags_Sources
+                                           join objTagSource in tags on objTag.ID_TaggingSource equals objTagSource.ID_Other
+                                           select objTag).ToList();
+
+                    var edgesToAdd = (from objTagSourceDest in tagSourcesDests
+                                      group objTagSourceDest by new { objTagSourceDest.ID_TaggingSource, objTagSourceDest.ID_TaggingDest } into objTagSourceDests
+                                      select new clsObjectRel
+                                      {
+                                          ID_Object = objTagSourceDests.Key.ID_TaggingSource,
+                                          ID_Other = objTagSourceDests.Key.ID_TaggingDest,
+                                          Name_RelationType = objLocalConfig.OItem_relationtype_is_tagging.Name
+                                      }).ToList();
+
+                    objFrmGraph.EdgeList = edgesToAdd;
+
+                }
+
+
+
+                
+
+                
+                objFrmGraph.Initialize_Graph();
+                objFrmGraph.ShowDialog(this);
+                
+            }
+        }
+
+        
+        
        
     }
 }

@@ -45,6 +45,7 @@
             this.toolStripMenuItem_Extras = new System.Windows.Forms.ToolStripMenuItem();
             this.exportGraphMLFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog_GraphML = new System.Windows.Forms.SaveFileDialog();
+            this.showGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -203,7 +204,8 @@
             // toolStripMenuItem_Extras
             // 
             this.toolStripMenuItem_Extras.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportGraphMLFileToolStripMenuItem});
+            this.exportGraphMLFileToolStripMenuItem,
+            this.showGraphToolStripMenuItem});
             this.toolStripMenuItem_Extras.Name = "toolStripMenuItem_Extras";
             this.toolStripMenuItem_Extras.Size = new System.Drawing.Size(59, 20);
             this.toolStripMenuItem_Extras.Text = "x_Extras";
@@ -219,6 +221,13 @@
             // saveFileDialog_GraphML
             // 
             this.saveFileDialog_GraphML.Filter = "GraphML-Files|*.graphml";
+            // 
+            // showGraphToolStripMenuItem
+            // 
+            this.showGraphToolStripMenuItem.Name = "showGraphToolStripMenuItem";
+            this.showGraphToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.showGraphToolStripMenuItem.Text = "x_Show Graph";
+            this.showGraphToolStripMenuItem.Click += new System.EventHandler(this.showGraphToolStripMenuItem_Click);
             // 
             // frmTypedTaggingModule
             // 
@@ -270,6 +279,7 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox_Class;
         private System.Windows.Forms.ToolStripButton toolStripButton_ClearFilter;
+        private System.Windows.Forms.ToolStripMenuItem showGraphToolStripMenuItem;
     }
 }
 

@@ -29,8 +29,29 @@ namespace Typed_Tagging_Module
 
         public event SelectedNode Selected_Node;
 
-        private List<clsOntologyItem> TagFilter;
+        public List<clsOntologyItem> TagFilter { get; private set; }
 
+        public List<clsOntologyItem> OList_Classes
+        {
+            get { return objDataWork_Tagging.ClassTree; }
+        }
+
+        public List<clsOntologyItem> OList_Objects
+        {
+            get { return objDataWork_Tagging.ObjectTags; }
+        }
+
+        public List<clsOntologyItem> OList_AttributeTypes
+        {
+            get { return objDataWork_Tagging.AttributeTypeTags; }
+        }
+
+        public List<clsOntologyItem> OList_RelationTypes
+        {
+            get { return objDataWork_Tagging.RelationTypeTags; }
+        }
+
+        
         public UserControl_TagTree(clsLocalConfig LocalConfig)
         {
             InitializeComponent();

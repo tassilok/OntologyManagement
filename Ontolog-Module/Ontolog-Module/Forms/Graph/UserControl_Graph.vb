@@ -4,6 +4,16 @@ Imports Microsoft.Glee.Drawing
 
 Public Class UserControl_Graph
 
+    Public Property OList_AttributeTypes As List(Of clsOntologyItem)
+    Public Property OList_RelationTypes As List(Of clsOntologyItem)
+    Public Property OList_Objects As List(Of clsOntologyItem)
+    Public Property OList_Classes As List(Of clsOntologyItem)
+    Public Property OList_ClassAtt As List(Of clsClassAtt)
+    Public Property OList_ClassRel As List(Of clsClassRel)
+    Public Property OList_ObjectAtt As List(Of clsObjectAtt)
+    Public Property OList_ObjectRel As List(Of clsObjectRel)
+    Public Property EdgeList As List(Of clsObjectRel)
+
     Private objLocalConfig As clsLocalConfig
 
     Private objDBLevel_Classes As clsDBLevel
@@ -31,6 +41,18 @@ Public Class UserControl_Graph
     Private selectedItemAttr As Object
 
     Public Event Selected_Item(OItem_Item As clsOntologyItem)
+
+    Public Sub Initialize_Lists()
+        OList_AttributeTypes = New List(Of clsOntologyItem)
+        OList_ClassAtt = New List(Of clsClassAtt)
+        OList_Classes = New List(Of clsOntologyItem)
+        OList_ClassRel = New List(Of clsClassRel)
+        OList_ObjectAtt = New List(Of clsObjectAtt)
+        OList_ObjectRel = New List(Of clsObjectRel)
+        OList_Objects = New List(Of clsOntologyItem)
+        OList_RelationTypes = New List(Of clsOntologyItem)
+        EdgeList = New List(Of clsObjectRel)
+    End Sub
 
     Public Sub New(LocalConfig As clsLocalConfig)
 
@@ -86,6 +108,60 @@ Public Class UserControl_Graph
         End If
     End Sub
 
+    Public Sub Initialize_Graph()
+        graph = New Graph("Graph")
+        nodeItem = New clsGraphItem(objLocalConfig.Globals, graph)
+
+        OList_AttributeTypes.ForEach(Sub(att)
+                                         nodeItem.AddNode(att.GUID, att.Name, objLocalConfig.Globals.Type_AttributeType, False)
+                                     End Sub)
+
+        OList_Classes.ForEach(Sub(cls)
+                                  nodeItem.AddNode(cls.GUID, cls.Name, objLocalConfig.Globals.Type_Class, False)
+                              End Sub)
+
+        OList_Classes.Where(Function(cls) Not String.IsNullOrEmpty(cls.GUID_Parent)).ToList().ForEach(Sub(cls)
+                                                                                                          nodeItem.AddEdge(cls.GUID_Parent, cls.GUID)
+                                                                                                      End Sub)
+
+        OList_RelationTypes.ForEach(Sub(relt)
+                                        nodeItem.AddNode(relt.GUID, relt.Name, objLocalConfig.Globals.Type_RelationType, False)
+                                    End Sub)
+
+        OList_Objects.ForEach(Sub(obj)
+                                  nodeItem.AddNode(obj.GUID, obj.Name, objLocalConfig.Globals.Type_Object, False)
+                                  nodeItem.AddEdge(obj.GUID_Parent, obj.GUID)
+                              End Sub)
+
+
+        OList_ClassAtt.ForEach(Sub(clsa)
+                                   nodeItem.AddNode(clsa.ID_AttributeType, clsa.Name_AttributeType, objLocalConfig.Globals.Type_AttributeType, False)
+                                   nodeItem.AddEdge(clsa.ID_Class, clsa.ID_AttributeType)
+                               End Sub)
+
+        OList_ClassRel.ForEach(Sub(clsr)
+                                   nodeItem.AddEdge(clsr.ID_Class_Left, clsr.ID_Class_Right, clsr.Name_RelationType)
+                               End Sub)
+
+
+        OList_ObjectAtt.ForEach(Sub(obja)
+                                    nodeItem.AddAttribNode(obja.ID_Attribute, obja.Val_Name)
+                                    nodeItem.AddEdge(obja.ID_Object, obja.ID_Attribute, obja.Name_AttributeType)
+                                End Sub)
+
+        OList_ObjectRel.ForEach(Sub(objr)
+                                    nodeItem.AddEdge(objr.ID_Object, objr.ID_Other, objr.Name_RelationType)
+                                End Sub)
+
+        EdgeList.ForEach(Sub(edg)
+                             nodeItem.AddEdge(edg.ID_Object, edg.ID_Other, edg.Name_RelationType)
+                         End Sub)
+
+
+
+        RedRawGraph(True)
+    End Sub
+
     Public Sub Initialize_OntologyGraph(OItem_Ontology As clsOntologyItem)
         objOItem_Item = OItem_Ontology
 
@@ -132,7 +208,7 @@ Public Class UserControl_Graph
 
                                               End Sub)
 
-            RedRawGraph()
+            RedRawGraph(True)
         End If
     End Sub
 
@@ -253,10 +329,13 @@ Public Class UserControl_Graph
 
     End Sub
 
-    Private Sub RedRawGraph()
+    Private Sub RedRawGraph(Optional boolAspekt1 As Boolean = False)
 
         If Not graph Is Nothing Then
             graph.GraphAttr.LayerDirection = LayerDirection.LR
+            If boolAspekt1 Then
+                graph.GraphAttr.AspectRatio = 1
+            End If
             GViewer_OGraph.Graph = graph
         End If
     End Sub
@@ -391,7 +470,7 @@ Public Class UserControl_Graph
                                                                             nodeItem.AddEdge(clr.ID_Class_Left, OItem_Class.GUID, clr.Name_RelationType)
                                                                         End Sub)
 
-                    RedRawGraph()
+                    RedRawGraph(True)
                 Else
                     MsgBox("Die Klassenbeziehungen können nicht dargestellt werden!", MsgBoxStyle.Critical)
                 End If
