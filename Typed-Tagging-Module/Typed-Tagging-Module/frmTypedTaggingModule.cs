@@ -481,7 +481,7 @@ namespace Typed_Tagging_Module
                 
 
                 
-                objFrmGraph.Initialize_Graph();
+                objFrmGraph.Initialize_ListGraph();
                 objFrmGraph.ShowDialog(this);
                 
             }

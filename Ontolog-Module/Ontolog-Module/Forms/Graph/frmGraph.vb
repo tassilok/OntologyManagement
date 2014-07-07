@@ -138,8 +138,8 @@ Public Class frmGraph
         objUserControl_Graph.Initialize_Graph(objOItem_Item)
     End Sub
 
-    Public Sub Initialize_Graph()
-        objUserControl_Graph.Initialize_Graph()
+    Public Sub Initialize_ListGraph()
+        objUserControl_Graph.Initialize_ListGraph()
     End Sub
 
     Private Sub frmGraph_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
