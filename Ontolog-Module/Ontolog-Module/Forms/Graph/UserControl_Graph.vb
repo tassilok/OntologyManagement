@@ -108,7 +108,7 @@ Public Class UserControl_Graph
         End If
     End Sub
 
-    Public Sub Initialize_Graph()
+    Public Sub Initialize_ListGraph()
         graph = New Graph("Graph")
         nodeItem = New clsGraphItem(objLocalConfig.Globals, graph)
 
