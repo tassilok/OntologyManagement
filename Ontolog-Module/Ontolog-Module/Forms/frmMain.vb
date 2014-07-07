@@ -45,7 +45,10 @@ Public Class frmMain
     Private strType_Entry As String
     Private objOItem_Entry As clsOntologyItem
 
+    Private objOItem_GraphItem As clsOntologyItem
+
     Private boolApplyable As Boolean
+    Private boolGraphClassSelect As Boolean
 
     Private strType_Applied As String
     Private oList_Applied_Simple As List(Of clsOntologyItem)
@@ -56,6 +59,7 @@ Public Class frmMain
     End Sub
 
     Private Sub selected_GraphItem(OItem_GraphItem As clsOntologyItem) Handles objFrm_Graph.Selected_GraphItem
+        objOItem_GraphItem = OItem_GraphItem
         Select Case OItem_GraphItem.Type
             Case objLocalConfig.Globals.Type_AttributeType
 
@@ -231,6 +235,22 @@ Public Class frmMain
         objUserControl_OObjectList.initialize(New clsOntologyItem(Nothing, Nothing, OItem_Class.GUID, objLocalConfig.Globals.Type_Object))
         get_ClassRel(objOItem_Class)
         initialize_OTree()
+
+        If objOItem_GraphItem Is Nothing Then
+            If Not objFrm_Graph Is Nothing Then
+                If objFrm_Graph.Visible = True Then
+                    objFrm_Graph.Initialize_Graph(objOItem_Class)
+                End If
+            End If
+        Else
+            If Not objOItem_GraphItem.GUID = objOItem_Class.GUID Then
+                If Not objFrm_Graph Is Nothing Then
+                    If objFrm_Graph.Visible = True Then
+                        objFrm_Graph.Initialize_Graph(objOItem_Class)
+                    End If
+                End If
+            End If
+        End If
     End Sub
 
     Private Sub initialize_OTree()

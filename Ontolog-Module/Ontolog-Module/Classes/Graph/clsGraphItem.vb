@@ -13,6 +13,12 @@ Public Class clsGraphItem
     Private objGlobals As clsGlobals
 
 
+    Public ReadOnly Property Graph As Graph
+        Get
+            Return objGraph
+        End Get
+    End Property
+
     Public Sub New(Globals As clsGlobals, graph As Graph)
         objGlobals = Globals
         objGraph = graph

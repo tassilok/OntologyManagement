@@ -25,8 +25,10 @@ Public Class UserControl_Graph
     Private objDBLevel_ObjectAtt As clsDBLevel
     Private objDBLevel_ObjectRel_LeftRight As clsDBLevel
     Private objDBLevel_ObjectRel_RightLeft As clsDBLevel
+    Private objDBLevel_ObjectRel As clsDBLevel
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
+    Private objFrm_RelationFilter As frmRelationFilter
 
     Private objExport As clsExport
 
@@ -77,7 +79,7 @@ Public Class UserControl_Graph
         objDBLevel_ObjectRel_LeftRight = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_ObjectRel_RightLeft = New clsDBLevel(objLocalConfig.Globals)
 
-
+        objDBLevel_ObjectRel = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 
     Public Sub Initialize_Graph(Optional OItem_Item As clsOntologyItem = Nothing)
@@ -219,7 +221,16 @@ Public Class UserControl_Graph
         ElseIf e.Delta >= 0 Then
             GViewer_OGraph.ZoomInPressed()
         End If
+        If TypeOf selectedItem Is Edge Then
 
+            Dim edge = CType(selectedItem, Edge)
+
+            GViewer_OGraph.CenterToPoint(New Microsoft.Glee.Splines.Point(edge.Attr.StartPoint.X, edge.Attr.StartPoint.Y))
+        ElseIf TypeOf selectedItem Is Node Then
+
+            Dim node = CType(selectedItem, Node)
+            GViewer_OGraph.CenterToPoint(New Microsoft.Glee.Splines.Point(node.Attr.Pos.X, node.Attr.Pos.Y))
+        End If
         GViewer_OGraph.Invalidate()
     End Sub
 
@@ -279,7 +290,7 @@ Public Class UserControl_Graph
                                                                                graph.AddEdge(classItem.GUID, objr.ID_Object)
                                                                            End Sub)
 
-                    RedRawGraph()
+                    RedRawGraph(True)
                 End If
             End If
         End If
@@ -332,9 +343,12 @@ Public Class UserControl_Graph
     Private Sub RedRawGraph(Optional boolAspekt1 As Boolean = False)
 
         If Not graph Is Nothing Then
-            graph.GraphAttr.LayerDirection = LayerDirection.LR
+
             If boolAspekt1 Then
+                graph.GraphAttr.LayerDirection = LayerDirection.None
                 graph.GraphAttr.AspectRatio = 1
+            Else
+                graph.GraphAttr.LayerDirection = LayerDirection.LR
             End If
             GViewer_OGraph.Graph = graph
         End If
@@ -364,7 +378,7 @@ Public Class UserControl_Graph
                 selectedItemAttr = CType(selectedItem, Node).Attr.Clone()
                 CType(selectedItem, Node).Attr.Color = Microsoft.Glee.Drawing.Color.Magenta
                 CType(selectedItem, Node).Attr.Fontcolor = Microsoft.Glee.Drawing.Color.Magenta
-                Dim edge = CType(selectedItem, Node)
+                Dim node = CType(selectedItem, Node)
 
             End If
         End If
@@ -414,8 +428,14 @@ Public Class UserControl_Graph
                     Case Shape.Circle       'Attribute
                         objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_AttributeType)
                     Case Shape.Ellipse      'Object
-                        objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_Object)
-                        Initialize_Graph(objOItem_Selected)
+                        If e.Button.HasFlag(MouseButtons.Left) Then
+                            objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_Object)
+                            Initialize_Graph(objOItem_Selected)
+                        ElseIf e.Button.HasFlag(MouseButtons.Right) Then
+                            ContextMenuStrip_Graph.Show(GViewer_OGraph, New Point(e.X, e.Y))
+
+                        End If
+                        
                     Case Shape.Triangle     'RelationType
                         objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_RelationType)
                 End Select
@@ -546,6 +566,80 @@ Public Class UserControl_Graph
 
                         objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, New List(Of clsOntologyItem) From {objOItem_Selected}, 0, objLocalConfig.Globals.Type_Object, Nothing)
                         objFrm_ObjectEdit.ShowDialog(Me)
+                End Select
+
+
+
+            End If
+
+        End If
+    End Sub
+
+    Private Sub ToolStripButton_AddRelation_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub AddRelationsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddRelationsToolStripMenuItem.Click
+        selectedItem = GViewer_OGraph.SelectedObject
+
+        Dim objOItem_Selected As clsOntologyItem = Nothing
+
+        If Not selectedItem Is Nothing Then
+
+            If TypeOf selectedItem Is Node Then
+                Dim node = CType(selectedItem, Node)
+
+                Select Case node.Attr.Shape
+
+                    Case Shape.Ellipse      'Object
+                        objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_Object)
+                        Dim objOItem_Class = objDBLevel_Classes.GetOItem(objOItem_Selected.GUID_Parent, objLocalConfig.Globals.Type_Class)
+
+                        objFrm_RelationFilter = New frmRelationFilter(objLocalConfig, objOItem_Class)
+                        objFrm_RelationFilter.ShowDialog(Me)
+                        If objFrm_RelationFilter.DialogResult = DialogResult.OK Then
+                            objOItem_Class = objFrm_RelationFilter.OItem_Class
+                            Dim objOItem_RelationType = objFrm_RelationFilter.OItem_RelationType
+                            Dim objOItem_Direction = objFrm_RelationFilter.OItem_Direction
+
+                            Dim graph = GViewer_OGraph.Graph
+
+                            If Not objOItem_Class Is Nothing And _
+                                Not objOItem_RelationType Is Nothing And _
+                                Not objOItem_Direction Is Nothing Then
+
+                                Dim searchRelation = New clsObjectRel()
+
+                                searchRelation.ID_RelationType = objOItem_RelationType.GUID
+
+                                If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                                    searchRelation.ID_Object = objOItem_Selected.GUID
+                                    searchRelation.ID_Parent_Other = objOItem_Class.GUID
+                                Else
+                                    searchRelation.ID_Other = objOItem_Selected.GUID
+                                    searchRelation.ID_Parent_Object = objOItem_Class.GUID
+                                End If
+
+                            Dim search = New List(Of clsObjectRel) From {searchRelation}
+
+                            Dim result = objDBLevel_ObjectRel.get_Data_ObjectRel(search, boolIDs:=False)
+                            If result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objDBLevel_ObjectRel.OList_ObjectRel.ForEach(Sub(rel)
+                                                                                 If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                                                                                     nodeItem.AddNode(rel.ID_Other, rel.Name_Other, rel.Ontology, False)
+                                                                                     nodeItem.AddEdge(rel.ID_Object, rel.ID_Other, rel.Name_RelationType)
+                                                                                 Else
+                                                                                     nodeItem.AddNode(rel.ID_Object, rel.Name_Object, objLocalConfig.Globals.Type_Object, False)
+                                                                                     nodeItem.AddEdge(rel.ID_Object, rel.ID_Other, rel.Name_RelationType)
+                                                                                 End If
+                                                                             End Sub)
+                                nodeItem.Graph.NeedCalculateLayout = True
+                                GViewer_OGraph.Graph = nodeItem.Graph
+                            Else
+                                MsgBox("Die Beziehungen konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+                            End If
+                        End If
+                        End If
                 End Select
 
 

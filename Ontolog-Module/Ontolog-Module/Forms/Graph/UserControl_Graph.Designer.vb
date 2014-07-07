@@ -39,12 +39,15 @@ Partial Class UserControl_Graph
         Me.ToolStripButton_Root = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Ontologies = New System.Windows.Forms.ToolStripButton()
         Me.Timer_Filter = New System.Windows.Forms.Timer(Me.components)
+        Me.ContextMenuStrip_Graph = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.AddRelationsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip2.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
+        Me.ContextMenuStrip_Graph.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -179,25 +182,38 @@ Partial Class UserControl_Graph
         '
         Me.Timer_Filter.Interval = 300
         '
+        'ContextMenuStrip_Graph
+        '
+        Me.ContextMenuStrip_Graph.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddRelationsToolStripMenuItem})
+        Me.ContextMenuStrip_Graph.Name = "ContextMenuStrip_Graph"
+        Me.ContextMenuStrip_Graph.Size = New System.Drawing.Size(153, 48)
+        '
+        'AddRelationsToolStripMenuItem
+        '
+        Me.AddRelationsToolStripMenuItem.Name = "AddRelationsToolStripMenuItem"
+        Me.AddRelationsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AddRelationsToolStripMenuItem.Text = "Add Relations"
+        '
         'UserControl_Graph
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "UserControl_Graph"
         Me.Size = New System.Drawing.Size(570, 470)
-        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout
-        Me.ToolStripContainer1.ContentPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(false)
-        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout
-        Me.ToolStripContainer1.ResumeLayout(false)
-        Me.ToolStripContainer1.PerformLayout
-        Me.ToolStrip2.ResumeLayout(false)
-        Me.ToolStrip2.PerformLayout
-        Me.ToolStrip1.ResumeLayout(false)
-        Me.ToolStrip1.PerformLayout
-        Me.ResumeLayout(false)
+        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.ResumeLayout(False)
+        Me.ToolStripContainer1.PerformLayout()
+        Me.ToolStrip2.ResumeLayout(False)
+        Me.ToolStrip2.PerformLayout()
+        Me.ToolStrip1.ResumeLayout(False)
+        Me.ToolStrip1.PerformLayout()
+        Me.ContextMenuStrip_Graph.ResumeLayout(False)
+        Me.ResumeLayout(False)
 
 End Sub
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
@@ -215,5 +231,7 @@ End Sub
     Friend WithEvents Timer_Filter As System.Windows.Forms.Timer
     Friend WithEvents ToolStripButton_Root As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripButton_Ontologies As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ContextMenuStrip_Graph As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents AddRelationsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
