@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsDataWork_Tagging.cs" />
+    <Compile Include="clsFilter.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="clsTabControl.cs" />
     <Compile Include="clsTransaction_Tagging.cs" />
@@ -74,6 +75,12 @@
     </Compile>
     <Compile Include="UserControl_TaggingContainer.Designer.cs">
       <DependentUpon>UserControl_TaggingContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_TagReport.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_TagReport.Designer.cs">
+      <DependentUpon>UserControl_TagReport.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControl_TagTree.cs">
       <SubType>UserControl</SubType>
@@ -108,6 +115,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_TaggingContainer.resx">
       <DependentUpon>UserControl_TaggingContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_TagReport.resx">
+      <DependentUpon>UserControl_TagReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_TagTree.resx">
       <DependentUpon>UserControl_TagTree.cs</DependentUpon>

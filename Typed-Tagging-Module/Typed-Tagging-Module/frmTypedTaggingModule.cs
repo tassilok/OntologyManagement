@@ -32,6 +32,8 @@ namespace Typed_Tagging_Module
 
         private UserControl_TagSources objUserControl_TagSources;
 
+        private UserControl_TagReport objUserControl_TagReport;
+
         private frmAuthenticate objFrmAuthenticate;
 
         private frmGraph objFrmGraph;
@@ -112,6 +114,9 @@ namespace Typed_Tagging_Module
                 objUserControl_TaggingContainer.Dock = DockStyle.Fill;
                 splitContainer1.Panel2.Controls.Add(objUserControl_TaggingContainer);
 
+                objUserControl_TagReport = new UserControl_TagReport(objLocalConfig);
+                objUserControl_TagReport.Dock = DockStyle.Fill;
+
                 FillTree();
                 
             }
@@ -183,7 +188,7 @@ namespace Typed_Tagging_Module
             objUserControl_TaggingContainer.Initialize_Taging(OItem_Selected, true);
         }
 
-        private void Configure_Tags()
+        private void Configure_Tabs()
         {
             splitContainer1.Panel2.Controls.Clear();
             if (tabControl1.SelectedTab.Name == tabPage_Tags.Name)
@@ -202,24 +207,48 @@ namespace Typed_Tagging_Module
                 
                 
                 objUserControl_TagTree.Initialize(FilterItems);
-                splitContainer1.Panel2.Controls.Add(objUserControl_TagSources);
+                if (!toolStripButton_Report.Checked)
+                {
+                    splitContainer1.Panel2.Controls.Add(objUserControl_TagSources);
+                }
+                else
+                {
+                    splitContainer1.Panel2.Controls.Add(objUserControl_TagReport);
+                }
+
+                
             }
             else if (tabControl1.SelectedTab.Name == tabPage_TaggingSource.Name)
             {
-                splitContainer1.Panel2.Controls.Add(objUserControl_TaggingContainer);
-                
+                if (!toolStripButton_Report.Checked)
+                {
+                    splitContainer1.Panel2.Controls.Add(objUserControl_TaggingContainer);
+                }
+                else
+                {
+                    splitContainer1.Panel2.Controls.Add(objUserControl_TagReport);
+                }
             }
+          
         }
 
         void objUserControl_TagTree_Selected_Node(clsOntologyItem OItem_Selected)
         {
             objOItem_Selected = OItem_Selected;
-            objUserControl_TagSources.Initialize_TagSources(OItem_Selected, OItem_ClassOfSource);
+            if (!toolStripButton_Report.Checked)
+            {
+                objUserControl_TagSources.Initialize_TagSources(OItem_Selected, OItem_ClassOfSource);
+            }
+            else
+            {
+                objUserControl_TagReport.Initialize_Report(OItem_ClassFilter: OItem_ClassOfSource);
+            }
+            
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Configure_Tags();
+            Configure_Tabs();
         }
 
         private void toolStripMenuItem_Extras_DropDownOpening(object sender, EventArgs e)
@@ -302,7 +331,7 @@ namespace Typed_Tagging_Module
                     {
                         OItem_ClassOfSource = objFrmMain.OList_Simple.First().Clone();
                         toolStripTextBox_Class.Text = OItem_ClassOfSource.Name;
-                        Configure_Tags();
+                        Configure_Tabs();
                         if (tabControl1.SelectedTab.Name == tabPage_TaggingSource.Name)
                         {
                             FillTree();
@@ -485,6 +514,16 @@ namespace Typed_Tagging_Module
                 objFrmGraph.ShowDialog(this);
                 
             }
+        }
+
+        private void toolStripButton_Report_CheckStateChanged(object sender, EventArgs e)
+        {
+            Configure_Tabs();
+            if (toolStripButton_Report.Checked)
+            {
+                objUserControl_TagReport.Initialize_Report(OItem_ClassFilter: OItem_ClassOfSource);
+            }
+            
         }
 
         

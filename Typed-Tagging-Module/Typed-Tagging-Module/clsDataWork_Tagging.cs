@@ -8,6 +8,14 @@ using OntologyClasses.BaseClasses;
 
 namespace Typed_Tagging_Module
 {
+    [Flags]
+    public enum SemanticFilterType
+    {
+        None = 0,
+        TaggingSource = 1,
+        TaggingDest = 2,
+        TypedTag = 4
+    }
     public class clsDataWork_Tagging
     {
         private clsLocalConfig objLocalConfig;
@@ -20,6 +28,8 @@ namespace Typed_Tagging_Module
 
         private clsDBLevel objDBLevel_Classes;
 
+        private clsDBLevel objDBLevel_SemFilter;
+
         private clsOntologyItem objOItem_TaggingSource;
         private clsOntologyItem objOItem_TaggingDest;
 
@@ -28,6 +38,7 @@ namespace Typed_Tagging_Module
         private List<clsOntologyItem> TagFilter;
 
         public List<clsTypedTag> TypedTags_Sources { get; private set; }
+        public List<clsTypedTag> TypedTags_SourcesSemFilter { get; private set; }
 
         public List<clsTypedTag> TypedTags_Dests { get; private set; }
 
@@ -42,6 +53,16 @@ namespace Typed_Tagging_Module
         public List<clsOntologyItem> RelationTypeTags { get; private set; }
 
         public List<clsOntologyItem> TagSources { get; private set; }
+
+
+        public clsOntologyItem OItem_Result_Source { get; private set; }
+
+        private clsOntologyItem objOItem_SFilterClass;
+        private clsOntologyItem objOItem_SFilterRelationType;
+        private clsOntologyItem objOItem_SFilterObject;
+        private clsOntologyItem objOItem_SFilterDirection;
+
+        private SemanticFilterType semanticFilterType;
 
         public List<clsOntologyItem> Classes  
         {
@@ -356,11 +377,11 @@ namespace Typed_Tagging_Module
 
         public clsOntologyItem GetTagsOfTaggingSource(clsOntologyItem OItem_TaggingSource = null)
         {
-            var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+            OItem_Result_Source = objLocalConfig.Globals.LState_Success.Clone();
 
             objOItem_TaggingSource = OItem_TaggingSource;
 
-            objOItem_Result = GetSubData_SecurityRel();
+            OItem_Result_Source = GetSubData_SecurityRel();
 
             TypedTags_Sources = new List<clsTypedTag>();
 
@@ -375,9 +396,9 @@ namespace Typed_Tagging_Module
                 } 
             };
 
-            objOItem_Result = objDBLevel_TaggingSource.get_Data_ObjectRel(objOList_Search_TaggingSource, boolIDs: false);
+            OItem_Result_Source = objDBLevel_TaggingSource.get_Data_ObjectRel(objOList_Search_TaggingSource, boolIDs: false);
 
-            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            if (OItem_Result_Source.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
                 
                 var objOList_TaggingSource = (from objUser in objDBLevel_SecurityRel.OList_ObjectRel.Where(u => u.ID_Parent_Other == objLocalConfig.OItem_class_user.GUID).ToList()
@@ -417,11 +438,11 @@ namespace Typed_Tagging_Module
                             ID_RelationType = objLocalConfig.OItem_relationtype_belonging_tag.GUID
                         }).ToList();
                     }
-                    
 
-                    objOItem_Result = objDBLevel_Tag.get_Data_ObjectRel(objOList_Search_Tag, boolIDs: false);
 
-                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    OItem_Result_Source = objDBLevel_Tag.get_Data_ObjectRel(objOList_Search_Tag, boolIDs: false);
+
+                    if (OItem_Result_Source.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
                         TypedTags_Sources = (from objTaggingSource in objOList_TaggingSource
                                      join objTaggingDest in objDBLevel_Tag.OList_ObjectRel on objTaggingSource.ID_Object equals objTaggingDest.ID_Object
@@ -430,13 +451,16 @@ namespace Typed_Tagging_Module
                                          ID_Group = objLocalConfig.OItem_Group.GUID,
                                          Name_Group = objLocalConfig.OItem_Group.Name,
                                          ID_User = objLocalConfig.OItem_User.GUID,
-                                         Name_user = objLocalConfig.OItem_User.Name,
+                                         Name_User = objLocalConfig.OItem_User.Name,
                                          ID_TaggingSource = objTaggingSource.ID_Other,
                                          Name_TaggingSource = objTaggingSource.Name_Other,
                                          ID_Parent_TaggingSource = objTaggingSource.ID_Parent_Other,
+                                         Name_Parent_TaggingSource = objTaggingSource.Name_Parent_Other,
+                                         OrderId_TaggingSource = objTaggingSource.OrderID ?? 0,
                                          ID_TaggingDest = objTaggingDest.ID_Other,
                                          Name_TaggingDest = objTaggingDest.Name_Other,
                                          ID_Parent_TaggingDest = objTaggingDest.ID_Parent_Other,
+                                         Name_Parent_TaggingDest = objTaggingDest.Name_Parent_Other,
                                          Type_TaggingDest = objTaggingDest.Ontology,
                                          ID_TypedTag = objTaggingSource.ID_Object,
                                          Name_TypedTag = objTaggingSource.Name_Object
@@ -452,7 +476,7 @@ namespace Typed_Tagging_Module
                 
             }
 
-            return objOItem_Result;
+            return OItem_Result_Source;
         }
 
         public List<clsOntologyItem> OList_Tags()
@@ -467,6 +491,94 @@ namespace Typed_Tagging_Module
                 }).ToList();
 
             return objOList_Tags;
+        }
+
+        public clsOntologyItem FilterBySemanticFilter(SemanticFilterType semanticFilterType, clsOntologyItem OItem_Class, clsOntologyItem OItem_RelationType, clsOntologyItem OItem_Direction, clsOntologyItem OItem_Object = null)
+        {
+            var oItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+
+            this.semanticFilterType = semanticFilterType;
+
+            objOItem_SFilterClass = OItem_Class;
+            objOItem_SFilterDirection = OItem_Direction;
+            objOItem_SFilterRelationType = OItem_RelationType;
+            objOItem_SFilterObject = OItem_Object;
+
+            List<clsObjectRel> search;
+
+            if (objOItem_SFilterDirection.GUID == objLocalConfig.Globals.Direction_LeftRight.GUID)
+            {
+                search = new List<clsObjectRel> { new clsObjectRel
+                        {
+                            ID_Other = objOItem_SFilterObject != null ? objOItem_SFilterObject.GUID : null,
+                            ID_Parent_Other = objOItem_SFilterObject == null ? objOItem_SFilterClass.GUID : null ,
+                            ID_RelationType = objOItem_SFilterRelationType.GUID
+                        } };
+            }
+            else
+            {
+                search = new List<clsObjectRel> { new clsObjectRel
+                        {
+                            ID_Object = objOItem_SFilterObject != null ? objOItem_SFilterObject.GUID : null,
+                            ID_Parent_Object = objOItem_SFilterObject == null ? objOItem_SFilterClass.GUID : null ,
+                            ID_RelationType = objOItem_SFilterRelationType.GUID
+                        } };
+            }
+
+            oItem_Result = objDBLevel_SemFilter.get_Data_ObjectRel(search, boolIDs: true);
+            if (oItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                switch (this.semanticFilterType)
+                {
+                    case SemanticFilterType.TaggingSource:
+                        if (objOItem_SFilterDirection.GUID == objLocalConfig.Globals.Direction_LeftRight.GUID)
+                        {
+                            TypedTags_SourcesSemFilter = (from objTypedTags in TypedTags_Sources
+                                                          join objFilter in objDBLevel_SemFilter.OList_ObjectRel_ID on objTypedTags.ID_TaggingSource equals objFilter.ID_Object
+                                                          select objTypedTags).ToList();
+                        }
+                        else
+                        {
+                            TypedTags_SourcesSemFilter = (from objTypedTags in TypedTags_Sources
+                                                          join objFilter in objDBLevel_SemFilter.OList_ObjectRel_ID on objTypedTags.ID_TaggingSource equals objFilter.ID_Other
+                                                          select objTypedTags).ToList();
+                        }
+                        
+                        break;
+                    case SemanticFilterType.TaggingDest:
+                        if (objOItem_SFilterDirection.GUID == objLocalConfig.Globals.Direction_LeftRight.GUID)
+                        {
+                            TypedTags_SourcesSemFilter = (from objTypedTags in TypedTags_Sources
+                                                          join objFilter in objDBLevel_SemFilter.OList_ObjectRel_ID on objTypedTags.ID_TaggingDest equals objFilter.ID_Object
+                                                          select objTypedTags).ToList();
+                        }
+                        else
+                        {
+                            TypedTags_SourcesSemFilter = (from objTypedTags in TypedTags_Sources
+                                                          join objFilter in objDBLevel_SemFilter.OList_ObjectRel_ID on objTypedTags.ID_TaggingDest equals objFilter.ID_Other
+                                                          select objTypedTags).ToList();
+                        }
+                        break;
+
+                    case SemanticFilterType.TypedTag:
+                        if (objOItem_SFilterDirection.GUID == objLocalConfig.Globals.Direction_LeftRight.GUID)
+                        {
+                            TypedTags_SourcesSemFilter = (from objTypedTags in TypedTags_Sources
+                                                          join objFilter in objDBLevel_SemFilter.OList_ObjectRel_ID on objTypedTags.ID_TypedTag equals objFilter.ID_Object
+                                                          select objTypedTags).ToList();
+                        }
+                        else
+                        {
+                            TypedTags_SourcesSemFilter = (from objTypedTags in TypedTags_Sources
+                                                          join objFilter in objDBLevel_SemFilter.OList_ObjectRel_ID on objTypedTags.ID_TypedTag equals objFilter.ID_Other
+                                                          select objTypedTags).ToList();
+                        }
+                        break;
+                }
+            }
+            
+
+            return oItem_Result;
         }
 
         private clsOntologyItem GetSubData_SecurityRel()
@@ -517,7 +629,13 @@ namespace Typed_Tagging_Module
             objDBLevel_Tag = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Classes = new clsDBLevel(objLocalConfig.Globals);
 
+            objDBLevel_SemFilter = new clsDBLevel(objLocalConfig.Globals);
+
+            OItem_Result_Source = objLocalConfig.Globals.LState_Nothing.Clone();
+
             objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
         }
+
+        
     }
 }

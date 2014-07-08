@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmTypedTaggingModule));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage_TaggingSource = new System.Windows.Forms.TabPage();
@@ -39,13 +38,15 @@
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_Class = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripButton_ClassOfTaggingSource = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_ClearFilter = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem_Extras = new System.Windows.Forms.ToolStripMenuItem();
             this.exportGraphMLFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveFileDialog_GraphML = new System.Windows.Forms.SaveFileDialog();
             this.showGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog_GraphML = new System.Windows.Forms.SaveFileDialog();
+            this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_ClassOfTaggingSource = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_ClearFilter = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_Report = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -90,15 +91,6 @@
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(62, 25);
             this.toolStrip1.TabIndex = 0;
-            // 
-            // toolStripButton_Close
-            // 
-            this.toolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_Close.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Close.Image")));
-            this.toolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Close.Name = "toolStripButton_Close";
-            this.toolStripButton_Close.Size = new System.Drawing.Size(50, 22);
-            this.toolStripButton_Close.Text = "x_Close";
             // 
             // splitContainer1
             // 
@@ -153,10 +145,11 @@
             this.toolStripLabel1,
             this.toolStripTextBox_Class,
             this.toolStripButton_ClassOfTaggingSource,
-            this.toolStripButton_ClearFilter});
+            this.toolStripButton_ClearFilter,
+            this.toolStripButton_Report});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(310, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(397, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripLabel1
@@ -170,26 +163,6 @@
             this.toolStripTextBox_Class.Name = "toolStripTextBox_Class";
             this.toolStripTextBox_Class.ReadOnly = true;
             this.toolStripTextBox_Class.Size = new System.Drawing.Size(150, 25);
-            // 
-            // toolStripButton_ClassOfTaggingSource
-            // 
-            this.toolStripButton_ClassOfTaggingSource.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_ClassOfTaggingSource.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_ClassOfTaggingSource.Image")));
-            this.toolStripButton_ClassOfTaggingSource.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_ClassOfTaggingSource.Name = "toolStripButton_ClassOfTaggingSource";
-            this.toolStripButton_ClassOfTaggingSource.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_ClassOfTaggingSource.Text = "...";
-            this.toolStripButton_ClassOfTaggingSource.Click += new System.EventHandler(this.toolStripButton_ClassOfTaggingSource_Click);
-            // 
-            // toolStripButton_ClearFilter
-            // 
-            this.toolStripButton_ClearFilter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_ClearFilter.Image = global::Typed_Tagging_Module.Properties.Resources.tasto_8_architetto_franc_01;
-            this.toolStripButton_ClearFilter.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_ClearFilter.Name = "toolStripButton_ClearFilter";
-            this.toolStripButton_ClearFilter.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_ClearFilter.Text = "toolStripButton1";
-            this.toolStripButton_ClearFilter.Click += new System.EventHandler(this.toolStripButton_ClearFilter_Click);
             // 
             // menuStrip1
             // 
@@ -218,16 +191,56 @@
             this.exportGraphMLFileToolStripMenuItem.Text = "Export GraphML-File";
             this.exportGraphMLFileToolStripMenuItem.Click += new System.EventHandler(this.exportGraphMLFileToolStripMenuItem_Click);
             // 
-            // saveFileDialog_GraphML
-            // 
-            this.saveFileDialog_GraphML.Filter = "GraphML-Files|*.graphml";
-            // 
             // showGraphToolStripMenuItem
             // 
             this.showGraphToolStripMenuItem.Name = "showGraphToolStripMenuItem";
             this.showGraphToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.showGraphToolStripMenuItem.Text = "x_Show Graph";
             this.showGraphToolStripMenuItem.Click += new System.EventHandler(this.showGraphToolStripMenuItem_Click);
+            // 
+            // saveFileDialog_GraphML
+            // 
+            this.saveFileDialog_GraphML.Filter = "GraphML-Files|*.graphml";
+            // 
+            // toolStripButton_Close
+            // 
+            this.toolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Close.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Close.Image")));
+            this.toolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Close.Name = "toolStripButton_Close";
+            this.toolStripButton_Close.Size = new System.Drawing.Size(50, 22);
+            this.toolStripButton_Close.Text = "x_Close";
+            // 
+            // toolStripButton_ClassOfTaggingSource
+            // 
+            this.toolStripButton_ClassOfTaggingSource.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_ClassOfTaggingSource.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_ClassOfTaggingSource.Image")));
+            this.toolStripButton_ClassOfTaggingSource.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_ClassOfTaggingSource.Name = "toolStripButton_ClassOfTaggingSource";
+            this.toolStripButton_ClassOfTaggingSource.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_ClassOfTaggingSource.Text = "...";
+            this.toolStripButton_ClassOfTaggingSource.Click += new System.EventHandler(this.toolStripButton_ClassOfTaggingSource_Click);
+            // 
+            // toolStripButton_ClearFilter
+            // 
+            this.toolStripButton_ClearFilter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_ClearFilter.Image = global::Typed_Tagging_Module.Properties.Resources.tasto_8_architetto_franc_01;
+            this.toolStripButton_ClearFilter.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_ClearFilter.Name = "toolStripButton_ClearFilter";
+            this.toolStripButton_ClearFilter.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_ClearFilter.Text = "toolStripButton1";
+            this.toolStripButton_ClearFilter.Click += new System.EventHandler(this.toolStripButton_ClearFilter_Click);
+            // 
+            // toolStripButton_Report
+            // 
+            this.toolStripButton_Report.CheckOnClick = true;
+            this.toolStripButton_Report.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Report.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Report.Image")));
+            this.toolStripButton_Report.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Report.Name = "toolStripButton_Report";
+            this.toolStripButton_Report.Size = new System.Drawing.Size(56, 22);
+            this.toolStripButton_Report.Text = "x_Report";
+            this.toolStripButton_Report.CheckStateChanged += new System.EventHandler(this.toolStripButton_Report_CheckStateChanged);
             // 
             // frmTypedTaggingModule
             // 
@@ -280,6 +293,7 @@
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox_Class;
         private System.Windows.Forms.ToolStripButton toolStripButton_ClearFilter;
         private System.Windows.Forms.ToolStripMenuItem showGraphToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton toolStripButton_Report;
     }
 }
 
