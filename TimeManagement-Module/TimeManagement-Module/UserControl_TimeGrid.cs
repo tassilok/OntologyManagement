@@ -26,11 +26,14 @@ namespace TimeManagement_Module
         private frm_ObjectEdit objFrmObjectEdit;
         private frmMain objFrmMain;
 
-        private clsOntologyItem objOItem_Ref;
+        public clsOntologyItem OItem_Ref { get; set; }
 
         public delegate void SelectedRow(clsOntologyItem OItem_TimeMgmtItem);
 
+        public delegate void UpdatedGrid();
+
         public event SelectedRow SelectedRowCntrl;
+        public event UpdatedGrid UpdatedGridRow;
 
         private DateTime todoEnd;
 
@@ -50,9 +53,9 @@ namespace TimeManagement_Module
         public void Initialize(clsOntologyItem OItem_Ref = null)
         {
             culture = new CultureInfo("de-DE"); 
-            objOItem_Ref = OItem_Ref;
+            this.OItem_Ref = OItem_Ref;
             objDataWork_TimeManagement = new clsDataWork_TimeManagement(objLocalConfig);
-            objDataWork_TimeManagement.OItem_Ref = objOItem_Ref;
+            objDataWork_TimeManagement.OItem_Ref = this.OItem_Ref;
             objDataWork_TimeManagement.GetData_TimeManagement();
 
             if (objDataWork_TimeManagement.OItem_Result_TimeManagement.GUID == objLocalConfig.Globals.LState_Success.GUID)
@@ -383,12 +386,14 @@ namespace TimeManagement_Module
 
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            objFrmTimeManagementEdit = new frmTimeManagementEdit(null, objLocalConfig,objOItem_Ref);
+            objFrmTimeManagementEdit = new frmTimeManagementEdit(null, objLocalConfig,OItem_Ref);
             objFrmTimeManagementEdit.ShowDialog(this);
             if (objFrmTimeManagementEdit.DialogResult == DialogResult.OK)
             {
-                Initialize(objOItem_Ref);
+                OItem_Ref = objFrmTimeManagementEdit.OItem_Ref;
+                Initialize(OItem_Ref);
                 ConfigureCalculation();
+                UpdatedGridRow();
             }
             
         }
@@ -481,8 +486,8 @@ namespace TimeManagement_Module
             {
                 if (objFrmMain.OList_Simple.Count == 1)
                 {
-                    objOItem_Ref = objFrmMain.OList_Simple.First();
-                    toolStripTextBox_Ref.Text = objOItem_Ref.Name;
+                    OItem_Ref = objFrmMain.OList_Simple.First();
+                    toolStripTextBox_Ref.Text = OItem_Ref.Name;
                     Initialize();
                 }
                 else
@@ -494,7 +499,7 @@ namespace TimeManagement_Module
 
         private void toolStripButton_RemoveFilterRef_Click(object sender, EventArgs e)
         {
-            objOItem_Ref = null;
+            OItem_Ref = null;
             toolStripTextBox_Ref.Text = "";
             Initialize();
         }

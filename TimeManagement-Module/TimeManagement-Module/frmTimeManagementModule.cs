@@ -61,6 +61,7 @@ namespace TimeManagement_Module
                     objUserControl_TimeGrid = new UserControl_TimeGrid(objLocalConfig);
                     objUserControl_TimeGrid.Dock = DockStyle.Fill;
                     objUserControl_TimeGrid.SelectedRowCntrl += objUserControl_TimeGrid_SelectedRowCntrl;
+                    objUserControl_TimeGrid.UpdatedGridRow += objUserControl_TimeGrid_UpdatedGridRow;
                     splitContainer1.Panel2.Controls.Add(objUserControl_TimeGrid);
 
                 }
@@ -74,6 +75,12 @@ namespace TimeManagement_Module
             {
                 Environment.Exit(0);
             }
+        }
+
+        void objUserControl_TimeGrid_UpdatedGridRow()
+        {
+            var oItem_Ref = objUserControl_TimeGrid.OItem_Ref;
+            objUserControl_RefTree.AddNode(oItem_Ref,true);
         }
 
         void objUserControl_TimeGrid_SelectedRowCntrl(clsOntologyItem OItem_TimeMgmtItem)

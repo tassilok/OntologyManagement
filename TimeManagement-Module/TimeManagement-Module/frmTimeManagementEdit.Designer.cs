@@ -45,6 +45,9 @@
             this.DateTimePicker_Start = new System.Windows.Forms.DateTimePicker();
             this.TextBox_Name = new System.Windows.Forms.TextBox();
             this.Label_Caption = new System.Windows.Forms.Label();
+            this.label_Related = new System.Windows.Forms.Label();
+            this.textBox_Related = new System.Windows.Forms.TextBox();
+            this.button_Add = new System.Windows.Forms.Button();
             this.ToolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.ToolStripContainer1.ContentPanel.SuspendLayout();
             this.ToolStripContainer1.SuspendLayout();
@@ -61,6 +64,9 @@
             // 
             // ToolStripContainer1.ContentPanel
             // 
+            this.ToolStripContainer1.ContentPanel.Controls.Add(this.button_Add);
+            this.ToolStripContainer1.ContentPanel.Controls.Add(this.textBox_Related);
+            this.ToolStripContainer1.ContentPanel.Controls.Add(this.label_Related);
             this.ToolStripContainer1.ContentPanel.Controls.Add(this.Label1);
             this.ToolStripContainer1.ContentPanel.Controls.Add(this.GroupBox1);
             this.ToolStripContainer1.ContentPanel.Controls.Add(this.DateTimePicker_Ende);
@@ -88,7 +94,7 @@
             this.ToolStripButton_Cancel});
             this.ToolStrip1.Location = new System.Drawing.Point(3, 0);
             this.ToolStrip1.Name = "ToolStrip1";
-            this.ToolStrip1.Size = new System.Drawing.Size(145, 25);
+            this.ToolStrip1.Size = new System.Drawing.Size(114, 25);
             this.ToolStrip1.TabIndex = 0;
             // 
             // ToolStripButton_Save
@@ -184,7 +190,7 @@
             // 
             this.DateTimePicker_Ende.CustomFormat = "dd.MM.yyy HH:mm:ss";
             this.DateTimePicker_Ende.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DateTimePicker_Ende.Location = new System.Drawing.Point(261, 31);
+            this.DateTimePicker_Ende.Location = new System.Drawing.Point(268, 31);
             this.DateTimePicker_Ende.Name = "DateTimePicker_Ende";
             this.DateTimePicker_Ende.Size = new System.Drawing.Size(136, 20);
             this.DateTimePicker_Ende.TabIndex = 5;
@@ -234,6 +240,34 @@
             this.Label_Caption.TabIndex = 0;
             this.Label_Caption.Text = "x_Name:";
             // 
+            // label_Related
+            // 
+            this.label_Related.AutoSize = true;
+            this.label_Related.Location = new System.Drawing.Point(223, 70);
+            this.label_Related.Name = "label_Related";
+            this.label_Related.Size = new System.Drawing.Size(58, 13);
+            this.label_Related.TabIndex = 8;
+            this.label_Related.Text = "x_Related:";
+            // 
+            // textBox_Related
+            // 
+            this.textBox_Related.Location = new System.Drawing.Point(222, 86);
+            this.textBox_Related.Multiline = true;
+            this.textBox_Related.Name = "textBox_Related";
+            this.textBox_Related.ReadOnly = true;
+            this.textBox_Related.Size = new System.Drawing.Size(182, 49);
+            this.textBox_Related.TabIndex = 9;
+            // 
+            // button_Add
+            // 
+            this.button_Add.Location = new System.Drawing.Point(296, 141);
+            this.button_Add.Name = "button_Add";
+            this.button_Add.Size = new System.Drawing.Size(108, 23);
+            this.button_Add.TabIndex = 10;
+            this.button_Add.Text = "Add Related...";
+            this.button_Add.UseVisualStyleBackColor = true;
+            this.button_Add.Click += new System.EventHandler(this.button_Add_Click);
+            // 
             // frmTimeManagementEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -275,5 +309,8 @@
         internal System.Windows.Forms.DateTimePicker DateTimePicker_Start;
         internal System.Windows.Forms.TextBox TextBox_Name;
         internal System.Windows.Forms.Label Label_Caption;
+        private System.Windows.Forms.TextBox textBox_Related;
+        private System.Windows.Forms.Label label_Related;
+        private System.Windows.Forms.Button button_Add;
     }
 }

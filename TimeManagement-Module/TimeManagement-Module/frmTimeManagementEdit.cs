@@ -14,30 +14,41 @@ namespace TimeManagement_Module
 {
     public partial class frmTimeManagementEdit : Form
     {
+        private clsDBLevel objDBLevel_Related;
         private DataRowView objDRV_TimeManagement;
         private clsLocalConfig objLocalConfig;
         private clsOntologyItem objOItem_TimeManagement;
+
+        private frmMain objFrmMain;
 
         private clsTransaction objTransaction;
         private clsRelationConfig objRelationConfig;
 
         public clsOntologyItem OItem_Result { get; private set; }
 
-        private clsOntologyItem objOItem_Ref;
+        public clsOntologyItem OItem_Ref { get; set; }
+        private clsOntologyItem objOItem_Parent;
 
         public frmTimeManagementEdit(DataRowView DRV_TimeManagement, clsLocalConfig LocalConfig, clsOntologyItem OItem_Ref=null)
         {
             InitializeComponent();
             objLocalConfig = LocalConfig;
             objDRV_TimeManagement = DRV_TimeManagement;
-            objOItem_Ref = OItem_Ref;
+            this.OItem_Ref = OItem_Ref;
+            
             Initialize();
         }
 
         private void Initialize()
         {
+            
+            objDBLevel_Related = new clsDBLevel(objLocalConfig.Globals);
             objTransaction = new clsTransaction(objLocalConfig.Globals);
             objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
+
+            UpdateRefText();
+
+            
 
             if (objDRV_TimeManagement != null)
             {
@@ -79,6 +90,28 @@ namespace TimeManagement_Module
                 DateTimePicker_Ende.Value = DateTime.Now;
             }
 
+        }
+
+        private void UpdateRefText()
+        {
+            textBox_Related.Text = "";
+            if (OItem_Ref != null)
+            {
+
+                if (OItem_Ref.Type == objLocalConfig.Globals.Type_Object)
+                {
+                    objOItem_Parent = objDBLevel_Related.GetOItem(OItem_Ref.GUID_Parent,
+                                                                  objLocalConfig.Globals.Type_Class);
+
+                }
+                else
+                {
+                    objOItem_Parent = null;
+                }
+
+                textBox_Related.Text = (objOItem_Parent != null ? objOItem_Parent.Name + "\\" : "") + OItem_Ref.Name;
+            }
+            
         }
 
         private void ToolStripButton_Save_Click(object sender, EventArgs e)
@@ -151,9 +184,9 @@ namespace TimeManagement_Module
                                     OItem_Result = objTransaction.do_Transaction(objOR_TimeManagement_To_Group, true);
                                     if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                     {
-                                        if (objOItem_Ref != null)
+                                        if (OItem_Ref != null)
                                         {
-                                            var objOR_TimeManagement_To_Ref = objRelationConfig.Rel_ObjectRelation(objOItem_TimeManagement, objOItem_Ref, objLocalConfig.OItem_relationtype_belonging_resources);
+                                            var objOR_TimeManagement_To_Ref = objRelationConfig.Rel_ObjectRelation(objOItem_TimeManagement, OItem_Ref, objLocalConfig.OItem_relationtype_belonging_resources);
                                             OItem_Result = objTransaction.do_Transaction(objOR_TimeManagement_To_Ref);
                                             if (OItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
                                             {
@@ -219,6 +252,25 @@ namespace TimeManagement_Module
         {
             DialogResult=DialogResult.Cancel;
             Close();
+        }
+
+        private void button_Add_Click(object sender, EventArgs e)
+        {
+            objFrmMain = new frmMain(objLocalConfig.Globals);
+            objFrmMain.ShowDialog(this);
+            if (objFrmMain.DialogResult == DialogResult.OK)
+            {
+                if (objFrmMain.OList_Simple.Count == 1)
+                {
+                    OItem_Ref = objFrmMain.OList_Simple[0];
+                    UpdateRefText();
+                }
+                else
+                {
+                    MessageBox.Show(this, "Bitte nur ein Item auswählen!", "Nur ein Item!", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }

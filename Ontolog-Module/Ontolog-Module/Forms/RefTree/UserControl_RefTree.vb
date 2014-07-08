@@ -413,7 +413,137 @@ Public Class UserControl_RefTree
         Return objTreeNode
     End Function
 
-    
+    public Sub AddNode(OItem_Node As clsOntologyItem, optional SelectNode As Boolean = vbTrue)
+        If Not OItem_Node Is Nothing Then
+            Select Case OItem_Node.Type
+                Case objLocalConfig.Globals.Type_AttributeType
+                    Dim nodes = objTreeNode_AttributeTypes.Nodes.Find(OItem_Node.GUID,False)
+                    If Not nodes.Any() Then
+                        objTreeNode_AttributeTypes.Nodes.Add(OItem_Node.GUID, OItem_Node.Name, objDataWork_RefTree.ImageID_AttributeType, objDataWork_RefTree.ImageID_AttributeType )
+                        objDataWork_RefTree.OList_AttributeTypes.Add(OItem_Node)
+                    End If
+                Case objLocalConfig.Globals.Type_Class
+                    Dim objTreeNode_NewClass = AddClass(OItem_Node)
+                    If objTreeNode_NewClass Is Nothing Then
+                        MsgBox("Die Klasse konnte nicht hinzugefügt werden!",MsgBoxStyle.Exclamation)
+                    End If
+                    
+                Case objLocalConfig.Globals.Type_Object
+                    Dim objOItem_Class = objDBLevel.GetOItem(OItem_Node.GUID_Parent,objLocalConfig.Globals.Type_Class)
+                    If Not objOItem_Class is Nothing Then
+                        Dim objTreeNode_Class = AddClass(objOItem_Class)
+                        If Not objTreeNode_Class Is Nothing Then
+                            Dim treeNodes = objTreeNode_Class.Nodes.Find(OItem_Node.GUID,False)
+                            If Not treeNodes.Any() Then
+                                Dim objTreeNode = objTreeNode_Class.Nodes.Add(OItem_Node.GUID, OItem_Node.Name, objDataWork_RefTree.ImageID_Object, objDataWork_RefTree.ImageID_Object)
+                                objDataWork_RefTree.OList_Objects.Add(OItem_Node)
+                                If SelectNode Then
+                                    TreeView_Ref.SelectedNode = objTreeNode
+                                End If
+                            Else 
+                                If SelectNode Then
+                                    TreeView_Ref.SelectedNode = treeNodes.First()
+                                End If
+                            End If
+                            
+                        Else 
+                            MsgBox("Die Klasse konnte nicht hinzugefügt werden!",MsgBoxStyle.Exclamation)
+                        End If
+                    Else 
+                        MsgBox("Die Klasse des Objects konnte nicht gefunden werden!",MsgBoxStyle.Exclamation)
+                    End If
+                Case objLocalConfig.Globals.Type_RelationType
+                    Dim nodes = objTreeNode_RelationTypes.Nodes.Find(OItem_Node.GUID,False)
+                    If Not nodes.Any() Then
+                        objTreeNode_RelationTypes.Nodes.Add(OItem_Node.GUID, OItem_Node.Name, objDataWork_RefTree.ImageID_RelationTypes, objDataWork_RefTree.ImageID_RelationTypes )
+                        objDataWork_RefTree.OList_RelationTypes.Add(OItem_Node)
+                    End If
+            End Select    
+        End If
+        
+    End Sub
+
+    Private function AddClass(OItem_Class As clsOntologyItem) As TreeNode
+        
+        Dim objTreeNode_Parent As TreeNode = Nothing
+        Dim objTreeNode_Class As TreeNode = Nothing
+        Dim objTreeNode_NewClass As TreeNode = Nothing
+
+        Dim objOItem_Result As clsOntologyItem = objLocalConfig.Globals.LState_Success.Clone()
+
+
+        Dim nodes = objTreeNode_Root.Nodes.Find(OItem_Class.GUID, True)
+        If Not nodes.Any() Then
+            nodes = objTreeNode_Root.Nodes.Find(OItem_Class.GUID_Parent, True)
+            If nodes.Any() Then
+                objTreeNode_Parent = nodes.First()
+            End If
+        Else
+            objTreeNode_Class = nodes.First()
+            objTreeNode_Parent = objTreeNode_Class.Parent
+        End If
+        
+        If objTreeNode_Class Is Nothing Then
+                    
+            If objTreeNode_Parent Is Nothing Then
+                objOItem_Result = objDataWork_RefTree.GetClasses()
+                If objDataWork_RefTree.OList_AllClasses.Any(Function(cls) cls.GUID = OItem_Class.GUID) Then
+                    Dim OList_Classes As New List(Of clsOntologyItem)
+                    Dim OItem_Parent = new clsOntologyItem With {.GUID = OItem_Class.GUID_Parent }
+                    While Not String.IsNullOrEmpty(OItem_Parent.GUID)
+                        Dim parentClasses = objDataWork_RefTree.OList_AllClasses.Where(Function(cls) cls.GUID = OItem_Parent.GUID).ToList()
+                        If parentClasses.Any() Then
+                            OList_Classes.Insert(0,parentClasses.First().Clone())
+                            OItem_Parent.GUID = parentClasses.First().GUID_Parent
+                        Else 
+                            OItem_Parent.GUID = Nothing
+                            objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
+                        End If
+                    End While
+                    
+                    OList_Classes.ForEach(Sub(cls) 
+                                            If objTreeNode_NewClass Is Nothing Then
+                                                nodes = objTreeNode_Root.Nodes.Find(cls.GUID,True)
+                                                If nodes.Any()
+                                                    objTreeNode_NewClass = nodes.First()
+                                                else
+                                                    objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
+                                                End If
+                                            Else 
+                                                nodes = objTreeNode_NewClass.Nodes.Find(cls.GUID,false)
+                                                If Not nodes.Any()
+                                                    objTreeNode_NewClass = objTreeNode_NewClass.Nodes.Add(cls.GUID, cls.Name, objDataWork_RefTree.ImageID_Closed, objDataWork_RefTree.ImageID_Opened)
+                                                Else 
+                                                    objTreeNode_NewClass = nodes.First()
+                                                End If
+                                            End If
+                                              
+                                          End Sub)
+                Else 
+                    objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
+                End If
+            Else 
+                OItem_Class = objDBLevel.GetOItem(OItem_Class.GUID, objLocalConfig.Globals.Type_Class)
+                If Not OItem_Class Is Nothing Then
+                    objTreeNode_NewClass = objTreeNode_Parent.Nodes.Add(OItem_Class.GUID, OItem_Class.Name,objDataWork_RefTree.ImageID_Closed, objDataWork_RefTree.ImageID_Opened)
+                Else 
+                    objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
+                End If
+            End If
+        Else 
+            objTreeNode_NewClass = objTreeNode_Class
+        End If
+        
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If Not objDataWork_RefTree.OList_Classes.Any(Function(cls) cls.GUID = OItem_Class.GUID) Then
+                objDataWork_RefTree.OList_Classes.Add(OItem_Class)
+            End If
+        Else 
+            objTreeNode_NewClass = Nothing
+        End If
+
+        Return objTreeNode_NewClass
+    End Function
 
     Private Sub TreeView_Ref_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles TreeView_Ref.AfterSelect
         Dim objTreeNode_Selected = TreeView_Ref.SelectedNode

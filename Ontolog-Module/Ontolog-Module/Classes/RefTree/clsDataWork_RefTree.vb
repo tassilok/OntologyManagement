@@ -118,7 +118,13 @@ Public Class clsDataWork_RefTree
         End Get
     End Property
 
-    Public Function HasFinished() As clsOntologyItem
+    public ReadOnly Property OList_AllClasses As List(Of clsOntologyItem)
+        Get
+            Return objDBLevel_Classes.OList_Classes
+        End Get
+    End Property
+
+        Public Function HasFinished() As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
 
         objOItem_Result = If(objOItem_Result_Ref.GUID = objLocalConfig.Globals.LState_Success.GUID And _
