@@ -54,6 +54,7 @@ Public Class clsGraphItem
                 If boolMark Then
                     GraphNode.Attr.Fillcolor = objGraphAttributes.ColorObjectMarked
                 End If
+                GraphNode.Attr.LineWidth = 0
             Case objGlobals.Type_RelationType
                 GraphNode.Attr.Shape = objGraphAttributes.ShapeRelationType
         End Select
@@ -73,17 +74,23 @@ Public Class clsGraphItem
         GraphNode.Attr.Fillcolor = Color.Azure
     End Sub
 
-    Public Sub AddEdge(IdLeft As String, IdRight As String, Optional Name_RelationType As String = Nothing, Optional lineWidth As Integer = 1)
+    Public Sub AddEdge(IdLeft As String, IdRight As String, Optional Name_RelationType As String = Nothing, Optional lineWidth As Integer = 1, optional ShowArrow As Boolean = vbTrue)
         GraphNode = Nothing
 
         If Name_RelationType Is Nothing Then
             GraphEdge = objGraph.AddEdge(IdLeft, IdRight)
+            
         Else
             GraphEdge = objGraph.AddEdge(IdLeft, Name_RelationType, IdRight)
         End If
 
 
         GraphEdge.Attr.LineWidth = lineWidth
+        GraphEdge.Attr.Fontsize = 10
+        If Not ShowArrow Then
+            GraphEdge.Attr.ArrowHeadLength = 0
+        End If
+
     End Sub
 
 End Class

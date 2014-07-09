@@ -125,7 +125,7 @@ Public Class UserControl_Graph
                               End Sub)
 
         OList_Classes.Where(Function(cls) Not String.IsNullOrEmpty(cls.GUID_Parent)).ToList().ForEach(Sub(cls)
-                                                                                                          nodeItem.AddEdge(cls.GUID_Parent, cls.GUID)
+                                                                                                          nodeItem.AddEdge(cls.GUID_Parent, cls.GUID,ShowArrow := false)
                                                                                                       End Sub)
 
         OList_RelationTypes.ForEach(Sub(relt)
@@ -134,7 +134,7 @@ Public Class UserControl_Graph
 
         OList_Objects.ForEach(Sub(obj)
                                   nodeItem.AddNode(obj.GUID, obj.Name, objLocalConfig.Globals.Type_Object, False)
-                                  nodeItem.AddEdge(obj.GUID_Parent, obj.GUID)
+                                  nodeItem.AddEdge(obj.GUID_Parent, obj.GUID, ShowArrow := false)
                               End Sub)
 
 
@@ -197,7 +197,7 @@ Public Class UserControl_Graph
 
                                                 nodeItem.AddNode(obj.GUID, obj.Name, objLocalConfig.Globals.Type_Object, False)
 
-                                                nodeItem.AddEdge(obj.GUID_Parent, obj.GUID)
+                                                nodeItem.AddEdge(obj.GUID_Parent, obj.GUID,ShowArrow := false)
                                             End Sub)
 
             objExport.OList_ObjectAtt.ForEach(Sub(objatt)
@@ -260,7 +260,7 @@ Public Class UserControl_Graph
 
                     nodeItem.AddNode(objOItem_Class.GUID, objOItem_Class.Name, objLocalConfig.Globals.Type_Class, False)
                     
-                    nodeItem.AddEdge(objOItem_Class.GUID, OItem_Object.GUID)
+                    nodeItem.AddEdge(objOItem_Class.GUID, OItem_Object.GUID,ShowArrow := false)
 
                     objDBLevel_ObjectAtt.OList_ObjectAtt.ForEach(Sub(oa)
                                                                      nodeItem.AddAttribNode(oa.ID_Attribute, oa.Val_Name)
@@ -273,7 +273,7 @@ Public Class UserControl_Graph
                                                                                If objr.Ontology = objLocalConfig.Globals.Type_Object Then
                                                                                    Dim classItem = objDBLevel_Classes.GetOItem(objr.ID_Parent_Other, objLocalConfig.Globals.Type_Class)
                                                                                    nodeItem.AddNode(classItem.GUID, classItem.Name, objLocalConfig.Globals.Type_Class, False)
-                                                                                   nodeItem.AddEdge(classItem.GUID, objr.ID_Other)
+                                                                                   nodeItem.AddEdge(classItem.GUID, objr.ID_Other,ShowArrow := false)
                                                                                End If
 
                                                                                nodeItem.AddEdge(OItem_Object.GUID, objr.ID_Other, objr.Name_RelationType, 3)
@@ -289,7 +289,7 @@ Public Class UserControl_Graph
 
                                                                                nodeItem.AddNode(classItem.GUID, classItem.Name, objLocalConfig.Globals.Type_Class, False)
 
-                                                                               graph.AddEdge(classItem.GUID, objr.ID_Object)
+                                                                               nodeItem.AddEdge(classItem.GUID, objr.ID_Object,ShowArrow := false)
                                                                            End Sub)
 
                     RedRawGraph(True)
