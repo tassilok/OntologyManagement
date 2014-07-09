@@ -42,6 +42,8 @@ Public Class UserControl_Graph
     Private selectedItem As Object
     Private selectedItemAttr As Object
 
+    Private objGraphAttributes As New clsGraphAttributes
+
     Public Event Selected_Item(OItem_Item As clsOntologyItem)
 
     Public Sub Initialize_Lists()
@@ -399,7 +401,7 @@ Public Class UserControl_Graph
                 Dim node = CType(selectedItem, Node)
 
                 Select Case node.Attr.Shape
-                    Case Shape.Box          'Class
+                    Case objGraphAttributes.ShapeClass          'Class
                         objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_Class)
 
                         If Not objOItem_Selected Is Nothing Then
@@ -425,9 +427,9 @@ Public Class UserControl_Graph
                             End If
                         End If
 
-                    Case Shape.Circle       'Attribute
+                    Case objGraphAttributes.ShapeAttribute      'Attribute
                         objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_AttributeType)
-                    Case Shape.Ellipse      'Object
+                    Case objGraphAttributes.ShapeObject      'Object
                         If e.Button.HasFlag(MouseButtons.Left) Then
                             objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_Object)
                             Initialize_Graph(objOItem_Selected)
@@ -436,7 +438,7 @@ Public Class UserControl_Graph
 
                         End If
                         
-                    Case Shape.Triangle     'RelationType
+                    Case objGraphAttributes.ShapeRelationType     'RelationType
                         objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_RelationType)
                 End Select
 
@@ -561,7 +563,7 @@ Public Class UserControl_Graph
 
                 Select Case node.Attr.Shape
                    
-                    Case Shape.Ellipse      'Object
+                    Case objGraphAttributes.ShapeObject     'Object
                         objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_Object)
 
                         objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, New List(Of clsOntologyItem) From {objOItem_Selected}, 0, objLocalConfig.Globals.Type_Object, Nothing)
@@ -591,7 +593,7 @@ Public Class UserControl_Graph
 
                 Select Case node.Attr.Shape
 
-                    Case Shape.Ellipse      'Object
+                    Case objGraphAttributes.ShapeObject      'Object
                         objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_Object)
                         Dim objOItem_Class = objDBLevel_Classes.GetOItem(objOItem_Selected.GUID_Parent, objLocalConfig.Globals.Type_Class)
 

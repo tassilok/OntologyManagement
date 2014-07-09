@@ -12,6 +12,7 @@ Public Class clsGraphItem
 
     Private objGlobals As clsGlobals
 
+    Private objGraphAttributes As New clsGraphAttributes
 
     Public ReadOnly Property Graph As Graph
         Get
@@ -36,22 +37,25 @@ Public Class clsGraphItem
 
         Select Case OItem_Item.Type
             Case objGlobals.Type_AttributeType
-                GraphNode.Attr.Fillcolor = Color.Azure
-                GraphNode.Attr.Shape = Shape.Circle
-
+                GraphNode.Attr.Fillcolor = objGraphAttributes.ColorAttributeType
+                GraphNode.Attr.Shape = objGraphAttributes.ShapeAttributeType
+                GraphNode.Attr.Padding = 0
+                
             Case objGlobals.Type_Class
-                GraphNode.Attr.Shape = Shape.Box
+                GraphNode.Attr.Shape = objGraphAttributes.ShapeClass
+                GraphNode.Attr.Fillcolor = objGraphAttributes.ColorClass
                 If boolMark Then
-                    GraphNode.Attr.Fillcolor = Color.Chartreuse
+                    GraphNode.Attr.Fillcolor = objGraphAttributes.ColorClassMarked
                 End If
 
             Case objGlobals.Type_Object
-                GraphNode.Attr.Shape = Shape.Ellipse
+                GraphNode.Attr.Shape = objGraphAttributes.ShapeObject
+                GraphNode.Attr.Fillcolor = objGraphAttributes.ColorObject
                 If boolMark Then
-                    GraphNode.Attr.Fillcolor = Color.Chartreuse
+                    GraphNode.Attr.Fillcolor = objGraphAttributes.ColorObjectMarked
                 End If
             Case objGlobals.Type_RelationType
-                GraphNode.Attr.Shape = Shape.Triangle
+                GraphNode.Attr.Shape = objGraphAttributes.ShapeRelationType
         End Select
 
 

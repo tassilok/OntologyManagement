@@ -145,6 +145,7 @@
     <Compile Include="Classes\clsModuleForCommandLine.vb" />
     <Compile Include="Classes\clsModuleFunction.vb" />
     <Compile Include="Classes\clsRelationConfig.vb" />
+    <Compile Include="Classes\Graph\clsGraphAttributes.vb" />
     <Compile Include="Classes\Graph\clsGraphItem.vb" />
     <Compile Include="Classes\ImportExport\clsExport.vb" />
     <Compile Include="Classes\ImportExport\clsImport.vb" />

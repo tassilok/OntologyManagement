@@ -258,7 +258,7 @@ namespace TextParser
 
                         if (docCount == objLocalConfig.Globals.SearchRange)
                         {
-                            objOItem_Result = objAppDBLevel.Save_Documents(dictList, "Doc", index.ToLower());
+                            objOItem_Result = objAppDBLevel.Save_Documents(dictList, objOItem_Type != null ? objOItem_Type.Name : objOItem_Type != null ? objOItem_Type.Name : "Doc", index.ToLower());
                             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
                             {
                                 return objOItem_Result;
