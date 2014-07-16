@@ -26,6 +26,7 @@ namespace Office_Module
         private SplashScreen_OntologyModule SplashScreen;
         private AboutBox_OntologyItem AboutBox;
 
+        private frmDocumentEdit objFrmDocumentEdit;
         private UserControl_Documents objUserControl_Documents;
 
 
@@ -57,17 +58,21 @@ namespace Office_Module
 
         private void Initialize()
         {
+            var objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList());
+            if (objArgumentParsing.OList_Items != null && objArgumentParsing.OList_Items.Count == 1)
+            {
+                objFrmDocumentEdit = new frmDocumentEdit(objLocalConfig.Globals, objArgumentParsing.OList_Items.First());
+                objFrmDocumentEdit.ShowDialog(this);
+                Environment.Exit(0);
+            }
+
             objLocalConfig.DataWork_Documents = new clsDataWork_Documents(objLocalConfig);
             objUserControl_Documents = new UserControl_Documents(objLocalConfig);
             objUserControl_Documents.Dock = DockStyle.Fill;
             splitContainer1.Panel2.Controls.Add(objUserControl_Documents);
 
-            string[] strArguments;
-            strArguments = Environment.GetCommandLineArgs();
 
-            if (strArguments.Any())
-            { 
-            }
+            
 
             
             fill_Tree();

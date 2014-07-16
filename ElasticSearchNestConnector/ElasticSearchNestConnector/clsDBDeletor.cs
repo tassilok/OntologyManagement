@@ -21,6 +21,36 @@ namespace ElasticSearchNestConnector
             objDBSelector = DBSelector;
         }
 
+        public clsOntologyItem del_DataType(List<clsOntologyItem> OList_DataType)
+        {
+            var objOItem_Result = objLogStates.LogState_Success;
+
+            var objOList_ToDelete = OList_DataType;
+
+            if (objOItem_Result.GUID == objLogStates.LogState_Success.GUID)
+            {
+                var oList_Delete = objOList_ToDelete.GroupBy(p => p.GUID).Select(p => p.Key).ToList();
+
+                if (oList_Delete.Any())
+                {
+
+
+                    var delResult = objDBSelector.ElConnector.DeleteByQuery<clsOntologyItem>(dq => dq.Index(objDBSelector.Index).Type(objTypes.DataType).Query(q => q.Ids(oList_Delete)));
+                    objOItem_Result = delResult.Found ? delResult.OK ? objLogStates.LogState_Success : objLogStates.LogState_Error : objLogStates.LogState_Nothing;
+
+
+                }
+                else
+                {
+                    objOItem_Result.Min = objOList_ToDelete.Count;
+                    objOItem_Result.Max1 = OList_DataType.Count;
+                    objOItem_Result.Count = OList_DataType.Count - objOList_ToDelete.Count;
+                }
+
+            }
+            objDBSelector.ElConnector.Flush(f => f.Index(objDBSelector.Index));
+            return objOItem_Result;
+        }
 
         public clsOntologyItem del_AttributeType(List<clsOntologyItem> OList_AttributeType)
         {

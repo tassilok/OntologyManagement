@@ -286,6 +286,12 @@ Public Class clsDBLevel
 
     End Function
 
+    Public Function del_DataTypes(OList_DataTypes As List(Of clsOntologyItem)) As clsOntologyItem
+        Dim objOItem_Result = objElDeletor.del_DataType(OList_DataTypes)
+
+        Return objOItem_Result
+    End Function
+
     Public Function del_ClassAttType(ByVal oItem_Class As clsOntologyItem, ByVal oItem_AttType As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result = objElDeletor.del_ClassAttType(oItem_Class,oItem_AttType)
         Return objOItem_Result

@@ -34,6 +34,7 @@ Public Class UserControl_Graph
 
     Private objOItem_Item As clsOntologyItem
     Private objOItem_FilterItem As clsOntologyItem
+    Private objOItem_Class As clsOntologyItem
 
     Private nodeItem As clsGraphItem
 
@@ -45,6 +46,15 @@ Public Class UserControl_Graph
     Private objGraphAttributes As New clsGraphAttributes
 
     Public Event Selected_Item(OItem_Item As clsOntologyItem)
+
+    Private Enum InitializationType
+        ClassRelation
+        OItemGraph
+        ListGraph
+        OntologyGraph
+    End Enum
+
+    Private objInitializationType As InitializationType
 
     Public Sub Initialize_Lists()
         OList_AttributeTypes = New List(Of clsOntologyItem)
@@ -85,6 +95,7 @@ Public Class UserControl_Graph
     End Sub
 
     Public Sub Initialize_Graph(Optional OItem_Item As clsOntologyItem = Nothing)
+        objInitializationType = InitializationType.OItemGraph
         objOItem_Item = OItem_Item
 
         If objOItem_Item Is Nothing Then
@@ -113,6 +124,7 @@ Public Class UserControl_Graph
     End Sub
 
     Public Sub Initialize_ListGraph()
+        objInitializationType = InitializationType.ListGraph
         graph = New Graph("Graph")
         nodeItem = New clsGraphItem(objLocalConfig.Globals, graph)
 
@@ -125,7 +137,7 @@ Public Class UserControl_Graph
                               End Sub)
 
         OList_Classes.Where(Function(cls) Not String.IsNullOrEmpty(cls.GUID_Parent)).ToList().ForEach(Sub(cls)
-                                                                                                          nodeItem.AddEdge(cls.GUID_Parent, cls.GUID,ShowArrow := false)
+                                                                                                          nodeItem.AddEdge(cls.GUID_Parent, cls.GUID, ShowArrow:=False)
                                                                                                       End Sub)
 
         OList_RelationTypes.ForEach(Sub(relt)
@@ -134,7 +146,7 @@ Public Class UserControl_Graph
 
         OList_Objects.ForEach(Sub(obj)
                                   nodeItem.AddNode(obj.GUID, obj.Name, objLocalConfig.Globals.Type_Object, False)
-                                  nodeItem.AddEdge(obj.GUID_Parent, obj.GUID, ShowArrow := false)
+                                  nodeItem.AddEdge(obj.GUID_Parent, obj.GUID, ShowArrow:=False)
                               End Sub)
 
 
@@ -167,6 +179,7 @@ Public Class UserControl_Graph
     End Sub
 
     Public Sub Initialize_OntologyGraph(OItem_Ontology As clsOntologyItem)
+        objInitializationType = InitializationType.OntologyGraph
         objOItem_Item = OItem_Ontology
 
 
@@ -197,7 +210,7 @@ Public Class UserControl_Graph
 
                                                 nodeItem.AddNode(obj.GUID, obj.Name, objLocalConfig.Globals.Type_Object, False)
 
-                                                nodeItem.AddEdge(obj.GUID_Parent, obj.GUID,ShowArrow := false)
+                                                nodeItem.AddEdge(obj.GUID_Parent, obj.GUID, ShowArrow:=False)
                                             End Sub)
 
             objExport.OList_ObjectAtt.ForEach(Sub(objatt)
@@ -452,6 +465,8 @@ Public Class UserControl_Graph
 
 
     Public Sub Initialize_ClassRelationGraph(OItem_Class As clsOntologyItem)
+        objOItem_Class = OItem_Class
+        objInitializationType = InitializationType.ClassRelation
         Dim searchClAtt = New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID = OItem_Class.GUID}}
 
         Dim result = objDBLevel_ClassAtt.get_Data_ClassAtt(searchClAtt, boolIDs:=False)
@@ -472,7 +487,7 @@ Public Class UserControl_Graph
                     graph = New Graph("Classes")
                     nodeItem = New clsGraphItem(objLocalConfig.Globals, graph)
                     nodeItem.AddNode(OItem_Class.GUID, OItem_Class.Name, objLocalConfig.Globals.Type_Class, True)
-                    
+
                     objDBLevel_ClassAtt.OList_ClassAtt.ForEach(Sub(cla)
                                                                    nodeItem.AddNode(cla.ID_AttributeType, cla.Name_AttributeType, objLocalConfig.Globals.Type_AttributeType, False)
 
@@ -649,5 +664,21 @@ Public Class UserControl_Graph
             End If
 
         End If
+    End Sub
+
+    Private Sub GViewer_OGraph_KeyDown(sender As Object, e As KeyEventArgs) Handles GViewer_OGraph.KeyDown
+        Select Case e.KeyCode
+            Case Keys.F5
+                Select Case objInitializationType
+                    Case InitializationType.ClassRelation
+                        Initialize_ClassRelationGraph(objOItem_Class)
+                    Case InitializationType.ListGraph
+                        Initialize_ListGraph()
+                    Case InitializationType.OItemGraph
+                        Initialize_Graph(objOItem_Item)
+                    Case InitializationType.OntologyGraph
+                        Initialize_OntologyGraph(objOItem_Item)
+                End Select
+        End Select
     End Sub
 End Class

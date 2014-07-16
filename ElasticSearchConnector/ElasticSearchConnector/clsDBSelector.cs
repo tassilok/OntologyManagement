@@ -24,7 +24,7 @@ namespace ElasticSearchConnector
     }
 
     
-    public class clsDBSelector : IDisposable
+    public class clsDBSelector
     {
         public string Server { get; private set; }
         public int Port { get; private set; }
@@ -2742,12 +2742,5 @@ namespace ElasticSearchConnector
 
         }
 
-        
-
-    
-        public void Dispose()
-        {
- 	        ElConnector.CloseConnection();
-        }
     }
 }

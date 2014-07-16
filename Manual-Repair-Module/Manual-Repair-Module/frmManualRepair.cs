@@ -27,8 +27,77 @@ namespace Manual_Repair_Module
             Initialize();
             //Repair_MathematischeKomponenten();
             //Repair_MP3File();
-            Repair_MultipleRelations();
+            //Repair_MultipleRelations();
+            RemoveMultipleDataTypes();
 
+        }
+
+        private void RemoveMultipleDataTypes()
+        {
+            var dBLevel_DataTypes = new clsDBLevel(objLocalConfig.Globals);
+
+            var objLogging = new clsLogging(objLocalConfig.Globals);
+
+            objLogging.Initialize_Logging(objDataWork_Repair.Log, "multipledatatypes");
+
+            var oItem_Result = dBLevel_DataTypes.get_Data_DataTyps();
+
+            objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+            objLogging.Add_DictEntry("timestamp", DateTime.Now);
+            objLogging.Add_DictEntry("step", "search datatypes");
+            objLogging.Add_DictEntry("substep", "start");
+            objLogging.Finish_Document();
+
+            if (oItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                objLogging.Add_DictEntry("step", "search datatypes");
+                objLogging.Add_DictEntry("result", "success");
+                objLogging.Finish_Document();
+
+                var dataTypeLists = (from objDataType in dBLevel_DataTypes.OList_DataTypes
+                                      group objDataType by objDataType.GUID into objDataTypes
+                                      select new
+                                      {
+                                          ID_DataType = objDataTypes.Key,
+                                          Count = objDataTypes.Count()
+                                      }).Where(dtyp => dtyp.Count > 1)
+                                      .Select(dtyp => new clsOntologyItem { GUID = dtyp.ID_DataType }).ToList();
+
+                oItem_Result = dBLevel_DataTypes.del_DataTypes(dataTypeLists);
+
+                objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                objLogging.Add_DictEntry("step", "del datatypes");
+                objLogging.Add_DictEntry("substep", "start");
+                objLogging.Finish_Document();
+
+                if (oItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                    objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                    objLogging.Add_DictEntry("step", "del datatypes");
+                    objLogging.Add_DictEntry("result", "success");
+                    objLogging.Finish_Document();
+                }
+                else
+                {
+                    objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                    objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                    objLogging.Add_DictEntry("step", "del datatypes");
+                    objLogging.Add_DictEntry("result", "error");
+                    objLogging.Finish_Document();
+                }
+            }
+            else
+            {
+                objLogging.Init_Document(objLocalConfig.Globals.NewGUID);
+                objLogging.Add_DictEntry("timestamp", DateTime.Now);
+                objLogging.Add_DictEntry("step", "search datatypes");
+                objLogging.Add_DictEntry("result", "error");
+                objLogging.Finish_Document();
+            }
         }
 
         private void Initialize()

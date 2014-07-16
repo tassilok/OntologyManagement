@@ -291,6 +291,43 @@ namespace ElasticSearchConnector
             return objOItem_Result;
         }
 
+        public clsOntologyItem del_DataType(clsOntologyItem OItem_DataType)
+        {
+            var objOItem_Result = objLogStates.LogState_Success;
+            OperateResult opResult;
+
+            var oList_Delete = new List<string> { OItem_DataType.GUID };
+
+            if (oList_Delete.Any() && (!string.IsNullOrEmpty(OItem_DataType.GUID) ) )
+            {
+                try
+                {
+                    opResult = objDBSelector.ElConnector.Delete(objDBSelector.Index, objTypes.DataType,
+                                                                oList_Delete.ToArray());
+                    if (opResult.Success)
+                    {
+                        objOItem_Result = objLogStates.LogState_Success;
+                    }
+                    else
+                    {
+                        objOItem_Result = objLogStates.LogState_Error;
+                    }
+                }
+                catch (Exception)
+                {
+                    objOItem_Result = objLogStates.LogState_Error;
+                    throw;
+                }
+            }
+            else
+            {
+                objOItem_Result.Min = oList_Delete.Count;
+            }
+
+            objDBSelector.ElConnector.Flush();
+            return objOItem_Result;
+        }
+
         public clsOntologyItem del_ClassRel(List<clsClassRel> OList_ClassRel)
         {
             var objOItem_Result = objLogStates.LogState_Success;
