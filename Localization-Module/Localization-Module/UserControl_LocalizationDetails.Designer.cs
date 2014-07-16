@@ -118,6 +118,7 @@
             this.textBox_Message.Size = new System.Drawing.Size(220, 359);
             this.textBox_Message.TabIndex = 0;
             this.textBox_Message.TextChanged += new System.EventHandler(this.textBox_Message_TextChanged);
+            this.textBox_Message.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBox_Message_MouseDoubleClick);
             // 
             // UserControl_LocalizationDetails
             // 

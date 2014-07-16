@@ -841,7 +841,7 @@ Private strEL_Server As String
 
             objDRs_ConfigItem = dtblT_Config.Select("ConfigItem_Name='ModuleSearchPath'")
             If objDRs_ConfigItem.Count > 0 Then
-                strSearchPath_Modules = objDRs_ConfigItem(0).Item("ConfigItem_Value")
+                strSearchPath_Modules = Environment.ExpandEnvironmentVariables(objDRs_ConfigItem(0).Item("ConfigItem_Value"))
             End If
 
         Else

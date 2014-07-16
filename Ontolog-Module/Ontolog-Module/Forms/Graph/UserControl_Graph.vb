@@ -1,6 +1,7 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Imports Microsoft.Glee.Drawing
+Imports ClassLibrary_ShellWork
 
 Public Class UserControl_Graph
 
@@ -16,6 +17,9 @@ Public Class UserControl_Graph
 
     Private objLocalConfig As clsLocalConfig
 
+
+    Private objShellWork As clsShellWork
+
     Private objDBLevel_Classes As clsDBLevel
 
     Private objDBLevel_ClassAtt As clsDBLevel
@@ -29,6 +33,7 @@ Public Class UserControl_Graph
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFrm_RelationFilter As frmRelationFilter
+    Private objFrm_Modules As frmModules
 
     Private objExport As clsExport
 
@@ -44,6 +49,8 @@ Public Class UserControl_Graph
     Private selectedItemAttr As Object
 
     Private objGraphAttributes As New clsGraphAttributes
+
+    Private strLastModule As String
 
     Public Event Selected_Item(OItem_Item As clsOntologyItem)
 
@@ -681,4 +688,51 @@ Public Class UserControl_Graph
                 End Select
         End Select
     End Sub
+
+    Private Sub OpenModuleByArgumentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenModuleByArgumentToolStripMenuItem.Click
+        selectedItem = GViewer_OGraph.SelectedObject
+
+        Dim objOItem_Selected As clsOntologyItem = Nothing
+
+        If Not selectedItem Is Nothing Then
+
+            If TypeOf selectedItem Is Node Then
+                Dim node = CType(selectedItem, Node)
+
+                Select Case node.Attr.Shape
+
+                    Case objGraphAttributes.ShapeObject      'Object
+                        objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_Object)
+                        If Not OpenLastModuleToolStripMenuItem.Checked Or String.IsNullOrEmpty(strLastModule) Then
+                            objFrm_Modules = New frmModules(objLocalConfig.Globals)
+                            objFrm_Modules.ShowDialog(Me)
+                            If objFrm_Modules.DialogResult = DialogResult.OK Then
+                                Dim strModule = objFrm_Modules.Selected_Module
+                                If Not strModule Is Nothing Then
+                                    objShellWork = New clsShellWork()
+                                    If objShellWork.start_Process(strModule, "Item=" & objOItem_Selected.GUID + ",Object", IO.Path.GetDirectoryName(strModule), False, False) Then
+                                        strLastModule = strModule
+                                        OpenLastModuleToolStripMenuItem.ToolTipText = strLastModule
+                                    Else
+                                        MsgBox("Das Module konnte nicht gestartet werden!", MsgBoxStyle.Exclamation)
+                                    End If
+                                End If
+                            End If
+                        Else
+                            objShellWork = New clsShellWork()
+                            If Not objShellWork.start_Process(strLastModule, "Item=" & objOItem_Selected.GUID + ",Object", IO.Path.GetDirectoryName(strLastModule), False, False) Then
+                                MsgBox("Das Module konnte nicht gestartet werden!", MsgBoxStyle.Exclamation)
+                            End If
+
+                        End If
+                End Select
+
+
+
+            End If
+
+        End If
+        
+    End Sub
+
 End Class

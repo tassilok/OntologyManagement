@@ -10,7 +10,7 @@
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>server</ConfigItem_Name>
-    <ConfigItem_Value>192.168.30.93</ConfigItem_Value>
+    <ConfigItem_Value>localhost</ConfigItem_Value>
   </dtbl_BaseConfig>
   <dtbl_BaseConfig>
     <ConfigItem_Name>server_report</ConfigItem_Name>
@@ -27,5 +27,9 @@
   <dtbl_BaseConfig>
     <ConfigItem_Name>ReportIndex</ConfigItem_Name>
     <ConfigItem_Value>reports</ConfigItem_Value>
+  </dtbl_BaseConfig>
+  <dtbl_BaseConfig>
+    <ConfigItem_Name>ModuleSearchPath</ConfigItem_Name>
+    <ConfigItem_Value>%OMODULE_PATH%</ConfigItem_Value>
   </dtbl_BaseConfig>
 </DocumentElement>

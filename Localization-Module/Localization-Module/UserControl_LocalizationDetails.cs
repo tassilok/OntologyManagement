@@ -34,6 +34,8 @@ namespace Localization_Module
         private clsOntologyItem objOItem_Localized;
         private clsOntologyItem objOItem_Language;
 
+        private dlg_Attribute_String objDLG_Attribute_String;
+
         private bool boolLocalizedNames;
 
         public event Selected_Node selected_Node;
@@ -526,6 +528,20 @@ namespace Localization_Module
             if (!textBox_Message.ReadOnly)
             {
                 Timer_Description.Start();
+            }
+            
+        }
+
+        private void textBox_Message_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (!textBox_Message.ReadOnly)
+            {
+                objDLG_Attribute_String = new dlg_Attribute_String("Message", objLocalConfig.Globals, textBox_Message.Text);
+                objDLG_Attribute_String.ShowDialog(this);
+                if (objDLG_Attribute_String.DialogResult == DialogResult.OK)
+                {
+                    textBox_Message.Text = objDLG_Attribute_String.Value;
+                }
             }
             
         }

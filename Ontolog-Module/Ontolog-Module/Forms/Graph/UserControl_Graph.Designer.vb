@@ -41,6 +41,8 @@ Partial Class UserControl_Graph
         Me.Timer_Filter = New System.Windows.Forms.Timer(Me.components)
         Me.ContextMenuStrip_Graph = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.AddRelationsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenModuleByArgumentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenLastModuleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -184,15 +186,29 @@ Partial Class UserControl_Graph
         '
         'ContextMenuStrip_Graph
         '
-        Me.ContextMenuStrip_Graph.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddRelationsToolStripMenuItem})
+        Me.ContextMenuStrip_Graph.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddRelationsToolStripMenuItem, Me.OpenModuleByArgumentToolStripMenuItem})
         Me.ContextMenuStrip_Graph.Name = "ContextMenuStrip_Graph"
-        Me.ContextMenuStrip_Graph.Size = New System.Drawing.Size(148, 26)
+        Me.ContextMenuStrip_Graph.Size = New System.Drawing.Size(225, 70)
         '
         'AddRelationsToolStripMenuItem
         '
         Me.AddRelationsToolStripMenuItem.Name = "AddRelationsToolStripMenuItem"
-        Me.AddRelationsToolStripMenuItem.Size = New System.Drawing.Size(147, 22)
+        Me.AddRelationsToolStripMenuItem.Size = New System.Drawing.Size(224, 22)
         Me.AddRelationsToolStripMenuItem.Text = "Add Relations"
+        '
+        'OpenModuleByArgumentToolStripMenuItem
+        '
+        Me.OpenModuleByArgumentToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenLastModuleToolStripMenuItem})
+        Me.OpenModuleByArgumentToolStripMenuItem.Name = "OpenModuleByArgumentToolStripMenuItem"
+        Me.OpenModuleByArgumentToolStripMenuItem.Size = New System.Drawing.Size(224, 22)
+        Me.OpenModuleByArgumentToolStripMenuItem.Text = "Open Module by argumente"
+        '
+        'OpenLastModuleToolStripMenuItem
+        '
+        Me.OpenLastModuleToolStripMenuItem.CheckOnClick = True
+        Me.OpenLastModuleToolStripMenuItem.Name = "OpenLastModuleToolStripMenuItem"
+        Me.OpenLastModuleToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.OpenLastModuleToolStripMenuItem.Text = "x_Open Last Module"
         '
         'UserControl_Graph
         '
@@ -233,5 +249,7 @@ End Sub
     Friend WithEvents ToolStripButton_Ontologies As System.Windows.Forms.ToolStripButton
     Friend WithEvents ContextMenuStrip_Graph As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents AddRelationsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenModuleByArgumentToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenLastModuleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
