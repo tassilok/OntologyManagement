@@ -22,6 +22,8 @@ namespace Checklist_Module
         private clsLocalConfig objLocalConfig;
         private UserControl_Report objUserControl_Report;
 
+        private frm_ObjectEdit objFrmObjectEdit;
+
         private clsOntologyItem objOItem_Report;
         private clsOntologyItem objOItem_WorkingList;
         private clsOntologyItem objOItem_ReportField;
@@ -35,6 +37,8 @@ namespace Checklist_Module
         private List<clsLogEntry> objOList_LogEntries;
 
         private clsLogManagement objLogManagement;
+
+        private clsOntologyItem objOItem_LogEntryCurrent;
 
         private clsTransaction objTransaction;
         private clsRelationConfig objRelationConfig;
@@ -71,8 +75,10 @@ namespace Checklist_Module
             toolStripButton_Success.Enabled = false;
             toolStripButton_Error.Enabled = false;
             toolStripButton_Pause.Enabled = false;
+            button_Edit.Enabled = false;
             textBox_DateTimeStamp.Text = "";
             textBox_Message.Text = "";
+            objOItem_LogEntryCurrent = null;
 
             if (objUserControl_Report.DataGridViewRow_Selected.Count > 0)
             {
@@ -90,10 +96,13 @@ namespace Checklist_Module
 
                 if (objUserControl_Report.DataGridViewRow_Selected.Count == 1)
                 {
+                    objOItem_LogEntryCurrent = new clsOntologyItem();
                     DataGridViewRow row = objUserControl_Report.DataGridViewRow_Selected[0];
                     
                     if (row.Cells["DateTimeStamp_Success"].Value.ToString() != "")
                     {
+                        
+
                         textBox_DateTimeStamp.Text = row.Cells["DateTimeStamp_Success"].Value.ToString();
                     }
                     else if (row.Cells["DateTimeStamp_Pause"].Value.ToString() != "" && row.Cells["DateTimeStamp_Error"].Value.ToString() != "")
@@ -108,6 +117,9 @@ namespace Checklist_Module
                         {
                             textBox_DateTimeStamp.Text = dateTimeLast2.ToString();
                         }
+
+                        
+                        
                     }
                     else if (row.Cells["DateTimeStamp_Pause"].Value.ToString() != "" && row.Cells["DateTimeStamp_Error"].Value.ToString() == "")
                     {
@@ -119,8 +131,34 @@ namespace Checklist_Module
                     }
 
                     if (row.Cells["Message"] != null)
+                    {
                         textBox_Message.Text = row.Cells["Message"].Value.ToString();
+                    }
 
+                    if (!string.IsNullOrEmpty(row.Cells["ID_LogEntry_Success"].Value.ToString()))
+                    {
+                        objOItem_LogEntryCurrent.GUID = row.Cells["ID_LogEntry_Success"].Value.ToString();
+                        objOItem_LogEntryCurrent.Name = row.Cells["Name_LogEntry_Success"].Value.ToString();
+                        objOItem_LogEntryCurrent.GUID_Parent = objLocalConfig.OItem_class_logentry.GUID;
+                        objOItem_LogEntryCurrent.Type = objLocalConfig.Globals.Type_Object;
+                    }
+
+                    else if (!string.IsNullOrEmpty(row.Cells["ID_LogEntry_Pause"].Value.ToString()))
+                    {
+                        objOItem_LogEntryCurrent.GUID = row.Cells["ID_LogEntry_Pause"].Value.ToString();
+                        objOItem_LogEntryCurrent.Name = row.Cells["Name_LogEntry_Pause"].Value.ToString();
+                        objOItem_LogEntryCurrent.GUID_Parent = objLocalConfig.OItem_class_logentry.GUID;
+                        objOItem_LogEntryCurrent.Type = objLocalConfig.Globals.Type_Object;
+                    }
+                    else if (!string.IsNullOrEmpty(row.Cells["ID_LogEntry_Error"].Value.ToString()))
+                    {
+                        objOItem_LogEntryCurrent.GUID = row.Cells["ID_LogEntry_Error"].Value.ToString();
+                        objOItem_LogEntryCurrent.Name = row.Cells["Name_LogEntry_Error"].Value.ToString();
+                        objOItem_LogEntryCurrent.GUID_Parent = objLocalConfig.OItem_class_logentry.GUID;
+                        objOItem_LogEntryCurrent.Type = objLocalConfig.Globals.Type_Object;
+                    }
+
+                    button_Edit.Enabled = true;
 
                 }
             }
@@ -632,6 +670,16 @@ namespace Checklist_Module
         private void toolStripButton_Error_Click(object sender, EventArgs e)
         {
             CreateLog(objLocalConfig.OItem_object_error);
+        }
+
+        private void button_Edit_Click(object sender, EventArgs e)
+        {
+            if (objOItem_LogEntryCurrent != null)
+            {
+                objFrmObjectEdit = new frm_ObjectEdit(objLocalConfig.Globals, new List<clsOntologyItem> { objOItem_LogEntryCurrent }, 0, objLocalConfig.Globals.Type_Object, null );
+                objFrmObjectEdit.ShowDialog(this);
+
+            }
         }
     }
 }

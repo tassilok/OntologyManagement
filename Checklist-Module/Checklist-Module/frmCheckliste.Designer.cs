@@ -32,24 +32,25 @@
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.textBox_Message = new System.Windows.Forms.TextBox();
+            this.label_Message = new System.Windows.Forms.Label();
+            this.textBox_DateTimeStamp = new System.Windows.Forms.TextBox();
+            this.label_LastDateTimeStamp = new System.Windows.Forms.Label();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Success = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Pause = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Error = new System.Windows.Forms.ToolStripButton();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.label_LastDateTimeStamp = new System.Windows.Forms.Label();
-            this.textBox_DateTimeStamp = new System.Windows.Forms.TextBox();
-            this.label_Message = new System.Windows.Forms.Label();
-            this.textBox_Message = new System.Windows.Forms.TextBox();
+            this.button_Edit = new System.Windows.Forms.Button();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -93,6 +94,65 @@
             this.toolStripButton_Close.Size = new System.Drawing.Size(50, 22);
             this.toolStripButton_Close.Text = "x_Close";
             this.toolStripButton_Close.Click += new System.EventHandler(this.toolStripButton_Close_Click);
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.button_Edit);
+            this.splitContainer1.Panel2.Controls.Add(this.textBox_Message);
+            this.splitContainer1.Panel2.Controls.Add(this.label_Message);
+            this.splitContainer1.Panel2.Controls.Add(this.textBox_DateTimeStamp);
+            this.splitContainer1.Panel2.Controls.Add(this.label_LastDateTimeStamp);
+            this.splitContainer1.Size = new System.Drawing.Size(1093, 403);
+            this.splitContainer1.SplitterDistance = 868;
+            this.splitContainer1.TabIndex = 0;
+            // 
+            // textBox_Message
+            // 
+            this.textBox_Message.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox_Message.Location = new System.Drawing.Point(7, 65);
+            this.textBox_Message.Multiline = true;
+            this.textBox_Message.Name = "textBox_Message";
+            this.textBox_Message.ReadOnly = true;
+            this.textBox_Message.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox_Message.Size = new System.Drawing.Size(207, 305);
+            this.textBox_Message.TabIndex = 3;
+            // 
+            // label_Message
+            // 
+            this.label_Message.AutoSize = true;
+            this.label_Message.Location = new System.Drawing.Point(4, 48);
+            this.label_Message.Name = "label_Message";
+            this.label_Message.Size = new System.Drawing.Size(64, 13);
+            this.label_Message.TabIndex = 2;
+            this.label_Message.Text = "x_Message:";
+            // 
+            // textBox_DateTimeStamp
+            // 
+            this.textBox_DateTimeStamp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox_DateTimeStamp.Location = new System.Drawing.Point(7, 21);
+            this.textBox_DateTimeStamp.Name = "textBox_DateTimeStamp";
+            this.textBox_DateTimeStamp.ReadOnly = true;
+            this.textBox_DateTimeStamp.Size = new System.Drawing.Size(207, 20);
+            this.textBox_DateTimeStamp.TabIndex = 1;
+            // 
+            // label_LastDateTimeStamp
+            // 
+            this.label_LastDateTimeStamp.AutoSize = true;
+            this.label_LastDateTimeStamp.Location = new System.Drawing.Point(4, 4);
+            this.label_LastDateTimeStamp.Name = "label_LastDateTimeStamp";
+            this.label_LastDateTimeStamp.Size = new System.Drawing.Size(97, 13);
+            this.label_LastDateTimeStamp.TabIndex = 0;
+            this.label_LastDateTimeStamp.Text = "x_DateTimeStamp:";
             // 
             // toolStrip2
             // 
@@ -139,63 +199,17 @@
             this.toolStripButton_Error.Text = "toolStripButton3";
             this.toolStripButton_Error.Click += new System.EventHandler(this.toolStripButton_Error_Click);
             // 
-            // splitContainer1
+            // button_Edit
             // 
-            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.textBox_Message);
-            this.splitContainer1.Panel2.Controls.Add(this.label_Message);
-            this.splitContainer1.Panel2.Controls.Add(this.textBox_DateTimeStamp);
-            this.splitContainer1.Panel2.Controls.Add(this.label_LastDateTimeStamp);
-            this.splitContainer1.Size = new System.Drawing.Size(1093, 403);
-            this.splitContainer1.SplitterDistance = 868;
-            this.splitContainer1.TabIndex = 0;
-            // 
-            // label_LastDateTimeStamp
-            // 
-            this.label_LastDateTimeStamp.AutoSize = true;
-            this.label_LastDateTimeStamp.Location = new System.Drawing.Point(4, 4);
-            this.label_LastDateTimeStamp.Name = "label_LastDateTimeStamp";
-            this.label_LastDateTimeStamp.Size = new System.Drawing.Size(97, 13);
-            this.label_LastDateTimeStamp.TabIndex = 0;
-            this.label_LastDateTimeStamp.Text = "x_DateTimeStamp:";
-            // 
-            // textBox_DateTimeStamp
-            // 
-            this.textBox_DateTimeStamp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_DateTimeStamp.Location = new System.Drawing.Point(7, 21);
-            this.textBox_DateTimeStamp.Name = "textBox_DateTimeStamp";
-            this.textBox_DateTimeStamp.ReadOnly = true;
-            this.textBox_DateTimeStamp.Size = new System.Drawing.Size(207, 20);
-            this.textBox_DateTimeStamp.TabIndex = 1;
-            // 
-            // label_Message
-            // 
-            this.label_Message.AutoSize = true;
-            this.label_Message.Location = new System.Drawing.Point(4, 48);
-            this.label_Message.Name = "label_Message";
-            this.label_Message.Size = new System.Drawing.Size(64, 13);
-            this.label_Message.TabIndex = 2;
-            this.label_Message.Text = "x_Message:";
-            // 
-            // textBox_Message
-            // 
-            this.textBox_Message.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_Message.Location = new System.Drawing.Point(7, 65);
-            this.textBox_Message.Multiline = true;
-            this.textBox_Message.Name = "textBox_Message";
-            this.textBox_Message.ReadOnly = true;
-            this.textBox_Message.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_Message.Size = new System.Drawing.Size(207, 331);
-            this.textBox_Message.TabIndex = 3;
+            this.button_Edit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Edit.Enabled = false;
+            this.button_Edit.Location = new System.Drawing.Point(139, 373);
+            this.button_Edit.Name = "button_Edit";
+            this.button_Edit.Size = new System.Drawing.Size(75, 23);
+            this.button_Edit.TabIndex = 4;
+            this.button_Edit.Text = "x_Edit";
+            this.button_Edit.UseVisualStyleBackColor = true;
+            this.button_Edit.Click += new System.EventHandler(this.button_Edit_Click);
             // 
             // frmCheckliste
             // 
@@ -215,12 +229,12 @@
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -239,5 +253,6 @@
         private System.Windows.Forms.Label label_Message;
         private System.Windows.Forms.TextBox textBox_DateTimeStamp;
         private System.Windows.Forms.Label label_LastDateTimeStamp;
+        private System.Windows.Forms.Button button_Edit;
     }
 }
