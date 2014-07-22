@@ -56,21 +56,21 @@ Partial Class UserControl_Process
         Me.ToolStripTextBox_Mark = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripButton_NextProcess = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Clear = New System.Windows.Forms.ToolStripButton()
-        Me.ContextMenuStrip_Process.SuspendLayout()
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
-        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer1.SuspendLayout()
-        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer1.Panel1.SuspendLayout()
-        Me.SplitContainer1.Panel2.SuspendLayout()
-        Me.SplitContainer1.SuspendLayout()
-        Me.ToolStripContainer2.BottomToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer2.ContentPanel.SuspendLayout()
-        Me.ToolStripContainer2.SuspendLayout()
-        Me.ToolStrip2.SuspendLayout()
-        Me.TabControl1.SuspendLayout()
-        Me.ToolStrip1.SuspendLayout()
-        Me.SuspendLayout()
+        Me.ContextMenuStrip_Process.SuspendLayout
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout
+        Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout
+        Me.ToolStripContainer1.SuspendLayout
+        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitContainer1.Panel1.SuspendLayout
+        Me.SplitContainer1.Panel2.SuspendLayout
+        Me.SplitContainer1.SuspendLayout
+        Me.ToolStripContainer2.BottomToolStripPanel.SuspendLayout
+        Me.ToolStripContainer2.ContentPanel.SuspendLayout
+        Me.ToolStripContainer2.SuspendLayout
+        Me.ToolStrip2.SuspendLayout
+        Me.TabControl1.SuspendLayout
+        Me.ToolStrip1.SuspendLayout
+        Me.SuspendLayout
         '
         'Timer_Process
         '
@@ -125,11 +125,11 @@ Partial Class UserControl_Process
         Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
         Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ApplyToolStripMenuItem.Text = "x_Apply"
-        Me.ApplyToolStripMenuItem.Visible = False
+        Me.ApplyToolStripMenuItem.Visible = false
         '
         'ImageList_Process
         '
-        Me.ImageList_Process.ImageStream = CType(resources.GetObject("ImageList_Process.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageList_Process.ImageStream = CType(resources.GetObject("ImageList_Process.ImageStream"),System.Windows.Forms.ImageListStreamer)
         Me.ImageList_Process.TransparentColor = System.Drawing.Color.Transparent
         Me.ImageList_Process.Images.SetKeyName(0, "bb_home_.png")
         Me.ImageList_Process.Images.SetKeyName(1, "mycomp.png")
@@ -225,10 +225,10 @@ Partial Class UserControl_Process
         '
         'TreeView_Process
         '
-        Me.TreeView_Process.AllowDrop = True
+        Me.TreeView_Process.AllowDrop = true
         Me.TreeView_Process.ContextMenuStrip = Me.ContextMenuStrip_Process
         Me.TreeView_Process.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TreeView_Process.HideSelection = False
+        Me.TreeView_Process.HideSelection = false
         Me.TreeView_Process.ImageIndex = 0
         Me.TreeView_Process.ImageList = Me.ImageList_Process
         Me.TreeView_Process.Location = New System.Drawing.Point(0, 0)
@@ -258,7 +258,7 @@ Partial Class UserControl_Process
         Me.TabPage_References.Size = New System.Drawing.Size(530, 400)
         Me.TabPage_References.TabIndex = 0
         Me.TabPage_References.Text = "x_References"
-        Me.TabPage_References.UseVisualStyleBackColor = True
+        Me.TabPage_References.UseVisualStyleBackColor = true
         '
         'TabPage_Images
         '
@@ -268,7 +268,7 @@ Partial Class UserControl_Process
         Me.TabPage_Images.Size = New System.Drawing.Size(530, 400)
         Me.TabPage_Images.TabIndex = 1
         Me.TabPage_Images.Text = "x_Images"
-        Me.TabPage_Images.UseVisualStyleBackColor = True
+        Me.TabPage_Images.UseVisualStyleBackColor = true
         '
         'TabPage_PDF
         '
@@ -278,7 +278,7 @@ Partial Class UserControl_Process
         Me.TabPage_PDF.Size = New System.Drawing.Size(530, 400)
         Me.TabPage_PDF.TabIndex = 2
         Me.TabPage_PDF.Text = "x_PDF"
-        Me.TabPage_PDF.UseVisualStyleBackColor = True
+        Me.TabPage_PDF.UseVisualStyleBackColor = true
         '
         'TabPage_MediaItem
         '
@@ -288,7 +288,7 @@ Partial Class UserControl_Process
         Me.TabPage_MediaItem.Size = New System.Drawing.Size(530, 400)
         Me.TabPage_MediaItem.TabIndex = 3
         Me.TabPage_MediaItem.Text = "x_MediaItems"
-        Me.TabPage_MediaItem.UseVisualStyleBackColor = True
+        Me.TabPage_MediaItem.UseVisualStyleBackColor = true
         '
         'ToolStrip1
         '
@@ -326,7 +326,7 @@ Partial Class UserControl_Process
         'ToolStripButton_NextProcess
         '
         Me.ToolStripButton_NextProcess.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_NextProcess.Enabled = False
+        Me.ToolStripButton_NextProcess.Enabled = false
         Me.ToolStripButton_NextProcess.Image = Global.Process_Module.My.Resources.Resources._112_DownArrowLong_Green_24x24_72
         Me.ToolStripButton_NextProcess.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_NextProcess.Name = "ToolStripButton_NextProcess"
@@ -343,34 +343,34 @@ Partial Class UserControl_Process
         '
         'UserControl_Process
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "UserControl_Process"
         Me.Size = New System.Drawing.Size(817, 455)
-        Me.ContextMenuStrip_Process.ResumeLayout(False)
-        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
-        Me.ToolStripContainer1.ResumeLayout(False)
-        Me.ToolStripContainer1.PerformLayout()
-        Me.SplitContainer1.Panel1.ResumeLayout(False)
-        Me.SplitContainer1.Panel2.ResumeLayout(False)
-        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer1.ResumeLayout(False)
-        Me.ToolStripContainer2.BottomToolStripPanel.ResumeLayout(False)
-        Me.ToolStripContainer2.BottomToolStripPanel.PerformLayout()
-        Me.ToolStripContainer2.ContentPanel.ResumeLayout(False)
-        Me.ToolStripContainer2.ResumeLayout(False)
-        Me.ToolStripContainer2.PerformLayout()
-        Me.ToolStrip2.ResumeLayout(False)
-        Me.ToolStrip2.PerformLayout()
-        Me.TabControl1.ResumeLayout(False)
-        Me.ToolStrip1.ResumeLayout(False)
-        Me.ToolStrip1.PerformLayout()
-        Me.ResumeLayout(False)
+        Me.ContextMenuStrip_Process.ResumeLayout(false)
+        Me.ToolStripContainer1.ContentPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(false)
+        Me.ToolStripContainer1.TopToolStripPanel.PerformLayout
+        Me.ToolStripContainer1.ResumeLayout(false)
+        Me.ToolStripContainer1.PerformLayout
+        Me.SplitContainer1.Panel1.ResumeLayout(false)
+        Me.SplitContainer1.Panel2.ResumeLayout(false)
+        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitContainer1.ResumeLayout(false)
+        Me.ToolStripContainer2.BottomToolStripPanel.ResumeLayout(false)
+        Me.ToolStripContainer2.BottomToolStripPanel.PerformLayout
+        Me.ToolStripContainer2.ContentPanel.ResumeLayout(false)
+        Me.ToolStripContainer2.ResumeLayout(false)
+        Me.ToolStripContainer2.PerformLayout
+        Me.ToolStrip2.ResumeLayout(false)
+        Me.ToolStrip2.PerformLayout
+        Me.TabControl1.ResumeLayout(false)
+        Me.ToolStrip1.ResumeLayout(false)
+        Me.ToolStrip1.PerformLayout
+        Me.ResumeLayout(false)
 
-    End Sub
+End Sub
     Friend WithEvents Timer_Process As System.Windows.Forms.Timer
     Friend WithEvents ContextMenuStrip_Process As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents NewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4A17BFC2-BCA2-4477-87D7-447D6F949C7F}</ProjectGuid>
+    <ProjectGuid>{32A7511E-A4A8-4668-A43A-0672BEFAB0C9}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TelephoneNumber_Module</RootNamespace>
-    <AssemblyName>TelephoneNumber-Module</AssemblyName>
+    <RootNamespace>HTMLExport_Module</RootNamespace>
+    <AssemblyName>HTMLExport-Module</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,17 +45,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsDataWork_HTMLExport.cs" />
+    <Compile Include="clsHTMLCreation.cs" />
     <Compile Include="clsLocalConfig.cs" />
-    <Compile Include="frmTelephoneNumberModule.cs">
+    <Compile Include="clsXML.cs" />
+    <Compile Include="frmHTMLExportModule.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmTelephoneNumberModule.Designer.cs">
-      <DependentUpon>frmTelephoneNumberModule.cs</DependentUpon>
+    <Compile Include="frmHTMLExportModule.Designer.cs">
+      <DependentUpon>frmHTMLExportModule.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmTelephoneNumberModule.resx">
-      <DependentUpon>frmTelephoneNumberModule.cs</DependentUpon>
+    <EmbeddedResource Include="frmHTMLExportModule.resx">
+      <DependentUpon>frmHTMLExportModule.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -82,11 +86,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
+    <ProjectReference Include="..\..\Filesystem-Module\Filesystem-Module\Filesystem-Module.vbproj">
+      <Project>{f31c8a5a-bb2b-474e-bc1f-a14e805ea2e9}</Project>
+      <Name>Filesystem-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3f2f6722-c36b-420d-afe7-b21c19457208}</Project>
       <Name>Ontolog-Module</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\OntologyClasses\OntologyClasses.csproj">
+    <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
       <Name>OntologyClasses</Name>
     </ProjectReference>

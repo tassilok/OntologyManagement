@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="ObjectAttribute">
+  <Item Id_Attribute="5394de2e1eef4483bad8f58ec565e5b3" Id_AttributeType="68ac4472ee22422996ec9753a016900a" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="39a837772b8b4a768bebb3585ebb0185" Id_Class="327e9773fca6458ca44d338a556e0ad9" OrderId="0">
+  <Val_Named><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+&lt;![CDATA[&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;
+       &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;]]&gt;
+&lt;/data&gt;]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng></Val_Lng>
+  <Val_String><![CDATA[&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+&lt;![CDATA[&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;
+       &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;]]&gt;
+&lt;/data&gt;]]></Val_String>
+</Item>
+
+</Items>

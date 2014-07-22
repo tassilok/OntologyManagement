@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace TelephoneNumber_Module
+namespace HTMLExport_Module
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace TelephoneNumber_Module
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmTelephoneNumberModule());
+            Application.Run(new frmHTMLExportModule());
         }
     }
 }

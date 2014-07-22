@@ -9,6 +9,8 @@ Public Class UserControl_OItemList
     Private objDBLevel As clsDBLevel
     Private objDBLevel2 As clsDBLevel
     Private objDBLevel3 As clsDBLevel
+    Private objDBLevel4 As clsDBLevel
+    Private objDBLevel5 As clsDBLevel
     Private objOntologyClipboard As clsOntologyClipboard
 
     Private objFrm_Main As frmMain
@@ -580,6 +582,9 @@ Public Class UserControl_OItemList
         objDBLevel = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel2 = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel3 = new clsDBLevel(objLocalConfig.Globals)
+        objDBLevel4 = new clsDBLevel(objLocalConfig.Globals)
+        objDBLevel5 = new clsDBLevel(objLocalConfig.Globals)
+
         objTransaction_Objects = New clsTransaction_Objects(objLocalConfig, Me)
         objTransaction_AttributeTypes = New clsTransaction_AttributeTypes(objLocalConfig, Me)
         objTransaction_RelationTypes = New clsTransaction_RelationTypes(objLocalConfig, Me)
@@ -2627,12 +2632,19 @@ Public Class UserControl_OItemList
                                                                                                                             .Ontology = ob.Ontology}).ToList()
 
                                 objOItem_Result = objDBLevel2.save_ObjRel(objOList_Rel)
-                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                    objOList_S_Relations = objOList_Objects.Select(Function(o) new clsObjectRel With {.ID_Other = o.GUID }).ToList()
-                                    objOItem_Result = objDBLevel2.get_Data_ObjectRel(objOList_S_Relations)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then 
+
+                                    objDBLevel2.save_ObjRel(objDBLevel.OList_ObjectRel_ID)
+                                    MsgBox("Die Objekte konnten nicht verschoben werden!", MsgBoxStyle.Exclamation)
+                                End If
+                            End If
+
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objOList_S_Relations = objOList_Objects.Select(Function(o) new clsObjectRel With {.ID_Other = o.GUID }).ToList()
+                                    objOItem_Result = objDBLevel3.get_Data_ObjectRel(objOList_S_Relations)
                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                        If objDBLevel2.OList_ObjectRel_ID.Any() Then
-                                            objOList_Rel = objDBLevel2.OList_ObjectRel_ID.Select(function(ob) New clsObjectRel With {.ID_Object = ob.ID_Object, _
+                                        If objDBLevel3.OList_ObjectRel_ID.Any() Then
+                                            Dim objOList_Rel = objDBLevel3.OList_ObjectRel_ID.Select(function(ob) New clsObjectRel With {.ID_Object = ob.ID_Object, _
                                                                                         .ID_Parent_Object = ob.ID_Parent_Object, _
                                                                                                                             .ID_Other = ob.ID_Other, _
                                                                                                                             .ID_Parent_Other = objFrm_Main.OList_Simple.First().GUID, _
@@ -2640,26 +2652,73 @@ Public Class UserControl_OItemList
                                                                                                                             .OrderID = ob.OrderID, _
                                                                                                                             .Ontology = ob.Ontology}).ToList()
 
-                                        objOItem_Result = objDBLevel3.save_ObjRel(objOList_Rel)
-                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                                            objDBLevel3.save_ObjRel(objDBLevel2.OList_ObjectRel_ID)
-                                            objDBLevel2.save_ObjRel(objDBLevel.OList_ObjectRel_ID)
-                                            objDBLevel.save_Objects(objOList_Objects_Orig)
-                                            MsgBox("Die Objekte konnten nicht verschoben werden!", MsgBoxStyle.Exclamation)
+                                            objOItem_Result = objDBLevel4.save_ObjRel(objOList_Rel)
+                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                                if objDBLevel2.OList_ObjectRel_ID.Any() Then
+                                                    objDBLevel3.save_ObjRel(objDBLevel2.OList_ObjectRel_ID)
+                                                End If
+                                                if objDBLevel.OList_ObjectRel_ID.Any() Then
+                                                    objDBLevel2.save_ObjRel(objDBLevel.OList_ObjectRel_ID)
+                                                End If
+                                                
+                                                objDBLevel.save_Objects(objOList_Objects_Orig)
+                                                MsgBox("Die Objekte konnten nicht verschoben werden!", MsgBoxStyle.Exclamation)
+                                            End If
                                         End If
+                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                            Dim objOList_OAtt = objOList_Objects.Select(Function(o) new clsObjectAtt With {.ID_Object = o.GUID }).ToList()
+                                            objOItem_Result = objDBLevel4.get_Data_ObjectAtt(objOList_OAtt)
+                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                If objDBLevel4.OList_ObjectAtt_ID.Any() Then
+                                                    objOList_OAtt = objDBLevel4.OList_ObjectAtt_ID.Select(function(oa) New clsObjectAtt With {.ID_Attribute = oa.ID_Attribute,
+                                                                                                                                              .ID_AttributeType = oa.ID_AttributeType,
+                                                                                                                                              .ID_Class = objFrm_Main.OList_Simple.First().GUID,
+                                                                                                                                              .ID_DataType = oa.ID_DataType,
+                                                                                                                                              .ID_Object = oa.ID_Object,
+                                                                                                                                              .OrderID = oa.OrderID,
+                                                                                                                                              .Val_Name = oa.Val_Name,
+                                                                                                                                              .Val_Bit = oa.Val_Bit,
+                                                                                                                                              .Val_Date = oa.Val_Date,
+                                                                                                                                              .Val_Double = oa.Val_Double,
+                                                                                                                                              .Val_Int = oa.Val_Int,
+                                                                                                                                              .Val_Real = oa.Val_Real,
+                                                                                                                                              .Val_String = oa.Val_String}).ToList()
+
+                                                    objOItem_Result = objDBLevel5.save_ObjAtt(objOList_OAtt)
+                                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                                        if objDBLevel2.OList_ObjectRel_ID.Any() Then
+                                                            objDBLevel3.save_ObjRel(objDBLevel2.OList_ObjectRel_ID)
+                                                        End If
+                                                        if objDBLevel.OList_ObjectRel_ID.Any() Then
+                                                            objDBLevel2.save_ObjRel(objDBLevel.OList_ObjectRel_ID)
+                                                        End If
+                                                
+                                                        objDBLevel.save_Objects(objOList_Objects_Orig)
+                                                        MsgBox("Die Objekte konnten nicht verschoben werden!", MsgBoxStyle.Exclamation)
+                                                    End If
+                                                End If
+                                                
+                                            Else 
+                                                if objDBLevel2.OList_ObjectRel_ID.Any() Then
+                                                    objDBLevel3.save_ObjRel(objDBLevel2.OList_ObjectRel_ID)
+                                                End If
+                                                if objDBLevel.OList_ObjectRel_ID.Any() Then
+                                                    objDBLevel2.save_ObjRel(objDBLevel.OList_ObjectRel_ID)
+                                                End If
+                                                
+                                                objDBLevel.save_Objects(objOList_Objects_Orig)
+                                                MsgBox("Die Objekte konnten nicht verschoben werden!", MsgBoxStyle.Exclamation)
+                                            End If
                                         End If
                                         
                                     Else 
-                                        objDBLevel2.save_ObjRel(objDBLevel.OList_ObjectRel_ID)
+                                        if objDBLevel.OList_ObjectRel_ID.Any() Then
+                                            objDBLevel2.save_ObjRel(objDBLevel.OList_ObjectRel_ID)
+                                        End If
+                                        
                                         objDBLevel.save_Objects(objOList_Objects_Orig)
                                         MsgBox("Die Objekte konnten nicht verschoben werden!", MsgBoxStyle.Exclamation)
                                     End If
-                                    
-                                Else 
-
-                                    objDBLevel2.save_ObjRel(objDBLevel.OList_ObjectRel_ID)
-                                    MsgBox("Die Objekte konnten nicht verschoben werden!", MsgBoxStyle.Exclamation)
-                                End If
                             End If
                                 
                         Else 
