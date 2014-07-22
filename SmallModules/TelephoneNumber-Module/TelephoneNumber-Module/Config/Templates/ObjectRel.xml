@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="ObjectRel">
+  <Item Id_Object="8b0e49f5e4d74724845f159408817af0" Id_Parent_Object="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Other="e6a65bf2cbac446c8532636a71a61506" Id_Parent_Other="d3f72a683f6146a48ff381db05997dc8" Id_RelationType="e971160347db44d8a476fe88290639a4" OrderId="1" Ontology="Object"/>
+  
+<Item Id_Object="e6a65bf2cbac446c8532636a71a61506" Id_Parent_Object="d3f72a683f6146a48ff381db05997dc8" Id_Other="2186fa5228d64615949a45afa70a6716" Id_Parent_Other="9fdccc47fe8a468b80fc1b0b189bd030" Id_RelationType="f2b54f82ada5460eafe5551d55629f14" OrderId="0" Ontology="Class"/>
+  
+
+</Items>

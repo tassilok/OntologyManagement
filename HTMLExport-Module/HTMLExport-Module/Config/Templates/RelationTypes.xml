@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="RelationType">
+  <Item Id="e971160347db44d8a476fe88290639a4" Id_Parent=""><![CDATA[contains]]></Item>
+<Item Id="796712399c8f493cb5e749700f9543f4" Id_Parent=""><![CDATA[belonging]]></Item>
+<Item Id="9996494aef6a4357a6ef71a92b5ff596" Id_Parent=""><![CDATA[is of Type]]></Item>
+<Item Id="81bbd380e35648a1a4b7fdbaebe7273c" Id_Parent=""><![CDATA[belonging Attribute]]></Item>
+<Item Id="f2b54f82ada5460eafe5551d55629f14" Id_Parent=""><![CDATA[belonging Class]]></Item>
+<Item Id="f68a9438fb8b418d8e0bd9aefc9ecdf3" Id_Parent=""><![CDATA[belonging Object]]></Item>
+<Item Id="4417582dbd6347fbab18770a611917fe" Id_Parent=""><![CDATA[belonging RelationType]]></Item>
+<Item Id="81bbd380e35648a1a4b7fdbaebe7273c" Id_Parent=""><![CDATA[belonging Attribute]]></Item>
+<Item Id="e971160347db44d8a476fe88290639a4" Id_Parent=""><![CDATA[contains]]></Item>
+<Item Id="3e104b75e01c48a0b04112908fd446a0" Id_Parent=""><![CDATA[is]]></Item>
+<Item Id="95ca984fe8bd4d54b56cd982c2a0b9e7" Id_Parent=""><![CDATA[Tag-End]]></Item>
+<Item Id="be8c7e8f9b0b4adc8f0b8f8f1ae47f87" Id_Parent=""><![CDATA[relative]]></Item>
+<Item Id="f68a9438fb8b418d8e0bd9aefc9ecdf3" Id_Parent=""><![CDATA[belonging Token]]></Item>
+<Item Id="93dd2bd3791a469980d196bb52bdcae5" Id_Parent=""><![CDATA[Intro]]></Item>
+<Item Id="fb8a3635953242ac98899f116abe6c53" Id_Parent=""><![CDATA[happened]]></Item>
+<Item Id="3126254cd84e4f3482a447aeb7be4bda" Id_Parent=""><![CDATA[Tag-End-Init]]></Item>
+<Item Id="62632706182943e4803452c7fd14e353" Id_Parent=""><![CDATA[Tag-Start]]></Item>
+<Item Id="e07469d9766c443e85266d9c684f944f" Id_Parent=""><![CDATA[belongs to]]></Item>
+<Item Id="5c8930809e8c4fe297aa87878d38ac4a" Id_Parent=""><![CDATA[offered by]]></Item>
+<Item Id="cf27679fcbe74010a3ae472072762b33" Id_Parent=""><![CDATA[is in State]]></Item>
+<Item Id="aaf3e012a8224ba69d9dd5bb35821757" Id_Parent=""><![CDATA[export to]]></Item>
+
+</Items>

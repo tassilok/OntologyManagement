@@ -1,6 +1,8 @@
 ﻿Imports Ontology_Module
 Imports Media_Viewer_Module
 Imports OntologyClasses.BaseClasses
+Imports HTMLExport_Module
+
 Public Class UserControl_Process
     Private _dragdropCopy As Boolean = False
     Private _dragEventArgs As DragEventArgs
@@ -9,6 +11,8 @@ Public Class UserControl_Process
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_BaseConfig As clsDataWork_BaseConfig
     Private objDataWork_Process As clsDataWork_Process
+
+    Private objHTMLCreation As clsHTMLCreation
 
     Private WithEvents objUserControl_References As UserControl_References
 
@@ -42,6 +46,9 @@ Public Class UserControl_Process
 
     Private boolPublic As Boolean
     Private intID_Node As Integer
+
+    Private strHTML_Processes As String
+    Private strHTML_List As String
 
     Public Event appliedProcess(OLProcesses As List(Of clsOntologyItem))
 
@@ -1220,5 +1227,132 @@ Public Class UserControl_Process
                 RaiseEvent appliedProcess(objOLProcesses)
             End If
         End If
+    End Sub
+
+    Private Sub ExportHTMLToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles ExportHTMLToolStripMenuItem.Click
+        Dim objTreeNode As TreeNode
+        Dim objOItem_Process As New clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem
+        Dim strLine As String
+        Dim intLevel As Integer
+
+        objTreeNode = TreeView_Process.SelectedNode
+        strHTML_Processes = ""
+        strHTML_List = ""
+
+        If Not objTreeNode Is Nothing Then
+
+            objOItem_Result = objHTMLCreation.Initialize_ExportFolder()
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                objOItem_Result = objHTMLCreation.Open_TextWriter(objTreeNode.Name)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    strLine = objHTMLCreation.get_HTML_Intro()
+                    objHTMLCreation.write_Line(strLine)
+
+
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.OItem_DocType_DocumentInit, False)
+                    objHTMLCreation.write_Line(strLine)
+
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.OItem_DocType_Head, False)
+                    objHTMLCreation.write_Line(strLine)
+
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.OItem_DocType_Title, False)
+                    objHTMLCreation.write_Line(strLine)
+
+                    objHTMLCreation.write_Line(objHTMLCreation.encode_HTML(objTreeNode.Text))
+
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.OItem_DocType_Title, True)
+                    objHTMLCreation.write_Line(strLine)
+
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.OItem_DocType_Head, True)
+                    objHTMLCreation.write_Line(strLine)
+
+
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.OItem_DocType_Body, False)
+                    objHTMLCreation.write_Line(strLine)
+
+                    objOItem_Process.GUID = New Guid(objTreeNode.Name).ToString()
+                    objOItem_Process.Name = objTreeNode.Text
+                    objOItem_Process.GUID_Parent = objLocalConfig.OItem_Type_Process.GUID
+                    objOItem_Process.Type = objLocalConfig.Globals.Type_Object
+
+                    intLevel = 1
+                    
+
+                    strLine = objHTMLCreation.get_HTML_Heading(intLevel, False)
+                    objHTMLCreation.write_Line(strLine)
+
+                    strLine = objHTMLCreation.encode_HTML(objOItem_Process.Name)
+                    strHTML_List = strHTML_List & "<ul>" & vbCrLf
+                    strHTML_List = strHTML_List & "<li>" & strLine & "</li>" & vbCrLf
+                    objHTMLCreation.write_Line(strLine)
+                    strLine = objHTMLCreation.get_HTML_Heading(intLevel, True)
+                    objHTMLCreation.write_Line(strLine)
+
+                    export_HTML_Description(objSemItem_Process)
+                    export_HTML_Requirements(objSemItem_Process)
+                    export_HTML_Images(objSemItem_Process)
+
+                    export_HTML_Process(objOItem_Process, intLevel)
+
+                    strHTML_List = strHTML_List & "</ul>"
+                    objHTMLCreation.write_Line(strHTML_List)
+                    objHTMLCreation.write_Line("<hr>" & vbCrLf)
+                    objHTMLCreation.write_Line(strHTML_Processes)
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.OItem_DocType_Body, True)
+                    objHTMLCreation.write_Line(strLine)
+
+                    strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.OItem_DocType_DocumentInit, False)
+                    objHTMLCreation.write_Line(strLine)
+
+                    objHTMLCreation.close_TextWriter()
+                End If
+
+                
+
+            End If
+            
+        End If
+    End Sub
+
+    Private Sub export_HTML_Process(ByVal OItem_Process As clsOntologyItem, ByVal intLevel As Integer)
+        Dim objSemItem_Process_Sub As New clsSemItem
+
+        Dim objDRC_Processes As DataRowCollection
+        Dim objDR_Process As DataRow
+
+        Dim strLine As String
+
+        strHTML_List = strHTML_List & "<ul>" & vbCrLf
+
+        objDRC_Processes = funcA_TokenToken.GetData_LeftRight_Ordered_By_GUIDs(OItem_Process.GUID, _
+                                                                               objLocalConfig.SemItem_Type_Process.GUID, _
+                                                                               objLocalConfig.SemItem_RelationType_superordinate.GUID, _
+                                                                         True).Rows
+        For Each objDR_Process In objDRC_Processes
+            objSemItem_Process_Sub.GUID = objDR_Process.Item("GUID_Token_Right")
+            objSemItem_Process_Sub.Name = objDR_Process.Item("Name_Token_Right")
+            objSemItem_Process_Sub.GUID_Parent = objLocalConfig.SemItem_Type_Process.GUID
+            objSemItem_Process_Sub.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+
+            strLine = objHTMLCreation.get_HTML_Heading(intLevel, False)
+            strHTML_Processes = strHTML_Processes & strLine
+            'objHTMLCreation.write_Line(strLine)
+            strLine = objHTMLCreation.encode_HTML(objSemItem_Process_Sub.Name)
+            strHTML_List = strHTML_List & "<li>" & strLine & "</li>"
+            strHTML_Processes = strHTML_Processes & strLine
+            'objHTMLCreation.write_Line(strLine)
+            strLine = objHTMLCreation.get_HTML_Heading(intLevel, True)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
+
+            export_HTML_Description(objSemItem_Process_Sub)
+            export_HTML_Requirements(objSemItem_Process_Sub)
+            export_HTML_Images(objSemItem_Process_Sub)
+
+            export_HTML_Process(objSemItem_Process_Sub, intLevel + 1)
+        Next
+        strHTML_List = strHTML_List & "</ul>" & vbCrLf
     End Sub
 End Class
