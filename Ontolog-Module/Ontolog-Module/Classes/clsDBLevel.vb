@@ -1043,8 +1043,8 @@ Public Class clsDBLevel
 
         Dim objOItem_Result = New clsOntologyItem With {.GUID = objLogStates.LogState_Error.GUID}
 
-        Select Case Type_Item
-            Case objTypes.AttributeType
+        Select Case Type_Item.ToLower
+            Case objTypes.AttributeType.ToLower
                 objOItem_Result = get_Data_AttributeType(objOLIst_OItem)
                 If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
                     If OList_AttributeTypes.Any Then
@@ -1055,7 +1055,7 @@ Public Class clsDBLevel
                         objOItem_OItem.GUID_Related = objLogStates.LogState_Error.GUID
                     End If
                 End If
-            Case objTypes.ClassType
+            Case objTypes.ClassType.ToLower
                 objOItem_Result = get_Data_Classes(objOLIst_OItem)
                 If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
                     If OList_Classes.Any Then
@@ -1066,7 +1066,7 @@ Public Class clsDBLevel
                         objOItem_OItem.GUID_Related = objLogStates.LogState_Error.GUID
                     End If
                 End If
-            Case objTypes.ObjectType
+            Case objTypes.ObjectType.ToLower
                 objOItem_Result = get_Data_Objects(objOLIst_OItem)
                 If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
                     If OList_Objects.Any Then
@@ -1077,7 +1077,7 @@ Public Class clsDBLevel
                         objOItem_OItem.GUID_Related = objLogStates.LogState_Error.GUID
                     End If
                 End If
-            Case objTypes.RelationType
+            Case objTypes.RelationType.ToLower
                 objOItem_Result = get_Data_RelationTypes(objOLIst_OItem)
                 If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
                     If OList_RelationTypes.Any Then

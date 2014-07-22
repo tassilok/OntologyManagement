@@ -52,10 +52,11 @@ Public Class clsArgumentParsing
                 Dim type = itemAndType(1)
 
                 If objGlobals.is_GUID(guid) Then
-                    If type = objGlobals.Type_AttributeType Or _
-                        type = objGlobals.Type_Class Or _
-                        type = objGlobals.Type_Object Or _
-                        type = objGlobals.Type_RelationType Then
+                    If type.ToLower() = objGlobals.Type_AttributeType.ToLower() Or _
+                        type.ToLower() = objGlobals.Type_Class.ToLower() Or _
+                        type.ToLower() = objGlobals.Type_Object.ToLower() Or _
+                        type.ToLower() = objGlobals.Type_RelationType.ToLower() Then
+
                         Dim objOItem = objDBLevel.GetOItem(guid, type)
                         Return objOItem
                     End If

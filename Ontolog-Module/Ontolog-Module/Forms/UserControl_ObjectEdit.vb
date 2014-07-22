@@ -10,6 +10,7 @@ Public Class UserControl_ObjectEdit
     Private objTransaction As clsTransaction
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
+    Private objFrm_OntologyEditor As frmMain
 
     Private objOntologyClipboard As clsOntologyClipboard
 
@@ -28,6 +29,8 @@ Public Class UserControl_ObjectEdit
     Private strRowName_ID As String
     Private strRowName_Name As String
     Private strRowName_ID_Parent As String
+
+    Private selectedNodeType As NodeType
 
     Public Event deleted_Object()
     Public Event ActivatedItem(intRowID As Integer)
@@ -188,6 +191,220 @@ Public Class UserControl_ObjectEdit
         End If
     End Sub
 
+    Private Sub Relate_Object(oList_Simple As List(Of clsOntologyItem), boolForw As Boolean)
+        If oList_Simple.Any() Then
+            Dim oList_Rel As New List(Of clsObjectRel)
+            Dim oList_ClassRel As New List(Of clsClassRel)
+            Dim objOItem_RelationType = Get_RelationType()
+
+            If Not objOItem_RelationType Is Nothing Then
+                If boolForw = False And oList_Simple.First().Type = objLocalConfig.Globals.Type_Object Then
+                    If boolForw Then
+                        oList_Simple.ForEach(Sub(simple)
+                                                 Dim oRel = objRelationConfig.Rel_ObjectRelation(objOItem_Object, simple, objOItem_RelationType)
+                                                 If Not oRel Is Nothing Then
+                                                     oList_Rel.Add(oRel)
+                                                     Dim objOItem_Class_Object = objDBLevel.GetOItem(objOItem_Object.GUID_Parent, objLocalConfig.Globals.Type_Class)
+                                                     Dim objOItem_Class_Simple = objDBLevel.GetOItem(simple.GUID_Parent, objLocalConfig.Globals.Type_Class)
+
+                                                     Dim oRelClass = objRelationConfig.Rel_ClassRelation(objOItem_Class_Object, objOItem_Class_Simple, objOItem_RelationType)
+                                                     If Not oRelClass Is Nothing Then
+                                                         oList_ClassRel.Add(oRelClass)
+                                                     End If
+
+                                                 End If
+
+                                             End Sub)
+                    Else
+                        oList_Simple.ForEach(Sub(simple)
+                                                 Dim oRel = objRelationConfig.Rel_ObjectRelation(simple, objOItem_Object, objOItem_RelationType)
+                                                 If Not oRel Is Nothing Then
+                                                     oList_Rel.Add(oRel)
+                                                     Dim objOItem_Class_Object = objDBLevel.GetOItem(objOItem_Object.GUID_Parent, objLocalConfig.Globals.Type_Class)
+                                                     Dim objOItem_Class_Simple = objDBLevel.GetOItem(simple.GUID_Parent, objLocalConfig.Globals.Type_Class)
+
+                                                     Dim oRelClass = objRelationConfig.Rel_ClassRelation(objOItem_Class_Simple, objOItem_Class_Object, objOItem_RelationType)
+                                                     If Not oRelClass Is Nothing Then
+                                                         oList_ClassRel.Add(oRelClass)
+                                                     End If
+
+                                                 End If
+
+                                             End Sub)
+                    End If
+
+
+                    If oList_Rel.Any() And oList_ClassRel.Any() Then
+                        Dim objOItem_Result = objDBLevel.save_ClassRel(oList_ClassRel)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objOItem_Result = objDBLevel.save_ObjRel(oList_Rel)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objUserControl_ObjectRelTree.initialize(objOItem_Object)
+                            Else
+                                MsgBox("Die Beziehung(en) konnt(en) nicht hergestellt werden!", MsgBoxStyle.Exclamation)
+                            End If
+                        Else
+                            MsgBox("Die Beziehung(en) konnt(en) nicht hergestellt werden!", MsgBoxStyle.Exclamation)
+                        End If
+                    End If
+                End If
+            End If
+            
+
+        End If
+    End Sub
+
+    Private Sub Relate_ItemReference(oList_Simple As List(Of clsOntologyItem), boolForw As Boolean)
+
+
+        If oList_Simple.Any() Then
+            Dim oList_Rel As New List(Of clsObjectRel)
+            Dim oList_ClassRel As New List(Of clsClassRel)
+            Dim objOItem_RelationType = Get_RelationType()
+
+            If Not objOItem_RelationType Is Nothing Then
+                If boolForw = False Or (boolForw = True And oList_Simple.First().Type = objLocalConfig.Globals.Type_Object) Then
+                    If boolForw Then
+                        oList_Simple.ForEach(Sub(simple)
+                                                 Dim oRel = objRelationConfig.Rel_ObjectRelation(objOItem_Object, simple, objOItem_RelationType)
+                                                 If Not oRel Is Nothing Then
+                                                     oList_Rel.Add(oRel)
+                                                     Dim objOItem_Class_Object = objDBLevel.GetOItem(objOItem_Object.GUID_Parent, objLocalConfig.Globals.Type_Class)
+                                                     Dim oRelClass = objRelationConfig.Rel_ClassRelation(objOItem_Class_Object, Nothing, objOItem_RelationType)
+                                                     If Not oRelClass Is Nothing Then
+                                                         oList_ClassRel.Add(oRelClass)
+                                                     End If
+
+                                                 End If
+
+                                             End Sub)
+                    Else
+                        oList_Simple.ForEach(Sub(simple)
+                                                 Dim oRel = objRelationConfig.Rel_ObjectRelation(simple, objOItem_Object, objOItem_RelationType)
+                                                 If Not oRel Is Nothing Then
+                                                     oList_Rel.Add(oRel)
+                                                     Dim objOItem_Class_Simple = objDBLevel.GetOItem(simple.GUID_Parent, objLocalConfig.Globals.Type_Class)
+                                                     Dim oRelClass = objRelationConfig.Rel_ClassRelation(objOItem_Class_Simple, Nothing, objOItem_RelationType)
+                                                     If Not oRelClass Is Nothing Then
+                                                         oList_ClassRel.Add(oRelClass)
+                                                     End If
+
+                                                 End If
+
+                                             End Sub)
+                    End If
+
+
+                    If oList_Rel.Any() And oList_ClassRel.Any() Then
+                        Dim objOItem_Result = objDBLevel.save_ClassRel(oList_ClassRel)
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            objOItem_Result = objDBLevel.save_ObjRel(oList_Rel)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objUserControl_ObjectRelTree.initialize(objOItem_Object)
+                            Else
+                                MsgBox("Die Beziehung(en) konnt(en) nicht hergestellt werden!", MsgBoxStyle.Exclamation)
+                            End If
+                        Else
+                            MsgBox("Die Beziehung(en) konnt(en) nicht hergestellt werden!", MsgBoxStyle.Exclamation)
+                        End If
+                        
+                    End If
+                End If
+            End If
+
+            
+
+        End If
+    End Sub
+
+    Private Sub addedHandOffItems(oList_Simple As List(Of clsOntologyItem)) Handles objUserControl_OItem_List.addedHandOffItems
+        If oList_Simple.Any() Then
+            Select Case oList_Simple.First().Type
+                Case objLocalConfig.Globals.Type_AttributeType
+                    Select Case selectedNodeType
+                        Case NodeType.Backward
+                            MsgBox("Bitte nur Objekte wählen!", MsgBoxStyle.Information)
+                        Case NodeType.BackwardOR
+                            MsgBox("Bitte nur Objekte wählen!", MsgBoxStyle.Information)
+                        Case NodeType.Forward
+                            MsgBox("Bitte nur Objekte wählen!", MsgBoxStyle.Information)
+                        Case NodeType.ForwardOR
+                            Relate_ItemReference(oList_Simple, True)
+
+                    End Select
+                Case objLocalConfig.Globals.Type_Class
+                    Select Case selectedNodeType
+                        Case NodeType.Backward
+                            MsgBox("Bitte nur Objekte wählen!", MsgBoxStyle.Information)
+                        Case NodeType.BackwardOR
+                            MsgBox("Bitte nur Objekte wählen!", MsgBoxStyle.Information)
+                        Case NodeType.Forward
+                            MsgBox("Bitte nur Objekte wählen!", MsgBoxStyle.Information)
+                        Case NodeType.ForwardOR
+                            Relate_ItemReference(oList_Simple, True)
+
+                    End Select
+                Case objLocalConfig.Globals.Type_Object
+                    Select Case selectedNodeType
+                        Case NodeType.Backward
+                            Relate_Object(oList_Simple, False)
+                        Case NodeType.BackwardOR
+                            Relate_ItemReference(oList_Simple, False)
+                        Case NodeType.Forward
+                            Relate_Object(oList_Simple, True)
+                        Case NodeType.ForwardOR
+                            Relate_ItemReference(oList_Simple, False)
+                    End Select
+                Case objLocalConfig.Globals.Type_RelationType
+                    Select Case selectedNodeType
+                        Case NodeType.Backward
+                            MsgBox("Bitte nur Objekte wählen!", MsgBoxStyle.Information)
+                        Case NodeType.BackwardOR
+                            MsgBox("Bitte nur Objekte wählen!", MsgBoxStyle.Information)
+                        Case NodeType.Forward
+                            MsgBox("Bitte nur Objekte wählen!", MsgBoxStyle.Information)
+                        Case NodeType.ForwardOR
+                            Relate_ItemReference(oList_Simple, True)
+                    End Select
+            End Select
+        End If
+    End Sub
+
+    Private Function Get_RelationType() As clsOntologyItem
+        Dim objOItem_RelationType As clsOntologyItem = Nothing
+        objFrm_OntologyEditor = New frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_RelationType, Caption:="Bitte wählen Sie den Beziehungstyp")
+        objFrm_OntologyEditor.ShowDialog(Me)
+        If objFrm_OntologyEditor.DialogResult = DialogResult.OK Then
+            If objFrm_OntologyEditor.OList_Simple.Count = 1 Then
+                If objFrm_OntologyEditor.OList_Simple.First().Type = objLocalConfig.Globals.Type_RelationType Then
+                    objOItem_RelationType = objFrm_OntologyEditor.OList_Simple.First()
+                Else
+                    MsgBox("Bitte wählen Sie nur einen Beziehungstype!", MsgBoxStyle.Information)
+                End If
+            Else
+                MsgBox("Bitte wählen Sie nur einen Beziehungstype!", MsgBoxStyle.Information)
+            End If
+        End If
+
+        Return objOItem_RelationType
+    End Function
+
+    Private Sub selected_ParentNode(nodeType As NodeType) Handles objUserControl_ObjectRelTree.selected_ParentNode
+        objUserControl_OItem_List.clear_Relation()
+        selectedNodeType = nodeType
+
+        If nodeType = Ontology_Module.NodeType.Backward Or
+            nodeType = Ontology_Module.NodeType.BackwardOR Or
+            nodeType = Ontology_Module.NodeType.Forward Or
+            nodeType = Ontology_Module.NodeType.ForwardOR Then
+
+            objUserControl_OItem_List.HandOff_Add = True
+        Else
+            objUserControl_OItem_List.HandOff_Add = False
+
+        End If
+
+    End Sub
 
     Private Sub selected_Node(ByVal oList_Selected As List(Of clsOntologyItem)) Handles objUserControl_ObjectRelTree.selected_Item
 
@@ -198,7 +415,7 @@ Public Class UserControl_ObjectEdit
         Dim oList_RelationType As New List(Of clsOntologyItem)
 
 
-
+        objUserControl_OItem_List.clear_Relation()
 
         If oList_Selected.Count = 4 Then
             oList_Object.Add(New clsOntologyItem(oList_Selected(0).GUID, oList_Selected(0).Name, oList_Selected(0).GUID_Parent, objLocalConfig.Globals.Type_Object))

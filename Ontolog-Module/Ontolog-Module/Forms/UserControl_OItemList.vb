@@ -87,6 +87,9 @@ Public Class UserControl_OItemList
 
     Public Event applied_Items()
     Public Event counted_Items(ByVal intCount As Integer)
+    Public Event addedHandOffItems(oList_Simple As List(Of clsOntologyItem))
+
+    Public Property HandOff_Add As Boolean
 
     Public ReadOnly Property SelectedRowIndex As Long
         Get
@@ -190,7 +193,7 @@ Public Class UserControl_OItemList
 
     Public Sub initialize(ByVal OItem_Parent As clsOntologyItem, Optional ByVal oItem_Object As clsOntologyItem = Nothing, Optional ByVal OItem_Direction As clsOntologyItem = Nothing, Optional ByVal OItem_Other As clsOntologyItem = Nothing, Optional ByVal OItem_RelType As clsOntologyItem = Nothing, Optional ByVal boolOR As Boolean = False, Optional strFilter As String = Nothing)
         boolProgChange = True
-
+        HandOff_Add = False
         Me.boolOR = boolOR
         clear_Relation()
         strGUID_Class = Nothing
@@ -1506,192 +1509,210 @@ Public Class UserControl_OItemList
 
         Dim boolOpenMain As Boolean
 
-        If Not objOItem_Parent Is Nothing Then
-            Select Case objOItem_Parent.Type
-                Case objLocalConfig.Globals.Type_Object
-                    Save_Objects()
+        If HandOff_Add Then
+            objFrm_Main = New frmMain(objLocalConfig.Globals)
+            objFrm_Main.Applyable = True
+            objFrm_Main.ShowDialog(Me)
+            If objFrm_Main.DialogResult = DialogResult.OK Then
+                If objFrm_Main.OList_Simple.Any Then
+                    oList_Simple = objFrm_Main.OList_Simple
+                    RaiseEvent addedHandOffItems(oList_Simple)
+                Else
+                    MsgBox("Bitte ein Element auswählen!", MsgBoxStyle.Information)
+                End If
+            End If
 
-                Case objLocalConfig.Globals.Type_RelationType
-                    Save_RelationTypes()
-
-                Case objLocalConfig.Globals.Type_AttributeType
-                    Save_AttributeTypes()
-
-
-            End Select
-
-
+            objFrm_Main.Dispose()
         Else
 
-            Select Case strType
-                Case objLocalConfig.Globals.Type_Object
+            If Not objOItem_Parent Is Nothing Then
+                Select Case objOItem_Parent.Type
+                    Case objLocalConfig.Globals.Type_Object
+                        Save_Objects()
+
+                    Case objLocalConfig.Globals.Type_RelationType
+                        Save_RelationTypes()
+
+                    Case objLocalConfig.Globals.Type_AttributeType
+                        Save_AttributeTypes()
 
 
-                Case objLocalConfig.Globals.Type_RelationType
+                End Select
+
+
+            Else
+
+                Select Case strType
+                    Case objLocalConfig.Globals.Type_Object
+
+
+                    Case objLocalConfig.Globals.Type_RelationType
 
 
 
-                Case objLocalConfig.Globals.Type_AttributeType
-                    Save_ObjAtt()
+                    Case objLocalConfig.Globals.Type_AttributeType
+                        Save_ObjAtt()
 
 
-                Case objLocalConfig.Globals.Type_Other
-                    boolCancel = False
-                    Dim boolOrderID = False
-                    If objOItem_Other Is Nothing Then
-                        objFrm_Clipboard = New frmClipboard(objLocalConfig)
-                        Dim objOLRel As New List(Of clsObjectRel)
-                        If objFrm_Clipboard.containedByClipboard() = True Then
-                            objFrm_Clipboard.ShowDialog(Me)
-                            boolOR = objFrm_Clipboard.OrderID
-                            If objFrm_Clipboard.DialogResult = DialogResult.OK Then
-                                For Each objDGVR_Selected As DataGridViewRow In objFrm_Clipboard.selectedRows
-                                    objOLRel.Add(objDGVR_Selected.DataBoundItem)
+                    Case objLocalConfig.Globals.Type_Other
+                        boolCancel = False
+                        Dim boolOrderID = False
+                        If objOItem_Other Is Nothing Then
+                            objFrm_Clipboard = New frmClipboard(objLocalConfig)
+                            Dim objOLRel As New List(Of clsObjectRel)
+                            If objFrm_Clipboard.containedByClipboard() = True Then
+                                objFrm_Clipboard.ShowDialog(Me)
+                                boolOR = objFrm_Clipboard.OrderID
+                                If objFrm_Clipboard.DialogResult = DialogResult.OK Then
+                                    For Each objDGVR_Selected As DataGridViewRow In objFrm_Clipboard.selectedRows
+                                        objOLRel.Add(objDGVR_Selected.DataBoundItem)
 
-                                Next
+                                    Next
+                                End If
                             End If
-                        End If
 
-                        If objFrm_Clipboard.Cntrl = False Then
-                            If Not objOLRel.Any Then
-                                objFrm_Main = New frmMain(objLocalConfig.Globals)
-                                objFrm_Main.Applyable = True
-                                objFrm_Main.ShowDialog(Me)
-                                If objFrm_Main.DialogResult = DialogResult.OK Then
-                                    If objFrm_Main.OList_Simple.Any Then
-                                        oList_Simple = objFrm_Main.OList_Simple
-                                        boolAdd = True
+                            If objFrm_Clipboard.Cntrl = False Then
+                                If Not objOLRel.Any Then
+                                    objFrm_Main = New frmMain(objLocalConfig.Globals)
+                                    objFrm_Main.Applyable = True
+                                    objFrm_Main.ShowDialog(Me)
+                                    If objFrm_Main.DialogResult = DialogResult.OK Then
+                                        If objFrm_Main.OList_Simple.Any Then
+                                            oList_Simple = objFrm_Main.OList_Simple
+                                            boolAdd = True
+                                        Else
+                                            MsgBox("Bitte ein Element auswählen!", MsgBoxStyle.Information)
+                                        End If
                                     Else
-                                        MsgBox("Bitte ein Element auswählen!", MsgBoxStyle.Information)
+                                        boolCancel = True
                                     End If
-                                Else
-                                    boolCancel = True
-                                End If
 
-                                objFrm_Main.Dispose()
+                                    objFrm_Main.Dispose()
+                                Else
+                                    oList_Simple = (From objORel In objOLRel
+                                                            Select New clsOntologyItem With {.GUID = objORel.ID_Other, _
+                                                                                             .Name = objORel.Name_Other, _
+                                                                                             .GUID_Parent = objORel.ID_Parent_Other, _
+                                                                                             .Type = objLocalConfig.Globals.Type_Object, _
+                                                                                             .Level = objORel.OrderID, _
+                                                                                             .Mark = boolOrderID}).ToList()
+                                    boolAdd = True
+                                End If
                             Else
-                                oList_Simple = (From objORel In objOLRel
-                                                        Select New clsOntologyItem With {.GUID = objORel.ID_Other, _
-                                                                                         .Name = objORel.Name_Other, _
-                                                                                         .GUID_Parent = objORel.ID_Parent_Other, _
-                                                                                         .Type = objLocalConfig.Globals.Type_Object, _
-                                                                                         .Level = objORel.OrderID, _
-                                                                                         .Mark = boolOrderID}).ToList()
-                                boolAdd = True
+                                boolCancel = True
                             End If
+
+
                         Else
-                            boolCancel = True
-                        End If
-
-
-                    Else
-                        Select Case objOItem_Other.Type
-                            Case objLocalConfig.Globals.Type_Object
+                            Select Case objOItem_Other.Type
+                                Case objLocalConfig.Globals.Type_Object
 
 
 
-                                If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
-                                    objOItem_ClipBoardEntry = New clsOntologyItem(Nothing, Nothing, objOItem_Other.GUID_Parent, objLocalConfig.Globals.Type_Object)
-                                    objOItem_Class.GUID = objOItem_Other.GUID_Parent
-                                    objOItem_Class.Type = objLocalConfig.Globals.Type_Class
-                                Else
-                                    objOItem_ClipBoardEntry = New clsOntologyItem(Nothing, Nothing, strGUID_Class, objLocalConfig.Globals.Type_Object)
-                                    objOItem_Class.GUID = strGUID_Class
-                                    objOItem_Class.Type = objLocalConfig.Globals.Type_Class
-                                End If
-
-                                boolOpenMain = True
-
-                                objFrm_Clipboard = New frmClipboard(objLocalConfig, objOItem_ClipBoardEntry)
-                                Dim objOLRel As New List(Of clsObjectRel)
-                                If objFrm_Clipboard.containedByClipboard() = True Then
-                                    objFrm_Clipboard.ShowDialog(Me)
-                                    boolOrderID = objFrm_Clipboard.OrderID
-                                    If objFrm_Clipboard.DialogResult = DialogResult.OK Then
-                                        For Each objDGVR_Selected As DataGridViewRow In objFrm_Clipboard.selectedRows
-                                            objOLRel.Add(objDGVR_Selected.DataBoundItem)
-
-                                        Next
+                                    If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                                        objOItem_ClipBoardEntry = New clsOntologyItem(Nothing, Nothing, objOItem_Other.GUID_Parent, objLocalConfig.Globals.Type_Object)
+                                        objOItem_Class.GUID = objOItem_Other.GUID_Parent
+                                        objOItem_Class.Type = objLocalConfig.Globals.Type_Class
+                                    Else
+                                        objOItem_ClipBoardEntry = New clsOntologyItem(Nothing, Nothing, strGUID_Class, objLocalConfig.Globals.Type_Object)
+                                        objOItem_Class.GUID = strGUID_Class
+                                        objOItem_Class.Type = objLocalConfig.Globals.Type_Class
                                     End If
-                                End If
 
-                                If objFrm_Clipboard.Cntrl = False Then
-                                    If Not objOLRel.Any Then
-                                        objFrm_Main = New frmMain(objLocalConfig, objLocalConfig.Globals.Type_Class, objOItem_Class)
-                                        objFrm_Main.ShowDialog(Me)
-                                        If objFrm_Main.DialogResult = DialogResult.OK Then
-                                            If objFrm_Main.Type_Applied = objLocalConfig.Globals.Type_Object Then
-                                                oList_Simple = objFrm_Main.OList_Simple
-                                                boolAdd = True
+                                    boolOpenMain = True
 
-                                                Dim oLSel = From obj In oList_Simple
-                                                            Group By obj.GUID_Parent Into Group
+                                    objFrm_Clipboard = New frmClipboard(objLocalConfig, objOItem_ClipBoardEntry)
+                                    Dim objOLRel As New List(Of clsObjectRel)
+                                    If objFrm_Clipboard.containedByClipboard() = True Then
+                                        objFrm_Clipboard.ShowDialog(Me)
+                                        boolOrderID = objFrm_Clipboard.OrderID
+                                        If objFrm_Clipboard.DialogResult = DialogResult.OK Then
+                                            For Each objDGVR_Selected As DataGridViewRow In objFrm_Clipboard.selectedRows
+                                                objOLRel.Add(objDGVR_Selected.DataBoundItem)
 
-                                                For Each oSel In oLSel
-                                                    If Not oSel.GUID_Parent = objOItem_Class.GUID Then
-                                                        boolAdd = False
-                                                        Exit For
-                                                    End If
-                                                Next
+                                            Next
+                                        End If
+                                    End If
+
+                                    If objFrm_Clipboard.Cntrl = False Then
+                                        If Not objOLRel.Any Then
+                                            objFrm_Main = New frmMain(objLocalConfig, objLocalConfig.Globals.Type_Class, objOItem_Class)
+                                            objFrm_Main.ShowDialog(Me)
+                                            If objFrm_Main.DialogResult = DialogResult.OK Then
+                                                If objFrm_Main.Type_Applied = objLocalConfig.Globals.Type_Object Then
+                                                    oList_Simple = objFrm_Main.OList_Simple
+                                                    boolAdd = True
+
+                                                    Dim oLSel = From obj In oList_Simple
+                                                                Group By obj.GUID_Parent Into Group
+
+                                                    For Each oSel In oLSel
+                                                        If Not oSel.GUID_Parent = objOItem_Class.GUID Then
+                                                            boolAdd = False
+                                                            Exit For
+                                                        End If
+                                                    Next
+
+                                                Else
+                                                    MsgBox("Bitte nur Objekte auswählen!", MsgBoxStyle.Information)
+                                                End If
 
                                             Else
-                                                MsgBox("Bitte nur Objekte auswählen!", MsgBoxStyle.Information)
+                                                boolCancel = True
                                             End If
 
+                                            objFrm_Main.Dispose()
                                         Else
-                                            boolCancel = True
+                                            oList_Simple = (From objORel In objOLRel
+                                                            Select New clsOntologyItem With {.GUID = objORel.ID_Other, _
+                                                                                             .Name = objORel.Name_Other, _
+                                                                                             .GUID_Parent = objORel.ID_Parent_Other, _
+                                                                                             .Type = objLocalConfig.Globals.Type_Object, _
+                                                                                             .Level = objORel.OrderID, _
+                                                                                             .Mark = boolOrderID}).ToList()
+                                            boolAdd = True
                                         End If
-
-                                        objFrm_Main.Dispose()
                                     Else
-                                        oList_Simple = (From objORel In objOLRel
-                                                        Select New clsOntologyItem With {.GUID = objORel.ID_Other, _
-                                                                                         .Name = objORel.Name_Other, _
-                                                                                         .GUID_Parent = objORel.ID_Parent_Other, _
-                                                                                         .Type = objLocalConfig.Globals.Type_Object, _
-                                                                                         .Level = objORel.OrderID, _
-                                                                                         .Mark = boolOrderID}).ToList()
-                                        boolAdd = True
+                                        boolCancel = True
                                     End If
+
+
+                            End Select
+                        End If
+
+
+                        If boolAdd = True Then
+                            For Each oItem_Obj In oList_Simple
+                                If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                                    oList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, objOItem_Object.GUID_Parent, oItem_Obj.GUID, oItem_Obj.GUID_Parent, objOItem_RelationType.GUID, oItem_Obj.Type, Nothing, If(oItem_Obj.Mark, oItem_Obj.Level, 1)))
+
                                 Else
-                                    boolCancel = True
+                                    oList_ObjRel.Add(New clsObjectRel(oItem_Obj.GUID, oItem_Obj.GUID_Parent, objOItem_Other.GUID, objOItem_Other.GUID_Parent, objOItem_RelationType.GUID, oItem_Obj.Type, Nothing, If(oItem_Obj.Mark, oItem_Obj.Level, 1)))
+
                                 End If
+                            Next
+                            objOItem_Result = objDBLevel.save_ObjRel(oList_ObjRel)
 
-
-                        End Select
-                    End If
-
-
-                    If boolAdd = True Then
-                        For Each oItem_Obj In oList_Simple
-                            If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
-                                oList_ObjRel.Add(New clsObjectRel(objOItem_Object.GUID, objOItem_Object.GUID_Parent, oItem_Obj.GUID, oItem_Obj.GUID_Parent, objOItem_RelationType.GUID, oItem_Obj.Type, Nothing, If(oItem_Obj.Mark, oItem_Obj.Level, 1)))
-
-                            Else
-                                oList_ObjRel.Add(New clsObjectRel(oItem_Obj.GUID, oItem_Obj.GUID_Parent, objOItem_Other.GUID, objOItem_Other.GUID_Parent, objOItem_RelationType.GUID, oItem_Obj.Type, Nothing, If(oItem_Obj.Mark, oItem_Obj.Level, 1)))
+                            If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                MsgBox("Beim Speichern ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+                            ElseIf objOItem_Result.Max1 > objOItem_Result.Val_Long Then
+                                MsgBox("Es konnten nicht alle Beziehungen erzeugt werden!", MsgBoxStyle.Information)
 
                             End If
-                        Next
-                        objOItem_Result = objDBLevel.save_ObjRel(oList_ObjRel)
-
-                        If Not objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            MsgBox("Beim Speichern ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
-                        ElseIf objOItem_Result.Max1 > objOItem_Result.Val_Long Then
-                            MsgBox("Es konnten nicht alle Beziehungen erzeugt werden!", MsgBoxStyle.Information)
+                            configure_TabPages()
+                        Else
+                            If boolCancel = False Then
+                                MsgBox("Sie haben Objekte der falschen Klasse ausgewählt!", MsgBoxStyle.Exclamation)
+                            End If
 
                         End If
-                        configure_TabPages()
-                    Else
-                        If boolCancel = False Then
-                            MsgBox("Sie haben Objekte der falschen Klasse ausgewählt!", MsgBoxStyle.Exclamation)
-                        End If
-
-                    End If
 
 
-            End Select
+                End Select
 
+            End If
         End If
+        
     End Sub
 
 

@@ -9,7 +9,8 @@ Public Class frmSingleViewEmbedded
     Private objLocalConfig As clsLocalConfig
 
     Private objOItem_MediaItemType As clsOntologyItem
-    Private objOItem_Ref As clsOntologyItem
+    Private objOItem_RefOrMediaItem As clsOntologyItem
+    Private objOItem_File As clsOntologyItem
 
     Private Sub ToolStripButton_Close_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Close.Click
         Close()
@@ -64,15 +65,29 @@ Public Class frmSingleViewEmbedded
     End Sub
 
     Public Sub InitializeViewer(OItem_Ref As clsOntologyItem)
-        objOItem_Ref = OItem_Ref
-        Me.Text = objOItem_Ref.Type & ": " & objOItem_Ref.Name
+        objOItem_RefOrMediaItem = OItem_Ref
+        Me.Text = objOItem_RefOrMediaItem.Type & ": " & objOItem_RefOrMediaItem.Name
         Select Case objOItem_MediaItemType.GUID
             Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
-                objUserControl_SingleViewer.initialize_Image(objOItem_Ref)
+                objUserControl_SingleViewer.initialize_Image(objOItem_RefOrMediaItem)
             Case objLocalConfig.OItem_Type_PDF_Documents.GUID
-                objUserControl_SingleViewer.initialize_PDF(objOItem_Ref)
+                objUserControl_SingleViewer.initialize_PDF(objOItem_RefOrMediaItem)
             Case objLocalConfig.OItem_Type_Media_Item.GUID
-                objUserControl_SingleViewer.initialize_MediaItem(objOItem_Ref)
+                objUserControl_SingleViewer.initialize_MediaItem(objOItem_RefOrMediaItem)
+        End Select
+    End Sub
+
+    Public Sub InitializeViewer(OItem_MediaItem As clsOntologyItem, OItem_File As clsOntologyItem, DateCreated As DateTime)
+        objOItem_RefOrMediaItem = OItem_MediaItem
+        objOItem_File = OItem_File
+        Me.Text = objOItem_RefOrMediaItem.Name
+        Select Case objOItem_MediaItemType.GUID
+            Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
+                objUserControl_SingleViewer.initialize_Image(objOItem_RefOrMediaItem, objOItem_File, DateCreated)
+            Case objLocalConfig.OItem_Type_PDF_Documents.GUID
+                objUserControl_SingleViewer.initialize_PDF(objOItem_RefOrMediaItem, objOItem_File)
+            Case objLocalConfig.OItem_Type_Media_Item.GUID
+                objUserControl_SingleViewer.initialize_MediaItem(objOItem_RefOrMediaItem, objOItem_File, DateCreated)
         End Select
     End Sub
 

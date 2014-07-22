@@ -178,8 +178,8 @@ Public Class clsRelationConfig
 
     Public Function Rel_ClassRelation(OClass_Left As clsOntologyItem, OClass_Right As clsOntologyItem, OItem_RelationType As clsOntologyItem, Optional MinForw As Integer = 0, Optional MaxForw As Integer = -1, Optional MaxBackw As Integer = -1) As clsClassRel
         Dim objORel_ClassRelation As clsClassRel = Nothing
-        If Not MaxForw < MinForw And Not MaxForw = -1 And Not MinForw < 0 Then
-            If (Not MaxBackw = -1 And MaxBackw <= 0) Or MaxBackw > 0 Then
+        If (MaxForw = -1 And MinForw >= 0) Or (MaxForw > 0 And MinForw >= 0 And MinForw < MaxForw) Then
+            If MaxBackw > 0 Or MaxBackw = -1 Then
                 If Not OClass_Left Is Nothing And Not OClass_Right Is Nothing And Not OItem_RelationType Is Nothing Then
                     objORel_ClassRelation = New clsClassRel With {.ID_Class_Left = OClass_Left.GUID,
                                                                   .ID_Class_Right = OClass_Right.GUID,
@@ -192,6 +192,21 @@ Public Class clsRelationConfig
                     If String.IsNullOrEmpty(objORel_ClassRelation.ID_Class_Left) Or
                         String.IsNullOrEmpty(objORel_ClassRelation.ID_Class_Right) Or
                         String.IsNullOrEmpty(objORel_ClassRelation.ID_RelationType) Or
+                        objORel_ClassRelation.Min_Forw Is Nothing Or
+                        objORel_ClassRelation.Max_Forw Is Nothing Or
+                        objORel_ClassRelation.Max_Backw Is Nothing Then
+
+                        objORel_ClassRelation = Nothing
+                    End If
+                ElseIf Not OClass_Left Is Nothing And Not OItem_RelationType Is Nothing Then
+                    objORel_ClassRelation = New clsClassRel With {.ID_Class_Left = OClass_Left.GUID,
+                                                                  .ID_RelationType = OItem_RelationType.GUID,
+                                                                  .Min_Forw = MinForw,
+                                                                  .Max_Forw = MaxForw,
+                                                                  .Max_Backw = MaxBackw,
+                                                                  .Ontology = objGlobals.Type_Other}
+
+                    If String.IsNullOrEmpty(objORel_ClassRelation.ID_Class_Left) Or
                         String.IsNullOrEmpty(objORel_ClassRelation.ID_RelationType) Or
                         objORel_ClassRelation.Min_Forw Is Nothing Or
                         objORel_ClassRelation.Max_Forw Is Nothing Or

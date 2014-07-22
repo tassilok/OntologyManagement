@@ -11,6 +11,15 @@ Public Enum NameRelation_Type
     UniqueName_Contains
 End Enum
 
+<Flags>
+Public Enum NodeType
+    Attribute
+    Forward
+    Backward
+    ForwardOR
+    BackwardOR
+End Enum
+
 Public Class UserControl_ObjectRelTree
     Private objTreeNode_RelForward As TreeNode
     Private objTreeNode_RelBackward As TreeNode
@@ -38,6 +47,7 @@ Public Class UserControl_ObjectRelTree
     Private objOList_Selected As New List(Of clsOntologyItem)
 
     Public Event selected_Item(ByVal oList_Items As List(Of clsOntologyItem))
+    Public Event selected_ParentNode(selectedNode As NodeType)
     Public Event relateByName(oList_Items As List(Of clsOntologyItem), NameRelationType As NameRelation_Type)
 
     Public Property ShowAttributes As Boolean
@@ -561,6 +571,31 @@ Public Class UserControl_ObjectRelTree
                             objOList_Selected.Add(objOItem_Object)
                             RaiseEvent selected_Item(objOList_Selected)
 
+                        End If
+
+                    End If
+
+
+            End Select
+        Else
+            Select Case objTreeNode.Name
+                Case objTreeNode_Atttributes.Name
+                    RaiseEvent selected_ParentNode(NodeType.Attribute)
+                Case objTreeNode_RelBackward.Name
+                    RaiseEvent selected_ParentNode(NodeType.Backward)
+                Case objTreeNode_RelForward.Name
+                    RaiseEvent selected_ParentNode(NodeType.Forward)
+                Case Else
+
+                    If Not objTreeNode_RelForward_OR Is Nothing Then
+                        If objTreeNode.Name = objTreeNode_RelForward_OR.Name Then
+                            RaiseEvent selected_ParentNode(NodeType.ForwardOR)
+                        End If
+                    End If
+
+                    If Not objTreeNode_RelBackward_OR Is Nothing Then
+                        If objTreeNode.Name = objTreeNode_RelBackward_OR.Name Then
+                            RaiseEvent selected_ParentNode(NodeType.BackwardOR)
                         End If
 
                     End If

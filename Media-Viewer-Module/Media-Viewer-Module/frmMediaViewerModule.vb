@@ -15,7 +15,11 @@ Public Class frmMediaViewerModule
     Private objFrmSingleViewerEmbedded As frmSingleViewEmbedded
     Private objFrmListEdit As frmMediaModule_ListEdit
 
+    Private objMediaItems As clsMediaItems
+
     Private objFrmMetaData As frmMetaData_Image
+
+    Private objArgumentParsing As clsArgumentParsing
 
     Private SplashScreen As SplashScreen_OntologyModule
     Private AboutBox As AboutBox_OntologyItem
@@ -369,6 +373,17 @@ Public Class frmMediaViewerModule
     End Sub
 
     Private Sub initialize()
+        objArgumentParsing = New clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList())
+        objOItem_Argument = If(Not objArgumentParsing.OList_Items Is Nothing, objArgumentParsing.OList_Items.FirstOrDefault, Nothing)
+        If Not objArgumentParsing.FunctionList Is Nothing And Not objArgumentParsing.FunctionList.FirstOrDefault() Is Nothing Then
+            If objArgumentParsing.FunctionList.First.GUID_Function = objLocalConfig.OItem_Type_Images__Graphic_.GUID Then
+                objOItem_Function = objLocalConfig.OItem_Type_Images__Graphic_
+            ElseIf objArgumentParsing.FunctionList.First.GUID_Function = objLocalConfig.OItem_Type_Media_Item.GUID Then
+                objOItem_Function = objLocalConfig.OItem_Type_Media_Item
+            ElseIf objArgumentParsing.FunctionList.First.GUID_Function = objLocalConfig.OItem_Type_PDF_Documents.GUID Then
+                objOItem_Function = objLocalConfig.OItem_Type_PDF_Documents
+            End If
+        End If
 
         objOItem_Open = objLocalConfig.Globals.LState_Nothing
         If objLocalConfig.OItem_User Is Nothing Then
@@ -417,12 +432,68 @@ Public Class frmMediaViewerModule
     End Sub
 
     Private Sub OpenByArgument()
-        If Not objOItem_Argument Is Nothing And Not objOItem_Function Is Nothing Then
-            objFrmSingleViewerEmbedded = New frmSingleViewEmbedded(objLocalConfig, objOItem_Function)
-            objFrmSingleViewerEmbedded.InitializeViewer(objOItem_Argument)
-            objFrmSingleViewerEmbedded.ShowDialog(Me)
+        If Not objOItem_Argument Is Nothing Then
+            If objOItem_Argument.GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID Then
+                objMediaItems = New clsMediaItems(objLocalConfig)
+                Dim objMediaItem = objMediaItems.Get_MultiMediaItem(objOItem_Argument)
+                If Not objMediaItem Is Nothing Then
+                    Dim objOItem_File = New clsOntologyItem With {.GUID = objMediaItem.ID_File,
+                                                                  .Name = objMediaItem.Name_File,
+                                                                  .GUID_Parent = objMediaItem.ID_Parent_File,
+                                                                  .Type = objLocalConfig.Globals.Type_Object}
+                    Dim dateCreated As DateTime = If(Not objMediaItem.OACreate Is Nothing, objMediaItem.OACreate.Val_Datetime, Nothing)
+                    objFrmSingleViewerEmbedded = New frmSingleViewEmbedded(objLocalConfig, objLocalConfig.OItem_Type_Images__Graphic_)
+                    objFrmSingleViewerEmbedded.InitializeViewer(objOItem_Argument, objOItem_File, dateCreated)
+                    objFrmSingleViewerEmbedded.ShowDialog(Me)
+
+                    Environment.Exit(0)
+                End If
+                
+            ElseIf objOItem_Argument.GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID Then
+                objMediaItems = New clsMediaItems(objLocalConfig)
+                Dim objMediaItem = objMediaItems.Get_MultiMediaItem(objOItem_Argument)
+                If Not objMediaItem Is Nothing Then
+                    Dim objOItem_File = New clsOntologyItem With {.GUID = objMediaItem.ID_File,
+                                                                  .Name = objMediaItem.Name_File,
+                                                                  .GUID_Parent = objMediaItem.ID_Parent_File,
+                                                                  .Type = objLocalConfig.Globals.Type_Object}
+                    Dim dateCreated As DateTime = If(Not objMediaItem.OACreate Is Nothing, objMediaItem.OACreate.Val_Datetime, Nothing)
+                    objFrmSingleViewerEmbedded = New frmSingleViewEmbedded(objLocalConfig, objLocalConfig.OItem_Type_Images__Graphic_)
+                    objFrmSingleViewerEmbedded.InitializeViewer(objOItem_Argument, objOItem_File, dateCreated)
+                    objFrmSingleViewerEmbedded.ShowDialog(Me)
+
+                    Environment.Exit(0)
+                End If
+                objFrmSingleViewerEmbedded = New frmSingleViewEmbedded(objLocalConfig, objLocalConfig.OItem_Type_Media_Item)
+                objFrmSingleViewerEmbedded.InitializeViewer(objOItem_Argument)
+                objFrmSingleViewerEmbedded.ShowDialog(Me)
+
+                Environment.Exit(0)
+            ElseIf objOItem_Argument.GUID_Parent = objLocalConfig.OItem_Type_PDF_Documents.GUID Then
+                objMediaItems = New clsMediaItems(objLocalConfig)
+                Dim objMediaItem = objMediaItems.Get_MultiMediaItem(objOItem_Argument)
+                If Not objMediaItem Is Nothing Then
+                    Dim objOItem_File = New clsOntologyItem With {.GUID = objMediaItem.ID_File,
+                                                                  .Name = objMediaItem.Name_File,
+                                                                  .GUID_Parent = objMediaItem.ID_Parent_File,
+                                                                  .Type = objLocalConfig.Globals.Type_Object}
+                    Dim dateCreated As DateTime = If(Not objMediaItem.OACreate Is Nothing, objMediaItem.OACreate.Val_Datetime, Nothing)
+                    objFrmSingleViewerEmbedded = New frmSingleViewEmbedded(objLocalConfig, objLocalConfig.OItem_Type_Images__Graphic_)
+                    objFrmSingleViewerEmbedded.InitializeViewer(objOItem_Argument, objOItem_File, dateCreated)
+                    objFrmSingleViewerEmbedded.ShowDialog(Me)
+
+                    Environment.Exit(0)
+                End If
+                objFrmSingleViewerEmbedded = New frmSingleViewEmbedded(objLocalConfig, objLocalConfig.OItem_Type_PDF_Documents)
+                objFrmSingleViewerEmbedded.InitializeViewer(objOItem_Argument)
+                objFrmSingleViewerEmbedded.ShowDialog(Me)
+
+                Environment.Exit(0)
+            Else
+
+
+            End If
             
-            Environment.Exit(0)
         End If
     End Sub
 
