@@ -61,16 +61,16 @@ namespace HTMLExport_Module
         }
 
 
-        public clsOntologyItem GetHtmlTag(clsOntologyItem OItem_DoucmentType)
+        public clsOntologyItem GetHtmlTag(clsOntologyItem OItem_DoucmentType, int? intOrderId = null)
         {
             clsOntologyItem oItem_HTMLTag = null;
             var searchHtmlTag = new List<clsObjectRel>
                 {
                     new clsObjectRel
                         {
-                            ID_Object = OItem_DoucmentType.GUID,
+                            ID_Other = OItem_DoucmentType.GUID,
                             ID_RelationType = objLocalConfig.OItem_relationtype_belongsto.GUID,
-                            ID_Parent_Other = objLocalConfig.OItem_type_html_tags.GUID
+                            ID_Parent_Object = objLocalConfig.OItem_type_html_tags.GUID
                         }
                 };
 
@@ -78,13 +78,33 @@ namespace HTMLExport_Module
 
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                oItem_HTMLTag = objDBLevel_Tag.OList_ObjectRel.Select(ht => new clsOntologyItem
+                List<clsOntologyItem> HTMLTags;
+                    
+                if (intOrderId == null)
+                {
+                    HTMLTags = objDBLevel_Tag.OList_ObjectRel.Select(ht => new clsOntologyItem
                     {
-                        GUID = ht.ID_Other,
-                        Name = ht.Name_Other,
-                        GUID_Parent = ht.ID_Parent_Other,
+                        GUID = ht.ID_Object,
+                        Name = ht.Name_Object,
+                        GUID_Parent = ht.ID_Parent_Object,
                         Type = objLocalConfig.Globals.Type_Object
-                    }).FirstOrDefault();
+                    }).ToList();
+                }
+                else
+                {
+                    HTMLTags = objDBLevel_Tag.OList_ObjectRel.Where(ht => ht.OrderID == intOrderId).Select(ht => new clsOntologyItem
+                    {
+                        GUID = ht.ID_Object,
+                        Name = ht.Name_Object,
+                        GUID_Parent = ht.ID_Parent_Object,
+                        Type = objLocalConfig.Globals.Type_Object
+                    }).ToList();
+                }
+                    
+
+                
+                oItem_HTMLTag = HTMLTags.FirstOrDefault();
+                
 
             }
 

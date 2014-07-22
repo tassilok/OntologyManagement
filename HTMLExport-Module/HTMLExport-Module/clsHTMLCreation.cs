@@ -16,6 +16,8 @@ namespace HTMLExport_Module
         private clsLocalConfig objLocalConfig;
         private clsDataWork_HTMLExport objDataWork_XMLExport;
 
+        private clsBlobConnection objBlobConnection;
+
         private clsFileWork objFileWork;
 
         private clsXML objXML;
@@ -39,7 +41,7 @@ namespace HTMLExport_Module
 
         public clsOntologyItem OItem_DocType_Head
         {
-            get { return objLocalConfig.OItem_token_html_tag_type_heading; }
+            get { return objLocalConfig.OItem_token_html_tag_type_html_head_init_final; }
         }
 
         public clsOntologyItem OItem_DocType_DocumentInit
@@ -93,7 +95,7 @@ namespace HTMLExport_Module
         {
             if (attributes == null)
             {
-                attributes = new Dictionary<string, string>();
+                Initialize_Attributes();
             }
 
             attributes.Add(strAttrib, strValue);
@@ -105,6 +107,11 @@ namespace HTMLExport_Module
             {
                 attributes.Remove(strAttrib);
             }
+        }
+
+        public void Initialize_Attributes()
+        {
+            attributes = new Dictionary<string, string>();
         }
 
 
@@ -156,7 +163,11 @@ namespace HTMLExport_Module
 
                         if (!boolFinalize)
                         {
-                            strHTMLHead = attributes.Aggregate(strHTMLHead, (current, attribute) => current + (" " + attribute.Key + "=" + "\"" + attribute.Value + "\""));
+                            if (attributes != null)
+                            {
+                                strHTMLHead = attributes.Aggregate(strHTMLHead, (current, attribute) => current + (" " + attribute.Key + "=" + "\"" + attribute.Value + "\""));
+                            }
+                            
                         }
 
                         strHTMLEnd = objDataWork_XMLExport.GetEnd;
@@ -210,7 +221,7 @@ namespace HTMLExport_Module
 
                 if (strHTMLHeading != null)
                 {
-                    var objOItem_Tag = objDataWork_XMLExport.GetHtmlTag(objLocalConfig.OItem_token_html_tag_type_heading);
+                    var objOItem_Tag = objDataWork_XMLExport.GetHtmlTag(objLocalConfig.OItem_token_html_tag_type_heading, intLevel);
 
                     if (objOItem_Tag != null)
                     {
@@ -218,7 +229,10 @@ namespace HTMLExport_Module
 
                         if (!boolFinalize)
                         {
-                            strHTMLHeading = attributes.Aggregate(strHTMLHeading, (current, attribute) => current + (" " + attribute.Key + "=" + "\"" + attribute.Value + "\""));
+                            if (attributes != null)
+                            {
+                                strHTMLHeading = attributes.Aggregate(strHTMLHeading, (current, attribute) => current + (" " + attribute.Key + "=" + "\"" + attribute.Value + "\""));
+                            }
                         }
 
                         strHTMLEnd = objDataWork_XMLExport.GetEnd;
@@ -256,7 +270,7 @@ namespace HTMLExport_Module
                 {
                     Directory.CreateDirectory(objDataWork_XMLExport.OItem_Folder.Additional1);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
 
                     objOItem_Result = objLocalConfig.Globals.LState_Error.Clone();
@@ -279,18 +293,23 @@ namespace HTMLExport_Module
                     catch (Exception)
                     {
                         objOItem_Result = objLocalConfig.Globals.LState_Error.Clone();
-                        
+
                     }
                 }
+            }
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
+            {
+                objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
             }
 
             return objOItem_Result;
         }
 
-        public clsOntologyItem Open_TextWriter(string filePath)
+        public clsOntologyItem Open_TextWriter(string fileName)
         {
             var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
-            if (objDataWork_XMLExport.OItem_Folder != null && string.IsNullOrEmpty(objDataWork_XMLExport.OItem_Folder.Additional2))
+            if (objDataWork_XMLExport.OItem_Folder != null && string.IsNullOrEmpty(objDataWork_XMLExport.OItem_Folder.Additional1))
             {
                 objOItem_Result = Initialize_ExportFolder();
             }
@@ -299,7 +318,9 @@ namespace HTMLExport_Module
             {
                 try
                 {
-                    objTextWriter = new StreamWriter(objFileWork.merge_paths(objDataWork_XMLExport.OItem_Folder.Additional2, ".html"),false,System.Text.Encoding.UTF8);
+                    var strPath = objFileWork.merge_paths(objDataWork_XMLExport.OItem_Folder.Additional1, fileName);
+                    strPath = strPath + ".html";
+                    objTextWriter = new StreamWriter(strPath,false,System.Text.Encoding.UTF8);
                     objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
                 }
                 catch (Exception)
@@ -354,6 +375,64 @@ namespace HTMLExport_Module
             return strInput;
         }
 
+        public clsOntologyItem Export_File(clsOntologyItem OItem_File)
+        {
+            var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+
+            var strExtension = "";
+
+            if (objFileWork.is_File_Blob(OItem_File))
+            {
+                if (string.IsNullOrEmpty(objDataWork_XMLExport.OItem_Folder.Additional2))
+                {
+                    objOItem_Result = objDataWork_XMLExport.GetSubData_Folder();
+
+                }
+
+                if (!string.IsNullOrEmpty(objDataWork_XMLExport.OItem_Folder.Additional2))
+                {
+                    if (OItem_File.Name.LastIndexOf(".") > 0)
+                    {
+                        strExtension = OItem_File.Name.Substring(OItem_File.Name.LastIndexOf("."));
+
+                        OItem_File.Additional1 = "./Resources/" + OItem_File.GUID + strExtension;
+                        OItem_File.Additional2 = objFileWork.merge_paths(objDataWork_XMLExport.OItem_Folder.Additional2, OItem_File.GUID + strExtension);
+                        if (File.Exists(OItem_File.Additional2))
+                        {
+                            try
+                            {
+                                File.Delete(OItem_File.Additional2);
+                            }
+                            catch (Exception ex)
+                            {
+                                objOItem_Result = objLocalConfig.Globals.LState_Error.Clone();
+                            }
+                            
+                        }
+
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            objOItem_Result = objBlobConnection.save_Blob_To_File(OItem_File, OItem_File.Additional2);
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            {
+                                objOItem_Result.Additional1 = OItem_File.Additional1;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    objOItem_Result = objLocalConfig.Globals.LState_Error.Clone();
+                }
+            }
+            else
+            {
+                objOItem_Result = objLocalConfig.Globals.LState_Error.Clone();
+            }
+
+            return objOItem_Result;
+        }
+
         public clsHTMLCreation(clsLocalConfig LocalConfig)
         {
             objLocalConfig = LocalConfig;
@@ -361,9 +440,18 @@ namespace HTMLExport_Module
             Initialize();
         }
 
+        public clsHTMLCreation(clsGlobals Globals)
+        {
+            objLocalConfig = new clsLocalConfig(Globals);
+
+            Initialize();
+        }
+
         private void Initialize()
         {
             objFileWork = new clsFileWork(objLocalConfig.Globals);
+
+            objBlobConnection = new clsBlobConnection(objLocalConfig.Globals);
 
             objDataWork_XMLExport = new clsDataWork_HTMLExport(objLocalConfig);
 

@@ -7,6 +7,7 @@ Public Class clsDataWork_Process
     Private objDBLevel_Process_Root As clsDBLevel
     Private objDBLevel_Process_Sub As clsDBLevel
     Private objDBLevel_Process_Sub_L1 As clsDBLevel
+    Private objDBLevel_Process_Description As clsDBLevel
 
     Private objOItem_Result_ProcessTree As clsOntologyItem
 
@@ -268,6 +269,21 @@ Public Class clsDataWork_Process
 
     End Sub
 
+    Public Function Get_ProcessDescription(OItem_Process As clsOntologyItem) As clsObjectAtt
+        Dim searchDescription = New List(Of clsObjectAtt) From {New clsObjectAtt With {.ID_Object = OItem_Process.GUID,
+                                                                                       .ID_AttributeType = objLocalConfig.OItem_Attribute_Description.GUID}}
+
+        Dim objOItem_Result = objDBLevel_Process_Description.get_Data_ObjectAtt(searchDescription, boolIDs:=False)
+
+        Dim objOA_Description As clsObjectAtt = Nothing
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOA_Description = objDBLevel_Process_Description.OList_ObjectAtt.FirstOrDefault()
+        End If
+
+        Return objOA_Description
+    End Function
+
     Public Sub New(LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
 
@@ -277,6 +293,7 @@ Public Class clsDataWork_Process
     Private Sub set_DBConnection()
         objDBLevel_Process_Root = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Process_Sub = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Process_Description = New clsDBLevel(objLocalConfig.Globals)
 
         objDBLevel_Process_Sub_L1 = New clsDBLevel(objLocalConfig.Globals)
     End Sub

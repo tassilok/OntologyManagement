@@ -11,12 +11,13 @@ Public Class UserControl_Process
     Private objLocalConfig As clsLocalConfig
     Private objDataWork_BaseConfig As clsDataWork_BaseConfig
     Private objDataWork_Process As clsDataWork_Process
+    Private objDataWork_Images As clsDataWork_Images
+    Private objDataWork_References As clsDataWork_References
 
     Private objHTMLCreation As clsHTMLCreation
 
     Private WithEvents objUserControl_References As UserControl_References
 
-    Private objDataWork_Images As clsDataWork_Images
     Private WithEvents objUserControl_Images As UserControl_SingleViewer
 
     Private objDataWork_PDF As clsDataWork_PDF
@@ -290,7 +291,13 @@ Public Class UserControl_Process
         objDataWork_PDF = New clsDataWork_PDF(objLocalConfig.Globals)
         objDataWork_MediaItems = New clsDataWork_MediaItem(objLocalConfig.Globals)
 
+        objDataWork_References = New clsDataWork_References(objLocalConfig)
+
         objTransaction_Process = New clsTransaction_Process(objLocalConfig)
+
+        objDataWork_Images = New clsDataWork_Images(objLocalConfig.Globals)
+
+        objHTMLCreation = New clsHTMLCreation(objLocalConfig.Globals)
     End Sub
 
 
@@ -1272,7 +1279,7 @@ Public Class UserControl_Process
                     strLine = objHTMLCreation.get_HTML_Tag(objHTMLCreation.OItem_DocType_Body, False)
                     objHTMLCreation.write_Line(strLine)
 
-                    objOItem_Process.GUID = New Guid(objTreeNode.Name).ToString()
+                    objOItem_Process.GUID = objTreeNode.Name
                     objOItem_Process.Name = objTreeNode.Text
                     objOItem_Process.GUID_Parent = objLocalConfig.OItem_Type_Process.GUID
                     objOItem_Process.Type = objLocalConfig.Globals.Type_Object
@@ -1290,9 +1297,9 @@ Public Class UserControl_Process
                     strLine = objHTMLCreation.get_HTML_Heading(intLevel, True)
                     objHTMLCreation.write_Line(strLine)
 
-                    export_HTML_Description(objSemItem_Process)
-                    export_HTML_Requirements(objSemItem_Process)
-                    export_HTML_Images(objSemItem_Process)
+                    export_HTML_Description(objOItem_Process)
+                    export_HTML_Requirements(objOItem_Process)
+                    export_HTML_Images(objOItem_Process)
 
                     export_HTML_Process(objOItem_Process, intLevel)
 
@@ -1317,42 +1324,618 @@ Public Class UserControl_Process
     End Sub
 
     Private Sub export_HTML_Process(ByVal OItem_Process As clsOntologyItem, ByVal intLevel As Integer)
-        Dim objSemItem_Process_Sub As New clsSemItem
-
-        Dim objDRC_Processes As DataRowCollection
-        Dim objDR_Process As DataRow
+        Dim objOItem_Process_Sub As New clsOntologyItem
 
         Dim strLine As String
 
         strHTML_List = strHTML_List & "<ul>" & vbCrLf
 
-        objDRC_Processes = funcA_TokenToken.GetData_LeftRight_Ordered_By_GUIDs(OItem_Process.GUID, _
-                                                                               objLocalConfig.SemItem_Type_Process.GUID, _
-                                                                               objLocalConfig.SemItem_RelationType_superordinate.GUID, _
-                                                                         True).Rows
-        For Each objDR_Process In objDRC_Processes
-            objSemItem_Process_Sub.GUID = objDR_Process.Item("GUID_Token_Right")
-            objSemItem_Process_Sub.Name = objDR_Process.Item("Name_Token_Right")
-            objSemItem_Process_Sub.GUID_Parent = objLocalConfig.SemItem_Type_Process.GUID
-            objSemItem_Process_Sub.GUID_Type = objLocalConfig.Globals.ObjectReferenceType_Token.GUID
+        Dim objOList_SubProcesses = objDataWork_Process.get_SubProcesses_L1(OItem_Process)
 
-            strLine = objHTMLCreation.get_HTML_Heading(intLevel, False)
-            strHTML_Processes = strHTML_Processes & strLine
+        objOList_SubProcesses.OrderBy(Function(sp) sp.OrderID).ThenBy(Function(sp) sp.Name_Other).Select(Function(sp) New clsOntologyItem With {.GUID = sp.ID_Other,
+                                                                            .Name = sp.Name_Other,
+                                                                            .GUID_Parent = sp.ID_Parent_Other,
+                                                                            .Type = sp.Ontology}).ToList().ForEach(Sub(sp)
+                                                                                                                       strLine = objHTMLCreation.Get_HTML_Heading(intLevel, False)
+                                                                                                                       strHTML_Processes = strHTML_Processes & strLine
+                                                                                                                       'objHTMLCreation.write_Line(strLine)
+                                                                                                                       strLine = objHTMLCreation.Encode_HTML(sp.Name)
+                                                                                                                       strHTML_List = strHTML_List & "<li>" & strLine & "</li>"
+                                                                                                                       strHTML_Processes = strHTML_Processes & strLine
+                                                                                                                       'objHTMLCreation.write_Line(strLine)
+                                                                                                                       strLine = objHTMLCreation.Get_HTML_Heading(intLevel, True)
+                                                                                                                       strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                                                                                                                       'objHTMLCreation.write_Line(strLine)
+
+                                                                                                                       export_HTML_Description(sp)
+                                                                                                                       export_HTML_Requirements(sp)
+                                                                                                                       export_HTML_Images(sp)
+
+                                                                                                                       export_HTML_Process(sp, intLevel + 1)
+
+                                                                                                                   End Sub)
+
+        strHTML_List = strHTML_List & "</ul>" & vbCrLf
+    End Sub
+
+    Private Sub export_HTML_Description(ByVal OItem_Process As clsOntologyItem)
+        Dim strLine As String
+
+        Dim objOA_Description = objDataWork_Process.Get_ProcessDescription(OItem_Process)
+
+        If Not objOA_Description Is Nothing Then
+            strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Paragraph, False)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            strLine = objHTMLCreation.Encode_HTML(objOA_Description.Val_String)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            ' objHTMLCreation.write_Line(strLine)
+
+            strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Paragraph, True)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
             'objHTMLCreation.write_Line(strLine)
-            strLine = objHTMLCreation.encode_HTML(objSemItem_Process_Sub.Name)
-            strHTML_List = strHTML_List & "<li>" & strLine & "</li>"
-            strHTML_Processes = strHTML_Processes & strLine
+        End If
+
+        
+    End Sub
+
+    Private Function export_HTML_Images(ByVal OItem_Process As clsOntologyItem) As clsOntologyItem
+        Dim objOItem_Result As clsOntologyItem = objLocalConfig.Globals.LState_Success.Clone()
+        Dim objOItem_File As New clsOntologyItem
+        Dim strLine As String
+
+        objDataWork_Images.get_Images(OItem_Process, False)
+        While Not objDataWork_Images.Loaded
+
+        End While
+
+        If objDataWork_Images.ItemList.Any() Then
+            strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Table, False)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
             'objHTMLCreation.write_Line(strLine)
-            strLine = objHTMLCreation.get_HTML_Heading(intLevel, True)
+            For Each objImage In objDataWork_Images.ItemList
+                objOItem_File.GUID = objImage.ID_File
+                objOItem_File.Name = objImage.Name_File
+                objOItem_File.GUID_Parent = objLocalConfig.OItem_Type_File.GUID
+                objOItem_File.Type = objLocalConfig.Globals.Type_Object
+                objHTMLCreation.Initialize_Attributes()
+                objOItem_Result = objHTMLCreation.Export_File(objOItem_File)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+                    strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                    'objHTMLCreation.write_Line(strLine)
+                    strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                    strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                    'objHTMLCreation.write_Line(strLine)
+                    objHTMLCreation.Add_Attribute(objHTMLCreation.OItem_Attribute_SRC.Name, objOItem_Result.Additional1)
+                    strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Images, False)
+                    strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                    'objHTMLCreation.write_Line(strLine)
+
+                    strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                    strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                    'objHTMLCreation.write_Line(strLine)
+                    strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+                    strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                    'objHTMLCreation.write_Line(strLine)
+                End If
+            Next
+            strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Table, True)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
+        End If
+        
+
+
+        Return objOItem_Result
+    End Function
+
+    Private Sub export_HTML_Requirements(ByVal OItem_Process As clsOntologyItem)
+        Dim strLine As String
+
+        Dim objOItem_Result = objDataWork_References.get_Data(OItem_Process)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID And (objDataWork_References.OList_References.Any()) Then
+            objHTMLCreation.Add_Attribute(objHTMLCreation.OItem_Attribute_Border.Name, "1")
+
+            strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Table, False)
             strHTML_Processes = strHTML_Processes & strLine & vbCrLf
             'objHTMLCreation.write_Line(strLine)
 
-            export_HTML_Description(objSemItem_Process_Sub)
-            export_HTML_Requirements(objSemItem_Process_Sub)
-            export_HTML_Images(objSemItem_Process_Sub)
+            strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
 
-            export_HTML_Process(objSemItem_Process_Sub, intLevel + 1)
-        Next
-        strHTML_List = strHTML_List & "</ul>" & vbCrLf
+            strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
+
+            strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, False) & "Type" & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, True)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
+
+            strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
+
+            strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
+
+
+            strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, False) & "Requirement" & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, True)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
+
+            strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
+
+            strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
+
+
+            For Each OItem_Ref In objDataWork_References.OList_References.Where(Function(ref) ref.ID_Parent_Other = objLocalConfig.OItem_Type_Application.GUID).OrderBy(Function(ref) ref.Name_Other).ToList()
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, False) & objHTMLCreation.Encode_HTML(objLocalConfig.OItem_Type_Application.Name) & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Encode_HTML(OItem_Ref.Name_Other)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each OItem_Ref In objDataWork_References.OList_References.Where(Function(ref) ref.ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Sem_Item.GUID).OrderBy(Function(ref) ref.Name_Other).ToList()
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, False) & objHTMLCreation.Encode_HTML(objLocalConfig.OItem_RelationType_belonging_Sem_Item.Name) & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Encode_HTML(OItem_Ref.Name_Other)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each OItem_Ref In objDataWork_References.OList_References.Where(Function(ref) ref.ID_RelationType = objLocalConfig.OItem_RelationType_needed_Documentation.GUID).OrderBy(Function(ref) ref.Name_Other).ToList()
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, False) & objHTMLCreation.Encode_HTML(objLocalConfig.OItem_RelationType_needed_Documentation.Name) & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Encode_HTML(OItem_Ref.Name_Other)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each OItem_Ref In objDataWork_References.OList_References.Where(Function(ref) ref.ID_Parent_Other = objLocalConfig.OItem_Type_File.GUID).OrderBy(Function(ref) ref.Name_Other).ToList()
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, False) & objHTMLCreation.Encode_HTML(objLocalConfig.OItem_Type_File.Name) & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Encode_HTML(OItem_Ref.Name_Other)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each OItem_Ref In objDataWork_References.OList_References.Where(Function(ref) ref.ID_Parent_Other = objLocalConfig.OItem_type_Folder.GUID).OrderBy(Function(ref) ref.Name_Other).ToList()
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, False) & objHTMLCreation.Encode_HTML(objLocalConfig.OItem_type_Folder.Name) & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Encode_HTML(OItem_Ref.Name_Other)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each OItem_Ref In objDataWork_References.OList_References.Where(Function(ref) ref.ID_Parent_Other = objLocalConfig.OItem_Type_Group.GUID).OrderBy(Function(ref) ref.Name_Other).ToList()
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, False) & objHTMLCreation.Encode_HTML(objLocalConfig.OItem_Type_Group.Name) & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Encode_HTML(OItem_Ref.Name_Other)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each OItem_Ref In objDataWork_References.OList_References.Where(Function(ref) ref.ID_Parent_Other = objLocalConfig.OItem_Type_Manual.GUID).OrderBy(Function(ref) ref.Name_Other).ToList()
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, False) & objHTMLCreation.Encode_HTML(objLocalConfig.OItem_Type_Manual.Name) & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Encode_HTML(OItem_Ref.Name_Other)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each OItem_Ref In objDataWork_References.OList_References.Where(Function(ref) ref.ID_Parent_Other = objLocalConfig.OItem_Type_Media.GUID).OrderBy(Function(ref) ref.Name_Other).ToList()
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, False) & objHTMLCreation.Encode_HTML(objLocalConfig.OItem_Type_Media.Name) & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Encode_HTML(OItem_Ref.Name_Other)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each OItem_Ref In objDataWork_References.OList_References.Where(Function(ref) ref.ID_RelationType = objLocalConfig.OItem_RelationType_needs.GUID).OrderBy(Function(ref) ref.Name_Other).ToList()
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, False) & objHTMLCreation.Encode_HTML(objLocalConfig.OItem_RelationType_needs.Name) & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Encode_HTML(OItem_Ref.Name_Other)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each OItem_Ref In objDataWork_References.OList_References.Where(Function(ref) ref.ID_RelationType = objLocalConfig.OItem_RelationType_needs_Child.GUID).OrderBy(Function(ref) ref.Name_Other).ToList()
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, False) & objHTMLCreation.Encode_HTML(objLocalConfig.OItem_RelationType_needs_Child.Name) & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Encode_HTML(OItem_Ref.Name_Other)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each OItem_Ref In objDataWork_References.OList_References.Where(Function(ref) ref.ID_Parent_Other = objLocalConfig.OItem_Type_responsibility.GUID).OrderBy(Function(ref) ref.Name_Other).ToList()
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, False) & objHTMLCreation.Encode_HTML(objLocalConfig.OItem_Type_responsibility.Name) & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Encode_HTML(OItem_Ref.Name_Other)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each OItem_Ref In objDataWork_References.OList_References.Where(Function(ref) ref.ID_Parent_Other = objLocalConfig.OItem_Type_Role.GUID).OrderBy(Function(ref) ref.Name_Other).ToList()
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, False) & objHTMLCreation.Encode_HTML(objLocalConfig.OItem_Type_Role.Name) & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Encode_HTML(OItem_Ref.Name_Other)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+            Next
+
+            For Each OItem_Ref In objDataWork_References.OList_References.Where(Function(ref) ref.ID_Parent_Other = objLocalConfig.OItem_type_User.GUID).OrderBy(Function(ref) ref.Name_Other).ToList()
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, False) & objHTMLCreation.Encode_HTML(objLocalConfig.OItem_type_User.Name) & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Encode_HTML(OItem_Ref.Name_Other)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+                strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+                'objHTMLCreation.write_Line(strLine)
+            Next
+
+            strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Table, True)
+            strHTML_Processes = strHTML_Processes & strLine & vbCrLf
+            'objHTMLCreation.write_Line(strLine)
+        End If
+
+
     End Sub
 End Class
