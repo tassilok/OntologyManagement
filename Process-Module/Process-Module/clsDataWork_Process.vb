@@ -70,6 +70,7 @@ Public Class clsDataWork_Process
         Return lngOrderID
     End Function
 
+    
     Public Function get_Processes() As clsOntologyItem
         Dim objOItem_Process As clsOntologyItem = objLocalConfig.Globals.LState_Success
 

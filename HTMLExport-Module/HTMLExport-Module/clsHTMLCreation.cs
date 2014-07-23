@@ -34,6 +34,16 @@ namespace HTMLExport_Module
             get { return objLocalConfig.OItem_token_tag_attributes_src; }
         }
 
+        public clsOntologyItem OItem_Attribute_WIDHT
+        {
+            get { return objLocalConfig.OItem_object_width; }
+        }
+
+        public clsOntologyItem OItem_Attribute_HEIGHT
+        {
+            get { return objLocalConfig.OItem_object_height; }
+        }
+
         public clsOntologyItem OItem_DocType_Bold
         {
             get { return objLocalConfig.OItem_token_document_tag_type_bold; }
@@ -88,6 +98,12 @@ namespace HTMLExport_Module
         {
             get { return objLocalConfig.OItem_token_document_tag_type_table_col; }
         }
+
+        public clsOntologyItem OItem_DocType_PDFsMedia
+        {
+            get { return objLocalConfig.OItem_object_pdfs_media; }
+        }
+
 
         private Dictionary<string, string> attributes;
 
@@ -166,6 +182,7 @@ namespace HTMLExport_Module
                             if (attributes != null)
                             {
                                 strHTMLHead = attributes.Aggregate(strHTMLHead, (current, attribute) => current + (" " + attribute.Key + "=" + "\"" + attribute.Value + "\""));
+                                attributes.Clear();
                             }
                             
                         }

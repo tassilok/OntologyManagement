@@ -48,6 +48,7 @@ public clsOntologyItem OItem_token_attribute_type_source_of_resource { get; set;
 public clsOntologyItem OItem_token_document_tag_type_bold { get; set; }
 public clsOntologyItem OItem_token_document_tag_type_content { get; set; }
 public clsOntologyItem OItem_token_document_tag_type_images { get; set; }
+public clsOntologyItem OItem_object_pdfs_media { get; set; }
 public clsOntologyItem OItem_token_document_tag_type_paragraph { get; set; }
 public clsOntologyItem OItem_token_document_tag_type_table { get; set; }
 public clsOntologyItem OItem_token_document_tag_type_table_col { get; set; }
@@ -59,6 +60,8 @@ public clsOntologyItem OItem_token_html_tag_type_html_head_init_final { get; set
 public clsOntologyItem OItem_token_tag_attributes_border { get; set; }
 public clsOntologyItem OItem_token_tag_attributes_src { get; set; }
 public clsOntologyItem OItem_token_xml_html_intro { get; set; }
+public clsOntologyItem OItem_object_width { get; set; }
+public clsOntologyItem OItem_object_height { get; set; }
 
         // Classes
 public clsOntologyItem OItem_type_developmentversion { get; set; }
@@ -560,6 +563,69 @@ var objOList_relationtype_tag_start = (from objOItem in objDBLevel_Config1.OList
   
 	private void get_Config_Objects()
         {
+            var objOList_object_width = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                         where objOItem.ID_Object == cstrID_Ontology
+                                         join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                         where objRef.Name_Object.ToLower() == "object_width".ToLower() && objRef.Ontology == Globals.Type_Object
+                                         select objRef).ToList();
+
+            if (objOList_object_width.Any())
+            {
+                OItem_object_width = new clsOntologyItem()
+                {
+                    GUID = objOList_object_width.First().ID_Other,
+                    Name = objOList_object_width.First().Name_Other,
+                    GUID_Parent = objOList_object_width.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_height = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                          where objOItem.ID_Object == cstrID_Ontology
+                                          join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                          where objRef.Name_Object.ToLower() == "object_height".ToLower() && objRef.Ontology == Globals.Type_Object
+                                          select objRef).ToList();
+
+            if (objOList_object_height.Any())
+            {
+                OItem_object_height = new clsOntologyItem()
+                {
+                    GUID = objOList_object_height.First().ID_Other,
+                    Name = objOList_object_height.First().Name_Other,
+                    GUID_Parent = objOList_object_height.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_pdfs_media = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                              where objOItem.ID_Object == cstrID_Ontology
+                                              join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                              where objRef.Name_Object.ToLower() == "object_pdfs_media".ToLower() && objRef.Ontology == Globals.Type_Object
+                                              select objRef).ToList();
+
+            if (objOList_object_pdfs_media.Any())
+            {
+                OItem_object_pdfs_media = new clsOntologyItem()
+                {
+                    GUID = objOList_object_pdfs_media.First().ID_Other,
+                    Name = objOList_object_pdfs_media.First().Name_Other,
+                    GUID_Parent = objOList_object_pdfs_media.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_object_baseconfig = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                               where objOItem.ID_Object == cstrID_Ontology
                                               join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
