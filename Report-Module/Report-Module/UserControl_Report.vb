@@ -1564,8 +1564,21 @@ Public Class UserControl_Report
 
     Private Sub ToolStripButton_OpenWordMenu_Click(sender As Object, e As EventArgs) Handles ToolStripButton_OpenWordMenu.Click
         If Not objOItem_Object Is Nothing Then
-            objFrmDocumentEdit = New frmDocumentEdit(objLocalConfig.Globals, objOItem_Object)
-            objFrmDocumentEdit.ShowDialog(Me)
+            Dim boolInitialize = True
+            If objFrmDocumentEdit Is Nothing Then
+                objFrmDocumentEdit = New frmDocumentEdit(objLocalConfig.Globals, objOItem_Object)
+                objFrmDocumentEdit.Show()
+                boolInitialize = False
+            ElseIf objFrmDocumentEdit.Visible = False Then
+                objFrmDocumentEdit = New frmDocumentEdit(objLocalConfig.Globals, objOItem_Object)
+                objFrmDocumentEdit.Show()
+                boolInitialize = False
+            End If
+            
+            If boolInitialize Then
+                objFrmDocumentEdit.Initialize(objOItem_Object)
+            End If
+
         End If
     End Sub
 

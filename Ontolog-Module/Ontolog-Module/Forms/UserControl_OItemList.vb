@@ -1891,6 +1891,10 @@ Public Class UserControl_OItemList
                         MoveObjectsToolStripMenuItem.Enabled = True
                         OpenModuleByArgumentToolStripMenuItem.Enabled = True
                     End If
+                Else
+                    If Not objOItem_Direction Is Nothing Then
+                        OpenModuleByArgumentToolStripMenuItem.Enabled = True
+                    End If
                 End If
 
 
@@ -2841,11 +2845,43 @@ Public Class UserControl_OItemList
     Private Sub OpenModuleByArgumentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenModuleByArgumentToolStripMenuItem.Click
         Dim objDGVR As DataGridViewRow = DataGridView_Items.SelectedRows(0)
         Dim objDRV As DataRowView = objDGVR.DataBoundItem
+        Dim objOItem_Object As clsOntologyItem
 
-        Dim objOItem_Object = New clsOntologyItem With {.GUID = objDRV.Item("ID_Item"), _
+        If DataGridView_Items.SelectedRows.Count = 1 Then
+            If Not objOItem_Parent Is Nothing Then
+                If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
+                    objOItem_Object = New clsOntologyItem With {.GUID = objDRV.Item("ID_Item"), _
                                                         .Name = objDRV.Item("Name"), _
                                                         .GUID_Parent = objDRV.Item("ID_Parent"), _
                                                         .Type = objLocalConfig.Globals.Type_Object}
+                End If
+            Else
+                If Not objOItem_Direction Is Nothing Then
+                    If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                        If objDRV.Item("Ontology") = objLocalConfig.Globals.Type_Object Then
+                            objOItem_Object = New clsOntologyItem With {.GUID = objDRV.Item("ID_Other"), _
+                                                        .Name = objDRV.Item("Name_Other"), _
+                                                        .GUID_Parent = objDRV.Item("ID_Parent_Other"), _
+                                                        .Type = objLocalConfig.Globals.Type_Object}
+                        Else
+                            MsgBox("Das Element in der Beziehung ist kein Objekt. Bitte wählen Sie nur Objekte.", MsgBoxStyle.Information)
+
+                        End If
+                        
+                    Else
+                        objOItem_Object = New clsOntologyItem With {.GUID = objDRV.Item("ID_Object"), _
+                                                        .Name = objDRV.Item("Name_Object"), _
+                                                        .GUID_Parent = objDRV.Item("ID_Parent_Object"), _
+                                                        .Type = objLocalConfig.Globals.Type_Object}
+                    End If
+                    
+                End If
+            End If
+
+
+        End If
+
+        
 
         If Not OpenLastModuleToolStripMenuItem.Checked Or String.IsNullOrEmpty(strLastModule) Then
             objFrm_Modules = New frmModules(objLocalConfig.Globals)

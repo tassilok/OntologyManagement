@@ -47,6 +47,8 @@ Partial Class UserControl_ObjectEdit
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Name = New System.Windows.Forms.ToolStripTextBox()
         Me.Timer_Name_Change = New System.Windows.Forms.Timer(Me.components)
+        Me.OpenModuleByCommandLineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenLastModuleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
@@ -76,7 +78,7 @@ Partial Class UserControl_ObjectEdit
         '
         'EditToolStripMenuItem
         '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToOntologyClipboardToolStripMenuItem, Me.DeleteToolStripMenuItem})
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToOntologyClipboardToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.OpenModuleByCommandLineToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
         Me.EditToolStripMenuItem.Size = New System.Drawing.Size(49, 20)
         Me.EditToolStripMenuItem.Text = "x_Edit"
@@ -248,6 +250,20 @@ Partial Class UserControl_ObjectEdit
         '
         Me.Timer_Name_Change.Interval = 300
         '
+        'OpenModuleByCommandLineToolStripMenuItem
+        '
+        Me.OpenModuleByCommandLineToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenLastModuleToolStripMenuItem})
+        Me.OpenModuleByCommandLineToolStripMenuItem.Name = "OpenModuleByCommandLineToolStripMenuItem"
+        Me.OpenModuleByCommandLineToolStripMenuItem.Size = New System.Drawing.Size(258, 22)
+        Me.OpenModuleByCommandLineToolStripMenuItem.Text = "x_Open Module by Command Line"
+        '
+        'OpenLastModuleToolStripMenuItem
+        '
+        Me.OpenLastModuleToolStripMenuItem.CheckOnClick = True
+        Me.OpenLastModuleToolStripMenuItem.Name = "OpenLastModuleToolStripMenuItem"
+        Me.OpenLastModuleToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.OpenLastModuleToolStripMenuItem.Text = "x_Open Last Module"
+        '
         'UserControl_ObjectEdit
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -302,5 +318,7 @@ Partial Class UserControl_ObjectEdit
     Friend WithEvents Timer_Name_Change As System.Windows.Forms.Timer
     Friend WithEvents ToOntologyClipboardToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DeleteToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenModuleByCommandLineToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenLastModuleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

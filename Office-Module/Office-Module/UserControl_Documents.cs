@@ -49,6 +49,7 @@ namespace Office_Module
 
         public void Initialize_Documents(clsDataWork_Documents objDataWork_Documents, clsOntologyItem OItem_Ref)
         {
+            objDocumentation.Clear_BookmarkDocLast();
             objLocalConfig.DataWork_Documents = objDataWork_Documents;
 
             objOItem_Ref = OItem_Ref;
@@ -88,10 +89,45 @@ namespace Office_Module
         {
             button_Delete.Enabled = false;
             button_Open.Enabled = false;
+            button_InsertBookmark.Enabled = false;
+            button_ActivateBookmark.Enabled = false;
 
             if (objOItem_Ref != null && dataGridView_Documents.Rows.Count == 0)
             {
-                button_Open.Enabled = true;
+                var objOItem_Bookmark = objDocumentation.getBookmarksOfRef(objOItem_Ref);
+                if (objOItem_Bookmark != null)
+                {
+                    if (objOItem_Bookmark.GUID != objLocalConfig.Globals.LState_Error.GUID)
+                    {
+
+
+                        var objOItem_Document = objDocumentation.getDocumentOfBookmark(objOItem_Bookmark);
+                        if (objOItem_Document != null)
+                        {
+                            if (objOItem_Document.GUID != objLocalConfig.Globals.LState_Error.GUID)
+                            {
+                                button_ActivateBookmark.Enabled = true;
+                                
+                            }
+                            else
+                            {
+                                MessageBox.Show("Das Dokument zum Bookmark konnte nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            }
+
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Bookmarks konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    button_Open.Enabled = true;
+                    button_InsertBookmark.Enabled = true;
+                }
+                
             }
             else
             {
@@ -131,7 +167,11 @@ namespace Office_Module
                 {
                     var objOItem_Document_Opened = objDocumentation.open_Document(objOList_Document.First());
 
-                    if (objOItem_Document_Opened.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                    if (objOItem_Document_Opened.GUID != objLocalConfig.Globals.LState_Error.GUID)
+                    {
+                        button_InsertBookmark.Enabled = false;
+                    }
+                    else
                     {
                         MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
@@ -175,6 +215,72 @@ namespace Office_Module
             
         }
 
-        
+        private void button_InsertBookmark_Click(object sender, EventArgs e)
+        {
+            var objOItem_Result = objDocumentation.insert_Bookmark(objOItem_Ref);
+        }
+
+        private void button_ActivateBookmark_Click(object sender, EventArgs e)
+        {
+            if (objDocumentation.OItem_Document_Last != null)
+            {
+                var Item_Document = openDocument(objDocumentation.OItem_Document_Last);
+                if (Item_Document != null)
+                {
+                    if (Item_Document.OItem_Result == null || (Item_Document.OItem_Result.GUID != objLocalConfig.Globals.LState_Error.GUID))
+                    {
+                        var objOItem_Result = objDocumentation.activate_Bookmark(Item_Document, objDocumentation.OItem_Bookmark_Last);
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                        {
+                            MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        private clsDocument openDocument(clsOntologyItem OItem_Document)
+        {
+            clsOntologyItem OItem_Result;
+            var Item_Document = objDocumentation.GetData_DocumentData(OItem_Document);
+            if (Item_Document != null)
+            {
+                OItem_Result = Item_Document.OItem_Result;
+                if (OItem_Result == null || OItem_Result.GUID != objLocalConfig.Globals.LState_Error.GUID)
+                {
+                    OItem_Result = objDocumentation.open_Document(Item_Document);
+                    if (OItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                    {
+                        MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Das Dokument konnte nicht geöffnet werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    OItem_Result = objLocalConfig.Globals.LState_Error;
+                }
+
+            }
+            else
+            {
+                OItem_Result = objLocalConfig.Globals.LState_Error;
+            }
+
+            Item_Document.OItem_Result = OItem_Result;
+            return Item_Document;
+        }
     }
 }

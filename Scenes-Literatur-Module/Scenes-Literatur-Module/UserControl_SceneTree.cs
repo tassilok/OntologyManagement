@@ -174,6 +174,7 @@ namespace Scenes_Literatur_Module
 
                 if (objTreeNode_Selected.ImageIndex == objLocalConfig.ImageID_Scene)
                 {
+                    winwordToolStripMenuItem.Enabled = true;
                     insertBookmarkToolStripMenuItem.Enabled = true;
 
                     objOItem_Scene = new clsOntologyItem()
@@ -198,7 +199,7 @@ namespace Scenes_Literatur_Module
                             {
                                 if (objOItem_Document.GUID != objLocalConfig.Globals.LState_Error.GUID)
                                 {
-                                    winwordToolStripMenuItem.Enabled = true;
+                                    
                                     activateBookmarkToolStripMenuItem.Enabled = true;
                                     openBelongingDocToolStripMenuItem.Enabled = true;
                                 }

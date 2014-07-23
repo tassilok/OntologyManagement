@@ -928,5 +928,9 @@ Public Class UserControl_ObjectEdit
 
 
     End Sub
+
+    Private Sub OpenModuleByCommandLineToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenModuleByCommandLineToolStripMenuItem.Click
+
+    End Sub
 End Class
 

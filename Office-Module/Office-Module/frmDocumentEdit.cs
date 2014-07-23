@@ -16,6 +16,8 @@ namespace Office_Module
     {
         private clsLocalConfig objLocalConfig;
 
+        private clsDBLevel objDBLevel_ItemType;
+
         private clsDataWork_Documents objDataWork_Documents;
 
         private clsOntologyItem objOItem_Ref;
@@ -29,14 +31,34 @@ namespace Office_Module
             objOItem_Ref = OItem_Ref;
 
             objLocalConfig = new clsLocalConfig(objGlobals);
+            objDBLevel_ItemType = new clsDBLevel(objLocalConfig.Globals);
 
             Initialize();
         }
 
-        private void Initialize()
+        public void Initialize(clsOntologyItem OItem_Ref = null)
         {
-            objDataWork_Documents = new clsDataWork_Documents(objLocalConfig);
+            if (OItem_Ref != null)
+            {
+                objOItem_Ref = OItem_Ref;
+                
+            }
 
+            if (objOItem_Ref.Type == objLocalConfig.Globals.Type_Object)
+            {
+                var oItem_Class = objDBLevel_ItemType.GetOItem(objOItem_Ref.GUID_Parent, objLocalConfig.Globals.Type_Class);
+                this.Text = oItem_Class.Name + "\\" + objOItem_Ref.Name;
+            }
+            else
+            {
+                this.Text = objOItem_Ref.Name;
+            }
+
+            if (objDataWork_Documents == null)
+            {
+                objDataWork_Documents = new clsDataWork_Documents(objLocalConfig);
+            }
+            
             var objOItem_Result = objDataWork_Documents.GetData(objOItem_Ref); 
 
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
@@ -49,9 +71,14 @@ namespace Office_Module
 
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    objUserControl_Documents = new UserControl_Documents(objLocalConfig.Globals);
-                    objUserControl_Documents.Dock = DockStyle.Fill;
-                    toolStripContainer1.ContentPanel.Controls.Add(objUserControl_Documents);
+                    if (objUserControl_Documents == null)
+                    {
+                        objUserControl_Documents = new UserControl_Documents(objLocalConfig.Globals);
+                        objUserControl_Documents.Dock = DockStyle.Fill;
+                        toolStripContainer1.ContentPanel.Controls.Add(objUserControl_Documents);
+                    }
+                    
+                    
                     objUserControl_Documents.Initialize_Documents(objDataWork_Documents, objOItem_Ref);
                 }
                 else

@@ -32,6 +32,8 @@
             this.button_Delete = new System.Windows.Forms.Button();
             this.button_Open = new System.Windows.Forms.Button();
             this.dataGridView_Documents = new System.Windows.Forms.DataGridView();
+            this.button_InsertBookmark = new System.Windows.Forms.Button();
+            this.button_ActivateBookmark = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -48,6 +50,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.button_ActivateBookmark);
+            this.splitContainer1.Panel1.Controls.Add(this.button_InsertBookmark);
             this.splitContainer1.Panel1.Controls.Add(this.button_Delete);
             this.splitContainer1.Panel1.Controls.Add(this.button_Open);
             // 
@@ -95,6 +99,26 @@
             this.dataGridView_Documents.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_Documents_CellClick);
             this.dataGridView_Documents.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Documents_RowHeaderMouseClick);
             // 
+            // button_InsertBookmark
+            // 
+            this.button_InsertBookmark.Location = new System.Drawing.Point(4, 83);
+            this.button_InsertBookmark.Name = "button_InsertBookmark";
+            this.button_InsertBookmark.Size = new System.Drawing.Size(75, 43);
+            this.button_InsertBookmark.TabIndex = 2;
+            this.button_InsertBookmark.Text = "x_Insert Bookmark";
+            this.button_InsertBookmark.UseVisualStyleBackColor = true;
+            this.button_InsertBookmark.Click += new System.EventHandler(this.button_InsertBookmark_Click);
+            // 
+            // button_ActivateBookmark
+            // 
+            this.button_ActivateBookmark.Location = new System.Drawing.Point(4, 133);
+            this.button_ActivateBookmark.Name = "button_ActivateBookmark";
+            this.button_ActivateBookmark.Size = new System.Drawing.Size(75, 39);
+            this.button_ActivateBookmark.TabIndex = 3;
+            this.button_ActivateBookmark.Text = "x_Activate Bookmark";
+            this.button_ActivateBookmark.UseVisualStyleBackColor = true;
+            this.button_ActivateBookmark.Click += new System.EventHandler(this.button_ActivateBookmark_Click);
+            // 
             // UserControl_Documents
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -117,5 +141,7 @@
         private System.Windows.Forms.Button button_Delete;
         private System.Windows.Forms.Button button_Open;
         private System.Windows.Forms.DataGridView dataGridView_Documents;
+        private System.Windows.Forms.Button button_ActivateBookmark;
+        private System.Windows.Forms.Button button_InsertBookmark;
     }
 }

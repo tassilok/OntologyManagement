@@ -22,6 +22,34 @@ namespace Office_Module
         private frmBlobWatcher objFrmBlobWatcher;
         private string strCategory;
 
+        public clsOntologyItem OItem_Bookmark_Last { get; private set; }
+        public clsOntologyItem OItem_Document_Last { get; private set; }
+
+        public void Clear_BookmarkDocLast()
+        {
+            OItem_Bookmark_Last = null;
+            OItem_Document_Last = null;
+        }
+
+        public clsOntologyItem getBookmarksOfRef(clsOntologyItem OItem_Ref)
+        {
+            OItem_Bookmark_Last = objDataWork_Documents.getBookmarkOfRef(OItem_Ref);
+
+            return OItem_Bookmark_Last;
+        }
+
+        public clsOntologyItem getDocumentOfBookmark(clsOntologyItem OItem_Bookmark)
+        {
+            OItem_Document_Last = objDataWork_Documents.getDocumentOfBookmark(OItem_Bookmark);
+
+            return OItem_Document_Last;
+        }
+
+        public clsDocument GetData_DocumentData(clsOntologyItem OItem_Document)
+        {
+            return objDataWork_Documents.GetData_DocumentData(OItem_Document);
+        }
+
         public clsOntologyItem has_Document(clsOntologyItem objOItem_Ref)
         {
             
