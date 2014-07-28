@@ -63,6 +63,8 @@
     <Compile Include="clsGraphItem.cs" />
     <Compile Include="clsGraphMLWork.cs" />
     <Compile Include="clsLocalConfig.cs" />
+    <Compile Include="clsNodeColor.cs" />
+    <Compile Include="clsSearchAndReplace.cs" />
     <Compile Include="clsTransaction_Graph.cs" />
     <Compile Include="clsXMLTemplateWork.cs" />
     <Compile Include="DataSet_Export.cs">
