@@ -4,6 +4,7 @@ Public Class UserControl_OntologyItemList
 
     Private objDataWork_Ontologies As clsDataWork_Ontologies
     Private objFrmMain As frmMain
+    Private objFrm_Clipboard As frmClipboard
     Private objTransaction As clsTransaction
     Private objRelationConfig As clsRelationConfig
     Private objOItem_Ontology As clsOntologyItem
@@ -178,14 +179,41 @@ Public Class UserControl_OntologyItemList
     End Sub
 
     Private Sub AddToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddToolStripMenuItem.Click
-        objFrmMain = New frmMain(objDataWork_Ontologies.LocalConfig.Globals)
-        objFrmMain.Applyable = True
-        objFrmMain.ShowDialog(Me)
-        If objFrmMain.DialogResult = DialogResult.OK Then
-            Dim intToDo = objFrmMain.OList_Simple.Count
+        Dim objOList_Simple = New List(Of clsOntologyItem)
+        objFrm_Clipboard = New frmClipboard(objDataWork_Ontologies.LocalConfig.Globals)
+        Dim objOLRel As New List(Of clsObjectRel)
+        If objFrm_Clipboard.containedByClipboard() = True Then
+            objFrm_Clipboard.ShowDialog(Me)
+            If objFrm_Clipboard.DialogResult = DialogResult.OK Then
+                For Each objDGVR_Selected As DataGridViewRow In objFrm_Clipboard.selectedRows
+                    objOLRel.Add(objDGVR_Selected.DataBoundItem)
+
+                Next
+            End If
+        End If
+
+        If objFrm_Clipboard.Cntrl = False Then
+            If Not objOLRel.Any Then
+                objFrmMain = New frmMain(objDataWork_Ontologies.LocalConfig.Globals)
+                objFrmMain.Applyable = True
+                objFrmMain.ShowDialog(Me)
+                If objFrmMain.DialogResult = DialogResult.OK Then
+                    objOList_Simple = objFrmMain.OList_Simple
+                    
+                End If
+            Else
+                objOList_Simple = (From objORel In objOLRel
+                                                            Select New clsOntologyItem With {.GUID = objORel.ID_Other, _
+                                                                                             .Name = objORel.Name_Other, _
+                                                                                             .GUID_Parent = objORel.ID_Parent_Other, _
+                                                                                             .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object, _
+                                                                                             .Level = objORel.OrderID}).ToList()
+            End If
+
+            Dim intToDo = objOList_Simple.Count
             Dim intDone = 0
 
-            For Each objOItem In objFrmMain.OList_Simple
+            For Each objOItem In objOList_Simple
                 Dim objOItem_OItem = objDataWork_Ontologies.Get_OntologyItemOfOntology(objOItem_Ontology, objOItem)
                 If objOItem_OItem Is Nothing Then
                     objOItem_OItem = New clsOntologyItem With {.GUID = objDataWork_Ontologies.LocalConfig.Globals.NewGUID, _
@@ -230,7 +258,7 @@ Public Class UserControl_OntologyItemList
                         Else
                             objTransaction.rollback()
                         End If
-                        
+
 
                     End If
 
@@ -243,6 +271,7 @@ Public Class UserControl_OntologyItemList
 
             Next
         End If
+
     End Sub
 
     Private Sub DataGridView_OItems_RowHeaderMouseDoubleClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView_OItems.RowHeaderMouseDoubleClick

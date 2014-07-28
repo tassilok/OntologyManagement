@@ -88,7 +88,7 @@ Public Class frmClipboard
         Return boolResult
     End Function
 
-    Public Sub New(ByVal Globals As clsGlobals, ByVal OItem_Item As clsOntologyItem)
+    Public Sub New(ByVal Globals As clsGlobals, Optional ByVal OItem_Item As clsOntologyItem = Nothing)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()

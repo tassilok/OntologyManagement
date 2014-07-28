@@ -11,6 +11,7 @@ Public Class UserControl_ObjectEdit
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFrm_OntologyEditor As frmMain
+    Private objFrm_Graph As frmGraph
 
     Private objOntologyClipboard As clsOntologyClipboard
 
@@ -931,6 +932,21 @@ Public Class UserControl_ObjectEdit
 
     Private Sub OpenModuleByCommandLineToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenModuleByCommandLineToolStripMenuItem.Click
 
+    End Sub
+
+    Private Sub OpenGraphViewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenGraphViewToolStripMenuItem.Click
+        If objFrm_Graph Is Nothing Then
+            objFrm_Graph = New frmGraph(objLocalConfig)
+        End If
+
+        Try
+            objFrm_Graph.Show()
+        Catch ex As Exception
+            objFrm_Graph = New frmGraph(objLocalConfig)
+            objFrm_Graph.Show()
+        End Try
+
+        objFrm_Graph.Initialize_Graph(objOItem_Object)
     End Sub
 End Class
 
