@@ -14,6 +14,7 @@ Public Class frmMediaViewerModule
     Private WithEvents objFrmSingleViewer As frmSingleViewer
     Private objFrmSingleViewerEmbedded As frmSingleViewEmbedded
     Private objFrmListEdit As frmMediaModule_ListEdit
+    Private objFrmMenu As frmMenu
 
     Private objMediaItems As clsMediaItems
 
@@ -490,8 +491,9 @@ Public Class frmMediaViewerModule
 
                 Environment.Exit(0)
             Else
-
-
+                objFrmMenu = New frmMenu(objLocalConfig, objOItem_Argument)
+                objFrmMenu.ShowDialog(Me)
+                Environment.Exit(0)
             End If
             
         End If

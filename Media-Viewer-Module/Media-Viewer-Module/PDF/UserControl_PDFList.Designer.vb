@@ -37,6 +37,7 @@ Partial Class UserControl_PDFList
         Me.ToolStripButton_Replace = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton_Remove = New System.Windows.Forms.ToolStripButton()
         Me.BindingSource_PDFList = New System.Windows.Forms.BindingSource(Me.components)
+        Me.ToolStripLabel_PDF = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -115,10 +116,10 @@ Partial Class UserControl_PDFList
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Add, Me.ToolStripButton_Replace, Me.ToolStripButton_Remove})
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_PDF, Me.ToolStripButton_Add, Me.ToolStripButton_Replace, Me.ToolStripButton_Remove})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(81, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(153, 25)
         Me.ToolStrip2.TabIndex = 0
         '
         'Timer_PDF
@@ -158,6 +159,12 @@ Partial Class UserControl_PDFList
         Me.ToolStripButton_Remove.Size = New System.Drawing.Size(23, 22)
         Me.ToolStripButton_Remove.Text = "ToolStripButton1"
         '
+        'ToolStripLabel_PDF
+        '
+        Me.ToolStripLabel_PDF.Name = "ToolStripLabel_PDF"
+        Me.ToolStripLabel_PDF.Size = New System.Drawing.Size(41, 22)
+        Me.ToolStripLabel_PDF.Text = "x_PDF:"
+        '
         'UserControl_PDFList
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -195,5 +202,6 @@ Partial Class UserControl_PDFList
     Friend WithEvents ToolStripProgressBar_PDF As System.Windows.Forms.ToolStripProgressBar
     Friend WithEvents OpenFileDialog_PDF As System.Windows.Forms.OpenFileDialog
     Friend WithEvents ToolStripButton_Replace As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripLabel_PDF As System.Windows.Forms.ToolStripLabel
 
 End Class

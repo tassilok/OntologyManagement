@@ -37,7 +37,6 @@ Partial Class UserControl_ImageList
         Me.DecreasingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AddToSyncToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Timer_Images = New System.Windows.Forms.Timer(Me.components)
-        Me.BindingSource_Images = New System.Windows.Forms.BindingSource(Me.components)
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_CountLBL = New System.Windows.Forms.ToolStripLabel()
@@ -45,19 +44,20 @@ Partial Class UserControl_ImageList
         Me.ToolStripProgressBar_Images = New System.Windows.Forms.ToolStripProgressBar()
         Me.DataGridView_Images = New System.Windows.Forms.DataGridView()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton_Open = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Paste = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Remove = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Relate = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Meta = New System.Windows.Forms.ToolStripButton()
         Me.FolderBrowserDialog_Save = New System.Windows.Forms.FolderBrowserDialog()
         Me.OpenFileDialog_Images = New System.Windows.Forms.OpenFileDialog()
         Me.Timer_Filter = New System.Windows.Forms.Timer(Me.components)
         Me.PrintDialog_Selection = New System.Windows.Forms.PrintDialog()
         Me.PrintDocument_Image = New System.Drawing.Printing.PrintDocument()
         Me.SaveFileDialog_PDF = New System.Windows.Forms.SaveFileDialog()
+        Me.ToolStripButton_Open = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Paste = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Remove = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Relate = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Meta = New System.Windows.Forms.ToolStripButton()
+        Me.BindingSource_Images = New System.Windows.Forms.BindingSource(Me.components)
+        Me.ToolStripLabel_Images = New System.Windows.Forms.ToolStripLabel()
         Me.ContextMenuStrip_Relate.SuspendLayout()
-        CType(Me.BindingSource_Images, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -65,6 +65,7 @@ Partial Class UserControl_ImageList
         Me.ToolStrip1.SuspendLayout()
         CType(Me.DataGridView_Images, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStrip2.SuspendLayout()
+        CType(Me.BindingSource_Images, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ContextMenuStrip_Relate
@@ -219,11 +220,30 @@ Partial Class UserControl_ImageList
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_Open, Me.ToolStripButton_Paste, Me.ToolStripButton_Remove, Me.ToolStripButton_Relate, Me.ToolStripButton_Meta})
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_Images, Me.ToolStripButton_Open, Me.ToolStripButton_Paste, Me.ToolStripButton_Remove, Me.ToolStripButton_Relate, Me.ToolStripButton_Meta})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(256, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(314, 25)
         Me.ToolStrip2.TabIndex = 0
+        '
+        'OpenFileDialog_Images
+        '
+        Me.OpenFileDialog_Images.FileName = "OpenFileDialog1"
+        '
+        'Timer_Filter
+        '
+        Me.Timer_Filter.Interval = 300
+        '
+        'PrintDialog_Selection
+        '
+        Me.PrintDialog_Selection.UseEXDialog = True
+        '
+        'PrintDocument_Image
+        '
+        '
+        'SaveFileDialog_PDF
+        '
+        Me.SaveFileDialog_PDF.Filter = "PDF-Documents|*.pdf"
         '
         'ToolStripButton_Open
         '
@@ -270,24 +290,11 @@ Partial Class UserControl_ImageList
         Me.ToolStripButton_Meta.Size = New System.Drawing.Size(91, 22)
         Me.ToolStripButton_Meta.Text = "x_get Metadata"
         '
-        'OpenFileDialog_Images
+        'ToolStripLabel_Images
         '
-        Me.OpenFileDialog_Images.FileName = "OpenFileDialog1"
-        '
-        'Timer_Filter
-        '
-        Me.Timer_Filter.Interval = 300
-        '
-        'PrintDialog_Selection
-        '
-        Me.PrintDialog_Selection.UseEXDialog = True
-        '
-        'PrintDocument_Image
-        '
-        '
-        'SaveFileDialog_PDF
-        '
-        Me.SaveFileDialog_PDF.Filter = "PDF-Documents|*.pdf"
+        Me.ToolStripLabel_Images.Name = "ToolStripLabel_Images"
+        Me.ToolStripLabel_Images.Size = New System.Drawing.Size(58, 22)
+        Me.ToolStripLabel_Images.Text = "x_Images:"
         '
         'UserControl_ImageList
         '
@@ -297,7 +304,6 @@ Partial Class UserControl_ImageList
         Me.Name = "UserControl_ImageList"
         Me.Size = New System.Drawing.Size(637, 467)
         Me.ContextMenuStrip_Relate.ResumeLayout(False)
-        CType(Me.BindingSource_Images, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
         Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
         Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
@@ -310,6 +316,7 @@ Partial Class UserControl_ImageList
         CType(Me.DataGridView_Images, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
+        CType(Me.BindingSource_Images, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -345,5 +352,6 @@ Partial Class UserControl_ImageList
     Friend WithEvents IncreasingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DecreasingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AddToSyncToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripLabel_Images As System.Windows.Forms.ToolStripLabel
 
 End Class

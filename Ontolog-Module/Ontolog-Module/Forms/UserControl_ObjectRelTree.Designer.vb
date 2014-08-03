@@ -25,13 +25,13 @@ Partial Class UserControl_ObjectRelTree
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UserControl_ObjectRelTree))
         Me.TreeView_ObjectRels = New System.Windows.Forms.TreeView()
-        Me.ImageList_Main = New System.Windows.Forms.ImageList(Me.components)
         Me.ContextMenuStrip_Objects = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.RelateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SameNameCreateIfNotPresentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SameNameNoCreateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.UniqueNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContainsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SameNameNoCreateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SameNameCreateIfNotPresentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UniqueNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ImageList_Main = New System.Windows.Forms.ImageList(Me.components)
         Me.ContextMenuStrip_Objects.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -39,6 +39,7 @@ Partial Class UserControl_ObjectRelTree
         '
         Me.TreeView_ObjectRels.ContextMenuStrip = Me.ContextMenuStrip_Objects
         Me.TreeView_ObjectRels.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TreeView_ObjectRels.HideSelection = False
         Me.TreeView_ObjectRels.ImageIndex = 0
         Me.TreeView_ObjectRels.ImageList = Me.ImageList_Main
         Me.TreeView_ObjectRels.Location = New System.Drawing.Point(0, 0)
@@ -47,43 +48,18 @@ Partial Class UserControl_ObjectRelTree
         Me.TreeView_ObjectRels.Size = New System.Drawing.Size(351, 390)
         Me.TreeView_ObjectRels.TabIndex = 0
         '
-        'ImageList_Main
-        '
-        Me.ImageList_Main.ImageStream = CType(resources.GetObject("ImageList_Main.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.ImageList_Main.TransparentColor = System.Drawing.Color.Transparent
-        Me.ImageList_Main.Images.SetKeyName(0, "Empty.png")
-        Me.ImageList_Main.Images.SetKeyName(1, "pulsante_02_architetto_f_01.png")
-        '
         'ContextMenuStrip_Objects
         '
         Me.ContextMenuStrip_Objects.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RelateToolStripMenuItem})
         Me.ContextMenuStrip_Objects.Name = "ContextMenuStrip_Objects"
-        Me.ContextMenuStrip_Objects.Size = New System.Drawing.Size(153, 48)
+        Me.ContextMenuStrip_Objects.Size = New System.Drawing.Size(107, 26)
         '
         'RelateToolStripMenuItem
         '
         Me.RelateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ContainsToolStripMenuItem, Me.SameNameNoCreateToolStripMenuItem, Me.SameNameCreateIfNotPresentToolStripMenuItem, Me.UniqueNameToolStripMenuItem})
         Me.RelateToolStripMenuItem.Name = "RelateToolStripMenuItem"
-        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.RelateToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
         Me.RelateToolStripMenuItem.Text = "Relate"
-        '
-        'SameNameCreateIfNotPresentToolStripMenuItem
-        '
-        Me.SameNameCreateIfNotPresentToolStripMenuItem.Name = "SameNameCreateIfNotPresentToolStripMenuItem"
-        Me.SameNameCreateIfNotPresentToolStripMenuItem.Size = New System.Drawing.Size(258, 22)
-        Me.SameNameCreateIfNotPresentToolStripMenuItem.Text = "Same Name (Create If Not Present)"
-        '
-        'SameNameNoCreateToolStripMenuItem
-        '
-        Me.SameNameNoCreateToolStripMenuItem.Name = "SameNameNoCreateToolStripMenuItem"
-        Me.SameNameNoCreateToolStripMenuItem.Size = New System.Drawing.Size(258, 22)
-        Me.SameNameNoCreateToolStripMenuItem.Text = "Same Name (No Create)"
-        '
-        'UniqueNameToolStripMenuItem
-        '
-        Me.UniqueNameToolStripMenuItem.Name = "UniqueNameToolStripMenuItem"
-        Me.UniqueNameToolStripMenuItem.Size = New System.Drawing.Size(258, 22)
-        Me.UniqueNameToolStripMenuItem.Text = "Unique Name"
         '
         'ContainsToolStripMenuItem
         '
@@ -91,6 +67,31 @@ Partial Class UserControl_ObjectRelTree
         Me.ContainsToolStripMenuItem.Name = "ContainsToolStripMenuItem"
         Me.ContainsToolStripMenuItem.Size = New System.Drawing.Size(258, 22)
         Me.ContainsToolStripMenuItem.Text = "Contains"
+        '
+        'SameNameNoCreateToolStripMenuItem
+        '
+        Me.SameNameNoCreateToolStripMenuItem.Name = "SameNameNoCreateToolStripMenuItem"
+        Me.SameNameNoCreateToolStripMenuItem.Size = New System.Drawing.Size(258, 22)
+        Me.SameNameNoCreateToolStripMenuItem.Text = "Same Name (No Create)"
+        '
+        'SameNameCreateIfNotPresentToolStripMenuItem
+        '
+        Me.SameNameCreateIfNotPresentToolStripMenuItem.Name = "SameNameCreateIfNotPresentToolStripMenuItem"
+        Me.SameNameCreateIfNotPresentToolStripMenuItem.Size = New System.Drawing.Size(258, 22)
+        Me.SameNameCreateIfNotPresentToolStripMenuItem.Text = "Same Name (Create If Not Present)"
+        '
+        'UniqueNameToolStripMenuItem
+        '
+        Me.UniqueNameToolStripMenuItem.Name = "UniqueNameToolStripMenuItem"
+        Me.UniqueNameToolStripMenuItem.Size = New System.Drawing.Size(258, 22)
+        Me.UniqueNameToolStripMenuItem.Text = "Unique Name"
+        '
+        'ImageList_Main
+        '
+        Me.ImageList_Main.ImageStream = CType(resources.GetObject("ImageList_Main.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageList_Main.TransparentColor = System.Drawing.Color.Transparent
+        Me.ImageList_Main.Images.SetKeyName(0, "Empty.png")
+        Me.ImageList_Main.Images.SetKeyName(1, "pulsante_02_architetto_f_01.png")
         '
         'UserControl_ObjectRelTree
         '

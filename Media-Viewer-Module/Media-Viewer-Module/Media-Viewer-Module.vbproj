@@ -87,8 +87,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsChronoMedia.vb" />
+    <Compile Include="clsDataWork_Menu.vb" />
     <Compile Include="clsMigrateTagging.vb" />
     <Compile Include="clsModule.vb" />
+    <Compile Include="frmMenu.Designer.vb">
+      <DependentUpon>frmMenu.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMenu.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmMetaData_Image.Designer.vb">
       <DependentUpon>frmMetaData_Image.vb</DependentUpon>
     </Compile>
@@ -243,6 +250,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmMediaViewerModule.resx">
       <DependentUpon>frmMediaViewerModule.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMenu.resx">
+      <DependentUpon>frmMenu.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMetaData_Image.resx">
       <DependentUpon>frmMetaData_Image.vb</DependentUpon>
