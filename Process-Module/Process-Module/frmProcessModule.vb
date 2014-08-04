@@ -8,11 +8,15 @@ Public Class frmProcessModule
 
     Private objFrmAuthenticate As frmAuthenticate
 
+    Private objFrmMenu As frmMenu
+
     Private SplashScreen As SplashScreen_OntologyModule
     Private AboutBox As AboutBox_OntologyItem
 
     Private boolApplyable As Boolean
     Private objOLProcesses As List(Of clsOntologyItem)
+
+    Private objArgumentParsing As clsArgumentParsing
 
     Public ReadOnly Property OListProcesses As List(Of clsOntologyItem)
         Get
@@ -83,6 +87,8 @@ Public Class frmProcessModule
         End If
 
         If Not objLocalConfig.OItem_User Is Nothing Then
+            
+            ParseArguments()
             objUserControl_Process = New UserControl_Process(objLocalConfig)
             objUserControl_Process.Dock = DockStyle.Fill
 
@@ -91,6 +97,15 @@ Public Class frmProcessModule
             Environment.Exit(0)
         End If
         
+    End Sub
+
+    Private sub ParseArguments()
+        objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals,Environment.GetCommandLineArgs().ToList())
+        If objArgumentParsing.OList_Items.Count = 1 Then
+            objFrmMenu = new frmMenu(objLocalConfig, objArgumentParsing.OList_Items.First())
+            objFrmMenu.ShowDialog(Me)
+            Environment.Exit(0)
+        End If
     End Sub
 
     Private Sub frmProcessModule_Load(sender As Object, e As EventArgs) Handles Me.Load

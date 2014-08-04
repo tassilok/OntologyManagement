@@ -166,6 +166,15 @@ Public Class UserControl_OItemList
         End Get
     End Property
 
+    Public Property VisibilityToolStrip As Boolean
+        get
+            Return ToolStrip_Edit.Visible
+        End Get
+        Set(value As Boolean)
+            ToolStrip_Edit.Visible = value
+        End Set
+    End Property
+
     Public Sub select_Row(OItem_Item As clsOntologyItem)
         Dim BindingSource_Grid As BindingSource = DataGridView_Items.DataSource
 

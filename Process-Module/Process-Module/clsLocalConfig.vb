@@ -105,6 +105,7 @@ Public Class clsLocalConfig
     Private objOItem_RelationType_needs_Child As New clsOntologyItem
     Private objOItem_RelationType_offered_by As New clsOntologyItem
     Private objOItem_RelationType_superordinate As New clsOntologyItem
+    Private objOItem_relationtype_todo_for As New clsOntologyItem
 
     'Classes
     Private objOItem_Type_Application As New clsOntologyItem
@@ -633,6 +634,12 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property OItem_relationtype_todo_for() As clsOntologyItem
+        Get
+            Return objOItem_relationtype_todo_for
+        End Get
+    End Property
+
     'Classes
     Public ReadOnly Property OItem_Type_Application() As clsOntologyItem
         Get
@@ -952,6 +959,21 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_RelationTypes()
+        Dim objOList_relationtype_todo_for = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_todo_for".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                           Select objRef).ToList()
+
+        If objOList_relationtype_todo_for.Count > 0 Then
+            objOItem_relationtype_todo_for = New clsOntologyItem
+            objOItem_relationtype_todo_for.GUID = objOList_relationtype_todo_for.First().ID_Other
+            objOItem_relationtype_todo_for.Name = objOList_relationtype_todo_for.First().Name_Other
+            objOItem_relationtype_todo_for.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_relationtype_belonging_material = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object

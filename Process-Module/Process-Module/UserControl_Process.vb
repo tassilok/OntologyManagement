@@ -54,7 +54,9 @@ Public Class UserControl_Process
     Private strHTML_List As String
 
     Public Event appliedProcess(OLProcesses As List(Of clsOntologyItem))
+    Public Event selectedProcess(objOItem_Process As clsOntologyItem)
 
+    
 
     Public Property applyable As Boolean
         Get
@@ -64,6 +66,13 @@ Public Class UserControl_Process
             ApplyToolStripMenuItem.Visible = value
         End Set
     End Property
+
+    Public sub AddOther()
+        Dim nodes = TreeView_Process.Nodes.Find("Other",False)
+        If nodes.Count() = 0 Then
+            TreeView_Process.Nodes.Add("Other","Other", objLocalConfig.ImageID_Process, objLocalConfig.ImageID_Process)                
+        End If
+    End Sub
 
     Private Sub Media_First_Images() Handles objUserControl_Images.Media_First
         intRowID = 0
@@ -765,7 +774,7 @@ Public Class UserControl_Process
             End If
         End If
         
-
+        RaiseEvent selectedProcess(objOItem_ProcessForRef)
         configureTabPages()
     End Sub
 
@@ -1119,10 +1128,15 @@ Public Class UserControl_Process
             Case objLocalConfig.ImageID_Root
                 objOItem_Parent = Nothing
             Case objLocalConfig.ImageID_Process
-                objOItem_Parent.GUID = objTreeNode.Name
-                objOItem_Parent.Name = objTreeNode.Text
-                objOItem_Parent.GUID_Parent = objLocalConfig.OItem_Type_Process.GUID
-                objOItem_Parent.Type = objLocalConfig.Globals.Type_Object
+                If not objTreeNode.Name = "Other" Then
+                    objOItem_Parent.GUID = objTreeNode.Name
+                    objOItem_Parent.Name = objTreeNode.Text
+                    objOItem_Parent.GUID_Parent = objLocalConfig.OItem_Type_Process.GUID
+                    objOItem_Parent.Type = objLocalConfig.Globals.Type_Object    
+                Else 
+                    objOItem_Parent = Nothing
+                End If
+                
 
         End Select
 
@@ -1134,7 +1148,7 @@ Public Class UserControl_Process
                 objOItem_Process.Name = objFrm_Name.Value1
                 objOItem_Process.GUID_Parent = objLocalConfig.OItem_Type_Process.GUID
                 objOItem_Process.Type = objLocalConfig.Globals.Type_Object
-                If objOItem_Parent Is Nothing Then
+                If objOItem_Parent Is Nothing And Not objTreeNode.Name = "Other" Then
                     Dim objLProcs = From obj In objDataWork_Process.get_ProcessesPublic(objOItem_Process.Name)
                                     Where obj.Name_Object.ToLower = objOItem_Process.Name.ToLower
 
@@ -1159,7 +1173,7 @@ Public Class UserControl_Process
                         MsgBox("Es existiert bereits ein Public-Prozess mit der Bezeichnung!", MsgBoxStyle.Exclamation)
 
                     End If
-                Else
+                Else If Not objOItem_Parent is Nothing
                     
 
                     boolCreate = True
@@ -1204,6 +1218,20 @@ Public Class UserControl_Process
                         MsgBox("Es gibt bereits einen untergeordneten Prozesse mit dem Namen!", MsgBoxStyle.Exclamation)
                     End If
 
+                Elseif objTreeNode.Name = "Other" Then
+                    objOItem_Process.GUID = objLocalConfig.Globals.NewGUID
+                    objOItem_Process.Name = objFrm_Name.Value1
+                    objOItem_Process.GUID_Parent = objLocalConfig.OItem_Type_Process.GUID
+                    objOItem_Process.Type = objLocalConfig.Globals.Type_Object
+
+                    objOItem_Result = objTransaction_Process.save_001_Process(objOItem_Process)
+
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                         objTreeNode_Sub = objTreeNode.Nodes.Add(objOItem_Process.GUID, _
+                                                                        objOItem_Process.Name, objLocalConfig.ImageID_Process, objLocalConfig.ImageID_Process)
+                    Else 
+                         MsgBox("Beim Speichern des Prozesses ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+                    End If
                 End If
             End If
         Else
@@ -1238,6 +1266,32 @@ Public Class UserControl_Process
                 RaiseEvent appliedProcess(objOLProcesses)
             End If
         End If
+    End Sub
+
+    Public sub MarkProcess(objOItem_Process As clsOntologyItem)
+        Dim nodes = TreeView_Process.Nodes.Find(objOItem_Process.GUID,True)
+
+        demark_Nodes()
+        
+        If nodes.Any() Then
+            For Each node As TreeNode In nodes
+                TreeView_Process.SelectedNode = node
+                node.BackColor = color.Yellow
+            Next    
+        Else 
+            nodes = TreeView_Process.Nodes.Find("Other", False)
+            If Not nodes.Any() Then
+                Dim node = TreeView_Process.Nodes.Add("Other", "Other", objLocalConfig.ImageID_Process, objLocalConfig.ImageID_Process)
+                node = node.Nodes.Add(objOItem_Process.GUID, objOItem_Process.Name, objLocalConfig.ImageID_Process, objLocalConfig.ImageID_Process)
+                TreeView_Process.SelectedNode = node
+                node.BackColor = color.Yellow
+            Else 
+                Dim node = nodes.First().Nodes.Add(objOItem_Process.GUID, objOItem_Process.Name, objLocalConfig.ImageID_Process, objLocalConfig.ImageID_Process)
+                TreeView_Process.SelectedNode = node
+                node.BackColor = color.Yellow
+            End If
+        End If
+        
     End Sub
 
     Private Sub ExportHTMLToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles ExportHTMLToolStripMenuItem.Click
