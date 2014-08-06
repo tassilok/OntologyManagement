@@ -36,10 +36,10 @@ Public Class UserControl_OItemList
     Private objOItem_Other As clsOntologyItem
     Private objOItem_Object As clsOntologyItem
 
-    Private objOItem_Class_AdvancedFilter As clsOntologyItem
-    Private objOItem_RelationType_AdvancedFilter As clsOntologyItem
-    Private objOItem_Object_AdvancedFilter As clsOntologyItem
-    Private objOItem_Direction_AdvancedFilter As clsOntologyItem
+    Public Property OItem_Class_AdvancedFilter As clsOntologyItem
+    Public Property OItem_RelationType_AdvancedFilter As clsOntologyItem
+    Public Property OItem_Object_AdvancedFilter As clsOntologyItem
+    Public Property OItem_Direction_AdvancedFilter As clsOntologyItem
 
 
     Private objThread_List As Threading.Thread
@@ -90,8 +90,15 @@ Public Class UserControl_OItemList
     Public Event applied_Items()
     Public Event counted_Items(ByVal intCount As Integer)
     Public Event addedHandOffItems(oList_Simple As List(Of clsOntologyItem))
+    Public Event ListDataFinished()
 
     Public Property HandOff_Add As Boolean
+
+    Public ReadOnly Property AdvancedFilterApplied as Boolean
+        Get
+            Return ToolStripButton_FilterAdvanced.Checked
+        End Get
+    End Property
 
     Public ReadOnly Property SelectedRowIndex As Long
         Get
@@ -223,9 +230,9 @@ Public Class UserControl_OItemList
 
         End If
 
-        objOItem_Class_AdvancedFilter = Nothing
-        objOItem_RelationType_AdvancedFilter = Nothing
-        objOItem_Object_AdvancedFilter = Nothing
+        OItem_Class_AdvancedFilter = Nothing
+        OItem_RelationType_AdvancedFilter = Nothing
+        OItem_Object_AdvancedFilter = Nothing
 
         ToolStripTextBox_Filter.ReadOnly = True
         ToolStripTextBox_Filter.Text = ""
@@ -347,19 +354,19 @@ Public Class UserControl_OItemList
     Private Sub GetData_Objects()
         Dim oList_Items_Objects As New List(Of clsOntologyItem)
 
-        If Not objOItem_RelationType_AdvancedFilter Is Nothing Or Not objOItem_Class_AdvancedFilter Is Nothing Or Not objOItem_Object_AdvancedFilter Is Nothing Then
+        If Not OItem_RelationType_AdvancedFilter Is Nothing Or Not OItem_Class_AdvancedFilter Is Nothing Or Not OItem_Object_AdvancedFilter Is Nothing Then
             Dim objORel_AdvancedFilter = New List(Of clsObjectRel)
-            If objOItem_Direction_AdvancedFilter.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+            If OItem_Direction_AdvancedFilter.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
                 objORel_AdvancedFilter = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = strGUID_Class, _
-                                                                                                 .ID_RelationType = If(Not objOItem_RelationType_AdvancedFilter Is Nothing, objOItem_RelationType_AdvancedFilter.GUID, Nothing), _
-                                                                                                 .ID_Parent_Other = If(Not objOItem_Class_AdvancedFilter Is Nothing, objOItem_Class_AdvancedFilter.GUID, Nothing), _
-                                                                                                 .ID_Other = If(Not objOItem_Object_AdvancedFilter Is Nothing, objOItem_Object_AdvancedFilter.GUID, Nothing)}}
+                                                                                                 .ID_RelationType = If(Not OItem_RelationType_AdvancedFilter Is Nothing, OItem_RelationType_AdvancedFilter.GUID, Nothing), _
+                                                                                                 .ID_Parent_Other = If(Not OItem_Class_AdvancedFilter Is Nothing, OItem_Class_AdvancedFilter.GUID, Nothing), _
+                                                                                                 .ID_Other = If(Not OItem_Object_AdvancedFilter Is Nothing, OItem_Object_AdvancedFilter.GUID, Nothing)}}
                 objDBLevel.get_Data_ObjectRel(objORel_AdvancedFilter, boolIDs:=False, boolTable:=True, boolTable_Objects_Left:=True)
             Else
                 objORel_AdvancedFilter = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Other = strGUID_Class, _
-                                                                                                 .ID_RelationType = If(Not objOItem_RelationType_AdvancedFilter Is Nothing, objOItem_RelationType_AdvancedFilter.GUID, Nothing), _
-                                                                                                 .ID_Parent_Object = If(Not objOItem_Class_AdvancedFilter Is Nothing, objOItem_Class_AdvancedFilter.GUID, Nothing), _
-                                                                                                 .ID_Object = If(Not objOItem_Object_AdvancedFilter Is Nothing, objOItem_Object_AdvancedFilter.GUID, Nothing)}}
+                                                                                                 .ID_RelationType = If(Not OItem_RelationType_AdvancedFilter Is Nothing, OItem_RelationType_AdvancedFilter.GUID, Nothing), _
+                                                                                                 .ID_Parent_Object = If(Not OItem_Class_AdvancedFilter Is Nothing, OItem_Class_AdvancedFilter.GUID, Nothing), _
+                                                                                                 .ID_Object = If(Not OItem_Object_AdvancedFilter Is Nothing, OItem_Object_AdvancedFilter.GUID, Nothing)}}
                 objDBLevel.get_Data_ObjectRel(objORel_AdvancedFilter, boolIDs:=False, boolTable:=True, boolTable_Objects_Right:=True)
             End If
 
@@ -1141,7 +1148,6 @@ Public Class UserControl_OItemList
             End Select
         End If
 
-
     End Sub
 
     Private Sub ToolStripButton_Filter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Filter.Click
@@ -1273,7 +1279,7 @@ Public Class UserControl_OItemList
 
             End If
             ToolStripProgressBar_List.Value = 0
-
+            RaiseEvent ListDataFinished()
         Else
             ToolStripProgressBar_List.Value = 50
 
@@ -2164,6 +2170,12 @@ Public Class UserControl_OItemList
 
     Private Sub ToolStripButton_FilterAdvanced_Click(sender As Object, e As EventArgs) Handles ToolStripButton_FilterAdvanced.Click
 
+        ToolStripButton_FilterAdvanced.Checked = False
+        OItem_Class_AdvancedFilter = Nothing
+        OItem_Object_AdvancedFilter = Nothing
+        OItem_RelationType_AdvancedFilter = Nothing
+        OItem_Direction_AdvancedFilter = Nothing
+
         If strGUID_Class <> "" Then
             objOItem_Class.GUID = strGUID_Class
             objOItem_Class.Type = objLocalConfig.Globals.Type_Class
@@ -2171,17 +2183,43 @@ Public Class UserControl_OItemList
             objFrmAdvancedFilter = New frmAdvancedFilter(objLocalConfig, objOItem_Class)
             objFrmAdvancedFilter.ShowDialog(Me)
             If objFrmAdvancedFilter.DialogResult = DialogResult.OK Then
-                objOItem_Class_AdvancedFilter = objFrmAdvancedFilter.OItem_Class
-                objOItem_Object_AdvancedFilter = objFrmAdvancedFilter.OItem_Object
-                objOItem_RelationType_AdvancedFilter = objFrmAdvancedFilter.OItem_RelationType
-                objOItem_Direction_AdvancedFilter = objFrmAdvancedFilter.OItem_Direction
+                OItem_Class_AdvancedFilter = objFrmAdvancedFilter.OItem_Class
+                OItem_Object_AdvancedFilter = objFrmAdvancedFilter.OItem_Object
+                OItem_RelationType_AdvancedFilter = objFrmAdvancedFilter.OItem_RelationType
+                OItem_Direction_AdvancedFilter = objFrmAdvancedFilter.OItem_Direction
 
+                ToolStripButton_FilterAdvanced.Checked = True
                 get_Data()
                 configure_TabPages()
             End If
         End If
 
 
+    End Sub
+
+    Public sub Initialize_AdvancedFilter(Optional OItem_Class_AdvancedFilter = Nothing,
+                                         Optional OItem_Object_AdvancedFilter = Nothing,
+                                         Optional OItem_RelationType_AdvancedFilter = Nothing,
+                                         Optional OItem_Direction_AdvancedFilter = Nothing)
+
+        If not OItem_Class_AdvancedFilter Is Nothing Then
+            Me.OItem_Class_AdvancedFilter = OItem_Class_AdvancedFilter
+        End If
+
+        If not OItem_Object_AdvancedFilter Is Nothing Then
+            Me.OItem_Object_AdvancedFilter = OItem_Object_AdvancedFilter
+        End If
+
+        If not OItem_RelationType_AdvancedFilter Is Nothing Then
+            Me.OItem_RelationType_AdvancedFilter = OItem_RelationType_AdvancedFilter
+        End If
+
+        If not OItem_Direction_AdvancedFilter Is Nothing Then
+            Me.OItem_Direction_AdvancedFilter = OItem_Direction_AdvancedFilter
+        End If
+        ToolStripButton_FilterAdvanced.Checked = True
+        get_Data()
+        configure_TabPages()
     End Sub
 
     Private Sub ToolStripButton_Replace_Click(sender As Object, e As EventArgs) Handles ToolStripButton_Replace.Click

@@ -50,6 +50,8 @@ Public Class UserControl_Report
 
     Private objFrmTagging As frmTypedTaggingSingle
 
+    Private objFrmMain as frmMain
+
     Private objDataTable As DataTable
     Private objDataAdp As SqlClient.SqlDataAdapter
     Private objDataSet As DataSet
@@ -847,6 +849,7 @@ Public Class UserControl_Report
                 Try
                     BindingSource_Reports.Filter = objLocalConfig.Filter
                     ToolStripTextBox_Filter.Text = objLocalConfig.Filter
+                    ToolStripButton_SaveFilter.Enabled = True
                 Catch ex As Exception
                     MsgBox(ex.Message)
                     ToolStripTextBox_Filter.Text = ""
@@ -884,16 +887,22 @@ Public Class UserControl_Report
     Private Sub ToolStripTextBox_Sort_KeyDown(sender As Object, e As KeyEventArgs) Handles ToolStripTextBox_Sort.KeyDown
         Select Case e.KeyCode
             Case Keys.Enter, Keys.Return
-                objLocalConfig.Sort = ToolStripTextBox_Sort.Text
-                Try
-                    BindingSource_Reports.Sort = objLocalConfig.Sort
-                Catch ex As Exception
-                    BindingSource_Reports.Sort = ""
-                    ToolStripTextBox_Sort.Text = ""
-                End Try
+               ApplySort() 
             Case Else
 
         End Select
+    End Sub
+
+    Private sub ApplySort()
+        objLocalConfig.Sort = ToolStripTextBox_Sort.Text
+        Try
+            BindingSource_Reports.Sort = objLocalConfig.Sort
+            ToolStripButton_SaveSort.Enabled = True
+        Catch ex As Exception
+            BindingSource_Reports.Sort = ""
+            ToolStripTextBox_Sort.Text = ""
+            MsgBox("Der Angewandte Filter ist ungültig!",MsgBoxStyle.Information)
+        End Try
     End Sub
 
     Private Sub DataGridView_Reports_CellMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView_Reports.CellMouseClick
@@ -1656,5 +1665,87 @@ Public Class UserControl_Report
     Private Sub ColumnToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ColumnToolStripMenuItem.Click
         Dim column = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex)
         column.Visible = False
+    End Sub
+
+    Private Sub ToolStripButton_OpenFilter_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_OpenFilter.Click
+        objFrmMain = new frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class, objLocalConfig.OItem_Class_Report_Filter, "Filter")  
+        objFrmMain.OItem_Class_AdvancedFilter = objLocalConfig.OItem_Class_Reports
+        objFrmMain.OItem_Direction_AdvancedFilter = objLocalConfig.Globals.Direction_LeftRight
+        objFrmMain.OItem_Object_AdvancedFilter = objOItem_Report
+        objFrmMain.OItem_RelationType_AdvancedFilter = objLocalConfig.OItem_RelationType_belongsTo
+
+        objFrmMain.ShowDialog(Me)
+        
+
+    End Sub
+
+    Private Sub ToolStripButton_OpenSort_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_OpenSort.Click
+        objFrmMain = new frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class, objLocalConfig.OItem_Class_Report_Sort, "Sort")  
+        objFrmMain.OItem_Class_AdvancedFilter = objLocalConfig.OItem_Class_Reports
+        objFrmMain.OItem_Direction_AdvancedFilter = objLocalConfig.Globals.Direction_LeftRight
+        objFrmMain.OItem_Object_AdvancedFilter = objOItem_Report
+        objFrmMain.OItem_RelationType_AdvancedFilter = objLocalConfig.OItem_RelationType_belongsTo
+
+        objFrmMain.ShowDialog(Me)
+
+        If objFrmMain.DialogResult = DialogResult.OK Then
+            Dim oList_Simple = objFrmMain.OList_Simple
+            If oList_Simple.Count = 1 Then
+                If oList_Simple.First().GUID_Parent = objLocalConfig.OItem_Class_Report_Sort.GUID Then
+                    Dim oList_Sort = objDataWork_Report.GetSortsOfReport(objOItem_Report)
+                    If Not oList_Sort Is Nothing Then
+                        Dim oList_FilteredSort = oList_Sort.Where(Function(sort) sort.ID_Object = oList_Simple.First().GUID).ToList()
+
+                        If oList_FilteredSort.Any() Then
+                            ToolStripTextBox_Sort.Text = oList_FilteredSort.First().Val_String
+                            ApplySort()
+                        Else 
+                            MsgBox("Bitte nur Sortierungen des aktuellen Reports auswählen!",MsgBoxStyle.Information)
+                        End If
+                    Else 
+                        MsgBox("Die Sortierungen konnten nicht ermittelt werden!",MsgBoxStyle.Exclamation)
+                    End If
+                Else 
+                    MsgBox("Bitte eine Sortierung auswählen!",MsgBoxStyle.Information)
+                End If
+            Else 
+                MsgBox("Bitte eine Sortierung auswählen!",MsgBoxStyle.Information)
+            End If
+        End If
+    End Sub
+
+    Private Sub ToolStripButton_SaveFilter_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_SaveFilter.Click
+        If Not ToolStripTextBox_Filter.Text = "" Then
+            Dim sresultFilters = objDataWork_Report.GetFiltersOfReport(objOItem_Report)
+            If Not sresultFilters Is Nothing Then
+                If Not sresultFilters.Any(Function(filt) filt.Val_String.ToLower() = ToolStripTextBox_Filter.Text.ToLower()) Then
+
+                End If
+            Else 
+                MsgBox("Die Filter konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+            End If
+        End If
+    End Sub
+
+   
+    Private Sub ToolStripTextBox_Filter_TextChanged( sender As Object,  e As EventArgs) Handles ToolStripTextBox_Filter.TextChanged
+        ToolStripButton_SaveFilter.Enabled = False
+    End Sub
+
+    Private Sub ToolStripTextBox_Sort_TextChanged( sender As Object,  e As EventArgs) Handles ToolStripTextBox_Sort.TextChanged
+        ToolStripButton_SaveSort.Enabled = False
+    End Sub
+
+    Private Sub ToolStripButton_SaveSort_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_SaveSort.Click
+        If Not ToolStripTextBox_Filter.Text = "" Then
+            Dim sresultFilters = objDataWork_Report.GetFiltersOfReport(objOItem_Report)
+            If Not sresultFilters Is Nothing Then
+                If Not sresultFilters.Any(Function(filt) filt.Val_String.ToLower() = ToolStripTextBox_Filter.Text.ToLower()) Then
+
+                End If
+            Else 
+                MsgBox("Die Filter konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+            End If
+        End If
     End Sub
 End Class

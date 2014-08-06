@@ -42,6 +42,11 @@ Public Class frmMain
     Private objOList_Classes_Left As New List(Of clsOntologyItem)
     Private objOList_RelationTypes_Left As New List(Of clsOntologyItem)
 
+    Public Property OItem_Class_AdvancedFilter As clsOntologyItem
+    Public Property OItem_RelationType_AdvancedFilter As clsOntologyItem
+    Public Property OItem_Object_AdvancedFilter As clsOntologyItem
+    Public Property OItem_Direction_AdvancedFilter As clsOntologyItem
+
     Private strType_Entry As String
     Private objOItem_Entry As clsOntologyItem
 
@@ -53,6 +58,21 @@ Public Class frmMain
     Private strType_Applied As String
     Private oList_Applied_Simple As List(Of clsOntologyItem)
     Private oList_Applied_ObjRel As List(Of clsObjectRel)
+
+    Private sub FinishedLoadObjectData() Handles objUserControl_OObjectList.ListDataFinished
+        If Not OItem_Class_AdvancedFilter Is Nothing And 
+           Not OItem_Direction_AdvancedFilter Is Nothing And 
+           Not OItem_RelationType_AdvancedFilter Is Nothing And 
+           objUserControl_OObjectList.AdvancedFilterApplied = False Then    
+            
+
+            objUserControl_OObjectList.Initialize_AdvancedFilter(OItem_Class_AdvancedFilter,
+                                                                 OItem_Object_AdvancedFilter,
+                                                                 OItem_RelationType_AdvancedFilter,
+                                                                 OItem_Direction_AdvancedFilter)
+
+        End If
+    End Sub
 
     Private Sub Closed_GraphForm() Handles objFrm_Graph.Closing_From
         ToolStripButton_Graph.Checked = False

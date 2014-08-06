@@ -9,6 +9,11 @@ Public Class clsDataWork_Report
     Private objDBLevel_DBOnServer As clsDBLevel
     Private objDBLevel_Database As clsDBLevel
     Private objDBLevel_Server As clsDBLevel
+    Private objDBLevel_Filter As clsDBLevel
+    Private objDBLevel_FilterValue As clsDBLevel
+    Private objDBLevel_Sort As clsDBLevel
+    Private objDBLevel_SortValue As clsDBLevel
+
 
     Private objDBLevel_ClipboardFilter As clsDBLevel
     Private objDBLevel_ClipboardFilterTag As clsDBLevel
@@ -424,6 +429,55 @@ Public Class clsDataWork_Report
         Return objOItem_Result
     End Function
 
+    Public Function GetFiltersOfReport(OItem_Report As clsOntologyItem) As List(Of clsObjectAtt)
+        Dim result As New List(Of clsObjectAtt)
+        Dim searchFilters = new List(Of clsObjectRel) From { New clsObjectRel With {.ID_Other = OItem_Report.GUID,
+                                                                                    .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                                                                                    .ID_Parent_Object = objLocalConfig.OItem_Class_Report_Filter.GUID } }
+
+        Dim objOItem_Result = objDBLevel_Filter.get_Data_ObjectRel(searchFilters, boolIDs := False)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim searchFiltersAtt = objDBLevel_Filter.OList_ObjectRel.Select(Function(rep) New clsObjectAtt With {.ID_Object = rep.ID_Object,
+                                                                                                                 .ID_AttributeType = objLocalConfig.OItem_Attribute_Value.GUID }).ToList()
+            If searchFiltersAtt.Any() Then
+                objOItem_Result = objDBLevel_FilterValue.get_Data_ObjectAtt(searchFiltersAtt, boolIDs := False)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    result = objDBLevel_FilterValue.OList_ObjectAtt
+                Else 
+                    result = Nothing
+                End If
+            End If
+        Else 
+            result = Nothing
+        End If
+
+        Return result
+    End Function
+
+    Public Function GetSortsOfReport(OItem_Report As clsOntologyItem) As List(Of clsObjectAtt)
+        Dim result As New List(Of clsObjectAtt)
+        Dim searchSort = new List(Of clsObjectRel) From { New clsObjectRel With {.ID_Other = OItem_Report.GUID,
+                                                                                    .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                                                                                    .ID_Parent_Object = objLocalConfig.OItem_Class_Report_Sort.GUID } }
+
+        Dim objOItem_Result = objDBLevel_Sort.get_Data_ObjectRel(searchSort, boolIDs := False)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim searchSortAtt = objDBLevel_Sort.OList_ObjectRel.Select(Function(rep) New clsObjectAtt With {.ID_Object = rep.ID_Object,
+                                                                                                                 .ID_AttributeType = objLocalConfig.OItem_Attribute_Value.GUID }).ToList()
+            If searchSortAtt.Any() Then
+                objOItem_Result = objDBLevel_SortValue.get_Data_ObjectAtt(searchSortAtt, boolIDs := False)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    result = objDBLevel_SortValue.OList_ObjectAtt
+                Else 
+                    result = Nothing
+                End If
+            End If
+        Else 
+            result = Nothing
+        End If
+
+        Return result
+    End Function
 
 
     Private Sub set_DBConnection()
@@ -432,6 +486,10 @@ Public Class clsDataWork_Report
         objDBLevel_DBOnServer = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Database = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Server = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Filter = new clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_FilterValue = new clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Sort = new clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_SortValue = new clsDBLevel(objLocalConfig.Globals)
 
         objDBLevel_ClipboardFilter = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_ClipboardFilterTag = New clsDBLevel(objLocalConfig.Globals)

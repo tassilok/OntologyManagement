@@ -197,6 +197,8 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\gnome-fs-home.png" />
+    <None Include="Resources\saveHS.png" />
     <None Include="Resources\edit-find-replace.png" />
     <None Include="Resources\cahiers_de_labo.png" />
     <None Include="Report-Module_TemporaryKey.pfx" />
