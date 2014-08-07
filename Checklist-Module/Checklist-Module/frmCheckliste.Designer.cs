@@ -33,6 +33,7 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.button_Edit = new System.Windows.Forms.Button();
             this.textBox_Message = new System.Windows.Forms.TextBox();
             this.label_Message = new System.Windows.Forms.Label();
             this.textBox_DateTimeStamp = new System.Windows.Forms.TextBox();
@@ -41,7 +42,7 @@
             this.toolStripButton_Success = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Pause = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Error = new System.Windows.Forms.ToolStripButton();
-            this.button_Edit = new System.Windows.Forms.Button();
+            this.panel_History = new System.Windows.Forms.Panel();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -63,11 +64,11 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1093, 403);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1093, 567);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(1093, 453);
+            this.toolStripContainer1.Size = new System.Drawing.Size(1093, 617);
             this.toolStripContainer1.TabIndex = 0;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -104,26 +105,38 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.panel_History);
             this.splitContainer1.Panel2.Controls.Add(this.button_Edit);
             this.splitContainer1.Panel2.Controls.Add(this.textBox_Message);
             this.splitContainer1.Panel2.Controls.Add(this.label_Message);
             this.splitContainer1.Panel2.Controls.Add(this.textBox_DateTimeStamp);
             this.splitContainer1.Panel2.Controls.Add(this.label_LastDateTimeStamp);
-            this.splitContainer1.Size = new System.Drawing.Size(1093, 403);
+            this.splitContainer1.Size = new System.Drawing.Size(1093, 567);
             this.splitContainer1.SplitterDistance = 868;
             this.splitContainer1.TabIndex = 0;
             // 
+            // button_Edit
+            // 
+            this.button_Edit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Edit.Enabled = false;
+            this.button_Edit.Location = new System.Drawing.Point(139, 287);
+            this.button_Edit.Name = "button_Edit";
+            this.button_Edit.Size = new System.Drawing.Size(75, 23);
+            this.button_Edit.TabIndex = 4;
+            this.button_Edit.Text = "x_Edit";
+            this.button_Edit.UseVisualStyleBackColor = true;
+            this.button_Edit.Click += new System.EventHandler(this.button_Edit_Click);
+            // 
             // textBox_Message
             // 
-            this.textBox_Message.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBox_Message.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_Message.Location = new System.Drawing.Point(7, 65);
             this.textBox_Message.Multiline = true;
             this.textBox_Message.Name = "textBox_Message";
             this.textBox_Message.ReadOnly = true;
             this.textBox_Message.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_Message.Size = new System.Drawing.Size(207, 305);
+            this.textBox_Message.Size = new System.Drawing.Size(207, 216);
             this.textBox_Message.TabIndex = 3;
             // 
             // label_Message
@@ -199,23 +212,21 @@
             this.toolStripButton_Error.Text = "toolStripButton3";
             this.toolStripButton_Error.Click += new System.EventHandler(this.toolStripButton_Error_Click);
             // 
-            // button_Edit
+            // panel_History
             // 
-            this.button_Edit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Edit.Enabled = false;
-            this.button_Edit.Location = new System.Drawing.Point(139, 373);
-            this.button_Edit.Name = "button_Edit";
-            this.button_Edit.Size = new System.Drawing.Size(75, 23);
-            this.button_Edit.TabIndex = 4;
-            this.button_Edit.Text = "x_Edit";
-            this.button_Edit.UseVisualStyleBackColor = true;
-            this.button_Edit.Click += new System.EventHandler(this.button_Edit_Click);
+            this.panel_History.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel_History.Location = new System.Drawing.Point(7, 318);
+            this.panel_History.Name = "panel_History";
+            this.panel_History.Size = new System.Drawing.Size(200, 242);
+            this.panel_History.TabIndex = 5;
             // 
             // frmCheckliste
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1093, 453);
+            this.ClientSize = new System.Drawing.Size(1093, 617);
             this.Controls.Add(this.toolStripContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmCheckliste";
@@ -254,5 +265,6 @@
         private System.Windows.Forms.TextBox textBox_DateTimeStamp;
         private System.Windows.Forms.Label label_LastDateTimeStamp;
         private System.Windows.Forms.Button button_Edit;
+        private System.Windows.Forms.Panel panel_History;
     }
 }

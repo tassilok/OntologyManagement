@@ -34,6 +34,8 @@ namespace Checklist_Module
 
         private frmLogDialog objFrmLogDialog;
 
+        private UserControl_History objUserControl_History;
+
         private List<clsLogEntry> objOList_LogEntries;
 
         private clsLogManagement objLogManagement;
@@ -68,6 +70,31 @@ namespace Checklist_Module
             objLogManagement = new clsLogManagement(objLocalConfig.Globals);
             objTransaction = new clsTransaction(objLocalConfig.Globals);
             objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
+
+            objUserControl_History = new UserControl_History(objLocalConfig.Globals);
+            objUserControl_History.Dock = DockStyle.Fill;
+            objUserControl_History.SelectedRow += ObjUserControlHistoryOnSelectedRow;
+
+            panel_History.Controls.Add(objUserControl_History);
+        }
+
+        private void ObjUserControlHistoryOnSelectedRow()
+        {
+            if (objUserControl_History.SelectedRows.Count == 1)
+            {
+                var objLogEntry = (clsLogEntry) objUserControl_History.SelectedRows[0].DataBoundItem;
+                objOItem_LogEntryCurrent = new clsOntologyItem
+                    {
+                        GUID = objLogEntry.ID_LogEntry,
+                        Name = objLogEntry.Name_LogEntry,
+                        GUID_Parent = objLocalConfig.OItem_class_logentry.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+
+                textBox_DateTimeStamp.Text = objLogEntry.DateTimeStamp.ToString();
+                textBox_Message.Text = objLogEntry.Message ?? "";
+            }
+
         }
 
         void objUserControl_Report_SelectionChanged()
@@ -79,6 +106,8 @@ namespace Checklist_Module
             textBox_DateTimeStamp.Text = "";
             textBox_Message.Text = "";
             objOItem_LogEntryCurrent = null;
+
+            
 
             if (objUserControl_Report.DataGridViewRow_Selected.Count > 0)
             {
@@ -98,6 +127,8 @@ namespace Checklist_Module
                 {
                     objOItem_LogEntryCurrent = new clsOntologyItem();
                     DataGridViewRow row = objUserControl_Report.DataGridViewRow_Selected[0];
+
+                    var objOItem_OntologyItem = objDataWork_Checklists.GetOntologyItemByGUID(objUserControl_Report.DataGridViewRow_Selected[0].Cells[objOItem_ReportField.Name].Value.ToString());
                     
                     if (row.Cells["DateTimeStamp_Success"].Value.ToString() != "")
                     {
@@ -141,6 +172,25 @@ namespace Checklist_Module
                         objOItem_LogEntryCurrent.Name = row.Cells["Name_LogEntry_Success"].Value.ToString();
                         objOItem_LogEntryCurrent.GUID_Parent = objLocalConfig.OItem_class_logentry.GUID;
                         objOItem_LogEntryCurrent.Type = objLocalConfig.Globals.Type_Object;
+
+                        var logRelationList = new List<clsLogRelation>
+                            {
+                                new clsLogRelation
+                                    {
+                                        OItem_Direction = objLocalConfig.Globals.Direction_RightLeft,
+                                        OItem_RelationType = objLocalConfig.OItem_relationtype_belongs_to,
+                                        OItem_Ref = objOItem_OntologyItem
+                                    }
+                            };
+
+                        logRelationList.Add(new clsLogRelation
+                        {
+                            OItem_Direction = objLocalConfig.Globals.Direction_LeftRight,
+                            OItem_RelationType = objLocalConfig.OItem_relationtype_contains,
+                            OItem_Ref = objOItem_WorkingList
+                        });
+
+                        objUserControl_History.Initialize_History(logRelationList);
                     }
 
                     else if (!string.IsNullOrEmpty(row.Cells["ID_LogEntry_Pause"].Value.ToString()))
@@ -149,6 +199,25 @@ namespace Checklist_Module
                         objOItem_LogEntryCurrent.Name = row.Cells["Name_LogEntry_Pause"].Value.ToString();
                         objOItem_LogEntryCurrent.GUID_Parent = objLocalConfig.OItem_class_logentry.GUID;
                         objOItem_LogEntryCurrent.Type = objLocalConfig.Globals.Type_Object;
+
+                        var logRelationList = new List<clsLogRelation>
+                            {
+                                new clsLogRelation
+                                    {
+                                        OItem_Direction = objLocalConfig.Globals.Direction_RightLeft,
+                                        OItem_RelationType = objLocalConfig.OItem_relationtype_belongs_to,
+                                        OItem_Ref = objOItem_OntologyItem
+                                    }
+                            };
+
+                        logRelationList.Add(new clsLogRelation
+                        {
+                            OItem_Direction = objLocalConfig.Globals.Direction_LeftRight,
+                            OItem_RelationType = objLocalConfig.OItem_relationtype_contains,
+                            OItem_Ref = objOItem_WorkingList
+                        });
+
+                        objUserControl_History.Initialize_History(logRelationList);
                     }
                     else if (!string.IsNullOrEmpty(row.Cells["ID_LogEntry_Error"].Value.ToString()))
                     {
@@ -156,6 +225,25 @@ namespace Checklist_Module
                         objOItem_LogEntryCurrent.Name = row.Cells["Name_LogEntry_Error"].Value.ToString();
                         objOItem_LogEntryCurrent.GUID_Parent = objLocalConfig.OItem_class_logentry.GUID;
                         objOItem_LogEntryCurrent.Type = objLocalConfig.Globals.Type_Object;
+
+                        var logRelationList = new List<clsLogRelation>
+                            {
+                                new clsLogRelation
+                                    {
+                                        OItem_Direction = objLocalConfig.Globals.Direction_RightLeft,
+                                        OItem_RelationType = objLocalConfig.OItem_relationtype_belongs_to,
+                                        OItem_Ref = objOItem_OntologyItem
+                                    }
+                            };
+
+                        logRelationList.Add(new clsLogRelation
+                        {
+                            OItem_Direction = objLocalConfig.Globals.Direction_LeftRight,
+                            OItem_RelationType = objLocalConfig.OItem_relationtype_contains,
+                            OItem_Ref = objOItem_WorkingList
+                        });
+
+                        objUserControl_History.Initialize_History(logRelationList);
                     }
 
                     button_Edit.Enabled = true;
