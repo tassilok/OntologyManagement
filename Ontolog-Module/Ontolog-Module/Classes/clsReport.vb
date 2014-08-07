@@ -248,13 +248,15 @@ Public Class clsReport
                     objDBLevel_Classes.OList_Classes_Right.Count > 0 And _
                     objDBLevel_RelType.OList_RelationTypes.Count > 0 Then
 
-
-                    createA_Table_relT.GetData(objLocalConfig.Globals.Type_ObjectRel, _
+                    If Not strClass_Right Is Nothing Then
+                        createA_Table_relT.GetData(objLocalConfig.Globals.Type_ObjectRel, _
                                                    strClass_Left, _
                                                    strClass_Right, _
                                                    strRelationType, _
                                                    strPath, _
                                                    False)
+                    End If
+                    
 
                     createA_Table_relT_OR.GetData(objLocalConfig.Globals.Type_Other, _
                                                    strClass_Left, _

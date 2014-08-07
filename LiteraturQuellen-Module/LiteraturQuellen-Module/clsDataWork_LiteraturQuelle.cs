@@ -147,17 +147,17 @@ namespace LiteraturQuellen_Module
             {
                 var oList_Rel1 = new List<clsObjectAtt> {new clsObjectAtt {ID_AttributeType = objLocalConfig.OItem_attribute_seite.GUID, 
                     ID_Class = objLocalConfig.OItem_type_buch_quellenangabe.GUID,
-                    Val_String = OItem_Filter.Val_String}};
+                    Val_String = OItem_Filter.Name}};
 
                 var objOItem_Result = objDBLevel_Filter1.get_Data_ObjectAtt(oList_Rel1);
 
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    var oList_Rel2 = objDBLevel_Filter1.OList_ObjectRel_ID.Select(p => new clsObjectRel
+                    var oList_Rel2 = objDBLevel_Filter1.OList_ObjectAtt_ID.Select(p => new clsObjectRel
                     {
-                        ID_Other = p.ID_Object,
+                        ID_Object = p.ID_Object,
                         ID_RelationType = objLocalConfig.OItem_relationtype_issubordinated.GUID,
-                        ID_Parent_Object = objLocalConfig.OItem_type_literarische_quelle.GUID
+                        ID_Parent_Other = objLocalConfig.OItem_type_literarische_quelle.GUID
                     }).ToList();
 
                     if (oList_Rel2.Any())
@@ -168,8 +168,8 @@ namespace LiteraturQuellen_Module
                         {
                             OList_LiteraturQuellen = objDBLevel_Filter2.OList_ObjectRel_ID.Select(p => new clsOntologyItem
                             {
-                                GUID = p.ID_Object,
-                                GUID_Parent = p.ID_Parent_Object,
+                                GUID = p.ID_Other,
+                                GUID_Parent = p.ID_Parent_Other,
                                 Type = objLocalConfig.Globals.Type_Object
                             }).ToList();
 

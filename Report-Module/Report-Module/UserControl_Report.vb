@@ -37,6 +37,7 @@ Public Class UserControl_Report
     Private objFileWork As clsFileWork
     Private objBlobConnection As clsBlobConnection
     Private objSecurityWork As clsSecurityWork
+    Private objShellWork As clsShellWork
 
     Private objFrmAuthenticator As frmAuthenticate
     Private objFrmSingleViewer As frmSingleViewer
@@ -50,7 +51,9 @@ Public Class UserControl_Report
 
     Private objFrmTagging As frmTypedTaggingSingle
 
-    Private objFrmMain as frmMain
+    Private objFrmMain As frmMain
+
+    Private objFrm_Modules As frmModules
 
     Private objDataTable As DataTable
     Private objDataAdp As SqlClient.SqlDataAdapter
@@ -78,6 +81,8 @@ Public Class UserControl_Report
     Private boolSynced As Boolean
 
     Private boolFilterChanged As Boolean
+
+    Private strLastModule As String
 
     Public Event DataLoaded()
     Public Event SelectionChanged()
@@ -1365,7 +1370,8 @@ Public Class UserControl_Report
         Dim objDGVR_Selected As DataGridViewRow
         Dim objDRV_Selected As DataRowView
 
-        FilesToolStripMenuItem.Enabled = True
+        ModuleMenuToolStripMenuItem.Enabled = False
+        FilesToolStripMenuItem.Enabled = False
         CopyNameToolStripMenuItem.Enabled = False
         CopyGUIDToolStripMenuItem.Enabled = False
         FilterToolStripMenuItem.Enabled = False
@@ -1414,6 +1420,7 @@ Public Class UserControl_Report
                 If objLLeaded.Any() Then
                     If objLLeaded.First().ID_FieldType = objLocalConfig.OItem_Object_Field_Type_GUID.GUID Then
                         CopyGUIDToolStripMenuItem.Enabled = True
+                        ModuleMenuToolStripMenuItem.Enabled = True
                     End If
                 End If
 
@@ -1747,5 +1754,37 @@ Public Class UserControl_Report
                 MsgBox("Die Filter konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
             End If
         End If
+    End Sub
+
+    Private Sub OpenModuleByArgumentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenModuleByArgumentToolStripMenuItem.Click
+        
+
+        If Not objOItem_Object Is Nothing Then
+            If Not OpenLastModuleToolStripMenuItem.Checked Or String.IsNullOrEmpty(strLastModule) Then
+                objFrm_Modules = New frmModules(objLocalConfig.Globals)
+                objFrm_Modules.ShowDialog(Me)
+                If objFrm_Modules.DialogResult = DialogResult.OK Then
+                    Dim strModule = objFrm_Modules.Selected_Module
+                    If Not strModule Is Nothing Then
+                        objShellWork = New clsShellWork()
+                        If objShellWork.start_Process(strModule, "Item=" & objOItem_Object.GUID + ",Object", IO.Path.GetDirectoryName(strModule), False, False) Then
+                            strLastModule = strModule
+                            OpenLastModuleToolStripMenuItem.ToolTipText = strLastModule
+                        Else
+                            MsgBox("Das Module konnte nicht gestartet werden!", MsgBoxStyle.Exclamation)
+                        End If
+                    End If
+                End If
+            Else
+                objShellWork = New clsShellWork()
+                If Not objShellWork.start_Process(strLastModule, "Item=" & objOItem_Object.GUID + ",Object", IO.Path.GetDirectoryName(strLastModule), False, False) Then
+                    MsgBox("Das Module konnte nicht gestartet werden!", MsgBoxStyle.Exclamation)
+                End If
+
+            End If
+        End If
+
+
+        
     End Sub
 End Class
