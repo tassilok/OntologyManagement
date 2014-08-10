@@ -12,6 +12,7 @@ using OntologyClasses.BaseClasses;
 using Ontology_Module;
 using Filesystem_Module;
 using ClassLibrary_ShellWork;
+using System.IO;
 
 namespace Typed_Tagging_Module
 {
@@ -23,10 +24,14 @@ namespace Typed_Tagging_Module
 
         private frm_ObjectEdit objFrmObjectEdit;
 
+        private frmModules objFrm_Modules;
+
         private clsFileWork objFileWork;
         private clsBlobConnection objBlobConnection;
 
         private clsShellWork objShellWork;
+
+        private string strLastModule;
 
         public UserControl_TagSources(clsLocalConfig LocalConfig)
         {
@@ -108,9 +113,15 @@ namespace Typed_Tagging_Module
         private void contextMenuStrip_TagingSources_Opening(object sender, CancelEventArgs e)
         {
             xOpenToolStripMenuItem.Enabled = false;
+            ModuleMenuToolStripMenuItem.Enabled = false;
+
             if (dataGridView_TagSources.SelectedRows.Count == 1)
             {
                 var item = (clsOntologyItem) dataGridView_TagSources.SelectedRows[0].DataBoundItem;
+                if (item.Type == objLocalConfig.Globals.Type_Object)
+                {
+                    ModuleMenuToolStripMenuItem.Enabled = true;
+                }
                 if (item.GUID_Parent == objFileWork.OItem_Class_File.GUID)
                 {
                     xOpenToolStripMenuItem.Enabled = true;
@@ -154,7 +165,46 @@ namespace Typed_Tagging_Module
             }
         }
 
-        
+        private void OpenModuleByArgumentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView_TagSources.SelectedRows.Count == 1)
+            {
+                var item = (clsOntologyItem)dataGridView_TagSources.SelectedRows[0].DataBoundItem;
+                if (item.Type == objLocalConfig.Globals.Type_Object)
+                {
+                    if (!OpenLastModuleToolStripMenuItem.Checked || String.IsNullOrEmpty(strLastModule)) 
+                    {
+                        objFrm_Modules = new frmModules(objLocalConfig.Globals);
+                        objFrm_Modules.ShowDialog(this);
+                        if (objFrm_Modules.DialogResult == DialogResult.OK)
+                        {
+                            var strModule = objFrm_Modules.Selected_Module;
+                            if (strModule != null)
+                            {
+                                if (objShellWork.start_Process(strModule, "Item=" + item.GUID + ",Object", Path.GetDirectoryName(strModule), false, false))
+                                {
+                                    strLastModule = strModule;
+                                    OpenLastModuleToolStripMenuItem.ToolTipText = strLastModule;
+                                }
+                                else
+                                {
+                                    MessageBox.Show(this, "Das Module konnte nicht gestartet werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                }
+                        
+                            }
+                    
+                    
+                
+                        }
+                    }
+                }
+             
+            }
+
+
+
+
+        }
 
     }
 }

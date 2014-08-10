@@ -36,6 +36,9 @@
             this.dataGridView_TagSources = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip_TagingSources = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.xOpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ModuleMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenModuleByArgumentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenLastModuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -54,7 +57,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGridView_TagSources);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(460, 397);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(460, 372);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -95,24 +98,49 @@
             this.dataGridView_TagSources.Location = new System.Drawing.Point(0, 0);
             this.dataGridView_TagSources.Name = "dataGridView_TagSources";
             this.dataGridView_TagSources.ReadOnly = true;
-            this.dataGridView_TagSources.Size = new System.Drawing.Size(460, 397);
+            this.dataGridView_TagSources.Size = new System.Drawing.Size(460, 372);
             this.dataGridView_TagSources.TabIndex = 0;
             this.dataGridView_TagSources.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_TagSources_RowHeaderMouseDoubleClick);
             // 
             // contextMenuStrip_TagingSources
             // 
             this.contextMenuStrip_TagingSources.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ModuleMenuToolStripMenuItem,
             this.xOpenToolStripMenuItem});
             this.contextMenuStrip_TagingSources.Name = "contextMenuStrip_TagingSources";
-            this.contextMenuStrip_TagingSources.Size = new System.Drawing.Size(114, 26);
+            this.contextMenuStrip_TagingSources.Size = new System.Drawing.Size(162, 70);
             this.contextMenuStrip_TagingSources.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_TagingSources_Opening);
             // 
             // xOpenToolStripMenuItem
             // 
             this.xOpenToolStripMenuItem.Name = "xOpenToolStripMenuItem";
-            this.xOpenToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.xOpenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.xOpenToolStripMenuItem.Text = "x_Open";
             this.xOpenToolStripMenuItem.Click += new System.EventHandler(this.xOpenToolStripMenuItem_Click);
+            // 
+            // ModuleMenuToolStripMenuItem
+            // 
+            this.ModuleMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenModuleByArgumentToolStripMenuItem});
+            this.ModuleMenuToolStripMenuItem.Name = "ModuleMenuToolStripMenuItem";
+            this.ModuleMenuToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.ModuleMenuToolStripMenuItem.Text = "x_Module-Menu";
+            // 
+            // OpenModuleByArgumentToolStripMenuItem
+            // 
+            this.OpenModuleByArgumentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenLastModuleToolStripMenuItem});
+            this.OpenModuleByArgumentToolStripMenuItem.Name = "OpenModuleByArgumentToolStripMenuItem";
+            this.OpenModuleByArgumentToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.OpenModuleByArgumentToolStripMenuItem.Text = "x_Open Module by Argument";
+            this.OpenModuleByArgumentToolStripMenuItem.Click += new System.EventHandler(this.OpenModuleByArgumentToolStripMenuItem_Click);
+            // 
+            // OpenLastModuleToolStripMenuItem
+            // 
+            this.OpenLastModuleToolStripMenuItem.CheckOnClick = true;
+            this.OpenLastModuleToolStripMenuItem.Name = "OpenLastModuleToolStripMenuItem";
+            this.OpenLastModuleToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.OpenLastModuleToolStripMenuItem.Text = "x_Open Last Module";
             // 
             // UserControl_TagSources
             // 
@@ -143,5 +171,8 @@
         private System.Windows.Forms.DataGridView dataGridView_TagSources;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_TagingSources;
         private System.Windows.Forms.ToolStripMenuItem xOpenToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem ModuleMenuToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem OpenModuleByArgumentToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem OpenLastModuleToolStripMenuItem;
     }
 }

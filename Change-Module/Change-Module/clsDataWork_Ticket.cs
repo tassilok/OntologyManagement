@@ -732,10 +732,20 @@ namespace Change_Module
                                         where objLogEntry.ID_Object == GUID_ProcessLog && objLogEntry.ID_RelationType == objLocalConfig.OItem_RelationType_finished_with.GUID
                                         select new { objLogEntry, objLogState };
 
-                    objTreeNode_Sub = objTreeNode_Parent.Nodes.Add(GUID_ProcessLog,
+                    var treenodes = objTreeNode_Parent.Nodes.Find(GUID_ProcessLog, false);
+
+                    if (treenodes.Any())
+                    {
+                        objTreeNode_Sub = treenodes[0];
+                    }
+                    else
+                    {
+                        objTreeNode_Sub = objTreeNode_Parent.Nodes.Add(GUID_ProcessLog,
                                                                    objSubNode.obj.Name_Object,
                                                                    objLocalConfig.ImageID_Process,
                                                                    objLocalConfig.ImageID_Process);
+                    }
+                    
 
                     if (objLLogStates.Any())
                     {
@@ -1080,10 +1090,20 @@ namespace Change_Module
             
             foreach (var objIncident in objLIncidents)
             {
-                objTreeNode_Sub =  objTreeNode_Parent.Nodes.Add(objIncident.Key.ID_Other,
+                var nodes = objTreeNode_Parent.Nodes.Find(objIncident.Key.ID_Other, false);
+
+                if (nodes.Any())
+                {
+                    objTreeNode_Sub = nodes[0];
+                }
+                else
+                {
+                    objTreeNode_Sub = objTreeNode_Parent.Nodes.Add(objIncident.Key.ID_Other,
                                              objIncident.Key.Name_Other,
                                              objLocalConfig.Image_Incident,
                                              objLocalConfig.Image_Incident);
+                }
+                
                 var objLLogStates = from objLogEntry in objDBLevel_LogentriesOfIncidents.OList_ObjectRel_ID
                                     join objLogState in objDBLevel_LogStatesOfLogEntries.OList_ObjectRel_ID on objLogEntry.ID_Other equals objLogState.ID_Object
                                     where objLogEntry.ID_Object == objTreeNode_Sub.Name && objLogEntry.ID_RelationType == objLocalConfig.OItem_RelationType_finished_with.GUID
@@ -1129,10 +1149,20 @@ namespace Change_Module
 
             foreach (var objSubNode in objLSubNodes)
             {
-                objTreeNode_Sub = objTreeNode_Parent.Nodes.Add(objSubNode.ID_Object,
+                var nodes = objTreeNode_Parent.Nodes.Find(objSubNode.ID_Object, false);
+
+                if (nodes.Any())
+                {
+                    objTreeNode_Sub = nodes[0];
+                }
+                else
+                {
+                    objTreeNode_Sub = objTreeNode_Parent.Nodes.Add(objSubNode.ID_Object,
                                                                objSubNode.Name_Object,
                                                                objLocalConfig.Image_Incident,
                                                                objLocalConfig.Image_Incident);
+                }
+                
 
                 var objLLogStates = from objLogEntry in objDBLevel_LogentriesOfIncidents.OList_ObjectRel_ID
                                     join objLogState in objDBLevel_LogStatesOfLogEntries.OList_ObjectRel_ID on objLogEntry.ID_Other equals objLogState.ID_Object
