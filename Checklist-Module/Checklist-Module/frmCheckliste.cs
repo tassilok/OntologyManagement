@@ -107,8 +107,7 @@ namespace Checklist_Module
             textBox_Message.Text = "";
             objOItem_LogEntryCurrent = null;
 
-            
-
+            objUserControl_History.ClearHistory();
             if (objUserControl_Report.DataGridViewRow_Selected.Count > 0)
             {
                 IEnumerable<Boolean> isDones = objUserControl_Report.DataGridViewRow_Selected.Cast<DataGridViewRow>()

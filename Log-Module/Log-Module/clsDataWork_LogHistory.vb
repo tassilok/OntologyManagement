@@ -36,6 +36,8 @@ Public Class clsDataWork_LogHistory
         Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
         Me.logRelations = logRelations
         objOItem_Result_Data = objLocalConfig.Globals.LState_Nothing.Clone()
+        
+        LogEntryList = new List(Of clsLogEntry)()
 
         Try
             objThread.Abort()

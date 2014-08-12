@@ -41,6 +41,13 @@ Public Class UserControl_History
         objDataWork_LogHistory = new clsDataWork_LogHistory(objLocalConfig)
     End Sub
 
+    Public sub ClearHistory()
+        DataGridView_History.DataSource = Nothing
+        If Not objDataWork_LogHistory.LogEntryList Is Nothing Then
+            objDataWork_LogHistory.LogEntryList.Clear()
+        End If
+    End Sub
+
     Public sub Initialize_History(optional LogRelations As List(Of clsLogRelation) = Nothing)
         Me.logRelations = LogRelations
 
