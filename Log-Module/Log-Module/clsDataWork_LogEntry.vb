@@ -10,6 +10,7 @@ Public Class clsDataWork_LogEntry
     Private objDBLevel_User_Combo As clsDBLevel
     Private objDBLevel_User As clsDBLevel
     Private objDBLevel_LogEntryOfRef As clsDBLevel
+    Private objDBLevel_OItem As clsDBLevel
 
     Private objUserControl_Relations As UserControl_OItemList
 
@@ -621,6 +622,10 @@ Public Class clsDataWork_LogEntry
         Return objOARel_LogEntry__Message
     End Function
 
+    public Function GetOItem(GUID_Item As String, Type_Item As String) As clsOntologyItem
+        Return objDBLevel_OItem.GetOItem(GUID_Item, Type_Item)
+    End Function
+
     Private Sub set_DBConnection()
         objDBLevel_LogState = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_LogState_Combo = New clsDBLevel(objLocalConfig.Globals)
@@ -629,5 +634,6 @@ Public Class clsDataWork_LogEntry
         objDBLevel_User = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_User_Combo = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_LogEntryOfRef = new clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_OItem = new clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class

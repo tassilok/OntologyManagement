@@ -9,9 +9,18 @@ Public Class clsTransaction_AttributeTypes
 
     Private objfrmParent As Windows.Forms.IWin32Window
 
-    Public Function save_AttType(Optional ByVal oItem_AttributeType As clsOntologyItem = Nothing) As clsOntologyItem
+    Private objOList_AttributeTypes As List(Of clsOntologyItem)
+
+    Public ReadOnly Property OList_AttributeTypesSaved As List(Of clsOntologyItem)
+        Get
+
+        End Get
+    End Property
+
+        Public Function save_AttType(Optional ByVal oItem_AttributeType As clsOntologyItem = Nothing) As clsOntologyItem
         Dim objOItem_AttributeType As New clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
+        objOList_AttributeTypes = new List(Of clsOntologyItem)()
 
         objOItem_Result = objLocalConfig.Globals.LState_Nothing
         objFrm_Name = New frm_Name("New AttributeType", _
@@ -32,7 +41,7 @@ Public Class clsTransaction_AttributeTypes
             objOItem_Result = objDBLevel.save_AttributeType(objOItem_AttributeType)
 
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Exists.GUID Then
-
+                objOList_AttributeTypes.Add(objOItem_AttributeType)
                 objOItem_Result = objLocalConfig.Globals.LState_Relation
             ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                 objOItem_Result = objLocalConfig.Globals.LState_Error

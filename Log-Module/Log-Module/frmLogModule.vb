@@ -4,10 +4,17 @@ Imports OntologyClasses.BaseClasses
 
 Public Class frmLogModule
     Private objLocalConfig As clsLocalConfig
+    Private objDBLevel_Save As clsDBLevel
     Private WithEvents objUserControl_LogEntryList As UserControl_OItemList
     Private objUserControl_LogEntry As UserControl_LogEntry
     Private objFrmAuthenticate As frmAuthenticate
     Private objOList_LogEntries_Applied As List(Of clsOntologyItem)
+    Private objOItem_Ref As clsOntologyItem
+    Private objOItem_ClassOfRef As clsOntologyItem
+    
+    Private objArgumentParsing As clsArgumentParsing
+
+    Private objRelationConfig As clsRelationConfig
 
     Private SplashScreen As SplashScreen_OntologyModule
     Private AboutBox As AboutBox_OntologyItem
@@ -20,6 +27,25 @@ Public Class frmLogModule
             Return objOList_LogEntries_Applied
         End Get
     End Property
+
+    Private sub AddedObjects(OList_Objects As List(Of clsOntologyItem)) Handles objUserControl_LogEntryList.addedSimpleItems
+        If Not objOItem_Ref Is Nothing Then
+            If objOItem_Ref.Type.ToLower() = objLocalConfig.Globals.Type_Object.ToLower() Then
+                If OList_Objects.All(Function(loge) loge.GUID_Parent = objLocalConfig.OItem_Type_LogEntry.GUID) Then
+                objOItem_Ref.Type = objLocalConfig.Globals.Type_Object
+                Dim oList_SaveRel  = OList_Objects.Select(function(loge) objRelationConfig.Rel_ObjectRelation(loge,objOItem_Ref,objLocalConfig.OItem_RelationType_belongsTo)).ToList()
+
+                If oList_SaveRel.Any() Then
+                    Dim objOItem_Result = objDBLevel_Save.save_ObjRel(oList_SaveRel)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                        MsgBox("Die Logeinträge konnten nicht mit der Referenz verknüpft werden!", MsgBoxStyle.Exclamation)
+                    End If
+                End If
+            End If
+            End If
+            
+        End If
+    End Sub
 
     Private Sub selected_LogEntry() Handles objUserControl_LogEntryList.Selection_Changed
         Dim objDGVR_Selected As DataGridViewRow
@@ -123,6 +149,11 @@ Public Class frmLogModule
     End Sub
 
     Private Sub initialize()
+
+        objDBLevel_Save = new clsDBLevel(objLocalConfig.Globals)
+        objRelationConfig = new clsRelationConfig(objLocalConfig.Globals)
+        objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals,Environment.GetCommandLineArgs().ToList())
+
         objUserControl_LogEntryList = New UserControl_OItemList(objLocalConfig.Globals)
         objUserControl_LogEntryList.Applyable = boolApplyable
         objUserControl_LogEntryList.Dock = DockStyle.Fill
@@ -132,6 +163,17 @@ Public Class frmLogModule
                                                                    Nothing, _
                                                                    objLocalConfig.OItem_Type_LogEntry.GUID, _
                                                                    objLocalConfig.Globals.Type_Object))
+
+        If objArgumentParsing.OList_Items.Count = 1 Then
+            If objArgumentParsing.OList_Items.First().Type.ToLower() = objLocalConfig.Globals.Type_Object.ToLower() Then
+                objOItem_Ref = objArgumentParsing.OList_Items.First()
+                Dim objDataWork_LogEntry = new clsDataWork_LogEntry(objLocalConfig)
+                objOItem_ClassOfRef = objDataWork_LogEntry.GetOItem(objOItem_Ref.GUID_Parent, objLocalConfig.Globals.Type_Class)
+
+                objUserControl_LogEntryList.Initialize_AdvancedFilter(objOItem_ClassOfRef, objOItem_Ref,objLocalConfig.OItem_RelationType_belongsTo, objLocalConfig.Globals.Direction_LeftRight)
+
+            End If
+        End If
 
         objUserControl_LogEntry = New UserControl_LogEntry(objLocalConfig)
         objUserControl_LogEntry.Dock = DockStyle.Fill

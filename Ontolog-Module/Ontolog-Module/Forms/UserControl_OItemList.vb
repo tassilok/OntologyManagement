@@ -90,6 +90,7 @@ Public Class UserControl_OItemList
     Public Event applied_Items()
     Public Event counted_Items(ByVal intCount As Integer)
     Public Event addedHandOffItems(oList_Simple As List(Of clsOntologyItem))
+    Public Event addedSimpleItems(olist_Simple As List(Of clsOntologyItem))
     Public Event ListDataFinished()
 
     Public Property HandOff_Add As Boolean
@@ -359,13 +360,13 @@ Public Class UserControl_OItemList
             If OItem_Direction_AdvancedFilter.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
                 objORel_AdvancedFilter = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = strGUID_Class, _
                                                                                                  .ID_RelationType = If(Not OItem_RelationType_AdvancedFilter Is Nothing, OItem_RelationType_AdvancedFilter.GUID, Nothing), _
-                                                                                                 .ID_Parent_Other = If(Not OItem_Class_AdvancedFilter Is Nothing, OItem_Class_AdvancedFilter.GUID, Nothing), _
+                                                                                                 .ID_Parent_Other = If(Not OItem_Class_AdvancedFilter Is Nothing And OItem_Object_AdvancedFilter Is Nothing, OItem_Class_AdvancedFilter.GUID, Nothing), _
                                                                                                  .ID_Other = If(Not OItem_Object_AdvancedFilter Is Nothing, OItem_Object_AdvancedFilter.GUID, Nothing)}}
                 objDBLevel.get_Data_ObjectRel(objORel_AdvancedFilter, boolIDs:=False, boolTable:=True, boolTable_Objects_Left:=True)
             Else
                 objORel_AdvancedFilter = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Other = strGUID_Class, _
                                                                                                  .ID_RelationType = If(Not OItem_RelationType_AdvancedFilter Is Nothing, OItem_RelationType_AdvancedFilter.GUID, Nothing), _
-                                                                                                 .ID_Parent_Object = If(Not OItem_Class_AdvancedFilter Is Nothing, OItem_Class_AdvancedFilter.GUID, Nothing), _
+                                                                                                 .ID_Parent_Object = If(Not OItem_Class_AdvancedFilter Is Nothing And OItem_Object_AdvancedFilter Is Nothing, OItem_Class_AdvancedFilter.GUID, Nothing), _
                                                                                                  .ID_Object = If(Not OItem_Object_AdvancedFilter Is Nothing, OItem_Object_AdvancedFilter.GUID, Nothing)}}
                 objDBLevel.get_Data_ObjectRel(objORel_AdvancedFilter, boolIDs:=False, boolTable:=True, boolTable_Objects_Right:=True)
             End If
@@ -1293,7 +1294,7 @@ Public Class UserControl_OItemList
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             If objTransaction_Objects.Apply = True Then
                 oList_Selected_Simple.AddRange(objTransaction_Objects.NameObjects)
-
+                
                 RaiseEvent applied_Items()
             Else
                 configure_TabPages()
@@ -1301,7 +1302,7 @@ Public Class UserControl_OItemList
                     ToolStripTextBox_Filter.Text = objTransaction_Objects.OItem_SavedLast.GUID
                 End If
             End If
-
+            RaiseEvent addedSimpleItems(objTransaction_Objects.OList_ObjectsSaved)
         ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
             MsgBox("Beim Erzeugen ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
         End If
@@ -1311,6 +1312,7 @@ Public Class UserControl_OItemList
         Dim objOItem_Result As clsOntologyItem
         objOItem_Result = objTransaction_RelationTypes.save_RelType()
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            RaiseEvent addedSimpleItems(objTransaction_RelationTypes.OList_RelationTypesSaved)
             configure_TabPages()
         ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
             MsgBox("Es gibt bereits einen Beziehungstyp mit diesem Namen!", MsgBoxStyle.Exclamation)
@@ -1324,6 +1326,7 @@ Public Class UserControl_OItemList
         Dim objOItem_Result As clsOntologyItem
         objOItem_Result = objTransaction_AttributeTypes.save_AttType()
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            RaiseEvent addedSimpleItems(objTransaction_AttributeTypes.OList_AttributeTypesSaved)
             configure_TabPages()
         ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
             MsgBox("Es gibt bereits einen Beziehungstyp mit diesem Namen!", MsgBoxStyle.Exclamation)

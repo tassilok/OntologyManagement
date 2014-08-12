@@ -8,7 +8,10 @@ Public Class frmSecurityModule
     Private WithEvents objUserControl_PasswordTree As UserControl_PasswordTree
     Private objUserControl_Password As UserControl_Password
 
+    Private objArgumentParsing As clsArgumentParsing
+
     Private objFrmObjectEdit As frm_ObjectEdit
+    Private objFrmMenu As frmMenu
 
     Private SplashScreen As SplashScreen_OntologyModule
     Private AboutBox As AboutBox_OntologyItem
@@ -58,25 +61,37 @@ Public Class frmSecurityModule
             objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User
             objOItem_Result = objSecurityWork.initialize_User(objLocalConfig.OItem_User)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                TestMenu()
                 boolOpen = True
             ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                 MsgBox("Geben Sie das Passwort bitte nochmals ein! (noch 2 Versuche)", MsgBoxStyle.Information)
                 objOItem_Result = objSecurityWork.initialize_User(objLocalConfig.OItem_User)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    TestMenu()
                     boolOpen = True
                 ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                     MsgBox("Geben Sie das Passwort bitte nochmals ein! (noch 1 Versuch)", MsgBoxStyle.Information)
                     objOItem_Result = objSecurityWork.initialize_User(objLocalConfig.OItem_User)
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        TestMenu()
                         boolOpen = True
                     Else
-                        MsgBox("Sie haben das Passwort dreimal falsch eingegeben! Die Anwendung wird geschlossen. (noch 1 Versuche)", MsgBoxStyle.Information)
+                        MsgBox("Sie haben das Passwort dreimal falsch eingegeben! Die Anwendung wird geschlossen.", MsgBoxStyle.Information)
                     End If
 
                 End If
 
             End If
 
+        End If
+    End Sub
+
+    Private sub TestMenu()
+        objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals,Environment.GetCommandLineArgs().ToList())
+        If objArgumentParsing.OList_Items.Count=1 Then
+            objFrmMenu = New frmMenu(objLocalConfig, objArgumentParsing.OList_Items.First(),objSecurityWork)
+            objFrmMenu.ShowDialog(Me)
+            Environment.Exit(0)
         End If
     End Sub
 

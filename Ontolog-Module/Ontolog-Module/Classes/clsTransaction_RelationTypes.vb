@@ -10,10 +10,19 @@ Public Class clsTransaction_RelationTypes
 
     Private objfrmParent As Windows.Forms.IWin32Window
 
-    Public Function save_RelType(Optional ByVal OItem_RelationType As clsOntologyItem = Nothing) As clsOntologyItem
+    Private objOList_RelationTypesSaved As List(Of clsOntologyItem)
+
+    Public ReadOnly Property OList_RelationTypesSaved As List(Of clsOntologyItem)
+        Get
+            Return objOList_RelationTypesSaved
+
+        End Get
+    End Property
+
+        Public Function save_RelType(Optional ByVal OItem_RelationType As clsOntologyItem = Nothing) As clsOntologyItem
         Dim objOItem_RelationType As New clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
-
+        objOList_RelationTypesSaved = new List(Of clsOntologyItem)()
         objOItem_Result = objLocalConfig.Globals.LState_Nothing
         objFrm_Name = New frm_Name("New RelationType", _
                                            objLocalConfig, _
@@ -33,6 +42,7 @@ Public Class clsTransaction_RelationTypes
             objOItem_Result = objDBLevel.save_RelationType(objOItem_RelationType)
 
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Exists.GUID Then
+                objOList_RelationTypesSaved.Add(objOItem_RelationType)
                 objOItem_Result = objLocalConfig.Globals.LState_Relation
 
             ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
