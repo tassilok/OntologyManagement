@@ -13,6 +13,8 @@ namespace CommandLineRun_Module
     {
         private clsLocalConfig objLocalConfig;
 
+
+        
         private clsDBLevel objDBLevel_CommandLineRun;
         private clsDBLevel objDBLevel_CommandLine;
         private clsDBLevel objDBLevel_CommandLineRunTree;
@@ -22,6 +24,9 @@ namespace CommandLineRun_Module
         private clsDBLevel objDBLevel_Values;
         private clsDBLevel objDBLevel_ValueVars;
         private clsDBLevel objDBLevel_ValueBelongingSource;
+        private clsDBLevel objDBLevel_Relations;
+        private clsDBLevel objDBlevel_CmdlrTreeParam;
+        private clsDBLevel objDBlevel_OItem;
 
         public clsOntologyItem OItem_Result_CommandLineRun { get; private set; }
         public clsOntologyItem OItem_Result_CommandLineRunHierarchy { get; private set; }
@@ -33,9 +38,94 @@ namespace CommandLineRun_Module
         public clsOntologyItem OItem_Result_ValueBelongingSource { get; private set; }
         public clsOntologyItem OItem_Result_Codes { get; private set; }
 
+        private clsOntologyItem OItem_Result_Filter;
+
         public clsOntologyItem OItem_CommandLineRun_Entry { get; set; }
 
         public List<clsCode> Codes { get; private set; }
+
+        public clsOntologyItem OItem_Class { get; set; }
+        public clsOntologyItem OItem_Direction { get; set; }
+        public clsOntologyItem OItem_RelationType { get; set; }
+        public clsOntologyItem OItem_Object { get; set; }
+
+        public int RootNodeCount { get; private set; }
+
+        private List<clsOntologyItem> filterList = new List<clsOntologyItem>();
+
+        public clsOntologyItem GetOItem(string GUID_Item, string Type_Item)
+        {
+            return objDBlevel_OItem.GetOItem(GUID_Item, Type_Item);
+        }
+
+        public clsOntologyItem GetData_CommandLineRun()
+        {
+            CreateFilterListCMDLRs();
+            var objOItem_Result = OItem_Result_Filter;
+
+            if (objOItem_Result.GUID != objLocalConfig.Globals.LState_Error.GUID)
+            {
+                GetSubData_001_CommandLineRun();
+                objOItem_Result = OItem_Result_CommandLineRun;
+
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    GetSubData_002_CommandLineRunTree();
+                    objOItem_Result = OItem_Result_CommandLineRunHierarchy;
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        GetSubData_003_CommandLine();
+                        objOItem_Result = OItem_Result_CommandLine;
+
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            GetSubData_004_CodeSnipplets();
+                            objOItem_Result = OItem_Result_CodeSnipplets;
+
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            {
+                                GetSubData_005_Variables();
+                                objOItem_Result = OItem_Result_Variables;
+
+                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                {
+                                    GetSubData_006_Values();
+                                    objOItem_Result = OItem_Result_Values;
+
+                                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                    {
+                                        GetSubData_007_ValueVars();
+                                        objOItem_Result = OItem_Result_ValueVars;
+
+                                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                        {
+                                            GetSubData_008_ValueBelongingSources();
+                                            objOItem_Result = OItem_Result_ValueBelongingSource;
+                                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                            {
+                                                GetSubData_009_Codes();
+                                                objOItem_Result = OItem_Result_Codes;
+
+                                            }
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+                    }
+
+
+                }
+            }
+            
+
+            return objOItem_Result;
+        }
 
         public void GetSubData_001_CommandLineRun()
         {
@@ -342,12 +432,198 @@ namespace CommandLineRun_Module
             OItem_Result_ValueBelongingSource = objOItem_Result;
         }
 
+
+        private clsOntologyItem CreateFilterListCMDLRs()
+        {
+            filterList = new List<clsOntologyItem>();
+
+            OItem_Result_Filter = objLocalConfig.Globals.LState_Nothing.Clone();
+
+            if (OItem_Object != null && OItem_Object.GUID_Parent == objLocalConfig.OItem_class_comand_line__run_.GUID)
+            {
+                OItem_Result_Filter =
+                    objDBlevel_CmdlrTreeParam.get_Data_Objects_Tree(objLocalConfig.OItem_class_comand_line__run_,
+                                                                    objLocalConfig.OItem_class_comand_line__run_,
+                                                                    objLocalConfig.OItem_relationtype_contains);
+
+                if (OItem_Result_Filter.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    var objOItem_Object = OItem_Object.Clone();
+                    var newItems = new List<clsOntologyItem>();
+                    filterList.Add(objOItem_Object);    
+
+                    var count = filterList.Count - 1;
+
+                    while (count != filterList.Count)
+                    {
+                        count = filterList.Count;
+                        if (!newItems.Any())
+                        {
+                            var cmdlrs =
+                                objDBlevel_CmdlrTreeParam.OList_ObjectTree.Where(
+                                    treenode => treenode.ID_Object == objOItem_Object.GUID).ToList();
+
+                            if (cmdlrs.Count > 0)
+                            {
+                                newItems = cmdlrs.Select(cmdrl => new clsOntologyItem
+                                {
+                                    GUID = cmdrl.ID_Object_Parent,
+                                    Name = cmdrl.Name_Object_Parent,
+                                    GUID_Parent = objLocalConfig.OItem_class_comand_line__run_.GUID,
+                                    Type = objLocalConfig.Globals.Type_Object
+                                }).ToList();
+                                filterList.AddRange(newItems);
+                            }    
+                        }
+                        else
+                        {
+                            newItems.ForEach(cmdrl1 =>
+                                {
+                                    var cmdlrs =
+                                        objDBlevel_CmdlrTreeParam.OList_ObjectTree.Where(
+                                        treenode => treenode.ID_Object == cmdrl1.GUID).ToList();
+
+                                    if (cmdlrs.Count > 0)
+                                    {
+                                        newItems = cmdlrs.Select(cmdrl => new clsOntologyItem
+                                        {
+                                            GUID = cmdrl.ID_Object_Parent,
+                                            Name = cmdrl.Name_Object_Parent,
+                                            GUID_Parent = objLocalConfig.OItem_class_comand_line__run_.GUID,
+                                            Type = objLocalConfig.Globals.Type_Object
+                                        }).ToList();
+                                        filterList.AddRange(newItems);
+                                    }
+                                });
+                        }
+                        
+                        
+                    }
+                    
+                }
+                
+            }
+            else
+            {
+                if ((OItem_Class != null || OItem_RelationType != null || OItem_Object != null) && OItem_Direction != null)
+                {
+                    AddFilter(OItem_Direction);
+                }
+                else if ((OItem_Class != null || OItem_RelationType != null || OItem_Object != null) &&
+                         OItem_Direction == null)
+                {
+                    OItem_Result_Filter = AddFilter(objLocalConfig.Globals.Direction_LeftRight.Clone());
+                    if (OItem_Result_Filter.GUID != objLocalConfig.Globals.LState_Error.GUID)
+                    {
+                        OItem_Result_Filter = AddFilter(objLocalConfig.Globals.Direction_RightLeft.Clone());
+                    }
+
+                }    
+            }
+            
+            
+            
+            return OItem_Result_Filter;
+        }
+
+        private clsOntologyItem AddFilter(clsOntologyItem OItem_Direction)
+        {
+            var objOItem_Result = objLocalConfig.Globals.LState_Nothing.Clone();
+            if (OItem_Class != null || OItem_RelationType != null || OItem_Object != null)
+            {
+                if (OItem_Direction.GUID == objLocalConfig.Globals.Direction_LeftRight.GUID)
+                {
+                    var searchRelations = new List<clsObjectRel>
+                        {
+                            new clsObjectRel
+                                {
+                                    ID_Other = OItem_Object != null ? OItem_Object.GUID : null,
+                                    ID_Parent_Other = OItem_Class != null ? OItem_Class.GUID : null,
+                                    ID_RelationType = OItem_RelationType != null ? OItem_RelationType.GUID : null,
+                                    ID_Parent_Object = objLocalConfig.OItem_class_comand_line__run_.GUID
+                                }
+                        };
+
+
+                    objOItem_Result = objDBLevel_Relations.get_Data_ObjectRel(searchRelations, boolIDs: false);
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+
+                        filterList.AddRange(objDBLevel_Relations.OList_ObjectRel.Select(rel => new clsOntologyItem
+                            {
+                                GUID = rel.ID_Object,
+                                Name = rel.Name_Object,
+                                GUID_Parent = rel.ID_Parent_Object,
+                                Type = objLocalConfig.Globals.Type_Object
+                            }));
+                    }
+                    else
+                    {
+                        filterList.Clear();
+                    }
+
+                }
+                else
+                {
+                    var searchRelations = new List<clsObjectRel>
+                        {
+                            new clsObjectRel
+                                {
+                                    ID_Object = OItem_Object != null ? OItem_Object.GUID : null,
+                                    ID_Parent_Object = OItem_Class != null ? OItem_Class.GUID : null,
+                                    ID_RelationType = OItem_RelationType != null ? OItem_RelationType.GUID : null,
+                                    ID_Parent_Other = objLocalConfig.OItem_class_comand_line__run_.GUID
+                                }
+                        };
+
+
+                    objOItem_Result = objDBLevel_Relations.get_Data_ObjectRel(searchRelations, boolIDs: false);
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        filterList.AddRange(objDBLevel_Relations.OList_ObjectRel.Select(rel => new clsOntologyItem
+                            {
+                                GUID = rel.ID_Other,
+                                Name = rel.Name_Other,
+                                GUID_Parent = rel.ID_Parent_Other,
+                                Type = objLocalConfig.Globals.Type_Object
+                            }));
+                    }
+                    else
+                    {
+                        filterList.Clear();
+                    }
+
+                }
+            }
+
+            return objOItem_Result;
+        }
+
         public void GetSubData_009_Codes()
         {
             OItem_Result_Codes = objLocalConfig.Globals.LState_Nothing.Clone();
             Codes = new List<clsCode>();
             var variables = new List<clsObjectRel>();
-            objDBLevel_CommandLineRun.OList_Objects.ForEach(cmlr =>
+
+            List<clsOntologyItem> cmdrls;
+            
+            if (OItem_Result_Filter.GUID != objLocalConfig.Globals.LState_Error.GUID)
+            {
+                if (OItem_Result_Filter.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    cmdrls = (from objCmdrls in objDBLevel_CommandLineRun.OList_Objects
+                              join objFilter in filterList on objCmdrls.GUID equals objFilter.GUID
+                              select objCmdrls).ToList();
+
+                }
+                else
+                {
+                    cmdrls = objDBLevel_CommandLineRun.OList_Objects;
+                }
+                
+                cmdrls.ForEach(cmlr =>
                 {
                     var commandLines =
                         objDBLevel_CommandLine.OList_ObjectRel.Where(cmd => cmd.ID_Object == cmlr.GUID).OrderBy(cmd => cmd.OrderID).ToList();
@@ -397,7 +673,10 @@ namespace CommandLineRun_Module
                     code.CodeParsed = code.Code;
                     
                     var variablesCode = variables.Where(var => var.ID_Object == code.ID_CodeItem).ToList();
-                    var variableValues = (from valVar in objDBLevel_ValueVars.OList_ObjectRel
+                    var commandLineRunVals =
+                        objDBLevel_Values.OList_ObjectRel.Where(val => val.ID_Object == code.ID_CommandLineRun).ToList();
+                    var variableValues = (from codeValue in commandLineRunVals
+                                          join valVar in objDBLevel_ValueVars.OList_ObjectRel on codeValue.ID_Other equals  valVar.ID_Object
                                           join valBelongingSource in objDBLevel_ValueBelongingSource.OList_ObjectRel on
                                               valVar.ID_Object equals valBelongingSource.ID_Object into
                                               valBelongingSources
@@ -407,8 +686,15 @@ namespace CommandLineRun_Module
 
                     variableValues.ForEach(varVal => code.CodeParsed = code.CodeParsed.Replace("@" + varVal.valVar.Name_Other + "@",varVal.valBelongingSource != null ? varVal.valBelongingSource.Name_Other : varVal.valVar.Name_Object));
                 });
+                OItem_Result_Codes = objLocalConfig.Globals.LState_Success.Clone();
+            }
+            else
+            {
+                OItem_Result_Codes = objLocalConfig.Globals.LState_Error.Clone();
+            }
+            
 
-            OItem_Result_Codes = objLocalConfig.Globals.LState_Success.Clone();
+            
         }
 
         public List<clsObjectRel> GetSubCmdlrs(clsOntologyItem OItem_Cmdlr)
@@ -436,13 +722,29 @@ namespace CommandLineRun_Module
 
             if (treeNodeParent.Name == objLocalConfig.Globals.Root.GUID)
             {
-                var cmdrls = (from cmdrl in objDBLevel_CommandLineRun.OList_Objects
+                List<clsOntologyItem> cmdrls;
+                if (OItem_Result_Filter.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    cmdrls = (from cmdrl in objDBLevel_CommandLineRun.OList_Objects
+                              join objFilter in filterList on cmdrl.GUID equals  objFilter.GUID
                               join cmdrlTree in objDBLevel_CommandLineRunTree.OList_ObjectRel on cmdrl.GUID equals
                                   cmdrlTree.ID_Other into cmdrlsTree
                               from cmdrlTree in cmdrlsTree.DefaultIfEmpty()
                               where cmdrlTree == null
-                              select cmdrl).OrderBy(cmdrl => cmdrl.Name).ToList();
+                              select cmdrl).OrderBy(cmdrl => cmdrl.Name).ToList();    
+                }
+                else
+                {
+                    cmdrls = (from cmdrl in objDBLevel_CommandLineRun.OList_Objects
+                              join cmdrlTree in objDBLevel_CommandLineRunTree.OList_ObjectRel on cmdrl.GUID equals
+                                  cmdrlTree.ID_Other into cmdrlsTree
+                              from cmdrlTree in cmdrlsTree.DefaultIfEmpty()
+                              where cmdrlTree == null
+                              select cmdrl).OrderBy(cmdrl => cmdrl.Name).ToList();    
+                }
 
+                RootNodeCount = 0;
+                RootNodeCount += cmdrls.Count;
                 cmdrls.ForEach(cmdrl =>
                     {
                         var treeNode = treeNodeParent.Nodes.Add(cmdrl.GUID, cmdrl.Name);
@@ -455,7 +757,7 @@ namespace CommandLineRun_Module
                     objDBLevel_CommandLineRunTree.OList_ObjectRel.Where(tree => tree.ID_Object == treeNodeParent.Name)
                                                  .OrderBy(cmdrl => cmdrl.OrderID).ThenBy(cmdrl => cmdrl.Name_Other).ToList();
 
-
+                RootNodeCount += cmdrls.Count;
                 cmdrls.ForEach(cmdrl =>
                 {
                     var treeNode = treeNodeParent.Nodes.Add(cmdrl.ID_Other, cmdrl.Name_Other);
@@ -483,6 +785,9 @@ namespace CommandLineRun_Module
             objDBLevel_Values = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_ValueVars = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_ValueBelongingSource = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_Relations = new clsDBLevel(objLocalConfig.Globals);
+            objDBlevel_CmdlrTreeParam = new clsDBLevel(objLocalConfig.Globals);
+            objDBlevel_OItem = new clsDBLevel(objLocalConfig.Globals);
 
             OItem_CommandLineRun_Entry = null;
             OItem_Result_CommandLineRun = objLocalConfig.Globals.LState_Nothing.Clone();

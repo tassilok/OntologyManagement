@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using OntologyClasses.BaseClasses;
 using Ontology_Module;
@@ -12,6 +13,8 @@ namespace CommandLineRun_Module
         private UserControl_CommandLineRunTree objUserControl_CommandLineTree;
         private UserControl_ExecuteCode objUserControl_ExecuteCode;
 
+        private clsArgumentParsing objArgumentParsing;
+
         public frmCommandLineRun()
         {
             InitializeComponent();
@@ -22,6 +25,7 @@ namespace CommandLineRun_Module
 
         private void Initialize()
         {
+            
             objDataWork_CommandLineRun = new clsDataWork_CommandLineRun(objLocalConfig);
             objUserControl_CommandLineTree = new UserControl_CommandLineRunTree(objLocalConfig, objDataWork_CommandLineRun);
             objUserControl_CommandLineTree.selectedNode += objUserControl_CommandLineTree_selectedNode;
@@ -33,8 +37,57 @@ namespace CommandLineRun_Module
             objUserControl_ExecuteCode.Dock = DockStyle.Fill;
             splitContainer1.Panel2.Controls.Add(objUserControl_ExecuteCode);
 
-            Test();
+            ParseArguments();
+
+            var objOItem_Result = objDataWork_CommandLineRun.GetData_CommandLineRun();
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                objUserControl_CommandLineTree.InitializeTree();
+
+                
+                
+                
+            }
         }
+
+        private void ParseArguments()
+        {
+            objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals,
+                                                        new List<string>(Environment.GetCommandLineArgs()));
+
+            if (objArgumentParsing.OList_Items.Count == 1)
+            {
+                var objOItem_Argument = objArgumentParsing.OList_Items[0];
+                
+                if (objOItem_Argument.Type.ToLower() == objLocalConfig.Globals.Type_Class.ToLower())
+                {
+                    objOItem_Argument.Type = objLocalConfig.Globals.Type_Class;
+                    objDataWork_CommandLineRun.OItem_Class = objOItem_Argument;
+                    this.Text = objOItem_Argument.Name;
+                }
+                else if (objOItem_Argument.Type.ToLower() == objLocalConfig.Globals.Type_RelationType.ToLower())
+                {
+                    objOItem_Argument.Type = objLocalConfig.Globals.Type_RelationType;
+                    objDataWork_CommandLineRun.OItem_RelationType = objOItem_Argument;
+                    this.Text = objOItem_Argument.Name;
+                }
+                else if (objOItem_Argument.Type.ToLower() == objLocalConfig.Globals.Type_Object.ToLower())
+                {
+                    objOItem_Argument.Type = objLocalConfig.Globals.Type_Object;
+                    objDataWork_CommandLineRun.OItem_Object = objOItem_Argument;
+                    
+                    var objOItem_Class =
+                            objDataWork_CommandLineRun.GetOItem(objDataWork_CommandLineRun.OItem_Object.GUID_Parent,
+                                                                objLocalConfig.Globals.Type_Class);
+
+                    this.Text = objOItem_Class.Name + "/";
+                    this.Text += objOItem_Argument.Name;
+                    
+                }
+            }
+        }
+
 
         void objUserControl_CommandLineTree_selectedNode(TreeNode selectedNode)
         {
@@ -54,74 +107,7 @@ namespace CommandLineRun_Module
             }
         }
 
-        private void Test()
-        {
-            objDataWork_CommandLineRun.GetSubData_001_CommandLineRun();
-            var objOItem_Result = objDataWork_CommandLineRun.OItem_Result_CommandLineRun;
-
-            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-            {
-                objDataWork_CommandLineRun.GetSubData_002_CommandLineRunTree();
-                objOItem_Result = objDataWork_CommandLineRun.OItem_Result_CommandLineRunHierarchy;
-
-                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                {
-                    objDataWork_CommandLineRun.GetSubData_003_CommandLine();
-                    objOItem_Result = objDataWork_CommandLineRun.OItem_Result_CommandLine;
-
-                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                    {
-                        objDataWork_CommandLineRun.GetSubData_004_CodeSnipplets();
-                        objOItem_Result = objDataWork_CommandLineRun.OItem_Result_CodeSnipplets;
-
-                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                        {
-                            objDataWork_CommandLineRun.GetSubData_005_Variables();
-                            objOItem_Result = objDataWork_CommandLineRun.OItem_Result_Variables;
-
-                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                            {
-                                objDataWork_CommandLineRun.GetSubData_006_Values();
-                                objOItem_Result = objDataWork_CommandLineRun.OItem_Result_Values;
-
-                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                                {
-                                    objDataWork_CommandLineRun.GetSubData_007_ValueVars();
-                                    objOItem_Result = objDataWork_CommandLineRun.OItem_Result_ValueVars;
-
-                                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                                    {
-                                        objDataWork_CommandLineRun.GetSubData_008_ValueBelongingSources();
-                                        objOItem_Result = objDataWork_CommandLineRun.OItem_Result_ValueBelongingSource;
-                                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                                        {
-                                            objDataWork_CommandLineRun.GetSubData_009_Codes();
-                                            objOItem_Result = objDataWork_CommandLineRun.OItem_Result_Codes;
-                                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                                            {
-                                                objUserControl_CommandLineTree.InitializeTree();
-                                            }
-
-                                        }
-                                    }
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-                }
-                
-                
-            }
-            
-
-            
-
-        }
-
+      
         private void toolStripButton_Close_Click(object sender, EventArgs e)
         {
             this.Close();

@@ -33,8 +33,12 @@ namespace CommandLineRun_Module
 
             ClearControls();
 
+            
+
             if (objOItem_CMDLR != null &&  objOItem_CMDLR.GUID != objLocalConfig.Globals.Root.GUID)
             {
+                textBox_CMDRL.Text = objOItem_CMDLR.Name;
+                textBox_CMDRL.ReadOnly = false;
 
                 var codes =
                     objDataWork_CommandLineRun.Codes.Where(code => code.ID_CommandLineRun == objOItem_CMDLR.GUID)
@@ -47,9 +51,14 @@ namespace CommandLineRun_Module
                                join codeExist in codes on objCode.ID_CommandLineRun equals codeExist.ID_CommandLineRun into codesExist
                                from codeExist in codesExist.DefaultIfEmpty()
                                where codeExist == null
+                               orderby subCmdrl.OrderID
                                select objCode);
 
-                codes.ForEach(code => textBox_Code.Text += code.CodeParsed + "\r\n");
+                codes.ForEach(code =>
+                    {
+                        textBox_CodeParsed.Text += code.CodeParsed + "\r\n";
+                        textBox_Code.Text += code.Code + "\r\n";
+                    });
             }
             
         }
@@ -60,7 +69,7 @@ namespace CommandLineRun_Module
         {
             textBox_CMDRL.ReadOnly = true;
             textBox_CMDRL.Text = "";
-            textBox_Code.ReadOnly = true;
+            textBox_CodeParsed.Text = "";
             textBox_Code.Text = "";
         }
     }

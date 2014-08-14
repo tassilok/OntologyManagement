@@ -30,6 +30,8 @@
         {
             this.label_CMDRL = new System.Windows.Forms.Label();
             this.textBox_CMDRL = new System.Windows.Forms.TextBox();
+            this.label_CodeParsed = new System.Windows.Forms.Label();
+            this.textBox_CodeParsed = new System.Windows.Forms.TextBox();
             this.label_Code = new System.Windows.Forms.Label();
             this.textBox_Code = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
@@ -53,26 +55,49 @@
             this.textBox_CMDRL.Size = new System.Drawing.Size(819, 20);
             this.textBox_CMDRL.TabIndex = 1;
             // 
+            // label_CodeParsed
+            // 
+            this.label_CodeParsed.AutoSize = true;
+            this.label_CodeParsed.Location = new System.Drawing.Point(7, 35);
+            this.label_CodeParsed.Name = "label_CodeParsed";
+            this.label_CodeParsed.Size = new System.Drawing.Size(88, 13);
+            this.label_CodeParsed.TabIndex = 2;
+            this.label_CodeParsed.Text = "x_Code (Parsed):";
+            // 
+            // textBox_CodeParsed
+            // 
+            this.textBox_CodeParsed.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox_CodeParsed.Location = new System.Drawing.Point(125, 35);
+            this.textBox_CodeParsed.Multiline = true;
+            this.textBox_CodeParsed.Name = "textBox_CodeParsed";
+            this.textBox_CodeParsed.ReadOnly = true;
+            this.textBox_CodeParsed.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox_CodeParsed.Size = new System.Drawing.Size(819, 469);
+            this.textBox_CodeParsed.TabIndex = 3;
+            // 
             // label_Code
             // 
+            this.label_Code.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label_Code.AutoSize = true;
-            this.label_Code.Location = new System.Drawing.Point(7, 35);
+            this.label_Code.Location = new System.Drawing.Point(10, 509);
             this.label_Code.Name = "label_Code";
-            this.label_Code.Size = new System.Drawing.Size(46, 13);
-            this.label_Code.TabIndex = 2;
-            this.label_Code.Text = "x_Code:";
+            this.label_Code.Size = new System.Drawing.Size(97, 13);
+            this.label_Code.TabIndex = 4;
+            this.label_Code.Text = "x_Code (with vars):";
             // 
             // textBox_Code
             // 
-            this.textBox_Code.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBox_Code.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_Code.Location = new System.Drawing.Point(125, 35);
+            this.textBox_Code.Location = new System.Drawing.Point(125, 509);
             this.textBox_Code.Multiline = true;
             this.textBox_Code.Name = "textBox_Code";
             this.textBox_Code.ReadOnly = true;
-            this.textBox_Code.Size = new System.Drawing.Size(819, 583);
-            this.textBox_Code.TabIndex = 3;
+            this.textBox_Code.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox_Code.Size = new System.Drawing.Size(819, 109);
+            this.textBox_Code.TabIndex = 5;
             // 
             // UserControl_ExecuteCode
             // 
@@ -80,6 +105,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.textBox_Code);
             this.Controls.Add(this.label_Code);
+            this.Controls.Add(this.textBox_CodeParsed);
+            this.Controls.Add(this.label_CodeParsed);
             this.Controls.Add(this.textBox_CMDRL);
             this.Controls.Add(this.label_CMDRL);
             this.Name = "UserControl_ExecuteCode";
@@ -93,6 +120,8 @@
 
         private System.Windows.Forms.Label label_CMDRL;
         private System.Windows.Forms.TextBox textBox_CMDRL;
+        private System.Windows.Forms.Label label_CodeParsed;
+        private System.Windows.Forms.TextBox textBox_CodeParsed;
         private System.Windows.Forms.Label label_Code;
         private System.Windows.Forms.TextBox textBox_Code;
     }
