@@ -253,7 +253,7 @@ Public Class frmSingleViewer
                 End If
 
                 Select Case objOItem_MediaType.GUID
-                    Case objLocalConfig.OItem_Type_Image_Objects__No_Objects_.GUID
+                    Case objLocalConfig.OItem_Type_Images__Graphic_.GUID
                         objUserControl_ImageViewer.initialize_Image(objOItem_MultimediaItem, _
                                                                     objOItem_File, _
                                                                     dateCreated)

@@ -18,6 +18,8 @@ Public Class frm_FilesystemModule
 
     Private objBlobConnection As clsBlobConnection
 
+    Private objArgumentParsing As clsArgumentParsing
+
     Private objFileWork As clsFileWork
 
     Private objDataWork As clsDataWork
@@ -176,7 +178,15 @@ Public Class frm_FilesystemModule
         ToolStripLabel_Count.Text = DataGridView_Files.RowCount
     End Sub
 
+    Private Sub ParseArguments()
+        objArgumentParsing = New clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList())
+        If objArgumentParsing.OList_Items.Count = 1 Then
+
+        End If
+    End Sub
+
     Private Sub initialize()
+        ParseArguments()
         objBaseConfig = New clsBaseConfig(objLocalConfig)
         If objLocalConfig.OItem_User Is Nothing Then
             objFrm_Authentication = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate, True)
@@ -185,7 +195,7 @@ Public Class frm_FilesystemModule
                 objLocalConfig.OItem_User = objFrm_Authentication.OItem_User
             End If
         End If
-        
+
 
         If Not objLocalConfig.OItem_User Is Nothing Then
             objShellWork = New clsShellWork()
@@ -197,7 +207,7 @@ Public Class frm_FilesystemModule
             objTreeNode_Root.Expand()
             TreeView_Folder.Sort()
         End If
-        
+
     End Sub
 
     Private Sub test_FSO()

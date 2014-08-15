@@ -160,6 +160,12 @@
     <Compile Include="frmFileSync.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmMenu.Designer.vb">
+      <DependentUpon>frmMenu.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMenu.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmSaveFiles.Designer.vb">
       <DependentUpon>frmSaveFiles.vb</DependentUpon>
     </Compile>
@@ -204,6 +210,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmFileSync.resx">
       <DependentUpon>frmFileSync.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMenu.resx">
+      <DependentUpon>frmMenu.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSaveFiles.resx">
       <DependentUpon>frmSaveFiles.vb</DependentUpon>

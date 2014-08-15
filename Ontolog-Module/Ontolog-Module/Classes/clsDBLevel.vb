@@ -1054,6 +1054,7 @@ Public Class clsDBLevel
                     Else
                         objOItem_OItem.GUID_Related = objLogStates.LogState_Error.GUID
                     End If
+                    objOItem_OItem.Type = objTypes.AttributeType
                 End If
             Case objTypes.ClassType.ToLower
                 objOItem_Result = get_Data_Classes(objOLIst_OItem)
@@ -1065,6 +1066,7 @@ Public Class clsDBLevel
                     Else
                         objOItem_OItem.GUID_Related = objLogStates.LogState_Error.GUID
                     End If
+                    objOItem_OItem.Type = objTypes.ClassType
                 End If
             Case objTypes.ObjectType.ToLower
                 objOItem_Result = get_Data_Objects(objOLIst_OItem)
@@ -1076,6 +1078,7 @@ Public Class clsDBLevel
                     Else
                         objOItem_OItem.GUID_Related = objLogStates.LogState_Error.GUID
                     End If
+                    objOItem_OItem.Type = objTypes.ObjectType
                 End If
             Case objTypes.RelationType.ToLower
                 objOItem_Result = get_Data_RelationTypes(objOLIst_OItem)
@@ -1086,6 +1089,7 @@ Public Class clsDBLevel
                     Else
                         objOItem_OItem.GUID_Related = objLogStates.LogState_Error.GUID
                     End If
+                    objOItem_OItem.Type = objTypes.RelationType
                 End If
         End Select
 
