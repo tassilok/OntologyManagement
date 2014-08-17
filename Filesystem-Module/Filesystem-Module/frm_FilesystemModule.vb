@@ -34,6 +34,7 @@ Public Class frm_FilesystemModule
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFrm_FileSync As frmFileSync
     Private objFrm_FileBlobSync As frmFileBlobSync
+    Private objFrmMenu As frmMenu
 
     Private objFrmName As frm_Name
 
@@ -181,12 +182,15 @@ Public Class frm_FilesystemModule
     Private Sub ParseArguments()
         objArgumentParsing = New clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList())
         If objArgumentParsing.OList_Items.Count = 1 Then
+            objFrmMenu = New frmMenu(objLocalConfig, objArgumentParsing.OList_Items.First())
+            objFrmMenu.ShowDialog(Me)
 
+            Environment.Exit(0)
         End If
     End Sub
 
     Private Sub initialize()
-        ParseArguments()
+
         objBaseConfig = New clsBaseConfig(objLocalConfig)
         If objLocalConfig.OItem_User Is Nothing Then
             objFrm_Authentication = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate, True)
@@ -199,7 +203,7 @@ Public Class frm_FilesystemModule
 
         If Not objLocalConfig.OItem_User Is Nothing Then
             objShellWork = New clsShellWork()
-
+            ParseArguments()
             TreeView_Folder.Nodes.Clear()
             objTreeNode_Root = TreeView_Folder.Nodes.Add(objLocalConfig.OItem_Type_Filesystem_Management.GUID.ToString, objLocalConfig.OItem_Type_Filesystem_Management.Name, cint_ImageID_Root, cint_ImageID_Root)
             objTreeNode_ParentLessFiles = objTreeNode_Root.Nodes.Add(objLocalConfig.OItem_Type_File.GUID.ToString, " " & objLocalConfig.OItem_Type_File.Name & " (All)", cint_ImageID_ParentLessFiles, cint_ImageID_ParentLessFiles)

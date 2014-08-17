@@ -128,7 +128,10 @@
     <Compile Include="clsDataWork.vb" />
     <Compile Include="clsDataWork_FileResources.vb" />
     <Compile Include="clsDataWork_FileResource_Path.vb" />
+    <Compile Include="clsDataWork_Menu.vb" />
     <Compile Include="clsFile.vb" />
+    <Compile Include="clsFileSystemObject.vb" />
+    <Compile Include="clsRelatedFileSystemObject.vb" />
     <Compile Include="FileBlobSync\clsBlobSyncItem.vb" />
     <Compile Include="FileBlobSync\clsDataWork_FileBlobSync.vb" />
     <Compile Include="FileBlobSync\clsFileBlobSync.vb" />

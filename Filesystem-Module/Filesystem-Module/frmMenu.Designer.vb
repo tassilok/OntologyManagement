@@ -22,20 +22,22 @@ Partial Class frmMenu
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMenu))
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.DataGridView_FileSystemItems = New System.Windows.Forms.DataGridView()
+        Me.ContextMenuStrip_FileSystemObjects = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.DownloadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StartToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FolderBrowserDialog_Download = New System.Windows.Forms.FolderBrowserDialog()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer1.Panel1.SuspendLayout()
-        Me.SplitContainer1.SuspendLayout()
         CType(Me.DataGridView_FileSystemItems, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ContextMenuStrip_FileSystemObjects.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -47,8 +49,8 @@ Partial Class frmMenu
         '
         'ToolStripContainer1.ContentPanel
         '
-        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(609, 390)
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.DataGridView_FileSystemItems)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(609, 365)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
@@ -74,28 +76,39 @@ Partial Class frmMenu
         Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Close.Text = "x_Close"
         '
-        'SplitContainer1
-        '
-        Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        '
-        'SplitContainer1.Panel1
-        '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.DataGridView_FileSystemItems)
-        Me.SplitContainer1.Size = New System.Drawing.Size(609, 390)
-        Me.SplitContainer1.SplitterDistance = 203
-        Me.SplitContainer1.TabIndex = 0
-        '
         'DataGridView_FileSystemItems
         '
+        Me.DataGridView_FileSystemItems.AllowUserToAddRows = False
+        Me.DataGridView_FileSystemItems.AllowUserToDeleteRows = False
         Me.DataGridView_FileSystemItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView_FileSystemItems.ContextMenuStrip = Me.ContextMenuStrip_FileSystemObjects
         Me.DataGridView_FileSystemItems.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView_FileSystemItems.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_FileSystemItems.Name = "DataGridView_FileSystemItems"
-        Me.DataGridView_FileSystemItems.Size = New System.Drawing.Size(199, 386)
-        Me.DataGridView_FileSystemItems.TabIndex = 0
+        Me.DataGridView_FileSystemItems.ReadOnly = True
+        Me.DataGridView_FileSystemItems.Size = New System.Drawing.Size(609, 365)
+        Me.DataGridView_FileSystemItems.TabIndex = 1
+        '
+        'ContextMenuStrip_FileSystemObjects
+        '
+        Me.ContextMenuStrip_FileSystemObjects.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DownloadToolStripMenuItem, Me.StartToolStripMenuItem})
+        Me.ContextMenuStrip_FileSystemObjects.Name = "ContextMenuStrip_FileSystemObjects"
+        Me.ContextMenuStrip_FileSystemObjects.Size = New System.Drawing.Size(139, 48)
+        '
+        'DownloadToolStripMenuItem
+        '
+        Me.DownloadToolStripMenuItem.Name = "DownloadToolStripMenuItem"
+        Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+        Me.DownloadToolStripMenuItem.Text = "x_Download"
+        '
+        'StartToolStripMenuItem
+        '
+        Me.StartToolStripMenuItem.Name = "StartToolStripMenuItem"
+        Me.StartToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+        Me.StartToolStripMenuItem.Text = "x_Start"
+        '
+        'FolderBrowserDialog_Download
+        '
         '
         'frmMenu
         '
@@ -112,16 +125,17 @@ Partial Class frmMenu
         Me.ToolStripContainer1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        Me.SplitContainer1.Panel1.ResumeLayout(False)
-        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer1.ResumeLayout(False)
         CType(Me.DataGridView_FileSystemItems, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContextMenuStrip_FileSystemObjects.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripButton_Close As System.Windows.Forms.ToolStripButton
-    Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents DataGridView_FileSystemItems As System.Windows.Forms.DataGridView
+    Friend WithEvents ContextMenuStrip_FileSystemObjects As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents DownloadToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents StartToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FolderBrowserDialog_Download As System.Windows.Forms.FolderBrowserDialog
 End Class
