@@ -32,6 +32,13 @@ public clsOntologyItem OItem_class_comand_line { get; set; }
 public clsOntologyItem OItem_class_value { get; set; }
 public clsOntologyItem OItem_class_variable { get; set; }
 public clsOntologyItem OItem_class_comand_line__run_ { get; set; }
+public clsOntologyItem OItem_class_path_variable__windows_ { get; set; }
+public clsOntologyItem OItem_class_syntax_highlighting__scintillanet_ { get; set; }
+public clsOntologyItem OItem_class_programing_language { get; set; }
+
+
+        // Objects
+public clsOntologyItem OItem_object_commandlinerun_module { get; set; }
 
 
         // RelationTypes
@@ -40,7 +47,7 @@ public clsOntologyItem OItem_relationtype_belonging_source { get; set; }
 public clsOntologyItem OItem_relationtype_belongs_to { get; set; }
 public clsOntologyItem OItem_relationtype_contains { get; set; }
 public clsOntologyItem OItem_relationtype_needs { get; set; }
-
+public clsOntologyItem OItem_relationtype_is_written_in { get; set; }
   
 	
 private void get_Data_DevelopmentConfig()
@@ -203,6 +210,28 @@ var objOList_attributetype_description = (from objOItem in objDBLevel_Config1.OL
   
 	private void get_Config_RelationTypes()
         {
+
+            var objOList_relationtype_is_written_in = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                       where objOItem.ID_Object == cstrID_Ontology
+                                                       join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                       where objRef.Name_Object.ToLower() == "relationtype_is_written_in".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                                       select objRef).ToList();
+
+            if (objOList_relationtype_is_written_in.Any())
+            {
+                OItem_relationtype_is_written_in = new clsOntologyItem()
+                {
+                    GUID = objOList_relationtype_is_written_in.First().ID_Other,
+                    Name = objOList_relationtype_is_written_in.First().Name_Other,
+                    GUID_Parent = objOList_relationtype_is_written_in.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
 		var objOList_relationtype_add = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                            where objOItem.ID_Object == cstrID_Ontology
                                            join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -313,11 +342,93 @@ var objOList_relationtype_needs = (from objOItem in objDBLevel_Config1.OList_Obj
   
 	private void get_Config_Objects()
         {
-		
+            var objOList_object_commandlinerun_module = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                         where objOItem.ID_Object == cstrID_Ontology
+                                                         join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                         where objRef.Name_Object.ToLower() == "object_commandlinerun_module".ToLower() && objRef.Ontology == Globals.Type_Object
+                                                         select objRef).ToList();
+
+            if (objOList_object_commandlinerun_module.Any())
+            {
+                OItem_object_commandlinerun_module = new clsOntologyItem()
+                {
+                    GUID = objOList_object_commandlinerun_module.First().ID_Other,
+                    Name = objOList_object_commandlinerun_module.First().Name_Other,
+                    GUID_Parent = objOList_object_commandlinerun_module.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
 	}
   
 	private void get_Config_Classes()
         {
+            var objOList_class_path_variable__windows_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                          where objOItem.ID_Object == cstrID_Ontology
+                                                          join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                          where objRef.Name_Object.ToLower() == "class_path_variable__windows_".ToLower() && objRef.Ontology == Globals.Type_Class
+                                                          select objRef).ToList();
+
+            if (objOList_class_path_variable__windows_.Any())
+            {
+                OItem_class_path_variable__windows_ = new clsOntologyItem()
+                {
+                    GUID = objOList_class_path_variable__windows_.First().ID_Other,
+                    Name = objOList_class_path_variable__windows_.First().Name_Other,
+                    GUID_Parent = objOList_class_path_variable__windows_.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_class_syntax_highlighting__scintillanet_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                                     where objOItem.ID_Object == cstrID_Ontology
+                                                                     join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                                     where objRef.Name_Object.ToLower() == "class_syntax_highlighting__scintillanet_".ToLower() && objRef.Ontology == Globals.Type_Class
+                                                                     select objRef).ToList();
+
+            if (objOList_class_syntax_highlighting__scintillanet_.Any())
+            {
+                OItem_class_syntax_highlighting__scintillanet_ = new clsOntologyItem()
+                {
+                    GUID = objOList_class_syntax_highlighting__scintillanet_.First().ID_Other,
+                    Name = objOList_class_syntax_highlighting__scintillanet_.First().Name_Other,
+                    GUID_Parent = objOList_class_syntax_highlighting__scintillanet_.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_class_programing_language = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                      where objOItem.ID_Object == cstrID_Ontology
+                                                      join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                      where objRef.Name_Object.ToLower() == "class_programing_language".ToLower() && objRef.Ontology == Globals.Type_Class
+                                                      select objRef).ToList();
+
+            if (objOList_class_programing_language.Any())
+            {
+                OItem_class_programing_language = new clsOntologyItem()
+                {
+                    GUID = objOList_class_programing_language.First().ID_Other,
+                    Name = objOList_class_programing_language.First().Name_Other,
+                    GUID_Parent = objOList_class_programing_language.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_class_comand_line__run_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                     where objOItem.ID_Object == cstrID_Ontology
                                                     join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object

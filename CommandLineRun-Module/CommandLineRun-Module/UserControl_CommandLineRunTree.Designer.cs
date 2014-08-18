@@ -35,6 +35,10 @@
             this.toolStripLabel_CountLbl = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_Count = new System.Windows.Forms.ToolStripLabel();
             this.treeView_CMDLR = new System.Windows.Forms.TreeView();
+            this.contextMenuStrip_CMDLR = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ModuleMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenModuleByArgumentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenLastModuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel_Mark = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_Mark = new System.Windows.Forms.ToolStripTextBox();
@@ -43,17 +47,13 @@
             this.toolStripTextBox_SemFilter = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton_AddSemFilter = new System.Windows.Forms.ToolStripButton();
             this.timer_Mark = new System.Windows.Forms.Timer(this.components);
-            this.contextMenuStrip_CMDLR = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ModuleMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.OpenModuleByArgumentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.OpenLastModuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
             this.contextMenuStrip_CMDLR.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -105,12 +105,45 @@
             // 
             this.treeView_CMDLR.ContextMenuStrip = this.contextMenuStrip_CMDLR;
             this.treeView_CMDLR.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView_CMDLR.HideSelection = false;
             this.treeView_CMDLR.Location = new System.Drawing.Point(0, 0);
             this.treeView_CMDLR.Name = "treeView_CMDLR";
             this.treeView_CMDLR.Size = new System.Drawing.Size(599, 465);
             this.treeView_CMDLR.TabIndex = 1;
             this.treeView_CMDLR.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_CMDLR_AfterSelect);
             this.treeView_CMDLR.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_CMDLR_NodeMouseDoubleClick);
+            // 
+            // contextMenuStrip_CMDLR
+            // 
+            this.contextMenuStrip_CMDLR.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ModuleMenuToolStripMenuItem});
+            this.contextMenuStrip_CMDLR.Name = "contextMenuStrip_CMDLR";
+            this.contextMenuStrip_CMDLR.Size = new System.Drawing.Size(162, 26);
+            this.contextMenuStrip_CMDLR.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_CMDLR_Opening);
+            // 
+            // ModuleMenuToolStripMenuItem
+            // 
+            this.ModuleMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenModuleByArgumentToolStripMenuItem});
+            this.ModuleMenuToolStripMenuItem.Name = "ModuleMenuToolStripMenuItem";
+            this.ModuleMenuToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.ModuleMenuToolStripMenuItem.Text = "x_Module-Menu";
+            // 
+            // OpenModuleByArgumentToolStripMenuItem
+            // 
+            this.OpenModuleByArgumentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenLastModuleToolStripMenuItem});
+            this.OpenModuleByArgumentToolStripMenuItem.Name = "OpenModuleByArgumentToolStripMenuItem";
+            this.OpenModuleByArgumentToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.OpenModuleByArgumentToolStripMenuItem.Text = "x_Open Module by Argument";
+            this.OpenModuleByArgumentToolStripMenuItem.Click += new System.EventHandler(this.OpenModuleByArgumentToolStripMenuItem_Click);
+            // 
+            // OpenLastModuleToolStripMenuItem
+            // 
+            this.OpenLastModuleToolStripMenuItem.CheckOnClick = true;
+            this.OpenLastModuleToolStripMenuItem.Name = "OpenLastModuleToolStripMenuItem";
+            this.OpenLastModuleToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.OpenLastModuleToolStripMenuItem.Text = "x_Open Last Module";
             // 
             // toolStrip2
             // 
@@ -124,7 +157,7 @@
             this.toolStripButton_AddSemFilter});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(492, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(461, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripLabel_Mark
@@ -171,38 +204,6 @@
             this.timer_Mark.Interval = 300;
             this.timer_Mark.Tick += new System.EventHandler(this.timer_Mark_Tick);
             // 
-            // contextMenuStrip_CMDLR
-            // 
-            this.contextMenuStrip_CMDLR.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ModuleMenuToolStripMenuItem});
-            this.contextMenuStrip_CMDLR.Name = "contextMenuStrip_CMDLR";
-            this.contextMenuStrip_CMDLR.Size = new System.Drawing.Size(162, 26);
-            this.contextMenuStrip_CMDLR.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_CMDLR_Opening);
-            // 
-            // ModuleMenuToolStripMenuItem
-            // 
-            this.ModuleMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.OpenModuleByArgumentToolStripMenuItem});
-            this.ModuleMenuToolStripMenuItem.Name = "ModuleMenuToolStripMenuItem";
-            this.ModuleMenuToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.ModuleMenuToolStripMenuItem.Text = "x_Module-Menu";
-            // 
-            // OpenModuleByArgumentToolStripMenuItem
-            // 
-            this.OpenModuleByArgumentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.OpenLastModuleToolStripMenuItem});
-            this.OpenModuleByArgumentToolStripMenuItem.Name = "OpenModuleByArgumentToolStripMenuItem";
-            this.OpenModuleByArgumentToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
-            this.OpenModuleByArgumentToolStripMenuItem.Text = "x_Open Module by Argument";
-            this.OpenModuleByArgumentToolStripMenuItem.Click += new System.EventHandler(this.OpenModuleByArgumentToolStripMenuItem_Click);
-            // 
-            // OpenLastModuleToolStripMenuItem
-            // 
-            this.OpenLastModuleToolStripMenuItem.CheckOnClick = true;
-            this.OpenLastModuleToolStripMenuItem.Name = "OpenLastModuleToolStripMenuItem";
-            this.OpenLastModuleToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.OpenLastModuleToolStripMenuItem.Text = "x_Open Last Module";
-            // 
             // UserControl_CommandLineRunTree
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -219,9 +220,9 @@
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.contextMenuStrip_CMDLR.ResumeLayout(false);
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
-            this.contextMenuStrip_CMDLR.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

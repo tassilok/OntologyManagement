@@ -1,4 +1,5 @@
-﻿Imports OntologyClasses.BaseClasses
+﻿Imports ClassLibrary_ShellWork
+Imports OntologyClasses.BaseClasses
 
 Public Class UserControl_ObjectEdit
 
@@ -14,12 +15,14 @@ Public Class UserControl_ObjectEdit
     Private objFrm_Graph As frmGraph
 
     Private objOntologyClipboard As clsOntologyClipboard
+    Private objShellWork As clsShellWork
 
     Private objRelationConfig As clsRelationConfig
 
     Private objDataGridviewRowCollection_Objects As DataGridViewRowCollection
     Private WithEvents objUserControl_ObjectRelTree As UserControl_ObjectRelTree
     Private WithEvents objUserControl_OItem_List As UserControl_OItemList
+    Private objFrm_Modules As frmModules
 
     Private objOItem_Object As clsOntologyItem
     Private objOItem_ObjectRel As clsObjectRel
@@ -35,6 +38,8 @@ Public Class UserControl_ObjectEdit
 
     Public Event deleted_Object()
     Public Event ActivatedItem(intRowID As Integer)
+
+    Private strLastModule As String
 
     Private Sub relateByName(oList_Items As List(Of clsOntologyItem), NameRelationType As NameRelation_Type) Handles objUserControl_ObjectRelTree.relateByName
         Dim objOSearch_Objects As List(Of clsOntologyItem)
@@ -744,6 +749,7 @@ Public Class UserControl_ObjectEdit
         objTransaction = New clsTransaction(objLocalConfig.Globals)
         objOntologyClipboard = New clsOntologyClipboard(objLocalConfig.Globals)
         objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
+        objShellWork = New clsShellWork()
     End Sub
 
     Private Sub ToolStripTextBox_Name_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripTextBox_Name.TextChanged
@@ -931,7 +937,28 @@ Public Class UserControl_ObjectEdit
     End Sub
 
     Private Sub OpenModuleByCommandLineToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenModuleByCommandLineToolStripMenuItem.Click
+        If Not OpenLastModuleToolStripMenuItem.Checked Or String.IsNullOrEmpty(strLastModule) Then
+            objFrm_Modules = New frmModules(objLocalConfig.Globals)
+            objFrm_Modules.ShowDialog(Me)
+            If objFrm_Modules.DialogResult = DialogResult.OK Then
+                Dim strModule = objFrm_Modules.Selected_Module
+                If Not strModule Is Nothing Then
+                    objShellWork = New clsShellWork()
+                    If objShellWork.start_Process(strModule, "Item=" & objOItem_Object.GUID + ",Object", IO.Path.GetDirectoryName(strModule), False, False) Then
+                        strLastModule = strModule
+                        OpenLastModuleToolStripMenuItem.ToolTipText = strLastModule
+                    Else
+                        MsgBox("Das Module konnte nicht gestartet werden!", MsgBoxStyle.Exclamation)
+                    End If
+                End If
+            End If
+        Else
+            objShellWork = New clsShellWork()
+            If Not objShellWork.start_Process(strLastModule, "Item=" & objOItem_Object.GUID + ",Object", IO.Path.GetDirectoryName(strLastModule), False, False) Then
+                MsgBox("Das Module konnte nicht gestartet werden!", MsgBoxStyle.Exclamation)
+            End If
 
+        End If
     End Sub
 
     Private Sub OpenGraphViewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenGraphViewToolStripMenuItem.Click

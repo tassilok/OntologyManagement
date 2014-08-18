@@ -17,8 +17,11 @@ namespace CommandLineRun_Module
         
         private clsDBLevel objDBLevel_CommandLineRun;
         private clsDBLevel objDBLevel_CommandLine;
+        private clsDBLevel objDBLevel_CommandLine_PL;
         private clsDBLevel objDBLevel_CommandLineRunTree;
         private clsDBLevel objDBLevel_CodeSnipplets;
+        private clsDBLevel objDBLevel_CodeSnipplets_PL;
+        private clsDBLevel objDBLevel_PL_SyntaxHighl;
         private clsDBLevel objDBLevel_Code;
         private clsDBLevel objDBLevel_Variables;
         private clsDBLevel objDBLevel_Values;
@@ -26,17 +29,22 @@ namespace CommandLineRun_Module
         private clsDBLevel objDBLevel_ValueBelongingSource;
         private clsDBLevel objDBLevel_Relations;
         private clsDBLevel objDBlevel_CmdlrTreeParam;
+        private clsDBLevel objDBlevel_ProgrammingLanguages;
         private clsDBLevel objDBlevel_OItem;
 
         public clsOntologyItem OItem_Result_CommandLineRun { get; private set; }
         public clsOntologyItem OItem_Result_CommandLineRunHierarchy { get; private set; }
         public clsOntologyItem OItem_Result_CommandLine { get; private set; }
+        public clsOntologyItem OItem_Result_CommandLine_PL { get; private set; }
         public clsOntologyItem OItem_Result_Variables { get; private set; }
         public clsOntologyItem OItem_Result_CodeSnipplets { get; private set; }
+        public clsOntologyItem OItem_Result_CodeSnipplets_PL { get; private set; }
+        public clsOntologyItem OItem_Result_PL_SyntaxHighl { get; private set; }
         public clsOntologyItem OItem_Result_Values { get; private set; }
         public clsOntologyItem OItem_Result_ValueVars { get; private set; }
         public clsOntologyItem OItem_Result_ValueBelongingSource { get; private set; }
         public clsOntologyItem OItem_Result_Codes { get; private set; }
+        public clsOntologyItem OItem_Result_ProgrammingLanguages { get; private set; }
 
         private clsOntologyItem OItem_Result_Filter;
 
@@ -50,6 +58,11 @@ namespace CommandLineRun_Module
         public clsOntologyItem OItem_Object { get; set; }
 
         public int RootNodeCount { get; private set; }
+
+        public List<clsOntologyItem> OList_ProgrammingLanguages
+        {
+            get { return objDBlevel_ProgrammingLanguages.OList_Objects; }
+        }
 
         private List<clsOntologyItem> filterList = new List<clsOntologyItem>();
 
@@ -80,41 +93,65 @@ namespace CommandLineRun_Module
 
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-                            GetSubData_004_CodeSnipplets();
-                            objOItem_Result = OItem_Result_CodeSnipplets;
-
+                            GetSubData_004_CommandLine_ProgrammingLanguage();
+                            objOItem_Result = OItem_Result_CommandLine_PL;
                             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                             {
-                                GetSubData_005_Variables();
-                                objOItem_Result = OItem_Result_Variables;
+                                GetSubData_005_CodeSnipplets();
+                                objOItem_Result = OItem_Result_CodeSnipplets;
 
                                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                 {
-                                    GetSubData_006_Values();
-                                    objOItem_Result = OItem_Result_Values;
-
+                                    GetSubData_006_CodeSnipplets_ProgrammingLanguage();
+                                    objOItem_Result = OItem_Result_CodeSnipplets_PL;
                                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                     {
-                                        GetSubData_007_ValueVars();
-                                        objOItem_Result = OItem_Result_ValueVars;
-
+                                        GetSubData_007_SyntaxHighlighting_Of_ProgrammingLanguage();
                                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                         {
-                                            GetSubData_008_ValueBelongingSources();
-                                            objOItem_Result = OItem_Result_ValueBelongingSource;
+                                            GetSubData_008_Variables();
+                                            objOItem_Result = OItem_Result_Variables;
+
                                             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                             {
-                                                GetSubData_009_Codes();
-                                                objOItem_Result = OItem_Result_Codes;
+                                                GetSubData_009_Values();
+                                                objOItem_Result = OItem_Result_Values;
+
+                                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                                {
+                                                    GetSubData_010_ValueVars();
+                                                    objOItem_Result = OItem_Result_ValueVars;
+
+                                                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                                    {
+                                                        GetSubData_011_ValueBelongingSources();
+                                                        objOItem_Result = OItem_Result_ValueBelongingSource;
+                                                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                                        {
+                                                            GetSubData_012_ProgramingLanguages();
+                                                            objOItem_Result = OItem_Result_ProgrammingLanguages;
+                                                            if (objOItem_Result.GUID ==
+                                                                objLocalConfig.Globals.LState_Success.GUID)
+                                                            {
+                                                                GetSubData_013_Codes();
+                                                                objOItem_Result = OItem_Result_Codes;    
+                                                            }
+                                                            
+
+                                                        }
+                                                    }
+
+                                                }
 
                                             }
                                         }
-
+                                        
                                     }
+                                    
 
                                 }
-
                             }
+                            
 
                         }
                     }
@@ -230,7 +267,33 @@ namespace CommandLineRun_Module
             OItem_Result_CommandLine = objOItem_Result;
         }
 
-        public void GetSubData_004_CodeSnipplets()
+        public void GetSubData_004_CommandLine_ProgrammingLanguage()
+        {
+            OItem_Result_CommandLine_PL = objLocalConfig.Globals.LState_Nothing.Clone();
+
+            var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+
+            var searchProgrammingLanguage = objDBLevel_CommandLine.OList_ObjectRel.Select(cmd => new clsObjectRel
+            {
+                ID_Object = cmd.ID_Other,
+                ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_class_programing_language.GUID
+            }).ToList();
+
+            if (searchProgrammingLanguage.Any())
+            {
+                objOItem_Result = objDBLevel_CommandLine_PL.get_Data_ObjectRel(searchProgrammingLanguage, boolIDs: false);    
+            }
+            else
+            {
+                objDBLevel_CommandLine_PL.OList_ObjectRel.Clear();
+            }
+            
+
+            OItem_Result_CommandLine_PL = objOItem_Result;
+        }
+
+        public void GetSubData_005_CodeSnipplets()
         {
             OItem_Result_CodeSnipplets = objLocalConfig.Globals.LState_Nothing.Clone();
 
@@ -292,7 +355,66 @@ namespace CommandLineRun_Module
 
         }
 
-        public void GetSubData_005_Variables()
+        public void GetSubData_006_CodeSnipplets_ProgrammingLanguage()
+        {
+            OItem_Result_CodeSnipplets_PL = objLocalConfig.Globals.LState_Nothing.Clone();
+
+            var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+
+            var searchProgrammingLanguage = objDBLevel_CodeSnipplets.OList_ObjectRel.Select(cmd => new clsObjectRel
+            {
+                ID_Object = cmd.ID_Other,
+                ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_class_programing_language.GUID
+            }).ToList();
+
+            if (searchProgrammingLanguage.Any())
+            {
+                objOItem_Result = objDBLevel_CodeSnipplets_PL.get_Data_ObjectRel(searchProgrammingLanguage, boolIDs: false);    
+            }
+            else
+            {
+                objDBLevel_CodeSnipplets_PL.OList_ObjectRel.Clear();
+            }
+            
+
+            OItem_Result_CodeSnipplets_PL = objOItem_Result;
+        }
+
+        public void GetSubData_007_SyntaxHighlighting_Of_ProgrammingLanguage()
+        {
+            OItem_Result_PL_SyntaxHighl = objLocalConfig.Globals.LState_Nothing.Clone();
+
+            var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+
+            var searchSyntaxHighlighting = objDBLevel_CommandLine_PL.OList_ObjectRel.Select(cmd => new clsObjectRel
+            {
+                ID_Other = cmd.ID_Other,
+                ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID,
+                ID_Parent_Object = objLocalConfig.OItem_class_syntax_highlighting__scintillanet_.GUID
+            }).ToList();
+
+            searchSyntaxHighlighting.AddRange(objDBLevel_CodeSnipplets_PL.OList_ObjectRel.Select(cmd => new clsObjectRel
+                {
+                    ID_Other = cmd.ID_Other,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID,
+                    ID_Parent_Object = objLocalConfig.OItem_class_syntax_highlighting__scintillanet_.GUID
+                }));
+
+            if (searchSyntaxHighlighting.Any())
+            {
+                objOItem_Result = objDBLevel_PL_SyntaxHighl.get_Data_ObjectRel(searchSyntaxHighlighting, boolIDs: false);    
+            }
+            else
+            {
+                objDBLevel_PL_SyntaxHighl.OList_ObjectRel.Clear();
+            }
+            
+
+            OItem_Result_PL_SyntaxHighl = objOItem_Result;
+        }
+
+        public void GetSubData_008_Variables()
         {
             OItem_Result_Variables = objLocalConfig.Globals.LState_Nothing.Clone();
 
@@ -331,7 +453,7 @@ namespace CommandLineRun_Module
             OItem_Result_Variables = objOItem_Result;
         }
 
-        public void GetSubData_006_Values()
+        public void GetSubData_009_Values()
         {
             OItem_Result_Values = objLocalConfig.Globals.LState_Nothing.Clone();
 
@@ -383,7 +505,7 @@ namespace CommandLineRun_Module
             OItem_Result_Values = objOItem_Result;
         }
 
-        public void GetSubData_007_ValueVars()
+        public void GetSubData_010_ValueVars()
         {
             OItem_Result_ValueVars = objLocalConfig.Globals.LState_Nothing.Clone();
 
@@ -408,7 +530,7 @@ namespace CommandLineRun_Module
             OItem_Result_ValueVars = objOItem_Result;
         }
 
-        public void GetSubData_008_ValueBelongingSources()
+        public void GetSubData_011_ValueBelongingSources()
         {
             OItem_Result_ValueBelongingSource = objLocalConfig.Globals.LState_Nothing.Clone();
 
@@ -601,7 +723,23 @@ namespace CommandLineRun_Module
             return objOItem_Result;
         }
 
-        public void GetSubData_009_Codes()
+        public void GetSubData_012_ProgramingLanguages()
+        {
+            OItem_Result_ProgrammingLanguages = objLocalConfig.Globals.LState_Nothing.Clone();
+
+            var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+
+            var searchProgrammingLanguages = new List<clsOntologyItem>
+                {
+                    new clsOntologyItem {GUID_Parent = objLocalConfig.OItem_class_programing_language.GUID}
+                };
+
+            objOItem_Result = objDBlevel_ProgrammingLanguages.get_Data_Objects(searchProgrammingLanguages);
+
+            OItem_Result_ProgrammingLanguages = objOItem_Result;
+        }
+
+        public void GetSubData_013_Codes()
         {
             OItem_Result_Codes = objLocalConfig.Globals.LState_Nothing.Clone();
             Codes = new List<clsCode>();
@@ -624,12 +762,29 @@ namespace CommandLineRun_Module
                 }
                 
                 cmdrls.ForEach(cmlr =>
-                {
-                    var commandLines =
-                        objDBLevel_CommandLine.OList_ObjectRel.Where(cmd => cmd.ID_Object == cmlr.GUID).OrderBy(cmd => cmd.OrderID).ToList();
+                    {
+                        var commandLinesPL = (from pl in objDBLevel_CommandLine_PL.OList_ObjectRel
+                                              join syhl in objDBLevel_PL_SyntaxHighl.OList_ObjectRel on pl.ID_Other
+                                                  equals
+                                                  syhl.ID_Other
+                                                  into syhls
+                                              from syhl in syhls.DefaultIfEmpty()
+                                              select new {pl, syhl}).ToList();
+
+                        var commandLines = (from cmd in
+                                                objDBLevel_CommandLine.OList_ObjectRel.Where(
+                                                    cmd => cmd.ID_Object == cmlr.GUID)
+                                                                      .OrderBy(cmd => cmd.OrderID)
+                                                                      .ToList()
+                                            join pl in commandLinesPL on cmd.ID_Other equals pl.pl.ID_Object into pls
+                                            from pl in pls.DefaultIfEmpty()
+                                            select new {cmd, pl}).ToList();
+                        
+                        
+                    
 
                     variables.AddRange(from commandLine in commandLines
-                                     join var in objDBLevel_Variables.OList_ObjectRel on commandLine.ID_Other equals
+                                     join var in objDBLevel_Variables.OList_ObjectRel on commandLine.cmd.ID_Other equals
                                          var.ID_Object
                                      select var);
 
@@ -637,21 +792,35 @@ namespace CommandLineRun_Module
                         cmd =>
                         new clsCode
                             {
-                                ID_CommandLineRun = cmd.ID_Object,
-                                ID_CodeItem = cmd.ID_Other,
-                                Code = cmd.Name_Other
+                                ID_CommandLineRun = cmd.cmd.ID_Object,
+                                ID_CodeItem = cmd.cmd.ID_Other,
+                                Code = cmd.cmd.Name_Other,
+                                ID_ProgrammingLanguage = cmd.pl != null ? cmd.pl.pl.ID_Other : null,
+                                Name_ProgrammingLanguage = cmd.pl != null ? cmd.pl.pl.Name_Other : null,
+                                ID_SyntaxHighlighting = cmd.pl != null && cmd.pl.syhl != null ? cmd.pl.syhl.ID_Object : null,
+                                Name_SyntaxHighlighting =  cmd.pl != null && cmd.pl.syhl != null  ? cmd.pl.syhl.Name_Object : null
                             }));
 
+
+                        var codeSnippletsPL = (from pl in objDBLevel_CommandLine_PL.OList_ObjectRel
+                                               join syhl in objDBLevel_PL_SyntaxHighl.OList_ObjectRel on pl.ID_Other
+                                                   equals
+                                                   syhl.ID_Other
+                                                   into syhls
+                                               from syhl in syhls.DefaultIfEmpty()
+                                               select new {pl, syhl}).ToList();
 
                     var codeSnipplets =
                         (from codeSnipplet in
                              objDBLevel_CodeSnipplets.OList_ObjectRel.Where(codes => codes.ID_Object == cmlr.GUID).OrderBy(codes => codes.OrderID)
                                                      .ToList()
                          join code in objDBLevel_Code.OList_ObjectAtt on codeSnipplet.ID_Other equals code.ID_Object
-                         select code).ToList();
+                         join pl in codeSnippletsPL on codeSnipplet.ID_Other equals pl.pl.ID_Object into pls
+                         from pl in pls.DefaultIfEmpty()
+                         select new {code, pl}).ToList();
 
                     variables.AddRange(from codes in codeSnipplets
-                                       join var in objDBLevel_Variables.OList_ObjectRel on codes.ID_Object equals
+                                       join var in objDBLevel_Variables.OList_ObjectRel on codes.code.ID_Object equals
                                            var.ID_Object
                                        join variable in variables on var.ID_Other equals variable.ID_Other into variables2
                                        from variable in variables2.DefaultIfEmpty()
@@ -661,9 +830,13 @@ namespace CommandLineRun_Module
                     Codes.AddRange(codeSnipplets.Select(cmd =>
                             new clsCode
                             {
-                                ID_CommandLineRun = cmd.ID_Object,
-                                ID_CodeItem = cmd.ID_Object,
-                                Code = cmd.Val_String
+                                ID_CommandLineRun = cmd.code.ID_Object,
+                                ID_CodeItem = cmd.code.ID_Object,
+                                Code = cmd.code.Val_String,
+                                ID_ProgrammingLanguage = cmd.pl != null ? cmd.pl.pl.ID_Other : null,
+                                Name_ProgrammingLanguage = cmd.pl != null ? cmd.pl.pl.Name_Other : null,
+                                ID_SyntaxHighlighting = cmd.pl != null && cmd.pl.syhl != null  ? cmd.pl.syhl.ID_Object : null,
+                                Name_SyntaxHighlighting = cmd.pl != null && cmd.pl.syhl != null  ? cmd.pl.syhl.Name_Object : null
                             }));
 
                 });
@@ -788,17 +961,25 @@ namespace CommandLineRun_Module
             objDBLevel_Relations = new clsDBLevel(objLocalConfig.Globals);
             objDBlevel_CmdlrTreeParam = new clsDBLevel(objLocalConfig.Globals);
             objDBlevel_OItem = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_CommandLine_PL = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_PL_SyntaxHighl  = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_CodeSnipplets_PL = new clsDBLevel(objLocalConfig.Globals);
+            objDBlevel_ProgrammingLanguages = new clsDBLevel(objLocalConfig.Globals);
 
             OItem_CommandLineRun_Entry = null;
             OItem_Result_CommandLineRun = objLocalConfig.Globals.LState_Nothing.Clone();
             OItem_Result_CommandLineRunHierarchy = objLocalConfig.Globals.LState_Nothing.Clone();
             OItem_Result_CommandLine = objLocalConfig.Globals.LState_Nothing.Clone();
+            OItem_Result_CommandLine_PL = objLocalConfig.Globals.LState_Nothing.Clone();
             OItem_Result_CodeSnipplets = objLocalConfig.Globals.LState_Nothing.Clone();
+            OItem_Result_CodeSnipplets_PL = objLocalConfig.Globals.LState_Nothing.Clone();
+            OItem_Result_PL_SyntaxHighl = objLocalConfig.Globals.LState_Nothing.Clone();
             OItem_Result_Variables = objLocalConfig.Globals.LState_Nothing.Clone();
             OItem_Result_Values = objLocalConfig.Globals.LState_Nothing.Clone();
             OItem_Result_ValueVars = objLocalConfig.Globals.LState_Nothing.Clone();
             OItem_Result_ValueBelongingSource = objLocalConfig.Globals.LState_Nothing.Clone();
             OItem_Result_Codes = objLocalConfig.Globals.LState_Nothing.Clone();
+            OItem_Result_ProgrammingLanguages = objLocalConfig.Globals.LState_Nothing.Clone();
         }
     }
 }
