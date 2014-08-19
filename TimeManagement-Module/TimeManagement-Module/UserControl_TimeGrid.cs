@@ -30,16 +30,27 @@ namespace TimeManagement_Module
 
         public delegate void SelectedRow(clsOntologyItem OItem_TimeMgmtItem);
 
+        public delegate void AppliedEntries(List<clsOntologyItem> AppliedItems);
+
         public delegate void UpdatedGrid();
 
         public event SelectedRow SelectedRowCntrl;
         public event UpdatedGrid UpdatedGridRow;
+        public event AppliedEntries AppliedTimeItems;
 
         private DateTime todoEnd;
 
         private bool pcChange;
 
         private CultureInfo culture;
+
+        public bool IsApplyable 
+        {
+            get { return applyToolStripMenuItem.Visible; }
+            set { applyToolStripMenuItem.Visible = value; }
+        }
+
+        public List<clsOntologyItem> AppliedItems { get; private set; }
 
         public UserControl_TimeGrid(clsLocalConfig LocalConfig)
         {
@@ -270,6 +281,7 @@ namespace TimeManagement_Module
         private void ContextMenuStrip_TimeManagement_Opening(object sender, CancelEventArgs e)
         {
             EditToolStripMenuItem.Enabled = false;
+            applyToolStripMenuItem.Enabled = false;
 
             if (DataGridView_LogManagement.SelectedRows.Count == 1)
             {
@@ -290,6 +302,10 @@ namespace TimeManagement_Module
             }
             
         
+            if (DataGridView_LogManagement.SelectedRows.Count > 0)
+            {
+                applyToolStripMenuItem.Enabled = true;
+            }
         }
 
         private void ConfigureCalculation(ToolStripMenuItem menuItem = null)
@@ -513,7 +529,7 @@ namespace TimeManagement_Module
         private void DataGridView_LogManagement_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             
-            if (ModifierKeys.HasFlag(Keys.Control))
+            if (ModifierKeys.HasFlag(Keys.Control) && SelectedRowCntrl != null)
             {
                 DataGridViewRow objDGVR = DataGridView_LogManagement.Rows[e.RowIndex];
                 DataRowView objDRV = (DataRowView)objDGVR.DataBoundItem;
@@ -544,6 +560,23 @@ namespace TimeManagement_Module
                 timer_Stopwatch.Stop();
             }
             
+        }
+
+        private void applyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            AppliedItems =
+                DataGridView_LogManagement.SelectedRows.Cast<DataGridViewRow>()
+                                          .Select(row => (DataRowView) row.DataBoundItem)
+                                          .Select(drow => new clsOntologyItem
+                                              {
+                                                  GUID = drow["ID_TimeManagement"].ToString(),
+                                                  Name = drow["Name_TimeManagement"].ToString(),
+                                                  GUID_Parent = objLocalConfig.OItem_class_timemanagement.GUID,
+                                                  Type = objLocalConfig.Globals.Type_Object
+                                              }).ToList();
+
+            AppliedTimeItems(AppliedItems);
         }
 
     }

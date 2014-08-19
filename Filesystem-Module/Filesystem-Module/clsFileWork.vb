@@ -794,7 +794,19 @@ Public Class clsFileWork
                                 End If
                             End If
                         End If
+                    Else 
+                        oList_ObjRel = New List(Of clsObjectRel) From { new clsObjectRel With {.ID_Object = objOItem_FileSystemObject.GUID,
+                                                                                               .ID_RelationType = objLocalConfig.OItem_RelationType_located_in.GUID,
+                                                                                               .ID_Parent_Other = objLocalConfig.OItem_Type_Path.GUID } }
 
+                        objDBLevel_Folder.get_Data_ObjectRel(oList_ObjRel, _
+                                                         False, _
+                                                         False)
+                        strPath = objOItem_FileSystemObject.Name
+                        Dim folderList = objDBLevel_Folder.OList_ObjectRel.Where(Function(folder) folder.OrderID = 1).ToList()
+                        If folderList.Any() Then
+                            strPath = Environment.ExpandEnvironmentVariables(folderList.First().Name_Other) & If(folderList.First().Name_Other.EndsWith("\"),"","\") & strPath
+                        End If
                     End If
                 End If
 

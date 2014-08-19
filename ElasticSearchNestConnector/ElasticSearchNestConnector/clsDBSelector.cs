@@ -613,7 +613,25 @@ namespace ElasticSearchNestConnector
                         }
                         strQuery += ")";
                     }
-                    
+
+                    var oL_OrderID = (from obj in OList_ObjectRel
+                                       where obj.OrderID > 0
+                                       group obj by obj.OrderID
+                                           into g
+                                           select g.Key).ToList();
+
+                    if (oL_OrderID.Any())
+                    {
+                        if (strQuery != "") strQuery += "  AND  ";
+                        strQuery += "(";
+                        for (var i = 0; i < oL_OrderID.Count; i++)
+                        {
+                            if (i > 0) strQuery += " OR ";
+
+                            strQuery += objFields.OrderID + ":" + oL_OrderID[i];
+                        }
+                        strQuery += ")";
+                    }
 
                 }
             }

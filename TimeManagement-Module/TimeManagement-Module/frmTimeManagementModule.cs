@@ -20,10 +20,13 @@ namespace TimeManagement_Module
         private clsDBLevel objDBLevel_Relation;
         private frmAuthenticate objFrmAuthenticate;
         private frmMain objFrmMain;
+        private clsArgumentParsing objArgumentParsing;
 
         private UserControl_TimeGrid objUserControl_TimeGrid;
 
         private UserControl_RefTree objUserControl_RefTree;
+
+        private frmMenu objFrmMenu;
 
         private clsOntologyItem objOItem_ParentClass;
 
@@ -49,6 +52,9 @@ namespace TimeManagement_Module
             {
                 objLocalConfig.User = objFrmAuthenticate.OItem_User;
                 objLocalConfig.Group = objFrmAuthenticate.OItem_Group;
+
+                ParseArguments();
+
                 objUserControl_RefTree = new UserControl_RefTree(objLocalConfig.Globals);
                 objUserControl_RefTree.Dock = DockStyle.Fill;
                 splitContainer1.Panel1.Controls.Add(objUserControl_RefTree);
@@ -73,6 +79,17 @@ namespace TimeManagement_Module
             }
             else
             {
+                Environment.Exit(0);
+            }
+        }
+
+        private void ParseArguments()
+        {
+            objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList());
+            if (objArgumentParsing.OList_Items.Count == 1)
+            {
+                objFrmMenu = new frmMenu(objLocalConfig, objArgumentParsing.OList_Items.First());
+                objFrmMenu.ShowDialog(this);
                 Environment.Exit(0);
             }
         }

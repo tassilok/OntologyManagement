@@ -18,6 +18,10 @@ namespace CommandLineRun_Module
         private clsOntologyItem objOItem_CMDLR;
         private clsDataWork_CommandLineRun objDataWork_CommandLineRun;
 
+        private clsExecutableConfiguration objExecutionConfiguration;
+
+        private frmScriptExecution objFrmScriptExecution;
+
         public UserControl_ExecuteCode(clsLocalConfig LocalConfig, clsDataWork_CommandLineRun DataWork_CommandLineRun)
         {
             objLocalConfig = LocalConfig;
@@ -25,6 +29,18 @@ namespace CommandLineRun_Module
 
             InitializeComponent();
 
+            Initialize();
+
+        }
+
+        private void Initialize()
+        {
+            var objOItem_Result = objDataWork_CommandLineRun.GetData_ExecutableConfiguration();
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+            {
+                throw new Exception("Executable-Configuration Error");
+            }
         }
 
         
@@ -36,6 +52,7 @@ namespace CommandLineRun_Module
             scintilla_CodeParsed.Text = "";
             scintilla_Code.IsReadOnly = true;
             scintilla_CodeParsed.IsReadOnly = true;
+            button_Exec.Enabled = false;
 
             objOItem_CMDLR = OItem_Cmdlr;
 
@@ -85,7 +102,31 @@ namespace CommandLineRun_Module
                                                 where pls.Key.ID_ProgrammingLanguage != null
                                                 select pls.Key).ToList();
 
-                textBox_ProgrammingLanguage.Text = programmingLanguages.Count == 1 ? programmingLanguages.First().Name_ProgrammingLanguage : "";
+                textBox_ProgrammingLanguage.Text = programmingLanguages.Count == 1 ? programmingLanguages.First().Name_ProgrammingLanguage : "";    
+
+                if (programmingLanguages.Count == 1)
+                {
+                    var exeConfig =
+                        objDataWork_CommandLineRun.ExecutableConfigurations.Where(
+                            exec => exec.ID_ProgrammingLanguage == programmingLanguages.First().ID_ProgrammingLanguage)
+                                                  .ToList();
+
+                    var syntaxHighlightPL = (from code in codes
+                                           group code by code.Name_SyntaxHighlighting
+                                               into highlights
+                                               where highlights.Key != null
+                                               select highlights.Key).ToList();
+
+                    objExecutionConfiguration = exeConfig.FirstOrDefault();
+
+                    if (syntaxHighlightPL.Count == 1 && objExecutionConfiguration != null)
+                    {
+                        objExecutionConfiguration.Name_SyntaxHighlight = syntaxHighlightPL.First();
+                        button_Exec.Enabled = true;
+                    }
+                    
+                }
+                
 
                 var syntaxHighlight = (from code in codes
                                        group code by code.Name_SyntaxHighlighting
@@ -110,6 +151,12 @@ namespace CommandLineRun_Module
             textBox_CMDRL.Text = "";
             scintilla_CodeParsed.Text = "";
             scintilla_Code.Text = "";
+        }
+
+        private void button_Exec_Click(object sender, EventArgs e)
+        {
+            objFrmScriptExecution = new frmScriptExecution(objExecutionConfiguration, scintilla_CodeParsed.Text);
+            objFrmScriptExecution.ShowDialog(this);
         }
     }
 }

@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="clsCode.cs" />
     <Compile Include="clsDataWork_CommandLineRun.cs" />
+    <Compile Include="clsDataWork_ExecutableConfiguration.cs" />
+    <Compile Include="clsExecutableConfiguration.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="clsValue.cs" />
     <Compile Include="frmCommandLineRun.cs">
@@ -58,6 +60,12 @@
     </Compile>
     <Compile Include="frmCommandLineRun.Designer.cs">
       <DependentUpon>frmCommandLineRun.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmScriptExecution.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmScriptExecution.Designer.cs">
+      <DependentUpon>frmScriptExecution.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +84,9 @@
     <EmbeddedResource Include="frmCommandLineRun.resx">
       <DependentUpon>frmCommandLineRun.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmScriptExecution.resx">
+      <DependentUpon>frmScriptExecution.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -84,6 +95,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="UserControl_CommandLineRunTree.resx">
       <DependentUpon>UserControl_CommandLineRunTree.cs</DependentUpon>
@@ -112,6 +124,10 @@
       <Project>{10bcc346-a390-401c-ba6a-904a8842a40b}</Project>
       <Name>ClassLibrary_ShellWork</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Filesystem-Module\Filesystem-Module\Filesystem-Module.vbproj">
+      <Project>{f31c8a5a-bb2b-474e-bc1f-a14e805ea2e9}</Project>
+      <Name>Filesystem-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3f2f6722-c36b-420d-afe7-b21c19457208}</Project>
       <Name>Ontolog-Module</Name>
@@ -130,6 +146,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\pulsante_02_architetto_f_01.png" />
     <EmbeddedResource Include="Config\Templates\AttributeTypes.xml" />
     <EmbeddedResource Include="Config\Templates\ClassAtts.xml" />
     <EmbeddedResource Include="Config\Templates\Classes.xml" />

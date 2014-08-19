@@ -58,6 +58,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet_TimeManagement.xsd</DependentUpon>
     </Compile>
+    <Compile Include="frmMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMenu.Designer.cs">
+      <DependentUpon>frmMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmTimeManagementEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +84,9 @@
     <Compile Include="UserControl_TimeGrid.Designer.cs">
       <DependentUpon>UserControl_TimeGrid.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmMenu.resx">
+      <DependentUpon>frmMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmTimeManagementEdit.resx">
       <DependentUpon>frmTimeManagementEdit.cs</DependentUpon>
     </EmbeddedResource>

@@ -1,6 +1,7 @@
 ﻿Imports Ontology_Module
 Imports Filesystem_Module
 Imports OntologyClasses.BaseClasses
+Imports ClassLibrary_ShellWork
 Public Class UserControl_References
     Private objLocalConfig As clsLocalConfig
 
@@ -61,6 +62,10 @@ Public Class UserControl_References
     Private boolMaterials As Boolean
 
     Private objFrmOntologyModule As frmMain
+    Private objFrm_Modules as frmModules
+
+    Private objShellWork As clsShellWork
+    Private strLastModule As String
 
 
 
@@ -263,6 +268,7 @@ Public Class UserControl_References
         LogItemToolStripMenuItem.Enabled = False
         CopyNameToolStripMenuItem.Enabled = False
         CopyGUIDToolStripMenuItem.Enabled = False
+        ModuleMenuToolStripMenuItem.Enabled = False
 
         objTreeNode = TreeView_Refs.SelectedNode
         If objTreeNode.ImageIndex >= objLocalConfig.ImageID_Refs And objTreeNode.ImageIndex <= objLocalConfig.ImageID_Materials Then
@@ -271,10 +277,12 @@ Public Class UserControl_References
             If Not objOItem_ProcessLog Is Nothing Then
                 LogItemToolStripMenuItem.Enabled = True
             End If
+            
         ElseIf (objTreeNode.ImageIndex >= objLocalConfig.ImageID_Ref And objTreeNode.ImageIndex <= objLocalConfig.ImageID_Material) Or (objTreeNode.ImageIndex >= objLocalConfig.ImageID_Log_Ref And objTreeNode.ImageIndex <= objLocalConfig.ImageID_Log_Material) Then
             RemoveToolStripMenuItem.Enabled = True
             CopyNameToolStripMenuItem.Enabled = True
             CopyGUIDToolStripMenuItem.Enabled = True
+            ModuleMenuToolStripMenuItem.Enabled = True
         End If
 
         
@@ -1409,5 +1417,40 @@ Public Class UserControl_References
             ToolStripProgressBar_Refs.Value = 0
             MsgBox("Beim Ermitteln der Referenzen ist ein Fehler aufgetreten.", MsgBoxStyle.Exclamation)
         End If
+    End Sub
+
+    Private Sub OpenModuleByArgumentToolStripMenuItem_Click( sender As Object,  e As EventArgs) Handles OpenModuleByArgumentToolStripMenuItem.Click
+        Dim objTreeNode = TreeView_Refs.SelectedNode
+
+        If Not objTreeNode Is Nothing Then
+            Dim objOItem_Object = objDataWork_References_Process.GetOitem(objTreeNode.Name, objLocalConfig.Globals.Type_Object)
+
+            If Not objOItem_Object Is Nothing Then
+                If Not OpenLastModuleToolStripMenuItem.Checked Or String.IsNullOrEmpty(strLastModule) Then
+                    objFrm_Modules = New frmModules(objLocalConfig.Globals)
+                    objFrm_Modules.ShowDialog(Me)
+                    If objFrm_Modules.DialogResult = DialogResult.OK Then
+                        Dim strModule = objFrm_Modules.Selected_Module
+                        If Not strModule Is Nothing Then
+                            objShellWork = New clsShellWork()
+                            If objShellWork.start_Process(strModule, "Item=" & objOItem_Object.GUID + ",Object", IO.Path.GetDirectoryName(strModule), False, False) Then
+                                strLastModule = strModule
+                                OpenLastModuleToolStripMenuItem.ToolTipText = strLastModule
+                            Else
+                                MsgBox("Das Module konnte nicht gestartet werden!", MsgBoxStyle.Exclamation)
+                            End If
+                        End If
+                    End If
+                Else
+                    objShellWork = New clsShellWork()
+                    If Not objShellWork.start_Process(strLastModule, "Item=" & objOItem_Object.GUID + ",Object", IO.Path.GetDirectoryName(strLastModule), False, False) Then
+                        MsgBox("Das Module konnte nicht gestartet werden!", MsgBoxStyle.Exclamation)
+                    End If
+
+                End If
+            End If
+        End If
+
+
     End Sub
 End Class

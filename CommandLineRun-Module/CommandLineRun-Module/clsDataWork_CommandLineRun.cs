@@ -32,6 +32,8 @@ namespace CommandLineRun_Module
         private clsDBLevel objDBlevel_ProgrammingLanguages;
         private clsDBLevel objDBlevel_OItem;
 
+        private clsDataWork_ExecutableConfiguration objDataWork_ExecutableConfiguration;
+
         public clsOntologyItem OItem_Result_CommandLineRun { get; private set; }
         public clsOntologyItem OItem_Result_CommandLineRunHierarchy { get; private set; }
         public clsOntologyItem OItem_Result_CommandLine { get; private set; }
@@ -64,11 +66,22 @@ namespace CommandLineRun_Module
             get { return objDBlevel_ProgrammingLanguages.OList_Objects; }
         }
 
+        public List<clsExecutableConfiguration> ExecutableConfigurations
+        {
+            get { return objDataWork_ExecutableConfiguration.ExecutableConfigurations; }
+        }
+
         private List<clsOntologyItem> filterList = new List<clsOntologyItem>();
 
         public clsOntologyItem GetOItem(string GUID_Item, string Type_Item)
         {
             return objDBlevel_OItem.GetOItem(GUID_Item, Type_Item);
+        }
+
+
+        public clsOntologyItem GetData_ExecutableConfiguration()
+        {
+            return objDataWork_ExecutableConfiguration.GetData();
         }
 
         public clsOntologyItem GetData_CommandLineRun()
@@ -980,6 +993,8 @@ namespace CommandLineRun_Module
             OItem_Result_ValueBelongingSource = objLocalConfig.Globals.LState_Nothing.Clone();
             OItem_Result_Codes = objLocalConfig.Globals.LState_Nothing.Clone();
             OItem_Result_ProgrammingLanguages = objLocalConfig.Globals.LState_Nothing.Clone();
+
+            objDataWork_ExecutableConfiguration = new clsDataWork_ExecutableConfiguration(objLocalConfig);
         }
     }
 }

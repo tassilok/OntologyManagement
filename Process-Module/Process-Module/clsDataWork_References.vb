@@ -5,6 +5,7 @@ Imports OntologyClasses.BaseClasses
 Public Class clsDataWork_References
     Private objLocalConfig As clsLocalConfig
 
+    Private objDBLevel_OItem As clsDBLevel
     Private objDBLevel_ProcessRef As clsDBLevel
 
     Private objThread_ProcessRef As Threading.Thread
@@ -44,6 +45,10 @@ Public Class clsDataWork_References
             Return objDBLevel_ProcessRef.OList_ObjectRel
         End Get
     End Property
+
+    Public Function GetOitem(GUID_Item As String, Type_Item As string) As clsOntologyItem
+        Return objDBLevel_OItem.GetOItem(GUID_Item, Type_Item)
+    End Function
 
    Public Sub fill_Ref(OItem_RelationType As clsOntologyItem, Optional OItem_Ref As clsOntologyItem = Nothing, Optional Type As String = Nothing)
         Dim objOItem_File As clsOntologyItem
@@ -396,6 +401,8 @@ Public Class clsDataWork_References
         objDBLevel_ProcessRef = New clsDBLevel(objLocalConfig.Globals)
 
         objDBLevel_References = New clsDBLevel(objLocalConfig.Globals)
+
+        objDBLevel_OItem = new clsDBLevel(objLocalConfig.Globals)
 
         objFileWork = New clsFileWork(objLocalConfig.Globals)
     End Sub
