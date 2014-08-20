@@ -21,6 +21,7 @@ namespace CommandLineRun_Module
         public string ID_ProgrammingLanguage { get; set; }
         public string Name_ProgrammingLanguage { get; set; }
         public string Name_SyntaxHighlight { get; set; }
+        public string Arguments { get; set; }
         
     }
 }

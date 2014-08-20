@@ -15,9 +15,12 @@ namespace CommandLineRun_Module
 
         private clsDBLevel objDBLevel_ExecutableConfigurations;
         private clsDBLevel objDBLevel_Relations;
+        private clsDBLevel objDBLevel_Arguments;
+
 
         public clsOntologyItem OItem_Result_ExecConfig { get; private set; }
         public clsOntologyItem OItem_Result_Relations { get; private set; }
+        public clsOntologyItem OItem_Result_Arguments { get; private set; }
 
         public List<clsExecutableConfiguration> ExecutableConfigurations { get; set; }
 
@@ -35,38 +38,42 @@ namespace CommandLineRun_Module
                 objOItem_Result = OItem_Result_Relations;
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    ExecutableConfigurations = (from objExec in objDBLevel_ExecutableConfigurations.OList_ObjectRel
-                                                join objExtension in
-                                                    objDBLevel_Relations.OList_ObjectRel.Where(
-                                                        rel =>
-                                                        rel.ID_Parent_Other ==
-                                                        objLocalConfig.OItem_class_extensions.GUID).ToList() on
-                                                    objExec.ID_Other equals objExtension.ID_Object
-                                                join objFile in
-                                                    objDBLevel_Relations.OList_ObjectRel.Where(
-                                                        rel =>
-                                                        rel.ID_Parent_Other == objLocalConfig.OItem_class_file.GUID)
-                                                                        .ToList() on objExec.ID_Other equals
-                                                    objFile.ID_Object
-                                                join objPL in
-                                                    objDBLevel_Relations.OList_ObjectRel.Where(
-                                                        rel =>
-                                                        rel.ID_Parent_Other ==
-                                                        objLocalConfig.OItem_class_programing_language.GUID).ToList() on
-                                                    objExec.ID_Other equals objPL.ID_Object
-                                                join objFolder in objDBLevel_Relations.OList_ObjectRel.Where(
-                                                        rel =>
-                                                        rel.ID_Parent_Other ==
-                                                        objLocalConfig.OItem_class_folder.GUID).ToList() on
-                                                    objExec.ID_Other equals objFolder.ID_Object into objFolders
-                                                from objFolder in objFolders.DefaultIfEmpty()
-                                                join objPath in objDBLevel_Relations.OList_ObjectRel.Where(
-                                                        rel =>
-                                                        rel.ID_Parent_Other ==
-                                                        objLocalConfig.OItem_class_path.GUID).ToList() on
-                                                    objExec.ID_Other equals objPath.ID_Object into objPaths
-                                                from objPath in objPaths.DefaultIfEmpty()
-                                                select new clsExecutableConfiguration
+                    GetSubData_003_Arguments();
+                    objOItem_Result = OItem_Result_Arguments;
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        ExecutableConfigurations = (from objExec in objDBLevel_ExecutableConfigurations.OList_ObjectRel
+                                                    join objExtension in
+                                                        objDBLevel_Relations.OList_ObjectRel.Where(
+                                                            rel =>
+                                                            rel.ID_Parent_Other ==
+                                                            objLocalConfig.OItem_class_extensions.GUID).ToList() on
+                                                        objExec.ID_Other equals objExtension.ID_Object
+                                                    join objFile in
+                                                        objDBLevel_Relations.OList_ObjectRel.Where(
+                                                            rel =>
+                                                            rel.ID_Parent_Other == objLocalConfig.OItem_class_file.GUID)
+                                                                            .ToList() on objExec.ID_Other equals
+                                                        objFile.ID_Object
+                                                    join objPL in
+                                                        objDBLevel_Relations.OList_ObjectRel.Where(
+                                                            rel =>
+                                                            rel.ID_Parent_Other ==
+                                                            objLocalConfig.OItem_class_programing_language.GUID).ToList() on
+                                                        objExec.ID_Other equals objPL.ID_Object
+                                                    join objFolder in objDBLevel_Relations.OList_ObjectRel.Where(
+                                                            rel =>
+                                                            rel.ID_Parent_Other ==
+                                                            objLocalConfig.OItem_class_folder.GUID).ToList() on
+                                                        objExec.ID_Other equals objFolder.ID_Object into objFolders
+                                                    from objFolder in objFolders.DefaultIfEmpty()
+                                                    join objPath in objDBLevel_Relations.OList_ObjectRel.Where(
+                                                            rel =>
+                                                            rel.ID_Parent_Other ==
+                                                            objLocalConfig.OItem_class_path.GUID).ToList() on
+                                                        objExec.ID_Other equals objPath.ID_Object into objPaths
+                                                    from objPath in objPaths.DefaultIfEmpty()
+                                                    select new clsExecutableConfiguration
                                                     {
                                                         ID_ExecConfig = objExec.ID_Other,
                                                         Name_ExecConfig = objExec.Name_Other,
@@ -77,22 +84,34 @@ namespace CommandLineRun_Module
                                                         ID_File = objFile.ID_Other,
                                                         Name_File = objFile.Name_Other,
                                                         Path_File = objFileWork.get_Path_FileSystemObject(new clsOntologyItem
-                                                            {
-                                                                GUID = objFile.ID_Other,
-                                                                Name = objFile.Name_Other,
-                                                                GUID_Parent = objFile.ID_Parent_Other,
-                                                                Type = objLocalConfig.Globals.Type_Object
-                                                            },false),
+                                                        {
+                                                            GUID = objFile.ID_Other,
+                                                            Name = objFile.Name_Other,
+                                                            GUID_Parent = objFile.ID_Parent_Other,
+                                                            Type = objLocalConfig.Globals.Type_Object
+                                                        }, false),
                                                         ID_ScriptFolder = objFolder != null ? objFolder.ID_Other : "",
                                                         Name_ScriptFolder = objFolder != null ? objFolder.Name_Other : objPath != null ? objPath.Name_Other : "",
-                                                        Path_Folder = objFolder != null ? objFileWork.get_Path_FileSystemObject( new clsOntologyItem
+                                                        Path_Folder = objFolder != null ? objFileWork.get_Path_FileSystemObject(new clsOntologyItem
                                                         {
-                                                                GUID = objFolder.ID_Other,
-                                                                Name = objFolder.Name_Other,
-                                                                GUID_Parent = objFolder.ID_Parent_Other,
-                                                                Type = objLocalConfig.Globals.Type_Object
-                                                            },false) : objPath != null ? Environment.ExpandEnvironmentVariables(objPath.Name_Other) : null
+                                                            GUID = objFolder.ID_Other,
+                                                            Name = objFolder.Name_Other,
+                                                            GUID_Parent = objFolder.ID_Parent_Other,
+                                                            Type = objLocalConfig.Globals.Type_Object
+                                                        }, false) : objPath != null ? Environment.ExpandEnvironmentVariables(objPath.Name_Other) : null
                                                     }).ToList();
+
+                        ExecutableConfigurations.ForEach(ec =>
+                            {
+                                var arguments =
+                                    objDBLevel_Arguments.OList_ObjectRel.Where(arg => arg.ID_Object == ec.ID_ExecConfig)
+                                                        .Select(arg => arg.Name_Other).ToList();
+
+                                ec.Arguments = string.Join(" ", arguments);
+                            });
+                    }
+
+                    
 
                 }
             }
@@ -176,6 +195,31 @@ namespace CommandLineRun_Module
             OItem_Result_Relations = objOItem_Result;
         }
 
+        private void GetSubData_003_Arguments()
+        {
+            OItem_Result_Arguments = objLocalConfig.Globals.LState_Nothing.Clone();
+
+            var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+
+            var searchArguments = objDBLevel_ExecutableConfigurations.OList_ObjectRel.Select(exec => new clsObjectRel
+            {
+                ID_Object = exec.ID_Other,
+                ID_RelationType = objLocalConfig.OItem_relationtype_needs.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_class_arguments.GUID
+            }).ToList();
+
+            if (searchArguments.Any())
+            {
+                objOItem_Result = objDBLevel_Arguments.get_Data_ObjectRel(searchArguments, boolIDs: false);
+            }
+            else
+            {
+                objDBLevel_Arguments.OList_ObjectRel.Clear();
+            }
+
+            OItem_Result_Arguments = objOItem_Result;
+        }
+
         public clsDataWork_ExecutableConfiguration(clsLocalConfig LocalConfig)
         {
             objLocalConfig = LocalConfig;
@@ -187,10 +231,13 @@ namespace CommandLineRun_Module
         {
             objDBLevel_ExecutableConfigurations = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Relations = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_Arguments = new clsDBLevel(objLocalConfig.Globals);
 
             objFileWork = new clsFileWork(objLocalConfig.Globals);
 
             OItem_Result_ExecConfig = objLocalConfig.Globals.LState_Nothing.Clone();
+            OItem_Result_Arguments = objLocalConfig.Globals.LState_Nothing.Clone();
+            OItem_Result_Relations = objLocalConfig.Globals.LState_Nothing.Clone();
         }
     }
 }

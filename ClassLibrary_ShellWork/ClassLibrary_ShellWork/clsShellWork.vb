@@ -19,7 +19,7 @@ Public Class clsShellWork
     End Property
 
 
-    Public Sub exec_Script(ByVal strScript As String, ByVal strExecutable As String, ByVal strExt As String, Optional strScriptFolder As String = Nothing)
+    Public Sub exec_Script(ByVal strScript As String, ByVal strExecutable As String, ByVal strExt As String, Optional strScriptFolder As String = Nothing, Optional strArguments As String = "")
         Dim strFilePath As String
         Dim objTextStream As IO.TextWriter
         Dim objOutputReader As IO.StreamReader
@@ -57,6 +57,7 @@ Public Class clsShellWork
         objProcStartInfo.RedirectStandardError = True
         objProcStartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal
         objProcStartInfo.UseShellExecute = False
+        objProcStartInfo.Arguments = If(Not String.IsNullOrEmpty(strArguments),strArguments & " ","") & objProcStartInfo.Arguments
 
         objProc = System.Diagnostics.Process.Start(objProcStartInfo)
 

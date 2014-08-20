@@ -46,7 +46,7 @@ namespace CommandLineRun_Module
         private void toolStripButton_Run_Click(object sender, EventArgs e)
         {
 
-            objShellWork.exec_Script(scintilla_Code.Text, objExecutionConfiguration.Path_File, objExecutionConfiguration.Name_Extension,objExecutionConfiguration.Path_Folder);
+            objShellWork.exec_Script(scintilla_Code.Text, objExecutionConfiguration.Path_File, objExecutionConfiguration.Name_Extension,objExecutionConfiguration.Path_Folder, objExecutionConfiguration.Arguments ?? "");
             scintilla_Output.IsReadOnly = false;
             scintilla_Error.IsReadOnly = false;
 
