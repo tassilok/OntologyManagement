@@ -49,6 +49,8 @@ Public Class UserControl_Report
     Private objFrmLocalizingModuleSingle As frmLocalizingModuleSingle
     Private objDlgAttribute_String As dlg_Attribute_String
 
+    Private objOntologyClipboard As clsOntologyClipboard
+
     Private objFrmTagging As frmTypedTaggingSingle
 
     Private objFrmMain As frmMain
@@ -70,6 +72,7 @@ Public Class UserControl_Report
     Private objDBLevel_GraphML_Objects As clsDBLevel
     Private objDBLevel_GraphML_ObjRel As clsDBLevel
     Private objDBLevel_GraphML_ObjAtt As clsDBLevel
+    Private objDBLevel_OItem As clsDBLevel
 
     Private objThread_Sync As Threading.Thread
 
@@ -529,6 +532,7 @@ Public Class UserControl_Report
         objDBLevel_GraphML_Objects = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_GraphML_ObjAtt = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_GraphML_ObjRel = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_OItem = New clsDBLevel(objLocalConfig.Globals)
         objGraphMLWork = New clsGraphMLWork(objLocalConfig.Globals)
         objDataWork_ReportTree = New clsDataWork_ReportTree(objLocalConfig)
         objDataWork_ReportFields = New clsDataWork_ReportFields(objLocalConfig)
@@ -545,7 +549,7 @@ Public Class UserControl_Report
         objSecurityWork = New clsSecurityWork(objLocalConfig.Globals, Me)
         objTransaction = New clsTransaction(objLocalConfig.Globals)
         objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
-
+        objOntologyClipboard = New clsOntologyClipboard(objLocalConfig.Globals)
 
         Dim objOItem_Result = objDataWork_Report.GetData_ClipboardFilterTags()
 
@@ -1375,6 +1379,8 @@ Public Class UserControl_Report
         CopyNameToolStripMenuItem.Enabled = False
         CopyGUIDToolStripMenuItem.Enabled = False
         FilterToolStripMenuItem.Enabled = False
+        CopyToOntologyClipboardToolStripMenuItem.Enabled = False
+
         If BindingSource_Reports.Filter = "" Then
             ToolStripTextBox_Filter.Text = ""
             ClearFilterToolStripMenuItem.Enabled = False
@@ -1425,6 +1431,10 @@ Public Class UserControl_Report
                 End If
 
             End If
+        End If
+
+        If DataGridView_Reports.SelectedCells.Count > 0 Then
+            CopyToOntologyClipboardToolStripMenuItem.Enabled = True
         End If
     End Sub
 
@@ -1786,5 +1796,53 @@ Public Class UserControl_Report
 
 
         
+    End Sub
+
+    Private Sub CopyToOntologyClipboardToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CopyToOntologyClipboardToolStripMenuItem.Click
+        Dim cells = DataGridView_Reports.SelectedCells.Cast(Of DataGridViewCell).ToList()
+        Dim intToDo As Integer
+        Dim intDone As Integer
+
+        If cells.Any() Then
+            intToDo = cells.Count
+            intDone = 0
+            cells.ForEach(Sub(objCell)
+                              Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(objCell.ColumnIndex).DataPropertyName).ToList
+                              If objLCol.Any() Then
+                                  Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
+                                  If objLLeaded.Any() Then
+                                      If objLLeaded.First().ID_FieldType = objLocalConfig.OItem_Object_Field_Type_GUID.GUID Then
+                                          Dim objDGVR_Selected As DataGridViewRow = DataGridView_Reports.Rows(objCell.RowIndex)
+                                          Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+
+                                          If Not IsDBNull(objDRV_Selected.Item(objLLeaded.First().Name_Col)) Then
+                                              Dim objOItem = objDBLevel_OItem.GetOItem(objDRV_Selected.Item(objLLeaded.First().Name_Col).ToString(), objLocalConfig.Globals.Type_Object)
+                                              If objOItem Is Nothing Then
+                                                  objOItem = objDBLevel_OItem.GetOItem(objDRV_Selected.Item(objLLeaded.First().Name_Col).ToString(), objLocalConfig.Globals.Type_Class)
+                                              End If
+                                              If objOItem Is Nothing Then
+                                                  objOItem = objDBLevel_OItem.GetOItem(objDRV_Selected.Item(objLLeaded.First().Name_Col).ToString(), objLocalConfig.Globals.Type_RelationType)
+                                              End If
+                                              If objOItem Is Nothing Then
+                                                  objOItem = objDBLevel_OItem.GetOItem(objDRV_Selected.Item(objLLeaded.First().Name_Col).ToString(), objLocalConfig.Globals.Type_AttributeType)
+                                              End If
+
+                                              If Not objOItem Is Nothing Then
+                                                  Dim objOItem_Result = objOntologyClipboard.addToClipboard(objOItem, False)
+                                                  If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                      intDone = intDone + 1
+
+                                                  End If
+                                              End If
+                                          End If
+                                      End If
+                                  End If
+                              End If
+                          End Sub)
+
+            If intDone < intToDo Then
+                MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Items ins Clipboard kopiert werden!", MsgBoxStyle.Information)
+            End If
+        End If
     End Sub
 End Class

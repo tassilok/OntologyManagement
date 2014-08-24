@@ -34,6 +34,9 @@ Partial Class UserControl_Report
         Me.CopyGUIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.XEditSemItemToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.XTypedTagsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ModuleMenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenModuleByArgumentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenLastModuleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EqualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DifferentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -110,9 +113,7 @@ Partial Class UserControl_Report
         Me.Timer_Sync = New System.Windows.Forms.Timer(Me.components)
         Me.SaveFileDialog_GraphML = New System.Windows.Forms.SaveFileDialog()
         Me.BindingSource_Reports = New System.Windows.Forms.BindingSource(Me.components)
-        Me.ModuleMenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.OpenModuleByArgumentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.OpenLastModuleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CopyToOntologyClipboardToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.DataGridView_Reports, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip_Reports.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
@@ -166,7 +167,7 @@ Partial Class UserControl_Report
         '
         'EditToolStripMenuItem
         '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.CopyGUIDToolStripMenuItem, Me.XEditSemItemToolStripMenuItem, Me.XTypedTagsToolStripMenuItem, Me.ModuleMenuToolStripMenuItem})
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.CopyGUIDToolStripMenuItem, Me.XEditSemItemToolStripMenuItem, Me.XTypedTagsToolStripMenuItem, Me.ModuleMenuToolStripMenuItem, Me.CopyToOntologyClipboardToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
         Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.EditToolStripMenuItem.Text = "x_Edit"
@@ -174,26 +175,47 @@ Partial Class UserControl_Report
         'CopyNameToolStripMenuItem
         '
         Me.CopyNameToolStripMenuItem.Name = "CopyNameToolStripMenuItem"
-        Me.CopyNameToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
+        Me.CopyNameToolStripMenuItem.Size = New System.Drawing.Size(236, 22)
         Me.CopyNameToolStripMenuItem.Text = "x_Copy Name"
         '
         'CopyGUIDToolStripMenuItem
         '
         Me.CopyGUIDToolStripMenuItem.Name = "CopyGUIDToolStripMenuItem"
-        Me.CopyGUIDToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
+        Me.CopyGUIDToolStripMenuItem.Size = New System.Drawing.Size(236, 22)
         Me.CopyGUIDToolStripMenuItem.Text = "x_Copy GUID"
         '
         'XEditSemItemToolStripMenuItem
         '
         Me.XEditSemItemToolStripMenuItem.Name = "XEditSemItemToolStripMenuItem"
-        Me.XEditSemItemToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
+        Me.XEditSemItemToolStripMenuItem.Size = New System.Drawing.Size(236, 22)
         Me.XEditSemItemToolStripMenuItem.Text = "x_Edit_SemItem"
         '
         'XTypedTagsToolStripMenuItem
         '
         Me.XTypedTagsToolStripMenuItem.Name = "XTypedTagsToolStripMenuItem"
-        Me.XTypedTagsToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
+        Me.XTypedTagsToolStripMenuItem.Size = New System.Drawing.Size(236, 22)
         Me.XTypedTagsToolStripMenuItem.Text = "x_Typed Tags"
+        '
+        'ModuleMenuToolStripMenuItem
+        '
+        Me.ModuleMenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenModuleByArgumentToolStripMenuItem})
+        Me.ModuleMenuToolStripMenuItem.Name = "ModuleMenuToolStripMenuItem"
+        Me.ModuleMenuToolStripMenuItem.Size = New System.Drawing.Size(236, 22)
+        Me.ModuleMenuToolStripMenuItem.Text = "x_Module-Menu"
+        '
+        'OpenModuleByArgumentToolStripMenuItem
+        '
+        Me.OpenModuleByArgumentToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenLastModuleToolStripMenuItem})
+        Me.OpenModuleByArgumentToolStripMenuItem.Name = "OpenModuleByArgumentToolStripMenuItem"
+        Me.OpenModuleByArgumentToolStripMenuItem.Size = New System.Drawing.Size(230, 22)
+        Me.OpenModuleByArgumentToolStripMenuItem.Text = "x_Open Module by Argument"
+        '
+        'OpenLastModuleToolStripMenuItem
+        '
+        Me.OpenLastModuleToolStripMenuItem.CheckOnClick = True
+        Me.OpenLastModuleToolStripMenuItem.Name = "OpenLastModuleToolStripMenuItem"
+        Me.OpenLastModuleToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.OpenLastModuleToolStripMenuItem.Text = "x_Open Last Module"
         '
         'FilterToolStripMenuItem
         '
@@ -750,26 +772,11 @@ Partial Class UserControl_Report
         '
         Me.SaveFileDialog_GraphML.Filter = "GraphML-Dateien|*.graphml"
         '
-        'ModuleMenuToolStripMenuItem
+        'CopyToOntologyClipboardToolStripMenuItem
         '
-        Me.ModuleMenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenModuleByArgumentToolStripMenuItem})
-        Me.ModuleMenuToolStripMenuItem.Name = "ModuleMenuToolStripMenuItem"
-        Me.ModuleMenuToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
-        Me.ModuleMenuToolStripMenuItem.Text = "x_Module-Menu"
-        '
-        'OpenModuleByArgumentToolStripMenuItem
-        '
-        Me.OpenModuleByArgumentToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenLastModuleToolStripMenuItem})
-        Me.OpenModuleByArgumentToolStripMenuItem.Name = "OpenModuleByArgumentToolStripMenuItem"
-        Me.OpenModuleByArgumentToolStripMenuItem.Size = New System.Drawing.Size(230, 22)
-        Me.OpenModuleByArgumentToolStripMenuItem.Text = "x_Open Module by Argument"
-        '
-        'OpenLastModuleToolStripMenuItem
-        '
-        Me.OpenLastModuleToolStripMenuItem.CheckOnClick = True
-        Me.OpenLastModuleToolStripMenuItem.Name = "OpenLastModuleToolStripMenuItem"
-        Me.OpenLastModuleToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
-        Me.OpenLastModuleToolStripMenuItem.Text = "x_Open Last Module"
+        Me.CopyToOntologyClipboardToolStripMenuItem.Name = "CopyToOntologyClipboardToolStripMenuItem"
+        Me.CopyToOntologyClipboardToolStripMenuItem.Size = New System.Drawing.Size(236, 22)
+        Me.CopyToOntologyClipboardToolStripMenuItem.Text = "x_Copy to Ontology-Clipboard"
         '
         'UserControl_Report
         '
@@ -884,5 +891,6 @@ End Sub
     Friend WithEvents ModuleMenuToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenModuleByArgumentToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenLastModuleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CopyToOntologyClipboardToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
