@@ -13,6 +13,7 @@ Public Class UserControl_OntologyExport
     Private objExport As clsExport
 
     Private objDBLevel_Module As clsDBLevel
+    Private objDBLevel_ModuleFunctions As clsDBLevel
     Private objDBLevel_BaseConfig As clsDBLevel
     Private objDBLevel_BaseConfigClasse As clsDBLevel
 
@@ -43,6 +44,7 @@ Public Class UserControl_OntologyExport
         objDBLevel_Module = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_BaseConfig = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_BaseConfigClasse = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_ModuleFunctions = New clsDBLevel(objLocalConfig.Globals)
 
     End Sub
 
@@ -260,6 +262,19 @@ Public Class UserControl_OntologyExport
             If objORel_BaseConfigClasses.Any Then
                 objOItem_Result = objDBLevel_BaseConfigClasse.get_Data_Classes(objORel_BaseConfigClasses)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    Dim searchModuleFunction = objDBLevel_Module.OList_ObjectRel.Select(Function(mods) New clsObjectRel With {.ID_Object = mods.ID_Object,
+                                                                                                                              .ID_RelationType = objLocalConfig.Globals.RelationType_isOfType.GUID,
+                                                                                                                              .ID_Parent_Other = objLocalConfig.Globals.Class_ModuleFunction.GUID}).ToList()
+                    If searchModuleFunction.Any() Then
+                        objOItem_Result = objDBLevel_ModuleFunctions.get_Data_ObjectRel(searchModuleFunction, boolIDs:=False)
+
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID And objDBLevel_ModuleFunctions.OList_ObjectRel.Any() Then
+                            objExport.OList_Objects.Add(objDBLevel_ModuleFunctions.OList_ObjectRel.Select(Function(mods) New clsOntologyItem With {.GUID = mods.ID_Other,
+                                                                                                                                                   .Name = mods.Name_Other,
+                                                                                                                                                   .GUID_Parent = mods.ID_Parent_Other}).First())
+                        End If
+                    End If
+
                     Dim objORel_BaseConfig_To_Module = (From objModule In objDBLevel_Module.OList_ObjectRel
                                                         From objBaseConfigClass In objDBLevel_BaseConfigClasse.OList_Classes
                                                         Select New clsObjectRel With {.ID_Other = objModule.ID_Object, _
@@ -273,6 +288,7 @@ Public Class UserControl_OntologyExport
                                                              Join objBaseConfigClass In objDBLevel_BaseConfigClasse.OList_Classes On objBaseConfig.ID_Parent_Object Equals objBaseConfigClass.GUID
                                                              Select objBaseConfigClass)
 
+
                             objExport.OList_Objects.AddRange(objDBLevel_BaseConfig.OList_ObjectRel.Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Object, _
                                                                                                                                                 .Name = p.Name_Object, _
                                                                                                                                                 .GUID_Parent = p.ID_Parent_Object, _
@@ -280,7 +296,7 @@ Public Class UserControl_OntologyExport
 
                         End If
                     End If
-                    
+
                 End If
             End If
             

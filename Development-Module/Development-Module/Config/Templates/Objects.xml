@@ -150,7 +150,7 @@
 <Item Id="8c0214563ab04a3baf7027c48f723e4c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_XML_clsLocalConfig_ontology_xml]]></Item>
 <Item Id="3673a8b50c52439294af6cdaea5ca1f8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_LogState_Create]]></Item>
 <Item Id="36d9220e4f2b46c998ba0eff17f851a2" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_DB_Schema_Type_User]]></Item>
-<Item Id="76f48558953f4d17beb36a31edaa1060" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Development_Management]]></Item>
+<Item Id="76f48558953f4d17beb36a31edaa1060" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Development_Management]]></Item>
 <Item Id="f34c6d26190b498eabea92afacfb96a8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_C_]]></Item>
 <Item Id="e2c4dcd6451c410ba481648fd2ed9301" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_VB_NET]]></Item>
 <Item Id="78656db15d51416d949ad38ffe749bdb" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Visual_Studio_Version_Parser]]></Item>

@@ -67,6 +67,9 @@ Private strEL_Server As String
 
     Private objModuleList As List(Of clsModuleConfig)
 
+    Public Property DbModuleList As List(Of clsObjectRel)
+
+
     Public ReadOnly Property RegExPattern_GUID As String
         Get
             Return strRegEx_GUID
@@ -196,6 +199,18 @@ Private strEL_Server As String
         End Get
     End Property
 
+    Public ReadOnly Property Class_Module As clsOntologyItem
+        Get
+            Return objClasses.OItem_Class_Module
+        End Get
+    End Property
+
+    Public ReadOnly Property Class_ModuleFunction As clsOntologyItem
+        Get
+            Return objClasses.OItem_Class_ModuleFunction
+        End Get
+    End Property
+
     Public Function GUIDFormat1(strGUIDFormat2 As String) As String
         Dim strGUIDFormat1 As String
 
@@ -226,9 +241,45 @@ Private strEL_Server As String
                                 Dim objAssembly = Assembly.LoadFile(strFile)
                                 If Not objAssembly Is Nothing Then
                                     If Not objAssembly.GetName().Name = "vshost32" Then
-                                        Dim objModule = New clsModuleForCommandLine With {.ModuleName = objAssembly.GetName().Name, _
+
+                                        Dim objGuidAttributes = objAssembly.GetCustomAttributes(GetType(System.Runtime.InteropServices.GuidAttribute), True)
+                                        Dim objVersionAttributes = objAssembly.GetCustomAttributes(GetType(AssemblyFileVersionAttribute), True)
+                                        If objGuidAttributes.Any() And objVersionAttributes.Any() Then
+                                            Dim strModuleGuid = DirectCast(objGuidAttributes.First(), System.Runtime.InteropServices.GuidAttribute).Value.ToString().Replace("-", "")
+                                            Dim strVersionsAll = DirectCast(objVersionAttributes.First(), AssemblyFileVersionAttribute).Version
+                                            Dim strVersions = strVersionsAll.Split(".")
+
+                                            Dim intMajor = 0
+                                            Dim intMinor = 0
+                                            Dim intBuild = 0
+                                            Dim intRevision = 0
+
+                                            If strVersions.Count = 4 Then
+                                                intMajor = strVersions(0)
+                                                intMinor = strVersions(1)
+                                                intBuild = strVersions(2)
+                                                intRevision = strVersions(3)
+                                            ElseIf strVersions.Count = 3 Then
+                                                intMajor = strVersions(0)
+                                                intMajor = strVersions(1)
+                                                intBuild = strVersions(2)
+                                            ElseIf strVersions.Count = 2 Then
+                                                intMajor = strVersions(0)
+                                                intMajor = strVersions(1)
+                                            ElseIf strVersions.Count = 1 Then
+                                                intMajor = strVersions(0)
+                                            End If
+                                            Dim objModule = New clsModuleForCommandLine With {.ModuleName = objAssembly.GetName().Name, _
+                                                                                              .ModuleGuid = strModuleGuid,
+                                                                                              .Major = intMajor,
+                                                                                              .Minor = intMinor,
+                                                                                              .Build = intBuild,
+                                                                                              .Revision = intRevision,
                                                                         .ModulePath = strFile}
-                                        executableList.Add(objModule)
+                                            executableList.Add(objModule)
+                                        End If
+
+                                        
                                     End If
 
                                 End If

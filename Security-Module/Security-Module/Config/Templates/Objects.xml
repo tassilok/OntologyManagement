@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Items Type="Object">
-  <Item Id="ad6a83e8df894563b520baad7ad6266c" Id_Parent="db439e647efc4fdbb79f7262ec160ee2"><![CDATA[Base-Config]]></Item>
+  <Item Id="ea07377a732f4fe6b2f160440e742086" Id_Parent="86b05e853ce24a56be3c80375a686a82"><![CDATA[Security-Integration]]></Item>
+<Item Id="ad6a83e8df894563b520baad7ad6266c" Id_Parent="db439e647efc4fdbb79f7262ec160ee2"><![CDATA[Base-Config]]></Item>
 <Item Id="628efc33b2214d89857ba3e8904a937b" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Security-Module]]></Item>
 <Item Id="0d312fecb3064ad2b3827ae9664ff8e3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Master_Password]]></Item>
 <Item Id="fa239886d7674a3a83f2ef698698fa1f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[attribute_dbPostfix]]></Item>
@@ -8,8 +9,8 @@
 <Item Id="2e86e4074d594fdeb903c8cefdea70f8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_offered_by]]></Item>
 <Item Id="23fa073c5c884b16996a1bef3bc02b6a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Endoding_Types]]></Item>
 <Item Id="464aaaf7317e4b18831b1030a6d033d8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongsTo]]></Item>
-<Item Id="d3ad59f7bdc347128ae22c6af8123bc9" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_secured_by]]></Item>
 <Item Id="c887cf3e921c4831bf7e4c7a677edec9" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_contains]]></Item>
+<Item Id="d3ad59f7bdc347128ae22c6af8123bc9" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_secured_by]]></Item>
 <Item Id="9330d7391f40424b8ca8ecb782043f75" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[type_User]]></Item>
 <Item Id="5d1f7cf67271418e92d8101351d27444" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Security_Session]]></Item>
 <Item Id="eb52818a15e84d839ce59fe84c29cf4f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Security_Module]]></Item>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Items Type="Object">
-  <Item Id="51198cbbb364448fac5fc4ba03dbf1a7" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Typed-Tagging-Module]]></Item>
+  <Item Id="b732f45f63954cadb4008b49f841853f" Id_Parent="86b05e853ce24a56be3c80375a686a82"><![CDATA[Tagging]]></Item>
+<Item Id="51198cbbb364448fac5fc4ba03dbf1a7" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Typed-Tagging-Module]]></Item>
 <Item Id="5619631e793b4da8bcfbb1435efbe43c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongs_to]]></Item>
 <Item Id="f7a06decce2849f488f19bda7ea123d5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_tag]]></Item>
 <Item Id="847042f691014bfeb90aa4eac2ff985c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is_Tagging]]></Item>

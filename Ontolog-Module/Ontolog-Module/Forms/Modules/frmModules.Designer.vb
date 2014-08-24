@@ -81,19 +81,19 @@ Partial Class frmModules
         '
         'TextBox_Filter
         '
-        Me.TextBox_Filter.Location = New System.Drawing.Point(54, 4)
+        Me.TextBox_Filter.Location = New System.Drawing.Point(81, 3)
         Me.TextBox_Filter.Name = "TextBox_Filter"
         Me.TextBox_Filter.Size = New System.Drawing.Size(202, 20)
         Me.TextBox_Filter.TabIndex = 0
         '
         'Label_Filter
         '
-        Me.Label_Filter.AutoSize = true
+        Me.Label_Filter.AutoSize = True
         Me.Label_Filter.Location = New System.Drawing.Point(4, 7)
         Me.Label_Filter.Name = "Label_Filter"
-        Me.Label_Filter.Size = New System.Drawing.Size(43, 13)
+        Me.Label_Filter.Size = New System.Drawing.Size(80, 13)
         Me.Label_Filter.TabIndex = 1
-        Me.Label_Filter.Text = "x_Filter:"
+        Me.Label_Filter.Text = "x_Filter (Name):"
         '
         'DataGridView_Modules
         '

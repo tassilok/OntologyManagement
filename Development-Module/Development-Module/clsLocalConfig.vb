@@ -2909,7 +2909,7 @@ Public Class clsLocalConfig
         Dim objOList_Module = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
-                                           Where objRef.Name_Object.ToLower() = "object_development_management".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                           Where objRef.Name_Object.ToLower() = "development_management".ToLower() And objRef.Ontology = objGlobals.Type_Object
                                            Select objRef).ToList()
 
         If objOList_Module.Count > 0 Then

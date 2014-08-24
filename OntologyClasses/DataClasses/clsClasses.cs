@@ -23,6 +23,8 @@ namespace OntologyClasses.DataClasses
         public clsOntologyItem OItem_Class_OntologyMapping { get; private set; }
         public clsOntologyItem OItem_Class_OntologyMappingItem { get; private set; }
         public clsOntologyItem OItem_Class_MappingRule { get; private set; }
+        public clsOntologyItem OItem_Class_Module { get; private set; }
+        public clsOntologyItem OItem_Class_ModuleFunction { get; private set; }
 
         public List<clsOntologyItem> OList_Classes { get; private set; } 
 
@@ -58,6 +60,10 @@ namespace OntologyClasses.DataClasses
             OList_Classes.Add(OItem_Class_Server);
             OItem_Class_OntologyItemCreationRule = new clsOntologyItem { GUID = "e4e7e7621df04b81a6ff8f8d67cf988a", Name = "OntologyItem-Creation-Rules", GUID_Parent = OItem_Class_OntologyItems.GUID, Type = objTypes.ClassType };
             OList_Classes.Add(OItem_Class_OntologyItemCreationRule);
+            OItem_Class_Module = new clsOntologyItem { GUID = "aa616051e5214facabdbcbba6f8c6e73", Name = "Module", GUID_Parent = OItem_Class_System.GUID, Type = objTypes.ClassType };
+            OList_Classes.Add(OItem_Class_Module);
+            OItem_Class_ModuleFunction = new clsOntologyItem { GUID = "86b05e853ce24a56be3c80375a686a82", Name = "Module-Function", GUID_Parent = OItem_Class_Module.GUID, Type = objTypes.ClassType };
+            OList_Classes.Add(OItem_Class_ModuleFunction);
 
             OItem_Class_Variable = new clsOntologyItem { GUID = "4158aad2656a4fb997bf524c6f5fecaa", Name = "Variable", GUID_Parent = OItem_Class_System.GUID, Type = objTypes.ClassType };
             OList_Classes.Add(OItem_Class_Variable);
