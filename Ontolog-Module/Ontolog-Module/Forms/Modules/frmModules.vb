@@ -112,7 +112,7 @@ Public Class frmModules
     End Sub
 
     Private Sub ApplyToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ApplyToolStripMenuItem.Click
-        strModule = DataGridView_Modules.SelectedRows(0).Cells(1).Value.ToString()
+        strModule = DataGridView_Modules.SelectedRows(0).Cells(2).Value.ToString()
         DialogResult = Windows.Forms.DialogResult.OK
     End Sub
 
