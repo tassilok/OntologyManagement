@@ -74,7 +74,7 @@ CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Partner-Module \Partner-Module.sln 0.
 IF ERRORLEVEL 1 GOTO Fehler
 CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Process-Module \Process-Module.sln 0.2.0.55 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
-CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Report-Module \Report-Module.sln 0.0.1.66 1 1 1
+CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Report-Module \Report-Module.sln 0.0.1.67 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
 CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Scenes-Literatur-Module \Scenes-Literatur-Module.sln 0.0.1.54 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
@@ -84,11 +84,11 @@ CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Bill-Module \Bill-Module.sln 0.0.1.59
 IF ERRORLEVEL 1 GOTO Fehler
 CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Change-Module \Change-Module.sln 0.2.0.71 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
-CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Checklist-Module \Checklist-Module.sln 0.0.0.67 1 1 1
+CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Checklist-Module \Checklist-Module.sln 0.0.0.68 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
 CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ LiteraturQuellen-Module \LiteraturQuellen-Module.sln 0.0.0.111 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
-CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Schriftverkehrs-Module \Schriftverkehrs-Module.sln 0.0.0.60 1 1 1
+CALL .\MSBuild_DebugRelease.cmd %ROOTDIR%\ Schriftverkehrs-Module \Schriftverkehrs-Module.sln 0.0.0.61 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
 GOTO Ende
 :Fehler
