@@ -10,6 +10,7 @@ namespace CommandLineRun_Module
     {
         private clsLocalConfig objLocalConfig;
         private clsDataWork_CommandLineRun objDataWork_CommandLineRun;
+        private clsDataWork_ReportsToCommandLine objDataWork_ReportsToCommandLine;
         private UserControl_CommandLineRunTree objUserControl_CommandLineTree;
         private UserControl_ExecuteCode objUserControl_ExecuteCode;
 
@@ -22,6 +23,8 @@ namespace CommandLineRun_Module
         private string[] strCommandLine;
 
         private clsShellOutput objShellOutput;
+
+        private clsOntologyItem objOItem_Report;
 
         public frmCommandLineRun()
         {
@@ -41,10 +44,33 @@ namespace CommandLineRun_Module
             objLocalConfig = new clsLocalConfig(new clsGlobals());
             Initialize();
         }
+        
+
+        public frmCommandLineRun(clsOntologyItem OItem_Report)
+        {
+            objOItem_Report = OItem_Report;
+
+            Initialize();
+        }
+
+        private void Initialize_Reports()
+        {
+            objDataWork_ReportsToCommandLine = new clsDataWork_ReportsToCommandLine(objLocalConfig);
+            var objOItem_Result = objDataWork_ReportsToCommandLine.GetData_CmdlrReports(objOItem_Report);
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+
+            }
+            else
+            {
+                throw new Exception("No Data!");
+            }
+
+        }
 
         private void Initialize()
         {
-            
+            objDataWork_ReportsToCommandLine = new clsDataWork_ReportsToCommandLine(objLocalConfig);
             objDataWork_CommandLineRun = new clsDataWork_CommandLineRun(objLocalConfig);
             objUserControl_CommandLineTree = new UserControl_CommandLineRunTree(objLocalConfig, objDataWork_CommandLineRun);
             objUserControl_CommandLineTree.selectedNode += objUserControl_CommandLineTree_selectedNode;

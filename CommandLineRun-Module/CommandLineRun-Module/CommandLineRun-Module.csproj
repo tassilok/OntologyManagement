@@ -52,6 +52,7 @@
     <Compile Include="clsCode.cs" />
     <Compile Include="clsDataWork_CommandLineRun.cs" />
     <Compile Include="clsDataWork_ExecutableConfiguration.cs" />
+    <Compile Include="clsDataWork_ReportsToCommandLine.cs" />
     <Compile Include="clsExecutableConfiguration.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="clsShellOutput.cs" />

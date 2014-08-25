@@ -232,6 +232,10 @@
       <Project>{10bcc346-a390-401c-ba6a-904a8842a40b}</Project>
       <Name>ClassLibrary_ShellWork</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\CommandLineRun-Module\CommandLineRun-Module\CommandLineRun-Module.csproj">
+      <Project>{deed8843-0c77-4c8c-93c5-3e5768314a63}</Project>
+      <Name>CommandLineRun-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Filesystem-Module\Filesystem-Module\Filesystem-Module.vbproj">
       <Project>{f31c8a5a-bb2b-474e-bc1f-a14e805ea2e9}</Project>
       <Name>Filesystem-Module</Name>

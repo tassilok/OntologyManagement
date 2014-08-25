@@ -832,7 +832,7 @@ namespace CommandLineRun_Module
                     variables.AddRange(from codes in codeSnipplets
                                        join var in objDBLevel_Variables.OList_ObjectRel on codes.code.ID_Object equals
                                            var.ID_Object
-                                       join variable in variables on var.ID_Other equals variable.ID_Other into variables2
+                                       join variable in variables on new { ID_Variable = var.ID_Other, ID_CodeItem = codes.code.ID_Object } equals new { ID_Variable = variable.ID_Other, ID_CodeItem = variable.ID_Object } into variables2
                                        from variable in variables2.DefaultIfEmpty()
                                        where variable == null
                                        select var);
