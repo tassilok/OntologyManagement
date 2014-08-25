@@ -54,6 +54,7 @@
     <Compile Include="clsDataWork_ExecutableConfiguration.cs" />
     <Compile Include="clsExecutableConfiguration.cs" />
     <Compile Include="clsLocalConfig.cs" />
+    <Compile Include="clsShellOutput.cs" />
     <Compile Include="clsValue.cs" />
     <Compile Include="frmCommandLineRun.cs">
       <SubType>Form</SubType>

@@ -22,6 +22,16 @@ namespace CommandLineRun_Module
 
         private frmScriptExecution objFrmScriptExecution;
 
+        public delegate void ScriptExecuted(string output, string error);
+
+        public event ScriptExecuted scriptExecuted;
+
+        protected virtual void OnScriptExecuted(string output, string error)
+        {
+            ScriptExecuted handler = scriptExecuted;
+            if (handler != null) handler(output, error);
+        }
+
         public UserControl_ExecuteCode(clsLocalConfig LocalConfig, clsDataWork_CommandLineRun DataWork_CommandLineRun)
         {
             objLocalConfig = LocalConfig;
@@ -44,7 +54,7 @@ namespace CommandLineRun_Module
         }
 
         
-        public void InitializeCodeView(clsOntologyItem OItem_Cmdlr)
+        public void InitializeCodeView(clsOntologyItem OItem_Cmdlr, bool doExecute = false)
         {
             scintilla_Code.IsReadOnly = false;
             scintilla_CodeParsed.IsReadOnly = false;
@@ -139,6 +149,18 @@ namespace CommandLineRun_Module
                 scintilla_Code.IsReadOnly = true;
                 scintilla_CodeParsed.IsReadOnly = true;
                 
+                if (doExecute)
+                {
+                    if (objExecutionConfiguration != null)
+                    {
+                        var objShellOutput = new clsShellOutput();
+                        objFrmScriptExecution = new frmScriptExecution(objExecutionConfiguration, scintilla_CodeParsed.Text,true, objShellOutput);
+
+                        scriptExecuted(objShellOutput.OutputText, objShellOutput.ErrorText);
+
+                    }
+
+                }
             }
             
         }

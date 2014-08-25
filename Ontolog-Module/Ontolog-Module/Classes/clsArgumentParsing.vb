@@ -71,33 +71,34 @@ Public Class clsArgumentParsing
         strArgument = strArgument.Trim()
         Dim objModulFunction = New clsModuleFunction()
 
-        Dim objRegEx = New Regex("[f|F]unction=" & objGlobals.RegExPattern_GUID & ":?(" + objGlobals.RegExPattern_GUID + ")?")
-        Dim objRegExMatch = objRegEx.Match(strArgument)
-        If objRegExMatch.Success Then
-            Dim strModuleFunction = objRegExMatch.Value.Substring("function=".Length)
+        
+        If strArgument.ToLower().StartsWith("function=") Then
+            Dim strModuleFunction = strArgument.Substring("function=".Length)
             Dim strModuleFunctions = strModuleFunction.Split(":")
             
             If strModuleFunctions.Count = 1 Then
                 If objGlobals.is_GUID(strModuleFunctions(0)) Then
                     objModulFunction.GUID_Ontology = strModuleFunctions(0)
-                    Return objModulFunction
+                    
                 Else
-                    Return Nothing
+                    objModulFunction.Name_Function = strModuleFunctions(0)
                 End If
+                Return objModulFunction
             ElseIf strModuleFunctions.Count = 2 Then
                 If objGlobals.is_GUID(strModuleFunctions(0)) Then
                     objModulFunction.GUID_Ontology = strModuleFunctions(0)
 
                 Else
-                    Return Nothing
+                    objModulFunction.GUID_Ontology = Nothing
                 End If
 
                 If objGlobals.is_GUID(strModuleFunctions(1)) Then
                     objModulFunction.GUID_Function = strModuleFunctions(1)
-                    Return objModulFunction
                 Else
-                    Return Nothing
+                    objModulFunction.Name_Function = strModuleFunctions(1)
                 End If
+
+                Return objModulFunction
 
             Else
 

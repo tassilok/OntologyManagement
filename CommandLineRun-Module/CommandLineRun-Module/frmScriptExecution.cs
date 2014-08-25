@@ -19,16 +19,22 @@ namespace CommandLineRun_Module
 
         private clsExecutableConfiguration objExecutionConfiguration;
 
-        public frmScriptExecution(clsExecutableConfiguration execConfig, string script)
+        private bool autoRun;
+
+        private clsShellOutput objShellOutput;
+
+        public frmScriptExecution(clsExecutableConfiguration execConfig, string script, bool autoRun = false, clsShellOutput objShellOutput = null)
         {
             InitializeComponent();
 
+            this.autoRun = autoRun;
             objExecutionConfiguration = execConfig;
             scintilla_Code.Text = script;
             scintilla_Code.ConfigurationManager.Language = objExecutionConfiguration.Name_SyntaxHighlight ?? "";
             scintilla_Code.IsReadOnly = false;
             scintilla_Output.IsReadOnly = true;
             scintilla_Error.IsReadOnly = true;
+            this.objShellOutput = objShellOutput;
 
             Initialize();
         }
@@ -36,6 +42,18 @@ namespace CommandLineRun_Module
         private void Initialize()
         {
             objShellWork = new clsShellWork();
+
+            if (autoRun)
+            {
+                RunCode();
+                if (objShellOutput != null)
+                {
+                    objShellOutput.ErrorOccured = !string.IsNullOrEmpty(scintilla_Error.Text);
+                    objShellOutput.ErrorText = scintilla_Error.Text;
+                    objShellOutput.OutputText = scintilla_Output.Text;
+                }
+                this.Close();
+            }
         }
 
         private void toolStripButton_Close_Click(object sender, EventArgs e)
@@ -45,8 +63,13 @@ namespace CommandLineRun_Module
 
         private void toolStripButton_Run_Click(object sender, EventArgs e)
         {
+            RunCode();
+            
+        }
 
-            objShellWork.exec_Script(scintilla_Code.Text, objExecutionConfiguration.Path_File, objExecutionConfiguration.Name_Extension,objExecutionConfiguration.Path_Folder, objExecutionConfiguration.Arguments ?? "");
+        private void RunCode()
+        {
+            objShellWork.exec_Script(scintilla_Code.Text, objExecutionConfiguration.Path_File, objExecutionConfiguration.Name_Extension, objExecutionConfiguration.Path_Folder, objExecutionConfiguration.Arguments ?? "");
             scintilla_Output.IsReadOnly = false;
             scintilla_Error.IsReadOnly = false;
 
@@ -63,6 +86,14 @@ namespace CommandLineRun_Module
             else
             {
                 tabControl1.SelectedTab = tabPage_Output;
+            }
+        }
+
+        private void frmScriptExecution_Load(object sender, EventArgs e)
+        {
+            if (autoRun)
+            {
+                this.Hide();
             }
         }
     }

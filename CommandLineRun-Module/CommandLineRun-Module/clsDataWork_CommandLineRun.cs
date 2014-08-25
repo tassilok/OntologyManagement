@@ -59,6 +59,10 @@ namespace CommandLineRun_Module
         public clsOntologyItem OItem_RelationType { get; set; }
         public clsOntologyItem OItem_Object { get; set; }
 
+        public bool ErrorOccured { get; set; }
+        public string ErrorText { get; set; }
+        public string OutputText { get; set; }
+
         public int RootNodeCount { get; private set; }
 
         public List<clsOntologyItem> OList_ProgrammingLanguages
@@ -762,17 +766,9 @@ namespace CommandLineRun_Module
             
             if (OItem_Result_Filter.GUID != objLocalConfig.Globals.LState_Error.GUID)
             {
-                if (OItem_Result_Filter.GUID == objLocalConfig.Globals.LState_Success.GUID)
-                {
-                    cmdrls = (from objCmdrls in objDBLevel_CommandLineRun.OList_Objects
-                              join objFilter in filterList on objCmdrls.GUID equals objFilter.GUID
-                              select objCmdrls).ToList();
-
-                }
-                else
-                {
-                    cmdrls = objDBLevel_CommandLineRun.OList_Objects;
-                }
+                
+                cmdrls = objDBLevel_CommandLineRun.OList_Objects;
+                
                 
                 cmdrls.ForEach(cmlr =>
                     {
@@ -854,13 +850,18 @@ namespace CommandLineRun_Module
 
                 });
 
-            Codes.ForEach(code =>
+
+                
+                Codes.ForEach(code =>
                 {
                     code.CodeParsed = code.Code;
                     
                     var variablesCode = variables.Where(var => var.ID_Object == code.ID_CodeItem).ToList();
                     var commandLineRunVals =
                         objDBLevel_Values.OList_ObjectRel.Where(val => val.ID_Object == code.ID_CommandLineRun).ToList();
+
+                    
+                                                   
                     var variableValues = (from codeValue in commandLineRunVals
                                           join valVar in objDBLevel_ValueVars.OList_ObjectRel on codeValue.ID_Other equals  valVar.ID_Object
                                           join valBelongingSource in objDBLevel_ValueBelongingSource.OList_ObjectRel on
@@ -870,14 +871,48 @@ namespace CommandLineRun_Module
                                           join variable in variablesCode on valVar.ID_Other equals variable.ID_Other
                                           select new {valVar, valBelongingSource, variable}).ToList();
 
-                    variableValues.ForEach(varVal => code.CodeParsed = code.CodeParsed.Replace("@" + varVal.valVar.Name_Other + "@",varVal.valBelongingSource != null ? varVal.valBelongingSource.Name_Other : varVal.valVar.Name_Object));
+                    variableValues.ForEach(varVal =>
+                        {
+                            if (varVal.valBelongingSource == null || (varVal.valBelongingSource.ID_Parent_Other != objLocalConfig.OItem_class_comand_line__run_.GUID))
+                            {
+                                code.CodeParsed = code.CodeParsed.Replace("@" + varVal.valVar.Name_Other + "@",
+                                                                          varVal.valBelongingSource != null
+                                                                              ? varVal.valBelongingSource
+                                                                                      .Name_Other
+                                                                              : varVal.valVar.Name_Object);
+                            }
+                            
+                        });
                 });
+
+
+                var cmdlrValues =
+                    (from reference in
+                         objDBLevel_ValueBelongingSource.OList_ObjectRel.Where(
+                             val =>
+                             val.ID_Parent_Other == objLocalConfig.OItem_class_comand_line__run_.GUID &&
+                             val.ID_RelationType == objLocalConfig.OItem_relationtype_belonging_source.GUID).ToList()
+                     join cmdlrValue in objDBLevel_Values.OList_ObjectRel on reference.ID_Object equals
+                         cmdlrValue.ID_Other
+                     join valVar in objDBLevel_ValueVars.OList_ObjectRel on cmdlrValue.ID_Other equals valVar.ID_Object
+                     join codeItemRef in Codes on reference.ID_Other equals codeItemRef.ID_CommandLineRun
+                     join codeItem in Codes on cmdlrValue.ID_Object equals codeItem.ID_CommandLineRun
+                     select new {codeItem, codeItemRef, valVar}).ToList();
+
+                cmdlrValues.ForEach(cmdlr =>
+                    {
+                        cmdlr.codeItem.CodeParsed = cmdlr.codeItem.CodeParsed.Replace("@" + cmdlr.valVar.Name_Other + "@",
+                                                          cmdlr.codeItemRef.CodeParsed);
+                    });
+                               
+                               
                 OItem_Result_Codes = objLocalConfig.Globals.LState_Success.Clone();
             }
             else
             {
                 OItem_Result_Codes = objLocalConfig.Globals.LState_Error.Clone();
             }
+            
             
 
             

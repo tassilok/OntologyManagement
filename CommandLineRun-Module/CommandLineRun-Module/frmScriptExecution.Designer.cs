@@ -30,34 +30,34 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmScriptExecution));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label_Script = new System.Windows.Forms.Label();
             this.scintilla_Code = new ScintillaNET.Scintilla();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton_Run = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage_Output = new System.Windows.Forms.TabPage();
-            this.tabPage_Error = new System.Windows.Forms.TabPage();
             this.scintilla_Output = new ScintillaNET.Scintilla();
+            this.tabPage_Error = new System.Windows.Forms.TabPage();
             this.scintilla_Error = new ScintillaNET.Scintilla();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton_Run = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scintilla_Code)).BeginInit();
-            this.toolStrip1.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage_Output.SuspendLayout();
-            this.tabPage_Error.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scintilla_Output)).BeginInit();
+            this.tabPage_Error.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scintilla_Error)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -82,6 +82,26 @@
             // 
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
             // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton_Close});
+            this.toolStrip2.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(62, 25);
+            this.toolStrip2.TabIndex = 0;
+            // 
+            // toolStripButton_Close
+            // 
+            this.toolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Close.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Close.Image")));
+            this.toolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Close.Name = "toolStripButton_Close";
+            this.toolStripButton_Close.Size = new System.Drawing.Size(50, 22);
+            this.toolStripButton_Close.Text = "x_Close";
+            this.toolStripButton_Close.Click += new System.EventHandler(this.toolStripButton_Close_Click);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -99,7 +119,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Size = new System.Drawing.Size(596, 383);
-            this.splitContainer1.SplitterDistance = 185;
+            this.splitContainer1.SplitterDistance = 184;
             this.splitContainer1.TabIndex = 0;
             // 
             // label_Script
@@ -119,7 +139,7 @@
             this.scintilla_Code.Location = new System.Drawing.Point(3, 21);
             this.scintilla_Code.Margins.Margin0.Width = 20;
             this.scintilla_Code.Name = "scintilla_Code";
-            this.scintilla_Code.Size = new System.Drawing.Size(586, 157);
+            this.scintilla_Code.Size = new System.Drawing.Size(586, 156);
             this.scintilla_Code.Styles.BraceBad.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla_Code.Styles.BraceLight.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla_Code.Styles.CallTip.FontName = "Segoe UI\0\0\0\0\0\0\0\0\0\0\0\0";
@@ -131,6 +151,78 @@
             this.scintilla_Code.Styles.LineNumber.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla_Code.Styles.Max.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla_Code.TabIndex = 2;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage_Output);
+            this.tabControl1.Controls.Add(this.tabPage_Error);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Multiline = true;
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(592, 191);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // tabPage_Output
+            // 
+            this.tabPage_Output.Controls.Add(this.scintilla_Output);
+            this.tabPage_Output.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Output.Name = "tabPage_Output";
+            this.tabPage_Output.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Output.Size = new System.Drawing.Size(584, 165);
+            this.tabPage_Output.TabIndex = 0;
+            this.tabPage_Output.Text = "x_Output";
+            this.tabPage_Output.UseVisualStyleBackColor = true;
+            // 
+            // scintilla_Output
+            // 
+            this.scintilla_Output.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scintilla_Output.Location = new System.Drawing.Point(3, 3);
+            this.scintilla_Output.Margins.Margin0.Width = 20;
+            this.scintilla_Output.Name = "scintilla_Output";
+            this.scintilla_Output.Size = new System.Drawing.Size(578, 159);
+            this.scintilla_Output.Styles.BraceBad.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Output.Styles.BraceLight.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Output.Styles.CallTip.FontName = "Segoe UI\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Output.Styles.ControlChar.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Output.Styles.Default.BackColor = System.Drawing.SystemColors.Window;
+            this.scintilla_Output.Styles.Default.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Output.Styles.IndentGuide.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Output.Styles.LastPredefined.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Output.Styles.LineNumber.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Output.Styles.Max.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Output.TabIndex = 5;
+            // 
+            // tabPage_Error
+            // 
+            this.tabPage_Error.Controls.Add(this.scintilla_Error);
+            this.tabPage_Error.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Error.Name = "tabPage_Error";
+            this.tabPage_Error.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Error.Size = new System.Drawing.Size(584, 165);
+            this.tabPage_Error.TabIndex = 1;
+            this.tabPage_Error.Text = "x_Error";
+            this.tabPage_Error.UseVisualStyleBackColor = true;
+            // 
+            // scintilla_Error
+            // 
+            this.scintilla_Error.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scintilla_Error.Location = new System.Drawing.Point(3, 3);
+            this.scintilla_Error.Margins.Margin0.Width = 20;
+            this.scintilla_Error.Name = "scintilla_Error";
+            this.scintilla_Error.Size = new System.Drawing.Size(578, 159);
+            this.scintilla_Error.Styles.BraceBad.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Error.Styles.BraceLight.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Error.Styles.CallTip.FontName = "Segoe UI\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Error.Styles.ControlChar.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Error.Styles.Default.BackColor = System.Drawing.SystemColors.Window;
+            this.scintilla_Error.Styles.Default.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Error.Styles.IndentGuide.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Error.Styles.LastPredefined.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Error.Styles.LineNumber.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Error.Styles.Max.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Error.TabIndex = 6;
             // 
             // toolStrip1
             // 
@@ -152,98 +244,6 @@
             this.toolStripButton_Run.Text = "toolStripButton1";
             this.toolStripButton_Run.Click += new System.EventHandler(this.toolStripButton_Run_Click);
             // 
-            // toolStrip2
-            // 
-            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton_Close});
-            this.toolStrip2.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(62, 25);
-            this.toolStrip2.TabIndex = 0;
-            // 
-            // toolStripButton_Close
-            // 
-            this.toolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_Close.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Close.Image")));
-            this.toolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Close.Name = "toolStripButton_Close";
-            this.toolStripButton_Close.Size = new System.Drawing.Size(50, 22);
-            this.toolStripButton_Close.Text = "x_Close";
-            this.toolStripButton_Close.Click += new System.EventHandler(this.toolStripButton_Close_Click);
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage_Output);
-            this.tabControl1.Controls.Add(this.tabPage_Error);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Multiline = true;
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(592, 190);
-            this.tabControl1.TabIndex = 0;
-            // 
-            // tabPage_Output
-            // 
-            this.tabPage_Output.Controls.Add(this.scintilla_Output);
-            this.tabPage_Output.Location = new System.Drawing.Point(4, 22);
-            this.tabPage_Output.Name = "tabPage_Output";
-            this.tabPage_Output.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_Output.Size = new System.Drawing.Size(584, 164);
-            this.tabPage_Output.TabIndex = 0;
-            this.tabPage_Output.Text = "x_Output";
-            this.tabPage_Output.UseVisualStyleBackColor = true;
-            // 
-            // tabPage_Error
-            // 
-            this.tabPage_Error.Controls.Add(this.scintilla_Error);
-            this.tabPage_Error.Location = new System.Drawing.Point(4, 22);
-            this.tabPage_Error.Name = "tabPage_Error";
-            this.tabPage_Error.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_Error.Size = new System.Drawing.Size(584, 164);
-            this.tabPage_Error.TabIndex = 1;
-            this.tabPage_Error.Text = "x_Error";
-            this.tabPage_Error.UseVisualStyleBackColor = true;
-            // 
-            // scintilla_Output
-            // 
-            this.scintilla_Output.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scintilla_Output.Location = new System.Drawing.Point(3, 3);
-            this.scintilla_Output.Margins.Margin0.Width = 20;
-            this.scintilla_Output.Name = "scintilla_Output";
-            this.scintilla_Output.Size = new System.Drawing.Size(578, 158);
-            this.scintilla_Output.Styles.BraceBad.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Output.Styles.BraceLight.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Output.Styles.CallTip.FontName = "Segoe UI\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Output.Styles.ControlChar.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Output.Styles.Default.BackColor = System.Drawing.SystemColors.Window;
-            this.scintilla_Output.Styles.Default.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Output.Styles.IndentGuide.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Output.Styles.LastPredefined.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Output.Styles.LineNumber.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Output.Styles.Max.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Output.TabIndex = 5;
-            // 
-            // scintilla_Error
-            // 
-            this.scintilla_Error.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scintilla_Error.Location = new System.Drawing.Point(3, 3);
-            this.scintilla_Error.Margins.Margin0.Width = 20;
-            this.scintilla_Error.Name = "scintilla_Error";
-            this.scintilla_Error.Size = new System.Drawing.Size(578, 158);
-            this.scintilla_Error.Styles.BraceBad.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Error.Styles.BraceLight.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Error.Styles.CallTip.FontName = "Segoe UI\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Error.Styles.ControlChar.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Error.Styles.Default.BackColor = System.Drawing.SystemColors.Window;
-            this.scintilla_Error.Styles.Default.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Error.Styles.IndentGuide.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Error.Styles.LastPredefined.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Error.Styles.LineNumber.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Error.Styles.Max.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
-            this.scintilla_Error.TabIndex = 6;
-            // 
             // frmScriptExecution
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -252,6 +252,7 @@
             this.Controls.Add(this.toolStripContainer1);
             this.Name = "frmScriptExecution";
             this.Text = "frmScriptExecution";
+            this.Load += new System.EventHandler(this.frmScriptExecution_Load);
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
@@ -259,21 +260,21 @@
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scintilla_Code)).EndInit();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage_Output.ResumeLayout(false);
-            this.tabPage_Error.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scintilla_Output)).EndInit();
+            this.tabPage_Error.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scintilla_Error)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }

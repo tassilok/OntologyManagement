@@ -259,7 +259,14 @@ Public Class UserControl_OntologyExport
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             Dim objORel_BaseConfigClasses = New List(Of clsOntologyItem) From {New clsOntologyItem With {.GUID_Parent = objLocalConfig.OItem_Class_Module.GUID}}
-            If objORel_BaseConfigClasses.Any Then
+            If objDBLevel_Module.OList_ObjectRel.Any Then
+                Dim objOItem_Module = objDBLevel_Module.OList_ObjectRel.Select(function(objMod) new clsOntologyItem With {.GUID = objMod.ID_Object,
+                                                                                                                          .Name = objMod.Name_Object,
+                                                                                                                          .GUID_Parent = objMod.ID_Parent_Object,
+                                                                                                                          .Type = objLocalConfig.Globals.Type_Object}).First()
+
+                objExport.OList_Objects.Add(objOItem_Module)
+
                 objOItem_Result = objDBLevel_BaseConfigClasse.get_Data_Classes(objORel_BaseConfigClasses)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     Dim searchModuleFunction = objDBLevel_Module.OList_ObjectRel.Select(Function(mods) New clsObjectRel With {.ID_Object = mods.ID_Object,

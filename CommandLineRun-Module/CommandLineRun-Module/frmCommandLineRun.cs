@@ -13,12 +13,31 @@ namespace CommandLineRun_Module
         private UserControl_CommandLineRunTree objUserControl_CommandLineTree;
         private UserControl_ExecuteCode objUserControl_ExecuteCode;
 
+        private frmScriptExecution objFrmSecriptExecution;
+
         private clsArgumentParsing objArgumentParsing;
+
+        private clsModuleFunction objModuleFunction;
+
+        private string[] strCommandLine;
+
+        private clsShellOutput objShellOutput;
 
         public frmCommandLineRun()
         {
             InitializeComponent();
 
+            strCommandLine = null;
+            objLocalConfig = new clsLocalConfig(new clsGlobals());
+            Initialize();
+        }
+
+        public frmCommandLineRun(string[] commandLine, clsShellOutput shellOutput)
+        {
+            InitializeComponent();
+
+            objShellOutput = shellOutput;
+            strCommandLine = commandLine;
             objLocalConfig = new clsLocalConfig(new clsGlobals());
             Initialize();
         }
@@ -34,6 +53,7 @@ namespace CommandLineRun_Module
 
 
             objUserControl_ExecuteCode = new UserControl_ExecuteCode(objLocalConfig, objDataWork_CommandLineRun);
+            objUserControl_ExecuteCode.scriptExecuted += objUserControl_ExecuteCode_scriptExecuted;
             objUserControl_ExecuteCode.Dock = DockStyle.Fill;
             splitContainer1.Panel2.Controls.Add(objUserControl_ExecuteCode);
 
@@ -43,7 +63,23 @@ namespace CommandLineRun_Module
 
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                objUserControl_CommandLineTree.InitializeTree();
+                var autoRun = false;
+                if (objModuleFunction != null)
+                {
+                    if (objModuleFunction.Name_Function.ToLower() == "execute" && objDataWork_CommandLineRun.OItem_Object != null && objDataWork_CommandLineRun.OItem_Object.GUID_Parent == objLocalConfig.OItem_class_comand_line__run_.GUID )
+                    {
+                        
+                        objUserControl_ExecuteCode.InitializeCodeView(objDataWork_CommandLineRun.OItem_Object, true);
+                        autoRun = true;
+                    }
+                }
+
+
+                if (!autoRun)
+                {
+                    objUserControl_CommandLineTree.InitializeTree();    
+                }
+                
 
                 
                 
@@ -51,15 +87,36 @@ namespace CommandLineRun_Module
             }
         }
 
+        void objUserControl_ExecuteCode_scriptExecuted(string output, string error)
+        {
+            objShellOutput.ErrorText = error;
+            objShellOutput.OutputText = output;
+            this.Close();
+        }
+
         private void ParseArguments()
         {
-            objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals,
-                                                        new List<string>(Environment.GetCommandLineArgs()));
+
+            if (strCommandLine == null)
+            {
+                objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals,
+                                                            new List<string>(Environment.GetCommandLineArgs()));    
+            }
+            else
+            {
+                objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals,
+                                                            new List<string>(strCommandLine));    
+            }
+            
 
             if (objArgumentParsing.OList_Items.Count == 1)
             {
                 var objOItem_Argument = objArgumentParsing.OList_Items[0];
+
+                objModuleFunction = objArgumentParsing.FunctionList.Count == 1 ? objArgumentParsing.FunctionList[0] : null;
+
                 
+
                 if (objOItem_Argument.Type.ToLower() == objLocalConfig.Globals.Type_Class.ToLower())
                 {
                     objOItem_Argument.Type = objLocalConfig.Globals.Type_Class;
@@ -80,6 +137,7 @@ namespace CommandLineRun_Module
                     var objOItem_Class =
                             objDataWork_CommandLineRun.GetOItem(objDataWork_CommandLineRun.OItem_Object.GUID_Parent,
                                                                 objLocalConfig.Globals.Type_Class);
+
 
                     this.Text = objOItem_Class.Name + "/";
                     this.Text += objOItem_Argument.Name;
