@@ -768,8 +768,9 @@ namespace CommandLineRun_Module
             {
                 
                 cmdrls = objDBLevel_CommandLineRun.OList_Objects;
-                
-                
+
+                var test = cmdrls.Where(cmdlr => cmdlr.GUID == "ec88ef20f705465ebebc1248705f4f3a").ToList();
+
                 cmdrls.ForEach(cmlr =>
                     {
                         var commandLinesPL = (from pl in objDBLevel_CommandLine_PL.OList_ObjectRel
@@ -839,7 +840,7 @@ namespace CommandLineRun_Module
                     Codes.AddRange(codeSnipplets.Select(cmd =>
                             new clsCode
                             {
-                                ID_CommandLineRun = cmd.code.ID_Object,
+                                ID_CommandLineRun = cmlr.GUID,
                                 ID_CodeItem = cmd.code.ID_Object,
                                 Code = cmd.code.Val_String,
                                 ID_ProgrammingLanguage = cmd.pl != null ? cmd.pl.pl.ID_Other : null,
