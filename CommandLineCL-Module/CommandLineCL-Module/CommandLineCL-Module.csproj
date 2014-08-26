@@ -56,6 +56,14 @@
       <Project>{deed8843-0c77-4c8c-93c5-3e5768314a63}</Project>
       <Name>CommandLineRun-Module</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
+      <Project>{3f2f6722-c36b-420d-afe7-b21c19457208}</Project>
+      <Name>Ontolog-Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
+      <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
+      <Name>OntologyClasses</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\Config_ont.xml">
