@@ -47,6 +47,8 @@
             this.toolStripTextBox_SemFilter = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton_AddSemFilter = new System.Windows.Forms.ToolStripButton();
             this.timer_Mark = new System.Windows.Forms.Timer(this.components);
+            this.applyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -116,9 +118,11 @@
             // contextMenuStrip_CMDLR
             // 
             this.contextMenuStrip_CMDLR.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ModuleMenuToolStripMenuItem});
+            this.ModuleMenuToolStripMenuItem,
+            this.refreshToolStripMenuItem,
+            this.applyToolStripMenuItem});
             this.contextMenuStrip_CMDLR.Name = "contextMenuStrip_CMDLR";
-            this.contextMenuStrip_CMDLR.Size = new System.Drawing.Size(162, 26);
+            this.contextMenuStrip_CMDLR.Size = new System.Drawing.Size(162, 92);
             this.contextMenuStrip_CMDLR.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_CMDLR_Opening);
             // 
             // ModuleMenuToolStripMenuItem
@@ -204,6 +208,20 @@
             this.timer_Mark.Interval = 300;
             this.timer_Mark.Tick += new System.EventHandler(this.timer_Mark_Tick);
             // 
+            // applyToolStripMenuItem
+            // 
+            this.applyToolStripMenuItem.Name = "applyToolStripMenuItem";
+            this.applyToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.applyToolStripMenuItem.Text = "x_Apply";
+            this.applyToolStripMenuItem.Click += new System.EventHandler(this.applyToolStripMenuItem_Click);
+            // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.refreshToolStripMenuItem.Text = "x_Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            // 
             // UserControl_CommandLineRunTree
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -246,5 +264,7 @@
         internal System.Windows.Forms.ToolStripMenuItem ModuleMenuToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem OpenModuleByArgumentToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem OpenLastModuleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem applyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
     }
 }

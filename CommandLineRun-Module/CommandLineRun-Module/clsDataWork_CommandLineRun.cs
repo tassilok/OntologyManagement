@@ -65,6 +65,9 @@ namespace CommandLineRun_Module
 
         public int RootNodeCount { get; private set; }
 
+
+        public List<clsObjectRel> Variables { get; private set; }
+
         public List<clsOntologyItem> OList_ProgrammingLanguages
         {
             get { return objDBlevel_ProgrammingLanguages.OList_Objects; }
@@ -381,7 +384,7 @@ namespace CommandLineRun_Module
             var searchProgrammingLanguage = objDBLevel_CodeSnipplets.OList_ObjectRel.Select(cmd => new clsObjectRel
             {
                 ID_Object = cmd.ID_Other,
-                ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID,
+                ID_RelationType = objLocalConfig.OItem_relationtype_is_written_in.GUID,
                 ID_Parent_Other = objLocalConfig.OItem_class_programing_language.GUID
             }).ToList();
 
@@ -571,6 +574,39 @@ namespace CommandLineRun_Module
             OItem_Result_ValueBelongingSource = objOItem_Result;
         }
 
+        public List<clsOntologyItem> GetParentCmdlrs(List<clsOntologyItem> OList_CommandLineRun)
+        {
+            var cmdlrList = OList_CommandLineRun;
+
+            var count = -1;
+
+            while (cmdlrList.Count > count)
+            {
+                count = cmdlrList.Count;
+                var parents = (from child in cmdlrList
+                               join parent in objDBLevel_CommandLineRunTree.OList_ObjectRel on child.GUID equals
+                                   parent.ID_Other
+                               select new clsOntologyItem
+                                   {
+                                       GUID = parent.ID_Object,
+                                       Name = parent.Name_Object,
+                                       GUID_Parent = parent.ID_Parent_Object,
+                                       Type = objLocalConfig.Globals.Type_Object
+                                   }).ToList();
+
+                var parentsToAdd = (from newParent in parents
+                                    join existParent in cmdlrList on newParent.GUID equals existParent.GUID into
+                                        existParents
+                                    from existParent in existParents.DefaultIfEmpty()
+                                    where existParent == null
+                                    select newParent);
+
+                cmdlrList.AddRange(parentsToAdd);
+                
+            }
+
+            return cmdlrList;
+        }
 
         private clsOntologyItem CreateFilterListCMDLRs()
         {
@@ -760,7 +796,6 @@ namespace CommandLineRun_Module
         {
             OItem_Result_Codes = objLocalConfig.Globals.LState_Nothing.Clone();
             Codes = new List<clsCode>();
-            var variables = new List<clsObjectRel>();
 
             List<clsOntologyItem> cmdrls;
             
@@ -770,6 +805,8 @@ namespace CommandLineRun_Module
                 cmdrls = objDBLevel_CommandLineRun.OList_Objects;
 
                 var test = cmdrls.Where(cmdlr => cmdlr.GUID == "ec88ef20f705465ebebc1248705f4f3a").ToList();
+                
+                Variables = new List<clsObjectRel>();
 
                 cmdrls.ForEach(cmlr =>
                     {
@@ -793,7 +830,7 @@ namespace CommandLineRun_Module
                         
                     
 
-                    variables.AddRange(from commandLine in commandLines
+                    Variables.AddRange(from commandLine in commandLines
                                      join var in objDBLevel_Variables.OList_ObjectRel on commandLine.cmd.ID_Other equals
                                          var.ID_Object
                                      select var);
@@ -812,7 +849,7 @@ namespace CommandLineRun_Module
                             }));
 
 
-                        var codeSnippletsPL = (from pl in objDBLevel_CommandLine_PL.OList_ObjectRel
+                        var codeSnippletsPL = (from pl in objDBLevel_CodeSnipplets_PL.OList_ObjectRel
                                                join syhl in objDBLevel_PL_SyntaxHighl.OList_ObjectRel on pl.ID_Other
                                                    equals
                                                    syhl.ID_Other
@@ -829,10 +866,10 @@ namespace CommandLineRun_Module
                          from pl in pls.DefaultIfEmpty()
                          select new {code, pl}).ToList();
 
-                    variables.AddRange(from codes in codeSnipplets
+                    Variables.AddRange(from codes in codeSnipplets
                                        join var in objDBLevel_Variables.OList_ObjectRel on codes.code.ID_Object equals
                                            var.ID_Object
-                                       join variable in variables on new { ID_Variable = var.ID_Other, ID_CodeItem = codes.code.ID_Object } equals new { ID_Variable = variable.ID_Other, ID_CodeItem = variable.ID_Object } into variables2
+                                       join variable in Variables on new { ID_Variable = var.ID_Other, ID_CodeItem = codes.code.ID_Object } equals new { ID_Variable = variable.ID_Other, ID_CodeItem = variable.ID_Object } into variables2
                                        from variable in variables2.DefaultIfEmpty()
                                        where variable == null
                                        select var);
@@ -857,7 +894,7 @@ namespace CommandLineRun_Module
                 {
                     code.CodeParsed = code.Code;
                     
-                    var variablesCode = variables.Where(var => var.ID_Object == code.ID_CodeItem).ToList();
+                    var variablesCode = Variables.Where(var => var.ID_Object == code.ID_CodeItem).ToList();
                     var commandLineRunVals =
                         objDBLevel_Values.OList_ObjectRel.Where(val => val.ID_Object == code.ID_CommandLineRun).ToList();
 

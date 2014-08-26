@@ -14,6 +14,7 @@ namespace CommandLineRun_Module
 
         private clsOntologyItem objOItem_Report;
 
+
         private clsDBLevel objDBLevel_CommandLineToReport;
         private clsDBLevel objDBLevel_CommandLineRun;
         private clsDBLevel objDBLevel_VarToField;
@@ -23,6 +24,56 @@ namespace CommandLineRun_Module
         private clsOntologyItem OItem_Result_CommandLineRun;
         private clsOntologyItem OItem_Result_VarToField;
         private clsOntologyItem OItem_Result_ReportFieldAndValue;
+
+        
+        public List<clsOntologyItem> CommandLineRunList
+        {
+            get
+            {
+                var cmdltr = (from cmdlr in objDBLevel_CommandLineRun.OList_ObjectRel
+                              group cmdlr by new clsOntologyItem
+                                  {
+                                      GUID = cmdlr.ID_Other,
+                                      Name = cmdlr.Name_Other,
+                                      GUID_Parent = cmdlr.ID_Parent_Other,
+                                      Type = objLocalConfig.Globals.Type_Object
+                                  } into cmdlrs
+                              select cmdlrs.Key).ToList();
+
+                return cmdltr;
+            }
+        }
+
+        public List<clsVariableToReportField> GetVariableToField()
+        {
+            var variableToField = (from objVariableToField in objDBLevel_VarToField.OList_ObjectRel
+                                   join objVariable in
+                                       objDBLevel_VarToField_ReportFieldAndValue.OList_ObjectRel.Where(
+                                           vartofield =>
+                                           vartofield.ID_Parent_Other == objLocalConfig.OItem_class_variable.GUID)
+                                                                                .ToList() on
+                                       objVariableToField.ID_Object equals objVariable.ID_Object
+                                   join objReportFiled in
+                                       objDBLevel_VarToField_ReportFieldAndValue.OList_ObjectRel.Where(
+                                           vartofield =>
+                                           vartofield.ID_Parent_Other == objLocalConfig.OItem_class_report_field.GUID)
+                                                                                .ToList() on
+                                       objVariableToField.ID_Object equals objReportFiled.ID_Object
+                                   join cmdlrToRep in objDBLevel_CommandLineToReport.OList_ObjectRel on objVariableToField.ID_Other equals  cmdlrToRep.ID_Object
+                                   join cmdlr in objDBLevel_CommandLineRun.OList_ObjectRel on cmdlrToRep.ID_Object equals  cmdlr.ID_Object
+                                   select new clsVariableToReportField
+                                       {
+                                           ID_Variable = objVariable.ID_Other,
+                                           Name_Variable = objVariable.Name_Other,
+                                           ID_ReportField = objReportFiled.ID_Other,
+                                           Name_ReportField = objReportFiled.Name_Other,
+                                           ID_CommandLineRun =  cmdlr.ID_Other,
+                                           Name_CommandLineRun = cmdlr.Name_Other
+                                       }).ToList();
+
+            return variableToField;
+        }
+
 
         public clsDataWork_ReportsToCommandLine(clsLocalConfig LocalConfig)
         {
@@ -158,6 +209,7 @@ namespace CommandLineRun_Module
 
         private void Initialize()
         {
+
             objDBLevel_CommandLineToReport = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_CommandLineRun = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_VarToField = new clsDBLevel(objLocalConfig.Globals);

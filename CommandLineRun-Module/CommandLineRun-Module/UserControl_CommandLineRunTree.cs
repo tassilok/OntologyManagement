@@ -41,6 +41,18 @@ namespace CommandLineRun_Module
 
         private TreeNode treeNode_Root;
 
+        public clsOntologyItem OItem_CommandLineRun { get; private set; }
+
+        public delegate void AppliedCommandLineRun();
+
+        public event AppliedCommandLineRun appliedCommandLineRun;
+
+        public bool Applyable
+        {
+            get { return applyToolStripMenuItem.Visible; }
+            set { applyToolStripMenuItem.Visible = value; }
+        }
+
         public UserControl_CommandLineRunTree(clsLocalConfig LocalConfig, clsDataWork_CommandLineRun DataWork_CommandLineRun)
         {
             objLocalConfig = LocalConfig;
@@ -53,6 +65,7 @@ namespace CommandLineRun_Module
         private void Intialize()
         {
             objShellWork = new clsShellWork();
+            applyToolStripMenuItem.Visible = false;
         }
 
         public void InitializeTree()
@@ -263,10 +276,16 @@ namespace CommandLineRun_Module
         private void contextMenuStrip_CMDLR_Opening(object sender, CancelEventArgs e)
         {
             var node = treeView_CMDLR.SelectedNode;
+            
             ModuleMenuToolStripMenuItem.Enabled = false;
+            applyToolStripMenuItem.Enabled = false;
+            refreshToolStripMenuItem.Enabled = false;
+
             if (node != null && node.Name != objLocalConfig.Globals.Root.GUID)
             {
-                ModuleMenuToolStripMenuItem.Enabled = true;   
+                ModuleMenuToolStripMenuItem.Enabled = true;
+                applyToolStripMenuItem.Enabled = true;
+                refreshToolStripMenuItem.Enabled = true;
             }
         }
 
@@ -369,6 +388,67 @@ namespace CommandLineRun_Module
             }
 
             toolStripTextBox_SemFilter.Text = strSemFilter;
+        }
+
+        private void applyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var node = treeView_CMDLR.SelectedNode;
+
+            OItem_CommandLineRun = null;
+
+            if (node != null && node.Name != objLocalConfig.Globals.Root.GUID)
+            {
+                OItem_CommandLineRun = new clsOntologyItem
+                    {
+                        GUID = node.Name,
+                        Name = node.Text,
+                        GUID_Parent = objLocalConfig.OItem_class_comand_line__run_.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+
+                appliedCommandLineRun();
+            }
+        }
+
+        public void MarkNodes(List<clsOntologyItem> commandLineRunList)
+        {
+            var intToDo = commandLineRunList.Count;
+            var done = 0;
+
+            commandLineRunList.ForEach(cmdlr =>
+                {
+                    var nodes = treeView_CMDLR.Nodes.Find(cmdlr.GUID, true);
+                    if (nodes.Any())
+                    {
+                        done++;
+                        foreach (var treeNode in nodes)
+                        {
+                            treeNode.BackColor = nodeBackColor_marked;
+                            var parentNodeTmp = treeNode.Parent;
+                            while (parentNodeTmp != null)
+                            {
+                                parentNodeTmp.Expand();
+                                parentNodeTmp = parentNodeTmp.Parent;
+                            }
+                        }
+                    }
+                });
+
+            if (done < intToDo)
+            {
+                MessageBox.Show(this, "Es konnten nur " + done + " von " + intToDo + " Items ermittelt werden!",
+                                "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var node = treeView_CMDLR.SelectedNode;
+            
+            if (node != null && node.Name != objLocalConfig.Globals.Root.GUID)
+            {
+                ShowCMDLR_Data(node);
+            }
         }
 
     }

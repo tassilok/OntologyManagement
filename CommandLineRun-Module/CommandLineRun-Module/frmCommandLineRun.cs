@@ -9,7 +9,7 @@ namespace CommandLineRun_Module
     public partial class frmCommandLineRun : Form
     {
         private clsLocalConfig objLocalConfig;
-        private clsDataWork_CommandLineRun objDataWork_CommandLineRun;
+        public clsDataWork_CommandLineRun objDataWork_CommandLineRun { get; set; }
         private clsDataWork_ReportsToCommandLine objDataWork_ReportsToCommandLine;
         private UserControl_CommandLineRunTree objUserControl_CommandLineTree;
         private UserControl_ExecuteCode objUserControl_ExecuteCode;
@@ -26,13 +26,45 @@ namespace CommandLineRun_Module
 
         private clsOntologyItem objOItem_Report;
 
+        public delegate void AppliedCommandLineRun();
+
+        public event AppliedCommandLineRun appliedItem;
+
+        private List<KeyValuePair<string, string>> columnFieldList;
+        private DataGridView dataSource;
+        private bool reportRegistered;
+
+
+        public void CreateScriptOfReport(List<KeyValuePair<string, string>> columnFieldList, DataGridView dataSource)
+        {
+            this.columnFieldList = columnFieldList;
+            this.dataSource = dataSource;
+            this.toolStripTextBox_RegisteredReport.Text = objOItem_Report.Name;
+            reportRegistered = true;
+        }
+
         public frmCommandLineRun()
         {
             InitializeComponent();
 
             strCommandLine = null;
             objLocalConfig = new clsLocalConfig(new clsGlobals());
+            //TestReports();
             Initialize();
+        }
+
+        private void TestReports()
+        {
+            objOItem_Report = new clsOntologyItem
+                {
+                    GUID = "c0e32894ee38457490e03d44efc3fdca",
+                    Name = "Servers with IP-Address and Alias",
+                    GUID_Parent = "30cbc6e89c0f47d6920c97fdc40ea1de",
+                    Type = objLocalConfig.Globals.Type_Object
+                };
+
+            strCommandLine = null;
+            Initialize_Reports();
         }
 
         public frmCommandLineRun(string[] commandLine, clsShellOutput shellOutput)
@@ -46,20 +78,45 @@ namespace CommandLineRun_Module
         }
         
 
-        public frmCommandLineRun(clsOntologyItem OItem_Report)
+        public frmCommandLineRun(clsGlobals Globals, clsOntologyItem OItem_Report)
         {
+            InitializeComponent();
+
             objOItem_Report = OItem_Report;
 
-            Initialize();
+            strCommandLine = null;
+            objLocalConfig = new clsLocalConfig(Globals);
+            Initialize_Reports();
         }
 
         private void Initialize_Reports()
         {
+            this.Text = "Report: " + objOItem_Report.Name;
+            
             objDataWork_ReportsToCommandLine = new clsDataWork_ReportsToCommandLine(objLocalConfig);
             var objOItem_Result = objDataWork_ReportsToCommandLine.GetData_CmdlrReports(objOItem_Report);
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
+                objDataWork_CommandLineRun = new clsDataWork_CommandLineRun(objLocalConfig);
+                objUserControl_CommandLineTree = new UserControl_CommandLineRunTree(objLocalConfig, objDataWork_CommandLineRun);
+                objUserControl_CommandLineTree.selectedNode += objUserControl_CommandLineTree_selectedNode;
+                objUserControl_CommandLineTree.appliedCommandLineRun += objUserControl_CommandLineTree_appliedCommandLineRun;
+                objUserControl_CommandLineTree.Dock = DockStyle.Fill;
+                splitContainer1.Panel1.Controls.Add(objUserControl_CommandLineTree);
 
+                objUserControl_ExecuteCode = new UserControl_ExecuteCode(objLocalConfig, objDataWork_CommandLineRun);
+                objUserControl_ExecuteCode.scriptExecuted += objUserControl_ExecuteCode_scriptExecuted;
+                objUserControl_ExecuteCode.Dock = DockStyle.Fill;
+                splitContainer1.Panel2.Controls.Add(objUserControl_ExecuteCode);
+
+                objOItem_Result = objDataWork_CommandLineRun.GetData_CommandLineRun();
+
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    objUserControl_CommandLineTree.InitializeTree();
+                    objUserControl_CommandLineTree.Applyable = true;
+                    objUserControl_CommandLineTree.MarkNodes(objDataWork_ReportsToCommandLine.CommandLineRunList);
+                }
             }
             else
             {
@@ -68,9 +125,15 @@ namespace CommandLineRun_Module
 
         }
 
+        void objUserControl_CommandLineTree_appliedCommandLineRun()
+        {
+            appliedItem();
+
+        }
+
         private void Initialize()
         {
-            objDataWork_ReportsToCommandLine = new clsDataWork_ReportsToCommandLine(objLocalConfig);
+            
             objDataWork_CommandLineRun = new clsDataWork_CommandLineRun(objLocalConfig);
             objUserControl_CommandLineTree = new UserControl_CommandLineRunTree(objLocalConfig, objDataWork_CommandLineRun);
             objUserControl_CommandLineTree.selectedNode += objUserControl_CommandLineTree_selectedNode;
@@ -177,17 +240,39 @@ namespace CommandLineRun_Module
         {
             if (selectedNode.Name == objLocalConfig.Globals.Root.GUID)
             {
-                objUserControl_ExecuteCode.InitializeCodeView(objLocalConfig.Globals.Root);
+                if (!reportRegistered)
+                {
+                    objUserControl_ExecuteCode.InitializeCodeView(objLocalConfig.Globals.Root);    
+                }
+                else
+                {
+                    objUserControl_ExecuteCode.InitializeCodeView(objLocalConfig.Globals.Root,objDataWork_ReportsToCommandLine,dataSource,columnFieldList);    
+                }
+                
             }
             else
             {
-                objUserControl_ExecuteCode.InitializeCodeView(new clsOntologyItem
+                if (!reportRegistered)
+                {
+                    objUserControl_ExecuteCode.InitializeCodeView(new clsOntologyItem
                     {
                         GUID = selectedNode.Name,
                         Name = selectedNode.Text,
                         GUID_Parent = objLocalConfig.OItem_class_comand_line__run_.GUID,
                         Type = objLocalConfig.Globals.Type_Object
-                    });
+                    });    
+                }
+                else
+                {
+                    objUserControl_ExecuteCode.InitializeCodeView(new clsOntologyItem
+                    {
+                        GUID = selectedNode.Name,
+                        Name = selectedNode.Text,
+                        GUID_Parent = objLocalConfig.OItem_class_comand_line__run_.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    }, objDataWork_ReportsToCommandLine, dataSource, columnFieldList);
+                }
+                
             }
         }
 

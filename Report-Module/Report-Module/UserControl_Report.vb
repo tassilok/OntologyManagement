@@ -9,6 +9,7 @@ Imports Office_Module
 Imports Typed_Tagging_Module
 Imports GraphMLConnector
 Imports Localization_Module
+Imports CommandLineRun_Module
 
 Public Class UserControl_Report
     Private frmObjectEdit As frm_ObjectEdit
@@ -48,6 +49,7 @@ Public Class UserControl_Report
     Private objGraphMLWork As clsGraphMLWork
     Private objFrmLocalizingModuleSingle As frmLocalizingModuleSingle
     Private objDlgAttribute_String As dlg_Attribute_String
+    Private WithEvents objFrmCommandLineRun as frmCommandLineRun
 
     Private objOntologyClipboard As clsOntologyClipboard
 
@@ -90,6 +92,13 @@ Public Class UserControl_Report
     Public Event DataLoaded()
     Public Event SelectionChanged()
 
+    Private sub AppliedCommandLineRun Handles objFrmCommandLineRun.appliedItem
+        
+    
+        Dim dictFieldList = objDataWork_ReportFields.ReportFields.Select(Function(repf) new KeyValuePair(Of string, string)(repf.Name_Col, repf.ID_Field)).ToList()
+
+        objFrmCommandLineRun.CreateScriptOfReport(dictFieldList, DataGridView_Reports)
+    End Sub
 
     Public ReadOnly Property DataGridViewRow_Selected As DataGridViewSelectedRowCollection
         Get
@@ -173,20 +182,22 @@ Public Class UserControl_Report
         DataGridView_Reports.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
     End Sub
 
-    Public Sub initialize(ByVal oItem_Report)
+    Public Sub initialize(ByVal oItem_Report As clsOntologyItem)
 
 
         objDataTable = New DataTable
         objDataSet = New DataSet
         objOItem_Report = oItem_Report
 
-
+        ToolStripButton_CommandLineRun.Enabled = False
 
         If objOItem_Report Is Nothing Then
             ToolStripButton_CreateGraphML.Enabled = False
             objDataTable.Clear()
             BindingSource_Reports.DataSource = Nothing
         Else
+
+            ToolStripButton_CommandLineRun.Enabled = True
             ToolStripButton_CreateGraphML.Enabled = True
             boolSynced = False
             Try
@@ -554,7 +565,7 @@ Public Class UserControl_Report
         Dim objOItem_Result = objDataWork_Report.GetData_ClipboardFilterTags()
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-            MsgBox("Die Basisdaten der Blipboardfilter konnte nicht ermittelt werden!", MsgBoxStyle.Critical)
+            MsgBox("Die Basisdaten der Clipboardfilter konnten nicht ermittelt werden!", MsgBoxStyle.Critical)
             Environment.Exit(-1)
         End If
 
@@ -1844,5 +1855,10 @@ Public Class UserControl_Report
                 MsgBox("Es konnten nur " & intDone & " von " & intToDo & " Items ins Clipboard kopiert werden!", MsgBoxStyle.Information)
             End If
         End If
+    End Sub
+
+    Private Sub ToolStripButton_CommandLineRun_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_CommandLineRun.Click
+        objFrmCommandLineRun = new frmCommandLineRun(objLocalConfig.Globals,objOItem_Report)
+        objFrmCommandLineRun.ShowDialog(me)
     End Sub
 End Class

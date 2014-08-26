@@ -57,6 +57,7 @@
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="clsShellOutput.cs" />
     <Compile Include="clsValue.cs" />
+    <Compile Include="clsVariableToReportField.cs" />
     <Compile Include="frmCommandLineRun.cs">
       <SubType>Form</SubType>
     </Compile>

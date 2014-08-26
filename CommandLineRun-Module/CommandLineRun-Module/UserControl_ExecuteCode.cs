@@ -53,7 +53,158 @@ namespace CommandLineRun_Module
             }
         }
 
-        
+        public void InitializeCodeView(clsOntologyItem OItem_Cmdlr,
+                                       clsDataWork_ReportsToCommandLine objDataWork_ReportsToCommandLine,
+                                       DataGridView dataGridView_Report,
+                                       List<KeyValuePair<string, string>> columnFieldList)
+        {
+
+
+            scintilla_Code.IsReadOnly = false;
+            scintilla_CodeParsed.IsReadOnly = false;
+            scintilla_Code.Text = "";
+            scintilla_CodeParsed.Text = "";
+            scintilla_Code.IsReadOnly = true;
+            scintilla_CodeParsed.IsReadOnly = true;
+            button_Exec.Enabled = false;
+
+            objOItem_CMDLR = OItem_Cmdlr;
+
+            ClearControls();
+
+
+
+            if (objOItem_CMDLR != null && objOItem_CMDLR.GUID != objLocalConfig.Globals.Root.GUID)
+            {
+                textBox_CMDRL.Text = objOItem_CMDLR.Name;
+                textBox_CMDRL.ReadOnly = false;
+
+                var codes =
+                    objDataWork_CommandLineRun.Codes.Where(code => code.ID_CommandLineRun == objOItem_CMDLR.GUID)
+                                              .ToList();
+
+                var subCmdrls = objDataWork_CommandLineRun.GetSubCmdlrs(OItem_Cmdlr);
+
+                codes.AddRange(from objCode in objDataWork_CommandLineRun.Codes
+                               join subCmdrl in subCmdrls on objCode.ID_CommandLineRun equals subCmdrl.ID_Other
+                               join codeExist in codes on objCode.ID_CommandLineRun equals codeExist.ID_CommandLineRun into codesExist
+                               from codeExist in codesExist.DefaultIfEmpty()
+                               where codeExist == null
+                               orderby subCmdrl.OrderID
+                               select objCode);
+
+                scintilla_Code.IsReadOnly = false;
+                scintilla_CodeParsed.IsReadOnly = false;
+
+                var variablesToReportFields = objDataWork_ReportsToCommandLine.GetVariableToField();
+                var dataExtractConfig = (from variableToField in variablesToReportFields
+                                         join columnField in columnFieldList on variableToField.ID_ReportField
+                                             equals columnField.Value
+                                         select new { variableToField, columnField }).ToList();
+
+                codes.ForEach(code =>
+                {
+                    if (dataExtractConfig.Any(dc => dc.variableToField.ID_CommandLineRun == code.ID_CommandLineRun))
+                    {
+                        
+                        dataGridView_Report.Rows.Cast<DataGridViewRow>().ToList().ForEach(dgvr =>
+                        {
+                            var codeToParse = code.CodeParsed;
+                            
+                            dataExtractConfig.ForEach(dat =>
+                            {
+                                var value = dgvr.Cells[dat.columnField.Key].Value.ToString();
+                                codeToParse = codeToParse.Replace("@" + dat.variableToField.Name_Variable + "@", value);
+                            });
+
+
+                            
+                            if (!string.IsNullOrEmpty(scintilla_CodeParsed.Text))
+                            {
+                                scintilla_CodeParsed.Text += "\r\n";
+                            }
+
+                            scintilla_CodeParsed.Text += codeToParse;    
+                        });
+
+                        if (!string.IsNullOrEmpty(scintilla_Code.Text))
+                        {
+                            scintilla_Code.Text += "\r\n";
+                        }
+                        scintilla_Code.Text += code.Code;
+                            
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(scintilla_Code.Text))
+                        {
+                            scintilla_Code.Text += "\r\n";
+                        }
+                        if (!string.IsNullOrEmpty(scintilla_CodeParsed.Text))
+                        {
+                            scintilla_CodeParsed.Text += "\r\n";
+                        }
+                        scintilla_Code.Text += code.Code;
+                        scintilla_CodeParsed.Text += code.CodeParsed;    
+                    }
+                    
+                });
+
+                
+
+                
+
+                
+                
+
+
+                var programmingLanguages = (from code in codes
+                                            group code by new { code.ID_ProgrammingLanguage, code.Name_ProgrammingLanguage }
+                                                into pls
+                                                where pls.Key.ID_ProgrammingLanguage != null
+                                                select pls.Key).ToList();
+
+                textBox_ProgrammingLanguage.Text = programmingLanguages.Count == 1 ? programmingLanguages.First().Name_ProgrammingLanguage : "";
+
+                if (programmingLanguages.Count == 1)
+                {
+                    var exeConfig =
+                        objDataWork_CommandLineRun.ExecutableConfigurations.Where(
+                            exec => exec.ID_ProgrammingLanguage == programmingLanguages.First().ID_ProgrammingLanguage)
+                                                  .ToList();
+
+                    var syntaxHighlightPL = (from code in codes
+                                             group code by code.Name_SyntaxHighlighting
+                                                 into highlights
+                                                 where highlights.Key != null
+                                                 select highlights.Key).ToList();
+
+                    objExecutionConfiguration = exeConfig.FirstOrDefault();
+
+                    if (syntaxHighlightPL.Count == 1 && objExecutionConfiguration != null)
+                    {
+                        objExecutionConfiguration.Name_SyntaxHighlight = syntaxHighlightPL.First();
+                        button_Exec.Enabled = true;
+                    }
+
+                }
+
+
+                var syntaxHighlight = (from code in codes
+                                       group code by code.Name_SyntaxHighlighting
+                                           into highlights
+                                           where highlights.Key != null
+                                           select highlights.Key).ToList();
+
+                scintilla_CodeParsed.ConfigurationManager.Language = syntaxHighlight.Count == 1 ? syntaxHighlight.First() : "";
+                scintilla_Code.ConfigurationManager.Language = syntaxHighlight.Count == 1 ? syntaxHighlight.First() : "";
+                scintilla_Code.IsReadOnly = true;
+                scintilla_CodeParsed.IsReadOnly = true;
+
+              
+            }
+        }
+
         public void InitializeCodeView(clsOntologyItem OItem_Cmdlr, bool doExecute = false)
         {
             scintilla_Code.IsReadOnly = false;
