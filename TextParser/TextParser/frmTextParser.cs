@@ -26,13 +26,39 @@ namespace TextParser
         private frmTextParser_bak objFrmTextParser_bak;
         private frmFieldParser objFrmFieldParser;
         private frmRegexTester objFrmRegExTester;
+        private clsArgumentParsing objArgumentParsing;
 
+        private bool autoTabChange;
 
         public frmTextParser()
         {
             InitializeComponent();
             objLocalConfig = new clsLocalConfig(new clsGlobals());
             Initialize();
+        }
+
+        private void ParseArguments()
+        {
+            objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals,Environment.GetCommandLineArgs().ToList());
+            if (objArgumentParsing.OList_Items.Count == 1 && objArgumentParsing.OList_Items.First().GUID_Parent == objLocalConfig.OItem_class_textparser.GUID)
+            {
+                objLocalConfig.ExOpt_TextParser = objArgumentParsing.OList_Items.First();
+            }
+
+            foreach (var function in objArgumentParsing.FunctionList)
+            {
+                if (function.GUID_Function != null && function.GUID_Function == objLocalConfig.OItem_object_override.GUID)
+                {
+                    objLocalConfig.ExOpt_Override = true;
+                }
+
+                if (function.GUID_Function != null && function.GUID_Function == objLocalConfig.OItem_object_execute.GUID)
+                {
+                    objLocalConfig.ExOpt_Execute = true;
+                }
+
+                
+            }
         }
 
         private void Initialize()
@@ -53,6 +79,7 @@ namespace TextParser
 
             if (objLocalConfig.OItem_User != null)
             {
+                ParseArguments();
                 var objOList_TextParsers = objDataWork_BaseData.GetData_TextParsersOfUser();
 
                 if (objOList_TextParsers != null)
@@ -73,6 +100,7 @@ namespace TextParser
                     splitContainer1.Panel1.Controls.Add(objUserControl_RefTree);
                     tabPage_ParserDetail.Controls.Add(objUserControl_TextParser);
 
+
                     objUserControl_RefTree.initialize_Tree(objOList_TextParsers,
                                                            new List<clsOntologyItem>
                                                                {
@@ -87,6 +115,7 @@ namespace TextParser
                     objUserControl_FieldParserView = new UserControl_FieldParserView(objLocalConfig);
                     objUserControl_FieldParserView.Dock=DockStyle.Fill;
                     
+                    SelectTextParserArgument();
                 }
                 else
                 {
@@ -101,6 +130,21 @@ namespace TextParser
             
         }
 
+        public void SelectTextParserArgument()
+        {
+            if (objLocalConfig.ExOpt_TextParser != null)
+            {
+                splitContainer1.Panel1Collapsed = true;
+                splitContainer2.Panel1Collapsed = true;
+
+                this.Text = objLocalConfig.ExOpt_TextParser.Name;
+                
+                ConfigureTabPages();
+
+            }
+        }
+
+        
         void objUserControl_TextParserList_selectedTextParser()
         {
             ConfigureTabPages();
@@ -110,37 +154,67 @@ namespace TextParser
         private void ConfigureTabPages()
         {
             tabPage_ParserView.Controls.Clear();
+            if (objLocalConfig.ExOpt_Execute)
+            {
+                autoTabChange = true;
+                tabControl1.SelectedTab = tabPage_ParserView;
+                autoTabChange = false;
+            }
             if (tabControl1.SelectedTab.Name == tabPage_ParserDetail.Name)
             {
-                var objOList_TextParsers = objUserControl_TextParserList.OList_TextParsers;
-                objUserControl_TextParser.InitializeTextParser(objOList_TextParsers.Count == 1
-                                                                   ? objOList_TextParsers.First()
-                                                                   : null);
+                if (objLocalConfig.ExOpt_TextParser == null)
+                {
+                    var objOList_TextParsers = objUserControl_TextParserList.OList_TextParsers;
+                    objUserControl_TextParser.InitializeTextParser(objOList_TextParsers.Count == 1
+                                                                       ? objOList_TextParsers.First()
+                                                                       : null);    
+                }
+                else
+                {
+                    objUserControl_TextParser.InitializeTextParser(objLocalConfig.ExOpt_TextParser);    
+                }
+
+                
             }
             else if (tabControl1.SelectedTab.Name == tabPage_ParserView.Name)
             {
-                var objOList_TextParsers = objUserControl_TextParserList.OList_TextParsers;
-                if (objOList_TextParsers.Count == 1)
+                if (objLocalConfig.ExOpt_TextParser == null)
                 {
-
-                    objDataWork_TextParser.GetData_TextParser(objOList_TextParsers.First());
-                    if (objDataWork_TextParser.OItem_Result_TextParser.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    var objOList_TextParsers = objUserControl_TextParserList.OList_TextParsers;
+                    if (objOList_TextParsers.Count == 1)
                     {
-                        objDataWork_TextParser.CreateRefItems(objOList_TextParsers.First());
-                        if (objDataWork_TextParser.OItem_EntryValueParser != null)
-                        {
-                            var objTextParser = objDataWork_TextParser.OItem_EntryValueParser;
-                        }
-                        else
-                        {
-                            var objTextParser = objDataWork_TextParser.OItem_FieldExtractorParser;
-                            tabPage_ParserView.Controls.Add(objUserControl_FieldParserView);
-                            objUserControl_FieldParserView.InitializeView(objTextParser, objOList_TextParsers.First());
-                        }
-
-
+                        Initialize_FieldParserView(objOList_TextParsers.First());
 
                     }
+                }
+                else
+                {
+                    Initialize_FieldParserView(objLocalConfig.ExOpt_TextParser);
+                    
+                }
+                
+
+
+
+            }
+        }
+
+        private void Initialize_FieldParserView(clsOntologyItem OItem_TextParser)
+        {
+            objDataWork_TextParser.GetData_TextParser(OItem_TextParser);
+            if (objDataWork_TextParser.OItem_Result_TextParser.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                objDataWork_TextParser.CreateRefItems(OItem_TextParser);
+                if (objDataWork_TextParser.OItem_EntryValueParser != null)
+                {
+                    var objTextParser = objDataWork_TextParser.OItem_EntryValueParser;
+                    objUserControl_FieldParserView.InitializeView(objTextParser, objTextParser);
+                }
+                else
+                {
+                    var objTextParser = objDataWork_TextParser.OItem_FieldExtractorParser;
+                    tabPage_ParserView.Controls.Add(objUserControl_FieldParserView);
+                    objUserControl_FieldParserView.InitializeView(objTextParser, OItem_TextParser);
                 }
 
 
@@ -178,7 +252,11 @@ namespace TextParser
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ConfigureTabPages();
+            if (!autoTabChange)
+            {
+                ConfigureTabPages();    
+            }
+            
         }
     }
 }

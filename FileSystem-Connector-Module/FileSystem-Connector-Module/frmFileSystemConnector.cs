@@ -162,89 +162,101 @@ namespace FileSystem_Connector_Module
         {
             foreach (var function in objArgumentParsing.FunctionList)
             {
-                if (function.GUID_Ontology == objLocalConfig.OItem_object_localizing_manager.GUID)
+                if (function.GUID_DestOntology == null)
                 {
-                    objFrmLocalizationModuleSingle = new frmLocalizingModuleSingle(objLocalConfig.Globals, objOItem_FileSystemObject);
-                    objFrmLocalizationModuleSingle.ShowDialog(this);
-                    Environment.Exit(0);
-                }
-                else if (function.GUID_Ontology == objLocalConfig.OItem_object_typed_tagging_module.GUID)
-                {
-                    objFrmTypedTaggingSingle = new frmTypedTaggingSingle(objLocalConfig.Globals,objLocalConfig.User, objLocalConfig.Group, objOItem_FileSystemObject);
-                    objFrmTypedTaggingSingle.ShowDialog(this);
-                    Environment.Exit(0);
-                }
-                else if (function.GUID_Ontology == objLocalConfig.OItem_object_mediaviewer_module.GUID)
-                {
-                    objLocalConfig_MediaViewerModule = new Media_Viewer_Module.clsLocalConfig(objLocalConfig.Globals);
-                    objLocalConfig_MediaViewerModule.OItem_User = objLocalConfig.User;
-                    if (function.GUID_Function != null)
+                    if (function.GUID_Function == objLocalConfig.OItem_object_localizing_manager.GUID)
                     {
-                        if (function.GUID_Function == objLocalConfig_MediaViewerModule.OItem_Type_Images__Graphic_.GUID)
-                        {
-                            objFrmSingleViewEmbedded = new frmSingleViewEmbedded(objLocalConfig_MediaViewerModule, objLocalConfig_MediaViewerModule.OItem_Type_Images__Graphic_);
-                            objFrmSingleViewEmbedded.InitializeViewer(objOItem_FileSystemObject);
-                            objFrmSingleViewEmbedded.ShowDialog(this);
-                            Environment.Exit(-1);
-                        }
-                        else if (function.GUID_Function == objLocalConfig_MediaViewerModule.OItem_Type_Media_Item.GUID)
-                        {
-                            objFrmSingleViewEmbedded = new frmSingleViewEmbedded(objLocalConfig_MediaViewerModule, objLocalConfig_MediaViewerModule.OItem_Type_Media_Item);
-                            objFrmSingleViewEmbedded.InitializeViewer(objOItem_FileSystemObject);
-                            objFrmSingleViewEmbedded.ShowDialog(this);
-                            Environment.Exit(-1);
-                        }
-                        else if (function.GUID_Function == objLocalConfig_MediaViewerModule.OItem_Type_PDF_Documents.GUID)
-                        {
-                            objFrmSingleViewEmbedded = new frmSingleViewEmbedded(objLocalConfig_MediaViewerModule, objLocalConfig_MediaViewerModule.OItem_Type_PDF_Documents);
-                            objFrmSingleViewEmbedded.InitializeViewer(objOItem_FileSystemObject);
-                            objFrmSingleViewEmbedded.ShowDialog(this);
-                            Environment.Exit(-1);
-                        }
-                        else
-                        {
-                            MessageBox.Show(this, "The function is not valid!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            Environment.Exit(-1);
-                        }
-                        
+                        objFrmLocalizationModuleSingle = new frmLocalizingModuleSingle(objLocalConfig.Globals,
+                                                                                       objOItem_FileSystemObject);
+                        objFrmLocalizationModuleSingle.ShowDialog(this);
+                        Environment.Exit(0);
                     }
-                    else
+                    else if (function.GUID_Function == objLocalConfig.OItem_object_typed_tagging_module.GUID)
                     {
-                        MessageBox.Show(this,"The function is not valid!","Error!",MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        Environment.Exit(-1);
+                        objFrmTypedTaggingSingle = new frmTypedTaggingSingle(objLocalConfig.Globals, objLocalConfig.User,
+                                                                             objLocalConfig.Group,
+                                                                             objOItem_FileSystemObject);
+                        objFrmTypedTaggingSingle.ShowDialog(this);
+                        Environment.Exit(0);
                     }
-                    
-                }
-                else if (function.GUID_Ontology == objLocalConfig.OItem_object_log_manager.GUID)
-                {
-                    objFrmLogModule = new frmLogModule(objLocalConfig.Globals, objLocalConfig.User);
-                    objFrmLogModule.ShowDialog(this);
-                    if (objFrmLogModule.DialogResult == DialogResult.OK)
+                    else if (function.GUID_Function == objLocalConfig.OItem_object_log_manager.GUID)
                     {
-                        objTransaction.ClearItems();
-                        if (objFrmLogModule.OList_LogEntries.Any())
+                        objFrmLogModule = new frmLogModule(objLocalConfig.Globals, objLocalConfig.User);
+                        objFrmLogModule.ShowDialog(this);
+                        if (objFrmLogModule.DialogResult == DialogResult.OK)
                         {
-                            var objORel_LogEntry_To_FileSystemObject = objRelationConfig.Rel_ObjectRelation(objFrmLogModule.OList_LogEntries.First(),
-                                objOItem_FileSystemObject,
-                                objLocalConfig.Globals.RelationType_belongsTo);
-
-                            var objOItem_Result = objTransaction.do_Transaction(objORel_LogEntry_To_FileSystemObject);
-
-                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            objTransaction.ClearItems();
+                            if (objFrmLogModule.OList_LogEntries.Any())
                             {
-                                Environment.Exit(0);
+                                var objORel_LogEntry_To_FileSystemObject =
+                                    objRelationConfig.Rel_ObjectRelation(objFrmLogModule.OList_LogEntries.First(),
+                                                                         objOItem_FileSystemObject,
+                                                                         objLocalConfig.Globals.RelationType_belongsTo);
+
+                                var objOItem_Result = objTransaction.do_Transaction(objORel_LogEntry_To_FileSystemObject);
+
+                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                {
+                                    Environment.Exit(0);
+                                }
+                                else
+                                {
+                                    MessageBox.Show(this, "The Logentry cannot be set!", "Error!", MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Exclamation);
+                                    Environment.Exit(-1);
+                                }
                             }
                             else
                             {
-                                MessageBox.Show(this, "The Logentry cannot be set!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                MessageBox.Show(this, "The Logentry cannot be set!", "Error!", MessageBoxButtons.OK,
+                                                MessageBoxIcon.Exclamation);
                                 Environment.Exit(-1);
                             }
                         }
+                    }
+                }
+                else
+                {
+                    if (function.GUID_DestOntology == objLocalConfig.OItem_object_mediaviewer_module.GUID)
+                    {
+                        objLocalConfig_MediaViewerModule = new Media_Viewer_Module.clsLocalConfig(objLocalConfig.Globals);
+                        objLocalConfig_MediaViewerModule.OItem_User = objLocalConfig.User;
+                        if (function.GUID_Function != null)
+                        {
+                            if (function.GUID_Function == objLocalConfig_MediaViewerModule.OItem_Type_Images__Graphic_.GUID)
+                            {
+                                objFrmSingleViewEmbedded = new frmSingleViewEmbedded(objLocalConfig_MediaViewerModule, objLocalConfig_MediaViewerModule.OItem_Type_Images__Graphic_);
+                                objFrmSingleViewEmbedded.InitializeViewer(objOItem_FileSystemObject);
+                                objFrmSingleViewEmbedded.ShowDialog(this);
+                                Environment.Exit(-1);
+                            }
+                            else if (function.GUID_Function == objLocalConfig_MediaViewerModule.OItem_Type_Media_Item.GUID)
+                            {
+                                objFrmSingleViewEmbedded = new frmSingleViewEmbedded(objLocalConfig_MediaViewerModule, objLocalConfig_MediaViewerModule.OItem_Type_Media_Item);
+                                objFrmSingleViewEmbedded.InitializeViewer(objOItem_FileSystemObject);
+                                objFrmSingleViewEmbedded.ShowDialog(this);
+                                Environment.Exit(-1);
+                            }
+                            else if (function.GUID_Function == objLocalConfig_MediaViewerModule.OItem_Type_PDF_Documents.GUID)
+                            {
+                                objFrmSingleViewEmbedded = new frmSingleViewEmbedded(objLocalConfig_MediaViewerModule, objLocalConfig_MediaViewerModule.OItem_Type_PDF_Documents);
+                                objFrmSingleViewEmbedded.InitializeViewer(objOItem_FileSystemObject);
+                                objFrmSingleViewEmbedded.ShowDialog(this);
+                                Environment.Exit(-1);
+                            }
+                            else
+                            {
+                                MessageBox.Show(this, "The function is not valid!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                Environment.Exit(-1);
+                            }
+                        
+                        }
                         else
                         {
-                            MessageBox.Show(this, "The Logentry cannot be set!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            MessageBox.Show(this,"The function is not valid!","Error!",MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             Environment.Exit(-1);
                         }
+                    
                     }
                     else
                     {

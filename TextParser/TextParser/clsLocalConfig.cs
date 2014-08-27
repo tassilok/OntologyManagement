@@ -27,6 +27,10 @@ namespace TextParser
         public clsOntologyItem OItem_User { get; set; }
 
         public clsLogging objLogging { get; set; }
+
+        public clsOntologyItem ExOpt_TextParser { get; set; }
+        public bool ExOpt_Override { get; set; }
+        public bool ExOpt_Execute { get; set; }
 	
         // Attributes
 	public clsOntologyItem OItem_attributetype_pattern { get; set; }
@@ -106,6 +110,8 @@ public clsOntologyItem OItem_object_filedatetime__create_ { get; set; }
 public clsOntologyItem OItem_object_messagerest { get; set; }
         public clsOntologyItem OItem_class_types__elastic_search_ { get; set; }
         public clsOntologyItem OItem_object_textparser { get; set; }
+        public clsOntologyItem OItem_object_override { get; set; }
+        public clsOntologyItem OItem_object_execute { get; set; }
 
 
         public clsOntologyItem OItem_Index_Logging { get; set; }
@@ -799,6 +805,47 @@ var objOList_relationtype_value = (from objOItem in objDBLevel_Config1.OList_Obj
   
 	private void get_Config_Objects()
         {
+            var objOList_object_execute = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == "object_execute".ToLower() && objRef.Ontology == Globals.Type_Object
+                                           select objRef).ToList();
+
+            if (objOList_object_execute.Any())
+            {
+                OItem_object_execute = new clsOntologyItem()
+                {
+                    GUID = objOList_object_execute.First().ID_Other,
+                    Name = objOList_object_execute.First().Name_Other,
+                    GUID_Parent = objOList_object_execute.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_override = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                            where objOItem.ID_Object == cstrID_Ontology
+                                            join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                            where objRef.Name_Object.ToLower() == "object_override".ToLower() && objRef.Ontology == Globals.Type_Object
+                                            select objRef).ToList();
+
+            if (objOList_object_override.Any())
+            {
+                OItem_object_override = new clsOntologyItem()
+                {
+                    GUID = objOList_object_override.First().ID_Other,
+                    Name = objOList_object_override.First().Name_Other,
+                    GUID_Parent = objOList_object_override.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
 
         var objOList_object_textparser = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                            where objOItem.ID_Object == cstrID_Ontology

@@ -37,7 +37,7 @@ Public Class clsArgumentParsing
     Private Sub ParseArgument()
         SetExternal(arguments)
         OList_Items = arguments.Select(Function(a) GetOItem(a)).Where(Function(o) Not o Is Nothing).ToList()
-        FunctionList = arguments.Select(Function(a) GetModuleFunction(a)).Where(Function(o) Not o Is Nothing).ToList()
+        FunctionList = arguments.Select(Function(a) GetModuleFunction(a)).FirstOrDefault(Function (o) Not o Is Nothing)
     End Sub
 
     Private Function GetOItem(strArgument As String) As clsOntologyItem
@@ -67,44 +67,43 @@ Public Class clsArgumentParsing
         Return Nothing
     End Function
 
-    Private Function GetModuleFunction(strArgument As String) As clsModuleFunction
+    Private Function GetModuleFunction(strArgument As String) As List(Of clsModuleFunction)
         strArgument = strArgument.Trim()
-        Dim objModulFunction = New clsModuleFunction()
-
+        Dim objModulFunctions = New List(Of clsModuleFunction)()
         
         If strArgument.ToLower().StartsWith("function=") Then
             Dim strModuleFunction = strArgument.Substring("function=".Length)
-            Dim strModuleFunctions = strModuleFunction.Split(":")
+            Dim strModuleFunctions = strModuleFunction.Split(",").ToList()
+
+            strModuleFunctions.ForEach(Sub(moduleFunction)
+                                          Dim strOntologyFunctions = moduleFunction.Split(":")
+
+                                          If (strOntologyFunctions.Count() = 1 Or (strOntologyFunctions.Count() = 2 And objGlobals.is_GUID(strOntologyFunctions(0)))) Then
+                                                If (strOntologyFunctions.Count() = 1)
+                                                   objModulFunctions.Add(New clsModuleFunction With 
+                                                                                            { 
+                                                                                                .GUID_Function = if (objGlobals.is_GUID(strOntologyFunctions(0)),strOntologyFunctions(0), Nothing),
+                                                                                                .Name_Function = if (Not objGlobals.is_GUID(strOntologyFunctions(0)), strOntologyFunctions(0), Nothing)
+                                                                                            })
+                                               Else 
+
+                                                   objModulFunctions.Add(New clsModuleFunction With 
+                                                                                            { 
+                                                                                                .GUID_DestOntology = strOntologyFunctions(0),
+                                                                                                .GUID_Function = if (objGlobals.is_GUID(strOntologyFunctions(1)),strOntologyFunctions(1), Nothing),
+                                                                                                .Name_Function = if (Not objGlobals.is_GUID(strOntologyFunctions(1)), strOntologyFunctions(1), Nothing )
+                                                                                            })
+                                               End If
+                                          End If
+                                          
+                                       End Sub)
             
-            If strModuleFunctions.Count = 1 Then
-                If objGlobals.is_GUID(strModuleFunctions(0)) Then
-                    objModulFunction.GUID_Ontology = strModuleFunctions(0)
-                    
-                Else
-                    objModulFunction.Name_Function = strModuleFunctions(0)
-                End If
-                Return objModulFunction
-            ElseIf strModuleFunctions.Count = 2 Then
-                If objGlobals.is_GUID(strModuleFunctions(0)) Then
-                    objModulFunction.GUID_Ontology = strModuleFunctions(0)
 
-                Else
-                    objModulFunction.GUID_Ontology = Nothing
-                End If
-
-                If objGlobals.is_GUID(strModuleFunctions(1)) Then
-                    objModulFunction.GUID_Function = strModuleFunctions(1)
-                Else
-                    objModulFunction.Name_Function = strModuleFunctions(1)
-                End If
-
-                Return objModulFunction
-
-            Else
-
+            If objModulFunctions.Any() Then
+                Return objModulFunctions
+            Else 
                 Return Nothing
             End If
-            
         Else
             Return Nothing
         End If

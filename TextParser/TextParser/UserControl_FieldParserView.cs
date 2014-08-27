@@ -95,6 +95,8 @@ namespace TextParser
                     if (objDataWork_TextParser.OItem_Index != null)
                     {
                         index = objDataWork_TextParser.OItem_Index.Name;
+
+                        
                     }
 
                     if (objDataWork_TextParser.OList_Variables != null)
@@ -170,6 +172,28 @@ namespace TextParser
                                             pIndexFill = true;
                                             GetIndexes();
                                             pIndexFill = false;
+
+                                            if (objLocalConfig.ExOpt_TextParser != null &&
+                                                objLocalConfig.ExOpt_Execute &&
+                                                objLocalConfig.ExOpt_Override)
+                                            {
+                                                
+                                                while (toolStripComboBox_Indexes.Items.Count > 1)
+                                                {
+                                                    var strItem = toolStripComboBox_Indexes.Items[1];
+                                                    if (!string.IsNullOrEmpty(strItem.ToString()))
+                                                    {
+                                                        toolStripComboBox_Indexes.SelectedItem = strItem;
+                                                        Deleted_Index();
+                                                    }
+                                                }
+                                                    
+                                                    
+                                                
+                                                
+                                            }
+
+                                            
                                         }
 
                                     }
@@ -212,6 +236,11 @@ namespace TextParser
 
 
             GetFields();
+            if (objLocalConfig.ExOpt_TextParser != null &&
+                                                objLocalConfig.ExOpt_Execute)
+            {
+                Parse();
+            }
         }
 
         private void Initialize()
@@ -361,11 +390,16 @@ namespace TextParser
 
         private void toolStripButton_Parse_Click(object sender, EventArgs e)
         {
-            var fieldList = (SortableBindingList<clsField>) dataGridView_Fields.DataSource;
+            Parse();
+        }
+
+        private void Parse()
+        {
+            var fieldList = (SortableBindingList<clsField>)dataGridView_Fields.DataSource;
             if (fieldList.Any())
             {
-                
-                objFieldParser = new clsFieldParserOfTextParser(objLocalConfig,fieldList.ToList(),objOItem_TextParser, objDataWork_TextParser.OITem_Type);
+
+                objFieldParser = new clsFieldParserOfTextParser(objLocalConfig, fieldList.ToList(), objOItem_TextParser, objDataWork_TextParser.OITem_Type);
                 objFieldParser.OList_Seperator = objDataWork_TextParser.OList_LineSeperator.Select(s => new clsOntologyItem
                 {
                     GUID = s.GUID,
@@ -468,11 +502,17 @@ namespace TextParser
 
         private void toolStripMenuItem_DeleteIndex_Click(object sender, EventArgs e)
         {
-            if (toolStripComboBox_Indexes.SelectedItem != null)
+            Deleted_Index();
+            
+        }
+
+        private void Deleted_Index()
+        {
+            if (!string.IsNullOrEmpty(toolStripComboBox_Indexes.SelectedItem.ToString()))
             {
-                
+
                 var index = toolStripComboBox_Indexes.SelectedItem.ToString();
-                objDBLevel_Indexes = new clsDBLevel(server,port,index,objLocalConfig.Globals.Index_Rep,objLocalConfig.Globals.SearchRange,objLocalConfig.Globals.Session);
+                objDBLevel_Indexes = new clsDBLevel(server, port, index, objLocalConfig.Globals.Index_Rep, objLocalConfig.Globals.SearchRange, objLocalConfig.Globals.Session);
                 var objOItem_Result = objDBLevel_Indexes.DeleteIndex(index);
                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
@@ -489,7 +529,6 @@ namespace TextParser
                 MessageBox.Show(this, "Der Index konnte nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
             }
-            
         }
 
         private void contextMenuStrip_Fields_Opening(object sender, CancelEventArgs e)

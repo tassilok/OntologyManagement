@@ -664,7 +664,7 @@ Public Class UserControl_RefTree
         objTreeNode_Root.BackColor = Color.Yellow
     End Sub
 
-    public Sub SearchNodes(strSearch As String, Optional objTreeNode As TreeNode = Nothing) 
+    public Sub SearchNodes(strSearch As String, Optional objTreeNode As TreeNode = Nothing, optional boolSelect As Boolean = vbFalse)  
         
         
         If objTreeNode Is Nothing Then
@@ -673,6 +673,9 @@ Public Class UserControl_RefTree
                     If objTreeNode_Sub.Name = strSearch Then
                         ToggleMarkOfNode(objTreeNode_Sub, True)
                         ExpandParents(objTreeNode_Sub)
+                        If boolSelect Then
+                            TreeView_Ref.SelectedNode = objTreeNode_Sub
+                        End If
                     End If
                     SearchNodes(strSearch, objTreeNode_Sub)
                 Next
@@ -681,6 +684,9 @@ Public Class UserControl_RefTree
                     If objTreeNode_Sub.Text.ToLower.Contains(strSearch) Then
                         ToggleMarkOfNode(objTreeNode_Sub, True)
                         ExpandParents(objTreeNode_Sub)
+                        If boolSelect Then
+                            TreeView_Ref.SelectedNode = objTreeNode_Sub
+                        End If
                     End If
                     SearchNodes(strSearch, objTreeNode_Sub)
                 Next
@@ -689,20 +695,26 @@ Public Class UserControl_RefTree
         Else
             If (objLocalConfig.Globals.is_GUID(strSearch))
                 For Each objTreeNode_Sub As TreeNode In objTreeNode.Nodes
-                If objTreeNode_Sub.Name = strSearch Then
-                    ToggleMarkOfNode(objTreeNode_Sub, True)
-                    ExpandParents(objTreeNode_Sub)
-                End If
-                SearchNodes(strSearch, objTreeNode_Sub)
-            Next
+                    If objTreeNode_Sub.Name = strSearch Then
+                        ToggleMarkOfNode(objTreeNode_Sub, True)
+                        ExpandParents(objTreeNode_Sub)
+                        If boolSelect Then
+                            TreeView_Ref.SelectedNode = objTreeNode_Sub
+                        End If
+                    End If
+                    SearchNodes(strSearch, objTreeNode_Sub)
+                Next
             Else 
                 For Each objTreeNode_Sub As TreeNode In objTreeNode.Nodes
-                If objTreeNode_Sub.Text.ToLower.Contains(strSearch) Then
-                    ToggleMarkOfNode(objTreeNode_Sub, True)
-                    ExpandParents(objTreeNode_Sub)
-                End If
-                SearchNodes(strSearch, objTreeNode_Sub)
-            Next
+                    If objTreeNode_Sub.Text.ToLower.Contains(strSearch) Then
+                        ToggleMarkOfNode(objTreeNode_Sub, True)
+                        ExpandParents(objTreeNode_Sub)
+                        If boolSelect Then
+                            TreeView_Ref.SelectedNode = objTreeNode_Sub
+                        End If
+                    End If
+                    SearchNodes(strSearch, objTreeNode_Sub)
+                Next
             End If
             
         End If
