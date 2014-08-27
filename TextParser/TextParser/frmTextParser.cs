@@ -45,20 +45,24 @@ namespace TextParser
                 objLocalConfig.ExOpt_TextParser = objArgumentParsing.OList_Items.First();
             }
 
-            foreach (var function in objArgumentParsing.FunctionList)
+            if (objArgumentParsing.FunctionList != null)
             {
-                if (function.GUID_Function != null && function.GUID_Function == objLocalConfig.OItem_object_override.GUID)
+                foreach (var function in objArgumentParsing.FunctionList)
                 {
-                    objLocalConfig.ExOpt_Override = true;
-                }
+                    if (function.GUID_Function != null && function.GUID_Function == objLocalConfig.OItem_object_override.GUID)
+                    {
+                        objLocalConfig.ExOpt_Override = true;
+                    }
 
-                if (function.GUID_Function != null && function.GUID_Function == objLocalConfig.OItem_object_execute.GUID)
-                {
-                    objLocalConfig.ExOpt_Execute = true;
-                }
+                    if (function.GUID_Function != null && function.GUID_Function == objLocalConfig.OItem_object_execute.GUID)
+                    {
+                        objLocalConfig.ExOpt_Execute = true;
+                    }
 
-                
+
+                }
             }
+            
         }
 
         private void Initialize()

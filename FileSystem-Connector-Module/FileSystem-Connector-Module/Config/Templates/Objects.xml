@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Items Type="Object">
-  <Item Id="b859212d7f3e49e2abf6345b9a80a64e" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[FileSystem-Connector]]></Item>
+  <Item Id="84085308f06b41e69ca4e651c6a821fb" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[FileSystem-Connector-Module]]></Item>
+<Item Id="4e78486d7398402f9e21f660988dfbd1" Id_Parent="86b05e853ce24a56be3c80375a686a82"><![CDATA[FileSystem-Integration]]></Item>
+<Item Id="b859212d7f3e49e2abf6345b9a80a64e" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[FileSystem-Connector]]></Item>
 <Item Id="cc439073fef14e7fb338f9aba93296c5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_XML_Text]]></Item>
 <Item Id="0a9126918bf84b10944d4b533fe5bc76" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_BaseConfig]]></Item>
 <Item Id="e5f66c5fc45e4005977234e93f9fd2d8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_No_File_is_given]]></Item>

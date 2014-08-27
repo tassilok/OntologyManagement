@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Items Type="ObjectAttribute">
-  <Item Id_Attribute="e9bcc029ae77405badfac6ccff985b39" Id_AttributeType="2704444f668246d9aa109839d8973015" Id_DataType="dd858f27d5e14363a5c33e561e432333" Id_Object="f4db3f5e71914d2b8c09bc7fee3cb235" Id_Class="bd8af19406a74130acad0394cab33ee6" OrderId="1">
+  <Item Id_Attribute="c445cac7f881417f88694485568b58ad" Id_AttributeType="00ff87383be6447caaa2a36dc0028e6c" Id_DataType="dd858f27d5e14363a5c33e561e432333" Id_Object="f4db3f5e71914d2b8c09bc7fee3cb235" Id_Class="bd8af19406a74130acad0394cab33ee6" OrderId="1">
   <Val_Named><![CDATA[False]]></Val_Named>
   <Val_Bit>False</Val_Bit>
   <Val_Date></Val_Date>
@@ -8,17 +8,9 @@
   <Val_Lng></Val_Lng>
   <Val_String><![CDATA[]]></Val_String>
 </Item>
-<Item Id_Attribute="c445cac7f881417f88694485568b58ad" Id_AttributeType="00ff87383be6447caaa2a36dc0028e6c" Id_DataType="dd858f27d5e14363a5c33e561e432333" Id_Object="f4db3f5e71914d2b8c09bc7fee3cb235" Id_Class="bd8af19406a74130acad0394cab33ee6" OrderId="1">
+<Item Id_Attribute="e9bcc029ae77405badfac6ccff985b39" Id_AttributeType="2704444f668246d9aa109839d8973015" Id_DataType="dd858f27d5e14363a5c33e561e432333" Id_Object="f4db3f5e71914d2b8c09bc7fee3cb235" Id_Class="bd8af19406a74130acad0394cab33ee6" OrderId="1">
   <Val_Named><![CDATA[False]]></Val_Named>
   <Val_Bit>False</Val_Bit>
-  <Val_Date></Val_Date>
-  <Val_Double></Val_Double>
-  <Val_Lng></Val_Lng>
-  <Val_String><![CDATA[]]></Val_String>
-</Item>
-<Item Id_Attribute="76f1c739d32d45418842e6d6aa9879b3" Id_AttributeType="22e93da2894a45d497d15e1711aa5657" Id_DataType="64530b52d96c4df186fe183f44513450" Id_Object="85094e2d484b48cb800f90f588fc474a" Id_Class="7e84dc67a1234993b0ea62dffc2b895d" OrderId="1">
-  <Val_Named><![CDATA[]]></Val_Named>
-  <Val_Bit></Val_Bit>
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
