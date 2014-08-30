@@ -12,6 +12,14 @@ Public Class frmBankTransactionModule
     Private boolOpen As Boolean
     Private boolApplyable As Boolean
 
+    Public Event Apply()
+
+    Public ReadOnly Property Partner As clsOntologyItem
+        Get
+            Return objOItem_Partner
+        End Get
+    End Property
+
     Public ReadOnly Property transactionList As List(Of DataRowView)
         Get
             Return objOList_Transactions
@@ -20,8 +28,7 @@ Public Class frmBankTransactionModule
 
     Private Sub appliedTransactions(ByVal OList_Transactions As List(Of DataRowView)) Handles objUserControl_TransactionList.Apply
         objOList_Transactions = OList_Transactions
-        Me.DialogResult = Windows.Forms.DialogResult.OK
-        Me.Close()
+        RaiseEvent Apply()
     End Sub
 
     Public Sub New()

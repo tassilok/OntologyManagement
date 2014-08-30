@@ -18,10 +18,12 @@ Public Class UserControl_BillTree
 
     Private objFilter As clsFilter
 
-    Private objFrm_BankTransactions As frmBankTransactionModule
+    Private WithEvents objFrm_BankTransactions As frmBankTransactionModule
     Private objOItem_FilterItem As clsOntologyItem
 
     Public Event selected_FinancialTransactions(ByVal OItem_FinancialTransaction)
+
+
 
     Public Sub Select_Node(OItem_FinancialTransaction As clsOntologyItem)
         Dim objTreeNodes = TreeView_Transactions.Nodes.Find(OItem_FinancialTransaction.GUID, True)
@@ -32,270 +34,46 @@ Public Class UserControl_BillTree
         End If
     End Sub
 
-    Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal DataWork_BaseConfig As clsDataWork_BaseConfig)
-
-        ' Dieser Aufruf ist für den Designer erforderlich.
-        InitializeComponent()
-
-        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
-        objLocalConfig = LocalConfig
-        objDataWork_BaseConfig = DataWork_BaseConfig
-
-        set_DBConnection()
-        initialize()
-    End Sub
-
-    Private Sub initialize()
-        TreeView_Transactions.Nodes.Clear()
-        objTreeNode_Root = TreeView_Transactions.Nodes.Add(objLocalConfig.OItem_Class_Financial_Transaction.GUID, _
-                                                           objLocalConfig.OItem_Class_Financial_Transaction.Name, _
-                                                           objLocalConfig.ImageID_Root, _
-                                                           objLocalConfig.ImageID_Root)
-
-        If ToolStripComboBox_SearchTemplates.ComboBox.Items.Count = 0 Then
-            ToolStripTextBox_Search.ReadOnly = True
-            objDataWork_BillTree.fill_Search_Combo(ToolStripComboBox_SearchTemplates)
-            ToolStripTextBox_Search.ReadOnly = False
-        End If
-
-        objDataWork_BillTree.fill_BillTree(objTreeNode_Root, objFilter)
-
-        objTreeNode_Root.Expand()
-    End Sub
-
-    Private Sub set_DBConnection()
-        objDataWork_BillTree = New clsDataWork_BillTree(objLocalConfig, objDataWork_BaseConfig)
-        objTransaction_FinancialTransaction = New clsTransaction_FinancialTransaction(objLocalConfig)
-        objTransaction_Payment = New clsTransaction_Payment(objLocalConfig)
-    End Sub
-
-    Private Sub TreeView_Transactions_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_Transactions.AfterSelect
-        Dim objTreeNode As TreeNode
-
-        objTreeNode = TreeView_Transactions.SelectedNode
-
-        objOItem_FinancialTransaction = Nothing
-
-        If Not objTreeNode Is Nothing Then
-            If objTreeNode.ImageIndex = objLocalConfig.ImageID_Bill Then
-                objOItem_FinancialTransaction = New clsOntologyItem
-                objOItem_FinancialTransaction.GUID = objTreeNode.Name
-                objOItem_FinancialTransaction.Name = objTreeNode.Text
-                objOItem_FinancialTransaction.GUID_Parent = objLocalConfig.OItem_Class_Financial_Transaction.GUID
-                objOItem_FinancialTransaction.Type = objLocalConfig.Globals.Type_Object
-
-
-            End If
-        End If
-
-        RaiseEvent selected_FinancialTransactions(objOItem_FinancialTransaction)
-    End Sub
-
-    Private Sub ContextMenuStrip_FinancialTransaction_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_FinancialTransaction.Opening
-        Dim objTreeNode As TreeNode
-
-        objTreeNode = TreeView_Transactions.SelectedNode
-
-        NewTransactionToolStripMenuItem.Enabled = False
-        RemoveTransactionToolStripMenuItem.Enabled = False
-        NewFromBankToolStripMenuItem.Enabled = False
-        NewFromParentToolStripMenuItem.Enabled = False
-        RemoveFromTreeToolStripMenuItem.Enabled = False
-        DetailsToBillsToolStripMenuItem.Enabled = False
-        If Not objTreeNode Is Nothing Then
-            If objTreeNode.ImageIndex = objLocalConfig.ImageID_Einnahmen Or _
-                objTreeNode.ImageIndex = objLocalConfig.ImageID_Ausgaben Or _
-                objTreeNode.ImageIndex = objLocalConfig.ImageID_Bill Then
-                NewTransactionToolStripMenuItem.Enabled = True
-                NewFromBankToolStripMenuItem.Enabled = True
-                If objTreeNode.ImageIndex = objLocalConfig.ImageID_Ausgaben Or _
-                    objTreeNode.ImageIndex = objLocalConfig.ImageID_Einnahmen Then
-                    DetailsToBillsToolStripMenuItem.Enabled = True
-                End If
-            End If
-
-            If objTreeNode.ImageIndex = objLocalConfig.ImageID_Bill Or _
-                objTreeNode.ImageIndex = objLocalConfig.ImageID_Position Then
-                If objTreeNode.ImageIndex = objLocalConfig.ImageID_Bill Then
-                    NewFromParentToolStripMenuItem.Enabled = True
-                    RemoveFromTreeToolStripMenuItem.Enabled = True
-                End If
-                RemoveTransactionToolStripMenuItem.Enabled = True
-            End If
-        End If
-    End Sub
-
-    Public Sub create_SubNode(OItem_FinancialTransaction As clsOntologyItem)
-        Dim objTreeNode_Selected As TreeNode
-        Dim objTreeNode_Created As TreeNode
-        objTreeNode_Selected = TreeView_Transactions.SelectedNode
-        If objTreeNode_Selected.ImageIndex = objLocalConfig.ImageID_Bill Then
-            objTreeNode_Created = objTreeNode_Selected.Nodes.Add(OItem_FinancialTransaction.GUID, _
-                                           OItem_FinancialTransaction.Name, _
-                                           objLocalConfig.ImageID_PartialBill, _
-                                           objLocalConfig.ImageID_PartialBill)
-
-        Else
-            objTreeNode_Created = objTreeNode_Selected.Nodes.Add(OItem_FinancialTransaction.GUID, _
-                                           OItem_FinancialTransaction.Name, _
-                                           objLocalConfig.ImageID_Bill, _
-                                           objLocalConfig.ImageID_Bill)
-        End If
-
-        TreeView_Transactions.SelectedNode = objTreeNode_Created
-    End Sub
-
-    Private Sub NewTransactionToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewTransactionToolStripMenuItem.Click
-        Dim objTreeNode_Selected As TreeNode
-        Dim objOItem_FinancialTransaction_Parent As clsOntologyItem = Nothing
-
-        objTreeNode_Selected = TreeView_Transactions.SelectedNode
-        If objTreeNode_Selected.ImageIndex = objLocalConfig.ImageID_Bill Then
-            objOItem_FinancialTransaction_Parent = New clsOntologyItem(objTreeNode_Selected.Name, _
-                                                                       objTreeNode_Selected.Text, _
-                                                                       objLocalConfig.OItem_Class_Financial_Transaction.GUID, _
-                                                                       objLocalConfig.Globals.Type_Object)
-        End If
-        RaiseEvent new_Transaction(get_Partner(), isContractee(), objOItem_FinancialTransaction_Parent)
-    End Sub
-
-    Private Sub TreeView_Transactions_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TreeView_Transactions.KeyDown
-        Select Case e.KeyCode
-            Case Keys.F5
-                initialize()
-        End Select
-    End Sub
-    Private Function isContractee() As Boolean
-        Dim objTreeNode As TreeNode
-        Dim boolContractee As Boolean = True
-
-        objTreeNode = TreeView_Transactions.SelectedNode
-        If Not objTreeNode Is Nothing Then
-            If Not objTreeNode.Parent Is Nothing Then
-                If objTreeNode.ImageIndex = objLocalConfig.ImageID_Ausgaben Then
-                    boolContractee = True
-                ElseIf objTreeNode.ImageIndex = objLocalConfig.ImageID_Einnahmen Then
-                    boolContractee = False
-                ElseIf objTreeNode.ImageIndex = objLocalConfig.ImageID_Bill Then
-                    If objTreeNode.Parent.ImageIndex = objLocalConfig.ImageID_Ausgaben Then
-                        boolContractee = True
-                    ElseIf objTreeNode.Parent.ImageIndex = objLocalConfig.ImageID_Einnahmen Then
-                        boolContractee = False
-                    End If
-                End If
-            End If
-
-
-        End If
-        Return boolContractee
-    End Function
-    Private Function get_Partner() As clsOntologyItem
-        Dim objTreeNode As TreeNode
-        Dim objOItem_Partner As clsOntologyItem = Nothing
-
-        objTreeNode = TreeView_Transactions.SelectedNode
-        If Not objTreeNode Is Nothing Then
-            If Not objTreeNode.Parent Is Nothing Then
-                While Not objTreeNode.Parent.ImageIndex = objLocalConfig.ImageID_Root
-                    objTreeNode = objTreeNode.Parent
-                End While
-
-                If objTreeNode.ImageIndex = objLocalConfig.ImageID_Mandant Then
-                    objOItem_Partner = New clsOntologyItem(objTreeNode.Name, _
-                                                           objTreeNode.Text, _
-                                                           objLocalConfig.OItem_Class_Partner.GUID, _
-                                                           objLocalConfig.Globals.Type_Object)
-                End If
-            End If
-
-
-        End If
-
-        Return objOItem_Partner
-    End Function
-
-    Private Sub TreeView_Transactions_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeView_Transactions.MouseDoubleClick
-        Dim objTreeNode As TreeNode
-        Dim objOL_Objects As New List(Of clsOntologyItem)
-
-        objTreeNode = TreeView_Transactions.SelectedNode
-        If Not objTreeNode Is Nothing Then
-
-            Select Case objTreeNode.ImageIndex
-                Case objLocalConfig.ImageID_Mandant
-                    objOL_Objects.Add(New clsOntologyItem(objTreeNode.Name, _
-                                                          objTreeNode.Text, _
-                                                          objLocalConfig.OItem_Class_Partner.GUID, _
-                                                          objLocalConfig.Globals.Type_Object))
-
-                    objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
-                                                           objOL_Objects, _
-                                                           0, _
-                                                           objLocalConfig.Globals.Type_Object, _
-                                                           Nothing)
-
-                    objFrm_ObjectEdit.ShowDialog(Me)
-                Case objLocalConfig.ImageID_Bill
-                    objOL_Objects.Add(New clsOntologyItem(objTreeNode.Name, _
-                                                          objTreeNode.Text, _
-                                                          objLocalConfig.OItem_Class_Financial_Transaction.GUID, _
-                                                          objLocalConfig.Globals.Type_Object))
-
-                    objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
-                                                           objOL_Objects, _
-                                                           0, _
-                                                           objLocalConfig.Globals.Type_Object, _
-                                                           Nothing)
-
-                    objFrm_ObjectEdit.ShowDialog(Me)
-            End Select
-
-
-
-        End If
-    End Sub
-
-    Private Sub NewFromBankToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewFromBankToolStripMenuItem.Click
-        Dim objTreeNode_Selected As TreeNode
-        Dim objOItem_Partner As clsOntologyItem
+    Private Sub AppliedTransaction() Handles objFrm_BankTransactions.Apply
         Dim objOList_Transactions As List(Of DataRowView)
         Dim objTransaction As DataRowView
         Dim objOItem_FinancialTransaction As clsOntologyItem
+
         Dim objOItem_FinancialTransaciton_Parent As clsOntologyItem = Nothing
+
+        Dim objTreeNode_Selected As TreeNode
+
         Dim objOItem_Result As clsOntologyItem
         Dim objOItem_Currency As clsOntologyItem
         Dim objOItem_TaxRate As clsOntologyItem
         Dim objOItem_BankTransaction As clsOntologyItem
         Dim objOItem_Payment As clsOntologyItem
-        Dim nameList As List(Of String) = New List(Of String)
+
+        Dim objOItem_Partner As clsOntologyItem
+
         Dim boolContractee As Boolean
         Dim intToDo As Integer
         Dim intDone As Integer
         Dim intImageID As Integer
-        Dim boolRefresh As Boolean = True
 
-        boolContractee = isContractee()
+        Dim nameList As List(Of String) = New List(Of String)
+
         objOItem_Partner = get_Partner()
 
-        If Not objOItem_Partner Is Nothing Then
-            objTreeNode_Selected = TreeView_Transactions.SelectedNode
-            If objTreeNode_Selected.ImageIndex = objLocalConfig.ImageID_Bill Then
-                objOItem_FinancialTransaciton_Parent = New clsOntologyItem(objTreeNode_Selected.Name, _
-                                                                           objTreeNode_Selected.Text, _
-                                                                           objLocalConfig.OItem_Class_Financial_Transaction.GUID, _
-                                                                           objLocalConfig.Globals.Type_Object)
-            End If
+        objTreeNode_Selected = TreeView_Transactions.SelectedNode
+        If objTreeNode_Selected.ImageIndex = objLocalConfig.ImageID_Bill Then
+            objOItem_FinancialTransaciton_Parent = New clsOntologyItem(objTreeNode_Selected.Name, _
+                                                                       objTreeNode_Selected.Text, _
+                                                                       objLocalConfig.OItem_Class_Financial_Transaction.GUID, _
+                                                                       objLocalConfig.Globals.Type_Object)
+        End If
 
-            If objFrm_BankTransactions Is Nothing Then
-                boolRefresh = False
-                objFrm_BankTransactions = New frmBankTransactionModule(objLocalConfig.Globals, objOItem_Partner)
-            End If
-            If boolRefresh Then
-                objFrm_BankTransactions.RefreshList()
-            End If
-            objFrm_BankTransactions.ShowDialog(Me)
-            
-            If objFrm_BankTransactions.DialogResult = DialogResult.OK Then
+
+        If Not objOItem_Partner Is Nothing Then
+            If objOItem_Partner.GUID = objFrm_BankTransactions.Partner.GUID Then
+                boolContractee = isContractee()
+
+
                 objOList_Transactions = objFrm_BankTransactions.transactionList
                 intToDo = objOList_Transactions.Count
                 intDone = 0
@@ -439,6 +217,7 @@ Public Class UserControl_BillTree
                                                                                                                    intImageID, _
                                                                                                                    intImageID)
 
+                                                                                    objFrm_BankTransactions.RefreshList()
                                                                                     intDone = intDone + 1
                                                                                 End If
                                                                             Else
@@ -692,13 +471,263 @@ Public Class UserControl_BillTree
                                 End If
                             End If
                         Next
-                        
+
                     End If
                 Next
+            Else
+                MsgBox("Sie haben einen anderen Mandanten gewählt. Schließen Sie bitte das Transaktionsformular.", MsgBoxStyle.Information)
             End If
+
         Else
+
             MsgBox("Sie müssen entweder einen Mandanten oder einen untergeordneten Ast auswählen!", MsgBoxStyle.Information)
         End If
+        
+    End Sub
+
+    Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal DataWork_BaseConfig As clsDataWork_BaseConfig)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = LocalConfig
+        objDataWork_BaseConfig = DataWork_BaseConfig
+
+        set_DBConnection()
+        initialize()
+    End Sub
+
+    Private Sub initialize()
+        TreeView_Transactions.Nodes.Clear()
+        objTreeNode_Root = TreeView_Transactions.Nodes.Add(objLocalConfig.OItem_Class_Financial_Transaction.GUID, _
+                                                           objLocalConfig.OItem_Class_Financial_Transaction.Name, _
+                                                           objLocalConfig.ImageID_Root, _
+                                                           objLocalConfig.ImageID_Root)
+
+        If ToolStripComboBox_SearchTemplates.ComboBox.Items.Count = 0 Then
+            ToolStripTextBox_Search.ReadOnly = True
+            objDataWork_BillTree.fill_Search_Combo(ToolStripComboBox_SearchTemplates)
+            ToolStripTextBox_Search.ReadOnly = False
+        End If
+
+        objDataWork_BillTree.fill_BillTree(objTreeNode_Root, objFilter)
+
+        objTreeNode_Root.Expand()
+    End Sub
+
+    Private Sub set_DBConnection()
+        objDataWork_BillTree = New clsDataWork_BillTree(objLocalConfig, objDataWork_BaseConfig)
+        objTransaction_FinancialTransaction = New clsTransaction_FinancialTransaction(objLocalConfig)
+        objTransaction_Payment = New clsTransaction_Payment(objLocalConfig)
+    End Sub
+
+    Private Sub TreeView_Transactions_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_Transactions.AfterSelect
+        Dim objTreeNode As TreeNode
+
+        objTreeNode = TreeView_Transactions.SelectedNode
+
+        objOItem_FinancialTransaction = Nothing
+
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = objLocalConfig.ImageID_Bill Then
+                objOItem_FinancialTransaction = New clsOntologyItem
+                objOItem_FinancialTransaction.GUID = objTreeNode.Name
+                objOItem_FinancialTransaction.Name = objTreeNode.Text
+                objOItem_FinancialTransaction.GUID_Parent = objLocalConfig.OItem_Class_Financial_Transaction.GUID
+                objOItem_FinancialTransaction.Type = objLocalConfig.Globals.Type_Object
+
+
+            End If
+        End If
+
+        RaiseEvent selected_FinancialTransactions(objOItem_FinancialTransaction)
+    End Sub
+
+    Private Sub ContextMenuStrip_FinancialTransaction_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_FinancialTransaction.Opening
+        Dim objTreeNode As TreeNode
+
+        objTreeNode = TreeView_Transactions.SelectedNode
+
+        NewTransactionToolStripMenuItem.Enabled = False
+        RemoveTransactionToolStripMenuItem.Enabled = False
+        NewFromBankToolStripMenuItem.Enabled = False
+        NewFromParentToolStripMenuItem.Enabled = False
+        RemoveFromTreeToolStripMenuItem.Enabled = False
+        DetailsToBillsToolStripMenuItem.Enabled = False
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = objLocalConfig.ImageID_Einnahmen Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Ausgaben Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Bill Then
+                NewTransactionToolStripMenuItem.Enabled = True
+                NewFromBankToolStripMenuItem.Enabled = True
+                If objTreeNode.ImageIndex = objLocalConfig.ImageID_Ausgaben Or _
+                    objTreeNode.ImageIndex = objLocalConfig.ImageID_Einnahmen Then
+                    DetailsToBillsToolStripMenuItem.Enabled = True
+                End If
+            End If
+
+            If objTreeNode.ImageIndex = objLocalConfig.ImageID_Bill Or _
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_Position Then
+                If objTreeNode.ImageIndex = objLocalConfig.ImageID_Bill Then
+                    NewFromParentToolStripMenuItem.Enabled = True
+                    RemoveFromTreeToolStripMenuItem.Enabled = True
+                End If
+                RemoveTransactionToolStripMenuItem.Enabled = True
+            End If
+        End If
+    End Sub
+
+    Public Sub create_SubNode(OItem_FinancialTransaction As clsOntologyItem)
+        Dim objTreeNode_Selected As TreeNode
+        Dim objTreeNode_Created As TreeNode
+        objTreeNode_Selected = TreeView_Transactions.SelectedNode
+        If objTreeNode_Selected.ImageIndex = objLocalConfig.ImageID_Bill Then
+            objTreeNode_Created = objTreeNode_Selected.Nodes.Add(OItem_FinancialTransaction.GUID, _
+                                           OItem_FinancialTransaction.Name, _
+                                           objLocalConfig.ImageID_PartialBill, _
+                                           objLocalConfig.ImageID_PartialBill)
+
+        Else
+            objTreeNode_Created = objTreeNode_Selected.Nodes.Add(OItem_FinancialTransaction.GUID, _
+                                           OItem_FinancialTransaction.Name, _
+                                           objLocalConfig.ImageID_Bill, _
+                                           objLocalConfig.ImageID_Bill)
+        End If
+
+        TreeView_Transactions.SelectedNode = objTreeNode_Created
+    End Sub
+
+    Private Sub NewTransactionToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewTransactionToolStripMenuItem.Click
+        Dim objTreeNode_Selected As TreeNode
+        Dim objOItem_FinancialTransaction_Parent As clsOntologyItem = Nothing
+
+        objTreeNode_Selected = TreeView_Transactions.SelectedNode
+        If objTreeNode_Selected.ImageIndex = objLocalConfig.ImageID_Bill Then
+            objOItem_FinancialTransaction_Parent = New clsOntologyItem(objTreeNode_Selected.Name, _
+                                                                       objTreeNode_Selected.Text, _
+                                                                       objLocalConfig.OItem_Class_Financial_Transaction.GUID, _
+                                                                       objLocalConfig.Globals.Type_Object)
+        End If
+        RaiseEvent new_Transaction(get_Partner(), isContractee(), objOItem_FinancialTransaction_Parent)
+    End Sub
+
+    Private Sub TreeView_Transactions_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TreeView_Transactions.KeyDown
+        Select Case e.KeyCode
+            Case Keys.F5
+                initialize()
+        End Select
+    End Sub
+    Private Function isContractee() As Boolean
+        Dim objTreeNode As TreeNode
+        Dim boolContractee As Boolean = True
+
+        objTreeNode = TreeView_Transactions.SelectedNode
+        If Not objTreeNode Is Nothing Then
+            If Not objTreeNode.Parent Is Nothing Then
+                If objTreeNode.ImageIndex = objLocalConfig.ImageID_Ausgaben Then
+                    boolContractee = True
+                ElseIf objTreeNode.ImageIndex = objLocalConfig.ImageID_Einnahmen Then
+                    boolContractee = False
+                ElseIf objTreeNode.ImageIndex = objLocalConfig.ImageID_Bill Then
+                    If objTreeNode.Parent.ImageIndex = objLocalConfig.ImageID_Ausgaben Then
+                        boolContractee = True
+                    ElseIf objTreeNode.Parent.ImageIndex = objLocalConfig.ImageID_Einnahmen Then
+                        boolContractee = False
+                    End If
+                End If
+            End If
+
+
+        End If
+        Return boolContractee
+    End Function
+    Private Function get_Partner() As clsOntologyItem
+        Dim objTreeNode As TreeNode
+        Dim objOItem_Partner As clsOntologyItem = Nothing
+
+        objTreeNode = TreeView_Transactions.SelectedNode
+        If Not objTreeNode Is Nothing Then
+            If Not objTreeNode.Parent Is Nothing Then
+                While Not objTreeNode.Parent.ImageIndex = objLocalConfig.ImageID_Root
+                    objTreeNode = objTreeNode.Parent
+                End While
+
+                If objTreeNode.ImageIndex = objLocalConfig.ImageID_Mandant Then
+                    objOItem_Partner = New clsOntologyItem(objTreeNode.Name, _
+                                                           objTreeNode.Text, _
+                                                           objLocalConfig.OItem_Class_Partner.GUID, _
+                                                           objLocalConfig.Globals.Type_Object)
+                End If
+            End If
+
+
+        End If
+
+        Return objOItem_Partner
+    End Function
+
+    Private Sub TreeView_Transactions_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeView_Transactions.MouseDoubleClick
+        Dim objTreeNode As TreeNode
+        Dim objOL_Objects As New List(Of clsOntologyItem)
+
+        objTreeNode = TreeView_Transactions.SelectedNode
+        If Not objTreeNode Is Nothing Then
+
+            Select Case objTreeNode.ImageIndex
+                Case objLocalConfig.ImageID_Mandant
+                    objOL_Objects.Add(New clsOntologyItem(objTreeNode.Name, _
+                                                          objTreeNode.Text, _
+                                                          objLocalConfig.OItem_Class_Partner.GUID, _
+                                                          objLocalConfig.Globals.Type_Object))
+
+                    objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
+                                                           objOL_Objects, _
+                                                           0, _
+                                                           objLocalConfig.Globals.Type_Object, _
+                                                           Nothing)
+
+                    objFrm_ObjectEdit.ShowDialog(Me)
+                Case objLocalConfig.ImageID_Bill
+                    objOL_Objects.Add(New clsOntologyItem(objTreeNode.Name, _
+                                                          objTreeNode.Text, _
+                                                          objLocalConfig.OItem_Class_Financial_Transaction.GUID, _
+                                                          objLocalConfig.Globals.Type_Object))
+
+                    objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, _
+                                                           objOL_Objects, _
+                                                           0, _
+                                                           objLocalConfig.Globals.Type_Object, _
+                                                           Nothing)
+
+                    objFrm_ObjectEdit.ShowDialog(Me)
+            End Select
+
+
+
+        End If
+    End Sub
+
+    Private Sub NewFromBankToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewFromBankToolStripMenuItem.Click
+        Dim objOItem_Partner As clsOntologyItem
+        Dim boolRefresh As Boolean = True
+
+        objOItem_Partner = get_Partner()
+
+        If objFrm_BankTransactions Is Nothing Then
+            boolRefresh = False
+            objFrm_BankTransactions = New frmBankTransactionModule(objLocalConfig.Globals, objOItem_Partner)
+        End If
+        If boolRefresh Then
+            objFrm_BankTransactions.RefreshList()
+        End If
+
+        If Not objFrm_BankTransactions.Visible Then
+            objFrm_BankTransactions.Show()
+        End If
+
+
+        
     End Sub
 
     Private Sub ToolStripTextBox_Search_TextChanged(sender As Object, e As EventArgs) Handles ToolStripTextBox_Search.TextChanged
@@ -710,7 +739,7 @@ Public Class UserControl_BillTree
     End Sub
 
     Private Sub Timer_Filter_Tick(sender As Object, e As EventArgs) Handles Timer_Filter.Tick
-        
+
         Filter()
 
 

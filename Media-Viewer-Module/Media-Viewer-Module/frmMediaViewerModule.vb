@@ -376,14 +376,17 @@ Public Class frmMediaViewerModule
     Private Sub initialize()
         objArgumentParsing = New clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList())
         objOItem_Argument = If(Not objArgumentParsing.OList_Items Is Nothing, objArgumentParsing.OList_Items.FirstOrDefault, Nothing)
-        If Not objArgumentParsing.FunctionList Is Nothing And Not objArgumentParsing.FunctionList.FirstOrDefault() Is Nothing Then
-            If objArgumentParsing.FunctionList.First.GUID_Function = objLocalConfig.OItem_Type_Images__Graphic_.GUID Then
-                objOItem_Function = objLocalConfig.OItem_Type_Images__Graphic_
-            ElseIf objArgumentParsing.FunctionList.First.GUID_Function = objLocalConfig.OItem_Type_Media_Item.GUID Then
-                objOItem_Function = objLocalConfig.OItem_Type_Media_Item
-            ElseIf objArgumentParsing.FunctionList.First.GUID_Function = objLocalConfig.OItem_Type_PDF_Documents.GUID Then
-                objOItem_Function = objLocalConfig.OItem_Type_PDF_Documents
+        If Not objArgumentParsing.FunctionList Is Nothing Then
+            If Not objArgumentParsing.FunctionList.FirstOrDefault() Is Nothing Then
+                If objArgumentParsing.FunctionList.First.GUID_Function = objLocalConfig.OItem_Type_Images__Graphic_.GUID Then
+                    objOItem_Function = objLocalConfig.OItem_Type_Images__Graphic_
+                ElseIf objArgumentParsing.FunctionList.First.GUID_Function = objLocalConfig.OItem_Type_Media_Item.GUID Then
+                    objOItem_Function = objLocalConfig.OItem_Type_Media_Item
+                ElseIf objArgumentParsing.FunctionList.First.GUID_Function = objLocalConfig.OItem_Type_PDF_Documents.GUID Then
+                    objOItem_Function = objLocalConfig.OItem_Type_PDF_Documents
+                End If
             End If
+            
         End If
 
         objOItem_Open = objLocalConfig.Globals.LState_Nothing

@@ -112,7 +112,7 @@ Partial Class UserControl_BillTree
         '
         Me.ContextMenuStrip_FinancialTransaction.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewTransactionToolStripMenuItem, Me.NewFromBankToolStripMenuItem, Me.NewFromParentToolStripMenuItem, Me.RemoveTransactionToolStripMenuItem, Me.RemoveFromTreeToolStripMenuItem, Me.DetailsToBillsToolStripMenuItem, Me.ApplyToolStripMenuItem})
         Me.ContextMenuStrip_FinancialTransaction.Name = "ContextMenuStrip_FinancialTransaction"
-        Me.ContextMenuStrip_FinancialTransaction.Size = New System.Drawing.Size(185, 158)
+        Me.ContextMenuStrip_FinancialTransaction.Size = New System.Drawing.Size(185, 180)
         '
         'NewTransactionToolStripMenuItem
         '
