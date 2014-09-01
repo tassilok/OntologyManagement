@@ -63,6 +63,104 @@ namespace Change_Module
             objTransaction = new clsTransaction(objLocalConfig.Globals);
         }
         
+        public void initialize(clsOntologyItem OItem_Ticket, TreeNode objTreeNode_Parent = null)
+        {
+            clsOntologyItem objOItem_Process;
+            List<clsObjectRel> objOList_TicketToProcessLog;
+            TreeNode objTreeNode_Found;
+            clsOntologyItem objOItem_Result;
+
+            treeView_ProcessTree.Nodes.Clear();
+
+
+            objOItem_Ticket = OItem_Ticket;
+
+            objOList_TicketToProcessLog = objDataWork_Ticket.GetData_ProcessLogOfTicket(objOItem_Ticket);
+
+            if (objTreeNode_Parent == null)
+            {
+                objTreeNode_Ticket = treeView_ProcessTree.Nodes.Add(objOItem_Ticket.GUID, objOItem_Ticket.Name, objLocalConfig.ImageID_Ticket, objLocalConfig.ImageID_Ticket);
+            }
+            else
+            {
+                objTreeNode_Ticket = objTreeNode_Parent.Nodes.Add(objOItem_Ticket.GUID, objOItem_Ticket.Name, objLocalConfig.ImageID_Ticket, objLocalConfig.ImageID_Ticket);
+            }
+
+
+            objOItem_Process = objDataWork_Ticket.GetData_ProcessOfTicket(objOItem_Ticket);
+            objOItem_Process.GUID_Related = objDataWork_Ticket.GetGUID_ProcessLog(objOItem_Process, objOItem_Ticket);
+            objTreeNode_Found = objTreeNode_Ticket.Nodes.Add(objOItem_Process.GUID_Related, objOItem_Process.Name, objLocalConfig.ImageID_Process, objLocalConfig.ImageID_Process);
+
+            objOItem_Result = objDataWork_Ticket.GetData_IncidentsOfProcessLogs();
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+            {
+                MessageBox.Show("Beim Auslesen des Prozessbaums ist ein Fehler aufgetreten. Die Anwendung wird geschlossen!", "Fehler", MessageBoxButtons.OK);
+                CloseApplication(this, EventArgs.Empty);
+            }
+
+            objOItem_Result = objDataWork_Ticket.GetLogEntriesOfProcessLog(objOItem_Ticket);
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+            {
+                MessageBox.Show("Beim Auslesen des Prozessbaums ist ein Fehler aufgetreten. Die Anwendung wird geschlossen!", "Fehler", MessageBoxButtons.OK);
+                CloseApplication(this, EventArgs.Empty);
+            }
+
+            objOItem_Result = objDataWork_Ticket.GetData_ProcessTree();
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                objOItem_Result = objDataWork_Ticket.GetData_IncidentTree();
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    objOItem_Result = objDataWork_Ticket.GetData_ProcessLogOfProcess();
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        boolPCChange_Process = true;
+                        objOItem_Result = objDataWork_Ticket.GetSubProcesses(objTreeNode_Found, objOItem_Process.GUID, objOItem_Ticket);
+
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            var objOItem_State = objDataWork_Ticket.GetLogState_Node(objTreeNode_Found);
+                            if (objOItem_State.GUID == objLocalConfig.OItem_Token_LogState_Obsolete.GUID)
+                            {
+                                objTreeNode_Found.Checked = true;
+                                objTreeNode_Found.ForeColor = Color.White;
+                                objTreeNode_Found.BackColor = Color.LightGray;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Beim Auslesen des Prozessbaums ist ein Fehler aufgetreten. Die Anwendung wird geschlossen!", "Fehler", MessageBoxButtons.OK);
+                            CloseApplication(this, EventArgs.Empty);
+                        }
+                        boolPCChange_Process = false;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Beim Auslesen des Prozessbaums ist ein Fehler aufgetreten. Die Anwendung wird geschlossen!", "Fehler", MessageBoxButtons.OK);
+                        CloseApplication(this, EventArgs.Empty);
+                    }
+
+
+                }
+                else
+                {
+                    MessageBox.Show("Beim Auslesen des Prozessbaums ist ein Fehler aufgetreten. Die Anwendung wird geschlossen!", "Fehler", MessageBoxButtons.OK);
+                    CloseApplication(this, EventArgs.Empty);
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Beim Auslesen des Prozessbaums ist ein Fehler aufgetreten. Die Anwendung wird geschlossen!", "Fehler", MessageBoxButtons.OK);
+                CloseApplication(this, EventArgs.Empty);
+            }
+
+
+
+
+            treeView_ProcessTree.ExpandAll();
+        }
 
         public void initialize(DataGridViewRow DGVR_Selected, TreeNode objTreeNode_Parent = null)
         {

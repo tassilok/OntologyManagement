@@ -122,15 +122,14 @@ namespace CommandLineRun_Module
                             
                             if (!string.IsNullOrEmpty(scintilla_CodeParsed.Text))
                             {
-                                scintilla_CodeParsed.Text += "\r\n";
+                                scintilla_CodeParsed.Text += "\n";
                             }
-
                             scintilla_CodeParsed.Text += codeToParse;    
                         });
 
                         if (!string.IsNullOrEmpty(scintilla_Code.Text))
                         {
-                            scintilla_Code.Text += "\r\n";
+                            scintilla_Code.Text += "\n";
                         }
                         scintilla_Code.Text += code.Code;
                             
@@ -139,11 +138,11 @@ namespace CommandLineRun_Module
                     {
                         if (!string.IsNullOrEmpty(scintilla_Code.Text))
                         {
-                            scintilla_Code.Text += "\r\n";
+                            scintilla_Code.Text += "\n";
                         }
                         if (!string.IsNullOrEmpty(scintilla_CodeParsed.Text))
                         {
-                            scintilla_CodeParsed.Text += "\r\n";
+                            scintilla_CodeParsed.Text += "\n";
                         }
                         scintilla_Code.Text += code.Code;
                         scintilla_CodeParsed.Text += code.CodeParsed;    

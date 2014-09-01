@@ -44,8 +44,14 @@ namespace Change_Module
 
         private clsOntologyItem objOItem_SelNode;
 
+        private clsOntologyItem objOItem_Ticket;
+        private clsOntologyItem objOItem_ProcessOfOItems;
+
         private clsTransaction objTransaction_Description;
         private clsRelationConfig objRelationConfig;
+
+        private clsOntologyItem objOItem_OItemOfProcess;
+        private clsOntologyItem objOItem_OItem2;
         int intRowID;
 
 
@@ -55,6 +61,55 @@ namespace Change_Module
             
         }
 
+        public frmChange(clsGlobals Globals, clsOntologyItem OItem_User, clsOntologyItem OItem_Group)
+        {
+            InitializeComponent();
+
+            objLocalConfig = new clsLocalConfig(Globals);
+            objLocalConfig.OItem_User = OItem_User;
+            objLocalConfig.OItem_Group = OItem_Group;
+
+            objDataWork_Ticket = new clsDataWork_Ticket(objLocalConfig);
+        }
+
+        public void InitializeTicket(clsOntologyItem OItem_OfProcess, clsOntologyItem OItem2)
+        {
+            objOItem_OItemOfProcess = OItem_OfProcess;
+            objOItem_OItem2 = OItem2;
+            objDGVRC = null;
+            intRowID = -1;
+
+            objOItem_ProcessOfOItems = objDataWork_Ticket.GetProcessOfOItem(OItem_OfProcess);
+
+            if (objOItem_ProcessOfOItems.GUID_Parent == objLocalConfig.OItem_Type_Process.GUID)
+            {
+                objOItem_Ticket = objDataWork_Ticket.GetTicketOfItems(OItem_OfProcess, OItem2, objOItem_ProcessOfOItems);
+                if (objOItem_Ticket.GUID_Parent == objLocalConfig.OItem_Type_Process_Ticket.GUID)
+                {
+                    
+                }
+                else if (objOItem_Ticket.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                {
+                    
+                }
+                else
+                {
+                    
+                }
+            }
+            else if (objOItem_ProcessOfOItems.GUID == objLocalConfig.Globals.LState_Error.GUID)
+            {
+
+                
+            }
+            else
+            {
+                
+            }
+
+            initialize();
+        }
+
         public void InitializeTicket(int rowID, DataGridViewRowCollection DGVRC, clsLocalConfig LocalConfig,
                                       clsDataWork_Ticket DataWork_Ticket)
         {
@@ -62,8 +117,6 @@ namespace Change_Module
             intRowID = rowID;
             objDGVRC = DGVRC;
             objDataWork_Ticket = DataWork_Ticket;
-
-
 
             initialize();
         }
@@ -116,10 +169,19 @@ namespace Change_Module
             clsOntologyItem objOItem_Ticket;
             
 
-            objOItem_Ticket = new clsOntologyItem(objDGVRC[intRowID].Cells["GUID_Ticket"].Value.ToString(),
-                                                 objDGVRC[intRowID].Cells["Name_Ticket"].Value.ToString(),
-                                                 objLocalConfig.OItem_Type_Process_Ticket.GUID,
-                                                 objLocalConfig.Globals.Type_Object);
+            if (objDGVRC != null)
+            {
+                objOItem_Ticket = new clsOntologyItem(objDGVRC[intRowID].Cells["GUID_Ticket"].Value.ToString(),
+                                                     objDGVRC[intRowID].Cells["Name_Ticket"].Value.ToString(),
+                                                     objLocalConfig.OItem_Type_Process_Ticket.GUID,
+                                                     objLocalConfig.Globals.Type_Object);
+    
+            }
+            else
+            {
+                objOItem_Ticket = this.objOItem_Ticket;
+            }
+            
             objOItem_TicketDescription = objDataWork_Ticket.TicketDescription(objOItem_Ticket);
 
             TextBox_Description_Ticket.ReadOnly = true;
@@ -214,36 +276,59 @@ namespace Change_Module
 
         private void configure_Controls()
         {
-            DataGridViewRow objDGVR_Selected;
+            DataGridViewRow objDGVR_Selected = null;
             
-            objDGVR_Selected = objDGVRC[intRowID];
+            if (objDGVRC != null)
+            {
+                objDGVR_Selected = objDGVRC[intRowID];
 
-            toolStripTextBox_ID.Text = objDGVR_Selected.Cells["ID"].Value.ToString();
-            ToolStripTextBox_Name.Text = objDGVR_Selected.Cells["Name_Ticket"].Value.ToString();
-            toolStripTextBox_Ref.Text = objDGVR_Selected.Cells["Name_Item_belongsTo"].Value.ToString();
-            toolStripTextBox_Type.Text = objDGVR_Selected.Cells["belongsTo_Ontology"].Value.ToString();
+                toolStripTextBox_ID.Text = objDGVR_Selected.Cells["ID"].Value.ToString();
+                ToolStripTextBox_Name.Text = objDGVR_Selected.Cells["Name_Ticket"].Value.ToString();
+                toolStripTextBox_Ref.Text = objDGVR_Selected.Cells["Name_Item_belongsTo"].Value.ToString();
+                toolStripTextBox_Type.Text = objDGVR_Selected.Cells["belongsTo_Ontology"].Value.ToString();
 
-            ToolStripLabel_TicketCount.Text = (intRowID + 1).ToString() + " / " + objDGVRC.Count;
+                ToolStripLabel_TicketCount.Text = (intRowID + 1).ToString() + " / " + objDGVRC.Count;    
+            }
+            else
+            {
+                ToolStripTextBox_Name.Text = objOItem_Ticket.Name;
+                toolStripTextBox_Ref.Text = objOItem_OItemOfProcess.Name;
+                toolStripTextBox_Type.Text = "";
+
+            }
+            
 
             ToolStripButton_MoveFirst.Enabled = false;
             ToolStripButton_MovePrevious.Enabled = false;
             ToolStripButton_MoveNext.Enabled = false;
             ToolStripButton_MoveLast.Enabled = false;
 
-            if (intRowID > 0)
+            if (objDGVRC != null)
             {
-                ToolStripButton_MoveFirst.Enabled = true;
-                ToolStripButton_MovePrevious.Enabled = true;
+                if (intRowID > 0)
+                {
+                    ToolStripButton_MoveFirst.Enabled = true;
+                    ToolStripButton_MovePrevious.Enabled = true;
+                }
+
+                if (intRowID < objDGVRC.Count - 1)
+                {
+                    ToolStripButton_MoveLast.Enabled = true;
+                    ToolStripButton_MoveNext.Enabled = true;
+                }    
             }
 
-            if (intRowID < objDGVRC.Count-1)
-            {
-                ToolStripButton_MoveLast.Enabled = true;
-                ToolStripButton_MoveNext.Enabled = true;
-            }
 
+
+            if (objDGVRC != null && objDGVR_Selected != null)
+            {
+                objUserControl_ProcessTree.initialize(objDGVR_Selected);
+            }
+            else
+            {
+                objUserControl_ProcessTree.initialize(objOItem_Ticket, null);
+            }
             
-            objUserControl_ProcessTree.initialize(objDGVR_Selected);
             SetTicketDescription();
         }
 
@@ -348,7 +433,7 @@ namespace Change_Module
 
         private void ToolStripButton_MoveNext_Click(object sender, EventArgs e)
         {
-            if (intRowID < objDGVRC.Count - 1)
+            if (objDGVRC != null && intRowID < objDGVRC.Count - 1)
             {
                 intRowID = intRowID + 1;
                 initialize();
@@ -376,10 +461,18 @@ namespace Change_Module
             Timer_Description_Ticket.Stop();
             objTransaction_Description = new clsTransaction(objLocalConfig.Globals);
 
-            objOItem_Ticket = new clsOntologyItem(objDGVRC[intRowID].Cells["GUID_Ticket"].Value.ToString(),
-                                                 objDGVRC[intRowID].Cells["Name_Ticket"].Value.ToString(),
-                                                 objLocalConfig.OItem_Type_Process_Ticket.GUID,
-                                                 objLocalConfig.Globals.Type_Object);
+            if (objDGVRC != null)
+            {
+                objOItem_Ticket = new clsOntologyItem(objDGVRC[intRowID].Cells["GUID_Ticket"].Value.ToString(),
+                                                     objDGVRC[intRowID].Cells["Name_Ticket"].Value.ToString(),
+                                                     objLocalConfig.OItem_Type_Process_Ticket.GUID,
+                                                     objLocalConfig.Globals.Type_Object);    
+            }
+            else
+            {
+                objOItem_Ticket = this.objOItem_Ticket;
+            }
+            
 
             objOItem_TicketDescription = objDataWork_Ticket.TicketDescription(objOItem_Ticket);
                     
@@ -776,26 +869,38 @@ namespace Change_Module
 
         private void ToolStripButton_MoveFirst_Click(object sender, EventArgs e)
         {
-            intRowID = 0;
-            initialize();
+            if (objDGVRC != null)
+            {
+                intRowID = 0;
+                initialize();    
+            }
+            
         }
 
         private void ToolStripButton_MovePrevious_Click(object sender, EventArgs e)
         {
-            if (intRowID > 0)
+            if (objDGVRC != null)
             {
-                intRowID--;
-                initialize();
+                if (intRowID > 0)
+                {
+                    intRowID--;
+                    initialize();
+                }    
             }
+            
         }
 
         private void ToolStripButton_MoveLast_Click(object sender, EventArgs e)
         {
-            if (intRowID < objDGVRC.Count - 1)
+            if (objDGVRC != null)
             {
-                intRowID = objDGVRC.Count - 1;
-                initialize();
+                if (intRowID < objDGVRC.Count - 1)
+                {
+                    intRowID = objDGVRC.Count - 1;
+                    initialize();
+                }    
             }
+            
         }
 
 

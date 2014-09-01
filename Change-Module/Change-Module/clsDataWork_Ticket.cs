@@ -37,6 +37,8 @@ namespace Change_Module
         private clsDBLevel objDBLevel_ProcessLogOfTicket;
         private clsDBLevel objDBLevel_LogEntriesOfTicket;
         private clsDBLevel objDBLevel_Item;
+        private clsDBLevel objDBLevel_TicketOfItems;
+        private clsDBLevel objDBLevel_ProcessOfOItem;
 
         private clsDBLevel objDBLevel_TicketListTree;
         private clsDBLevel objDBLevel_Description;
@@ -580,6 +582,166 @@ namespace Change_Module
 
             return objOItem_Result;
             
+        }
+
+        public clsOntologyItem GetProcessOfOItem(clsOntologyItem OItem)
+        {
+            var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+
+            var searchProcess = new List<clsObjectRel>
+                {
+                    new clsObjectRel
+                        {
+                            ID_Other = OItem.GUID,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_todo_for.GUID,
+                            ID_Parent_Object = objLocalConfig.OItem_Type_Process.GUID
+                        }
+                };
+
+            objOItem_Result = objDBLevel_ProcessOfOItem.get_Data_ObjectRel(searchProcess, boolIDs: false);
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                if (objDBLevel_ProcessOfOItem.OList_ObjectRel.Any())
+                {
+                    objOItem_Result = objDBLevel_ProcessOfOItem.OList_ObjectRel.Select(proc => new clsOntologyItem
+                        {
+                            GUID = proc.ID_Object,
+                            Name = proc.Name_Object,
+                            GUID_Parent = proc.ID_Parent_Object,
+                            Type = objLocalConfig.Globals.Type_Object
+                        }).First();
+                }
+                else
+                {
+                    objOItem_Result = objLocalConfig.Globals.LState_Nothing.Clone();
+                }
+            }
+
+            return objOItem_Result;
+        }
+
+        public clsOntologyItem GetTicketOfItems(clsOntologyItem OItem1, clsOntologyItem OItem2, clsOntologyItem OItem_Process)
+        {
+            var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+
+            var searchTickets = new List<clsObjectRel>
+                {
+                    new clsObjectRel
+                        {
+                            ID_Other =  OItem1.GUID,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_belonging_src1.GUID,
+                            ID_Parent_Object = objLocalConfig.OItem_Type_Process_Ticket.GUID
+                        },
+                    new clsObjectRel
+                        {
+                            ID_Other = OItem2.GUID,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_belonging_src2.GUID,
+                            ID_Parent_Object = objLocalConfig.OItem_Type_Process_Ticket.GUID
+                        }
+                };
+
+            objOItem_Result = objDBLevel_TicketOfItems.get_Data_ObjectRel(searchTickets, boolIDs: false);
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                var ticketLists =
+                    (from ticket1 in
+                         objDBLevel_TicketOfItems.OList_ObjectRel.Where(tick => tick.ID_Other == OItem1.GUID).ToList()
+                     join ticket2 in
+                         objDBLevel_TicketOfItems.OList_ObjectRel.Where(tick => tick.ID_Other == OItem2.GUID).ToList()
+                         on ticket1.ID_Object equals ticket2.ID_Object
+                     select ticket1).Select(tick => new clsOntologyItem
+                         {
+                             GUID = tick.ID_Object,
+                             Name = tick.Name_Object,
+                             GUID_Parent = tick.ID_Parent_Object,
+                             Type = objLocalConfig.Globals.Type_Object
+                         }).ToList();
+
+                if (ticketLists.Any())
+                {
+                    objOItem_Result = ticketLists.First();
+                }
+                else
+                {
+                    var length = OItem1.Name.Length + OItem2.Name.Length;
+                    var name = "";
+
+                    if (length <= 255)
+                    {
+                        name = OItem1.Name + OItem2.Name;
+                    }
+                    else
+                    {
+                        var firstLengthPart = 100 / length * OItem1.Name.Length;
+                        var secondLengthPart = 100 / length * OItem2.Name.Length;
+
+                        var length1 = OItem1.Name.Length/100*firstLengthPart;
+                        var length2 = OItem2.Name.Length/100*secondLengthPart;
+
+                        name = OItem1.Name.Substring(0, length1) + OItem2.Name.Substring(0, length2);
+                    }
+
+                    var ticket = new clsOntologyItem
+                        {
+                            GUID = objLocalConfig.Globals.NewGUID,
+                            Name = name,
+                            GUID_Parent = objLocalConfig.OItem_Type_Process_Ticket.GUID,
+                            Type = objLocalConfig.Globals.Type_Object
+                        };
+
+                    objTransaction_ProcessLog.ClearItems();
+                    objOItem_Result = objTransaction_ProcessLog.do_Transaction(ticket);
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        var relation = objRelationConfig.Rel_ObjectRelation(ticket, OItem1,
+                                                                            objLocalConfig
+                                                                                .OItem_relationtype_belonging_src1);
+
+                        objOItem_Result = objTransaction_ProcessLog.do_Transaction(relation, true);
+
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            relation = objRelationConfig.Rel_ObjectRelation(ticket, OItem2,
+                                                                            objLocalConfig
+                                                                                .OItem_relationtype_belonging_src2);
+
+                            objOItem_Result = objTransaction_ProcessLog.do_Transaction(relation, true);
+                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            {
+                                relation = objRelationConfig.Rel_ObjectRelation(ticket,
+                                                                                OItem_Process,
+                                                                                objLocalConfig
+                                                                                    .OItem_RelationType_belongsTo);
+
+                                objOItem_Result = objTransaction_ProcessLog.do_Transaction(relation, true);
+                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                {
+                                    objOItem_Result = ticket;    
+                                }
+                                else
+                                {
+                                    objTransaction_ProcessLog.rollback();
+                                }
+                                
+
+                            }
+                            else
+                            {
+                                objTransaction_ProcessLog.rollback();
+                            }  
+                        }
+                        else
+                        {
+                            objTransaction_ProcessLog.rollback();
+                        }
+                    }
+                }
+            }
+
+            return objOItem_Result;
         }
 
         public clsOntologyItem GetData_ProcessTree()
@@ -2159,6 +2321,8 @@ namespace Change_Module
             objDBLevel_Group = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_TicketList = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Item = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_TicketOfItems = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_ProcessOfOItem = new clsDBLevel(objLocalConfig.Globals);
 
             objDBLevel_TicketListTree = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_TicketListStandard = new clsDBLevel(objLocalConfig.Globals);
