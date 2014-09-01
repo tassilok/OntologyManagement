@@ -37,6 +37,8 @@
             this.label_ProgrammingLanguage = new System.Windows.Forms.Label();
             this.textBox_ProgrammingLanguage = new System.Windows.Forms.TextBox();
             this.button_Exec = new System.Windows.Forms.Button();
+            this.button_Save = new System.Windows.Forms.Button();
+            this.saveFileDialog_Script = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.scintilla_CodeParsed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scintilla_Code)).BeginInit();
             this.SuspendLayout();
@@ -57,7 +59,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_CMDRL.Location = new System.Drawing.Point(145, 4);
             this.textBox_CMDRL.Name = "textBox_CMDRL";
-            this.textBox_CMDRL.Size = new System.Drawing.Size(799, 20);
+            this.textBox_CMDRL.Size = new System.Drawing.Size(826, 20);
             this.textBox_CMDRL.TabIndex = 1;
             // 
             // label_CodeParsed
@@ -87,7 +89,7 @@
             this.scintilla_CodeParsed.Location = new System.Drawing.Point(145, 60);
             this.scintilla_CodeParsed.Margins.Margin0.Width = 20;
             this.scintilla_CodeParsed.Name = "scintilla_CodeParsed";
-            this.scintilla_CodeParsed.Size = new System.Drawing.Size(740, 443);
+            this.scintilla_CodeParsed.Size = new System.Drawing.Size(750, 443);
             this.scintilla_CodeParsed.Styles.BraceBad.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla_CodeParsed.Styles.BraceLight.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla_CodeParsed.Styles.CallTip.FontName = "Segoe UI\0\0\0\0\0\0\0\0\0\0\0\0";
@@ -107,7 +109,7 @@
             this.scintilla_Code.Location = new System.Drawing.Point(145, 510);
             this.scintilla_Code.Margins.Margin0.Width = 20;
             this.scintilla_Code.Name = "scintilla_Code";
-            this.scintilla_Code.Size = new System.Drawing.Size(740, 100);
+            this.scintilla_Code.Size = new System.Drawing.Size(750, 100);
             this.scintilla_Code.Styles.BraceBad.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla_Code.Styles.BraceLight.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla_Code.Styles.CallTip.FontName = "Segoe UI\0\0\0\0\0\0\0\0\0\0\0\0";
@@ -136,24 +138,36 @@
             this.textBox_ProgrammingLanguage.Location = new System.Drawing.Point(145, 31);
             this.textBox_ProgrammingLanguage.Name = "textBox_ProgrammingLanguage";
             this.textBox_ProgrammingLanguage.ReadOnly = true;
-            this.textBox_ProgrammingLanguage.Size = new System.Drawing.Size(799, 20);
+            this.textBox_ProgrammingLanguage.Size = new System.Drawing.Size(826, 20);
             this.textBox_ProgrammingLanguage.TabIndex = 9;
             // 
             // button_Exec
             // 
             this.button_Exec.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Exec.Location = new System.Drawing.Point(891, 57);
+            this.button_Exec.Location = new System.Drawing.Point(901, 57);
             this.button_Exec.Name = "button_Exec";
-            this.button_Exec.Size = new System.Drawing.Size(44, 23);
+            this.button_Exec.Size = new System.Drawing.Size(61, 23);
             this.button_Exec.TabIndex = 10;
             this.button_Exec.Text = "Exec";
             this.button_Exec.UseVisualStyleBackColor = true;
             this.button_Exec.Click += new System.EventHandler(this.button_Exec_Click);
             // 
+            // button_Save
+            // 
+            this.button_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Save.Location = new System.Drawing.Point(901, 86);
+            this.button_Save.Name = "button_Save";
+            this.button_Save.Size = new System.Drawing.Size(60, 23);
+            this.button_Save.TabIndex = 11;
+            this.button_Save.Text = "Save...";
+            this.button_Save.UseVisualStyleBackColor = true;
+            this.button_Save.Click += new System.EventHandler(this.button_Save_Click);
+            // 
             // UserControl_ExecuteCode
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button_Save);
             this.Controls.Add(this.button_Exec);
             this.Controls.Add(this.textBox_ProgrammingLanguage);
             this.Controls.Add(this.label_ProgrammingLanguage);
@@ -164,7 +178,7 @@
             this.Controls.Add(this.textBox_CMDRL);
             this.Controls.Add(this.label_CMDRL);
             this.Name = "UserControl_ExecuteCode";
-            this.Size = new System.Drawing.Size(947, 621);
+            this.Size = new System.Drawing.Size(974, 621);
             ((System.ComponentModel.ISupportInitialize)(this.scintilla_CodeParsed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.scintilla_Code)).EndInit();
             this.ResumeLayout(false);
@@ -183,5 +197,7 @@
         private System.Windows.Forms.Label label_ProgrammingLanguage;
         private System.Windows.Forms.TextBox textBox_ProgrammingLanguage;
         private System.Windows.Forms.Button button_Exec;
+        private System.Windows.Forms.Button button_Save;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog_Script;
     }
 }

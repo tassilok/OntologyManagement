@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OntologyClasses.BaseClasses;
 using Ontology_Module;
+using System.IO;
 
 namespace CommandLineRun_Module
 {
@@ -214,6 +215,7 @@ namespace CommandLineRun_Module
             scintilla_Code.IsReadOnly = true;
             scintilla_CodeParsed.IsReadOnly = true;
             button_Exec.Enabled = false;
+            button_Save.Enabled = false;
 
             objOItem_CMDLR = OItem_Cmdlr;
 
@@ -312,6 +314,17 @@ namespace CommandLineRun_Module
                     }
 
                 }
+
+                button_Save.Enabled = true;
+
+                if (objExecutionConfiguration != null && objExecutionConfiguration.Name_Extension != null)
+                {
+                    saveFileDialog_Script.Filter = objExecutionConfiguration.Name_ProgrammingLanguage + "|*" + (!objExecutionConfiguration.Name_Extension.StartsWith(".") ? "." : "") + objExecutionConfiguration.Name_Extension;
+                }
+                else
+                {
+                    saveFileDialog_Script.Filter = "Alle Dateien|*.*";
+                }
             }
             
         }
@@ -330,6 +343,25 @@ namespace CommandLineRun_Module
         {
             objFrmScriptExecution = new frmScriptExecution(objExecutionConfiguration, scintilla_CodeParsed.Text);
             objFrmScriptExecution.ShowDialog(this);
+        }
+
+        private void button_Save_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog_Script.ShowDialog(this) == DialogResult.OK)
+            {
+                var strDestPath = saveFileDialog_Script.FileName;
+                try
+                {
+                    TextWriter textStream = new StreamWriter(strDestPath, false);
+                    textStream.Write(scintilla_CodeParsed.Text);
+                    textStream.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(this, "Das Script konnte nicht gespeichert werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                
+            }
         }
     }
 }

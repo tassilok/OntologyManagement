@@ -36,7 +36,7 @@ Public Class clsShellWork
         End If
         strFilePath = Environment.ExpandEnvironmentVariables(strFilePath)
 
-        objTextStream = New IO.StreamWriter(strFilePath, IO.FileMode.Create)
+        objTextStream = New IO.StreamWriter(strFilePath, IO.FileMode.Create, System.Text.Encoding.UTF8)
 
         objTextStream.Write(strScript)
 

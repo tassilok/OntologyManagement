@@ -69,24 +69,56 @@ namespace CommandLineRun_Module
 
         private void RunCode()
         {
-            objShellWork.exec_Script(scintilla_Code.Text, objExecutionConfiguration.Path_File, objExecutionConfiguration.Name_Extension, objExecutionConfiguration.Path_Folder, objExecutionConfiguration.Arguments ?? "");
-            scintilla_Output.IsReadOnly = false;
-            scintilla_Error.IsReadOnly = false;
-
-            scintilla_Output.Text = objShellWork.ResultOutput;
-            scintilla_Error.Text = objShellWork.ErrorOutput;
-
-            scintilla_Output.IsReadOnly = true;
-            scintilla_Error.IsReadOnly = true;
-
-            if (!string.IsNullOrEmpty(objShellWork.ErrorOutput))
+            if (executeEachLineToolStripMenuItem.Checked)
             {
-                tabControl1.SelectedTab = tabPage_Error;
+                foreach (ScintillaNET.Line line in scintilla_Code.Lines)
+	            {
+                    var lineText = line.Text.Replace("\r\n", "");
+                    objShellWork.exec_Script(lineText, objExecutionConfiguration.Path_File, objExecutionConfiguration.Name_Extension, objExecutionConfiguration.Path_Folder, objExecutionConfiguration.Arguments ?? "");
+
+                    scintilla_Output.IsReadOnly = false;
+                    scintilla_Error.IsReadOnly = false;
+
+                    scintilla_Output.Text += objShellWork.ResultOutput + "\r\n";
+                    scintilla_Error.Text += objShellWork.ErrorOutput + "\r\n";
+
+                    scintilla_Output.IsReadOnly = true;
+                    scintilla_Error.IsReadOnly = true;
+
+                    if (!string.IsNullOrEmpty(objShellWork.ErrorOutput))
+                    {
+                        tabControl1.SelectedTab = tabPage_Error;
+                    }
+                    else
+                    {
+                        tabControl1.SelectedTab = tabPage_Output;
+                    }
+	            } 
             }
             else
             {
-                tabControl1.SelectedTab = tabPage_Output;
+                objShellWork.exec_Script(scintilla_Code.Text, objExecutionConfiguration.Path_File, objExecutionConfiguration.Name_Extension, objExecutionConfiguration.Path_Folder, objExecutionConfiguration.Arguments ?? "");
+
+                scintilla_Output.IsReadOnly = false;
+                scintilla_Error.IsReadOnly = false;
+
+                scintilla_Output.Text = objShellWork.ResultOutput;
+                scintilla_Error.Text = objShellWork.ErrorOutput;
+
+                scintilla_Output.IsReadOnly = true;
+                scintilla_Error.IsReadOnly = true;
+
+                if (!string.IsNullOrEmpty(objShellWork.ErrorOutput))
+                {
+                    tabControl1.SelectedTab = tabPage_Error;
+                }
+                else
+                {
+                    tabControl1.SelectedTab = tabPage_Output;
+                }
             }
+            
+            
         }
 
         private void frmScriptExecution_Load(object sender, EventArgs e)

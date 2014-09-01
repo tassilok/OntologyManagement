@@ -913,11 +913,25 @@ namespace CommandLineRun_Module
                         {
                             if (varVal.valBelongingSource == null || (varVal.valBelongingSource.ID_Parent_Other != objLocalConfig.OItem_class_comand_line__run_.GUID))
                             {
+                                var replaceString = "";
+                                if (varVal.valBelongingSource != null)
+                                {
+                                    if (varVal.valBelongingSource.ID_Other == objLocalConfig.OItem_object_datetime__yyyymmdd_hhmm.GUID)
+                                    {
+                                        replaceString = DateTime.Now.ToString("yyyyMMdd_HHmm");
+                                    }
+                                    else
+                                    {
+                                        replaceString = varVal.valBelongingSource.Name_Other;
+                                    }
+                                }
+                                else
+                                {
+                                    replaceString = varVal.valVar.Name_Object;
+                                }
+                                
                                 code.CodeParsed = code.CodeParsed.Replace("@" + varVal.valVar.Name_Other + "@",
-                                                                          varVal.valBelongingSource != null
-                                                                              ? varVal.valBelongingSource
-                                                                                      .Name_Other
-                                                                              : varVal.valVar.Name_Object);
+                                                                          replaceString);
                             }
                             
                         });

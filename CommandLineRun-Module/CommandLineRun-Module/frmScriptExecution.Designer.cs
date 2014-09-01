@@ -42,6 +42,9 @@
             this.scintilla_Error = new ScintillaNET.Scintilla();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Run = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripDropDownButton_Options = new System.Windows.Forms.ToolStripDropDownButton();
+            this.executeEachLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -228,10 +231,12 @@
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton_Run});
+            this.toolStripButton_Run,
+            this.toolStripSeparator1,
+            this.toolStripDropDownButton_Options});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(35, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(144, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButton_Run
@@ -243,6 +248,29 @@
             this.toolStripButton_Run.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_Run.Text = "toolStripButton1";
             this.toolStripButton_Run.Click += new System.EventHandler(this.toolStripButton_Run_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripDropDownButton_Options
+            // 
+            this.toolStripDropDownButton_Options.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton_Options.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.executeEachLineToolStripMenuItem});
+            this.toolStripDropDownButton_Options.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton_Options.Image")));
+            this.toolStripDropDownButton_Options.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton_Options.Name = "toolStripDropDownButton_Options";
+            this.toolStripDropDownButton_Options.Size = new System.Drawing.Size(72, 22);
+            this.toolStripDropDownButton_Options.Text = "x_Options";
+            // 
+            // executeEachLineToolStripMenuItem
+            // 
+            this.executeEachLineToolStripMenuItem.CheckOnClick = true;
+            this.executeEachLineToolStripMenuItem.Name = "executeEachLineToolStripMenuItem";
+            this.executeEachLineToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.executeEachLineToolStripMenuItem.Text = "x_Execute Each Line";
             // 
             // frmScriptExecution
             // 
@@ -294,6 +322,9 @@
         private ScintillaNET.Scintilla scintilla_Output;
         private System.Windows.Forms.TabPage tabPage_Error;
         private ScintillaNET.Scintilla scintilla_Error;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_Options;
+        private System.Windows.Forms.ToolStripMenuItem executeEachLineToolStripMenuItem;
 
     }
 }
