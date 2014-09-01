@@ -14,6 +14,7 @@ using Log_Module;
 using System.Globalization;
 using Ontology_Module;
 using OntologyClasses.BaseClasses;
+using Change_Module;
 
 namespace Checklist_Module
 {
@@ -34,7 +35,9 @@ namespace Checklist_Module
 
         private frmLogDialog objFrmLogDialog;
 
-        private UserControl_History objUserControl_History;
+        private frmChange objFrmChange;
+
+        private Log_Module.UserControl_History objUserControl_History;
 
         private List<clsLogEntry> objOList_LogEntries;
 
@@ -44,6 +47,8 @@ namespace Checklist_Module
 
         private clsTransaction objTransaction;
         private clsRelationConfig objRelationConfig;
+
+        private clsOntologyItem objOItem_OntologyItem;
 
         public frmCheckliste(clsLocalConfig LocalConfig, clsOntologyItem OItem_Report, clsOntologyItem OItem_WorkingList, clsOntologyItem OItem_ReportField, clsDataWork_Checklists DataWork_Checklists)
         {
@@ -71,7 +76,7 @@ namespace Checklist_Module
             objTransaction = new clsTransaction(objLocalConfig.Globals);
             objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
 
-            objUserControl_History = new UserControl_History(objLocalConfig.Globals);
+            objUserControl_History = new Log_Module.UserControl_History(objLocalConfig.Globals);
             objUserControl_History.Dock = DockStyle.Fill;
             objUserControl_History.SelectedRow += ObjUserControlHistoryOnSelectedRow;
 
@@ -106,6 +111,7 @@ namespace Checklist_Module
             textBox_DateTimeStamp.Text = "";
             textBox_Message.Text = "";
             objOItem_LogEntryCurrent = null;
+            toolStripButton_Process.Enabled = false;
 
             objUserControl_History.ClearHistory();
             if (objUserControl_Report.DataGridViewRow_Selected.Count > 0)
@@ -127,8 +133,10 @@ namespace Checklist_Module
                     objOItem_LogEntryCurrent = new clsOntologyItem();
                     DataGridViewRow row = objUserControl_Report.DataGridViewRow_Selected[0];
 
-                    var objOItem_OntologyItem = objDataWork_Checklists.GetOntologyItemByGUID(objUserControl_Report.DataGridViewRow_Selected[0].Cells[objOItem_ReportField.Name].Value.ToString());
-                    
+                    objOItem_OntologyItem = objDataWork_Checklists.GetOntologyItemByGUID(objUserControl_Report.DataGridViewRow_Selected[0].Cells[objOItem_ReportField.Name].Value.ToString());
+
+                    toolStripButton_Process.Enabled = true;
+
                     if (row.Cells["DateTimeStamp_Success"].Value.ToString() != "")
                     {
                         
@@ -765,6 +773,22 @@ namespace Checklist_Module
             {
                 objFrmObjectEdit = new frm_ObjectEdit(objLocalConfig.Globals, new List<clsOntologyItem> { objOItem_LogEntryCurrent }, 0, objLocalConfig.Globals.Type_Object, null );
                 objFrmObjectEdit.ShowDialog(this);
+
+            }
+        }
+
+        private void toolStripButton_Process_Click(object sender, EventArgs e)
+        {
+            if (objOItem_OntologyItem != null)
+            {
+
+                if (objFrmChange == null || objFrmChange.Visible == false)
+                {
+                    objFrmChange = new frmChange(objLocalConfig.Globals, objLocalConfig.User, objLocalConfig.Group);
+                    objFrmChange.Show();
+                }
+
+                objFrmChange.InitializeTicket(objOItem_OntologyItem, objOItem_WorkingList);
 
             }
         }

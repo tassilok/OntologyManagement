@@ -78,7 +78,46 @@ namespace Checklist_Module
 
         }
 
+        public clsOntologyItem GetProcessOfOItem(clsOntologyItem OItem)
+        {
+            var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
 
+            var searchProcess = new List<clsObjectRel>
+                {
+                    new clsObjectRel
+                        {
+                            ID_Other = OItem.GUID,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_todo_for.GUID,
+                            ID_Parent_Object = objLocalConfig.OItem_class_process.GUID
+                        }
+                };
+
+            objOItem_Result = objDBLevel_OntologyItem.get_Data_ObjectRel(searchProcess, boolIDs: false);
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                if (objDBLevel_OntologyItem.OList_ObjectRel.Any())
+                {
+                    objOItem_Result = objDBLevel_OntologyItem.OList_ObjectRel.Select(proc => new clsOntologyItem
+                        {
+                            GUID = proc.ID_Object,
+                            Name = proc.Name_Object,
+                            GUID_Parent = proc.ID_Parent_Object,
+                            Type = objLocalConfig.Globals.Type_Object
+                        }).First();
+                }
+                else
+                {
+                    objOItem_Result = objLocalConfig.Globals.LState_Nothing.Clone();
+                }
+            }
+            else
+            {
+                objOItem_Result = objLocalConfig.Globals.LState_Error;
+            }
+
+            return objOItem_Result;
+        }
 
         public void GetData_Report()
         {

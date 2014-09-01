@@ -33,6 +33,7 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.panel_History = new System.Windows.Forms.Panel();
             this.button_Edit = new System.Windows.Forms.Button();
             this.textBox_Message = new System.Windows.Forms.TextBox();
             this.label_Message = new System.Windows.Forms.Label();
@@ -42,7 +43,8 @@
             this.toolStripButton_Success = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Pause = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Error = new System.Windows.Forms.ToolStripButton();
-            this.panel_History = new System.Windows.Forms.Panel();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton_Process = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -115,6 +117,16 @@
             this.splitContainer1.SplitterDistance = 868;
             this.splitContainer1.TabIndex = 0;
             // 
+            // panel_History
+            // 
+            this.panel_History.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel_History.Location = new System.Drawing.Point(7, 318);
+            this.panel_History.Name = "panel_History";
+            this.panel_History.Size = new System.Drawing.Size(200, 242);
+            this.panel_History.TabIndex = 5;
+            // 
             // button_Edit
             // 
             this.button_Edit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -173,10 +185,12 @@
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton_Success,
             this.toolStripButton_Pause,
-            this.toolStripButton_Error});
+            this.toolStripButton_Error,
+            this.toolStripSeparator1,
+            this.toolStripButton_Process});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(81, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(141, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripButton_Success
@@ -212,15 +226,21 @@
             this.toolStripButton_Error.Text = "toolStripButton3";
             this.toolStripButton_Error.Click += new System.EventHandler(this.toolStripButton_Error_Click);
             // 
-            // panel_History
+            // toolStripSeparator1
             // 
-            this.panel_History.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel_History.Location = new System.Drawing.Point(7, 318);
-            this.panel_History.Name = "panel_History";
-            this.panel_History.Size = new System.Drawing.Size(200, 242);
-            this.panel_History.TabIndex = 5;
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton_Process
+            // 
+            this.toolStripButton_Process.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Process.Enabled = false;
+            this.toolStripButton_Process.Image = global::Checklist_Module.Properties.Resources.Export_to_DB;
+            this.toolStripButton_Process.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Process.Name = "toolStripButton_Process";
+            this.toolStripButton_Process.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_Process.Text = "toolStripButton1";
+            this.toolStripButton_Process.Click += new System.EventHandler(this.toolStripButton_Process_Click);
             // 
             // frmCheckliste
             // 
@@ -266,5 +286,7 @@
         private System.Windows.Forms.Label label_LastDateTimeStamp;
         private System.Windows.Forms.Button button_Edit;
         private System.Windows.Forms.Panel panel_History;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton toolStripButton_Process;
     }
 }

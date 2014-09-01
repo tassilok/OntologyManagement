@@ -29,7 +29,7 @@ namespace Checklist_Module
         public clsOntologyItem OItem_class_report { get; set; }
         public clsOntologyItem OItem_class_user { get; set; }
         public clsOntologyItem OItem_class_logstate { get; set; }
-        
+        public clsOntologyItem OItem_class_process { get; set; }
 
         // Object
         public clsOntologyItem OItem_object_error { get; set; }
@@ -43,7 +43,8 @@ namespace Checklist_Module
         public clsOntologyItem OItem_relationtype_contains { get; set; }
         public clsOntologyItem OItem_relationtype_belonging_resource { get; set; }
         public clsOntologyItem OItem_relationtype_is_in_state { get; set; }
-
+        public clsOntologyItem OItem_relationtype_todo_for { get; set; }
+        
 public clsOntologyItem User { get; set; }
 public clsOntologyItem Group { get; set; }
 	
@@ -161,6 +162,27 @@ private void get_Data_DevelopmentConfig()
   
 	private void get_Config_RelationTypes()
         {
+            var objOList_relationtype_todo_for = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                  where objOItem.ID_Object == cstrID_Ontology
+                                                  join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                  where objRef.Name_Object.ToLower() == "relationtype_todo_for".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                                  select objRef).ToList();
+
+            if (objOList_relationtype_todo_for.Any())
+            {
+                OItem_relationtype_todo_for = new clsOntologyItem()
+                {
+                    GUID = objOList_relationtype_todo_for.First().ID_Other,
+                    Name = objOList_relationtype_todo_for.First().Name_Other,
+                    GUID_Parent = objOList_relationtype_todo_for.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_relationtype_is_in_state = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                      where objOItem.ID_Object == cstrID_Ontology
                                                      join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -359,6 +381,27 @@ var objOList_relationtype_contains = (from objOItem in objDBLevel_Config1.OList_
   
 	private void get_Config_Classes()
         {
+
+            var objOList_class_process = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                          where objOItem.ID_Object == cstrID_Ontology
+                                          join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                          where objRef.Name_Object.ToLower() == "class_process".ToLower() && objRef.Ontology == Globals.Type_Class
+                                          select objRef).ToList();
+
+            if (objOList_class_process.Any())
+            {
+                OItem_class_process = new clsOntologyItem()
+                {
+                    GUID = objOList_class_process.First().ID_Other,
+                    Name = objOList_class_process.First().Name_Other,
+                    GUID_Parent = objOList_class_process.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
 
             var objOList_class_logstate = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                            where objOItem.ID_Object == cstrID_Ontology

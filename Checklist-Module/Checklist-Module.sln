@@ -19,6 +19,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Media-Viewer-Module", "..\M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hierarchichal-Splitter-Module", "..\Hierarchichal-Splitter-Module\Hierarchichal-Splitter-Module\Hierarchichal-Splitter-Module.csproj", "{80F48A47-77B5-489D-A693-08D450520136}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Change-Module", "..\Change-Module\Change-Module\Change-Module.csproj", "{825E4644-8F24-4CE5-AA42-7A8FA635B90C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +121,16 @@ Global
 		{80F48A47-77B5-489D-A693-08D450520136}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{80F48A47-77B5-489D-A693-08D450520136}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{80F48A47-77B5-489D-A693-08D450520136}.Release|x86.ActiveCfg = Release|Any CPU
+		{825E4644-8F24-4CE5-AA42-7A8FA635B90C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{825E4644-8F24-4CE5-AA42-7A8FA635B90C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{825E4644-8F24-4CE5-AA42-7A8FA635B90C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{825E4644-8F24-4CE5-AA42-7A8FA635B90C}.Debug|x86.ActiveCfg = Debug|x86
+		{825E4644-8F24-4CE5-AA42-7A8FA635B90C}.Debug|x86.Build.0 = Debug|x86
+		{825E4644-8F24-4CE5-AA42-7A8FA635B90C}.Release|Any CPU.ActiveCfg = Release|x86
+		{825E4644-8F24-4CE5-AA42-7A8FA635B90C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{825E4644-8F24-4CE5-AA42-7A8FA635B90C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{825E4644-8F24-4CE5-AA42-7A8FA635B90C}.Release|x86.ActiveCfg = Release|x86
+		{825E4644-8F24-4CE5-AA42-7A8FA635B90C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
