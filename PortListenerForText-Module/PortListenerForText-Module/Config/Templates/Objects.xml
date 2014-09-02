@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="ab081c64428e4bf3844eb3b5b902c573" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[PortListenerForTextModule]]></Item>
+<Item Id="781123c7566f4ab5b7be11d5f46d5600" Id_Parent="3f6d663506bf442f9420dbcb88f9b748"><![CDATA[BaseConfig]]></Item>
+<Item Id="759f653e80704d7b979bb135eb7cb04c" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[PortListenerForText]]></Item>
+<Item Id="59fb1f3c425a486798c6c6b924eda2a5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Listens_on]]></Item>
+<Item Id="fab01609c836474181517d1f8cb6b3d5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Port]]></Item>
+<Item Id="12d9f5cacdd548538f4b374e8457fb6c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_BaseConfig]]></Item>
+<Item Id="781123c7566f4ab5b7be11d5f46d5600" Id_Parent="3f6d663506bf442f9420dbcb88f9b748"><![CDATA[BaseConfig]]></Item>
+<Item Id="15a566d3acf6474fb24ba4e9301c7f36" Id_Parent="ca4eff30a40b476d99069f56a67c8cf9"><![CDATA[51515]]></Item>
+</Items>
