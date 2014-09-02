@@ -342,49 +342,226 @@ Public Class clsDataWork_Report
 
                     Dim filterTags_Bold_End = objDBLevel_ClipboardFilterTag.OList_ObjectRel.Where(Function(cf) cf.ID_RelationType = objLocalConfig.OItem_relationtype_bold_tags.GUID).Where(Function(t) t.OrderID = 2).ToList()
 
-                    Dim FilterItems = (From objClipBoardFilter In objDBLevel_ClipboardFilter.OList_Objects
-                                           Group Join objTableTagStart In filterTags_Table_Start On objClipBoardFilter.GUID Equals objTableTagStart.ID_Object Into objTableTagsStart = Group
-                                           From objTableTagStart In objTableTagsStart.DefaultIfEmpty()
-                                           Group Join objTableTagEnd In filterTags_Table_End On objClipBoardFilter.GUID Equals objTableTagEnd.ID_Object Into objTableTagsEnd = Group
-                                           From objTableTagEnd In objTableTagsEnd.DefaultIfEmpty()
-                                           Group Join objRowTagStart In filterTags_Row_Start On objClipBoardFilter.GUID Equals objRowTagStart.ID_Object Into objRowTagsStart = Group
-                                           From objRowTagStart In objRowTagsStart.DefaultIfEmpty()
-                                           Group Join objRowTagEnd In filterTags_Row_End On objClipBoardFilter.GUID Equals objRowTagEnd.ID_Object Into objRowTagsEnd = Group
-                                           From objRowTagEnd In objRowTagsEnd.DefaultIfEmpty()
-                                           Group Join objCellTagStart In filterTags_Cell_Start On objClipBoardFilter.GUID Equals objCellTagStart.ID_Object Into objCellTagsStart = Group
-                                           From objCellTagStart In objCellTagsStart.DefaultIfEmpty()
-                                           Group Join objCellTagEnd In filterTags_Cell_End On objClipBoardFilter.GUID Equals objCellTagEnd.ID_Object Into objCellTagsEnd = Group
-                                           From objCellTagEnd In objCellTagsEnd.DefaultIfEmpty()
-                                           Group Join objHeaderTagStart In filterTags_Header_Start On objClipBoardFilter.GUID Equals objHeaderTagStart.ID_Object Into objHeaderTagsStart = Group
-                                           From objHeaderTagStart In objHeaderTagsStart.DefaultIfEmpty()
-                                           Group Join objHeaderTagEnd In filterTags_Header_End On objClipBoardFilter.GUID Equals objHeaderTagEnd.ID_Object Into objHeaderTagsEnd = Group
-                                           From objHeaderTagEnd In objHeaderTagsEnd.DefaultIfEmpty()
-                                           Group Join objBoldTagStart In filterTags_Bold_Start On objClipBoardFilter.GUID Equals objBoldTagStart.ID_Object Into objBoldTagsStart = Group
-                                           From objBoldTagStart In objBoldTagsStart.DefaultIfEmpty()
-                                           Group Join objBoldTagEnd In filterTags_Bold_End On objClipBoardFilter.GUID Equals objBoldTagEnd.ID_Object Into objBoldTagsEnd = Group
-                                           From objBoldTagEnd In objBoldTagsEnd.DefaultIfEmpty()
-                                           Select New clsClipboardFilterItem With {.GUID_FilterItem = objClipBoardFilter.GUID,
-                                                                                   .Name_FilterItem = objClipBoardFilter.Name,
-                                                                                   .GUID_Tag_TableStart = If(Not objTableTagStart Is Nothing, objTableTagStart.ID_Other, Nothing),
-                                                                                   .Name_Tag_TableStart = If(Not objTableTagStart Is Nothing, objTableTagStart.Name_Other, Nothing),
-                                                                                   .GUID_Tag_TableEnd = If(Not objTableTagEnd Is Nothing, objTableTagEnd.ID_Other, Nothing),
-                                                                                   .Name_Tag_TableEnd = If(Not objTableTagEnd Is Nothing, objTableTagEnd.Name_Other, Nothing),
-                                                                                   .GUID_Tag_RowStart = If(Not objRowTagStart Is Nothing, objRowTagStart.ID_Other, Nothing),
-                                                                                   .Name_Tag_RowStart = If(Not objRowTagStart Is Nothing, objRowTagStart.Name_Other, Nothing),
-                                                                                   .GUID_Tag_RowEnd = If(Not objRowTagEnd Is Nothing, objRowTagEnd.ID_Other, Nothing),
-                                                                                   .Name_Tag_RowEnd = If(Not objRowTagEnd Is Nothing, objRowTagEnd.Name_Other, Nothing),
-                                                                                   .GUID_Tag_CellStart = If(Not objCellTagStart Is Nothing, objCellTagStart.ID_Other, Nothing),
-                                                                                   .Name_Tag_CellStart = If(Not objCellTagStart Is Nothing, objCellTagStart.Name_Other, Nothing),
-                                                                                   .GUID_Tag_CellEnd = If(Not objCellTagEnd Is Nothing, objCellTagEnd.ID_Other, Nothing),
-                                                                                   .Name_Tag_CellEnd = If(Not objCellTagEnd Is Nothing, objCellTagEnd.Name_Other, Nothing),
-                                                                                   .GUID_Tag_HeaderStart = If(Not objHeaderTagStart Is Nothing, objHeaderTagStart.ID_Other, Nothing),
-                                                                                   .Name_Tag_HeaderStart = If(Not objHeaderTagStart Is Nothing, objHeaderTagStart.Name_Other, Nothing),
-                                                                                   .GUID_Tag_HeaderEnd = If(Not objHeaderTagEnd Is Nothing, objHeaderTagEnd.ID_Other, Nothing),
-                                                                                   .Name_Tag_HeaderEnd = If(Not objHeaderTagEnd Is Nothing, objHeaderTagEnd.Name_Other, Nothing),
-                                                                                   .GUID_Tag_BoldStart = If(Not objBoldTagStart Is Nothing, objBoldTagStart.ID_Other, Nothing),
-                                                                                   .Name_Tag_BoldStart = If(Not objBoldTagStart Is Nothing, objBoldTagStart.Name_Other, Nothing),
-                                                                                   .GUID_Tag_BoldEnd = If(Not objBoldTagEnd Is Nothing, objBoldTagEnd.ID_Other, Nothing),
-                                                                                   .Name_Tag_BoldEnd = If(Not objBoldTagEnd Is Nothing, objBoldTagEnd.Name_Other, Nothing)}).ToList()
+                    Dim FilterItems = New List(Of clsClipboardFilterItem)
+
+
+                    Dim tableTagsStart = (From objClipBoardFilter In objDBLevel_ClipboardFilter.OList_Objects
+                                           Join objTableTagStart In filterTags_Table_Start On objClipBoardFilter.GUID Equals objTableTagStart.ID_Object
+                                           Select New With {objClipBoardFilter, objTableTagStart}).ToList
+
+                    FilterItems.AddRange(From tableTagStart In tableTagsStart
+                                         Group Join filterItem In FilterItems On tableTagStart.objClipBoardFilter.GUID Equals filterItem.GUID_FilterItem Into filterItemsTmp = Group
+                                         From filterItem In filterItemsTmp.DefaultIfEmpty()
+                                         Where filterItem Is Nothing
+                                         Select New clsClipboardFilterItem With {.GUID_FilterItem = tableTagStart.objClipBoardFilter.GUID,
+                                                                                 .Name_FilterItem = tableTagStart.objClipBoardFilter.Name,
+                                                                                 .GUID_Tag_TableStart = tableTagStart.objTableTagStart.ID_Other,
+                                                                                 .Name_Tag_TableStart = tableTagStart.objTableTagStart.Name_Other})
+
+                    Dim tableTagsEnd = (From objClipBoardFilter In objDBLevel_ClipboardFilter.OList_Objects
+                                       Join objTableTagEnd In filterTags_Table_End On objClipBoardFilter.GUID Equals objTableTagEnd.ID_Object
+                                       Select New With {objClipBoardFilter, objTableTagEnd}).ToList()
+
+                    FilterItems.AddRange(From tableTagEnd In tableTagsEnd
+                                         Group Join filterItem In FilterItems On tableTagEnd.objClipBoardFilter.GUID Equals filterItem.GUID_FilterItem Into filterItemsTmp = Group
+                                         From filterItem In filterItemsTmp.DefaultIfEmpty()
+                                         Where filterItem Is Nothing
+                                         Select New clsClipboardFilterItem With {.GUID_FilterItem = tableTagEnd.objClipBoardFilter.GUID,
+                                                                                 .Name_FilterItem = tableTagEnd.objClipBoardFilter.Name,
+                                                                                 .GUID_Tag_TableEnd = tableTagEnd.objTableTagEnd.ID_Other,
+                                                                                 .Name_Tag_TableEnd = tableTagEnd.objTableTagEnd.Name_Other})
+
+                    Dim rowTagsStart = (From objClipBoardFilter In objDBLevel_ClipboardFilter.OList_Objects
+                                       Join objRowTagStart In filterTags_Row_Start On objClipBoardFilter.GUID Equals objRowTagStart.ID_Object
+                                       Select New With {objClipBoardFilter, objRowTagStart}).ToList()
+
+                    FilterItems.AddRange(From rowTagStart In rowTagsStart
+                                         Group Join filterItem In FilterItems On rowTagStart.objClipBoardFilter.GUID Equals filterItem.GUID_FilterItem Into filterItemsTmp = Group
+                                         From filterItem In filterItemsTmp.DefaultIfEmpty()
+                                         Where filterItem Is Nothing
+                                         Select New clsClipboardFilterItem With {.GUID_FilterItem = rowTagStart.objClipBoardFilter.GUID,
+                                                                                 .Name_FilterItem = rowTagStart.objClipBoardFilter.Name,
+                                                                                 .GUID_Tag_RowStart = rowTagStart.objRowTagStart.ID_Other,
+                                                                                 .Name_Tag_RowStart = rowTagStart.objRowTagStart.Name_Other})
+
+                    Dim rowTagsEnd = (From objClipBoardFilter In objDBLevel_ClipboardFilter.OList_Objects
+                                       Join objRowTagEnd In filterTags_Row_End On objClipBoardFilter.GUID Equals objRowTagEnd.ID_Object
+                                       Select New With {objClipBoardFilter, objRowTagEnd}).ToList()
+
+                    FilterItems.AddRange(From rowTagEnd In rowTagsEnd
+                                         Group Join filterItem In FilterItems On rowTagEnd.objClipBoardFilter.GUID Equals filterItem.GUID_FilterItem Into filterItemsTmp = Group
+                                         From filterItem In filterItemsTmp.DefaultIfEmpty()
+                                         Where filterItem Is Nothing
+                                         Select New clsClipboardFilterItem With {.GUID_FilterItem = rowTagEnd.objClipBoardFilter.GUID,
+                                                                                 .Name_FilterItem = rowTagEnd.objClipBoardFilter.Name,
+                                                                                 .GUID_Tag_RowEnd = rowTagEnd.objRowTagEnd.ID_Other,
+                                                                                 .Name_Tag_RowEnd = rowTagEnd.objRowTagEnd.Name_Other})
+
+                    Dim cellTagsStart = (From objClipBoardFilter In objDBLevel_ClipboardFilter.OList_Objects
+                                       Join objCellTagStart In filterTags_Cell_Start On objClipBoardFilter.GUID Equals objCellTagStart.ID_Object
+                                       Select New With {objClipBoardFilter, objCellTagStart}).ToList()
+
+                    FilterItems.AddRange(From cellTagStart In cellTagsStart
+                                         Group Join filterItem In FilterItems On cellTagStart.objClipBoardFilter.GUID Equals filterItem.GUID_FilterItem Into filterItemsTmp = Group
+                                         From filterItem In filterItemsTmp.DefaultIfEmpty()
+                                         Where filterItem Is Nothing
+                                         Select New clsClipboardFilterItem With {.GUID_FilterItem = cellTagStart.objClipBoardFilter.GUID,
+                                                                                 .Name_FilterItem = cellTagStart.objClipBoardFilter.Name,
+                                                                                 .GUID_Tag_CellStart = cellTagStart.objCellTagStart.ID_Other,
+                                                                                 .Name_Tag_CellStart = cellTagStart.objCellTagStart.Name_Other})
+
+                    Dim cellTagsEnd = (From objClipBoardFilter In objDBLevel_ClipboardFilter.OList_Objects
+                                        Join objCellTagEnd In filterTags_Cell_End On objClipBoardFilter.GUID Equals objCellTagEnd.ID_Object
+                                       Select New With {objClipBoardFilter, objCellTagEnd}).ToList()
+
+                    FilterItems.AddRange(From cellTagEnd In cellTagsEnd
+                                         Group Join filterItem In FilterItems On cellTagEnd.objClipBoardFilter.GUID Equals filterItem.GUID_FilterItem Into filterItemsTmp = Group
+                                         From filterItem In filterItemsTmp.DefaultIfEmpty()
+                                         Where filterItem Is Nothing
+                                         Select New clsClipboardFilterItem With {.GUID_FilterItem = cellTagEnd.objClipBoardFilter.GUID,
+                                                                                 .Name_FilterItem = cellTagEnd.objClipBoardFilter.Name,
+                                                                                 .GUID_Tag_CellEnd = cellTagEnd.objCellTagEnd.ID_Other,
+                                                                                 .Name_Tag_CellEnd = cellTagEnd.objCellTagEnd.Name_Other})
+
+                    Dim headerTagsStart = (From objClipBoardFilter In objDBLevel_ClipboardFilter.OList_Objects
+                                        Join objHeaderTagStart In filterTags_Header_Start On objClipBoardFilter.GUID Equals objHeaderTagStart.ID_Object
+                                       Select New With {objClipBoardFilter, objHeaderTagStart}).ToList()
+
+                    FilterItems.AddRange(From headerTagStart In headerTagsStart
+                                         Group Join filterItem In FilterItems On headerTagStart.objClipBoardFilter.GUID Equals filterItem.GUID_FilterItem Into filterItemsTmp = Group
+                                         From filterItem In filterItemsTmp.DefaultIfEmpty()
+                                         Where filterItem Is Nothing
+                                         Select New clsClipboardFilterItem With {.GUID_FilterItem = headerTagStart.objClipBoardFilter.GUID,
+                                                                                 .Name_FilterItem = headerTagStart.objClipBoardFilter.Name,
+                                                                                 .GUID_Tag_HeaderStart = headerTagStart.objHeaderTagStart.ID_Other,
+                                                                                 .Name_Tag_HeaderStart = headerTagStart.objHeaderTagStart.Name_Other})
+
+                    Dim headerTagsEnd = (From objClipBoardFilter In objDBLevel_ClipboardFilter.OList_Objects
+                                        Join objHeaderTagEnd In filterTags_Header_End On objClipBoardFilter.GUID Equals objHeaderTagEnd.ID_Object
+                                       Select New With {objClipBoardFilter, objHeaderTagEnd}).ToList()
+
+                    FilterItems.AddRange(From headerTagEnd In headerTagsEnd
+                                         Group Join filterItem In FilterItems On headerTagEnd.objClipBoardFilter.GUID Equals filterItem.GUID_FilterItem Into filterItemsTmp = Group
+                                         From filterItem In filterItemsTmp.DefaultIfEmpty()
+                                         Where filterItem Is Nothing
+                                         Select New clsClipboardFilterItem With {.GUID_FilterItem = headerTagEnd.objClipBoardFilter.GUID,
+                                                                                 .Name_FilterItem = headerTagEnd.objClipBoardFilter.Name,
+                                                                                 .GUID_Tag_HeaderEnd = headerTagEnd.objHeaderTagEnd.ID_Other,
+                                                                                 .Name_Tag_HeaderEnd = headerTagEnd.objHeaderTagEnd.Name_Other})
+
+                    Dim boldTagsStart = (From objClipBoardFilter In objDBLevel_ClipboardFilter.OList_Objects
+                                        Join objBoldTagStart In filterTags_Bold_Start On objClipBoardFilter.GUID Equals objBoldTagStart.ID_Object
+                                       Select New With {objClipBoardFilter, objBoldTagStart}).ToList()
+
+                    FilterItems.AddRange(From boldTagStart In boldTagsStart
+                                         Group Join filterItem In FilterItems On boldTagStart.objClipBoardFilter.GUID Equals filterItem.GUID_FilterItem Into filterItemsTmp = Group
+                                         From filterItem In filterItemsTmp.DefaultIfEmpty()
+                                         Where filterItem Is Nothing
+                                         Select New clsClipboardFilterItem With {.GUID_FilterItem = boldTagStart.objClipBoardFilter.GUID,
+                                                                                 .Name_FilterItem = boldTagStart.objClipBoardFilter.Name,
+                                                                                 .GUID_Tag_BoldStart = boldTagStart.objBoldTagStart.ID_Other,
+                                                                                 .Name_Tag_BoldStart = boldTagStart.objBoldTagStart.Name_Other})
+
+                    Dim boldTagsEnd = (From objClipBoardFilter In objDBLevel_ClipboardFilter.OList_Objects
+                                        Join objBoldTagEnd In filterTags_Bold_End On objClipBoardFilter.GUID Equals objBoldTagEnd.ID_Object
+                                       Select New With {objClipBoardFilter, objBoldTagEnd}).ToList()
+
+
+                    FilterItems.AddRange(From boldTagEnd In boldTagsEnd
+                                         Group Join filterItem In FilterItems On boldTagEnd.objClipBoardFilter.GUID Equals filterItem.GUID_FilterItem Into filterItemsTmp = Group
+                                         From filterItem In filterItemsTmp.DefaultIfEmpty()
+                                         Where filterItem Is Nothing
+                                         Select New clsClipboardFilterItem With {.GUID_FilterItem = boldTagEnd.objClipBoardFilter.GUID,
+                                                                                 .Name_FilterItem = boldTagEnd.objClipBoardFilter.Name,
+                                                                                 .GUID_Tag_BoldEnd = boldTagEnd.objBoldTagEnd.ID_Other,
+                                                                                 .Name_Tag_BoldEnd = boldTagEnd.objBoldTagEnd.Name_Other})
+
+
+                    FilterItems.ForEach(Sub(filterItem)
+                                            Dim tableTagsStart1 = tableTagsStart.Where(Function(tagStart) tagStart.objClipBoardFilter.GUID = filterItem.GUID_FilterItem).ToList()
+                                            filterItem.GUID_Tag_TableStart = If(tableTagsStart1.Any(), tableTagsStart1.First().objTableTagStart.ID_Other, Nothing)
+                                            filterItem.Name_Tag_TableStart = If(tableTagsStart1.Any(), tableTagsStart1.First().objTableTagStart.Name_Other, Nothing)
+
+                                            Dim tableTagsEnd1 = tableTagsEnd.Where(Function(tagEnd) tagEnd.objClipBoardFilter.GUID = filterItem.GUID_FilterItem).ToList()
+                                            filterItem.GUID_Tag_TableEnd = If(tableTagsEnd1.Any(), tableTagsEnd1.First().objTableTagEnd.ID_Other, Nothing)
+                                            filterItem.Name_Tag_TableEnd = If(tableTagsEnd1.Any(), tableTagsEnd1.First().objTableTagEnd.Name_Other, Nothing)
+
+                                            Dim rowTagsStart1 = rowTagsStart.Where(Function(tagStart) tagStart.objClipBoardFilter.GUID = filterItem.GUID_FilterItem).ToList()
+                                            filterItem.GUID_Tag_RowStart = If(rowTagsStart1.Any(), rowTagsStart1.First().objRowTagStart.ID_Other, Nothing)
+                                            filterItem.Name_Tag_RowStart = If(rowTagsStart1.Any(), rowTagsStart1.First().objRowTagStart.Name_Other, Nothing)
+
+                                            Dim rowTagsEnd1 = rowTagsEnd.Where(Function(tagEnd) tagEnd.objClipBoardFilter.GUID = filterItem.GUID_FilterItem).ToList()
+                                            filterItem.GUID_Tag_RowEnd = If(rowTagsEnd1.Any(), rowTagsEnd1.First().objRowTagEnd.ID_Other, Nothing)
+                                            filterItem.Name_Tag_RowEnd = If(rowTagsEnd1.Any(), rowTagsEnd1.First().objRowTagEnd.Name_Other, Nothing)
+
+                                            Dim rowCellsStart1 = cellTagsStart.Where(Function(tagStart) tagStart.objClipBoardFilter.GUID = filterItem.GUID_FilterItem).ToList()
+                                            filterItem.GUID_Tag_CellStart = If(rowCellsStart1.Any(), rowCellsStart1.First().objCellTagStart.ID_Other, Nothing)
+                                            filterItem.Name_Tag_CellStart = If(rowCellsStart1.Any(), rowCellsStart1.First().objCellTagStart.Name_Other, Nothing)
+
+                                            Dim rowCellsEnd1 = cellTagsStart.Where(Function(tagEnd) tagEnd.objClipBoardFilter.GUID = filterItem.GUID_FilterItem).ToList()
+                                            filterItem.GUID_Tag_CellEnd = If(rowCellsEnd1.Any(), rowCellsEnd1.First().objCellTagStart.ID_Other, Nothing)
+                                            filterItem.Name_Tag_CellEnd = If(rowCellsEnd1.Any(), rowCellsEnd1.First().objCellTagStart.Name_Other, Nothing)
+
+                                            Dim rowHeadersStart1 = headerTagsStart.Where(Function(tagStart) tagStart.objClipBoardFilter.GUID = filterItem.GUID_FilterItem).ToList()
+                                            filterItem.GUID_Tag_HeaderStart = If(rowHeadersStart1.Any(), rowHeadersStart1.First().objHeaderTagStart.ID_Other, Nothing)
+                                            filterItem.Name_Tag_HeaderStart = If(rowHeadersStart1.Any(), rowHeadersStart1.First().objHeaderTagStart.Name_Other, Nothing)
+
+                                            Dim rowHeadersEnd1 = headerTagsEnd.Where(Function(tagEnd) tagEnd.objClipBoardFilter.GUID = filterItem.GUID_FilterItem).ToList()
+                                            filterItem.GUID_Tag_HeaderEnd = If(rowHeadersEnd1.Any(), rowHeadersEnd1.First().objHeaderTagEnd.ID_Other, Nothing)
+                                            filterItem.Name_Tag_HeaderEnd = If(rowHeadersEnd1.Any(), rowHeadersEnd1.First().objHeaderTagEnd.Name_Other, Nothing)
+
+                                            Dim rowBoldsStart1 = boldTagsStart.Where(Function(tagStart) tagStart.objClipBoardFilter.GUID = filterItem.GUID_FilterItem).ToList()
+                                            filterItem.GUID_Tag_BoldStart = If(rowBoldsStart1.Any(), rowBoldsStart1.First().objBoldTagStart.ID_Other, Nothing)
+                                            filterItem.Name_Tag_BoldStart = If(rowBoldsStart1.Any(), rowBoldsStart1.First().objBoldTagStart.Name_Other, Nothing)
+
+                                            Dim rowBoldsEnd1 = boldTagsEnd.Where(Function(tagEnd) tagEnd.objClipBoardFilter.GUID = filterItem.GUID_FilterItem).ToList()
+                                            filterItem.GUID_Tag_BoldEnd = If(rowBoldsEnd1.Any(), rowBoldsEnd1.First().objBoldTagEnd.ID_Other, Nothing)
+                                            filterItem.Name_Tag_BoldEnd = If(rowBoldsEnd1.Any(), rowBoldsEnd1.First().objBoldTagEnd.Name_Other, Nothing)
+                                        End Sub)
+
+                    'Dim FilterItems = (From objClipBoardFilter In objDBLevel_ClipboardFilter.OList_Objects
+                    '                       Group Join objTableTagStart In filterTags_Table_Start On objClipBoardFilter.GUID Equals objTableTagStart.ID_Object Into objTableTagsStart = Group
+                    '                       From objTableTagStart In objTableTagsStart.DefaultIfEmpty()
+                    '                       Group Join objTableTagEnd In filterTags_Table_End On objClipBoardFilter.GUID Equals objTableTagEnd.ID_Object Into objTableTagsEnd = Group
+                    '                       From objTableTagEnd In objTableTagsEnd.DefaultIfEmpty()
+                    '                       Group Join objRowTagStart In filterTags_Row_Start On objClipBoardFilter.GUID Equals objRowTagStart.ID_Object Into objRowTagsStart = Group
+                    '                       From objRowTagStart In objRowTagsStart.DefaultIfEmpty()
+                    '                       Group Join objRowTagEnd In filterTags_Row_End On objClipBoardFilter.GUID Equals objRowTagEnd.ID_Object Into objRowTagsEnd = Group
+                    '                       From objRowTagEnd In objRowTagsEnd.DefaultIfEmpty()
+                    '                       Group Join objCellTagStart In filterTags_Cell_Start On objClipBoardFilter.GUID Equals objCellTagStart.ID_Object Into objCellTagsStart = Group
+                    '                       From objCellTagStart In objCellTagsStart.DefaultIfEmpty()
+                    '                       Group Join objCellTagEnd In filterTags_Cell_End On objClipBoardFilter.GUID Equals objCellTagEnd.ID_Object Into objCellTagsEnd = Group
+                    '                       From objCellTagEnd In objCellTagsEnd.DefaultIfEmpty()
+                    '                       Group Join objHeaderTagStart In filterTags_Header_Start On objClipBoardFilter.GUID Equals objHeaderTagStart.ID_Object Into objHeaderTagsStart = Group
+                    '                       From objHeaderTagStart In objHeaderTagsStart.DefaultIfEmpty()
+                    '                       Group Join objHeaderTagEnd In filterTags_Header_End On objClipBoardFilter.GUID Equals objHeaderTagEnd.ID_Object Into objHeaderTagsEnd = Group
+                    '                       From objHeaderTagEnd In objHeaderTagsEnd.DefaultIfEmpty()
+                    '                       Group Join objBoldTagStart In filterTags_Bold_Start On objClipBoardFilter.GUID Equals objBoldTagStart.ID_Object Into objBoldTagsStart = Group
+                    '                       From objBoldTagStart In objBoldTagsStart.DefaultIfEmpty()
+                    '                       Group Join objBoldTagEnd In filterTags_Bold_End On objClipBoardFilter.GUID Equals objBoldTagEnd.ID_Object Into objBoldTagsEnd = Group
+                    '                       From objBoldTagEnd In objBoldTagsEnd.DefaultIfEmpty()
+                    '                       Select New clsClipboardFilterItem With {.GUID_FilterItem = objClipBoardFilter.GUID,
+                    '                                                               .Name_FilterItem = objClipBoardFilter.Name,
+                    '                                                               .GUID_Tag_TableStart = If(Not objTableTagStart Is Nothing, objTableTagStart.ID_Other, Nothing),
+                    '                                                               .Name_Tag_TableStart = If(Not objTableTagStart Is Nothing, objTableTagStart.Name_Other, Nothing),
+                    '                                                               .GUID_Tag_TableEnd = If(Not objTableTagEnd Is Nothing, objTableTagEnd.ID_Other, Nothing),
+                    '                                                               .Name_Tag_TableEnd = If(Not objTableTagEnd Is Nothing, objTableTagEnd.Name_Other, Nothing),
+                    '                                                               .GUID_Tag_RowStart = If(Not objRowTagStart Is Nothing, objRowTagStart.ID_Other, Nothing),
+                    '                                                               .Name_Tag_RowStart = If(Not objRowTagStart Is Nothing, objRowTagStart.Name_Other, Nothing),
+                    '                                                               .GUID_Tag_RowEnd = If(Not objRowTagEnd Is Nothing, objRowTagEnd.ID_Other, Nothing),
+                    '                                                               .Name_Tag_RowEnd = If(Not objRowTagEnd Is Nothing, objRowTagEnd.Name_Other, Nothing),
+                    '                                                               .GUID_Tag_CellStart = If(Not objCellTagStart Is Nothing, objCellTagStart.ID_Other, Nothing),
+                    '                                                               .Name_Tag_CellStart = If(Not objCellTagStart Is Nothing, objCellTagStart.Name_Other, Nothing),
+                    '                                                               .GUID_Tag_CellEnd = If(Not objCellTagEnd Is Nothing, objCellTagEnd.ID_Other, Nothing),
+                    '                                                               .Name_Tag_CellEnd = If(Not objCellTagEnd Is Nothing, objCellTagEnd.Name_Other, Nothing),
+                    '                                                               .GUID_Tag_HeaderStart = If(Not objHeaderTagStart Is Nothing, objHeaderTagStart.ID_Other, Nothing),
+                    '                                                               .Name_Tag_HeaderStart = If(Not objHeaderTagStart Is Nothing, objHeaderTagStart.Name_Other, Nothing),
+                    '                                                               .GUID_Tag_HeaderEnd = If(Not objHeaderTagEnd Is Nothing, objHeaderTagEnd.ID_Other, Nothing),
+                    '                                                               .Name_Tag_HeaderEnd = If(Not objHeaderTagEnd Is Nothing, objHeaderTagEnd.Name_Other, Nothing),
+                    '                                                               .GUID_Tag_BoldStart = If(Not objBoldTagStart Is Nothing, objBoldTagStart.ID_Other, Nothing),
+                    '                                                               .Name_Tag_BoldStart = If(Not objBoldTagStart Is Nothing, objBoldTagStart.Name_Other, Nothing),
+                    '                                                               .GUID_Tag_BoldEnd = If(Not objBoldTagEnd Is Nothing, objBoldTagEnd.ID_Other, Nothing),
+                    '                                                               .Name_Tag_BoldEnd = If(Not objBoldTagEnd Is Nothing, objBoldTagEnd.Name_Other, Nothing)}).ToList()
 
 
 
