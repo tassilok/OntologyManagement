@@ -498,9 +498,9 @@ Public Class clsDataWork_Report
                                             filterItem.GUID_Tag_CellStart = If(rowCellsStart1.Any(), rowCellsStart1.First().objCellTagStart.ID_Other, Nothing)
                                             filterItem.Name_Tag_CellStart = If(rowCellsStart1.Any(), rowCellsStart1.First().objCellTagStart.Name_Other, Nothing)
 
-                                            Dim rowCellsEnd1 = cellTagsStart.Where(Function(tagEnd) tagEnd.objClipBoardFilter.GUID = filterItem.GUID_FilterItem).ToList()
-                                            filterItem.GUID_Tag_CellEnd = If(rowCellsEnd1.Any(), rowCellsEnd1.First().objCellTagStart.ID_Other, Nothing)
-                                            filterItem.Name_Tag_CellEnd = If(rowCellsEnd1.Any(), rowCellsEnd1.First().objCellTagStart.Name_Other, Nothing)
+                                            Dim rowCellsEnd1 = cellTagsEnd.Where(Function(tagEnd) tagEnd.objClipBoardFilter.GUID = filterItem.GUID_FilterItem).ToList()
+                                            filterItem.GUID_Tag_CellEnd = If(rowCellsEnd1.Any(), rowCellsEnd1.First().objCellTagEnd.ID_Other, Nothing)
+                                            filterItem.Name_Tag_CellEnd = If(rowCellsEnd1.Any(), rowCellsEnd1.First().objCellTagEnd.Name_Other, Nothing)
 
                                             Dim rowHeadersStart1 = headerTagsStart.Where(Function(tagStart) tagStart.objClipBoardFilter.GUID = filterItem.GUID_FilterItem).ToList()
                                             filterItem.GUID_Tag_HeaderStart = If(rowHeadersStart1.Any(), rowHeadersStart1.First().objHeaderTagStart.ID_Other, Nothing)
