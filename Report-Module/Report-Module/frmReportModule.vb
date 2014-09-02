@@ -18,10 +18,13 @@ Public Class frmReportModule
 
     Private objTransaction As clsTransaction
 
+    Private objArgumentParsing As clsArgumentParsing
+
     Private objDataWork As clsDataWork_ReportTree
     Private objDataWork_ReportFields As clsDataWork_ReportFields
     Private objDataWork_Report As clsDataWork_Report
 
+    Private objOItem_Ref As clsOntologyItem
     Private objTreeNode_Root As TreeNode
 
     Private boolOpen As Boolean
@@ -47,6 +50,7 @@ Public Class frmReportModule
         
         Dim objOItem_Result = SetUser()
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            ParseArguments()
             fill_Tree()
             configure_Controls()
             boolOpen = True
@@ -56,6 +60,20 @@ Public Class frmReportModule
         End If
             
         
+    End Sub
+
+    Private sub ParseArguments()
+        objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList())
+
+        objOItem_Ref = Nothing
+
+        If objArgumentParsing.OList_Items.Any() Then
+            objOItem_Ref = objArgumentParsing.OList_Items.First()
+            Dim objOItem_Result = objDataWork_Report.GetReferencedReports(objArgumentParsing.OList_Items.First())
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                Err.Raise(1, "Die Berichte der Referenz konnten nicht ermittelt werden!")
+            End If
+        End If
     End Sub
 
     Private Function SetUser() As clsOntologyItem
@@ -93,10 +111,29 @@ Public Class frmReportModule
 
     Private Sub fill_Tree()
         TreeView_Report.Nodes.Clear()
-        objTreeNode_Root = TreeView_Report.Nodes.Add(objLocalConfig.OItem_Class_Reports.GUID.ToString, _
-                                                     objLocalConfig.OItem_Class_Reports.Name, _
-                                                     cint_ImageID_Root, cint_ImageID_Root)
+        
+        If objOItem_Ref Is Nothing Then
+            objTreeNode_Root = TreeView_Report.Nodes.Add(objLocalConfig.OItem_Class_Reports.GUID.ToString, _
+                                                         objLocalConfig.OItem_Class_Reports.Name, _
+                                                         cint_ImageID_Root, cint_ImageID_Root)    
+        Else 
+            If objOItem_Ref.Type = objLocalConfig.Globals.Type_Object Then
+                Dim textNode = objOItem_Ref.Name
+                Dim objOItem_Class = objDataWork_Report.GetOItem(objOItem_Ref.GUID_Parent, objLocalConfig.Globals.Type_Class)
 
+                If Not objOItem_Class Is Nothing Then
+                    textNode = objOItem_Class.Name & " \ " & textNode
+                End If
+
+                objTreeNode_Root = TreeView_Report.Nodes.Add(objLocalConfig.OItem_Class_Reports.GUID.ToString, _
+                                                         textNode, _
+                                                         cint_ImageID_Root, cint_ImageID_Root)    
+            End If
+        End If
+        
+
+        objDataWork.OItem_Ref = objOItem_Ref
+        objDataWork.OList_ReportsOfRef = objDataWork_Report.ReportListOfRef
         objDataWork.get_SubNodes(objTreeNode_Root, cint_ImageID_Report)
 
     End Sub

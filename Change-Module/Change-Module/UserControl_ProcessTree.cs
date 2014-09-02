@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Ontology_Module;
 using OntologyClasses.BaseClasses;
 using Log_Module;
+using ClassLibrary_ShellWork;
 
 namespace Change_Module
 {
@@ -40,6 +42,10 @@ namespace Change_Module
         private clsLogManagement objLogManagement;
 
         private clsTransaction objTransaction;
+
+        private clsShellWork objShellWork = new clsShellWork();
+        private frmModules objFrm_Modules;
+        private string strLastModule;
 
         private Boolean boolPCChange_Process;
 
@@ -686,12 +692,14 @@ namespace Change_Module
             NewToolStripMenuItem.Enabled = false;
             SubProcessToolStripMenuItem.Enabled = false;
             copyNameToolStripMenuItem.Enabled = treeView_ProcessTree.SelectedNode != null;
+            ModuleMenuToolStripMenuItem.Enabled = false;
 
             if (objOItem_Selected.GUID_Parent == objLocalConfig.OItem_Type_Process_Ticket.GUID)
             {
                 LoggingToolStripMenuItem.Enabled = true;
                 ErrorSolvedToolStripMenuItem.Enabled = true;
-                
+                ModuleMenuToolStripMenuItem.Enabled = true;
+
             }
             else if (objOItem_Selected.GUID_Parent == objLocalConfig.OItem_Type_Process_Log.GUID)
             {
@@ -704,6 +712,7 @@ namespace Change_Module
 
                 NewToolStripMenuItem.Enabled = true;
                 SubProcessToolStripMenuItem.Enabled = true;
+                ModuleMenuToolStripMenuItem.Enabled = true;
             }
             else if (objOItem_Selected.GUID_Parent == objLocalConfig.OItem_Type_Incident.GUID)
             {
@@ -715,6 +724,7 @@ namespace Change_Module
                 ObsoleteToolStripMenuItem.Enabled = true;
 
                 NewToolStripMenuItem.Enabled = true;
+                ModuleMenuToolStripMenuItem.Enabled = true;
             }
         }
 
@@ -782,6 +792,53 @@ namespace Change_Module
             if (objTreeNode != null)
             {
                 Clipboard.SetDataObject(objTreeNode.Text);
+            }
+        }
+
+        private void OpenModuleByArgumentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var treeNode = treeView_ProcessTree.SelectedNode;
+
+            if (treeNode != null)
+            {
+                if (objOItem_Selected != null)
+                {
+                    if (!OpenLastModuleToolStripMenuItem.Checked || string.IsNullOrEmpty(strLastModule))
+                    {
+                        objFrm_Modules = new frmModules(objLocalConfig.Globals);
+                        objFrm_Modules.ShowDialog(this);
+                        if (objFrm_Modules.DialogResult == DialogResult.OK)
+                        {
+                            var strModule = objFrm_Modules.Selected_Module;
+                            if (strModule != null)
+                            {
+                                if (objShellWork.start_Process(strModule, "Item=" + objOItem_Selected.GUID + ",Object",
+                                                               Path.GetDirectoryName(strModule), false, false))
+                                {
+                                    strLastModule = strModule;
+                                    OpenLastModuleToolStripMenuItem.ToolTipText = strLastModule;
+                                }
+                                else
+                                {
+                                    MessageBox.Show(this, "Das Module konnte nicht gestartet werden!", "Fehler!",
+                                                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (!objShellWork.start_Process(strLastModule, "Item=" + objOItem_Selected.GUID + ",Object",
+                                                        Path.GetDirectoryName(strLastModule), false, false))
+                        {
+                            MessageBox.Show(this, "Das Module konnte nicht gestartet werden!", "Fehler!",
+                                                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                        
+                    }
+                }
+
+                
             }
         }
         

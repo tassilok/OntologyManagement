@@ -13,9 +13,18 @@ Public Class clsDataWork_ReportTree
 
     Private objThread_Data_Report As Threading.Thread
 
-    
+    Public Property OItem_Ref As clsOntologyItem = Nothing
+    Private objOList_ReportsOfRefs As List(Of clsOntologyItem)
 
-    Private Sub set_DBConnection()
+    Public Property OList_ReportsOfRef() As List(Of clsOntologyItem)
+        get
+                return objOList_ReportsOfRefs
+        End Get
+        Set(value As List(Of clsOntologyItem))
+            objOList_ReportsOfRefs = value
+        End Set
+    End Property
+        Private Sub set_DBConnection()
         
         objDBLevel_ReportTree = New clsDBLevel(objLocalConfig.Globals)
         
@@ -24,27 +33,41 @@ Public Class clsDataWork_ReportTree
     Public Sub get_SubNodes(ByVal objTreeNode_Root As TreeNode, ByVal intImageID_Report As Integer)
         Dim objTreeNode_Sub As TreeNode
 
-
         objDBLevel_ReportTree.get_Data_Objects_Tree(objLocalConfig.OItem_Class_Reports, _
-                                                    objLocalConfig.OItem_Class_Reports, _
-                                                    objLocalConfig.OItem_RelationType_contains, _
-                                                    False, _
-                                                    False)
+                                                        objLocalConfig.OItem_Class_Reports, _
+                                                        objLocalConfig.OItem_RelationType_contains, _
+                                                        False, _
+                                                        False)
+        If OItem_Ref Is Nothing Then
+            
 
-        Dim oItems_No_Parent = From obj In objDBLevel_ReportTree.OList_Objects
-                                  Group Join objPar In objDBLevel_ReportTree.OList_ObjectTree On obj.GUID Equals objPar.ID_Object Into RightTableResult = Group
-                                  From objPar In RightTableResult.DefaultIfEmpty
-                                  Where objPar Is Nothing
-                                  Select Guid = obj.GUID, Name = obj.Name, GUID_Parent = obj.GUID_Parent
-                                  Order By Name
+            Dim oItems_No_Parent = From obj In objDBLevel_ReportTree.OList_Objects
+                                        Group Join objPar In objDBLevel_ReportTree.OList_ObjectTree On obj.GUID Equals objPar.ID_Object Into RightTableResult = Group
+                                        From objPar In RightTableResult.DefaultIfEmpty
+                                        Where objPar Is Nothing
+                                        Select Guid = obj.GUID, Name = obj.Name, GUID_Parent = obj.GUID_Parent
+                                        Order By Name
 
 
-        For Each objNode In oItems_No_Parent
-            objTreeNode_Sub = objTreeNode_Root.Nodes.Add(objNode.Guid, _
-                                                    objNode.Name, intImageID_Report, intImageID_Report)
+            For Each objNode In oItems_No_Parent
+                objTreeNode_Sub = objTreeNode_Root.Nodes.Add(objNode.Guid, _
+                                                        objNode.Name, intImageID_Report, intImageID_Report)
 
-            getL_SubNodes(objTreeNode_Sub, intImageID_Report)
-        Next
+                getL_SubNodes(objTreeNode_Sub, intImageID_Report)
+            Next    
+
+        Else 
+            Dim oReports = from objReportFilter In OList_ReportsOfRef
+                           Join objReport In objDBLevel_ReportTree.OList_Objects on objReportFilter.GUID equals objReport.GUID
+                           Order By objReport.Name
+                           Select objReport
+                           
+
+            For Each report As clsOntologyItem In oReports
+                objTreeNode_Root.Nodes.Add(report.GUID, report.Name, intImageID_Report, intImageID_Report)
+            Next
+        End If
+        
 
     End Sub
 

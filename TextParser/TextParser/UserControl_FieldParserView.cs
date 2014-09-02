@@ -13,6 +13,7 @@ using Structure_Module;
 using Filesystem_Module;
 using System.IO;
 using System.Text.RegularExpressions;
+using PortListenerForText_Module;
 
 namespace TextParser
 {
@@ -38,11 +39,17 @@ namespace TextParser
 
         private clsDBLevel objDBLevel_Indexes;
 
+        private frmPortListenerForText objFrmPortListenerForText;
+        
+        private TextWriter textWriter;
+        
         private clsFieldParserOfTextParser objFieldParser;
 
         private SortableBindingList<clsField> fieldList;
 
         private DataTable dataTable;
+
+        private long lngLineCount;
 
 
         private int page = 0;
@@ -393,13 +400,18 @@ namespace TextParser
             Parse();
         }
 
-        private void Parse()
+        private void Parse(List<clsFile> fileList = null)
         {
             var fieldList = (SortableBindingList<clsField>)dataGridView_Fields.DataSource;
             if (fieldList.Any())
             {
 
-                objFieldParser = new clsFieldParserOfTextParser(objLocalConfig, fieldList.ToList(), objOItem_TextParser, objDataWork_TextParser.OITem_Type);
+                objFieldParser = new clsFieldParserOfTextParser(objLocalConfig, fieldList.ToList(), objOItem_TextParser, objDataWork_TextParser.OITem_Type, fileList == null);
+
+                if (fileList != null)
+                {
+                    objFieldParser.fileList = fileList;
+                }
                 objFieldParser.OList_Seperator = objDataWork_TextParser.OList_LineSeperator.Select(s => new clsOntologyItem
                 {
                     GUID = s.GUID,
@@ -664,6 +676,114 @@ namespace TextParser
                     GetPage();
                     break;
             }
+        }
+
+        private void toolStripButton_Listen_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (toolStripButton_Listen.Checked)
+            {
+                lngLineCount = 0;
+                toolStripButton_Parse.Enabled = false;
+                var fieldList = (SortableBindingList<clsField>)dataGridView_Fields.DataSource;
+                if (fieldList.Any())
+                {
+
+                    objFieldParser = new clsFieldParserOfTextParser(objLocalConfig, fieldList.ToList(), objOItem_TextParser, objDataWork_TextParser.OITem_Type, false);
+                    objFieldParser.OList_Seperator = objDataWork_TextParser.OList_LineSeperator.Select(s => new clsOntologyItem
+                    {
+                        GUID = s.GUID,
+                        Name = s.Name,
+                        GUID_Parent = objLocalConfig.OItem_class_text_seperators.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    }).ToList();
+
+                    var file = new clsFile();
+                    file.FileName = Environment.ExpandEnvironmentVariables("%TEMP%\\" + objLocalConfig.Globals.NewGUID);
+                    objFieldParser.fileList = new List<clsFile> { file };
+
+                    if (objFieldParser.fileList.Any())
+                    {
+                        try
+                        {
+                            textWriter =
+                                new StreamWriter(new FileStream(objFieldParser.fileList.First().FileName,
+                                                                FileMode.Create));
+                            
+                            objFrmPortListenerForText = new frmPortListenerForText(objLocalConfig.Globals);
+                            objFrmPortListenerForText.textFromStream += objFrmPortListenerForText_textFromStream;
+                            objFrmPortListenerForText.clientClosed += objFrmPortListenerForText_clientClosed;
+                            
+                            objFrmPortListenerForText.Show();
+
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(this, "Beim Öffnen der Datei ist ein Fehler aufgetreten!", "Fehler!",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Information);
+                            toolStripButton_Listen.Checked = false;
+                        }
+
+
+
+                    }
+                    else
+                    {
+                        toolStripButton_Parse.Enabled = true;
+                    }
+
+                }
+                else
+                {
+                    toolStripButton_Parse.Enabled = true;
+                }
+            }
+            else
+            {
+                toolStripButton_Parse.Enabled = true;
+            }
+            
+        }
+
+        void objFrmPortListenerForText_clientClosed()
+        {
+            try
+            {
+                textWriter.Close();
+            }
+            catch (Exception)
+            {
+                
+                
+            }
+            
+            toolStripButton_Listen.Checked = false;
+            Parse(objFieldParser.fileList);
+        }
+
+        void objFrmPortListenerForText_textFromStream(string line)
+        {
+
+            try
+            {
+
+                textWriter.Write(line);
+                lngLineCount++;
+                
+                
+                
+
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+
+        private void toolStripButton_Listen_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

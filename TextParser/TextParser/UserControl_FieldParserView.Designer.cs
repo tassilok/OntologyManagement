@@ -51,6 +51,10 @@
             this.editOItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
             this.dataGridView_IndexView = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip_Index = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.equalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.differentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripComboBox_Indexes = new System.Windows.Forms.ToolStripComboBox();
@@ -67,10 +71,8 @@
             this.toolStripTextBox_Parser = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton_Parse = new System.Windows.Forms.ToolStripButton();
             this.bindingSource_Items = new System.Windows.Forms.BindingSource(this.components);
-            this.contextMenuStrip_Index = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.equalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.differentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton_Listen = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -86,10 +88,10 @@
             this.toolStripContainer2.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_IndexView)).BeginInit();
+            this.contextMenuStrip_Index.SuspendLayout();
             this.toolStrip3.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_Items)).BeginInit();
-            this.contextMenuStrip_Index.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -314,6 +316,37 @@
             this.dataGridView_IndexView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_IndexView_CellMouseDoubleClick);
             this.dataGridView_IndexView.SelectionChanged += new System.EventHandler(this.dataGridView_IndexView_SelectionChanged);
             // 
+            // contextMenuStrip_Index
+            // 
+            this.contextMenuStrip_Index.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.filterToolStripMenuItem});
+            this.contextMenuStrip_Index.Name = "contextMenuStrip_Index";
+            this.contextMenuStrip_Index.Size = new System.Drawing.Size(111, 26);
+            this.contextMenuStrip_Index.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Index_Opening);
+            // 
+            // filterToolStripMenuItem
+            // 
+            this.filterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.equalToolStripMenuItem,
+            this.differentToolStripMenuItem});
+            this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
+            this.filterToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.filterToolStripMenuItem.Text = "x_Filter";
+            // 
+            // equalToolStripMenuItem
+            // 
+            this.equalToolStripMenuItem.Name = "equalToolStripMenuItem";
+            this.equalToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.equalToolStripMenuItem.Text = "x_equal";
+            this.equalToolStripMenuItem.Click += new System.EventHandler(this.equalToolStripMenuItem_Click);
+            // 
+            // differentToolStripMenuItem
+            // 
+            this.differentToolStripMenuItem.Name = "differentToolStripMenuItem";
+            this.differentToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.differentToolStripMenuItem.Text = "x_different";
+            this.differentToolStripMenuItem.Click += new System.EventHandler(this.differentToolStripMenuItem_Click);
+            // 
             // toolStrip3
             // 
             this.toolStrip3.Dock = System.Windows.Forms.DockStyle.None;
@@ -329,7 +362,7 @@
             this.toolStripButton_Import});
             this.toolStrip3.Location = new System.Drawing.Point(3, 0);
             this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(858, 25);
+            this.toolStrip3.Size = new System.Drawing.Size(827, 25);
             this.toolStrip3.TabIndex = 0;
             // 
             // toolStripLabel3
@@ -412,10 +445,12 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this.toolStripTextBox_Parser,
-            this.toolStripButton_Parse});
+            this.toolStripButton_Parse,
+            this.toolStripSeparator5,
+            this.toolStripButton_Listen});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(415, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(504, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripLabel1
@@ -439,36 +474,22 @@
             this.toolStripButton_Parse.Text = "x_Parse";
             this.toolStripButton_Parse.Click += new System.EventHandler(this.toolStripButton_Parse_Click);
             // 
-            // contextMenuStrip_Index
+            // toolStripSeparator5
             // 
-            this.contextMenuStrip_Index.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.filterToolStripMenuItem});
-            this.contextMenuStrip_Index.Name = "contextMenuStrip_Index";
-            this.contextMenuStrip_Index.Size = new System.Drawing.Size(111, 26);
-            this.contextMenuStrip_Index.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Index_Opening);
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
-            // filterToolStripMenuItem
+            // toolStripButton_Listen
             // 
-            this.filterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.equalToolStripMenuItem,
-            this.differentToolStripMenuItem});
-            this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
-            this.filterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.filterToolStripMenuItem.Text = "x_Filter";
-            // 
-            // equalToolStripMenuItem
-            // 
-            this.equalToolStripMenuItem.Name = "equalToolStripMenuItem";
-            this.equalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.equalToolStripMenuItem.Text = "x_equal";
-            this.equalToolStripMenuItem.Click += new System.EventHandler(this.equalToolStripMenuItem_Click);
-            // 
-            // differentToolStripMenuItem
-            // 
-            this.differentToolStripMenuItem.Name = "differentToolStripMenuItem";
-            this.differentToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.differentToolStripMenuItem.Text = "x_different";
-            this.differentToolStripMenuItem.Click += new System.EventHandler(this.differentToolStripMenuItem_Click);
+            this.toolStripButton_Listen.CheckOnClick = true;
+            this.toolStripButton_Listen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Listen.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Listen.Image")));
+            this.toolStripButton_Listen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Listen.Name = "toolStripButton_Listen";
+            this.toolStripButton_Listen.Size = new System.Drawing.Size(52, 22);
+            this.toolStripButton_Listen.Text = "x_Listen";
+            this.toolStripButton_Listen.CheckStateChanged += new System.EventHandler(this.toolStripButton_Listen_CheckStateChanged);
+            this.toolStripButton_Listen.Click += new System.EventHandler(this.toolStripButton_Listen_Click);
             // 
             // UserControl_FieldParserView
             // 
@@ -498,12 +519,12 @@
             this.toolStripContainer2.ResumeLayout(false);
             this.toolStripContainer2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_IndexView)).EndInit();
+            this.contextMenuStrip_Index.ResumeLayout(false);
             this.toolStrip3.ResumeLayout(false);
             this.toolStrip3.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_Items)).EndInit();
-            this.contextMenuStrip_Index.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -551,5 +572,7 @@
         private System.Windows.Forms.ToolStripMenuItem filterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem equalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem differentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripButton toolStripButton_Listen;
     }
 }

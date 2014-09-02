@@ -18,8 +18,19 @@ Public Class clsDataWork_Report
     Private objDBLevel_ClipboardFilter As clsDBLevel
     Private objDBLevel_ClipboardFilterTag As clsDBLevel
     Private objDBLevel_NextLine As clsDBLevel
+    Private objDBLevel_RefOfReport As clsDBLevel
+    Private objDBLevel_OItem As clsDBLevel
 
-    Public ReadOnly Property ClipBoardFilterItems As List(Of clsOntologyItem)
+    Public ReadOnly Property ReportListOfRef As List(Of clsOntologyItem)
+        Get
+            Return objDBLevel_RefOfReport.OList_ObjectRel.Select(Function(ref) New clsOntologyItem With {.GUID = ref.ID_Object,
+                                                                                                         .Name = ref.Name_Object,
+                                                                                                         .GUID_Parent = ref.ID_Parent_Object,
+                                                                                                         .Type = objLocalConfig.Globals.Type_Object}).ToList()
+        End Get
+    End Property
+
+        Public ReadOnly Property ClipBoardFilterItems As List(Of clsOntologyItem)
         Get
             Return objDBLevel_ClipboardFilter.OList_Objects
         End Get
@@ -63,6 +74,20 @@ Public Class clsDataWork_Report
         set_DBConnection()
 
     End Sub
+
+    Public Function GetOItem(GUID_Item As String, Type_Item As String) As clsOntologyItem
+        Return objDBLevel_OItem.GetOItem(GUID_Item, Type_Item)
+    End Function
+
+    Public function GetReferencedReports(OItem As clsOntologyItem) As clsOntologyItem
+        Dim searchReports = new List(Of clsObjectRel) From { New clsObjectRel With { .ID_Other = OItem.GUID,
+                                                                                     .ID_Parent_Object = objLocalConfig.OItem_Class_Reports.GUID,
+                                                                                     .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Resources.GUID} }
+
+        Dim objOItem_Result = objDBLevel_RefOfReport.get_Data_ObjectRel(searchReports, boolIDs := False)
+
+        Return objOItem_Result
+    End Function
 
     Public Sub initialize_Report(ByVal OItem_Report As clsOntologyItem)
         boolReportFinished = False
@@ -494,6 +519,9 @@ Public Class clsDataWork_Report
         objDBLevel_ClipboardFilter = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_ClipboardFilterTag = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_NextLine = New clsDBLevel(objLocalConfig.Globals)
+
+        objDBLevel_RefOfReport = new clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_OItem = new clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class
 

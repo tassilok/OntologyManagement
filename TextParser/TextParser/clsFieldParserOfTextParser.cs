@@ -33,7 +33,7 @@ namespace TextParser
         private int port;
         private string index;
         private string server;
-        private List<clsFile> fileList;
+        public List<clsFile> fileList { get; set; }
 
         private Dictionary<string, object> dictMeta;
         private Dictionary<string, object> dictUser;
@@ -45,12 +45,15 @@ namespace TextParser
 
         private long docCount;
 
-        public clsFieldParserOfTextParser(clsLocalConfig LocalConfig, List<clsField> ParseFieldList, clsOntologyItem OItem_TextParser, clsOntologyItem OITem_Type)
+        private bool createFileList;
+
+        public clsFieldParserOfTextParser(clsLocalConfig LocalConfig, List<clsField> ParseFieldList, clsOntologyItem OItem_TextParser, clsOntologyItem OITem_Type, bool CreateFileList = true)
         {
             objLocalConfig = LocalConfig;
             objOItem_Type = OITem_Type;
             this.ParseFieldList = ParseFieldList;
             objOItem_TextParser = OItem_TextParser;
+            createFileList = CreateFileList;
             if (Initialize().GUID == objLocalConfig.Globals.LState_Error.GUID)
             {
                 throw new Exception("Config-Error");
@@ -93,47 +96,58 @@ namespace TextParser
 
                         if (objDataWork_TextParser.OItem_FileResource != null)
                         {
-                            var objOItem_ResourceType =
+
+                            if (createFileList)
+                            {
+                                var objOItem_ResourceType =
                                 objDataWork_FileResource.GetResourceType(objDataWork_TextParser.OItem_FileResource);
 
-                            if (objOItem_ResourceType.GUID == objDataWork_FileResource.OItem_Class_File.GUID)
-                            {
-                                objOItem_Result = objLocalConfig.Globals.LState_Relation;
-
-                            }
-                            else if (objOItem_ResourceType.GUID == objDataWork_FileResource.OItem_Class_Path.GUID)
-                            {
-                                objDataWork_FileResource_Path.GetData_Attributes(objDataWork_TextParser.OItem_FileResource);
-                                if (objDataWork_FileResource_Path.OItem_Result_Attributes.GUID ==
-                                    objLocalConfig.Globals.LState_Success.GUID)
+                                if (objOItem_ResourceType.GUID == objDataWork_FileResource.OItem_Class_File.GUID)
                                 {
-                                    objDataWork_FileResource_Path.GetData_Relations(objDataWork_TextParser.OItem_FileResource);    
-                                    if (objDataWork_FileResource_Path.OItem_Result_Relations.GUID ==
+                                    objOItem_Result = objLocalConfig.Globals.LState_Relation;
+
+                                }
+                                else if (objOItem_ResourceType.GUID == objDataWork_FileResource.OItem_Class_Path.GUID)
+                                {
+                                    objDataWork_FileResource_Path.GetData_Attributes(objDataWork_TextParser.OItem_FileResource);
+                                    if (objDataWork_FileResource_Path.OItem_Result_Attributes.GUID ==
                                         objLocalConfig.Globals.LState_Success.GUID)
                                     {
-                                        objDataWork_FileResource_Path.GetFiles();
-                                        if (objDataWork_FileResource_Path.OItem_Result_FileResult.GUID ==
+                                        objDataWork_FileResource_Path.GetData_Relations(objDataWork_TextParser.OItem_FileResource);
+                                        if (objDataWork_FileResource_Path.OItem_Result_Relations.GUID ==
                                             objLocalConfig.Globals.LState_Success.GUID)
                                         {
-                                            objAppDBLevel = new clsAppDBLevel(server, port, index.ToLower(),
-                                                                              objLocalConfig.Globals.SearchRange,
-                                                                              objLocalConfig.Globals.Session);
-                                            fileList = objDataWork_FileResource_Path.FileList;
-                                            
+                                            objDataWork_FileResource_Path.GetFiles();
+                                            if (objDataWork_FileResource_Path.OItem_Result_FileResult.GUID ==
+                                                objLocalConfig.Globals.LState_Success.GUID)
+                                            {
+                                                objAppDBLevel = new clsAppDBLevel(server, port, index.ToLower(),
+                                                                                  objLocalConfig.Globals.SearchRange,
+                                                                                  objLocalConfig.Globals.Session);
+                                                fileList = objDataWork_FileResource_Path.FileList;
+
+                                            }
                                         }
                                     }
+
                                 }
-                                
-                            }
-                            else if (objOItem_ResourceType.GUID ==
-                                     objDataWork_FileResource.OItem_Class_WebConnection.GUID)
-                            {
-                                objOItem_Result = objLocalConfig.Globals.LState_Relation;
+                                else if (objOItem_ResourceType.GUID ==
+                                         objDataWork_FileResource.OItem_Class_WebConnection.GUID)
+                                {
+                                    objOItem_Result = objLocalConfig.Globals.LState_Relation;
+                                }
+                                else
+                                {
+                                    objOItem_Result = objLocalConfig.Globals.LState_Error;
+                                }
                             }
                             else
                             {
-                                objOItem_Result = objLocalConfig.Globals.LState_Error;
+                                objAppDBLevel = new clsAppDBLevel(server, port, index.ToLower(),
+                                                                                  objLocalConfig.Globals.SearchRange,
+                                                                                  objLocalConfig.Globals.Session);
                             }
+                            
                         }
                         
                     }

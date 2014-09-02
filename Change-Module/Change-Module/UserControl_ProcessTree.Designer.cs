@@ -46,6 +46,9 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImageList_Main = new System.Windows.Forms.ImageList(this.components);
+            this.ModuleMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenModuleByArgumentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenLastModuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ContextMenuStrip_ProcessTree.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -160,7 +163,8 @@
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyNameToolStripMenuItem});
+            this.copyNameToolStripMenuItem,
+            this.ModuleMenuToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.editToolStripMenuItem.Text = "x_Edit";
@@ -182,6 +186,30 @@
             this.ImageList_Main.Images.SetKeyName(3, "cog_01_w_doc.png");
             this.ImageList_Main.Images.SetKeyName(4, "construction_hammer_jon__01_w_doc.png");
             this.ImageList_Main.Images.SetKeyName(5, "bb_home_.png");
+            // 
+            // ModuleMenuToolStripMenuItem
+            // 
+            this.ModuleMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenModuleByArgumentToolStripMenuItem});
+            this.ModuleMenuToolStripMenuItem.Name = "ModuleMenuToolStripMenuItem";
+            this.ModuleMenuToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.ModuleMenuToolStripMenuItem.Text = "x_Module-Menu";
+            // 
+            // OpenModuleByArgumentToolStripMenuItem
+            // 
+            this.OpenModuleByArgumentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenLastModuleToolStripMenuItem});
+            this.OpenModuleByArgumentToolStripMenuItem.Name = "OpenModuleByArgumentToolStripMenuItem";
+            this.OpenModuleByArgumentToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.OpenModuleByArgumentToolStripMenuItem.Text = "x_Open Module by Argument";
+            this.OpenModuleByArgumentToolStripMenuItem.Click += new System.EventHandler(this.OpenModuleByArgumentToolStripMenuItem_Click);
+            // 
+            // OpenLastModuleToolStripMenuItem
+            // 
+            this.OpenLastModuleToolStripMenuItem.CheckOnClick = true;
+            this.OpenLastModuleToolStripMenuItem.Name = "OpenLastModuleToolStripMenuItem";
+            this.OpenLastModuleToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.OpenLastModuleToolStripMenuItem.Text = "x_Open Last Module";
             // 
             // UserControl_ProcessTree
             // 
@@ -213,5 +241,8 @@
         internal System.Windows.Forms.ToolStripMenuItem SubTicketToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyNameToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem ModuleMenuToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem OpenModuleByArgumentToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem OpenLastModuleToolStripMenuItem;
     }
 }
