@@ -115,24 +115,33 @@ namespace Localization_Module
 
         private void ConfigureGuiLanguage()
         {
-            Text = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name, this.Name, CultureInfo.CurrentCulture
+            var caption = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name, this.Name, CultureInfo.CurrentCulture
                                                                                                       .TwoLetterISOLanguageName);
-            hilfeToolStripMenuItem.Text = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name,
+            Text = caption != "" ? caption : Text;
+
+
+            caption = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name,
                                                                                             this.hilfeToolStripMenuItem
                                                                                                 .Name,
                                                                                             CultureInfo.CurrentCulture
                                                                                                        .TwoLetterISOLanguageName);
+            hilfeToolStripMenuItem.Text = caption != "" ? caption : hilfeToolStripMenuItem.Text;
 
-            infoToolStripMenuItem.Text = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name,
+
+            caption = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name,
                                                                                            this.infoToolStripMenuItem
                                                                                                .Name,
                                                                                            CultureInfo.CurrentCulture
                                                                                                       .TwoLetterISOLanguageName);
+            infoToolStripMenuItem.Text = caption != "" ? caption : infoToolStripMenuItem.Text;
 
-            toolStripButton_Close.Text = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name,
+
+            caption = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name,
                                                                                            this.toolStripButton_Close.Name,
                                                                                            CultureInfo.CurrentCulture
                                                                                                       .TwoLetterISOLanguageName);
+
+            toolStripButton_Close.Text = caption != "" ? caption : toolStripButton_Close.Text;
         }
 
         private void objUserControl_RefTree_selected_Node(clsOntologyItem OItem_Selected)

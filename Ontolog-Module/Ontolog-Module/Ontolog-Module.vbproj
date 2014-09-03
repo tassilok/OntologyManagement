@@ -142,6 +142,7 @@
     <Compile Include="Classes\clsAppDBLevel.vb" />
     <Compile Include="Classes\clsArgumentParsing.vb" />
     <Compile Include="Classes\clsFilter.vb" />
+    <Compile Include="Classes\clsLocalizeGui.vb" />
     <Compile Include="Classes\clsModuleForCommandLine.vb" />
     <Compile Include="Classes\clsModuleFunction.vb" />
     <Compile Include="Classes\clsRelationConfig.vb" />
@@ -407,7 +408,7 @@
     <Compile Include="Forms\UserControl_Replace.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="IGuiLocalization.vb" />
+    <Compile Include="Classes\IGuiLocalization.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -741,6 +742,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Config\Templates\Objects.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Config\Templates\RelationTypes.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

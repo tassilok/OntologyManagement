@@ -122,13 +122,17 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Config\Templates\AttributeTypes.xml" />
+    <EmbeddedResource Include="Config\Templates\AttributeTypes.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Config\Templates\ClassAtts.xml" />
     <EmbeddedResource Include="Config\Templates\Classes.xml" />
     <EmbeddedResource Include="Config\Templates\ClassRels.xml" />
     <EmbeddedResource Include="Config\Templates\ObjectAtt.xml" />
     <EmbeddedResource Include="Config\Templates\ObjectRel.xml" />
-    <EmbeddedResource Include="Config\Templates\Objects.xml" />
+    <EmbeddedResource Include="Config\Templates\Objects.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Config\Templates\RelationTypes.xml" />
   </ItemGroup>
   <ItemGroup />
