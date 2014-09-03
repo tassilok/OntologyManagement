@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +43,7 @@ namespace Localization_Module
             SplashScreen.Refresh();
 
             objLocalConfig = new clsLocalConfig(new clsGlobals());
+            objLocalConfig.GuiLocalization = new clsLocalizeGui(objLocalConfig);
             ParseArguments();
             initialize();
         }
@@ -108,6 +110,29 @@ namespace Localization_Module
 
             }
             
+            ConfigureGuiLanguage();
+        }
+
+        private void ConfigureGuiLanguage()
+        {
+            Text = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name, this.Name, CultureInfo.CurrentCulture
+                                                                                                      .TwoLetterISOLanguageName);
+            hilfeToolStripMenuItem.Text = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name,
+                                                                                            this.hilfeToolStripMenuItem
+                                                                                                .Name,
+                                                                                            CultureInfo.CurrentCulture
+                                                                                                       .TwoLetterISOLanguageName);
+
+            infoToolStripMenuItem.Text = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name,
+                                                                                           this.infoToolStripMenuItem
+                                                                                               .Name,
+                                                                                           CultureInfo.CurrentCulture
+                                                                                                      .TwoLetterISOLanguageName);
+
+            toolStripButton_Close.Text = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name,
+                                                                                           this.toolStripButton_Close.Name,
+                                                                                           CultureInfo.CurrentCulture
+                                                                                                      .TwoLetterISOLanguageName);
         }
 
         private void objUserControl_RefTree_selected_Node(clsOntologyItem OItem_Selected)

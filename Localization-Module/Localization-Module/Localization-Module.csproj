@@ -50,6 +50,7 @@
     <Compile Include="clsDataWork_Localization.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="clsLocalizationDetail.cs" />
+    <Compile Include="clsLocalizeGui.cs" />
     <Compile Include="frmLocalizationModule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,6 +63,7 @@
     <Compile Include="frmLocalizingModuleSingle.Designer.cs">
       <DependentUpon>frmLocalizingModuleSingle.cs</DependentUpon>
     </Compile>
+    <Compile Include="IGuiLocalization.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControl_LocalizationDetails.cs">

@@ -51,7 +51,7 @@ Public Class frmOntologyConfigurator
     End Sub
 
     Private Sub selected_Ontology(OItem_OntologyItem As clsOntologyItem) Handles objUserControl_OntologyTree.selected_Ontology
-        objUserControl_OntologyItemList.initialize_List(OItem_OntologyItem)
+        objUserControl_OntologyItemList.initialize_List(New List(Of clsOntologyItem) From {OItem_OntologyItem}, OItem_OntologyItem)
         objUserControl_OntologyJoins.initialize_Joins(OItem_OntologyItem)
     End Sub
 

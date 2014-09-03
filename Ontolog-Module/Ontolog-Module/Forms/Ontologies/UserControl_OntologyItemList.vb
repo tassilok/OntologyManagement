@@ -7,9 +7,10 @@ Public Class UserControl_OntologyItemList
     Private objFrm_Clipboard As frmClipboard
     Private objTransaction As clsTransaction
     Private objRelationConfig As clsRelationConfig
-    Private objOItem_Ontology As clsOntologyItem
+    Private objOList_Ontologies As List(Of clsOntologyItem)
 
     Private objOList_OntologyItems As SortableBindingList(Of clsOntologyItemsOfOntologies)
+    Private OItem_Ontology_Main As clsOntologyItem
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
 
@@ -85,19 +86,21 @@ Public Class UserControl_OntologyItemList
         objRelationConfig = New clsRelationConfig(objDataWork_Ontologies.LocalConfig.Globals)
     End Sub
 
-    Public Sub initialize_List(OItem_Ontology As clsOntologyItem)
-        objOItem_Ontology = OItem_Ontology
-        If Not OItem_Ontology Is Nothing Then
+    Public Sub initialize_List(OList_Ontologies As List(Of clsOntologyItem), OItem_Ontology_Main As clsOntologyItem)
+        me.OItem_Ontology_Main = OItem_Ontology_Main
+        objOList_Ontologies = OList_Ontologies
+        If Not OList_Ontologies Is Nothing Then
             objOList_OntologyItems = New SortableBindingList(Of clsOntologyItemsOfOntologies)((From objOntology In objDataWork_Ontologies.OList_RefsOfOntologyItems
-                           Where objOntology.ID_Ontology = OItem_Ontology.GUID).ToList())
+                           Join objOntologySearch In OList_Ontologies on objOntology.ID_Ontology equals objOntologySearch.GUID
+                           Select objOntology).ToList())
 
 
             DataGridView_OItems.DataSource = objOList_OntologyItems
             DataGridView_OItems.Columns(0).Visible = False
-            DataGridView_OItems.Columns(1).Visible = False
-            DataGridView_OItems.Columns(3).Visible = False
-            DataGridView_OItems.Columns(5).Visible = False
-            DataGridView_OItems.Columns(7).Visible = False
+            DataGridView_OItems.Columns(2).Visible = False
+            DataGridView_OItems.Columns(4).Visible = False
+            DataGridView_OItems.Columns(6).Visible = False
+            DataGridView_OItems.Columns(8).Visible = False
             
             
         Else
@@ -122,7 +125,7 @@ Public Class UserControl_OntologyItemList
             RemoveToolStripMenuItem.Enabled = True
         End If
 
-        If Not objOItem_Ontology Is Nothing Then
+        If Not OList_OntologyItems Is Nothing Then
             AddToolStripMenuItem.Enabled = True
         End If
     End Sub
@@ -158,7 +161,7 @@ Public Class UserControl_OntologyItemList
 
                             End While
                             If objDataWork_Ontologies.OItem_OntologyRelationRulesOfOItems.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                                initialize_List(objOItem_Ontology)
+                                initialize_List(objOList_Ontologies, OItem_Ontology_Main)
                             Else 
                                 MsgBox("Die Regel konnte nicht ausgelesen werden!",MsgBoxStyle.Exclamation)
                             End If
@@ -214,9 +217,18 @@ Public Class UserControl_OntologyItemList
             Dim intDone = 0
 
             For Each objOItem In objOList_Simple
-                Dim objOItem_OItem = objDataWork_Ontologies.Get_OntologyItemOfOntology(objOItem_Ontology, objOItem)
-                If objOItem_OItem Is Nothing Then
-                    objOItem_OItem = New clsOntologyItem With {.GUID = objDataWork_Ontologies.LocalConfig.Globals.NewGUID, _
+                Dim oList_OntologyItems_Search As New List(Of clsOntologyItem)
+                
+                For Each objOntology As clsOntologyItem In objOList_Ontologies
+                    Dim oItem_OItem =  objDataWork_Ontologies.Get_OntologyItemOfOntology(objOntology, objOItem)        
+                    If Not oItem_OItem Is Nothing Then
+                        oList_OntologyItems_Search.Add(oItem_OItem)
+                        
+                    End If
+                Next
+                
+                If Not oList_OntologyItems_Search.Any() Then
+                    Dim objOItem_OItem = New clsOntologyItem With {.GUID = objDataWork_Ontologies.LocalConfig.Globals.NewGUID, _
                                                               .Name = objOItem.Name, _
                                                               .GUID_Parent = objDataWork_Ontologies.LocalConfig.Globals.Class_OntologyItems.GUID, _
                                                               .Type = objDataWork_Ontologies.LocalConfig.Globals.Type_Object}
@@ -234,12 +246,12 @@ Public Class UserControl_OntologyItemList
 
                             objOItem_Result = objTransaction.do_Transaction(objRel_OntologyItemToRef, True)
                             If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                                Dim objORel_OntologyItem_To_Ontology = objRelationConfig.Rel_ObjectRelation(objOItem_Ontology, objOItem_OItem, objDataWork_Ontologies.objLocalConfig.Globals.RelationType_contains)
+                                Dim objORel_OntologyItem_To_Ontology = objRelationConfig.Rel_ObjectRelation(OItem_Ontology_Main, objOItem_OItem, objDataWork_Ontologies.objLocalConfig.Globals.RelationType_contains)
 
                                 objOItem_Result = objTransaction.do_Transaction(objORel_OntologyItem_To_Ontology)
 
                                 If objOItem_Result.GUID = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                                    objDataWork_Ontologies.OList_RefsOfOntologyItems.Add(New clsOntologyItemsOfOntologies With {.ID_Ontology = objOItem_Ontology.GUID, _
+                                    objDataWork_Ontologies.OList_RefsOfOntologyItems.Add(New clsOntologyItemsOfOntologies With {.ID_Ontology = OItem_Ontology_Main.GUID, _
                                                                                                                                 .ID_OntologyItem = objOItem_OItem.GUID, _
                                                                                                                                 .Name_OntologyItem = objOItem_OItem.Name, _
                                                                                                                                 .ID_Parent_Ref = objOItem.GUID_Parent, _
@@ -247,7 +259,7 @@ Public Class UserControl_OntologyItemList
                                                                                                                                 .Name_Ref = objOItem.Name, _
                                                                                                                                 .Type_Ref = objOItem.Type})
 
-                                    initialize_List(objOItem_Ontology)
+                                    initialize_List(objOList_Ontologies, OItem_Ontology_Main)
                                 Else
                                     objTransaction.rollback()
                                 End If
@@ -264,7 +276,7 @@ Public Class UserControl_OntologyItemList
 
 
                 Else
-                    If objOItem_OItem.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                    If oList_OntologyItems_Search.All(Function(oi) oi.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID) Then
                         intDone += 1
                     End If
                 End If

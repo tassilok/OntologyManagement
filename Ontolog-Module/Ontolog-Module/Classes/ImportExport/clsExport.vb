@@ -38,7 +38,7 @@ End Enum
     Private objDataWork_Ontologies As clsDataWork_Ontologies
     Private objDataWork_OntologyRels As clsDataWork_OntologyRels
 
-        Private objOItem_Ontology As clsOntologyItem
+        Private objOList_Ontologies As List(Of clsOntologyItem)
 
     Public Property OList_Objects As New List(Of clsOntologyItem)
     Public Property OList_Classes As New List(Of clsOntologyItem)
@@ -126,7 +126,7 @@ End Enum
 
         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
 
-            If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID).Any Then
+            If objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = OItem_Ontology.GUID).Any Then
                 OList_Objects.Add(OItem_Ontology)
                 OList_Classes.Add(objGlobals.Class_Ontologies)
                 OList_Classes.Add(objGlobals.Class_OntologyItems)
@@ -142,7 +142,7 @@ End Enum
                 OList_RelationTypes.Add(objGlobals.RelationType_belongingRelationType)
                 OList_RelationTypes.Add(objGlobals.RelationType_belongingAttribute)
 
-                Dim objOList_OItems_AttributeTypes = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType).ToList
+                Dim objOList_OItems_AttributeTypes = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = OItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType).ToList
                 For Each objOItem_AttributeType In objOList_OItems_AttributeTypes
                     OList_Objects.Add(New clsOntologyItem With {.GUID = objOItem_AttributeType.ID_OntologyItem, _
                                                                    .Name = objOItem_AttributeType.Name_OntologyItem, _
@@ -151,7 +151,7 @@ End Enum
 
                 Next
 
-                Dim objOList_OItems_RelationTypes = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType).ToList
+                Dim objOList_OItems_RelationTypes = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = OItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_RelationType).ToList
 
                 For Each objOItem_RelationType In objOList_OItems_RelationTypes
                     OList_Objects.Add(New clsOntologyItem With {.GUID = objOItem_RelationType.ID_OntologyItem, _
@@ -161,7 +161,7 @@ End Enum
 
                 Next
 
-                Dim objOList_OItems_Classes = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Class).ToList
+                Dim objOList_OItems_Classes = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = OItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Class).ToList
 
                 For Each objOItem_Class In objOList_OItems_Classes
                     OList_Objects.Add(New clsOntologyItem With {.GUID = objOItem_Class.ID_OntologyItem, _
@@ -171,7 +171,7 @@ End Enum
 
                 Next
 
-                Dim objOList_OItems_Objects = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = objOItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Object).ToList
+                Dim objOList_OItems_Objects = objDataWork_Ontologies.OList_RefsOfOntologyItems.Where(Function(p) p.ID_Ontology = OItem_Ontology.GUID And p.Type_Ref = objDataWork_Ontologies.LocalConfig.Globals.Type_Object).ToList
 
                 For Each objOItem_Object In objOList_OItems_Objects
                     OList_Objects.Add(New clsOntologyItem With {.GUID = objOItem_Object.ID_OntologyItem, _
@@ -181,7 +181,7 @@ End Enum
 
                 Next
 
-                For Each objOntologyJoin In objDataWork_Ontologies.OList_JoinsOfOntologies.Where(Function(p) p.ID_Object = objOItem_Ontology.GUID).ToList
+                For Each objOntologyJoin In objDataWork_Ontologies.OList_JoinsOfOntologies.Where(Function(p) p.ID_Object = OItem_Ontology.GUID).ToList
                     OList_Objects.Add(New clsOntologyItem With {.GUID = objOntologyJoin.ID_Other, _
                                                                    .Name = objOntologyJoin.Name_Other, _
                                                                    .GUID_Parent = objOntologyJoin.ID_Parent_Other, _
@@ -323,11 +323,11 @@ End Enum
         Return objOItem_Result
     End Function
 
-    Public Function Export_Ontology(OItem_Ontology As clsOntologyItem, strPathDst As String, mode As ModeEnum, Optional objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String) = Nothing, Optional boolOntology As Boolean = False) As clsOntologyItem
+    Public Function Export_Ontology(OList_Ontologies As List(Of clsOntologyItem), strPathDst As String, mode As ModeEnum, Optional objDict_XMLTemplates As Dictionary(Of XMLTemplateEnum, String) = Nothing, Optional boolOntology As Boolean = False) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem = objDataWork_Ontologies.LocalConfig.Globals.LState_Error.Clone()
 
 
-        objOItem_Ontology = OItem_Ontology
+        objOList_Ontologies = OList_Ontologies
 
         Me.strPathDst = strPathDst
         strFiles = New List(Of String)
@@ -374,10 +374,16 @@ End Enum
 
                 If mode.HasFlag(ModeEnum.OntologyStructures) Then
                     'Get Elements of Ontology-Classes
-                    objOItem_Result = Export_OntologyStructures(OItem_Ontology, strPathDst, objDict_XMLTemplates)
+                    For Each OItem_Ontology As clsOntologyItem In OList_Ontologies
+                        objOItem_Result = Export_OntologyStructures(OItem_Ontology, strPathDst, objDict_XMLTemplates)    
+                    Next
+                    
                 End If
 
-                objOItem_Result = Generate_OLists(objOItem_Ontology, mode)
+                For Each objOItem_Ontology As clsOntologyItem In OList_Ontologies
+                    objOItem_Result = Generate_OLists(objOItem_Ontology, mode)
+                Next
+                
 
                 objOItem_Result = If(objOItem_Result.GUID = objGlobals.LState_Nothing.GUID, objGlobals.LState_Success.Clone(), objOItem_Result)
 

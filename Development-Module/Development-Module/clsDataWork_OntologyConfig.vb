@@ -10,7 +10,8 @@ Public Class clsDataWork_OntologyConfig
 
     Public Property OItem_Development As clsOntologyItem
 
-    Public Property OItem_Ontology() As clsOntologyItem
+    Public Property OItem_Ontology_Main As clsOntologyItem
+    Public Property OList_Ontologies() As List(Of clsOntologyItem)
 
 
 
@@ -36,12 +37,16 @@ Public Class clsDataWork_OntologyConfig
                         If objDataWork_Ontology.OItem_Result_RefsOfOntologyItems.GUID = objLocalConfig.Globals.LState_Success.GUID Then
 
 
-                            Dim objOntologies = objDataWork_Ontology.OList_RefsOfOntologies.Where(Function(p) p.ID_Other = OItem_Development.GUID).ToList()
+                            Dim objOntologies = objDataWork_Ontology.OList_RefsOfOntologies.OrderBy(Function(o) o.OrderID).Where(Function(p) p.ID_Other = OItem_Development.GUID).Select(Function(o) New clsOntologyItem With {.GUID = o.ID_Object, _
+                                                                           .Name = o.Name_Object, _
+                                                                           .GUID_Parent = o.ID_Parent_Object,
+                                                                           .Type = objLocalConfig.Globals.Type_Object
+                                                                                                                                                              }).ToList()
+
+
                             If objOntologies.Any() Then
-                                OItem_Ontology = New clsOntologyItem With {.GUID = objOntologies.First().ID_Object, _
-                                                                           .Name = objOntologies.First().Name_Object, _
-                                                                           .GUID_Parent = objOntologies.First().ID_Parent_Object,
-                                                                           .Type = objLocalConfig.Globals.Type_Object}
+                                OItem_Ontology_Main = objOntologies.First()
+                                OList_Ontologies = objOntologies
                             Else
                                 objOItem_Result = objLocalConfig.Globals.LState_Nothing().Clone()
                             End If
@@ -72,7 +77,7 @@ Public Class clsDataWork_OntologyConfig
 
     Public Sub GetData_OntologyOfDevelopment()
         OItem_Result_OntologyOfDevelopment = objLocalConfig.Globals.LState_Nothing
-        OItem_Ontology = Nothing
+        OList_Ontologies = Nothing
         Dim objOLRel_Ontology_To_Development = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Other = OItem_Development.GUID, _
                                                                                                      .ID_Parent_Object = objLocalConfig.Globals.Class_Ontologies.GUID, _
                                                                                                      .ID_RelationType = objLocalConfig.OItem_RelationType_belongingResource.GUID}}
@@ -80,10 +85,10 @@ Public Class clsDataWork_OntologyConfig
                                                                      boolIDs:=False)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             If objDBLevel_Ontology.OList_ObjectRel.Any() Then
-                OItem_Ontology = New clsOntologyItem With {.GUID = objDBLevel_Ontology.OList_ObjectRel.First().ID_Object, _
-                                                           .Name = objDBLevel_Ontology.OList_ObjectRel.First().Name_Object, _
-                                                           .GUID_Parent = objDBLevel_Ontology.OList_ObjectRel.First().ID_Parent_Object, _
-                                                           .Type = objLocalConfig.Globals.Type_Object}
+                OList_Ontologies = objDBLevel_Ontology.OList_ObjectRel.Select(Function(ontology) New clsOntologyItem With {.GUID = ontology.ID_Object, _
+                                                           .Name = ontology.Name_Object, _
+                                                           .GUID_Parent = ontology.ID_Parent_Object, _
+                                                           .Type = objLocalConfig.Globals.Type_Object}).ToList()
 
 
             End If

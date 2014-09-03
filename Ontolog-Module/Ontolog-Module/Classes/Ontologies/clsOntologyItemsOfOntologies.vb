@@ -1,5 +1,6 @@
 ﻿Public Class clsOntologyItemsOfOntologies
     Public property ID_Ontology As String
+    Public Property Name_Ontology As String
     Public Property ID_OntologyItem As String
     Public Property Name_OntologyItem As String
     Public Property ID_Ref As String

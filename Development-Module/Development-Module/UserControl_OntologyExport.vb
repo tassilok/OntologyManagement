@@ -69,7 +69,6 @@ Public Class UserControl_OntologyExport
             DataGridView_Exports.Columns(2).Visible = False
             DataGridView_Exports.Columns(3).Visible = False
             DataGridView_Exports.Columns(4).Visible = False
-            DataGridView_Exports.Columns(6).Visible = False
 
             DataGridView_Files.DataSource = oList_OntologyFiles
             DataGridView_Files.Columns(0).Visible = False
@@ -150,7 +149,7 @@ Public Class UserControl_OntologyExport
             Dim objOItem_Result = GetOntologyStructuresOfBaseConfig()
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
 
-                objOItem_Result = objExport.Export_Ontology(objDataWork_OntologyConfig.OItem_Ontology, strPath, ModeEnum.AllRelations Or ModeEnum.ClassParents Or ModeEnum.OntologyStructures, Nothing, True)
+                objOItem_Result = objExport.Export_Ontology(objDataWork_OntologyConfig.OList_Ontologies, strPath, ModeEnum.AllRelations Or ModeEnum.ClassParents Or ModeEnum.OntologyStructures, Nothing, True)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     Dim strFiles = objExport.Files
                     If strFiles.Any Then
@@ -183,13 +182,27 @@ Public Class UserControl_OntologyExport
                                 End If
                             Next
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                Dim objORel_OntologyExport_To_Ontology = objDataWork_Export.Rel_OntologyExport_To_Ontology(objOItem_OntologyExport, objDataWork_OntologyConfig.OItem_Ontology)
-                                objOItem_Result = objTransaction.do_Transaction(objORel_OntologyExport_To_Ontology)
-                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                    Dim objORel_OntologyExport_To_Version = objDataWork_Export.Rel_OntologyExport_To_Version(objOItem_OntologyExport, objDataWork_Details.OItem_Version)
-                                    objOItem_Result = objTransaction.do_Transaction(objORel_OntologyExport_To_Version)
+                                For Each objOItem_Ontology In objDataWork_OntologyConfig.OList_Ontologies
+                                    Dim objORel_OntologyExport_To_Ontology = objDataWork_Export.Rel_OntologyExport_To_Ontology(objOItem_OntologyExport, objOItem_Ontology)
+                                    objOItem_Result = objTransaction.do_Transaction(objORel_OntologyExport_To_Ontology)
                                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                        initialize_OntologyExport(objOItem_Development)
+                                        Dim objORel_OntologyExport_To_Version = objDataWork_Export.Rel_OntologyExport_To_Version(objOItem_OntologyExport, objDataWork_Details.OItem_Version)
+                                        objOItem_Result = objTransaction.do_Transaction(objORel_OntologyExport_To_Version)
+                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                            initialize_OntologyExport(objOItem_Development)
+                                        Else
+                                            For Each objOItem_File In objOItem_Files
+                                                objOItem_Result = objBlobConnection.del_Blob(objOItem_File)
+                                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                                    Exit For
+                                                End If
+                                            Next
+
+                                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                                objTransaction.rollback()
+                                                MsgBox("Beim Speichern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
+                                            End If
+                                        End If
                                     Else
                                         For Each objOItem_File In objOItem_Files
                                             objOItem_Result = objBlobConnection.del_Blob(objOItem_File)
@@ -197,25 +210,16 @@ Public Class UserControl_OntologyExport
                                                 Exit For
                                             End If
                                         Next
+                                        
 
                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                             objTransaction.rollback()
                                             MsgBox("Beim Speichern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
                                         End If
-                                    End If
-                                Else
-                                    For Each objOItem_File In objOItem_Files
-                                        objOItem_Result = objBlobConnection.del_Blob(objOItem_File)
-                                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
-                                            Exit For
-                                        End If
-                                    Next
-
-                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                        objTransaction.rollback()
-                                        MsgBox("Beim Speichern ist ein Fehler unterlaufen!", MsgBoxStyle.Exclamation)
-                                    End If
-                                End If
+                                        Exit For
+                                    End If    
+                                Next
+                                
                             Else
 
                                 For Each objOItem_File In objOItem_Files

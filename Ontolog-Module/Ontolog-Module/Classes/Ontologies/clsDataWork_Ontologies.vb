@@ -401,6 +401,7 @@ Public Class clsDataWork_Ontologies
                                                    Select New clsOntologyItemsOfOntologies With
                                                           {
                                                               .ID_Ontology = objOntologyAndItems.ID_Object,
+                                                              .Name_Ontology = objOntologyAndItems.Name_Object,
                                                               .ID_OntologyItem = objOntologyAndItems.ID_Other,
                                                               .Name_OntologyItem = objOntologyAndItems.Name_Other,
                                                               .ID_OntologyRelationRule = If(Not objRelRule Is Nothing, objRelRule.ID_Other, Nothing),
@@ -1191,6 +1192,7 @@ Public Class clsDataWork_Ontologies
                                      From objRule In objRules.DefaultIfEmpty() _
                                      Join objOntologies In objDBLevel_OntologyJoinsOfOntologies.OList_ObjectRel_ID On objOntologyItems.ID_Object Equals objOntologies.ID_Other
                                      Group By ID_Ontology = objOntologies.ID_Object, _
+                                              Name_Ontology = objOntologies.Name_Object, _
                                               ID_Ref = objRef.ID_Other, _
                                               Name_Ref = objRef.Name_Other, _
                                               ID_Parent_Ref = objRef.ID_Parent_Other, _
@@ -1200,6 +1202,7 @@ Public Class clsDataWork_Ontologies
                                               ID_Rule = If(objRule Is Nothing, Nothing, objRule.ID_Other), _
                                               Name_Rule = If(objRule Is Nothing, Nothing, objRule.Name_Other) Into Group
                                     Select New clsOntologyItemsOfOntologies With {.ID_Ontology = ID_Ontology, _
+                                                                                  .Name_Ontology = Name_Ontology, _
                                                                      .ID_OntologyItem = ID_OntologyItem, _
                                                                      .Name_OntologyItem = Name_OntologyItem, _
                                                                      .ID_OntologyRelationRule = ID_Rule, _
@@ -1218,6 +1221,7 @@ Public Class clsDataWork_Ontologies
                                              objRef.ID_RelationType = objRelationTypes.OItem_RelationType_belongingObject.GUID Or _
                                              objRef.ID_RelationType = objRelationTypes.OItem_RelationType_belongingRelationType.GUID
                                      Group By ID_Ontology = objOntologyItems.ID_Object, _
+                                              Name_Ontology = objOntologyItems.Name_Object, _
                                               ID_Ref = objRef.ID_Other, _
                                               Name_Ref = objRef.Name_Other, _
                                               ID_Parent_Ref = objRef.ID_Parent_Other, _
@@ -1227,6 +1231,7 @@ Public Class clsDataWork_Ontologies
                                               ID_Rule = If(objRule Is Nothing, Nothing, objRule.ID_Other), _
                                               Name_Rule = If(objRule Is Nothing, Nothing, objRule.Name_Other) Into Group
                                     Select New clsOntologyItemsOfOntologies With {.ID_Ontology = ID_Ontology, _
+                                                                                  .Name_Ontology = Name_Ontology, _
                                                                      .ID_OntologyItem = ID_OntologyItem, _
                                                                      .Name_OntologyItem = Name_OntologyItem, _
                                                                      .ID_OntologyRelationRule = ID_Rule, _

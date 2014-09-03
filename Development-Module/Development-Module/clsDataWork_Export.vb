@@ -56,32 +56,26 @@ Public Class clsDataWork_Export
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             
-            objOList_OntologyExports = New SortableBindingList(Of clsOntologyExport) _
-                ( _
-                   (From objDevelopment In objDBLevel_ORels.OList_ObjectRel.Where(Function(p) p.ID_Parent_Other = objLocalConfig.OItem_Class_SoftwareDevelopment.GUID) _
+            objOList_OntologyExports = New SortableBindingList(Of clsOntologyExport) (( _
+                   From objExport in (From objDevelopment In objDBLevel_ORels.OList_ObjectRel.Where(Function(p) p.ID_Parent_Other = objLocalConfig.OItem_Class_SoftwareDevelopment.GUID) _
                    Join objOntology In objDBLevel_ORels.OList_ObjectRel.Where(Function(p) p.ID_Parent_Object = objLocalConfig.Globals.Class_Ontologies.GUID) On objDevelopment.ID_Object Equals objOntology.ID_Object _
                    Join objOntologyExport In objDBLevel_ORels.OList_ObjectRel.Where(Function(p) p.ID_Parent_Object = objLocalConfig.OItem_type_ontology_export.GUID) On objOntology.ID_Object Equals objOntologyExport.ID_Other _
                    Join objDevelopmentVersion In objDBLevel_ORels.OList_ObjectRel.Where(Function(p) p.ID_Parent_Other = objLocalConfig.OItem_Class_DevelopmentVersion.GUID) On objDevelopmentVersion.ID_Object Equals objOntologyExport.ID_Object
                    Select objDevelopment, _
-                          objOntology, _
                           objOntologyExport, _
-                          objDevelopmentVersion).GroupBy(Function(p) New With {.ID_Development = p.objDevelopment.ID_Other, _
-                                                      .Name_Development = p.objDevelopment.Name_Other, _
-                                                      .ID_OntologyExport = p.objOntologyExport.ID_Object, _
-                                                      .Name_OntologyExport = p.objOntologyExport.Name_Object, _
-                                                      .ID_Ontology = p.objOntology.ID_Object, _
-                                                      .Name_Ontology = p.objOntology.Name_Object, _
-                                                      .ID_DevelopmentVersion = p.objDevelopmentVersion.ID_Other, _
-                                                      .Name_DevelopmentVersion = p.objDevelopmentVersion.Name_Other}). _
-                                              Select(Function(p) New clsOntologyExport With {.ID_Development = p.Key.ID_Development, _
-                                                      .Name_Development = p.Key.Name_Development, _
-                                                      .ID_OntologyExport = p.Key.ID_OntologyExport, _
-                                                      .Name_OntologyExport = p.Key.Name_OntologyExport, _
-                                                      .ID_Ontology = p.Key.ID_Ontology, _
-                                                      .Name_Ontology = p.Key.Name_Ontology, _
-                                                      .ID_DevelopmentVersion = p.Key.ID_DevelopmentVersion, _
-                                                      .Name_DevelopmentVersion = p.Key.Name_DevelopmentVersion})
-                )
+                          objOntology, _
+                          objDevelopmentVersion).ToList()
+                   Group By ID_Development = objExport.objDevelopment.ID_Other, _
+                                                      Name_Development = objExport.objDevelopment.Name_Other, _
+                                                      ID_OntologyExport = objExport.objOntologyExport.ID_Object, _
+                                                      Name_OntologyExport = objExport.objOntologyExport.Name_Object, _
+                                                      ID_DevelopmentVersion = objExport.objDevelopmentVersion.ID_Other, _
+                                                      Name_DevelopmentVersion = objExport.objDevelopmentVersion.Name_Other Into objExports = Group).Select(Function(oe) New clsOntologyExport With {.ID_Development = oe.ID_Development, _
+                                                      .Name_Development = oe.Name_Development, _
+                                                      .ID_OntologyExport = oe.ID_OntologyExport, _
+                                                      .Name_OntologyExport = oe.Name_OntologyExport, _
+                                                      .ID_DevelopmentVersion = oe.ID_DevelopmentVersion, _
+                                                      .Name_DevelopmentVersion = oe.Name_DevelopmentVersion}))
 
             objOList_Files = new SortableBindingList(Of clsOntologyFiles)( _
                   from objOntologyExport In objOList_OntologyExports

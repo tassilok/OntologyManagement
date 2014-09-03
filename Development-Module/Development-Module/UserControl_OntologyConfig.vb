@@ -45,7 +45,7 @@ Public Class UserControl_OntologyConfig
             objTransaction_Version = New clsTransaction_Version(objLocalConfig, Me, objOItem_Development)
             Dim objOItem_Result = objDataWork_OntologyConfig.GetData(objOItem_Development)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                objUserControl_OntologyItems.initialize_List(objDataWork_OntologyConfig.OItem_Ontology)
+                objUserControl_OntologyItems.initialize_List(objDataWork_OntologyConfig.OList_Ontologies, objDataWork_OntologyConfig.OItem_Ontology_Main)
                 ToolStripButton_Add.Enabled = True
             Else
                 MsgBox("Die Ontology-Items konnten nicht geladen werden!", MsgBoxStyle.Exclamation)
@@ -105,11 +105,13 @@ Public Class UserControl_OntologyConfig
         Dim intDone As Integer
 
         If objFrmOntologyModule.DialogResult = DialogResult.OK Then
-            Dim objOItem_Ontology = objDataWork_OntologyConfig.OItem_Ontology
+            Dim objOList_Ontologies = objDataWork_OntologyConfig.OList_Ontologies
             intToDo = objFrmOntologyModule.OList_Simple.Count
             intDone = 0
             For Each objOItem_Item In objFrmOntologyModule.OList_Simple
-                If Not objDataWork_OntologyConfig.DataWork_Ontology.GetData_OntologiesOfRef(objOItem_Item).Any(Function (p) p.GUID = objOItem_Ontology.GUID) Then
+                Dim ontologyExist = (from objOntology In objDataWork_OntologyConfig.DataWork_Ontology.GetData_OntologiesOfRef(objOItem_Item).ToList()
+                                     join objOntologySearch in objOList_Ontologies on objOntology.GUID Equals objOntologySearch.GUID).ToList()
+                If Not ontologyExist.Any() Then
                     Dim objOItem_OntologyItem = new clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
                                                                           .Name = objOItem_Item.Type & "_" & objLocalConfig.Globals.GetConfigName1(objOItem_Item.Name), _
                                                                           .GUID_Parent = objLocalConfig.Globals.Class_OntologyItems.GUID, _
@@ -121,13 +123,16 @@ Public Class UserControl_OntologyConfig
                         Dim objORel_OntologyItem_To_Ref = objDataWork_OntologyConfig.DataWork_Ontology.Rel_OntologyItemToRef(objOItem_OntologyItem,objOItem_Item)
                         objOItem_Result = objTransaction.do_Transaction(objORel_OntologyItem_To_Ref)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            Dim objORel_Ontology_To_OntologyItem = objDataWork_OntologyConfig.DataWork_Ontology.Rel_Ontology_To_OntologyItem(objOItem_Ontology, objOItem_OntologyItem)
-                            objOItem_Result = objTransaction.do_Transaction(objORel_Ontology_To_OntologyItem)
-                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                intDone = intDone + 1
-                            Else 
-                                objTransaction.rollback()
-                            End If
+                            For Each objOItem_Ontology As clsOntologyItem In objOList_Ontologies
+                                Dim objORel_Ontology_To_OntologyItem = objDataWork_OntologyConfig.DataWork_Ontology.Rel_Ontology_To_OntologyItem(objOItem_Ontology, objOItem_OntologyItem)
+                                objOItem_Result = objTransaction.do_Transaction(objORel_Ontology_To_OntologyItem)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    intDone = intDone + 1
+                                Else 
+                                    objTransaction.rollback()
+                                End If    
+                            Next
+                            
                         Else 
                             objTransaction.rollback()
                         End If

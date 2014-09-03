@@ -450,7 +450,7 @@ namespace Localization_Module
                             if (objOItem_MessageType.GUID == objLocalConfig.OItem_type_localizeddescription.GUID)
                             {
                                 var objOARel_Localized_To_Message = objRelationConfig.Rel_ObjectAttribute(objOItem_Localized,
-                                    objLocalConfig.OItem_attribute_message,
+                                    objLocalConfig.OItem_attributetype_message,
                                     strText, ID_Attribute:objOItem_Message != null ? objOItem_Message.GUID : null);
 
                                 objOItem_Result = objTransaction.do_Transaction(objOARel_Localized_To_Message, true);

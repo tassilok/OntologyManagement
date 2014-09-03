@@ -407,6 +407,7 @@
     <Compile Include="Forms\UserControl_Replace.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="IGuiLocalization.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

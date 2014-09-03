@@ -86,7 +86,7 @@ namespace Localization_Module
                 var objOARel_Localization__Message = objDBLevel_LocalizationToRef.OList_ObjectRel.Select(loc => new clsObjectAtt
                 {
                     ID_Object = loc.ID_Object,
-                    ID_AttributeType = objLocalConfig.OItem_attribute_message.GUID
+                    ID_AttributeType = objLocalConfig.OItem_attributetype_message.GUID
                 }).ToList();
 
                 objOItem_Result = objDBLevel_MessagesOfLocalization.get_Data_ObjectAtt(objOARel_Localization__Message, boolIDs: false);

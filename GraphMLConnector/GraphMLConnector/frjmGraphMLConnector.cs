@@ -448,7 +448,7 @@ namespace GraphMLConnector
                     var objOList_Ontologies = objDataWork_Graph.GetData_OntologiesOfGraph(objOItem_Graph);
                     if (objOList_Ontologies.Any())
                     {
-                        objUserControl_OntologyItemList.initialize_List(objOList_Ontologies.First());
+                        objUserControl_OntologyItemList.initialize_List(new List<clsOntologyItem> {objOList_Ontologies.First()},  objOList_Ontologies.First());
                     }
                 }
                 
