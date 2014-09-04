@@ -90,7 +90,8 @@ Public Class dlg_Attribute_String
     End Sub
 
     Private Sub Fill_WebBrowser()
-        WebBrowser_Text.DocumentText = objUserControl_Attribute_String.Value
+        Dim text = objUserControl_Attribute_String.Value.Replace(vbNewLine,"</br>")
+        WebBrowser_Text.DocumentText = text
     End Sub
 
     Private Sub Timer_Webbrowser_Tick(sender As Object, e As EventArgs) Handles Timer_Webbrowser.Tick

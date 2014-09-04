@@ -403,7 +403,7 @@ var objOList_attribute_dbpostfix = (from objOItem in objDBLevel_Config1.OList_Ob
 var objOList_attribute_message = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                   join objOntology in OList_Ontologies on objOItem.ID_Object equals objOntology.GUID
                                   join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
-                                  where objRef.Name_Object.ToLower().Contains("attribute") && objRef.Ontology == Globals.Type_AttributeType
+                                  where objRef.Name_Object.ToLower().Contains("attributetype_message") && objRef.Ontology == Globals.Type_AttributeType
                                   select objRef).ToList();
 
             if (objOList_attribute_message.Any())
