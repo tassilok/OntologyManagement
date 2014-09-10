@@ -27,6 +27,7 @@ namespace TimeManagement_Module
         private frmMain objFrmMain;
 
         public clsOntologyItem OItem_Ref { get; set; }
+        public clsOntologyItem OItem_Class { get; set; }
 
         public delegate void SelectedRow(clsOntologyItem OItem_TimeMgmtItem);
 
@@ -61,8 +62,9 @@ namespace TimeManagement_Module
             Initialize();
         }
 
-        public void Initialize(clsOntologyItem OItem_Ref = null)
+        public void Initialize(clsOntologyItem OItem_Ref = null, clsOntologyItem OItem_Class = null)
         {
+            this.OItem_Class = OItem_Class;
             culture = new CultureInfo("de-DE"); 
             this.OItem_Ref = OItem_Ref;
             objDataWork_TimeManagement = new clsDataWork_TimeManagement(objLocalConfig);
@@ -402,11 +404,12 @@ namespace TimeManagement_Module
 
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            objFrmTimeManagementEdit = new frmTimeManagementEdit(null, objLocalConfig,OItem_Ref);
+            objFrmTimeManagementEdit = new frmTimeManagementEdit(null, objLocalConfig,OItem_Ref, OItem_Class);
             objFrmTimeManagementEdit.ShowDialog(this);
             if (objFrmTimeManagementEdit.DialogResult == DialogResult.OK)
             {
                 OItem_Ref = objFrmTimeManagementEdit.OItem_Ref;
+                OItem_Class = objFrmTimeManagementEdit.OItem_BaseClass;
                 Initialize(OItem_Ref);
                 ConfigureCalculation();
                 UpdatedGridRow();

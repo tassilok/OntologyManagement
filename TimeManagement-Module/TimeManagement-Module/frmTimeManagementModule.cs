@@ -32,6 +32,8 @@ namespace TimeManagement_Module
 
         private clsRelationConfig objRelationConfig;
 
+        private clsOntologyItem objOItem_BaseClass;
+
        
 
         public frmTimeManagementModule()
@@ -48,6 +50,7 @@ namespace TimeManagement_Module
             objDBLevel_Relation = new clsDBLevel(objLocalConfig.Globals);
             objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, true, frmAuthenticate.ERelateMode.User_To_Group);
             objFrmAuthenticate.ShowDialog(this);
+            objOItem_BaseClass = null;
             if (objFrmAuthenticate.DialogResult == DialogResult.OK)
             {
                 objLocalConfig.User = objFrmAuthenticate.OItem_User;
@@ -97,6 +100,7 @@ namespace TimeManagement_Module
         void objUserControl_TimeGrid_UpdatedGridRow()
         {
             var oItem_Ref = objUserControl_TimeGrid.OItem_Ref;
+            objOItem_BaseClass = objUserControl_TimeGrid.OItem_Class;
             objUserControl_RefTree.AddNode(oItem_Ref,true);
         }
 
@@ -122,11 +126,17 @@ namespace TimeManagement_Module
         {
             if (OItem_Selected == null)
             {
-                objUserControl_TimeGrid.Initialize();
+                objUserControl_TimeGrid.Initialize(null, objOItem_BaseClass);
             }
             else
             {
-                objUserControl_TimeGrid.Initialize(OItem_Selected);
+                objOItem_BaseClass = null;
+                if (OItem_Selected.Type == objLocalConfig.Globals.Type_Object)
+                {
+                    objOItem_BaseClass = objDBLevel_Relation.GetOItem(OItem_Selected.GUID_Parent,
+                                                                      objLocalConfig.Globals.Type_Class);
+                }
+                objUserControl_TimeGrid.Initialize(OItem_Selected, objOItem_BaseClass);
             }
         }
 

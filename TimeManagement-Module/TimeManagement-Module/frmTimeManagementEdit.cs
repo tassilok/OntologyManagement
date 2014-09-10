@@ -27,27 +27,31 @@ namespace TimeManagement_Module
         public clsOntologyItem OItem_Result { get; private set; }
 
         public clsOntologyItem OItem_Ref { get; set; }
+        public clsOntologyItem OItem_BaseClass { get; set; }
         private clsOntologyItem objOItem_Parent;
 
-        public frmTimeManagementEdit(DataRowView DRV_TimeManagement, clsLocalConfig LocalConfig, clsOntologyItem OItem_Ref=null)
+        public frmTimeManagementEdit(DataRowView DRV_TimeManagement, clsLocalConfig LocalConfig, clsOntologyItem OItem_Ref=null, clsOntologyItem OItem_BaseClass = null)
         {
             InitializeComponent();
             objLocalConfig = LocalConfig;
             objDRV_TimeManagement = DRV_TimeManagement;
             this.OItem_Ref = OItem_Ref;
+            this.OItem_BaseClass = OItem_BaseClass;
             
             Initialize();
         }
 
         private void Initialize()
         {
+
             
+
             objDBLevel_Related = new clsDBLevel(objLocalConfig.Globals);
             objTransaction = new clsTransaction(objLocalConfig.Globals);
             objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
 
             UpdateRefText();
-
+            UpdateClassView();
             
 
             if (objDRV_TimeManagement != null)
@@ -90,6 +94,18 @@ namespace TimeManagement_Module
                 DateTimePicker_Ende.Value = DateTime.Now;
             }
 
+        }
+
+        private void UpdateClassView()
+        {
+            button_ClearClass.Enabled = false;
+            textBox_Class.Text = "";
+
+            if (OItem_BaseClass != null)
+            {
+                textBox_Class.Text = OItem_BaseClass.Name;
+                button_ClearClass.Enabled = true;
+            }
         }
 
         private void UpdateRefText()
@@ -256,14 +272,21 @@ namespace TimeManagement_Module
 
         private void button_Add_Click(object sender, EventArgs e)
         {
-            objFrmMain = new frmMain(objLocalConfig.Globals);
+            objFrmMain = new frmMain(objLocalConfig.Globals, OItem_BaseClass != null ? objLocalConfig.Globals.Type_Class : null, OItem_BaseClass );
             objFrmMain.ShowDialog(this);
             if (objFrmMain.DialogResult == DialogResult.OK)
             {
                 if (objFrmMain.OList_Simple.Count == 1)
                 {
+                    OItem_BaseClass = null;
                     OItem_Ref = objFrmMain.OList_Simple[0];
+                    if (OItem_Ref.Type == objLocalConfig.Globals.Type_Object)
+                    {
+                        OItem_BaseClass = objDBLevel_Related.GetOItem(OItem_Ref.GUID_Parent,
+                                                                      objLocalConfig.Globals.Type_Class);
+                    }
                     UpdateRefText();
+                    UpdateClassView();
                 }
                 else
                 {
@@ -271,6 +294,17 @@ namespace TimeManagement_Module
                                     MessageBoxIcon.Information);
                 }
             }
+        }
+
+        private void button_ClearClass_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(this, "Wollen Sie die Basisklasse wirklich entfernen?", "Basisklasse entfernen?",
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                OItem_BaseClass = null;
+                UpdateClassView();
+            }
+            
         }
     }
 }
