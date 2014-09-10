@@ -636,6 +636,7 @@ Public Class UserControl_ImageList
         CreatePDFToolStripMenuItem.Enabled = False
         ChangeOrderIDToolStripMenuItem.Enabled = False
         AddToSyncToolStripMenuItem.Enabled = False
+        OrderIdToolStripMenuItem.Enabled = False
 
         If DataGridView_Images.SelectedRows.Count > 0 Then
             RelateToolStripMenuItem.Enabled = True
@@ -646,6 +647,7 @@ Public Class UserControl_ImageList
             CreatePDFToolStripMenuItem.Enabled = True
             ChangeOrderIDToolStripMenuItem.Enabled = True
             AddToSyncToolStripMenuItem.Enabled = True
+            OrderIdToolStripMenuItem.Enabled = True
         End If
     End Sub
 
@@ -671,10 +673,19 @@ Public Class UserControl_ImageList
                 Dim strExtension = IO.Path.GetExtension(objOItem_File.Name)
                 Dim strFileName = objOItem_File.Name.Substring(0, objOItem_File.Name.Length - strExtension.Length)
 
-                Dim strPath_Dst = FolderBrowserDialog_Save.SelectedPath & IO.Path.DirectorySeparatorChar + If(DateTimeStampToolStripMenuItem.Checked, dateCreated.ToString("yyyyMMdd_hhmmss"), strFileName) & strExtension
+                Dim strFileNameWithoutExtension = ""
+
+                If DateTimeStampToolStripMenuItem.Checked Then
+                    strFileNameWithoutExtension = dateCreated.ToString("yyyyMMdd_hhmmss")
+                ElseIf NameToolStripMenuItem.Checked Then
+                    strFileNameWithoutExtension = strFileName
+                Else
+                    strFileNameWithoutExtension = objDRV_Selected.Item("OrderID").ToString().PadLeft(5, "0")
+                End If
+                Dim strPath_Dst = FolderBrowserDialog_Save.SelectedPath & IO.Path.DirectorySeparatorChar + strFileNameWithoutExtension & strExtension
                 Dim intPostfix As Integer = 1
                 While (IO.File.Exists(strPath_Dst))
-                    strPath_Dst = FolderBrowserDialog_Save.SelectedPath & IO.Path.DirectorySeparatorChar + If(DateTimeStampToolStripMenuItem.Checked, dateCreated.ToString("yyyyMMdd_hhmmss"), strFileName) & intPostfix & strExtension
+                    strPath_Dst = FolderBrowserDialog_Save.SelectedPath & IO.Path.DirectorySeparatorChar + strFileNameWithoutExtension & intPostfix & strExtension
                     intPostfix = intPostfix + 1
                 End While
 
@@ -742,23 +753,18 @@ Public Class UserControl_ImageList
     End Sub
 
     Private Sub NameToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NameToolStripMenuItem.Click
-        If NameToolStripMenuItem.Checked Then
-            DateTimeStampToolStripMenuItem.Checked = True
-            NameToolStripMenuItem.Checked = False
-        Else
+        If Not NameToolStripMenuItem.Checked Then
             DateTimeStampToolStripMenuItem.Checked = False
             NameToolStripMenuItem.Checked = True
-
+            OrderIdToolStripMenuItem.Checked = False
         End If
     End Sub
 
     Private Sub DateTimeStampToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DateTimeStampToolStripMenuItem.Click
-        If DateTimeStampToolStripMenuItem.Checked Then
-            DateTimeStampToolStripMenuItem.Checked = False
-            NameToolStripMenuItem.Checked = True
-        Else
+        If Not DateTimeStampToolStripMenuItem.Checked Then
             DateTimeStampToolStripMenuItem.Checked = True
             NameToolStripMenuItem.Checked = False
+            OrderIdToolStripMenuItem.Checked = False
         End If
     End Sub
 
@@ -1125,5 +1131,13 @@ Public Class UserControl_ImageList
         objFrmListEdit = New frmMediaModule_ListEdit(objLocalConfig, objLocalConfig.OItem_Type_Images__Graphic_, objOItem_Ref)
         objFrmListEdit.ShowDialog(Me)
 
+    End Sub
+
+    Private Sub OrderIdToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OrderIdToolStripMenuItem.Click
+        If Not OrderIdToolStripMenuItem.Checked Then
+            DateTimeStampToolStripMenuItem.Checked = False
+            NameToolStripMenuItem.Checked = False
+            OrderIdToolStripMenuItem.Checked = True
+        End If
     End Sub
 End Class
