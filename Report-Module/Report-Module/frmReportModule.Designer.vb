@@ -140,6 +140,7 @@ Partial Class frmReportModule
         '
         Me.TreeView_Report.ContextMenuStrip = Me.ContextMenuStrip_Reports
         Me.TreeView_Report.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TreeView_Report.HideSelection = False
         Me.TreeView_Report.Location = New System.Drawing.Point(0, 0)
         Me.TreeView_Report.Name = "TreeView_Report"
         Me.TreeView_Report.Size = New System.Drawing.Size(206, 504)
