@@ -18,7 +18,7 @@ Imports System.Runtime.InteropServices
 <Assembly: ComVisible(False)>
 
 'Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
-<Assembly: Guid("4c44214a-54a0-482d-abe7-c80af4b8215f")> 
+<Assembly: Guid("199d11b2-7314-4515-875f-b3b718e70542")> 
 
 ' Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
 '
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' übernehmen, indem Sie "*" eingeben:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("0.2.0.86")> 
-<Assembly: AssemblyFileVersion("0.2.0.86")> 
+<Assembly: AssemblyVersion("0.2.0.90")> 
+<Assembly: AssemblyFileVersion("0.2.0.90")> 

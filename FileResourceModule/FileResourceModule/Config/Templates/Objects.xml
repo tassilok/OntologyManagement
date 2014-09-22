@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Items Type="Object">
-  <Item Id="cab769496e8343beb8f8c023dc1b8ca7" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[File-Resource-Module]]></Item>
+  <Item Id="5edeae012f004d97a1d39f12ee878a00" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[FileResource-Module]]></Item>
+<Item Id="4e78486d7398402f9e21f660988dfbd1" Id_Parent="86b05e853ce24a56be3c80375a686a82"><![CDATA[FileSystem-Integration]]></Item>
+<Item Id="cab769496e8343beb8f8c023dc1b8ca7" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[File-Resource-Module]]></Item>
 <Item Id="af63a21afba14628ae8db8d4463ae0ef" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_Pattern]]></Item>
 <Item Id="0c71e7a6e97d4231a9e3c08ba5513f02" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_Subitems]]></Item>
 <Item Id="4b63ca1794b84990802e42fcb6ea0a74" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Resource]]></Item>

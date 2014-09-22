@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Items Type="Object">
-  <Item Id="7a2e9af40b0c4c15b571f00803b2a899" Id_Parent="f5f4518028e94cc98c38dc36e376bf4b"><![CDATA[Base-Config]]></Item>
+  <Item Id="56a6ad2848ed4d9dbc15646ea7ee6f4a" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Literaturquellen-Module]]></Item>
+<Item Id="d815e5ba04e7446ea51e5523a6925f94" Id_Parent="86b05e853ce24a56be3c80375a686a82"><![CDATA[Research]]></Item>
+<Item Id="7a2e9af40b0c4c15b571f00803b2a899" Id_Parent="f5f4518028e94cc98c38dc36e376bf4b"><![CDATA[Base-Config]]></Item>
 <Item Id="f9b2a820d0c34b33b33bf077a15232a4" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Literaturquellen-Module]]></Item>
 <Item Id="026b8a937d4c46bab84dd8a1b54f4d6e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_real_Date]]></Item>
 <Item Id="552204ed59e440fdb31503ed84409881" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_DateTimeStamp]]></Item>
@@ -20,12 +22,12 @@
 <Item Id="760810c9dfae4e108955beb63f39a7ed" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Autor]]></Item>
 <Item Id="d605e2e578584b8eb74549b4df3686cf" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_broadcasted_in]]></Item>
 <Item Id="53db9b4f0a2b4cbf8d9b233c814c55da" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongsTo]]></Item>
-<Item Id="993cfa13d2984ad0b7a8d35a013193d1" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_offered_by]]></Item>
-<Item Id="c637134c6c71433ba3ef59e55a9ea260" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Receipient]]></Item>
-<Item Id="e617c52ecd9a403a8cd6936321dcc162" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Sender]]></Item>
 <Item Id="c77e6c9993ec4065bd8a0317df3386c0" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_from]]></Item>
 <Item Id="52304e65a74646349f3e8cfe1df884e5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging]]></Item>
 <Item Id="af78b87a3c3e4bb4b83478e334712283" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_offers]]></Item>
+<Item Id="993cfa13d2984ad0b7a8d35a013193d1" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_offered_by]]></Item>
+<Item Id="c637134c6c71433ba3ef59e55a9ea260" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Receipient]]></Item>
+<Item Id="e617c52ecd9a403a8cd6936321dcc162" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Sender]]></Item>
 <Item Id="30a44b47d98542eb99fec9bde7e56d58" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_LogEntry]]></Item>
 <Item Id="a1d4d5fb54f14b469e4a764f79b3d4c2" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_m_gliche_LiteraturQuellen]]></Item>
 <Item Id="01d3c5683880454eb0672f20bb822354" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Zeitschriftenausgabe]]></Item>
@@ -41,13 +43,6 @@
 <Item Id="ba2ef3e6f91947f9a9120bb6b3710663" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[type_User]]></Item>
 <Item Id="ca5865ce46f14be29a15555edfafb4b5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Video_Quelle]]></Item>
 <Item Id="2535d065fd6242749aa5ec261a0bb543" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Sendung]]></Item>
-<Item Id="447f95f0ff3642cd95a1491e676e1413" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_literarische_Quelle]]></Item>
-<Item Id="a3e9f1594532486f858efbff9ba87c23" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Ausstrahlung]]></Item>
-<Item Id="514bcc43d2034500ba6c56cbc0f61abb" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_EMail_Quelle]]></Item>
-<Item Id="bc1686a8977944a2801189c27cd9d4f7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Buch_Quellenangabe]]></Item>
-<Item Id="9712964fa8ea4ace828d58623f316280" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Video]]></Item>
-<Item Id="7a79a8eb24cd468ca053b07f71fc8b76" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Literatur]]></Item>
-<Item Id="431b58a52d28439aa87792afe87d412e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Zeitungsquelle]]></Item>
 <Item Id="1e30a6a8ef6e442694fe6e8d96d4e940" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Module]]></Item>
 <Item Id="aedb8b89852447419dea436a184ab465" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Internet_Quellenangabe]]></Item>
 <Item Id="cca5439a84f84946b73dd4e965563df5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Url]]></Item>
@@ -58,6 +53,13 @@
 <Item Id="5e49ad60ebb74cb68790b51f01dc3617" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Video_Sender]]></Item>
 <Item Id="4b443b3f36834a21b8f46de307d9c6c1" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Images__Graphic_]]></Item>
 <Item Id="fa1afada00f341a49ff90f9d31082dc7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_e_Mail]]></Item>
+<Item Id="447f95f0ff3642cd95a1491e676e1413" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_literarische_Quelle]]></Item>
+<Item Id="a3e9f1594532486f858efbff9ba87c23" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Ausstrahlung]]></Item>
+<Item Id="514bcc43d2034500ba6c56cbc0f61abb" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_EMail_Quelle]]></Item>
+<Item Id="bc1686a8977944a2801189c27cd9d4f7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Buch_Quellenangabe]]></Item>
+<Item Id="9712964fa8ea4ace828d58623f316280" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Video]]></Item>
+<Item Id="7a79a8eb24cd468ca053b07f71fc8b76" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Literatur]]></Item>
+<Item Id="431b58a52d28439aa87792afe87d412e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Zeitungsquelle]]></Item>
 <Item Id="98c450997d0a489b90800644aec44997" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Token_Logstate_Download]]></Item>
 <Item Id="da431a4a568c47088fb7583fd113a7b1" Id_Parent="1d9568afb6da49908f4d907dfdd30749"><![CDATA[Download]]></Item>
 

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Items Type="Object">
-  <Item Id="eaa3b647c2224c79abb93c6f5d9306ab" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Log-Manager]]></Item>
+  <Item Id="8dfe03e79a8245ccbd9f4c9e844ba314" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Log-Module]]></Item>
+<Item Id="b3c5bf0a6de84b1d9e11851b14dc74ce" Id_Parent="86b05e853ce24a56be3c80375a686a82"><![CDATA[Logging]]></Item>
+<Item Id="eaa3b647c2224c79abb93c6f5d9306ab" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Log-Manager]]></Item>
 <Item Id="d2a849e6e1e24dd193cfed833f1d268a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[attribute_dbPostfix]]></Item>
-<Item Id="86f3e843952d4dfba263c93067f2b52c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Message]]></Item>
 <Item Id="04152439b07b44f68cecbaa7648e3ea4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_DateTimeStamp]]></Item>
+<Item Id="86f3e843952d4dfba263c93067f2b52c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Message]]></Item>
 <Item Id="609d64a712da4e2d9af1149607fda6bf" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongsTo]]></Item>
 <Item Id="34e62389f19041dab613fec83ce24758" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_provides]]></Item>
 <Item Id="fed84c919efd4934be90c4b2ff5a20e9" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_wasCreatedBy]]></Item>

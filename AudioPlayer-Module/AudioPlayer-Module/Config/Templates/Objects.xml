@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Items Type="Object">
-  <Item Id="4c354418c73c4e73809aef3693e0cf8d" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[AudioPlayer-Module]]></Item>
+  <Item Id="3cbc2073b902430eb5cbaddfcb823020" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[AudioPlayer-Module]]></Item>
+<Item Id="c8c107f27b23448ea5cae418d319f99c" Id_Parent="86b05e853ce24a56be3c80375a686a82"><![CDATA[Media-Integration]]></Item>
+<Item Id="4c354418c73c4e73809aef3693e0cf8d" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[AudioPlayer-Module]]></Item>
 <Item Id="ba68ab95e63e4ec5a26cea43d16a583b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongs_to]]></Item>
 <Item Id="b1fba2305ddc4573a7174f3bd205f344" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Source]]></Item>
 <Item Id="710e6a3ffa0146628218af0035ed54e7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Media_Item]]></Item>

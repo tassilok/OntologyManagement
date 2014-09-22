@@ -17,14 +17,14 @@
 <Item Id="7458590316e348a19ee70329c8569a56" Id_Parent=""><![CDATA[belonging Amount]]></Item>
 <Item Id="1700a8b95f3244ec86871c5ddb84e109" Id_Parent=""><![CDATA[is described by]]></Item>
 <Item Id="06b93890d92247edb70e5e9cbd03df52" Id_Parent=""><![CDATA[Gegenkonto]]></Item>
+<Item Id="51074f1935fa4f63b9fd1bbceb81aa0d" Id_Parent=""><![CDATA[belonging Payment]]></Item>
+<Item Id="439e614dfb8a4ae7b5a27be25a058e6c" Id_Parent=""><![CDATA[located in]]></Item>
+<Item Id="b07efa3b61844cf08f8b0ce49a4f397e" Id_Parent=""><![CDATA[accountings]]></Item>
+<Item Id="5c8930809e8c4fe297aa87878d38ac4a" Id_Parent=""><![CDATA[offered by]]></Item>
 <Item Id="59fc1def097744fcaf4c70dad8f7d723" Id_Parent=""><![CDATA[belonging Contractee]]></Item>
 <Item Id="0b9a8992349c4e4b9f061d954222bd8f" Id_Parent=""><![CDATA[belonging Tax-Rate]]></Item>
 <Item Id="9996494aef6a4357a6ef71a92b5ff596" Id_Parent=""><![CDATA[is of Type]]></Item>
 <Item Id="4b0ffa283fe243038880226530f363cb" Id_Parent=""><![CDATA[zugehörige Mandanten]]></Item>
 <Item Id="e07469d9766c443e85266d9c684f944f" Id_Parent=""><![CDATA[belongs to]]></Item>
-<Item Id="51074f1935fa4f63b9fd1bbceb81aa0d" Id_Parent=""><![CDATA[belonging Payment]]></Item>
-<Item Id="439e614dfb8a4ae7b5a27be25a058e6c" Id_Parent=""><![CDATA[located in]]></Item>
-<Item Id="b07efa3b61844cf08f8b0ce49a4f397e" Id_Parent=""><![CDATA[accountings]]></Item>
-<Item Id="5c8930809e8c4fe297aa87878d38ac4a" Id_Parent=""><![CDATA[offered by]]></Item>
 
 </Items>

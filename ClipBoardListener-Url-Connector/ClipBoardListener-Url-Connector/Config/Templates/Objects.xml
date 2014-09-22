@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Items Type="Object">
-  <Item Id="d0b0bf2b057f4c49bb99d58bf171cb24" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Clipboard-Listener-Url-Module]]></Item>
+  <Item Id="2b0b7aff13ff4a86b259888f06d1ab2c" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Clipboard-Listener-Module]]></Item>
+<Item Id="6c229ee04758426ab759113e7cc23329" Id_Parent="86b05e853ce24a56be3c80375a686a82"><![CDATA[Web-Management]]></Item>
+<Item Id="d0b0bf2b057f4c49bb99d58bf171cb24" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Clipboard-Listener-Url-Module]]></Item>
 <Item Id="ac8ac27c9a034062b0d88dd756b6063a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Url]]></Item>
 
 </Items>

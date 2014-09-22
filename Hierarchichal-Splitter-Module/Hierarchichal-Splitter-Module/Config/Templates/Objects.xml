@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Items Type="Object">
-  <Item Id="2c85b37aaae74140a3262cf69be58913" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Hierarchical-Splitter-Module]]></Item>
+  <Item Id="160f86a10d57468588841ad6d392d6d7" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Hierarchical-Splitter-Module]]></Item>
+<Item Id="342b8f5425cf49e29870262a4cdccef7" Id_Parent="86b05e853ce24a56be3c80375a686a82"><![CDATA[Ontology-Manipulation]]></Item>
+<Item Id="2c85b37aaae74140a3262cf69be58913" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Hierarchical-Splitter-Module]]></Item>
 <Item Id="a780e1a37c7842278f46a096cdf09aed" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Seperator]]></Item>
 <Item Id="9a542f45c4bb4450b6bebe93ed9cb494" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongs_to]]></Item>
 <Item Id="3295a1d6338e4cf1b6f466a587fc6020" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_RelationType]]></Item>

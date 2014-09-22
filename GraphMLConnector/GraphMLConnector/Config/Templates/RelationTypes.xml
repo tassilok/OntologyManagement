@@ -9,8 +9,8 @@
 <Item Id="4417582dbd6347fbab18770a611917fe" Id_Parent=""><![CDATA[belonging RelationType]]></Item>
 <Item Id="81bbd380e35648a1a4b7fdbaebe7273c" Id_Parent=""><![CDATA[belonging Attribute]]></Item>
 <Item Id="51f3c615a01e400db81b58cadd07e773" Id_Parent=""><![CDATA[belonging Sem-Item]]></Item>
-<Item Id="e971160347db44d8a476fe88290639a4" Id_Parent=""><![CDATA[contains]]></Item>
 <Item Id="aaf3e012a8224ba69d9dd5bb35821757" Id_Parent=""><![CDATA[export to]]></Item>
 <Item Id="9996494aef6a4357a6ef71a92b5ff596" Id_Parent=""><![CDATA[is of Type]]></Item>
+<Item Id="e971160347db44d8a476fe88290639a4" Id_Parent=""><![CDATA[contains]]></Item>
 
 </Items>

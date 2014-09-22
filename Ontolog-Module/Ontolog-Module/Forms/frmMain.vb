@@ -1,4 +1,5 @@
 ﻿Imports OntologyClasses.BaseClasses
+Imports ClassLibrary_ShellWork
 
 Public Class frmMain
     Private objLocalConfig As clsLocalConfig
@@ -17,6 +18,8 @@ Public Class frmMain
     Private objFrm_OntologyConfigurator As frmOntologyConfigurator
     Private objFrm_OntologyItem As frmMain
     Private WithEvents objFrm_Graph As frmGraph
+    Private objFrm_Modules As frmModules
+    Private objShellWork As New clsShellWork
 
     Private objMappingWork As clsMappingWork
 
@@ -58,6 +61,8 @@ Public Class frmMain
     Private strType_Applied As String
     Private oList_Applied_Simple As List(Of clsOntologyItem)
     Private oList_Applied_ObjRel As List(Of clsObjectRel)
+
+   
 
     Private sub FinishedLoadObjectData() Handles objUserControl_OObjectList.ListDataFinished
         If Not OItem_Class_AdvancedFilter Is Nothing And 
@@ -492,6 +497,8 @@ Public Class frmMain
 
         configure_Areas()
     End Sub
+
+    
 
     Private Sub Configure_ORelationTypeList(objOItem_RelType As clsOntologyItem)
         If objUserControl_ORelationTypeList Is Nothing Then
@@ -946,5 +953,21 @@ Public Class frmMain
 
 
 
+    End Sub
+
+
+    Private Sub ToolStripButton_ModuleStart_Click(sender As Object, e As EventArgs) Handles ToolStripButton_ModuleStart.Click
+        objFrm_Modules = New frmModules(objLocalConfig.Globals)
+        objFrm_Modules.ShowDialog(Me)
+
+        If objFrm_Modules.DialogResult = Windows.Forms.DialogResult.OK Then
+            Dim strModule = objFrm_Modules.Selected_Module
+            If Not strModule Is Nothing Then
+                objShellWork = New clsShellWork()
+                If objShellWork.start_Process(strModule, Nothing, IO.Path.GetDirectoryName(strModule), False, False) = False Then
+                    MsgBox("Das Module konnte nicht gestartet werden!", MsgBoxStyle.Exclamation)
+                End If
+            End If
+        End If
     End Sub
 End Class

@@ -8,6 +8,22 @@
   <Val_Lng>4</Val_Lng>
   <Val_String><![CDATA[]]></Val_String>
 </Item>
+<Item Id_Attribute="496093d4e2484aa79ed8e7fa7e80f943" Id_AttributeType="f9d715658856406db1b71af5a96a680f" Id_DataType="3a4f5b7bda754980933efbc33cc51439" Id_Object="0c539cc4bf464bac8f67239f03ddf8d0" Id_Class="8a2407981cbf466f95f53b7811b93ab1" OrderId="0">
+  <Val_Named><![CDATA[4]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng>4</Val_Lng>
+  <Val_String><![CDATA[]]></Val_String>
+</Item>
+<Item Id_Attribute="7d90c2fbd0504f4793e3205d7b450d2f" Id_AttributeType="f9d715658856406db1b71af5a96a680f" Id_DataType="3a4f5b7bda754980933efbc33cc51439" Id_Object="ecccf54326ff4698a90405db64c518a1" Id_Class="8a2407981cbf466f95f53b7811b93ab1" OrderId="0">
+  <Val_Named><![CDATA[5]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng>5</Val_Lng>
+  <Val_String><![CDATA[]]></Val_String>
+</Item>
 <Item Id_Attribute="7d90c2fbd0504f4793e3205d7b450d2f" Id_AttributeType="f9d715658856406db1b71af5a96a680f" Id_DataType="3a4f5b7bda754980933efbc33cc51439" Id_Object="ecccf54326ff4698a90405db64c518a1" Id_Class="8a2407981cbf466f95f53b7811b93ab1" OrderId="0">
   <Val_Named><![CDATA[5]]></Val_Named>
   <Val_Bit></Val_Bit>
@@ -38,6 +54,14 @@
   <Val_Date></Val_Date>
   <Val_Double></Val_Double>
   <Val_Lng></Val_Lng>
+  <Val_String><![CDATA[]]></Val_String>
+</Item>
+<Item Id_Attribute="02f5829cbbb049a69d251da67f8b7fcc" Id_AttributeType="f9d715658856406db1b71af5a96a680f" Id_DataType="3a4f5b7bda754980933efbc33cc51439" Id_Object="fb74fd67adcc4becae60236e34dabb79" Id_Class="8a2407981cbf466f95f53b7811b93ab1" OrderId="0">
+  <Val_Named><![CDATA[3]]></Val_Named>
+  <Val_Bit></Val_Bit>
+  <Val_Date></Val_Date>
+  <Val_Double></Val_Double>
+  <Val_Lng>3</Val_Lng>
   <Val_String><![CDATA[]]></Val_String>
 </Item>
 <Item Id_Attribute="02f5829cbbb049a69d251da67f8b7fcc" Id_AttributeType="f9d715658856406db1b71af5a96a680f" Id_DataType="3a4f5b7bda754980933efbc33cc51439" Id_Object="fb74fd67adcc4becae60236e34dabb79" Id_Class="8a2407981cbf466f95f53b7811b93ab1" OrderId="0">
