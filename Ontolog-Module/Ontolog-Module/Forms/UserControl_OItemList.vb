@@ -95,6 +95,8 @@ Public Class UserControl_OItemList
 
     Public Property HandOff_Add As Boolean
 
+    Private boolNullRelation As Boolean
+
     Public ReadOnly Property AdvancedFilterApplied as Boolean
         Get
             Return ToolStripButton_FilterAdvanced.Checked
@@ -363,12 +365,20 @@ Public Class UserControl_OItemList
                                                                                                  .ID_Parent_Other = If(Not OItem_Class_AdvancedFilter Is Nothing And OItem_Object_AdvancedFilter Is Nothing, OItem_Class_AdvancedFilter.GUID, Nothing), _
                                                                                                  .ID_Other = If(Not OItem_Object_AdvancedFilter Is Nothing, OItem_Object_AdvancedFilter.GUID, Nothing)}}
                 objDBLevel.get_Data_ObjectRel(objORel_AdvancedFilter, boolIDs:=False, boolTable:=True, boolTable_Objects_Left:=True)
+                If boolNullRelation Then
+                    oList_Items_Objects.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
+                    objDBLevel2.get_Data_Objects(oList_Items_Objects)
+                End If
             Else
                 objORel_AdvancedFilter = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Other = strGUID_Class, _
                                                                                                  .ID_RelationType = If(Not OItem_RelationType_AdvancedFilter Is Nothing, OItem_RelationType_AdvancedFilter.GUID, Nothing), _
                                                                                                  .ID_Parent_Object = If(Not OItem_Class_AdvancedFilter Is Nothing And OItem_Object_AdvancedFilter Is Nothing, OItem_Class_AdvancedFilter.GUID, Nothing), _
                                                                                                  .ID_Object = If(Not OItem_Object_AdvancedFilter Is Nothing, OItem_Object_AdvancedFilter.GUID, Nothing)}}
                 objDBLevel.get_Data_ObjectRel(objORel_AdvancedFilter, boolIDs:=False, boolTable:=True, boolTable_Objects_Right:=True)
+                If boolNullRelation Then
+                    oList_Items_Objects.Add(New clsOntologyItem(strGUID_Filter, strName_Filter, strGUID_Class, objLocalConfig.Globals.Type_Object))
+                    objDBLevel2.get_Data_Objects(oList_Items_Objects)
+                End If
             End If
 
 
@@ -1178,7 +1188,24 @@ Public Class UserControl_OItemList
                 Select Case objOItem_Parent.Type
                     Case objLocalConfig.Globals.Type_Object
                         ToolStripButton_FilterAdvanced.Enabled = True
-                        BindingSource_Token.DataSource = objDBLevel.tbl_Objects
+                        If boolNullRelation Then
+                            Dim objectsNotShown = objDBLevel.tbl_Objects.Rows.Cast(Of DataRow)()
+
+                            Dim objects = (From objectShow In objDBLevel2.OList_Objects
+                                           Group Join objectNotShow In objectsNotShown On objectShow.GUID Equals objectNotShow("ID_Item").ToString() Into objectsNotShow = Group
+                                           From objectNotShow In objectsNotShow.DefaultIfEmpty()
+                                           Where objectNotShow Is Nothing
+                                           Select objectShow).ToList()
+
+                            objects.ForEach(Sub(objectItem)
+                                                objDBLevel2.tbl_Objects.Rows.Add(objectItem.GUID, objectItem.Name, objectItem.GUID_Parent)
+                                            End Sub)
+
+                            BindingSource_Token.DataSource = objDBLevel2.tbl_Objects
+                        Else
+                            BindingSource_Token.DataSource = objDBLevel.tbl_Objects
+                        End If
+
                         DataGridView_Items.DataSource = BindingSource_Token
                         DataGridView_Items.Columns(0).Visible = False
                         DataGridView_Items.Columns(2).Visible = False
@@ -2178,6 +2205,7 @@ Public Class UserControl_OItemList
         OItem_Object_AdvancedFilter = Nothing
         OItem_RelationType_AdvancedFilter = Nothing
         OItem_Direction_AdvancedFilter = Nothing
+        boolNullRelation = False
 
         If strGUID_Class <> "" Then
             objOItem_Class.GUID = strGUID_Class
@@ -2190,6 +2218,8 @@ Public Class UserControl_OItemList
                 OItem_Object_AdvancedFilter = objFrmAdvancedFilter.OItem_Object
                 OItem_RelationType_AdvancedFilter = objFrmAdvancedFilter.OItem_RelationType
                 OItem_Direction_AdvancedFilter = objFrmAdvancedFilter.OItem_Direction
+
+                boolNullRelation = objFrmAdvancedFilter.NullRelation
 
                 ToolStripButton_FilterAdvanced.Checked = True
                 get_Data()

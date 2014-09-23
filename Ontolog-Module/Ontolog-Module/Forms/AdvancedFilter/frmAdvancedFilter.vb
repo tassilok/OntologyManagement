@@ -10,6 +10,12 @@ Public Class frmAdvancedFilter
     Private WithEvents objUserControl_AdvancedFilter As UserControl_AdvancedFilter
     Private objDataWork_ontologies As clsDataWork_Ontologies
 
+    Public ReadOnly Property NullRelation As Boolean
+        Get
+            Return objUserControl_AdvancedFilter.NullRelation
+        End Get
+    End Property
+
     Public ReadOnly Property OItem_Class As clsOntologyItem
         Get
             Return objOItem_Class

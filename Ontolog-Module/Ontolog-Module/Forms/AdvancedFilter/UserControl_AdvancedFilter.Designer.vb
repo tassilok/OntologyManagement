@@ -37,6 +37,7 @@ Partial Class UserControl_AdvancedFilter
         Me.Label_Object = New System.Windows.Forms.Label()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_AddRelations = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Null = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -172,10 +173,10 @@ Partial Class UserControl_AdvancedFilter
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_AddRelations})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_AddRelations, Me.ToolStripButton_Null})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(117, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(183, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButton_AddRelations
@@ -185,6 +186,16 @@ Partial Class UserControl_AdvancedFilter
         Me.ToolStripButton_AddRelations.Name = "ToolStripButton_AddRelations"
         Me.ToolStripButton_AddRelations.Size = New System.Drawing.Size(105, 22)
         Me.ToolStripButton_AddRelations.Text = "x_Add Relation"
+        '
+        'ToolStripButton_Null
+        '
+        Me.ToolStripButton_Null.CheckOnClick = True
+        Me.ToolStripButton_Null.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_Null.Image = CType(resources.GetObject("ToolStripButton_Null.Image"), System.Drawing.Image)
+        Me.ToolStripButton_Null.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Null.Name = "ToolStripButton_Null"
+        Me.ToolStripButton_Null.Size = New System.Drawing.Size(66, 22)
+        Me.ToolStripButton_Null.Text = "x_NoItems"
         '
         'UserControl_AdvancedFilter
         '
@@ -217,5 +228,6 @@ End Sub
     Friend WithEvents TextBox_RelationType As System.Windows.Forms.TextBox
     Friend WithEvents Label_RelType As System.Windows.Forms.Label
     Friend WithEvents Button_RemoveClass As System.Windows.Forms.Button
+    Friend WithEvents ToolStripButton_Null As System.Windows.Forms.ToolStripButton
 
 End Class

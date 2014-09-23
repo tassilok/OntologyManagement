@@ -12,6 +12,12 @@ Public Class UserControl_AdvancedFilter
     Public Event Applyable
     Public Event NotApplyable
 
+    Public ReadOnly Property NullRelation As Boolean
+        Get
+            Return ToolStripButton_Null.Checked
+        End Get
+    End Property
+
     Public Property OItem_Class() As clsOntologyItem
         get
             Return objOItem_Class
