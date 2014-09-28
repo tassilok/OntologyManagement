@@ -530,7 +530,9 @@ Public Class UserControl_BillTree
         objOItem_FinancialTransaction = Nothing
 
         If Not objTreeNode Is Nothing Then
-            If objTreeNode.ImageIndex = objLocalConfig.ImageID_Bill Then
+            If objTreeNode.ImageIndex = objLocalConfig.ImageID_Bill Or
+                objTreeNode.ImageIndex = objLocalConfig.ImageID_PartialBill Then
+
                 objOItem_FinancialTransaction = New clsOntologyItem
                 objOItem_FinancialTransaction.GUID = objTreeNode.Name
                 objOItem_FinancialTransaction.Name = objTreeNode.Text
