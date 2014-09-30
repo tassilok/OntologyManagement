@@ -269,7 +269,7 @@ namespace AudioPlayer_Module
 
             toolStripLabel_ItemOfCount.Text = OList_MediaItems != null ? (itemId+1).ToString() + "/" + OList_MediaItems.Count.ToString() : "0/0";
             toolStripLabel_Position.Text = fileWaveStream_Current != null ? TimeSpan.FromSeconds(fileWaveStream_Current.CurrentTime.Hours * 3600 + fileWaveStream_Current.CurrentTime.Minutes * 60 + fileWaveStream_Current.CurrentTime.Seconds).ToString() : "00:00:00";
-
+            toolStripLabel_MediaItem.Text = OList_MediaItems != null ? OList_MediaItems.Any() ? OList_MediaItems[itemId].Name_Item : "-" : "-";
         }
 
         private void StartMediaItem(bool nextItem = true)
@@ -452,7 +452,12 @@ namespace AudioPlayer_Module
 
         private void toolStripButton_Play_Click(object sender, EventArgs e)
         {
+            PlayMedia();
             
+        }
+
+        private void PlayMedia()
+        {
             if (waveOut_Current != null)
             {
                 waveOut_Current.Play();
@@ -492,7 +497,7 @@ namespace AudioPlayer_Module
                     {
                         MessageBox.Show(this, "Die Mediendatei konnte nicht geöffnet werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
-                    
+
                 }
                 else
                 {
@@ -560,6 +565,7 @@ namespace AudioPlayer_Module
         {
             if (waveOut_Current != null)
             {
+                toolStripLabel_MediaItem.Text = OList_MediaItems[itemId].Name_Item;
                 if (waveOut_Current.PlaybackState == PlaybackState.Playing)
                 {
                     stoppedPressed = true;
@@ -571,7 +577,7 @@ namespace AudioPlayer_Module
             
             StartMediaItem(false);
             
-
+            
             
         }
 
