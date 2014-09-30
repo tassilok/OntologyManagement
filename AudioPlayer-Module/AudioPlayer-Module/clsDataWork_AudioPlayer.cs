@@ -26,7 +26,7 @@ namespace AudioPlayer_Module
         private clsDBLevel objDBLevel_DataTypes;
         private clsDBLevel objDBLevel_RelationTypes;
         private clsDBLevel objDBLevel_Classes;
-
+        private clsDBLevel objDBLevel_RefItems;
 
         public clsOntologyItem GetData_MediaItemsAndRefs()
         {
@@ -99,6 +99,60 @@ namespace AudioPlayer_Module
             }
             
             return objOItem_Result;
+        }
+
+        public List<clsOntologyItem> GetMediaItemsRelated(List<clsOntologyItem> OList_Ref)
+        {
+            var searchMediaItems = OList_Ref.Select(mi => new clsObjectRel
+            {
+                ID_Object = mi.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_class_media_item.GUID
+            }).ToList();
+
+            var olist_MediaItems = new List<clsOntologyItem>();
+
+            var objOItem_Result = objDBLevel_RefItems.get_Data_ObjectRel(searchMediaItems, boolIDs: false);
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                olist_MediaItems.AddRange(objDBLevel_RefItems.OList_ObjectRel.Select(refitem => new clsOntologyItem
+                {
+                    GUID = refitem.ID_Other,
+                    Name = refitem.Name_Other,
+                    GUID_Parent = refitem.ID_Parent_Other,
+                    Type = objLocalConfig.Globals.Type_Object
+                }));
+
+                searchMediaItems = OList_Ref.Select(mi => new clsObjectRel
+                {
+                    ID_Parent_Object = objLocalConfig.OItem_class_media_item.GUID,
+                    ID_Other = mi.GUID
+                }).ToList();
+
+                objOItem_Result = objDBLevel_RefItems.get_Data_ObjectRel(searchMediaItems, boolIDs: false);
+
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    olist_MediaItems.AddRange(objDBLevel_RefItems.OList_ObjectRel.Select(refitem => new clsOntologyItem
+                    {
+                        GUID = refitem.ID_Object,
+                        Name = refitem.Name_Object,
+                        GUID_Parent = refitem.ID_Parent_Object,
+                        Type = objLocalConfig.Globals.Type_Object
+                    }));
+                }
+                else
+                {
+                    olist_MediaItems = null;
+                }
+
+            }
+            else
+            {
+                olist_MediaItems = null;
+            }
+
+            return olist_MediaItems;
         }
 
         private clsOntologyItem GetSubData_001_MediaItemsOfRef()
@@ -203,6 +257,7 @@ namespace AudioPlayer_Module
             objDBLevel_DataTypes = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Classes = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_RelationTypes = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_RefItems = new clsDBLevel(objLocalConfig.Globals);
         }
     }
 }
