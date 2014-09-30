@@ -24,6 +24,10 @@ namespace AudioPlayer_Module
         private clsDataWork_AudioPlayer objDataWork_BaseData;
         private clsDataWork_AudioPlayer objDataWork_AudioPlayer;
 
+        private frmClipboard objFrmClipboard;
+
+        private List<clsOntologyItem> FilterMediaItems;
+
         private clsFilter objFilter = null;
 
         public frmAudioPlayer()
@@ -66,13 +70,25 @@ namespace AudioPlayer_Module
 
         private void Configure_Grid()
         {
-            var objOList_MediaItems = new SortableBindingList<clsReferencedMediaItem>(objDataWork_BaseData.OList_MultimediaItemsRef
+            var objOList_MediaItems = objDataWork_BaseData.OList_MultimediaItemsRef
                 .Where(mi => objFilter != null ? 
                     objFilter.Equal ? 
                         mi.IsFiltered(objFilter.Filter, objFilter.Exact, objFilter.FilterProperty) : 
                         !mi.IsFiltered(objFilter.Filter, objFilter.Exact, objFilter.FilterProperty) : 
-                    1 == 1));
-            dataGridView_MediaItems.DataSource = objOList_MediaItems; 
+                    1 == 1).ToList();
+            if (FilterMediaItems != null)
+            {
+                dataGridView_MediaItems.DataSource = new SortableBindingList<clsReferencedMediaItem>(from objMediaItem in objOList_MediaItems
+                                                      join objFilterItem in FilterMediaItems on objMediaItem.ID_Item equals objFilterItem.GUID
+                                                      select objMediaItem);
+
+
+            }
+            else
+            {
+                dataGridView_MediaItems.DataSource = new SortableBindingList<clsReferencedMediaItem>(objOList_MediaItems); 
+            }
+            
             foreach (DataGridViewColumn col in dataGridView_MediaItems.Columns)
             {
                 if (col.Name != "Name_Item" &&
@@ -241,6 +257,61 @@ namespace AudioPlayer_Module
             {
                 MessageBox.Show(this, "Die MediaItems konnten nicht geladen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(-1);
+            }
+        }
+
+        private void toolStripButton_Clipboard_Click(object sender, EventArgs e)
+        {
+            FilterMediaItems = null;
+            objFrmClipboard = new frmClipboard(objLocalConfig.Globals);
+            objFrmClipboard.ShowDialog(this);
+            if (objFrmClipboard.DialogResult == DialogResult.OK)
+            {
+                var dataRows = objFrmClipboard.selectedRows();
+                var rowCol = dataRows.Cast<DataGridViewRow>().Select(dgvr => (clsObjectRel)dgvr.DataBoundItem).ToList();
+                var mediaItems = rowCol.Where(rowcol => rowcol.ID_Parent_Other == objLocalConfig.OItem_class_media_item.GUID).Select(rowcol => new clsOntologyItem
+                    {
+                        GUID = rowcol.ID_Other,
+                        Name = rowcol.Name_Other,
+                        GUID_Parent = rowcol.ID_Parent_Other,
+                        Type = objLocalConfig.Globals.Type_Object
+                    }).ToList();
+
+                var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+
+                var otherItems = rowCol.Where(rowcol => rowcol.ID_Parent_Other != objLocalConfig.OItem_class_media_item.GUID).Select(rowcol => new clsOntologyItem
+                {
+                    GUID = rowcol.ID_Other,
+                    Name = rowcol.Name_Other,
+                    GUID_Parent = rowcol.ID_Parent_Other,
+                    Type = objLocalConfig.Globals.Type_Object
+                }).ToList();
+
+                if (otherItems.Any())
+                {
+                    var mediaItemsOfRef = objDataWork_AudioPlayer.GetMediaItemsRelated(otherItems);
+
+                    if (mediaItemsOfRef != null)
+                    {
+                        mediaItems.AddRange(mediaItemsOfRef);
+                    }
+                    else
+                    {
+                        objOItem_Result = objLocalConfig.Globals.LState_Error.Clone();
+                    }
+                }
+
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    FilterMediaItems = mediaItems;
+                }
+                else
+                {
+                    
+                    MessageBox.Show(this, "Die zugehörigen Mediaitems konnten nicht ermittelt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+
+                Configure_Grid();
             }
         }
        
