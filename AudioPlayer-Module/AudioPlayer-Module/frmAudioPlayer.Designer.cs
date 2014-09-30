@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAudioPlayer));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
@@ -40,6 +41,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_FilterLbl = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_Filter = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripButton_Clear = new System.Windows.Forms.ToolStripButton();
             this.dataGridView_MediaItems = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip_MediaItems = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,12 +52,13 @@
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel_FilterText = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_Filter = new System.Windows.Forms.ToolStripTextBox();
-            this.timer_Filter = new System.Windows.Forms.Timer(this.components);
-            this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_Clear = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Refresh = new System.Windows.Forms.ToolStripButton();
+            this.timer_Filter = new System.Windows.Forms.Timer(this.components);
+            this.toolStrip4 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton_Clipboard = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
+            this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -69,6 +72,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_MediaItems)).BeginInit();
             this.contextMenuStrip_MediaItems.SuspendLayout();
             this.toolStrip3.SuspendLayout();
+            this.toolStrip4.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -89,6 +93,10 @@
             this.toolStripContainer1.TabIndex = 0;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
+            // toolStripContainer1.TopToolStripPanel
+            // 
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip4);
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
@@ -98,6 +106,16 @@
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(62, 25);
             this.toolStrip1.TabIndex = 0;
+            // 
+            // toolStripButton_Close
+            // 
+            this.toolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Close.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Close.Image")));
+            this.toolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Close.Name = "toolStripButton_Close";
+            this.toolStripButton_Close.Size = new System.Drawing.Size(50, 22);
+            this.toolStripButton_Close.Text = "x_Close";
+            this.toolStripButton_Close.Click += new System.EventHandler(this.toolStripButton_Close_Click);
             // 
             // splitContainer1
             // 
@@ -179,6 +197,16 @@
             this.toolStripLabel_Filter.Size = new System.Drawing.Size(12, 22);
             this.toolStripLabel_Filter.Text = "-";
             // 
+            // toolStripButton_Clear
+            // 
+            this.toolStripButton_Clear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Clear.Image = global::AudioPlayer_Module.Properties.Resources.tasto_8_architetto_franc_01;
+            this.toolStripButton_Clear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Clear.Name = "toolStripButton_Clear";
+            this.toolStripButton_Clear.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_Clear.Text = "toolStripButton1";
+            this.toolStripButton_Clear.Click += new System.EventHandler(this.toolStripButton_Clear_Click);
+            // 
             // dataGridView_MediaItems
             // 
             this.dataGridView_MediaItems.AllowUserToAddRows = false;
@@ -248,7 +276,7 @@
             this.toolStripButton_Refresh});
             this.toolStrip3.Location = new System.Drawing.Point(3, 0);
             this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(414, 25);
+            this.toolStrip3.Size = new System.Drawing.Size(383, 25);
             this.toolStrip3.TabIndex = 0;
             // 
             // toolStripLabel_FilterText
@@ -263,31 +291,6 @@
             this.toolStripTextBox_Filter.Size = new System.Drawing.Size(300, 25);
             this.toolStripTextBox_Filter.TextChanged += new System.EventHandler(this.toolStripTextBox_Filter_TextChanged);
             // 
-            // timer_Filter
-            // 
-            this.timer_Filter.Interval = 300;
-            this.timer_Filter.Tick += new System.EventHandler(this.timer_Filter_Tick);
-            // 
-            // toolStripButton_Close
-            // 
-            this.toolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_Close.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Close.Image")));
-            this.toolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Close.Name = "toolStripButton_Close";
-            this.toolStripButton_Close.Size = new System.Drawing.Size(50, 22);
-            this.toolStripButton_Close.Text = "x_Close";
-            this.toolStripButton_Close.Click += new System.EventHandler(this.toolStripButton_Close_Click);
-            // 
-            // toolStripButton_Clear
-            // 
-            this.toolStripButton_Clear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_Clear.Image = global::AudioPlayer_Module.Properties.Resources.tasto_8_architetto_franc_01;
-            this.toolStripButton_Clear.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Clear.Name = "toolStripButton_Clear";
-            this.toolStripButton_Clear.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_Clear.Text = "toolStripButton1";
-            this.toolStripButton_Clear.Click += new System.EventHandler(this.toolStripButton_Clear_Click);
-            // 
             // toolStripButton_Refresh
             // 
             this.toolStripButton_Refresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -297,6 +300,31 @@
             this.toolStripButton_Refresh.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_Refresh.Text = "toolStripButton1";
             this.toolStripButton_Refresh.Click += new System.EventHandler(this.toolStripButton_Refresh_Click);
+            // 
+            // timer_Filter
+            // 
+            this.timer_Filter.Interval = 300;
+            this.timer_Filter.Tick += new System.EventHandler(this.timer_Filter_Tick);
+            // 
+            // toolStrip4
+            // 
+            this.toolStrip4.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton_Clipboard});
+            this.toolStrip4.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip4.Name = "toolStrip4";
+            this.toolStrip4.Size = new System.Drawing.Size(225, 25);
+            this.toolStrip4.TabIndex = 0;
+            // 
+            // toolStripButton_Clipboard
+            // 
+            this.toolStripButton_Clipboard.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Clipboard.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Clipboard.Image")));
+            this.toolStripButton_Clipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Clipboard.Name = "toolStripButton_Clipboard";
+            this.toolStripButton_Clipboard.Size = new System.Drawing.Size(182, 22);
+            this.toolStripButton_Clipboard.Text = "x_Determine Clipboard Relations";
+            this.toolStripButton_Clipboard.Click += new System.EventHandler(this.toolStripButton_Clipboard_Click);
             // 
             // frmAudioPlayer
             // 
@@ -309,6 +337,8 @@
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
+            this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -329,6 +359,8 @@
             this.contextMenuStrip_MediaItems.ResumeLayout(false);
             this.toolStrip3.ResumeLayout(false);
             this.toolStrip3.PerformLayout();
+            this.toolStrip4.ResumeLayout(false);
+            this.toolStrip4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -359,6 +391,8 @@
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox_Filter;
         private System.Windows.Forms.Timer timer_Filter;
         private System.Windows.Forms.ToolStripButton toolStripButton_Refresh;
+        private System.Windows.Forms.ToolStrip toolStrip4;
+        private System.Windows.Forms.ToolStripButton toolStripButton_Clipboard;
 
     }
 }
