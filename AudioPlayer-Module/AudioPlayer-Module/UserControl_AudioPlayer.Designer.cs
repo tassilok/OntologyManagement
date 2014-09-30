@@ -31,7 +31,12 @@
             this.components = new System.ComponentModel.Container();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton_First = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_Previous = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_Next = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_Last = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton_AutoPlay = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel_ItemOfCount = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_Position = new System.Windows.Forms.ToolStripLabel();
@@ -42,15 +47,12 @@
             this.volumeMeter_Left = new NAudio.Gui.VolumeMeter();
             this.trackBar_Position = new System.Windows.Forms.TrackBar();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.timer_Position = new System.Windows.Forms.Timer(this.components);
-            this.toolStripButton_First = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_Previous = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_Next = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_Last = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_AutoPlay = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Play = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Pause = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Stop = new System.Windows.Forms.ToolStripButton();
+            this.timer_Position = new System.Windows.Forms.Timer(this.components);
+            this.toolStripLabel_MediaItem = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -107,10 +109,60 @@
             this.toolStrip2.Size = new System.Drawing.Size(212, 25);
             this.toolStrip2.TabIndex = 0;
             // 
+            // toolStripButton_First
+            // 
+            this.toolStripButton_First.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_First.Image = global::AudioPlayer_Module.Properties.Resources.pulsante_01_architetto_f_01_First1;
+            this.toolStripButton_First.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_First.Name = "toolStripButton_First";
+            this.toolStripButton_First.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_First.Text = "toolStripButton1";
+            this.toolStripButton_First.Click += new System.EventHandler(this.toolStripButton_First_Click);
+            // 
+            // toolStripButton_Previous
+            // 
+            this.toolStripButton_Previous.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Previous.Image = global::AudioPlayer_Module.Properties.Resources.pulsante_01_architetto_f_01;
+            this.toolStripButton_Previous.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Previous.Name = "toolStripButton_Previous";
+            this.toolStripButton_Previous.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_Previous.Text = "toolStripButton2";
+            this.toolStripButton_Previous.Click += new System.EventHandler(this.toolStripButton_Previous_Click);
+            // 
+            // toolStripButton_Next
+            // 
+            this.toolStripButton_Next.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Next.Image = global::AudioPlayer_Module.Properties.Resources.pulsante_02_architetto_f_01;
+            this.toolStripButton_Next.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Next.Name = "toolStripButton_Next";
+            this.toolStripButton_Next.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_Next.Text = "toolStripButton3";
+            this.toolStripButton_Next.Click += new System.EventHandler(this.toolStripButton_Next_Click);
+            // 
+            // toolStripButton_Last
+            // 
+            this.toolStripButton_Last.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Last.Image = global::AudioPlayer_Module.Properties.Resources.pulsante_02_architetto_f_01_Last;
+            this.toolStripButton_Last.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Last.Name = "toolStripButton_Last";
+            this.toolStripButton_Last.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_Last.Text = "toolStripButton4";
+            this.toolStripButton_Last.Click += new System.EventHandler(this.toolStripButton_Last_Click);
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton_AutoPlay
+            // 
+            this.toolStripButton_AutoPlay.CheckOnClick = true;
+            this.toolStripButton_AutoPlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_AutoPlay.Image = global::AudioPlayer_Module.Properties.Resources.bb_reload_;
+            this.toolStripButton_AutoPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_AutoPlay.Name = "toolStripButton_AutoPlay";
+            this.toolStripButton_AutoPlay.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_AutoPlay.Text = "toolStripButton1";
             // 
             // toolStripLabel_ItemOfCount
             // 
@@ -205,68 +257,16 @@
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel_MediaItem,
+            this.toolStripSeparator3,
             this.toolStripButton_Play,
             this.toolStripButton_Pause,
             this.toolStripButton_Stop});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.ShowItemToolTips = false;
-            this.toolStrip1.Size = new System.Drawing.Size(112, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(130, 25);
             this.toolStrip1.TabIndex = 1;
-            // 
-            // timer_Position
-            // 
-            this.timer_Position.Tick += new System.EventHandler(this.timer_Position_Tick);
-            // 
-            // toolStripButton_First
-            // 
-            this.toolStripButton_First.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_First.Image = global::AudioPlayer_Module.Properties.Resources.pulsante_01_architetto_f_01_First1;
-            this.toolStripButton_First.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_First.Name = "toolStripButton_First";
-            this.toolStripButton_First.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_First.Text = "toolStripButton1";
-            this.toolStripButton_First.Click += new System.EventHandler(this.toolStripButton_First_Click);
-            // 
-            // toolStripButton_Previous
-            // 
-            this.toolStripButton_Previous.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_Previous.Image = global::AudioPlayer_Module.Properties.Resources.pulsante_01_architetto_f_01;
-            this.toolStripButton_Previous.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Previous.Name = "toolStripButton_Previous";
-            this.toolStripButton_Previous.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_Previous.Text = "toolStripButton2";
-            this.toolStripButton_Previous.Click += new System.EventHandler(this.toolStripButton_Previous_Click);
-            // 
-            // toolStripButton_Next
-            // 
-            this.toolStripButton_Next.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_Next.Image = global::AudioPlayer_Module.Properties.Resources.pulsante_02_architetto_f_01;
-            this.toolStripButton_Next.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Next.Name = "toolStripButton_Next";
-            this.toolStripButton_Next.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_Next.Text = "toolStripButton3";
-            this.toolStripButton_Next.Click += new System.EventHandler(this.toolStripButton_Next_Click);
-            // 
-            // toolStripButton_Last
-            // 
-            this.toolStripButton_Last.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_Last.Image = global::AudioPlayer_Module.Properties.Resources.pulsante_02_architetto_f_01_Last;
-            this.toolStripButton_Last.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Last.Name = "toolStripButton_Last";
-            this.toolStripButton_Last.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_Last.Text = "toolStripButton4";
-            this.toolStripButton_Last.Click += new System.EventHandler(this.toolStripButton_Last_Click);
-            // 
-            // toolStripButton_AutoPlay
-            // 
-            this.toolStripButton_AutoPlay.CheckOnClick = true;
-            this.toolStripButton_AutoPlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_AutoPlay.Image = global::AudioPlayer_Module.Properties.Resources.bb_reload_;
-            this.toolStripButton_AutoPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_AutoPlay.Name = "toolStripButton_AutoPlay";
-            this.toolStripButton_AutoPlay.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_AutoPlay.Text = "toolStripButton1";
             // 
             // toolStripButton_Play
             // 
@@ -297,6 +297,21 @@
             this.toolStripButton_Stop.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_Stop.Text = "toolStripButton1";
             this.toolStripButton_Stop.Click += new System.EventHandler(this.toolStripButton_Stop_Click);
+            // 
+            // timer_Position
+            // 
+            this.timer_Position.Tick += new System.EventHandler(this.timer_Position_Tick);
+            // 
+            // toolStripLabel_MediaItem
+            // 
+            this.toolStripLabel_MediaItem.Name = "toolStripLabel_MediaItem";
+            this.toolStripLabel_MediaItem.Size = new System.Drawing.Size(12, 22);
+            this.toolStripLabel_MediaItem.Text = "-";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
             // UserControl_AudioPlayer
             // 
@@ -346,5 +361,7 @@
         private NAudio.Gui.VolumeSlider volumeSlider;
         private NAudio.Gui.VolumeMeter volumeMeter_Right;
         private NAudio.Gui.WaveformPainter waveformPainter_Right;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_MediaItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }
