@@ -123,19 +123,19 @@ Public Class clsLocalConfig
         End Get
     End Property
 
-    Public ReadOnly Property OItem_attributetype_short As clsOntologyItem
+    Public ReadOnly Property OItem_attributetype_short As clsOntologyItem Implements IGuiLocalization.OItem_attributetype_short
         Get
             Return objOItem_attributetype_short
         End Get
     End Property
 
-    Public ReadOnly Property OItem_attributetype_message As clsOntologyItem
+    Public ReadOnly Property OItem_attributetype_message As clsOntologyItem Implements IGuiLocalization.OItem_attributetype_message
         Get
             Return objOItem_attributetype_message
         End Get
     End Property
 
-    Public ReadOnly Property OItem_attribute_caption As clsOntologyItem
+    Public ReadOnly Property OItem_attribute_caption As clsOntologyItem Implements IGuiLocalization.OItem_attribute_caption
         Get
             Return objOItem_attributetype_caption
         End Get
@@ -161,7 +161,7 @@ Public Class clsLocalConfig
         End Get
     End Property
 
-    Public ReadOnly Property OItem_RelationType_belongsTo() As clsOntologyItem
+    Public ReadOnly Property OItem_RelationType_belongsTo() As clsOntologyItem Implements IGuiLocalization.OItem_relationtype_belongsto
         Get
             Return objOItem_RelationType_belongsTo
         End Get
@@ -209,37 +209,37 @@ Public Class clsLocalConfig
         End Get
     End Property
 
-    Public ReadOnly Property OItem_relationtype_is_written_in As clsOntologyItem
+    Public ReadOnly Property OItem_relationtype_is_written_in As clsOntologyItem Implements IGuiLocalization.OItem_relationtype_iswrittenin
         Get
             Return objOItem_relationtype_is_written_in
         End Get
     End Property
 
-    Public ReadOnly Property OItem_relationtype_contains As clsOntologyItem
+    Public ReadOnly Property OItem_relationtype_contains As clsOntologyItem Implements IGuiLocalization.OItem_relationtype_contains
         Get
             Return objOItem_relationtype_contains
         End Get
     End Property
 
-    Public ReadOnly Property OItem_relationtype_is_defined_by As clsOntologyItem
+    Public ReadOnly Property OItem_relationtype_is_defined_by As clsOntologyItem Implements IGuiLocalization.OItem_relationtype_is_defined_by
         Get
             Return objOItem_relationtype_is_defined_by
         End Get
     End Property
 
-    Public ReadOnly Property OItem_relationtype_user_message As clsOntologyItem
+    Public ReadOnly Property OItem_relationtype_user_message As clsOntologyItem Implements IGuiLocalization.OItem_relationtype_user_message
         Get
             Return objOItem_relationtype_user_message
         End Get
     End Property
 
-    Public ReadOnly Property OItem_relationtype_inputmessage As clsOntologyItem
+    Public ReadOnly Property OItem_relationtype_inputmessage As clsOntologyItem Implements IGuiLocalization.OItem_relationtype_inputmessage
         Get
             Return objOItem_relationtype_inputmessage
         End Get
     End Property
 
-    Public ReadOnly Property OItem_relationtype_errormessage As clsOntologyItem
+    Public ReadOnly Property OItem_relationtype_errormessage As clsOntologyItem Implements IGuiLocalization.OItem_relationtype_errormessage
         Get
             Return objOItem_relationtype_errormessage
         End Get
@@ -362,7 +362,7 @@ Public Class clsLocalConfig
         End Get
     End Property
 
-    Public ReadOnly Property OItem_class_localized_message As clsOntologyItem
+    Public ReadOnly Property OItem_class_localized_message As clsOntologyItem Implements IGuiLocalization.OItem_class_localized_message
         Get
             Return objOItem_class_localized_message
         End Get
@@ -392,7 +392,7 @@ Public Class clsLocalConfig
         End Get
     End Property
 
-    Public ReadOnly Property OItem_class_messages As clsOntologyItem
+    Public ReadOnly Property OItem_class_messages As clsOntologyItem Implements IGuiLocalization.OItem_class_messages
         Get
             Return objOItem_class_messages
         End Get
@@ -1414,112 +1414,39 @@ Public Class clsLocalConfig
     End Sub
 
 
-
-    Public ReadOnly Property OItem_attribute_caption1 As clsOntologyItem Implements IGuiLocalization.OItem_attribute_caption
-        Get
-
-        End Get
-    End Property
-
-    Public ReadOnly Property OItem_attributetype_message1 As clsOntologyItem Implements IGuiLocalization.OItem_attributetype_message
-        Get
-
-        End Get
-    End Property
-
-    Public ReadOnly Property OItem_attributetype_short1 As clsOntologyItem Implements IGuiLocalization.OItem_attributetype_short
-        Get
-
-        End Get
-    End Property
-
-    Public ReadOnly Property OItem_class_localized_message1 As clsOntologyItem Implements IGuiLocalization.OItem_class_localized_message
-        Get
-
-        End Get
-    End Property
-
-    Public ReadOnly Property OItem_class_messages1 As clsOntologyItem Implements IGuiLocalization.OItem_class_messages
-        Get
-
-        End Get
-    End Property
-
-    Public ReadOnly Property OItem_relationtype_belongsto1 As clsOntologyItem Implements IGuiLocalization.OItem_relationtype_belongsto
-        Get
-
-        End Get
-    End Property
-
-    Public ReadOnly Property OItem_relationtype_contains1 As clsOntologyItem Implements IGuiLocalization.OItem_relationtype_contains
-        Get
-
-        End Get
-    End Property
-
-    Public ReadOnly Property OItem_relationtype_errormessage1 As clsOntologyItem Implements IGuiLocalization.OItem_relationtype_errormessage
-        Get
-
-        End Get
-    End Property
-
-    Public ReadOnly Property OItem_relationtype_inputmessage1 As clsOntologyItem Implements IGuiLocalization.OItem_relationtype_inputmessage
-        Get
-
-        End Get
-    End Property
-
-    Public ReadOnly Property OItem_relationtype_is_defined_by1 As clsOntologyItem Implements IGuiLocalization.OItem_relationtype_is_defined_by
-        Get
-
-        End Get
-    End Property
-
-    Public ReadOnly Property OItem_relationtype_iswrittenin As clsOntologyItem Implements IGuiLocalization.OItem_relationtype_iswrittenin
-        Get
-
-        End Get
-    End Property
-
-    Public ReadOnly Property OItem_relationtype_user_message1 As clsOntologyItem Implements IGuiLocalization.OItem_relationtype_user_message
-        Get
-
-        End Get
-    End Property
-
     Public ReadOnly Property OItem_type_gui_caption As clsOntologyItem Implements IGuiLocalization.OItem_type_gui_caption
         Get
-
+            Return OItem_class_gui_caption
         End Get
     End Property
 
     Public ReadOnly Property OItem_type_gui_entires As clsOntologyItem Implements IGuiLocalization.OItem_type_gui_entires
         Get
-
+            Return OItem_class_gui_entires
         End Get
     End Property
 
     Public ReadOnly Property OItem_type_language As clsOntologyItem Implements IGuiLocalization.OItem_type_language
         Get
-
+            Return objOItem_class_language
         End Get
     End Property
 
     Public ReadOnly Property OItem_type_tooltip_messages As clsOntologyItem Implements IGuiLocalization.OItem_type_tooltip_messages
         Get
-
+            Return OItem_class_tooltip_messages
         End Get
     End Property
 
     Public ReadOnly Property Globals1 As clsGlobals Implements IGuiLocalization.Globals
         Get
-
+            Return objGlobals
         End Get
     End Property
 
     Public ReadOnly Property ID_Development As String Implements IGuiLocalization.ID_Development
         Get
-
+            Return cstrID_Development
         End Get
     End Property
 End Class

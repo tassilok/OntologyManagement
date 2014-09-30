@@ -47,6 +47,15 @@ Public Class clsRelationConfig
                             .Val_Date = Value
                         End With
                     Else
+                        Dim dateValue As DateTime
+                        If DateTime.TryParse(Value.ToString(), dateValue) Then
+                            With objOA_Object
+                                .Val_Named = dateValue
+                                .Val_Date = dateValue
+                            End With
+                        Else
+                            objOA_Object = Nothing
+                        End If
                         objOA_Object = Nothing
                     End If
                 Else
@@ -71,7 +80,17 @@ Public Class clsRelationConfig
                             .Val_Lng = Value
                         End With
                     Else
-                        objOA_Object = Nothing
+                        Dim lngValue As Long
+                        If Long.TryParse(Value.ToString(), lngValue) Then
+                            With objOA_Object
+                                .Val_Named = lngValue
+                                .Val_Lng = lngValue
+                            End With
+                        Else
+                            objOA_Object = Nothing
+                        End If
+
+
                     End If
                 Else
                     If DoStandardValue Then
@@ -93,7 +112,16 @@ Public Class clsRelationConfig
                             .Val_Double = Value
                         End With
                     Else
-                        objOA_Object = Nothing
+                        Dim dblValue As Double
+                        If Double.TryParse(Value.ToString(), dblValue) Then
+                            With objOA_Object
+                                .Val_Named = dblValue
+                                .Val_Real = dblValue
+                            End With
+                        Else
+                            objOA_Object = Nothing
+                        End If
+
                     End If
                 Else
                     If DoStandardValue Then

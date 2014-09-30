@@ -4,37 +4,185 @@
 <Item Id="7a7299dfcd1443f885217946a290c9aa" Id_Parent="86b05e853ce24a56be3c80375a686a82"><![CDATA[Localization]]></Item>
 <Item Id="d9950407b4b04fdb899dbb94095cb207" Id_Parent="5a95c5aba5ef47d5a878e8a7efcf79a9"><![CDATA[Base-Config]]></Item>
 <Item Id="4c63954f85a44539b23f683a36860714" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Gui-Localization]]></Item>
+<Item Id="81612c2913ad4a8b9d57848f8b05c870" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_Short]]></Item>
 <Item Id="04bac2e8d7e146c2aa15ad91ad9667d7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[attributetype_caption]]></Item>
 <Item Id="3be34204395043c3b3eac36ee25a571f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[attributeType_Message]]></Item>
-<Item Id="cd156e378ee4411b8e560e923547d24f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[relationtype_is_written_in]]></Item>
-<Item Id="172b8b44b10e4e5dbfa00c7449ada17b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[relationtype_ErrorMessage]]></Item>
-<Item Id="7f7a986801554fcc8b4ebcc559d234a6" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[relationtype_belongs_to]]></Item>
-<Item Id="3b3a9ba40ebb4a1592d3bf0f182dd62f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[relationtype_contains]]></Item>
 <Item Id="0dcca5795d4b4918b01abf97cac6053f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[relationtype_is_defined_by]]></Item>
 <Item Id="9eada9083d1c43c68c634750ba2e7a57" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[relationtype_User_Message]]></Item>
 <Item Id="97736453379143f399fd7cb18ce835d4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[relationtype_InputMessage]]></Item>
+<Item Id="3b3a9ba40ebb4a1592d3bf0f182dd62f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[relationtype_contains]]></Item>
+<Item Id="cd156e378ee4411b8e560e923547d24f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[relationtype_is_written_in]]></Item>
+<Item Id="172b8b44b10e4e5dbfa00c7449ada17b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[relationtype_ErrorMessage]]></Item>
+<Item Id="7f7a986801554fcc8b4ebcc559d234a6" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[relationtype_belongs_to]]></Item>
 <Item Id="ac81a4ebb7b8439eb69d7b667f2192a2" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[class_Localized_Message]]></Item>
 <Item Id="a176f38f9f874164b2a8de6927ddea03" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[class_GUI_Caption]]></Item>
 <Item Id="8d22716d07454318b9d27a33dfa9d3b5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[class_Messages]]></Item>
+<Item Id="0c8e3ca5cf434797ab96a5d350d6b01d" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[class_ToolTip_Messages]]></Item>
 <Item Id="b2c6b85d9bfa4267956bae20cad2e1ab" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[class_GUI_Entires]]></Item>
 <Item Id="14ccb9018bdc4ca9ad3a48cdb9735fd7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[class_Language]]></Item>
-<Item Id="0c8e3ca5cf434797ab96a5d350d6b01d" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[class_ToolTip_Messages]]></Item>
 <Item Id="7684de35abf6401ea8308da960bda89b" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Localizing-Manager]]></Item>
 <Item Id="be0accc358d546ecb9f6bffb094e1309" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Codepage]]></Item>
+<Item Id="b1d83bf67aac421bb099f379b61bb856" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Message]]></Item>
 <Item Id="85124ef7ccba40abbcea06f148cdb80f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[attribute_dbPostfix]]></Item>
 <Item Id="aa7a61aee0964683983c0ad25e3b2bcf" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_offers]]></Item>
 <Item Id="8078bccd7cf84065abd5c2131cf141ae" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Standard]]></Item>
-<Item Id="d615496ba4944c0f886927de595cd678" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_offered_by]]></Item>
-<Item Id="b55713bec4874ab0b7338ef59911eb67" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_additional]]></Item>
+<Item Id="a9300d3e1c3d4b51b413d7934bcfb5bc" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_isDescribedBy]]></Item>
+<Item Id="87c18990f09e47cc9675bd3c67129bc7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is_defined_by]]></Item>
 <Item Id="c430404decbf4981a9687cd7f827a38e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_describes]]></Item>
 <Item Id="093878c0e4f24a1995f92511df8911ea" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_alternative_for]]></Item>
-<Item Id="a9300d3e1c3d4b51b413d7934bcfb5bc" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_isDescribedBy]]></Item>
-<Item Id="6ef4c36fdb80479c8515d055d4fcb271" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Module]]></Item>
-<Item Id="434ecbdec0354e6eaa66c2055dda72e7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Localizing_Module]]></Item>
-<Item Id="4a87455465564601887de3fbbbe7df6f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Localized_Names]]></Item>
+<Item Id="ad815019cd3848fc8096b4c3af379f9b" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Resource]]></Item>
+<Item Id="33e6fd2759074a489d5a3d4d2cfb1dbf" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_isWrittenIn]]></Item>
+<Item Id="ae71d3e4b191484d9126bc4095066068" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongsTo]]></Item>
+<Item Id="d615496ba4944c0f886927de595cd678" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_offered_by]]></Item>
+<Item Id="b55713bec4874ab0b7338ef59911eb67" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_additional]]></Item>
+<Item Id="c0a68595fc3642e4968c75ebd1c6e05e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_GUI_Entires]]></Item>
 <Item Id="4689920fdd504ce8838ffdc2edd34d69" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[type_LocalizedDescription]]></Item>
 <Item Id="dcab60532ebb45a780ec396cd20aeb7e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[type_SoftwareDevelopment]]></Item>
+<Item Id="c94c6f6c83014db4b98d0d49d74718f2" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_ToolTip_Messages]]></Item>
+<Item Id="bb049d52b1dd4490bad6847a6fc7a4e4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Language]]></Item>
+<Item Id="4a87455465564601887de3fbbbe7df6f" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Localized_Names]]></Item>
+<Item Id="2d414f8e42854a3395e501f3cdcb8680" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_GUI_Caption]]></Item>
+<Item Id="6ef4c36fdb80479c8515d055d4fcb271" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Module]]></Item>
+<Item Id="434ecbdec0354e6eaa66c2055dda72e7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Type_Localizing_Module]]></Item>
 <Item Id="1c74676b4e5a45db9593c81bc60b2aed" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Base_Config]]></Item>
+<Item Id="1392f8674da44a82a205e5dd4173be3d" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Localizing_Manager]]></Item>
 <Item Id="d9950407b4b04fdb899dbb94095cb207" Id_Parent="5a95c5aba5ef47d5a878e8a7efcf79a9"><![CDATA[Base-Config]]></Item>
+<Item Id="76bee339e97c4d619f1b337d47af96ac" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Localizing-Manager]]></Item>
+<Item Id="d466f715ab0b462fb2763705d84e5263" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Uzbek (Latin)]]></Item>
+<Item Id="252cb7f4929e435abb3737c34f8eee7f" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Farsi]]></Item>
+<Item Id="333d115d79b945feb54a8ccd53e6e993" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Latvian]]></Item>
+<Item Id="975e641887664339b24b21b9660d5902" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Portuguese (Portugal)]]></Item>
+<Item Id="a24a8c04213b47e8a6d022f03c15efed" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[English (Canada)]]></Item>
+<Item Id="3807cefa38cc4337aac126fb6e74d4e8" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Italian (Italy)]]></Item>
+<Item Id="8874a989724c40a59d792bc3a3f07d25" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Paraguay)]]></Item>
+<Item Id="fc27df06ec8c4a79b1d32ddce8907c3e" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Chile)]]></Item>
+<Item Id="e3106354aca940e791892e17e19ea72e" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Uruguay)]]></Item>
+<Item Id="64a33fc42b644671b76530bd59472a67" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Chinese (Macau S.A.R.)]]></Item>
+<Item Id="c07cebada87e4b19a14d568db71189df" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Armenian]]></Item>
+<Item Id="99eeb55da5c5465496e05c9b32cf10b6" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Dutch (Belgium)]]></Item>
+<Item Id="e47307a7bf544e1c97415d93944aa89f" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Hindi]]></Item>
+<Item Id="29c455c7c3544d4cbc9e608af47a80df" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Guatemala)]]></Item>
+<Item Id="9a5986b566664bfe955b028b6da10e8d" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Slovenian]]></Item>
+<Item Id="f3eb11e5bd99402c8d2b0521faf5c823" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Traditional Sort)]]></Item>
+<Item Id="0af393e7bbbc4271b4a40856e086af20" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Gujarati]]></Item>
+<Item Id="91c1436844d24d55b78adf813b08b114" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Marathi]]></Item>
+<Item Id="b8e421edfa3c414eb78ce2cc4953f06a" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Kannada]]></Item>
+<Item Id="8eb9d2c23c454180b90ae7c12d0b2e90" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Romanian]]></Item>
+<Item Id="06348e30ef974fecb271eb664fc9da02" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Albanian]]></Item>
+<Item Id="cb2a0bd247be4c398123ef5c8d0716b0" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Estonian]]></Item>
+<Item Id="7b62856005544184b4d6f12f2c1875af" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Portuguese (Brazil)]]></Item>
+<Item Id="218696d34fea47d4b051b77d3bc5e863" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Arabic (Algeria)]]></Item>
+<Item Id="be46dc41558e4447b49ec0c5e01e3f5f" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (International Sort)]]></Item>
+<Item Id="a89c0ae6c7924cbb9a3fcaf82e9c4d34" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[French (Luxembourg)]]></Item>
+<Item Id="c974626813b142c99b49b01843c210ab" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[French (Switzerland)]]></Item>
+<Item Id="da90319a487c4ef8999bb0d19ed2a72e" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Ukrainian]]></Item>
+<Item Id="e14a709eef544dc8b3db98aff4466109" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Kyrgyz (Cyrillic)]]></Item>
+<Item Id="ef0b4629ac5843c5a218232c0fb49740" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[French (Canada)]]></Item>
+<Item Id="ac29369db13741fba3ad45f62c75520c" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Bulgarian]]></Item>
+<Item Id="2a119ac73fad4fe2bda647a8fd1b2c97" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Puerto Rico)]]></Item>
+<Item Id="ebb255f33cc94bd2ab9f00aa610b6b6f" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Ecuador)]]></Item>
+<Item Id="d075ba5e86394a88aa1f0538a624c5fa" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Peru)]]></Item>
+<Item Id="e1ce8149d8be4f96a20b0800b856567b" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[German (Switzerland)]]></Item>
+<Item Id="a5c8f86c862d447c9a25085da9254102" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Arabic (Kuwait)]]></Item>
+<Item Id="33582b695d514e62924e1a6abfd5b14c" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Croatian]]></Item>
+<Item Id="24a9bba20b694a279053201b6383ce97" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Italian (Switzerland)]]></Item>
+<Item Id="018f64346c6c4ea482ea5ad9afef3a31" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[French (Belgium)]]></Item>
+<Item Id="02d2019bdccf4235ae926882eea2ff0d" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[French (France)]]></Item>
+<Item Id="ea47c4aec0be47ccad19341b8c598f5f" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[English (Jamaica)]]></Item>
+<Item Id="216eeaf85fc74faf997836e4504d3754" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Tamil]]></Item>
+<Item Id="abc695dd307d4bd89e9e89e5d6a10c9b" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Finnish]]></Item>
+<Item Id="834df072a0e34c1bb2a7d0eecabaa9c2" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Dominican Republic)]]></Item>
+<Item Id="8c3c894a0dfe48feb90bbc153e453bf8" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Japanese]]></Item>
+<Item Id="b0b0b703d066483ab340a8017899bf61" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[German (Liechtenstein)]]></Item>
+<Item Id="a85cdae9a7dc47f2971eb370b5a55fb1" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Urdu]]></Item>
+<Item Id="0345bbfd8879403dbb5fb682a391118f" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Arabic (U.A.E.)]]></Item>
+<Item Id="a0d3af81f9d84b5c8a3dea69402f4d47" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Thai]]></Item>
+<Item Id="1a286a0f03dd48d096e0ecdf5715aae8" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[English (New Zealand)]]></Item>
+<Item Id="afab9ecd4d3e4caab016f36cc8d95fe5" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Swahili]]></Item>
+<Item Id="1a99fde1c57b4f28b093d9f883ed9fc0" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Tatar]]></Item>
+<Item Id="98d3016cbcda4d5ab1c1e19fb7531780" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Russian]]></Item>
+<Item Id="0205e66803d24eff84c0e46be0c7d4c0" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[English (United Kingdom)]]></Item>
+<Item Id="2cd5aeb3dc6247c9953195a416073303" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Hungarian]]></Item>
+<Item Id="c17b5d358aef472381019a8dd041661a" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Nicaragua)]]></Item>
+<Item Id="edc5b6da61344cc3a7afa41456d60fe1" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Arabic (Saudi Arabia)]]></Item>
+<Item Id="b17e81f9d0d248428d30a5fb21b3cd16" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Chinese (PRC)]]></Item>
+<Item Id="63188e160cd7438490a8558b47564b7b" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[English (United States)]]></Item>
+<Item Id="8b1691d9b2964841b01ea7b6452eab2f" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[German (Germany)]]></Item>
+<Item Id="2533f16fbc8a40e8ab6668968ba6ca82" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Norwegian (Bokmal)]]></Item>
+<Item Id="50036ceb638644c283426d05401b6841" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[French (Monaco)]]></Item>
+<Item Id="64d71ff618c2498489f87193e42ecc3d" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[German (Luxembourg)]]></Item>
+<Item Id="1c17407d0153498189f03284040a176f" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[English (Belize)]]></Item>
+<Item Id="1b1d7941f46145568d16481979f9811c" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Azeri (Cyrillic)]]></Item>
+<Item Id="a52f984b9dec40d1b99216da249bb84b" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Georgian]]></Item>
+<Item Id="70d5aadf0f4e445487fc1a6770f88700" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Catalan]]></Item>
+<Item Id="72e36d986cd94832975c23f064a8d1d4" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Czech]]></Item>
+<Item Id="f85e7c2abb574f67a4a02c4a641e816e" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Swedish]]></Item>
+<Item Id="db470f18a94d4c729df37c9c81926882" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Kazakh]]></Item>
+<Item Id="6146837357304c0293ad831771e4c46d" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Faroese]]></Item>
+<Item Id="40dae1101cec4819944c5580e1dfe5d9" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Malay (Malaysia)]]></Item>
+<Item Id="2a178dd89ff548248a9989d24f0a3b4b" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Costa Rica)]]></Item>
+<Item Id="c4252f4bfff4421f90a80b9604fda36e" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[English (Caribbean)]]></Item>
+<Item Id="ad7b0d537af04284a3190c3d06afb4aa" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Swedish (Finland)]]></Item>
+<Item Id="292315cb3d35484dbda7ca4a0edba366" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Arabic (Qatar)]]></Item>
+<Item Id="fc61bfb6d43747e58078d7394b064a57" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Serbian (Latin)]]></Item>
+<Item Id="e845d63e2c3a41efbf48ab80559aa828" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Colombia)]]></Item>
+<Item Id="6934ea66210e4c21a750d8468dd1eaa2" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Galician]]></Item>
+<Item Id="1616a94746fb492b831fdff38a20b1b8" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Chinese (Singapore)]]></Item>
+<Item Id="a70a8dbb32a1427bb649e452716008e0" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[German (Austria)]]></Item>
+<Item Id="4afb7f8a86424759afa5e7c7da442b8d" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Arabic (Iraq)]]></Item>
+<Item Id="60e2b73a557f4d6c8edff3af4f27e658" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Arabic (Egypt)]]></Item>
+<Item Id="f1673f79a0904929afaab7fecbfd6e7c" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Argentina)]]></Item>
+<Item Id="09c605dfdbc145829b1dbdb0f52b5691" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Syriac]]></Item>
+<Item Id="64ccdb6d15964f5cbbfec19742952b64" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[English (Ireland)]]></Item>
+<Item Id="c4fa1f93a20e41e2ac71fa2d4e560567" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Afrikaans]]></Item>
+<Item Id="ebe0699af61c493894c7ff2d2063ae63" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Serbian (Cyrillic)]]></Item>
+<Item Id="06843000dc764ad7af5292df1fdef1de" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Arabic (Jordan)]]></Item>
+<Item Id="8a589e7cc4f9429eb6800064ad82c599" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Arabic (Libya)]]></Item>
+<Item Id="e681c7d81a804f49a2cf3c610879a7fb" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[English (Trinidad)]]></Item>
+<Item Id="d6033c6ee2f54b38bee124240d0c3392" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Venezuela)]]></Item>
+<Item Id="e577a60cedf245a886282fcd348f71c0" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Telugu]]></Item>
+<Item Id="12d1f7d3044b428088a46056bb2e4678" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Slovak]]></Item>
+<Item Id="33f7a97d637547b4b3766215f311b4bc" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Chinese (Taiwan)]]></Item>
+<Item Id="ac70f8b91ef54dd2936b10deb1020ad0" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Arabic (Yemen)]]></Item>
+<Item Id="6509bdbc1ed949dfa5301aa108478f2b" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[English (Philippines)]]></Item>
+<Item Id="cbe616f362d449529f08498bc512fe13" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Chinese (Hong Kong S.A.R.)]]></Item>
+<Item Id="7c0341b00d4d4c31b48779aef88d2e8c" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Greek]]></Item>
+<Item Id="e2f9ad6ef8bc4ba79c707e44024aaea8" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Arabic (Bahrain)]]></Item>
+<Item Id="7853af1078ab40f0a7179b198805970a" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (El Salvador)]]></Item>
+<Item Id="288be3d155b145fdb73e9d46f084913c" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Mexico)]]></Item>
+<Item Id="76032ec69e6b4fc59c519ec467e63d54" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Turkish]]></Item>
+<Item Id="bfd067959a1c4d4287eca21fefad13d3" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Norwegian (Nynorsk)]]></Item>
+<Item Id="25ee93f19728408086b6ebb96479874f" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Basque]]></Item>
+<Item Id="876b78a2f60542da8979f5731670b80f" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Altpersisch]]></Item>
+<Item Id="0f9c25f5e6374d40b9b0aaccc003eabf" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Mongolian (Cyrillic)]]></Item>
+<Item Id="b2f6a7237d4e47068290bf22e86b54ee" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[FYRO Macedonian]]></Item>
+<Item Id="99ad45026ab24c9389bedd2974833ec3" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[English (Australia)]]></Item>
+<Item Id="ea7759247fb5437e82a1deddef020942" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Honduras)]]></Item>
+<Item Id="43004171d1a9444c867ce23d33daf448" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Malay (Brunei Darussalam)]]></Item>
+<Item Id="86f2611e301c4e28b8b6cb6008cfc7b0" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Uzbek (Cyrillic)]]></Item>
+<Item Id="e504e18d9f594ce382b8d04f9c074fdd" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Arabic (Tunisia)]]></Item>
+<Item Id="25079f72fd8a41c18bc88a8572f61f98" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Sanskrit]]></Item>
+<Item Id="0fb4cca8cb6249be845d3ab3df4c558f" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Polish]]></Item>
+<Item Id="4af0cc5cb03d4a0daecb49ef260a1008" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Panama)]]></Item>
+<Item Id="4fa7d29c676e484cb7f44a3c5107772f" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Arabic (Morocco)]]></Item>
+<Item Id="5e57ccc24a1d4291943215357a9bfdf7" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Lithuanian]]></Item>
+<Item Id="32f064e675ac4c4ca3af18b1e11bdbe3" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Divehi]]></Item>
+<Item Id="008d943fdad7475bb3c2286048b4049d" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Danish]]></Item>
+<Item Id="17b675ccd57a43cdb427006694feeea6" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Arabic (Syria)]]></Item>
+<Item Id="cb347ce221b94dc6bfcc04ce463e4718" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Azeri (Latin)]]></Item>
+<Item Id="c402aa47aa4249cf93fb06b96b308b25" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Korean]]></Item>
+<Item Id="79ace185b0b345289bff0900caf1723e" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Icelandic]]></Item>
+<Item Id="4498126677b34b8ab7e60a92882277c9" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Indonesian]]></Item>
+<Item Id="722096417b0040e7a0de0eb26747c2ff" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Punjabi]]></Item>
+<Item Id="42fa87f2a2434685be71537f82dbccbf" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Arabic (Lebanon)]]></Item>
+<Item Id="922b008fcd4a4f2babf0e5e341d51a45" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Spanish (Bolivia)]]></Item>
+<Item Id="78b80a6e0d7447349ecff56bccb3b7e9" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[English (Zimbabwe)]]></Item>
+<Item Id="468bacd00ba34dc58106f686c7dd62fc" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Konkani]]></Item>
+<Item Id="07963a9ca9c84dc28e35f93c43eea049" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Hebrew]]></Item>
+<Item Id="a84b6a1bbacd4e75a7646da76bce4320" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Belarusian]]></Item>
+<Item Id="0d58697c003543ff8705ab4aaf4e6140" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Vietnamese]]></Item>
+<Item Id="8827d139113b4d829dd6af25de47c68f" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Dutch (Netherlands)]]></Item>
+<Item Id="ae22b33fbc2243888d5798a7cf2e8172" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[Arabic (Oman)]]></Item>
+<Item Id="f649e13cbd3d456e8d6ca42204cbc22a" Id_Parent="e79ff4de2e394101b5a10055c40f41cd"><![CDATA[English (South Africa)]]></Item>
 
 </Items>

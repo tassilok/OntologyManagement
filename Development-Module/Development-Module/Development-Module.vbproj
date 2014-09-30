@@ -253,7 +253,9 @@
     <EmbeddedResource Include="Config\Templates\ClassRels.xml" />
     <EmbeddedResource Include="Config\Templates\ObjectAtt.xml" />
     <EmbeddedResource Include="Config\Templates\ObjectRel.xml" />
-    <EmbeddedResource Include="Config\Templates\Objects.xml" />
+    <EmbeddedResource Include="Config\Templates\Objects.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Config\Templates\RelationTypes.xml" />
     <None Include="Resources\saveHS.png" />
     <None Include="Resources\clipboard_01.png" />

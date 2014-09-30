@@ -730,6 +730,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Config\Templates\Classes.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Config\Templates\ClassRels.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
