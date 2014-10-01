@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Items Type="Object">
-  <Item Id="c8c107f27b23448ea5cae418d319f99c" Id_Parent="86b05e853ce24a56be3c80375a686a82"><![CDATA[Media-Integration]]></Item>
+  <Item Id="6f3fc12961c44c2bb6bda189b13b2c3e" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[MediaViewer-Module]]></Item>
+<Item Id="c8c107f27b23448ea5cae418d319f99c" Id_Parent="86b05e853ce24a56be3c80375a686a82"><![CDATA[Media-Integration]]></Item>
 <Item Id="49c6293d838e4b9cb0ded4ae569e605b" Id_Parent="460cb0168fbb47ae91c8cd9d8db5d8f4"><![CDATA[Base-Config]]></Item>
 <Item Id="1ef425afe14e4be7a4a2ea2926fe0f8d" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[MediaViewer-Module]]></Item>
 <Item Id="aa5c74e73272490da982a983b6d5aa52" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_L_nge__Minuten_]]></Item>
