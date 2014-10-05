@@ -96,12 +96,13 @@ Public Class clsDataWork_ReportFields
     End Sub
 
     Public Function get_ColumnsOfReportMSSQL(report As clsReports) As clsOntologyItem
-        Dim objConnection = New SqlClient.SqlConnection(objLocalConfig.Globals.get_ConnectionStr(report.Name_Server,"SQLEXPRESS",report.Name_Database))
+        Dim objConnection = New SqlClient.SqlConnection(objLocalConfig.Globals.get_ConnectionStr(report.Name_Server, objLocalConfig.Globals.Rep_Instance, report.Name_Database))
         Dim objOItem_Result_Function = New clsOntologyItem with {.GUID = objLocalConfig.Globals.LState_Success.GUID, _
                                                                  .Name = objLocalConfig.Globals.LState_Success.Name, _
                                                                  .GUID_Parent = objLocalConfig.Globals.LState_Success.GUID_Parent, _
                                                                  .Type = objLocalConfig.Globals.LState_Success.Type }
 
+        dtblA_Columns.Connection = objConnection
         dtblA_Columns.Fill(dtblT_Columns,report.Name_DBView)
 
         If dtblT_Columns.Rows.Count > 0 Then
@@ -203,17 +204,17 @@ Public Class clsDataWork_ReportFields
                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                                                     objTransaction_ReportFields.rollback()
                                                 End If
-                                            Else 
+                                            Else
                                                 objTransaction_ReportFields.rollback()
                                             End If
-                                        Else 
+                                        Else
                                             objTransaction_ReportFields.rollback()
                                         End If
-                                    Else 
+                                    Else
                                         objTransaction_ReportFields.rollback()
                                     End If
                                 End If
-                            Else 
+                            Else
                                 objTransaction_ReportFields.rollback()
                             End If
                         End If

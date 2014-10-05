@@ -623,7 +623,7 @@ Public Class UserControl_Report
                 objReport = objDataWork_Report.Report
 
                 If Not objReport.Name_Server Is Nothing Then
-                    strConn = "Data Source=" & objReport.Name_Server & "\SQLEXPRESS;Initial Catalog=" & objReport.Name_Database & ";Integrated Security=True"
+                    strConn = "Data Source=" & objReport.Name_Server & "\" & objLocalConfig.Globals.Rep_Instance & ";Initial Catalog=" & objReport.Name_Database & ";Integrated Security=True"
                     objDataAdp = New SqlClient.SqlDataAdapter("SELECT * FROM [" & objReport.Name_Database & "]..[" & objReport.Name_DBView & "]", strConn)
                     Try
                         objDataAdp.Fill(objDataSet)

@@ -4,15 +4,15 @@
 <Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
 <Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
 <Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="aa616051e5214facabdbcbba6f8c6e73" Id_Parent="b5224e7f7d0d4beebf8eb9a0eeba5747"><![CDATA[Module]]></Item>
 <Item Id="86b05e853ce24a56be3c80375a686a82" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Module-Function]]></Item>
 <Item Id="e8f6f1ef76b94d78a234d8be72c0fdf2" Id_Parent="eaf49d6036ed4a04b44f4b195fd306b8"><![CDATA[Typed Tag]]></Item>
 <Item Id="1b1f843c19b74ae1a73f6191585ec5c6" Id_Parent="31da809331494400957fa26027fb506e"><![CDATA[Group]]></Item>
 <Item Id="c441518dbfe04d55b538df5c5555dd83" Id_Parent="31da809331494400957fa26027fb506e"><![CDATA[user]]></Item>
 <Item Id="31da809331494400957fa26027fb506e" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Security-Management]]></Item>
-<Item Id="aa616051e5214facabdbcbba6f8c6e73" Id_Parent="b5224e7f7d0d4beebf8eb9a0eeba5747"><![CDATA[Module]]></Item>
+<Item Id="b5224e7f7d0d4beebf8eb9a0eeba5747" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Module-Management]]></Item>
 <Item Id="eaf49d6036ed4a04b44f4b195fd306b8" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Begriff]]></Item>
 <Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
-<Item Id="b5224e7f7d0d4beebf8eb9a0eeba5747" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Module-Management]]></Item>
 <Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
 <Item Id="83317bacb4b14db8bf849fca0a93ddd5" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Information-Management]]></Item>
 
