@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="e64cb210f5d74989b2746d935f686d16" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Document-Module]]></Item>
+<Item Id="fd00f877f1c840c49e1adaec1b16a8fc" Id_Parent="86b05e853ce24a56be3c80375a686a82"><![CDATA[Document-Management]]></Item>
+<Item Id="7fb9fa7910d0400995dd7e1e972f788e" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Document-Module]]></Item>
+<Item Id="4502d0632e8f42f286bc155283efe10a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Source]]></Item>
+<Item Id="01bc4c8ed85b4fa09d471507cce5b3be" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Development_Version]]></Item>
+<Item Id="d22a46235fbc41198c761787fc2e537c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Document]]></Item>
+
+</Items>

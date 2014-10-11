@@ -75,7 +75,7 @@ del /s /q "%OMODULE_PATH%\ElasticSearchLogging-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ElasticSearchLogging-Module_0.0.0.34.exe" -o"%OMODULE_PATH%\ElasticSearchLogging-Module\"
 
 del /s /q "%OMODULE_PATH%\Version-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Version-Module_0.0.1.38.exe" -o"%OMODULE_PATH%\Version-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Version-Module_0.0.1.40.exe" -o"%OMODULE_PATH%\Version-Module\"
 
 del /s /q "%OMODULE_PATH%\Filesystem-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Filesystem-Module_0.2.0.72.exe" -o"%OMODULE_PATH%\Filesystem-Module\"
@@ -102,7 +102,7 @@ del /s /q "%OMODULE_PATH%\BankTransaction-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\BankTransaction-Module_0.0.1.49.exe" -o"%OMODULE_PATH%\BankTransaction-Module\"
 
 del /s /q "%OMODULE_PATH%\Development-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Development-Module_0.2.0.92.exe" -o"%OMODULE_PATH%\Development-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Development-Module_0.2.0.94.exe" -o"%OMODULE_PATH%\Development-Module\"
 
 del /s /q "%OMODULE_PATH%\Media-Viewer-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Media-Viewer-Module_0.0.1.103.exe" -o"%OMODULE_PATH%\Media-Viewer-Module\"

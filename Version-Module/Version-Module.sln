@@ -13,6 +13,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Log-Module", "..\Log-Module
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Security-Module", "..\Security-Module\Security-Module\Security-Module.vbproj", "{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ClassLibrary_ShellWork", "..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\ClassLibrary_ShellWork.vbproj", "{10BCC346-A390-401C-BA6A-904A8842A40B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,16 @@ Global
 		{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}.Release|Mixed Platforms.Build.0 = Release|x86
 		{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}.Release|x86.ActiveCfg = Release|x86
 		{C9ADD5DC-090D-4003-BBA9-CF9218C938B2}.Release|x86.Build.0 = Release|x86
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

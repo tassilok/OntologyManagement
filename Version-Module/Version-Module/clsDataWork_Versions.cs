@@ -29,6 +29,7 @@ namespace Version_Module
         private clsDBLevel objDBLevel_ClassesOfObjects;
         private clsDBLevel objDBLevel_Classes;
         private clsDBLevel objDBLevel_VersionsRef;
+        private clsDBLevel objDBLevel_OItem;
 
         public List<clsOntologyItem> OList_Versions { get; private set; }
         public List<clsObjectAtt> OList_Version__VersionNumbers { get; private set; }
@@ -175,14 +176,18 @@ namespace Version_Module
         {
             OItem_Result_Versions__VersionNumbers = objLocalConfig.Globals.LState_Nothing;
 
-            var objOAL_Versions__VersionNumbers = new List<clsObjectAtt> { new clsObjectAtt { ID_AttributeType = objLocalConfig.OItem_attribute_major.GUID, 
-                                                                                               ID_Class = objLocalConfig.OItem_type_developmentversion.GUID },
-                                                                            new clsObjectAtt { ID_AttributeType = objLocalConfig.OItem_attribute_minor.GUID, 
-                                                                                               ID_Class = objLocalConfig.OItem_type_developmentversion.GUID },
-                                                                            new clsObjectAtt { ID_AttributeType = objLocalConfig.OItem_attribute_build.GUID, 
-                                                                                               ID_Class = objLocalConfig.OItem_type_developmentversion.GUID },
-                                                                            new clsObjectAtt { ID_AttributeType = objLocalConfig.OItem_attribute_revision.GUID, 
-                                                                                               ID_Class = objLocalConfig.OItem_type_developmentversion.GUID } };
+            var objOAL_Versions__VersionNumbers = new List<clsObjectAtt>();
+
+            
+            objOAL_Versions__VersionNumbers = new List<clsObjectAtt> { new clsObjectAtt { ID_AttributeType = objLocalConfig.OItem_attribute_major.GUID, 
+                                                                                            ID_Class = objLocalConfig.OItem_type_developmentversion.GUID },
+                                                                        new clsObjectAtt { ID_AttributeType = objLocalConfig.OItem_attribute_minor.GUID, 
+                                                                                            ID_Class = objLocalConfig.OItem_type_developmentversion.GUID },
+                                                                        new clsObjectAtt { ID_AttributeType = objLocalConfig.OItem_attribute_build.GUID, 
+                                                                                            ID_Class = objLocalConfig.OItem_type_developmentversion.GUID },
+                                                                        new clsObjectAtt { ID_AttributeType = objLocalConfig.OItem_attribute_revision.GUID, 
+                                                                                            ID_Class = objLocalConfig.OItem_type_developmentversion.GUID } };
+            
 
             var objOItem_Result = objDBLevel_Version__VersionNumbers.get_Data_ObjectAtt(objOAL_Versions__VersionNumbers, boolIDs: false);
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
@@ -197,9 +202,57 @@ namespace Version_Module
 
         }
 
+        public List<clsVersion> GetVersionData(List<clsOntologyItem> versionList)
+        {
+            GetData_VersionNumbers();
+            var objOItem_Result = OItem_Result_Versions__VersionNumbers;
+
+            var versions = new List<clsVersion>();
+
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                versions = (from version in versionList
+                           join major in objDBLevel_Version__VersionNumbers.OList_ObjectAtt.Where(maj => maj.ID_AttributeType == objLocalConfig.OItem_attribute_major.GUID).ToList() on
+                                version.GUID equals major.ID_Object
+                           join minor in objDBLevel_Version__VersionNumbers.OList_ObjectAtt.Where(min => min.ID_AttributeType == objLocalConfig.OItem_attribute_minor.GUID).ToList() on
+                               version.GUID equals minor.ID_Object
+                           join build in objDBLevel_Version__VersionNumbers.OList_ObjectAtt.Where(bui => bui.ID_AttributeType == objLocalConfig.OItem_attribute_build.GUID).ToList() on
+                               version.GUID equals build.ID_Object
+                           join revision in objDBLevel_Version__VersionNumbers.OList_ObjectAtt.Where(rev => rev.ID_AttributeType == objLocalConfig.OItem_attribute_revision.GUID).ToList() on
+                               version.GUID equals revision.ID_Object
+                           select new clsVersion
+                           {
+                               ID_Version = version.GUID,
+                               Name_Version = version.Name,
+                               ID_Attribute_Major = major.ID_Attribute,
+                               Major = major.Val_Lng,
+                               ID_Attribute_Minor = minor.ID_Attribute,
+                               Minor = minor.Val_Lng,
+                               ID_Attribute_Build = build.ID_Attribute,
+                               Build = build.Val_Lng,
+                               ID_Attribute_Revision = revision.ID_Attribute,
+                               Revision = revision.Val_Lng
+                           }).ToList();
+
+                return versions;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public clsDataWork_Versions(clsLocalConfig LocalConfig)
         {
             objLocalConfig = LocalConfig;
+
+            initialize();
+        }
+
+        public clsDataWork_Versions(clsGlobals Globals)
+        {
+            objLocalConfig = new clsLocalConfig(Globals);
 
             initialize();
         }
@@ -696,6 +749,11 @@ namespace Version_Module
             return objORel_LogEntry_To_Version;
         }
 
+        public clsOntologyItem GetOItem(string GUID, string Type)
+        {
+            return objDBLevel_OItem.GetOItem(GUID, Type);
+        }
+
         private void initialize()
         {
             objDBLevel_Versions = new clsDBLevel(objLocalConfig.Globals);
@@ -705,6 +763,7 @@ namespace Version_Module
             objDBLevel_ClassesOfObjects = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Classes = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_VersionsRef = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_OItem = new clsDBLevel(objLocalConfig.Globals);
 
             objLocalConfig_LogModule = new Log_Module.clsLocalConfig(objLocalConfig.Globals);
 

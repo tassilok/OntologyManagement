@@ -23,6 +23,8 @@ namespace Version_Module
         private UserControl_VersionDetails objUserControl_Versions;
         private frmAuthenticate objFrmAuthenticate;
 
+        private clsArgumentParsing objArgumentParsing;
+
         private SplashScreen_OntologyModule SplashScreen;
         private AboutBox_OntologyItem AboutBox;
 
@@ -41,6 +43,19 @@ namespace Version_Module
             objLocalConfig = new clsLocalConfig(new clsGlobals());
 
             initialize();
+        }
+
+        private clsOntologyItem ParseArguments()
+        {
+            var objOItem_Result = objLocalConfig.Globals.LState_Nothing.Clone();
+            objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList());
+            if (objArgumentParsing.OList_Items.Any())
+            {
+                objUserControl_Versions.initialize_Grid(objArgumentParsing.OList_Items.First());
+                objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+            }
+
+            return objOItem_Result;
         }
 
         private void initialize()
@@ -68,13 +83,24 @@ namespace Version_Module
                     var objOList_Rels_LeftRight = new List<clsOntologyItem> { objLocalConfig.OItem_relationtype_belongsto };
                     var objOList_Rels_RightLeft = new List<clsOntologyItem> { objLocalConfig.OItem_relationtype_isinstate };
 
-                    objUserControl_RefTree.initialize_Tree(objOList_Rels, objOList_Rels_LeftRight, objOList_Rels_RightLeft);
+                    
                     objUserControl_Versions = new UserControl_VersionDetails(objDataWorkVersions) { Dock = DockStyle.Fill };
                     objUserControl_Versions.Dock = DockStyle.Fill;
 
                     objUserControl_RefTree.selected_Node += objUserControl_RefTree_selectedNode;
                     splitContainer1.Panel1.Controls.Add(objUserControl_RefTree);
                     splitContainer1.Panel2.Controls.Add(objUserControl_Versions);
+
+                    var objOItem_Result = ParseArguments();
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Nothing.GUID)
+                    {
+                        InitializeTree(objOList_Rels, objOList_Rels_LeftRight, objOList_Rels_RightLeft);
+                    }
+                    else
+                    {
+                        splitContainer1.Panel1Collapsed = true;
+                    }
+                    
                 }
                 else
                 {
@@ -82,6 +108,11 @@ namespace Version_Module
                 }
             }
             
+        }
+
+        private void InitializeTree(List<clsOntologyItem> Rels, List<clsOntologyItem> Rels_LeftRight, List<clsOntologyItem> Rels_RightLeft)
+        {
+            objUserControl_RefTree.initialize_Tree(Rels, Rels_LeftRight, Rels_RightLeft);
         }
 
         void objUserControl_RefTree_selectedNode(OntologyClasses.BaseClasses.clsOntologyItem OItem_SelectedNode)
