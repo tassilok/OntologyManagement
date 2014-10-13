@@ -11,6 +11,8 @@ Public Class UserControl_GuiEntries
 
     Private objFrm_Name As frm_Name
 
+    Private objFrm_ObjectEdit As frm_ObjectEdit
+
     Private objTransaction As clsTransaction
     Private objRelationConfig As clsRelationConfig
 
@@ -161,5 +163,23 @@ Public Class UserControl_GuiEntries
             End If
             
         End If
+    End Sub
+
+    Private Sub TreeView_GuiEntries_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles TreeView_GuiEntries.MouseDoubleClick
+        Dim treeNode = TreeView_GuiEntries.SelectedNode
+
+        If treeNode.ImageIndex = objLocalConfig.ImageID_GuiItem Or treeNode.ImageIndex = objLocalConfig.ImageID_Form Then
+            Dim objOItem = objDataWork_GuiEntries.GetOItem(treeNode.Name, objLocalConfig.Globals.Type_Object)
+            If Not objOItem Is Nothing Then
+                Dim objOList = New List(Of clsOntologyItem) From {objOItem}
+
+                objFrm_ObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList, 0, objLocalConfig.Globals.Type_Object, Nothing)
+                objFrm_ObjectEdit.ShowDialog(Me)
+                Initialize_GuiEntries(objOItem_Development)
+            End If
+            
+        End If
+
+
     End Sub
 End Class

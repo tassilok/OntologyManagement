@@ -30,11 +30,11 @@ Partial Class UserControl_GuiEntries
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeView_GuiEntries = New System.Windows.Forms.TreeView()
-        Me.ImageList_GuiEntries = New System.Windows.Forms.ImageList(Me.components)
         Me.ContextMenuStrip_GuiEntries = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.NewGuiEntryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewCaptionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewTooltipToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ImageList_GuiEntries = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -110,21 +110,11 @@ Partial Class UserControl_GuiEntries
         Me.TreeView_GuiEntries.Size = New System.Drawing.Size(240, 383)
         Me.TreeView_GuiEntries.TabIndex = 0
         '
-        'ImageList_GuiEntries
-        '
-        Me.ImageList_GuiEntries.ImageStream = CType(resources.GetObject("ImageList_GuiEntries.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.ImageList_GuiEntries.TransparentColor = System.Drawing.Color.Transparent
-        Me.ImageList_GuiEntries.Images.SetKeyName(0, "bb_home_.png")
-        Me.ImageList_GuiEntries.Images.SetKeyName(1, "mycomp.ico")
-        Me.ImageList_GuiEntries.Images.SetKeyName(2, "Procedures.png")
-        Me.ImageList_GuiEntries.Images.SetKeyName(3, "gnome-mime-document.ico")
-        Me.ImageList_GuiEntries.Images.SetKeyName(4, "1683_Lightbulb_32x32.png")
-        '
         'ContextMenuStrip_GuiEntries
         '
         Me.ContextMenuStrip_GuiEntries.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewGuiEntryToolStripMenuItem, Me.NewCaptionToolStripMenuItem, Me.NewTooltipToolStripMenuItem})
         Me.ContextMenuStrip_GuiEntries.Name = "ContextMenuStrip_GuiEntries"
-        Me.ContextMenuStrip_GuiEntries.Size = New System.Drawing.Size(162, 92)
+        Me.ContextMenuStrip_GuiEntries.Size = New System.Drawing.Size(162, 70)
         '
         'NewGuiEntryToolStripMenuItem
         '
@@ -143,6 +133,16 @@ Partial Class UserControl_GuiEntries
         Me.NewTooltipToolStripMenuItem.Name = "NewTooltipToolStripMenuItem"
         Me.NewTooltipToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
         Me.NewTooltipToolStripMenuItem.Text = "x_New Tooltip"
+        '
+        'ImageList_GuiEntries
+        '
+        Me.ImageList_GuiEntries.ImageStream = CType(resources.GetObject("ImageList_GuiEntries.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageList_GuiEntries.TransparentColor = System.Drawing.Color.Transparent
+        Me.ImageList_GuiEntries.Images.SetKeyName(0, "bb_home_.png")
+        Me.ImageList_GuiEntries.Images.SetKeyName(1, "mycomp.ico")
+        Me.ImageList_GuiEntries.Images.SetKeyName(2, "Procedures.png")
+        Me.ImageList_GuiEntries.Images.SetKeyName(3, "gnome-mime-document.ico")
+        Me.ImageList_GuiEntries.Images.SetKeyName(4, "1683_Lightbulb_32x32.png")
         '
         'UserControl_GuiEntries
         '

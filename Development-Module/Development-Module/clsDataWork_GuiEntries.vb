@@ -9,10 +9,15 @@ Public Class clsDataWork_GuiEntries
     Private objDBLevel_Caption As clsDBLevel
     Private objDBLevel_ToolTip As clsDBLevel
     Private objDBLevel_GuiEntriesExist As clsDBLevel
+    Private objDBLevel_OItem As clsDBLevel
 
     Private objOItem_Development As clsOntologyItem
 
     Private GuiOfDevList As List(Of clsObjectRel)
+
+    Public Function GetOItem(ItemGUID As String, ItemType As String) As clsOntologyItem
+        Return objDBLevel_OItem.GetOItem(ItemGUID, ItemType)
+    End Function
 
     Public Function CreateSubNodes(Optional OItem_Development As clsOntologyItem = Nothing, Optional objTreeNode_Root As TreeNode = Nothing) As clsOntologyItem
         objOItem_Development = OItem_Development
@@ -177,5 +182,6 @@ Public Class clsDataWork_GuiEntries
         objDBLevel_Caption = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_ToolTip = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_GuiEntriesExist = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_OItem = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class

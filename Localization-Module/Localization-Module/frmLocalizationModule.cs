@@ -113,35 +113,40 @@ namespace Localization_Module
             ConfigureGuiLanguage();
         }
 
+        
+
+        
+
         private void ConfigureGuiLanguage()
         {
-            var caption = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name, this.Name, CultureInfo.CurrentCulture
-                                                                                                      .TwoLetterISOLanguageName);
-            Text = caption != "" ? caption : Text;
+            //var caption = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name, this.Name, CultureInfo.CurrentCulture
+            //                                                                                          .TwoLetterISOLanguageName);
+            //Text = caption != "" ? caption : Text;
+
+            objLocalConfig.GuiLocalization.ConfigureControlsLanguage(this, this.Name);
+
+            //caption = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name,
+            //                                                                                this.hilfeToolStripMenuItem
+            //                                                                                    .Name,
+            //                                                                                CultureInfo.CurrentCulture
+            //                                                                                           .TwoLetterISOLanguageName);
+            //hilfeToolStripMenuItem.Text = caption != "" ? caption : hilfeToolStripMenuItem.Text;
 
 
-            caption = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name,
-                                                                                            this.hilfeToolStripMenuItem
-                                                                                                .Name,
-                                                                                            CultureInfo.CurrentCulture
-                                                                                                       .TwoLetterISOLanguageName);
-            hilfeToolStripMenuItem.Text = caption != "" ? caption : hilfeToolStripMenuItem.Text;
+            //caption = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name,
+            //                                                                               this.infoToolStripMenuItem
+            //                                                                                   .Name,
+            //                                                                               CultureInfo.CurrentCulture
+            //                                                                                          .TwoLetterISOLanguageName);
+            //infoToolStripMenuItem.Text = caption != "" ? caption : infoToolStripMenuItem.Text;
 
 
-            caption = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name,
-                                                                                           this.infoToolStripMenuItem
-                                                                                               .Name,
-                                                                                           CultureInfo.CurrentCulture
-                                                                                                      .TwoLetterISOLanguageName);
-            infoToolStripMenuItem.Text = caption != "" ? caption : infoToolStripMenuItem.Text;
+            //caption = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name,
+            //                                                                               this.toolStripButton_Close.Name,
+            //                                                                               CultureInfo.CurrentCulture
+            //                                                                                          .TwoLetterISOLanguageName);
 
-
-            caption = objLocalConfig.GuiLocalization.GetGuiCaption(this.Name,
-                                                                                           this.toolStripButton_Close.Name,
-                                                                                           CultureInfo.CurrentCulture
-                                                                                                      .TwoLetterISOLanguageName);
-
-            toolStripButton_Close.Text = caption != "" ? caption : toolStripButton_Close.Text;
+            //toolStripButton_Close.Text = caption != "" ? caption : toolStripButton_Close.Text;
         }
 
         private void objUserControl_RefTree_selected_Node(clsOntologyItem OItem_Selected)

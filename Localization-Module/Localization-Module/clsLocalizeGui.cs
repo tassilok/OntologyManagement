@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OntologyClasses.BaseClasses;
 using Ontology_Module;
+using System.Globalization;
 
 namespace Localization_Module
 {
@@ -30,6 +31,70 @@ namespace Localization_Module
             this.localConfig = localConfig;
 
             Initialize();
+        }
+
+        public void ConfigureControlsLanguage(Control parentControl, string frmName)
+        {
+            if (parentControl is Form || parentControl is UserControl)
+            {
+                frmName = parentControl.Name;
+            }
+
+
+            foreach (Control subControl in parentControl.Controls)
+            {
+                var caption = GetGuiCaption(frmName,
+                                                                                            subControl.Name,
+                                                                                            CultureInfo.CurrentCulture
+                                                                                                       .TwoLetterISOLanguageName);
+                if (!string.IsNullOrEmpty(caption))
+                {
+                    var controlType = subControl.GetType();
+                    var property = controlType.GetProperty("Text");
+                    if (property != null)
+                    {
+                        property.SetValue(subControl, caption);
+                    }
+                    else
+                    {
+                        property = controlType.GetProperty("Caption");
+                        if (property != null)
+                        {
+                            property.SetValue(subControl, caption);
+                        }
+                    }
+                }
+
+                ConfigureControlsLanguage(subControl, frmName);
+
+                if (subControl is MenuStrip)
+                {
+                    var menuStrip = (MenuStrip)subControl;
+
+                    foreach (ToolStripMenuItem subMenuItem in menuStrip.Items)
+                    {
+                        LocalizeMenuItems(subMenuItem, frmName);
+                    }
+
+                }
+            }
+
+
+        }
+
+        private void LocalizeMenuItems(ToolStripMenuItem menuItem, string frmName)
+        {
+            var caption = GetGuiCaption(frmName,
+                                                                                            menuItem.Name,
+                                                                                            CultureInfo.CurrentCulture
+                                                                                                       .TwoLetterISOLanguageName);
+
+            menuItem.Text = caption != "" ? caption : menuItem.Text;
+
+            foreach (ToolStripMenuItem subMenuItem in menuItem.DropDownItems)
+            {
+                LocalizeMenuItems(subMenuItem, frmName);
+            }
         }
 
         public string GetGuiCaption(string NameForm, string NameGuiEntry, string languageShort)
