@@ -13,6 +13,8 @@ Public Class clsLocalConfig
 
     Private objImport As clsImport
 
+    Public Property LocalizeGui As clsLocalizeGui
+
     Private cstrID_Development As String = "fa13314314c34c0ebc85150daf512081"
 
     'Attributes
@@ -1404,6 +1406,8 @@ Public Class clsLocalConfig
         set_DBConnection()
 
         get_Config()
+
+        LocalizeGui = New clsLocalizeGui(Me)
 
     End Sub
 

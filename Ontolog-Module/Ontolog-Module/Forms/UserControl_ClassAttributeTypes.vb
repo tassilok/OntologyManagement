@@ -27,8 +27,14 @@ Public Class UserControl_ClassAttributeTypes
         initialize()
     End Sub
 
+    Private Sub LocalizeGui()
+        objLocalConfig.LocalizeGui.ConfigureControlsLanguage(Me, Me.Name)
+    End Sub
+
     Private Sub initialize()
+        LocalizeGui()
         get_Data_AttributeTypes()
+
     End Sub
 
     Private Sub get_Data_AttributeTypes()

@@ -37,6 +37,7 @@ Public Class frmMain
 
     Private objReport As clsReport
 
+
     Private objOList_ClassRel_LeftRight As New List(Of clsClassRel)
     Private objOList_ClassRel_RightLeft As New List(Of clsClassRel)
 
@@ -494,10 +495,13 @@ Public Class frmMain
         Else
             objUserControl_TypeTree.initialize_Tree()
         End If
-
+        LocalizeGui()
         configure_Areas()
     End Sub
 
+    Private Sub LocalizeGui()
+        objLocalConfig.LocalizeGui.ConfigureControlsLanguage(Me, Me.Name)
+    End Sub
     
 
     Private Sub Configure_ORelationTypeList(objOItem_RelType As clsOntologyItem)

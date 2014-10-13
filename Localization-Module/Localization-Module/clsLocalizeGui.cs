@@ -40,46 +40,133 @@ namespace Localization_Module
                 frmName = parentControl.Name;
             }
 
+            var caption = GetGuiCaption(frmName,
+                                                                                            parentControl.Name,
+                                                                                            CultureInfo.CurrentCulture
+                                                                                                       .TwoLetterISOLanguageName);
+
+            parentControl.Text = caption != null ? caption : parentControl.Text;
 
             foreach (Control subControl in parentControl.Controls)
             {
-                var caption = GetGuiCaption(frmName,
+                if (!(subControl is UserControl))
+                {
+                    caption = GetGuiCaption(frmName,
                                                                                             subControl.Name,
                                                                                             CultureInfo.CurrentCulture
                                                                                                        .TwoLetterISOLanguageName);
-                if (!string.IsNullOrEmpty(caption))
-                {
-                    var controlType = subControl.GetType();
-                    var property = controlType.GetProperty("Text");
-                    if (property != null)
+                    if (!string.IsNullOrEmpty(caption))
                     {
-                        property.SetValue(subControl, caption);
-                    }
-                    else
-                    {
-                        property = controlType.GetProperty("Caption");
+                        var controlType = subControl.GetType();
+                        var property = controlType.GetProperty("Text");
                         if (property != null)
                         {
                             property.SetValue(subControl, caption);
                         }
+                        else
+                        {
+                            property = controlType.GetProperty("Caption");
+                            if (property != null)
+                            {
+                                property.SetValue(subControl, caption);
+                            }
+                        }
                     }
-                }
 
-                ConfigureControlsLanguage(subControl, frmName);
+                    ConfigureControlsLanguage(subControl, frmName);
 
-                if (subControl is MenuStrip)
-                {
-                    var menuStrip = (MenuStrip)subControl;
-
-                    foreach (ToolStripMenuItem subMenuItem in menuStrip.Items)
+                    if (subControl is MenuStrip)
                     {
-                        LocalizeMenuItems(subMenuItem, frmName);
+                        var menuStrip = (MenuStrip)subControl;
+
+                        foreach (ToolStripMenuItem subMenuItem in menuStrip.Items)
+                        {
+                            LocalizeMenuItems(subMenuItem, frmName);
+                        }
+
                     }
 
+                    if (subControl is StatusStrip)
+                    {
+                        var menuStrip = (StatusStrip)subControl;
+                        foreach (object subMenuItem in menuStrip.Items)
+                        {
+                            LocalizeObjects(subMenuItem, frmName);
+                                
+                            
+                            
+                        }
+
+
+                    }
+
+                    if (subControl is ToolStrip)
+                    {
+                        var menuStrip = (ToolStrip)subControl;
+                        foreach (object subMenuItem in menuStrip.Items)
+                        {
+                            LocalizeObjects(subMenuItem, frmName);
+                                
+                            
+                            
+                        }
+
+
+                    }
+
+                    if (subControl.ContextMenuStrip != null)
+                    {
+                        var objContextMenu = subControl.ContextMenuStrip;
+
+                        foreach (ToolStripMenuItem objToolStripMenuItem in objContextMenu.Items)
+                        {
+                            LocalizeMenuItems(objToolStripMenuItem, frmName);
+                        }
+                        
+                    }
+                    
+                
                 }
+                
             }
 
 
+        }
+
+        private void LocalizeObjects(object objectItem, string frmName)
+        {
+            var controlType = objectItem.GetType();
+            var propertyItem = controlType.GetProperty("Name");
+
+            if (propertyItem != null)
+            {
+                var itemName = propertyItem.GetValue(objectItem);
+
+                var caption = GetGuiCaption(frmName,
+                            itemName.ToString(),
+                            CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+
+                if (!String.IsNullOrEmpty(caption))
+                {
+                    propertyItem = controlType.GetProperty("Text");
+
+                    if (propertyItem != null)
+                    {
+                        propertyItem.SetValue(objectItem, caption);
+                    }
+                    else
+                    {
+                        propertyItem = controlType.GetProperty("Caption");
+                        if (propertyItem != null)
+                        {
+                            propertyItem.SetValue(objectItem, caption);
+                        }
+
+                    }
+                }
+
+
+            }
         }
 
         private void LocalizeMenuItems(ToolStripMenuItem menuItem, string frmName)

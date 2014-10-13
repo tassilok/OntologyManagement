@@ -212,6 +212,10 @@ Public Class UserControl_OItemList
         End If
     End Sub
 
+    Private Sub LocalizeGui()
+        objLocalConfig.LocalizeGui.ConfigureControlsLanguage(Me, Me.Name)
+    End Sub
+
     Public Sub initialize(ByVal OItem_Parent As clsOntologyItem, Optional ByVal oItem_Object As clsOntologyItem = Nothing, Optional ByVal OItem_Direction As clsOntologyItem = Nothing, Optional ByVal OItem_Other As clsOntologyItem = Nothing, Optional ByVal OItem_RelType As clsOntologyItem = Nothing, Optional ByVal boolOR As Boolean = False, Optional strFilter As String = Nothing)
         boolProgChange = True
         HandOff_Add = False
@@ -621,6 +625,8 @@ Public Class UserControl_OItemList
         objTransaction = New clsTransaction(objLocalConfig.Globals)
         objOntologyClipboard = New clsOntologyClipboard(objLocalConfig)
         objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
+
+        LocalizeGui()
     End Sub
 
     Private Sub DataGridView_Items_CellDoubleClick(sender As Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles DataGridView_Items.CellDoubleClick

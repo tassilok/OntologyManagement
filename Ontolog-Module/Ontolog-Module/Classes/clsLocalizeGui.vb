@@ -1,5 +1,6 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
+Imports System.Globalization
 
 Public Class clsLocalizeGui
     Private localConfig As IGuiLocalization
@@ -20,6 +21,129 @@ Public Class clsLocalizeGui
 
         Initialize()
     End Sub
+
+    Public Sub ConfigureControlsLanguage(parentControl As Control, frmName As String)
+        If TypeOf (parentControl) Is Form Or TypeOf (parentControl) Is UserControl Then
+            frmName = parentControl.Name
+        End If
+
+        Dim caption = GetGuiCaption(frmName, _
+                                        parentControl.Name, _
+                                        CultureInfo.CurrentCulture.TwoLetterISOLanguageName)
+
+        parentControl.Text = If(Not String.IsNullOrEmpty(caption), caption, parentControl.Text)
+
+        For Each subControl As Control In parentControl.Controls
+
+            If Not TypeOf (subControl) Is UserControl Then
+                caption = GetGuiCaption(frmName, _
+                                        subControl.Name, _
+                                        CultureInfo.CurrentCulture.TwoLetterISOLanguageName)
+                If Not String.IsNullOrEmpty(caption) Then
+                    Dim controlType = subControl.GetType()
+                    Dim propertyItem = controlType.GetProperty("Text")
+
+                    If Not propertyItem Is Nothing Then
+                        propertyItem.SetValue(subControl, caption)
+
+                    Else
+                        propertyItem = controlType.GetProperty("Caption")
+                        If Not propertyItem Is Nothing Then
+                            propertyItem.SetValue(subControl, caption)
+
+                        End If
+                    End If
+                End If
+
+                ConfigureControlsLanguage(subControl, frmName)
+
+                If TypeOf (subControl) Is MenuStrip Then
+                    Dim menuStrip = CType(subControl, MenuStrip)
+                    For Each subMenuItem As ToolStripMenuItem In menuStrip.Items
+                        LocalizeMenuItems(subMenuItem, frmName)
+                    Next
+                End If
+
+                If TypeOf (subControl) Is StatusStrip Then
+                    Dim menuStrip = CType(subControl, StatusStrip)
+                    For Each subMenuItem As Object In menuStrip.Items
+                        
+                        LocalizeObjects(subMenuItem, frmName)
+
+
+
+                    Next
+                End If
+
+                If TypeOf (subControl) Is ToolStrip Then
+                    Dim menuStrip = CType(subControl, ToolStrip)
+                    For Each subMenuItem As Object In menuStrip.Items
+
+                        LocalizeObjects(subMenuItem, frmName)
+
+
+
+                    Next
+                End If
+
+                If Not subControl.ContextMenuStrip Is Nothing Then
+                    Dim objContextMenu = subControl.ContextMenuStrip
+
+                    For Each objToolStripMenuItem As ToolStripMenuItem In objContextMenu.Items
+                        LocalizeMenuItems(objToolStripMenuItem, frmName)
+                    Next
+                End If
+            End If
+
+        Next
+
+
+
+
+    End Sub
+
+    
+    Private Sub LocalizeObjects(objItem As Object, frmName As String)
+        Dim controlType = objItem.GetType()
+        Dim propertyItem = controlType.GetProperty("Name")
+
+        If Not propertyItem Is Nothing Then
+            Dim itemName = propertyItem.GetValue(objItem)
+
+            Dim caption = GetGuiCaption(frmName, _
+                        itemName.ToString(), _
+                        CultureInfo.CurrentCulture.TwoLetterISOLanguageName)
+
+            If Not String.IsNullOrEmpty(caption) Then
+                propertyItem = controlType.GetProperty("Text")
+
+                If Not propertyItem Is Nothing Then
+                    propertyItem.SetValue(objItem, caption)
+
+                Else
+                    propertyItem = controlType.GetProperty("Caption")
+                    If Not propertyItem Is Nothing Then
+                        propertyItem.SetValue(objItem, caption)
+
+                    End If
+                End If
+            End If
+
+        End If
+    End Sub
+
+    Private Sub LocalizeMenuItems(menuItem As ToolStripMenuItem, frmName As String)
+        Dim caption = GetGuiCaption(frmName, _
+                                    menuItem.Name, _
+                                    CultureInfo.CurrentCulture.TwoLetterISOLanguageName)
+
+        menuItem.Text = If(Not String.IsNullOrEmpty(caption), caption, menuItem.Text)
+
+        For Each subMenuItem As ToolStripMenuItem In menuItem.DropDownItems
+            LocalizeMenuItems(subMenuItem, frmName)
+        Next
+    End Sub
+
 
     Public Function GetGuiCaption(NameForm As String, NameGuiEntry As String, languageShort As String) As String
         Dim caption = ""
@@ -209,11 +333,11 @@ Public Class clsLocalizeGui
     End Function
 
     Private Function GetData_006_Languages() As clsOntologyItem
-        Dim searchLanguages = objDBLevel_GuiItems_L1.OList_ObjectRel.Select(Function(guie) New clsObjectRel With {.ID_Object = guie.ID_Other,
+        Dim searchLanguages = objDBLevel_GuiCaption.OList_ObjectRel.Select(Function(guie) New clsObjectRel With {.ID_Object = guie.ID_Other,
                                                                                                                   .ID_RelationType = localConfig.OItem_relationtype_iswrittenin.GUID,
                                                                                                                   .ID_Parent_Other = localConfig.OItem_type_language.GUID}).ToList()
 
-        searchLanguages.AddRange(objDBLevel_GuiItems_L2.OList_ObjectRel.Select(Function(guie) New clsObjectRel With {.ID_Object = guie.ID_Other,
+        searchLanguages.AddRange(objDBLevel_ToolTips.OList_ObjectRel.Select(Function(guie) New clsObjectRel With {.ID_Object = guie.ID_Other,
                                                                                                                   .ID_RelationType = localConfig.OItem_relationtype_iswrittenin.GUID,
                                                                                                                   .ID_Parent_Other = localConfig.OItem_type_language.GUID}))
 

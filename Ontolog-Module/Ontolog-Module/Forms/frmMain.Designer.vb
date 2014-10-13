@@ -56,7 +56,18 @@ Partial Class frmMain
         Me.Panel_RelationTypes = New System.Windows.Forms.Panel()
         Me.Label_RelationTypes = New System.Windows.Forms.Label()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButton_TokenType = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Types = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Token = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Tokentree = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_AttributesAndRelations = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_AttribRel = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_TokenRel = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Filter = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripButton_ModuleStart = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton_Graph = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReportsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -95,19 +106,8 @@ Partial Class frmMain
         Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Timer_TokenAttribute = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog_GraphExportImport = New System.Windows.Forms.FolderBrowserDialog()
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripButton_TokenType = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Types = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Token = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Tokentree = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_AttributesAndRelations = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_AttribRel = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_TokenRel = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Filter = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton_Graph = New System.Windows.Forms.ToolStripButton()
         Me.BindingSource_TokenRel = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_TokenAtt = New System.Windows.Forms.BindingSource(Me.components)
-        Me.ToolStripButton_ModuleStart = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.LeftToolStripPanel.SuspendLayout()
@@ -155,7 +155,7 @@ Partial Class frmMain
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer_Filter_Body)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1369, 554)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1377, 554)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         '
         'ToolStripContainer1.LeftToolStripPanel
@@ -316,7 +316,7 @@ Partial Class frmMain
         'SplitContainer_Filter_Body.Panel2
         '
         Me.SplitContainer_Filter_Body.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.SplitContainer_Filter_Body.Size = New System.Drawing.Size(1369, 554)
+        Me.SplitContainer_Filter_Body.Size = New System.Drawing.Size(1377, 554)
         Me.SplitContainer_Filter_Body.SplitterDistance = 112
         Me.SplitContainer_Filter_Body.TabIndex = 0
         '
@@ -334,8 +334,8 @@ Partial Class frmMain
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.SplitContainer_AttribRelTokenRel)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1369, 438)
-        Me.SplitContainer2.SplitterDistance = 658
+        Me.SplitContainer2.Size = New System.Drawing.Size(1377, 438)
+        Me.SplitContainer2.SplitterDistance = 661
         Me.SplitContainer2.TabIndex = 0
         '
         'SplitContainer_TypeToken
@@ -352,7 +352,7 @@ Partial Class frmMain
         'SplitContainer_TypeToken.Panel2
         '
         Me.SplitContainer_TypeToken.Panel2.Controls.Add(Me.SplitContainer_Token)
-        Me.SplitContainer_TypeToken.Size = New System.Drawing.Size(658, 438)
+        Me.SplitContainer_TypeToken.Size = New System.Drawing.Size(661, 438)
         Me.SplitContainer_TypeToken.SplitterDistance = 183
         Me.SplitContainer_TypeToken.TabIndex = 0
         '
@@ -372,7 +372,7 @@ Partial Class frmMain
         Me.SplitContainer_Token.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer_Token.Name = "SplitContainer_Token"
         Me.SplitContainer_Token.Orientation = System.Windows.Forms.Orientation.Horizontal
-        Me.SplitContainer_Token.Size = New System.Drawing.Size(471, 438)
+        Me.SplitContainer_Token.Size = New System.Drawing.Size(474, 438)
         Me.SplitContainer_Token.SplitterDistance = 304
         Me.SplitContainer_Token.TabIndex = 0
         '
@@ -390,8 +390,8 @@ Partial Class frmMain
         'SplitContainer_AttribRelTokenRel.Panel2
         '
         Me.SplitContainer_AttribRelTokenRel.Panel2.Controls.Add(Me.SplitContainer_TokAttTokRel)
-        Me.SplitContainer_AttribRelTokenRel.Size = New System.Drawing.Size(707, 438)
-        Me.SplitContainer_AttribRelTokenRel.SplitterDistance = 331
+        Me.SplitContainer_AttribRelTokenRel.Size = New System.Drawing.Size(712, 438)
+        Me.SplitContainer_AttribRelTokenRel.SplitterDistance = 333
         Me.SplitContainer_AttribRelTokenRel.TabIndex = 0
         '
         'SplitContainer_AttribRel
@@ -406,7 +406,7 @@ Partial Class frmMain
         '
         Me.SplitContainer_AttribRel.Panel1.Controls.Add(Me.Panel_Attributes)
         Me.SplitContainer_AttribRel.Panel1.Controls.Add(Me.Label_AttributesLBL)
-        Me.SplitContainer_AttribRel.Size = New System.Drawing.Size(331, 438)
+        Me.SplitContainer_AttribRel.Size = New System.Drawing.Size(333, 438)
         Me.SplitContainer_AttribRel.SplitterDistance = 222
         Me.SplitContainer_AttribRel.TabIndex = 0
         '
@@ -417,7 +417,7 @@ Partial Class frmMain
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_Attributes.Location = New System.Drawing.Point(4, 21)
         Me.Panel_Attributes.Name = "Panel_Attributes"
-        Me.Panel_Attributes.Size = New System.Drawing.Size(320, 194)
+        Me.Panel_Attributes.Size = New System.Drawing.Size(322, 194)
         Me.Panel_Attributes.TabIndex = 1
         '
         'Label_AttributesLBL
@@ -441,7 +441,7 @@ Partial Class frmMain
         '
         Me.SplitContainer_TokAttTokRel.Panel1.Controls.Add(Me.Panel_RelationTypes)
         Me.SplitContainer_TokAttTokRel.Panel1.Controls.Add(Me.Label_RelationTypes)
-        Me.SplitContainer_TokAttTokRel.Size = New System.Drawing.Size(372, 438)
+        Me.SplitContainer_TokAttTokRel.Size = New System.Drawing.Size(375, 438)
         Me.SplitContainer_TokAttTokRel.SplitterDistance = 223
         Me.SplitContainer_TokAttTokRel.TabIndex = 0
         '
@@ -452,7 +452,7 @@ Partial Class frmMain
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel_RelationTypes.Location = New System.Drawing.Point(3, 21)
         Me.Panel_RelationTypes.Name = "Panel_RelationTypes"
-        Me.Panel_RelationTypes.Size = New System.Drawing.Size(362, 194)
+        Me.Panel_RelationTypes.Size = New System.Drawing.Size(365, 194)
         Me.Panel_RelationTypes.TabIndex = 3
         '
         'Label_RelationTypes
@@ -470,13 +470,132 @@ Partial Class frmMain
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_TokenType, Me.ToolStripButton_Types, Me.ToolStripButton_Token, Me.ToolStripButton_Tokentree, Me.ToolStripButton_AttributesAndRelations, Me.ToolStripButton_AttribRel, Me.ToolStripButton_TokenRel, Me.ToolStripButton_Filter, Me.ToolStripSeparator1, Me.ToolStripButton_ModuleStart, Me.ToolStripButton_Graph, Me.ToolStripSeparator2})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 3)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(32, 271)
+        Me.ToolStrip1.Size = New System.Drawing.Size(24, 252)
         Me.ToolStrip1.TabIndex = 0
+        '
+        'ToolStripButton_TokenType
+        '
+        Me.ToolStripButton_TokenType.Checked = True
+        Me.ToolStripButton_TokenType.CheckOnClick = True
+        Me.ToolStripButton_TokenType.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ToolStripButton_TokenType.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_TokenType.Image = CType(resources.GetObject("ToolStripButton_TokenType.Image"), System.Drawing.Image)
+        Me.ToolStripButton_TokenType.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_TokenType.Name = "ToolStripButton_TokenType"
+        Me.ToolStripButton_TokenType.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_TokenType.Text = "ToolStripButton1"
+        '
+        'ToolStripButton_Types
+        '
+        Me.ToolStripButton_Types.Checked = True
+        Me.ToolStripButton_Types.CheckOnClick = True
+        Me.ToolStripButton_Types.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ToolStripButton_Types.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Types.Image = Global.Ontology_Module.My.Resources.Resources.Types_Closed
+        Me.ToolStripButton_Types.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Types.Name = "ToolStripButton_Types"
+        Me.ToolStripButton_Types.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_Types.Text = "ToolStripButton1"
+        Me.ToolStripButton_Types.ToolTipText = "Toggle Typetree"
+        '
+        'ToolStripButton_Token
+        '
+        Me.ToolStripButton_Token.Checked = True
+        Me.ToolStripButton_Token.CheckOnClick = True
+        Me.ToolStripButton_Token.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ToolStripButton_Token.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Token.Image = Global.Ontology_Module.My.Resources.Resources.Vogelschwarm
+        Me.ToolStripButton_Token.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Token.Name = "ToolStripButton_Token"
+        Me.ToolStripButton_Token.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_Token.Text = "ToolStripButton2"
+        Me.ToolStripButton_Token.ToolTipText = "Toggle Tokenlist"
+        '
+        'ToolStripButton_Tokentree
+        '
+        Me.ToolStripButton_Tokentree.CheckOnClick = True
+        Me.ToolStripButton_Tokentree.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Tokentree.Image = Global.Ontology_Module.My.Resources.Resources.XSDSchema_SequenceIcon
+        Me.ToolStripButton_Tokentree.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Tokentree.Name = "ToolStripButton_Tokentree"
+        Me.ToolStripButton_Tokentree.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_Tokentree.Text = "x_Tokentree"
+        '
+        'ToolStripButton_AttributesAndRelations
+        '
+        Me.ToolStripButton_AttributesAndRelations.CheckOnClick = True
+        Me.ToolStripButton_AttributesAndRelations.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_AttributesAndRelations.Image = Global.Ontology_Module.My.Resources.Resources.NavForward
+        Me.ToolStripButton_AttributesAndRelations.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_AttributesAndRelations.Name = "ToolStripButton_AttributesAndRelations"
+        Me.ToolStripButton_AttributesAndRelations.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_AttributesAndRelations.Text = "ToolStripButton1"
+        '
+        'ToolStripButton_AttribRel
+        '
+        Me.ToolStripButton_AttribRel.Checked = True
+        Me.ToolStripButton_AttribRel.CheckOnClick = True
+        Me.ToolStripButton_AttribRel.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ToolStripButton_AttribRel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_AttribRel.Image = Global.Ontology_Module.My.Resources.Resources.Attributes_bamboo_danny_allen_r
+        Me.ToolStripButton_AttribRel.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_AttribRel.Name = "ToolStripButton_AttribRel"
+        Me.ToolStripButton_AttribRel.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_AttribRel.Text = "ToolStripButton3"
+        Me.ToolStripButton_AttribRel.ToolTipText = "Toggle Attributes and Relations"
+        '
+        'ToolStripButton_TokenRel
+        '
+        Me.ToolStripButton_TokenRel.Checked = True
+        Me.ToolStripButton_TokenRel.CheckOnClick = True
+        Me.ToolStripButton_TokenRel.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ToolStripButton_TokenRel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_TokenRel.Image = Global.Ontology_Module.My.Resources.Resources.RelationTypes_gpride_jean_victor_balin_
+        Me.ToolStripButton_TokenRel.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_TokenRel.Name = "ToolStripButton_TokenRel"
+        Me.ToolStripButton_TokenRel.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_TokenRel.Text = "ToolStripButton4"
+        Me.ToolStripButton_TokenRel.ToolTipText = "Toggle Token-Relations"
+        '
+        'ToolStripButton_Filter
+        '
+        Me.ToolStripButton_Filter.CheckOnClick = True
+        Me.ToolStripButton_Filter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Filter.Image = Global.Ontology_Module.My.Resources.Resources.Procedures
+        Me.ToolStripButton_Filter.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Filter.Name = "ToolStripButton_Filter"
+        Me.ToolStripButton_Filter.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_Filter.Text = "ToolStripButton1"
+        Me.ToolStripButton_Filter.ToolTipText = "Toggle Filter"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(30, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(22, 6)
+        '
+        'ToolStripButton_ModuleStart
+        '
+        Me.ToolStripButton_ModuleStart.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_ModuleStart.Image = CType(resources.GetObject("ToolStripButton_ModuleStart.Image"), System.Drawing.Image)
+        Me.ToolStripButton_ModuleStart.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_ModuleStart.Name = "ToolStripButton_ModuleStart"
+        Me.ToolStripButton_ModuleStart.Size = New System.Drawing.Size(22, 19)
+        Me.ToolStripButton_ModuleStart.Text = "M"
+        '
+        'ToolStripButton_Graph
+        '
+        Me.ToolStripButton_Graph.CheckOnClick = True
+        Me.ToolStripButton_Graph.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton_Graph.Image = Global.Ontology_Module.My.Resources.Resources.cahiers_de_labo
+        Me.ToolStripButton_Graph.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_Graph.Name = "ToolStripButton_Graph"
+        Me.ToolStripButton_Graph.Size = New System.Drawing.Size(22, 20)
+        Me.ToolStripButton_Graph.Text = "G"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(22, 6)
         '
         'MenuStrip1
         '
@@ -492,8 +611,8 @@ Partial Class frmMain
         '
         Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReportsToolStripMenuItem, Me.OntologyConfiguratorToolStripMenuItem, Me.ImportOntologyStructuresToolStripMenuItem, Me.BackupOntologyGraphToolStripMenuItem, Me.ApplyMappingToolStripMenuItem, Me.MaintenanceToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
-        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(49, 20)
-        Me.ToolsToolStripMenuItem.Text = "&Extras"
+        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(59, 20)
+        Me.ToolsToolStripMenuItem.Text = "x_&Extras"
         '
         'ReportsToolStripMenuItem
         '
@@ -505,7 +624,7 @@ Partial Class frmMain
         'SyncToolStripMenuItem
         '
         Me.SyncToolStripMenuItem.Name = "SyncToolStripMenuItem"
-        Me.SyncToolStripMenuItem.Size = New System.Drawing.Size(109, 22)
+        Me.SyncToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.SyncToolStripMenuItem.Text = "x_Sync"
         '
         'OntologyConfiguratorToolStripMenuItem
@@ -555,7 +674,7 @@ Partial Class frmMain
         'InfoToolStripMenuItem
         '
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(95, 22)
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.InfoToolStripMenuItem.Text = "&Info"
         '
         'ContextMenuStrip_TokAtt
@@ -708,125 +827,6 @@ Partial Class frmMain
         'Timer_TokenAttribute
         '
         Me.Timer_TokenAttribute.Interval = 300
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(30, 6)
-        '
-        'ToolStripButton_TokenType
-        '
-        Me.ToolStripButton_TokenType.Checked = True
-        Me.ToolStripButton_TokenType.CheckOnClick = True
-        Me.ToolStripButton_TokenType.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ToolStripButton_TokenType.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_TokenType.Image = CType(resources.GetObject("ToolStripButton_TokenType.Image"), System.Drawing.Image)
-        Me.ToolStripButton_TokenType.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_TokenType.Name = "ToolStripButton_TokenType"
-        Me.ToolStripButton_TokenType.Size = New System.Drawing.Size(30, 20)
-        Me.ToolStripButton_TokenType.Text = "ToolStripButton1"
-        '
-        'ToolStripButton_Types
-        '
-        Me.ToolStripButton_Types.Checked = True
-        Me.ToolStripButton_Types.CheckOnClick = True
-        Me.ToolStripButton_Types.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ToolStripButton_Types.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Types.Image = Global.Ontology_Module.My.Resources.Resources.Types_Closed
-        Me.ToolStripButton_Types.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Types.Name = "ToolStripButton_Types"
-        Me.ToolStripButton_Types.Size = New System.Drawing.Size(30, 20)
-        Me.ToolStripButton_Types.Text = "ToolStripButton1"
-        Me.ToolStripButton_Types.ToolTipText = "Toggle Typetree"
-        '
-        'ToolStripButton_Token
-        '
-        Me.ToolStripButton_Token.Checked = True
-        Me.ToolStripButton_Token.CheckOnClick = True
-        Me.ToolStripButton_Token.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ToolStripButton_Token.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Token.Image = Global.Ontology_Module.My.Resources.Resources.Vogelschwarm
-        Me.ToolStripButton_Token.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Token.Name = "ToolStripButton_Token"
-        Me.ToolStripButton_Token.Size = New System.Drawing.Size(30, 20)
-        Me.ToolStripButton_Token.Text = "ToolStripButton2"
-        Me.ToolStripButton_Token.ToolTipText = "Toggle Tokenlist"
-        '
-        'ToolStripButton_Tokentree
-        '
-        Me.ToolStripButton_Tokentree.CheckOnClick = True
-        Me.ToolStripButton_Tokentree.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Tokentree.Image = Global.Ontology_Module.My.Resources.Resources.XSDSchema_SequenceIcon
-        Me.ToolStripButton_Tokentree.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Tokentree.Name = "ToolStripButton_Tokentree"
-        Me.ToolStripButton_Tokentree.Size = New System.Drawing.Size(30, 20)
-        Me.ToolStripButton_Tokentree.Text = "x_Tokentree"
-        '
-        'ToolStripButton_AttributesAndRelations
-        '
-        Me.ToolStripButton_AttributesAndRelations.CheckOnClick = True
-        Me.ToolStripButton_AttributesAndRelations.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_AttributesAndRelations.Image = Global.Ontology_Module.My.Resources.Resources.NavForward
-        Me.ToolStripButton_AttributesAndRelations.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_AttributesAndRelations.Name = "ToolStripButton_AttributesAndRelations"
-        Me.ToolStripButton_AttributesAndRelations.Size = New System.Drawing.Size(30, 20)
-        Me.ToolStripButton_AttributesAndRelations.Text = "ToolStripButton1"
-        '
-        'ToolStripButton_AttribRel
-        '
-        Me.ToolStripButton_AttribRel.Checked = True
-        Me.ToolStripButton_AttribRel.CheckOnClick = True
-        Me.ToolStripButton_AttribRel.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ToolStripButton_AttribRel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_AttribRel.Image = Global.Ontology_Module.My.Resources.Resources.Attributes_bamboo_danny_allen_r
-        Me.ToolStripButton_AttribRel.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_AttribRel.Name = "ToolStripButton_AttribRel"
-        Me.ToolStripButton_AttribRel.Size = New System.Drawing.Size(30, 20)
-        Me.ToolStripButton_AttribRel.Text = "ToolStripButton3"
-        Me.ToolStripButton_AttribRel.ToolTipText = "Toggle Attributes and Relations"
-        '
-        'ToolStripButton_TokenRel
-        '
-        Me.ToolStripButton_TokenRel.Checked = True
-        Me.ToolStripButton_TokenRel.CheckOnClick = True
-        Me.ToolStripButton_TokenRel.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ToolStripButton_TokenRel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_TokenRel.Image = Global.Ontology_Module.My.Resources.Resources.RelationTypes_gpride_jean_victor_balin_
-        Me.ToolStripButton_TokenRel.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_TokenRel.Name = "ToolStripButton_TokenRel"
-        Me.ToolStripButton_TokenRel.Size = New System.Drawing.Size(30, 20)
-        Me.ToolStripButton_TokenRel.Text = "ToolStripButton4"
-        Me.ToolStripButton_TokenRel.ToolTipText = "Toggle Token-Relations"
-        '
-        'ToolStripButton_Filter
-        '
-        Me.ToolStripButton_Filter.CheckOnClick = True
-        Me.ToolStripButton_Filter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Filter.Image = Global.Ontology_Module.My.Resources.Resources.Procedures
-        Me.ToolStripButton_Filter.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Filter.Name = "ToolStripButton_Filter"
-        Me.ToolStripButton_Filter.Size = New System.Drawing.Size(30, 20)
-        Me.ToolStripButton_Filter.Text = "ToolStripButton1"
-        Me.ToolStripButton_Filter.ToolTipText = "Toggle Filter"
-        '
-        'ToolStripButton_Graph
-        '
-        Me.ToolStripButton_Graph.CheckOnClick = True
-        Me.ToolStripButton_Graph.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton_Graph.Image = Global.Ontology_Module.My.Resources.Resources.cahiers_de_labo
-        Me.ToolStripButton_Graph.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_Graph.Name = "ToolStripButton_Graph"
-        Me.ToolStripButton_Graph.Size = New System.Drawing.Size(30, 20)
-        Me.ToolStripButton_Graph.Text = "G"
-        '
-        'ToolStripButton_ModuleStart
-        '
-        Me.ToolStripButton_ModuleStart.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_ModuleStart.Image = CType(resources.GetObject("ToolStripButton_ModuleStart.Image"), System.Drawing.Image)
-        Me.ToolStripButton_ModuleStart.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton_ModuleStart.Name = "ToolStripButton_ModuleStart"
-        Me.ToolStripButton_ModuleStart.Size = New System.Drawing.Size(30, 19)
-        Me.ToolStripButton_ModuleStart.Text = "M"
         '
         'frmMain
         '

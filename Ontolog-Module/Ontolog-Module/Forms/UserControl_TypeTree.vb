@@ -126,6 +126,7 @@ Public Class UserControl_TypeTree
 
     Private Sub initialize()
         boolApplyable = False
+        objLocalConfig.LocalizeGui.ConfigureControlsLanguage(Me, Me.Name)
         get_Data_Classes()
 
     End Sub
