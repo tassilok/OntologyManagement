@@ -214,10 +214,16 @@
   <data name="pulsante_01_architetto_f_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pulsante_01_architetto_f_01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="cahiers_de_labo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cahiers_de_labo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="b_down_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\b_down_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cahiers_de_labo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\cahiers_de_labo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="bb_back_" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bb_back_.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bb_forward_" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bb_forward_.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

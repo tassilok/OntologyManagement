@@ -41,7 +41,7 @@ namespace Version_Module
 
         public clsOntologyItem objVersion { get; private set; }
    
-        public clsOntologyItem save_Version(bool boolDescribe, long major, long minor, long build, long revision, clsOntologyItem OItem_Ref = null)
+        public clsOntologyItem save_Version(bool boolDescribe, long major, long minor, long build, long revision, clsOntologyItem OItem_Ref = null, bool removeOldVersions = true)
         {
             if (OItem_Ref != null)
             {
@@ -135,7 +135,7 @@ namespace Version_Module
                                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                         {
                                             var Rel_Version_To_Ref = DataWork_Versions.Rel_Version_To_Ref(objVersion, objOItem_Ref, objLocalConfig.OItem_relationtype_isinstate);
-                                            objOItem_Result = objTransaction.do_Transaction(Rel_Version_To_Ref, true);
+                                            objOItem_Result = objTransaction.do_Transaction(Rel_Version_To_Ref, removeOldVersions);
                                             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                             {
                                                 objOItem_Result = objLogManagement.log_Entry(DateTime.Now, objOItem_LogState, objLocalConfig.objUser, strDescription);

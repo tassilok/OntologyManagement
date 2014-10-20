@@ -123,6 +123,7 @@ namespace Version_Module
             objFrmVersionEdit = new frmVersionEdit(objDataWork_Versions.LocalConfig);
             objFrmVersionEdit.Initialize_VersionEdit(objOItem_Ref);
             objFrmVersionEdit.ShowDialog(this);
+            initialize_Grid(objOItem_Ref);
 
         }
 

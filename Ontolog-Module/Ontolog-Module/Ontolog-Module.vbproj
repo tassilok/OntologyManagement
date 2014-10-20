@@ -282,6 +282,12 @@
     <Compile Include="Forms\Graph\UserControl_Graph.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Forms\Graph\UserControl_GraphFilter.Designer.vb">
+      <DependentUpon>UserControl_GraphFilter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Graph\UserControl_GraphFilter.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Forms\Modules\frmModules.Designer.vb">
       <DependentUpon>frmModules.vb</DependentUpon>
     </Compile>
@@ -549,6 +555,9 @@
     <EmbeddedResource Include="Forms\Graph\UserControl_Graph.resx">
       <DependentUpon>UserControl_Graph.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Graph\UserControl_GraphFilter.resx">
+      <DependentUpon>UserControl_GraphFilter.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Modules\frmModules.resx">
       <DependentUpon>frmModules.vb</DependentUpon>
     </EmbeddedResource>
@@ -699,6 +708,8 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="Resources\cahiers_de_labo.png" />
+    <None Include="Resources\bb_back_.png" />
+    <None Include="Resources\bb_forward_.png" />
     <Content Include="VogelschwarmKlein.ico" />
     <None Include="Ontolog-Module_TemporaryKey.pfx" />
     <None Include="packages.config" />

@@ -79,7 +79,7 @@ namespace Version_Module
             initialize();
         }
 
-        public void Initialize_VersionEdit(clsOntologyItem OItem_Ref)
+        public void Initialize_VersionEdit(clsOntologyItem OItem_Ref, bool removeOldVersions = true)
         {
             boolOpen = false;
             objOItem_Ref = OItem_Ref;
@@ -123,7 +123,7 @@ namespace Version_Module
                                                         userControl_VersionEdit.Major,
                                                         userControl_VersionEdit.Minor,
                                                         userControl_VersionEdit.Build,
-                                                        userControl_VersionEdit.Revision);
+                                                        userControl_VersionEdit.Revision,removeOldVersions:false);
             if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
                 OItem_Version = objVersionWork.objVersion;

@@ -129,7 +129,9 @@ Public Class frmGraph
     Private Sub Initialize()
         objUserControl_Graph = New UserControl_Graph(objLocalConfig)
         objUserControl_Graph.Dock = DockStyle.Fill
-        ToolStripContainer1.ContentPanel.Controls.Add(objUserControl_Graph)
+        SplitContainer1.Panel1.Controls.Add(objUserControl_Graph)
+
+        SplitContainer1.Panel2Collapsed = True
     End Sub
 
     Public Sub Initialize_Graph(Optional OItem_Item As clsOntologyItem = Nothing)
@@ -144,5 +146,21 @@ Public Class frmGraph
 
     Private Sub frmGraph_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         RaiseEvent Closing_From()
+    End Sub
+
+    Private Sub ToolStripButton_GraphVisible_CheckStateChanged(sender As Object, e As EventArgs) Handles ToolStripButton_GraphVisible.CheckStateChanged
+        If ToolStripButton_GraphVisible.Checked = False And ToolStripButton_FilterVisible.Checked = False Then
+            ToolStripButton_GraphVisible.Checked = True
+        Else
+            SplitContainer1.Panel1Collapsed = Not ToolStripButton_GraphVisible.Checked
+        End If
+    End Sub
+
+    Private Sub ToolStripButton_FilterVisible_CheckStateChanged(sender As Object, e As EventArgs) Handles ToolStripButton_FilterVisible.CheckStateChanged
+        If ToolStripButton_FilterVisible.Checked = False And ToolStripButton_GraphVisible.Checked = False Then
+            ToolStripButton_FilterVisible.Checked = True
+        Else
+            SplitContainer1.Panel2Collapsed = Not ToolStripButton_FilterVisible.Checked
+        End If
     End Sub
 End Class

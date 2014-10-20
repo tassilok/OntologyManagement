@@ -188,7 +188,7 @@ Partial Class UserControl_Graph
         '
         Me.ContextMenuStrip_Graph.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddRelationsToolStripMenuItem, Me.OpenModuleByArgumentToolStripMenuItem})
         Me.ContextMenuStrip_Graph.Name = "ContextMenuStrip_Graph"
-        Me.ContextMenuStrip_Graph.Size = New System.Drawing.Size(225, 70)
+        Me.ContextMenuStrip_Graph.Size = New System.Drawing.Size(225, 48)
         '
         'AddRelationsToolStripMenuItem
         '
