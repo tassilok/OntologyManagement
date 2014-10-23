@@ -23,6 +23,8 @@ namespace Version_Module
 
         private bool boolOpen;
 
+        private bool removeOldVersions;
+
         public clsOntologyItem OItem_Result { get; private set; }
 
         public clsOntologyItem OItem_Version { get; private set; }
@@ -84,6 +86,8 @@ namespace Version_Module
             boolOpen = false;
             objOItem_Ref = OItem_Ref;
             this.Text = OItem_Ref.Name;
+            this.removeOldVersions = removeOldVersions;
+
             if (objVersionWork == null)
             {
                 objVersionWork = new clsVersionWork(objLocalConfig, this);
@@ -123,7 +127,7 @@ namespace Version_Module
                                                         userControl_VersionEdit.Major,
                                                         userControl_VersionEdit.Minor,
                                                         userControl_VersionEdit.Build,
-                                                        userControl_VersionEdit.Revision,removeOldVersions:false);
+                                                        userControl_VersionEdit.Revision, removeOldVersions: removeOldVersions);
             if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
                 OItem_Version = objVersionWork.objVersion;

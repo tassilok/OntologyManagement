@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControl_VersionDetails));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel_CountCapt = new System.Windows.Forms.ToolStripLabel();
@@ -42,6 +43,8 @@
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel_RefLbl = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_Reference = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton_Remove = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -117,7 +120,7 @@
             this.newToolStripMenuItem,
             this.ModuleMenuToolStripMenuItem});
             this.contextMenuStrip_Versions.Name = "contextMenuStrip_Versions";
-            this.contextMenuStrip_Versions.Size = new System.Drawing.Size(162, 48);
+            this.contextMenuStrip_Versions.Size = new System.Drawing.Size(162, 70);
             this.contextMenuStrip_Versions.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Versions_Opening);
             // 
             // newToolStripMenuItem
@@ -156,10 +159,12 @@
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel_RefLbl,
-            this.toolStripLabel_Reference});
+            this.toolStripLabel_Reference,
+            this.toolStripSeparator1,
+            this.toolStripButton_Remove});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(96, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(233, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripLabel_RefLbl
@@ -173,6 +178,21 @@
             this.toolStripLabel_Reference.Name = "toolStripLabel_Reference";
             this.toolStripLabel_Reference.Size = new System.Drawing.Size(12, 22);
             this.toolStripLabel_Reference.Text = "-";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton_Remove
+            // 
+            this.toolStripButton_Remove.CheckOnClick = true;
+            this.toolStripButton_Remove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Remove.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Remove.Image")));
+            this.toolStripButton_Remove.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Remove.Name = "toolStripButton_Remove";
+            this.toolStripButton_Remove.Size = new System.Drawing.Size(131, 22);
+            this.toolStripButton_Remove.Text = "x_Remove old Versions";
             // 
             // UserControl_VersionDetails
             // 
@@ -213,5 +233,7 @@
         internal System.Windows.Forms.ToolStripMenuItem ModuleMenuToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem OpenModuleByArgumentToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem OpenLastModuleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton toolStripButton_Remove;
     }
 }

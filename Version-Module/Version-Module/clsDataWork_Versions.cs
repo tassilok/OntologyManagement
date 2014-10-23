@@ -178,8 +178,60 @@ namespace Version_Module
 
             var objOAL_Versions__VersionNumbers = new List<clsObjectAtt>();
 
-            
-            objOAL_Versions__VersionNumbers = new List<clsObjectAtt> { new clsObjectAtt { ID_AttributeType = objLocalConfig.OItem_attribute_major.GUID, 
+            if (objDBLevel_Refs_To_Versions.OList_ObjectRel.Any() || objDBLevel_Versions_To_Refs.OList_ObjectRel.Any())
+            {
+                objOAL_Versions__VersionNumbers = objDBLevel_Refs_To_Versions.OList_ObjectRel.Select(rel => new clsObjectAtt
+                {
+                    ID_AttributeType = objLocalConfig.OItem_attribute_major.GUID,
+                    ID_Object = rel.ID_Other
+                }).ToList();
+
+                objOAL_Versions__VersionNumbers.AddRange(objDBLevel_Refs_To_Versions.OList_ObjectRel.Select(rel => new clsObjectAtt
+                {
+                    ID_AttributeType = objLocalConfig.OItem_attribute_minor.GUID,
+                    ID_Object = rel.ID_Other
+                }));
+
+                objOAL_Versions__VersionNumbers.AddRange(objDBLevel_Refs_To_Versions.OList_ObjectRel.Select(rel => new clsObjectAtt
+                {
+                    ID_AttributeType = objLocalConfig.OItem_attribute_build.GUID,
+                    ID_Object = rel.ID_Other
+                }));
+
+                objOAL_Versions__VersionNumbers.AddRange(objDBLevel_Refs_To_Versions.OList_ObjectRel.Select(rel => new clsObjectAtt
+                {
+                    ID_AttributeType = objLocalConfig.OItem_attribute_revision.GUID,
+                    ID_Object = rel.ID_Other
+                }));
+
+                objOAL_Versions__VersionNumbers.AddRange(objDBLevel_Versions_To_Refs.OList_ObjectRel.Select(rel => new clsObjectAtt
+                {
+                    ID_AttributeType = objLocalConfig.OItem_attribute_major.GUID,
+                    ID_Object = rel.ID_Object
+                }));
+
+                objOAL_Versions__VersionNumbers.AddRange(objDBLevel_Versions_To_Refs.OList_ObjectRel.Select(rel => new clsObjectAtt
+                {
+                    ID_AttributeType = objLocalConfig.OItem_attribute_minor.GUID,
+                    ID_Object = rel.ID_Object
+                }));
+
+                objOAL_Versions__VersionNumbers.AddRange(objDBLevel_Versions_To_Refs.OList_ObjectRel.Select(rel => new clsObjectAtt
+                {
+                    ID_AttributeType = objLocalConfig.OItem_attribute_build.GUID,
+                    ID_Object = rel.ID_Object
+                }));
+
+                objOAL_Versions__VersionNumbers.AddRange(objDBLevel_Versions_To_Refs.OList_ObjectRel.Select(rel => new clsObjectAtt
+                {
+                    ID_AttributeType = objLocalConfig.OItem_attribute_revision.GUID,
+                    ID_Object = rel.ID_Object
+                }));
+
+            }
+            else
+            {
+                objOAL_Versions__VersionNumbers = new List<clsObjectAtt> { new clsObjectAtt { ID_AttributeType = objLocalConfig.OItem_attribute_major.GUID, 
                                                                                             ID_Class = objLocalConfig.OItem_type_developmentversion.GUID },
                                                                         new clsObjectAtt { ID_AttributeType = objLocalConfig.OItem_attribute_minor.GUID, 
                                                                                             ID_Class = objLocalConfig.OItem_type_developmentversion.GUID },
@@ -187,6 +239,9 @@ namespace Version_Module
                                                                                             ID_Class = objLocalConfig.OItem_type_developmentversion.GUID },
                                                                         new clsObjectAtt { ID_AttributeType = objLocalConfig.OItem_attribute_revision.GUID, 
                                                                                             ID_Class = objLocalConfig.OItem_type_developmentversion.GUID } };
+            }
+
+            
             
 
             var objOItem_Result = objDBLevel_Version__VersionNumbers.get_Data_ObjectAtt(objOAL_Versions__VersionNumbers, boolIDs: false);

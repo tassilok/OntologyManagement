@@ -121,7 +121,7 @@ namespace Version_Module
         private void newToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
             objFrmVersionEdit = new frmVersionEdit(objDataWork_Versions.LocalConfig);
-            objFrmVersionEdit.Initialize_VersionEdit(objOItem_Ref);
+            objFrmVersionEdit.Initialize_VersionEdit(objOItem_Ref, toolStripButton_Remove.Checked);
             objFrmVersionEdit.ShowDialog(this);
             initialize_Grid(objOItem_Ref);
 
