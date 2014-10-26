@@ -28,7 +28,8 @@ namespace Manual_Repair_Module
             //Repair_MathematischeKomponenten();
             //Repair_MP3File();
             //Repair_MultipleRelations();
-            RemoveMultipleDataTypes();
+            //RemoveMultipleDataTypes();
+            Move_Versions();
 
         }
 
@@ -284,6 +285,94 @@ namespace Manual_Repair_Module
                 objLogging.Add_DictEntry("result", "error");
                 objLogging.Finish_Document();
             }
+        }
+
+        private void Move_Versions()
+        {
+            
+
+            var objDBLevel_Search1 = new clsDBLevel(objLocalConfig.Globals);
+            var objDBLevel_Search2 = new clsDBLevel(objLocalConfig.Globals);
+            var objDBLevel_Search3 = new clsDBLevel(objLocalConfig.Globals);
+            var objDBLevel_Move = new clsDBLevel(objLocalConfig.Globals);
+
+            var searchClassRels = new List<clsClassRel> { new clsClassRel
+            {
+                ID_Class_Right = "f30436d62ffc4071af5e3ce708b8c2d9"
+            } };
+
+            var objOItem_Result = objDBLevel_Search1.get_Data_ClassRel(searchClassRels, boolIDs: false);
+
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                var searchVersionRels = new List<clsObjectRel> { new clsObjectRel
+                {
+                    ID_Parent_Other = "f30436d62ffc4071af5e3ce708b8c2d9"
+                } };
+
+                objOItem_Result = objDBLevel_Search2.get_Data_ObjectRel(searchVersionRels, boolIDs: false);
+
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    var found = (from objRel1 in objDBLevel_Search1.OList_ClassRel
+                                 join objRel2 in objDBLevel_Search2.OList_ObjectRel on objRel1.ID_Class_Left equals objRel2.ID_Parent_Object
+                                 select new clsOntologyItem
+                                 {
+                                     GUID = objRel2.ID_Other,
+                                     Name = objRel2.Name_Other,
+                                     GUID_Parent = objRel2.ID_Parent_Other,
+                                     Type = objLocalConfig.Globals.Type_Object
+                                 }).ToList();
+
+                    var searchVersions = new List<clsOntologyItem> {
+                        new clsOntologyItem
+                        {
+                            GUID_Parent = "f30436d62ffc4071af5e3ce708b8c2d9"
+                        } };
+
+                    objOItem_Result = objDBLevel_Search3.get_Data_Objects(searchVersions);
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        var move = (from objVer in objDBLevel_Search3.OList_Objects
+                                    join objVersionOk in found on objVer.GUID equals objVersionOk.GUID into objVersionsOk
+                                    from objVersionOk in objVersionsOk.DefaultIfEmpty()
+                                    where objVersionOk == null
+                                    select new clsOntologyItem
+                                    {
+                                        GUID = objVer.GUID,
+                                        Name = objVer.Name,
+                                        GUID_Parent = "32a3d0fa37444021b200245c9b877418",
+                                        Type = objLocalConfig.Globals.Type_Object
+                                    }).ToList();
+
+                        objOItem_Result = objDBLevel_Move.save_Objects(move);
+
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            MessageBox.Show(this, "Die Versionen wurden verschoben.", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show(this, "Die Versionen konnten nicht verschoben werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, "Die Versionen konnten nicht verschoben werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+
+
+                }
+                else
+                {
+                    MessageBox.Show(this, "Die Versionen konnten nicht verschoben werden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+            
+
+
         }
 
         private void Repair_MP3File()
