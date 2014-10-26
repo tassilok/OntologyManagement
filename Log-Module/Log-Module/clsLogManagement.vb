@@ -12,10 +12,17 @@ Public Class clsLogManagement
     Private objTransaction_LogEntries As clsTransaction
     Private objRelationConfig As clsRelationConfig
     Private objOA_DateTimeStamp As clsObjectAtt
+    Private objOA_Message As clsObjectAtt
 
     Public ReadOnly Property OAItem_DateTimeStamp As clsObjectAtt
         Get
             Return objOA_DateTimeStamp
+        End Get
+    End Property
+
+    Public ReadOnly Property OAItem_Message As clsObjectAtt
+        Get
+            Return objOA_Message
         End Get
     End Property
 
@@ -76,6 +83,7 @@ Public Class clsLogManagement
                         objOARel_LogEntry__Message = objRelationConfig.Rel_ObjectAttribute(objOItem_LogEntry, objLocalConfig.OItem_Attribute_Message, strMessage)
                         If Not objOARel_LogEntry__Message Is Nothing Then
                             objOItem_Result = objTransaction_LogEntries.do_Transaction(objOARel_LogEntry__Message, True)
+                            objOA_Message = objTransaction_LogEntries.OItem_Last.OItem_ObjectAtt
                         Else
                             objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
                         End If
