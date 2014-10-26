@@ -45,6 +45,10 @@
             this.toolStripLabel_Reference = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton_Remove = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel_CopyLogMessage = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox_MsgDest = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripButton_AddDest = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -65,11 +69,11 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGridView_Versions);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(519, 372);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(616, 372);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(519, 422);
+            this.toolStripContainer1.Size = new System.Drawing.Size(616, 422);
             this.toolStripContainer1.TabIndex = 0;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -110,7 +114,7 @@
             this.dataGridView_Versions.Location = new System.Drawing.Point(0, 0);
             this.dataGridView_Versions.Name = "dataGridView_Versions";
             this.dataGridView_Versions.ReadOnly = true;
-            this.dataGridView_Versions.Size = new System.Drawing.Size(519, 372);
+            this.dataGridView_Versions.Size = new System.Drawing.Size(616, 372);
             this.dataGridView_Versions.TabIndex = 0;
             this.dataGridView_Versions.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_Versions_KeyDown);
             // 
@@ -120,7 +124,7 @@
             this.newToolStripMenuItem,
             this.ModuleMenuToolStripMenuItem});
             this.contextMenuStrip_Versions.Name = "contextMenuStrip_Versions";
-            this.contextMenuStrip_Versions.Size = new System.Drawing.Size(162, 70);
+            this.contextMenuStrip_Versions.Size = new System.Drawing.Size(162, 48);
             this.contextMenuStrip_Versions.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Versions_Opening);
             // 
             // newToolStripMenuItem
@@ -161,10 +165,14 @@
             this.toolStripLabel_RefLbl,
             this.toolStripLabel_Reference,
             this.toolStripSeparator1,
-            this.toolStripButton_Remove});
+            this.toolStripButton_Remove,
+            this.toolStripSeparator2,
+            this.toolStripLabel_CopyLogMessage,
+            this.toolStripTextBox_MsgDest,
+            this.toolStripButton_AddDest});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(233, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(613, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripLabel_RefLbl
@@ -194,13 +202,40 @@
             this.toolStripButton_Remove.Size = new System.Drawing.Size(131, 22);
             this.toolStripButton_Remove.Text = "x_Remove old Versions";
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel_CopyLogMessage
+            // 
+            this.toolStripLabel_CopyLogMessage.Name = "toolStripLabel_CopyLogMessage";
+            this.toolStripLabel_CopyLogMessage.Size = new System.Drawing.Size(122, 22);
+            this.toolStripLabel_CopyLogMessage.Text = "x_Copy Log-Message:";
+            // 
+            // toolStripTextBox_MsgDest
+            // 
+            this.toolStripTextBox_MsgDest.Name = "toolStripTextBox_MsgDest";
+            this.toolStripTextBox_MsgDest.ReadOnly = true;
+            this.toolStripTextBox_MsgDest.Size = new System.Drawing.Size(200, 25);
+            // 
+            // toolStripButton_AddDest
+            // 
+            this.toolStripButton_AddDest.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_AddDest.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_AddDest.Image")));
+            this.toolStripButton_AddDest.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_AddDest.Name = "toolStripButton_AddDest";
+            this.toolStripButton_AddDest.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_AddDest.Text = "...";
+            this.toolStripButton_AddDest.Click += new System.EventHandler(this.toolStripButton_AddDest_Click);
+            // 
             // UserControl_VersionDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.toolStripContainer1);
             this.Name = "UserControl_VersionDetails";
-            this.Size = new System.Drawing.Size(519, 422);
+            this.Size = new System.Drawing.Size(616, 422);
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
@@ -235,5 +270,9 @@
         internal System.Windows.Forms.ToolStripMenuItem OpenLastModuleToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolStripButton_Remove;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_CopyLogMessage;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox_MsgDest;
+        private System.Windows.Forms.ToolStripButton toolStripButton_AddDest;
     }
 }

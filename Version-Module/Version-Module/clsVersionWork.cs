@@ -37,6 +37,8 @@ namespace Version_Module
 
         private clsLogManagement objLogManagement;
 
+        public clsObjectAtt OAItem_Message { get; private set; }
+
         private frmMain objFrmMain;
 
         public clsOntologyItem objVersion { get; private set; }
@@ -158,7 +160,7 @@ namespace Version_Module
                                             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                             {
                                                 OItem_LogEntry = objLogManagement.OItem_LogEntry;
-
+                                                OAItem_Message = objLogManagement.OAItem_Message;
                                                 var Rel_LogEntry_To_Version = DataWork_Versions.Rel_LogEntry_To_Version(OItem_LogEntry, objVersion);
                                                 objOItem_Result = objTransaction.do_Transaction(Rel_LogEntry_To_Version, true);
                                                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)

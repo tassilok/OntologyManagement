@@ -29,6 +29,8 @@ namespace Version_Module
 
         public clsOntologyItem OItem_Version { get; private set; }
 
+        public clsObjectAtt OAItem_Message { get; private set; }
+
         public clsOntologyItem OItem_LogEntry
         {
             get { return objVersionWork.OItem_LogEntry; }
@@ -130,6 +132,7 @@ namespace Version_Module
                                                         userControl_VersionEdit.Revision, removeOldVersions: removeOldVersions);
             if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
+                OAItem_Message = objVersionWork.OAItem_Message;
                 OItem_Version = objVersionWork.objVersion;
             }
             else

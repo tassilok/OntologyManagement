@@ -14,9 +14,16 @@ namespace Version_Module
         private clsOntologyItem objOItem_Ref;
         private frmVersionEdit objFrmVersionEdit;
 
+        private frmRefTree objFrmRefTree;
+
         private frmModules objFrm_Modules;
 
         private clsShellWork objShellWork = new clsShellWork();
+
+        private clsOntologyItem objOItem_AttributeType;
+
+        private clsRelationConfig objRelationConfig;
+        private clsTransaction objTransaction;
 
         private string strLastModule;
 
@@ -31,15 +38,19 @@ namespace Version_Module
         private void Initialize()
         {
             objShellWork = new clsShellWork();
+            objRelationConfig = new clsRelationConfig(objDataWork_Versions.LocalConfig.Globals);
+            objTransaction = new clsTransaction(objDataWork_Versions.LocalConfig.Globals);
         }
 
         public void initialize_Grid(clsOntologyItem OItem_Ref)
         {
             objOItem_Ref = OItem_Ref;
             var objOItem_Result = objDataWork_Versions.GetData_VersionDetails(false);
+            toolStripButton_AddDest.Enabled = false;
 
             if (objOItem_Result.GUID == objDataWork_Versions.LocalConfig.Globals.LState_Success.GUID)
             {
+                toolStripButton_AddDest.Enabled = true;
                 var refName = "-";
                 if (OItem_Ref != null)
                 {
@@ -123,6 +134,24 @@ namespace Version_Module
             objFrmVersionEdit = new frmVersionEdit(objDataWork_Versions.LocalConfig);
             objFrmVersionEdit.Initialize_VersionEdit(objOItem_Ref, toolStripButton_Remove.Checked);
             objFrmVersionEdit.ShowDialog(this);
+            var objOAItem_Message = objFrmVersionEdit.OAItem_Message;
+
+            if (objOAItem_Message != null && objOItem_AttributeType != null)
+            {
+                var strMessage = objOAItem_Message.Val_String;
+
+                var objOAItem_MessageNewRel = objRelationConfig.Rel_ObjectAttribute(objOItem_Ref, objOItem_AttributeType, strMessage);
+
+                var objOItem_Result = objTransaction.do_Transaction(objOAItem_MessageNewRel, true);
+                if (objOItem_Result.GUID == objDataWork_Versions.LocalConfig.Globals.LState_Success.GUID)
+                {
+                    MessageBox.Show(this, "Die Version wurde erzeugt!", "Erfolg!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show(this, "Die Message kann nicht verknüpft werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
             initialize_Grid(objOItem_Ref);
 
         }
@@ -178,6 +207,37 @@ namespace Version_Module
             if (e.KeyCode == Keys.F5)
             {
                 initialize_Grid(objOItem_Ref);
+            }
+        }
+
+        private void toolStripButton_AddDest_Click(object sender, System.EventArgs e)
+        {
+            objOItem_AttributeType = null;
+            toolStripTextBox_MsgDest.Text = "";
+            var oItem_Class = objDataWork_Versions.GetOItem(objOItem_Ref.GUID_Parent, objDataWork_Versions.LocalConfig.Globals.Type_Class);
+
+            objFrmRefTree = new frmRefTree(objDataWork_Versions.LocalConfig.Globals, oItem_Class);
+            objFrmRefTree.ShowDialog(this);
+            if (objFrmRefTree.DialogResult == DialogResult.OK)
+            {
+                if (objFrmRefTree.OItem_Right.Type == objDataWork_Versions.LocalConfig.Globals.Type_AttributeType)
+                {
+                    objOItem_AttributeType = objFrmRefTree.OItem_Right.Clone();
+                    if (objOItem_AttributeType.GUID_Parent != objDataWork_Versions.LocalConfig.Globals.DType_String.GUID)
+                    {
+                        MessageBox.Show(this, "Wählen Sie bitte nur Attributtypen vom Type String aus.", "Nur Strings!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        objOItem_AttributeType = null;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(this, "Wählen Sie bitte nur Attributtypen aus.", "Nur Attribut-Typen!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
+            if (objOItem_AttributeType != null)
+            {
+                toolStripTextBox_MsgDest.Text = objOItem_AttributeType.Name;
             }
         }
     }
