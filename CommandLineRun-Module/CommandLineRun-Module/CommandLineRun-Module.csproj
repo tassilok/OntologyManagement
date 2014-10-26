@@ -58,6 +58,7 @@
     <Compile Include="clsShellOutput.cs" />
     <Compile Include="clsValue.cs" />
     <Compile Include="clsVariableToReportField.cs" />
+    <Compile Include="clsVariableValueMapper.cs" />
     <Compile Include="frmCommandLineRun.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +70,12 @@
     </Compile>
     <Compile Include="frmScriptExecution.Designer.cs">
       <DependentUpon>frmScriptExecution.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmVariableValueMapper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmVariableValueMapper.Designer.cs">
+      <DependentUpon>frmVariableValueMapper.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,6 +96,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmScriptExecution.resx">
       <DependentUpon>frmScriptExecution.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmVariableValueMapper.resx">
+      <DependentUpon>frmVariableValueMapper.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -149,6 +159,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\tasto_8_architetto_franc_01.png" />
     <Content Include="SciLexer.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

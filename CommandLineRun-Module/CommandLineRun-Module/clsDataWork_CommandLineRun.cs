@@ -54,6 +54,18 @@ namespace CommandLineRun_Module
 
         public List<clsCode> Codes { get; private set; }
 
+        public List<clsObjectRel> Values
+        {
+            get { return objDBLevel_Values.OList_ObjectRel; }
+        }
+
+        public List<clsObjectRel> VarValues
+        {
+            get { return objDBLevel_ValueVars.OList_ObjectRel; }
+        }
+
+        public List<clsVariableValueMapper> VariableValueMapper { get; set; }
+
         public clsOntologyItem OItem_Class { get; set; }
         public clsOntologyItem OItem_Direction { get; set; }
         public clsOntologyItem OItem_RelationType { get; set; }
@@ -898,8 +910,11 @@ namespace CommandLineRun_Module
                     var commandLineRunVals =
                         objDBLevel_Values.OList_ObjectRel.Where(val => val.ID_Object == code.ID_CommandLineRun).ToList();
 
-                    
-                                                   
+                    var altValues = VariableValueMapper.Where(map => map.ID_CommandLineRun == code.ID_CommandLineRun).ToList();
+
+
+                    altValues.ForEach(val => code.CodeParsed = code.CodeParsed.Replace("@" + val.Name_Variable + "@", val.Value));
+
                     var variableValues = (from codeValue in commandLineRunVals
                                           join valVar in objDBLevel_ValueVars.OList_ObjectRel on codeValue.ID_Other equals  valVar.ID_Object
                                           join valBelongingSource in objDBLevel_ValueBelongingSource.OList_ObjectRel on
@@ -911,6 +926,9 @@ namespace CommandLineRun_Module
 
                     variableValues.ForEach(varVal =>
                         {
+
+
+
                             if (varVal.valBelongingSource == null || (varVal.valBelongingSource.ID_Parent_Other != objLocalConfig.OItem_class_comand_line__run_.GUID))
                             {
                                 var replaceString = "";
@@ -929,10 +947,12 @@ namespace CommandLineRun_Module
                                 {
                                     replaceString = varVal.valVar.Name_Object;
                                 }
-                                
+
                                 code.CodeParsed = code.CodeParsed.Replace("@" + varVal.valVar.Name_Other + "@",
-                                                                          replaceString);
+                                                                            replaceString);
                             }
+
+                            
                             
                         });
                 });
@@ -1049,6 +1069,8 @@ namespace CommandLineRun_Module
 
         private void Initialize()
         {
+            VariableValueMapper = new List<clsVariableValueMapper>();
+
             objDBLevel_CommandLineRun = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_CommandLineRunTree = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_CommandLine = new clsDBLevel(objLocalConfig.Globals);

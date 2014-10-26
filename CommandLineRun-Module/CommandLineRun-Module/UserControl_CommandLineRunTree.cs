@@ -23,6 +23,7 @@ namespace CommandLineRun_Module
 
         private frmModules objFrmModules;
         private frmAdvancedFilter objFrmAdvancedFilter;
+        private frmVariableValueMapper objFrmVariableValueMapper;
 
         private clsDataWork_CommandLineRun objDataWork_CommandLineRun;
         private clsShellWork objShellWork;
@@ -280,12 +281,14 @@ namespace CommandLineRun_Module
             ModuleMenuToolStripMenuItem.Enabled = false;
             applyToolStripMenuItem.Enabled = false;
             refreshToolStripMenuItem.Enabled = false;
+            mapVariablesToValuesToolStripMenuItem.Enabled = false;
 
             if (node != null && node.Name != objLocalConfig.Globals.Root.GUID)
             {
                 ModuleMenuToolStripMenuItem.Enabled = true;
                 applyToolStripMenuItem.Enabled = true;
                 refreshToolStripMenuItem.Enabled = true;
+                mapVariablesToValuesToolStripMenuItem.Enabled = true;
             }
         }
 
@@ -449,6 +452,45 @@ namespace CommandLineRun_Module
             {
                 ShowCMDLR_Data(node);
             }
+        }
+
+        private void treeView_CMDLR_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F5:
+                    var objOItem_Result = objDataWork_CommandLineRun.GetData_CommandLineRun();
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        InitializeTree();
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, "Die Daten konnten nicht ermittelt werden?", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    break;
+            }
+        }
+
+        private void mapVariablesToValuesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var node = treeView_CMDLR.SelectedNode;
+            if (node != null && node.Name != objLocalConfig.Globals.Root.GUID)
+            {
+                var objOItem_CMDLR = new clsOntologyItem
+                    {
+                        GUID = node.Name,
+                        Name = node.Text,
+                        GUID_Parent = objLocalConfig.OItem_class_comand_line__run_.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+                objFrmVariableValueMapper = new frmVariableValueMapper(objLocalConfig, objDataWork_CommandLineRun, objOItem_CMDLR);
+                objFrmVariableValueMapper.ShowDialog(this);
+
+                objDataWork_CommandLineRun.GetSubData_013_Codes();
+                ShowCMDLR_Data(node);
+            }
+            
         }
 
     }
