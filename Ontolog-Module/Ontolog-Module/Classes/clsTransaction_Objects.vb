@@ -4,6 +4,10 @@ Public Class clsTransaction_Objects
     Private objLocalConfig As clsLocalConfig
 
     Private objDBLevel As clsDBLevel
+    Private objDBLevel2 As clsDBLevel
+    Private objDBLevel3 As clsDBLevel
+    Private objDBLevel4 As clsDBLevel
+    Private objDBLevel5 As clsDBLevel
 
     Private objFrm_Name As frm_Name
     Private objOItem_Saved_LastItem As clsOntologyItem
@@ -51,6 +55,127 @@ Public Class clsTransaction_Objects
             Return objOItem_Saved_LastItem
         End Get
     End Property
+
+    Public Function move_Objects(OList_ObjectsOld As List(Of clsOntologyItem), GUID_NewClass As String) As clsOntologyItem
+
+        Dim OList_ObjectsNew = OList_ObjectsOld.Select(Function(obj) New clsOntologyItem With {.GUID = obj.GUID,
+                                                                                               .Name = obj.Name,
+                                                                                               .GUID_Parent = GUID_NewClass,
+                                                                                               .Type = objLocalConfig.Globals.Type_Class}).ToList()
+
+        Dim objOItem_Result = objDBLevel.save_Objects(OList_ObjectsNew)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim objOList_S_Relations = OList_ObjectsOld.Select(Function(o) New clsObjectRel With {.ID_Object = o.GUID}).ToList()
+            objOItem_Result = objDBLevel.get_Data_ObjectRel(objOList_S_Relations)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                If objDBLevel.OList_ObjectRel_ID.Any() Then
+                    Dim objOList_Rel = objDBLevel.OList_ObjectRel_ID.Select(Function(ob) New clsObjectRel With {.ID_Object = ob.ID_Object, _
+                                                                            .ID_Parent_Object = GUID_NewClass, _
+                                                                                                                .ID_Other = ob.ID_Other, _
+                                                                                                                .ID_Parent_Other = ob.ID_Parent_Other, _
+                                                                                                                .ID_RelationType = ob.ID_RelationType, _
+                                                                                                                .OrderID = ob.OrderID, _
+                                                                                                                .Ontology = ob.Ontology}).ToList()
+
+                    objOItem_Result = objDBLevel2.save_ObjRel(objOList_Rel)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+
+                        objDBLevel2.save_ObjRel(objDBLevel.OList_ObjectRel_ID)
+                    End If
+                End If
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    objOList_S_Relations = OList_ObjectsOld.Select(Function(o) New clsObjectRel With {.ID_Other = o.GUID}).ToList()
+                    objOItem_Result = objDBLevel3.get_Data_ObjectRel(objOList_S_Relations)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        If objDBLevel3.OList_ObjectRel_ID.Any() Then
+                            Dim objOList_Rel = objDBLevel3.OList_ObjectRel_ID.Select(Function(ob) New clsObjectRel With {.ID_Object = ob.ID_Object, _
+                                                                        .ID_Parent_Object = ob.ID_Parent_Object, _
+                                                                                                            .ID_Other = ob.ID_Other, _
+                                                                                                            .ID_Parent_Other = GUID_NewClass, _
+                                                                                                            .ID_RelationType = ob.ID_RelationType, _
+                                                                                                            .OrderID = ob.OrderID, _
+                                                                                                            .Ontology = ob.Ontology}).ToList()
+
+                            objOItem_Result = objDBLevel4.save_ObjRel(objOList_Rel)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                If objDBLevel2.OList_ObjectRel_ID.Any() Then
+                                    objDBLevel3.save_ObjRel(objDBLevel2.OList_ObjectRel_ID)
+                                End If
+                                If objDBLevel.OList_ObjectRel_ID.Any() Then
+                                    objDBLevel2.save_ObjRel(objDBLevel.OList_ObjectRel_ID)
+                                End If
+
+                                objDBLevel.save_Objects(OList_ObjectsOld)
+
+                            End If
+                        End If
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            Dim objOList_OAtt = OList_ObjectsOld.Select(Function(o) New clsObjectAtt With {.ID_Object = o.GUID}).ToList()
+                            objOItem_Result = objDBLevel4.get_Data_ObjectAtt(objOList_OAtt)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                If objDBLevel4.OList_ObjectAtt_ID.Any() Then
+                                    objOList_OAtt = objDBLevel4.OList_ObjectAtt_ID.Select(Function(oa) New clsObjectAtt With {.ID_Attribute = oa.ID_Attribute,
+                                                                                                                              .ID_AttributeType = oa.ID_AttributeType,
+                                                                                                                              .ID_Class = GUID_NewClass,
+                                                                                                                              .ID_DataType = oa.ID_DataType,
+                                                                                                                              .ID_Object = oa.ID_Object,
+                                                                                                                              .OrderID = oa.OrderID,
+                                                                                                                              .Val_Name = oa.Val_Name,
+                                                                                                                              .Val_Bit = oa.Val_Bit,
+                                                                                                                              .Val_Date = oa.Val_Date,
+                                                                                                                              .Val_Double = oa.Val_Double,
+                                                                                                                              .Val_Int = oa.Val_Int,
+                                                                                                                              .Val_Real = oa.Val_Real,
+                                                                                                                              .Val_String = oa.Val_String}).ToList()
+
+                                    objOItem_Result = objDBLevel5.save_ObjAtt(objOList_OAtt)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                        If objDBLevel2.OList_ObjectRel_ID.Any() Then
+                                            objDBLevel3.save_ObjRel(objDBLevel2.OList_ObjectRel_ID)
+                                        End If
+                                        If objDBLevel.OList_ObjectRel_ID.Any() Then
+                                            objDBLevel2.save_ObjRel(objDBLevel.OList_ObjectRel_ID)
+                                        End If
+
+                                        objDBLevel.save_Objects(OList_ObjectsOld)
+
+                                    End If
+                                End If
+
+                            Else
+                                If objDBLevel2.OList_ObjectRel_ID.Any() Then
+                                    objDBLevel3.save_ObjRel(objDBLevel2.OList_ObjectRel_ID)
+                                End If
+                                If objDBLevel.OList_ObjectRel_ID.Any() Then
+                                    objDBLevel2.save_ObjRel(objDBLevel.OList_ObjectRel_ID)
+                                End If
+
+                                objDBLevel.save_Objects(OList_ObjectsOld)
+
+                            End If
+                        End If
+
+                    Else
+                        If objDBLevel.OList_ObjectRel_ID.Any() Then
+                            objDBLevel2.save_ObjRel(objDBLevel.OList_ObjectRel_ID)
+                        End If
+
+                        objDBLevel.save_Objects(OList_ObjectsOld)
+
+                    End If
+                End If
+
+            Else
+                objDBLevel.save_Objects(OList_ObjectsOld)
+
+            End If
+        End If
+
+        Return objOItem_Result
+    End Function
 
     Public Function duplicate_Object(OItem_Object As clsOntologyItem, Optional refreshView As Boolean = True) As clsOntologyItem
         Dim objOItem_Result = objLocalConfig.Globals.LState_Nothing.Clone()
@@ -289,8 +414,20 @@ Public Class clsTransaction_Objects
         set_DBConnection()
     End Sub
 
+    Public Sub New(Globals As clsGlobals, Optional ByVal frmParent As Windows.Forms.IWin32Window = Nothing)
+        objLocalConfig = New clsLocalConfig(Globals)
+        objfrmParent = frmParent
+
+        set_DBConnection()
+    End Sub
+
     Private Sub set_DBConnection()
         objDBLevel = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel2 = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel3 = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel4 = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel5 = New clsDBLevel(objLocalConfig.Globals)
+
         objTransaction = New clsTransaction(objLocalConfig.Globals)
     End Sub
 End Class

@@ -18,19 +18,77 @@ namespace Manual_Repair_Module
 
         private clsLocalConfig objLocalConfig;
         private clsDataWork_Repair objDataWork_Repair;
+        private clsTransaction_Objects objTransaction_Objects;
 
         public frmManualRepair()
         {
             InitializeComponent();
 
             objLocalConfig = new clsLocalConfig(new clsGlobals());
+            objTransaction_Objects = new clsTransaction_Objects(objLocalConfig.Globals);
             Initialize();
             //Repair_MathematischeKomponenten();
             //Repair_MP3File();
             //Repair_MultipleRelations();
             //RemoveMultipleDataTypes();
-            Move_Versions();
+            //Move_Versions();
+            MoveLogEntries();
 
+
+        }
+
+        private void MoveLogEntries()
+        {
+            var dbLevel_LogEntry_Relations = new clsDBLevel(objLocalConfig.Globals);
+            var dbLevel_LogEntries = new clsDBLevel(objLocalConfig.Globals);
+            var dbLevel_Move = new clsDBLevel(objLocalConfig.Globals);
+
+            var searchLogentries = new List<clsObjectAtt> {
+                new clsObjectAtt {
+                    ID_AttributeType = "2e5fd016c5744924b724d1b30640243a"
+                }};
+
+
+            var result = dbLevel_LogEntry_Relations.get_Data_ObjectAtt(searchLogentries, boolIDs: false);
+
+            if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                var searchLogentries2 = new List<clsOntologyItem> {
+                    new clsOntologyItem
+                    {
+                        GUID_Parent = "351d45912495450182aba425f5235db9"
+                }};
+
+                result = dbLevel_LogEntries.get_Data_Objects(searchLogentries2);
+
+                if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    var toMovePre = dbLevel_LogEntry_Relations.OList_ObjectAtt.Where(loge => loge.Val_Datetime < DateTime.Now.AddDays(-90)).ToList();
+                    var toMovePre2 = (from att in toMovePre
+                                      join loge in dbLevel_LogEntries.OList_Objects on att.ID_Object equals loge.GUID
+                                      select loge).ToList();
+                    var toMove = (from objLogE in toMovePre2
+                                  group objLogE by new { objLogE.GUID, objLogE.Name, objLogE.GUID_Parent } into objLogEs
+                                  select new clsOntologyItem
+                                  {
+                                      GUID = objLogEs.Key.GUID,
+                                      Name = objLogEs.Key.Name,
+                                      GUID_Parent = objLogEs.Key.GUID_Parent,
+                                      Type = objLocalConfig.Globals.Type_Object
+                                  }).ToList();
+
+                    var objOItem_Result = objTransaction_Objects.move_Objects(toMove, "2dd8398d4cd14ef391eb30780720e25e");
+
+                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                    {
+                        MessageBox.Show(this, "Fehler beim Verschieben der Logeinträge!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+
+                
+
+
+            }
         }
 
         private void RemoveMultipleDataTypes()
@@ -342,11 +400,12 @@ namespace Manual_Repair_Module
                                     {
                                         GUID = objVer.GUID,
                                         Name = objVer.Name,
-                                        GUID_Parent = "32a3d0fa37444021b200245c9b877418",
+                                        GUID_Parent = objVer.GUID_Parent,
                                         Type = objLocalConfig.Globals.Type_Object
                                     }).ToList();
 
-                        objOItem_Result = objDBLevel_Move.save_Objects(move);
+                        //objOItem_Result = objDBLevel_Move.save_Objects(move);
+                        objOItem_Result = objTransaction_Objects.move_Objects(move, "32a3d0fa37444021b200245c9b877418");
 
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {

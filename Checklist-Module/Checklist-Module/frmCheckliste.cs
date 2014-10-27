@@ -71,7 +71,7 @@ namespace Checklist_Module
             objUserControl_Report.DataLoaded += objUserControl_Report_DataLoaded;
             objUserControl_Report.SelectionChanged += objUserControl_Report_SelectionChanged;
             splitContainer1.Panel1.Controls.Add(objUserControl_Report);
-            objOList_LogEntries = objDataWork_LogEntry.get_Data_LogEntries();
+            //objOList_LogEntries = objDataWork_LogEntry.get_Data_LogEntries();
             objLogManagement = new clsLogManagement(objLocalConfig.Globals);
             objTransaction = new clsTransaction(objLocalConfig.Globals);
             objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
@@ -506,10 +506,7 @@ namespace Checklist_Module
 
         private void GetDataLogEntries()
         {
-            var objOList_LogEntries_WorkingList = objDataWork_Checklists.GetData_WorkingListToLogEntry(objOItem_WorkingList);
-            var objOList_LogEntries_Show = (from objLogEntry in objOList_LogEntries
-                                            join objLogEntryOfWorkingList in objOList_LogEntries_WorkingList on objLogEntry.ID_LogEntry equals objLogEntryOfWorkingList.ID_Other
-                                            select objLogEntry).ToList();
+            var objOList_LogEntries_Show = objDataWork_LogEntry.get_Data_LogEntryOfRef(objOItem_WorkingList, objLocalConfig.OItem_relationtype_contains);
 
             foreach (DataRow item in objUserControl_Report.DataTableSelected.Rows)
             {
