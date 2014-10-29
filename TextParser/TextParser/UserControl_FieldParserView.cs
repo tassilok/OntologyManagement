@@ -14,6 +14,7 @@ using Filesystem_Module;
 using System.IO;
 using System.Text.RegularExpressions;
 using PortListenerForText_Module;
+using System.Globalization;
 
 namespace TextParser
 {
@@ -176,9 +177,7 @@ namespace TextParser
 
                                             fileList = objDataWork_FileResource_Path.FileList;
                                             
-                                            pIndexFill = true;
-                                            GetIndexes();
-                                            pIndexFill = false;
+                                           
 
                                             if (objLocalConfig.ExOpt_TextParser != null &&
                                                 objLocalConfig.ExOpt_Execute &&
@@ -222,6 +221,9 @@ namespace TextParser
                             objOItem_Result = objLocalConfig.Globals.LState_Error.Clone();
                         }
 
+                        pIndexFill = true;
+                        GetIndexes();
+                        pIndexFill = false;
                     }
                     else
                     {
@@ -324,6 +326,13 @@ namespace TextParser
                     }
                     bindingSource_Items.DataSource = dataTable;
                     dataGridView_IndexView.DataSource = bindingSource_Items;
+                    foreach (DataGridViewColumn col in dataGridView_IndexView.Columns)
+                    {
+                        if (col.ValueType == typeof(System.DateTime))
+                        {
+                            col.DefaultCellStyle.Format = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " +  CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern; 
+                        }
+                    }
                     pos = objAppDBLevel.LastPos;
                     pages = objAppDBLevel.PageCount;
                     page = objAppDBLevel.CurrPage;
