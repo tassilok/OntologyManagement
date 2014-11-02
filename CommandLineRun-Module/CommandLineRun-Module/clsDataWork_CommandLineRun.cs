@@ -694,7 +694,7 @@ namespace CommandLineRun_Module
             {
                 if ((OItem_Class != null || OItem_RelationType != null || OItem_Object != null) && OItem_Direction != null)
                 {
-                    AddFilter(OItem_Direction);
+                    OItem_Result_Filter = AddFilter(OItem_Direction);
                 }
                 else if ((OItem_Class != null || OItem_RelationType != null || OItem_Object != null) &&
                          OItem_Direction == null)
