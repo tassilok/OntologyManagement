@@ -15,7 +15,7 @@ namespace WpfOnt.ViewModel
     {
         
 
-        private List<WpfOnt.OServiceObjects.clsOntologyItem > itemList;
+        private List<WpfOnt.OServiceObjects.clsOntologyItem> itemList;
         private WpfOnt.OServiceClasses.clsOntologyItem parentClass;
         private DbWork dbWork;
         private string idParent;
@@ -40,7 +40,7 @@ namespace WpfOnt.ViewModel
         /// <summary>
         ///     Contains the current selected page.
         /// </summary>
-        public List<clsOntologyItem> ItemList
+        public List<WpfOnt.OServiceObjects.clsOntologyItem> ItemList
         {
             get { return itemList; }
             set

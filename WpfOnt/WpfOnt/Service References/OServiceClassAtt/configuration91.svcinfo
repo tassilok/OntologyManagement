@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="itPgCTs/w1pd8h1cncgTLkoAPW8=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="TkqsBfjCBql39JX1LkGY4q9To70=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="OServiceClassAttSoap">
       <properties>
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="OServiceClassAttSoap" contract="OServiceClassAtt.OServiceClassAttSoap" bindingType="basicHttpBinding" address="http://localhost:65493/OServiceClassAtt.asmx" bindingConfiguration="OServiceClassAttSoap">
+    <endpoint name="OServiceClassAttSoap" contract="OServiceClassAtt.OServiceClassAttSoap" bindingType="basicHttpBinding" address="http://localhost/OntWeb/OServiceClassAtt.asmx" bindingConfiguration="OServiceClassAttSoap">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://localhost:65493/OServiceClassAtt.asmx</serializedValue>
+          <serializedValue>http://localhost/OntWeb/OServiceClassAtt.asmx</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

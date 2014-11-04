@@ -150,14 +150,14 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Service References\OServiceAttributeTypes\OServiceAttributeTypes1.wsdl" />
+    <None Include="Service References\OServiceAttributeTypes\OServiceAttributeTypes.wsdl" />
     <None Include="Service References\OServiceAttributeTypes\WpfOnt.OServiceAttributeTypes.clsOntologyItem.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\OServiceAttributeTypes\WpfOnt.OServiceAttributeTypes.Config.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceClassAtt\OServiceClassAtt1.wsdl" />
+    <None Include="Service References\OServiceClassAtt\OServiceClassAtt.wsdl" />
     <None Include="Service References\OServiceClassAtt\WpfOnt.OServiceClassAtt.clsClassAtt.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -167,14 +167,14 @@
     <None Include="Service References\OServiceClassAtt\WpfOnt.OServiceClassAtt.Config.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceClasses\OServiceClasses1.wsdl" />
+    <None Include="Service References\OServiceClasses\OServiceClasses.wsdl" />
     <None Include="Service References\OServiceClasses\WpfOnt.OServiceClasses.clsOntologyItem.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\OServiceClasses\WpfOnt.OServiceClasses.Config.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceClassRel\OServiceClassRel1.wsdl" />
+    <None Include="Service References\OServiceClassRel\OServiceClassRel.wsdl" />
     <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.clsClassRel.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -184,21 +184,21 @@
     <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.Config.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceObjectRel\OServiceObjectRel1.wsdl" />
+    <None Include="Service References\OServiceObjectRel\OServiceObjectRel.wsdl" />
     <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.clsObjectRel.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.Config.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceObjects\OServiceObjects1.wsdl" />
+    <None Include="Service References\OServiceObjects\OServiceObjects.wsdl" />
     <None Include="Service References\OServiceObjects\WpfOnt.OServiceObjects.clsOntologyItem.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\OServiceObjects\WpfOnt.OServiceObjects.Config.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceRelationTypes\OServiceRelationTypes1.wsdl" />
+    <None Include="Service References\OServiceRelationTypes\OServiceRelationTypes.wsdl" />
     <None Include="Service References\OServiceRelationTypes\WpfOnt.OServiceRelationTypes.clsOntologyItem.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -306,25 +306,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\OServiceAttributeTypes\OServiceAttributeTypes1.disco" />
+    <None Include="Service References\OServiceAttributeTypes\OServiceAttributeTypes.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\OServiceClassAtt\OServiceClassAtt1.disco" />
+    <None Include="Service References\OServiceClassAtt\OServiceClassAtt.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\OServiceClasses\OServiceClasses1.disco" />
+    <None Include="Service References\OServiceClasses\OServiceClasses.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\OServiceClassRel\OServiceClassRel1.disco" />
+    <None Include="Service References\OServiceClassRel\OServiceClassRel.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\OServiceObjectRel\OServiceObjectRel1.disco" />
+    <None Include="Service References\OServiceObjectRel\OServiceObjectRel.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\OServiceObjects\OServiceObjects1.disco" />
+    <None Include="Service References\OServiceObjects\OServiceObjects.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\OServiceRelationTypes\OServiceRelationTypes1.disco" />
+    <None Include="Service References\OServiceRelationTypes\OServiceRelationTypes.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

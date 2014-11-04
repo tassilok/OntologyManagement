@@ -19,11 +19,11 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:65493/OServiceAttributeTypes.asmx" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost/OntWeb/OServiceAttributeTypes.asmx" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="OServiceAttributeTypes1.wsdl" MetadataType="Wsdl" ID="b8fedd2e-eb4a-416d-8d44-831f32e0299a" SourceId="1" SourceUrl="http://localhost:65493/OServiceAttributeTypes.asmx?wsdl" />
-    <MetadataFile FileName="OServiceAttributeTypes1.disco" MetadataType="Disco" ID="dba00fb4-3bb7-434e-ac69-4a47f20a2a08" SourceId="1" SourceUrl="http://localhost:65493/OServiceAttributeTypes.asmx?disco" />
+    <MetadataFile FileName="OServiceAttributeTypes.disco" MetadataType="Disco" ID="1e4d76d5-4bbb-463a-96df-7f4a8309785c" SourceId="1" SourceUrl="http://localhost/OntWeb/OServiceAttributeTypes.asmx?disco" />
+    <MetadataFile FileName="OServiceAttributeTypes.wsdl" MetadataType="Wsdl" ID="846b1b94-c8d6-4437-9bd1-d007f3d36460" SourceId="1" SourceUrl="http://localhost/OntWeb/OServiceAttributeTypes.asmx?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

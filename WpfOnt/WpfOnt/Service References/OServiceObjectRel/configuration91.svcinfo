@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="SARvRN4HcYnfuQkYX7YjpCy9DQI=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="oasBc6cZX19Y3wvK+uiD3nNPxIs=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="OServiceObjectRelSoap">
       <properties>
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="OServiceObjectRelSoap" contract="OServiceObjectRel.OServiceObjectRelSoap" bindingType="basicHttpBinding" address="http://localhost:65493/OServiceObjectRel.asmx" bindingConfiguration="OServiceObjectRelSoap">
+    <endpoint name="OServiceObjectRelSoap" contract="OServiceObjectRel.OServiceObjectRelSoap" bindingType="basicHttpBinding" address="http://localhost/OntWeb/OServiceObjectRel.asmx" bindingConfiguration="OServiceObjectRelSoap">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://localhost:65493/OServiceObjectRel.asmx</serializedValue>
+          <serializedValue>http://localhost/OntWeb/OServiceObjectRel.asmx</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

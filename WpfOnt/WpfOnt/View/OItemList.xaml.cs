@@ -23,6 +23,7 @@ namespace WpfOnt.View
     /// </summary>
     public partial class OItemList : UserControl
     {
+
         //public static readonly DependencyProperty IdParentProperty = DependencyProperty.Register("IdParent", typeof(String), typeof(OItemList), new PropertyMetadata("Test"));
         public static readonly DependencyProperty IdParentProperty =
             DependencyProperty.Register(
@@ -33,6 +34,9 @@ namespace WpfOnt.View
                     BindsTwoWayByDefault = true
                 });
 
+        public static readonly DependencyProperty ItemListProperty =
+           DependencyProperty.Register("ItemList", typeof(List<clsOntologyItem>), typeof(OItemList));
+
         private static void OnIdParentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var userControl = (OItemList)d;
@@ -41,9 +45,16 @@ namespace WpfOnt.View
 
         }
 
-        public OItemList()
+        public List<clsOntologyItem> ItemList
         {
-            
+            get
+            {
+                return (List<clsOntologyItem>)GetValue(ItemListProperty);
+            }
+            set
+            {
+                SetValue(ItemListProperty, value);
+            }
         }
 
         public string IdParent

@@ -26,6 +26,7 @@ namespace WpfOnt
         public MainWindow()
         {
             InitializeComponent();
+
         }
 
         private void TypeTree_OnSelectedNode(OTreeNode otreenode)
@@ -35,5 +36,6 @@ namespace WpfOnt
             model.IdClass = otreenode.Id;
 
         }
+
     }
 }
