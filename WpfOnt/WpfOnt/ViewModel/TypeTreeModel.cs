@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WpfOnt.Data;
-using WpfOnt.OServiceClasses;
+using WpfOnt.OServiceOItems;
 using WpfOnt.View;
 using WpfOnt.ViewModelUtils;
 
@@ -26,13 +26,35 @@ namespace WpfOnt.ViewModel
         private string markLbl = "x_Mark:";
         private string itemCountLbl = "x_Count:";
         private string itemCount = "0";
+        private string lblGuid = "x_GUID:";
+        private string guidClass = "";
         private List<clsOntologyItem> classList;
         private List<OTreeNode> nodeList;
         private List<OTreeNode> nodes;
 
         public object CurrSelItem { get; set; }
 
-       
+
+        public string LblGuid
+        {
+            get { return lblGuid; }
+            set
+            {
+                lblGuid = value;
+                OnPropertyChanged("LblGuid");
+            }
+        }
+
+        public string GuidClass
+        {
+            get { return guidClass; }
+            set
+            {
+                guidClass = value;
+                OnPropertyChanged("GuidClass");
+            }
+        }
+
         /// <summary>
         ///     Contains the current selected page.
         /// </summary>
@@ -134,11 +156,14 @@ namespace WpfOnt.ViewModel
                     var oTreeNode = new OTreeNode
                         {
                             Id = oClass.GUID,
-                            Name = oClass.Name
+                            Name = oClass.Name,
+                            IsRoot = true
                         };
                     nodeList.Add(oTreeNode);
                     GetONodeList(oTreeNode);
                 }
+
+                ItemCount = classList.Count.ToString();
             }
             else
             {
@@ -152,11 +177,14 @@ namespace WpfOnt.ViewModel
                     var oTreeNode = new OTreeNode
                     {
                         Id = oClass.GUID,
-                        Name = oClass.Name
+                        Name = oClass.Name,
+                        IsRoot = false
                     };
                     oTreeNodeParent.Nodes.Add(oTreeNode);
                     GetONodeList(oTreeNode);
                 }
+
+                ItemCount = classList.Count.ToString();
             }
         }
 

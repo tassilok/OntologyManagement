@@ -35,13 +35,6 @@ namespace OntWeb
         }
 
         [WebMethod]
-        public List<Config> Config()
-        {
-
-            return Globals.Config;
-        }
-
-        [WebMethod]
         public List<clsObjectRel> ObjectRels(bool onlyIds)
         {
             var oItem_Result = dbConnector.GetObjectRel(ids: onlyIds);

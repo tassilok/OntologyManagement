@@ -89,7 +89,7 @@ namespace OntWeb
 
         public static bool IsGuid(string guid)
         {
-            var objRegExp = new Regex(guid);
+            var objRegExp = new Regex(RegEx_Guid);
             if (objRegExp.IsMatch(guid) && guid != "00000000000000000000000000000000")
             {
                 return true;

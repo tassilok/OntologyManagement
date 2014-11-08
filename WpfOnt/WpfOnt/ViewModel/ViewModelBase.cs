@@ -8,14 +8,8 @@ using System.Windows;
 
 namespace WpfOnt.ViewModel
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : NotifyPropertyChange
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }
+        
     }
 }

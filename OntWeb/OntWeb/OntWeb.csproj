@@ -60,14 +60,12 @@
   <ItemGroup>
     <Content Include="clientaccesspolicy.xml" />
     <Content Include="Config\Config_ont.xml" />
-    <Content Include="OServiceAttributeTypes.asmx" />
     <Content Include="OServiceClassAtt.asmx" />
-    <Content Include="OServiceClasses.asmx" />
     <Content Include="OServiceClassRel.asmx" />
+    <Content Include="OServiceConfiguration.asmx" />
     <Content Include="OServiceObjectAtt.asmx" />
     <Content Include="OServiceObjectRel.asmx" />
-    <Content Include="OServiceObjects.asmx" />
-    <Content Include="OServiceRelationTypes.asmx" />
+    <Content Include="OServiceOItems.asmx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -79,20 +77,16 @@
     </Compile>
     <Compile Include="DBConnector.cs" />
     <Compile Include="Globals.cs" />
-    <Compile Include="OServiceAttributeTypes.asmx.cs">
-      <DependentUpon>OServiceAttributeTypes.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="OServiceClassAtt.asmx.cs">
       <DependentUpon>OServiceClassAtt.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="OServiceClasses.asmx.cs">
-      <DependentUpon>OServiceClasses.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="OServiceClassRel.asmx.cs">
       <DependentUpon>OServiceClassRel.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="OServiceConfiguration.asmx.cs">
+      <DependentUpon>OServiceConfiguration.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="OServiceObjectAtt.asmx.cs">
@@ -103,12 +97,8 @@
       <DependentUpon>OServiceObjectRel.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="OServiceObjects.asmx.cs">
-      <DependentUpon>OServiceObjects.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="OServiceRelationTypes.asmx.cs">
-      <DependentUpon>OServiceRelationTypes.asmx</DependentUpon>
+    <Compile Include="OServiceOItems.asmx.cs">
+      <DependentUpon>OServiceOItems.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

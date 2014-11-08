@@ -9,820 +9,1820 @@
 //------------------------------------------------------------------------------
 
 namespace WpfOnt.OServiceClassRel {
+    using System.Runtime.Serialization;
+    using System;
     
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.CollectionDataContractAttribute(Name="ArrayOfClsOntologyItem", Namespace="http://tempuri.org/", ItemName="clsOntologyItem")]
+    [System.SerializableAttribute()]
+    public class ArrayOfClsOntologyItem : System.Collections.Generic.List<WpfOnt.OServiceClassRel.clsOntologyItem> {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="clsOntologyItem", Namespace="http://tempuri.org/")]
+    [System.SerializableAttribute()]
+    public partial class clsOntologyItem : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private WpfOnt.OServiceClassRel.ArrayOfClsOntologyItem OList_RelField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GUIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ID_ItemField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ID_ParentField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ID_ClassField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ID_DataTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GUID_ParentField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GUID_RelatedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GUID_RelationField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string Name_ItemField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string Name_ParentField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CaptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string Additional1Field;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string Additional2Field;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FilterField;
+        
+        private System.Nullable<int> ImageIDField;
+        
+        private System.Nullable<int> VersionField;
+        
+        private System.Nullable<long> LevelField;
+        
+        private System.Nullable<bool> New_ItemField;
+        
+        private System.Nullable<bool> DeletedField;
+        
+        private System.Nullable<bool> MarkField;
+        
+        private System.Nullable<bool> ObjectReferenceField;
+        
+        private System.Nullable<int> DirectionField;
+        
+        private System.Nullable<long> MinField;
+        
+        private System.Nullable<long> Max1Field;
+        
+        private System.Nullable<long> Max2Field;
+        
+        private System.Nullable<long> Val_LongField;
+        
+        private System.Nullable<bool> Val_BoolField;
+        
+        private System.Nullable<System.DateTime> Val_DateField;
+        
+        private System.Nullable<double> Val_RealField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string Val_StringField;
+        
+        private System.Nullable<long> CountField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        public WpfOnt.OServiceClassRel.ArrayOfClsOntologyItem OList_Rel {
+            get {
+                return this.OList_RelField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.OList_RelField, value) != true)) {
+                    this.OList_RelField = value;
+                    this.RaisePropertyChanged("OList_Rel");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string GUID {
+            get {
+                return this.GUIDField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GUIDField, value) != true)) {
+                    this.GUIDField = value;
+                    this.RaisePropertyChanged("GUID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string ID_Item {
+            get {
+                return this.ID_ItemField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ID_ItemField, value) != true)) {
+                    this.ID_ItemField = value;
+                    this.RaisePropertyChanged("ID_Item");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public string ID_Parent {
+            get {
+                return this.ID_ParentField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ID_ParentField, value) != true)) {
+                    this.ID_ParentField = value;
+                    this.RaisePropertyChanged("ID_Parent");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=4)]
+        public string ID_Class {
+            get {
+                return this.ID_ClassField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ID_ClassField, value) != true)) {
+                    this.ID_ClassField = value;
+                    this.RaisePropertyChanged("ID_Class");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=5)]
+        public string ID_DataType {
+            get {
+                return this.ID_DataTypeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ID_DataTypeField, value) != true)) {
+                    this.ID_DataTypeField = value;
+                    this.RaisePropertyChanged("ID_DataType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=6)]
+        public string GUID_Parent {
+            get {
+                return this.GUID_ParentField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GUID_ParentField, value) != true)) {
+                    this.GUID_ParentField = value;
+                    this.RaisePropertyChanged("GUID_Parent");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=7)]
+        public string GUID_Related {
+            get {
+                return this.GUID_RelatedField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GUID_RelatedField, value) != true)) {
+                    this.GUID_RelatedField = value;
+                    this.RaisePropertyChanged("GUID_Related");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=8)]
+        public string GUID_Relation {
+            get {
+                return this.GUID_RelationField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GUID_RelationField, value) != true)) {
+                    this.GUID_RelationField = value;
+                    this.RaisePropertyChanged("GUID_Relation");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=9)]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=10)]
+        public string Name_Item {
+            get {
+                return this.Name_ItemField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Name_ItemField, value) != true)) {
+                    this.Name_ItemField = value;
+                    this.RaisePropertyChanged("Name_Item");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=11)]
+        public string Name_Parent {
+            get {
+                return this.Name_ParentField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Name_ParentField, value) != true)) {
+                    this.Name_ParentField = value;
+                    this.RaisePropertyChanged("Name_Parent");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=12)]
+        public string Caption {
+            get {
+                return this.CaptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CaptionField, value) != true)) {
+                    this.CaptionField = value;
+                    this.RaisePropertyChanged("Caption");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=13)]
+        public string Additional1 {
+            get {
+                return this.Additional1Field;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Additional1Field, value) != true)) {
+                    this.Additional1Field = value;
+                    this.RaisePropertyChanged("Additional1");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=14)]
+        public string Additional2 {
+            get {
+                return this.Additional2Field;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Additional2Field, value) != true)) {
+                    this.Additional2Field = value;
+                    this.RaisePropertyChanged("Additional2");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=15)]
+        public string Type {
+            get {
+                return this.TypeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TypeField, value) != true)) {
+                    this.TypeField = value;
+                    this.RaisePropertyChanged("Type");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=16)]
+        public string Filter {
+            get {
+                return this.FilterField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FilterField, value) != true)) {
+                    this.FilterField = value;
+                    this.RaisePropertyChanged("Filter");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=17)]
+        public System.Nullable<int> ImageID {
+            get {
+                return this.ImageIDField;
+            }
+            set {
+                if ((this.ImageIDField.Equals(value) != true)) {
+                    this.ImageIDField = value;
+                    this.RaisePropertyChanged("ImageID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=18)]
+        public System.Nullable<int> Version {
+            get {
+                return this.VersionField;
+            }
+            set {
+                if ((this.VersionField.Equals(value) != true)) {
+                    this.VersionField = value;
+                    this.RaisePropertyChanged("Version");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=19)]
+        public System.Nullable<long> Level {
+            get {
+                return this.LevelField;
+            }
+            set {
+                if ((this.LevelField.Equals(value) != true)) {
+                    this.LevelField = value;
+                    this.RaisePropertyChanged("Level");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=20)]
+        public System.Nullable<bool> New_Item {
+            get {
+                return this.New_ItemField;
+            }
+            set {
+                if ((this.New_ItemField.Equals(value) != true)) {
+                    this.New_ItemField = value;
+                    this.RaisePropertyChanged("New_Item");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=21)]
+        public System.Nullable<bool> Deleted {
+            get {
+                return this.DeletedField;
+            }
+            set {
+                if ((this.DeletedField.Equals(value) != true)) {
+                    this.DeletedField = value;
+                    this.RaisePropertyChanged("Deleted");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=22)]
+        public System.Nullable<bool> Mark {
+            get {
+                return this.MarkField;
+            }
+            set {
+                if ((this.MarkField.Equals(value) != true)) {
+                    this.MarkField = value;
+                    this.RaisePropertyChanged("Mark");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=23)]
+        public System.Nullable<bool> ObjectReference {
+            get {
+                return this.ObjectReferenceField;
+            }
+            set {
+                if ((this.ObjectReferenceField.Equals(value) != true)) {
+                    this.ObjectReferenceField = value;
+                    this.RaisePropertyChanged("ObjectReference");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=24)]
+        public System.Nullable<int> Direction {
+            get {
+                return this.DirectionField;
+            }
+            set {
+                if ((this.DirectionField.Equals(value) != true)) {
+                    this.DirectionField = value;
+                    this.RaisePropertyChanged("Direction");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=25)]
+        public System.Nullable<long> Min {
+            get {
+                return this.MinField;
+            }
+            set {
+                if ((this.MinField.Equals(value) != true)) {
+                    this.MinField = value;
+                    this.RaisePropertyChanged("Min");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=26)]
+        public System.Nullable<long> Max1 {
+            get {
+                return this.Max1Field;
+            }
+            set {
+                if ((this.Max1Field.Equals(value) != true)) {
+                    this.Max1Field = value;
+                    this.RaisePropertyChanged("Max1");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=27)]
+        public System.Nullable<long> Max2 {
+            get {
+                return this.Max2Field;
+            }
+            set {
+                if ((this.Max2Field.Equals(value) != true)) {
+                    this.Max2Field = value;
+                    this.RaisePropertyChanged("Max2");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=28)]
+        public System.Nullable<long> Val_Long {
+            get {
+                return this.Val_LongField;
+            }
+            set {
+                if ((this.Val_LongField.Equals(value) != true)) {
+                    this.Val_LongField = value;
+                    this.RaisePropertyChanged("Val_Long");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=29)]
+        public System.Nullable<bool> Val_Bool {
+            get {
+                return this.Val_BoolField;
+            }
+            set {
+                if ((this.Val_BoolField.Equals(value) != true)) {
+                    this.Val_BoolField = value;
+                    this.RaisePropertyChanged("Val_Bool");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=30)]
+        public System.Nullable<System.DateTime> Val_Date {
+            get {
+                return this.Val_DateField;
+            }
+            set {
+                if ((this.Val_DateField.Equals(value) != true)) {
+                    this.Val_DateField = value;
+                    this.RaisePropertyChanged("Val_Date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=31)]
+        public System.Nullable<double> Val_Real {
+            get {
+                return this.Val_RealField;
+            }
+            set {
+                if ((this.Val_RealField.Equals(value) != true)) {
+                    this.Val_RealField = value;
+                    this.RaisePropertyChanged("Val_Real");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=32)]
+        public string Val_String {
+            get {
+                return this.Val_StringField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Val_StringField, value) != true)) {
+                    this.Val_StringField = value;
+                    this.RaisePropertyChanged("Val_String");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=33)]
+        public System.Nullable<long> Count {
+            get {
+                return this.CountField;
+            }
+            set {
+                if ((this.CountField.Equals(value) != true)) {
+                    this.CountField = value;
+                    this.RaisePropertyChanged("Count");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.CollectionDataContractAttribute(Name="ArrayOfClsClassRel", Namespace="http://tempuri.org/", ItemName="clsClassRel")]
+    [System.SerializableAttribute()]
+    public class ArrayOfClsClassRel : System.Collections.Generic.List<WpfOnt.OServiceClassRel.clsClassRel> {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="clsClassRel", Namespace="http://tempuri.org/")]
+    [System.SerializableAttribute()]
+    public partial class clsClassRel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ID_Class_LeftField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string Name_Class_LeftField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ID_Class_RightField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string Name_Class_RightField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ID_RelationTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string Name_RelationTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string OntologyField;
+        
+        private System.Nullable<long> Min_ForwField;
+        
+        private System.Nullable<long> Max_ForwField;
+        
+        private System.Nullable<long> Max_BackwField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        public string ID_Class_Left {
+            get {
+                return this.ID_Class_LeftField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ID_Class_LeftField, value) != true)) {
+                    this.ID_Class_LeftField = value;
+                    this.RaisePropertyChanged("ID_Class_Left");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        public string Name_Class_Left {
+            get {
+                return this.Name_Class_LeftField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Name_Class_LeftField, value) != true)) {
+                    this.Name_Class_LeftField = value;
+                    this.RaisePropertyChanged("Name_Class_Left");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string ID_Class_Right {
+            get {
+                return this.ID_Class_RightField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ID_Class_RightField, value) != true)) {
+                    this.ID_Class_RightField = value;
+                    this.RaisePropertyChanged("ID_Class_Right");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public string Name_Class_Right {
+            get {
+                return this.Name_Class_RightField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Name_Class_RightField, value) != true)) {
+                    this.Name_Class_RightField = value;
+                    this.RaisePropertyChanged("Name_Class_Right");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=4)]
+        public string ID_RelationType {
+            get {
+                return this.ID_RelationTypeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ID_RelationTypeField, value) != true)) {
+                    this.ID_RelationTypeField = value;
+                    this.RaisePropertyChanged("ID_RelationType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=5)]
+        public string Name_RelationType {
+            get {
+                return this.Name_RelationTypeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Name_RelationTypeField, value) != true)) {
+                    this.Name_RelationTypeField = value;
+                    this.RaisePropertyChanged("Name_RelationType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=6)]
+        public string Ontology {
+            get {
+                return this.OntologyField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.OntologyField, value) != true)) {
+                    this.OntologyField = value;
+                    this.RaisePropertyChanged("Ontology");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=7)]
+        public System.Nullable<long> Min_Forw {
+            get {
+                return this.Min_ForwField;
+            }
+            set {
+                if ((this.Min_ForwField.Equals(value) != true)) {
+                    this.Min_ForwField = value;
+                    this.RaisePropertyChanged("Min_Forw");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=8)]
+        public System.Nullable<long> Max_Forw {
+            get {
+                return this.Max_ForwField;
+            }
+            set {
+                if ((this.Max_ForwField.Equals(value) != true)) {
+                    this.Max_ForwField = value;
+                    this.RaisePropertyChanged("Max_Forw");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=9)]
+        public System.Nullable<long> Max_Backw {
+            get {
+                return this.Max_BackwField;
+            }
+            set {
+                if ((this.Max_BackwField.Equals(value) != true)) {
+                    this.Max_BackwField = value;
+                    this.RaisePropertyChanged("Max_Backw");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="OServiceClassRel.OServiceClassRelSoap")]
     public interface OServiceClassRelSoap {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Config", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        WpfOnt.OServiceClassRel.Config[] Config();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Config", ReplyAction="*")]
-        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.Config[]> ConfigAsync();
+        // CODEGEN: Es wird ein Nachrichtenvertrag generiert, da Elementname GuidParent aus Namespace http://tempuri.org/ nicht als "nillable" (nullwertfähig) gekennzeichnet ist.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassesByGuidParent", ReplyAction="*")]
+        WpfOnt.OServiceClassRel.ClassesByGuidParentResponse ClassesByGuidParent(WpfOnt.OServiceClassRel.ClassesByGuidParentRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassesByGuidParent", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        WpfOnt.OServiceClassRel.clsOntologyItem[] ClassesByGuidParent(string GuidParent, bool allChildren);
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassesByGuidParentResponse> ClassesByGuidParentAsync(WpfOnt.OServiceClassRel.ClassesByGuidParentRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassesByGuidParent", ReplyAction="*")]
-        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsOntologyItem[]> ClassesByGuidParentAsync(string GuidParent, bool allChildren);
+        // CODEGEN: Es wird ein Nachrichtenvertrag generiert, da Elementname GuidParent aus Namespace http://tempuri.org/ nicht als "nillable" (nullwertfähig) gekennzeichnet ist.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassesChildsByGuidParentAndName", ReplyAction="*")]
+        WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameResponse ClassesChildsByGuidParentAndName(WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassesChildsByGuidParentAndName", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        WpfOnt.OServiceClassRel.clsOntologyItem[] ClassesChildsByGuidParentAndName(string GuidParent, string name, bool allChildren, bool caseSensitive);
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameResponse> ClassesChildsByGuidParentAndNameAsync(WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassesChildsByGuidParentAndName", ReplyAction="*")]
-        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsOntologyItem[]> ClassesChildsByGuidParentAndNameAsync(string GuidParent, string name, bool allChildren, bool caseSensitive);
+        // CODEGEN: Es wird ein Nachrichtenvertrag generiert, da Elementname ClassRelationsResult aus Namespace http://tempuri.org/ nicht als "nillable" (nullwertfähig) gekennzeichnet ist.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelations", ReplyAction="*")]
+        WpfOnt.OServiceClassRel.ClassRelationsResponse ClassRelations(WpfOnt.OServiceClassRel.ClassRelationsRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelations", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        WpfOnt.OServiceClassRel.clsClassRel[] ClassRelations(bool onlyIds);
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsResponse> ClassRelationsAsync(WpfOnt.OServiceClassRel.ClassRelationsRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelations", ReplyAction="*")]
-        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsAsync(bool onlyIds);
+        // CODEGEN: Es wird ein Nachrichtenvertrag generiert, da Elementname guidClass aus Namespace http://tempuri.org/ nicht als "nillable" (nullwertfähig) gekennzeichnet ist.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByLeftGuid", ReplyAction="*")]
+        WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidResponse ClassRelationsByLeftGuid(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByLeftGuid", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByLeftGuid(string guidClass, bool onlyIds);
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidResponse> ClassRelationsByLeftGuidAsync(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByLeftGuid", ReplyAction="*")]
-        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByLeftGuidAsync(string guidClass, bool onlyIds);
+        // CODEGEN: Es wird ein Nachrichtenvertrag generiert, da Elementname guidClass aus Namespace http://tempuri.org/ nicht als "nillable" (nullwertfähig) gekennzeichnet ist.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByRightGuid", ReplyAction="*")]
+        WpfOnt.OServiceClassRel.ClassRelationsByRightGuidResponse ClassRelationsByRightGuid(WpfOnt.OServiceClassRel.ClassRelationsByRightGuidRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByRightGuid", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByRightGuid(string guidClass, bool onlyIds);
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByRightGuidResponse> ClassRelationsByRightGuidAsync(WpfOnt.OServiceClassRel.ClassRelationsByRightGuidRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByRightGuid", ReplyAction="*")]
-        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByRightGuidAsync(string guidClass, bool onlyIds);
+        // CODEGEN: Es wird ein Nachrichtenvertrag generiert, da Elementname guidRelationType aus Namespace http://tempuri.org/ nicht als "nillable" (nullwertfähig) gekennzeichnet ist.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByRelationTypeGuid", ReplyAction="*")]
+        WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidResponse ClassRelationsByRelationTypeGuid(WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByRelationTypeGuid", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByRelationTypeGuid(string guidRelationType, bool onlyIds);
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidResponse> ClassRelationsByRelationTypeGuidAsync(WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByRelationTypeGuid", ReplyAction="*")]
-        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByRelationTypeGuidAsync(string guidRelationType, bool onlyIds);
+        // CODEGEN: Es wird ein Nachrichtenvertrag generiert, da Elementname guidLeft aus Namespace http://tempuri.org/ nicht als "nillable" (nullwertfähig) gekennzeichnet ist.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByLeftGuid_RightGuid", ReplyAction="*")]
+        WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidResponse ClassRelationsByLeftGuid_RightGuid(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByLeftGuid_RightGuid", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByLeftGuid_RightGuid(string guidLeft, string guidRight, bool onlyIds);
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidResponse> ClassRelationsByLeftGuid_RightGuidAsync(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByLeftGuid_RightGuid", ReplyAction="*")]
-        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByLeftGuid_RightGuidAsync(string guidLeft, string guidRight, bool onlyIds);
+        // CODEGEN: Es wird ein Nachrichtenvertrag generiert, da Elementname guidLeft aus Namespace http://tempuri.org/ nicht als "nillable" (nullwertfähig) gekennzeichnet ist.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByLeftGuid_RelationTypeGuid_RightGuid", ReplyAction="*")]
+        WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResponse ClassRelationsByLeftGuid_RelationTypeGuid_RightGuid(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByLeftGuid_RelationTypeGuid_RightGuid", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByLeftGuid_RelationTypeGuid_RightGuid(string guidLeft, string guidRelationType, string guidRight, bool onlyIds);
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResponse> ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidAsync(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByLeftGuid_RelationTypeGuid_RightGuid", ReplyAction="*")]
-        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidAsync(string guidLeft, string guidRelationType, string guidRight, bool onlyIds);
+        // CODEGEN: Es wird ein Nachrichtenvertrag generiert, da Elementname guidLeft aus Namespace http://tempuri.org/ nicht als "nillable" (nullwertfähig) gekennzeichnet ist.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByLeftGuid_RelationTypeGuid", ReplyAction="*")]
+        WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidResponse ClassRelationsByLeftGuid_RelationTypeGuid(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByLeftGuid_RelationTypeGuid", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByLeftGuid_RelationTypeGuid(string guidLeft, string guidRelationType, bool onlyIds);
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidResponse> ClassRelationsByLeftGuid_RelationTypeGuidAsync(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByLeftGuid_RelationTypeGuid", ReplyAction="*")]
-        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByLeftGuid_RelationTypeGuidAsync(string guidLeft, string guidRelationType, bool onlyIds);
+        // CODEGEN: Es wird ein Nachrichtenvertrag generiert, da Elementname guidRelationType aus Namespace http://tempuri.org/ nicht als "nillable" (nullwertfähig) gekennzeichnet ist.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByRelationTypeGuid_RightGuid", ReplyAction="*")]
+        WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidResponse ClassRelationsByRelationTypeGuid_RightGuid(WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByRelationTypeGuid_RightGuid", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByRelationTypeGuid_RightGuid(string guidRelationType, string guidRight, bool onlyIds);
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidResponse> ClassRelationsByRelationTypeGuid_RightGuidAsync(WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByRelationTypeGuid_RightGuid", ReplyAction="*")]
-        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByRelationTypeGuid_RightGuidAsync(string guidRelationType, string guidRight, bool onlyIds);
+        // CODEGEN: Es wird ein Nachrichtenvertrag generiert, da Elementname ClassRelationsByMinForwResult aus Namespace http://tempuri.org/ nicht als "nillable" (nullwertfähig) gekennzeichnet ist.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByMinForw", ReplyAction="*")]
+        WpfOnt.OServiceClassRel.ClassRelationsByMinForwResponse ClassRelationsByMinForw(WpfOnt.OServiceClassRel.ClassRelationsByMinForwRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByMinForw", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByMinForw(long minForw, bool onlyIds);
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByMinForwResponse> ClassRelationsByMinForwAsync(WpfOnt.OServiceClassRel.ClassRelationsByMinForwRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByMinForw", ReplyAction="*")]
-        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByMinForwAsync(long minForw, bool onlyIds);
+        // CODEGEN: Es wird ein Nachrichtenvertrag generiert, da Elementname ClassRelationsByMaxForwResult aus Namespace http://tempuri.org/ nicht als "nillable" (nullwertfähig) gekennzeichnet ist.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByMaxForw", ReplyAction="*")]
+        WpfOnt.OServiceClassRel.ClassRelationsByMaxForwResponse ClassRelationsByMaxForw(WpfOnt.OServiceClassRel.ClassRelationsByMaxForwRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByMaxForw", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByMaxForw(long maxForw, bool onlyIds);
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByMaxForwResponse> ClassRelationsByMaxForwAsync(WpfOnt.OServiceClassRel.ClassRelationsByMaxForwRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByMaxForw", ReplyAction="*")]
-        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByMaxForwAsync(long maxForw, bool onlyIds);
+        // CODEGEN: Es wird ein Nachrichtenvertrag generiert, da Elementname ClassRelationsByMaxBackwResult aus Namespace http://tempuri.org/ nicht als "nillable" (nullwertfähig) gekennzeichnet ist.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByMaxBackw", ReplyAction="*")]
+        WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwResponse ClassRelationsByMaxBackw(WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByMaxBackw", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByMaxBackw(long maxBackw, bool onlyIds);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ClassRelationsByMaxBackw", ReplyAction="*")]
-        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByMaxBackwAsync(long maxBackw, bool onlyIds);
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwResponse> ClassRelationsByMaxBackwAsync(WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwRequest request);
     }
     
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34230")]
-    [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
-    public partial class Config : object, System.ComponentModel.INotifyPropertyChanged {
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassesByGuidParentRequest {
         
-        private string configItemField;
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassesByGuidParent", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassesByGuidParentRequestBody Body;
         
-        private string configValueStringField;
-        
-        private int configValueIntField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string ConfigItem {
-            get {
-                return this.configItemField;
-            }
-            set {
-                this.configItemField = value;
-                this.RaisePropertyChanged("ConfigItem");
-            }
+        public ClassesByGuidParentRequest() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public string ConfigValueString {
-            get {
-                return this.configValueStringField;
-            }
-            set {
-                this.configValueStringField = value;
-                this.RaisePropertyChanged("ConfigValueString");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public int ConfigValueInt {
-            get {
-                return this.configValueIntField;
-            }
-            set {
-                this.configValueIntField = value;
-                this.RaisePropertyChanged("ConfigValueInt");
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
+        public ClassesByGuidParentRequest(WpfOnt.OServiceClassRel.ClassesByGuidParentRequestBody Body) {
+            this.Body = Body;
         }
     }
     
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34230")]
-    [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
-    public partial class clsClassRel : object, System.ComponentModel.INotifyPropertyChanged {
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassesByGuidParentRequestBody {
         
-        private string iD_Class_LeftField;
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string GuidParent;
         
-        private string name_Class_LeftField;
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public bool allChildren;
         
-        private string iD_Class_RightField;
-        
-        private string name_Class_RightField;
-        
-        private string iD_RelationTypeField;
-        
-        private string name_RelationTypeField;
-        
-        private string ontologyField;
-        
-        private System.Nullable<long> min_ForwField;
-        
-        private System.Nullable<long> max_ForwField;
-        
-        private System.Nullable<long> max_BackwField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string ID_Class_Left {
-            get {
-                return this.iD_Class_LeftField;
-            }
-            set {
-                this.iD_Class_LeftField = value;
-                this.RaisePropertyChanged("ID_Class_Left");
-            }
+        public ClassesByGuidParentRequestBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public string Name_Class_Left {
-            get {
-                return this.name_Class_LeftField;
-            }
-            set {
-                this.name_Class_LeftField = value;
-                this.RaisePropertyChanged("Name_Class_Left");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public string ID_Class_Right {
-            get {
-                return this.iD_Class_RightField;
-            }
-            set {
-                this.iD_Class_RightField = value;
-                this.RaisePropertyChanged("ID_Class_Right");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
-        public string Name_Class_Right {
-            get {
-                return this.name_Class_RightField;
-            }
-            set {
-                this.name_Class_RightField = value;
-                this.RaisePropertyChanged("Name_Class_Right");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
-        public string ID_RelationType {
-            get {
-                return this.iD_RelationTypeField;
-            }
-            set {
-                this.iD_RelationTypeField = value;
-                this.RaisePropertyChanged("ID_RelationType");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
-        public string Name_RelationType {
-            get {
-                return this.name_RelationTypeField;
-            }
-            set {
-                this.name_RelationTypeField = value;
-                this.RaisePropertyChanged("Name_RelationType");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
-        public string Ontology {
-            get {
-                return this.ontologyField;
-            }
-            set {
-                this.ontologyField = value;
-                this.RaisePropertyChanged("Ontology");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
-        public System.Nullable<long> Min_Forw {
-            get {
-                return this.min_ForwField;
-            }
-            set {
-                this.min_ForwField = value;
-                this.RaisePropertyChanged("Min_Forw");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
-        public System.Nullable<long> Max_Forw {
-            get {
-                return this.max_ForwField;
-            }
-            set {
-                this.max_ForwField = value;
-                this.RaisePropertyChanged("Max_Forw");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=9)]
-        public System.Nullable<long> Max_Backw {
-            get {
-                return this.max_BackwField;
-            }
-            set {
-                this.max_BackwField = value;
-                this.RaisePropertyChanged("Max_Backw");
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
+        public ClassesByGuidParentRequestBody(string GuidParent, bool allChildren) {
+            this.GuidParent = GuidParent;
+            this.allChildren = allChildren;
         }
     }
     
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34230")]
-    [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
-    public partial class clsOntologyItem : object, System.ComponentModel.INotifyPropertyChanged {
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassesByGuidParentResponse {
         
-        private clsOntologyItem[] oList_RelField;
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassesByGuidParentResponse", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassesByGuidParentResponseBody Body;
         
-        private string gUIDField;
-        
-        private string iD_ItemField;
-        
-        private string iD_ParentField;
-        
-        private string iD_ClassField;
-        
-        private string iD_DataTypeField;
-        
-        private string gUID_ParentField;
-        
-        private string gUID_RelatedField;
-        
-        private string gUID_RelationField;
-        
-        private string nameField;
-        
-        private string name_ItemField;
-        
-        private string name_ParentField;
-        
-        private string captionField;
-        
-        private string additional1Field;
-        
-        private string additional2Field;
-        
-        private string typeField;
-        
-        private string filterField;
-        
-        private System.Nullable<int> imageIDField;
-        
-        private System.Nullable<int> versionField;
-        
-        private System.Nullable<long> levelField;
-        
-        private System.Nullable<bool> new_ItemField;
-        
-        private System.Nullable<bool> deletedField;
-        
-        private System.Nullable<bool> markField;
-        
-        private System.Nullable<bool> objectReferenceField;
-        
-        private System.Nullable<int> directionField;
-        
-        private System.Nullable<long> minField;
-        
-        private System.Nullable<long> max1Field;
-        
-        private System.Nullable<long> max2Field;
-        
-        private System.Nullable<long> val_LongField;
-        
-        private System.Nullable<bool> val_BoolField;
-        
-        private System.Nullable<System.DateTime> val_DateField;
-        
-        private System.Nullable<double> val_RealField;
-        
-        private string val_StringField;
-        
-        private System.Nullable<long> countField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=0)]
-        public clsOntologyItem[] OList_Rel {
-            get {
-                return this.oList_RelField;
-            }
-            set {
-                this.oList_RelField = value;
-                this.RaisePropertyChanged("OList_Rel");
-            }
+        public ClassesByGuidParentResponse() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public string GUID {
-            get {
-                return this.gUIDField;
-            }
-            set {
-                this.gUIDField = value;
-                this.RaisePropertyChanged("GUID");
-            }
+        public ClassesByGuidParentResponse(WpfOnt.OServiceClassRel.ClassesByGuidParentResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassesByGuidParentResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public WpfOnt.OServiceClassRel.ArrayOfClsOntologyItem ClassesByGuidParentResult;
+        
+        public ClassesByGuidParentResponseBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public string ID_Item {
-            get {
-                return this.iD_ItemField;
-            }
-            set {
-                this.iD_ItemField = value;
-                this.RaisePropertyChanged("ID_Item");
-            }
+        public ClassesByGuidParentResponseBody(WpfOnt.OServiceClassRel.ArrayOfClsOntologyItem ClassesByGuidParentResult) {
+            this.ClassesByGuidParentResult = ClassesByGuidParentResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassesChildsByGuidParentAndNameRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassesChildsByGuidParentAndName", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameRequestBody Body;
+        
+        public ClassesChildsByGuidParentAndNameRequest() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
-        public string ID_Parent {
-            get {
-                return this.iD_ParentField;
-            }
-            set {
-                this.iD_ParentField = value;
-                this.RaisePropertyChanged("ID_Parent");
-            }
+        public ClassesChildsByGuidParentAndNameRequest(WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassesChildsByGuidParentAndNameRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string GuidParent;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string name;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+        public bool allChildren;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+        public bool caseSensitive;
+        
+        public ClassesChildsByGuidParentAndNameRequestBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
-        public string ID_Class {
-            get {
-                return this.iD_ClassField;
-            }
-            set {
-                this.iD_ClassField = value;
-                this.RaisePropertyChanged("ID_Class");
-            }
+        public ClassesChildsByGuidParentAndNameRequestBody(string GuidParent, string name, bool allChildren, bool caseSensitive) {
+            this.GuidParent = GuidParent;
+            this.name = name;
+            this.allChildren = allChildren;
+            this.caseSensitive = caseSensitive;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassesChildsByGuidParentAndNameResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassesChildsByGuidParentAndNameResponse", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameResponseBody Body;
+        
+        public ClassesChildsByGuidParentAndNameResponse() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
-        public string ID_DataType {
-            get {
-                return this.iD_DataTypeField;
-            }
-            set {
-                this.iD_DataTypeField = value;
-                this.RaisePropertyChanged("ID_DataType");
-            }
+        public ClassesChildsByGuidParentAndNameResponse(WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassesChildsByGuidParentAndNameResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public WpfOnt.OServiceClassRel.ArrayOfClsOntologyItem ClassesChildsByGuidParentAndNameResult;
+        
+        public ClassesChildsByGuidParentAndNameResponseBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
-        public string GUID_Parent {
-            get {
-                return this.gUID_ParentField;
-            }
-            set {
-                this.gUID_ParentField = value;
-                this.RaisePropertyChanged("GUID_Parent");
-            }
+        public ClassesChildsByGuidParentAndNameResponseBody(WpfOnt.OServiceClassRel.ArrayOfClsOntologyItem ClassesChildsByGuidParentAndNameResult) {
+            this.ClassesChildsByGuidParentAndNameResult = ClassesChildsByGuidParentAndNameResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelations", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsRequestBody Body;
+        
+        public ClassRelationsRequest() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
-        public string GUID_Related {
-            get {
-                return this.gUID_RelatedField;
-            }
-            set {
-                this.gUID_RelatedField = value;
-                this.RaisePropertyChanged("GUID_Related");
-            }
+        public ClassRelationsRequest(WpfOnt.OServiceClassRel.ClassRelationsRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=0)]
+        public bool onlyIds;
+        
+        public ClassRelationsRequestBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
-        public string GUID_Relation {
-            get {
-                return this.gUID_RelationField;
-            }
-            set {
-                this.gUID_RelationField = value;
-                this.RaisePropertyChanged("GUID_Relation");
-            }
+        public ClassRelationsRequestBody(bool onlyIds) {
+            this.onlyIds = onlyIds;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsResponse", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsResponseBody Body;
+        
+        public ClassRelationsResponse() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
-        public string Name {
-            get {
-                return this.nameField;
-            }
-            set {
-                this.nameField = value;
-                this.RaisePropertyChanged("Name");
-            }
+        public ClassRelationsResponse(WpfOnt.OServiceClassRel.ClassRelationsResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsResult;
+        
+        public ClassRelationsResponseBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
-        public string Name_Item {
-            get {
-                return this.name_ItemField;
-            }
-            set {
-                this.name_ItemField = value;
-                this.RaisePropertyChanged("Name_Item");
-            }
+        public ClassRelationsResponseBody(WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsResult) {
+            this.ClassRelationsResult = ClassRelationsResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByLeftGuidRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByLeftGuid", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidRequestBody Body;
+        
+        public ClassRelationsByLeftGuidRequest() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
-        public string Name_Parent {
-            get {
-                return this.name_ParentField;
-            }
-            set {
-                this.name_ParentField = value;
-                this.RaisePropertyChanged("Name_Parent");
-            }
+        public ClassRelationsByLeftGuidRequest(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByLeftGuidRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string guidClass;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public bool onlyIds;
+        
+        public ClassRelationsByLeftGuidRequestBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
-        public string Caption {
-            get {
-                return this.captionField;
-            }
-            set {
-                this.captionField = value;
-                this.RaisePropertyChanged("Caption");
-            }
+        public ClassRelationsByLeftGuidRequestBody(string guidClass, bool onlyIds) {
+            this.guidClass = guidClass;
+            this.onlyIds = onlyIds;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByLeftGuidResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByLeftGuidResponse", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidResponseBody Body;
+        
+        public ClassRelationsByLeftGuidResponse() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
-        public string Additional1 {
-            get {
-                return this.additional1Field;
-            }
-            set {
-                this.additional1Field = value;
-                this.RaisePropertyChanged("Additional1");
-            }
+        public ClassRelationsByLeftGuidResponse(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByLeftGuidResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByLeftGuidResult;
+        
+        public ClassRelationsByLeftGuidResponseBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
-        public string Additional2 {
-            get {
-                return this.additional2Field;
-            }
-            set {
-                this.additional2Field = value;
-                this.RaisePropertyChanged("Additional2");
-            }
+        public ClassRelationsByLeftGuidResponseBody(WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByLeftGuidResult) {
+            this.ClassRelationsByLeftGuidResult = ClassRelationsByLeftGuidResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByRightGuidRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByRightGuid", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByRightGuidRequestBody Body;
+        
+        public ClassRelationsByRightGuidRequest() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
-        public string Type {
-            get {
-                return this.typeField;
-            }
-            set {
-                this.typeField = value;
-                this.RaisePropertyChanged("Type");
-            }
+        public ClassRelationsByRightGuidRequest(WpfOnt.OServiceClassRel.ClassRelationsByRightGuidRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByRightGuidRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string guidClass;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public bool onlyIds;
+        
+        public ClassRelationsByRightGuidRequestBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
-        public string Filter {
-            get {
-                return this.filterField;
-            }
-            set {
-                this.filterField = value;
-                this.RaisePropertyChanged("Filter");
-            }
+        public ClassRelationsByRightGuidRequestBody(string guidClass, bool onlyIds) {
+            this.guidClass = guidClass;
+            this.onlyIds = onlyIds;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByRightGuidResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByRightGuidResponse", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByRightGuidResponseBody Body;
+        
+        public ClassRelationsByRightGuidResponse() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=17)]
-        public System.Nullable<int> ImageID {
-            get {
-                return this.imageIDField;
-            }
-            set {
-                this.imageIDField = value;
-                this.RaisePropertyChanged("ImageID");
-            }
+        public ClassRelationsByRightGuidResponse(WpfOnt.OServiceClassRel.ClassRelationsByRightGuidResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByRightGuidResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByRightGuidResult;
+        
+        public ClassRelationsByRightGuidResponseBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=18)]
-        public System.Nullable<int> Version {
-            get {
-                return this.versionField;
-            }
-            set {
-                this.versionField = value;
-                this.RaisePropertyChanged("Version");
-            }
+        public ClassRelationsByRightGuidResponseBody(WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByRightGuidResult) {
+            this.ClassRelationsByRightGuidResult = ClassRelationsByRightGuidResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByRelationTypeGuidRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByRelationTypeGuid", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidRequestBody Body;
+        
+        public ClassRelationsByRelationTypeGuidRequest() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=19)]
-        public System.Nullable<long> Level {
-            get {
-                return this.levelField;
-            }
-            set {
-                this.levelField = value;
-                this.RaisePropertyChanged("Level");
-            }
+        public ClassRelationsByRelationTypeGuidRequest(WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByRelationTypeGuidRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string guidRelationType;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public bool onlyIds;
+        
+        public ClassRelationsByRelationTypeGuidRequestBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=20)]
-        public System.Nullable<bool> New_Item {
-            get {
-                return this.new_ItemField;
-            }
-            set {
-                this.new_ItemField = value;
-                this.RaisePropertyChanged("New_Item");
-            }
+        public ClassRelationsByRelationTypeGuidRequestBody(string guidRelationType, bool onlyIds) {
+            this.guidRelationType = guidRelationType;
+            this.onlyIds = onlyIds;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByRelationTypeGuidResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByRelationTypeGuidResponse", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidResponseBody Body;
+        
+        public ClassRelationsByRelationTypeGuidResponse() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=21)]
-        public System.Nullable<bool> Deleted {
-            get {
-                return this.deletedField;
-            }
-            set {
-                this.deletedField = value;
-                this.RaisePropertyChanged("Deleted");
-            }
+        public ClassRelationsByRelationTypeGuidResponse(WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByRelationTypeGuidResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByRelationTypeGuidResult;
+        
+        public ClassRelationsByRelationTypeGuidResponseBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=22)]
-        public System.Nullable<bool> Mark {
-            get {
-                return this.markField;
-            }
-            set {
-                this.markField = value;
-                this.RaisePropertyChanged("Mark");
-            }
+        public ClassRelationsByRelationTypeGuidResponseBody(WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByRelationTypeGuidResult) {
+            this.ClassRelationsByRelationTypeGuidResult = ClassRelationsByRelationTypeGuidResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByLeftGuid_RightGuidRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByLeftGuid_RightGuid", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidRequestBody Body;
+        
+        public ClassRelationsByLeftGuid_RightGuidRequest() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=23)]
-        public System.Nullable<bool> ObjectReference {
-            get {
-                return this.objectReferenceField;
-            }
-            set {
-                this.objectReferenceField = value;
-                this.RaisePropertyChanged("ObjectReference");
-            }
+        public ClassRelationsByLeftGuid_RightGuidRequest(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByLeftGuid_RightGuidRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string guidLeft;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string guidRight;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+        public bool onlyIds;
+        
+        public ClassRelationsByLeftGuid_RightGuidRequestBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=24)]
-        public System.Nullable<int> Direction {
-            get {
-                return this.directionField;
-            }
-            set {
-                this.directionField = value;
-                this.RaisePropertyChanged("Direction");
-            }
+        public ClassRelationsByLeftGuid_RightGuidRequestBody(string guidLeft, string guidRight, bool onlyIds) {
+            this.guidLeft = guidLeft;
+            this.guidRight = guidRight;
+            this.onlyIds = onlyIds;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByLeftGuid_RightGuidResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByLeftGuid_RightGuidResponse", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidResponseBody Body;
+        
+        public ClassRelationsByLeftGuid_RightGuidResponse() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=25)]
-        public System.Nullable<long> Min {
-            get {
-                return this.minField;
-            }
-            set {
-                this.minField = value;
-                this.RaisePropertyChanged("Min");
-            }
+        public ClassRelationsByLeftGuid_RightGuidResponse(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByLeftGuid_RightGuidResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByLeftGuid_RightGuidResult;
+        
+        public ClassRelationsByLeftGuid_RightGuidResponseBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=26)]
-        public System.Nullable<long> Max1 {
-            get {
-                return this.max1Field;
-            }
-            set {
-                this.max1Field = value;
-                this.RaisePropertyChanged("Max1");
-            }
+        public ClassRelationsByLeftGuid_RightGuidResponseBody(WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByLeftGuid_RightGuidResult) {
+            this.ClassRelationsByLeftGuid_RightGuidResult = ClassRelationsByLeftGuid_RightGuidResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByLeftGuid_RelationTypeGuid_RightGuid", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequestBody Body;
+        
+        public ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequest() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=27)]
-        public System.Nullable<long> Max2 {
-            get {
-                return this.max2Field;
-            }
-            set {
-                this.max2Field = value;
-                this.RaisePropertyChanged("Max2");
-            }
+        public ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequest(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string guidLeft;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string guidRelationType;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string guidRight;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+        public bool onlyIds;
+        
+        public ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequestBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=28)]
-        public System.Nullable<long> Val_Long {
-            get {
-                return this.val_LongField;
-            }
-            set {
-                this.val_LongField = value;
-                this.RaisePropertyChanged("Val_Long");
-            }
+        public ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequestBody(string guidLeft, string guidRelationType, string guidRight, bool onlyIds) {
+            this.guidLeft = guidLeft;
+            this.guidRelationType = guidRelationType;
+            this.guidRight = guidRight;
+            this.onlyIds = onlyIds;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResponse", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResponseBody Body;
+        
+        public ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResponse() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=29)]
-        public System.Nullable<bool> Val_Bool {
-            get {
-                return this.val_BoolField;
-            }
-            set {
-                this.val_BoolField = value;
-                this.RaisePropertyChanged("Val_Bool");
-            }
+        public ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResponse(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResult;
+        
+        public ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResponseBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=30)]
-        public System.Nullable<System.DateTime> Val_Date {
-            get {
-                return this.val_DateField;
-            }
-            set {
-                this.val_DateField = value;
-                this.RaisePropertyChanged("Val_Date");
-            }
+        public ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResponseBody(WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResult) {
+            this.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResult = ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByLeftGuid_RelationTypeGuidRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByLeftGuid_RelationTypeGuid", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidRequestBody Body;
+        
+        public ClassRelationsByLeftGuid_RelationTypeGuidRequest() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=31)]
-        public System.Nullable<double> Val_Real {
-            get {
-                return this.val_RealField;
-            }
-            set {
-                this.val_RealField = value;
-                this.RaisePropertyChanged("Val_Real");
-            }
+        public ClassRelationsByLeftGuid_RelationTypeGuidRequest(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByLeftGuid_RelationTypeGuidRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string guidLeft;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string guidRelationType;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+        public bool onlyIds;
+        
+        public ClassRelationsByLeftGuid_RelationTypeGuidRequestBody() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=32)]
-        public string Val_String {
-            get {
-                return this.val_StringField;
-            }
-            set {
-                this.val_StringField = value;
-                this.RaisePropertyChanged("Val_String");
-            }
+        public ClassRelationsByLeftGuid_RelationTypeGuidRequestBody(string guidLeft, string guidRelationType, bool onlyIds) {
+            this.guidLeft = guidLeft;
+            this.guidRelationType = guidRelationType;
+            this.onlyIds = onlyIds;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByLeftGuid_RelationTypeGuidResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByLeftGuid_RelationTypeGuidResponse", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidResponseBody Body;
+        
+        public ClassRelationsByLeftGuid_RelationTypeGuidResponse() {
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=33)]
-        public System.Nullable<long> Count {
-            get {
-                return this.countField;
-            }
-            set {
-                this.countField = value;
-                this.RaisePropertyChanged("Count");
-            }
+        public ClassRelationsByLeftGuid_RelationTypeGuidResponse(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByLeftGuid_RelationTypeGuidResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByLeftGuid_RelationTypeGuidResult;
+        
+        public ClassRelationsByLeftGuid_RelationTypeGuidResponseBody() {
         }
         
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public ClassRelationsByLeftGuid_RelationTypeGuidResponseBody(WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByLeftGuid_RelationTypeGuidResult) {
+            this.ClassRelationsByLeftGuid_RelationTypeGuidResult = ClassRelationsByLeftGuid_RelationTypeGuidResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByRelationTypeGuid_RightGuidRequest {
         
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByRelationTypeGuid_RightGuid", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidRequestBody Body;
+        
+        public ClassRelationsByRelationTypeGuid_RightGuidRequest() {
+        }
+        
+        public ClassRelationsByRelationTypeGuid_RightGuidRequest(WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByRelationTypeGuid_RightGuidRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string guidRelationType;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string guidRight;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+        public bool onlyIds;
+        
+        public ClassRelationsByRelationTypeGuid_RightGuidRequestBody() {
+        }
+        
+        public ClassRelationsByRelationTypeGuid_RightGuidRequestBody(string guidRelationType, string guidRight, bool onlyIds) {
+            this.guidRelationType = guidRelationType;
+            this.guidRight = guidRight;
+            this.onlyIds = onlyIds;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByRelationTypeGuid_RightGuidResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByRelationTypeGuid_RightGuidResponse", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidResponseBody Body;
+        
+        public ClassRelationsByRelationTypeGuid_RightGuidResponse() {
+        }
+        
+        public ClassRelationsByRelationTypeGuid_RightGuidResponse(WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByRelationTypeGuid_RightGuidResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByRelationTypeGuid_RightGuidResult;
+        
+        public ClassRelationsByRelationTypeGuid_RightGuidResponseBody() {
+        }
+        
+        public ClassRelationsByRelationTypeGuid_RightGuidResponseBody(WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByRelationTypeGuid_RightGuidResult) {
+            this.ClassRelationsByRelationTypeGuid_RightGuidResult = ClassRelationsByRelationTypeGuid_RightGuidResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByMinForwRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByMinForw", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByMinForwRequestBody Body;
+        
+        public ClassRelationsByMinForwRequest() {
+        }
+        
+        public ClassRelationsByMinForwRequest(WpfOnt.OServiceClassRel.ClassRelationsByMinForwRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByMinForwRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=0)]
+        public long minForw;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public bool onlyIds;
+        
+        public ClassRelationsByMinForwRequestBody() {
+        }
+        
+        public ClassRelationsByMinForwRequestBody(long minForw, bool onlyIds) {
+            this.minForw = minForw;
+            this.onlyIds = onlyIds;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByMinForwResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByMinForwResponse", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByMinForwResponseBody Body;
+        
+        public ClassRelationsByMinForwResponse() {
+        }
+        
+        public ClassRelationsByMinForwResponse(WpfOnt.OServiceClassRel.ClassRelationsByMinForwResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByMinForwResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByMinForwResult;
+        
+        public ClassRelationsByMinForwResponseBody() {
+        }
+        
+        public ClassRelationsByMinForwResponseBody(WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByMinForwResult) {
+            this.ClassRelationsByMinForwResult = ClassRelationsByMinForwResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByMaxForwRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByMaxForw", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByMaxForwRequestBody Body;
+        
+        public ClassRelationsByMaxForwRequest() {
+        }
+        
+        public ClassRelationsByMaxForwRequest(WpfOnt.OServiceClassRel.ClassRelationsByMaxForwRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByMaxForwRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=0)]
+        public long maxForw;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public bool onlyIds;
+        
+        public ClassRelationsByMaxForwRequestBody() {
+        }
+        
+        public ClassRelationsByMaxForwRequestBody(long maxForw, bool onlyIds) {
+            this.maxForw = maxForw;
+            this.onlyIds = onlyIds;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByMaxForwResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByMaxForwResponse", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByMaxForwResponseBody Body;
+        
+        public ClassRelationsByMaxForwResponse() {
+        }
+        
+        public ClassRelationsByMaxForwResponse(WpfOnt.OServiceClassRel.ClassRelationsByMaxForwResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByMaxForwResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByMaxForwResult;
+        
+        public ClassRelationsByMaxForwResponseBody() {
+        }
+        
+        public ClassRelationsByMaxForwResponseBody(WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByMaxForwResult) {
+            this.ClassRelationsByMaxForwResult = ClassRelationsByMaxForwResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByMaxBackwRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByMaxBackw", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwRequestBody Body;
+        
+        public ClassRelationsByMaxBackwRequest() {
+        }
+        
+        public ClassRelationsByMaxBackwRequest(WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByMaxBackwRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=0)]
+        public long maxBackw;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public bool onlyIds;
+        
+        public ClassRelationsByMaxBackwRequestBody() {
+        }
+        
+        public ClassRelationsByMaxBackwRequestBody(long maxBackw, bool onlyIds) {
+            this.maxBackw = maxBackw;
+            this.onlyIds = onlyIds;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class ClassRelationsByMaxBackwResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="ClassRelationsByMaxBackwResponse", Namespace="http://tempuri.org/", Order=0)]
+        public WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwResponseBody Body;
+        
+        public ClassRelationsByMaxBackwResponse() {
+        }
+        
+        public ClassRelationsByMaxBackwResponse(WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class ClassRelationsByMaxBackwResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByMaxBackwResult;
+        
+        public ClassRelationsByMaxBackwResponseBody() {
+        }
+        
+        public ClassRelationsByMaxBackwResponseBody(WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByMaxBackwResult) {
+            this.ClassRelationsByMaxBackwResult = ClassRelationsByMaxBackwResult;
         }
     }
     
@@ -853,116 +1853,367 @@ namespace WpfOnt.OServiceClassRel {
                 base(binding, remoteAddress) {
         }
         
-        public WpfOnt.OServiceClassRel.Config[] Config() {
-            return base.Channel.Config();
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WpfOnt.OServiceClassRel.ClassesByGuidParentResponse WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassesByGuidParent(WpfOnt.OServiceClassRel.ClassesByGuidParentRequest request) {
+            return base.Channel.ClassesByGuidParent(request);
         }
         
-        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.Config[]> ConfigAsync() {
-            return base.Channel.ConfigAsync();
+        public WpfOnt.OServiceClassRel.ArrayOfClsOntologyItem ClassesByGuidParent(string GuidParent, bool allChildren) {
+            WpfOnt.OServiceClassRel.ClassesByGuidParentRequest inValue = new WpfOnt.OServiceClassRel.ClassesByGuidParentRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassesByGuidParentRequestBody();
+            inValue.Body.GuidParent = GuidParent;
+            inValue.Body.allChildren = allChildren;
+            WpfOnt.OServiceClassRel.ClassesByGuidParentResponse retVal = ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassesByGuidParent(inValue);
+            return retVal.Body.ClassesByGuidParentResult;
         }
         
-        public WpfOnt.OServiceClassRel.clsOntologyItem[] ClassesByGuidParent(string GuidParent, bool allChildren) {
-            return base.Channel.ClassesByGuidParent(GuidParent, allChildren);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassesByGuidParentResponse> WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassesByGuidParentAsync(WpfOnt.OServiceClassRel.ClassesByGuidParentRequest request) {
+            return base.Channel.ClassesByGuidParentAsync(request);
         }
         
-        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsOntologyItem[]> ClassesByGuidParentAsync(string GuidParent, bool allChildren) {
-            return base.Channel.ClassesByGuidParentAsync(GuidParent, allChildren);
+        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassesByGuidParentResponse> ClassesByGuidParentAsync(string GuidParent, bool allChildren) {
+            WpfOnt.OServiceClassRel.ClassesByGuidParentRequest inValue = new WpfOnt.OServiceClassRel.ClassesByGuidParentRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassesByGuidParentRequestBody();
+            inValue.Body.GuidParent = GuidParent;
+            inValue.Body.allChildren = allChildren;
+            return ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassesByGuidParentAsync(inValue);
         }
         
-        public WpfOnt.OServiceClassRel.clsOntologyItem[] ClassesChildsByGuidParentAndName(string GuidParent, string name, bool allChildren, bool caseSensitive) {
-            return base.Channel.ClassesChildsByGuidParentAndName(GuidParent, name, allChildren, caseSensitive);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameResponse WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassesChildsByGuidParentAndName(WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameRequest request) {
+            return base.Channel.ClassesChildsByGuidParentAndName(request);
         }
         
-        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsOntologyItem[]> ClassesChildsByGuidParentAndNameAsync(string GuidParent, string name, bool allChildren, bool caseSensitive) {
-            return base.Channel.ClassesChildsByGuidParentAndNameAsync(GuidParent, name, allChildren, caseSensitive);
+        public WpfOnt.OServiceClassRel.ArrayOfClsOntologyItem ClassesChildsByGuidParentAndName(string GuidParent, string name, bool allChildren, bool caseSensitive) {
+            WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameRequest inValue = new WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameRequestBody();
+            inValue.Body.GuidParent = GuidParent;
+            inValue.Body.name = name;
+            inValue.Body.allChildren = allChildren;
+            inValue.Body.caseSensitive = caseSensitive;
+            WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameResponse retVal = ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassesChildsByGuidParentAndName(inValue);
+            return retVal.Body.ClassesChildsByGuidParentAndNameResult;
         }
         
-        public WpfOnt.OServiceClassRel.clsClassRel[] ClassRelations(bool onlyIds) {
-            return base.Channel.ClassRelations(onlyIds);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameResponse> WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassesChildsByGuidParentAndNameAsync(WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameRequest request) {
+            return base.Channel.ClassesChildsByGuidParentAndNameAsync(request);
         }
         
-        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsAsync(bool onlyIds) {
-            return base.Channel.ClassRelationsAsync(onlyIds);
+        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameResponse> ClassesChildsByGuidParentAndNameAsync(string GuidParent, string name, bool allChildren, bool caseSensitive) {
+            WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameRequest inValue = new WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameRequestBody();
+            inValue.Body.GuidParent = GuidParent;
+            inValue.Body.name = name;
+            inValue.Body.allChildren = allChildren;
+            inValue.Body.caseSensitive = caseSensitive;
+            return ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassesChildsByGuidParentAndNameAsync(inValue);
         }
         
-        public WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByLeftGuid(string guidClass, bool onlyIds) {
-            return base.Channel.ClassRelationsByLeftGuid(guidClass, onlyIds);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WpfOnt.OServiceClassRel.ClassRelationsResponse WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelations(WpfOnt.OServiceClassRel.ClassRelationsRequest request) {
+            return base.Channel.ClassRelations(request);
         }
         
-        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByLeftGuidAsync(string guidClass, bool onlyIds) {
-            return base.Channel.ClassRelationsByLeftGuidAsync(guidClass, onlyIds);
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelations(bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsRequestBody();
+            inValue.Body.onlyIds = onlyIds;
+            WpfOnt.OServiceClassRel.ClassRelationsResponse retVal = ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelations(inValue);
+            return retVal.Body.ClassRelationsResult;
         }
         
-        public WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByRightGuid(string guidClass, bool onlyIds) {
-            return base.Channel.ClassRelationsByRightGuid(guidClass, onlyIds);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsResponse> WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsAsync(WpfOnt.OServiceClassRel.ClassRelationsRequest request) {
+            return base.Channel.ClassRelationsAsync(request);
         }
         
-        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByRightGuidAsync(string guidClass, bool onlyIds) {
-            return base.Channel.ClassRelationsByRightGuidAsync(guidClass, onlyIds);
+        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsResponse> ClassRelationsAsync(bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsRequestBody();
+            inValue.Body.onlyIds = onlyIds;
+            return ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsAsync(inValue);
         }
         
-        public WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByRelationTypeGuid(string guidRelationType, bool onlyIds) {
-            return base.Channel.ClassRelationsByRelationTypeGuid(guidRelationType, onlyIds);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidResponse WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByLeftGuid(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidRequest request) {
+            return base.Channel.ClassRelationsByLeftGuid(request);
         }
         
-        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByRelationTypeGuidAsync(string guidRelationType, bool onlyIds) {
-            return base.Channel.ClassRelationsByRelationTypeGuidAsync(guidRelationType, onlyIds);
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByLeftGuid(string guidClass, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidRequestBody();
+            inValue.Body.guidClass = guidClass;
+            inValue.Body.onlyIds = onlyIds;
+            WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidResponse retVal = ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByLeftGuid(inValue);
+            return retVal.Body.ClassRelationsByLeftGuidResult;
         }
         
-        public WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByLeftGuid_RightGuid(string guidLeft, string guidRight, bool onlyIds) {
-            return base.Channel.ClassRelationsByLeftGuid_RightGuid(guidLeft, guidRight, onlyIds);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidResponse> WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByLeftGuidAsync(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidRequest request) {
+            return base.Channel.ClassRelationsByLeftGuidAsync(request);
         }
         
-        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByLeftGuid_RightGuidAsync(string guidLeft, string guidRight, bool onlyIds) {
-            return base.Channel.ClassRelationsByLeftGuid_RightGuidAsync(guidLeft, guidRight, onlyIds);
+        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidResponse> ClassRelationsByLeftGuidAsync(string guidClass, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidRequestBody();
+            inValue.Body.guidClass = guidClass;
+            inValue.Body.onlyIds = onlyIds;
+            return ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByLeftGuidAsync(inValue);
         }
         
-        public WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByLeftGuid_RelationTypeGuid_RightGuid(string guidLeft, string guidRelationType, string guidRight, bool onlyIds) {
-            return base.Channel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuid(guidLeft, guidRelationType, guidRight, onlyIds);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WpfOnt.OServiceClassRel.ClassRelationsByRightGuidResponse WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByRightGuid(WpfOnt.OServiceClassRel.ClassRelationsByRightGuidRequest request) {
+            return base.Channel.ClassRelationsByRightGuid(request);
         }
         
-        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidAsync(string guidLeft, string guidRelationType, string guidRight, bool onlyIds) {
-            return base.Channel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidAsync(guidLeft, guidRelationType, guidRight, onlyIds);
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByRightGuid(string guidClass, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByRightGuidRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByRightGuidRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByRightGuidRequestBody();
+            inValue.Body.guidClass = guidClass;
+            inValue.Body.onlyIds = onlyIds;
+            WpfOnt.OServiceClassRel.ClassRelationsByRightGuidResponse retVal = ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByRightGuid(inValue);
+            return retVal.Body.ClassRelationsByRightGuidResult;
         }
         
-        public WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByLeftGuid_RelationTypeGuid(string guidLeft, string guidRelationType, bool onlyIds) {
-            return base.Channel.ClassRelationsByLeftGuid_RelationTypeGuid(guidLeft, guidRelationType, onlyIds);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByRightGuidResponse> WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByRightGuidAsync(WpfOnt.OServiceClassRel.ClassRelationsByRightGuidRequest request) {
+            return base.Channel.ClassRelationsByRightGuidAsync(request);
         }
         
-        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByLeftGuid_RelationTypeGuidAsync(string guidLeft, string guidRelationType, bool onlyIds) {
-            return base.Channel.ClassRelationsByLeftGuid_RelationTypeGuidAsync(guidLeft, guidRelationType, onlyIds);
+        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByRightGuidResponse> ClassRelationsByRightGuidAsync(string guidClass, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByRightGuidRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByRightGuidRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByRightGuidRequestBody();
+            inValue.Body.guidClass = guidClass;
+            inValue.Body.onlyIds = onlyIds;
+            return ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByRightGuidAsync(inValue);
         }
         
-        public WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByRelationTypeGuid_RightGuid(string guidRelationType, string guidRight, bool onlyIds) {
-            return base.Channel.ClassRelationsByRelationTypeGuid_RightGuid(guidRelationType, guidRight, onlyIds);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidResponse WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByRelationTypeGuid(WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidRequest request) {
+            return base.Channel.ClassRelationsByRelationTypeGuid(request);
         }
         
-        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByRelationTypeGuid_RightGuidAsync(string guidRelationType, string guidRight, bool onlyIds) {
-            return base.Channel.ClassRelationsByRelationTypeGuid_RightGuidAsync(guidRelationType, guidRight, onlyIds);
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByRelationTypeGuid(string guidRelationType, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidRequestBody();
+            inValue.Body.guidRelationType = guidRelationType;
+            inValue.Body.onlyIds = onlyIds;
+            WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidResponse retVal = ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByRelationTypeGuid(inValue);
+            return retVal.Body.ClassRelationsByRelationTypeGuidResult;
         }
         
-        public WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByMinForw(long minForw, bool onlyIds) {
-            return base.Channel.ClassRelationsByMinForw(minForw, onlyIds);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidResponse> WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByRelationTypeGuidAsync(WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidRequest request) {
+            return base.Channel.ClassRelationsByRelationTypeGuidAsync(request);
         }
         
-        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByMinForwAsync(long minForw, bool onlyIds) {
-            return base.Channel.ClassRelationsByMinForwAsync(minForw, onlyIds);
+        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidResponse> ClassRelationsByRelationTypeGuidAsync(string guidRelationType, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidRequestBody();
+            inValue.Body.guidRelationType = guidRelationType;
+            inValue.Body.onlyIds = onlyIds;
+            return ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByRelationTypeGuidAsync(inValue);
         }
         
-        public WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByMaxForw(long maxForw, bool onlyIds) {
-            return base.Channel.ClassRelationsByMaxForw(maxForw, onlyIds);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidResponse WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByLeftGuid_RightGuid(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidRequest request) {
+            return base.Channel.ClassRelationsByLeftGuid_RightGuid(request);
         }
         
-        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByMaxForwAsync(long maxForw, bool onlyIds) {
-            return base.Channel.ClassRelationsByMaxForwAsync(maxForw, onlyIds);
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByLeftGuid_RightGuid(string guidLeft, string guidRight, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidRequestBody();
+            inValue.Body.guidLeft = guidLeft;
+            inValue.Body.guidRight = guidRight;
+            inValue.Body.onlyIds = onlyIds;
+            WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidResponse retVal = ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByLeftGuid_RightGuid(inValue);
+            return retVal.Body.ClassRelationsByLeftGuid_RightGuidResult;
         }
         
-        public WpfOnt.OServiceClassRel.clsClassRel[] ClassRelationsByMaxBackw(long maxBackw, bool onlyIds) {
-            return base.Channel.ClassRelationsByMaxBackw(maxBackw, onlyIds);
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidResponse> WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByLeftGuid_RightGuidAsync(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidRequest request) {
+            return base.Channel.ClassRelationsByLeftGuid_RightGuidAsync(request);
         }
         
-        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.clsClassRel[]> ClassRelationsByMaxBackwAsync(long maxBackw, bool onlyIds) {
-            return base.Channel.ClassRelationsByMaxBackwAsync(maxBackw, onlyIds);
+        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidResponse> ClassRelationsByLeftGuid_RightGuidAsync(string guidLeft, string guidRight, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidRequestBody();
+            inValue.Body.guidLeft = guidLeft;
+            inValue.Body.guidRight = guidRight;
+            inValue.Body.onlyIds = onlyIds;
+            return ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByLeftGuid_RightGuidAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResponse WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuid(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequest request) {
+            return base.Channel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuid(request);
+        }
+        
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByLeftGuid_RelationTypeGuid_RightGuid(string guidLeft, string guidRelationType, string guidRight, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequestBody();
+            inValue.Body.guidLeft = guidLeft;
+            inValue.Body.guidRelationType = guidRelationType;
+            inValue.Body.guidRight = guidRight;
+            inValue.Body.onlyIds = onlyIds;
+            WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResponse retVal = ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByLeftGuid_RelationTypeGuid_RightGuid(inValue);
+            return retVal.Body.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResponse> WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidAsync(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequest request) {
+            return base.Channel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResponse> ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidAsync(string guidLeft, string guidRelationType, string guidRight, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidRequestBody();
+            inValue.Body.guidLeft = guidLeft;
+            inValue.Body.guidRelationType = guidRelationType;
+            inValue.Body.guidRight = guidRight;
+            inValue.Body.onlyIds = onlyIds;
+            return ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidResponse WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByLeftGuid_RelationTypeGuid(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidRequest request) {
+            return base.Channel.ClassRelationsByLeftGuid_RelationTypeGuid(request);
+        }
+        
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByLeftGuid_RelationTypeGuid(string guidLeft, string guidRelationType, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidRequestBody();
+            inValue.Body.guidLeft = guidLeft;
+            inValue.Body.guidRelationType = guidRelationType;
+            inValue.Body.onlyIds = onlyIds;
+            WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidResponse retVal = ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByLeftGuid_RelationTypeGuid(inValue);
+            return retVal.Body.ClassRelationsByLeftGuid_RelationTypeGuidResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidResponse> WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByLeftGuid_RelationTypeGuidAsync(WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidRequest request) {
+            return base.Channel.ClassRelationsByLeftGuid_RelationTypeGuidAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidResponse> ClassRelationsByLeftGuid_RelationTypeGuidAsync(string guidLeft, string guidRelationType, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidRequestBody();
+            inValue.Body.guidLeft = guidLeft;
+            inValue.Body.guidRelationType = guidRelationType;
+            inValue.Body.onlyIds = onlyIds;
+            return ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByLeftGuid_RelationTypeGuidAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidResponse WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByRelationTypeGuid_RightGuid(WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidRequest request) {
+            return base.Channel.ClassRelationsByRelationTypeGuid_RightGuid(request);
+        }
+        
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByRelationTypeGuid_RightGuid(string guidRelationType, string guidRight, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidRequestBody();
+            inValue.Body.guidRelationType = guidRelationType;
+            inValue.Body.guidRight = guidRight;
+            inValue.Body.onlyIds = onlyIds;
+            WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidResponse retVal = ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByRelationTypeGuid_RightGuid(inValue);
+            return retVal.Body.ClassRelationsByRelationTypeGuid_RightGuidResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidResponse> WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByRelationTypeGuid_RightGuidAsync(WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidRequest request) {
+            return base.Channel.ClassRelationsByRelationTypeGuid_RightGuidAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidResponse> ClassRelationsByRelationTypeGuid_RightGuidAsync(string guidRelationType, string guidRight, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidRequestBody();
+            inValue.Body.guidRelationType = guidRelationType;
+            inValue.Body.guidRight = guidRight;
+            inValue.Body.onlyIds = onlyIds;
+            return ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByRelationTypeGuid_RightGuidAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WpfOnt.OServiceClassRel.ClassRelationsByMinForwResponse WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByMinForw(WpfOnt.OServiceClassRel.ClassRelationsByMinForwRequest request) {
+            return base.Channel.ClassRelationsByMinForw(request);
+        }
+        
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByMinForw(long minForw, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByMinForwRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByMinForwRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByMinForwRequestBody();
+            inValue.Body.minForw = minForw;
+            inValue.Body.onlyIds = onlyIds;
+            WpfOnt.OServiceClassRel.ClassRelationsByMinForwResponse retVal = ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByMinForw(inValue);
+            return retVal.Body.ClassRelationsByMinForwResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByMinForwResponse> WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByMinForwAsync(WpfOnt.OServiceClassRel.ClassRelationsByMinForwRequest request) {
+            return base.Channel.ClassRelationsByMinForwAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByMinForwResponse> ClassRelationsByMinForwAsync(long minForw, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByMinForwRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByMinForwRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByMinForwRequestBody();
+            inValue.Body.minForw = minForw;
+            inValue.Body.onlyIds = onlyIds;
+            return ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByMinForwAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WpfOnt.OServiceClassRel.ClassRelationsByMaxForwResponse WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByMaxForw(WpfOnt.OServiceClassRel.ClassRelationsByMaxForwRequest request) {
+            return base.Channel.ClassRelationsByMaxForw(request);
+        }
+        
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByMaxForw(long maxForw, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByMaxForwRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByMaxForwRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByMaxForwRequestBody();
+            inValue.Body.maxForw = maxForw;
+            inValue.Body.onlyIds = onlyIds;
+            WpfOnt.OServiceClassRel.ClassRelationsByMaxForwResponse retVal = ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByMaxForw(inValue);
+            return retVal.Body.ClassRelationsByMaxForwResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByMaxForwResponse> WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByMaxForwAsync(WpfOnt.OServiceClassRel.ClassRelationsByMaxForwRequest request) {
+            return base.Channel.ClassRelationsByMaxForwAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByMaxForwResponse> ClassRelationsByMaxForwAsync(long maxForw, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByMaxForwRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByMaxForwRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByMaxForwRequestBody();
+            inValue.Body.maxForw = maxForw;
+            inValue.Body.onlyIds = onlyIds;
+            return ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByMaxForwAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwResponse WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByMaxBackw(WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwRequest request) {
+            return base.Channel.ClassRelationsByMaxBackw(request);
+        }
+        
+        public WpfOnt.OServiceClassRel.ArrayOfClsClassRel ClassRelationsByMaxBackw(long maxBackw, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwRequestBody();
+            inValue.Body.maxBackw = maxBackw;
+            inValue.Body.onlyIds = onlyIds;
+            WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwResponse retVal = ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByMaxBackw(inValue);
+            return retVal.Body.ClassRelationsByMaxBackwResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwResponse> WpfOnt.OServiceClassRel.OServiceClassRelSoap.ClassRelationsByMaxBackwAsync(WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwRequest request) {
+            return base.Channel.ClassRelationsByMaxBackwAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwResponse> ClassRelationsByMaxBackwAsync(long maxBackw, bool onlyIds) {
+            WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwRequest inValue = new WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwRequest();
+            inValue.Body = new WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwRequestBody();
+            inValue.Body.maxBackw = maxBackw;
+            inValue.Body.onlyIds = onlyIds;
+            return ((WpfOnt.OServiceClassRel.OServiceClassRelSoap)(this)).ClassRelationsByMaxBackwAsync(inValue);
         }
     }
 }

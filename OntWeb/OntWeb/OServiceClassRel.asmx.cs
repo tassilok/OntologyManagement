@@ -36,13 +36,6 @@ namespace OntWeb
         }
 
         [WebMethod]
-        public List<Config> Config()
-        {
-
-            return Globals.Config;
-        }
-
-        [WebMethod]
         public List<clsOntologyItem> ClassesByGuidParent(string GuidParent, bool allChildren = false)
         {
             if (allChildren)

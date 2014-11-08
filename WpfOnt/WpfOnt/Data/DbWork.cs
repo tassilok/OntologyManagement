@@ -3,26 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfOnt.OServiceClasses;
-using WpfOnt.OServiceObjects;
-using clsClassItem = WpfOnt.OServiceClasses.clsOntologyItem;
-using clsObjectItem = WpfOnt.OServiceObjects.clsOntologyItem;
+using WpfOnt.OServiceOItems;
+using clsClassItem = WpfOnt.OServiceOItems.clsOntologyItem;
+using clsObjectItem = WpfOnt.OServiceOItems.clsOntologyItem;
 
 namespace WpfOnt.Data
 {
     public class DbWork
     {
-        private readonly OServiceClassesSoapClient oServiceClassesSoapClient = new OServiceClassesSoapClient();
-        private readonly OServiceObjectsSoapClient oServiceObjectsSoapClient = new OServiceObjectsSoapClient();
+        private readonly OServiceOItemsSoapClient oServiceOItemsSoapClient = new OServiceOItemsSoapClient();
 
         public List<clsClassItem> GetClassList()
         {
-            return new List<clsClassItem>(oServiceClassesSoapClient.Classes());
+            return new List<clsClassItem>(oServiceOItemsSoapClient.Classes());
         }
 
         public List<clsObjectItem> GetObjectListByClassId(string idParent)
         {
-            return new List<clsObjectItem>(oServiceObjectsSoapClient.ObjectsByGuidParent(idParent));
+            return new List<clsObjectItem>(oServiceOItemsSoapClient.ObjectsByGuidParent(idParent));
+        }
+
+        public List<clsObjectItem> GetObjectListByNameObjectAndClassId(string idParent, string nameObject)
+        {
+            return new List<clsObjectItem>(oServiceOItemsSoapClient.ObjectsByGuidParentAndName(idParent, nameObject, false));
         }
     }
 }

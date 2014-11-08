@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WpfOnt.Data;
-using WpfOnt.OServiceObjects;
+using WpfOnt.OServiceOItems;
 
 namespace WpfOnt.ViewModel
 {

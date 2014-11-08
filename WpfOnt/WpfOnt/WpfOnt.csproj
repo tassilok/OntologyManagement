@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
@@ -55,21 +56,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="LocalConfig.cs" />
     <Compile Include="Converter\DebuggingConverter.cs" />
     <Compile Include="Data\DbWork.cs" />
     <Compile Include="Data\MainViewData.cs" />
     <Compile Include="Data\OTreeNode.cs" />
-    <Compile Include="Service References\OServiceAttributeTypes\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Service References\OServiceClassAtt\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Service References\OServiceClasses\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -79,17 +71,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\OServiceConfiguration\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\OServiceObjectRel\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Service References\OServiceObjects\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Service References\OServiceRelationTypes\Reference.cs">
+    <Compile Include="Service References\OServiceOItems\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -97,11 +89,12 @@
     <Compile Include="ViewModelUtils\RelayCommand.cs" />
     <Compile Include="ViewModelUtils\TreeViewHelper.cs" />
     <Compile Include="ViewModel\MainWindowModel.cs" />
+    <Compile Include="ViewModel\NotifyPropertyChange.cs" />
     <Compile Include="ViewModel\OItemListModel.cs" />
     <Compile Include="ViewModel\TypeTreeModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
-    <Compile Include="View\OItemList.xaml.cs">
-      <DependentUpon>OItemList.xaml</DependentUpon>
+    <Compile Include="View\OItemView.xaml.cs">
+      <DependentUpon>OItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TypeTree.xaml.cs">
       <DependentUpon>TypeTree.xaml</DependentUpon>
@@ -118,7 +111,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\OItemList.xaml">
+    <Page Include="View\OItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -142,7 +135,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
@@ -150,59 +143,198 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Service References\OServiceAttributeTypes\OServiceAttributeTypes.wsdl" />
-    <None Include="Service References\OServiceAttributeTypes\WpfOnt.OServiceAttributeTypes.clsOntologyItem.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\OServiceAttributeTypes\WpfOnt.OServiceAttributeTypes.Config.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Service References\OServiceClassAtt\OServiceClassAtt.wsdl" />
-    <None Include="Service References\OServiceClassAtt\WpfOnt.OServiceClassAtt.clsClassAtt.datasource">
+    <None Include="Service References\OServiceClassAtt\WpfOnt.OServiceClassAtt.ArrayOfClsClassAtt.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceClassAtt\WpfOnt.OServiceClassAtt.clsObjectAtt.datasource">
+    <None Include="Service References\OServiceClassAtt\WpfOnt.OServiceClassAtt.ArrayOfClsObjectAtt.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceClassAtt\WpfOnt.OServiceClassAtt.Config.datasource">
+    <None Include="Service References\OServiceClassAtt\WpfOnt.OServiceClassAtt.ClassAttributesByAttributeTypeGuidResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceClasses\OServiceClasses.wsdl" />
-    <None Include="Service References\OServiceClasses\WpfOnt.OServiceClasses.clsOntologyItem.datasource">
+    <None Include="Service References\OServiceClassAtt\WpfOnt.OServiceClassAtt.ClassAttributesByClassGuidResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceClasses\WpfOnt.OServiceClasses.Config.datasource">
+    <None Include="Service References\OServiceClassAtt\WpfOnt.OServiceClassAtt.ClassAttributesByClassGuid_ttributeTypeGuidResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceClassAtt\WpfOnt.OServiceClassAtt.ClassAttributesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceClassAtt\WpfOnt.OServiceClassAtt.ObjectAttsResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\OServiceClassRel\OServiceClassRel.wsdl" />
-    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.clsClassRel.datasource">
+    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.ArrayOfClsClassRel.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.clsOntologyItem.datasource">
+    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.ArrayOfClsOntologyItem.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.Config.datasource">
+    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.ClassesByGuidParentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.ClassesChildsByGuidParentAndNameResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.ClassRelationsByLeftGuidResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuidResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RelationTypeGuid_RightGuidResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.ClassRelationsByLeftGuid_RightGuidResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.ClassRelationsByMaxBackwResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.ClassRelationsByMaxForwResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.ClassRelationsByMinForwResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuidResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.ClassRelationsByRelationTypeGuid_RightGuidResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.ClassRelationsByRightGuidResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceClassRel\WpfOnt.OServiceClassRel.ClassRelationsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceConfiguration\OServiceConfiguration.wsdl" />
+    <None Include="Service References\OServiceConfiguration\WpfOnt.OServiceConfiguration.clsAttributeTypes.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceConfiguration\WpfOnt.OServiceConfiguration.clsClasses.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceConfiguration\WpfOnt.OServiceConfiguration.clsDirections.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceConfiguration\WpfOnt.OServiceConfiguration.clsFields.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceConfiguration\WpfOnt.OServiceConfiguration.clsLogStates.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceConfiguration\WpfOnt.OServiceConfiguration.clsMappingRules.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceConfiguration\WpfOnt.OServiceConfiguration.clsOntologyRelationRules.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceConfiguration\WpfOnt.OServiceConfiguration.clsRelationTypes.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceConfiguration\WpfOnt.OServiceConfiguration.clsTypes.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceConfiguration\WpfOnt.OServiceConfiguration.clsVariables.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceConfiguration\WpfOnt.OServiceConfiguration.Config.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\OServiceObjectRel\OServiceObjectRel.wsdl" />
-    <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.clsObjectRel.datasource">
+    <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.ArrayOfClsObjectRel.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.Config.datasource">
+    <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.ObjectRelsByIdObjectAndIdRelationTypeAndIdOtherResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceObjects\OServiceObjects.wsdl" />
-    <None Include="Service References\OServiceObjects\WpfOnt.OServiceObjects.clsOntologyItem.datasource">
+    <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.ObjectRelsByIdObjectAndIdRelationTypeAndIdParentOtherResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceObjects\WpfOnt.OServiceObjects.Config.datasource">
+    <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.ObjectRelsByIdObjectAndIdRelationTypeResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceRelationTypes\OServiceRelationTypes.wsdl" />
-    <None Include="Service References\OServiceRelationTypes\WpfOnt.OServiceRelationTypes.clsOntologyItem.datasource">
+    <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.ObjectRelsByIdObjectResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OServiceRelationTypes\WpfOnt.OServiceRelationTypes.Config.datasource">
+    <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.ObjectRelsByIdOtherResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.ObjectRelsByIdParentObjectAndIdRelationTypeAndIdOtherResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.ObjectRelsByIdParentObjectAndIdRelationTypeAndIdParentOtherResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.ObjectRelsByIdParentObjectAndIdRelationTypeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.ObjectRelsByIdParentObjectResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.ObjectRelsByIdParentOtherResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.ObjectRelsByIdRelationTypeAndIdOtherResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.ObjectRelsByIdRelationTypeAndIdParentOtherResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceObjectRel\WpfOnt.OServiceObjectRel.ObjectRelsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceOItems\OServiceOItems.wsdl" />
+    <None Include="Service References\OServiceOItems\WpfOnt.OServiceOItems.ArrayOfClsOntologyItem.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceOItems\WpfOnt.OServiceOItems.AttributeTypesByAttributeTypeGuidResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceOItems\WpfOnt.OServiceOItems.AttributeTypesByAttributeTypeIdDataTypeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceOItems\WpfOnt.OServiceOItems.AttributeTypesByAttributeTypeNameResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceOItems\WpfOnt.OServiceOItems.AttributeTypesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceOItems\WpfOnt.OServiceOItems.ClassesByGuidResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceOItems\WpfOnt.OServiceOItems.ClassesByNameResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceOItems\WpfOnt.OServiceOItems.ClassesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceOItems\WpfOnt.OServiceOItems.ObjectsByGuidParentAndNameResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceOItems\WpfOnt.OServiceOItems.ObjectsByGuidParentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceOItems\WpfOnt.OServiceOItems.ObjectsByGuidResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceOItems\WpfOnt.OServiceOItems.ObjectsByNameResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceOItems\WpfOnt.OServiceOItems.ObjectsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceOItems\WpfOnt.OServiceOItems.RelationTypesByRelationTypeGuidResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceOItems\WpfOnt.OServiceOItems.RelationTypesByRelationTypeNameResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OServiceOItems\WpfOnt.OServiceOItems.RelationTypesResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
   </ItemGroup>
@@ -213,61 +345,11 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\OServiceAttributeTypes\" />
     <WCFMetadataStorage Include="Service References\OServiceClassAtt\" />
-    <WCFMetadataStorage Include="Service References\OServiceClasses\" />
     <WCFMetadataStorage Include="Service References\OServiceClassRel\" />
+    <WCFMetadataStorage Include="Service References\OServiceConfiguration\" />
     <WCFMetadataStorage Include="Service References\OServiceObjectRel\" />
-    <WCFMetadataStorage Include="Service References\OServiceObjects\" />
-    <WCFMetadataStorage Include="Service References\OServiceRelationTypes\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OServiceAttributeTypes\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OServiceAttributeTypes\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OServiceAttributeTypes\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OServiceClasses\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OServiceClasses\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OServiceClasses\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OServiceRelationTypes\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OServiceRelationTypes\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OServiceRelationTypes\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OServiceObjects\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OServiceObjects\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OServiceObjects\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
+    <WCFMetadataStorage Include="Service References\OServiceOItems\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\OServiceClassRel\configuration91.svcinfo" />
@@ -306,13 +388,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\OServiceAttributeTypes\OServiceAttributeTypes.disco" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Service References\OServiceClassAtt\OServiceClassAtt.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OServiceClasses\OServiceClasses.disco" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\OServiceClassRel\OServiceClassRel.disco" />
@@ -321,10 +397,224 @@
     <None Include="Service References\OServiceObjectRel\OServiceObjectRel.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\OServiceObjects\OServiceObjects.disco" />
+    <None Include="Service References\OServiceOItems\OServiceOItems.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\OServiceRelationTypes\OServiceRelationTypes.disco" />
+    <None Include="Service References\OServiceOItems\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OServiceOItems\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OServiceOItems\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\appunti_architetto_franc_01.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Attributes bamboo_danny_allen_r.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\b_down_0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\b_down_minus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\b_minus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\b_plus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\b_up_Infinite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\b_up_plus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\base_checkmark_32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\bb_back_.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\bb_forward_.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\bb_home_.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\bb_reload_.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\bb_sort2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\cahiers_de_labo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DoubleRightArrowHS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\edit-find-replace.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Export_to_DB.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\NavForward.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Ontology-Module Block.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Ontology-Module2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Procedures.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\pulsante_01_architetto_f_01 First1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\pulsante_01_architetto_f_01.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\pulsante_02_architetto_f_01 Last.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\pulsante_02_architetto_f_01.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RelationTypes gpride_jean_victor_balin_.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\saveHS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\slim_cd_drive_frederic_m_01.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\tasto_3_architetto_franc_01.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\tasto_4_architetto_franc_01.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\tasto_8_architetto_franc_01.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Types_Closed.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Vogelschwarm.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Vogelschwarm1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\XSDSchema_SequenceIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\gnome-fs-home.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\gnome-fs-home-Closed.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OServiceConfiguration\OServiceConfiguration.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OServiceConfiguration\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OServiceConfiguration\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OServiceConfiguration\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

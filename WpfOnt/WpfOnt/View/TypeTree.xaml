@@ -15,13 +15,22 @@
             <HierarchicalDataTemplate 
                 x:Key="TreeTemplate" 
                 ItemsSource="{Binding Nodes}">
-                <StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <Image x:Name="nodeImg" Source="..\Resources\gnome-fs-home-Closed.png" Width="16" Height="16" />
                     <TextBlock 
                             Visibility="Collapsed" 
                             Text="{Binding Id}" />
                     <TextBlock 
-                            Text="{Binding Name}" />
+                            Text="{Binding Name}" Margin="3,0,3,0"/>
                 </StackPanel>
+                <HierarchicalDataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                        <Setter TargetName="nodeImg" Property="Source" Value="..\Resources\gnome-fs-home.png"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsRoot}" Value="True">
+                        <Setter TargetName="nodeImg" Property="Source" Value="..\Resources\bb_home_.png"/>
+                    </DataTrigger>
+                </HierarchicalDataTemplate.Triggers>
             </HierarchicalDataTemplate>
         </Grid.Resources>
         <Grid.RowDefinitions>
@@ -34,13 +43,24 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Content="{Binding MarkLbl}"/>
-        <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
-        <TreeView Grid.Row="1" Grid.ColumnSpan="2" ItemTemplate="{StaticResource TreeTemplate}" ItemsSource="{Binding Nodes}" ViewModelUtils:TreeViewHelper.SelectedItem="{Binding CurrSelItem}"  ViewModelUtils:TreeViewHelper.SelectedItemChanged="{Binding MySelItemChgCmd}" SelectedItemChanged="TreeView_OnSelectedItemChanged">
-            
-            
+        <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" TextChanged="TextBox_TextChanged_1" />
+        <TreeView Name="treeView_Classes" Grid.Row="1" Grid.ColumnSpan="2" ItemTemplate="{StaticResource TreeTemplate}" ItemsSource="{Binding Nodes}" ViewModelUtils:TreeViewHelper.SelectedItem="{Binding CurrSelItem}"  ViewModelUtils:TreeViewHelper.SelectedItemChanged="{Binding MySelItemChgCmd}" SelectedItemChanged="TreeView_OnSelectedItemChanged">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    <Setter Property="FontWeight" Value="Normal" />
+                    <Setter Property="Background" Value="{Binding Background, Mode=TwoWay}" />
+                </Style>
+            </TreeView.ItemContainerStyle>
         </TreeView>
-
-        <Label Grid.Row="2" Grid.Column="0" Content="{Binding ItemCountLbl}"/>
-        <Label Grid.Row="2" Grid.Column="1" Content="{Binding ItemCount}"/>
+        <ToolBar Grid.Row="2" Grid.ColumnSpan="2">
+            <TextBlock Text="{Binding ItemCountLbl}" Margin="3,0,3,0"/>
+            <TextBlock Text="{Binding ItemCount}" Margin="3,0,3,0"/>
+            <Separator />
+            <TextBlock Text="{Binding LblGuid}" Margin="3,0,3,0"/> 
+            <TextBox IsReadOnly="True" Width="240" Text="{Binding GuidClass}" />
+        </ToolBar>
+        
     </Grid>
 </UserControl>
