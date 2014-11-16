@@ -4,6 +4,7 @@ Public Class clsSession
     Private objLocalConfig As clsLocalConfig
     Private objDBLevel_Session As clsDBLevel
     Private objDBLevel_Items As clsDBLevel
+    Private objDBLevel_XML As clsDBLevel
     Private objRelationConfig As clsRelationConfig
 
     Public Function RegisterSession() As clsOntologyItem
@@ -26,6 +27,18 @@ Public Class clsSession
         Return objOItem_Session
     End Function
 
+    Public Function FinishActor(objOItem_Session As clsOntologyItem) As clsOntologyItem
+        Dim saveActorFinished = objRelationConfig.Rel_ObjectAttribute(objOItem_Session, objLocalConfig.OItem_attributetype_actor_finished, True)
+        Dim objOItem_Result = objDBLevel_Session.save_ObjAtt(New List(Of clsObjectAtt) From {saveActorFinished})
+        Return objOItem_Result
+    End Function
+
+    Public Function FinishInitiator(objOItem_Session As clsOntologyItem) As clsOntologyItem
+        Dim saveInitiatorFinished = objRelationConfig.Rel_ObjectAttribute(objOItem_Session, objLocalConfig.OItem_attributetype_initiator_finished, True)
+        Dim objOItem_Result = objDBLevel_Session.save_ObjAtt(New List(Of clsObjectAtt) From {saveInitiatorFinished})
+        Return objOItem_Result
+    End Function
+
     Public Function RegisterItems(objOItem_Session As clsOntologyItem, OList_InitiatorItems As List(Of clsOntologyItem), boolInitiator As Boolean) As clsOntologyItem
         Dim saveItems = OList_InitiatorItems.Select(Function(iitem) objRelationConfig.Rel_ObjectRelation(objOItem_Session, _
                                                                                                          iitem, _
@@ -34,7 +47,10 @@ Public Class clsSession
         Dim objOItem_Result = objDBLevel_Session.save_ObjRel(saveItems)
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            If boolInitiator = False Then
+            If boolInitiator Then
+                Dim saveInitiatorFinished = objRelationConfig.Rel_ObjectAttribute(objOItem_Session, objLocalConfig.OItem_attributetype_initiator_finished, True)
+                objOItem_Result = objDBLevel_Session.save_ObjAtt(New List(Of clsObjectAtt) From {saveInitiatorFinished})
+            Else
                 Dim saveActorFinished = objRelationConfig.Rel_ObjectAttribute(objOItem_Session, objLocalConfig.OItem_attributetype_actor_finished, True)
                 objOItem_Result = objDBLevel_Session.save_ObjAtt(New List(Of clsObjectAtt) From {saveActorFinished})
             End If
@@ -117,12 +133,58 @@ Public Class clsSession
         Return objOItem_Result
     End Function
 
+    Public Function InitiatorFinished(objOItem_Session As clsOntologyItem) As clsOntologyItem
+        Dim searchFinished = New List(Of clsObjectAtt) From {New clsObjectAtt With {.ID_Object = objOItem_Session.GUID,
+                                                                                     .ID_AttributeType = objLocalConfig.OItem_attributetype_initiator_finished.GUID}}
+
+        Dim objOItem_Result = objDBLevel_Items.get_Data_ObjectAtt(searchFinished, boolIDs:=True)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_Items.OList_ObjectAtt_ID.Any() Then
+                If objDBLevel_Items.OList_ObjectAtt_ID.First().Val_Bit Then
+                    objOItem_Result = objLocalConfig.Globals.LState_Success
+                Else
+                    objOItem_Result = objLocalConfig.Globals.LState_Nothing
+                End If
+            Else
+                objOItem_Result = objLocalConfig.Globals.LState_Nothing
+            End If
+        End If
+
+        Return objOItem_Result
+    End Function
+
+    Public Function GetXMLOfSession(objOItem_Session As clsOntologyItem) As String
+        Dim searchXML = New List(Of clsObjectAtt) From {New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_attributetype_xml_text.GUID,
+                                                                                .ID_Object = objOItem_Session.GUID}}
+
+        Dim objOItem_Result = objDBLevel_XML.get_Data_ObjectAtt(searchXML, boolIDs:=False)
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If objDBLevel_XML.OList_ObjectAtt.Any() Then
+                Return objDBLevel_XML.OList_ObjectAtt.First().Val_String
+            Else
+                Return ""
+            End If
+        Else
+            Return Nothing
+        End If
+    End Function
+
     Public Function ResetActor(objOItem_Session As clsOntologyItem) As clsOntologyItem
         Dim delActor = New List(Of clsObjectAtt) From {New clsObjectAtt With {.ID_Object = objOItem_Session.GUID,
                                                                                      .ID_AttributeType = objLocalConfig.OItem_attributetype_actor_finished.GUID}}
 
         Dim objOItem_Result = objDBLevel_Items.del_ObjectAtt(delActor)
         
+        Return objOItem_Result
+    End Function
+
+    Public Function ResetInitiator(objOItem_Session As clsOntologyItem) As clsOntologyItem
+        Dim delInitiator = New List(Of clsObjectAtt) From {New clsObjectAtt With {.ID_Object = objOItem_Session.GUID,
+                                                                                     .ID_AttributeType = objLocalConfig.OItem_attributetype_initiator_finished.GUID}}
+
+        Dim objOItem_Result = objDBLevel_Items.del_ObjectAtt(delInitiator)
+
         Return objOItem_Result
     End Function
 
@@ -142,5 +204,6 @@ Public Class clsSession
         objDBLevel_Session = New clsDBLevel(objLocalConfig.Globals)
         objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
         objDBLevel_Items = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_XML = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class

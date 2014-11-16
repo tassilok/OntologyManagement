@@ -79,6 +79,7 @@ Public Class clsLocalConfig
     Private objOItem_Object_Ontology_Relation_Rule_Left_Outer_Join As New clsOntologyItem
     Private objOItem_Object_Ontology_Relation_Rule_Inner_Join As New clsOntologyItem
     Private objOItem_Object_Ontology_Relation_Rule_Child_Token As New clsOntologyItem
+    Private objOItem_object_commandlinerun_module As clsOntologyItem
 
     'Types
     Private objOItem_class_clipboardfilter_tags As clsOntologyItem
@@ -332,6 +333,12 @@ Public Class clsLocalConfig
     Public ReadOnly Property OItem_RelationType_belonging() As clsOntologyItem
         Get
             Return objOItem_RelationType_belonging
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_object_commandlinerun_module As clsOntologyItem
+        Get
+            Return objOItem_object_commandlinerun_module
         End Get
     End Property
 
@@ -1684,6 +1691,22 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Objects()
+        Dim objOList_object_commandlinerun_module = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                       Where objRef.Name_Object.ToLower() = "object_commandlinerun_module".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                           Select objRef).ToList()
+
+        If objOList_object_commandlinerun_module.Count > 0 Then
+            objOItem_object_commandlinerun_module = New clsOntologyItem
+            objOItem_object_commandlinerun_module.GUID = objOList_object_commandlinerun_module.First().ID_Other
+            objOItem_object_commandlinerun_module.Name = objOList_object_commandlinerun_module.First().Name_Other
+            objOItem_object_commandlinerun_module.GUID_Parent = objOList_object_commandlinerun_module.First().ID_Parent_Other
+            objOItem_object_commandlinerun_module.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_object_baseconfig = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object

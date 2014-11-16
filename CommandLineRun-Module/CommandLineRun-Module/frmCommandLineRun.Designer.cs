@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCommandLineRun));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -36,6 +37,7 @@
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_RegisteredReport = new System.Windows.Forms.ToolStripTextBox();
+            this.Timer_Session = new System.Windows.Forms.Timer(this.components);
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -106,7 +108,7 @@
             this.toolStripTextBox_RegisteredReport});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(308, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(277, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripLabel1
@@ -120,6 +122,11 @@
             this.toolStripTextBox_RegisteredReport.Name = "toolStripTextBox_RegisteredReport";
             this.toolStripTextBox_RegisteredReport.ReadOnly = true;
             this.toolStripTextBox_RegisteredReport.Size = new System.Drawing.Size(150, 25);
+            // 
+            // Timer_Session
+            // 
+            this.Timer_Session.Interval = 300;
+            this.Timer_Session.Tick += new System.EventHandler(this.Timer_Session_Tick);
             // 
             // frmCommandLineRun
             // 
@@ -155,6 +162,7 @@
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox_RegisteredReport;
+        private System.Windows.Forms.Timer Timer_Session;
     }
 }
 

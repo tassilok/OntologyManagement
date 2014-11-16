@@ -29,6 +29,8 @@ Public Class clsLocalConfig
     Private objOItem_attributetype_message As clsOntologyItem
     Private objOItem_attributetype_caption As clsOntologyItem
     Private objOItem_attributetype_actor_finished As clsOntologyItem
+    Private objOItem_attributetype_xml_text As clsOntologyItem
+    Private objOItem_attributetype_initiator_finished As clsOntologyItem
 
     'RelationTypes
     Private objOItem_RelationType_belonging_Attribute As New clsOntologyItem
@@ -153,6 +155,19 @@ Public Class clsLocalConfig
             Return objOItem_attributetype_actor_finished
         End Get
     End Property
+
+    Public ReadOnly Property OItem_attributetype_xml_text As clsOntologyItem
+        Get
+            Return objOItem_attributetype_xml_text
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_attributetype_initiator_finished As clsOntologyItem
+        Get
+            Return objOItem_attributetype_initiator_finished
+        End Get
+    End Property
+
 
     'RelationTypes
     Public ReadOnly Property OItem_RelationType_belonging_Attribute() As clsOntologyItem
@@ -571,6 +586,23 @@ Public Class clsLocalConfig
 
 
     Private Sub get_Config_AttributeTypes()
+        Dim objOList_attributetype_initiator_finished = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Join objOntology In OList_Ontologies On objOItem.ID_Object Equals objOntology.GUID
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                            Where objRef.Name_Object.ToLower() = "attributetype_initiator_finished".ToLower() And objRef.Ontology = objGlobals.Type_AttributeType
+                                           Select objRef).ToList()
+
+
+        If objOList_attributetype_initiator_finished.Count > 0 Then
+            objOItem_attributetype_initiator_finished = New clsOntologyItem
+            objOItem_attributetype_initiator_finished.GUID = objOList_attributetype_initiator_finished.First().ID_Other
+            objOItem_attributetype_initiator_finished.Name = objOList_attributetype_initiator_finished.First().Name_Other
+            objOItem_attributetype_initiator_finished.GUID_Parent = objOList_attributetype_initiator_finished.First().ID_Parent_Other
+            objOItem_attributetype_initiator_finished.Type = objGlobals.Type_AttributeType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_attributetype_actor_finished = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Join objOntology In OList_Ontologies On objOItem.ID_Object Equals objOntology.GUID
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
@@ -1065,6 +1097,22 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Objects()
+        Dim objOList_attributetype_xml_text = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Join objOntology In OList_Ontologies On objOItem.ID_Object Equals objOntology.GUID
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "attributetype_xml_text".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                           Select objRef).ToList()
+
+        If objOList_attributetype_xml_text.Count > 0 Then
+            objOItem_attributetype_xml_text = New clsOntologyItem
+            objOItem_attributetype_xml_text.GUID = objOList_attributetype_xml_text.First().ID_Other
+            objOItem_attributetype_xml_text.Name = objOList_attributetype_xml_text.First().Name_Other
+            objOItem_attributetype_xml_text.GUID_Parent = objOList_attributetype_xml_text.First().ID_Parent_Other
+            objOItem_attributetype_xml_text.Type = objGlobals.Type_AttributeType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_Object_Sem_Manager = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Join objOntology In OList_Ontologies On objOItem.ID_Object Equals objOntology.GUID
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object

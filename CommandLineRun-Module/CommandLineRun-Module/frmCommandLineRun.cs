@@ -34,6 +34,8 @@ namespace CommandLineRun_Module
         private DataGridView dataSource;
         private bool reportRegistered;
 
+        private bool initializeReports = false;
+
 
         public void CreateScriptOfReport(List<KeyValuePair<string, string>> columnFieldList, DataGridView dataSource)
         {
@@ -50,7 +52,16 @@ namespace CommandLineRun_Module
             strCommandLine = null;
             objLocalConfig = new clsLocalConfig(new clsGlobals());
             //TestReports();
-            Initialize();
+            objDataWork_CommandLineRun = new clsDataWork_CommandLineRun(objLocalConfig);
+            ParseArguments();
+            if (initializeReports)
+            {
+                Initialize_Reports();
+            }
+            else
+            {
+                Initialize();
+            }
         }
 
         private void TestReports()
@@ -74,7 +85,18 @@ namespace CommandLineRun_Module
             objShellOutput = shellOutput;
             strCommandLine = commandLine;
             objLocalConfig = new clsLocalConfig(new clsGlobals());
-            Initialize();
+            objDataWork_CommandLineRun = new clsDataWork_CommandLineRun(objLocalConfig);
+            ParseArguments();
+
+            if (initializeReports)
+            {
+                Initialize_Reports();
+            }
+            else
+            {
+                Initialize();
+            }
+            
         }
         
 
@@ -127,14 +149,24 @@ namespace CommandLineRun_Module
 
         void objUserControl_CommandLineTree_appliedCommandLineRun()
         {
-            if (objLocalConfig.objOItem_Session != null)
+            if (objLocalConfig.objOItem_Session != null && objOItem_Report == null)
             {
                 DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
             }
             else
             {
-                appliedItem();
+                Timer_Session.Stop();
+                if (objLocalConfig.objOItem_Session == null)
+                {
+                    appliedItem();
+                }
+                else
+                {
+                    objLocalConfig.objSession.FinishActor(objLocalConfig.objOItem_Session);
+                    Timer_Session.Start();
+                }
+                
             }
 
         }
@@ -142,7 +174,6 @@ namespace CommandLineRun_Module
         private void Initialize()
         {
             
-            objDataWork_CommandLineRun = new clsDataWork_CommandLineRun(objLocalConfig);
             objUserControl_CommandLineTree = new UserControl_CommandLineRunTree(objLocalConfig, objDataWork_CommandLineRun);
             objUserControl_CommandLineTree.selectedNode += objUserControl_CommandLineTree_selectedNode;
             objUserControl_CommandLineTree.Dock = DockStyle.Fill;
@@ -154,7 +185,7 @@ namespace CommandLineRun_Module
             objUserControl_ExecuteCode.Dock = DockStyle.Fill;
             splitContainer1.Panel2.Controls.Add(objUserControl_ExecuteCode);
 
-            ParseArguments();
+            
 
             if (objLocalConfig.objOItem_Session != null)
             {
@@ -265,6 +296,15 @@ namespace CommandLineRun_Module
                         this.Text = objOItem_Class.Name + "/";
                         this.Text += objOItem_Argument.Name;
 
+                        if (objArgumentParsing.FunctionList.Count > 0)
+                        {
+                            if (objArgumentParsing.FunctionList[0].GUID_Function == objLocalConfig.OItem_object_commandlinerun_module.GUID)
+                            {
+                                initializeReports = true;
+                                objOItem_Report = objOItem_Argument;
+                            }
+                        }
+
                     }
                 }
                 
@@ -316,6 +356,29 @@ namespace CommandLineRun_Module
         private void toolStripButton_Close_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void Timer_Session_Tick(object sender, EventArgs e)
+        {
+            if (objLocalConfig.objOItem_Session != null)
+            {
+                var objOItem_Result = objLocalConfig.objSession.InitiatorFinished(objLocalConfig.objOItem_Session);
+                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    Timer_Session.Stop();
+                    var xmlReport = objLocalConfig.objSession.GetXMLOfSession(objLocalConfig.objOItem_Session);
+                }
+                else if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                {
+                    Timer_Session.Stop();
+                    MessageBox.Show(this, "Beim Datenaustausch sind Fehler aufgetreten!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+            else
+            {
+                Timer_Session.Stop();
+                MessageBox.Show(this,"Beim Datenaustausch sind Fehler aufgetreten!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
     }
 }

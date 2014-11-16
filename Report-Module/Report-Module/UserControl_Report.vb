@@ -10,6 +10,8 @@ Imports Typed_Tagging_Module
 Imports GraphMLConnector
 Imports Localization_Module
 Imports CommandLineRun_Module
+Imports System.Xml.Serialization
+Imports System.IO
 
 Public Class UserControl_Report
     Private frmObjectEdit As frm_ObjectEdit
@@ -28,7 +30,7 @@ Public Class UserControl_Report
     Private objLocalConfig_LogEntries As Log_Module.clsLocalConfig
     Private objLocalConfig_OfficeModule As Office_Module.clsLocalConfig
 
-    Private objClipBoardFilter as clsClipboardFilter
+    Private objClipBoardFilter As clsClipboardFilter
 
     Private objOntologyWork As clsOntologyWork
     Private objReport As Ontology_Module.clsReport
@@ -39,6 +41,8 @@ Public Class UserControl_Report
     Private objBlobConnection As clsBlobConnection
     Private objSecurityWork As clsSecurityWork
     Private objShellWork As clsShellWork
+    Private objSession As clsSession
+    Private objOItem_Session As clsOntologyItem
 
     Private objFrmAuthenticator As frmAuthenticate
     Private objFrmSingleViewer As frmSingleViewer
@@ -49,7 +53,7 @@ Public Class UserControl_Report
     Private objGraphMLWork As clsGraphMLWork
     Private objFrmLocalizingModuleSingle As frmLocalizingModuleSingle
     Private objDlgAttribute_String As dlg_Attribute_String
-    Private WithEvents objFrmCommandLineRun as frmCommandLineRun
+    Private WithEvents objFrmCommandLineRun As frmCommandLineRun
 
     Private objOntologyClipboard As clsOntologyClipboard
 
@@ -92,11 +96,10 @@ Public Class UserControl_Report
     Public Event DataLoaded()
     Public Event SelectionChanged()
 
-    Private sub AppliedCommandLineRun Handles objFrmCommandLineRun.appliedItem
-        
-    
-        Dim dictFieldList = objDataWork_ReportFields.ReportFields.Select(Function(repf) new KeyValuePair(Of string, string)(repf.Name_Col, repf.ID_Field)).ToList()
+    Private Sub AppliedCommandLineRun() Handles objFrmCommandLineRun.appliedItem
 
+
+        Dim dictFieldList = objDataWork_ReportFields.ReportFields.Select(Function(repf) New KeyValuePair(Of String, String)(repf.Name_Col, repf.ID_Field)).ToList()
         objFrmCommandLineRun.CreateScriptOfReport(dictFieldList, DataGridView_Reports)
     End Sub
 
@@ -277,7 +280,7 @@ Public Class UserControl_Report
                         End If
 
 
-                       
+
 
                         objOItem_AttType = New clsOntologyItem(objOntJoin.ID_Other, _
                                                                objOntJoin.Name_Other, _
@@ -332,7 +335,7 @@ Public Class UserControl_Report
                                                                                    .GUID_Parent = ID_Parent_Other,
                                                                                    .Type = objLocalConfig.Globals.Type_Class}).ToList()
 
-                    
+
 
 
                     Dim objOList_Objects = (From objORel In objOList_ORel
@@ -378,11 +381,11 @@ Public Class UserControl_Report
                                                                         doAttributeTypes:=False,
                                                                         doRelationTypes:=False)
 
-                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                    MsgBox("Die GraphML-Datei wurde exportiert.", MsgBoxStyle.Information)
-                                Else
-                                    MsgBox("Die GraphML-Datei konnte nicht exportiert werden.", MsgBoxStyle.Exclamation)
-                                End If
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                MsgBox("Die GraphML-Datei wurde exportiert.", MsgBoxStyle.Information)
+                            Else
+                                MsgBox("Die GraphML-Datei konnte nicht exportiert werden.", MsgBoxStyle.Exclamation)
+                            End If
                         End If
                     Else
 
@@ -391,10 +394,10 @@ Public Class UserControl_Report
 
                 End If
 
-                
+
             End If
 
-            
+
 
 
         Else
@@ -524,7 +527,7 @@ Public Class UserControl_Report
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objLocalConfig = LocalConfig
 
-        Initialize()
+        initialize()
     End Sub
 
     Public Sub New(Globals As clsGlobals, objOItem_User As clsOntologyItem, objOItem_Group As clsOntologyItem)
@@ -536,7 +539,7 @@ Public Class UserControl_Report
         objLocalConfig = New clsLocalConfig(Globals)
         objLocalConfig.User = objOItem_User
         objLocalConfig.Group = objOItem_Group
-        Initialize()
+        initialize()
     End Sub
 
     Private Sub Initialize()
@@ -907,13 +910,13 @@ Public Class UserControl_Report
     Private Sub ToolStripTextBox_Sort_KeyDown(sender As Object, e As KeyEventArgs) Handles ToolStripTextBox_Sort.KeyDown
         Select Case e.KeyCode
             Case Keys.Enter, Keys.Return
-               ApplySort() 
+                ApplySort()
             Case Else
 
         End Select
     End Sub
 
-    Private sub ApplySort()
+    Private Sub ApplySort()
         objLocalConfig.Sort = ToolStripTextBox_Sort.Text
         Try
             BindingSource_Reports.Sort = objLocalConfig.Sort
@@ -921,7 +924,7 @@ Public Class UserControl_Report
         Catch ex As Exception
             BindingSource_Reports.Sort = ""
             ToolStripTextBox_Sort.Text = ""
-            MsgBox("Der Angewandte Filter ist ungültig!",MsgBoxStyle.Information)
+            MsgBox("Der Angewandte Filter ist ungültig!", MsgBoxStyle.Information)
         End Try
     End Sub
 
@@ -929,7 +932,7 @@ Public Class UserControl_Report
         Refresh_CellActions()
     End Sub
 
-    public sub Refresh_DataGridView()
+    Public Sub Refresh_DataGridView()
         DataGridView_Reports.Refresh()
     End Sub
 
@@ -994,7 +997,7 @@ Public Class UserControl_Report
                 Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
 
                 If objLLeaded.Any() Then
-                    If Not IsDBNull(objDRV_Selected.Item(objLLeaded.First().Name_Col))  and _
+                    If Not IsDBNull(objDRV_Selected.Item(objLLeaded.First().Name_Col)) And _
                         Not IsDBNull(objDRV_Selected.Item(objLCol.First().Name_Col)) Then
                         objOItem_Ref = New clsOntologyItem
                         objOItem_Ref.GUID = objDRV_Selected.Item(objLLeaded.First().Name_Col)
@@ -1611,7 +1614,7 @@ Public Class UserControl_Report
                 objFrmDocumentEdit.Show()
                 boolInitialize = False
             End If
-            
+
             If boolInitialize Then
                 objFrmDocumentEdit.Initialize(objOItem_Object)
             End If
@@ -1650,7 +1653,7 @@ Public Class UserControl_Report
     End Sub
 
 
-    Private Sub DataGridView_Reports_CellMouseDoubleClick( sender As Object,  e As DataGridViewCellMouseEventArgs) Handles DataGridView_Reports.CellMouseDoubleClick
+    Private Sub DataGridView_Reports_CellMouseDoubleClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView_Reports.CellMouseDoubleClick
         Dim objDGVR As DataGridViewRow = DataGridView_Reports.Rows(e.RowIndex)
         Dim objDRV As DataRowView = objDGVR.DataBoundItem
 
@@ -1658,10 +1661,10 @@ Public Class UserControl_Report
 
         Dim valueStr = objDRV.Item(objColumn.DataPropertyName).ToString()
 
-        objDlgAttribute_String = New dlg_Attribute_String("Show Value",objLocalConfig.Globals,valueStr)
+        objDlgAttribute_String = New dlg_Attribute_String("Show Value", objLocalConfig.Globals, valueStr)
         objDlgAttribute_String.TextReadonly = True
         objDlgAttribute_String.ShowDialog(Me)
-        
+
     End Sub
 
     Private Sub ToolStripDropDownButton_Copy_Click(sender As Object, e As EventArgs) Handles ToolStripDropDownButton_Copy.Click
@@ -1695,20 +1698,20 @@ Public Class UserControl_Report
         column.Visible = False
     End Sub
 
-    Private Sub ToolStripButton_OpenFilter_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_OpenFilter.Click
-        objFrmMain = new frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class, objLocalConfig.OItem_Class_Report_Filter, "Filter")  
+    Private Sub ToolStripButton_OpenFilter_Click(sender As Object, e As EventArgs) Handles ToolStripButton_OpenFilter.Click
+        objFrmMain = New frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class, objLocalConfig.OItem_Class_Report_Filter, "Filter")
         objFrmMain.OItem_Class_AdvancedFilter = objLocalConfig.OItem_Class_Reports
         objFrmMain.OItem_Direction_AdvancedFilter = objLocalConfig.Globals.Direction_LeftRight
         objFrmMain.OItem_Object_AdvancedFilter = objOItem_Report
         objFrmMain.OItem_RelationType_AdvancedFilter = objLocalConfig.OItem_RelationType_belongsTo
 
         objFrmMain.ShowDialog(Me)
-        
+
 
     End Sub
 
-    Private Sub ToolStripButton_OpenSort_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_OpenSort.Click
-        objFrmMain = new frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class, objLocalConfig.OItem_Class_Report_Sort, "Sort")  
+    Private Sub ToolStripButton_OpenSort_Click(sender As Object, e As EventArgs) Handles ToolStripButton_OpenSort.Click
+        objFrmMain = New frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class, objLocalConfig.OItem_Class_Report_Sort, "Sort")
         objFrmMain.OItem_Class_AdvancedFilter = objLocalConfig.OItem_Class_Reports
         objFrmMain.OItem_Direction_AdvancedFilter = objLocalConfig.Globals.Direction_LeftRight
         objFrmMain.OItem_Object_AdvancedFilter = objOItem_Report
@@ -1727,58 +1730,58 @@ Public Class UserControl_Report
                         If oList_FilteredSort.Any() Then
                             ToolStripTextBox_Sort.Text = oList_FilteredSort.First().Val_String
                             ApplySort()
-                        Else 
-                            MsgBox("Bitte nur Sortierungen des aktuellen Reports auswählen!",MsgBoxStyle.Information)
+                        Else
+                            MsgBox("Bitte nur Sortierungen des aktuellen Reports auswählen!", MsgBoxStyle.Information)
                         End If
-                    Else 
-                        MsgBox("Die Sortierungen konnten nicht ermittelt werden!",MsgBoxStyle.Exclamation)
+                    Else
+                        MsgBox("Die Sortierungen konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
                     End If
-                Else 
-                    MsgBox("Bitte eine Sortierung auswählen!",MsgBoxStyle.Information)
+                Else
+                    MsgBox("Bitte eine Sortierung auswählen!", MsgBoxStyle.Information)
                 End If
-            Else 
-                MsgBox("Bitte eine Sortierung auswählen!",MsgBoxStyle.Information)
+            Else
+                MsgBox("Bitte eine Sortierung auswählen!", MsgBoxStyle.Information)
             End If
         End If
     End Sub
 
-    Private Sub ToolStripButton_SaveFilter_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_SaveFilter.Click
+    Private Sub ToolStripButton_SaveFilter_Click(sender As Object, e As EventArgs) Handles ToolStripButton_SaveFilter.Click
         If Not ToolStripTextBox_Filter.Text = "" Then
             Dim sresultFilters = objDataWork_Report.GetFiltersOfReport(objOItem_Report)
             If Not sresultFilters Is Nothing Then
                 If Not sresultFilters.Any(Function(filt) filt.Val_String.ToLower() = ToolStripTextBox_Filter.Text.ToLower()) Then
 
                 End If
-            Else 
+            Else
                 MsgBox("Die Filter konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
             End If
         End If
     End Sub
 
-   
-    Private Sub ToolStripTextBox_Filter_TextChanged( sender As Object,  e As EventArgs) Handles ToolStripTextBox_Filter.TextChanged
+
+    Private Sub ToolStripTextBox_Filter_TextChanged(sender As Object, e As EventArgs) Handles ToolStripTextBox_Filter.TextChanged
         ToolStripButton_SaveFilter.Enabled = False
     End Sub
 
-    Private Sub ToolStripTextBox_Sort_TextChanged( sender As Object,  e As EventArgs) Handles ToolStripTextBox_Sort.TextChanged
+    Private Sub ToolStripTextBox_Sort_TextChanged(sender As Object, e As EventArgs) Handles ToolStripTextBox_Sort.TextChanged
         ToolStripButton_SaveSort.Enabled = False
     End Sub
 
-    Private Sub ToolStripButton_SaveSort_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_SaveSort.Click
+    Private Sub ToolStripButton_SaveSort_Click(sender As Object, e As EventArgs) Handles ToolStripButton_SaveSort.Click
         If Not ToolStripTextBox_Filter.Text = "" Then
             Dim sresultFilters = objDataWork_Report.GetFiltersOfReport(objOItem_Report)
             If Not sresultFilters Is Nothing Then
                 If Not sresultFilters.Any(Function(filt) filt.Val_String.ToLower() = ToolStripTextBox_Filter.Text.ToLower()) Then
 
                 End If
-            Else 
+            Else
                 MsgBox("Die Filter konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
             End If
         End If
     End Sub
 
     Private Sub OpenModuleByArgumentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenModuleByArgumentToolStripMenuItem.Click
-        
+
 
         If Not objOItem_Object Is Nothing Then
             If Not OpenLastModuleToolStripMenuItem.Checked Or String.IsNullOrEmpty(strLastModule) Then
@@ -1806,7 +1809,7 @@ Public Class UserControl_Report
         End If
 
 
-        
+
     End Sub
 
     Private Sub CopyToOntologyClipboardToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CopyToOntologyClipboardToolStripMenuItem.Click
@@ -1857,8 +1860,57 @@ Public Class UserControl_Report
         End If
     End Sub
 
-    Private Sub ToolStripButton_CommandLineRun_Click( sender As Object,  e As EventArgs) Handles ToolStripButton_CommandLineRun.Click
-        objFrmCommandLineRun = new frmCommandLineRun(objLocalConfig.Globals,objOItem_Report)
-        objFrmCommandLineRun.ShowDialog(me)
+    Private Sub ToolStripButton_CommandLineRun_Click(sender As Object, e As EventArgs) Handles ToolStripButton_CommandLineRun.Click
+
+        'Dim moduleList = objLocalConfig.Globals.get_ModuleExecutablesInSearchPath().Where(Function(moduleItem) moduleItem.ModuleGuid = objLocalConfig.OItem_object_commandlinerun_module.GUID).ToList()
+
+        'Timer_Session.Stop()
+
+        'If moduleList.Any() Then
+        '    objSession = New clsSession(objLocalConfig.Globals)
+        '    objOItem_Session = objSession.RegisterSession()
+
+        '    If Not objOItem_Session Is Nothing Then
+        '        objSession.RegisterItems(objOItem_Session, New List(Of clsOntologyItem) From {objOItem_Report}, True)
+        '        Dim path = moduleList.First().ModulePath
+        '        Dim boolStarted = objShell.start_Process(path, "session=" & objOItem_Session.GUID & " function=" + objLocalConfig.OItem_object_commandlinerun_module.GUID, Nothing, False, False)
+        '        Timer_Session.Start()
+        '    End If
+
+        'Else
+        '    MsgBox("Das CommandLineRun-Module konnte nicht gestartet werden.", MsgBoxStyle.Exclamation)
+        'End If
+
+        objFrmCommandLineRun = New frmCommandLineRun(objLocalConfig.Globals, objOItem_Report)
+        objFrmCommandLineRun.ShowDialog(Me)
+    End Sub
+
+    Private Sub Timer_Session_Tick(sender As Object, e As EventArgs) Handles Timer_Session.Tick
+        If Not objSession Is Nothing And Not objOItem_Session Is Nothing Then
+            Dim objOItem_Result = objSession.ActorFinished(objOItem_Session)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                Timer_Session.Stop()
+                Dim dictFieldList = objDataWork_ReportFields.ReportFields.Select(Function(repf) New KeyValuePair(Of String, String)(repf.Name_Col, repf.ID_Field)).ToList()
+                Dim xmlSerializer = New XmlSerializer(dictFieldList.GetType())
+
+                Dim stringWriter = New StringWriter()
+
+                xmlSerializer.Serialize(stringWriter, dictFieldList)
+                Dim strXML = stringWriter.ToString()
+
+
+
+            ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                Timer_Session.Stop()
+                MsgBox("Beim Datenaustausch ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+            End If
+            
+
+        Else
+            MsgBox("Beim Datenaustausch ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+            Timer_Session.Stop()
+        End If
+        
     End Sub
 End Class

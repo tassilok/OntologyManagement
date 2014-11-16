@@ -38,14 +38,13 @@ Public Class clsArgumentParsing
         SetExternal(arguments)
         OList_Items = arguments.Select(Function(a) GetOItem(a)).Where(Function(o) Not o Is Nothing).ToList()
         FunctionList = arguments.Select(Function(a) GetModuleFunction(a)).FirstOrDefault(Function(o) Not o Is Nothing)
+        Me.Session = ""
         arguments.ForEach(Sub(a) GetSession(a))
     End Sub
 
     Private Function GetSession(strArgument As String) As clsOntologyItem
         Dim objOItem_Result = objGlobals.LState_Success.Clone()
         strArgument = strArgument.Trim()
-
-        Me.Session = ""
 
         If strArgument.ToLower().StartsWith("session=") Then
             Dim session = strArgument.Substring("session=".Length)
