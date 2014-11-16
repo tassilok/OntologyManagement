@@ -2004,18 +2004,16 @@ Public Class UserControl_OItemList
                                                                           objDRV_Selected.Item("Name"), _
                                                                           objDRV_Selected.Item("ID_Parent"), _
                                                                           objLocalConfig.Globals.Type_Object))
-                            RaiseEvent applied_Items()
+
                         Case objLocalConfig.Globals.Type_RelationType
                             oList_Selected_Simple.Add(New clsOntologyItem(objDRV_Selected.Item("ID_Item"), _
                                                                               objDRV_Selected.Item("Name"), _
                                                                               objLocalConfig.Globals.Type_RelationType))
-                            RaiseEvent applied_Items()
                         Case objLocalConfig.Globals.Type_AttributeType
                             oList_Selected_Simple.Add(New clsOntologyItem(objDRV_Selected.Item("ID_Item"), _
                                                                               objDRV_Selected.Item("Name"), _
                                                                               objDRV_Selected.Item("ID_Parent"), _
                                                                               objLocalConfig.Globals.Type_AttributeType))
-                            RaiseEvent applied_Items()
                     End Select
 
 
@@ -2040,6 +2038,7 @@ Public Class UserControl_OItemList
 
                 End If
             Next
+            RaiseEvent applied_Items()
         End If
     End Sub
 

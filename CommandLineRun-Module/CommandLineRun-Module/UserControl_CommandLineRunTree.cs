@@ -408,7 +408,10 @@ namespace CommandLineRun_Module
                         GUID_Parent = objLocalConfig.OItem_class_comand_line__run_.GUID,
                         Type = objLocalConfig.Globals.Type_Object
                     };
-
+                if (objLocalConfig.objOItem_Session != null)
+                {
+                    objLocalConfig.objSession.RegisterItems(objLocalConfig.objOItem_Session, new List<clsOntologyItem> { OItem_CommandLineRun }, false);
+                }
                 appliedCommandLineRun();
             }
         }

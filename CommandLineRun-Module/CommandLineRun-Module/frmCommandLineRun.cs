@@ -127,7 +127,15 @@ namespace CommandLineRun_Module
 
         void objUserControl_CommandLineTree_appliedCommandLineRun()
         {
-            appliedItem();
+            if (objLocalConfig.objOItem_Session != null)
+            {
+                DialogResult = System.Windows.Forms.DialogResult.OK;
+                this.Close();
+            }
+            else
+            {
+                appliedItem();
+            }
 
         }
 
@@ -147,6 +155,13 @@ namespace CommandLineRun_Module
             splitContainer1.Panel2.Controls.Add(objUserControl_ExecuteCode);
 
             ParseArguments();
+
+            if (objLocalConfig.objOItem_Session != null)
+            {
+
+                objUserControl_CommandLineTree.Applyable = true;
+                objUserControl_CommandLineTree.appliedCommandLineRun += objUserControl_CommandLineTree_appliedCommandLineRun;
+            }
 
             var objOItem_Result = objDataWork_CommandLineRun.GetData_CommandLineRun();
 
@@ -198,40 +213,61 @@ namespace CommandLineRun_Module
             }
             
 
-            if (objArgumentParsing.OList_Items.Count == 1)
+            if (objArgumentParsing.OList_Items.Count == 1 || !string.IsNullOrEmpty(objArgumentParsing.Session))
             {
-                var objOItem_Argument = objArgumentParsing.OList_Items[0];
+                clsOntologyItem objOItem_Argument = null;
 
-                objModuleFunction = objArgumentParsing.FunctionList.Count == 1 ? objArgumentParsing.FunctionList[0] : null;
+                if (objArgumentParsing.OList_Items.Count == 1)
+                {
+                    objOItem_Argument = objArgumentParsing.OList_Items[0];
+                }
+                else if (!string.IsNullOrEmpty(objArgumentParsing.Session))
+                {
+                    objLocalConfig.objOItem_Session = objDataWork_CommandLineRun.GetOItem(objArgumentParsing.Session, objLocalConfig.Globals.Type_Object);
+                    if (objLocalConfig.objOItem_Session != null)
+                    {
+                        objLocalConfig.objSession = new clsSession(objLocalConfig.Globals);
+                        var objOList_SessionItems = objLocalConfig.objSession.GetItems(objLocalConfig.objOItem_Session, true);
+                        if (objOList_SessionItems.Count > 0)
+                        {
+                            objOItem_Argument = objOList_SessionItems[0];
+                        }
+                    }
+                }
 
+
+                if (objOItem_Argument != null)
+                {
+                    objModuleFunction = objArgumentParsing.FunctionList != null ? objArgumentParsing.FunctionList.Count == 1 ? objArgumentParsing.FunctionList[0] : null : null;
+
+                    if (objOItem_Argument.Type.ToLower() == objLocalConfig.Globals.Type_Class.ToLower())
+                    {
+                        objOItem_Argument.Type = objLocalConfig.Globals.Type_Class;
+                        objDataWork_CommandLineRun.OItem_Class = objOItem_Argument;
+                        this.Text = objOItem_Argument.Name;
+                    }
+                    else if (objOItem_Argument.Type.ToLower() == objLocalConfig.Globals.Type_RelationType.ToLower())
+                    {
+                        objOItem_Argument.Type = objLocalConfig.Globals.Type_RelationType;
+                        objDataWork_CommandLineRun.OItem_RelationType = objOItem_Argument;
+                        this.Text = objOItem_Argument.Name;
+                    }
+                    else if (objOItem_Argument.Type.ToLower() == objLocalConfig.Globals.Type_Object.ToLower())
+                    {
+                        objOItem_Argument.Type = objLocalConfig.Globals.Type_Object;
+                        objDataWork_CommandLineRun.OItem_Object = objOItem_Argument;
+
+                        var objOItem_Class =
+                                objDataWork_CommandLineRun.GetOItem(objDataWork_CommandLineRun.OItem_Object.GUID_Parent,
+                                                                    objLocalConfig.Globals.Type_Class);
+
+
+                        this.Text = objOItem_Class.Name + "/";
+                        this.Text += objOItem_Argument.Name;
+
+                    }
+                }
                 
-
-                if (objOItem_Argument.Type.ToLower() == objLocalConfig.Globals.Type_Class.ToLower())
-                {
-                    objOItem_Argument.Type = objLocalConfig.Globals.Type_Class;
-                    objDataWork_CommandLineRun.OItem_Class = objOItem_Argument;
-                    this.Text = objOItem_Argument.Name;
-                }
-                else if (objOItem_Argument.Type.ToLower() == objLocalConfig.Globals.Type_RelationType.ToLower())
-                {
-                    objOItem_Argument.Type = objLocalConfig.Globals.Type_RelationType;
-                    objDataWork_CommandLineRun.OItem_RelationType = objOItem_Argument;
-                    this.Text = objOItem_Argument.Name;
-                }
-                else if (objOItem_Argument.Type.ToLower() == objLocalConfig.Globals.Type_Object.ToLower())
-                {
-                    objOItem_Argument.Type = objLocalConfig.Globals.Type_Object;
-                    objDataWork_CommandLineRun.OItem_Object = objOItem_Argument;
-                    
-                    var objOItem_Class =
-                            objDataWork_CommandLineRun.GetOItem(objDataWork_CommandLineRun.OItem_Object.GUID_Parent,
-                                                                objLocalConfig.Globals.Type_Class);
-
-
-                    this.Text = objOItem_Class.Name + "/";
-                    this.Text += objOItem_Argument.Name;
-                    
-                }
             }
         }
 

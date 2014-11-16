@@ -30,9 +30,9 @@ namespace Manual_Repair_Module
             //Repair_MathematischeKomponenten();
             //Repair_MP3File();
             //Repair_MultipleRelations();
-            //RemoveMultipleDataTypes();
+            RemoveMultipleDataTypes();
             //Move_Versions();
-            MoveLogEntries();
+            //MoveLogEntries();
 
 
         }

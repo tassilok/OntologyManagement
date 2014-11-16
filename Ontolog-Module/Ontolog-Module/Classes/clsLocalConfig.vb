@@ -28,6 +28,7 @@ Public Class clsLocalConfig
     Private objOItem_attributetype_short As clsOntologyItem
     Private objOItem_attributetype_message As clsOntologyItem
     Private objOItem_attributetype_caption As clsOntologyItem
+    Private objOItem_attributetype_actor_finished As clsOntologyItem
 
     'RelationTypes
     Private objOItem_RelationType_belonging_Attribute As New clsOntologyItem
@@ -48,6 +49,8 @@ Public Class clsLocalConfig
     Private objOItem_relationtype_errormessage As clsOntologyItem
     Private objOItem_relationtype_belongs_to As clsOntologyItem
     Private objOItem_relationtype_contains As clsOntologyItem
+    Private objOItem_relationtype_initiatoritems As clsOntologyItem
+    Private objOItem_relationtype_actoritems As clsOntologyItem
 
     'Objects
     Private objOItem_Object_Filter_Integration_Level As New clsOntologyItem
@@ -77,6 +80,8 @@ Public Class clsLocalConfig
     Private objOItem_class_gui_caption As clsOntologyItem
     Private objOItem_class_tooltip_messages As clsOntologyItem
     Private objOItem_class_messages As clsOntologyItem
+    Private objOItem_class_modulesession As clsOntologyItem
+
 
     Private objOItem_Baseconfig As clsOntologyItem
 
@@ -143,6 +148,11 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property OItem_attributetype_actor_finished As clsOntologyItem
+        Get
+            Return objOItem_attributetype_actor_finished
+        End Get
+    End Property
 
     'RelationTypes
     Public ReadOnly Property OItem_RelationType_belonging_Attribute() As clsOntologyItem
@@ -244,6 +254,18 @@ Public Class clsLocalConfig
     Public ReadOnly Property OItem_relationtype_errormessage As clsOntologyItem Implements IGuiLocalization.OItem_relationtype_errormessage
         Get
             Return objOItem_relationtype_errormessage
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_relationtype_initiatoritems As clsOntologyItem
+        Get
+            Return objOItem_relationtype_initiatoritems
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_relationtype_actoritems As clsOntologyItem
+        Get
+            Return objOItem_relationtype_actoritems
         End Get
     End Property
 
@@ -394,6 +416,13 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property OItem_class_modulesession As clsOntologyItem
+        Get
+            Return objOItem_class_modulesession
+        End Get
+    End Property
+
+
     Public ReadOnly Property OItem_class_messages As clsOntologyItem Implements IGuiLocalization.OItem_class_messages
         Get
             Return objOItem_class_messages
@@ -542,6 +571,22 @@ Public Class clsLocalConfig
 
 
     Private Sub get_Config_AttributeTypes()
+        Dim objOList_attributetype_actor_finished = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Join objOntology In OList_Ontologies On objOItem.ID_Object Equals objOntology.GUID
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                            Where objRef.Name_Object.ToLower() = "attributetype_actor_finished".ToLower() And objRef.Ontology = objGlobals.Type_AttributeType
+                                           Select objRef).ToList()
+
+        If objOList_attributetype_actor_finished.Count > 0 Then
+            objOItem_attributetype_actor_finished = New clsOntologyItem
+            objOItem_attributetype_actor_finished.GUID = objOList_attributetype_actor_finished.First().ID_Other
+            objOItem_attributetype_actor_finished.Name = objOList_attributetype_actor_finished.First().Name_Other
+            objOItem_attributetype_actor_finished.GUID_Parent = objOList_attributetype_actor_finished.First().ID_Parent_Other
+            objOItem_attributetype_actor_finished.Type = objGlobals.Type_AttributeType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_attributetype_short = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Join objOntology In OList_Ontologies On objOItem.ID_Object Equals objOntology.GUID
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
@@ -706,6 +751,39 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_RelationTypes()
+        Dim objOList_relationtype_initiatoritems = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Join objOntology In OList_Ontologies On objOItem.ID_Object Equals objOntology.GUID
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_initiatoritems".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                           Select objRef).ToList()
+        
+
+        If objOList_relationtype_initiatoritems.Count > 0 Then
+            objOItem_relationtype_initiatoritems = New clsOntologyItem
+            objOItem_relationtype_initiatoritems.GUID = objOList_relationtype_initiatoritems.First().ID_Other
+            objOItem_relationtype_initiatoritems.Name = objOList_relationtype_initiatoritems.First().Name_Other
+            objOItem_relationtype_initiatoritems.GUID_Parent = objOList_relationtype_initiatoritems.First().ID_Parent_Other
+            objOItem_relationtype_initiatoritems.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+            End If
+
+        Dim objOList_relationtype_actoritems = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Join objOntology In OList_Ontologies On objOItem.ID_Object Equals objOntology.GUID
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "relationtype_actoritems".ToLower() And objRef.Ontology = objGlobals.Type_RelationType
+                                           Select objRef).ToList()
+
+        If objOList_relationtype_actoritems.Count > 0 Then
+            objOItem_relationtype_actoritems = New clsOntologyItem
+            objOItem_relationtype_actoritems.GUID = objOList_relationtype_actoritems.First().ID_Other
+            objOItem_relationtype_actoritems.Name = objOList_relationtype_actoritems.First().Name_Other
+            objOItem_relationtype_actoritems.GUID_Parent = objOList_relationtype_actoritems.First().ID_Parent_Other
+            objOItem_relationtype_actoritems.Type = objGlobals.Type_RelationType
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_relationtype_is_written_in = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Join objOntology In OList_Ontologies On objOItem.ID_Object Equals objOntology.GUID
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
@@ -1086,6 +1164,22 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Classes()
+        Dim objOList_class_modulesession = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Join objOntology In OList_Ontologies On objOItem.ID_Object Equals objOntology.GUID
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "class_modulesession".ToLower() And objRef.Ontology = objGlobals.Type_Class
+                                           Select objRef).ToList()
+
+        If objOList_class_modulesession.Count > 0 Then
+            objOItem_class_modulesession = New clsOntologyItem
+            objOItem_class_modulesession.GUID = objOList_class_modulesession.First().ID_Other
+            objOItem_class_modulesession.Name = objOList_class_modulesession.First().Name_Other
+            objOItem_class_modulesession.GUID_Parent = objOList_class_modulesession.First().ID_Parent_Other
+            objOItem_class_modulesession.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_class_localized_message = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Join objOntology In OList_Ontologies On objOItem.ID_Object Equals objOntology.GUID
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object

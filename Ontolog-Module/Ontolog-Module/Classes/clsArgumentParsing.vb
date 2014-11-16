@@ -10,7 +10,7 @@ Public Class clsArgumentParsing
 
     Private strExternal As String
 
-
+    Public Property Session As String
     Public OList_Items As List(Of clsOntologyItem)
     Public FunctionList As List(Of clsModuleFunction)
 
@@ -37,8 +37,25 @@ Public Class clsArgumentParsing
     Private Sub ParseArgument()
         SetExternal(arguments)
         OList_Items = arguments.Select(Function(a) GetOItem(a)).Where(Function(o) Not o Is Nothing).ToList()
-        FunctionList = arguments.Select(Function(a) GetModuleFunction(a)).FirstOrDefault(Function (o) Not o Is Nothing)
+        FunctionList = arguments.Select(Function(a) GetModuleFunction(a)).FirstOrDefault(Function(o) Not o Is Nothing)
+        arguments.ForEach(Sub(a) GetSession(a))
     End Sub
+
+    Private Function GetSession(strArgument As String) As clsOntologyItem
+        Dim objOItem_Result = objGlobals.LState_Success.Clone()
+        strArgument = strArgument.Trim()
+
+        Me.Session = ""
+
+        If strArgument.ToLower().StartsWith("session=") Then
+            Dim session = strArgument.Substring("session=".Length)
+            If objGlobals.is_GUID(session) Then
+                Me.Session = session
+            End If
+        End If
+
+        Return objOItem_Result
+    End Function
 
     Private Function GetOItem(strArgument As String) As clsOntologyItem
         strArgument = strArgument.Trim()
@@ -70,38 +87,38 @@ Public Class clsArgumentParsing
     Private Function GetModuleFunction(strArgument As String) As List(Of clsModuleFunction)
         strArgument = strArgument.Trim()
         Dim objModulFunctions = New List(Of clsModuleFunction)()
-        
+
         If strArgument.ToLower().StartsWith("function=") Then
             Dim strModuleFunction = strArgument.Substring("function=".Length)
             Dim strModuleFunctions = strModuleFunction.Split(",").ToList()
 
             strModuleFunctions.ForEach(Sub(moduleFunction)
-                                          Dim strOntologyFunctions = moduleFunction.Split(":")
+                                           Dim strOntologyFunctions = moduleFunction.Split(":")
 
-                                          If (strOntologyFunctions.Count() = 1 Or (strOntologyFunctions.Count() = 2 And objGlobals.is_GUID(strOntologyFunctions(0)))) Then
-                                                If (strOntologyFunctions.Count() = 1)
-                                                   objModulFunctions.Add(New clsModuleFunction With 
-                                                                                            { 
-                                                                                                .GUID_Function = if (objGlobals.is_GUID(strOntologyFunctions(0)),strOntologyFunctions(0), Nothing),
-                                                                                                .Name_Function = if (Not objGlobals.is_GUID(strOntologyFunctions(0)), strOntologyFunctions(0), Nothing)
+                                           If (strOntologyFunctions.Count() = 1 Or (strOntologyFunctions.Count() = 2 And objGlobals.is_GUID(strOntologyFunctions(0)))) Then
+                                               If (strOntologyFunctions.Count() = 1) Then
+                                                   objModulFunctions.Add(New clsModuleFunction With
+                                                                                            {
+                                                                                                .GUID_Function = If(objGlobals.is_GUID(strOntologyFunctions(0)), strOntologyFunctions(0), Nothing),
+                                                                                                .Name_Function = If(Not objGlobals.is_GUID(strOntologyFunctions(0)), strOntologyFunctions(0), Nothing)
                                                                                             })
-                                               Else 
+                                               Else
 
-                                                   objModulFunctions.Add(New clsModuleFunction With 
-                                                                                            { 
+                                                   objModulFunctions.Add(New clsModuleFunction With
+                                                                                            {
                                                                                                 .GUID_DestOntology = strOntologyFunctions(0),
-                                                                                                .GUID_Function = if (objGlobals.is_GUID(strOntologyFunctions(1)),strOntologyFunctions(1), Nothing),
-                                                                                                .Name_Function = if (Not objGlobals.is_GUID(strOntologyFunctions(1)), strOntologyFunctions(1), Nothing )
+                                                                                                .GUID_Function = If(objGlobals.is_GUID(strOntologyFunctions(1)), strOntologyFunctions(1), Nothing),
+                                                                                                .Name_Function = If(Not objGlobals.is_GUID(strOntologyFunctions(1)), strOntologyFunctions(1), Nothing)
                                                                                             })
                                                End If
-                                          End If
-                                          
+                                           End If
+
                                        End Sub)
-            
+
 
             If objModulFunctions.Any() Then
                 Return objModulFunctions
-            Else 
+            Else
                 Return Nothing
             End If
         Else

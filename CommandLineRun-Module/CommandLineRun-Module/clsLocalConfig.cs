@@ -20,6 +20,9 @@ namespace CommandLineRun_Module
 
         private clsDBLevel objDBLevel_Config1;
         private clsDBLevel objDBLevel_Config2;
+
+        public clsOntologyItem objOItem_Session { get; set; }
+        public clsSession objSession { get; set; }
 	
         // AttributeTypes
 	public clsOntologyItem OItem_attributetype_code { get; set; }

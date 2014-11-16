@@ -55,6 +55,7 @@ Public Class frmMain
     Private objOItem_Entry As clsOntologyItem
 
     Private objOItem_GraphItem As clsOntologyItem
+    Private objOItem_Session As clsOntologyItem
 
     Private boolApplyable As Boolean
     Private boolGraphClassSelect As Boolean
@@ -63,7 +64,7 @@ Public Class frmMain
     Private oList_Applied_Simple As List(Of clsOntologyItem)
     Private oList_Applied_ObjRel As List(Of clsObjectRel)
 
-   
+    Private objParseArguments As clsArgumentParsing
 
     Private sub FinishedLoadObjectData() Handles objUserControl_OObjectList.ListDataFinished
         If Not OItem_Class_AdvancedFilter Is Nothing And 
@@ -190,13 +191,21 @@ Public Class frmMain
             Return boolApplyable
         End Get
         Set(ByVal value As Boolean)
-
+            boolApplyable = value
         End Set
     End Property
 
     Private Sub applied_Class() Handles objUserControl_TypeTree.applied_Class
         oList_Applied_Simple = objUserControl_TypeTree.List_Classes
         strType_Applied = objLocalConfig.Globals.Type_Class
+        If Not objOItem_Session Is Nothing Then
+            Dim objSessionWork = New clsSession(objLocalConfig)
+            Dim objOItem_Result = objSessionWork.RegisterItems(objOItem_Session, oList_Applied_Simple, False)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Die Items konnten nicht im Session-Cache gespeichert werden!", MsgBoxStyle.Exclamation)
+            End If
+        End If
         Me.DialogResult = Windows.Forms.DialogResult.OK
         Me.Close()
     End Sub
@@ -206,6 +215,14 @@ Public Class frmMain
         If boolApplyable = True Then
             oList_Applied_Simple = objOList_Objects
             strType_Applied = objLocalConfig.Globals.Type_Object
+            If Not objOItem_Session Is Nothing Then
+                Dim objSessionWork = New clsSession(objLocalConfig)
+                Dim objOItem_Result = objSessionWork.RegisterItems(objOItem_Session, oList_Applied_Simple, False)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Die Items konnten nicht im Session-Cache gespeichert werden!", MsgBoxStyle.Exclamation)
+                End If
+            End If
             Me.DialogResult = Windows.Forms.DialogResult.OK
             Me.Close()
         Else
@@ -219,6 +236,14 @@ Public Class frmMain
         If boolApplyable = True Then
             oList_Applied_Simple = objUserControl_OObjectList.OList_Simple
             strType_Applied = objLocalConfig.Globals.Type_Object
+            If Not objOItem_Session Is Nothing Then
+                Dim objSessionWork = New clsSession(objLocalConfig)
+                Dim objOItem_Result = objSessionWork.RegisterItems(objOItem_Session, oList_Applied_Simple, False)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Die Items konnten nicht im Session-Cache gespeichert werden!", MsgBoxStyle.Exclamation)
+                End If
+            End If
             Me.DialogResult = Windows.Forms.DialogResult.OK
             Me.Close()
         Else
@@ -232,6 +257,14 @@ Public Class frmMain
         If boolApplyable = True Then
             oList_Applied_Simple = objUserControl_ORelationTypeList.OList_Simple
             strType_Applied = objLocalConfig.Globals.Type_RelationType
+            If Not objOItem_Session Is Nothing Then
+                Dim objSessionWork = New clsSession(objLocalConfig)
+                Dim objOItem_Result = objSessionWork.RegisterItems(objOItem_Session, oList_Applied_Simple, False)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Die Items konnten nicht im Session-Cache gespeichert werden!", MsgBoxStyle.Exclamation)
+                End If
+            End If
             Me.DialogResult = Windows.Forms.DialogResult.OK
             Me.Close()
         Else
@@ -247,6 +280,14 @@ Public Class frmMain
         If boolApplyable = True Then
             oList_Applied_Simple = objUserControl_OAttributeList.OList_Simple
             strType_Applied = objLocalConfig.Globals.Type_AttributeType
+            If Not objOItem_Session Is Nothing Then
+                Dim objSessionWork = New clsSession(objLocalConfig)
+                Dim objOItem_Result = objSessionWork.RegisterItems(objOItem_Session, oList_Applied_Simple, False)
+
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                    MsgBox("Die Items konnten nicht im Session-Cache gespeichert werden!", MsgBoxStyle.Exclamation)
+                End If
+            End If
             Me.DialogResult = Windows.Forms.DialogResult.OK
             Me.Close()
         Else
@@ -403,9 +444,15 @@ Public Class frmMain
 
         ' Add any initialization after the InitializeComponent() call.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
+        
         strType_Entry = Nothing
         objOItem_Entry = Nothing
         boolApplyable = False
+        Dim objOItem_Result = Parse_Arguments()
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+            MsgBox("Die Argumente konnten nicht interpretiert werden!", MsgBoxStyle.Exclamation)
+        End If
         set_DBConnection()
         initialize()
 
@@ -435,6 +482,7 @@ Public Class frmMain
 
         ' Add any initialization after the InitializeComponent() call.
         objLocalConfig = New clsLocalConfig(Globals)
+        
         strType_Entry = Type_Entry
         Me.objOItem_Entry = OItem_Entry
         If Not Caption = Nothing Then
@@ -445,8 +493,28 @@ Public Class frmMain
 
     End Sub
 
-    Private Sub initialize()
 
+    Private Function Parse_Arguments() As clsOntologyItem
+        objParseArguments = New clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList())
+
+        Dim session = objParseArguments.Session
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
+
+        objOItem_Session = Nothing
+
+        If Not String.IsNullOrEmpty(session) Then
+            Applyable = True
+            Dim objDBLevel_Session = New clsDBLevel(objLocalConfig.Globals)
+            objOItem_Session = objDBLevel_Session.GetOItem(session, objLocalConfig.Globals.Type_Object)
+
+            Dim objSessionWork = New clsSession(objLocalConfig)
+
+        End If
+
+        Return objOItem_Result
+    End Function
+
+    Private Sub initialize()
 
         objUserControl_TypeTree = New UserControl_TypeTree(objLocalConfig)
         objUserControl_TypeTree.Applyable = boolApplyable
