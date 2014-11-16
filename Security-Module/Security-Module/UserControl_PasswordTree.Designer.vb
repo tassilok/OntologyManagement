@@ -29,10 +29,10 @@ Partial Class UserControl_PasswordTree
         Me.ToolStripLabel_CountLBL = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel_Count = New System.Windows.Forms.ToolStripLabel()
         Me.TreeView_RelatedItems = New System.Windows.Forms.TreeView()
+        Me.ImageList_Passwords = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Mark = New System.Windows.Forms.ToolStripTextBox()
-        Me.ImageList_Passwords = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -69,13 +69,13 @@ Partial Class UserControl_PasswordTree
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_CountLBL, Me.ToolStripLabel_Count})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(75, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(109, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_CountLBL
         '
         Me.ToolStripLabel_CountLBL.Name = "ToolStripLabel_CountLBL"
-        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(52, 22)
+        Me.ToolStripLabel_CountLBL.Size = New System.Drawing.Size(53, 22)
         Me.ToolStripLabel_CountLBL.Text = "x_Count:"
         '
         'ToolStripLabel_Count
@@ -95,26 +95,6 @@ Partial Class UserControl_PasswordTree
         Me.TreeView_RelatedItems.Size = New System.Drawing.Size(434, 401)
         Me.TreeView_RelatedItems.TabIndex = 0
         '
-        'ToolStrip2
-        '
-        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripTextBox_Mark})
-        Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
-        Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(258, 25)
-        Me.ToolStrip2.TabIndex = 0
-        '
-        'ToolStripLabel1
-        '
-        Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(46, 22)
-        Me.ToolStripLabel1.Text = "x_Mark:"
-        '
-        'ToolStripTextBox_Mark
-        '
-        Me.ToolStripTextBox_Mark.Name = "ToolStripTextBox_Mark"
-        Me.ToolStripTextBox_Mark.Size = New System.Drawing.Size(200, 25)
-        '
         'ImageList_Passwords
         '
         Me.ImageList_Passwords.ImageStream = CType(resources.GetObject("ImageList_Passwords.ImageStream"), System.Windows.Forms.ImageListStreamer)
@@ -126,6 +106,26 @@ Partial Class UserControl_PasswordTree
         Me.ImageList_Passwords.Images.SetKeyName(4, "Types_Closed.png")
         Me.ImageList_Passwords.Images.SetKeyName(5, "Types_Opened.png")
         Me.ImageList_Passwords.Images.SetKeyName(6, "Vogelschwarm klein.png")
+        '
+        'ToolStrip2
+        '
+        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripTextBox_Mark})
+        Me.ToolStrip2.Location = New System.Drawing.Point(3, 0)
+        Me.ToolStrip2.Name = "ToolStrip2"
+        Me.ToolStrip2.Size = New System.Drawing.Size(261, 25)
+        Me.ToolStrip2.TabIndex = 0
+        '
+        'ToolStripLabel1
+        '
+        Me.ToolStripLabel1.Name = "ToolStripLabel1"
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(47, 22)
+        Me.ToolStripLabel1.Text = "x_Mark:"
+        '
+        'ToolStripTextBox_Mark
+        '
+        Me.ToolStripTextBox_Mark.Name = "ToolStripTextBox_Mark"
+        Me.ToolStripTextBox_Mark.Size = New System.Drawing.Size(200, 25)
         '
         'UserControl_PasswordTree
         '

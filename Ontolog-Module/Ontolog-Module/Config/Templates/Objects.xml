@@ -22,6 +22,7 @@
 <Item Id="14ccb9018bdc4ca9ad3a48cdb9735fd7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[class_Language]]></Item>
 <Item Id="eab045554fce4fb981dc2b127dc32d4b" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Module]]></Item>
 <Item Id="9a6eb652a1034b2db5de6d8eefcc6956" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_ProcessorID]]></Item>
+<Item Id="7d3561a0a95a4faf8c8ce28d2c5b7a9e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_Initiator_Finished]]></Item>
 <Item Id="f3b474a97c024b92b4e060812885149a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_Type]]></Item>
 <Item Id="60e9817b89634442b1048828b790b4d0" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Attribute_BaseboardSerial]]></Item>
 <Item Id="2a6b79500a5a460d824701e88818de4a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_XML_Text]]></Item>

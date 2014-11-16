@@ -181,7 +181,9 @@
     <EmbeddedResource Include="Config\Templates\ClassRels.xml" />
     <EmbeddedResource Include="Config\Templates\ObjectAtt.xml" />
     <EmbeddedResource Include="Config\Templates\ObjectRel.xml" />
-    <EmbeddedResource Include="Config\Templates\Objects.xml" />
+    <EmbeddedResource Include="Config\Templates\Objects.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Config\Templates\RelationTypes.xml" />
     <Content Include="mycomp.ico" />
     <None Include="Resources\pulsante_01_architetto_f_01.png" />

@@ -4,6 +4,7 @@
 <Item Id="3b9dec1b2212488bace8a3499a518579" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[caption]]></Item>
 <Item Id="0d2c794d281d44ff9767eb8549d4ad16" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[Message]]></Item>
 <Item Id="a1b4945219dc4eaea000ef3802de35a9" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[ProcessorID]]></Item>
+<Item Id="d5830b560b6043d893ca0b5e44d240a9" Id_Parent="dd858f27d5e14363a5c33e561e432333"><![CDATA[Initiator Finished]]></Item>
 <Item Id="d9716e1596244eed89a8d45bc0ceb2b1" Id_Parent="dd858f27d5e14363a5c33e561e432333"><![CDATA[Type]]></Item>
 <Item Id="30b76a621b224f17b9a5ff665e08f35a" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[BaseboardSerial]]></Item>
 <Item Id="68ac4472ee22422996ec9753a016900a" Id_Parent="64530b52d96c4df186fe183f44513450"><![CDATA[XML-Text]]></Item>
