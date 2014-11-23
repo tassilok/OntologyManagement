@@ -57,7 +57,9 @@ Public Class clsImport
         ClearLists()
 
         Try
-            For Each strFile In IO.Directory.GetFiles(strPath).Where(Function(f) Path.GetExtension(f).ToLower = ".xml").ToList()
+            Dim fileList = IO.Directory.GetFiles(strPath).Where(Function(f) Path.GetExtension(f).ToLower = ".xml").ToList()
+
+            For Each strFile In fileList
                 Dim objStream = New FileStream(strFile, FileMode.Open)
 
                 objOItem_Result = AddItemsFromXMLStream(objStream)
@@ -66,7 +68,8 @@ Public Class clsImport
                 End If
                 objStream.Close()
             Next
-            
+
+            objOItem_Result.Count = fileList.Count
         Catch ex As Exception
             objOItem_Result = objGlobals.LState_Error.Clone
         End Try

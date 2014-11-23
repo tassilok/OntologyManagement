@@ -3242,54 +3242,6 @@ Public Class clsLocalConfig
             Err.Raise(1, "config err")
         End If
 
-        Dim objDBSTU = (From objOItem In objDBLevel_Config1.OList_ObjectRel
-                                           Where objOItem.ID_Object = cstrID_Ontology
-                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
-                                           Where objRef.Name_Object.ToLower() = "Token_DB_Schema_Type_User".ToLower() And objRef.Ontology = objGlobals.Type_Object
-                                           Select objRef).ToList()
-
-        If objDBSTU.Count > 0 Then
-            objOitem_Object_DB_Schema_Type_User = New clsOntologyItem
-            objOitem_Object_DB_Schema_Type_User.GUID = objDBSTU(0).ID_Other
-            objOitem_Object_DB_Schema_Type_User.Name = objDBSTU(0).Name_Other
-            objOitem_Object_DB_Schema_Type_User.GUID_Parent = objDBSTU(0).ID_Parent_Other
-            objOitem_Object_DB_Schema_Type_User.Type = objGlobals.Type_Object
-        Else
-            Err.Raise(1, "config err")
-        End If
-
-        Dim objDBSTM = (From objOItem In objDBLevel_Config1.OList_ObjectRel
-                                           Where objOItem.ID_Object = cstrID_Ontology
-                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
-                                           Where objRef.Name_Object.ToLower() = "Token_DB_Schema_Type_Module".ToLower() And objRef.Ontology = objGlobals.Type_Object
-                                           Select objRef).ToList()
-
-        If objDBSTM.Count > 0 Then
-            objOitem_Object_DB_Schema_Type_Module = New clsOntologyItem
-            objOitem_Object_DB_Schema_Type_Module.GUID = objDBSTM(0).ID_Other
-            objOitem_Object_DB_Schema_Type_Module.Name = objDBSTM(0).Name_Other
-            objOitem_Object_DB_Schema_Type_Module.GUID_Parent = objDBSTM(0).ID_Parent_Other
-            objOitem_Object_DB_Schema_Type_Module.Type = objGlobals.Type_Object
-        Else
-            Err.Raise(1, "config err")
-        End If
-
-        Dim objDBSTC = (From objOItem In objDBLevel_Config1.OList_ObjectRel
-                                           Where objOItem.ID_Object = cstrID_Ontology
-                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
-                                           Where objRef.Name_Object.ToLower() = "Token_DB_Schema_Type_Config".ToLower() And objRef.Ontology = objGlobals.Type_Object
-                                           Select objRef).ToList()
-
-        If objDBSTC.Count > 0 Then
-            objOitem_Object_DB_Schema_Type_Config = New clsOntologyItem
-            objOitem_Object_DB_Schema_Type_Config.GUID = objDBSTC(0).ID_Other
-            objOitem_Object_DB_Schema_Type_Config.Name = objDBSTC(0).Name_Other
-            objOitem_Object_DB_Schema_Type_Config.GUID_Parent = objDBSTC(0).ID_Parent_Other
-            objOitem_Object_DB_Schema_Type_Config.Type = objGlobals.Type_Object
-        Else
-            Err.Raise(1, "config err")
-        End If
-
         Dim objVLP = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object

@@ -110,6 +110,8 @@
     </Compile>
     <Compile Include="Images\clsDataWork_Images.vb" />
     <Compile Include="Images\clsImage.vb" />
+    <Compile Include="Images\clsImageExport.vb" />
+    <Compile Include="Images\clsImageFileWork.vb" />
     <Compile Include="MediaItems\clsMediaItemObject.vb" />
     <Compile Include="MediaItems\clsControlItem.vb" />
     <Compile Include="MediaItems\clsDataWork_MediaItem.vb" />

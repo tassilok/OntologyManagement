@@ -392,6 +392,16 @@ namespace HTMLExport_Module
             return strInput;
         }
 
+        public string ResourcePath()
+        {
+            return objDataWork_XMLExport.OItem_Folder.Additional2;
+        }
+
+        public string RelativeResourcePath()
+        {
+            return "./Resources";
+        }
+
         public clsOntologyItem Export_File(clsOntologyItem OItem_File)
         {
             var objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();

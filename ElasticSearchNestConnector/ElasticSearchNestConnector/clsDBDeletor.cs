@@ -336,15 +336,48 @@ namespace ElasticSearchNestConnector
         {
             var objOItem_Result = objLogStates.LogState_Success;
 
-            var OList_ORelLeft = OList_Objects.Select(p => new clsObjectRel { ID_Object = p.GUID }).ToList();
-            var OList_ORelRight = OList_Objects.Select(p => new clsObjectRel { ID_Other = p.GUID }).ToList();
+            //var OList_ORelLeft = OList_Objects.Select(p => new clsObjectRel { ID_Object = p.GUID }).ToList();
+            //var OList_ORelRight = OList_Objects.Select(p => new clsObjectRel { ID_Other = p.GUID }).ToList();
+            var objectsWithGuid = OList_Objects.Where(obj => !string.IsNullOrEmpty(obj.GUID)).ToList();
+            var objectsWithGuidParent = OList_Objects.Where(obj => string.IsNullOrEmpty(obj.GUID) && !string.IsNullOrEmpty(obj.GUID_Parent)).ToList();
+            var OList_ORelLeft = objectsWithGuid.Select(p => new clsObjectRel { ID_Object = p.GUID }).ToList();
+            var OList_ORelRight = objectsWithGuid.Select(p => new clsObjectRel { ID_Other = p.GUID }).ToList();
 
+            if (objectsWithGuidParent.Any())
+            {
+                OList_ORelLeft.AddRange(objectsWithGuidParent.GroupBy(obj => obj.GUID_Parent).Select(obj => new clsObjectRel { ID_Parent_Object = obj.Key }));
+                
+            }
+
+            if (objectsWithGuidParent.Any())
+            {
+                OList_ORelRight.AddRange(objectsWithGuidParent.GroupBy(obj => obj.GUID_Parent).Select(obj => new clsObjectRel { ID_Parent_Other = obj.Key }));
+            }
             var objOList_Left = objDBSelector.get_Data_ObjectRel(OList_ORelLeft);
+
+            if (objectsWithGuidParent.Any())
+            {
+                var objDBSelector2 = new clsDBSelector(objDBSelector.Server, objDBSelector.Port, objDBSelector.Index, objDBSelector.IndexRep, objDBSelector.SearchRange, objDBSelector.Session);
+                var objectsFromParent = objDBSelector2.get_Data_Objects(objectsWithGuidParent);
+
+                objectsWithGuid.AddRange(new List<clsOntologyItem>( from objects in objDBSelector.OntologyList_Objects1
+                                         join objexist in objectsWithGuid on objects.GUID equals objexist.GUID into objsExists
+                                         from objexist in objsExists.DefaultIfEmpty()
+                                         where objexist == null
+                                         select objects));
+
+                objectsWithGuid.AddRange(from objects in objectsFromParent
+                                         join objexist in objectsWithGuid on objects.GUID equals objexist.GUID into objsExists
+                                         from objexist in objsExists.DefaultIfEmpty()
+                                         where objexist == null
+                                         select objects);
+            }
+
             var objOList_Right = objDBSelector.get_Data_ObjectRel(OList_ORelRight);
 
             if (objOItem_Result.GUID == objLogStates.LogState_Success.GUID)
             {
-                var oList_Delete = (from objObject in OList_Objects
+                var oList_Delete = (from objObject in objectsWithGuid
                                     join objORelLeftRight in objOList_Left on objObject.GUID equals objORelLeftRight.ID_Object into objORelsLeftRight
                                     from objORelLeftRight in objORelsLeftRight.DefaultIfEmpty()
                                     join objORelRightLeft in objOList_Right on objObject.GUID equals objORelRightLeft.ID_Other into objORelsRightLeft

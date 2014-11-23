@@ -14,6 +14,8 @@ Public Class frmOntologyConfigurator
 
     Private objOItem_Ontology As clsOntologyItem
 
+    Private objImport As clsImport
+
     Public ReadOnly Property OItem_Ontology As clsOntologyItem
         Get
             Return objOItem_Ontology
@@ -105,6 +107,26 @@ Public Class frmOntologyConfigurator
     Private Sub frmOntologyConfigurator_Load(sender As Object, e As EventArgs) Handles Me.Load
         If objOItem_Open.GUID = objLocalConfig.Globals.LState_Error.GUID Then
             Me.Close()
+        End If
+    End Sub
+
+    Private Sub ImportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ImportToolStripMenuItem.Click
+        If FolderBrowserDialog_Import.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
+            Dim strPath = FolderBrowserDialog_Import.SelectedPath
+
+            objImport = New clsImport(objLocalConfig.Globals)
+
+            Dim objOItem_Result = objImport.ImportXMLFiles(strPath)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                If objOItem_Result.Count = 0 Then
+                    MsgBox("Es wurden keine Dateien für den Import gefunden!", MsgBoxStyle.Information)
+                Else
+                    MsgBox(objOItem_Result.Count & " Dateien wurden bearbeitet.", MsgBoxStyle.Information)
+                End If
+            Else
+                MsgBox("Beim importieren ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+            End If
         End If
     End Sub
 End Class

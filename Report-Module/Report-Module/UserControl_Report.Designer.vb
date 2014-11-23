@@ -140,7 +140,7 @@ Partial Class UserControl_Report
         Me.DataGridView_Reports.Location = New System.Drawing.Point(3, 3)
         Me.DataGridView_Reports.Name = "DataGridView_Reports"
         Me.DataGridView_Reports.ReadOnly = True
-        Me.DataGridView_Reports.Size = New System.Drawing.Size(1213, 440)
+        Me.DataGridView_Reports.Size = New System.Drawing.Size(1215, 440)
         Me.DataGridView_Reports.TabIndex = 1
         '
         'ContextMenuStrip_Reports
@@ -153,26 +153,26 @@ Partial Class UserControl_Report
         '
         Me.FilesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.CopyPathToolStripMenuItem})
         Me.FilesToolStripMenuItem.Name = "FilesToolStripMenuItem"
-        Me.FilesToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.FilesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.FilesToolStripMenuItem.Text = "x_Files"
         '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.OpenToolStripMenuItem.Text = "x_Open"
         '
         'CopyPathToolStripMenuItem
         '
         Me.CopyPathToolStripMenuItem.Name = "CopyPathToolStripMenuItem"
-        Me.CopyPathToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
+        Me.CopyPathToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.CopyPathToolStripMenuItem.Text = "x_Copy Path"
         '
         'EditToolStripMenuItem
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNameToolStripMenuItem, Me.CopyGUIDToolStripMenuItem, Me.XEditSemItemToolStripMenuItem, Me.XTypedTagsToolStripMenuItem, Me.ModuleMenuToolStripMenuItem, Me.CopyToOntologyClipboardToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.EditToolStripMenuItem.Text = "x_Edit"
         '
         'CopyNameToolStripMenuItem
@@ -230,7 +230,7 @@ Partial Class UserControl_Report
         '
         Me.FilterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EqualToolStripMenuItem, Me.DifferentToolStripMenuItem, Me.ContainsToolStripMenuItem, Me.ClearFilterToolStripMenuItem, Me.FieldToFilterToolStripMenuItem, Me.FieldToSortToolStripMenuItem})
         Me.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem"
-        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.FilterToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.FilterToolStripMenuItem.Text = "x_Filter"
         '
         'EqualToolStripMenuItem
@@ -279,7 +279,7 @@ Partial Class UserControl_Report
         '
         Me.LoggingToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddLogentryToolStripMenuItem})
         Me.LoggingToolStripMenuItem.Name = "LoggingToolStripMenuItem"
-        Me.LoggingToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.LoggingToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.LoggingToolStripMenuItem.Text = "x_Logging"
         '
         'AddLogentryToolStripMenuItem
@@ -292,7 +292,7 @@ Partial Class UserControl_Report
         '
         Me.MediaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenMediaItemModuleToolStripMenuItem, Me.OpenPDFToolStripMenuItem, Me.OpenImageRefToolStripMenuItem})
         Me.MediaToolStripMenuItem.Name = "MediaToolStripMenuItem"
-        Me.MediaToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.MediaToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.MediaToolStripMenuItem.Text = "x_Media"
         '
         'OpenMediaItemModuleToolStripMenuItem
@@ -317,13 +317,13 @@ Partial Class UserControl_Report
         '
         Me.ColumnsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ColumnToolStripMenuItem})
         Me.ColumnsToolStripMenuItem.Name = "ColumnsToolStripMenuItem"
-        Me.ColumnsToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.ColumnsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ColumnsToolStripMenuItem.Text = "x_Hide"
         '
         'ColumnToolStripMenuItem
         '
         Me.ColumnToolStripMenuItem.Name = "ColumnToolStripMenuItem"
-        Me.ColumnToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.ColumnToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ColumnToolStripMenuItem.Text = "x_Column"
         '
         'ToolStripLabel_Sort
@@ -343,7 +343,7 @@ Partial Class UserControl_Report
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripDropDownButton_Copy, Me.ToolStripSeparator10, Me.ToolStripButton_DrillDown, Me.ToolStripSeparator4, Me.ToolStripButton_OpenLink, Me.ToolStripSeparator2, Me.ToolStripButton_OpenFile, Me.ToolStripButton_DownloadFile, Me.ToolStripButton_CopyPath, Me.ToolStripSeparator1, Me.ToolStripButton_OpenImage, Me.ToolStripButton_OpenMedia, Me.ToolStripButton_OpenPDF, Me.ToolStripSeparator3, Me.ToolStripButtond_OpenWord_Existing, Me.ToolStripButton_OpenWordMenu, Me.ToolStripSeparator7, Me.ToolStripButton_CreateGraphML, Me.ToolStripSeparator8, Me.ToolStripButton_Localized, Me.ToolStripSeparator9, Me.ToolStripButton_DecodePassword, Me.ToolStripSeparator12, Me.ToolStripButton_CommandLineRun})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 3)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(32, 429)
+        Me.ToolStrip1.Size = New System.Drawing.Size(30, 410)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripDropDownButton_Copy
@@ -582,7 +582,7 @@ Partial Class UserControl_Report
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.BindingNavigator_Reports)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.DataGridView_Reports)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1219, 471)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1221, 471)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
@@ -608,7 +608,7 @@ Partial Class UserControl_Report
         Me.BindingNavigator_Reports.MovePreviousItem = Me.BindingNavigatorMovePreviousItem
         Me.BindingNavigator_Reports.Name = "BindingNavigator_Reports"
         Me.BindingNavigator_Reports.PositionItem = Me.BindingNavigatorPositionItem
-        Me.BindingNavigator_Reports.Size = New System.Drawing.Size(1219, 25)
+        Me.BindingNavigator_Reports.Size = New System.Drawing.Size(1221, 25)
         Me.BindingNavigator_Reports.TabIndex = 2
         Me.BindingNavigator_Reports.Text = "BindingNavigator1"
         '

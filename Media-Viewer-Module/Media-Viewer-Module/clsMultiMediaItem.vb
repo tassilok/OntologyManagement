@@ -18,7 +18,7 @@ Public Class clsMultiMediaItem
 
     Public Property CountBookMark As Integer
         Get
-            Return intCountBookmark
+            Return If(intCountBookmark Is Nothing, 0, intCountBookmark)
         End Get
         Set(value As Integer)
             intCountBookmark = value

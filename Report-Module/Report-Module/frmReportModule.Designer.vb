@@ -35,33 +35,36 @@ Partial Class frmReportModule
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeView_Report = New System.Windows.Forms.TreeView()
-        Me.ContextMenuStrip_Reports.SuspendLayout
-        Me.MenuStrip1.SuspendLayout
-        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout
-        Me.ToolStripContainer1.SuspendLayout
-        Me.ToolStrip1.SuspendLayout
-        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SplitContainer1.Panel1.SuspendLayout
-        Me.SplitContainer1.SuspendLayout
-        Me.SuspendLayout
+        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExportToHTMLToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem_Thumbnails = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ContextMenuStrip_Reports.SuspendLayout()
+        Me.MenuStrip1.SuspendLayout()
+        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
+        Me.ToolStripContainer1.SuspendLayout()
+        Me.ToolStrip1.SuspendLayout()
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
+        Me.SuspendLayout()
         '
         'ContextMenuStrip_Reports
         '
-        Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewReportToolStripMenuItem, Me.GetColumnsToolStripMenuItem})
+        Me.ContextMenuStrip_Reports.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewReportToolStripMenuItem, Me.GetColumnsToolStripMenuItem, Me.EditToolStripMenuItem})
         Me.ContextMenuStrip_Reports.Name = "ContextMenuStrip_Reports"
-        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(152, 48)
+        Me.ContextMenuStrip_Reports.Size = New System.Drawing.Size(153, 92)
         '
         'NewReportToolStripMenuItem
         '
         Me.NewReportToolStripMenuItem.Name = "NewReportToolStripMenuItem"
-        Me.NewReportToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
+        Me.NewReportToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.NewReportToolStripMenuItem.Text = "x_New Report"
         '
         'GetColumnsToolStripMenuItem
         '
         Me.GetColumnsToolStripMenuItem.Name = "GetColumnsToolStripMenuItem"
-        Me.GetColumnsToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
+        Me.GetColumnsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.GetColumnsToolStripMenuItem.Text = "x_Get columns"
         '
         'MenuStrip1
@@ -116,7 +119,7 @@ Partial Class frmReportModule
         'ToolStripButton_Close
         '
         Me.ToolStripButton_Close.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"),System.Drawing.Image)
+        Me.ToolStripButton_Close.Image = CType(resources.GetObject("ToolStripButton_Close.Image"), System.Drawing.Image)
         Me.ToolStripButton_Close.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton_Close.Name = "ToolStripButton_Close"
         Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
@@ -145,6 +148,27 @@ Partial Class frmReportModule
         Me.TreeView_Report.Name = "TreeView_Report"
         Me.TreeView_Report.Size = New System.Drawing.Size(206, 504)
         Me.TreeView_Report.TabIndex = 1
+        '
+        'EditToolStripMenuItem
+        '
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExportToHTMLToolStripMenuItem})
+        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EditToolStripMenuItem.Text = "x_Edit"
+        '
+        'ExportToHTMLToolStripMenuItem
+        '
+        Me.ExportToHTMLToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem_Thumbnails})
+        Me.ExportToHTMLToolStripMenuItem.Name = "ExportToHTMLToolStripMenuItem"
+        Me.ExportToHTMLToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.ExportToHTMLToolStripMenuItem.Text = "x_Export to HTML"
+        '
+        'ToolStripMenuItem_Thumbnails
+        '
+        Me.ToolStripMenuItem_Thumbnails.CheckOnClick = True
+        Me.ToolStripMenuItem_Thumbnails.Name = "ToolStripMenuItem_Thumbnails"
+        Me.ToolStripMenuItem_Thumbnails.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripMenuItem_Thumbnails.Text = "x_Thumbnails"
         '
         'frmReportModule
         '
@@ -185,5 +209,8 @@ End Sub
     Friend WithEvents TreeView_Report As System.Windows.Forms.TreeView
     Friend WithEvents HilfeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents InfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents EditToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ExportToHTMLToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem_Thumbnails As System.Windows.Forms.ToolStripMenuItem
 
 End Class

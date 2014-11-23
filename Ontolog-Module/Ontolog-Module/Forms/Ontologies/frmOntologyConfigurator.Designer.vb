@@ -31,6 +31,10 @@ Partial Class frmOntologyConfigurator
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage_OntologyItems = New System.Windows.Forms.TabPage()
         Me.TabPage_OntologyJoins = New System.Windows.Forms.TabPage()
+        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.DateiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ImportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FolderBrowserDialog_Import = New System.Windows.Forms.FolderBrowserDialog()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -42,6 +46,7 @@ Partial Class frmOntologyConfigurator
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
+        Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -54,11 +59,11 @@ Partial Class frmOntologyConfigurator
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(723, 409)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(723, 385)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 24)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(723, 459)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(723, 435)
         Me.ToolStripContainer1.TabIndex = 0
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
@@ -90,7 +95,7 @@ Partial Class frmOntologyConfigurator
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(723, 409)
+        Me.SplitContainer1.Size = New System.Drawing.Size(723, 385)
         Me.SplitContainer1.SplitterDistance = 241
         Me.SplitContainer1.TabIndex = 0
         '
@@ -104,7 +109,7 @@ Partial Class frmOntologyConfigurator
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.TabControl1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(478, 409)
+        Me.SplitContainer2.Size = New System.Drawing.Size(478, 385)
         Me.SplitContainer2.SplitterDistance = 208
         Me.SplitContainer2.TabIndex = 0
         '
@@ -116,7 +121,7 @@ Partial Class frmOntologyConfigurator
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(262, 405)
+        Me.TabControl1.Size = New System.Drawing.Size(262, 381)
         Me.TabControl1.TabIndex = 0
         '
         'TabPage_OntologyItems
@@ -124,7 +129,7 @@ Partial Class frmOntologyConfigurator
         Me.TabPage_OntologyItems.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_OntologyItems.Name = "TabPage_OntologyItems"
         Me.TabPage_OntologyItems.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_OntologyItems.Size = New System.Drawing.Size(254, 379)
+        Me.TabPage_OntologyItems.Size = New System.Drawing.Size(254, 355)
         Me.TabPage_OntologyItems.TabIndex = 0
         Me.TabPage_OntologyItems.Text = "x_Ontology-Items"
         Me.TabPage_OntologyItems.UseVisualStyleBackColor = True
@@ -139,13 +144,37 @@ Partial Class frmOntologyConfigurator
         Me.TabPage_OntologyJoins.Text = "x_Ontology-Joins"
         Me.TabPage_OntologyJoins.UseVisualStyleBackColor = True
         '
+        'MenuStrip1
+        '
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DateiToolStripMenuItem})
+        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip1.Name = "MenuStrip1"
+        Me.MenuStrip1.Size = New System.Drawing.Size(723, 24)
+        Me.MenuStrip1.TabIndex = 1
+        Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'DateiToolStripMenuItem
+        '
+        Me.DateiToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ImportToolStripMenuItem})
+        Me.DateiToolStripMenuItem.Name = "DateiToolStripMenuItem"
+        Me.DateiToolStripMenuItem.Size = New System.Drawing.Size(56, 20)
+        Me.DateiToolStripMenuItem.Text = "x_Datei"
+        '
+        'ImportToolStripMenuItem
+        '
+        Me.ImportToolStripMenuItem.Name = "ImportToolStripMenuItem"
+        Me.ImportToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ImportToolStripMenuItem.Text = "x_Import"
+        '
         'frmOntologyConfigurator
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(723, 459)
         Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Controls.Add(Me.MenuStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frmOntologyConfigurator"
         Me.Text = "frmOntologyConfigurator"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
@@ -162,7 +191,10 @@ Partial Class frmOntologyConfigurator
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer2.ResumeLayout(False)
         Me.TabControl1.ResumeLayout(False)
+        Me.MenuStrip1.ResumeLayout(False)
+        Me.MenuStrip1.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
@@ -173,4 +205,8 @@ Partial Class frmOntologyConfigurator
     Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
     Friend WithEvents TabPage_OntologyItems As System.Windows.Forms.TabPage
     Friend WithEvents TabPage_OntologyJoins As System.Windows.Forms.TabPage
+    Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
+    Friend WithEvents DateiToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ImportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FolderBrowserDialog_Import As System.Windows.Forms.FolderBrowserDialog
 End Class

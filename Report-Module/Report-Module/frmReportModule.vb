@@ -199,9 +199,11 @@ Public Class frmReportModule
         Dim objTreeNode = TreeView_Report.SelectedNode
 
         GetColumnsToolStripMenuItem.Enabled = False
+        EditToolStripMenuItem.Enabled = False
 
         If Not objTreeNode is Nothing And objTreeNode.ImageIndex = cint_ImageID_Report Then
-            GetColumnsToolStripMenuItem.Enabled = True    
+            GetColumnsToolStripMenuItem.Enabled = True
+            EditToolStripMenuItem.Enabled = True
         End If
     End Sub
 
@@ -293,5 +295,9 @@ Public Class frmReportModule
             Case Keys.F5
                 fill_Tree()
         End Select
+    End Sub
+
+    Private Sub ExportToHTMLToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExportToHTMLToolStripMenuItem.Click
+        objUserControl_Report.CreateHTML(ToolStripMenuItem_Thumbnails.Checked)
     End Sub
 End Class

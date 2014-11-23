@@ -12,6 +12,7 @@ Imports Localization_Module
 Imports CommandLineRun_Module
 Imports System.Xml.Serialization
 Imports System.IO
+Imports HTMLExport_Module
 
 Public Class UserControl_Report
     Private frmObjectEdit As frm_ObjectEdit
@@ -63,6 +64,8 @@ Public Class UserControl_Report
 
     Private objFrm_Modules As frmModules
 
+    Private objHTMLCreation As clsHTMLCreation
+
     Private objDataTable As DataTable
     Private objDataAdp As SqlClient.SqlDataAdapter
     Private objDataSet As DataSet
@@ -80,12 +83,16 @@ Public Class UserControl_Report
     Private objDBLevel_GraphML_ObjAtt As clsDBLevel
     Private objDBLevel_OItem As clsDBLevel
 
+    Private objDataWork_Images As clsDataWork_Images
+
     Private objThread_Sync As Threading.Thread
 
     Private objRelationConfig As clsRelationConfig
     Private objTransaction As clsTransaction
 
     Private objClipBoardFilterType As clsOntologyItem = Nothing
+
+    Private objImageFileWork As clsImageFileWork
 
     Private boolSynced As Boolean
 
@@ -403,6 +410,148 @@ Public Class UserControl_Report
         Else
             MsgBox("Die GraphML-Datei konnte nicht erzeugt werden!", MsgBoxStyle.Exclamation)
         End If
+
+    End Sub
+
+    Public Sub CreateHTML(boolThumb As Boolean)
+        Dim strLine As String
+        objImageFileWork = New clsImageFileWork(objLocalConfig.Globals)
+        If objHTMLCreation Is Nothing Then
+            objHTMLCreation = New clsHTMLCreation(objLocalConfig.Globals)
+        End If
+
+        Dim objOItem_Result = objHTMLCreation.Initialize_ExportFolder()
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOItem_Result = objHTMLCreation.Open_TextWriter(objOItem_Report.GUID)
+
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                strLine = objHTMLCreation.Get_HTML_Intro()
+
+                objHTMLCreation.Write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_DocumentInit, False)
+                objHTMLCreation.Write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Head, False)
+                objHTMLCreation.Write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Title, False)
+                objHTMLCreation.Write_Line(strLine)
+
+                objHTMLCreation.Write_Line(objHTMLCreation.Encode_HTML(objOItem_Report.Name))
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Title, True)
+                objHTMLCreation.Write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Head, True)
+                objHTMLCreation.Write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Body, False)
+                objHTMLCreation.Write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Heading(1, False)
+                objHTMLCreation.Write_Line(strLine)
+                objHTMLCreation.Write_Line(objHTMLCreation.Encode_HTML(objOItem_Report.Name))
+                strLine = objHTMLCreation.Get_HTML_Heading(1, True)
+                objHTMLCreation.Write_Line(strLine)
+                objHTMLCreation.Add_Attribute(objHTMLCreation.OItem_Attribute_Border.Name, "1")
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Table, False)
+                objHTMLCreation.Write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+                objHTMLCreation.Write_Line(strLine)
+
+                strLine = ""
+                For Each col As DataGridViewColumn In DataGridView_Reports.Columns
+                    If col.Visible = True Then
+                        strLine = strLine & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+
+                        strLine = strLine & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, False) & objHTMLCreation.Encode_HTML(col.HeaderText) & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Bold, True)
+
+                        strLine = strLine & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                    End If
+                    
+
+                Next
+                objHTMLCreation.Write_Line(strLine)
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+                objHTMLCreation.Write_Line(strLine)
+
+                For Each objRow As DataGridViewRow In DataGridView_Reports.Rows
+                    strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, False)
+                    objHTMLCreation.Write_Line(strLine)
+
+                    For Each cel As DataGridViewCell In objRow.Cells
+
+                        If DataGridView_Reports.Columns(cel.ColumnIndex).Visible = True Then
+                            strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, False)
+                            objHTMLCreation.Write_Line(strLine)
+
+                            objOItem_Result = ExportImages(cel, boolThumb)
+
+                            Dim boolNewLine As Boolean = False
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                If Not objImageFileWork.ItemList Is Nothing Then
+                                    If objImageFileWork.ItemList.Any() Then
+                                        boolNewLine = True
+                                    End If
+                                    For Each objImage In objImageFileWork.ItemList
+                                        Dim strPath = If(boolThumb, objImage.Path_Image_Thumb, objImage.Path_Image)
+                                        Dim strFile = IO.Path.GetFileName(strPath)
+                                        Dim strPathfull = objImage.Path_Image
+                                        Dim strFileFull = IO.Path.GetFileName(strPathfull)
+                                        strFileFull = objHTMLCreation.RelativeResourcePath + "\" + strFileFull
+                                        strLine = "<a href=""" & strFileFull & """ target=""_blank"">"
+                                        objHTMLCreation.Write_Line(strLine)
+                                        strFile = objHTMLCreation.RelativeResourcePath + "\" + strFile
+                                        objHTMLCreation.Add_Attribute(objHTMLCreation.OItem_Attribute_SRC.Name, strFile)
+                                        strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Images, False)
+                                        objHTMLCreation.Write_Line(strLine)
+                                        strLine = "</a>"
+                                        objHTMLCreation.Write_Line(strLine)
+                                    Next
+                                End If
+                            Else
+
+                                Exit For
+                            End If
+
+                            If boolNewLine Then
+                                strLine = "</br>"
+                                objHTMLCreation.Write_Line(strLine)
+                            End If
+
+                            strLine = objHTMLCreation.Encode_HTML(cel.Value.ToString())
+                            objHTMLCreation.Write_Line(strLine)
+
+                            strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
+                            objHTMLCreation.Write_Line(strLine)
+                        End If
+
+                        
+                    Next
+
+                    objHTMLCreation.Write_Line(strLine)
+                    strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableRow, True)
+                    objHTMLCreation.Write_Line(strLine)
+                Next
+
+
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Table, True)
+                objHTMLCreation.Write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_Body, True)
+                objHTMLCreation.Write_Line(strLine)
+
+                strLine = objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_DocumentInit, False)
+                objHTMLCreation.Write_Line(strLine)
+            End If
+
+            objHTMLCreation.Close_TextWriter()
+        End If
+
 
     End Sub
 
@@ -1913,4 +2062,61 @@ Public Class UserControl_Report
         End If
         
     End Sub
+
+    Private Function ExportImages(cell As DataGridViewCell, boolThumb As Boolean) As clsOntologyItem
+        Dim objDGVR_Selected As DataGridViewRow
+        Dim objDRV_Selected As DataRowView
+        Dim objOItem_Ref As clsOntologyItem
+        Dim objGUID_Item As String
+        Dim objOItem_Result As clsOntologyItem = objLocalConfig.Globals.LState_Success.Clone()
+        Dim objOItem_File As New clsOntologyItem
+
+        If Not objImageFileWork.ItemList Is Nothing Then
+            objImageFileWork.ItemList.Clear()
+        End If
+
+
+        Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(cell.ColumnIndex).DataPropertyName).ToList
+
+        If objLCol.Any() Then
+            objDGVR_Selected = DataGridView_Reports.Rows(cell.RowIndex)
+            objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+            Dim objLType = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_TypeField).ToList()
+
+            Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
+
+            If objLLeaded.Any() Then
+                If Not IsDBNull(objDRV_Selected.Item(objLLeaded.First().Name_Col)) And _
+                    Not IsDBNull(objDRV_Selected.Item(objLCol.First().Name_Col)) Then
+                    objOItem_Ref = New clsOntologyItem
+                    objOItem_Ref.GUID = objDRV_Selected.Item(objLLeaded.First().Name_Col)
+                    objOItem_Ref.Name = objDRV_Selected.Item(objLCol.First().Name_Col)
+
+                    If Not IsDBNull(objDRV_Selected.Item(objLLeaded.First().Name_Col)) Then
+                        objGUID_Item = objDRV_Selected.Item(objLLeaded.First().Name_Col)
+
+                        objOItem_Object = objDataWork_ReportFields.GetOntologyItem(objGUID_Item)
+
+                        If Not objOItem_Object.GUID = objLocalConfig.Globals.LState_Success.GUID And Not objOItem_Object.GUID = objLocalConfig.Globals.LState_Nothing.GUID Then
+                            objOItem_Result = objMediaItem.has_Images(objOItem_Object)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID And objOItem_Result.Count > 0 Then
+                                objOItem_Result = objImageFileWork.ExportImages(objOItem_Object, objHTMLCreation.ResourcePath, boolThumb)
+                            End If
+
+                        Else
+                            objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
+                        End If
+
+
+                    End If
+                End If
+
+            End If
+
+        End If
+
+        Return objOItem_Result
+    End Function
+
 End Class

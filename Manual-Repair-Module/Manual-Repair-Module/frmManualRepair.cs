@@ -30,11 +30,26 @@ namespace Manual_Repair_Module
             //Repair_MathematischeKomponenten();
             //Repair_MP3File();
             //Repair_MultipleRelations();
-            RemoveMultipleDataTypes();
+            //RemoveMultipleDataTypes();
             //Move_Versions();
             //MoveLogEntries();
+            DeleteAllReportFields();
 
+        }
 
+        private void DeleteAllReportFields()
+        {
+            var delRel1 = new List<clsObjectRel> { new clsObjectRel { ID_Parent_Object = "c790aa5b14a446b0bd8c4317ef5716e2" } };
+            var delRel2 = new List<clsObjectRel> { new clsObjectRel { ID_Parent_Other = "c790aa5b14a446b0bd8c4317ef5716e2" } };
+            var delAtts = new List<clsObjectAtt> { new clsObjectAtt { ID_Class = "c790aa5b14a446b0bd8c4317ef5716e2" } };
+            var delObjects = new List<clsOntologyItem> { new clsOntologyItem { GUID_Parent = "c790aa5b14a446b0bd8c4317ef5716e2" } };
+
+            var objDBLevel_Del = new clsDBLevel(objLocalConfig.Globals);
+
+            objDBLevel_Del.del_ObjectRel(delRel1);
+            objDBLevel_Del.del_ObjectRel(delRel2);
+            objDBLevel_Del.del_ObjectAtt(delAtts);
+            objDBLevel_Del.del_Objects(delObjects);
         }
 
         private void MoveLogEntries()
