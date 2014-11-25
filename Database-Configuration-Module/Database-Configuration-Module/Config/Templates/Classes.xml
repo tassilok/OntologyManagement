@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Class">
+  <Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
+<Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
+<Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
+<Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="aa616051e5214facabdbcbba6f8c6e73" Id_Parent="b5224e7f7d0d4beebf8eb9a0eeba5747"><![CDATA[Module]]></Item>
+<Item Id="091cb823a010442e90f4dda75e020e4e" Id_Parent="0df28a54f4c742b98b3534470261fc1c"><![CDATA[Constraint (Type)]]></Item>
+<Item Id="9053d6ad8ebb4f68bfb0285d8b38a170" Id_Parent="6c5cd901b9a14775a5223f776fbe0c8a"><![CDATA[DB-Columns]]></Item>
+<Item Id="6c5cd901b9a14775a5223f776fbe0c8a" Id_Parent="132a845f849f4f6b86847ab3fd068824"><![CDATA[DB-Tables]]></Item>
+<Item Id="36e1250d840041eab22e757146e90b61" Id_Parent="132a845f849f4f6b86847ab3fd068824"><![CDATA[DB-Triggers]]></Item>
+<Item Id="0df28a54f4c742b98b3534470261fc1c" Id_Parent="6c5cd901b9a14775a5223f776fbe0c8a"><![CDATA[Constraint]]></Item>
+<Item Id="af723ff6d48747cf86cac746c6fbc619" Id_Parent="132a845f849f4f6b86847ab3fd068824"><![CDATA[DB-Synonyms]]></Item>
+<Item Id="9403650d2a284a0d9a7ff1d893960701" Id_Parent="132a845f849f4f6b86847ab3fd068824"><![CDATA[DB-Views]]></Item>
+<Item Id="801a533366ae4239b43a73cf2cd8f3c4" Id_Parent="132a845f849f4f6b86847ab3fd068824"><![CDATA[Database-Schema]]></Item>
+<Item Id="9e4bbf040394404194c09b07da7281db" Id_Parent="d9bc8152e70b46ceb09a95b98f0ba7ac"><![CDATA[DataTypes (Ms-SQL)]]></Item>
+<Item Id="3dd1a15feef349438ce1828e201a3c9d" Id_Parent="132a845f849f4f6b86847ab3fd068824"><![CDATA[DB-Routines]]></Item>
+<Item Id="f8a525de72bb4904941f63a40ce34234" Id_Parent="132a845f849f4f6b86847ab3fd068824"><![CDATA[Database]]></Item>
+<Item Id="b5224e7f7d0d4beebf8eb9a0eeba5747" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Module-Management]]></Item>
+<Item Id="d9bc8152e70b46ceb09a95b98f0ba7ac" Id_Parent="f8a525de72bb4904941f63a40ce34234"><![CDATA[T-SQL]]></Item>
+<Item Id="132a845f849f4f6b86847ab3fd068824" Id_Parent="73e32abfe5774d319a46bc07e9e15de3"><![CDATA[Database-Management]]></Item>
+<Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
+<Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
+<Item Id="73e32abfe5774d319a46bc07e9e15de3" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Software-Management]]></Item>
+
+</Items>

@@ -296,7 +296,7 @@ namespace CommandLineRun_Module
                         this.Text = objOItem_Class.Name + "/";
                         this.Text += objOItem_Argument.Name;
 
-                        if (objArgumentParsing.FunctionList.Count > 0)
+                        if (objArgumentParsing.FunctionList != null && objArgumentParsing.FunctionList.Count > 0)
                         {
                             if (objArgumentParsing.FunctionList[0].GUID_Function == objLocalConfig.OItem_object_commandlinerun_module.GUID)
                             {

@@ -275,7 +275,7 @@ namespace DatabaseConfigurationModule
 
         private void GetSubData_005_Routines()
         {
-            var searchRoutines = objDBLevel_DatabaseItems.OList_Objects
+            var searchRoutines = objDBLevel_DatabaseItems.OList_Objects.Where(dbi => dbi.GUID_Parent == objLocalConfig.OItem_class_database_schema.GUID)
                 .Select(dbi => new clsObjectRel
                 {
                     ID_Other = dbi.GUID,

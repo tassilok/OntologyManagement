@@ -11,7 +11,7 @@ namespace DatabaseConfigurationModule
 {
     public class clsLocalConfig
     {
-        private const string cstrID_Ontology = "80b99c8acc6c4a5cbdf42af7902d0251";
+        private const string cstrID_Ontology = "d0f80436254a4a8ca0f207fa2d9e131f";
         private clsImport objImport;
 
         public int ImageID_Root { get { return 0; } }
@@ -295,7 +295,7 @@ private void get_Data_DevelopmentConfig()
             var objOList_class_db_constaint__type_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                       where objOItem.ID_Object == cstrID_Ontology
                                                       join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
-                                                      where objRef.Name_Object.ToLower() == "class_db_constaint__type_".ToLower() && objRef.Ontology == Globals.Type_Class
+                                                      where objRef.Name_Object.ToLower() == "class_constraint__type_".ToLower() && objRef.Ontology == Globals.Type_Class
                                                       select objRef).ToList();
 
             if (objOList_class_db_constaint__type_.Any())
@@ -316,7 +316,7 @@ private void get_Data_DevelopmentConfig()
             var objOList_class_db_constraint = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                 where objOItem.ID_Object == cstrID_Ontology
                                                 join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
-                                                where objRef.Name_Object.ToLower() == "class_db_constraint".ToLower() && objRef.Ontology == Globals.Type_Class
+                                                where objRef.Name_Object.ToLower() == "class_constraint".ToLower() && objRef.Ontology == Globals.Type_Class
                                                 select objRef).ToList();
 
             if (objOList_class_db_constraint.Any())
@@ -484,7 +484,7 @@ var objOList_class_db_views = (from objOItem in objDBLevel_Config1.OList_ObjectR
 var objOList_class_db_procedure = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                            where objOItem.ID_Object == cstrID_Ontology
                                            join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
-                                           where objRef.Name_Object.ToLower() == "class_db_procedure".ToLower() && objRef.Ontology == Globals.Type_Class
+                                           where objRef.Name_Object.ToLower() == "class_db_routines".ToLower() && objRef.Ontology == Globals.Type_Class
                                            select objRef).ToList();
 
             if (objOList_class_db_procedure.Any())
