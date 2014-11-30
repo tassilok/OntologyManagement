@@ -65,7 +65,7 @@ Public Class UserControl_TypeTree
 
     Public Sub SelectNode(OItem_Type_Search As clsOntologyItem)
         Dim objTreeNodes() As TreeNode
-        boolProgChange = True
+        'boolProgChange = True
         If Not String.IsNullOrEmpty(OItem_Type_Search.GUID) Then
             objTreeNodes = TreeView_Types.Nodes.Find(OItem_Type_Search.GUID, True)
             If Not objTreeNodes.Any Then
@@ -77,7 +77,7 @@ Public Class UserControl_TypeTree
                 MsgBox("Die Klasse konnte nicht gefunen werden!", MsgBoxStyle.Exclamation)
             End If
         End If
-        boolProgChange = False
+        'boolProgChange = False
     End Sub
 
 

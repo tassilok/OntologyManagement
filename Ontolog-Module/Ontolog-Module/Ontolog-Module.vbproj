@@ -141,6 +141,7 @@
     </Compile>
     <Compile Include="Classes\clsAppDBLevel.vb" />
     <Compile Include="Classes\clsArgumentParsing.vb" />
+    <Compile Include="Classes\clsDataWork_Search.vb" />
     <Compile Include="Classes\clsFilter.vb" />
     <Compile Include="Classes\clsLocalizeGui.vb" />
     <Compile Include="Classes\clsModuleForCommandLine.vb" />
@@ -269,6 +270,12 @@
       <DependentUpon>frmReplace.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmReplace.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSearch.Designer.vb">
+      <DependentUpon>frmSearch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSearch.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Graph\frmGraph.Designer.vb">
@@ -549,6 +556,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmReplace.resx">
       <DependentUpon>frmReplace.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSearch.resx">
+      <DependentUpon>frmSearch.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Graph\frmGraph.resx">
       <DependentUpon>frmGraph.vb</DependentUpon>

@@ -11,7 +11,8 @@ Public Class frmMain
     Private WithEvents objUserControl_OAttributeList As UserControl_OItemList
     Private WithEvents objUserControl_ObjRel As UserControl_ObjectRel
     Private WithEvents objUserControl_ObjAtt As UserControl_ObjectAtt
-    Private WithEvents objUserControl_Filter As UserControl_Filter
+
+    Private WithEvents objFrmSearch As frmSearch
 
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFrm_AttributeTypeEdit As frm_AttributeTypeEdit
@@ -66,18 +67,52 @@ Public Class frmMain
 
     Private objParseArguments As clsArgumentParsing
 
-    Private sub FinishedLoadObjectData() Handles objUserControl_OObjectList.ListDataFinished
-        If Not OItem_Class_AdvancedFilter Is Nothing And 
-           Not OItem_Direction_AdvancedFilter Is Nothing And 
-           Not OItem_RelationType_AdvancedFilter Is Nothing And 
-           objUserControl_OObjectList.AdvancedFilterApplied = False Then    
-            
+    Private strFilter As String
+
+    Private Sub SearchedOntologyItem(OItem As clsOntologyItem) Handles objFrmSearch.SelectedOntologyItem
+        Select Case OItem.Type
+            Case objLocalConfig.Globals.Type_AttributeType
+                ToolStripButton_AttributesAndRelations.Checked = True
+                configure_Areas()
+                objUserControl_OAttributeList.Filter_Items(OItem.GUID)
+            Case objLocalConfig.Globals.Type_RelationType
+                ToolStripButton_AttributesAndRelations.Checked = True
+                configure_Areas()
+                objUserControl_ORelationTypeList.Filter_Items(OItem.GUID)
+            Case objLocalConfig.Globals.Type_Class
+                ToolStripButton_TokenType.Checked = True
+                ToolStripButton_Types.Checked = True
+                configure_Areas()
+                objUserControl_TypeTree.SelectNode(OItem)
+            Case objLocalConfig.Globals.Type_Object
+                ToolStripButton_TokenType.Checked = True
+                ToolStripButton_Token.Checked = True
+                configure_Areas()
+                Dim classItem = objDBLevel_Objects.GetOItem(OItem.GUID_Parent, objLocalConfig.Globals.Type_Class)
+                OItem_Object_AdvancedFilter = Nothing
+                OItem_Class_AdvancedFilter = Nothing
+                OItem_RelationType_AdvancedFilter = Nothing
+                OItem_Direction_AdvancedFilter = Nothing
+                strFilter = OItem.GUID
+                objUserControl_TypeTree.SelectNode(classItem)
+
+        End Select
+    End Sub
+
+    Private Sub FinishedLoadObjectData() Handles objUserControl_OObjectList.ListDataFinished
+        If Not OItem_Class_AdvancedFilter Is Nothing And
+           Not OItem_Direction_AdvancedFilter Is Nothing And
+           Not OItem_RelationType_AdvancedFilter Is Nothing And
+           objUserControl_OObjectList.AdvancedFilterApplied = False Then
+
 
             objUserControl_OObjectList.Initialize_AdvancedFilter(OItem_Class_AdvancedFilter,
                                                                  OItem_Object_AdvancedFilter,
                                                                  OItem_RelationType_AdvancedFilter,
                                                                  OItem_Direction_AdvancedFilter)
-
+        ElseIf Not String.IsNullOrEmpty(strFilter) Then
+            objUserControl_OObjectList.Filter_Items(strFilter)
+            strFilter = ""
         End If
     End Sub
 
@@ -106,23 +141,6 @@ Public Class frmMain
             objUserControl_OObjectList.select_Row(OItem_Node)
 
         End If
-    End Sub
-
-    Private Sub Filter_Objects(objFilter As clsFilter) Handles objUserControl_Filter.FilterItems
-
-        Select Case objFilter.KindOfRelation
-            Case RelationType.NoRelation
-                If Not objFilter.GUID_Left Is Nothing Or Not objFilter.Name_Left Is Nothing Or _
-                    Not objFilter.GUID_LeftParent Is Nothing Or Not objFilter.Name_LeftParent Is Nothing Then
-                    'objUserControl_OObjectList.initialize(objFilter, True)
-                Else
-                    MsgBox("Der Filter ist nicht richtig konfiguriert!", MsgBoxStyle.Information)
-                End If
-            Case RelationType.LeftRight
-
-            Case RelationType.RightLeft
-
-        End Select
     End Sub
 
     Private Sub added_ObjectNode(OItem_Node As clsOntologyItem) Handles objUserControl_ObjectTree.added_Node
@@ -444,7 +462,7 @@ Public Class frmMain
 
         ' Add any initialization after the InitializeComponent() call.
         objLocalConfig = New clsLocalConfig(New clsGlobals)
-        
+
         strType_Entry = Nothing
         objOItem_Entry = Nothing
         boolApplyable = False
@@ -482,7 +500,7 @@ Public Class frmMain
 
         ' Add any initialization after the InitializeComponent() call.
         objLocalConfig = New clsLocalConfig(Globals)
-        
+
         strType_Entry = Type_Entry
         Me.objOItem_Entry = OItem_Entry
         If Not Caption = Nothing Then
@@ -570,7 +588,7 @@ Public Class frmMain
     Private Sub LocalizeGui()
         objLocalConfig.LocalizeGui.ConfigureControlsLanguage(Me, Me.Name)
     End Sub
-    
+
 
     Private Sub Configure_ORelationTypeList(objOItem_RelType As clsOntologyItem)
         If objUserControl_ORelationTypeList Is Nothing Then
@@ -613,16 +631,6 @@ Public Class frmMain
             objUserControl_ObjAtt.Dock = DockStyle.Fill
             SplitContainer_AttribRel.Panel2.Controls.Clear()
             SplitContainer_AttribRel.Panel2.Controls.Add(objUserControl_ObjAtt)
-        End If
-
-    End Sub
-
-    Private Sub Configure_Filter()
-        If objUserControl_Filter Is Nothing Then
-            objUserControl_Filter = New UserControl_Filter(objLocalConfig)
-            objUserControl_Filter.Dock = DockStyle.Fill
-            SplitContainer_Filter_Body.Panel1.Controls.Clear()
-            SplitContainer_Filter_Body.Panel1.Controls.Add(objUserControl_Filter)
         End If
 
     End Sub
@@ -684,13 +692,6 @@ Public Class frmMain
 
         End If
 
-        If Not SplitContainer_Filter_Body.Panel1Collapsed Then
-
-
-            Configure_Filter()
-        End If
-
-
         initialize_OTree()
     End Sub
 
@@ -713,7 +714,8 @@ Public Class frmMain
 
 
     Private Sub ToolStripButton_Filter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_Filter.Click
-        configure_Areas()
+        objFrmSearch = New frmSearch(objLocalConfig)
+        objFrmSearch.Show()
     End Sub
 
     Private Sub ToolStripButton_AttributesAndRelations_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton_AttributesAndRelations.Click

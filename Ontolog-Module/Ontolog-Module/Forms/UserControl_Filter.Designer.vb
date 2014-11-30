@@ -23,27 +23,27 @@ Partial Class UserControl_Filter
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.GroupBox_FilterDr = New System.Windows.Forms.GroupBox()
+        Me.RadioButton_NoRel = New System.Windows.Forms.RadioButton()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.RadioButton_RightLeft = New System.Windows.Forms.RadioButton()
+        Me.RadioButton_LeftRight = New System.Windows.Forms.RadioButton()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Button_SaveFilter = New System.Windows.Forms.Button()
         Me.ComboBox_Filter = New System.Windows.Forms.ComboBox()
         Me.Label_FilterStd = New System.Windows.Forms.Label()
         Me.Button_Filter = New System.Windows.Forms.Button()
         Me.Button_GetData = New System.Windows.Forms.Button()
-        Me.RadioButton_RightLeft = New System.Windows.Forms.RadioButton()
-        Me.RadioButton_LeftRight = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TextBox_NameType = New System.Windows.Forms.TextBox()
         Me.TextBox_NameToken = New System.Windows.Forms.TextBox()
         Me.Label_ParentLeftLBL = New System.Windows.Forms.Label()
         Me.Label_LeftLBL = New System.Windows.Forms.Label()
+        Me.TextBox_RelationType = New System.Windows.Forms.TextBox()
+        Me.Label_RelationLBL = New System.Windows.Forms.Label()
         Me.TextBox_NameTypeOther = New System.Windows.Forms.TextBox()
         Me.TextBox_NameTokenOther = New System.Windows.Forms.TextBox()
         Me.Label_NameTypeOtherLBL = New System.Windows.Forms.Label()
         Me.Label_OtherLBL = New System.Windows.Forms.Label()
-        Me.TextBox_RelationType = New System.Windows.Forms.TextBox()
-        Me.Label_RelationLBL = New System.Windows.Forms.Label()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
-        Me.RadioButton_NoRel = New System.Windows.Forms.RadioButton()
         Me.GroupBox_FilterDr.SuspendLayout()
         Me.Panel1.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -61,10 +61,52 @@ Partial Class UserControl_Filter
         Me.GroupBox_FilterDr.Dock = System.Windows.Forms.DockStyle.Left
         Me.GroupBox_FilterDr.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox_FilterDr.Name = "GroupBox_FilterDr"
-        Me.GroupBox_FilterDr.Size = New System.Drawing.Size(92, 243)
+        Me.GroupBox_FilterDr.Size = New System.Drawing.Size(92, 130)
         Me.GroupBox_FilterDr.TabIndex = 2
         Me.GroupBox_FilterDr.TabStop = False
         Me.GroupBox_FilterDr.Text = "Filter-Config"
+        '
+        'RadioButton_NoRel
+        '
+        Me.RadioButton_NoRel.AutoSize = True
+        Me.RadioButton_NoRel.Checked = True
+        Me.RadioButton_NoRel.Location = New System.Drawing.Point(7, 20)
+        Me.RadioButton_NoRel.Name = "RadioButton_NoRel"
+        Me.RadioButton_NoRel.Size = New System.Drawing.Size(58, 17)
+        Me.RadioButton_NoRel.TabIndex = 3
+        Me.RadioButton_NoRel.TabStop = True
+        Me.RadioButton_NoRel.Text = "No Rel"
+        Me.RadioButton_NoRel.UseVisualStyleBackColor = True
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Location = New System.Drawing.Point(7, 89)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(44, 17)
+        Me.CheckBox1.TabIndex = 2
+        Me.CheckBox1.Text = "Null"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
+        'RadioButton_RightLeft
+        '
+        Me.RadioButton_RightLeft.AutoSize = True
+        Me.RadioButton_RightLeft.Location = New System.Drawing.Point(7, 66)
+        Me.RadioButton_RightLeft.Name = "RadioButton_RightLeft"
+        Me.RadioButton_RightLeft.Size = New System.Drawing.Size(77, 17)
+        Me.RadioButton_RightLeft.TabIndex = 1
+        Me.RadioButton_RightLeft.Text = "Right->Left"
+        Me.RadioButton_RightLeft.UseVisualStyleBackColor = True
+        '
+        'RadioButton_LeftRight
+        '
+        Me.RadioButton_LeftRight.AutoSize = True
+        Me.RadioButton_LeftRight.Location = New System.Drawing.Point(7, 43)
+        Me.RadioButton_LeftRight.Name = "RadioButton_LeftRight"
+        Me.RadioButton_LeftRight.Size = New System.Drawing.Size(77, 17)
+        Me.RadioButton_LeftRight.TabIndex = 0
+        Me.RadioButton_LeftRight.Text = "Left->Right"
+        Me.RadioButton_LeftRight.UseVisualStyleBackColor = True
         '
         'Panel1
         '
@@ -76,7 +118,7 @@ Partial Class UserControl_Filter
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Right
         Me.Panel1.Location = New System.Drawing.Point(897, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(200, 243)
+        Me.Panel1.Size = New System.Drawing.Size(200, 130)
         Me.Panel1.TabIndex = 4
         '
         'Button_SaveFilter
@@ -111,7 +153,7 @@ Partial Class UserControl_Filter
         'Button_Filter
         '
         Me.Button_Filter.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button_Filter.Location = New System.Drawing.Point(101, 217)
+        Me.Button_Filter.Location = New System.Drawing.Point(101, 104)
         Me.Button_Filter.Name = "Button_Filter"
         Me.Button_Filter.Size = New System.Drawing.Size(95, 23)
         Me.Button_Filter.TabIndex = 8
@@ -121,32 +163,12 @@ Partial Class UserControl_Filter
         'Button_GetData
         '
         Me.Button_GetData.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Button_GetData.Location = New System.Drawing.Point(3, 217)
+        Me.Button_GetData.Location = New System.Drawing.Point(3, 104)
         Me.Button_GetData.Name = "Button_GetData"
         Me.Button_GetData.Size = New System.Drawing.Size(95, 23)
         Me.Button_GetData.TabIndex = 7
         Me.Button_GetData.Text = "Eintrag holen"
         Me.Button_GetData.UseVisualStyleBackColor = True
-        '
-        'RadioButton_RightLeft
-        '
-        Me.RadioButton_RightLeft.AutoSize = True
-        Me.RadioButton_RightLeft.Location = New System.Drawing.Point(7, 66)
-        Me.RadioButton_RightLeft.Name = "RadioButton_RightLeft"
-        Me.RadioButton_RightLeft.Size = New System.Drawing.Size(77, 17)
-        Me.RadioButton_RightLeft.TabIndex = 1
-        Me.RadioButton_RightLeft.Text = "Right->Left"
-        Me.RadioButton_RightLeft.UseVisualStyleBackColor = True
-        '
-        'RadioButton_LeftRight
-        '
-        Me.RadioButton_LeftRight.AutoSize = True
-        Me.RadioButton_LeftRight.Location = New System.Drawing.Point(7, 43)
-        Me.RadioButton_LeftRight.Name = "RadioButton_LeftRight"
-        Me.RadioButton_LeftRight.Size = New System.Drawing.Size(77, 17)
-        Me.RadioButton_LeftRight.TabIndex = 0
-        Me.RadioButton_LeftRight.Text = "Left->Right"
-        Me.RadioButton_LeftRight.UseVisualStyleBackColor = True
         '
         'SplitContainer1
         '
@@ -211,6 +233,24 @@ Partial Class UserControl_Filter
         Me.Label_LeftLBL.TabIndex = 22
         Me.Label_LeftLBL.Text = "x_Left / Object:"
         '
+        'TextBox_RelationType
+        '
+        Me.TextBox_RelationType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox_RelationType.Location = New System.Drawing.Point(102, 54)
+        Me.TextBox_RelationType.Name = "TextBox_RelationType"
+        Me.TextBox_RelationType.Size = New System.Drawing.Size(287, 20)
+        Me.TextBox_RelationType.TabIndex = 31
+        '
+        'Label_RelationLBL
+        '
+        Me.Label_RelationLBL.AutoSize = True
+        Me.Label_RelationLBL.Location = New System.Drawing.Point(9, 56)
+        Me.Label_RelationLBL.Name = "Label_RelationLBL"
+        Me.Label_RelationLBL.Size = New System.Drawing.Size(84, 13)
+        Me.Label_RelationLBL.TabIndex = 30
+        Me.Label_RelationLBL.Text = "x_RelationType:"
+        '
         'TextBox_NameTypeOther
         '
         Me.TextBox_NameTypeOther.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -247,46 +287,6 @@ Partial Class UserControl_Filter
         Me.Label_OtherLBL.TabIndex = 26
         Me.Label_OtherLBL.Text = "x_Other:"
         '
-        'TextBox_RelationType
-        '
-        Me.TextBox_RelationType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox_RelationType.Location = New System.Drawing.Point(102, 54)
-        Me.TextBox_RelationType.Name = "TextBox_RelationType"
-        Me.TextBox_RelationType.Size = New System.Drawing.Size(287, 20)
-        Me.TextBox_RelationType.TabIndex = 31
-        '
-        'Label_RelationLBL
-        '
-        Me.Label_RelationLBL.AutoSize = True
-        Me.Label_RelationLBL.Location = New System.Drawing.Point(9, 56)
-        Me.Label_RelationLBL.Name = "Label_RelationLBL"
-        Me.Label_RelationLBL.Size = New System.Drawing.Size(84, 13)
-        Me.Label_RelationLBL.TabIndex = 30
-        Me.Label_RelationLBL.Text = "x_RelationType:"
-        '
-        'CheckBox1
-        '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(7, 89)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(44, 17)
-        Me.CheckBox1.TabIndex = 2
-        Me.CheckBox1.Text = "Null"
-        Me.CheckBox1.UseVisualStyleBackColor = True
-        '
-        'RadioButton_NoRel
-        '
-        Me.RadioButton_NoRel.AutoSize = True
-        Me.RadioButton_NoRel.Checked = True
-        Me.RadioButton_NoRel.Location = New System.Drawing.Point(7, 20)
-        Me.RadioButton_NoRel.Name = "RadioButton_NoRel"
-        Me.RadioButton_NoRel.Size = New System.Drawing.Size(58, 17)
-        Me.RadioButton_NoRel.TabIndex = 3
-        Me.RadioButton_NoRel.TabStop = True
-        Me.RadioButton_NoRel.Text = "No Rel"
-        Me.RadioButton_NoRel.UseVisualStyleBackColor = True
-        '
         'UserControl_Filter
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -295,7 +295,7 @@ Partial Class UserControl_Filter
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.GroupBox_FilterDr)
         Me.Name = "UserControl_Filter"
-        Me.Size = New System.Drawing.Size(1097, 243)
+        Me.Size = New System.Drawing.Size(1097, 130)
         Me.GroupBox_FilterDr.ResumeLayout(False)
         Me.GroupBox_FilterDr.PerformLayout()
         Me.Panel1.ResumeLayout(False)
