@@ -1,5 +1,29 @@
 SET ROOTDIR=%USERPROFILE%\Documents\GitHub\OntologyManagement\
 del %TEMP%\OntologyManagement\*.* /s /q
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ OntologyClasses \OntologyClasses.sln 0.0.1.4 1 1 0
+IF ERRORLEVEL 1 GOTO Fehler
+
+
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ Structure-Module \Structure-Module.sln 0.0.1.1 1 1 0
+IF ERRORLEVEL 1 GOTO Fehler
+
+
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ Grid-Module \Grid-Module.sln 0.0.0.2 1 1 0
+IF ERRORLEVEL 1 GOTO Fehler
+
+
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ ClassLibrary_ShellWork \ClassLibrary_ShellWork.sln 0.1.0.1 1 1 0
+IF ERRORLEVEL 1 GOTO Fehler
+
+
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ ElasticSearchNestConnector \ElasticSearchNestConnector.sln 0.0.0.44 1 1 0
+IF ERRORLEVEL 1 GOTO Fehler
+
+
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ ElasticSearchNestConnector \ElasticSearchNestConnector.sln 0.0.0.44 1 1 0
+IF ERRORLEVEL 1 GOTO Fehler
+
+
 CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ Ontolog-Module \Ontolog-Module.sln 0.3.0.127 1 1 0
 IF ERRORLEVEL 1 GOTO Fehler
 
@@ -21,6 +45,10 @@ IF ERRORLEVEL 1 GOTO Fehler
 
 
 CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ ModuleLibrary \ModuleLibrary.sln 0.0.0.46 1 1 0
+IF ERRORLEVEL 1 GOTO Fehler
+
+
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ Variable-Value-Module \Variable-Value-Module.sln 0.0.0.34 1 1 0
 IF ERRORLEVEL 1 GOTO Fehler
 
 
@@ -48,7 +76,7 @@ CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRele
 IF ERRORLEVEL 1 GOTO Fehler
 
 
-CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ CommandLineRun-Module \CommandLineRun-Module.sln 0.0.0.30 1 1 0
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ CommandLineRun-Module \CommandLineRun-Module.sln 0.0.0.31 1 1 0
 IF ERRORLEVEL 1 GOTO Fehler
 
 
@@ -60,7 +88,7 @@ CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRele
 IF ERRORLEVEL 1 GOTO Fehler
 
 
-CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ Database-Configuration-Module \Database-Configuration-Module.sln 0.0.0.2 1 1 0
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ Database-Configuration-Module \Database-Configuration-Module.sln 0.0.0.3 1 1 0
 IF ERRORLEVEL 1 GOTO Fehler
 
 
@@ -68,7 +96,7 @@ CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRele
 IF ERRORLEVEL 1 GOTO Fehler
 
 
-CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ CommandLineCL-Module \CommandLineCL-Module.sln 0.0.0.23 1 1 0
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ CommandLineCL-Module \CommandLineCL-Module.sln 0.0.0.24 1 1 0
 IF ERRORLEVEL 1 GOTO Fehler
 
 
@@ -144,7 +172,7 @@ CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRele
 IF ERRORLEVEL 1 GOTO Fehler
 
 
-CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ Report-Module \Report-Module.sln 0.0.1.101 1 1 0
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ Report-Module \Report-Module.sln 0.0.1.102 1 1 0
 IF ERRORLEVEL 1 GOTO Fehler
 
 
@@ -152,7 +180,7 @@ CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRele
 IF ERRORLEVEL 1 GOTO Fehler
 
 
-CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ Schriftverkehrs-Module \Schriftverkehrs-Module.sln 0.0.0.96 1 1 0
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ Schriftverkehrs-Module \Schriftverkehrs-Module.sln 0.0.0.97 1 1 0
 IF ERRORLEVEL 1 GOTO Fehler
 
 
@@ -168,7 +196,7 @@ CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRele
 IF ERRORLEVEL 1 GOTO Fehler
 
 
-CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ Checklist-Module \Checklist-Module.sln 0.0.0.109 1 1 0
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ Checklist-Module \Checklist-Module.sln 0.0.0.110 1 1 0
 IF ERRORLEVEL 1 GOTO Fehler
 
 

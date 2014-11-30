@@ -114,7 +114,7 @@ namespace CommandLineRun_Module
                             
                             dataExtractConfig.ForEach(dat =>
                             {
-                                var value = dgvr.Cells[dat.columnField.Key].Value.ToString();
+                                var value = System.Web.HttpUtility.HtmlDecode( dgvr.Cells[dat.columnField.Key].Value.ToString());
                                 codeToParse = codeToParse.Replace("@" + dat.variableToField.Name_Variable + "@", value);
                             });
 
