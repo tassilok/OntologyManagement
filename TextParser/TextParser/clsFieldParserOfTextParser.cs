@@ -500,6 +500,10 @@ namespace TextParser
 
                     if (parse)
                     {
+                        if (field.UseLastValid)
+                        {
+                            field.LastValid = textParse;
+                        }
                         if (field.ID_DataType == objLocalConfig.OItem_object_string.GUID)
                         {
                             dictUser.Add(field.Name_Field, textParse);
@@ -554,6 +558,10 @@ namespace TextParser
                                 parse = false;
                             }
                         }
+                    }
+                    else if (field.UseLastValid && !string.IsNullOrEmpty(field.LastValid))
+                    {
+                        dictUser.Add(field.Name_Field, field.LastValid);
                     }
 
 

@@ -181,9 +181,26 @@ namespace TextParser
                     }
                 }
 
-                if (parse)
+                if (parse || (field.UseLastValid && !string.IsNullOrEmpty(field.LastValid)))
                 {
-                    var fieldToAdd = text.Substring(ixEnd_Pre, length_Main);
+                    string fieldToAdd = "";
+                    if (parse)
+                    {
+                        fieldToAdd = text.Substring(ixEnd_Pre, length_Main);
+                        if (field.UseLastValid)
+                        {
+                            field.LastValid = fieldToAdd;
+                        }
+                    }
+                    else
+                    {
+                        if (field.UseLastValid)
+                        {
+                            fieldToAdd = field.LastValid;
+                        }
+                    }
+                    
+                    
                     FoundFields.Add(fieldToAdd);
                     var variableList = objOList_Variables != null ? objOList_Variables.Where(v => v.Name == field.Insert).ToList() : null;
 

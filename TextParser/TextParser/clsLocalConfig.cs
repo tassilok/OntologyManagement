@@ -39,6 +39,7 @@ public clsOntologyItem OItem_attributetype_equal { get; set; }
 public clsOntologyItem OItem_attributetype_remove_from_source { get; set; }
 public clsOntologyItem OItem_attributetype_useorderid { get; set; }
 public clsOntologyItem OItem_attributetype_regex { get; set; }
+public clsOntologyItem OItem_attributetype_uselastvalid { get; set; }
 
         // Classes
 public clsOntologyItem OItem_class_entry_value_parser { get; set; }
@@ -291,6 +292,27 @@ private void get_Data_DevelopmentConfig()
   
 	private void get_Config_AttributeTypes()
         {
+            var objOList_attributetype_uselastvalid = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                       where objOItem.ID_Object == cstrID_Ontology
+                                                       join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                       where objRef.Name_Object.ToLower() == "attributetype_uselastvalid".ToLower() && objRef.Ontology == Globals.Type_AttributeType
+                                                       select objRef).ToList();
+
+            if (objOList_attributetype_uselastvalid.Any())
+            {
+                OItem_attributetype_uselastvalid = new clsOntologyItem()
+                {
+                    GUID = objOList_attributetype_uselastvalid.First().ID_Other,
+                    Name = objOList_attributetype_uselastvalid.First().Name_Other,
+                    GUID_Parent = objOList_attributetype_uselastvalid.First().ID_Parent_Other,
+                    Type = Globals.Type_AttributeType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_attributetype_regex = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                 where objOItem.ID_Object == cstrID_Ontology
                                                 join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object

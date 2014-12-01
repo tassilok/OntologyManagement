@@ -164,7 +164,12 @@ namespace TextParser
                                 {
                                     ID_AttributeType = objLocalConfig.OItem_attributetype_useorderid.GUID,
                                     ID_Class = objLocalConfig.OItem_class_field.GUID
-                                }                   
+                                },
+                            new clsObjectAtt
+                                {
+                                    ID_AttributeType = objLocalConfig.OItem_attributetype_uselastvalid.GUID,
+                                    ID_Class = objLocalConfig.OItem_class_field.GUID
+                                }
                         };
 
                         objORel_Fields_Rel = new List<clsObjectRel>
@@ -495,6 +500,14 @@ namespace TextParser
                                                                                                    .GUID).ToList()
                                                          on objField.GUID equals objMeta.ID_Object into objMetas
                                                      from objMeta in objMetas.DefaultIfEmpty()
+                                                     join objUseLastValid in objDBLevel_Fields_Att.OList_ObjectAtt.
+                                                                                            Where(
+                                                                                              at =>
+                                                                                              at.ID_AttributeType ==
+                                                                                              objLocalConfig
+                                                                                                  .OItem_attributetype_uselastvalid.GUID)
+                                                                                         .ToList() on objField.GUID equals objUseLastValid.ID_Object into UseLastValidItems
+                                                     from objUseLastValid in UseLastValidItems.DefaultIfEmpty()
                                                      join objRegExMain in regExMain on objField.GUID equals objRegExMain.ID_Field into objRegExMains
                                                      from objRegExMain in objRegExMains.DefaultIfEmpty()
                                                      join objRegExPre in regExPre on objField.GUID equals objRegExPre.ID_Field into objRegExPres
@@ -529,7 +542,9 @@ namespace TextParser
                                                          RegexPost = objRegExPost != null ? objRegExPost.RegEx : null,
                                                          OrderId = objFieldParser.OrderID ?? 0,
                                                          Insert = objReplace != null ? objReplace.Name_Other : null,
-                                                         IsInsert = objReplace != null ? true : false
+                                                         IsInsert = objReplace != null ? true : false,
+                                                         ID_Attribute_UseLastValid = objUseLastValid != null ? objUseLastValid.ID_Attribute : null,
+                                                         UseLastValid = objUseLastValid != null ? objUseLastValid.Val_Bit != null ? (bool)objUseLastValid.Val_Bit : false : false
                                                      }).ToList();
                                     }
                                 }

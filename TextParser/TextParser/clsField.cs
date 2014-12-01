@@ -33,6 +33,9 @@ namespace TextParser
         public bool UseOrderId { get; set; }
         public string ID_Attribute_RemoveFromSource { get; set; }
         public bool RemoveFromSource { get; set; }
+        public string ID_Attribute_UseLastValid { get; set; }
+        public bool UseLastValid { get; set; }
+        public string LastValid { get; set; }
 
     }
 }
