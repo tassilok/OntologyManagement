@@ -223,7 +223,7 @@ Public Class UserControl_Report
             ToolStripButton_CreateGraphML.Enabled = True
             get_Data()
         End If
-        GC.Collect()
+
     End Sub
 
     Private Sub Create_GraphML()
