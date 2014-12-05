@@ -248,6 +248,16 @@ Public Class clsDataWork_LogEntry
                                                                       .ID_User = objUser.ID_Other, _
                                                                       .Name_User = objUser.Name_Other}).ToList()
 
+
+                        objDBLevel_TimeStamp = Nothing
+                        objDBLevel_TimeStamp = New clsDBLevel(objLocalConfig.Globals)
+                        objDBLevel_Message = Nothing
+                        objDBLevel_Message = New clsDBLevel(objLocalConfig.Globals)
+                        objDBLevel_LogState = Nothing
+                        objDBLevel_LogState = New clsDBLevel(objLocalConfig.Globals)
+                        objDBLevel_User = Nothing
+                        objDBLevel_User = New clsDBLevel(objLocalConfig.Globals)
+                        GC.Collect()
                     Else
                         objOList_Logentry = Nothing
                     End If

@@ -16,7 +16,7 @@ Public Class clsTransaction_Version
     Private objFrmPar As Windows.Forms.IWin32Window
     Private objFrm_VersionEdit As frmVersionEdit
 
-    Private objOItem_Dev As clsOntologyItem
+    Public Property objOItem_Dev As clsOntologyItem
 
     Private WithEvents objFrmOntologyItemList As frmOntologyItemList
 

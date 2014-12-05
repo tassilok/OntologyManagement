@@ -568,7 +568,8 @@ Public Class clsDataWork_Ontologies
     Public Function GetData_ClassTree() As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
 
-        objOList_ClassTree.Clear()
+        objOList_ClassTree = Nothing
+        objOList_ClassTree = New List(Of clsOntologyItem)
 
         If objOItem_Result_OntolyRef.GUID = objLocalConfig.Globals.LState_Success.GUID And objOItem_Result_Classes.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             objOList_ClassTree = (From obj In objDBLevel_OntologyRels.OList_ObjectRel
@@ -619,6 +620,10 @@ Public Class clsDataWork_Ontologies
         Else
             objOItem_Result = objLocalConfig.Globals.LState_Error
         End If
+
+        objOList_ClassTree = (From objClass In objOList_ClassTree
+                              Group By objClass.GUID, objClass.Name, objClass.GUID_Parent, objClass.Type Into objClasses = Group
+                              Select New clsOntologyItem With {.GUID = GUID, .Name = Name, .GUID_Parent = GUID_Parent, .Type = Type}).OrderBy(Function(classItem) classItem.Name).ToList()
 
         Return objOItem_Result
     End Function

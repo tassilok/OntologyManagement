@@ -603,6 +603,16 @@ namespace Office_Module
             initialize();
         }
 
+        public clsDocumentation(clsLocalConfig LocalConfig, clsBlobConnection blobConnection, clsFileWork fileWork, clsTransaction transaction)
+        {
+            objLocalConfig = LocalConfig;
+            objBlobConnection = blobConnection;
+            objFileWork = fileWork;
+            objTransaction = transaction;
+
+            initialize();
+        }
+
         public clsDocumentation(clsGlobals Globals)
         {
             objLocalConfig = new clsLocalConfig(Globals);
@@ -610,14 +620,38 @@ namespace Office_Module
             initialize();
         }
 
+        public clsDocumentation(clsGlobals Globals, clsBlobConnection blobConnection, clsFileWork fileWork, clsTransaction transaction)
+        {
+            objLocalConfig = new clsLocalConfig(Globals);
+            objLocalConfig.DataWork_Documents = new clsDataWork_Documents(objLocalConfig);
+            objBlobConnection = blobConnection;
+            objFileWork = fileWork;
+            objTransaction = transaction;
+            
+            initialize();
+        }
+
         private void initialize()
         {
-            objFileWork = new clsFileWork(objLocalConfig.Globals);
-            objBlobConnection = new clsBlobConnection(objLocalConfig.Globals);
+            if (objFileWork == null)
+            {
+                objFileWork = new clsFileWork(objLocalConfig.Globals);
+            }
+
+            if (objBlobConnection == null)
+            {
+                objBlobConnection = new clsBlobConnection(objLocalConfig.Globals);
+            }
+
+            if (objTransaction == null)
+            {
+                objTransaction = new clsTransaction(objLocalConfig.Globals);
+            }
+            
             objWordWork = new clsWordWork();
-            objFrmBlobWatcher = new frmBlobWatcher(objLocalConfig.Globals);
+            objFrmBlobWatcher = new frmBlobWatcher(objFileWork.objLocalConfig, objBlobConnection, objFileWork, objTransaction);
             objDataWork_Documents = new clsDataWork_Documents(objLocalConfig.Globals);
-            objTransaction = new clsTransaction(objLocalConfig.Globals);
+            
         }
     }
 }

@@ -6,17 +6,6 @@ Public Class clsReport
     Private objConnection As SqlClient.SqlConnection
 
 
-    Private objDBLevel_Classes As clsDBLevel
-    Private objDBLevel_CalssAtt As clsDBLevel
-    Private objDBLevel_AttributeTypes As clsDBLevel
-    Private objDBLevel_DataType As clsDBLevel
-    Private objDBLevel_Class As clsDBLevel
-    Private objDBLevel_ClassRel As clsDBLevel
-    Private objDBlevel_ObjAtt As clsDBLevel
-    Private objDBLevel_Objects As clsDBLevel
-    Private objDBLevel_ObjectRel As clsDBLevel
-    Private objDBLevel_RelType As clsDBLevel
-
     Private objDBLevel_OntologyRules As clsDBLevel
     Private objDBLevel_Ontology As clsDBLevel
 
@@ -56,6 +45,11 @@ Public Class clsReport
         Dim initializeA_Table_relT_Or As New DataSet_ReportTableAdapters.initialize_Table_relT_ORTableAdapter
         Dim initializeA_Tables As New DataSet_ReportTableAdapters.initialize_TablesTableAdapter
 
+        Dim objDBLevel_ClassRel = New clsDBLevel(objLocalConfig.Globals)
+        Dim objDBLevel_ObjectRel = New clsDBLevel(objLocalConfig.Globals)
+        Dim objDBLevel_Classes = New clsDBLevel(objLocalConfig.Globals)
+        Dim objDBLevel_RelType = New clsDBLevel(objLocalConfig.Globals)
+        
         initializeA_Tables.Connection = New SqlClient.SqlConnection(strConnection)
         finalizeA_Tables.Connection = New SqlClient.SqlConnection(strConnection)
         createA_Table_relT.Connection = New SqlClient.SqlConnection(strConnection)
@@ -274,6 +268,17 @@ Public Class clsReport
             finalizeA_Tables.GetData(objLocalConfig.Globals.Type_ObjectRel)
         End If
 
+        objDBLevel_ClassRel = Nothing
+        objDBLevel_ObjectRel = Nothing
+        objDBLevel_Classes = Nothing
+        objDBLevel_RelType = Nothing
+
+        objOList_Class_Left = Nothing
+        objOList_Class_Right = Nothing
+        objOList_ObjecRel = Nothing
+        objOList_RelTypes = Nothing
+
+        GC.Collect()
     End Sub
 
     Public Sub sync_SQLDB_Attributes(Optional ByVal objOItem_Class As clsOntologyItem = Nothing, Optional ByVal objOItem_AttType As clsOntologyItem = Nothing)
@@ -291,7 +296,11 @@ Public Class clsReport
         Dim strLength As String
         Dim i As Long
         Dim j As Long
-
+        Dim objDBLevel_AttributeTypes = New clsDBLevel(objLocalConfig.Globals)
+        Dim objDBLevel_CalssAtt = New clsDBLevel(objLocalConfig.Globals)
+        Dim objDBLevel_DataType = New clsDBLevel(objLocalConfig.Globals)
+        Dim objDBlevel_ObjAtt = New clsDBLevel(objLocalConfig.Globals)
+        
         Dim createA_Table_attT As New DataSet_ReportTableAdapters.create_Table_attTTableAdapter
         Dim finalizeA_Table_attT As New DataSet_ReportTableAdapters.finalize_Table_attTTableAdapter
         Dim finalizeA_Tables As New DataSet_ReportTableAdapters.finalize_TablesTableAdapter
@@ -418,6 +427,16 @@ Public Class clsReport
 
         finalizeA_Tables.GetData(objLocalConfig.Globals.Type_ObjectAtt)
 
+        objDBLevel_AttributeTypes = Nothing
+        objDBLevel_CalssAtt = Nothing
+        objDBLevel_DataType = Nothing
+        objDBlevel_ObjAtt = Nothing
+
+        oList_AttTypes = Nothing
+        oList_AttributeTypes = Nothing
+        oList_ObjAtt = Nothing
+        oListDataTypes = Nothing
+        GC.Collect()
     End Sub
 
     Public Sub sync_SQLDB_Classes(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing)
@@ -433,6 +452,9 @@ Public Class clsReport
         Dim finalizeA_Table_orgT As New DataSet_ReportTableAdapters.finalize_Table_orgTTableAdapter
         Dim finalizeA_Tables As New DataSet_ReportTableAdapters.finalize_TablesTableAdapter
         Dim initializeA_Table_orgT As New DataSet_ReportTableAdapters.initialize_Table_orgTTableAdapter
+
+        Dim objDBLevel_Objects = New clsDBLevel(objLocalConfig.Globals)
+        Dim objDBLevel_Classes = New clsDBLevel(objLocalConfig.Globals)
 
         finalizeA_Tables.Connection = New SqlClient.SqlConnection(strConnection)
         finalizeA_Table_orgT.Connection = New SqlClient.SqlConnection(strConnection)
@@ -505,6 +527,12 @@ Public Class clsReport
         Next
 
         finalizeA_Tables.GetData(objLocalConfig.Globals.Type_Class)
+
+        objDBLevel_Objects = Nothing
+        objDBLevel_Classes = Nothing
+
+        oList_Objects = Nothing
+        GC.Collect()
     End Sub
 
     Public Sub sync_SQLDB_AttributeTypes()
@@ -539,17 +567,6 @@ Public Class clsReport
                                                                  objLocalConfig.Globals.Rep_Database)
         
 
-        objDBLevel_AttributeTypes = New clsDBLevel(objLocalConfig.Globals)
-        objDBlevel_ObjAtt = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_Objects = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_Classes = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_CalssAtt = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_Ontology = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_OntologyRules = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_DataType = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_Class = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_ClassRel = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_ObjectRel = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_RelType = New clsDBLevel(objLocalConfig.Globals)
+        
     End Sub
 End Class

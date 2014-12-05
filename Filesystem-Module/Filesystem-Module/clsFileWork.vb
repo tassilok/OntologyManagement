@@ -6,7 +6,7 @@ Imports Ionic
 Public Class clsFileWork
 
 
-    Private objLocalConfig As clsLocalConfig
+    Public Property objLocalConfig As clsLocalConfig
     Private objTransaction As clsTransaction
     Private objRelationConfig As clsRelationConfig
     Private objBlobConnection As clsBlobConnection

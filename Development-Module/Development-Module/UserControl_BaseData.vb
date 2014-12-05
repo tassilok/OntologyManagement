@@ -51,7 +51,7 @@ Public Class UserControl_BaseData
         
         objTransaction = New clsTransaction(objLocalConfig.Globals)
         objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
-        objFileWork = new clsFileWork(objLocalConfig.Globals)
+        objFileWork = New clsFileWork(objLocalConfig.Globals)
         objUserControl_Languages = new UserControl_OItemList(objLocalConfig.Globals)
         objUserControl_Languages.Dock = DockStyle.Fill
         objUserControl_Localization = New UserControl_LocalizationDetails(objLocalConfig.Globals)
@@ -66,7 +66,12 @@ Public Class UserControl_BaseData
 
     Public sub Initialize_BaseData(OItem_Dev As clsOntologyItem)
         objOItem_Dev = OItem_Dev
-        objTransaction_Version = New clsTransaction_Version(objLocalConfig, Me, objOItem_Dev, objDataWork_Details)
+        If objTransaction_Version Is Nothing Then
+            objTransaction_Version = New clsTransaction_Version(objLocalConfig, Me, objOItem_Dev, objDataWork_Details)
+        Else
+            objTransaction_Version.objOItem_Dev = objOItem_Dev
+        End If
+
         clear_Controls()
         If Not objOItem_Dev Is Nothing Then
             if objDataWork_Details.GetData(objOItem_Dev).GUID = objLocalConfig.Globals.LState_Success.GUID Then

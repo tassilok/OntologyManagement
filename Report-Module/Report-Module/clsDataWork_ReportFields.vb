@@ -375,365 +375,512 @@ Public Class clsDataWork_ReportFields
             objOItem_Report = OItem_Report
         End If
 
-        objOList_ObjecAtt.Add(New clsObjectAtt(Nothing, _
-                                               Nothing, _
-                                               objLocalConfig.OItem_Class_Report_Field.GUID, _
-                                               objLocalConfig.OItem_Attribute_invisible.GUID, _
-                                               Nothing))
+        objOList_ObjRel_Reports = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Class_Report_Field.GUID,
+                                                                                          .ID_Other = objOItem_Report.GUID, _
+                                                                                          .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID}}
 
-        objDBLevel_Attributes.get_Data_ObjectAtt(objOList_ObjecAtt, _
-                                                 boolIDs:=False)
-
-        objOList_ObjRel_Reports.Add(New clsObjectRel(Nothing, _
-                                             Nothing, _
-                                             objLocalConfig.OItem_Class_Report_Field.GUID, _
-                                             Nothing, _
-                                             objOItem_Report.GUID, _
-                                             Nothing, _
-                                             objLocalConfig.OItem_Class_Reports.GUID, _
-                                             Nothing, _
-                                             objLocalConfig.OItem_RelationType_belongsTo.GUID, _
-                                             Nothing, _
-                                             objLocalConfig.Globals.Type_Object, _
-                                             Nothing, _
-                                             Nothing, _
-                                             Nothing))
-
-        objDBLevel_Report.get_Data_ObjectRel(objOList_ObjRel_Reports, _
+        Dim objOItem_Result = objDBLevel_Report.get_Data_ObjectRel(objOList_ObjRel_Reports, _
                                              boolIDs:=False)
 
-        objOList_ObjRel_ReportToView.Add(New clsObjectRel(objOItem_Report.GUID, _
-                                                          Nothing, _
-                                                          Nothing, _
-                                                          Nothing, _
-                                                          Nothing, _
-                                                          Nothing, _
-                                                          objLocalConfig.OItem_Class_DB_Views.GUID, _
-                                                          Nothing, _
-                                                          objLocalConfig.OItem_RelationType_is.GUID, _
-                                                          Nothing, _
-                                                          objLocalConfig.Globals.Type_Object, _
-                                                          Nothing, _
-                                                          Nothing, _
-                                                          Nothing))
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_ObjecAtt = objDBLevel_Report.OList_ObjectRel.Select(Function(repfield) New clsObjectAtt With {.ID_Object = repfield.ID_Object,
+                                                                                                               .ID_AttributeType = objLocalConfig.OItem_Attribute_invisible.GUID}).ToList()
 
-        objDBLevel_ReportsToDBView.get_Data_ObjectRel(objOList_ObjRel_ReportToView)
+            If objOList_ObjecAtt.Any() Then
+                objOItem_Result = objDBLevel_Attributes.get_Data_ObjectAtt(objOList_ObjecAtt, _
+                                                 boolIDs:=False)
 
 
-        objOList_ObjRel_Columns.Add(New clsObjectRel(Nothing, _
-                                                     Nothing, _
-                                                     objLocalConfig.OItem_Class_Report_Field.GUID, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     objLocalConfig.OItem_Class_DB_Columns.GUID, _
-                                                     Nothing, _
-                                                     objLocalConfig.OItem_RelationType_belongsTo.GUID, _
-                                                     Nothing, _
-                                                     objLocalConfig.Globals.Type_Object, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     Nothing))
+            Else
+                objDBLevel_Attributes.OList_ObjectAtt.Clear()
+            End If
+        End If
 
-        objDBLevel_Columns.get_Data_ObjectRel(objOList_ObjRel_Columns)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_ObjRel_ReportToView = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Object = objOItem_Report.GUID,
+                                                                                                  .ID_Parent_Other = objLocalConfig.OItem_Class_DB_Views.GUID,
+                                                                                                  .ID_RelationType = objLocalConfig.OItem_RelationType_is.GUID}}
 
-        objOList_ObjRel_DBItem.Add(New clsObjectRel(Nothing, _
-                                                     Nothing, _
-                                                     objLocalConfig.OItem_Class_DB_Columns.GUID, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     objLocalConfig.OItem_Class_DB_Views.GUID, _
-                                                     Nothing, _
-                                                     objLocalConfig.OItem_RelationType_belongsTo.GUID, _
-                                                     Nothing, _
-                                                     objLocalConfig.Globals.Type_Object, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     Nothing))
+            If objOList_ObjRel_ReportToView.Any() Then
+                objOItem_Result = objDBLevel_ReportsToDBView.get_Data_ObjectRel(objOList_ObjRel_ReportToView, boolIDs:=False)
+            Else
+                objDBLevel_ReportsToDBView.OList_ObjectRel.Clear()
+            End If
 
-        objDBLevel_DBItem.get_Data_ObjectRel(objOList_ObjRel_DBItem)
+        End If
 
-        objOList_ObjRel_DBOnServer.Add(New clsObjectRel(Nothing, _
-                                                     Nothing, _
-                                                     objLocalConfig.OItem_Class_Database_on_Server.GUID, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     objLocalConfig.OItem_Class_DB_Views.GUID, _
-                                                     Nothing, _
-                                                     objLocalConfig.OItem_RelationType_contains.GUID, _
-                                                     Nothing, _
-                                                     objLocalConfig.Globals.Type_Object, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     Nothing))
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_ObjRel_Columns = objDBLevel_Report.OList_ObjectRel.Select(Function(field) New clsObjectRel With {.ID_Object = field.ID_Object,
+                                                                                                                      .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                                                                                                                      .ID_Parent_Other = objLocalConfig.OItem_Class_DB_Columns.GUID}).ToList()
 
-        objDBLevel_DBOnServer.get_Data_ObjectRel(objOList_ObjRel_DBOnServer)
+            If objOList_ObjRel_Columns.Any() Then
+                objOItem_Result = objDBLevel_Columns.get_Data_ObjectRel(objOList_ObjRel_Columns, boolIDs:=False)
+            Else
+                objDBLevel_Columns.OList_ObjectRel.Clear()
+            End If
 
-        objOList_ObjRel_Database.Add(New clsObjectRel(Nothing, _
-                                                     Nothing, _
-                                                     objLocalConfig.OItem_Class_Database_on_Server.GUID, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     objLocalConfig.OItem_Class_Database.GUID, _
-                                                     Nothing, _
-                                                     objLocalConfig.OItem_RelationType_belongsTo.GUID, _
-                                                     Nothing, _
-                                                     objLocalConfig.Globals.Type_Object, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     Nothing))
+        End If
 
-        objDBLevel_DataBase.get_Data_ObjectRel(objOList_ObjRel_Database)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_ObjRel_DBItem = objDBLevel_Columns.OList_ObjectRel.Select(Function(col) New clsObjectRel With {.ID_Object = col.ID_Other,
+                                                                                                                    .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                                                                                                                    .ID_Parent_Other = objLocalConfig.OItem_Class_DB_Views.GUID}).ToList()
 
-        objOList_ObjRel_Server.Add(New clsObjectRel(Nothing, _
-                                                     Nothing, _
-                                                     objLocalConfig.OItem_Class_Database_on_Server.GUID, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     objLocalConfig.OItem_Class_Server.GUID, _
-                                                     Nothing, _
-                                                     objLocalConfig.OItem_RelationType_located_in.GUID, _
-                                                     Nothing, _
-                                                     objLocalConfig.Globals.Type_Object, _
-                                                     Nothing, _
-                                                     Nothing, _
-                                                     Nothing))
+            If objOList_ObjRel_DBItem.Any() Then
+                objOItem_Result = objDBLevel_DBItem.get_Data_ObjectRel(objOList_ObjRel_DBItem, boolIDs:=False)
+            Else
+                objDBLevel_Columns.OList_ObjectRel.Clear()
+            End If
+            
+        End If
 
-        objDBLevel_Server.get_Data_ObjectRel(objOList_ObjRel_Server)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_ObjRel_DBOnServer = objDBLevel_DBItem.OList_ObjectRel.Select(Function(viewItem) New clsObjectRel With {.ID_Other = viewItem.ID_Other,
+                                                                                                                            .ID_Parent_Object = objLocalConfig.OItem_Class_Database_on_Server.GUID,
+                                                                                                                            .ID_RelationType = objLocalConfig.OItem_RelationType_contains.GUID}).ToList()
 
+            If objOList_ObjRel_DBOnServer.Any() Then
+                objOItem_Result = objDBLevel_DBOnServer.get_Data_ObjectRel(objOList_ObjRel_DBOnServer, boolIDs:=False)
+            Else
+                objDBLevel_DBOnServer.OList_ObjectRel.Clear()
+            End If
+            
 
+        End If
 
-        objOList_ObjRel_Fields.Add(New clsObjectRel(Nothing, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_Class_Report_Field.GUID, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_Class_Report_Field.GUID, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_RelationType_leads.GUID, _
-                                                        Nothing, _
-                                                        objLocalConfig.Globals.Type_Object, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        Nothing))
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_ObjRel_Database = objDBLevel_DBOnServer.OList_ObjectRel.Select(Function(dbonserver) New clsObjectRel With {.ID_Object = dbonserver.ID_Object,
+                                                                                                                                .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                                                                                                                                .ID_Parent_Other = objLocalConfig.OItem_Class_Database.GUID}).ToList()
 
-        objOList_ObjRel_Fields.Add(New clsObjectRel(Nothing, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_Class_Report_Field.GUID, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_Class_Report_Field.GUID, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_RelationType_Type_Field.GUID, _
-                                                        Nothing, _
-                                                        objLocalConfig.Globals.Type_Object, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        Nothing))
+            If objOList_ObjRel_Database.Any() Then
+                objOItem_Result = objDBLevel_DataBase.get_Data_ObjectRel(objOList_ObjRel_Database, boolIDs:=False)
+            Else
+                objDBLevel_DataBase.OList_ObjectRel.Clear()
+            End If
+            
+        End If
 
-        objDBLevel_Fields.get_Data_ObjectRel(objOList_ObjRel_Fields)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_ObjRel_Server = objDBLevel_DBOnServer.OList_ObjectRel.Select(Function(dbonserver) New clsObjectRel With {.ID_Object = dbonserver.ID_Object,
+                                                                                                                              .ID_RelationType = objLocalConfig.OItem_RelationType_located_in.GUID,
+                                                                                                                              .ID_Parent_Other = objLocalConfig.OItem_Class_Server.GUID}).ToList()
 
-        objOList_ObjRel_FieldTypes.Add(New clsObjectRel(Nothing, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_Class_Report_Field.GUID, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_Class_Field_Type.GUID, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_RelationType_is_of_Type.GUID, _
-                                                        Nothing, _
-                                                        objLocalConfig.Globals.Type_Object, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        Nothing))
+            If objOList_ObjRel_Server.Any() Then
+                objOItem_Result = objDBLevel_Server.get_Data_ObjectRel(objOList_ObjRel_Server, boolIDs:=False)
+            Else
+                objDBLevel_Server.OList_ObjectRel.Clear()
+            End If
 
-        objDBLevel_FieldTypes.get_Data_ObjectRel(objOList_ObjRel_FieldTypes)
+        End If
 
-        objOList_ObjRel_FieldFormats.Add(New clsObjectRel(Nothing, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_Class_Report_Field.GUID, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_Class_Field_Format.GUID, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_RelationType_Formatted_by.GUID, _
-                                                        Nothing, _
-                                                        objLocalConfig.Globals.Type_Object, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        Nothing))
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_ObjRel_Fields = objDBLevel_Report.OList_ObjectRel.Select(Function(fieldItem) New clsObjectRel With {.ID_Other = fieldItem.ID_Object,
+                                                                                                                         .ID_RelationType = objLocalConfig.OItem_RelationType_leads.GUID,
+                                                                                                                         .ID_Parent_Object = objLocalConfig.OItem_Class_Report_Field.GUID}).ToList()
 
-        objDBLevel_FieldFormats.get_Data_ObjectRel(objOList_ObjRel_FieldFormats)
+            If objOList_ObjRel_Fields.Any() Then
+                objOItem_Result = objDBLevel_LeadFields.get_Data_ObjectRel(objOList_ObjRel_Fields, boolIDs:=False)
+            Else
+                objDBLevel_LeadFields.OList_ObjectRel.Clear()
+            End If
 
-        objOList_ObjRel_LeadFields.Add(New clsObjectRel(Nothing, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_Class_Report_Field.GUID, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_Class_Report_Field.GUID, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_RelationType_leads.GUID, _
-                                                        Nothing, _
-                                                        objLocalConfig.Globals.Type_Object, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        Nothing))
+            
+        End If
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_ObjRel_Fields = objDBLevel_Report.OList_ObjectRel.Select(Function(fieldItem) New clsObjectRel With {.ID_Other = fieldItem.ID_Object,
+                                                                                                                                .ID_RelationType = objLocalConfig.OItem_RelationType_Type_Field.GUID,
+                                                                                                                                .ID_Parent_Object = objLocalConfig.OItem_Class_Report_Field.GUID}).ToList()
 
 
-        objDBLevel_LeadFields.get_Data_ObjectRel(objOList_ObjRel_LeadFields)
 
-        objOList_ObjRel_TypeFields.Add(New clsObjectRel(Nothing, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_Class_Report_Field.GUID, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_Class_Report_Field.GUID, _
-                                                        Nothing, _
-                                                        objLocalConfig.OItem_RelationType_Type_Field.GUID, _
-                                                        Nothing, _
-                                                        objLocalConfig.Globals.Type_Object, _
-                                                        Nothing, _
-                                                        Nothing, _
-                                                        Nothing))
+            If objOList_ObjRel_Fields.Any() Then
+                objOItem_Result = objDBLevel_TypeFields.get_Data_ObjectRel(objOList_ObjRel_Fields, boolIDs:=False)
+            Else
+                objDBLevel_TypeFields.OList_ObjectRel.Clear()
+            End If
+        End If
 
-        objDBLevel_TypeFields.get_Data_ObjectRel(objOList_ObjRel_TypeFields)
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_ObjRel_FieldTypes = objDBLevel_Report.OList_ObjectRel.Select(Function(fieldItem) New clsObjectRel With {.ID_Object = fieldItem.ID_Object,
+                                                                                                                             .ID_RelationType = objLocalConfig.OItem_RelationType_is_of_Type.GUID,
+                                                                                                                             .ID_Parent_Other = objLocalConfig.OItem_Class_Field_Type.GUID}).ToList()
 
-        objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_DB_Columns.GUID, objLocalConfig.Globals.Type_Object))
-        objDBLevel_Columns.get_Data_Objects(objOList_Objects, _
-                                            List2:=True)
+
+            If objOList_ObjRel_FieldTypes.Any() Then
+                objOItem_Result = objDBLevel_FieldTypes.get_Data_ObjectRel(objOList_ObjRel_FieldTypes, boolIDs:=False)
+            Else
+                objDBLevel_FieldTypes.OList_ObjectRel.Clear()
+            End If
+            
+
+        End If
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOList_ObjRel_FieldFormats = objDBLevel_Report.OList_ObjectRel.Select(Function(fieldItem) New clsObjectRel With {.ID_Object = fieldItem.ID_Object,
+                                                                                                                               .ID_RelationType = objLocalConfig.OItem_RelationType_Formatted_by.GUID,
+                                                                                                                               .ID_Parent_Other = objLocalConfig.OItem_Class_Field_Format.GUID}).ToList()
+
+            If objOList_ObjRel_FieldFormats.Any() Then
+                objOItem_Result = objDBLevel_FieldFormats.get_Data_ObjectRel(objOList_ObjRel_FieldFormats, boolIDs:=False)
+            Else
+                objDBLevel_FieldFormats.OList_ObjectRel.Clear()
+            End If
+
+        End If
+        'Get Invisible Fields
+        'objOList_ObjecAtt.Add(New clsObjectAtt(Nothing, _
+        '                                       Nothing, _
+        '                                       objLocalConfig.OItem_Class_Report_Field.GUID, _
+        '                                       objLocalConfig.OItem_Attribute_invisible.GUID, _
+        '                                       Nothing))
+
+        'objDBLevel_Attributes.get_Data_ObjectAtt(objOList_ObjecAtt, _
+        '                                         boolIDs:=False)
+
+        'Get Fields of Report
+        'objOList_ObjRel_Reports.Add(New clsObjectRel(Nothing, _
+        '                                     Nothing, _
+        '                                     objLocalConfig.OItem_Class_Report_Field.GUID, _
+        '                                     Nothing, _
+        '                                     objOItem_Report.GUID, _
+        '                                     Nothing, _
+        '                                     objLocalConfig.OItem_Class_Reports.GUID, _
+        '                                     Nothing, _
+        '                                     objLocalConfig.OItem_RelationType_belongsTo.GUID, _
+        '                                     Nothing, _
+        '                                     objLocalConfig.Globals.Type_Object, _
+        '                                     Nothing, _
+        '                                     Nothing, _
+        '                                     Nothing))
+
+        'objDBLevel_Report.get_Data_ObjectRel(objOList_ObjRel_Reports, _
+        '                                     boolIDs:=False)
+
+        'objOList_ObjRel_ReportToView.Add(New clsObjectRel(objOItem_Report.GUID, _
+        '                                                  Nothing, _
+        '                                                  Nothing, _
+        '                                                  Nothing, _
+        '                                                  Nothing, _
+        '                                                  Nothing, _
+        '                                                  objLocalConfig.OItem_Class_DB_Views.GUID, _
+        '                                                  Nothing, _
+        '                                                  objLocalConfig.OItem_RelationType_is.GUID, _
+        '                                                  Nothing, _
+        '                                                  objLocalConfig.Globals.Type_Object, _
+        '                                                  Nothing, _
+        '                                                  Nothing, _
+        '                                                  Nothing))
+
+        'objDBLevel_ReportsToDBView.get_Data_ObjectRel(objOList_ObjRel_ReportToView)
+
+
+        'objOList_ObjRel_Columns.Add(New clsObjectRel(Nothing, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.OItem_Class_Report_Field.GUID, _
+        '                                             Nothing, _
+        '                                             Nothing, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.OItem_Class_DB_Columns.GUID, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.OItem_RelationType_belongsTo.GUID, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.Globals.Type_Object, _
+        '                                             Nothing, _
+        '                                             Nothing, _
+        '                                             Nothing))
+
+        'objDBLevel_Columns.get_Data_ObjectRel(objOList_ObjRel_Columns)
+
+        'objOList_ObjRel_DBItem.Add(New clsObjectRel(Nothing, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.OItem_Class_DB_Columns.GUID, _
+        '                                             Nothing, _
+        '                                             Nothing, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.OItem_Class_DB_Views.GUID, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.OItem_RelationType_belongsTo.GUID, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.Globals.Type_Object, _
+        '                                             Nothing, _
+        '                                             Nothing, _
+        '                                             Nothing))
+
+        'objDBLevel_DBItem.get_Data_ObjectRel(objOList_ObjRel_DBItem)
+
+        'objOList_ObjRel_DBOnServer.Add(New clsObjectRel(Nothing, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.OItem_Class_Database_on_Server.GUID, _
+        '                                             Nothing, _
+        '                                             Nothing, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.OItem_Class_DB_Views.GUID, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.OItem_RelationType_contains.GUID, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.Globals.Type_Object, _
+        '                                             Nothing, _
+        '                                             Nothing, _
+        '                                             Nothing))
+
+        'objDBLevel_DBOnServer.get_Data_ObjectRel(objOList_ObjRel_DBOnServer)
+
+        'objOList_ObjRel_Database.Add(New clsObjectRel(Nothing, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.OItem_Class_Database_on_Server.GUID, _
+        '                                             Nothing, _
+        '                                             Nothing, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.OItem_Class_Database.GUID, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.OItem_RelationType_belongsTo.GUID, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.Globals.Type_Object, _
+        '                                             Nothing, _
+        '                                             Nothing, _
+        '                                             Nothing))
+
+        'objDBLevel_DataBase.get_Data_ObjectRel(objOList_ObjRel_Database)
+
+        'objOList_ObjRel_Server.Add(New clsObjectRel(Nothing, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.OItem_Class_Database_on_Server.GUID, _
+        '                                             Nothing, _
+        '                                             Nothing, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.OItem_Class_Server.GUID, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.OItem_RelationType_located_in.GUID, _
+        '                                             Nothing, _
+        '                                             objLocalConfig.Globals.Type_Object, _
+        '                                             Nothing, _
+        '                                             Nothing, _
+        '                                             Nothing))
+
+        'objDBLevel_Server.get_Data_ObjectRel(objOList_ObjRel_Server)
+
+
+
+        'objOList_ObjRel_Fields.Add(New clsObjectRel(Nothing, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_Class_Report_Field.GUID, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_Class_Report_Field.GUID, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_RelationType_leads.GUID, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.Globals.Type_Object, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                Nothing))
+
+        'objOList_ObjRel_Fields.Add(New clsObjectRel(Nothing, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_Class_Report_Field.GUID, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_Class_Report_Field.GUID, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_RelationType_Type_Field.GUID, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.Globals.Type_Object, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                Nothing))
+
+        'objDBLevel_Fields.get_Data_ObjectRel(objOList_ObjRel_Fields)
+
+        'objOList_ObjRel_FieldTypes.Add(New clsObjectRel(Nothing, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_Class_Report_Field.GUID, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_Class_Field_Type.GUID, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_RelationType_is_of_Type.GUID, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.Globals.Type_Object, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                Nothing))
+
+        'objDBLevel_FieldTypes.get_Data_ObjectRel(objOList_ObjRel_FieldTypes)
+
+        'objOList_ObjRel_FieldFormats.Add(New clsObjectRel(Nothing, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_Class_Report_Field.GUID, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_Class_Field_Format.GUID, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_RelationType_Formatted_by.GUID, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.Globals.Type_Object, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                Nothing))
+
+        'objDBLevel_FieldFormats.get_Data_ObjectRel(objOList_ObjRel_FieldFormats)
+
+        'objOList_ObjRel_LeadFields.Add(New clsObjectRel(Nothing, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_Class_Report_Field.GUID, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_Class_Report_Field.GUID, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_RelationType_leads.GUID, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.Globals.Type_Object, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                Nothing))
+
+
+        'objDBLevel_LeadFields.get_Data_ObjectRel(objOList_ObjRel_LeadFields)
+
+        'objOList_ObjRel_TypeFields.Add(New clsObjectRel(Nothing, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_Class_Report_Field.GUID, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_Class_Report_Field.GUID, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.OItem_RelationType_Type_Field.GUID, _
+        '                                                Nothing, _
+        '                                                objLocalConfig.Globals.Type_Object, _
+        '                                                Nothing, _
+        '                                                Nothing, _
+        '                                                Nothing))
+
+        'objDBLevel_TypeFields.get_Data_ObjectRel(objOList_ObjRel_TypeFields)
+
+        'objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_DB_Columns.GUID, objLocalConfig.Globals.Type_Object))
+        'objDBLevel_Columns.get_Data_Objects(objOList_Objects, _
+        '                                    List2:=True)
 
         Dim objL_Cols = (From objLeft In objDBLevel_Report.OList_ObjectRel
-                        Join objRel In objDBLevel_Columns.OList_ObjectRel_ID On objLeft.ID_Object Equals objRel.ID_Object
-                        Join objRight In objDBLevel_Columns.OList_Objects2 On objRel.ID_Other Equals objRight.GUID
+                        Join objRel In objDBLevel_Columns.OList_ObjectRel On objLeft.ID_Object Equals objRel.ID_Object
                         Select ID_Field = objLeft.ID_Object, _
-                                ID_Col = objRight.GUID, _
-                                Name_Col = objRight.Name).ToList
+                                ID_Col = objRel.ID_Other, _
+                                Name_Col = objRel.Name_Other).ToList
 
-        objOList_Objects.Clear()
-        objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_DB_Views.GUID, objLocalConfig.Globals.Type_Object))
-        objDBLevel_DBItem.get_Data_Objects(objOList_Objects, _
-                                           List2:=True)
+        'objOList_Objects.Clear()
+        'objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_DB_Views.GUID, objLocalConfig.Globals.Type_Object))
+        'objDBLevel_DBItem.get_Data_Objects(objOList_Objects, _
+        '                                   List2:=True)
 
         Dim objL_DBView = (From objLeft In objL_Cols
-                          Join objRel In objDBLevel_DBItem.OList_ObjectRel_ID On objLeft.ID_Col Equals objRel.ID_Object
-                          Join objRight In objDBLevel_DBItem.OList_Objects2 On objRel.ID_Other Equals objRight.GUID
+                          Join objRel In objDBLevel_DBItem.OList_ObjectRel On objLeft.ID_Col Equals objRel.ID_Object
                           Select ID_Field = objLeft.ID_Field, _
                                     ID_Col = objLeft.ID_Col, _
-                                    ID_DBView = objRight.GUID, _
-                                    Name_DBView = objRight.Name).ToList
+                                    ID_DBView = objRel.ID_Other, _
+                                    Name_DBView = objRel.Name_Other).ToList
 
 
-        objOList_Objects.Clear()
-        objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Database_on_Server.GUID, objLocalConfig.Globals.Type_Object))
-        objDBLevel_DBOnServer.get_Data_Objects(objOList_Objects, _
-                                           List2:=True)
+        'objOList_Objects.Clear()
+        'objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Database_on_Server.GUID, objLocalConfig.Globals.Type_Object))
+        'objDBLevel_DBOnServer.get_Data_Objects(objOList_Objects, _
+        '                                   List2:=True)
 
         Dim objL_DBOnServer = (From objRight In objL_DBView
-                              Join objRel In objDBLevel_DBOnServer.OList_ObjectRel_ID On objRight.ID_DBView Equals objRel.ID_Other
-                              Join objLeft In objDBLevel_DBOnServer.OList_Objects2 On objLeft.GUID Equals objRel.ID_Object
+                              Join objRel In objDBLevel_DBOnServer.OList_ObjectRel On objRight.ID_DBView Equals objRel.ID_Other
                               Select ID_Field = objRight.ID_Field, _
                                         ID_Col = objRight.ID_Col, _
                                         ID_DBView = objRight.ID_DBView, _
-                                        ID_DBOnServer = objLeft.GUID, _
-                                        Name_DBOnServer = objLeft.Name).ToList
+                                        ID_DBOnServer = objRel.ID_Object, _
+                                        Name_DBOnServer = objRel.Name_Object).ToList
 
-        objOList_Objects.Clear()
-        objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Database.GUID, objLocalConfig.Globals.Type_Object))
-        objDBLevel_DataBase.get_Data_Objects(objOList_Objects, _
-                                           List2:=True)
+        'objOList_Objects.Clear()
+        'objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Database.GUID, objLocalConfig.Globals.Type_Object))
+        'objDBLevel_DataBase.get_Data_Objects(objOList_Objects, _
+        '                                   List2:=True)
 
         Dim objL_Database = (From objLeft In objL_DBOnServer
-                            Join objRel In objDBLevel_DataBase.OList_ObjectRel_ID On objLeft.ID_DBOnServer Equals objRel.ID_Object
-                            Join objRight In objDBLevel_DataBase.OList_Objects2 On objRight.GUID Equals objRel.ID_Other
+                            Join objRel In objDBLevel_DataBase.OList_ObjectRel On objLeft.ID_DBOnServer Equals objRel.ID_Object
                             Select ID_Field = objLeft.ID_Field, _
                                     ID_Col = objLeft.ID_Col, _
                                     ID_DBView = objLeft.ID_DBView, _
                                     ID_DBOnServer = objLeft.ID_DBOnServer, _
-                                    ID_Database = objRight.GUID, _
-                                    Name_Database = objRight.Name).ToList
+                                    ID_Database = objRel.ID_Other, _
+                                    Name_Database = objRel.Name_Other).ToList
 
-        objOList_Objects.Clear()
-        objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Server.GUID, objLocalConfig.Globals.Type_Object))
-        objDBLevel_Server.get_Data_Objects(objOList_Objects, _
-                                           List2:=True)
+        'objOList_Objects.Clear()
+        'objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Server.GUID, objLocalConfig.Globals.Type_Object))
+        'objDBLevel_Server.get_Data_Objects(objOList_Objects, _
+        '                                   List2:=True)
 
         Dim objL_Server = (From objLeft In objL_DBOnServer
-                            Join objRel In objDBLevel_Server.OList_ObjectRel_ID On objLeft.ID_DBOnServer Equals objRel.ID_Object
-                            Join objRight In objDBLevel_Server.OList_Objects2 On objRight.GUID Equals objRel.ID_Other
+                            Join objRel In objDBLevel_Server.OList_ObjectRel On objLeft.ID_DBOnServer Equals objRel.ID_Object
                             Select ID_Field = objLeft.ID_Field, _
                                     ID_Col = objLeft.ID_Col, _
                                     ID_DBView = objLeft.ID_DBView, _
                                     ID_DBOnServer = objLeft.ID_DBOnServer, _
-                                    ID_Server = objRight.GUID, _
-                                    Name_Server = objRight.Name).ToList
+                                    ID_Server = objRel.ID_Other, _
+                                    Name_Server = objRel.Name_Other).ToList
 
-        objOList_Objects.Clear()
-        objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Field_Type.GUID, objLocalConfig.Globals.Type_Object))
-        objDBLevel_FieldTypes.get_Data_Objects(objOList_Objects, _
-                                               List2:=True)
+        'objOList_Objects.Clear()
+        'objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Field_Type.GUID, objLocalConfig.Globals.Type_Object))
+        'objDBLevel_FieldTypes.get_Data_Objects(objOList_Objects, _
+        '                                       List2:=True)
         Dim objL_FieldTypes = (From objLeft In objDBLevel_Report.OList_ObjectRel
-                              Join objRel In objDBLevel_FieldTypes.OList_ObjectRel_ID On objLeft.ID_Object Equals objRel.ID_Object
-                              Join objRight In objDBLevel_FieldTypes.OList_Objects2 On objRel.ID_Other Equals objRight.GUID
+                              Join objRel In objDBLevel_FieldTypes.OList_ObjectRel On objLeft.ID_Object Equals objRel.ID_Object
                               Select ID_Field = objLeft.ID_Object, _
-                                        ID_FieldType = objRight.GUID, _
-                                        Name_FieldType = objRight.Name).ToList
+                                        ID_FieldType = objRel.ID_Other, _
+                                        Name_FieldType = objRel.Name_Other).ToList
 
 
 
-        objOList_Objects.Clear()
-        objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Field_Format.GUID, objLocalConfig.Globals.Type_Object))
-        objDBLevel_FieldFormats.get_Data_Objects(objOList_Objects, _
-                                               List2:=True)
+        'objOList_Objects.Clear()
+        'objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Field_Format.GUID, objLocalConfig.Globals.Type_Object))
+        'objDBLevel_FieldFormats.get_Data_Objects(objOList_Objects, _
+        '                                       List2:=True)
         Dim objL_FieldFormats = (From objLeft In objDBLevel_Report.OList_ObjectRel
-                              Join objRel In objDBLevel_FieldFormats.OList_ObjectRel_ID On objLeft.ID_Object Equals objRel.ID_Object
-                              Join objRight In objDBLevel_FieldFormats.OList_Objects2 On objRel.ID_Other Equals objRight.GUID
+                              Join objRel In objDBLevel_FieldFormats.OList_ObjectRel On objLeft.ID_Object Equals objRel.ID_Object
                               Select ID_Field = objLeft.ID_Object, _
-                                        ID_FieldFormat = objRight.GUID, _
-                                        Name_FieldFormat = objRight.Name).ToList
+                                        ID_FieldFormat = objRel.ID_Other, _
+                                        Name_FieldFormat = objRel.Name_Other).ToList
 
-        objOList_Objects.Clear()
-        objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Report_Field.GUID, objLocalConfig.Globals.Type_Object))
-        objDBLevel_Fields.get_Data_Objects(objOList_Objects, _
-                                               List2:=True)
+        'objOList_Objects.Clear()
+        'objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Report_Field.GUID, objLocalConfig.Globals.Type_Object))
+        'objDBLevel_Fields.get_Data_Objects(objOList_Objects, _
+        '                                       List2:=True)
         Dim objL_LeadField = (From objLeft In objDBLevel_Report.OList_ObjectRel
-                              Join objRel In objDBLevel_Fields.OList_ObjectRel_ID On objLeft.ID_Object Equals objRel.ID_Other
-                              Join objRight In objDBLevel_Fields.OList_Objects2 On objRel.ID_Object Equals objRight.GUID
-                              Where objRel.ID_RelationType = objLocalConfig.OItem_RelationType_leads.GUID And _
-                                    objLeft.ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID
+                              Join objRel In objDBLevel_LeadFields.OList_ObjectRel On objLeft.ID_Object Equals objRel.ID_Other
                               Select ID_Field = objLeft.ID_Object, _
-                                        ID_LeadField = objRight.GUID, _
-                                        Name_LeadField = objRight.Name).ToList
+                                        ID_LeadField = objRel.ID_Object, _
+                                        Name_LeadField = objRel.Name_Object).ToList
 
-        objOList_Objects.Clear()
-        objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Report_Field.GUID, objLocalConfig.Globals.Type_Object))
-        objDBLevel_Fields.get_Data_Objects(objOList_Objects, _
-                                               List2:=True, _
-                                               ClearObj2:=False)
+        'objOList_Objects.Clear()
+        'objOList_Objects.Add(New clsOntologyItem(Nothing, Nothing, objLocalConfig.OItem_Class_Report_Field.GUID, objLocalConfig.Globals.Type_Object))
+        'objDBLevel_Fields.get_Data_Objects(objOList_Objects, _
+        '                                       List2:=True, _
+        '                                       ClearObj2:=False)
         Dim objL_TypeFields = (From objLeft In objDBLevel_Report.OList_ObjectRel
-                              Join objRel In objDBLevel_TypeFields.OList_ObjectRel_ID On objLeft.ID_Object Equals objRel.ID_Object
-                              Join objRight In objDBLevel_Fields.OList_Objects2 On objRel.ID_Other Equals objRight.GUID
+                              Join objRel In objDBLevel_TypeFields.OList_ObjectRel On objLeft.ID_Object Equals objRel.ID_Object
+                              Join objRight In objDBLevel_LeadFields.OList_ObjectRel On objRel.ID_Other Equals objRight.ID_Object
                               Where objRel.ID_RelationType = objLocalConfig.OItem_RelationType_Type_Field.GUID
                               Where objLeft.ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID
                               Select ID_Field = objLeft.ID_Object, _
-                                        ID_TypeField = objRight.GUID, _
-                                        Name_TypeField = objRight.Name).ToList
+                                        ID_TypeField = objRight.ID_Other, _
+                                        Name_TypeField = objRight.Name_Other).ToList
 
 
 
 
         Dim objLReportFieldstmp = (From objFields In objDBLevel_Report.OList_ObjectRel
                            Join objVis In objDBLevel_Attributes.OList_ObjectAtt On objFields.ID_Object Equals objVis.ID_Object
-                            Join objRepToView In objDBLevel_ReportsToDBView.OList_ObjectRel_ID On objRepToView.ID_Object Equals objFields.ID_Other
+                            Join objRepToView In objDBLevel_ReportsToDBView.OList_ObjectRel On objRepToView.ID_Object Equals objFields.ID_Other
                             Join objCol In objL_Cols On objCol.ID_Field Equals objFields.ID_Object
                             Join objDBView In objL_DBView On objDBView.ID_Field Equals objFields.ID_Object And objDBView.ID_DBView Equals objRepToView.ID_Other
                             Join objDBOnServer In objL_DBOnServer On objDBOnServer.ID_Field Equals objFields.ID_Object And objDBOnServer.ID_DBView Equals objRepToView.ID_Other

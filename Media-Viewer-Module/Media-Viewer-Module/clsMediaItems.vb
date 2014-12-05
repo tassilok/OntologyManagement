@@ -13,7 +13,7 @@ Public Class clsMediaItems
 
     Private objLocalConfig As clsLocalConfig
 
-    Private objBlobConnection As clsBlobConnection
+    Public Property BlobConnection As clsBlobConnection
 
     Public Sub New(LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
@@ -21,8 +21,22 @@ Public Class clsMediaItems
         initialize()
     End Sub
 
+    Public Sub New(LocalConfig As clsLocalConfig, blobConnection As clsBlobConnection)
+        objLocalConfig = LocalConfig
+        Me.BlobConnection = blobConnection
+
+        initialize()
+    End Sub
+
     Public Sub New(Globals As clsGlobals)
         objLocalConfig = New clsLocalConfig(Globals)
+
+        initialize()
+    End Sub
+
+    Public Sub New(Globals As clsGlobals, blobConnection As clsBlobConnection)
+        objLocalConfig = New clsLocalConfig(Globals)
+        Me.BlobConnection = blobConnection
 
         initialize()
     End Sub
@@ -52,7 +66,7 @@ Public Class clsMediaItems
 
         OItem_File.Additional1 = Environment.ExpandEnvironmentVariables(OItem_File.Additional1)
 
-        Dim objOItem_Result = objBlobConnection.save_Blob_To_File(OItem_File, OItem_File.Additional1)
+        Dim objOItem_Result = BlobConnection.save_Blob_To_File(OItem_File, OItem_File.Additional1)
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             Try
@@ -131,6 +145,9 @@ Public Class clsMediaItems
         objDBLevel_Created = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_File = New clsDBLevel(objLocalConfig.Globals)
 
-        objBlobConnection = New clsBlobConnection(objLocalConfig.Globals)
+        If BlobConnection Is Nothing Then
+            BlobConnection = New clsBlobConnection(objLocalConfig.Globals)
+        End If
+
     End Sub
 End Class

@@ -3,10 +3,10 @@ Imports OntologyClasses.BaseClasses
 
 Public Class frmBlobWatcher
     Private objLocalConfig As clsLocalConfig
-    Private objBlobConnection As clsBlobConnection
-    Private objFileWork As clsFileWork
+    Public Property BlobConnection As clsBlobConnection
+    Public Property FileWork As clsFileWork
     Private objDataWork As clsDataWork
-    Private objTransaction As clsTransaction
+    Public Property Transaction As clsTransaction
     Private objFileStream_BlobFlag As IO.FileStream
 
     Private boolUpdate As Boolean
@@ -52,6 +52,29 @@ Public Class frmBlobWatcher
         Return objOItem_Result
     End Function
 
+    Public Sub New(localConfig As clsLocalConfig, blobConnection As clsBlobConnection, fileWork As clsFileWork, transaction As clsTransaction)
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        objLocalConfig = localConfig
+        Me.BlobConnection = blobConnection
+        Me.FileWork = fileWork
+        Me.Transaction = transaction
+    End Sub
+
+    Public Sub New(Globals As clsGlobals, blobConnection As clsBlobConnection, fileWork As clsFileWork, transaction As clsTransaction)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = New clsLocalConfig(Globals)
+        Me.BlobConnection = blobConnection
+        Me.FileWork = fileWork
+        Me.Transaction = transaction
+        initialize()
+    End Sub
+
     Public Sub New(Globals As clsGlobals)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
@@ -64,11 +87,21 @@ Public Class frmBlobWatcher
     End Sub
 
     Private Sub initialize()
-        objBlobConnection = New clsBlobConnection(objLocalConfig)
-        objFileWork = New clsFileWork(objLocalConfig)
+        If BlobConnection Is Nothing Then
+            BlobConnection = New clsBlobConnection(objLocalConfig)
+        End If
+
+        If FileWork Is Nothing Then
+            FileWork = New clsFileWork(objLocalConfig)
+        End If
+
+        If Transaction Is Nothing Then
+            Transaction = New clsTransaction(objLocalConfig.Globals)
+        End If
+
         objDataWork = New clsDataWork(objLocalConfig)
-        objTransaction = New clsTransaction(objLocalConfig.Globals)
-        strPathBlobWatcher = Environment.ExpandEnvironmentVariables(objBlobConnection.Path_BlobWatcher)
+
+        strPathBlobWatcher = Environment.ExpandEnvironmentVariables(BlobConnection.Path_BlobWatcher)
 
     End Sub
 
@@ -101,7 +134,7 @@ Public Class frmBlobWatcher
             Me.strPathBlobWatcher = Environment.ExpandEnvironmentVariables(strPathBlobWatcher)
         End If
 
-        If objBlobConnection.BlobActive And objBlobConnection.BlobWatchConfigured Then
+        If BlobConnection.BlobActive And BlobConnection.BlobWatchConfigured Then
 
             objOItem_Result = TestBlobDirWatcherFolder()
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
@@ -173,9 +206,9 @@ Public Class frmBlobWatcher
                                                                      .ID_Other = strFile, _
                                                                      .ID_RelationType = objLocalConfig.OItem_RelationType_is_checkout_by.GUID}).ToList()
 
-            objTransaction.ClearItems()
+            Transaction.ClearItems()
             For Each objORFile In objOL_FilesToDelete
-                objOItem_Result = objTransaction.do_Transaction(objORFile, False, True)
+                objOItem_Result = Transaction.do_Transaction(objORFile, False, True)
 
             Next
         Else
@@ -183,8 +216,8 @@ Public Class frmBlobWatcher
                                                               .ID_Other = objLocalConfig.Globals.OItem_Server.GUID, _
                                                               .ID_RelationType = objLocalConfig.OItem_RelationType_is_checkout_by.GUID}
 
-            objTransaction.ClearItems()
-            objOItem_Result = objTransaction.do_Transaction(objORFilesToServer, False, True)
+            Transaction.ClearItems()
+            objOItem_Result = Transaction.do_Transaction(objORFilesToServer, False, True)
         End If
 
 
@@ -220,7 +253,7 @@ Public Class frmBlobWatcher
                                                                      .Ontology = objLocalConfig.Globals.Type_Object, _
                                                                      .OrderID = 1}
 
-                    objOItem_Result = objTransaction.do_Transaction(objORItem_ServerFiles)
+                    objOItem_Result = Transaction.do_Transaction(objORItem_ServerFiles)
 
 
                 End If
@@ -248,7 +281,7 @@ Public Class frmBlobWatcher
         Dim objOLR_FileToServer As clsObjectRel
         FileList = register_Files()
         clear_Files(objLocalConfig.Globals.OItem_Server, FileList)
-        objTransaction.ClearItems()
+        Transaction.ClearItems()
         For Each strFile As String In IO.Directory.GetFiles(strPathBlobWatcher)
 
             If Not is_File_Locked(strFile) Then
@@ -268,19 +301,19 @@ Public Class frmBlobWatcher
                                                                 .GUID_Parent = objLocalConfig.OItem_Type_File.GUID, _
                                                                 .Type = objLocalConfig.Globals.Type_Object}
 
-                        objOItem_Result = objTransaction.do_Transaction(objOItem_File)
+                        objOItem_Result = Transaction.do_Transaction(objOItem_File)
 
                     End If
                     If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                        objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_File, strFile)
+                        objOItem_Result = BlobConnection.save_File_To_Blob(objOItem_File, strFile)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             Try
                                 IO.File.Delete(strFile)
                                 objOLR_FileToServer = New clsObjectRel() With {.ID_Object = objOItem_File.GUID, _
                                                                                .ID_Other = objLocalConfig.Globals.OItem_Server.GUID, _
                                                                                .ID_RelationType = objLocalConfig.OItem_RelationType_is_checkout_by.GUID}
-                                objTransaction.ClearItems()
-                                objTransaction.do_Transaction(objOLR_FileToServer, False, True)
+                                Transaction.ClearItems()
+                                Transaction.do_Transaction(objOLR_FileToServer, False, True)
                             Catch ex As Exception
 
                             End Try

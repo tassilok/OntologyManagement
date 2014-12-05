@@ -54,11 +54,8 @@ Public Class UserControl_OntologyTree
     Public Sub initialize_Ontology(OItem_Ref As clsOntologyItem)
         objOItem_Ref = OItem_Ref
 
-        TreeView_Ontologies.Nodes.Clear()
-        objTreeNode_Root = TreeView_Ontologies.Nodes.Add(objDataWork_Ontologies.LocalConfig.Globals.Class_Ontologies.GUID, _
-                                                         objDataWork_Ontologies.LocalConfig.Globals.Class_Ontologies.Name, _
-                                                         objDataWork_Ontologies.LocalConfig.ImageID_Root, _
-                                                         objDataWork_Ontologies.LocalConfig.ImageID_Root)
+
+        
         fillTree()
 
     End Sub
@@ -67,6 +64,12 @@ Public Class UserControl_OntologyTree
         Dim objOList_Nodes As List(Of clsOntologyItem)
         If TreeNode_Parent Is Nothing Then
             If objOItem_Ref Is Nothing Then
+                TreeView_Ontologies.Nodes.Clear()
+                objTreeNode_Root = TreeView_Ontologies.Nodes.Add(objDataWork_Ontologies.LocalConfig.Globals.Class_Ontologies.GUID, _
+                                                         objDataWork_Ontologies.LocalConfig.Globals.Class_Ontologies.Name, _
+                                                         objDataWork_Ontologies.LocalConfig.ImageID_Root, _
+                                                         objDataWork_Ontologies.LocalConfig.ImageID_Root)
+
                 objOList_Nodes = (From objParent In objDataWork_Ontologies.OList_Ontologies
                                  Group Join objChildren In objDataWork_Ontologies.OList_OntologyTree On objChildren.ID_Object_Parent Equals objParent.GUID Into objChilds = Group
                                  From objChildren In objChilds.DefaultIfEmpty
