@@ -39,6 +39,8 @@
             this.button_Exec = new System.Windows.Forms.Button();
             this.button_Save = new System.Windows.Forms.Button();
             this.saveFileDialog_Script = new System.Windows.Forms.SaveFileDialog();
+            this.label_Encoding = new System.Windows.Forms.Label();
+            this.comboBox_Encoding = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.scintilla_CodeParsed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scintilla_Code)).BeginInit();
             this.SuspendLayout();
@@ -65,7 +67,7 @@
             // label_CodeParsed
             // 
             this.label_CodeParsed.AutoSize = true;
-            this.label_CodeParsed.Location = new System.Drawing.Point(10, 60);
+            this.label_CodeParsed.Location = new System.Drawing.Point(10, 86);
             this.label_CodeParsed.Name = "label_CodeParsed";
             this.label_CodeParsed.Size = new System.Drawing.Size(88, 13);
             this.label_CodeParsed.TabIndex = 2;
@@ -86,10 +88,10 @@
             this.scintilla_CodeParsed.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.scintilla_CodeParsed.Location = new System.Drawing.Point(145, 60);
+            this.scintilla_CodeParsed.Location = new System.Drawing.Point(145, 86);
             this.scintilla_CodeParsed.Margins.Margin0.Width = 20;
             this.scintilla_CodeParsed.Name = "scintilla_CodeParsed";
-            this.scintilla_CodeParsed.Size = new System.Drawing.Size(750, 443);
+            this.scintilla_CodeParsed.Size = new System.Drawing.Size(750, 417);
             this.scintilla_CodeParsed.Styles.BraceBad.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla_CodeParsed.Styles.BraceLight.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla_CodeParsed.Styles.CallTip.FontName = "Segoe UI\0\0\0\0\0\0\0\0\0\0\0\0";
@@ -144,7 +146,7 @@
             // button_Exec
             // 
             this.button_Exec.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Exec.Location = new System.Drawing.Point(901, 57);
+            this.button_Exec.Location = new System.Drawing.Point(901, 86);
             this.button_Exec.Name = "button_Exec";
             this.button_Exec.Size = new System.Drawing.Size(61, 23);
             this.button_Exec.TabIndex = 10;
@@ -155,7 +157,7 @@
             // button_Save
             // 
             this.button_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Save.Location = new System.Drawing.Point(901, 86);
+            this.button_Save.Location = new System.Drawing.Point(901, 115);
             this.button_Save.Name = "button_Save";
             this.button_Save.Size = new System.Drawing.Size(60, 23);
             this.button_Save.TabIndex = 11;
@@ -163,10 +165,31 @@
             this.button_Save.UseVisualStyleBackColor = true;
             this.button_Save.Click += new System.EventHandler(this.button_Save_Click);
             // 
+            // label_Encoding
+            // 
+            this.label_Encoding.AutoSize = true;
+            this.label_Encoding.Location = new System.Drawing.Point(10, 61);
+            this.label_Encoding.Name = "label_Encoding";
+            this.label_Encoding.Size = new System.Drawing.Size(66, 13);
+            this.label_Encoding.TabIndex = 12;
+            this.label_Encoding.Text = "x_Encoding:";
+            // 
+            // comboBox_Encoding
+            // 
+            this.comboBox_Encoding.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Encoding.FormattingEnabled = true;
+            this.comboBox_Encoding.Location = new System.Drawing.Point(145, 58);
+            this.comboBox_Encoding.Name = "comboBox_Encoding";
+            this.comboBox_Encoding.Size = new System.Drawing.Size(174, 21);
+            this.comboBox_Encoding.TabIndex = 13;
+            this.comboBox_Encoding.SelectedIndexChanged += new System.EventHandler(this.comboBox_Encoding_SelectedIndexChanged);
+            // 
             // UserControl_ExecuteCode
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.comboBox_Encoding);
+            this.Controls.Add(this.label_Encoding);
             this.Controls.Add(this.button_Save);
             this.Controls.Add(this.button_Exec);
             this.Controls.Add(this.textBox_ProgrammingLanguage);
@@ -199,5 +222,7 @@
         private System.Windows.Forms.Button button_Exec;
         private System.Windows.Forms.Button button_Save;
         private System.Windows.Forms.SaveFileDialog saveFileDialog_Script;
+        private System.Windows.Forms.Label label_Encoding;
+        private System.Windows.Forms.ComboBox comboBox_Encoding;
     }
 }

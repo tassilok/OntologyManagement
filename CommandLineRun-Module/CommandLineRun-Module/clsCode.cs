@@ -19,6 +19,8 @@ namespace CommandLineRun_Module
         public string CodeParsed { get; set; }
         public string ID_Ref { get; set; }
         public string Name_Ref { get; set; }
+        public string ID_Encoding { get; set; }
+        public string Name_Encoding { get; set; }
         public long OrderID { get; set; }
     }
 }

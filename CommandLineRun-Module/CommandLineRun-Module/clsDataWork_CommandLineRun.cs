@@ -30,6 +30,7 @@ namespace CommandLineRun_Module
         private clsDBLevel objDBLevel_Relations;
         private clsDBLevel objDBlevel_CmdlrTreeParam;
         private clsDBLevel objDBlevel_ProgrammingLanguages;
+        private clsDBLevel objDBLevel_ProgramLToEncoding;
         private clsDBLevel objDBlevel_OItem;
 
         private clsDataWork_ExecutableConfiguration objDataWork_ExecutableConfiguration;
@@ -801,6 +802,25 @@ namespace CommandLineRun_Module
 
             objOItem_Result = objDBlevel_ProgrammingLanguages.get_Data_Objects(searchProgrammingLanguages);
 
+            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                var searchProgLToEncoding = objDBlevel_ProgrammingLanguages.OList_Objects.Select(prg => new clsObjectRel
+                {
+                    ID_Object = prg.GUID,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belonging_destination.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_class_encoding.GUID
+                }).ToList();
+
+                if (searchProgLToEncoding.Any())
+                {
+                    objOItem_Result = objDBLevel_ProgramLToEncoding.get_Data_ObjectRel(searchProgLToEncoding, boolIDs: false);
+                }
+                else
+                {
+                    objDBLevel_ProgramLToEncoding.OList_ObjectRel.Clear();
+                }
+            }
+
             OItem_Result_ProgrammingLanguages = objOItem_Result;
         }
 
@@ -823,12 +843,14 @@ namespace CommandLineRun_Module
                 cmdrls.ForEach(cmlr =>
                     {
                         var commandLinesPL = (from pl in objDBLevel_CommandLine_PL.OList_ObjectRel
+                                              join enc in objDBLevel_ProgramLToEncoding.OList_ObjectRel on pl.ID_Other equals enc.ID_Object into encs
+                                              from enc in encs.DefaultIfEmpty()
                                               join syhl in objDBLevel_PL_SyntaxHighl.OList_ObjectRel on pl.ID_Other
                                                   equals
                                                   syhl.ID_Other
                                                   into syhls
                                               from syhl in syhls.DefaultIfEmpty()
-                                              select new {pl, syhl}).ToList();
+                                              select new {pl, syhl, enc}).ToList();
 
                         var commandLines = (from cmd in
                                                 objDBLevel_CommandLine.OList_ObjectRel.Where(
@@ -857,23 +879,28 @@ namespace CommandLineRun_Module
                                 ID_ProgrammingLanguage = cmd.pl != null ? cmd.pl.pl.ID_Other : null,
                                 Name_ProgrammingLanguage = cmd.pl != null ? cmd.pl.pl.Name_Other : null,
                                 ID_SyntaxHighlighting = cmd.pl != null && cmd.pl.syhl != null ? cmd.pl.syhl.ID_Object : null,
-                                Name_SyntaxHighlighting =  cmd.pl != null && cmd.pl.syhl != null  ? cmd.pl.syhl.Name_Object : null
+                                Name_SyntaxHighlighting =  cmd.pl != null && cmd.pl.syhl != null  ? cmd.pl.syhl.Name_Object : null,
+                                ID_Encoding = cmd.pl != null && cmd.pl.enc != null ? cmd.pl.enc.ID_Other : null,
+                                Name_Encoding = cmd.pl != null && cmd.pl.enc != null ? cmd.pl.enc.Name_Other : null
                             }));
 
 
                         var codeSnippletsPL = (from pl in objDBLevel_CodeSnipplets_PL.OList_ObjectRel
+                                               join enc in objDBLevel_ProgramLToEncoding.OList_ObjectRel on pl.ID_Other equals enc.ID_Object into encs
+                                               from enc in encs.DefaultIfEmpty()
                                                join syhl in objDBLevel_PL_SyntaxHighl.OList_ObjectRel on pl.ID_Other
                                                    equals
                                                    syhl.ID_Other
                                                    into syhls
                                                from syhl in syhls.DefaultIfEmpty()
-                                               select new {pl, syhl}).ToList();
+                                               select new {pl, syhl, enc}).ToList();
 
                     var codeSnipplets =
                         (from codeSnipplet in
                              objDBLevel_CodeSnipplets.OList_ObjectRel.Where(codes => codes.ID_Object == cmlr.GUID).OrderBy(codes => codes.OrderID)
                                                      .ToList()
                          join code in objDBLevel_Code.OList_ObjectAtt on codeSnipplet.ID_Other equals code.ID_Object
+                         
                          join pl in codeSnippletsPL on codeSnipplet.ID_Other equals pl.pl.ID_Object into pls
                          from pl in pls.DefaultIfEmpty()
                          select new {code, pl}).ToList();
@@ -895,7 +922,9 @@ namespace CommandLineRun_Module
                                 ID_ProgrammingLanguage = cmd.pl != null ? cmd.pl.pl.ID_Other : null,
                                 Name_ProgrammingLanguage = cmd.pl != null ? cmd.pl.pl.Name_Other : null,
                                 ID_SyntaxHighlighting = cmd.pl != null && cmd.pl.syhl != null  ? cmd.pl.syhl.ID_Object : null,
-                                Name_SyntaxHighlighting = cmd.pl != null && cmd.pl.syhl != null  ? cmd.pl.syhl.Name_Object : null
+                                Name_SyntaxHighlighting = cmd.pl != null && cmd.pl.syhl != null  ? cmd.pl.syhl.Name_Object : null,
+                                ID_Encoding = cmd.pl != null && cmd.pl.enc != null ? cmd.pl.enc.ID_Other : null,
+                                Name_Encoding = cmd.pl != null && cmd.pl.enc != null ? cmd.pl.enc.Name_Other : null
                             }));
 
                 });
@@ -1087,6 +1116,7 @@ namespace CommandLineRun_Module
             objDBLevel_PL_SyntaxHighl  = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_CodeSnipplets_PL = new clsDBLevel(objLocalConfig.Globals);
             objDBlevel_ProgrammingLanguages = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_ProgramLToEncoding = new clsDBLevel(objLocalConfig.Globals);
 
             OItem_CommandLineRun_Entry = null;
             OItem_Result_CommandLineRun = objLocalConfig.Globals.LState_Nothing.Clone();

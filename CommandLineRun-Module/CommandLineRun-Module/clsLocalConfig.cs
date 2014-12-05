@@ -47,6 +47,7 @@ public clsOntologyItem OItem_class_path { get; set; }
 public clsOntologyItem OItem_class_comand_line__run__to_report { get; set; }
 public clsOntologyItem OItem_class_variable_to_field { get; set; }
 public clsOntologyItem OItem_class_report_field { get; set; }
+public clsOntologyItem OItem_class_encoding { get; set; }
 
         // Objects
 public clsOntologyItem OItem_object_commandlinerun_module { get; set; }
@@ -62,6 +63,7 @@ public clsOntologyItem OItem_relationtype_needs { get; set; }
 public clsOntologyItem OItem_relationtype_is_written_in { get; set; }
 public clsOntologyItem OItem_relationtype_offers { get; set; }
 public clsOntologyItem OItem_relationtype_script_folder { get; set; }
+public clsOntologyItem OItem_relationtype_belonging_destination { get; set; }
 	
 private void get_Data_DevelopmentConfig()
         {
@@ -256,6 +258,27 @@ var objOList_attributetype_description = (from objOItem in objDBLevel_Config1.OL
   
 	private void get_Config_RelationTypes()
         {
+            var objOList_relationtype_belonging_destination = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                               where objOItem.ID_Object == cstrID_Ontology
+                                                               join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                               where objRef.Name_Object.ToLower() == "relationtype_belonging_destination".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                                               select objRef).ToList();
+
+            if (objOList_relationtype_belonging_destination.Any())
+            {
+                OItem_relationtype_belonging_destination = new clsOntologyItem()
+                {
+                    GUID = objOList_relationtype_belonging_destination.First().ID_Other,
+                    Name = objOList_relationtype_belonging_destination.First().Name_Other,
+                    GUID_Parent = objOList_relationtype_belonging_destination.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_relationtype_script_folder = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                        where objOItem.ID_Object == cstrID_Ontology
                                                        join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -474,6 +497,27 @@ var objOList_relationtype_needs = (from objOItem in objDBLevel_Config1.OList_Obj
   
 	private void get_Config_Classes()
         {
+            var objOList_class_encoding = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                           where objOItem.ID_Object == cstrID_Ontology
+                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                           where objRef.Name_Object.ToLower() == "class_encoding".ToLower() && objRef.Ontology == Globals.Type_Class
+                                           select objRef).ToList();
+
+            if (objOList_class_encoding.Any())
+            {
+                OItem_class_encoding = new clsOntologyItem()
+                {
+                    GUID = objOList_class_encoding.First().ID_Other,
+                    Name = objOList_class_encoding.First().Name_Other,
+                    GUID_Parent = objOList_class_encoding.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_class_report_field = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                where objOItem.ID_Object == cstrID_Ontology
                                                join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object

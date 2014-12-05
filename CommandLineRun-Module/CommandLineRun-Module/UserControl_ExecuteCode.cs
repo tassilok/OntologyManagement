@@ -27,6 +27,10 @@ namespace CommandLineRun_Module
 
         public event ScriptExecuted scriptExecuted;
 
+        private Encoding scriptEncoding;
+
+        private List<EncodingInfo> encodings;
+
         protected virtual void OnScriptExecuted(string output, string error)
         {
             ScriptExecuted handler = scriptExecuted;
@@ -52,6 +56,12 @@ namespace CommandLineRun_Module
             {
                 throw new Exception("Executable-Configuration Error");
             }
+
+            encodings = Encoding.GetEncodings().ToList();
+            comboBox_Encoding.DataSource = encodings;
+            comboBox_Encoding.ValueMember = "CodePage";
+            comboBox_Encoding.DisplayMember = "DisplayName";
+
         }
 
         public void InitializeCodeView(clsOntologyItem OItem_Cmdlr,
@@ -102,9 +112,30 @@ namespace CommandLineRun_Module
                                          join columnField in columnFieldList on variableToField.ID_ReportField
                                              equals columnField.Value
                                          select new { variableToField, columnField }).ToList();
-
+                scriptEncoding = null;
                 codes.ForEach(code =>
                 {
+                    EncodingInfo encTemp = null;
+                    if (code.Name_Encoding != null)
+                    {
+                        encTemp = encodings.Where(enc => enc.DisplayName.ToLower() == code.Name_Encoding.ToLower()).FirstOrDefault();
+                        if (encTemp != null)
+                        {
+                            if (scriptEncoding == null)
+                            {
+                                scriptEncoding = encTemp.GetEncoding();
+                            }
+                            else
+                            {
+                                if (scriptEncoding != encTemp.GetEncoding())
+                                {
+                                    scriptEncoding = null;
+                                }
+                            }
+                        }
+                    }
+
+                    
                     if (dataExtractConfig.Any(dc => dc.variableToField.ID_CommandLineRun == code.ID_CommandLineRun))
                     {
                         
@@ -201,7 +232,12 @@ namespace CommandLineRun_Module
                 scintilla_Code.IsReadOnly = true;
                 scintilla_CodeParsed.IsReadOnly = true;
 
-              
+                if (scriptEncoding != null)
+                {
+
+                    comboBox_Encoding.SelectedValue = scriptEncoding.CodePage;
+                }
+                
             }
         }
 
@@ -245,6 +281,27 @@ namespace CommandLineRun_Module
                 scintilla_CodeParsed.IsReadOnly = false;
                 codes.ForEach(code =>
                     {
+                        EncodingInfo encTemp = null;
+                        if (code.Name_Encoding != null)
+                        {
+                           
+                            encTemp = encodings.Where(enc => enc.DisplayName.ToLower() == code.Name_Encoding.ToLower()).FirstOrDefault();
+                            if (encTemp != null)
+                            {
+                                if (scriptEncoding == null)
+                                {
+                                    scriptEncoding = encTemp.GetEncoding();
+                                }
+                                else
+                                {
+                                    if (scriptEncoding != encTemp.GetEncoding())
+                                    {
+                                        scriptEncoding = null;
+                                    }
+                                }
+                            }
+                        }
+
                         if (!string.IsNullOrEmpty(scintilla_Code.Text))
                         {
                             scintilla_Code.Text += "\r\n";
@@ -324,6 +381,12 @@ namespace CommandLineRun_Module
                 {
                     saveFileDialog_Script.Filter = "Alle Dateien|*.*";
                 }
+
+                if (scriptEncoding != null)
+                {
+
+                    comboBox_Encoding.SelectedValue = scriptEncoding.CodePage;
+                }
             }
             
         }
@@ -351,7 +414,17 @@ namespace CommandLineRun_Module
                 var strDestPath = saveFileDialog_Script.FileName;
                 try
                 {
-                    TextWriter textStream = new StreamWriter(strDestPath, false);
+                    TextWriter textStream;
+
+                    if (scriptEncoding != null)
+                    {
+                        textStream = new StreamWriter(strDestPath, false, scriptEncoding);
+                    }
+                    else
+                    {
+                        textStream = new StreamWriter(strDestPath, false);
+                    }
+                        
                     textStream.Write(scintilla_CodeParsed.Text);
                     textStream.Close();
                 }
@@ -361,6 +434,11 @@ namespace CommandLineRun_Module
                 }
                 
             }
+        }
+
+        private void comboBox_Encoding_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            scriptEncoding = ((EncodingInfo) comboBox_Encoding.SelectedItem).GetEncoding();
         }
     }
 }
