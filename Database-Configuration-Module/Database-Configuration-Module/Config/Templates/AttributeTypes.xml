@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Items Type="AttributeType">
-  
+  <Item Id="b8ec1bee8ab44b25bbdfa9e7e2c9ee0d" Id_Parent="3a4f5b7bda754980933efbc33cc51439"><![CDATA[Dimensions]]></Item>
+<Item Id="bffa4ea5564a4487aafaae4de2b198bb" Id_Parent="dd858f27d5e14363a5c33e561e432333"><![CDATA[Variable]]></Item>
+<Item Id="86d58766533640e885feacdb4dc47f0e" Id_Parent="dd858f27d5e14363a5c33e561e432333"><![CDATA[Nullable]]></Item>
+<Item Id="0bc2975f70ef46c9a46dec9a7bd528c4" Id_Parent="dd858f27d5e14363a5c33e561e432333"><![CDATA[Unicode]]></Item>
+
 </Items>

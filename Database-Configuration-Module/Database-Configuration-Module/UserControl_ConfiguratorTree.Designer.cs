@@ -43,7 +43,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.treeView_Configurator);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(402, 402);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(402, 427);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -59,8 +59,9 @@
             this.treeView_Configurator.Location = new System.Drawing.Point(0, 0);
             this.treeView_Configurator.Name = "treeView_Configurator";
             this.treeView_Configurator.SelectedImageIndex = 0;
-            this.treeView_Configurator.Size = new System.Drawing.Size(402, 402);
+            this.treeView_Configurator.Size = new System.Drawing.Size(402, 427);
             this.treeView_Configurator.TabIndex = 0;
+            this.treeView_Configurator.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_Configurator_NodeMouseDoubleClick);
             // 
             // imageList_ConfiguratorTree
             // 
@@ -82,7 +83,11 @@
             this.imageList_ConfiguratorTree.Images.SetKeyName(13, "cache.png");
             this.imageList_ConfiguratorTree.Images.SetKeyName(14, "folder_grey.png");
             this.imageList_ConfiguratorTree.Images.SetKeyName(15, "folder_grey.png");
-            this.imageList_ConfiguratorTree.Images.SetKeyName(16, "70a021.png");
+            this.imageList_ConfiguratorTree.Images.SetKeyName(16, "bb_pckg_.png");
+            this.imageList_ConfiguratorTree.Images.SetKeyName(17, "bb_pckg_.png");
+            this.imageList_ConfiguratorTree.Images.SetKeyName(18, "70a021.png");
+            this.imageList_ConfiguratorTree.Images.SetKeyName(19, "bb_forward_.png");
+            this.imageList_ConfiguratorTree.Images.SetKeyName(20, "information_sign_mo_01.png");
             // 
             // UserControl_ConfiguratorTree
             // 

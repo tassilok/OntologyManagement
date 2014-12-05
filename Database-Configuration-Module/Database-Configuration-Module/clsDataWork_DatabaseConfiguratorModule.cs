@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Ontology_Module;
 using OntologyClasses.BaseClasses;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace DatabaseConfigurationModule
 {
@@ -18,7 +19,10 @@ namespace DatabaseConfigurationModule
             SchemaDatabases = 2,
             SchemaTableColumns = 4,
             SchemaRoutines = 8,
-            SchemaConstraints = 16 
+            SchemaConstraints = 16,
+            DatabaseProjects = 32,
+            SchemaViews = 64,
+            RefToProject = 128
         }
         public enum LoadResult
         {
@@ -29,20 +33,35 @@ namespace DatabaseConfigurationModule
             Schema_Trigger = 8,
             Schema_Databases = 16,
             Schema_TableColumns = 32,
-            Schema_Constraints = 64
+            Schema_Constraints = 64,
+            DatabaseProjects = 128,
+            RefToProject = 256
         }
 
         private Thread threadDatabaseItems;
 
         private clsLocalConfig objLocalConfig;
 
+        private clsDBLevel objDBLevel_ProjectToSecItems;
+        private clsDBLevel objDBLevel_RefToProjects;
+        private clsDBLevel objDBLevel_DatabaseProjects;
+        private clsDBLevel objDBLevel_DbProjHierarchy;
+        private clsDBLevel objDBLevel_DbProjToSchema;
         private clsDBLevel objDBLevel_DatabaseItems;
         private clsDBLevel objDBLevel_Tables;
+        private clsDBLevel objDBLevel_Views;
         private clsDBLevel objDBLevel_Columns;
         private clsDBLevel objDBLevel_Databases;
         private clsDBLevel objDBLevel_Routines;
+        private clsDBLevel objDBLevel_RoutineType;
+        private clsDBLevel objDBLevel_RoutineToType;
         private clsDBLevel objDBLevel_Constraints;
         private clsDBLevel objDBLevel_ConstraintTypes;
+        private clsDBLevel objDBlevel_ColumnAtts;
+        private clsDBLevel objDBLevel_ColumnsToFieldTypes;
+        private clsDBLevel objDBLevel_FieldTypes;
+
+        private List<clsOntologyItem> OList_FilterProjects;
 
         private delegate void LoadedSubItems(LoadSubResult loadResult, clsOntologyItem OItem_Result);
         private event LoadedSubItems loadedSubItems;
@@ -50,11 +69,51 @@ namespace DatabaseConfigurationModule
         public delegate void LoadItems(LoadResult loadResult, clsOntologyItem OItem_Result);
         public event LoadItems loadItems;
 
+        public List<clsOntologyItem> SchemaProjects
+        {
+            get
+            {
+                return (from objProjRel in objDBLevel_DatabaseProjects.OList_Objects
+                        join objProjFilter in OList_FilterProjects on objProjRel.GUID equals objProjFilter.GUID
+                        select objProjRel).ToList();
+                
+                
+            }
+        }
+
+        public List<clsObjectRel> ProjectsToSchema
+        {
+            get
+            {
+                var projRel = (from objProjRel in objDBLevel_DbProjToSchema.OList_ObjectRel
+                               join objProjFilter in OList_FilterProjects on objProjRel.ID_Object equals objProjFilter.GUID
+                               select objProjRel).ToList();
+                return projRel;
+                
+            }
+        }
+
         public List<clsObjectRel> SchemaRoutines
         {
             get
             {
                 return objDBLevel_Routines.OList_ObjectRel.OrderBy(col => col.Name_Object).ToList();
+            }
+        }
+
+        public List<clsOntologyItem> RoutineTypes
+        {
+            get
+            {
+                return objDBLevel_RoutineToType.OList_Objects;
+            }
+        }
+
+        public List<clsObjectRel> RoutinesToType
+        {
+            get
+            {
+                return objDBLevel_RoutineToType.OList_ObjectRel;
             }
         }
 
@@ -72,6 +131,14 @@ namespace DatabaseConfigurationModule
             {
 
                 return objDBLevel_Tables.OList_ObjectRel.OrderBy(tab => tab.Name_Object).ToList();
+            }
+        }
+
+        public List<clsObjectRel> SchemaViews
+        {
+            get
+            {
+                return objDBLevel_Views.OList_ObjectRel;
             }
         }
 
@@ -105,12 +172,28 @@ namespace DatabaseConfigurationModule
 
         private void GetDataThread()
         {
-            GetSubData_001_DatabaseItems();
-            GetSubData_002_SchemaTables();
-            GetSubData_003_SchemaDatabases();
-            GetSubData_004_TableColumns();
-            GetSubData_005_Routines();
-            GetSubData_006_Constraints();
+            GetSubData_000_RefRelToProjects();
+            GetSubData_001_DatabaseProjects();
+            GetSubData_002_DatabaseItems();
+            GetSubData_003_SchemaTables();
+            GetSubData_004_SchemaDatabases();
+            GetSubData_005_TableColumns();
+            GetSubData_006_Routines();
+            GetSubData_007_Constraints();
+            GetSubData_008_SchemaViews();
+        }
+
+        public clsOntologyItem GetColumnFieldType(string GUID_Col)
+        {
+            return objDBLevel_ColumnsToFieldTypes.OList_ObjectRel.Where(fieldType => fieldType.ID_Object == GUID_Col).Select(fieldType => new clsOntologyItem {GUID = fieldType.ID_Other, 
+                Name = fieldType.Name_Other,
+                GUID_Parent = fieldType.ID_Parent_Other,
+                Type = fieldType.Ontology }).FirstOrDefault();
+        }
+
+        public List<clsObjectAtt> GetColumnAtt(string GUID_Col)
+        {
+            return objDBlevel_ColumnAtts.OList_ObjectAtt.Where(att => att.ID_Object == GUID_Col).OrderBy(att => att.OrderID).ToList();
         }
 
         void clsDataWork_DatabaseConfiguratorModule_loadedSubItems(clsDataWork_DatabaseConfiguratorModule.LoadSubResult loadResult, clsOntologyItem OItem_Result)
@@ -146,10 +229,192 @@ namespace DatabaseConfigurationModule
             {
                 loadItems(LoadResult.Schema_Constraints, OItem_Result);
             }
+
+            if (loadResult == LoadSubResult.DatabaseProjects)
+            {
+                loadItems(LoadResult.DatabaseProjects, OItem_Result);
+            }
+
+            if (loadResult == LoadSubResult.SchemaViews)
+            {
+                loadItems(LoadResult.Schema_Views, OItem_Result);
+            }
+
+            if (loadResult == LoadSubResult.RefToProject)
+            {
+                loadItems(LoadResult.RefToProject, OItem_Result);
+            }
             
         }
 
-        public void GetSubData_001_DatabaseItems()
+        public List<TreeNode> CreateProjectSubNodes(TreeNode treeNode_Parent = null)
+        {
+            var treeNodes = new List<TreeNode>();
+            if (treeNode_Parent == null)
+            {
+                var rootProjects = (from objProjParent in objDBLevel_DatabaseProjects.OList_Objects
+                                    join objProjFilter in OList_FilterProjects on objProjParent.GUID equals objProjFilter.GUID
+                                    join objProjParentNull in objDBLevel_DbProjHierarchy.OList_ObjectRel on objProjParent.GUID equals objProjParentNull.ID_Other into projParNulls
+                                    from objProjParentNull in projParNulls.DefaultIfEmpty()
+                                    where objProjParentNull == null
+                                    select objProjParent).ToList();
+
+                rootProjects.OrderBy(proj => proj.Name).ToList().ForEach(root =>
+                {
+
+                    treeNodes.Add(new TreeNode { Name = root.GUID, Text = root.Name, ImageIndex = objLocalConfig.ImageID_DatabaseProject, SelectedImageIndex = objLocalConfig.ImageID_DatabaseProject });
+
+                });
+            }
+            else
+            {
+                var subNodes = objDBLevel_DatabaseProjects.OList_ObjectRel.Where(nodes => nodes.ID_Object == treeNode_Parent.Name).ToList();
+
+                subNodes.OrderBy(proj => proj.Name_Other).ToList().ForEach(node =>
+                {
+
+                    treeNodes.Add( treeNode_Parent.Nodes.Add(node.ID_Other, node.Name_Other, objLocalConfig.ImageID_DatabaseProject, objLocalConfig.ImageID_DatabaseProject));
+                });
+            }
+            
+
+
+            return treeNodes;
+        }
+
+        public void GetSubData_000_RefRelToProjects()
+        {
+            var searchProjToRef_LeftRight = new List<clsObjectRel>();
+            var searchProjToRef_RightLeft = new List<clsObjectRel>();
+            var searchProjToSec = new List<clsObjectRel>();
+
+            var result = objLocalConfig.Globals.LState_Success.Clone();
+
+            if (objLocalConfig.OList_SessionItems != null)
+            {
+                searchProjToRef_LeftRight = objLocalConfig.OList_SessionItems.Select(si => new clsObjectRel
+                {
+                    ID_Object = si.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_class_database_project.GUID
+                }).ToList();
+
+                searchProjToRef_RightLeft = objLocalConfig.OList_SessionItems.Select(si => new clsObjectRel
+                {
+                    ID_Other = si.GUID,
+                    ID_Parent_Object = objLocalConfig.OItem_class_database_project.GUID
+                }).ToList();
+              
+            }
+            else if (objLocalConfig.OItem_Ref != null)
+            {
+                searchProjToRef_LeftRight = new List<clsObjectRel> { new clsObjectRel { ID_Object = objLocalConfig.OItem_Ref.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_class_database_project.GUID}};
+
+                searchProjToRef_RightLeft = new List<clsObjectRel> { new clsObjectRel { ID_Object = objLocalConfig.OItem_Ref.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_class_database_project.GUID}};
+
+            }
+
+            searchProjToSec = new List<clsObjectRel> 
+            { 
+                new clsObjectRel
+                {
+                    ID_Parent_Object = objLocalConfig.OItem_class_database_project.GUID,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID,
+                    ID_Other = objLocalConfig.OItem_Group.GUID
+                },
+                new clsObjectRel
+                {
+                    ID_Parent_Object = objLocalConfig.OItem_class_database_project.GUID,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID,
+                    ID_Other = objLocalConfig.OItem_User.GUID
+                }
+            };
+
+            result = objDBLevel_RefToProjects.get_Data_ObjectRel(searchProjToSec, boolIDs: false);
+
+            if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                OList_FilterProjects = objDBLevel_RefToProjects.OList_ObjectRel.GroupBy(proj => new { GUID = proj.ID_Object, Name = proj.Name_Object, GUID_Parent = proj.ID_Parent_Object })
+                    .Select(proj => new clsOntologyItem { GUID = proj.Key.GUID, Name = proj.Key.Name, GUID_Parent = proj.Key.GUID_Parent }).ToList();
+
+            }
+
+            if (result.GUID == objLocalConfig.Globals.LState_Success.GUID && (objLocalConfig.OList_SessionItems != null || objLocalConfig.OItem_Ref != null))
+            {
+                var oList_Filter = new List<clsOntologyItem>();
+                result = objDBLevel_RefToProjects.get_Data_ObjectRel(searchProjToRef_LeftRight, boolIDs: false);
+                if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    oList_Filter = objDBLevel_RefToProjects.OList_ObjectRel.GroupBy(proj => new { GUID = proj.ID_Other, Name = proj.Name_Other, GUID_Parent = proj.ID_Parent_Other })
+                        .Select(proj => new clsOntologyItem { GUID = proj.Key.GUID, Name = proj.Key.Name, GUID_Parent = proj.Key.GUID_Parent }).ToList();
+
+                    result = objDBLevel_RefToProjects.get_Data_ObjectRel(searchProjToRef_RightLeft, boolIDs: false);
+                    if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        oList_Filter.AddRange(objDBLevel_RefToProjects.OList_ObjectRel.GroupBy(proj => new { GUID = proj.ID_Object, Name = proj.Name_Object, GUID_Parent = proj.ID_Parent_Object })
+                           .Select(proj => new clsOntologyItem { GUID = proj.Key.GUID, Name = proj.Key.Name, GUID_Parent = proj.Key.GUID_Parent }));
+
+                        OList_FilterProjects = (from proj1 in OList_FilterProjects
+                                                join proj2 in oList_Filter on proj1.GUID equals proj2.GUID
+                                                select proj1).ToList();
+                    }
+                }
+            }
+            
+
+            loadedSubItems(LoadSubResult.RefToProject, result);
+        }
+
+        public void GetSubData_001_DatabaseProjects()
+        {
+            var searchProjects = new List<clsOntologyItem>
+            {
+                new clsOntologyItem
+                {
+                    GUID_Parent = objLocalConfig.OItem_class_database_project.GUID
+                }
+            };
+
+            var result = objDBLevel_DatabaseProjects.get_Data_Objects(searchProjects);
+
+            if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                var searchDatabaseProjects = new List<clsObjectRel>
+                {
+                    new clsObjectRel 
+                    { 
+                        ID_Parent_Object = objLocalConfig.OItem_class_database_project.GUID,
+                        ID_RelationType = objLocalConfig.OItem_relationtype_contains.GUID,
+                        ID_Parent_Other = objLocalConfig.OItem_class_database_project.GUID
+                    }
+                };
+
+                result = objDBLevel_DbProjHierarchy.get_Data_ObjectRel(searchDatabaseProjects, boolIDs: false);
+
+                if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    if (objDBLevel_DatabaseProjects.OList_Objects.Any())
+                    {
+                        var searchDbProjToSchema = objDBLevel_DatabaseProjects.OList_Objects.Select(dbproj => new clsObjectRel
+                        {
+                            ID_Object = dbproj.GUID,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_contains.GUID,
+                            ID_Parent_Other = objLocalConfig.OItem_class_database_schema.GUID
+                        }).ToList();
+
+                        result = objDBLevel_DbProjToSchema.get_Data_ObjectRel(searchDbProjToSchema, boolIDs: false);
+
+                    }
+
+                }
+            }
+
+            
+
+            loadedSubItems(LoadSubResult.DatabaseProjects, result);
+        }
+        public void GetSubData_002_DatabaseItems()
         {
             var searchDatabaseItems = new List<clsOntologyItem> 
             { 
@@ -201,7 +466,7 @@ namespace DatabaseConfigurationModule
         }
 
         
-        private void GetSubData_002_SchemaTables()
+        private void GetSubData_003_SchemaTables()
         {
             var searchTablesOfSchemas = objDBLevel_DatabaseItems.OList_Objects.Where(di => di.GUID_Parent == objLocalConfig.OItem_class_database_schema.GUID)
                         .Select(di => new clsObjectRel
@@ -226,7 +491,7 @@ namespace DatabaseConfigurationModule
             loadedSubItems(LoadSubResult.SchemaTables, result);
         }
 
-        private void GetSubData_003_SchemaDatabases()
+        private void GetSubData_004_SchemaDatabases()
         {
             var searchSchemaDatabases = objDBLevel_DatabaseItems.OList_Objects.Where(sch => sch.GUID_Parent == objLocalConfig.OItem_class_database.GUID)
                 .Select(db => new clsObjectRel
@@ -249,7 +514,7 @@ namespace DatabaseConfigurationModule
             loadedSubItems(LoadSubResult.SchemaDatabases, result);
         }
 
-        private void GetSubData_004_TableColumns()
+        private void GetSubData_005_TableColumns()
         {
             var searchTableColumns = objDBLevel_Tables.OList_ObjectRel
                 .Select(tab => new clsObjectRel
@@ -259,21 +524,69 @@ namespace DatabaseConfigurationModule
                     ID_Parent_Object = objLocalConfig.OItem_class_db_columns.GUID
                 }).ToList();
 
-            var result = objLocalConfig.Globals.LState_Success.Clone();
+            var result = GetSubData_005_001_FieldTypes();
 
-            if (searchTableColumns.Any())
+            if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                result = objDBLevel_Columns.get_Data_ObjectRel(searchTableColumns, boolIDs: false);
-            }
-            else
-            {
-                objDBLevel_Columns.OList_ObjectRel.Clear();
-            }
+                if (searchTableColumns.Any())
+                {
+                    result = objDBLevel_Columns.get_Data_ObjectRel(searchTableColumns, boolIDs: false);
 
+                    if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        var searchColumnAtt = objDBLevel_Columns.OList_ObjectRel.Select(col => new clsObjectAtt
+                        {
+                            ID_Object = col.ID_Object
+                        }).ToList();
+
+                        if (searchColumnAtt.Any())
+                        {
+                            result = objDBlevel_ColumnAtts.get_Data_ObjectAtt(searchColumnAtt, boolIDs: false);
+                        }
+                        else
+                        {
+                            objDBlevel_ColumnAtts.OList_ObjectAtt.Clear();
+                        }
+
+                        if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            var searchFieldTypes = objDBLevel_Columns.OList_ObjectRel.Select(col => new clsObjectRel
+                            {
+                                ID_Object = col.ID_Object,
+                                ID_RelationType = objLocalConfig.OItem_relationtype_is_of_type.GUID,
+                                ID_Parent_Other = objLocalConfig.OItem_class_field_type.GUID
+                            }).ToList();
+
+                            result = objDBLevel_ColumnsToFieldTypes.get_Data_ObjectRel(searchFieldTypes, boolIDs: false);
+                        }
+                    }
+                }
+                else
+                {
+                    objDBLevel_Columns.OList_ObjectRel.Clear();
+                }
+            }
+            
             loadedSubItems(LoadSubResult.SchemaTableColumns, result);
         }
 
-        private void GetSubData_005_Routines()
+        private clsOntologyItem GetSubData_005_001_FieldTypes()
+        {
+            var result = objLocalConfig.Globals.LState_Success.Clone();
+
+            if (!objDBLevel_FieldTypes.OList_Objects.Any())
+            {
+                var searchFieldTypes = new List<clsOntologyItem> { new clsOntologyItem { GUID_Parent = objLocalConfig.OItem_class_field_type.GUID } };
+
+                result = objDBLevel_FieldTypes.get_Data_Objects(searchFieldTypes);
+            }
+
+            
+
+            return result;
+        }
+
+        private void GetSubData_006_Routines()
         {
             var searchRoutines = objDBLevel_DatabaseItems.OList_Objects.Where(dbi => dbi.GUID_Parent == objLocalConfig.OItem_class_database_schema.GUID)
                 .Select(dbi => new clsObjectRel
@@ -288,6 +601,29 @@ namespace DatabaseConfigurationModule
             if (searchRoutines.Any())
             {
                 result = objDBLevel_Routines.get_Data_ObjectRel(searchRoutines, boolIDs: false);
+                if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    var searchRoutineTypes = new List<clsOntologyItem> { new clsOntologyItem { GUID_Parent = objLocalConfig.OItem_class_routine_type.GUID } };
+                    result = objDBLevel_RoutineType.get_Data_Objects(searchRoutineTypes);
+                    if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        var searchRoutineToType = objDBLevel_DatabaseItems.OList_Objects.Where(dbi => dbi.GUID_Parent == objLocalConfig.OItem_class_db_routines.GUID).Select(routine => new clsObjectRel
+                        {
+                            ID_Object = routine.GUID,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_is_of_type.GUID,
+                            ID_Parent_Other = objLocalConfig.OItem_class_routine_type.GUID
+                        }).ToList();
+
+                        if (searchRoutineTypes.Any())
+                        {
+                            result = objDBLevel_RoutineToType.get_Data_ObjectRel(searchRoutineToType, boolIDs: false);
+                        }
+                        else
+                        {
+                            objDBLevel_RoutineToType.OList_ObjectRel.Clear();
+                        }
+                    }
+                }
             }
             else
             {
@@ -297,7 +633,7 @@ namespace DatabaseConfigurationModule
             loadedSubItems(LoadSubResult.SchemaRoutines, result);
         }
 
-        private void GetSubData_006_Constraints()
+        private void GetSubData_007_Constraints()
         {
             ColumnConstraints = new List<clsConstraint>();
             var searchConstraints = objDBLevel_Columns.OList_ObjectRel
@@ -356,6 +692,29 @@ namespace DatabaseConfigurationModule
 
             loadedSubItems(LoadSubResult.SchemaConstraints, result);
         }
+
+        public void GetSubData_008_SchemaViews()
+        {
+            var searchSchemaViews = objDBLevel_DatabaseItems.OList_Objects.Where(schema => schema.GUID_Parent == objLocalConfig.OItem_class_database_schema.GUID)
+                .Select(schema => new clsObjectRel
+                {
+                    ID_Other = schema.GUID,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID,
+                    ID_Parent_Object = objLocalConfig.OItem_class_db_views.GUID
+                }).ToList();
+
+            var result = objLocalConfig.Globals.LState_Success.Clone();
+            if (searchSchemaViews.Any())
+            {
+                result = objDBLevel_Views.get_Data_ObjectRel(searchSchemaViews, boolIDs: false);
+            }
+            else
+            {
+                objDBLevel_Views.OList_ObjectRel.Clear();
+            }
+
+            loadedSubItems(LoadSubResult.SchemaViews, result);
+        }
         
         public clsDataWork_DatabaseConfiguratorModule(clsLocalConfig LocalConfig)
         {
@@ -376,6 +735,18 @@ namespace DatabaseConfigurationModule
             objDBLevel_Routines = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Constraints = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_ConstraintTypes = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_DatabaseProjects = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_DbProjToSchema = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_DbProjHierarchy = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_RoutineType = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_RoutineToType = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_Views = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_RefToProjects = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_ProjectToSecItems = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_ColumnsToFieldTypes = new clsDBLevel(objLocalConfig.Globals);
+            objDBlevel_ColumnAtts = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_FieldTypes = new clsDBLevel(objLocalConfig.Globals);
+
         }
     }
 }
