@@ -88,10 +88,11 @@ Public Class UserControl_OntologyItemList
 
     Public Sub initialize_List(OList_Ontologies As List(Of clsOntologyItem), OItem_Ontology_Main As clsOntologyItem)
         me.OItem_Ontology_Main = OItem_Ontology_Main
-        objOList_Ontologies = OList_Ontologies
-        If Not OList_Ontologies Is Nothing Then
+        objOList_Ontologies = OList_Ontologies.Where(Function(ont) Not ont Is Nothing).ToList()
+        If Not objOList_Ontologies Is Nothing Then
+
             objOList_OntologyItems = New SortableBindingList(Of clsOntologyItemsOfOntologies)((From objOntology In objDataWork_Ontologies.OList_RefsOfOntologyItems
-                           Join objOntologySearch In OList_Ontologies on objOntology.ID_Ontology equals objOntologySearch.GUID
+                           Join objOntologySearch In objOList_Ontologies On objOntology.ID_Ontology Equals objOntologySearch.GUID
                            Select objOntology).ToList())
 
 
@@ -101,8 +102,8 @@ Public Class UserControl_OntologyItemList
             DataGridView_OItems.Columns(4).Visible = False
             DataGridView_OItems.Columns(6).Visible = False
             DataGridView_OItems.Columns(8).Visible = False
-            
-            
+
+
         Else
             DataGridView_OItems.DataSource = Nothing
         End If

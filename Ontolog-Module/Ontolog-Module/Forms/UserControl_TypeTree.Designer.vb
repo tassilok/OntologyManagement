@@ -41,7 +41,11 @@ Partial Class UserControl_TypeTree
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel_Mark = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_MarkTypes = New System.Windows.Forms.ToolStripTextBox()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripButton_SelectByClipboard = New System.Windows.Forms.ToolStripButton()
         Me.Timer_Mark = New System.Windows.Forms.Timer(Me.components)
+        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AddToClipboardToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -126,27 +130,27 @@ Partial Class UserControl_TypeTree
         '
         'ContextMenuStrip_Classes
         '
-        Me.ContextMenuStrip_Classes.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ApplyToolStripMenuItem, Me.ModulesToolStripMenuItem})
+        Me.ContextMenuStrip_Classes.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.EditToolStripMenuItem, Me.ModulesToolStripMenuItem, Me.ApplyToolStripMenuItem})
         Me.ContextMenuStrip_Classes.Name = "ContextMenuStrip_Classes"
-        Me.ContextMenuStrip_Classes.Size = New System.Drawing.Size(131, 70)
+        Me.ContextMenuStrip_Classes.Size = New System.Drawing.Size(153, 114)
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.NewToolStripMenuItem.Text = "x_New"
         '
         'ApplyToolStripMenuItem
         '
         Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
-        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
+        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ApplyToolStripMenuItem.Text = "x_Apply"
         '
         'ModulesToolStripMenuItem
         '
         Me.ModulesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowModuleConfigToolStripMenuItem})
         Me.ModulesToolStripMenuItem.Name = "ModulesToolStripMenuItem"
-        Me.ModulesToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
+        Me.ModulesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ModulesToolStripMenuItem.Text = "x_Modules"
         '
         'ShowModuleConfigToolStripMenuItem
@@ -168,10 +172,10 @@ Partial Class UserControl_TypeTree
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_Mark, Me.ToolStripTextBox_MarkTypes})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel_Mark, Me.ToolStripTextBox_MarkTypes, Me.ToolStripSeparator2, Me.ToolStripButton_SelectByClipboard})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(361, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(490, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripLabel_Mark
@@ -185,9 +189,36 @@ Partial Class UserControl_TypeTree
         Me.ToolStripTextBox_MarkTypes.Name = "ToolStripTextBox_MarkTypes"
         Me.ToolStripTextBox_MarkTypes.Size = New System.Drawing.Size(300, 25)
         '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripButton_SelectByClipboard
+        '
+        Me.ToolStripButton_SelectByClipboard.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton_SelectByClipboard.Image = CType(resources.GetObject("ToolStripButton_SelectByClipboard.Image"), System.Drawing.Image)
+        Me.ToolStripButton_SelectByClipboard.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton_SelectByClipboard.Name = "ToolStripButton_SelectByClipboard"
+        Me.ToolStripButton_SelectByClipboard.Size = New System.Drawing.Size(123, 22)
+        Me.ToolStripButton_SelectByClipboard.Text = "x_Select by Clipboard"
+        '
         'Timer_Mark
         '
         Me.Timer_Mark.Interval = 300
+        '
+        'EditToolStripMenuItem
+        '
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToClipboardToolStripMenuItem})
+        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EditToolStripMenuItem.Text = "x_Edit"
+        '
+        'AddToClipboardToolStripMenuItem
+        '
+        Me.AddToClipboardToolStripMenuItem.Name = "AddToClipboardToolStripMenuItem"
+        Me.AddToClipboardToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.AddToClipboardToolStripMenuItem.Text = "x_Add to Clipboard"
         '
         'UserControl_TypeTree
         '
@@ -229,5 +260,9 @@ Partial Class UserControl_TypeTree
     Friend WithEvents ApplyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ModulesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShowModuleConfigToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripButton_SelectByClipboard As System.Windows.Forms.ToolStripButton
+    Friend WithEvents EditToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AddToClipboardToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

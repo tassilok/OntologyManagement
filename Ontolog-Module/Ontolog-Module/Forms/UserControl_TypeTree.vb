@@ -15,6 +15,9 @@ Public Class UserControl_TypeTree
 
     Private objLocalConfig As clsLocalConfig
 
+    Private objFrmClipboard As frmClipboard
+    Private objOntologyClipboard As clsOntologyClipboard
+
     Private objOItem_Class_Selected As clsOntologyItem
     Private objOItem_Class_Entry As clsOntologyItem
 
@@ -185,6 +188,7 @@ Public Class UserControl_TypeTree
 
     Private Sub set_DBConnection()
         objDBLevel = New clsDBLevel(objLocalConfig.Globals)
+        objOntologyClipboard = New clsOntologyClipboard(objLocalConfig)
     End Sub
 
     Private Sub TreeView_Types_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView_Types.AfterSelect
@@ -314,6 +318,7 @@ Public Class UserControl_TypeTree
 
         NewToolStripMenuItem.Enabled = False
         ApplyToolStripMenuItem.Enabled = False
+        EditToolStripMenuItem.Enabled = False
 
         objTreeNode = TreeView_Types.SelectedNode
         If Not objTreeNode Is Nothing Then
@@ -323,6 +328,10 @@ Public Class UserControl_TypeTree
                 If boolApplyable = True Then
                     ApplyToolStripMenuItem.Enabled = True
                 End If
+            End If
+
+            If objTreeNode.ImageIndex = cint_ImageID_Class_Closed Then
+                EditToolStripMenuItem.Enabled = True
             End If
         End If
     End Sub
@@ -495,6 +504,43 @@ Public Class UserControl_TypeTree
                     End If
                 End If
             Next
+        End If
+    End Sub
+
+
+    Private Sub ToolStripButton_SelectByClipboard_Click(sender As Object, e As EventArgs) Handles ToolStripButton_SelectByClipboard.Click
+        objFrmClipboard = New frmClipboard(objLocalConfig, New clsOntologyItem With {.Type = objLocalConfig.Globals.Type_Class})
+        objFrmClipboard.ShowDialog(Me)
+        If objFrmClipboard.DialogResult = DialogResult.OK Then
+            If objFrmClipboard.selectedRows.Count <= 1 Then
+                If objFrmClipboard.selectedRows.Count = 1 Then
+                    Dim objORel As clsObjectRel = objFrmClipboard.selectedRows(0).DataBoundItem
+                    Dim objOItem_Class = New clsOntologyItem With {.GUID = objORel.ID_Other, .Name = objORel.Name_Other, .GUID_Parent = objORel.Name_Other, .Type = objORel.Ontology}
+                    If objOItem_Class.Type = objLocalConfig.Globals.Type_Class Then
+                        If findItem(objOItem_Class.Name) = False Then
+                            MsgBox("Die Klasse konnte nicht gefunden werden!", MsgBoxStyle.Exclamation)
+                        End If
+                    Else
+                        MsgBox("Bitte nur eine Klasse auswählen!", MsgBoxStyle.Information)
+                    End If
+                End If
+            Else
+                MsgBox("Bitte nur eine Klasse auswählen!", MsgBoxStyle.Information)
+            End If
+        End If
+    End Sub
+
+    Private Sub AddToClipboardToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddToClipboardToolStripMenuItem.Click
+        Dim objTreeNode = TreeView_Types.SelectedNode
+
+        If Not objTreeNode Is Nothing Then
+            If objTreeNode.ImageIndex = cint_ImageID_Class_Closed Then
+                Dim objTreeNode_Parent = objTreeNode.Parent
+
+                Dim objOItem_Class = New clsOntologyItem With {.GUID = objTreeNode.Name, .Name = objTreeNode.Text, .GUID_Parent = objTreeNode_Parent.Name, .Type = objLocalConfig.Globals.Type_Class}
+
+                objOntologyClipboard.addToClipboard(objOItem_Class)
+            End If
         End If
     End Sub
 End Class

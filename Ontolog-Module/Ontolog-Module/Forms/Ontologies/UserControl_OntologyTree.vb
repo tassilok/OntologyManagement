@@ -54,21 +54,21 @@ Public Class UserControl_OntologyTree
     Public Sub initialize_Ontology(OItem_Ref As clsOntologyItem)
         objOItem_Ref = OItem_Ref
 
-
+        TreeView_Ontologies.Nodes.Clear()
+        objTreeNode_Root = TreeView_Ontologies.Nodes.Add(objDataWork_Ontologies.LocalConfig.Globals.Class_Ontologies.GUID, _
+                                                 objDataWork_Ontologies.LocalConfig.Globals.Class_Ontologies.Name, _
+                                                 objDataWork_Ontologies.LocalConfig.ImageID_Root, _
+                                                 objDataWork_Ontologies.LocalConfig.ImageID_Root)
         
         fillTree()
-
+        objTreeNode_Root.Expand()
     End Sub
 
     Private Sub fillTree(Optional TreeNode_Parent As TreeNode = Nothing)
         Dim objOList_Nodes As List(Of clsOntologyItem)
         If TreeNode_Parent Is Nothing Then
             If objOItem_Ref Is Nothing Then
-                TreeView_Ontologies.Nodes.Clear()
-                objTreeNode_Root = TreeView_Ontologies.Nodes.Add(objDataWork_Ontologies.LocalConfig.Globals.Class_Ontologies.GUID, _
-                                                         objDataWork_Ontologies.LocalConfig.Globals.Class_Ontologies.Name, _
-                                                         objDataWork_Ontologies.LocalConfig.ImageID_Root, _
-                                                         objDataWork_Ontologies.LocalConfig.ImageID_Root)
+                
 
                 objOList_Nodes = (From objParent In objDataWork_Ontologies.OList_Ontologies
                                  Group Join objChildren In objDataWork_Ontologies.OList_OntologyTree On objChildren.ID_Object_Parent Equals objParent.GUID Into objChilds = Group
@@ -98,15 +98,24 @@ Public Class UserControl_OntologyTree
         For Each OItem_Ont As clsOntologyItem In objOList_Nodes
 
             If TreeNode_Parent Is Nothing Then
-                Dim objTreeNode_Child = objTreeNode_Root.Nodes.Add(OItem_Ont.GUID, _
+                Dim treeNodes = objTreeNode_Root.Nodes.Find(OItem_Ont.GUID, False)
+
+                If Not treeNodes.Any Then
+                    Dim objTreeNode_Child = objTreeNode_Root.Nodes.Add(OItem_Ont.GUID, _
                                                               OItem_Ont.Name, _
                                                               objDataWork_Ontologies.LocalConfig.ImageID_OntologyClose, _
                                                               objDataWork_Ontologies.LocalConfig.ImageID_OntologyOpen)
+                End If
+                
             Else
-                Dim objTreeNode_Child = TreeNode_Parent.Nodes.Add(OItem_Ont.GUID, _
+                Dim treeNodes = TreeNode_Parent.Nodes.Find(OItem_Ont.GUID, False)
+                If Not treeNodes.Any Then
+                    Dim objTreeNode_Child = TreeNode_Parent.Nodes.Add(OItem_Ont.GUID, _
                                                               OItem_Ont.Name, _
                                                               objDataWork_Ontologies.LocalConfig.ImageID_OntologyClose, _
                                                               objDataWork_Ontologies.LocalConfig.ImageID_OntologyOpen)
+                End If
+                
             End If
 
 
