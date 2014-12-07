@@ -41,6 +41,15 @@ namespace TextParser
         private Color colorRichText;
         private Color colorSeperator;
 
+        public clsOntologyItem OItem_Field
+        {
+            get { return objOItem_Field; }
+            set 
+            { 
+                objOItem_Field = value;
+            }
+        }
+
         private List<clsSelection> objSelections = new List<clsSelection>();
         
 

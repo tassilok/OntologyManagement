@@ -31,6 +31,7 @@ namespace TextParser
         public clsOntologyItem ExOpt_TextParser { get; set; }
         public bool ExOpt_Override { get; set; }
         public bool ExOpt_Execute { get; set; }
+        public clsOntologyItem ExOpt_Field { get; set; }
 	
         // Attributes
 	public clsOntologyItem OItem_attributetype_pattern { get; set; }

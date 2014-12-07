@@ -28,6 +28,8 @@ namespace TextParser
         private frmRegexTester objFrmRegExTester;
         private clsArgumentParsing objArgumentParsing;
 
+        private frmRegexTester objFrmRegexTester;
+
         private bool autoTabChange;
 
         public frmTextParser()
@@ -43,6 +45,10 @@ namespace TextParser
             if (objArgumentParsing.OList_Items.Count == 1 && objArgumentParsing.OList_Items.First().GUID_Parent == objLocalConfig.OItem_class_textparser.GUID)
             {
                 objLocalConfig.ExOpt_TextParser = objArgumentParsing.OList_Items.First();
+            }
+            else if (objArgumentParsing.OList_Items.Count == 1 && objArgumentParsing.OList_Items.First().GUID_Parent == objLocalConfig.OItem_class_field.GUID)
+            {
+                objLocalConfig.ExOpt_Field = objArgumentParsing.OList_Items.First();
             }
 
             if (objArgumentParsing.FunctionList != null)
@@ -84,6 +90,12 @@ namespace TextParser
             if (objLocalConfig.OItem_User != null)
             {
                 ParseArguments();
+                if (objLocalConfig.ExOpt_Field != null)
+                {
+                    objFrmRegexTester = new frmRegexTester(objLocalConfig, objLocalConfig.ExOpt_Field);
+                    objFrmRegexTester.ShowDialog(this);
+                    Environment.Exit(0);
+                }
                 var objOList_TextParsers = objDataWork_BaseData.GetData_TextParsersOfUser();
 
                 if (objOList_TextParsers != null)

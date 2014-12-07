@@ -47,6 +47,9 @@ namespace TextParser
 
         private bool createFileList;
 
+        private string numberSeperator;
+        private string numberSeperatorReplace;
+
         public clsFieldParserOfTextParser(clsLocalConfig LocalConfig, List<clsField> ParseFieldList, clsOntologyItem OItem_TextParser, clsOntologyItem OITem_Type, bool CreateFileList = true)
         {
             objLocalConfig = LocalConfig;
@@ -60,9 +63,26 @@ namespace TextParser
             }
         }
 
+        private void GetNumberSeperator()
+        {
+            var testTxt = "8.4";
+            double testDbl = double.Parse(testTxt);
+            if (testDbl == 8.4)
+            {
+                numberSeperator = ".";
+                numberSeperatorReplace = ",";
+            }
+            else
+            {
+                numberSeperator = ",";
+                numberSeperatorReplace = ".";
+            }
+
+        }
+
         private clsOntologyItem Initialize()
         {
-            
+            GetNumberSeperator();
             objDataWork_FileResource = new clsDataWork_FileResources(objLocalConfig.Globals);
             objDataWork_FileResource_Path = new clsDataWork_FileResource_Path(objLocalConfig.Globals);
             objDataWork_TextParser = new clsDataWork_TextParser(objLocalConfig);
@@ -548,6 +568,7 @@ namespace TextParser
                         }
                         else if (field.ID_DataType == objLocalConfig.OItem_object_double.GUID)
                         {
+                            textParse = textParse.Replace(numberSeperatorReplace, numberSeperator);
                             double value;
                             if (double.TryParse(textParse, out value))
                             {
