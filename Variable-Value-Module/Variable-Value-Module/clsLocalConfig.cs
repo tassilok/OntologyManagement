@@ -36,29 +36,42 @@ private void get_Data_DevelopmentConfig()
                                                                                              ID_RelationType = Globals.RelationType_contains.GUID, 
                                                                                              ID_Parent_Other = Globals.Class_OntologyItems.GUID}};
 
-            var objOItem_Result = objDBLevel_Config1.get_Data_ObjectRel(objORL_Ontology_To_OntolgyItems, boolIDs:false);
+            var objOItem_Result = objDBLevel_Config1.get_Data_ObjectRel(objORL_Ontology_To_OntolgyItems, boolIDs: false);
             if (objOItem_Result.GUID == Globals.LState_Success.GUID)
             {
                 if (objDBLevel_Config1.OList_ObjectRel.Any())
                 {
 
-                    objORL_Ontology_To_OntolgyItems = new List<clsObjectRel> {new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
-                                                                                                         ID_RelationType = Globals.RelationType_belongingAttribute.GUID},
-                                                                                  new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
-                                                                                                         ID_RelationType = Globals.RelationType_belongingClass.GUID},
-                                                                                 new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
-                                                                                                         ID_RelationType = Globals.RelationType_belongingObject.GUID},
-                                                                                  new clsObjectRel {ID_Parent_Object = Globals.Class_OntologyItems.GUID, 
-                                                                                                         ID_RelationType = Globals.RelationType_belongingRelationType.GUID}};
+                    objORL_Ontology_To_OntolgyItems = objDBLevel_Config1.OList_ObjectRel.Select(oi => new clsObjectRel
+                    {
+                        ID_Object = oi.ID_Other,
+                        ID_RelationType = Globals.RelationType_belongingAttribute.GUID
+                    }).ToList();
 
-                    objOItem_Result = objDBLevel_Config2.get_Data_ObjectRel(objORL_Ontology_To_OntolgyItems, boolIDs:false);
+                    objORL_Ontology_To_OntolgyItems.AddRange(objDBLevel_Config1.OList_ObjectRel.Select(oi => new clsObjectRel
+                    {
+                        ID_Object = oi.ID_Other,
+                        ID_RelationType = Globals.RelationType_belongingClass.GUID
+                    }));
+                    objORL_Ontology_To_OntolgyItems.AddRange(objDBLevel_Config1.OList_ObjectRel.Select(oi => new clsObjectRel
+                    {
+                        ID_Object = oi.ID_Other,
+                        ID_RelationType = Globals.RelationType_belongingObject.GUID
+                    }));
+                    objORL_Ontology_To_OntolgyItems.AddRange(objDBLevel_Config1.OList_ObjectRel.Select(oi => new clsObjectRel
+                    {
+                        ID_Object = oi.ID_Other,
+                        ID_RelationType = Globals.RelationType_belongingRelationType.GUID
+                    }));
+
+                    objOItem_Result = objDBLevel_Config2.get_Data_ObjectRel(objORL_Ontology_To_OntolgyItems, boolIDs: false);
                     if (objOItem_Result.GUID == Globals.LState_Success.GUID)
                     {
                         if (!objDBLevel_Config2.OList_ObjectRel.Any())
                         {
                             throw new Exception("Config-Error");
                         }
-                    }   
+                    }
                     else
                     {
                         throw new Exception("Config-Error");
