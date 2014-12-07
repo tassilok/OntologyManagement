@@ -2730,6 +2730,7 @@ Public Class UserControl_OItemList
                     End If
 
                     configure_TabPages()
+                    objFrm_Main.Dispose()
                 Else
                     MsgBox("Bitte wählen Sie eine Klasse aus!", MsgBoxStyle.OkOnly)
                 End If
@@ -2882,6 +2883,21 @@ Public Class UserControl_OItemList
         End If
 
         
+    End Sub
+
+    Protected Overrides Sub Finalize()
+        objDBLevel = Nothing
+        objDBLevel2 = Nothing
+        objDBLevel3 = Nothing
+        objDBLevel4 = Nothing
+        objDBLevel5 = Nothing
+
+        oList_Selected_Simple = Nothing
+        oList_Selected_ObjectRel = Nothing
+
+        oList_Selected_Simple = Nothing
+
+        MyBase.Finalize()
     End Sub
 End Class
 
