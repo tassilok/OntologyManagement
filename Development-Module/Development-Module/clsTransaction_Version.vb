@@ -236,7 +236,7 @@ Public Class clsTransaction_Version
                     objOItem_LogEntry = objFrm_VersionEdit.OItem_LogEntry
                     If Not objOItem_LogEntry Is Nothing Then
                         objTransaction.ClearItems()
-                        Dim objORel_Dev_LogEntry = objDataWork_Details.Rel_Dev_LogEntry(objOItem_Dev, objOItem_LogEntry)
+                        Dim objORel_Dev_LogEntry = objDataWork_Details.Rel_Dev_LogEntry(OItem_Development, objOItem_LogEntry)
                         objOItem_Result = objTransaction.do_Transaction(objORel_Dev_LogEntry)
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             If Not isDependend Then
