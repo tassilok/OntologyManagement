@@ -868,12 +868,12 @@ Public Class clsDataWork_ReportFields
         '                                       ClearObj2:=False)
         Dim objL_TypeFields = (From objLeft In objDBLevel_Report.OList_ObjectRel
                               Join objRel In objDBLevel_TypeFields.OList_ObjectRel On objLeft.ID_Object Equals objRel.ID_Object
-                              Join objRight In objDBLevel_LeadFields.OList_ObjectRel On objRel.ID_Other Equals objRight.ID_Object
+                              Join objRight In objDBLevel_LeadFields.OList_ObjectRel On objRel.ID_Object Equals objRight.ID_Other
                               Where objRel.ID_RelationType = objLocalConfig.OItem_RelationType_Type_Field.GUID
                               Where objLeft.ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID
                               Select ID_Field = objLeft.ID_Object, _
-                                        ID_TypeField = objRight.ID_Other, _
-                                        Name_TypeField = objRight.Name_Other).ToList
+                                        ID_TypeField = objRel.ID_Other, _
+                                        Name_TypeField = objRel.Name_Other).ToList
 
 
 
